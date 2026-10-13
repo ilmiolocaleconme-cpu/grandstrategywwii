@@ -1,0 +1,14 @@
+{
+  "name": "grandstrategywwii",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Grand Strategy WWII - mobile grand-strategy game (data layer, phase 1)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "validate:data": "node scripts/validate-data.js"
+  }
+}
