@@ -1,0 +1,39 @@
+name: CI
+
+# Esegue test e build a ogni push sui branch di lavoro e a ogni pull request.
+on:
+  push:
+    branches: [main, fase1-dati]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Validazione dati
+        run: npm run validate:data
+
+      - name: Build
+        run: npm run build
+
+      - name: Controlla che la build contenga manifest e service worker
+        run: |
+          ls -l dist
+          test -f dist/index.html
+          test -f dist/manifest.webmanifest
+          test -f dist/sw.js

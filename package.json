@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Grand Strategy WWII - mobile grand-strategy game (data layer, phase 1)",
+  "description": "Grand Strategy WWII - mobile grand-strategy game",
   "engines": {
-    "node": ">=20"
+    "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "node --test",
     "validate:data": "node scripts/validate-data.js"
   },
