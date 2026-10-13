@@ -1,0 +1,5 @@
+[
+  { "id": "GER", "name": "Germania", "nameLocal": "Deutschland", "capital": "Berlino" },
+  { "id": "ITA", "name": "Italia", "nameLocal": "Italia", "capital": "Roma" },
+  { "id": "JPN", "name": "Giappone", "nameLocal": "Nihon", "capital": "Tokyo" }
+]

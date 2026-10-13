@@ -1,0 +1,55 @@
+name: Installa dipendenze (Vite, React, PWA)
+
+# Si avvia da solo quando questo file viene pubblicato sul branch fase1-dati,
+# oppure a mano da Actions. Se Vite è già in package.json, non fa nulla.
+on:
+  push:
+    branches: [fase1-dati]
+    paths:
+      - .github/workflows/install-deps.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Controlla se le dipendenze ci sono già
+        id: check
+        run: |
+          if grep -q '"vite"' package.json; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Installa react, react-dom e gli strumenti di build
+        if: steps.check.outputs.present == 'false'
+        run: |
+          npm install react react-dom
+          npm install -D vite @vitejs/plugin-react vite-plugin-pwa
+
+      - name: Mostra le versioni installate
+        run: npm ls --depth=0
+
+      - name: Esegui i test
+        run: npm test
+
+      - name: Fai il commit di package.json e package-lock.json
+        if: steps.check.outputs.present == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "Aggiunge dipendenze Vite, React, PWA"
+          git push

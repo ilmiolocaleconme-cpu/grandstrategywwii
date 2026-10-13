@@ -1,0 +1,8 @@
+[
+  { "id": "coal", "name": "Carbone", "status": "bozza-di-design" },
+  { "id": "oil", "name": "Petrolio", "status": "bozza-di-design" },
+  { "id": "iron_ore", "name": "Minerale di ferro", "status": "bozza-di-design" },
+  { "id": "steel", "name": "Acciaio", "status": "bozza-di-design" },
+  { "id": "food", "name": "Cibo", "status": "bozza-di-design" },
+  { "id": "manpower", "name": "Manodopera", "status": "bozza-di-design" }
+]
