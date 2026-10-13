@@ -1,6 +1,6 @@
 # Stato di implementazione
 
-Aggiornato alla fase 2 (infrastruttura web). Legenda: **T** implementato e testato · **NT** implementato ma non testato · **P** parziale · **PR** prototipo · **S** simulato · **M** mancante.
+Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementato e testato · **NT** implementato ma non testato · **P** parziale · **PR** prototipo · **S** simulato · **M** mancante.
 
 | Area | Stato | Note |
 |---|---|---|
@@ -9,8 +9,9 @@ Aggiornato alla fase 2 (infrastruttura web). Legenda: **T** implementato e testa
 | Dati: risorse | PR | Bozza di design, non storica |
 | Dati: fiumi e attraversamenti | P | Schema e regole di validazione presenti; **nessun dato reale**, file vuoti. Servono fonti geografiche verificabili e con licenza compatibile |
 | Dipendenze (React 19, Vite 8, vite-plugin-pwa 2) | T | Installate da GitHub Actions (run riuscito, `package-lock.json` nel repository) |
-| App React minima (`src/App.jsx`): scelta nazione, stato dati | NT | Scritta, **mai eseguita né compilata**: la verifica è affidata alla CI |
-| PWA: manifest, precache, service worker (`vite.config.js`, `src/pwa.js`) | NT | Configurazione scritta, **funzionamento offline non verificato**. Le icone in `public/icons/` sono segnaposto |
+| Build di produzione (`npm run build`) | T | Eseguita dalla CI (`.github/workflows/ci.yml`) insieme a test e validazione dati; manifest e `sw.js` presenti in `dist/` |
+| App React minima (`src/App.jsx`): scelta nazione, stato dati | PR | Pubblicata su Vercel e aperta a mano su un telefono: le nazioni e lo stato dei dati compaiono. Nessun test automatico dell'interfaccia |
+| PWA: manifest, precache, service worker (`vite.config.js`, `src/pwa.js`) | P | Offline **provato a mano** su un solo telefono (browser normale, modalità aereo): l'app si apre. Non provati: aggiornamento di versione, installazione come app, altri browser. Nessun test automatico. Icone in `public/icons/` segnaposto. In incognito non funziona, come previsto |
 | Mappa, economia, commercio, unità, ricerca, diplomazia, prestiti, IA, salvataggi | M | |
 
 ## Comandi

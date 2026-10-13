@@ -8,9 +8,18 @@ The project is designed around a shared simulation framework for Germany, Italy 
 
 Project Status
 
-Phase: Initial architecture and development setup.
+Phase: Infrastructure prototype. No game mechanics are implemented yet.
 
-The game systems described in the documentation are design goals. They must not be considered implemented until the corresponding code and tests are available.
+What exists today: a React + Vite app with an installable PWA (offline caching), a validated data catalog (nations, resources, empty river and crossing tables) and automated tests. The offline behaviour was checked by hand on one phone; it is not covered by automated tests.
+
+The game systems described in the documentation are design goals. They must not be considered implemented until the corresponding code and tests are available. See "docs/STATO_IMPLEMENTAZIONE.md" for the detailed, up-to-date status.
+
+Commands (Node ^20.19 or >=22.12):
+
+- "npm run dev" — development server.
+- "npm run build" and "npm run preview" — production build and local preview.
+- "npm test" — automated tests.
+- "npm run validate:data" — validate the files in "data/".
 
 Core Features
 
@@ -39,17 +48,24 @@ grandstrategywwii/
 ├── README.md
 ├── docs/
 ├── data/
+├── public/
+├── scripts/
 ├── src/
 ├── tests/
+├── index.html
+├── vite.config.js
 └── package.json
 
-- "docs/" — Game design, architecture and technical specifications.
-- "data/" — Structured game data, including nations, units, technologies and events.
-- "src/" — Game engine, simulation systems and mobile interface.
-- "tests/" — Automated tests and validation.
-- "package.json" — JavaScript project configuration and development scripts.
+- "docs/" — Game design, architecture, technical specifications and implementation status.
+- "data/" — Structured game data (currently nations, resources, rivers and crossings).
+- "public/" — Static assets, including placeholder PWA icons.
+- "scripts/" — Command-line tools, such as data validation.
+- "src/" — Application code: React interface, PWA registration and the data validator.
+- "tests/" — Automated tests.
+- "index.html", "vite.config.js" — Vite entry point and build and PWA configuration.
+- "package.json" — Project configuration and scripts.
 
-Directories and files will be added as development progresses.
+Units, technologies, events, the map and the game rules are not present yet.
 
 Technical Direction
 
