@@ -156,5 +156,10 @@
   {"id":"MAR_ES","name":"Marocco spagnolo","type":"colony","owner":"ESP","controller":"ESP","status":"protectorate","playable":false},
   {"id":"GNQ","name":"Guinea spagnola","type":"colony","owner":"ESP","controller":"ESP","status":"colony","playable":false},
   {"id":"GRL","name":"Groenlandia","type":"colony","owner":"DNK","controller":"DNK","status":"colony","playable":false},
-  {"id":"BTN","name":"Bhutan","type":"country","owner":"BTN","controller":"BTN","status":"independent","playable":false}
+  {"id":"BTN","name":"Bhutan","type":"country","owner":"BTN","controller":"BTN","status":"independent","playable":false},
+  {"id":"PAP","name":"Papua","type":"colony","owner":"AUS","controller":"AUS","status":"colony","playable":false},
+  {"id":"CMR_GB","name":"Camerun britannico","type":"colony","owner":"LEAGUE","controller":"GBR","status":"mandate","playable":false},
+  {"id":"TGO_GB","name":"Togo britannico","type":"colony","owner":"LEAGUE","controller":"GBR","status":"mandate","playable":false},
+  {"id":"ESH","name":"Sahara spagnolo","type":"colony","owner":"ESP","controller":"ESP","status":"colony","playable":false},
+  {"id":"IFN","name":"Ifni","type":"colony","owner":"ESP","controller":"ESP","status":"colony","playable":false}
 ]
