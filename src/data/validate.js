@@ -5,6 +5,24 @@ export const ID_PATTERN = /^[A-Za-z][A-Za-z0-9_]*$/;
 export const RIVER_CLASSES = ['main', 'secondary', 'tributary'];
 export const CROSSING_TYPES = ['bridge_road', 'bridge_rail', 'ford', 'ferry'];
 export const CROSSING_STATES = ['intact', 'damaged', 'destroyed', 'temporary'];
+export const POLITICAL_TYPES = ['country', 'colony', 'puppet', 'special'];
+export const POLITICAL_STATUSES = [
+  'independent',
+  'dominion',
+  'colony',
+  'protectorate',
+  'mandate',
+  'puppet',
+  'occupied',
+  'condominium',
+  'commonwealth',
+  'leased',
+  'free_city',
+  'special',
+  'de_facto',
+];
+// Proprietari ammessi pur non essendo entità del dataset politico (solo come owner).
+export const EXTERNAL_OWNERS = ['LEAGUE'];
 
 function checkCollection(name, items, requiredFields, errors) {
   if (!Array.isArray(items)) {
@@ -60,9 +78,42 @@ function checkRiverGraph(rivers, errors) {
   }
 }
 
+function checkPolitical(political, nations, errors) {
+  const entities = checkCollection(
+    'political',
+    political,
+    ['id', 'name', 'type', 'owner', 'controller', 'status', 'playable'],
+    errors,
+  );
+  for (const e of entities.values()) {
+    if (!POLITICAL_TYPES.includes(e.type)) {
+      errors.push(`political: "${e.id}" ha un type non valido "${e.type}"`);
+    }
+    if (!POLITICAL_STATUSES.includes(e.status)) {
+      errors.push(`political: "${e.id}" ha uno status non valido "${e.status}"`);
+    }
+    if (typeof e.playable !== 'boolean') {
+      errors.push(`political: "${e.id}" playable deve essere booleano`);
+    }
+    if (typeof e.owner === 'string' && !entities.has(e.owner) && !EXTERNAL_OWNERS.includes(e.owner)) {
+      errors.push(`political: "${e.id}" ha un owner inesistente "${e.owner}"`);
+    }
+    if (typeof e.controller === 'string' && !entities.has(e.controller)) {
+      errors.push(`political: "${e.id}" ha un controller inesistente "${e.controller}"`);
+    }
+  }
+  // nations.json descrive le nazioni giocabili: ogni id deve esistere nel dataset politico.
+  for (const nation of nations.values()) {
+    if (!entities.has(nation.id)) {
+      errors.push(`nations: "${nation.id}" non esiste in political_1936`);
+    }
+  }
+}
+
 /**
- * Valida un catalogo { nations, resources, rivers, crossings }.
- * Ritorna { ok, errors, warnings }. Non modifica l'input.
+ * Valida un catalogo { nations, resources, rivers, crossings, political? }.
+ * `political` è opzionale: se assente, la sua validazione e i controlli incrociati
+ * con nations vengono saltati. Ritorna { ok, errors, warnings }. Non modifica l'input.
  */
 export function validateCatalog(catalog) {
   const errors = [];
@@ -83,6 +134,10 @@ export function validateCatalog(catalog) {
     ['id', 'type', 'riverId', 'state', 'approximate'],
     errors,
   );
+
+  if (input.political !== undefined) {
+    checkPolitical(input.political, nations, errors);
+  }
 
   for (const river of rivers.values()) {
     if (!RIVER_CLASSES.includes(river.class)) {
