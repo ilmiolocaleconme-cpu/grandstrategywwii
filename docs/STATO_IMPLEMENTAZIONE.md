@@ -5,7 +5,7 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 | Area | Stato | Note |
 |---|---|---|
 | Validatore del catalogo dati (`src/data/validate.js`) | T | 13 test con `node --test`: id duplicati, campi mancanti, riferimenti, cicli di confluenze |
-| Dati: nazioni (GER, ITA, JPN) | P | Solo id, nome, capitale come testo; nessun legame con province |
+| Dati: nazioni (`data/nations.json`, 72 voci incl. MAN e MENG) | P | id, nome, nome locale, capitale (testo). Mancano IRN, IRQ, NEP; capitali in lingue miste (alcune in inglese). Ogni id esiste in `political_1936`; nessun legame con province |
 | Dati: dataset politico 1/1/1936 (`data/political_1936.json`) | T | 144 entità (solo campi id, name, type, owner, controller, status, playable). Validato da `validateCatalog` (id, owner, controller, type, status, playable, riferimenti da `nations.json`) con 7 test dedicati. Giocabilità e alcuni status sono scelte di design/storiche da rivedere. **Non ancora letto dalla mappa né dall'app** (`src/App.jsx` non lo carica); nessuna geometria |
 | Dati: risorse | PR | Bozza di design, non storica |
 | Dati: fiumi e attraversamenti | P | Schema e regole di validazione presenti; **nessun dato reale**, file vuoti. Servono fonti geografiche verificabili e con licenza compatibile |
