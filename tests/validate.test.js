@@ -160,6 +160,14 @@ test('political: ogni nazione di nations.json deve esistere nel dataset politico
   assert.match(validateCatalog(c).errors.join('\n'), /"XXX" non esiste in political_1936/);
 });
 
+test('political: un\'entità giocabile deve avere una voce in nations.json', () => {
+  const c = withPolitical();
+  c.political.push({ id: 'CCC', name: 'Gamma', type: 'country', owner: 'CCC', controller: 'CCC', status: 'independent', playable: true });
+  assert.match(validateCatalog(c).errors.join('\n'), /"CCC" è giocabile ma non ha una voce/);
+  c.political[3].playable = false;
+  assert.equal(validateCatalog(c).ok, true);
+});
+
 test('political: senza dataset politico la validazione precedente resta invariata', () => {
   assert.equal(validateCatalog(base()).ok, true);
 });

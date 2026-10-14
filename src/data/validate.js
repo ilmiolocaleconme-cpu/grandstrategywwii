@@ -95,6 +95,9 @@ function checkPolitical(political, nations, errors) {
     if (typeof e.playable !== 'boolean') {
       errors.push(`political: "${e.id}" playable deve essere booleano`);
     }
+    if (e.playable === true && !nations.has(e.id)) {
+      errors.push(`political: "${e.id}" è giocabile ma non ha una voce in nations.json`);
+    }
     if (typeof e.owner === 'string' && !entities.has(e.owner) && !EXTERNAL_OWNERS.includes(e.owner)) {
       errors.push(`political: "${e.id}" ha un owner inesistente "${e.owner}"`);
     }

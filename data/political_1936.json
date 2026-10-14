@@ -37,7 +37,7 @@
   {"id":"AFG","name":"Afghanistan","type":"country","owner":"AFG","controller":"AFG","status":"independent","playable":false},
   {"id":"CHN","name":"Cina","type":"country","owner":"CHN","controller":"CHN","status":"independent","playable":true},
   {"id":"JPN","name":"Giappone","type":"country","owner":"JPN","controller":"JPN","status":"independent","playable":true},
-  {"id":"IRN","name":"Iran","type":"country","owner":"IRN","controller":"IRN","status":"independent","playable":true},
+  {"id":"IRN","name":"Iran","type":"country","owner":"IRN","controller":"IRN","status":"independent","playable":false},
   {"id":"IRQ","name":"Iraq","type":"country","owner":"IRQ","controller":"IRQ","status":"independent","playable":false},
   {"id":"NEP","name":"Nepal","type":"country","owner":"NEP","controller":"NEP","status":"independent","playable":false},
   {"id":"SAU","name":"Arabia Saudita","type":"country","owner":"SAU","controller":"SAU","status":"independent","playable":false},
