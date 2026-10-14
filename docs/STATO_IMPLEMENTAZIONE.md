@@ -4,8 +4,10 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 
 | Area | Stato | Note |
 |---|---|---|
-| Validatore del catalogo dati (`src/data/validate.js`) | T | 13 test con `node --test`: id duplicati, campi mancanti, riferimenti, cicli di confluenze |
-| Dati: nazioni (GER, ITA, JPN) | P | Solo id, nome, capitale come testo; nessun legame con province |
+| Validatore del catalogo dati (`src/data/validate.js`) | T | 23 test con `node --test`: id duplicati, campi mancanti, riferimenti, cicli di confluenze, dataset politico |
+| Dati: nazioni (`data/nations.json`, 72 voci; MENG con `appearsLater`) | P | id, nome, nome locale, capitale (testo). Capitali in italiano, nome originale in `nameLocal`. Iran, Iraq e Nepal (non giocabili) non hanno voce. Ogni id esiste in `political_1936`; nessun legame con province |
+| Dati: dataset politico 1/1/1936 (`data/political_1936.json`) | T | 143 entità (solo campi id, name, type, owner, controller, status, playable). Validato da `validateCatalog` (id, owner, controller, type, status, playable, riferimenti da `nations.json`) con test dedicati. Mengjiang è escluso: nasce per evento (vedi `docs/DESIGN_CONTROLLO_TERRITORIO.md`). Giocabilità e alcuni status sono scelte di design/storiche da rivedere. **Non ancora letto dalla mappa né dall'app** (`src/App.jsx` non lo carica); nessuna geometria |
+| Regole fantocci / controllo territorio, evento di nascita di Mengjiang | M | Solo nota di design (`docs/DESIGN_CONTROLLO_TERRITORIO.md`); nessun sistema di eventi nel codice |
 | Dati: risorse | PR | Bozza di design, non storica |
 | Dati: fiumi e attraversamenti | P | Schema e regole di validazione presenti; **nessun dato reale**, file vuoti. Servono fonti geografiche verificabili e con licenza compatibile |
 | Dipendenze (React 19, Vite 8, vite-plugin-pwa 2) | T | Installate da GitHub Actions (run riuscito, `package-lock.json` nel repository) |
