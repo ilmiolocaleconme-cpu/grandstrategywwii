@@ -13,6 +13,7 @@ export async function loadCatalog(baseUrl = dataDir) {
     rivers: await read('rivers.json'),
     crossings: await read('crossings.json'),
     political: await read('political_1936.json'),
+    provinces: await read('provinces_1936.json'),
   };
 }
 
@@ -24,7 +25,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   console.log(
     `${ok ? 'OK' : 'FALLITO'}: ${catalog.nations.length} nazioni, ${catalog.resources.length} risorse, ` +
       `${catalog.rivers.length} fiumi, ${catalog.crossings.length} attraversamenti, ` +
-      `${catalog.political.length} entità politiche (1936)`,
+      `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province`,
   );
   process.exit(ok ? 0 : 1);
 }

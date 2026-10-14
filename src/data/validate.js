@@ -21,6 +21,8 @@ export const POLITICAL_STATUSES = [
   'special',
   'de_facto',
 ];
+export const BORDER_QUALITIES = ['verified', 'approximate'];
+export const PROVINCES_AS_OF = '1936-01-01';
 // Proprietari ammessi pur non essendo entità del dataset politico (solo come owner).
 export const EXTERNAL_OWNERS = ['LEAGUE'];
 
@@ -119,9 +121,80 @@ function checkPolitical(political, nations, errors) {
   }
 }
 
+function ringProblem(ring) {
+  if (!Array.isArray(ring) || ring.length < 4) return 'anello con meno di 4 punti';
+  const first = ring[0];
+  const last = ring[ring.length - 1];
+  if (first[0] !== last[0] || first[1] !== last[1]) return 'anello non chiuso';
+  for (const p of ring) {
+    if (!Array.isArray(p) || !Number.isFinite(p[0]) || !Number.isFinite(p[1])) return 'coordinata non numerica';
+    if (p[0] < -180 || p[0] > 180 || p[1] < -90 || p[1] > 90) return 'coordinata fuori intervallo';
+  }
+  return null;
+}
+
+function checkProvinces(provinces, political, errors, warnings) {
+  if (provinces === null || typeof provinces !== 'object' || !Array.isArray(provinces.features)) {
+    errors.push('provinces: deve essere una FeatureCollection con "features"');
+    return;
+  }
+  const owners = new Map(Array.isArray(political) ? political.map((e) => [e?.id, e]) : []);
+  const seen = new Set();
+  let approximate = 0;
+  provinces.features.forEach((feature, index) => {
+    const props = feature?.properties ?? {};
+    const where = `provinces[${index}]`;
+    if (typeof props.id !== 'string' || !ID_PATTERN.test(props.id)) {
+      errors.push(`${where}: id non valido (${JSON.stringify(props.id)})`);
+      return;
+    }
+    if (seen.has(props.id)) errors.push(`provinces: id duplicato "${props.id}"`);
+    seen.add(props.id);
+    if (feature.id !== props.id) errors.push(`provinces: "${props.id}" ha feature.id diverso da properties.id`);
+    for (const field of ['name', 'owner', 'source', 'license', 'validFrom', 'validTo']) {
+      if (typeof props[field] !== 'string' || props[field] === '') {
+        errors.push(`provinces: "${props.id}" campo obbligatorio mancante "${field}"`);
+      }
+    }
+    if (props.owner && !owners.has(props.owner)) {
+      errors.push(`provinces: "${props.id}" ha un owner inesistente "${props.owner}"`);
+    }
+    if (!BORDER_QUALITIES.includes(props.borderQuality)) {
+      errors.push(`provinces: "${props.id}" ha un borderQuality non valido "${props.borderQuality}"`);
+    } else if (props.borderQuality === 'approximate') {
+      approximate += 1;
+    }
+    if (props.validFrom > PROVINCES_AS_OF || props.validTo <= PROVINCES_AS_OF) {
+      errors.push(`provinces: "${props.id}" non è valida alla data ${PROVINCES_AS_OF}`);
+    }
+    const geometry = feature.geometry;
+    if (!geometry || !['Polygon', 'MultiPolygon'].includes(geometry.type)) {
+      errors.push(`provinces: "${props.id}" ha una geometria non valida`);
+      return;
+    }
+    const polygons = geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates;
+    if (!Array.isArray(polygons) || polygons.length === 0) {
+      errors.push(`provinces: "${props.id}" non ha poligoni`);
+      return;
+    }
+    for (const polygon of polygons) {
+      for (const ring of polygon) {
+        const problem = ringProblem(ring);
+        if (problem) {
+          errors.push(`provinces: "${props.id}" ${problem}`);
+          return;
+        }
+      }
+    }
+  });
+  if (approximate > 0) {
+    warnings.push(`provinces: ${approximate} province su ${provinces.features.length} hanno confini approssimati`);
+  }
+}
+
 /**
  * Valida un catalogo { nations, resources, rivers, crossings, political? }.
- * `political` è opzionale: se assente, la sua validazione e i controlli incrociati
+ * `provinces` (FeatureCollection) è opzionale e richiede `political` per i controlli sugli owner. `political` è opzionale: se assente, la sua validazione e i controlli incrociati
  * con nations vengono saltati. Ritorna { ok, errors, warnings }. Non modifica l'input.
  */
 export function validateCatalog(catalog) {
@@ -146,6 +219,10 @@ export function validateCatalog(catalog) {
 
   if (input.political !== undefined) {
     checkPolitical(input.political, nations, errors);
+  }
+
+  if (input.provinces !== undefined) {
+    checkProvinces(input.provinces, input.political, errors, warnings);
   }
 
   for (const river of rivers.values()) {
