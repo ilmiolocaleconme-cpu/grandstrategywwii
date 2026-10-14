@@ -16,6 +16,6 @@ Un fantoccio ha `owner` = se stesso e `controller` = la potenza dominante (esemp
 - **Perché un evento.** Al 1/1/1936 Mengjiang non esisteva: l'area era cinese (Chahar e Suiyuan, con un movimento autonomista mongolo e forte pressione giapponese). Per questo non è in `political_1936.json`.
 - **Anagrafica.** È già in `nations.json` con `"appearsLater": true`; il validatore accetta un id assente da `political_1936` solo con quel campo, e lo rifiuta se l'id è già presente.
 - **Effetto dell'evento.** Crea l'entità `{ id: "MENG", name: "Mengjiang", type: "puppet", owner: "MENG", controller: "JPN", status: "puppet", playable: false }` e sposta il territorio relativo da CHN a MENG.
-- **Data.** Intorno al 1936; **data esatta e condizioni da verificare con una fonte** prima di inserirle nei dati. Non è stata fissata qui.
+- **Data.** **1936-05-12**, formazione del Governo Militare Mongolo, indicata come data di costituzione di Mengjiang (decisione del progetto; verificata su [Wikipedia: Mengjiang](https://en.wikipedia.org/wiki/Mengjiang), che riporta la data del 12 maggio 1936). Tappe successive, per eventuali eventi futuri: rinominato nell'ottobre 1937 come governo autonomo unificato mongolo; il 1° settembre 1939 diventa il governo autonomo unito di Mengjiang. Capitale indicata: Kalgan. Le condizioni di innesco restano da definire.
 - **Territorio.** L'assegnazione delle province a MENG dipende dalla futura geometria della mappa; non è definita.
 - **Giocabilità.** `playable: false` per ora. Se dovrà essere selezionabile, va deciso nel dato dell'evento.
