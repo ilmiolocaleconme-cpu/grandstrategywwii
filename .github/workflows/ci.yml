@@ -3,7 +3,7 @@ name: CI
 # Esegue test e build a ogni push sui branch di lavoro e a ogni pull request.
 on:
   push:
-    branches: [main, fase1-dati]
+    branches: [main, test]
   pull_request:
 
 permissions:
