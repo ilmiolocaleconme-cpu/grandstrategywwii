@@ -168,6 +168,20 @@ test('political: un\'entità giocabile deve avere una voce in nations.json', () 
   assert.equal(validateCatalog(c).ok, true);
 });
 
+test('nations: appearsLater ammette un id assente da political, ma non uno già presente', () => {
+  const c = withPolitical();
+  c.nations.push({ id: 'LAT', name: 'Tardiva', capital: 'T', appearsLater: true });
+  assert.equal(validateCatalog(c).ok, true);
+  c.nations[1].id = 'BBB';
+  assert.match(validateCatalog(c).errors.join('\n'), /"BBB" è appearsLater ma esiste già/);
+});
+
+test('nations: senza appearsLater un id assente da political resta un errore', () => {
+  const c = withPolitical();
+  c.nations.push({ id: 'LAT', name: 'Tardiva', capital: 'T' });
+  assert.match(validateCatalog(c).errors.join('\n'), /"LAT" non esiste in political_1936/);
+});
+
 test('political: senza dataset politico la validazione precedente resta invariata', () => {
   assert.equal(validateCatalog(base()).ok, true);
 });
@@ -178,7 +192,8 @@ test('political_1936 reale: invarianti storiche del 1/1/1936', async () => {
   const expect = (id, fields) => assert.deepEqual({ ...byId.get(id) }, { ...byId.get(id), ...fields });
   expect('ETH', { owner: 'ETH', controller: 'ETH', status: 'independent', playable: true });
   expect('MAN', { type: 'puppet', owner: 'MAN', controller: 'JPN', status: 'puppet', playable: true });
-  expect('MENG', { type: 'puppet', owner: 'MENG', controller: 'JPN', status: 'puppet', playable: false });
+  // Mengjiang non esisteva al 1/1/1936: nasce per evento, quindi non è nel dataset iniziale.
+  assert.equal(byId.has('MENG'), false);
   expect('PHL', { type: 'special', owner: 'USA', controller: 'PHL', status: 'commonwealth', playable: false });
   expect('DANZIG', { type: 'special', owner: 'LEAGUE', controller: 'DANZIG', status: 'free_city', playable: false });
   expect('SWA', { owner: 'LEAGUE', controller: 'ZAF', status: 'mandate' });

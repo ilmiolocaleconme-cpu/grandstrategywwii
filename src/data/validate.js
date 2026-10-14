@@ -106,8 +106,14 @@ function checkPolitical(political, nations, errors) {
     }
   }
   // nations.json descrive le nazioni giocabili: ogni id deve esistere nel dataset politico.
+  // Eccezione: `appearsLater: true` dichiara un'entità che nasce dopo il 1/1/1936 (per evento).
   for (const nation of nations.values()) {
-    if (!entities.has(nation.id)) {
+    const inPolitical = entities.has(nation.id);
+    if (nation.appearsLater === true) {
+      if (inPolitical) {
+        errors.push(`nations: "${nation.id}" è appearsLater ma esiste già in political_1936`);
+      }
+    } else if (!inPolitical) {
       errors.push(`nations: "${nation.id}" non esiste in political_1936`);
     }
   }

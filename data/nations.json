@@ -70,5 +70,5 @@
   {"id":"USSR","name":"Unione Sovietica","nameLocal":"Советский Союз","capital":"Mosca"},
   {"id":"LBR","name":"Liberia","nameLocal":"Liberia","capital":"Monrovia"},
   {"id":"MAN","name":"Manchukuo","nameLocal":"滿洲國","capital":"Changchun"},
-  {"id":"MENG","name":"Mengjiang","nameLocal":"蒙疆","capital":"Kalgan"}
+  {"id":"MENG","name":"Mengjiang","nameLocal":"蒙疆","capital":"Kalgan","appearsLater":true}
 ]

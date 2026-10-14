@@ -137,7 +137,6 @@
   {"id":"KAR","name":"Karafuto","type":"colony","owner":"JPN","controller":"JPN","status":"colony","playable":false},
   {"id":"JPN_MANDATE","name":"Mandato del Pacifico meridionale","type":"colony","owner":"LEAGUE","controller":"JPN","status":"mandate","playable":false},
   {"id":"MAN","name":"Manchukuo","type":"puppet","owner":"MAN","controller":"JPN","status":"puppet","playable":true},
-  {"id":"MENG","name":"Mengjiang","type":"puppet","owner":"MENG","controller":"JPN","status":"puppet","playable":false},
   {"id":"TIB","name":"Tibet","type":"special","owner":"CHN","controller":"TIB","status":"de_facto","playable":false},
   {"id":"PHL","name":"Commonwealth delle Filippine","type":"special","owner":"USA","controller":"PHL","status":"commonwealth","playable":false},
   {"id":"DANZIG","name":"Città Libera di Danzica","type":"special","owner":"LEAGUE","controller":"DANZIG","status":"free_city","playable":false},
