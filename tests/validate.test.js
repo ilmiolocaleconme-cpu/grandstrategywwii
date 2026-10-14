@@ -197,6 +197,9 @@ test('political_1936 reale: invarianti storiche del 1/1/1936', async () => {
   expect('PHL', { type: 'special', owner: 'USA', controller: 'PHL', status: 'commonwealth', playable: false });
   expect('DANZIG', { type: 'special', owner: 'LEAGUE', controller: 'DANZIG', status: 'free_city', playable: false });
   expect('SWA', { owner: 'LEAGUE', controller: 'ZAF', status: 'mandate' });
+  expect('NRU', { owner: 'LEAGUE', controller: 'AUS', status: 'mandate', playable: false });
+  expect('WSM', { owner: 'LEAGUE', controller: 'NZL', status: 'mandate', playable: false });
+  expect('GRL', { type: 'colony', owner: 'DNK', controller: 'DNK', playable: false });
   expect('TIB', { type: 'special', status: 'de_facto', playable: false });
   // Eventi successivi al 1/1/1936: nessuna entità per Saar, Memel; AUT e CZE integri.
   for (const absent of ['SAAR', 'MEMEL']) assert.equal(byId.has(absent), false);

@@ -141,5 +141,20 @@
   {"id":"PHL","name":"Commonwealth delle Filippine","type":"special","owner":"USA","controller":"PHL","status":"commonwealth","playable":false},
   {"id":"DANZIG","name":"Città Libera di Danzica","type":"special","owner":"LEAGUE","controller":"DANZIG","status":"free_city","playable":false},
   {"id":"SWA","name":"Africa Sud-Occidentale","type":"colony","owner":"LEAGUE","controller":"ZAF","status":"mandate","playable":false},
-  {"id":"NHEB","name":"Nuove Ebridi","type":"special","owner":"GBR","controller":"GBR","status":"condominium","playable":false}
+  {"id":"NHEB","name":"Nuove Ebridi","type":"special","owner":"GBR","controller":"GBR","status":"condominium","playable":false},
+  {"id":"HKG","name":"Hong Kong","type":"colony","owner":"GBR","controller":"GBR","status":"colony","playable":false},
+  {"id":"MLT","name":"Malta","type":"colony","owner":"GBR","controller":"GBR","status":"colony","playable":false},
+  {"id":"CYP","name":"Cipro","type":"colony","owner":"GBR","controller":"GBR","status":"colony","playable":false},
+  {"id":"GIB","name":"Gibilterra","type":"colony","owner":"GBR","controller":"GBR","status":"colony","playable":false},
+  {"id":"ADN","name":"Aden","type":"colony","owner":"GBR","controller":"GBR","status":"colony","playable":false},
+  {"id":"CMR","name":"Camerun francese","type":"colony","owner":"LEAGUE","controller":"FRA","status":"mandate","playable":false},
+  {"id":"TGO","name":"Togo francese","type":"colony","owner":"LEAGUE","controller":"FRA","status":"mandate","playable":false},
+  {"id":"NRU","name":"Nauru","type":"colony","owner":"LEAGUE","controller":"AUS","status":"mandate","playable":false},
+  {"id":"NGU","name":"Nuova Guinea","type":"colony","owner":"LEAGUE","controller":"AUS","status":"mandate","playable":false},
+  {"id":"WSM","name":"Samoa Occidentali","type":"colony","owner":"LEAGUE","controller":"NZL","status":"mandate","playable":false},
+  {"id":"DOD","name":"Dodecaneso","type":"colony","owner":"ITA","controller":"ITA","status":"colony","playable":false},
+  {"id":"MAR_ES","name":"Marocco spagnolo","type":"colony","owner":"ESP","controller":"ESP","status":"protectorate","playable":false},
+  {"id":"GNQ","name":"Guinea spagnola","type":"colony","owner":"ESP","controller":"ESP","status":"colony","playable":false},
+  {"id":"GRL","name":"Groenlandia","type":"colony","owner":"DNK","controller":"DNK","status":"colony","playable":false},
+  {"id":"BTN","name":"Bhutan","type":"country","owner":"BTN","controller":"BTN","status":"independent","playable":false}
 ]
