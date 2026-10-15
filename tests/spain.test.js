@@ -63,6 +63,8 @@ const CAPITALS = [
   ['P_ESP_VIZCAYA', -2.935, 43.263],
   ['P_ESP_ZAMORA', -5.744, 41.5035],
   ['P_ESP_ZARAGOZA', -0.8891, 41.6488],
+  ['P_ESP_LAS_PALMAS', -15.4363, 28.1235],
+  ['P_ESP_SANTA_CRUZ_DE_TENERIFE', -16.2518, 28.4636],
   ['P_ESP_BALEARES', 2.6502, 39.5696],];
 
 const KM_LAT = 111.2;
@@ -80,16 +82,15 @@ const distKm = (ring, lon, lat) => {
   return best;
 };
 
-test('ESP 48, PRT 18, MAR 12, MAR_ES 1; Canarie, Azzorre e Madeira escluse e dichiarate', () => {
-  assert.equal(esp.length, 48);
+test('ESP 50 (con le Canarie), PRT 22 (con Azzorre e Madeira), MAR 12, MAR_ES 1', () => {
+  assert.equal(esp.length, 50);
   assert.equal(mar.length, 1);
-  assert.equal(prt.length, 18);
+  assert.equal(prt.length, 22);
   assert.equal(byOwner('MAR').length, 12);
-  assert.equal(new Set(esp.map((f) => f.properties.id)).size, 48);
-  assert.equal(esp.some((f) => /CANARIAS|PALMAS|TENERIFE/i.test(f.properties.id)), false);
+  assert.equal(new Set(esp.map((f) => f.properties.id)).size, 50);
   assert.ok(esp.every((f) => f.properties.borderQuality === 'hypothesis' && f.properties.knownIssues.includes('modern_borders')));
   const meta = JSON.parse(JSON.stringify(provinces.metadata));
-  assert.match(meta.coverage.join('|'), /ESP \(47 province continentali/);
+  assert.match(meta.coverage.join('|'), /ESP \(50 province/);
 });
 
 test('ESP: ogni capoluogo e nella propria provincia o a meno di 8 km dal suo contorno (citta costiere)', () => {
@@ -104,18 +105,18 @@ test('ESP: ogni capoluogo e nella propria provincia o a meno di 8 km dal suo con
 });
 
 test('ESP: aree plausibili (province entro +-10% dal riferimento ufficiale, totale continentale 480-510 mila km2)', () => {
-  const REF = { ALAVA: 3037, GERONA: 5910, PALENCIA: 8052, VALLADOLID: 8110, VIZCAYA: 2217, ZARAGOZA: 17274, BALEARES: 4992 };
+  const REF = { ALAVA: 3037, GERONA: 5910, PALENCIA: 8052, VALLADOLID: 8110, VIZCAYA: 2217, ZARAGOZA: 17274, BALEARES: 4992, LAS_PALMAS: 4066, SANTA_CRUZ_DE_TENERIFE: 3381 };
   for (const [k, ref] of Object.entries(REF)) {
     const a = featureAreaKm2(esp.find((f) => f.properties.id === `P_ESP_${k}`));
     assert.ok(a > ref * 0.9 && a < ref * 1.1, `${k}: ${Math.round(a)} contro ${ref}`);
   }
-  const mainland = esp.filter((f) => f.properties.id !== 'P_ESP_BALEARES').reduce((s, f) => s + featureAreaKm2(f), 0);
+  const mainland = esp.filter((f) => !['P_ESP_BALEARES', 'P_ESP_LAS_PALMAS', 'P_ESP_SANTA_CRUZ_DE_TENERIFE'].includes(f.properties.id)).reduce((s, f) => s + featureAreaKm2(f), 0);
   assert.ok(mainland > 480000 && mainland < 510000, String(Math.round(mainland)));
   const marA = featureAreaKm2(mar[0]);
   assert.ok(marA > 20000 && marA < 30000, String(Math.round(marA)));
 });
 
-test('ESP: i confini interni sono condivisi (nessuna fessura): gli archi non condivisi formano anelli chiusi (terraferma, Ceuta, Melilla, isole Baleari)', () => {
+test('ESP: i confini interni sono condivisi (nessuna fessura): gli archi non condivisi formano anelli chiusi (terraferma, Ceuta, Melilla, isole)', () => {
   const key = ([x, y]) => `${x},${y}`;
   const edges = new Map();
   for (const f of esp) for (const p of polygonsOf(f)) for (const ring of p) {
@@ -147,7 +148,7 @@ test('ESP: i confini interni sono condivisi (nessuna fessura): gli archi non con
       stack.push(...adj.get(n));
     }
   }
-  assert.equal(rings, 10, `anelli di contorno: ${rings}`); // terraferma, Ceuta, Melilla e 7 isole delle Baleari
+  assert.equal(rings, 18, `anelli di contorno: ${rings}`); // terraferma, Ceuta, Melilla, isole Baleari e Canarie
 });
 
 test('ESP-FRA: il confine pirenaico usa gli stessi vertici di FRA e nessun vertice spagnolo cade dentro la Francia', () => {
@@ -186,8 +187,12 @@ test('MAR_ES: zona nord del protettorato, tra lo Stretto e il Mulouya (da immagi
   assert.equal(pointInPolygon(p, -5.9, 35.77), false, 'Tangeri (zona internazionale) esclusa');
 });
 
-test('PRT: 18 distretti continentali, aree plausibili e confine spagnolo con gli stessi vertici di ESP', () => {
+test('PRT: 18 distretti continentali più Azzorre e Madeira, aree plausibili e confine spagnolo con gli stessi vertici di ESP', () => {
   const REF = { BEJA: 10225, FARO: 4960, LISBOA: 2761, PORTO: 2395, EVORA: 7393 };
+  for (const id of ['P_PRT_PONTA_DELGADA', 'P_PRT_ANGRA_DO_HEROISMO', 'P_PRT_HORTA', 'P_PRT_FUNCHAL']) assert.ok(prt.some((f) => f.properties.id === id), id);
+  // Ponta Delgada comprende Sao Miguel (-25,5; 37,8)
+  const inFeat = (id, lon, lat) => polygonsOf(prt.find((f) => f.properties.id === id)).some((p) => pointInPolygon(p, lon, lat));
+  assert.ok(inFeat('P_PRT_PONTA_DELGADA', -25.6, 37.8) && inFeat('P_PRT_FUNCHAL', -16.95, 32.75) && inFeat('P_PRT_HORTA', -28.4, 38.5));
   for (const [k, ref] of Object.entries(REF)) {
     const a = featureAreaKm2(prt.find((f) => f.properties.id === `P_PRT_${k}`));
     assert.ok(a > ref * 0.9 && a < ref * 1.1, `${k}: ${Math.round(a)} contro ${ref}`);
