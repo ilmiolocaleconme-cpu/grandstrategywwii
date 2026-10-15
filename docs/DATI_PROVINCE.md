@@ -1,6 +1,14 @@
-# Province al 1/1/1936 (`data/provinces_1936.json`)
+# Province al 1/1/1936 (`data/provinces/`)
 
-FeatureCollection GeoJSON (coordinate `[lon, lat]`). Stato: **dati reali ma approssimati, non ancora letti dalla mappa né dall'app**.
+Feature GeoJSON (coordinate `[lon, lat]`), un file per nazione. Stato: **dati reali ma approssimati, letti dalla mappa**.
+
+## Organizzazione dei file
+- `data/provinces/<OWNER>.json` (18 file: DEU, POL, AUT, BEL, LUX, CZE, NLD, ITA, YUG, DANZIG, CHE, LIE, FRA, HUN, ROM, BGR, GRC, ALB): `{ "type": "FeatureCollection", "owner": "<OWNER>", "features": [...] }`, una feature per riga. Ogni provincia sta nel file del proprio `owner` (controllato). Slovacchia sta in `CZE.json`; Zara e Dodecaneso in `ITA.json`.
+- `data/provinces/_meta.json`: `schema` (`provinces-meta-v1`), `order` (ordine di unione delle nazioni) e `metadata` (fonte, licenza, semplificazione, copertura, limiti: gli stessi campi che il vecchio file unico aveva in cima).
+- **Caricamento.** Tutti i file si caricano all'avvio, **in parallelo**, e si uniscono in memoria in una sola FeatureCollection (`src/data/provinces.js`; nel browser l'elenco lo fissa `import.meta.glob` in `src/data/loadProvinces.js`, in Node `scripts/load-provinces.js`). **Nessun caricamento per area**: causerebbe buchi mentre si scorre e bordi nazionali (`nationalBorderPath`) che cambiano all'arrivo del vicino. La mappa parte solo a caricamento completo; se un file non arriva, si mostra l'errore con l'elenco dei file mancanti e il pulsante «Ricarica».
+- **Precache.** Ogni file è un chunk a sé nella build e deve stare nel precache del service worker: `node scripts/check-precache.js` (dopo `npm run build`, eseguito dalla CI) lo controlla.
+- **Aggiungere una nazione:** nuovo `data/provinces/<OWNER>.json` e il codice in `order` di `_meta.json`; `npm test` e `npm run validate:data` segnalano file mancanti, non elencati, province nel file sbagliato e id duplicati.
+- Il vecchio `data/provinces_1936.json` (file unico) è stato rimosso: la divisione è senza perdite (370 feature identiche una a una, stessi metadati, stesso modello di mappa e stessi bordi nazionali). Nell'unione cambia solo l'ordine di tre province (Slovacchia, Zara, Dodecaneso), ora vicine alla loro nazione.
 
 ## Provenienza e licenza
 - Fonte: [OpenHistoricalMap](https://www.openhistoricalmap.org), relazioni `admin_level=4` valide il 1/1/1936, scaricate il 2026-10-14 tramite Overpass API. Licenza CC0 (campo `license` per feature; nessuna relazione ha un tag `license` diverso).
@@ -56,7 +64,7 @@ Per rendere la mappa leggibile (soprattutto su telefono) i confini **interni** t
 - **Risultato.** Vertici totali da 83.299 a circa 41.000. Arco per arco, i 28.016 archi esterni sono identici all'originale (3 punte di larghezza zero sono state eliminate). Le aree variano meno del 3% (Sassonia prussiana +1,1%).
 - **Limiti.** I confini interni sono volutamente poco precisi e non vanno usati per misure. 39 tratti restano al dettaglio originale perché semplificarli avrebbe creato incroci tra confini. La Sassonia prussiana è ancora irregolare perché composta da tante piccole exclavi. Il controllo degli incroci confronta solo i tratti nuovi: nei dati originali ci sono già circa 2.900 incroci tra segmenti di province di Stati diversi (disallineamenti noti, da rivedere).
 - **Come si disegna.** `nationalBorderPath` (`src/map/geo.js`) traccia più spessi i confini nazionali e le coste; i confini interni sono più sottili e semitrasparenti.
-- **Riproducibilità.** Lo script di semplificazione non è nel repository (come gli altri strumenti di preparazione dati); i dati risultanti sono in `data/provinces_1936.json`.
+- **Riproducibilità.** Lo script di semplificazione non è nel repository (come gli altri strumenti di preparazione dati); i dati risultanti sono in `data/provinces/`.
 
 - **Semplificazione dei confini interni.** I confini interni sono stati semplificati in modo topologico (tolleranza ≤0,05°, spigoli condivisi invariati, giunzioni fisse); i confini esterni sono rimasti identici. Lo script non è nel repository.
 

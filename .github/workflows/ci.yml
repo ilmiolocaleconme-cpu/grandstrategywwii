@@ -37,3 +37,6 @@ jobs:
           test -f dist/index.html
           test -f dist/manifest.webmanifest
           test -f dist/sw.js
+
+      - name: Controlla che i file delle province siano chunk separati e nel precache
+        run: node scripts/check-precache.js

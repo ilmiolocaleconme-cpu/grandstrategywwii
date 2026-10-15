@@ -6,8 +6,9 @@ import {
   buildMapModel, buildWaterModel, buildLod, lodLevel, simplifyLine, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
 } from '../src/map/geo.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
+import { loadProvinces } from '../scripts/load-provinces.js';
 
-const provinces = JSON.parse(readFileSync(new URL('../data/provinces_1936.json', import.meta.url), 'utf8'));
+const provinces = await loadProvinces();
 const political = JSON.parse(readFileSync(new URL('../data/political_1936.json', import.meta.url), 'utf8'));
 
 const square = (x, y, s) => [[x, y], [x + s, y], [x + s, y + s], [x, y + s], [x, y]];

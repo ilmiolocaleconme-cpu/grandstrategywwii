@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import { buildProvinceIndex } from '../src/data/geometry.js';
+import { loadProvinces } from '../scripts/load-provinces.js';
 
-const provinces = JSON.parse(readFileSync(new URL('../data/provinces_1936.json', import.meta.url), 'utf8'));
+const provinces = await loadProvinces();
 const index = buildProvinceIndex(provinces);
 const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o);
 const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);

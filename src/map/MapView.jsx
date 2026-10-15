@@ -5,7 +5,7 @@ const LABEL_MIN_K = 2.2; // sotto questo zoom le etichette delle province non si
 const IDENTITY = { k: 1, x: 0, y: 0 };
 
 // Mappa strategica SVG: zoom (rotella, pizzico, pulsanti), spostamento, selezione, livelli.
-// Legge le stesse province di data/provinces_1936.json usate dalle regole e dai test.
+// Legge le stesse province (data/provinces/, un file per nazione, uniti in memoria) usate dalle regole e dai test.
 export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
   const model = useMemo(() => buildMapModel(provinces), [provinces]);
   // fiumi e laghi arrivano a parte (caricamento differito): finché mancano, la mappa funziona senza

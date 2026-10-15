@@ -1,13 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import { validateCatalog } from '../src/data/validate.js';
 import { buildProvinceIndex, pointInPolygon } from '../src/data/geometry.js';
 import { loadCatalog } from '../scripts/validate-data.js';
+import { loadProvinces } from '../scripts/load-provinces.js';
 
-const provinces = JSON.parse(
-  await readFile(new URL('../data/provinces_1936.json', import.meta.url), 'utf8'),
-);
+const provinces = await loadProvinces();
 const index = buildProvinceIndex(provinces);
 
 // Fixture sintetiche SOLO per i test: non sono dati geografici storici.
