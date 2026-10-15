@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LAYERS, buildMapModel, buildWaterModel, clampView, provinceFill, zoomAt } from './geo.js';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { LAYERS, buildMapModel, buildWaterModel, clampView, cssDelta, provinceFill, zoomAt } from './geo.js';
 
 const LABEL_MIN_K = 2.2; // sotto questo zoom le etichette delle province non si mostrano
 const IDENTITY = { k: 1, x: 0, y: 0 };
@@ -8,45 +8,83 @@ const IDENTITY = { k: 1, x: 0, y: 0 };
 // Legge le stesse province di data/provinces_1936.json usate dalle regole e dai test.
 export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
   const model = useMemo(() => buildMapModel(provinces), [provinces]);
-  const water = useMemo(() => buildWaterModel(rivers, riversGeo, lakes), [rivers, riversGeo, lakes]);
-  const riverNames = useMemo(() => new Map(rivers.map((r) => [r.id, r.name])), [rivers]);
+  // fiumi e laghi arrivano a parte (caricamento differito): finché mancano, la mappa funziona senza
+  const water = useMemo(() => (rivers && riversGeo && lakes ? buildWaterModel(rivers, riversGeo, lakes) : null), [rivers, riversGeo, lakes]);
+  const riverNames = useMemo(() => new Map((rivers ?? []).map((r) => [r.id, r.name])), [rivers]);
   const { bounds } = model;
   const pad = bounds.w * 0.02;
   const vb = `${bounds.x - pad} ${bounds.y - pad} ${bounds.w + 2 * pad} ${bounds.h + 2 * pad}`;
 
   const svgRef = useRef(null);
-  const [view, setView] = useState(IDENTITY);
+  const wrapRef = useRef(null);
+  // La vista vive in un ref e la trasformazione è scritta direttamente sul DOM: durante il gesto
+  // React non ridisegna le centinaia di percorsi. Lo stato `settledK` si aggiorna a gesto finito
+  // (serve a etichette e dimensione del testo).
+  const viewRef = useRef(IDENTITY); // vista richiesta dal gesto
+  const committedRef = useRef(IDENTITY); // vista già scritta nel <g> (rasterizzata)
+  const gRef = useRef(null);
+  const settleTimer = useRef(null);
+  const [settledK, setSettledK] = useState(1);
   const [pxPerUnit, setPxPerUnit] = useState(10);
   const pointers = useRef(new Map());
   const gesture = useRef(null);
   const moved = useRef(false);
 
+  // Geometria della proiezione viewBox -> pixel (preserveAspectRatio "xMidYMid meet"), calcolata
+  // senza getScreenCTM: durante il gesto l'SVG ha una trasformazione CSS che la falserebbe.
+  const layout = useRef({ s: 10, ex: 0, ey: 0, left: 0, top: 0 });
   const measure = useCallback(() => {
-    const ctm = svgRef.current?.getScreenCTM();
-    if (ctm) setPxPerUnit(ctm.a);
-  }, []);
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const r = wrap.getBoundingClientRect();
+    const vbw = bounds.w + 2 * pad;
+    const vbh = bounds.h + 2 * pad;
+    const s = Math.min(r.width / vbw, r.height / vbh);
+    layout.current = { s, ex: (r.width - s * vbw) / 2 - s * (bounds.x - pad), ey: (r.height - s * vbh) / 2 - s * (bounds.y - pad), left: r.left, top: r.top };
+    setPxPerUnit(s);
+  }, [bounds, pad]);
   useEffect(() => {
     measure();
     const ro = new ResizeObserver(measure);
-    ro.observe(svgRef.current);
+    ro.observe(wrapRef.current);
     return () => ro.disconnect();
   }, [measure]);
 
   // Punto della vista (unità di mappa, prima della trasformazione) sotto un punto dello schermo.
   const toView = (clientX, clientY) => {
-    const svg = svgRef.current;
-    const pt = svg.createSVGPoint();
-    pt.x = clientX;
-    pt.y = clientY;
-    const p = pt.matrixTransform(svg.getScreenCTM().inverse());
-    return [p.x, p.y];
+    const { s, ex, ey, left, top } = layout.current;
+    return [(clientX - left - ex) / s, (clientY - top - ey) / s];
   };
 
-  const applyView = useCallback((v) => setView(clampView(v, bounds)), [bounds]);
+  // Durante il gesto si muove solo lo strato dell'SVG con una trasformazione CSS (compositor, senza
+  // nuova rasterizzazione); a gesto fermo la vista viene scritta nel <g> e l'immagine torna nitida.
+  const applyView = useCallback((raw) => {
+    const v = clampView(raw, bounds);
+    viewRef.current = v;
+    const c = committedRef.current;
+    const { a, tx, ty } = cssDelta(c, v, layout.current);
+    const svg = svgRef.current;
+    if (svg) {
+      svg.style.transform = `translate(${tx}px, ${ty}px) scale(${a})`;
+      svg.classList.add('moving');
+    }
+    clearTimeout(settleTimer.current);
+    settleTimer.current = setTimeout(() => {
+      const cur = viewRef.current;
+      committedRef.current = cur;
+      gRef.current?.setAttribute('transform', `translate(${cur.x} ${cur.y}) scale(${cur.k})`);
+      if (svgRef.current) {
+        svgRef.current.style.transform = '';
+        svgRef.current.classList.remove('moving');
+      }
+      setSettledK(cur.k);
+    }, 140);
+  }, [bounds]);
+  useEffect(() => () => clearTimeout(settleTimer.current), []);
 
   const onWheel = (e) => {
     const [cx, cy] = toView(e.clientX, e.clientY);
-    applyView(zoomAt(view, Math.exp(-e.deltaY * 0.0015), cx, cy));
+    applyView(zoomAt(viewRef.current, Math.exp(-e.deltaY * 0.0015), cx, cy));
   };
   // React registra wheel come passivo: serve un listener nativo per poter chiamare preventDefault.
   useEffect(() => {
@@ -60,7 +98,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
     // Niente setPointerCapture qui: reindirizzerebbe il click all'SVG e la selezione non partirebbe.
     pointers.current.set(e.pointerId, [e.clientX, e.clientY]);
     moved.current = false;
-    gesture.current = { view, start: [...pointers.current.values()] };
+    gesture.current = { view: viewRef.current, start: [...pointers.current.values()] };
   };
   const onPointerMove = (e) => {
     if (!pointers.current.has(e.pointerId)) return;
@@ -88,20 +126,20 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   };
   const onPointerUp = (e) => {
     pointers.current.delete(e.pointerId);
-    gesture.current = pointers.current.size ? { view, start: [...pointers.current.values()] } : null;
+    gesture.current = pointers.current.size ? { view: viewRef.current, start: [...pointers.current.values()] } : null;
   };
 
   const zoomButton = (factor) => {
     const cx = bounds.x + bounds.w / 2;
     const cy = bounds.y + bounds.h / 2;
-    applyView(zoomAt(view, factor, cx, cy));
+    applyView(zoomAt(viewRef.current, factor, cx, cy));
   };
 
   const selected = model.items.find((i) => i.id === selectedId);
-  const px = 1 / (pxPerUnit * view.k); // 1 pixel dello schermo in unità di mappa
+  const px = 1 / (pxPerUnit * settledK); // 1 pixel dello schermo in unità di mappa (a gesto finito)
 
   return (
-    <div className="map-wrap">
+    <div className="map-wrap" ref={wrapRef}>
       <svg
         ref={svgRef}
         className="map"
@@ -115,38 +153,11 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
         onPointerCancel={onPointerUp}
       >
         <rect x={bounds.x - bounds.w} y={bounds.y - bounds.h} width={bounds.w * 3} height={bounds.h * 3} className="map-sea" onClick={() => !moved.current && onSelect(null)} />
-        <g transform={`translate(${view.x} ${view.y}) scale(${view.k})`}>
-          {model.items.map((it) => (
-            <path
-              key={it.id}
-              d={it.d}
-              fillRule="evenodd"
-              fill={provinceFill(it.props, layer)}
-              className={it.id === selectedId ? 'prov selected' : 'prov'}
-              strokeWidth={0.6 * px}
-              data-id={it.id}
-              onClick={() => !moved.current && onSelect(it.id)}
-            />
-          ))}
-          <path d={model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
-          {showRivers && water.lakes.map((l) => (
-            <path key={l.id} d={l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
-          ))}
-          {showRivers && water.lines.map((l) => (
-            <g key={l.key}>
-              <path d={l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
-              <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
-                <title>{riverNames.get(l.riverId)}</title>
-              </path>
-            </g>
-          ))}
-          {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
-          {view.k >= LABEL_MIN_K &&
-            model.items.map((it) => (
-              <text key={it.id} x={it.label[0]} y={it.label[1]} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" pointerEvents="none">
-                {it.props.nameLocal ?? it.props.name}
-              </text>
-            ))}
+        <g ref={gRef}>
+          <ProvinceLayer items={model.items} borderD={model.borderD} layer={layer} selectedId={selectedId} onSelect={onSelect} moved={moved} />
+          {showRivers && water && <WaterLayer water={water} riverNames={riverNames} selectedRiverId={selectedRiverId} onSelectRiver={onSelectRiver} moved={moved} />}
+          {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2} pointerEvents="none" />}
+          {settledK >= LABEL_MIN_K && <Labels items={model.items} px={px} />}
         </g>
       </svg>
 
@@ -162,7 +173,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
           <button type="button" className={showRivers ? 'on' : ''} aria-pressed={showRivers} aria-label="Mostra o nascondi i fiumi" onClick={onToggleRivers}>≈</button>
           <button type="button" aria-label="Ingrandisci" onClick={() => zoomButton(1.6)}>+</button>
           <button type="button" aria-label="Riduci" onClick={() => zoomButton(1 / 1.6)}>−</button>
-          <button type="button" aria-label="Vista iniziale" onClick={() => setView(IDENTITY)}>⌂</button>
+          <button type="button" aria-label="Vista iniziale" onClick={() => applyView(IDENTITY)}>⌂</button>
         </div>
       </div>
 
@@ -190,3 +201,51 @@ function Legend({ layer, nationNames, items }) {
     </ul>
   );
 }
+
+// Strati memorizzati: si ridisegnano solo se cambiano i loro dati, non a ogni gesto.
+// Gli spessori sono in pixel dello schermo (vector-effect: non-scaling-stroke nel CSS).
+const ProvinceLayer = memo(function ProvinceLayer({ items, borderD, layer, selectedId, onSelect, moved }) {
+  return (
+    <>
+      {items.map((it) => (
+        <path
+          key={it.id}
+          d={it.d}
+          fillRule="evenodd"
+          fill={provinceFill(it.props, layer)}
+          className={it.id === selectedId ? 'prov selected' : 'prov'}
+          strokeWidth={0.6}
+          data-id={it.id}
+          onClick={() => !moved.current && onSelect(it.id)}
+        />
+      ))}
+      <path d={borderD} className="border-national" strokeWidth={1.2} pointerEvents="none" />
+    </>
+  );
+});
+
+const WaterLayer = memo(function WaterLayer({ water, riverNames, selectedRiverId, onSelectRiver, moved }) {
+  return (
+    <>
+      {water.lakes.map((l) => (
+        <path key={l.id} d={l.d} fillRule="evenodd" className="lake" strokeWidth={0.6} pointerEvents="none" />
+      ))}
+      {water.lines.map((l) => (
+        <g key={l.key}>
+          <path d={l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={l.riverId === selectedRiverId ? l.width + 1.5 : l.width} pointerEvents="none" />
+          <path d={l.d} className="river-hit" strokeWidth={12} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
+            <title>{riverNames.get(l.riverId)}</title>
+          </path>
+        </g>
+      ))}
+    </>
+  );
+});
+
+const Labels = memo(function Labels({ items, px }) {
+  return items.map((it) => (
+    <text key={it.id} x={it.label[0]} y={it.label[1]} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" pointerEvents="none">
+      {it.props.nameLocal ?? it.props.name}
+    </text>
+  ));
+});
