@@ -108,6 +108,7 @@ test('città note cadono nella provincia attesa', () => {
 // Un'altra coppia, o un aumento oltre la soglia, fa fallire il test.
 const KNOWN_OVERLAPS = new Set([
   'P_BEL_LIEGE|P_DEU_RHINE_PROVINCE',
+  'P_CZE_SLOVAKIA|P_POL_KRAKOW_VOIVODESHIP',
   'P_BEL_LUXEMBOURG|P_LUX_DIEKIRCH',
   'P_DEU_HANOVER|P_DEU_PROVINCE_OF_SCHLESWIG_HOLSTEIN',
   'P_DEU_PROVINCE_OF_LOWER_SILESIA|P_DEU_PROVINCE_OF_SAXONY',
@@ -167,6 +168,7 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Perugia', 12.39, 43.11, 'P_ITA_UMBRIA'],
     ['Pescara', 14.21, 42.46, 'P_ITA_ABRUZZI_E_MOLISE'],
     ['Amatrice (Rieti, Lazio)', 13.29, 42.63, 'P_ITA_LAZIO'],
+    ['Zara (enclave italiana)', 15.23, 44.12, 'P_ITA_ZARA'],
   ];
   for (const [name, lon, lat, expected] of cases) assert.deepEqual(at(lon, lat), [expected], name);
   const byId = new Map(provinces.features.map((f) => [f.properties.id, f.properties]));
@@ -174,7 +176,24 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     assert.equal(byId.get(id).borderQuality, 'hypothesis');
     assert.equal(byId.get(id).source.startsWith('Natural Earth'), true);
   }
-  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA').length, 18);
+  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA').length, 19);
+});
+
+test('Cecoslovacchia: le quattro terre, con la Slovacchia derivata', () => {
+  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+  const cases = [
+    ['Praga', 14.42, 50.08, 'P_CZE_BOHEMIA'],
+    ['Brno', 16.6, 49.2, 'P_CZE_MORAVIAN_SILESIAN_COUNTRY'],
+    ['Uzhhorod (Rutenia)', 22.3, 48.62, 'P_CZE_SUBCARPATHIAN_RUS'],
+    ['Bratislava', 17.11, 48.15, 'P_CZE_SLOVAKIA'],
+    ['Kosice', 21.26, 48.72, 'P_CZE_SLOVAKIA'],
+    ['Zilina', 18.74, 49.22, 'P_CZE_SLOVAKIA'],
+  ];
+  for (const [name, lon, lat, expected] of cases) assert.deepEqual(at(lon, lat), [expected], name);
+  const slovakia = provinces.features.find((f) => f.properties.id === 'P_CZE_SLOVAKIA').properties;
+  assert.equal(slovakia.borderQuality, 'hypothesis');
+  assert.equal(slovakia.dateBasis, 'derived');
+  assert.equal(slovakia.validTo, '1936-07-03');
 });
 
 // Allineamento lungo i confini tra fonti diverse: campionamento fine su finestre di confine.
@@ -186,6 +205,12 @@ const ALIGNMENT_BOXES = [
   { name: 'Campania-Abruzzi e Molise', box: [13.8, 40.9, 15.6, 42.0], maxOverlap: 3, maxGap: 5 },
   { name: 'Calabria-Lucania', box: [15.5, 39.4, 17.0, 40.4], maxOverlap: 1, maxGap: 5 },
   { name: 'Marche-Umbria-Abruzzi-Lazio', box: [12.4, 42.4, 14.2, 43.3], maxOverlap: 2, maxGap: 3 },
+  { name: 'Cecoslovacchia-Germania', box: [11.9, 48.8, 15.2, 51.1], maxOverlap: 2, maxGap: 5 },
+  { name: 'Cecoslovacchia-Austria', box: [13.5, 48.5, 17.2, 49.1], maxOverlap: 3, maxGap: 5 },
+  { name: 'Cecoslovacchia-Polonia', box: [14.8, 49.2, 19.8, 50.9], maxOverlap: 3, maxGap: 5 },
+  { name: 'Slovacchia-Polonia', box: [18.5, 49.0, 22.8, 49.7], maxOverlap: 3, maxGap: 10 },
+  { name: 'Slovacchia-Austria', box: [16.5, 47.9, 17.3, 48.9], maxOverlap: 3, maxGap: 25 },
+  { name: 'Slovacchia-Moravia-Rutenia', box: [16.9, 48.2, 22.8, 49.6], maxOverlap: 6, maxGap: 8 },
   { name: 'Emilia-Marche', box: [11.9, 43.6, 12.8, 44.4], maxOverlap: 1, maxGap: 5 },
 ];
 
