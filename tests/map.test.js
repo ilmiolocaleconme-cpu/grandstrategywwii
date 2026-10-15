@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   project, ringToPath, featureToPath, featureAreaKm2, labelPoint, boundsOf,
-  buildMapModel, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
+  buildMapModel, buildLod, lodLevel, simplifyLine, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
 } from '../src/map/geo.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 
@@ -134,4 +134,30 @@ test('bordi nazionali sulla mappa reale: meno vertici del totale delle province 
   const model = buildMapModel(provinces);
   assert.ok(model.borderD.length > 1000);
   assert.ok((model.borderD.match(/[LM]/g) || []).length < (model.items.map((i) => i.d).join('').match(/[LM]/g) || []).length);
+});
+
+test('simplifyLine: tiene gli estremi, toglie i punti vicini alla retta e non allontana oltre la tolleranza', () => {
+  const line = [[0, 0], [1, 0.01], [2, -0.01], [3, 0], [4, 2], [5, 0]];
+  const out = simplifyLine(line, 0.1);
+  assert.deepEqual(out[0], line[0]);
+  assert.deepEqual(out[out.length - 1], line[line.length - 1]);
+  assert.ok(out.length < line.length);
+  assert.ok(out.some((p) => p[0] === 4 && p[1] === 2)); // la punta resta
+  assert.deepEqual(simplifyLine(line, 0), line);
+});
+
+test('livelli semplificati: molti meno punti, nessuna provincia svuotata, bordi esterni presenti', () => {
+  const count = (d) => (d.match(/[ML]/g) ?? []).length;
+  const lod = buildLod(provinces);
+  const full = buildMapModel(provinces);
+  const pts = (get) => full.items.reduce((a, i) => a + count(get(i)), 0);
+  const fullPts = pts((i) => i.d);
+  assert.ok(pts((i) => lod.items.get(i.id)[0]) < fullPts / 5);
+  assert.ok(pts((i) => lod.items.get(i.id)[1]) < fullPts / 3);
+  assert.ok(full.items.every((i) => lod.items.get(i.id).every((d) => d.length > 0)));
+  assert.ok(count(lod.borders[0]) > 0 && count(lod.borders[0]) < count(full.borderD) / 5);
+  assert.equal(lodLevel(1), 0);
+  assert.equal(lodLevel(5), 1);
+  assert.equal(lodLevel(20), 2);
+  assert.ok(pts((i) => lod.items.get(i.id)[2]) < fullPts * 0.6);
 });

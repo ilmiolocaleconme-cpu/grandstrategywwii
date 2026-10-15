@@ -11,13 +11,56 @@ export function project(lon, lat) {
 
 const r3 = (n) => Math.round(n * 1000) / 1000;
 
-export function ringToPath(ring) {
-  let d = '';
-  for (let i = 0; i < ring.length; i += 1) {
-    const [x, y] = project(ring[i][0], ring[i][1]);
-    d += `${i === 0 ? 'M' : 'L'}${r3(x)} ${r3(y)}`;
+export function ringToPath(ring, tol = 0) {
+  let pts = ring.map(([lon, lat]) => project(lon, lat));
+  if (tol > 0 && pts.length > 5) {
+    // anello chiuso: si semplifica dividendo a metà, così nessun vertice speciale viene perso
+    const m = Math.floor(pts.length / 2);
+    const a = simplifyLine(pts.slice(0, m + 1), tol);
+    const b = simplifyLine(pts.slice(m), tol);
+    pts = [...a.slice(0, -1), ...b];
+    if (pts.length < 4) return '';
   }
+  let d = '';
+  for (let i = 0; i < pts.length; i += 1) d += `${i === 0 ? 'M' : 'L'}${r3(pts[i][0])} ${r3(pts[i][1])}`;
   return `${d}Z`;
+}
+
+// Douglas-Peucker su una polilinea di punti [x, y] già proiettati. Tiene sempre gli estremi.
+export function simplifyLine(pts, tol) {
+  if (pts.length <= 2 || tol <= 0) return pts;
+  const keep = new Uint8Array(pts.length);
+  keep[0] = 1;
+  keep[pts.length - 1] = 1;
+  const stack = [[0, pts.length - 1]];
+  const t2 = tol * tol;
+  while (stack.length) {
+    const [i, j] = stack.pop();
+    const [ax, ay] = pts[i];
+    const dx = pts[j][0] - ax;
+    const dy = pts[j][1] - ay;
+    const len2 = dx * dx + dy * dy;
+    let worst = -1;
+    let wi = -1;
+    for (let k = i + 1; k < j; k += 1) {
+      const px = pts[k][0] - ax;
+      const py = pts[k][1] - ay;
+      let d2;
+      if (len2 === 0) d2 = px * px + py * py;
+      else {
+        const u = Math.max(0, Math.min(1, (px * dx + py * dy) / len2));
+        const ex = px - u * dx;
+        const ey = py - u * dy;
+        d2 = ex * ex + ey * ey;
+      }
+      if (d2 > worst) { worst = d2; wi = k; }
+    }
+    if (worst > t2) {
+      keep[wi] = 1;
+      stack.push([i, wi], [wi, j]);
+    }
+  }
+  return pts.filter((_, k) => keep[k]);
 }
 
 export function polygonsOf(feature) {
@@ -30,9 +73,9 @@ export function lineToPath(coordinates) {
 }
 
 // Anello esterno + buchi nello stesso path: va usato con fill-rule="evenodd".
-export function featureToPath(feature) {
+export function featureToPath(feature, tol = 0) {
   return polygonsOf(feature)
-    .map((poly) => poly.map(ringToPath).join(''))
+    .map((poly) => poly.map((ring) => ringToPath(ring, tol)).join(''))
     .join('');
 }
 
@@ -169,7 +212,7 @@ const edgeKey = (a, b) => {
 
 // Bordi "nazionali": tutti gli archi tranne quelli condivisi esattamente da due province dello stesso
 // proprietario. Servono a disegnare i confini interni più leggeri di quelli tra Stati e delle coste.
-export function nationalBorderPath(collection) {
+export function nationalBorderPath(collection, tol = 0) {
   const owners = new Map();
   collection.features.forEach((f) => {
     polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
@@ -185,25 +228,47 @@ export function nationalBorderPath(collection) {
     return o.length === 2 && o[0].id !== o[1].id && o[0].owner === o[1].owner;
   };
   let d = '';
+  const flush = (run) => {
+    if (run.length < 2) return;
+    simplifyLine(run, tol).forEach(([x, y], i) => { d += `${i === 0 ? 'M' : 'L'}${r3(x)} ${r3(y)}`; });
+  };
   collection.features.forEach((f) => {
     polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
-      let open = false;
+      let run = [];
       for (let i = 0; i + 1 < ring.length; i += 1) {
-        if (interior(edgeKey(ring[i], ring[i + 1]))) { open = false; continue; }
-        if (!open) {
-          const [x, y] = project(ring[i][0], ring[i][1]);
-          d += `M${r3(x)} ${r3(y)}`;
-          open = true;
-        }
-        const [x, y] = project(ring[i + 1][0], ring[i + 1][1]);
-        d += `L${r3(x)} ${r3(y)}`;
+        if (interior(edgeKey(ring[i], ring[i + 1]))) { flush(run); run = []; continue; }
+        if (run.length === 0) run.push(project(ring[i][0], ring[i][1]));
+        run.push(project(ring[i + 1][0], ring[i + 1][1]));
       }
+      flush(run);
     }));
   });
   return d;
 }
 
+// Versioni semplificate per il gesto (tolleranze in unità di mappa, ~1 grado = 0,7 unità):
+// bassa, media e alta risoluzione secondo lo zoom; il dettaglio pieno torna a gesto fermo.
+export const LOD_TOLERANCES = [0.06, 0.02, 0.005];
+export function lodLevel(k) {
+  return k < 3 ? 0 : k < 10 ? 1 : 2;
+}
+
+// Versioni semplificate di province e bordi, calcolate a parte (dopo la prima schermata).
+export function buildLod(collection) {
+  return {
+    items: new Map(collection.features.map((f) => [f.properties.id, LOD_TOLERANCES.map((t) => featureToPath(f, t))])),
+    borders: LOD_TOLERANCES.map((t) => nationalBorderPath(collection, t)),
+  };
+}
+
+const modelCache = new WeakMap();
 export function buildMapModel(collection) {
+  // App e mappa chiedono lo stesso modello: si calcola una volta sola
+  if (!modelCache.has(collection)) modelCache.set(collection, buildMapModelUncached(collection));
+  return modelCache.get(collection);
+}
+
+function buildMapModelUncached(collection) {
   const items = collection.features.map((f) => ({
     id: f.properties.id,
     props: f.properties,
