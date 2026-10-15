@@ -13,7 +13,7 @@ const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o
 const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
 
 test('conteggi per nazione e id con il codice del proprietario', () => {
-  const N = { GBR: 40, ALG: 48, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
+  const N = { GBR: 88, ALG: 48, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
   for (const [o, n] of Object.entries(N)) {
     const fs = byOwner(o);
     assert.equal(fs.length, n, o);
@@ -42,12 +42,33 @@ test('Hatay (Alessandretta) e in Siria, non in Turchia, nel 1936', () => {
   assert.equal(byOwner('TUR').some((f) => f.properties.id === 'P_TUR_HATAY'), false);
 });
 
-test('Inghilterra: 40 contee, area totale ~130 mila km2, Cumbria unita e Londra = County of London', () => {
-  const total = byOwner('GBR').reduce((s, f) => s + featureAreaKm2(f), 0);
-  assert.ok(total > 125000 && total < 135000, String(Math.round(total)));
+const WALES = ['Anglesey', 'Caernarvonshire e Merionethshire', 'Denbighshire', 'Flintshire', 'Montgomeryshire, Radnorshire e Brecknockshire', 'Cardiganshire', 'Carmarthenshire', 'Pembrokeshire', 'Glamorgan', 'Monmouthshire'];
+const NI = ['Antrim', 'Down', 'Armagh', 'Fermanagh', 'Tyrone', 'Londonderry'];
+const part = (pred) => byOwner('GBR').filter((f) => pred(f.properties));
+const total = (fs) => fs.reduce((sum, f) => sum + featureAreaKm2(f), 0);
+
+test('Regno Unito (GBR): Inghilterra 40 contee, Galles 10, Scozia 32, Irlanda del Nord 6; Irlanda indipendente esclusa', () => {
+  const wales = part((p) => WALES.includes(p.name));
+  const ni = part((p) => NI.includes(p.name));
+  const scot = part((p) => p.kind === 'council area');
+  const eng = part((p) => !WALES.includes(p.name) && !NI.includes(p.name) && p.kind !== 'council area');
+  assert.deepEqual([eng.length, wales.length, scot.length, ni.length], [40, 10, 32, 6]);
+  const rng = (fs, lo, hi, nome) => assert.ok(total(fs) > lo && total(fs) < hi, `${nome}: ${Math.round(total(fs))} km2`);
+  rng(eng, 125000, 135000, 'Inghilterra');
+  rng(wales, 19000, 22500, 'Galles');
+  rng(scot, 74000, 82000, 'Scozia');
+  rng(ni, 12500, 15000, 'Irlanda del Nord');
   const london = featureAreaKm2(byOwner('GBR').find((f) => f.properties.id === 'P_GBR_LONDRA'));
   assert.ok(london > 250 && london < 360, String(Math.round(london)));
-  assert.ok(byOwner('GBR').every((f) => f.properties.knownIssues.includes('raggruppata_da_unita_attuali')));
+  assert.ok(eng.concat(wales, ni).every((f) => f.properties.knownIssues.includes('raggruppata_da_unita_attuali')));
+  assert.ok(scot.every((f) => f.properties.knownIssues.includes('unita_attuali_non_contee_storiche')));
+  // punti noti: Cardiff in Glamorgan, Edimburgo, Belfast in Antrim, Londonderry; Dublino NON e nel Regno Unito
+  const nameAt = (lon, lat) => at(lon, lat).map((id) => provinces.features.find((f) => f.properties.id === id).properties.name);
+  assert.deepEqual(nameAt(-3.18, 51.48), ['Glamorgan']);
+  assert.deepEqual(nameAt(-3.19, 55.95), ['Edimburgo']);
+  assert.deepEqual(nameAt(-5.93, 54.6), ['Antrim']);
+  assert.deepEqual(nameAt(-7.32, 54.99), ['Londonderry']);
+  assert.deepEqual(nameAt(-6.26, 53.35), []);
 });
 
 test('confini internazionali agganciati: nessuna sovrapposizione tra Stati (campionamento a 0,02 gradi)', () => {

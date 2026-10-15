@@ -72,7 +72,7 @@ test('fileName ricava il nome dal percorso', () => {
 
 // --- dati reali ---
 
-const EXPECTED = { DEU: 32, POL: 16, AUT: 8, BEL: 9, LUX: 3, CZE: 4, NLD: 11, ITA: 20, YUG: 33, DANZIG: 1, CHE: 25, LIE: 1, FRA: 90, HUN: 20, ROM: 45, BGR: 26, GRC: 14, ALB: 12, ESP: 50, MAR_ES: 1, PRT: 22, MAR: 12, GBR: 40, ALG: 48, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
+const EXPECTED = { DEU: 32, POL: 16, AUT: 8, BEL: 9, LUX: 3, CZE: 4, NLD: 11, ITA: 20, YUG: 33, DANZIG: 1, CHE: 25, LIE: 1, FRA: 90, HUN: 20, ROM: 45, BGR: 26, GRC: 14, ALB: 12, ESP: 50, MAR_ES: 1, PRT: 22, MAR: 12, GBR: 88, ALG: 48, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
 
 test('dati reali: un file per nazione più _meta, nessun file monolitico', async () => {
   const names = (await listProvinceFiles()).map(fileName).sort();
@@ -80,13 +80,13 @@ test('dati reali: un file per nazione più _meta, nessun file monolitico', async
   assert.equal(existsSync(new URL('../data/provinces_1936.json', import.meta.url)), false, 'il file unico non deve tornare: duplicherebbe i dati');
 });
 
-test('dati reali: unione di 727 province, conteggi per nazione, id unici, owner = file', async () => {
+test('dati reali: unione di 775 province, conteggi per nazione, id unici, owner = file', async () => {
   const merged = await loadProvinces();
-  assert.equal(merged.features.length, 727);
+  assert.equal(merged.features.length, 775);
   const counts = {};
   for (const f of merged.features) counts[f.properties.owner] = (counts[f.properties.owner] ?? 0) + 1;
   assert.deepEqual(counts, EXPECTED);
-  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 727);
+  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 775);
   assert.equal(merged.metadata.asOf, '1936-01-01');
   // le tre province che nel vecchio file unico stavano fuori dal blocco della propria nazione
   const owner = (id) => merged.features.find((f) => f.properties.id === id)?.properties.owner;
