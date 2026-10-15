@@ -60,7 +60,7 @@
    "FRA (90 dipartimenti, con Alsazia-Lorena e Corsica), CHE (25 cantoni; il Giura è parte di Berna) e LIE (1 stato) da Natural Earth, ipotesi",
    "HUN (20: 19 contee attuali e Budapest), ROM (45: 41 județe attuali, Bucarest, Basarabia, Bucovina de Nord e Cadrilater ricostruite), BGR (26 oblast attuali), GRC (14 periferie attuali, Cicladi senza Dodecaneso), ALB (12 qark attuali) e ITA Dodecaneso (1), da Natural Earth, ipotesi",
    "ESP (50 province, Canarie incluse), PRT (22 distretti: 18 continentali più Ponta Delgada, Angra do Heroísmo, Horta e Funchal), MAR (12 regioni attuali, senza le tre regioni sahariane) e MAR_ES (zona nord del protettorato spagnolo, da immagine): da Natural Earth 10m 5.1.1, ipotesi",
-   "GBR (Inghilterra: 40 contee 1936 ricomposte da Natural Earth; Galles, Scozia e Irlanda del Nord mancanti), ALG (48), TUN (23), LBA (22), EGY (27), PAL (8), JOR (12), SYR (15, con Hatay), LBN (6), TUR (80, senza Hatay), CYP (6), MLT (1), GIB (1) da Natural Earth 10m 5.1.1, ipotesi"
+   "GBR (Inghilterra: 40 contee 1936 ricomposte da Natural Earth; Galles, Scozia e Irlanda del Nord mancanti), ALG (48), TUN (23), LBA (5: Tripoli, Misurata, Bengasi, Derna e Territorio Militare del Sud, tracciate da immagine storica), EGY (27), PAL (8), JOR (12), SYR (15, con Hatay), LBN (6), TUR (80, senza Hatay), CYP (6), MLT (1), GIB (1) da Natural Earth 10m 5.1.1, ipotesi"
   ],
   "limitations": [
    "Nessun confine è verificato: tutte le feature sono borderQuality=approximate (OHM segnala \"needs source for boundary lines\")",

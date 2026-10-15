@@ -13,7 +13,7 @@ const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o
 const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
 
 test('conteggi per nazione e id con il codice del proprietario', () => {
-  const N = { GBR: 40, ALG: 48, TUN: 23, LBA: 22, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
+  const N = { GBR: 40, ALG: 48, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
   for (const [o, n] of Object.entries(N)) {
     const fs = byOwner(o);
     assert.equal(fs.length, n, o);
@@ -61,4 +61,17 @@ test('confini internazionali agganciati: nessuna sovrapposizione tra Stati (camp
   let tr = 0;
   for (let lat = 39.5; lat < 42.5; lat += 0.02) for (let lon = 24; lon < 30; lon += 0.02) if (at(lon, lat).length > 1) tr += 1;
   assert.ok(tr <= 10, `Turchia-Grecia-Bulgaria: ${tr}`);
+});
+
+test('Libia italiana 1934-43: 5 unita (4 province + Territorio Militare del Sud), citta nelle unita giuste', () => {
+  const names = byOwner('LBA').map((f) => f.properties.name).sort();
+  assert.deepEqual(names, ['Bengasi', 'Derna', 'Misurata', 'Territorio Militare del Sud', 'Tripoli']);
+  const where = { Tripoli: [13.19, 32.89], Misurata: [15.09, 32.38], Bengasi: [20.07, 32.12], Derna: [22.64, 32.7] /* Derna e sulla costa: punto subito all'interno */, 'Territorio Militare del Sud': [14.43, 27.04] };
+  for (const [name, [lon, lat]] of Object.entries(where)) {
+    const hit = at(lon, lat).map((id) => provinces.features.find((f) => f.properties.id === id).properties.name);
+    assert.deepEqual(hit, [name], `(${lon}, ${lat}) dovrebbe stare solo in ${name}`);
+  }
+  // Ghadames, Cufra e Giarabub (Jaghbub) stanno nel Territorio del Sud / Cirenaica meridionale: Sud copre il deserto
+  const sud = byOwner('LBA').find((f) => f.properties.name === 'Territorio Militare del Sud');
+  assert.ok(featureAreaKm2(sud) > 900000, 'il Sud e la parte piu grande');
 });
