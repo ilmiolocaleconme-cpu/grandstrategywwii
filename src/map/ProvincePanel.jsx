@@ -13,6 +13,7 @@ const ISSUE_LABEL = {
   derived_from_neighbor_holes: 'ricavata dai buchi della provincia vicina',
   derived_from_country_outline: 'derivata dal contorno nazionale',
   may_include_sea: 'il poligono può includere tratti di mare',
+  gau_nsdap: 'Gau NSDAP (distretto di partito), non una divisione amministrativa',
   riferimento_mappa_1937: 'riferimento: mappa del 31.12.1937, non del 1° gennaio 1936',
   capoluogo_fuori_dal_contorno_costiero: 'il capoluogo cade fuori dal contorno costiero',
 };
@@ -40,36 +41,6 @@ export default function ProvincePanel({ item, nationNames, onClose }) {
         <dt>Qualità dei confini</dt>
         <dd><i className="dot" style={{ background: QUALITY_COLORS[p.borderQuality] }} />{QUALITY_LABEL[p.borderQuality] ?? p.borderQuality}</dd>
         <dt>Validità</dt><dd>{p.validFrom} → {p.validTo === '9999-12-31' ? 'oggi' : p.validTo}{p.dateBasis === 'assumed' ? ' (assunta)' : ''}</dd>
-        <dt>Fonte</dt><dd>{p.source}</dd>
-        <dt>Licenza</dt><dd>{p.license}</dd>
-      </dl>
-      {p.knownIssues?.length > 0 && (
-        <>
-          <h3>Limiti noti</h3>
-          <ul>{p.knownIssues.map((k) => <li key={k}>{ISSUE_LABEL[k] ?? k}</li>)}</ul>
-        </>
-      )}
-      {p.notes && <p className="muted small">{p.notes}</p>}
-    </aside>
-  );
-}
-
-export function GauPanel({ item, provinceNames, onClose }) {
-  const p = item.props;
-  const partial = new Set(p.partialProvinceIds ?? []);
-  return (
-    <aside className="panel" aria-live="polite">
-      <div className="panel-head">
-        <h2>Gau {p.name}</h2>
-        <button type="button" className="close" aria-label="Chiudi" onClick={onClose}>×</button>
-      </div>
-      <p className="muted">Distretto di partito NSDAP, non una divisione amministrativa</p>
-      <dl>
-        <dt>Area approssimata</dt><dd>{Math.round(item.areaKm2).toLocaleString('it-IT')} km²</dd>
-        <dt>Province coperte</dt>
-        <dd>{p.provinceIds.map((id) => `${provinceNames[id] ?? id}${partial.has(id) ? ' (in parte)' : ''}`).join(', ')}</dd>
-        <dt>Qualità dei confini</dt>
-        <dd><i className="dot" style={{ background: QUALITY_COLORS[p.borderQuality] }} />{QUALITY_LABEL[p.borderQuality] ?? p.borderQuality}</dd>
         <dt>Fonte</dt><dd>{p.source}</dd>
         <dt>Licenza</dt><dd>{p.license}</dd>
       </dl>

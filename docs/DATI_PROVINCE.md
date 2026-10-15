@@ -7,10 +7,10 @@ FeatureCollection GeoJSON (coordinate `[lon, lat]`). Stato: **dati reali ma appr
 - Ogni feature riporta `ohmRelation` e `wikidata` per risalire alla relazione originale. I file grezzi OHM **non** sono nel repository.
 - Natural Earth admin-1 5.1.1 (dominio pubblico) è stato scartato come fonte generale (confini moderni, granularità disomogenea) ed è usato **solo per i Paesi Bassi, la Sicilia e la Calabria**, perché OHM ha per il 1936 soltanto Frisia, Limburgo e Utrecht su 11 province olandesi, e non ha Sicilia (solo fino al 1923) né Calabria (solo dal 1947).
 
-## Copertura (134 province)
+## Copertura (136 province)
 | owner | contenuto |
 |---|---|
-| DEU | Länder e province prussiane (29) |
+| DEU | 32 Gaue NSDAP (ipotesi, vedi `docs/GAUE.md`); le 30 province/Länder originali sono in `data/archive/provinces_deu_1936_lander.json`, non caricate |
 | POL | 16 voivodati |
 | AUT | 8 Länder |
 | BEL | 9 province |
@@ -48,3 +48,5 @@ Per rendere la mappa leggibile (soprattutto su telefono) i confini **interni** t
 - **Limiti.** I confini interni sono volutamente poco precisi e non vanno usati per misure. 39 tratti restano al dettaglio originale perché semplificarli avrebbe creato incroci tra confini. La Sassonia prussiana è ancora irregolare perché composta da tante piccole exclavi. Il controllo degli incroci confronta solo i tratti nuovi: nei dati originali ci sono già circa 2.900 incroci tra segmenti di province di Stati diversi (disallineamenti noti, da rivedere).
 - **Come si disegna.** `nationalBorderPath` (`src/map/geo.js`) traccia più spessi i confini nazionali e le coste; i confini interni sono più sottili e semitrasparenti.
 - **Riproducibilità.** Lo script di semplificazione non è nel repository (come gli altri strumenti di preparazione dati); i dati risultanti sono in `data/provinces_1936.json`.
+
+- **Semplificazione dei confini interni.** I confini interni sono stati semplificati in modo topologico (tolleranza ≤0,05°, spigoli condivisi invariati, giunzioni fisse); i confini esterni sono rimasti identici. Lo script non è nel repository.

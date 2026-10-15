@@ -4,14 +4,13 @@ import resources from '../data/resources.json';
 import rivers from '../data/rivers.json';
 import political from '../data/political_1936.json';
 import provinces from '../data/provinces_1936.json';
-import gaue from '../data/gaue_1936.json';
 import riversGeo from '../data/rivers_geo.json';
 import lakes from '../data/lakes.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
-import ProvincePanel, { GauPanel, RiverPanel } from './map/ProvincePanel.jsx';
+import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
 import { buildMapModel } from './map/geo.js';
 
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
@@ -33,9 +32,6 @@ export default function App() {
 
   const mapItems = useMemo(() => buildMapModel(provinces).items, []);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
-  const gauItems = useMemo(() => buildMapModel(gaue).items, []);
-  const selectedGau = gauItems.find((i) => i.id === provinceId) ?? null;
-  const provinceNames = useMemo(() => Object.fromEntries(provinces.features.map((f) => [f.properties.id, f.properties.name])), []);
 
   const validation = useMemo(
     () => validateCatalog({ nations, resources, rivers, crossings }),
@@ -64,11 +60,9 @@ export default function App() {
       <div className="shell">
         {tabs}
         <div className="map-layout">
-          <MapView provinces={provinces} gaue={gaue} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
+          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
           {selectedRiver ? (
             <RiverPanel river={selectedRiver} rivers={rivers} onClose={() => setRiverId(null)} />
-          ) : selectedGau ? (
-            <GauPanel item={selectedGau} provinceNames={provinceNames} onClose={() => setProvinceId(null)} />
           ) : (
             <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} onClose={() => setProvinceId(null)} />
           )}
@@ -110,7 +104,7 @@ export default function App() {
         <ul className="status">
           <li>
             Dati: {validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
-            {resources.length} risorse, {rivers.length} fiumi, {lakes.features.length} laghi, {crossings.length} attraversamenti, {provinces.features.length} province, {gaue.features.length} Gaue)
+            {resources.length} risorse, {rivers.length} fiumi, {lakes.features.length} laghi, {crossings.length} attraversamenti, {provinces.features.length} province)
           </li>
           <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
           {pwa.error && <li className="warn">Errore del service worker</li>}

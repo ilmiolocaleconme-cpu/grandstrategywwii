@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LAYERS, buildMapModel, buildWaterModel, clampView, gauFill, provinceFill, zoomAt } from './geo.js';
+import { LAYERS, buildMapModel, buildWaterModel, clampView, provinceFill, zoomAt } from './geo.js';
 
 const LABEL_MIN_K = 2.2; // sotto questo zoom le etichette delle province non si mostrano
 const IDENTITY = { k: 1, x: 0, y: 0 };
 
 // Mappa strategica SVG: zoom (rotella, pizzico, pulsanti), spostamento, selezione, livelli.
 // Legge le stesse province di data/provinces_1936.json usate dalle regole e dai test.
-export default function MapView({ provinces, gaue, rivers, riversGeo, lakes, nationNames, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
+export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
   const model = useMemo(() => buildMapModel(provinces), [provinces]);
-  const gauModel = useMemo(() => buildMapModel(gaue), [gaue]);
-  const gauLayer = layer === 'gaue';
   const water = useMemo(() => buildWaterModel(rivers, riversGeo, lakes), [rivers, riversGeo, lakes]);
   const riverNames = useMemo(() => new Map(rivers.map((r) => [r.id, r.name])), [rivers]);
   const { bounds } = model;
@@ -99,7 +97,7 @@ export default function MapView({ provinces, gaue, rivers, riversGeo, lakes, nat
     applyView(zoomAt(view, factor, cx, cy));
   };
 
-  const selected = model.items.find((i) => i.id === selectedId) ?? gauModel.items.find((i) => i.id === selectedId);
+  const selected = model.items.find((i) => i.id === selectedId);
   const px = 1 / (pxPerUnit * view.k); // 1 pixel dello schermo in unità di mappa
 
   return (
@@ -130,18 +128,6 @@ export default function MapView({ provinces, gaue, rivers, riversGeo, lakes, nat
               onClick={() => !moved.current && onSelect(it.id)}
             />
           ))}
-          {gauLayer && gauModel.items.map((it) => (
-            <path
-              key={it.id}
-              d={it.d}
-              fillRule="evenodd"
-              fill={gauFill(it.id)}
-              className="gau"
-              strokeWidth={1.3 * px}
-              data-id={it.id}
-              onClick={() => !moved.current && onSelect(it.id)}
-            />
-          ))}
           <path d={model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
           {showRivers && water.lakes.map((l) => (
             <path key={l.id} d={l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
@@ -155,14 +141,8 @@ export default function MapView({ provinces, gaue, rivers, riversGeo, lakes, nat
             </g>
           ))}
           {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
-          {view.k >= LABEL_MIN_K && gauLayer &&
-            gauModel.items.map((it) => (
-              <text key={it.id} x={it.label[0]} y={it.label[1]} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" pointerEvents="none">
-                {it.props.name}
-              </text>
-            ))}
           {view.k >= LABEL_MIN_K &&
-            model.items.filter((it) => !gauLayer || !['DEU', 'DANZIG'].includes(it.props.owner)).map((it) => (
+            model.items.map((it) => (
               <text key={it.id} x={it.label[0]} y={it.label[1]} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" pointerEvents="none">
                 {it.props.nameLocal ?? it.props.name}
               </text>
@@ -193,13 +173,6 @@ export default function MapView({ provinces, gaue, rivers, riversGeo, lakes, nat
 
 function Legend({ layer, nationNames, items }) {
   const owners = useMemo(() => [...new Set(items.map((i) => i.props.owner))].sort(), [items]);
-  if (layer === 'gaue') {
-    return (
-      <ul className="legend legend-note" aria-label="Legenda Gaue">
-        <li>Gaue NSDAP, tutti ipotesi (riferimento: mappa del 31.12.1937). Tocca un Gau per i dettagli.</li>
-      </ul>
-    );
-  }
   if (layer === 'quality') {
     return (
       <ul className="legend" aria-label="Legenda qualità dei confini">

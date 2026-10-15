@@ -92,9 +92,6 @@ h2 {
 .map { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; user-select: none; }
 .map-sea { fill: #17324a; }
 .prov { stroke: rgba(29, 36, 24, 0.4); stroke-linejoin: round; cursor: pointer; }
-.gau { stroke: rgba(29, 36, 24, 0.9); stroke-linejoin: round; cursor: pointer; }
-.gau:hover { filter: brightness(1.15); }
-.legend-note { display: block; max-width: min(360px, calc(100% - 16px)); }
 .border-national { fill: none; stroke: #1d2418; stroke-linejoin: round; stroke-linecap: round; }
 .prov:hover { filter: brightness(1.15); }
 .prov-outline { fill: none; stroke: #fff; stroke-linejoin: round; }
