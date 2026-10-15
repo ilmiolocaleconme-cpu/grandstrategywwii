@@ -214,14 +214,6 @@ export function buildMapModel(collection) {
   return { items, bounds: boundsOf(collection.features), borderD: nationalBorderPath(collection) };
 }
 
-// Trasformazione CSS (traslazione + scala, origine in alto a sinistra) che porta l'immagine già
-// rasterizzata con la vista `committed` a quella `view`. layout: s = pixel per unità di mappa,
-// ex/ey = posizione in pixel dell'origine della mappa. Serve a muovere la mappa senza ridisegnarla.
-export function cssDelta(committed, view, { s, ex, ey }) {
-  const a = view.k / committed.k;
-  return { a, tx: (1 - a) * ex + s * (view.x - a * committed.x), ty: (1 - a) * ey + s * (view.y - a * committed.y) };
-}
-
 // Zoom attorno a un punto fisso (coordinate della vista), limiti min/max inclusi.
 export function zoomAt(view, factor, cx, cy, minK = 1, maxK = 40) {
   const k = Math.min(maxK, Math.max(minK, view.k * factor));

@@ -2,7 +2,6 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  cssDelta,
   project, ringToPath, featureToPath, featureAreaKm2, labelPoint, boundsOf,
   buildMapModel, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
 } from '../src/map/geo.js';
@@ -135,19 +134,4 @@ test('bordi nazionali sulla mappa reale: meno vertici del totale delle province 
   const model = buildMapModel(provinces);
   assert.ok(model.borderD.length > 1000);
   assert.ok((model.borderD.match(/[LM]/g) || []).length < (model.items.map((i) => i.d).join('').match(/[LM]/g) || []).length);
-});
-
-test('cssDelta: la trasformazione CSS porta ogni punto dalla vista rasterizzata a quella richiesta', () => {
-  const layout = { s: 7.5, ex: 13, ey: -4 };
-  const c = { k: 2, x: -30, y: 12 };
-  const v = { k: 3.4, x: -55, y: 40 };
-  const { a, tx, ty } = cssDelta(c, v, layout);
-  for (const [ux, uy] of [[0, 0], [10, -20], [-33, 8]]) {
-    const scr = (view) => [layout.s * (view.k * ux + view.x) + layout.ex, layout.s * (view.k * uy + view.y) + layout.ey];
-    const [cx, cy] = scr(c);
-    const [vx, vy] = scr(v);
-    assert.ok(Math.abs(a * cx + tx - vx) < 1e-9);
-    assert.ok(Math.abs(a * cy + ty - vy) < 1e-9);
-  }
-  assert.deepEqual(cssDelta(c, c, layout), { a: 1, tx: 0, ty: 0 });
 });
