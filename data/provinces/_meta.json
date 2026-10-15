@@ -20,6 +20,8 @@
   "GRC",
   "ALB",
   "ESP",
+  "PRT",
+  "MAR",
   "MAR_ES"
  ],
  "metadata": {
@@ -44,7 +46,7 @@
    "DANZIG: Citta Libera di Danzica (OHM 2691478) come regione",
    "FRA (90 dipartimenti, con Alsazia-Lorena e Corsica), CHE (25 cantoni; il Giura è parte di Berna) e LIE (1 stato) da Natural Earth, ipotesi",
    "HUN (20: 19 contee attuali e Budapest), ROM (45: 41 județe attuali, Bucarest, Basarabia, Bucovina de Nord e Cadrilater ricostruite), BGR (26 oblast attuali), GRC (14 periferie attuali, Cicladi senza Dodecaneso), ALB (12 qark attuali) e ITA Dodecaneso (1), da Natural Earth, ipotesi",
-   "ESP (47 province continentali + Baleares = 48 su 50; Las Palmas e Santa Cruz de Tenerife mancanti) e MAR_ES (zona nord del protettorato spagnolo, 1 regione), ipotesi tracciate da un'immagine fornita dall'utente; Portogallo e Marocco francese mancanti"
+   "ESP (47 province continentali + Baleares = 48 su 50: mancano Las Palmas e Santa Cruz de Tenerife), PRT (18 distretti continentali; mancano Azzorre e Madeira), MAR (12 regioni attuali, senza le tre regioni sahariane) e MAR_ES (zona nord del protettorato spagnolo, da immagine): da Natural Earth 10m 5.1.1, ipotesi"
   ],
   "limitations": [
    "Nessun confine è verificato: tutte le feature sono borderQuality=approximate (OHM segnala \"needs source for boundary lines\")",
@@ -63,7 +65,9 @@
    "DEU: le unità sono Gaue (distretti di partito) e non Länder o province prussiane: ipotesi tracciate dall'immagine del 31.12.1937, non del 1° gennaio 1936; le province originali sono in data/archive/provinces_deu_1936_lander.json",
    "FRA, CHE e LIE vengono da Natural Earth 5.1.1 (dominio pubblico): confini moderni, solo terraferma, laghi esclusi, borderQuality=hypothesis; Senna (4 dipartimenti attuali), Senna e Oise (3) e Corsica (2) sono uniti come nel 1936; Monaco e Andorra non sono inclusi; i confini verso BEL, LUX, DEU, AUT e ITA sono ricalcolati sui loro tracciati (raster 0,0025 gradi, sovrapposizioni e fessure entro ~7 km² per tratto)",
    "HUN, ROM, BGR, GRC e ALB vengono da Natural Earth 5.1.1 (dominio pubblico): suddivisioni amministrative moderne, non quelle del 1936 (la Romania aveva 71 județe, l'Ungheria 25 contee), solo terraferma, borderQuality=hypothesis; Basarabia, Bucovina de Nord, Cadrilater e Dodecaneso sono ricostruiti da unità attuali (Dodecaneso: isole a est di 26,15° E); i confini verso AUT, CZE, POL, YUG e ITA sono ricalcolati sui loro tracciati (raster 0,0025 gradi)",
-   "ESP e MAR_ES: forme ricavate da un'immagine (1 px ~ 5 km) georeferenziata su 35 citta con errore medio ~9 km; qualita hypothesis, licenza dell'immagine non verificata (solo guida di tracciamento). Il confine con la Francia (Navarra, Huesca, Lerida, Gerona, Guipuzcoa) e quello di FRA (stessi vertici, nessuna sovrapposizione); Andorra non e rappresentata e ricade nelle province confinanti. Il confine col Portogallo e la costa vengono dall'immagine (errore fino a ~10 km); 10 capoluoghi costieri cadono entro 7 km dal contorno ma fuori. Canarie fuori dal dataset (richiedono un riquadro o un limite della mappa piu ampio: il test sui bounds ammette solo h<25 gradi). Tangeri, Ifni, Cabo Juby, Ceuta, Melilla e Formentera non rappresentate"
+   "ESP e PRT vengono da Natural Earth 5.1.1 (dominio pubblico): confini provinciali e distrettuali attuali, solo terraferma, qualità hypothesis; Santander e Logroño sono Cantabria e La Rioja attuali, Ceuta è unita a Cadice e Melilla a Malaga; il confine con la Francia usa i vertici di FRA (Andorra esclusa) e quello tra Spagna e Portogallo gli stessi vertici su entrambi i lati",
+   "Fuori dal dataset perché oltre i limiti di mappa testati: Canarie, Azzorre, Madeira. Mancano anche Ifni, Sahara spagnolo e Tangeri",
+   "MAR: regioni marocchine attuali (non le suddivisioni del protettorato), rasterizzate a 0,002 gradi (~200 m) e ritagliate sulla zona spagnola (MAR_ES) tracciata da un'immagine fornita dall'utente (licenza non verificata; errore ~9 km); Guelmim-Es Semara, Laâyoune-Boujdour e Oued el Dahab escluse (Sahara spagnolo, Ifni e Tarfaya)"
   ]
  }
 }

@@ -93,7 +93,8 @@ test('modello della mappa: stesse province dei dati e delle regole, tutte disegn
   assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => f.properties.id), ['P_ITA_LAZIO']);
   assert.ok(ids.has('P_ITA_LAZIO'));
   const { bounds } = model;
-  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 25, JSON.stringify(bounds));
+  // h < 28: dalla Germania del nord al Souss marocchino (29,1° N) l'altezza e ~27 unita; oltre sarebbe un'anomalia (Canarie, oltremare)
+  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 28, JSON.stringify(bounds));
 });
 
 test('ogni nazione disegnata ha un nome nel catalogo politico (legenda e pannello)', () => {
