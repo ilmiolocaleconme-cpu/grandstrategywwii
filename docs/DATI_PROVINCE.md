@@ -7,7 +7,7 @@ FeatureCollection GeoJSON (coordinate `[lon, lat]`). Stato: **dati reali ma appr
 - Ogni feature riporta `ohmRelation` e `wikidata` per risalire alla relazione originale. I file grezzi OHM **non** sono nel repository.
 - Natural Earth admin-1 5.1.1 (dominio pubblico) è stato scartato come fonte generale (confini moderni, granularità disomogenea) ed è usato **solo per i Paesi Bassi, la Sicilia e la Calabria**, perché OHM ha per il 1936 soltanto Frisia, Limburgo e Utrecht su 11 province olandesi, e non ha Sicilia (solo fino al 1923) né Calabria (solo dal 1947).
 
-## Copertura (252 province)
+## Copertura (370 province)
 | owner | contenuto |
 |---|---|
 | DEU | 32 Gaue NSDAP (ipotesi, vedi `docs/GAUE.md`); le 30 province/Länder originali sono in `data/archive/provinces_deu_1936_lander.json`, non caricate |
@@ -19,6 +19,12 @@ FeatureCollection GeoJSON (coordinate `[lon, lat]`). Stato: **dati reali ma appr
 | FRA | 90 dipartimenti da **Natural Earth** (`kind: departement`), come nel 1936: Senna (Parigi e 3 attuali), Senna e Oise (3 attuali) e Corsica (2 attuali) uniti; Alsazia-Lorena e Territorio di Belfort inclusi. `hypothesis` |
 | CHE | 25 cantoni da **Natural Earth** (`kind: kanton`); il Giura (cantone dal 1979) è unito a Berna. `hypothesis` |
 | LIE | Liechtenstein, 1 stato (11 comuni uniti), da Natural Earth. `hypothesis` |
+| HUN | 20 (19 contee attuali e Budapest) da **Natural Earth**; le città-contea sono inglobate nella contea; non sono le 25 contee del 1936. `hypothesis` |
+| ROM | 45: 41 județe attuali, București, più **ricostruite**: Basarabia (distretti moldavi a destra del Dniester + Budjak, cioè Odessa a ovest di 30,2° E e a sud di 46,55° N), Bucovina de Nord (regione di Černivci, con Herța e Hotin) e Cadrilater (Dobrič e Silistra, rumeno dal 1913 al 1940). La Romania aveva 71 județe: non ricostruiti. `hypothesis` |
+| BGR | 26 oblast attuali (Dobrič e Silistra sono nel Cadrilater rumeno). `hypothesis` |
+| GRC | 14 periferie attuali (con Athos; Cicladi senza il Dodecaneso). `hypothesis` |
+| ALB | 12 qark attuali. `hypothesis` |
+| ITA (Dodecaneso) | 1 provincia: isole a est di 26,15° E della periferia dell'Egeo meridionale (Rodi, Coo, Lero ecc.), italiane dal 1912 al 1947; taglio su longitudine, approssimato. `hypothesis` |
 | NLD | 11 province da **Natural Earth** (non OHM), `borderQuality: "hypothesis"` |
 | CZE | Boemia, Moravia-Slesia, Rutenia subcarpatica (OHM) + **Slovacchia derivata** (contorno della Cecoslovacchia OHM meno le tre terre; `hypothesis`, `dateBasis: derived`, validità fino al 3/7/1936) |
 
@@ -59,3 +65,8 @@ Per rendere la mappa leggibile (soprattutto su telefono) i confini **interni** t
 - **Allineamento:** raster a etichette (0,0025°) con priorità ai vicini già presenti (BEL, LUX, DEU, AUT, ITA); le fessure tra Stati diversi fino a ~3 km sono colmate (~1.560 km², in gran parte acqua); i bordi tra etichette sono tracciati sul reticolo come **archi condivisi**, così i confini interni (dipartimenti, cantoni) combaciano vertice per vertice e quelli verso i vicini sono agganciati ai loro tracciati. Misura su raster 0,001°: sovrapposizioni 0,4–7 km² e fessure 1–7 km² per ciascun tratto di confine (centinaia di km), mai buchi evidenti.
 - **Semplificazione:** costa 0,003°, confini nazionali 0,003°, verso i vicini 0,0008°, interni fino a 0,015° (≈1,5 km).
 - **Limiti:** le città costiere possono cadere appena fuori dal poligono (Ajaccio, Bastia, Calvi in prova); una striscia di sovrapposizione di circa 1 km² tra Moselle e Saarpfalz è ammessa dal test (`KNOWN_OVERLAPS`); lo script di costruzione non è nel repository.
+
+## Europa orientale (stesso metodo)
+- Stessa procedura di Francia e Svizzera (raster a etichette 0,0025°, archi condivisi, aggancio ai vicini): priorità ai vicini già presenti (AUT, CZE, POL, YUG, ITA), fessure tra Stati diversi colmate fino a ~3 km (~740 km²), buchi interni fino a 2.500 km² colmati con la contea più vicina (città-contea ungheresi; ~4.300 km² in tutto).
+- Misura su raster 0,001° lungo i confini con i vicini: sovrapposizioni 2–8 km², fessure 2–4 km² per tratto (test d'allineamento in `tests/provinces.test.js`, soglie circa il doppio del misurato).
+- **Limiti:** suddivisioni moderne (non 1936); il confine Ungheria-Slovacchia ha fessure fino a ~16–21 km² perché la Slovacchia è derivata dal contorno OHM; l'URSS non è sulla mappa (Dniester e Prut esterni senza vicino); Turchia non presente; città costiere (Costanza, Salonicco?) possono cadere appena fuori dal poligono; il confine tra Baranja e Vojvodina dipende dalle regioni iugoslave ipotetiche già presenti; lo script non è nel repository.

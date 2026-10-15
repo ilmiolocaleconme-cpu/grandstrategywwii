@@ -15,6 +15,8 @@ const ISSUE_LABEL = {
   may_include_sea: 'il poligono può includere tratti di mare',
   gau_nsdap: 'Gau NSDAP (distretto di partito), non una divisione amministrativa',
   riferimento_mappa_1937: 'riferimento: mappa del 31.12.1937, non del 1° gennaio 1936',
+  suddivisione_moderna_non_1936: 'suddivisione amministrativa moderna, non quella del 1936',
+  unita_storica_ricostruita: 'unità storica ricostruita da suddivisioni moderne',
   allineato_ai_vicini_su_raster: 'confini verso i vicini ricalcolati sui loro tracciati (raster 0,0025°)',
   capoluogo_fuori_dal_contorno_costiero: 'il capoluogo cade fuori dal contorno costiero',
 };

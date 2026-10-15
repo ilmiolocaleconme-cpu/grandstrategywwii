@@ -158,6 +158,7 @@ const OWNER_HUE = {
   DEU: [32, 14], POL: [4, 42], AUT: [44, 55], BEL: [112, 30], LUX: [176, 32],
   CZE: [220, 36], NLD: [26, 62], ITA: [92, 34], YUG: [280, 28], DANZIG: [196, 45],
   FRA: [250, 38], CHE: [330, 48], LIE: [160, 50],
+  HUN: [140, 38], ROM: [58, 45], BGR: [350, 40], GRC: [165, 40], ALB: [28, 62],
 };
 
 function hash(str) {
