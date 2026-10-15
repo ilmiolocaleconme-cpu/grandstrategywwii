@@ -2,16 +2,29 @@ import { useEffect, useMemo, useState } from 'react';
 import nations from '../data/nations.json';
 import resources from '../data/resources.json';
 import rivers from '../data/rivers.json';
+import political from '../data/political_1936.json';
+import provinces from '../data/provinces_1936.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { initPwa } from './pwa.js';
+import MapView from './map/MapView.jsx';
+import ProvincePanel from './map/ProvincePanel.jsx';
+import { buildMapModel } from './map/geo.js';
 
-// Schermata iniziale provvisoria: mostra i dati reali caricati e il loro stato di
-// validazione. La mappa e le meccaniche di gioco non sono ancora implementate.
+const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
+
+// Due schermate: la mappa strategica (province del 1936) e lo stato dei dati.
+// Le meccaniche di gioco non sono ancora implementate.
 export default function App() {
+  const [tab, setTab] = useState('map');
+  const [layer, setLayer] = useState('political');
+  const [provinceId, setProvinceId] = useState(null);
   const [selected, setSelected] = useState(null);
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
+
+  const mapItems = useMemo(() => buildMapModel(provinces).items, []);
+  const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
 
   const validation = useMemo(
     () => validateCatalog({ nations, resources, rivers, crossings }),
@@ -27,11 +40,33 @@ export default function App() {
     setApplyUpdate(() => update);
   }, []);
 
+  const tabs = (
+    <nav className="tabs" aria-label="Schermate">
+      <strong className="brand">Grand Strategy WWII</strong>
+      <button type="button" className={tab === 'map' ? 'on' : ''} aria-pressed={tab === 'map'} onClick={() => setTab('map')}>Mappa</button>
+      <button type="button" className={tab === 'status' ? 'on' : ''} aria-pressed={tab === 'status'} onClick={() => setTab('status')}>Stato</button>
+    </nav>
+  );
+
+  if (tab === 'map') {
+    return (
+      <div className="shell">
+        {tabs}
+        <div className="map-layout">
+          <MapView provinces={provinces} nationNames={NATION_NAMES} selectedId={provinceId} onSelect={setProvinceId} layer={layer} onLayerChange={setLayer} />
+          <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} onClose={() => setProvinceId(null)} />
+        </div>
+      </div>
+    );
+  }
+
   return (
+    <div className="shell">
+    {tabs}
     <main className="app">
       <header>
         <h1>Grand Strategy WWII</h1>
-        <p className="muted">Prototipo dell&apos;infrastruttura: nessuna meccanica di gioco ancora attiva.</p>
+        <p className="muted">Prototipo: mappa delle province del 1936 attiva; nessuna meccanica di gioco ancora attiva.</p>
       </header>
 
       <section aria-labelledby="nations-title">
@@ -58,7 +93,7 @@ export default function App() {
         <ul className="status">
           <li>
             Dati: {validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
-            {resources.length} risorse, {rivers.length} fiumi, {crossings.length} attraversamenti)
+            {resources.length} risorse, {rivers.length} fiumi, {crossings.length} attraversamenti, {provinces.features.length} province)
           </li>
           <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
           {pwa.error && <li className="warn">Errore del service worker</li>}
@@ -73,5 +108,6 @@ export default function App() {
         )}
       </section>
     </main>
+    </div>
   );
 }

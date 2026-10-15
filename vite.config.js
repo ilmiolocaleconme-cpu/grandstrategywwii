@@ -30,6 +30,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,json,png,svg,ico,webmanifest}'],
         cleanupOutdatedCaches: true,
+        // le province (data/provinces_1936.json) finiscono nel bundle: serve un limite di precache più alto
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
       },
     }),
   ],
