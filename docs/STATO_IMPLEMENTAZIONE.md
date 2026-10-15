@@ -37,3 +37,8 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 - `npm run validate:data` — valida i file in `data/` (province per nazione incluse).
 - `node scripts/check-precache.js` — dopo `npm run build`: controlla che i file delle province siano chunk separati e nel precache.
 - `npm run dev` / `npm run build` / `npm run preview` — sviluppo, build e anteprima della build.
+
+## Etichette e legenda (mobile)
+- Etichette delle province: `pickLabels` (geo.js) sceglie in pixel quali mostrare: solo se il nome entra nella provincia, senza sovrapposizioni, solo in vista, tetto 70, priorità alle province più grandi; nascoste durante il gesto. Implementato e testato (node) + verificato in Chromium a 360×640.
+- Legenda: chiusa di default, si apre col pulsante «Legenda», lista scorrevole entro il 55% dell'altezza della mappa.
+- Non verificato: telefono reale, `vite build`. Le etichette usano una stima della larghezza del testo (0,56 × corpo × caratteri), non la misura reale.

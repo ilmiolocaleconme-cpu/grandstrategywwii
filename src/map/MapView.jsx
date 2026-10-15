@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
-const LABEL_MIN_K = 2.2; // sotto questo zoom le etichette delle province non si mostrano
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const MIN_K = 0.3; // si puo allontanare fino a vedere quasi tutto il giro del mondo
 
@@ -119,6 +118,12 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const level = moving && lod ? lodLevel(view.k) : -1;
   const waterLevel = moving ? lodLevel(view.k) : -1; // fiumi e laghi restano visibili, con meno punti
   const copies = visibleCopies(view, vbRect, bounds); // di norma una sola; due quando la vista attraversa l'antimeridiano
+  const [legendOpen, setLegendOpen] = useState(false);
+  // etichette: solo quelle che stanno nella provincia e non si sovrappongono; nascoste durante il gesto
+  const labels = useMemo(
+    () => (moving ? [] : pickLabels(model.items, view, vbRect, pxPerUnit, copies)),
+    [moving, model.items, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join()]
+  );
 
   return (
     <div className="map-wrap">
@@ -165,12 +170,11 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
                 </g>
               ))}
               {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
-              {view.k >= LABEL_MIN_K &&
-                model.items.map((it) => (
-                  <text key={it.id} x={it.label[0]} y={it.label[1]} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" pointerEvents="none">
-                    {it.props.nameLocal ?? it.props.name}
-                  </text>
-                ))}
+              {labels.filter((l) => l.off === off).map((l) => (
+                <text key={l.id} x={l.x} y={l.y} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" dominantBaseline="central" pointerEvents="none">
+                  {l.name}
+                </text>
+              ))}
             </g>
           ))}
         </g>
@@ -192,27 +196,28 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
         </div>
       </div>
 
-      <Legend layer={layer} nationNames={nationNames} items={model.items} />
+      <Legend layer={layer} nationNames={nationNames} items={model.items} open={legendOpen} onToggle={() => setLegendOpen((o) => !o)} />
     </div>
   );
 }
 
-function Legend({ layer, nationNames, items }) {
+function Legend({ layer, nationNames, items, open, onToggle }) {
   const owners = useMemo(() => [...new Set(items.map((i) => i.props.owner))].sort(), [items]);
-  if (layer === 'quality') {
-    return (
-      <ul className="legend" aria-label="Legenda qualità dei confini">
-        <li><i style={{ background: provinceFill({ borderQuality: 'verified' }, 'quality') }} />verificato</li>
-        <li><i style={{ background: provinceFill({ borderQuality: 'approximate' }, 'quality') }} />approssimato</li>
-        <li><i style={{ background: provinceFill({ borderQuality: 'hypothesis' }, 'quality') }} />ipotesi</li>
-      </ul>
-    );
-  }
+  const entries = layer === 'quality'
+    ? [['verificato', provinceFill({ borderQuality: 'verified' }, 'quality')], ['approssimato', provinceFill({ borderQuality: 'approximate' }, 'quality')], ['ipotesi', provinceFill({ borderQuality: 'hypothesis' }, 'quality')]]
+    : owners.map((o) => [nationNames[o] ?? o, provinceFill({ owner: o, id: '' }, 'political')]);
   return (
-    <ul className="legend" aria-label="Legenda nazioni">
-      {owners.map((o) => (
-        <li key={o}><i style={{ background: provinceFill({ owner: o, id: '' }, 'political') }} />{nationNames[o] ?? o}</li>
-      ))}
-    </ul>
+    <div className="legend-box">
+      <button type="button" className="legend-toggle" aria-expanded={open} onClick={onToggle}>
+        Legenda {open ? '▾' : '▴'}
+      </button>
+      {open && (
+        <ul className="legend" aria-label={layer === 'quality' ? 'Legenda qualità dei confini' : 'Legenda nazioni'}>
+          {entries.map(([name, color]) => (
+            <li key={name}><i style={{ background: color }} />{name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

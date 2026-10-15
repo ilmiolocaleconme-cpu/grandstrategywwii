@@ -330,8 +330,39 @@ function buildMapModelUncached(collection) {
     d: featureToPath(f),
     label: labelPoint(f),
     areaKm2: featureAreaKm2(f),
+    bbox: boundsOf([f]),
   }));
   return { items, bounds: boundsOf(collection.features), borderD: nationalBorderPath(collection) };
+}
+
+// Etichette leggibili: si sceglie quali mostrare in base allo spazio reale sullo schermo.
+// Priorità alle province più grandi; si salta chi non entra nella propria provincia o si
+// sovrappone a un'etichetta già scelta; si ignora ciò che è fuori vista; tetto al numero totale.
+// `view`: {k,x,y} come in MapView; `vb`: {x,y,w,h} del viewBox; `pxPerUnit`: pixel per unità di viewBox
+// (senza zoom); `offsets`: copie del mondo visibili.
+export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {}) {
+  const { fontPx = 11, maxLabels = 70, charW = 0.56, fitRatio = 0.7 } = opts;
+  const sx = view.k * pxPerUnit; // pixel per unità di mappa
+  const order = [...items].sort((a, b) => b.areaKm2 - a.areaKm2);
+  const placed = []; // rettangoli in pixel [x0,y0,x1,y1]
+  const out = [];
+  const h = fontPx * 1.15;
+  for (const off of offsets) {
+    for (const it of order) {
+      if (out.length >= maxLabels) return out;
+      const name = it.props.nameLocal ?? it.props.name;
+      const w = name.length * fontPx * charW;
+      if (it.bbox.w * sx < w * fitRatio || it.bbox.h * sx < h) continue; // non c'entra nella provincia
+      const px = (view.k * (it.label[0] + off) + view.x - vb.x) * pxPerUnit;
+      const py = (view.k * it.label[1] + view.y - vb.y) * pxPerUnit;
+      if (px + w / 2 < 0 || px - w / 2 > vb.w * pxPerUnit || py + h / 2 < 0 || py - h / 2 > vb.h * pxPerUnit) continue;
+      const r = [px - w / 2 - 2, py - h / 2 - 1, px + w / 2 + 2, py + h / 2 + 1];
+      if (placed.some((q) => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1])) continue;
+      placed.push(r);
+      out.push({ id: it.id, name, x: it.label[0], y: it.label[1], off });
+    }
+  }
+  return out;
 }
 
 // Zoom attorno a un punto fisso (coordinate della vista), limiti min/max inclusi.

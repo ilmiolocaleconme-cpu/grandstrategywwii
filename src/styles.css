@@ -105,11 +105,12 @@ h2 {
 .map-tools > * { pointer-events: auto; display: flex; gap: 6px; }
 .map-tools button { background: rgba(29, 36, 24, 0.88); }
 .seg button.on { background: var(--accent); }
-.legend { position: absolute; left: 8px; bottom: 8px; margin: 0; padding: 6px 10px; list-style: none; background: rgba(29, 36, 24, 0.88); border-radius: 8px; font-size: 12px; display: grid; grid-template-columns: repeat(2, auto); gap: 2px 14px; max-width: calc(100% - 16px); }
-.legend { pointer-events: none; }
+.legend-box { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); max-height: 55%; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; pointer-events: none; }
+.legend-toggle { pointer-events: auto; min-height: 36px; padding: 0 12px; background: rgba(29, 36, 24, 0.9); font-size: 13px; }
+.legend { margin: 0; padding: 6px 10px; list-style: none; background: rgba(29, 36, 24, 0.92); border-radius: 8px; font-size: 12px; display: grid; grid-template-columns: repeat(2, auto); gap: 2px 14px; overflow-y: auto; pointer-events: auto; }
 @media (max-width: 640px) {
   .seg button, .zoom button { padding: 0 10px; white-space: nowrap; }
-  .legend { font-size: 10.5px; padding: 4px 8px; gap: 0 10px; grid-template-columns: repeat(3, auto); background: rgba(29, 36, 24, 0.72); }
+  .legend { font-size: 11px; padding: 4px 8px; gap: 0 10px; grid-template-columns: repeat(2, auto); }
   .legend i { width: 8px; height: 8px; margin-right: 4px; }
 }
 .legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 2px; }
