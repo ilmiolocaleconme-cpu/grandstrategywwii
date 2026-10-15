@@ -169,12 +169,12 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Pescara', 14.21, 42.46, 'P_ITA_ABRUZZI_E_MOLISE'],
     ['Amatrice (Rieti, Lazio)', 13.29, 42.63, 'P_ITA_LAZIO'],
     ['Zara (enclave italiana)', 15.23, 44.12, 'P_ITA_ZARA'],
-    ['Belgrado', 20.46, 44.82, 'P_YUG_YUGOSLAVIA'],
-    ['Lubiana', 14.51, 46.06, 'P_YUG_YUGOSLAVIA'],
-    ['Zagabria', 15.98, 45.81, 'P_YUG_YUGOSLAVIA'],
-    ['Sarajevo', 18.41, 43.86, 'P_YUG_YUGOSLAVIA'],
-    ['Skopje', 21.43, 42.0, 'P_YUG_YUGOSLAVIA'],
-    ['Spalato', 16.44, 43.51, 'P_YUG_YUGOSLAVIA'],
+    ['Belgrado', 20.46, 44.82, 'P_YUG_BEOGRAD'],
+    ['Lubiana', 14.51, 46.06, 'P_YUG_LJUBLJANA'],
+    ['Zagabria', 15.98, 45.81, 'P_YUG_ZAGREB'],
+    ['Sarajevo', 18.41, 43.86, 'P_YUG_SARAJEVO'],
+    ['Skopje', 21.43, 42.0, 'P_YUG_SKOPJE'],
+    ['Spalato', 16.44, 43.51, 'P_YUG_SPLIT'],
     ['Fiume (italiana)', 14.44, 45.33, 'P_ITA_JULIAN_MARCH'],
     ['Klagenfurt', 14.31, 46.62, 'P_AUT_CARINTHIA'],
   ];
@@ -223,6 +223,26 @@ const ALIGNMENT_BOXES = [
   { name: 'Austria-Iugoslavia', box: [13.8, 46.3, 16.2, 46.9], maxOverlap: 4, maxGap: 40 },
   { name: 'Emilia-Marche', box: [11.9, 43.6, 12.8, 44.4], maxOverlap: 1, maxGap: 5 },
 ];
+
+const YUG_CAPITALS = {
+  LJUBLJANA: [14.51, 46.06], MARIBOR: [15.65, 46.55], ZAGREB: [15.98, 45.81], KARLOVAC: [15.55, 45.49], BIHAC: [15.87, 44.82],
+  BANJA_LUKA: [17.19, 44.77], OSIJEK: [18.69, 45.55], NOVI_SAD: [19.84, 45.25], VUKOVAR: [18.99, 45.35], BEOGRAD: [20.46, 44.82],
+  SMEDEREVO: [20.93, 44.66], VALJEVO: [19.89, 44.27], SABAC: [19.69, 44.75], TUZLA: [18.68, 44.54], SARAJEVO: [18.41, 43.86],
+  TRAVNIK: [17.67, 44.23], SPLIT: [16.44, 43.51], MOSTAR: [17.81, 43.34], CETINJE: [18.92, 42.39], UZICE: [19.85, 43.86],
+  CACAK: [20.35, 43.89], KRAGUJEVAC: [20.92, 44.01], CUPRIJA: [21.37, 43.93], POZAREVAC: [21.19, 44.62], ZAJECAR: [22.28, 43.9],
+  KRUSEVAC: [21.33, 43.58], NIS: [21.9, 43.32], PRISTINA: [21.17, 42.67], VRANJE: [21.9, 42.55], SKOPJE: [21.43, 42.0],
+  STIP: [22.2, 41.74], BITOLJ: [21.34, 41.03],
+};
+
+test('Iugoslavia: ogni regione contiene il proprio capoluogo (Dubrovnik escluso: costa semplificata)', () => {
+  for (const [key, [lon, lat]] of Object.entries(YUG_CAPITALS)) {
+    const ids = index.provincesAt(lon, lat).map((f) => f.properties.id);
+    assert.ok(ids.includes(`P_YUG_${key}`), `${key}: trovato ${ids.join(',') || 'nessuna'}`);
+  }
+  const yug = provinces.features.filter((f) => f.properties.owner === 'YUG');
+  assert.equal(yug.length, 33);
+  assert.ok(yug.every((f) => f.properties.borderQuality === 'hypothesis'));
+});
 
 test('i confini tra fonti diverse sono allineati entro le tolleranze', () => {
   const step = 0.01;
