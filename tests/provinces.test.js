@@ -69,8 +69,16 @@ test('i dati reali delle province sono validi e dichiarano la qualità', async (
   const result = validateCatalog(await loadCatalog());
   assert.deepEqual(result.errors, []);
   assert.ok(provinces.features.length >= 60);
-  assert.ok(provinces.features.every((f) => f.properties.borderQuality === 'approximate'));
-  assert.ok(provinces.features.every((f) => f.properties.license && f.properties.ohmRelation));
+  // Nessun confine è verificato; le province non OHM (Paesi Bassi, Natural Earth) sono solo ipotesi.
+  assert.ok(provinces.features.every((f) => f.properties.borderQuality !== 'verified'));
+  const ohm = provinces.features.filter((f) => f.properties.source === 'OpenHistoricalMap');
+  assert.ok(ohm.length >= 60);
+  assert.ok(ohm.every((f) => f.properties.borderQuality === 'approximate' && f.properties.ohmRelation));
+  const nl = provinces.features.filter((f) => f.properties.owner === 'NLD');
+  assert.equal(nl.length, 11);
+  assert.ok(nl.every((f) => f.properties.borderQuality === 'hypothesis' && f.properties.license));
+  assert.equal(nl.some((f) => f.properties.name === 'Flevoland'), false);
+  assert.ok(provinces.features.every((f) => f.properties.license));
 });
 
 test('città note cadono nella provincia attesa', () => {
@@ -89,8 +97,11 @@ test('città note cadono nella provincia attesa', () => {
   for (const [name, lon, lat, expected] of cases) {
     assert.deepEqual(at(lon, lat), [expected], name);
   }
-  // Maastricht è nei Paesi Bassi, non coperti da questo dataset.
-  assert.deepEqual(at(5.69, 50.85), []);
+  assert.deepEqual(at(5.69, 50.85), ['P_NLD_LIMBURG'], 'Maastricht');
+  assert.deepEqual(at(4.9, 52.37), ['P_NLD_NOORD_HOLLAND'], 'Amsterdam');
+  assert.deepEqual(at(4.48, 51.92), ['P_NLD_ZUID_HOLLAND'], 'Rotterdam');
+  assert.deepEqual(at(6.57, 53.22), ['P_NLD_GRONINGEN'], 'Groninga');
+  assert.deepEqual(at(5.47, 52.5), [], 'Lelystad era Zuiderzee nel 1936');
 });
 
 // Sovrapposizioni note, misurate sui dati OHM originali (sono difetti della fonte, non regole).
@@ -103,24 +114,37 @@ const KNOWN_OVERLAPS = new Set([
   'P_DEU_PROVINCE_OF_BRANDENBURG|P_DEU_PROVINCE_OF_SAXONY',
 ]);
 const MAX_OVERLAP_FRACTION = 0.0002; // 0,02% dei punti campionati coperti
+// Province olandesi (Natural Earth, solo terraferma) contro vicine OHM (poligoni con mare): fonti
+// diverse, quindi sovrapposizioni lungo il confine con Belgio e Germania. Ammesse solo con BEL/DEU.
+const MAX_NL_OVERLAP_FRACTION = 0.0005;
+const isNlBorderPair = (key) => {
+  const owners = key.split('|').map((id) => id.split('_')[1]);
+  return owners.includes('NLD') && owners.every((o) => ['NLD', 'BEL', 'DEU'].includes(o)) &&
+    owners.filter((o) => o === 'NLD').length === 1;
+};
 
 test('le province non si sovrappongono oltre le tolleranze note', () => {
   const step = 0.03;
   let covered = 0;
   let overlapping = 0;
+  let nlOverlapping = 0;
   const unexpected = new Set();
   for (let lat = 46; lat < 56; lat += step) {
     for (let lon = 2; lon < 27; lon += step) {
       const hits = index.provincesAt(lon, lat);
       if (hits.length > 0) covered += 1;
       if (hits.length > 1) {
-        overlapping += 1;
         const key = hits.map((f) => f.properties.id).sort().join('|');
-        if (!KNOWN_OVERLAPS.has(key)) unexpected.add(key);
+        if (isNlBorderPair(key)) nlOverlapping += 1;
+        else {
+          overlapping += 1;
+          if (!KNOWN_OVERLAPS.has(key)) unexpected.add(key);
+        }
       }
     }
   }
   assert.ok(covered > 100000, 'campionamento troppo scarso');
   assert.deepEqual([...unexpected], []);
   assert.ok(overlapping / covered <= MAX_OVERLAP_FRACTION, `sovrapposizioni: ${overlapping}/${covered}`);
+  assert.ok(nlOverlapping / covered <= MAX_NL_OVERLAP_FRACTION, `sovrapposizioni NL: ${nlOverlapping}/${covered}`);
 });

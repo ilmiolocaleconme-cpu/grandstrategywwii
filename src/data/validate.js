@@ -21,7 +21,7 @@ export const POLITICAL_STATUSES = [
   'special',
   'de_facto',
 ];
-export const BORDER_QUALITIES = ['verified', 'approximate'];
+export const BORDER_QUALITIES = ['verified', 'approximate', 'hypothesis'];
 export const PROVINCES_AS_OF = '1936-01-01';
 // Proprietari ammessi pur non essendo entità del dataset politico (solo come owner).
 export const EXTERNAL_OWNERS = ['LEAGUE'];
@@ -141,6 +141,7 @@ function checkProvinces(provinces, political, errors, warnings) {
   const owners = new Map(Array.isArray(political) ? political.map((e) => [e?.id, e]) : []);
   const seen = new Set();
   let approximate = 0;
+  let hypothesis = 0;
   provinces.features.forEach((feature, index) => {
     const props = feature?.properties ?? {};
     const where = `provinces[${index}]`;
@@ -163,6 +164,8 @@ function checkProvinces(provinces, political, errors, warnings) {
       errors.push(`provinces: "${props.id}" ha un borderQuality non valido "${props.borderQuality}"`);
     } else if (props.borderQuality === 'approximate') {
       approximate += 1;
+    } else if (props.borderQuality === 'hypothesis') {
+      hypothesis += 1;
     }
     if (props.validFrom > PROVINCES_AS_OF || props.validTo <= PROVINCES_AS_OF) {
       errors.push(`provinces: "${props.id}" non è valida alla data ${PROVINCES_AS_OF}`);
@@ -187,8 +190,10 @@ function checkProvinces(provinces, political, errors, warnings) {
       }
     }
   });
-  if (approximate > 0) {
-    warnings.push(`provinces: ${approximate} province su ${provinces.features.length} hanno confini approssimati`);
+  if (approximate > 0 || hypothesis > 0) {
+    warnings.push(
+      `provinces: su ${provinces.features.length} province, ${approximate} hanno confini approssimati e ${hypothesis} sono ipotesi`,
+    );
   }
 }
 
