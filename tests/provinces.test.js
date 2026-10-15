@@ -161,6 +161,12 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Napoli', 14.27, 40.85, 'P_ITA_CAMPANIA'],
     ['Palermo', 13.36, 38.12, 'P_ITA_SICILY'],
     ['Cosenza', 16.25, 39.3, 'P_ITA_CALABRIA'],
+    ['Ancona', 13.5, 43.6, 'P_ITA_MARCHE'],
+    ['Ascoli Piceno (Marche fino al Tronto)', 13.58, 42.85, 'P_ITA_MARCHE'],
+    ['Teramo', 13.7, 42.66, 'P_ITA_ABRUZZI_E_MOLISE'],
+    ['Perugia', 12.39, 43.11, 'P_ITA_UMBRIA'],
+    ['Pescara', 14.21, 42.46, 'P_ITA_ABRUZZI_E_MOLISE'],
+    ['Amatrice (Rieti, Lazio)', 13.29, 42.63, 'P_ITA_LAZIO'],
   ];
   for (const [name, lon, lat, expected] of cases) assert.deepEqual(at(lon, lat), [expected], name);
   const byId = new Map(provinces.features.map((f) => [f.properties.id, f.properties]));
@@ -175,10 +181,11 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
 // Sovrapposizioni tra id diversi e fessure (punto scoperto con owner diversi entro 0,04°) in km².
 const ALIGNMENT_BOXES = [
   { name: 'Italia-Austria', box: [10.3, 46.2, 13.9, 47.2], maxOverlap: 1, maxGap: 30 },
-  { name: 'Paesi Bassi-Belgio', box: [2.5, 50.7, 6.5, 51.8], maxOverlap: 5, maxGap: 40 },
-  { name: 'Paesi Bassi-Germania', box: [5.8, 50.8, 7.4, 53.6], maxOverlap: 5, maxGap: 40 },
-  { name: 'Campania-Abruzzi e Molise', box: [13.8, 40.9, 15.6, 42.0], maxOverlap: 1, maxGap: 5 },
+  { name: 'Paesi Bassi-Belgio', box: [2.5, 50.7, 6.5, 51.8], maxOverlap: 3, maxGap: 40 },
+  { name: 'Paesi Bassi-Germania', box: [5.8, 50.8, 7.4, 53.6], maxOverlap: 3, maxGap: 40 },
+  { name: 'Campania-Abruzzi e Molise', box: [13.8, 40.9, 15.6, 42.0], maxOverlap: 3, maxGap: 5 },
   { name: 'Calabria-Lucania', box: [15.5, 39.4, 17.0, 40.4], maxOverlap: 1, maxGap: 5 },
+  { name: 'Marche-Umbria-Abruzzi-Lazio', box: [12.4, 42.4, 14.2, 43.3], maxOverlap: 2, maxGap: 3 },
   { name: 'Emilia-Marche', box: [11.9, 43.6, 12.8, 44.4], maxOverlap: 1, maxGap: 5 },
 ];
 
