@@ -10,6 +10,7 @@ const ISSUE_LABEL = {
   tracciato_da_immagine: 'tracciato da un\'immagine',
   confini_interni_approssimati: 'confini interni approssimati (~2 km)',
   internal_province_edges: 'confini interni tra province di una stessa nazione approssimati',
+  derived_from_neighbor_holes: 'ricavata dai buchi della provincia vicina',
   derived_from_country_outline: 'derivata dal contorno nazionale',
   may_include_sea: 'il poligono può includere tratti di mare',
   capoluogo_fuori_dal_contorno_costiero: 'il capoluogo cade fuori dal contorno costiero',
