@@ -131,10 +131,21 @@ export const QUALITY_COLORS = {
 export const LAYERS = [
   { id: 'political', label: 'Politico' },
   { id: 'quality', label: 'Qualità dati' },
+  { id: 'gaue', label: 'Gaue' },
 ];
+
+// Livello Gaue: fuori dai Gaue le province restano in un grigio neutro.
+export const NEUTRAL_FILL = '#4a5246';
+
+export function gauFill(id) {
+  // Tinta propria (nessun colore ripreso dalla mappa di origine): 32 tinte ben distanziate, luminosità alternata.
+  const h = hash(id);
+  return `hsl(${(h * 47) % 360} 38% ${46 + (h % 3) * 4}%)`;
+}
 
 export function provinceFill(props, layer) {
   if (layer === 'quality') return QUALITY_COLORS[props.borderQuality] ?? '#777';
+  if (layer === 'gaue') return NEUTRAL_FILL;
   return ownerColor(props.owner, props.id);
 }
 

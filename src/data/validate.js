@@ -197,6 +197,65 @@ function checkProvinces(provinces, political, errors, warnings) {
   }
 }
 
+// Gaue (distretti NSDAP): livello aggiuntivo alle province, stessi controlli sugli anelli.
+function checkGaue(gaue, provinces, political, errors, warnings) {
+  if (!gaue || gaue.type !== 'FeatureCollection' || !Array.isArray(gaue.features)) {
+    errors.push('gaue: deve essere una FeatureCollection con "features"');
+    return;
+  }
+  const owners = new Map(Array.isArray(political) ? political.map((e) => [e?.id, e]) : []);
+  const provinceIds = new Set(Array.isArray(provinces?.features) ? provinces.features.map((f) => f.properties?.id) : []);
+  const seen = new Set();
+  let hypothesis = 0;
+  gaue.features.forEach((feature, index) => {
+    const props = feature?.properties ?? {};
+    const where = `gaue[${index}]`;
+    if (typeof props.id !== 'string' || !/^G_[A-Z0-9_]+$/.test(props.id)) {
+      errors.push(`${where}: id non valido (${JSON.stringify(props.id)})`);
+      return;
+    }
+    if (seen.has(props.id)) errors.push(`gaue: id duplicato "${props.id}"`);
+    seen.add(props.id);
+    if (feature.id !== props.id) errors.push(`gaue: "${props.id}" ha feature.id diverso da properties.id`);
+    for (const field of ['name', 'owner', 'source', 'license']) {
+      if (typeof props[field] !== 'string' || props[field] === '') {
+        errors.push(`gaue: "${props.id}" campo obbligatorio mancante "${field}"`);
+      }
+    }
+    if (props.owner && owners.size > 0 && !owners.has(props.owner)) {
+      errors.push(`gaue: "${props.id}" ha un owner inesistente "${props.owner}"`);
+    }
+    if (!BORDER_QUALITIES.includes(props.borderQuality)) {
+      errors.push(`gaue: "${props.id}" ha un borderQuality non valido "${props.borderQuality}"`);
+    } else if (props.borderQuality === 'hypothesis') {
+      hypothesis += 1;
+    }
+    if (!Array.isArray(props.provinceIds) || props.provinceIds.length === 0) {
+      errors.push(`gaue: "${props.id}" deve elencare le province che copre (provinceIds)`);
+    } else if (provinceIds.size > 0) {
+      for (const pid of [...props.provinceIds, ...(props.partialProvinceIds ?? [])]) {
+        if (!provinceIds.has(pid)) errors.push(`gaue: "${props.id}" riferisce la provincia inesistente "${pid}"`);
+      }
+    }
+    const geometry = feature.geometry;
+    if (!geometry || !['Polygon', 'MultiPolygon'].includes(geometry.type)) {
+      errors.push(`gaue: "${props.id}" ha una geometria non valida`);
+      return;
+    }
+    const polygons = geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates;
+    for (const polygon of polygons) {
+      for (const ring of polygon) {
+        const problem = ringProblem(ring);
+        if (problem) {
+          errors.push(`gaue: "${props.id}" ${problem}`);
+          return;
+        }
+      }
+    }
+  });
+  if (hypothesis > 0) warnings.push(`gaue: su ${gaue.features.length} Gaue, ${hypothesis} sono ipotesi (tracciati da immagine, riferimento 31.12.1937)`);
+}
+
 // Geometria dei fiumi: ogni tratto riferisce un fiume del catalogo, ogni fiume ha almeno un tratto.
 function checkRiversGeo(geo, rivers, errors) {
   if (!geo || geo.type !== 'FeatureCollection' || !Array.isArray(geo.features)) {
@@ -296,6 +355,9 @@ export function validateCatalog(catalog) {
 
   if (input.provinces !== undefined) {
     checkProvinces(input.provinces, input.political, errors, warnings);
+  }
+  if (input.gaue !== undefined) {
+    checkGaue(input.gaue, input.provinces, input.political, errors, warnings);
   }
   if (input.riversGeo !== undefined) {
     checkRiversGeo(input.riversGeo, rivers, errors);
