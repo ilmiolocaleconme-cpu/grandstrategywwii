@@ -25,6 +25,10 @@ export function polygonsOf(feature) {
   return g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
 }
 
+export function lineToPath(coordinates) {
+  return ringToPath(coordinates).slice(0, -1); // polilinea aperta: niente chiusura Z
+}
+
 // Anello esterno + buchi nello stesso path: va usato con fill-rule="evenodd".
 export function featureToPath(feature) {
   return polygonsOf(feature)
@@ -134,6 +138,71 @@ export function provinceFill(props, layer) {
   return ownerColor(props.owner, props.id);
 }
 
+// Fiumi e laghi: percorsi pronti per l'SVG. I fiumi sono ordinati dal più piccolo al più grande,
+// così i grandi restano sopra. Stessi dati (data/rivers_geo.json) usati dalle regole.
+export const RIVER_WIDTH_PX = { large: 2.4, medium: 1.5, small: 0.9 };
+
+export function buildWaterModel(rivers, riversGeo, lakes) {
+  const byId = new Map(rivers.map((r) => [r.id, r]));
+  const lines = riversGeo.features
+    .map((f) => {
+      const river = byId.get(f.properties.riverId);
+      return {
+        key: `${f.properties.riverId}#${f.properties.segment}`,
+        riverId: f.properties.riverId,
+        inLake: Boolean(f.properties.inLake),
+        d: lineToPath(f.geometry.coordinates),
+        width: RIVER_WIDTH_PX[river?.widthClass] ?? RIVER_WIDTH_PX.small,
+        rank: river?.scalerank ?? 99,
+      };
+    })
+    .sort((a, b) => b.rank - a.rank);
+  const lakeItems = lakes.features.map((f) => ({ id: f.properties.id, name: f.properties.name, d: featureToPath(f) }));
+  return { lines, lakes: lakeItems };
+}
+
+const edgeKey = (a, b) => {
+  const ka = `${a[0]},${a[1]}`;
+  const kb = `${b[0]},${b[1]}`;
+  return ka < kb ? `${ka}|${kb}` : `${kb}|${ka}`;
+};
+
+// Bordi "nazionali": tutti gli archi tranne quelli condivisi esattamente da due province dello stesso
+// proprietario. Servono a disegnare i confini interni più leggeri di quelli tra Stati e delle coste.
+export function nationalBorderPath(collection) {
+  const owners = new Map();
+  collection.features.forEach((f) => {
+    polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
+      for (let i = 0; i + 1 < ring.length; i += 1) {
+        const k = edgeKey(ring[i], ring[i + 1]);
+        if (!owners.has(k)) owners.set(k, []);
+        owners.get(k).push({ id: f.properties.id, owner: f.properties.owner });
+      }
+    }));
+  });
+  const interior = (k) => {
+    const o = owners.get(k);
+    return o.length === 2 && o[0].id !== o[1].id && o[0].owner === o[1].owner;
+  };
+  let d = '';
+  collection.features.forEach((f) => {
+    polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
+      let open = false;
+      for (let i = 0; i + 1 < ring.length; i += 1) {
+        if (interior(edgeKey(ring[i], ring[i + 1]))) { open = false; continue; }
+        if (!open) {
+          const [x, y] = project(ring[i][0], ring[i][1]);
+          d += `M${r3(x)} ${r3(y)}`;
+          open = true;
+        }
+        const [x, y] = project(ring[i + 1][0], ring[i + 1][1]);
+        d += `L${r3(x)} ${r3(y)}`;
+      }
+    }));
+  });
+  return d;
+}
+
 export function buildMapModel(collection) {
   const items = collection.features.map((f) => ({
     id: f.properties.id,
@@ -142,7 +211,7 @@ export function buildMapModel(collection) {
     label: labelPoint(f),
     areaKm2: featureAreaKm2(f),
   }));
-  return { items, bounds: boundsOf(collection.features) };
+  return { items, bounds: boundsOf(collection.features), borderD: nationalBorderPath(collection) };
 }
 
 // Zoom attorno a un punto fisso (coordinate della vista), limiti min/max inclusi.

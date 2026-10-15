@@ -72,13 +72,17 @@ test('i dati reali delle province sono validi e dichiarano la qualità', async (
   // Nessun confine è verificato; le province non OHM (Paesi Bassi, Natural Earth) sono solo ipotesi.
   assert.ok(provinces.features.every((f) => f.properties.borderQuality !== 'verified'));
   const ohm = provinces.features.filter((f) => f.properties.source === 'OpenHistoricalMap');
-  assert.ok(ohm.length >= 60);
+  assert.ok(ohm.length >= 50);
   assert.ok(ohm.every((f) => f.properties.borderQuality === 'approximate' && f.properties.ohmRelation));
   const nl = provinces.features.filter((f) => f.properties.owner === 'NLD');
   assert.equal(nl.length, 11);
   assert.ok(nl.every((f) => f.properties.borderQuality === 'hypothesis' && f.properties.license));
   assert.equal(nl.some((f) => f.properties.name === 'Flevoland'), false);
   assert.ok(provinces.features.every((f) => f.properties.license));
+  // La Germania è fatta di Gaue NSDAP (ipotesi), non di province OHM.
+  const deu = provinces.features.filter((f) => f.properties.owner === 'DEU');
+  assert.equal(deu.length, 32);
+  assert.ok(deu.every((f) => f.properties.kind === 'nsdap_gau' && f.properties.borderQuality === 'hypothesis' && !f.properties.ohmRelation));
 });
 
 test('città note cadono nella provincia attesa', () => {
@@ -92,7 +96,7 @@ test('città note cadono nella provincia attesa', () => {
     ['Innsbruck', 11.39, 47.27, 'P_AUT_TIROL'],
     ['Varsavia', 21.01, 52.23, 'P_POL_WARSAW_VOIVODESHIP'],
     ['Cracovia', 19.94, 50.06, 'P_POL_KRAKOW_VOIVODESHIP'],
-    ['Monaco di Baviera', 11.58, 48.14, 'P_DEU_BAVARIA'],
+    ['Monaco di Baviera', 11.58, 48.14, 'P_DEU_MUENCHEN_OBERBAYERN'],
   ];
   for (const [name, lon, lat, expected] of cases) {
     assert.deepEqual(at(lon, lat), [expected], name);
@@ -107,12 +111,12 @@ test('città note cadono nella provincia attesa', () => {
 // Sovrapposizioni note, misurate sui dati OHM originali (sono difetti della fonte, non regole).
 // Un'altra coppia, o un aumento oltre la soglia, fa fallire il test.
 const KNOWN_OVERLAPS = new Set([
-  'P_BEL_LIEGE|P_DEU_RHINE_PROVINCE',
+  'P_BEL_LIEGE|P_DEU_KOBLENZ_TRIER',
+  'P_BEL_LIEGE|P_DEU_KOELN_AACHEN',
   'P_CZE_SLOVAKIA|P_POL_KRAKOW_VOIVODESHIP',
   'P_BEL_LUXEMBOURG|P_LUX_DIEKIRCH',
-  'P_DEU_HANOVER|P_DEU_PROVINCE_OF_SCHLESWIG_HOLSTEIN',
-  'P_DEU_PROVINCE_OF_LOWER_SILESIA|P_DEU_PROVINCE_OF_SAXONY',
-  'P_DEU_PROVINCE_OF_BRANDENBURG|P_DEU_PROVINCE_OF_SAXONY',
+  'P_DEU_OST_HANNOVER|P_DEU_SCHLESWIG_HOLSTEIN',
+  'P_DEU_HALLE_MERSEBURG|P_DEU_NIEDERSCHLESIEN',
 ]);
 const MAX_OVERLAP_FRACTION = 0.0002; // 0,02% dei punti campionati coperti
 // Province olandesi (Natural Earth, solo terraferma) contro vicine OHM (poligoni con mare): fonti
@@ -171,7 +175,7 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Zara (enclave italiana)', 15.23, 44.12, 'P_ITA_ZARA'],
     ['Berlino', 13.4, 52.52, 'P_DEU_BERLIN'],
     ['Spandau (Berlino)', 13.2, 52.54, 'P_DEU_BERLIN'],
-    ['Potsdam', 13.06, 52.4, 'P_DEU_PROVINCE_OF_BRANDENBURG'],
+    ['Potsdam', 13.06, 52.4, 'P_DEU_KURMARK'],
     ['Danzica', 18.65, 54.35, 'P_DANZIG_FREE_CITY'],
     ['Zoppot (Danzica)', 18.57, 54.44, 'P_DANZIG_FREE_CITY'],
     ['Gdynia (corridoio polacco)', 18.53, 54.52, 'P_POL_POMERANIAN_VOIVODESHIP'],
@@ -228,7 +232,7 @@ const ALIGNMENT_BOXES = [
   { name: 'Italia-Iugoslavia (Venezia Giulia, Zara; include tratti di mare)', box: [13.2, 44.0, 16.0, 46.0], maxOverlap: 3, maxGap: 120 },
   { name: 'Austria-Iugoslavia', box: [13.8, 46.3, 16.2, 46.9], maxOverlap: 4, maxGap: 40 },
   { name: 'Danzica-Pomerania-Prussia Orientale', box: [18.0, 53.8, 19.6, 54.7], maxOverlap: 3, maxGap: 30 },
-  { name: 'Berlino-Brandenburg', box: [13.0, 52.3, 13.8, 52.7], maxOverlap: 0, maxGap: 0 },
+  { name: 'Berlino-Kurmark', box: [13.0, 52.3, 13.8, 52.7], maxOverlap: 0, maxGap: 0 },
   { name: 'Emilia-Marche', box: [11.9, 43.6, 12.8, 44.4], maxOverlap: 1, maxGap: 5 },
 ];
 

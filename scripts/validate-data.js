@@ -14,6 +14,8 @@ export async function loadCatalog(baseUrl = dataDir) {
     crossings: await read('crossings.json'),
     political: await read('political_1936.json'),
     provinces: await read('provinces_1936.json'),
+    riversGeo: await read('rivers_geo.json'),
+    lakes: await read('lakes.json'),
   };
 }
 
@@ -24,7 +26,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   errors.forEach((e) => console.error(`ERRORE ${e}`));
   console.log(
     `${ok ? 'OK' : 'FALLITO'}: ${catalog.nations.length} nazioni, ${catalog.resources.length} risorse, ` +
-      `${catalog.rivers.length} fiumi, ${catalog.crossings.length} attraversamenti, ` +
+      `${catalog.rivers.length} fiumi (${catalog.riversGeo.features.length} tratti), ${catalog.lakes.features.length} laghi, ${catalog.crossings.length} attraversamenti, ` +
       `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province`,
   );
   process.exit(ok ? 0 : 1);
