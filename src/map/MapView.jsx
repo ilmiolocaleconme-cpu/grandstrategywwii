@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { LAYERS, buildMapModel, buildWaterModel, clampView, cssDelta, provinceFill, zoomAt } from './geo.js';
 
 const LABEL_MIN_K = 2.2; // sotto questo zoom le etichette delle province non si mostrano
@@ -13,7 +13,6 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const riverNames = useMemo(() => new Map((rivers ?? []).map((r) => [r.id, r.name])), [rivers]);
   const { bounds } = model;
   const pad = bounds.w * 0.02;
-  const vb = `${bounds.x - pad} ${bounds.y - pad} ${bounds.w + 2 * pad} ${bounds.h + 2 * pad}`;
 
   const svgRef = useRef(null);
   const wrapRef = useRef(null);
@@ -26,13 +25,16 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const settleTimer = useRef(null);
   const [settledK, setSettledK] = useState(1);
   const [pxPerUnit, setPxPerUnit] = useState(10);
+  const [vb, setVb] = useState(`${bounds.x - pad} ${bounds.y - pad} ${bounds.w + 2 * pad} ${bounds.h + 2 * pad}`);
   const pointers = useRef(new Map());
   const gesture = useRef(null);
   const moved = useRef(false);
 
-  // Geometria della proiezione viewBox -> pixel (preserveAspectRatio "xMidYMid meet"), calcolata
+  // Geometria della proiezione viewBox -> pixel (come preserveAspectRatio "xMidYMid meet"), calcolata
   // senza getScreenCTM: durante il gesto l'SVG ha una trasformazione CSS che la falserebbe.
-  const layout = useRef({ s: 10, ex: 0, ey: 0, left: 0, top: 0 });
+  // L'SVG è grande il doppio dell'area visibile (margine di mezza schermata per lato): così lo
+  // spostamento mostra contenuto già disegnato e non serve ridisegnare finché non si esce dal margine.
+  const layout = useRef({ s: 10, ex: 0, ey: 0, left: 0, top: 0, w: 1, h: 1 });
   const measure = useCallback(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
@@ -40,10 +42,17 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
     const vbw = bounds.w + 2 * pad;
     const vbh = bounds.h + 2 * pad;
     const s = Math.min(r.width / vbw, r.height / vbh);
-    layout.current = { s, ex: (r.width - s * vbw) / 2 - s * (bounds.x - pad), ey: (r.height - s * vbh) / 2 - s * (bounds.y - pad), left: r.left, top: r.top };
+    const ex = (r.width - s * vbw) / 2 - s * (bounds.x - pad);
+    const ey = (r.height - s * vbh) / 2 - s * (bounds.y - pad);
+    layout.current = { s, ex, ey, left: r.left, top: r.top, w: r.width, h: r.height };
     setPxPerUnit(s);
+    setVb(`${(-r.width / 2 - ex) / s} ${(-r.height / 2 - ey) / s} ${(2 * r.width) / s} ${(2 * r.height) / s}`);
+    // cambio di dimensioni: la trasformazione CSS pendente non è più valida, si scrive subito la vista
+    committedRef.current = viewRef.current;
+    gRef.current?.setAttribute('transform', `translate(${viewRef.current.x} ${viewRef.current.y}) scale(${viewRef.current.k})`);
+    if (svgRef.current) svgRef.current.style.transform = '';
   }, [bounds, pad]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(wrapRef.current);
@@ -56,30 +65,33 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
     return [(clientX - left - ex) / s, (clientY - top - ey) / s];
   };
 
-  // Durante il gesto si muove solo lo strato dell'SVG con una trasformazione CSS (compositor, senza
-  // nuova rasterizzazione); a gesto fermo la vista viene scritta nel <g> e l'immagine torna nitida.
+  // Durante il gesto si muove solo lo strato dell'SVG con una trasformazione CSS (compositor, nessuna
+  // nuova rasterizzazione e nessun'altra modifica al DOM). La vista viene scritta nel <g> (e
+  // l'immagine ridisegnata nitida) solo a dita sollevate e solo se serve: zoom cambiato o
+  // spostamento oltre il margine. Un semplice spostamento non ridisegna nulla.
+  const commit = useCallback(() => {
+    const cur = viewRef.current;
+    committedRef.current = cur;
+    gRef.current?.setAttribute('transform', `translate(${cur.x} ${cur.y}) scale(${cur.k})`);
+    if (svgRef.current) svgRef.current.style.transform = '';
+    setSettledK(cur.k);
+  }, []);
+  const scheduleCommit = useCallback(() => {
+    clearTimeout(settleTimer.current);
+    if (pointers.current.size > 0) return; // dita ancora sullo schermo: nessun ridisegno
+    settleTimer.current = setTimeout(() => {
+      const { a, tx, ty } = cssDelta(committedRef.current, viewRef.current, layout.current);
+      const { w, h } = layout.current;
+      if (Math.abs(a - 1) > 0.001 || Math.abs(tx) > 0.4 * w || Math.abs(ty) > 0.4 * h) commit();
+    }, 250);
+  }, [commit]);
   const applyView = useCallback((raw) => {
     const v = clampView(raw, bounds);
     viewRef.current = v;
-    const c = committedRef.current;
-    const { a, tx, ty } = cssDelta(c, v, layout.current);
-    const svg = svgRef.current;
-    if (svg) {
-      svg.style.transform = `translate(${tx}px, ${ty}px) scale(${a})`;
-      svg.classList.add('moving');
-    }
-    clearTimeout(settleTimer.current);
-    settleTimer.current = setTimeout(() => {
-      const cur = viewRef.current;
-      committedRef.current = cur;
-      gRef.current?.setAttribute('transform', `translate(${cur.x} ${cur.y}) scale(${cur.k})`);
-      if (svgRef.current) {
-        svgRef.current.style.transform = '';
-        svgRef.current.classList.remove('moving');
-      }
-      setSettledK(cur.k);
-    }, 140);
-  }, [bounds]);
+    const { a, tx, ty } = cssDelta(committedRef.current, v, layout.current);
+    if (svgRef.current) svgRef.current.style.transform = `translate(${tx}px, ${ty}px) scale(${a})`;
+    scheduleCommit();
+  }, [bounds, scheduleCommit]);
   useEffect(() => () => clearTimeout(settleTimer.current), []);
 
   const onWheel = (e) => {
@@ -127,6 +139,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const onPointerUp = (e) => {
     pointers.current.delete(e.pointerId);
     gesture.current = pointers.current.size ? { view: viewRef.current, start: [...pointers.current.values()] } : null;
+    scheduleCommit();
   };
 
   const zoomButton = (factor) => {
