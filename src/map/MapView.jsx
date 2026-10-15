@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const MIN_K = 0.3; // si puo allontanare fino a vedere quasi tutto il giro del mondo
 
 // Mappa strategica SVG: zoom (rotella, pizzico, pulsanti), spostamento, selezione, livelli.
 // Legge le stesse province (data/provinces/, un file per nazione, uniti in memoria) usate dalle regole e dai test.
-export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
+export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
   const model = useMemo(() => buildMapModel(provinces), [provinces]);
   // fiumi e laghi arrivano a parte (caricamento differito): finché mancano, la mappa funziona senza
   const water = useMemo(() => (rivers && riversGeo && lakes ? buildWaterModel(rivers, riversGeo, lakes) : { lines: [], lakes: [] }), [rivers, riversGeo, lakes]);
@@ -148,7 +148,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
                   key={it.id}
                   d={level >= 0 ? lod.items.get(it.id)[level] : it.d}
                   fillRule="evenodd"
-                  fill={provinceFill(it.props, layer)}
+                  fill={provinceFill(it.props, layer, nationControl)}
                   className={it.id === selectedId ? 'prov selected' : 'prov'}
                   strokeWidth={0.6 * px}
                   data-id={it.id}
@@ -196,13 +196,13 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
         </div>
       </div>
 
-      <Legend layer={layer} nationNames={nationNames} items={model.items} open={legendOpen} onToggle={() => setLegendOpen((o) => !o)} />
+      <Legend layer={layer} nationNames={nationNames} nationControl={nationControl} items={model.items} open={legendOpen} onToggle={() => setLegendOpen((o) => !o)} />
     </div>
   );
 }
 
-function Legend({ layer, nationNames, items, open, onToggle }) {
-  const owners = useMemo(() => [...new Set(items.map((i) => i.props.owner))].sort(), [items]);
+function Legend({ layer, nationNames, nationControl, items, open, onToggle }) {
+  const owners = useMemo(() => [...new Set(items.map((i) => controllerOf(i.props.owner, nationControl)))].sort(), [items, nationControl]);
   const entries = layer === 'quality'
     ? [['verificato', provinceFill({ borderQuality: 'verified' }, 'quality')], ['approssimato', provinceFill({ borderQuality: 'approximate' }, 'quality')], ['ipotesi', provinceFill({ borderQuality: 'hypothesis' }, 'quality')]]
     : owners.map((o) => [nationNames[o] ?? o, provinceFill({ owner: o, id: '' }, 'political')]);

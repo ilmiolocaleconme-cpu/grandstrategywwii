@@ -205,6 +205,7 @@ const OWNER_HUE = {
   CZE: [220, 36], NLD: [26, 62], ITA: [92, 34], YUG: [280, 28], DANZIG: [196, 45],
   FRA: [250, 38], CHE: [330, 48], LIE: [160, 50],
   HUN: [140, 38], ROM: [58, 45], BGR: [350, 40], GRC: [165, 40], ALB: [28, 62],
+  GBR: [315, 40], ESP: [14, 66],
 };
 
 function hash(str) {
@@ -230,9 +231,16 @@ export const LAYERS = [
   { id: 'quality', label: 'Qualità dati' },
 ];
 
-export function provinceFill(props, layer) {
+// Colore politico: quello della potenza che controlla il territorio (colonie, protettorati e mandati
+// prendono il colore della madrepatria o dell'amministratore). `control` = { idTerritorio: idControllore }
+// da political_1936.json; senza, vale il proprietario della provincia.
+export function controllerOf(owner, control) {
+  return control?.[owner] ?? owner;
+}
+
+export function provinceFill(props, layer, control) {
   if (layer === 'quality') return QUALITY_COLORS[props.borderQuality] ?? '#777';
-  return ownerColor(props.owner, props.id);
+  return ownerColor(controllerOf(props.owner, control), props.id);
 }
 
 // Fiumi e laghi: percorsi pronti per l'SVG. I fiumi sono ordinati dal più piccolo al più grande,

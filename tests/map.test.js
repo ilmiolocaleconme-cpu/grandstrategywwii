@@ -276,3 +276,24 @@ test('pickLabels: nessuna sovrapposizione, rispetta il tetto e salta le province
   const n = (k) => pickLabels(model.items, zoomAt({ k: 1, x: 0, y: 0 }, k, cx, cy), vb, pxPerUnit).length;
   assert.ok(n(4) > n(1), `k=1: ${n(1)}, k=4: ${n(4)}`);
 });
+
+test('colore politico: le colonie prendono il colore di chi le controlla nel 1936 (Libia = Italia)', async () => {
+  const { controllerOf, provinceFill } = await import('../src/map/geo.js');
+  const political = JSON.parse(readFileSync(new URL('../data/political_1936.json', import.meta.url)));
+  const control = Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
+  const ids = new Set(political.map((e) => e.id));
+  assert.equal(controllerOf('LBA', control), 'ITA');
+  assert.equal(controllerOf('DOD', control), 'ITA');
+  assert.equal(controllerOf('ALG', control), 'FRA');
+  assert.equal(controllerOf('SYR', control), 'FRA'); // mandato francese
+  assert.equal(controllerOf('PAL', control), 'GBR'); // mandato britannico
+  assert.equal(controllerOf('MAR_ES', control), 'ESP');
+  // stessa tinta (il colore cambia solo di luminosità per provincia): confronto con lo stesso id
+  assert.equal(provinceFill({ owner: 'LBA', id: 'x' }, 'political', control), provinceFill({ owner: 'ITA', id: 'x' }, 'political'));
+  assert.notEqual(provinceFill({ owner: 'LBA', id: 'x' }, 'political'), provinceFill({ owner: 'ITA', id: 'x' }, 'political'));
+  // ogni territorio con province ha un controllore che esiste
+  for (const f of provinces.features) {
+    const c = controllerOf(f.properties.owner, control);
+    assert.ok(ids.has(c), `${f.properties.id}: controllore ${c} inesistente`);
+  }
+});

@@ -40,6 +40,8 @@ function useProvinces() {
 }
 
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
+// chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico
+const NATION_CONTROL = Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
 
 // Due schermate: la mappa strategica (province del 1936) e lo stato dei dati.
 // Le meccaniche di gioco non sono ancora implementate.
@@ -100,11 +102,11 @@ export default function App() {
           </main>
         ) : (
         <div className="map-layout">
-          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
+          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
           {selectedRiver ? (
             <RiverPanel river={selectedRiver} rivers={rivers ?? []} onClose={() => setRiverId(null)} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} onClose={() => setProvinceId(null)} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} onClose={() => setProvinceId(null)} />
           )}
         </div>
         )}
