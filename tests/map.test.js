@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   project, ringToPath, featureToPath, featureAreaKm2, labelPoint, boundsOf,
-  buildMapModel, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
+  buildMapModel, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
 } from '../src/map/geo.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 
@@ -115,4 +115,23 @@ test('fiumi e laghi: percorsi SVG aperti per le linee, ordine dal più piccolo a
   for (let i = 1; i < w.lines.length; i++) assert.ok(w.lines[i - 1].rank >= w.lines[i].rank);
   assert.ok(w.lines.every((l) => !l.d.includes('NaN') && l.width > 0));
   assert.equal(w.lines.at(-1).width, RIVER_WIDTH_PX.large);
+});
+
+const feat = (id, owner, ring) => ({ properties: { id, owner }, geometry: { type: 'Polygon', coordinates: [ring] } });
+
+test('bordi nazionali: l\'arco condiviso da due province dello stesso Stato non c\'è, quello tra Stati diversi sì', () => {
+  const a = [[0, 40], [1, 40], [1, 41], [0, 41], [0, 40]];
+  const b = [[1, 40], [2, 40], [2, 41], [1, 41], [1, 40]];
+  const same = nationalBorderPath({ features: [feat('A', 'X', a), feat('B', 'X', b)] });
+  const diff = nationalBorderPath({ features: [feat('A', 'X', a), feat('B', 'Y', b)] });
+  const segs = (d) => (d.match(/L/g) || []).length;
+  assert.equal(segs(diff), 8); // tutti gli archi: 4 + 4
+  assert.equal(segs(same), 6); // meno i due lati condivisi (uno per provincia)
+  assert.ok(segs(same) < segs(diff));
+});
+
+test('bordi nazionali sulla mappa reale: meno vertici del totale delle province e percorso non vuoto', () => {
+  const model = buildMapModel(provinces);
+  assert.ok(model.borderD.length > 1000);
+  assert.ok((model.borderD.match(/[LM]/g) || []).length < (model.items.map((i) => i.d).join('').match(/[LM]/g) || []).length);
 });

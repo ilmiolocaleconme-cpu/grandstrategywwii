@@ -38,3 +38,13 @@ Il Reich e la Cecoslovacchia usano la versione precedente al 3/7/1936.
 
 ## Controlli automatici
 `npm run validate:data` e `npm test` (`tests/provinces.test.js`): schema, owner esistente in `political_1936`, validità alla data, anelli chiusi, id univoci, città di prova nella provincia attesa, sovrapposizioni entro soglia.
+
+## Confini interni semplificati (leggibilità)
+
+Per rendere la mappa leggibile (soprattutto su telefono) i confini **interni** tra province dello stesso Stato sono stati ri-semplificati. Non sono stati toccati i confini tra Stati diversi, le coste e gli anelli non condivisi.
+
+- **Metodo.** Gli archi condivisi esattamente da due province con lo stesso `owner` vengono semplificati una volta sola (Douglas-Peucker, coordinate proiettate), con lo stesso tracciato sui due lati: nessuna fessura né sovrapposizione nuova. La soglia è al massimo 0,05° (~5 km) e comunque non oltre il 5% della radice dell'area della provincia più piccola delle due, così Berlino, Danzica e i piccoli Stati non si deformano. I punti dove si incontrano tre o più province restano fissi.
+- **Risultato.** Vertici totali da 83.299 a circa 41.000. Arco per arco, i 28.016 archi esterni sono identici all'originale (3 punte di larghezza zero sono state eliminate). Le aree variano meno del 3% (Sassonia prussiana +1,1%).
+- **Limiti.** I confini interni sono volutamente poco precisi e non vanno usati per misure. 39 tratti restano al dettaglio originale perché semplificarli avrebbe creato incroci tra confini. La Sassonia prussiana è ancora irregolare perché composta da tante piccole exclavi. Il controllo degli incroci confronta solo i tratti nuovi: nei dati originali ci sono già circa 2.900 incroci tra segmenti di province di Stati diversi (disallineamenti noti, da rivedere).
+- **Come si disegna.** `nationalBorderPath` (`src/map/geo.js`) traccia più spessi i confini nazionali e le coste; i confini interni sono più sottili e semitrasparenti.
+- **Riproducibilità.** Lo script di semplificazione non è nel repository (come gli altri strumenti di preparazione dati); i dati risultanti sono in `data/provinces_1936.json`.

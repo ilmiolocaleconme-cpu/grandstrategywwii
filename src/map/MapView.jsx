@@ -123,11 +123,12 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
               fillRule="evenodd"
               fill={provinceFill(it.props, layer)}
               className={it.id === selectedId ? 'prov selected' : 'prov'}
-              strokeWidth={0.8 * px}
+              strokeWidth={0.6 * px}
               data-id={it.id}
               onClick={() => !moved.current && onSelect(it.id)}
             />
           ))}
+          <path d={model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
           {showRivers && water.lakes.map((l) => (
             <path key={l.id} d={l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
           ))}
@@ -139,7 +140,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
               </path>
             </g>
           ))}
-          {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2.4 * px} pointerEvents="none" />}
+          {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
           {view.k >= LABEL_MIN_K &&
             model.items.map((it) => (
               <text key={it.id} x={it.label[0]} y={it.label[1]} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" pointerEvents="none">
