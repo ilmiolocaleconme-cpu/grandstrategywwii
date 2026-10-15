@@ -9,6 +9,52 @@ export function project(lon, lat) {
   return [lon * COS0, -lat];
 }
 
+// --- Mappa circumnavigabile -------------------------------------------------------------
+// Il mondo e un cilindro: la larghezza di un giro completo (360 gradi) in unita di mappa e WORLD_W.
+// Le longitudini dei dati restano nell'intervallo -180..180; la vista si ripete in orizzontale.
+export const WORLD_W = 360 * COS0;
+export const MAX_LAT = 85; // limite verticale della vista (i poli non sono navigabili con questa proiezione)
+
+/** Longitudine riportata nell'intervallo [-180, 180). */
+export function wrapLon(lon) {
+  return ((((lon + 180) % 360) + 360) % 360) - 180;
+}
+
+/** Differenza di longitudine piu breve da `from` a `to`, in [-180, 180): positiva verso est. Serve a distanze e rotte. */
+export function lonDelta(from, to) {
+  return wrapLon(to - from);
+}
+
+/**
+ * Normalizza la vista (schermo = k * locale + t) per la mappa che si ripete: la traslazione orizzontale
+ * e riportata modulo un giro (il centro della vista resta tra -180 e 180 gradi) e quella verticale limitata
+ * a +-MAX_LAT. `vb` e il viewBox dell'SVG {x, y, w, h}. Non cambia l'immagine mostrata.
+ */
+export function wrapView(view, vb, worldW = WORLD_W, maxLat = MAX_LAT) {
+  const { k } = view;
+  const cx = (vb.x + vb.w / 2 - view.x) / k;
+  const n = Math.floor((cx + worldW / 2) / worldW);
+  const x = view.x + n * worldW * k;
+  const h = vb.h / k;
+  const top = (vb.y - view.y) / k;
+  const lo = -maxLat;
+  const hi = maxLat - h;
+  const newTop = hi < lo ? -h / 2 : Math.min(hi, Math.max(lo, top));
+  return { k, x, y: vb.y - newTop * k };
+}
+
+/** Spostamenti orizzontali (multipli di worldW) delle copie della mappa che toccano la vista; di norma [0]. */
+export function visibleCopies(view, vb, bounds, worldW = WORLD_W) {
+  const x0 = (vb.x - view.x) / view.k;
+  const x1 = x0 + vb.w / view.k;
+  const out = [];
+  for (let n = -3; n <= 3; n += 1) {
+    const off = n * worldW;
+    if (bounds.x + off < x1 && bounds.x + bounds.w + off > x0) out.push(off);
+  }
+  return out;
+}
+
 const r3 = (n) => Math.round(n * 1000) / 1000;
 
 export function ringToPath(ring, tol = 0) {
@@ -16,10 +62,15 @@ export function ringToPath(ring, tol = 0) {
   if (tol > 0 && pts.length > 5) {
     // anello chiuso: si semplifica dividendo a metà, così nessun vertice speciale viene perso
     const m = Math.floor(pts.length / 2);
-    const a = simplifyLine(pts.slice(0, m + 1), tol);
-    const b = simplifyLine(pts.slice(m), tol);
-    pts = [...a.slice(0, -1), ...b];
-    if (pts.length < 4) return '';
+    let simplified = [];
+    // province minuscole (p. es. il Liechtenstein) collasserebbero: si riprova con tolleranze più fini
+    for (const t of [tol, tol / 4, tol / 16]) {
+      const a = simplifyLine(pts.slice(0, m + 1), t);
+      const b = simplifyLine(pts.slice(m), t);
+      simplified = [...a.slice(0, -1), ...b];
+      if (simplified.length >= 6) break;
+    }
+    if (simplified.length >= 4) pts = simplified;
   }
   let d = '';
   for (let i = 0; i < pts.length; i += 1) d += `${i === 0 ? 'M' : 'L'}${r3(pts[i][0])} ${r3(pts[i][1])}`;
@@ -152,6 +203,9 @@ export function boundsOf(features) {
 const OWNER_HUE = {
   DEU: [32, 14], POL: [4, 42], AUT: [44, 55], BEL: [112, 30], LUX: [176, 32],
   CZE: [220, 36], NLD: [26, 62], ITA: [92, 34], YUG: [280, 28], DANZIG: [196, 45],
+  FRA: [250, 38], CHE: [330, 48], LIE: [160, 50],
+  HUN: [140, 38], ROM: [58, 45], BGR: [350, 40], GRC: [165, 40], ALB: [28, 62],
+  GBR: [315, 40], ESP: [14, 66],
 };
 
 function hash(str) {
@@ -177,9 +231,16 @@ export const LAYERS = [
   { id: 'quality', label: 'Qualità dati' },
 ];
 
-export function provinceFill(props, layer) {
+// Colore politico: quello della potenza che controlla il territorio (colonie, protettorati e mandati
+// prendono il colore della madrepatria o dell'amministratore). `control` = { idTerritorio: idControllore }
+// da political_1936.json; senza, vale il proprietario della provincia.
+export function controllerOf(owner, control) {
+  return control?.[owner] ?? owner;
+}
+
+export function provinceFill(props, layer, control) {
   if (layer === 'quality') return QUALITY_COLORS[props.borderQuality] ?? '#777';
-  return ownerColor(props.owner, props.id);
+  return ownerColor(controllerOf(props.owner, control), props.id);
 }
 
 // Fiumi e laghi: percorsi pronti per l'SVG. I fiumi sono ordinati dal più piccolo al più grande,
@@ -277,8 +338,39 @@ function buildMapModelUncached(collection) {
     d: featureToPath(f),
     label: labelPoint(f),
     areaKm2: featureAreaKm2(f),
+    bbox: boundsOf([f]),
   }));
   return { items, bounds: boundsOf(collection.features), borderD: nationalBorderPath(collection) };
+}
+
+// Etichette leggibili: si sceglie quali mostrare in base allo spazio reale sullo schermo.
+// Priorità alle province più grandi; si salta chi non entra nella propria provincia o si
+// sovrappone a un'etichetta già scelta; si ignora ciò che è fuori vista; tetto al numero totale.
+// `view`: {k,x,y} come in MapView; `vb`: {x,y,w,h} del viewBox; `pxPerUnit`: pixel per unità di viewBox
+// (senza zoom); `offsets`: copie del mondo visibili.
+export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {}) {
+  const { fontPx = 11, maxLabels = 70, charW = 0.56, fitRatio = 0.7 } = opts;
+  const sx = view.k * pxPerUnit; // pixel per unità di mappa
+  const order = [...items].sort((a, b) => b.areaKm2 - a.areaKm2);
+  const placed = []; // rettangoli in pixel [x0,y0,x1,y1]
+  const out = [];
+  const h = fontPx * 1.15;
+  for (const off of offsets) {
+    for (const it of order) {
+      if (out.length >= maxLabels) return out;
+      const name = it.props.nameLocal ?? it.props.name;
+      const w = name.length * fontPx * charW;
+      if (it.bbox.w * sx < w * fitRatio || it.bbox.h * sx < h) continue; // non c'entra nella provincia
+      const px = (view.k * (it.label[0] + off) + view.x - vb.x) * pxPerUnit;
+      const py = (view.k * it.label[1] + view.y - vb.y) * pxPerUnit;
+      if (px + w / 2 < 0 || px - w / 2 > vb.w * pxPerUnit || py + h / 2 < 0 || py - h / 2 > vb.h * pxPerUnit) continue;
+      const r = [px - w / 2 - 2, py - h / 2 - 1, px + w / 2 + 2, py + h / 2 + 1];
+      if (placed.some((q) => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1])) continue;
+      placed.push(r);
+      out.push({ id: it.id, name, x: it.label[0], y: it.label[1], off });
+    }
+  }
+  return out;
 }
 
 // Zoom attorno a un punto fisso (coordinate della vista), limiti min/max inclusi.

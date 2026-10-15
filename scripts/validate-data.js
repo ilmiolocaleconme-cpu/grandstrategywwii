@@ -2,6 +2,7 @@
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { validateCatalog } from '../src/data/validate.js';
+import { loadProvinces } from './load-provinces.js';
 
 const dataDir = new URL('../data/', import.meta.url);
 
@@ -13,14 +14,22 @@ export async function loadCatalog(baseUrl = dataDir) {
     rivers: await read('rivers.json'),
     crossings: await read('crossings.json'),
     political: await read('political_1936.json'),
-    provinces: await read('provinces_1936.json'),
+    provinces: await loadProvinces(new URL('provinces/', baseUrl)),
     riversGeo: await read('rivers_geo.json'),
     lakes: await read('lakes.json'),
   };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const catalog = await loadCatalog();
+  let catalog;
+  try {
+    catalog = await loadCatalog();
+  } catch (error) {
+    // file province mancanti, duplicati o nel file sbagliato: si elencano tutti gli errori
+    (error.errors ?? [error.message]).forEach((e) => console.error(`ERRORE ${e}`));
+    console.log('FALLITO: i file in data/provinces/ non sono coerenti');
+    process.exit(1);
+  }
   const { ok, errors, warnings } = validateCatalog(catalog);
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));
   errors.forEach((e) => console.error(`ERRORE ${e}`));

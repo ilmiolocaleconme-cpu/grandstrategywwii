@@ -15,10 +15,13 @@ const ISSUE_LABEL = {
   may_include_sea: 'il poligono può includere tratti di mare',
   gau_nsdap: 'Gau NSDAP (distretto di partito), non una divisione amministrativa',
   riferimento_mappa_1937: 'riferimento: mappa del 31.12.1937, non del 1° gennaio 1936',
+  suddivisione_moderna_non_1936: 'suddivisione amministrativa moderna, non quella del 1936',
+  unita_storica_ricostruita: 'unità storica ricostruita da suddivisioni moderne',
+  allineato_ai_vicini_su_raster: 'confini verso i vicini ricalcolati sui loro tracciati (raster 0,0025°)',
   capoluogo_fuori_dal_contorno_costiero: 'il capoluogo cade fuori dal contorno costiero',
 };
 
-export default function ProvincePanel({ item, nationNames, onClose }) {
+export default function ProvincePanel({ item, nationNames, nationControl, onClose }) {
   if (!item) {
     return (
       <aside className="panel" aria-live="polite">
@@ -36,7 +39,8 @@ export default function ProvincePanel({ item, nationNames, onClose }) {
       </div>
       {p.nameLocal && p.nameLocal !== p.name && <p className="muted">{p.nameLocal}</p>}
       <dl>
-        <dt>Nazione</dt><dd>{nationNames[p.owner] ?? p.owner}</dd>
+        <dt>Territorio</dt><dd>{nationNames[p.owner] ?? p.owner}</dd>
+        {nationControl?.[p.owner] && nationControl[p.owner] !== p.owner && <><dt>Controllato da</dt><dd>{nationNames[nationControl[p.owner]] ?? nationControl[p.owner]}</dd></>}
         <dt>Area approssimata</dt><dd>{Math.round(item.areaKm2).toLocaleString('it-IT')} km²</dd>
         <dt>Qualità dei confini</dt>
         <dd><i className="dot" style={{ background: QUALITY_COLORS[p.borderQuality] }} />{QUALITY_LABEL[p.borderQuality] ?? p.borderQuality}</dd>

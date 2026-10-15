@@ -1,13 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import { validateCatalog } from '../src/data/validate.js';
 import { buildProvinceIndex, pointInPolygon } from '../src/data/geometry.js';
 import { loadCatalog } from '../scripts/validate-data.js';
+import { loadProvinces } from '../scripts/load-provinces.js';
 
-const provinces = JSON.parse(
-  await readFile(new URL('../data/provinces_1936.json', import.meta.url), 'utf8'),
-);
+const provinces = await loadProvinces();
 const index = buildProvinceIndex(provinces);
 
 // Fixture sintetiche SOLO per i test: non sono dati geografici storici.
@@ -117,6 +115,11 @@ const KNOWN_OVERLAPS = new Set([
   'P_BEL_LUXEMBOURG|P_LUX_DIEKIRCH',
   'P_DEU_OST_HANNOVER|P_DEU_SCHLESWIG_HOLSTEIN',
   'P_DEU_HALLE_MERSEBURG|P_DEU_NIEDERSCHLESIEN',
+  // Francia (Natural Earth) agganciata al confine OHM del Saarpfalz: strisce di pochi metri lungo ~100 km (~1 km² in tutto)
+  'P_DEU_SAARPFALZ|P_FRA_MOSELLE',
+  // Slovacchia derivata dal contorno OHM contro Ungheria e Romania (Natural Earth): strisce di pochi metri
+  'P_CZE_SLOVAKIA|P_HUN_BORSOD_ABAUJ_ZEMPLEN',
+  'P_CZE_SLOVAKIA|P_ROM_MARAMURES',
 ]);
 const MAX_OVERLAP_FRACTION = 0.0002; // 0,02% dei punti campionati coperti
 // Province olandesi (Natural Earth, solo terraferma) contro vicine OHM (poligoni con mare): fonti
@@ -194,7 +197,7 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     assert.equal(byId.get(id).borderQuality, 'hypothesis');
     assert.equal(byId.get(id).source.startsWith('Natural Earth'), true);
   }
-  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA').length, 19);
+  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA' && f.properties.id !== 'P_ITA_DODECANESO').length, 19);
 });
 
 test('Cecoslovacchia: le quattro terre, con la Slovacchia derivata', () => {
@@ -228,12 +231,23 @@ const ALIGNMENT_BOXES = [
   { name: 'Cecoslovacchia-Polonia', box: [14.8, 49.2, 19.8, 50.9], maxOverlap: 3, maxGap: 5 },
   { name: 'Slovacchia-Polonia', box: [18.5, 49.0, 22.8, 49.7], maxOverlap: 3, maxGap: 10 },
   { name: 'Slovacchia-Austria', box: [16.5, 47.9, 17.3, 48.9], maxOverlap: 3, maxGap: 25 },
-  { name: 'Slovacchia-Moravia-Rutenia', box: [16.9, 48.2, 22.8, 49.6], maxOverlap: 6, maxGap: 8 },
+  { name: 'Slovacchia-Moravia-Rutenia-Ungheria', box: [16.9, 48.2, 22.8, 49.6], maxOverlap: 10, maxGap: 20 },
   { name: 'Italia-Iugoslavia (Venezia Giulia, Zara; include tratti di mare)', box: [13.2, 44.0, 16.0, 46.0], maxOverlap: 3, maxGap: 120 },
   { name: 'Austria-Iugoslavia', box: [13.8, 46.3, 16.2, 46.9], maxOverlap: 4, maxGap: 40 },
   { name: 'Danzica-Pomerania-Prussia Orientale', box: [18.0, 53.8, 19.6, 54.7], maxOverlap: 3, maxGap: 30 },
   { name: 'Berlino-Kurmark', box: [13.0, 52.3, 13.8, 52.7], maxOverlap: 0, maxGap: 0 },
   { name: 'Emilia-Marche', box: [11.9, 43.6, 12.8, 44.4], maxOverlap: 1, maxGap: 5 },
+  // Europa orientale (Natural Earth, ricalcolata sui vicini): soglie circa il doppio di quanto misurato
+  { name: 'Ungheria-Austria', box: [16.0, 47.2, 17.3, 48.0], maxOverlap: 2, maxGap: 4 },
+  { name: 'Ungheria-Slovacchia', box: [17.0, 47.7, 22.9, 48.7], maxOverlap: 12, maxGap: 30 },
+  { name: 'Ungheria-Iugoslavia', box: [16.0, 45.4, 20.4, 46.3], maxOverlap: 4, maxGap: 4 },
+  { name: 'Ungheria-Romania', box: [20.2, 45.8, 22.2, 48.0], maxOverlap: 2, maxGap: 4 },
+  { name: 'Romania-Iugoslavia (Banato, Timok)', box: [20.2, 43.5, 23.1, 45.6], maxOverlap: 2, maxGap: 8 },
+  { name: 'Romania-Rutenia-Polonia', box: [22.0, 47.5, 26.5, 48.6], maxOverlap: 10, maxGap: 14 },
+  { name: 'Bulgaria-Iugoslavia', box: [22.2, 41.8, 23.1, 43.9], maxOverlap: 3, maxGap: 8 },
+  { name: 'Grecia-Iugoslavia', box: [20.7, 40.8, 22.9, 41.3], maxOverlap: 3, maxGap: 4 },
+  { name: 'Albania-Iugoslavia', box: [19.0, 41.3, 21.2, 43.2], maxOverlap: 3, maxGap: 16 },
+  { name: 'Romania-Bulgaria (Danubio)', box: [22.5, 43.5, 29.0, 44.3], maxOverlap: 1, maxGap: 2 },
 ];
 
 const YUG_CAPITALS = {
