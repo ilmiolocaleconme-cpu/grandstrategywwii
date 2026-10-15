@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import nations from '../data/nations.json';
 import resources from '../data/resources.json';
-import rivers from '../data/rivers.json';
 import political from '../data/political_1936.json';
 import provinces from '../data/provinces_1936.json';
-import riversGeo from '../data/rivers_geo.json';
-import lakes from '../data/lakes.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { initPwa } from './pwa.js';
@@ -13,19 +10,34 @@ import MapView from './map/MapView.jsx';
 import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
 import { buildMapModel } from './map/geo.js';
 
+// Fiumi e laghi (~600 kB) non stanno nel pacchetto iniziale: si scaricano dopo la comparsa della
+// mappa, in blocchi separati che il service worker mette nella cache del dispositivo (offline).
+function useWaterData() {
+  const [water, setWater] = useState({ status: 'loading', rivers: null, riversGeo: null, lakes: null });
+  useEffect(() => {
+    let alive = true;
+    Promise.all([import('../data/rivers.json'), import('../data/rivers_geo.json'), import('../data/lakes.json')])
+      .then(([r, g, l]) => alive && setWater({ status: 'ready', rivers: r.default, riversGeo: g.default, lakes: l.default }))
+      .catch(() => alive && setWater({ status: 'error', rivers: null, riversGeo: null, lakes: null }));
+    return () => { alive = false; };
+  }, []);
+  return water;
+}
+
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
 
 // Due schermate: la mappa strategica (province del 1936) e lo stato dei dati.
 // Le meccaniche di gioco non sono ancora implementate.
 export default function App() {
   const [tab, setTab] = useState('map');
+  const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData();
   const [layer, setLayer] = useState('political');
   const [provinceId, setProvinceId] = useState(null);
   const [riverId, setRiverId] = useState(null);
   const [showRivers, setShowRivers] = useState(true);
   const selectProvince = (id) => { setProvinceId(id); setRiverId(null); };
   const selectRiver = (id) => { setRiverId(id); setProvinceId(null); };
-  const selectedRiver = rivers.find((r) => r.id === riverId) ?? null;
+  const selectedRiver = rivers?.find((r) => r.id === riverId) ?? null;
   const [selected, setSelected] = useState(null);
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
@@ -34,8 +46,8 @@ export default function App() {
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
 
   const validation = useMemo(
-    () => validateCatalog({ nations, resources, rivers, crossings }),
-    [],
+    () => (rivers ? validateCatalog({ nations, resources, rivers, crossings }) : null),
+    [rivers],
   );
 
   useEffect(() => {
@@ -62,7 +74,7 @@ export default function App() {
         <div className="map-layout">
           <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
           {selectedRiver ? (
-            <RiverPanel river={selectedRiver} rivers={rivers} onClose={() => setRiverId(null)} />
+            <RiverPanel river={selectedRiver} rivers={rivers ?? []} onClose={() => setRiverId(null)} />
           ) : (
             <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} onClose={() => setProvinceId(null)} />
           )}
@@ -103,8 +115,8 @@ export default function App() {
         <h2 id="status-title">Stato</h2>
         <ul className="status">
           <li>
-            Dati: {validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
-            {resources.length} risorse, {rivers.length} fiumi, {lakes.features.length} laghi, {crossings.length} attraversamenti, {provinces.features.length} province)
+            Dati: {!validation ? (waterStatus === 'error' ? 'fiumi e laghi non caricati' : 'caricamento di fiumi e laghi…') : validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
+            {resources.length} risorse, {rivers?.length ?? '…'} fiumi, {lakes?.features.length ?? '…'} laghi, {crossings.length} attraversamenti, {provinces.features.length} province)
           </li>
           <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
           {pwa.error && <li className="warn">Errore del service worker</li>}

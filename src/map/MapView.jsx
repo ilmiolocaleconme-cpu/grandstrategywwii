@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LAYERS, buildMapModel, buildWaterModel, clampView, provinceFill, zoomAt } from './geo.js';
+import { LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, clampView, provinceFill, zoomAt } from './geo.js';
 
 const LABEL_MIN_K = 2.2; // sotto questo zoom le etichette delle province non si mostrano
 const IDENTITY = { k: 1, x: 0, y: 0 };
@@ -8,8 +8,9 @@ const IDENTITY = { k: 1, x: 0, y: 0 };
 // Legge le stesse province di data/provinces_1936.json usate dalle regole e dai test.
 export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
   const model = useMemo(() => buildMapModel(provinces), [provinces]);
-  const water = useMemo(() => buildWaterModel(rivers, riversGeo, lakes), [rivers, riversGeo, lakes]);
-  const riverNames = useMemo(() => new Map(rivers.map((r) => [r.id, r.name])), [rivers]);
+  // fiumi e laghi arrivano a parte (caricamento differito): finché mancano, la mappa funziona senza
+  const water = useMemo(() => (rivers && riversGeo && lakes ? buildWaterModel(rivers, riversGeo, lakes) : { lines: [], lakes: [] }), [rivers, riversGeo, lakes]);
+  const riverNames = useMemo(() => new Map((rivers ?? []).map((r) => [r.id, r.name])), [rivers]);
   const { bounds } = model;
   const pad = bounds.w * 0.02;
   const vb = `${bounds.x - pad} ${bounds.y - pad} ${bounds.w + 2 * pad} ${bounds.h + 2 * pad}`;
@@ -17,6 +18,15 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const svgRef = useRef(null);
   const [view, setView] = useState(IDENTITY);
   const [pxPerUnit, setPxPerUnit] = useState(10);
+  // Durante il gesto si disegnano versioni con meno punti e senza fiumi (telefoni con poca memoria/GPU);
+  // a gesto fermo torna il dettaglio pieno. Le versioni semplificate si calcolano dopo la prima schermata.
+  const [moving, setMoving] = useState(false);
+  const [lod, setLod] = useState(null);
+  const movingTimer = useRef(null);
+  useEffect(() => {
+    const t = setTimeout(() => setLod(buildLod(provinces)), 300);
+    return () => { clearTimeout(t); clearTimeout(movingTimer.current); };
+  }, [provinces]);
   const pointers = useRef(new Map());
   const gesture = useRef(null);
   const moved = useRef(false);
@@ -42,7 +52,12 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
     return [p.x, p.y];
   };
 
-  const applyView = useCallback((v) => setView(clampView(v, bounds)), [bounds]);
+  const applyView = useCallback((v) => {
+    setView(clampView(v, bounds));
+    setMoving(true);
+    clearTimeout(movingTimer.current);
+    movingTimer.current = setTimeout(() => setMoving(false), 160);
+  }, [bounds]);
 
   const onWheel = (e) => {
     const [cx, cy] = toView(e.clientX, e.clientY);
@@ -99,6 +114,8 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
 
   const selected = model.items.find((i) => i.id === selectedId);
   const px = 1 / (pxPerUnit * view.k); // 1 pixel dello schermo in unità di mappa
+  const level = moving && lod ? lodLevel(view.k) : -1;
+  const waterLevel = moving ? lodLevel(view.k) : -1; // fiumi e laghi restano visibili, con meno punti
 
   return (
     <div className="map-wrap">
@@ -119,7 +136,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
           {model.items.map((it) => (
             <path
               key={it.id}
-              d={it.d}
+              d={level >= 0 ? lod.items.get(it.id)[level] : it.d}
               fillRule="evenodd"
               fill={provinceFill(it.props, layer)}
               className={it.id === selectedId ? 'prov selected' : 'prov'}
@@ -128,16 +145,18 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
               onClick={() => !moved.current && onSelect(it.id)}
             />
           ))}
-          <path d={model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
+          <path d={level >= 0 ? lod.borders[level] : model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
           {showRivers && water.lakes.map((l) => (
-            <path key={l.id} d={l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
+            <path key={l.id} d={waterLevel >= 0 ? l.low[waterLevel] : l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
           ))}
           {showRivers && water.lines.map((l) => (
             <g key={l.key}>
-              <path d={l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
-              <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
-                <title>{riverNames.get(l.riverId)}</title>
-              </path>
+              <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
+              {!moving && (
+                <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
+                  <title>{riverNames.get(l.riverId)}</title>
+                </path>
+              )}
             </g>
           ))}
           {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
