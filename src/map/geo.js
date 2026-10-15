@@ -68,8 +68,9 @@ export function polygonsOf(feature) {
   return g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
 }
 
-export function lineToPath(coordinates) {
-  return ringToPath(coordinates).slice(0, -1); // polilinea aperta: niente chiusura Z
+export function lineToPath(coordinates, tol = 0) {
+  const pts = simplifyLine(coordinates.map(([lon, lat]) => project(lon, lat)), tol);
+  return pts.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${r3(x)} ${r3(y)}`).join(''); // polilinea aperta
 }
 
 // Anello esterno + buchi nello stesso path: va usato con fill-rule="evenodd".
@@ -195,12 +196,13 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
         riverId: f.properties.riverId,
         inLake: Boolean(f.properties.inLake),
         d: lineToPath(f.geometry.coordinates),
+        low: LOD_TOLERANCES.map((t) => lineToPath(f.geometry.coordinates, t)),
         width: RIVER_WIDTH_PX[river?.widthClass] ?? RIVER_WIDTH_PX.small,
         rank: river?.scalerank ?? 99,
       };
     })
     .sort((a, b) => b.rank - a.rank);
-  const lakeItems = lakes.features.map((f) => ({ id: f.properties.id, name: f.properties.name, d: featureToPath(f) }));
+  const lakeItems = lakes.features.map((f) => ({ id: f.properties.id, name: f.properties.name, d: featureToPath(f), low: LOD_TOLERANCES.map((t) => featureToPath(f, t)) }));
   return { lines, lakes: lakeItems };
 }
 

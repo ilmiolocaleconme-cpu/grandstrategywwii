@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   project, ringToPath, featureToPath, featureAreaKm2, labelPoint, boundsOf,
-  buildMapModel, buildLod, lodLevel, simplifyLine, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
+  buildMapModel, buildWaterModel, buildLod, lodLevel, simplifyLine, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
 } from '../src/map/geo.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 
@@ -160,4 +160,15 @@ test('livelli semplificati: molti meno punti, nessuna provincia svuotata, bordi 
   assert.equal(lodLevel(5), 1);
   assert.equal(lodLevel(20), 2);
   assert.ok(pts((i) => lod.items.get(i.id)[2]) < fullPts * 0.6);
+});
+
+test('fiumi e laghi: versioni semplificate presenti e con meno punti', () => {
+  const rivers = JSON.parse(readFileSync(new URL('../data/rivers.json', import.meta.url), 'utf8'));
+  const geo = JSON.parse(readFileSync(new URL('../data/rivers_geo.json', import.meta.url), 'utf8'));
+  const lakes = JSON.parse(readFileSync(new URL('../data/lakes.json', import.meta.url), 'utf8'));
+  const w = buildWaterModel(rivers, geo, lakes);
+  const count = (d) => (d.match(/[ML]/g) ?? []).length;
+  assert.ok(w.lines.every((l) => l.low.length === 3 && l.low.every((d) => count(d) >= 2)));
+  assert.ok(w.lines.reduce((a, l) => a + count(l.low[0]), 0) < w.lines.reduce((a, l) => a + count(l.d), 0) / 2);
+  assert.ok(w.lakes.every((l) => l.low.length === 3));
 });

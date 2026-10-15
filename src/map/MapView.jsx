@@ -115,6 +115,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const selected = model.items.find((i) => i.id === selectedId);
   const px = 1 / (pxPerUnit * view.k); // 1 pixel dello schermo in unità di mappa
   const level = moving && lod ? lodLevel(view.k) : -1;
+  const waterLevel = moving ? lodLevel(view.k) : -1; // fiumi e laghi restano visibili, con meno punti
 
   return (
     <div className="map-wrap">
@@ -145,15 +146,17 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
             />
           ))}
           <path d={level >= 0 ? lod.borders[level] : model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
-          {showRivers && !moving && water.lakes.map((l) => (
-            <path key={l.id} d={l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
+          {showRivers && water.lakes.map((l) => (
+            <path key={l.id} d={waterLevel >= 0 ? l.low[waterLevel] : l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
           ))}
-          {showRivers && !moving && water.lines.map((l) => (
+          {showRivers && water.lines.map((l) => (
             <g key={l.key}>
-              <path d={l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
-              <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
-                <title>{riverNames.get(l.riverId)}</title>
-              </path>
+              <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
+              {!moving && (
+                <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
+                  <title>{riverNames.get(l.riverId)}</title>
+                </path>
+              )}
             </g>
           ))}
           {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
