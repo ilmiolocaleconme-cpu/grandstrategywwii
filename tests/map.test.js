@@ -94,8 +94,8 @@ test('modello della mappa: stesse province dei dati e delle regole, tutte disegn
   assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => f.properties.id), ['P_ITA_LAZIO']);
   assert.ok(ids.has('P_ITA_LAZIO'));
   const { bounds } = model;
-  // h < 50: dalle Shetland (61° N) al Sahara libico (19° N) l'altezza e ~42 unita; oltre sarebbe un'anomalia (territori oltremare lontani)
-  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 50, JSON.stringify(bounds));
+  // h < 55: da Capo Nord (71° N) al Sahara libico (19° N) l'altezza e ~52 unita; oltre sarebbe un'anomalia (territori oltremare lontani)
+  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 55, JSON.stringify(bounds));
 });
 
 test('ogni nazione disegnata ha un nome nel catalogo politico (legenda e pannello)', () => {
