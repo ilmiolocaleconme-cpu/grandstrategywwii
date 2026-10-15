@@ -7,7 +7,7 @@ FeatureCollection GeoJSON (coordinate `[lon, lat]`). Stato: **dati reali ma appr
 - Ogni feature riporta `ohmRelation` e `wikidata` per risalire alla relazione originale. I file grezzi OHM **non** sono nel repository.
 - Natural Earth admin-1 5.1.1 (dominio pubblico) è stato scartato come fonte generale (confini moderni, granularità disomogenea) ed è usato **solo per i Paesi Bassi, la Sicilia e la Calabria**, perché OHM ha per il 1936 soltanto Frisia, Limburgo e Utrecht su 11 province olandesi, e non ha Sicilia (solo fino al 1923) né Calabria (solo dal 1947).
 
-## Copertura (136 province)
+## Copertura (252 province)
 | owner | contenuto |
 |---|---|
 | DEU | 32 Gaue NSDAP (ipotesi, vedi `docs/GAUE.md`); le 30 province/Länder originali sono in `data/archive/provinces_deu_1936_lander.json`, non caricate |
@@ -16,6 +16,9 @@ FeatureCollection GeoJSON (coordinate `[lon, lat]`). Stato: **dati reali ma appr
 | BEL | 9 province |
 | LUX | 3 distretti |
 | ITA | Zara (anello dell'enclave dal contorno del Regno d'Italia OHM) + 16 regioni OHM (Piemonte, Liguria, Lombardia, Venezia Tridentina, Veneto, Venezia Giulia, Emilia, Toscana, Marche, Umbria, Lazio, Abruzzi e Molise, Campania, Puglie, Lucania, Sardegna) + **Sicilia e Calabria da Natural Earth** (`hypothesis`) |
+| FRA | 90 dipartimenti da **Natural Earth** (`kind: departement`), come nel 1936: Senna (Parigi e 3 attuali), Senna e Oise (3 attuali) e Corsica (2 attuali) uniti; Alsazia-Lorena e Territorio di Belfort inclusi. `hypothesis` |
+| CHE | 25 cantoni da **Natural Earth** (`kind: kanton`); il Giura (cantone dal 1979) è unito a Berna. `hypothesis` |
+| LIE | Liechtenstein, 1 stato (11 comuni uniti), da Natural Earth. `hypothesis` |
 | NLD | 11 province da **Natural Earth** (non OHM), `borderQuality: "hypothesis"` |
 | CZE | Boemia, Moravia-Slesia, Rutenia subcarpatica (OHM) + **Slovacchia derivata** (contorno della Cecoslovacchia OHM meno le tre terre; `hypothesis`, `dateBasis: derived`, validità fino al 3/7/1936) |
 
@@ -50,3 +53,9 @@ Per rendere la mappa leggibile (soprattutto su telefono) i confini **interni** t
 - **Riproducibilità.** Lo script di semplificazione non è nel repository (come gli altri strumenti di preparazione dati); i dati risultanti sono in `data/provinces_1936.json`.
 
 - **Semplificazione dei confini interni.** I confini interni sono stati semplificati in modo topologico (tolleranza ≤0,05°, spigoli condivisi invariati, giunzioni fisse); i confini esterni sono rimasti identici. Lo script non è nel repository.
+
+## Francia, Svizzera e Liechtenstein (metodo)
+- **Fonte:** Natural Earth 10m admin-1 v5.1.1 (dominio pubblico), confini moderni, solo terraferma (laghi esclusi: nessun Lemano né Costanza). Monaco e Andorra non sono inclusi (nessuna fonte). Dopo il 1936 cambiano: Tenda e Briga (1947, nei dati restano all'Italia OHM), i comuni svizzeri e le fusioni dipartimentali.
+- **Allineamento:** raster a etichette (0,0025°) con priorità ai vicini già presenti (BEL, LUX, DEU, AUT, ITA); le fessure tra Stati diversi fino a ~3 km sono colmate (~1.560 km², in gran parte acqua); i bordi tra etichette sono tracciati sul reticolo come **archi condivisi**, così i confini interni (dipartimenti, cantoni) combaciano vertice per vertice e quelli verso i vicini sono agganciati ai loro tracciati. Misura su raster 0,001°: sovrapposizioni 0,4–7 km² e fessure 1–7 km² per ciascun tratto di confine (centinaia di km), mai buchi evidenti.
+- **Semplificazione:** costa 0,003°, confini nazionali 0,003°, verso i vicini 0,0008°, interni fino a 0,015° (≈1,5 km).
+- **Limiti:** le città costiere possono cadere appena fuori dal poligono (Ajaccio, Bastia, Calvi in prova); una striscia di sovrapposizione di circa 1 km² tra Moselle e Saarpfalz è ammessa dal test (`KNOWN_OVERLAPS`); lo script di costruzione non è nel repository.

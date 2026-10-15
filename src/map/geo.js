@@ -16,10 +16,15 @@ export function ringToPath(ring, tol = 0) {
   if (tol > 0 && pts.length > 5) {
     // anello chiuso: si semplifica dividendo a metà, così nessun vertice speciale viene perso
     const m = Math.floor(pts.length / 2);
-    const a = simplifyLine(pts.slice(0, m + 1), tol);
-    const b = simplifyLine(pts.slice(m), tol);
-    pts = [...a.slice(0, -1), ...b];
-    if (pts.length < 4) return '';
+    let simplified = [];
+    // province minuscole (p. es. il Liechtenstein) collasserebbero: si riprova con tolleranze più fini
+    for (const t of [tol, tol / 4, tol / 16]) {
+      const a = simplifyLine(pts.slice(0, m + 1), t);
+      const b = simplifyLine(pts.slice(m), t);
+      simplified = [...a.slice(0, -1), ...b];
+      if (simplified.length >= 6) break;
+    }
+    if (simplified.length >= 4) pts = simplified;
   }
   let d = '';
   for (let i = 0; i < pts.length; i += 1) d += `${i === 0 ? 'M' : 'L'}${r3(pts[i][0])} ${r3(pts[i][1])}`;
@@ -152,6 +157,7 @@ export function boundsOf(features) {
 const OWNER_HUE = {
   DEU: [32, 14], POL: [4, 42], AUT: [44, 55], BEL: [112, 30], LUX: [176, 32],
   CZE: [220, 36], NLD: [26, 62], ITA: [92, 34], YUG: [280, 28], DANZIG: [196, 45],
+  FRA: [250, 38], CHE: [330, 48], LIE: [160, 50],
 };
 
 function hash(str) {

@@ -117,6 +117,8 @@ const KNOWN_OVERLAPS = new Set([
   'P_BEL_LUXEMBOURG|P_LUX_DIEKIRCH',
   'P_DEU_OST_HANNOVER|P_DEU_SCHLESWIG_HOLSTEIN',
   'P_DEU_HALLE_MERSEBURG|P_DEU_NIEDERSCHLESIEN',
+  // Francia (Natural Earth) agganciata al confine OHM del Saarpfalz: strisce di pochi metri lungo ~100 km (~1 km² in tutto)
+  'P_DEU_SAARPFALZ|P_FRA_MOSELLE',
 ]);
 const MAX_OVERLAP_FRACTION = 0.0002; // 0,02% dei punti campionati coperti
 // Province olandesi (Natural Earth, solo terraferma) contro vicine OHM (poligoni con mare): fonti
