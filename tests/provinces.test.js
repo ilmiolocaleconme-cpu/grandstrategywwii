@@ -169,6 +169,14 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Pescara', 14.21, 42.46, 'P_ITA_ABRUZZI_E_MOLISE'],
     ['Amatrice (Rieti, Lazio)', 13.29, 42.63, 'P_ITA_LAZIO'],
     ['Zara (enclave italiana)', 15.23, 44.12, 'P_ITA_ZARA'],
+    ['Belgrado', 20.46, 44.82, 'P_YUG_YUGOSLAVIA'],
+    ['Lubiana', 14.51, 46.06, 'P_YUG_YUGOSLAVIA'],
+    ['Zagabria', 15.98, 45.81, 'P_YUG_YUGOSLAVIA'],
+    ['Sarajevo', 18.41, 43.86, 'P_YUG_YUGOSLAVIA'],
+    ['Skopje', 21.43, 42.0, 'P_YUG_YUGOSLAVIA'],
+    ['Spalato', 16.44, 43.51, 'P_YUG_YUGOSLAVIA'],
+    ['Fiume (italiana)', 14.44, 45.33, 'P_ITA_JULIAN_MARCH'],
+    ['Klagenfurt', 14.31, 46.62, 'P_AUT_CARINTHIA'],
   ];
   for (const [name, lon, lat, expected] of cases) assert.deepEqual(at(lon, lat), [expected], name);
   const byId = new Map(provinces.features.map((f) => [f.properties.id, f.properties]));
@@ -211,6 +219,8 @@ const ALIGNMENT_BOXES = [
   { name: 'Slovacchia-Polonia', box: [18.5, 49.0, 22.8, 49.7], maxOverlap: 3, maxGap: 10 },
   { name: 'Slovacchia-Austria', box: [16.5, 47.9, 17.3, 48.9], maxOverlap: 3, maxGap: 25 },
   { name: 'Slovacchia-Moravia-Rutenia', box: [16.9, 48.2, 22.8, 49.6], maxOverlap: 6, maxGap: 8 },
+  { name: 'Italia-Iugoslavia (Venezia Giulia, Zara; include tratti di mare)', box: [13.2, 44.0, 16.0, 46.0], maxOverlap: 3, maxGap: 120 },
+  { name: 'Austria-Iugoslavia', box: [13.8, 46.3, 16.2, 46.9], maxOverlap: 4, maxGap: 40 },
   { name: 'Emilia-Marche', box: [11.9, 43.6, 12.8, 44.4], maxOverlap: 1, maxGap: 5 },
 ];
 
