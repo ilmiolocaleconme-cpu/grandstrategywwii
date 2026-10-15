@@ -197,6 +197,74 @@ function checkProvinces(provinces, political, errors, warnings) {
   }
 }
 
+// Geometria dei fiumi: ogni tratto riferisce un fiume del catalogo, ogni fiume ha almeno un tratto.
+function checkRiversGeo(geo, rivers, errors) {
+  if (!geo || geo.type !== 'FeatureCollection' || !Array.isArray(geo.features)) {
+    errors.push('riversGeo: deve essere una FeatureCollection');
+    return;
+  }
+  const withGeometry = new Set();
+  geo.features.forEach((f, i) => {
+    const where = `riversGeo[${i}]`;
+    const id = f?.properties?.riverId;
+    if (!rivers.has(id)) {
+      errors.push(`${where}: riferisce il fiume inesistente "${id}"`);
+      return;
+    }
+    withGeometry.add(id);
+    const g = f.geometry;
+    if (!g || g.type !== 'LineString' || !Array.isArray(g.coordinates) || g.coordinates.length < 2) {
+      errors.push(`${where}: "${id}" ha una linea non valida`);
+      return;
+    }
+    for (const [lon, lat] of g.coordinates) {
+      if (!Number.isFinite(lon) || !Number.isFinite(lat) || Math.abs(lon) > 180 || Math.abs(lat) > 90) {
+        errors.push(`${where}: "${id}" ha coordinate fuori intervallo`);
+        return;
+      }
+    }
+  });
+  for (const id of rivers.keys()) {
+    if (!withGeometry.has(id)) errors.push(`riversGeo: il fiume "${id}" non ha nessun tratto`);
+  }
+}
+
+function checkLakes(lakes, errors) {
+  if (!lakes || lakes.type !== 'FeatureCollection' || !Array.isArray(lakes.features)) {
+    errors.push('lakes: deve essere una FeatureCollection');
+    return;
+  }
+  const seen = new Set();
+  lakes.features.forEach((f, i) => {
+    const props = f?.properties ?? {};
+    if (typeof props.id !== 'string' || !ID_PATTERN.test(props.id)) {
+      errors.push(`lakes[${i}]: id non valido (${JSON.stringify(props.id)})`);
+      return;
+    }
+    if (seen.has(props.id)) errors.push(`lakes: id duplicato "${props.id}"`);
+    seen.add(props.id);
+    for (const field of ['source', 'license']) {
+      if (typeof props[field] !== 'string' || props[field] === '') {
+        errors.push(`lakes: "${props.id}" campo obbligatorio mancante "${field}"`);
+      }
+    }
+    const g = f.geometry;
+    if (!g || g.type !== 'MultiPolygon' || !Array.isArray(g.coordinates) || g.coordinates.length === 0) {
+      errors.push(`lakes: "${props.id}" ha una geometria non valida`);
+      return;
+    }
+    for (const polygon of g.coordinates) {
+      for (const ring of polygon) {
+        const problem = ringProblem(ring);
+        if (problem) {
+          errors.push(`lakes: "${props.id}" ${problem}`);
+          return;
+        }
+      }
+    }
+  });
+}
+
 /**
  * Valida un catalogo { nations, resources, rivers, crossings, political? }.
  * `provinces` (FeatureCollection) è opzionale e richiede `political` per i controlli sugli owner. `political` è opzionale: se assente, la sua validazione e i controlli incrociati
@@ -229,7 +297,14 @@ export function validateCatalog(catalog) {
   if (input.provinces !== undefined) {
     checkProvinces(input.provinces, input.political, errors, warnings);
   }
+  if (input.riversGeo !== undefined) {
+    checkRiversGeo(input.riversGeo, rivers, errors);
+  }
+  if (input.lakes !== undefined) {
+    checkLakes(input.lakes, errors);
+  }
 
+  const approximateRivers = [];
   for (const river of rivers.values()) {
     if (!RIVER_CLASSES.includes(river.class)) {
       errors.push(`rivers: "${river.id}" ha una classe non valida "${river.class}"`);
@@ -240,8 +315,13 @@ export function validateCatalog(catalog) {
     if (typeof river.approximate !== 'boolean') {
       errors.push(`rivers: "${river.id}" approximate deve essere booleano`);
     } else if (river.approximate) {
-      warnings.push(`rivers: "${river.id}" è marcato come approssimazione`);
+      approximateRivers.push(river.id);
     }
+  }
+  if (approximateRivers.length > 5) {
+    warnings.push(`rivers: ${approximateRivers.length} fiumi su ${rivers.size} sono marcati come approssimazione`);
+  } else {
+    approximateRivers.forEach((id) => warnings.push(`rivers: "${id}" è marcato come approssimazione`));
   }
   checkRiverGraph(rivers, errors);
 

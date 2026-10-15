@@ -25,6 +25,10 @@ export function polygonsOf(feature) {
   return g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
 }
 
+export function lineToPath(coordinates) {
+  return ringToPath(coordinates).slice(0, -1); // polilinea aperta: niente chiusura Z
+}
+
 // Anello esterno + buchi nello stesso path: va usato con fill-rule="evenodd".
 export function featureToPath(feature) {
   return polygonsOf(feature)
@@ -132,6 +136,29 @@ export const LAYERS = [
 export function provinceFill(props, layer) {
   if (layer === 'quality') return QUALITY_COLORS[props.borderQuality] ?? '#777';
   return ownerColor(props.owner, props.id);
+}
+
+// Fiumi e laghi: percorsi pronti per l'SVG. I fiumi sono ordinati dal più piccolo al più grande,
+// così i grandi restano sopra. Stessi dati (data/rivers_geo.json) usati dalle regole.
+export const RIVER_WIDTH_PX = { large: 2.4, medium: 1.5, small: 0.9 };
+
+export function buildWaterModel(rivers, riversGeo, lakes) {
+  const byId = new Map(rivers.map((r) => [r.id, r]));
+  const lines = riversGeo.features
+    .map((f) => {
+      const river = byId.get(f.properties.riverId);
+      return {
+        key: `${f.properties.riverId}#${f.properties.segment}`,
+        riverId: f.properties.riverId,
+        inLake: Boolean(f.properties.inLake),
+        d: lineToPath(f.geometry.coordinates),
+        width: RIVER_WIDTH_PX[river?.widthClass] ?? RIVER_WIDTH_PX.small,
+        rank: river?.scalerank ?? 99,
+      };
+    })
+    .sort((a, b) => b.rank - a.rank);
+  const lakeItems = lakes.features.map((f) => ({ id: f.properties.id, name: f.properties.name, d: featureToPath(f) }));
+  return { lines, lakes: lakeItems };
 }
 
 export function buildMapModel(collection) {

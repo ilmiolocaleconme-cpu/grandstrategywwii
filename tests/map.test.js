@@ -101,3 +101,18 @@ test('ogni nazione disegnata ha un nome nel catalogo politico (legenda e pannell
     assert.ok(names.has(owner), `nome mancante per ${owner}`);
   }
 });
+
+test('fiumi e laghi: percorsi SVG aperti per le linee, ordine dal più piccolo al più grande', async () => {
+  const { lineToPath, buildWaterModel, RIVER_WIDTH_PX } = await import('../src/map/geo.js');
+  assert.ok(!lineToPath([[10, 45], [11, 45.5]]).endsWith('Z'));
+  assert.match(lineToPath([[10, 45], [11, 45.5]]), /^M[\d. -]+L[\d. -]+$/);
+  const rivers = JSON.parse(readFileSync(new URL('../data/rivers.json', import.meta.url), 'utf8'));
+  const geo = JSON.parse(readFileSync(new URL('../data/rivers_geo.json', import.meta.url), 'utf8'));
+  const lakes = JSON.parse(readFileSync(new URL('../data/lakes.json', import.meta.url), 'utf8'));
+  const w = buildWaterModel(rivers, geo, lakes);
+  assert.equal(w.lines.length, geo.features.length);
+  assert.equal(w.lakes.length, lakes.features.length);
+  for (let i = 1; i < w.lines.length; i++) assert.ok(w.lines[i - 1].rank >= w.lines[i].rank);
+  assert.ok(w.lines.every((l) => !l.d.includes('NaN') && l.width > 0));
+  assert.equal(w.lines.at(-1).width, RIVER_WIDTH_PX.large);
+});

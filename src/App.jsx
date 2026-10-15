@@ -4,11 +4,13 @@ import resources from '../data/resources.json';
 import rivers from '../data/rivers.json';
 import political from '../data/political_1936.json';
 import provinces from '../data/provinces_1936.json';
+import riversGeo from '../data/rivers_geo.json';
+import lakes from '../data/lakes.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
-import ProvincePanel from './map/ProvincePanel.jsx';
+import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
 import { buildMapModel } from './map/geo.js';
 
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
@@ -19,6 +21,11 @@ export default function App() {
   const [tab, setTab] = useState('map');
   const [layer, setLayer] = useState('political');
   const [provinceId, setProvinceId] = useState(null);
+  const [riverId, setRiverId] = useState(null);
+  const [showRivers, setShowRivers] = useState(true);
+  const selectProvince = (id) => { setProvinceId(id); setRiverId(null); };
+  const selectRiver = (id) => { setRiverId(id); setProvinceId(null); };
+  const selectedRiver = rivers.find((r) => r.id === riverId) ?? null;
   const [selected, setSelected] = useState(null);
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
@@ -53,8 +60,12 @@ export default function App() {
       <div className="shell">
         {tabs}
         <div className="map-layout">
-          <MapView provinces={provinces} nationNames={NATION_NAMES} selectedId={provinceId} onSelect={setProvinceId} layer={layer} onLayerChange={setLayer} />
-          <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} onClose={() => setProvinceId(null)} />
+          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
+          {selectedRiver ? (
+            <RiverPanel river={selectedRiver} rivers={rivers} onClose={() => setRiverId(null)} />
+          ) : (
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} onClose={() => setProvinceId(null)} />
+          )}
         </div>
       </div>
     );
@@ -93,7 +104,7 @@ export default function App() {
         <ul className="status">
           <li>
             Dati: {validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
-            {resources.length} risorse, {rivers.length} fiumi, {crossings.length} attraversamenti, {provinces.features.length} province)
+            {resources.length} risorse, {rivers.length} fiumi, {lakes.features.length} laghi, {crossings.length} attraversamenti, {provinces.features.length} province)
           </li>
           <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
           {pwa.error && <li className="warn">Errore del service worker</li>}
