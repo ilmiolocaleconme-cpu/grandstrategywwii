@@ -116,7 +116,7 @@ const KNOWN_OVERLAPS = new Set([
 const MAX_OVERLAP_FRACTION = 0.0002; // 0,02% dei punti campionati coperti
 // Province olandesi (Natural Earth, solo terraferma) contro vicine OHM (poligoni con mare): fonti
 // diverse, quindi sovrapposizioni lungo il confine con Belgio e Germania. Ammesse solo con BEL/DEU.
-const MAX_NL_OVERLAP_FRACTION = 0.0005;
+const MAX_NL_OVERLAP_FRACTION = 0.0001;
 const isNlBorderPair = (key) => {
   const owners = key.split('|').map((id) => id.split('_')[1]);
   return owners.includes('NLD') && owners.every((o) => ['NLD', 'BEL', 'DEU'].includes(o)) &&
@@ -147,4 +147,62 @@ test('le province non si sovrappongono oltre le tolleranze note', () => {
   assert.deepEqual([...unexpected], []);
   assert.ok(overlapping / covered <= MAX_OVERLAP_FRACTION, `sovrapposizioni: ${overlapping}/${covered}`);
   assert.ok(nlOverlapping / covered <= MAX_NL_OVERLAP_FRACTION, `sovrapposizioni NL: ${nlOverlapping}/${covered}`);
+});
+
+test('Italia: città note nella regione attesa e regioni mancanti coperte come ipotesi', () => {
+  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+  const cases = [
+    ['Roma', 12.5, 41.9, 'P_ITA_LAZIO'],
+    ['Milano', 9.19, 45.46, 'P_ITA_LOMBARDY'],
+    ['Bologna', 11.34, 44.49, 'P_ITA_EMILIA'],
+    ['Trieste (Venezia Giulia)', 13.77, 45.65, 'P_ITA_JULIAN_MARCH'],
+    ['Fiume', 14.44, 45.33, 'P_ITA_JULIAN_MARCH'],
+    ['Bolzano (Venezia Tridentina)', 11.35, 46.5, 'P_ITA_TRIDENTINE_VENETIA'],
+    ['Napoli', 14.27, 40.85, 'P_ITA_CAMPANIA'],
+    ['Palermo', 13.36, 38.12, 'P_ITA_SICILY'],
+    ['Cosenza', 16.25, 39.3, 'P_ITA_CALABRIA'],
+  ];
+  for (const [name, lon, lat, expected] of cases) assert.deepEqual(at(lon, lat), [expected], name);
+  const byId = new Map(provinces.features.map((f) => [f.properties.id, f.properties]));
+  for (const id of ['P_ITA_SICILY', 'P_ITA_CALABRIA']) {
+    assert.equal(byId.get(id).borderQuality, 'hypothesis');
+    assert.equal(byId.get(id).source.startsWith('Natural Earth'), true);
+  }
+  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA').length, 18);
+});
+
+// Allineamento lungo i confini tra fonti diverse: campionamento fine su finestre di confine.
+// Sovrapposizioni tra id diversi e fessure (punto scoperto con owner diversi entro 0,04°) in km².
+const ALIGNMENT_BOXES = [
+  { name: 'Italia-Austria', box: [10.3, 46.2, 13.9, 47.2], maxOverlap: 1, maxGap: 30 },
+  { name: 'Paesi Bassi-Belgio', box: [2.5, 50.7, 6.5, 51.8], maxOverlap: 5, maxGap: 40 },
+  { name: 'Paesi Bassi-Germania', box: [5.8, 50.8, 7.4, 53.6], maxOverlap: 5, maxGap: 40 },
+  { name: 'Campania-Abruzzi e Molise', box: [13.8, 40.9, 15.6, 42.0], maxOverlap: 1, maxGap: 5 },
+  { name: 'Calabria-Lucania', box: [15.5, 39.4, 17.0, 40.4], maxOverlap: 1, maxGap: 5 },
+  { name: 'Emilia-Marche', box: [11.9, 43.6, 12.8, 44.4], maxOverlap: 1, maxGap: 5 },
+];
+
+test('i confini tra fonti diverse sono allineati entro le tolleranze', () => {
+  const step = 0.01;
+  const d = 0.04;
+  for (const { name, box: [x0, y0, x1, y1], maxOverlap, maxGap } of ALIGNMENT_BOXES) {
+    const km2 = step * 111.32 * Math.cos((y0 * Math.PI) / 180) * step * 110.57;
+    let overlap = 0;
+    let gap = 0;
+    for (let y = y0; y < y1; y += step) {
+      for (let x = x0; x < x1; x += step) {
+        const hits = index.provincesAt(x, y);
+        if (hits.length > 1) overlap += 1;
+        else if (hits.length === 0) {
+          const owners = new Set();
+          for (const [dx, dy] of [[d, 0], [-d, 0], [0, d], [0, -d]]) {
+            for (const f of index.provincesAt(x + dx, y + dy)) owners.add(f.properties.owner);
+          }
+          if (owners.size > 1) gap += 1;
+        }
+      }
+    }
+    assert.ok(overlap * km2 <= maxOverlap, `${name}: sovrapposizioni ${Math.round(overlap * km2)} km²`);
+    assert.ok(gap * km2 <= maxGap, `${name}: fessure ${Math.round(gap * km2)} km²`);
+  }
 });
