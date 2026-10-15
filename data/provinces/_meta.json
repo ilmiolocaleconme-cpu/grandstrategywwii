@@ -22,7 +22,20 @@
   "ESP",
   "PRT",
   "MAR",
-  "MAR_ES"
+  "MAR_ES",
+  "GBR",
+  "ALG",
+  "TUN",
+  "LBA",
+  "EGY",
+  "PAL",
+  "JOR",
+  "SYR",
+  "LBN",
+  "TUR",
+  "CYP",
+  "MLT",
+  "GIB"
  ],
  "metadata": {
   "asOf": "1936-01-01",
@@ -46,7 +59,8 @@
    "DANZIG: Citta Libera di Danzica (OHM 2691478) come regione",
    "FRA (90 dipartimenti, con Alsazia-Lorena e Corsica), CHE (25 cantoni; il Giura è parte di Berna) e LIE (1 stato) da Natural Earth, ipotesi",
    "HUN (20: 19 contee attuali e Budapest), ROM (45: 41 județe attuali, Bucarest, Basarabia, Bucovina de Nord e Cadrilater ricostruite), BGR (26 oblast attuali), GRC (14 periferie attuali, Cicladi senza Dodecaneso), ALB (12 qark attuali) e ITA Dodecaneso (1), da Natural Earth, ipotesi",
-   "ESP (50 province, Canarie incluse), PRT (22 distretti: 18 continentali più Ponta Delgada, Angra do Heroísmo, Horta e Funchal), MAR (12 regioni attuali, senza le tre regioni sahariane) e MAR_ES (zona nord del protettorato spagnolo, da immagine): da Natural Earth 10m 5.1.1, ipotesi"
+   "ESP (50 province, Canarie incluse), PRT (22 distretti: 18 continentali più Ponta Delgada, Angra do Heroísmo, Horta e Funchal), MAR (12 regioni attuali, senza le tre regioni sahariane) e MAR_ES (zona nord del protettorato spagnolo, da immagine): da Natural Earth 10m 5.1.1, ipotesi",
+   "GBR (Inghilterra: 40 contee 1936 ricomposte da Natural Earth; Galles, Scozia e Irlanda del Nord mancanti), ALG (48), TUN (23), LBA (22), EGY (27), PAL (8), JOR (12), SYR (15, con Hatay), LBN (6), TUR (80, senza Hatay), CYP (6), MLT (1), GIB (1) da Natural Earth 10m 5.1.1, ipotesi"
   ],
   "limitations": [
    "Nessun confine è verificato: tutte le feature sono borderQuality=approximate (OHM segnala \"needs source for boundary lines\")",
@@ -67,7 +81,9 @@
    "HUN, ROM, BGR, GRC e ALB vengono da Natural Earth 5.1.1 (dominio pubblico): suddivisioni amministrative moderne, non quelle del 1936 (la Romania aveva 71 județe, l'Ungheria 25 contee), solo terraferma, borderQuality=hypothesis; Basarabia, Bucovina de Nord, Cadrilater e Dodecaneso sono ricostruiti da unità attuali (Dodecaneso: isole a est di 26,15° E); i confini verso AUT, CZE, POL, YUG e ITA sono ricalcolati sui loro tracciati (raster 0,0025 gradi)",
    "ESP e PRT vengono da Natural Earth 5.1.1 (dominio pubblico): confini provinciali e distrettuali attuali, solo terraferma, qualità hypothesis; Santander e Logroño sono Cantabria e La Rioja attuali, Ceuta è unita a Cadice e Melilla a Malaga; il confine con la Francia usa i vertici di FRA (Andorra esclusa) e quello tra Spagna e Portogallo gli stessi vertici su entrambi i lati; Azzorre e Madeira sono regioni in Natural Earth: i quattro distretti 1936 sono ricomposti assegnando le isole",
    "Mancano Ifni, Sahara spagnolo e Tangeri",
-   "MAR: regioni marocchine attuali (non le suddivisioni del protettorato), rasterizzate a 0,002 gradi (~200 m) e ritagliate sulla zona spagnola (MAR_ES) tracciata da un'immagine fornita dall'utente (licenza non verificata; errore ~9 km); Guelmim-Es Semara, Laâyoune-Boujdour e Oued el Dahab escluse (Sahara spagnolo, Ifni e Tarfaya)"
+   "MAR: regioni marocchine attuali (non le suddivisioni del protettorato), rasterizzate a 0,002 gradi (~200 m) e ritagliate sulla zona spagnola (MAR_ES) tracciata da un'immagine fornita dall'utente (licenza non verificata; errore ~9 km); Guelmim-Es Semara, Laâyoune-Boujdour e Oued el Dahab escluse (Sahara spagnolo, Ifni e Tarfaya)",
+   "GBR: Natural Earth ha unita locali attuali sovrapposte; le 40 contee sono ricomposte assegnando a mano ogni unita alla contea del 1936 e rasterizzate a 0,002 gradi (~200 m): Cumberland e Westmorland, Huntingdonshire, i tre Riding dello Yorkshire e le tre parti del Lincolnshire non sono separabili; il Soke di Peterborough e in Northamptonshire; Isola di Wight e County of London a parte. Galles, Scozia e Irlanda del Nord non ci sono",
+   "Mediterraneo (ALG, TUN, LBA, EGY, PAL, JOR, SYR, LBN, TUR, CYP, MLT, GIB): suddivisioni amministrative attuali di Natural Earth, non quelle del 1936 (Algeria 3 dipartimenti piu territori del sud, Libia 4 province, Siria in stati, Palestina in distretti); Hatay e in SYR (Sanjak di Alessandretta, turco dal 1939); PAL comprende Cisgiordania e Gaza; Cipro ha una sesta unita (Cipro del Nord) al posto di Kyrenia; Malta unita in un'isola sola; confini internazionali agganciati ai vertici dei vicini gia presenti; il mare (zone navali) non e rappresentato qui"
   ]
  }
 }
