@@ -169,6 +169,12 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Pescara', 14.21, 42.46, 'P_ITA_ABRUZZI_E_MOLISE'],
     ['Amatrice (Rieti, Lazio)', 13.29, 42.63, 'P_ITA_LAZIO'],
     ['Zara (enclave italiana)', 15.23, 44.12, 'P_ITA_ZARA'],
+    ['Berlino', 13.4, 52.52, 'P_DEU_BERLIN'],
+    ['Spandau (Berlino)', 13.2, 52.54, 'P_DEU_BERLIN'],
+    ['Potsdam', 13.06, 52.4, 'P_DEU_PROVINCE_OF_BRANDENBURG'],
+    ['Danzica', 18.65, 54.35, 'P_DANZIG_FREE_CITY'],
+    ['Zoppot (Danzica)', 18.57, 54.44, 'P_DANZIG_FREE_CITY'],
+    ['Gdynia (corridoio polacco)', 18.53, 54.52, 'P_POL_POMERANIAN_VOIVODESHIP'],
     ['Belgrado', 20.46, 44.82, 'P_YUG_BEOGRAD'],
     ['Lubiana', 14.51, 46.06, 'P_YUG_LJUBLJANA'],
     ['Zagabria', 15.98, 45.81, 'P_YUG_ZAGREB'],
@@ -221,6 +227,8 @@ const ALIGNMENT_BOXES = [
   { name: 'Slovacchia-Moravia-Rutenia', box: [16.9, 48.2, 22.8, 49.6], maxOverlap: 6, maxGap: 8 },
   { name: 'Italia-Iugoslavia (Venezia Giulia, Zara; include tratti di mare)', box: [13.2, 44.0, 16.0, 46.0], maxOverlap: 3, maxGap: 120 },
   { name: 'Austria-Iugoslavia', box: [13.8, 46.3, 16.2, 46.9], maxOverlap: 4, maxGap: 40 },
+  { name: 'Danzica-Pomerania-Prussia Orientale', box: [18.0, 53.8, 19.6, 54.7], maxOverlap: 3, maxGap: 30 },
+  { name: 'Berlino-Brandenburg', box: [13.0, 52.3, 13.8, 52.7], maxOverlap: 0, maxGap: 0 },
   { name: 'Emilia-Marche', box: [11.9, 43.6, 12.8, 44.4], maxOverlap: 1, maxGap: 5 },
 ];
 

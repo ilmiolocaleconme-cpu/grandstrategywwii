@@ -103,7 +103,7 @@ export function boundsOf(features) {
 // leggera variazione di luminosità per provincia, così le suddivisioni restano visibili.
 const OWNER_HUE = {
   DEU: [32, 14], POL: [4, 42], AUT: [44, 55], BEL: [112, 30], LUX: [176, 32],
-  CZE: [220, 36], NLD: [26, 62], ITA: [92, 34], YUG: [280, 28],
+  CZE: [220, 36], NLD: [26, 62], ITA: [92, 34], YUG: [280, 28], DANZIG: [196, 45],
 };
 
 function hash(str) {
