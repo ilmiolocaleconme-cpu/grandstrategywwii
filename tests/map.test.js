@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import {
   project, ringToPath, featureToPath, featureAreaKm2, labelPoint, boundsOf,
   buildMapModel, buildWaterModel, buildLod, lodLevel, simplifyLine, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
+  WORLD_W, MAX_LAT, wrapLon, lonDelta, wrapView, visibleCopies,
 } from '../src/map/geo.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
@@ -173,4 +174,75 @@ test('fiumi e laghi: versioni semplificate presenti e con meno punti', () => {
   assert.ok(w.lines.every((l) => l.low.length === 3 && l.low.every((d) => count(d) >= 2)));
   assert.ok(w.lines.reduce((a, l) => a + count(l.low[0]), 0) < w.lines.reduce((a, l) => a + count(l.d), 0) / 2);
   assert.ok(w.lakes.every((l) => l.low.length === 3));
+});
+
+// --- mappa circumnavigabile ---
+
+test('longitudine: wrapLon porta in [-180, 180) e lonDelta sceglie sempre la via piu breve', () => {
+  assert.equal(wrapLon(190), -170);
+  assert.equal(wrapLon(-190), 170);
+  assert.equal(wrapLon(540), -180);
+  assert.equal(wrapLon(10), 10);
+  assert.equal(lonDelta(170, -170), 20); // verso est attraverso l'antimeridiano
+  assert.equal(lonDelta(-170, 170), -20); // verso ovest
+  assert.equal(lonDelta(10, 40), 30);
+  assert.equal(lonDelta(0, 180), -180); // meta giro: convenzionalmente verso ovest
+});
+
+test('wrapView: un giro completo di spostamento da la stessa vista; il centro resta tra -180 e 180 gradi', () => {
+  const vb = { x: -10, y: -60, w: 50, h: 40 };
+  const v = { k: 3, x: -30, y: 10 };
+  const turn = wrapView({ ...v, x: v.x - WORLD_W * v.k }, vb);
+  const base = wrapView(v, vb);
+  assert.ok(Math.abs(turn.x - base.x) < 1e-9 && turn.y === base.y && turn.k === base.k);
+  // spostamenti enormi (molti giri) restano normalizzati
+  for (const dx of [-1e6, -123456.7, 0, 98765.4, 1e6]) {
+    const w = wrapView({ k: 2, x: dx, y: 0 }, vb);
+    const cx = (vb.x + vb.w / 2 - w.x) / w.k;
+    assert.ok(cx >= -WORLD_W / 2 - 1e-6 && cx < WORLD_W / 2 + 1e-6, `centro ${cx}`);
+  }
+  // idempotente
+  assert.deepEqual(wrapView(base, vb), base);
+});
+
+test('wrapView: in verticale la vista non supera +-MAX_LAT; una vista valida resta identica', () => {
+  const vb = { x: -10, y: -60, w: 50, h: 40 };
+  const up = wrapView({ k: 2, x: 0, y: 1e5 }, vb); // trascinata molto in basso: si vede il nord oltre il polo
+  const top = (vb.y - up.y) / up.k;
+  assert.ok(Math.abs(top - -MAX_LAT) < 1e-9, String(top));
+  const down = wrapView({ k: 2, x: 0, y: -1e5 }, vb);
+  const bottom = (vb.y - down.y) / down.k + vb.h / down.k;
+  assert.ok(Math.abs(bottom - MAX_LAT) < 1e-9, String(bottom));
+  const ok = { k: 1, x: 0, y: 0 };
+  assert.deepEqual(wrapView(ok, vb), ok);
+});
+
+test('visibleCopies: una sola copia nella vista iniziale; da lontano, a ogni longitudine se ne vede almeno una', () => {
+  const bounds = { x: -21, y: -56, w: 52, h: 37 }; // da -31 a 45 gradi di longitudine, come i dati
+  const vb = { x: -22, y: -57, w: 54, h: 39 };
+  assert.deepEqual(visibleCopies({ k: 1, x: 0, y: 0 }, vb, bounds), [0]);
+  // in zoom normale e centrati sull'antimeridiano (oceano) non si vede nessuna copia
+  const cxLocal = WORLD_W / 2;
+  assert.deepEqual(visibleCopies({ k: 1, x: vb.x + vb.w / 2 - cxLocal, y: 0 }, vb, bounds), []);
+  // con la vista allargata (k=0.2, ~320 gradi) i dati compaiono comunque, anche due volte ai bordi
+  let twice = 0;
+  for (let lon = -180; lon < 180; lon += 5) {
+    const view = wrapView({ k: 0.2, x: vb.x + vb.w / 2 - lon * Math.cos((47 * Math.PI) / 180) * 0.2, y: 0 }, vb);
+    const c = visibleCopies(view, vb, bounds);
+    assert.ok(c.length >= 1 && c.length <= 2, `lon ${lon}: ${JSON.stringify(c)}`);
+    if (c.length === 2) twice += 1;
+  }
+  assert.ok(twice > 0, 'ai lati dell\'antimeridiano le copie sono due');
+});
+
+test('dati: nessun anello attraversa l\'antimeridiano (salto di longitudine > 180 gradi tra due vertici)', () => {
+  for (const f of provinces.features) {
+    const polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+    for (const poly of polys) for (const ring of poly) {
+      for (let i = 0; i + 1 < ring.length; i += 1) {
+        assert.ok(Math.abs(ring[i + 1][0] - ring[i][0]) < 180, `${f.properties.id}: salto di longitudine`);
+      }
+      assert.ok(ring.every(([lon]) => lon >= -180 && lon <= 180), f.properties.id);
+    }
+  }
 });

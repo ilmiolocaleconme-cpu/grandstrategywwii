@@ -9,6 +9,52 @@ export function project(lon, lat) {
   return [lon * COS0, -lat];
 }
 
+// --- Mappa circumnavigabile -------------------------------------------------------------
+// Il mondo e un cilindro: la larghezza di un giro completo (360 gradi) in unita di mappa e WORLD_W.
+// Le longitudini dei dati restano nell'intervallo -180..180; la vista si ripete in orizzontale.
+export const WORLD_W = 360 * COS0;
+export const MAX_LAT = 85; // limite verticale della vista (i poli non sono navigabili con questa proiezione)
+
+/** Longitudine riportata nell'intervallo [-180, 180). */
+export function wrapLon(lon) {
+  return ((((lon + 180) % 360) + 360) % 360) - 180;
+}
+
+/** Differenza di longitudine piu breve da `from` a `to`, in [-180, 180): positiva verso est. Serve a distanze e rotte. */
+export function lonDelta(from, to) {
+  return wrapLon(to - from);
+}
+
+/**
+ * Normalizza la vista (schermo = k * locale + t) per la mappa che si ripete: la traslazione orizzontale
+ * e riportata modulo un giro (il centro della vista resta tra -180 e 180 gradi) e quella verticale limitata
+ * a +-MAX_LAT. `vb` e il viewBox dell'SVG {x, y, w, h}. Non cambia l'immagine mostrata.
+ */
+export function wrapView(view, vb, worldW = WORLD_W, maxLat = MAX_LAT) {
+  const { k } = view;
+  const cx = (vb.x + vb.w / 2 - view.x) / k;
+  const n = Math.floor((cx + worldW / 2) / worldW);
+  const x = view.x + n * worldW * k;
+  const h = vb.h / k;
+  const top = (vb.y - view.y) / k;
+  const lo = -maxLat;
+  const hi = maxLat - h;
+  const newTop = hi < lo ? -h / 2 : Math.min(hi, Math.max(lo, top));
+  return { k, x, y: vb.y - newTop * k };
+}
+
+/** Spostamenti orizzontali (multipli di worldW) delle copie della mappa che toccano la vista; di norma [0]. */
+export function visibleCopies(view, vb, bounds, worldW = WORLD_W) {
+  const x0 = (vb.x - view.x) / view.k;
+  const x1 = x0 + vb.w / view.k;
+  const out = [];
+  for (let n = -3; n <= 3; n += 1) {
+    const off = n * worldW;
+    if (bounds.x + off < x1 && bounds.x + bounds.w + off > x0) out.push(off);
+  }
+  return out;
+}
+
 const r3 = (n) => Math.round(n * 1000) / 1000;
 
 export function ringToPath(ring, tol = 0) {

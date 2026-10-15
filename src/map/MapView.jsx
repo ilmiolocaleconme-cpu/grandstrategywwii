@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, clampView, provinceFill, zoomAt } from './geo.js';
+import { LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const LABEL_MIN_K = 2.2; // sotto questo zoom le etichette delle province non si mostrano
 const IDENTITY = { k: 1, x: 0, y: 0 };
+const MIN_K = 0.3; // si puo allontanare fino a vedere quasi tutto il giro del mondo
 
 // Mappa strategica SVG: zoom (rotella, pizzico, pulsanti), spostamento, selezione, livelli.
 // Legge le stesse province (data/provinces/, un file per nazione, uniti in memoria) usate dalle regole e dai test.
@@ -13,7 +14,8 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const riverNames = useMemo(() => new Map((rivers ?? []).map((r) => [r.id, r.name])), [rivers]);
   const { bounds } = model;
   const pad = bounds.w * 0.02;
-  const vb = `${bounds.x - pad} ${bounds.y - pad} ${bounds.w + 2 * pad} ${bounds.h + 2 * pad}`;
+  const vbRect = { x: bounds.x - pad, y: bounds.y - pad, w: bounds.w + 2 * pad, h: bounds.h + 2 * pad };
+  const vb = `${vbRect.x} ${vbRect.y} ${vbRect.w} ${vbRect.h}`;
 
   const svgRef = useRef(null);
   const [view, setView] = useState(IDENTITY);
@@ -53,15 +55,15 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   };
 
   const applyView = useCallback((v) => {
-    setView(clampView(v, bounds));
+    setView(wrapView(v, vbRect)); // il mondo si ripete in orizzontale (circumnavigabile); in verticale restano i poli
     setMoving(true);
     clearTimeout(movingTimer.current);
     movingTimer.current = setTimeout(() => setMoving(false), 160);
-  }, [bounds]);
+  }, [vbRect.x, vbRect.y, vbRect.w, vbRect.h]);
 
   const onWheel = (e) => {
     const [cx, cy] = toView(e.clientX, e.clientY);
-    applyView(zoomAt(view, Math.exp(-e.deltaY * 0.0015), cx, cy));
+    applyView(zoomAt(view, Math.exp(-e.deltaY * 0.0015), cx, cy, MIN_K));
   };
   // React registra wheel come passivo: serve un listener nativo per poter chiamare preventDefault.
   useEffect(() => {
@@ -98,7 +100,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
       const d0 = Math.hypot(g.start[0][0] - g.start[1][0], g.start[0][1] - g.start[1][1]);
       const d1 = Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]);
       const [cx, cy] = toView((pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2);
-      applyView(zoomAt(g.view, d1 / Math.max(d0, 1), cx, cy));
+      applyView(zoomAt(g.view, d1 / Math.max(d0, 1), cx, cy, MIN_K));
     }
   };
   const onPointerUp = (e) => {
@@ -107,15 +109,16 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   };
 
   const zoomButton = (factor) => {
-    const cx = bounds.x + bounds.w / 2;
-    const cy = bounds.y + bounds.h / 2;
-    applyView(zoomAt(view, factor, cx, cy));
+    const cx = vbRect.x + vbRect.w / 2; // centro della vista, non dei dati: la vista puo essere ovunque nel mondo
+    const cy = vbRect.y + vbRect.h / 2;
+    applyView(zoomAt(view, factor, cx, cy, MIN_K));
   };
 
   const selected = model.items.find((i) => i.id === selectedId);
   const px = 1 / (pxPerUnit * view.k); // 1 pixel dello schermo in unità di mappa
   const level = moving && lod ? lodLevel(view.k) : -1;
   const waterLevel = moving ? lodLevel(view.k) : -1; // fiumi e laghi restano visibili, con meno punti
+  const copies = visibleCopies(view, vbRect, bounds); // di norma una sola; due quando la vista attraversa l'antimeridiano
 
   return (
     <div className="map-wrap">
@@ -124,7 +127,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
         className="map"
         viewBox={vb}
         role="img"
-        aria-label="Mappa strategica dell'Europa al 1 gennaio 1936"
+        aria-label="Mappa strategica al 1 gennaio 1936 (Europa e Mediterraneo; il mondo si ripete in orizzontale)"
         onWheel={onWheel}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -133,39 +136,43 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
       >
         <rect x={bounds.x - bounds.w} y={bounds.y - bounds.h} width={bounds.w * 3} height={bounds.h * 3} className="map-sea" onClick={() => !moved.current && onSelect(null)} />
         <g transform={`translate(${view.x} ${view.y}) scale(${view.k})`}>
-          {model.items.map((it) => (
-            <path
-              key={it.id}
-              d={level >= 0 ? lod.items.get(it.id)[level] : it.d}
-              fillRule="evenodd"
-              fill={provinceFill(it.props, layer)}
-              className={it.id === selectedId ? 'prov selected' : 'prov'}
-              strokeWidth={0.6 * px}
-              data-id={it.id}
-              onClick={() => !moved.current && onSelect(it.id)}
-            />
-          ))}
-          <path d={level >= 0 ? lod.borders[level] : model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
-          {showRivers && water.lakes.map((l) => (
-            <path key={l.id} d={waterLevel >= 0 ? l.low[waterLevel] : l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
-          ))}
-          {showRivers && water.lines.map((l) => (
-            <g key={l.key}>
-              <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
-              {!moving && (
-                <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
-                  <title>{riverNames.get(l.riverId)}</title>
-                </path>
-              )}
+          {copies.map((off) => (
+            <g key={off} transform={off ? `translate(${off} 0)` : undefined}>
+              {model.items.map((it) => (
+                <path
+                  key={it.id}
+                  d={level >= 0 ? lod.items.get(it.id)[level] : it.d}
+                  fillRule="evenodd"
+                  fill={provinceFill(it.props, layer)}
+                  className={it.id === selectedId ? 'prov selected' : 'prov'}
+                  strokeWidth={0.6 * px}
+                  data-id={it.id}
+                  onClick={() => !moved.current && onSelect(it.id)}
+                />
+              ))}
+              <path d={level >= 0 ? lod.borders[level] : model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
+              {showRivers && water.lakes.map((l) => (
+                <path key={l.id} d={waterLevel >= 0 ? l.low[waterLevel] : l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
+              ))}
+              {showRivers && water.lines.map((l) => (
+                <g key={l.key}>
+                  <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
+                  {!moving && (
+                    <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
+                      <title>{riverNames.get(l.riverId)}</title>
+                    </path>
+                  )}
+                </g>
+              ))}
+              {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
+              {view.k >= LABEL_MIN_K &&
+                model.items.map((it) => (
+                  <text key={it.id} x={it.label[0]} y={it.label[1]} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" pointerEvents="none">
+                    {it.props.nameLocal ?? it.props.name}
+                  </text>
+                ))}
             </g>
           ))}
-          {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
-          {view.k >= LABEL_MIN_K &&
-            model.items.map((it) => (
-              <text key={it.id} x={it.label[0]} y={it.label[1]} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" pointerEvents="none">
-                {it.props.nameLocal ?? it.props.name}
-              </text>
-            ))}
         </g>
       </svg>
 
