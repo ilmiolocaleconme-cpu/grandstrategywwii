@@ -1,6 +1,8 @@
 // Funzioni pure per la mappa: proiezione, percorsi SVG, aree, colori.
 // Nessuna dipendenza da React: sono testate in tests/map.test.js.
 
+import { fitLabel, mainPolygon, CHAR_W, TEXT_H } from './labelfit.js';
+
 export const LAT0 = 47; // latitudine di riferimento della proiezione (equirettangolare)
 const COS0 = Math.cos((LAT0 * Math.PI) / 180);
 
@@ -263,7 +265,17 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
       };
     })
     .sort((a, b) => b.rank - a.rank);
-  const lakeItems = lakes.features.map((f) => ({ id: f.properties.id, name: f.properties.name, d: featureToPath(f), low: LOD_TOLERANCES.map((t) => featureToPath(f, t)) }));
+  const lakeItems = lakes.features.map((f) => ({
+    id: f.properties.id,
+    name: f.properties.name,
+    props: f.properties,
+    d: featureToPath(f),
+    low: LOD_TOLERANCES.map((t) => featureToPath(f, t)),
+    areaKm2: f.properties.areaKm2 ?? featureAreaKm2(f),
+    bbox: boundsOf([f]),
+    feature: f,
+    kind: 'lake',
+  }));
   return { lines, lakes: lakeItems };
 }
 
@@ -339,35 +351,68 @@ function buildMapModelUncached(collection) {
     label: labelPoint(f),
     areaKm2: featureAreaKm2(f),
     bbox: boundsOf([f]),
+    feature: f,
   }));
   return { items, bounds: boundsOf(collection.features), borderD: nationalBorderPath(collection) };
 }
 
-// Etichette leggibili: si sceglie quali mostrare in base allo spazio reale sullo schermo.
-// Priorità alle province più grandi; si salta chi non entra nella propria provincia o si
-// sovrappone a un'etichetta già scelta; si ignora ciò che è fuori vista; tetto al numero totale.
+// Nei laghi le isole piccole (< 2 % dell'area del lago) non fermano il nome: il testo ci passa sopra.
+export const SMALL_HOLE_FRACTION = 0.02;
+export function withoutSmallHoles(poly) {
+  const area = (ring) => Math.abs(ring.reduce((a, p, i) => a + (ring[(i + 1) % ring.length][0] * p[1] - p[0] * ring[(i + 1) % ring.length][1]), 0) / 2);
+  const outer = area(poly[0]);
+  return [poly[0], ...poly.slice(1).filter((h) => area(h) >= outer * SMALL_HOLE_FRACTION)];
+}
+
+// Posizione e corpo del nome dentro la forma (unità di mappa), calcolati una volta per elemento.
+export function labelFitOf(item, text, charW = CHAR_W) {
+  if (item.fit && item.fit.text === text && item.fit.charW === charW) return item.fit.value;
+  const polys = polygonsOf(item.feature).map((poly) => poly.map((ring) => ring.map(([lon, lat]) => project(lon, lat))));
+  let main = mainPolygon(polys);
+  if (main && item.kind === 'lake') main = withoutSmallHoles(main);
+  const value = main ? fitLabel(main, text.length, { charW }) : null;
+  item.fit = { text, charW, value };
+  return value;
+}
+
+// Etichette incastrate nella forma: il nome sta dentro la provincia (o il lago), con corpo, posizione e
+// rotazione calcolati sulla forma (src/map/labelfit.js). Il corpo cresce con lo zoom fino a `maxPx`; sotto
+// `minPx` il nome non si mostra. Priorità ai più grandi; si salta chi si sovrappone a un'etichetta già scelta
+// (anche di `opts.avoid`, rettangoli in pixel di un'altra passata); si ignora ciò che è fuori vista; tetto al numero.
 // `view`: {k,x,y} come in MapView; `vb`: {x,y,w,h} del viewBox; `pxPerUnit`: pixel per unità di viewBox
-// (senza zoom); `offsets`: copie del mondo visibili.
+// (senza zoom); `offsets`: copie del mondo visibili. Ogni etichetta ha `size` (corpo in unità di mappa), `angle`
+// (gradi), `length` (larghezza del testo in unità di mappa: va imposta con textLength) e `rect` (ingombro in pixel).
+// `charW`: larghezza media di un carattere in em; `upper`: maiuscolo (province) o testo com'è (laghi).
 export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {}) {
-  const { fontPx = 11, maxLabels = 70, charW = 0.56, fitRatio = 0.7 } = opts;
+  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name } = opts;
   const sx = view.k * pxPerUnit; // pixel per unità di mappa
   const order = [...items].sort((a, b) => b.areaKm2 - a.areaKm2);
-  const placed = []; // rettangoli in pixel [x0,y0,x1,y1]
+  const placed = [...avoid]; // rettangoli in pixel [x0,y0,x1,y1]
   const out = [];
-  const h = fontPx * 1.15;
   for (const off of offsets) {
     for (const it of order) {
       if (out.length >= maxLabels) return out;
-      const name = it.props.nameLocal ?? it.props.name;
+      const raw = nameOf(it);
+      if (!raw) continue;
+      const name = upper ? raw.toLocaleUpperCase('it') : raw; // lettering da carta anni Trenta: maiuscolo per le province
+      // scarto economico: nemmeno riempiendo tutto il rettangolo di ingombro il nome arriverebbe al corpo minimo
+      if (it.bbox.w * it.bbox.h * sx * sx < name.length * charW * TEXT_H * minPx * minPx) continue;
+      const fit = labelFitOf(it, name, charW);
+      if (!fit) continue;
+      const fontPx = Math.min(fit.size * sx, maxPx);
+      if (fontPx < minPx) continue;
+      const cxp = (view.k * (fit.x + off) + view.x - vb.x) * pxPerUnit;
+      const cyp = (view.k * fit.y + view.y - vb.y) * pxPerUnit;
       const w = name.length * fontPx * charW;
-      if (it.bbox.w * sx < w * fitRatio || it.bbox.h * sx < h) continue; // non c'entra nella provincia
-      const px = (view.k * (it.label[0] + off) + view.x - vb.x) * pxPerUnit;
-      const py = (view.k * it.label[1] + view.y - vb.y) * pxPerUnit;
-      if (px + w / 2 < 0 || px - w / 2 > vb.w * pxPerUnit || py + h / 2 < 0 || py - h / 2 > vb.h * pxPerUnit) continue;
-      const r = [px - w / 2 - 2, py - h / 2 - 1, px + w / 2 + 2, py + h / 2 + 1];
+      const h = fontPx * TEXT_H;
+      const a = (fit.angle * Math.PI) / 180;
+      const hx = (w / 2) * Math.abs(Math.cos(a)) + (h / 2) * Math.abs(Math.sin(a));
+      const hy = (w / 2) * Math.abs(Math.sin(a)) + (h / 2) * Math.abs(Math.cos(a));
+      if (cxp + hx < 0 || cxp - hx > vb.w * pxPerUnit || cyp + hy < 0 || cyp - hy > vb.h * pxPerUnit) continue;
+      const r = [cxp - hx - 2, cyp - hy - 1, cxp + hx + 2, cyp + hy + 1];
       if (placed.some((q) => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1])) continue;
       placed.push(r);
-      out.push({ id: it.id, name, x: it.label[0], y: it.label[1], off });
+      out.push({ id: it.id, name, x: fit.x, y: fit.y, off, angle: fit.angle, size: fontPx / sx, length: w / sx, rect: r });
     }
   }
   return out;

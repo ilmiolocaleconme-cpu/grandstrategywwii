@@ -120,10 +120,16 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const copies = visibleCopies(view, vbRect, bounds); // di norma una sola; due quando la vista attraversa l'antimeridiano
   const [legendOpen, setLegendOpen] = useState(false);
   // etichette: solo quelle che stanno nella provincia e non si sovrappongono; nascoste durante il gesto
-  const labels = useMemo(
-    () => (moving ? [] : pickLabels(model.items, view, vbRect, pxPerUnit, copies)),
-    [moving, model.items, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join()]
-  );
+  // il nome sta dentro la forma (corpo, posizione e rotazione calcolati sulla provincia o sul lago)
+  const labels = useMemo(() => {
+    if (moving) return [];
+    const prov = pickLabels(model.items, view, vbRect, pxPerUnit, copies).map((l) => ({ ...l, kind: 'prov' }));
+    if (!showRivers) return prov;
+    const lakeLabels = pickLabels(water.lakes, view, vbRect, pxPerUnit, copies, {
+      maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((l) => l.rect), nameOf: (it) => it.props.name,
+    }).map((l) => ({ ...l, kind: 'lake' }));
+    return [...prov, ...lakeLabels];
+  }, [moving, model.items, water.lakes, showRivers, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join()]);
 
   return (
     <div className="map-wrap">
@@ -171,7 +177,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
               ))}
               {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
               {labels.filter((l) => l.off === off).map((l) => (
-                <text key={l.id} x={l.x} y={l.y} fontSize={11 * px} className="map-label" strokeWidth={3 * px} textAnchor="middle" dominantBaseline="central" pointerEvents="none">
+                <text key={l.id} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className={l.kind === 'lake' ? 'map-label lake-label' : 'map-label'} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central" transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">
                   {l.name}
                 </text>
               ))}

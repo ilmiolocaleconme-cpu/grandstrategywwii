@@ -247,7 +247,7 @@ test('dati: nessun anello attraversa l\'antimeridiano (salto di longitudine > 18
   }
 });
 
-test('pickLabels: nessuna sovrapposizione, rispetta il tetto e salta le province troppo piccole per il nome', async () => {
+test('pickLabels: nessuna sovrapposizione, rispetta il tetto, il corpo minimo e massimo; zoomando compaiono più nomi', async () => {
   const { buildMapModel, pickLabels } = await import('../src/map/geo.js');
   const model = buildMapModel(provinces);
   const vb = { x: model.bounds.x, y: model.bounds.y, w: model.bounds.w, h: model.bounds.h };
@@ -256,21 +256,19 @@ test('pickLabels: nessuna sovrapposizione, rispetta il tetto e salta le province
     const view = { k, x: 0, y: 0 };
     const out = pickLabels(model.items, view, vb, pxPerUnit);
     assert.ok(out.length <= 70, `k=${k}: tetto rispettato`);
-    const rects = out.map((l) => {
-      const px = (k * l.x + view.x - vb.x) * pxPerUnit;
-      const py = (k * l.y + view.y - vb.y) * pxPerUnit;
-      const w = l.name.length * 11 * 0.56;
-      return [px - w / 2, py - 6, px + w / 2, py + 6];
-    });
-    for (let i = 0; i < rects.length; i += 1) {
-      for (let j = i + 1; j < rects.length; j += 1) {
-        const a = rects[i];
-        const b = rects[j];
+    for (const l of out) {
+      const fontPx = l.size * k * pxPerUnit;
+      assert.ok(fontPx >= 7 - 1e-9 && fontPx <= 20 + 1e-9, `k=${k}: ${l.name} corpo ${fontPx.toFixed(1)} px`);
+      assert.ok(Math.abs(l.angle) <= 75 + 1e-9, `${l.name}: angolo ${l.angle}`);
+    }
+    for (let i = 0; i < out.length; i += 1) {
+      for (let j = i + 1; j < out.length; j += 1) {
+        const a = out[i].rect;
+        const b = out[j].rect;
         assert.ok(!(a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1]), `k=${k}: ${out[i].name} / ${out[j].name} si sovrappongono`);
       }
     }
   }
-  // zoomando compaiono più etichette (fino al tetto), non meno
   const cx = vb.x + vb.w / 2;
   const cy = vb.y + vb.h / 2;
   const n = (k) => pickLabels(model.items, zoomAt({ k: 1, x: 0, y: 0 }, k, cx, cy), vb, pxPerUnit).length;
