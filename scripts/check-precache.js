@@ -84,7 +84,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   } catch (error) {
     errors = [`impossibile leggere dist/ (eseguire prima npm run build): ${error.message}`];
   }
-  errors.forEach((e) => console.error(`ERRORE ${e}`));
+  // In GitHub Actions `::error::` diventa un'annotazione leggibile senza scaricare il log.
+  errors.forEach((e) => console.error(process.env.GITHUB_ACTIONS ? `::error title=precache::${e}` : `ERRORE ${e}`));
   console.log(errors.length === 0 ? 'OK: tutti i file delle province sono in chunk separati e nel precache' : 'FALLITO: controllo del precache');
   process.exit(errors.length === 0 ? 0 : 1);
 }
