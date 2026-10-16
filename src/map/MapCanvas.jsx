@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { createNationLabelJob, placeNationLabels } from './nationLabels.js';
 import { HOME_BOUNDS, LAYERS, RIVER_WIDTH_PX, riverRankLimit, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, pickRiverNear, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
@@ -24,11 +23,6 @@ const VB = { x: HOME_BOUNDS.x - PAD, y: HOME_BOUNDS.y - PAD, w: HOME_BOUNDS.w + 
 const EMPTY_WATER = { lines: [], lakes: [] };
 
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
-// rettangolo visibile in unità di mappa (copia base del mondo): serve a far scorrere le scritte delle nazioni dentro lo schermo
-const nationVisible = (view, l, size) => {
-  const a = affineOf(view, VB, l);
-  return { x0: -a.tx / a.sx, x1: (size.w - a.tx) / a.sx, y0: -a.ty / a.sx, y1: (size.h - a.ty) / a.sx };
-};
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
 export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
@@ -49,7 +43,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationNames, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver };
+  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -99,7 +93,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies, nation: placeNationLabels(s.nation, s.view.k, l.s, copies, { visible: nationVisible(s.view, l, s.size) }) });
+    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies });
   };
 
   // porta l'ultima immagine disegnata alla vista corrente (trascinamento e zoom costano solo questo)
@@ -183,7 +177,6 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   useEffect(() => {
     const s = st.current;
     s.borders = null;
-    s.nation = null;
     s.lod = { levels: [] };
     s.bgDone = false;
     s.cache = null;
@@ -205,14 +198,6 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       s.borders.levels = [];
       later(() => {
         if (!s.moving) { renderCache(); blit(); }
-        // nomi delle nazioni: calcolo una tantum a fette brevi (non blocca i gesti); poi si ridisegna lo strato dei nomi
-        const nj = createNationLabelJob(m.items, props.current.nationNames, props.current.nationControl);
-        const nstep = () => {
-          const r = nj.step(6);
-          if (r) { s.nation = r; paintOverlay(); return; }
-          later(nstep, 0);
-        };
-        later(nstep, 30);
         if (LOD_METHOD !== 'dp') return; // con il metodo veloce non serve altro
         const jobs = [];
         const replace = (lv) => {

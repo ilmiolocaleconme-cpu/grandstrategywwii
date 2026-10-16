@@ -105,7 +105,6 @@ h2 {
 /* lettering da carta degli anni Trenta: serif di sistema (nessun font scaricato, funziona offline); la larghezza e imposta da textLength.
    Grigio chiaro con alone sfumato fatto con il tratto (nessun filtro SVG: sui telefoni i filtri per-testo possono annerire o bloccare la mappa) */
 .map-label { fill: #d9d9d6; stroke: rgba(14, 18, 10, 0.65); paint-order: stroke; stroke-linejoin: round; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif; font-weight: 600; stroke-width: 0.2em; }
-.map-label.nation-label { fill: rgba(245, 243, 232, 0.92); stroke: rgba(14, 18, 10, 0.55); font-weight: 700; stroke-width: 0.18em; }
 .map-label.lake-label { fill: #dde3e8; stroke: rgba(10, 36, 60, 0.65); font-style: italic; font-weight: 500; stroke-width: 0.2em; }
 .map-tools { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 8px; pointer-events: none; }
 .map-tools > * { pointer-events: auto; display: flex; gap: 6px; }
