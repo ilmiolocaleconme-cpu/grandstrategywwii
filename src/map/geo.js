@@ -482,6 +482,10 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
       // scarto economico: nemmeno riempiendo tutto il rettangolo di ingombro il nome arriverebbe al corpo minimo
       if (it.bbox.w * it.bbox.h * sx * sx < name.length * charW * TEXT_H * minPx * minPx) continue;
       if (!rectCouldFit(it.bbox, name.length * charW * minPx / sx, TEXT_H * minPx / sx)) continue;
+      // fuori vista (il nome sta dentro la forma, quindi dentro il suo riquadro): si scarta prima del calcolo, che è il passo costoso
+      const bx0 = (view.k * (it.bbox.x + off) + view.x - vb.x) * pxPerUnit;
+      const by0 = (view.k * it.bbox.y + view.y - vb.y) * pxPerUnit;
+      if (bx0 + it.bbox.w * sx < 0 || bx0 > vb.w * pxPerUnit || by0 + it.bbox.h * sx < 0 || by0 > vb.h * pxPerUnit) continue;
       const cached = it.fit && it.fit.text === name && it.fit.charW === charW;
       if (!cached && Number.isFinite(budgetMs) && performance.now() - t0 > budgetMs) { out.partial = true; return out; }
       const fit = labelFitOf(it, name, charW);

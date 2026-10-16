@@ -19,6 +19,8 @@ export const COLORS = {
   river: '#5aa3d8',
   label: '#d9d9d6',
   labelHalo: 'rgba(14, 18, 10, 0.65)',
+  nation: 'rgba(245, 243, 232, 0.92)',
+  nationHalo: 'rgba(14, 18, 10, 0.55)',
   lakeLabel: '#dde3e8',
   lakeLabelHalo: 'rgba(10, 36, 60, 0.65)',
 };
@@ -212,7 +214,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, nation } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -227,6 +229,28 @@ export function drawOverlay(ctx, p) {
       ctx.setTransform(dpr * a.sx, 0, 0, dpr * a.sx, dpr * (a.tx + a.sx * off), dpr * a.ty);
       ctx.stroke(path);
     }
+  }
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.lineJoin = 'round';
+  if (nation && nation.length) {
+    for (const l of nation) {
+      const px = a.sx * (l.x + l.off) + a.tx;
+      const py = a.sx * l.y + a.ty;
+      const fontPx = l.size * a.sx;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.translate(px, py);
+      ctx.globalAlpha = l.alpha;
+      ctx.font = `700 ${fontPx}px ${FONT_FAMILY}`;
+      const w = ctx.measureText(l.text).width;
+      if (w > 0) ctx.scale((l.length * a.sx) / w, 1);
+      ctx.lineWidth = 0.18 * fontPx;
+      ctx.strokeStyle = COLORS.nationHalo;
+      ctx.strokeText(l.text, 0, 0);
+      ctx.fillStyle = COLORS.nation;
+      ctx.fillText(l.text, 0, 0);
+    }
+    ctx.globalAlpha = 1;
   }
   if (!labels || labels.length === 0) return;
   ctx.textAlign = 'center';

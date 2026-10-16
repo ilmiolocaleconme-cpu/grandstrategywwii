@@ -1,7 +1,9 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createNationLabelJob, placeNationLabels } from './nationLabels.js';
 import { HOME_BOUNDS, LAYERS, riverRankLimit, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
+const PROVINCE_LABEL_MIN_K = 8; // i nomi delle province compaiono solo da questo zoom in su (più alto = meno lavoro e mappa più pulita)
 const PROVINCE_MIN_LABEL_PX = 5; // corpo minimo dei nomi delle province (px): più basso = più nomi anche a zoom ridotto, ma più piccoli
 const MIN_K = 0.3; // si puo allontanare fino a vedere quasi tutto il giro del mondo
 
@@ -176,6 +178,22 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const waterLevel = moving ? lodLevel(view.k) : -1; // fiumi e laghi restano visibili, con meno punti
   const copies = visibleCopies(view, vbRect, bounds); // di norma una sola; due quando la vista attraversa l'antimeridiano
   const [legendOpen, setLegendOpen] = useState(false);
+  // nomi delle nazioni: calcolo una tantum a fette brevi dopo la prima schermata; poi seguono la vista (poche decine di scritte)
+  const [nationModel, setNationModel] = useState(null);
+  useEffect(() => {
+    let dead = false;
+    let timer;
+    const job = createNationLabelJob(model.items, nationNames, nationControl);
+    const run = () => {
+      if (dead) return;
+      const r = job.step(6);
+      if (r) setNationModel(r);
+      else timer = setTimeout(run, 0);
+    };
+    timer = setTimeout(run, 600);
+    return () => { dead = true; clearTimeout(timer); };
+  }, [model.items, nationNames, nationControl]);
+  const nationPlaced = useMemo(() => placeNationLabels(nationModel, view.k, pxPerUnit, copies, { visible: { x0: (vbRect.x - view.x) / view.k, x1: (vbRect.x + vbRect.w - view.x) / view.k, y0: (vbRect.y - view.y) / view.k, y1: (vbRect.y + vbRect.h - view.y) / view.k } }), [nationModel, view.k, view.x, view.y, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join()]);
   // etichette: solo quelle che stanno nella provincia e non si sovrappongono; nascoste durante il gesto
   // il nome sta dentro la forma (corpo, posizione e rotazione calcolati sulla provincia o sul lago)
   // Il calcolo delle etichette è il passo più pesante dopo il disegno: parte dopo la prima schermata (la mappa
@@ -186,7 +204,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   useEffect(() => {
     if (moving) { setLabels([]); return undefined; }
     const t = setTimeout(() => {
-      const provRaw = pickLabels(model.items, view, vbRect, pxPerUnit, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX });
+      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(model.items, view, vbRect, pxPerUnit, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX }) : [];
       const prov = provRaw.map((l) => ({ ...l, kind: 'prov' }));
       let partial = Boolean(provRaw.partial);
       let result = prov;
@@ -225,6 +243,11 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
               <ProvinceLayer items={model.items} layer={layer} nationControl={nationControl} selectedId={selectedId} level={level} lod={lod} px={px} borderD={model.borderD} onPick={pickProvince} />
               {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
               {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
+              {nationPlaced.filter((l) => l.off === off).map((l) => (
+                <text key={`n-${l.id}`} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className="map-label nation-label" opacity={l.alpha} strokeWidth={0.18 * l.size} textAnchor="middle" dominantBaseline="central" pointerEvents="none">
+                  {l.text}
+                </text>
+              ))}
               {labels.filter((l) => l.off === off).map((l) => (
                 <text key={l.id} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className={l.kind === 'lake' ? 'map-label lake-label' : 'map-label'} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central" transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">
                   {l.name}
