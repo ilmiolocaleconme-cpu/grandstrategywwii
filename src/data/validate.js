@@ -3,8 +3,18 @@
 
 export const ID_PATTERN = /^[A-Za-z][A-Za-z0-9_]*$/;
 export const RIVER_CLASSES = ['main', 'secondary', 'tributary'];
-export const CROSSING_TYPES = ['bridge_road', 'bridge_rail', 'ford', 'ferry'];
+export const CROSSING_TYPES = ['bridge_road', 'bridge_rail', 'bridge_pontoon', 'ford', 'ferry'];
 export const CROSSING_STATES = ['intact', 'damaged', 'destroyed', 'temporary'];
+// 'source' = data dichiarata da una fonte; 'assumed' = ipotesi (anno approssimato, apertura non datata).
+export const CROSSING_DATE_BASES = ['source', 'assumed'];
+// Ultimo giorno "aperto" per un attraversamento che non ha una fine nota.
+export const OPEN_ENDED = '9999-12-31';
+
+function isIsoDate(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const d = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === value;
+}
 export const POLITICAL_TYPES = ['country', 'colony', 'puppet', 'special'];
 export const POLITICAL_STATUSES = [
   'independent',
@@ -286,9 +296,16 @@ export function validateCatalog(catalog) {
   const crossings = checkCollection(
     'crossings',
     input.crossings,
-    ['id', 'type', 'riverId', 'state', 'approximate'],
+    [
+      'id', 'type', 'riverId', 'state', 'approximate', 'place', 'sideA', 'sideB',
+      'validFrom', 'validTo', 'dateBasis', 'dataQuality', 'source', 'license',
+    ],
     errors,
   );
+  // Identificativi delle province, per verificare le rive (solo se le province sono nel catalogo).
+  const provinceIds = Array.isArray(input.provinces?.features)
+    ? new Set(input.provinces.features.map((f) => f?.properties?.id))
+    : null;
 
   if (input.political !== undefined) {
     checkPolitical(input.political, nations, errors);
@@ -342,6 +359,35 @@ export function validateCatalog(catalog) {
     }
     if (typeof crossing.approximate !== 'boolean') {
       errors.push(`crossings: "${crossing.id}" approximate deve essere booleano`);
+    }
+    // Date: ISO, validFrom <= validTo. Un attraversamento può nascere dopo il 1/1/1936 (evento).
+    const fromOk = isIsoDate(crossing.validFrom);
+    const toOk = isIsoDate(crossing.validTo);
+    if (crossing.validFrom != null && !fromOk) {
+      errors.push(`crossings: "${crossing.id}" validFrom non è una data AAAA-MM-GG valida`);
+    }
+    if (crossing.validTo != null && !toOk) {
+      errors.push(`crossings: "${crossing.id}" validTo non è una data AAAA-MM-GG valida`);
+    }
+    if (fromOk && toOk && crossing.validFrom > crossing.validTo) {
+      errors.push(`crossings: "${crossing.id}" ha validFrom successivo a validTo`);
+    }
+    if (crossing.dateBasis != null && !CROSSING_DATE_BASES.includes(crossing.dateBasis)) {
+      errors.push(`crossings: "${crossing.id}" ha un dateBasis non valido "${crossing.dateBasis}"`);
+    }
+    if (crossing.dataQuality != null && !BORDER_QUALITIES.includes(crossing.dataQuality)) {
+      errors.push(`crossings: "${crossing.id}" ha un dataQuality non valido "${crossing.dataQuality}"`);
+    }
+    for (const field of ['place', 'source', 'license']) {
+      if (crossing[field] != null && (typeof crossing[field] !== 'string' || crossing[field].trim() === '')) {
+        errors.push(`crossings: "${crossing.id}" ${field} deve essere un testo non vuoto`);
+      }
+    }
+    // Rive: due province (anche la stessa, per un ponte dentro una provincia), esistenti nel catalogo.
+    for (const side of ['sideA', 'sideB']) {
+      if (provinceIds && crossing[side] != null && !provinceIds.has(crossing[side])) {
+        errors.push(`crossings: "${crossing.id}" ${side} riferisce la provincia inesistente "${crossing[side]}"`);
+      }
     }
   }
 

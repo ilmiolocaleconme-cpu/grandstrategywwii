@@ -9,7 +9,7 @@ Stato: **dati reali ma approssimati** (Natural Earth, corso moderno). Le regole 
 | `data/rivers.json` | Catalogo: 540 fiumi (211 nuovi dell'URSS inclusi) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
 | `data/rivers_geo.json` | 2044 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
 | `data/lakes.json` | 896 laghi (435 dell'URSS inclusi; area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
-| `data/crossings.json` | **Vuoto**: ponti, guadi e traghetti non hanno ancora una fonte | — |
+| `data/crossings.json` | **Pilota Reno/Mosa**: 9 attraversamenti (8 sul Reno, 1 sulla Mosa), tutti `approximate`, nessuno `verified`, senza coordinate (vedi «Attraversamenti» sotto) | Wikipedia (fatti: anno, tipo, località) e inventario cantonale argoviese; licenza da accertare per quest'ultimo |
 
 La mappa e le regole leggono gli stessi file (`src/map/geo.js`, `src/data/rivers.js`): nessuna discrepanza tra grafica e simulazione.
 
@@ -88,12 +88,28 @@ A vista d'insieme tutti i 540 fiumi coprivano la mappa. `riverRankLimit` (in `sr
 
 - Corso **moderno**, non del 1936 (canalizzazioni, dighe e regolazioni successive non corrette); linea generalizzata a 1:10 milioni.
 - Il poligono Natural Earth del Neusiedlersee è più piccolo del lago reale.
-- I fiumi che **corrono lungo** un confine (Oder, Neisse, Reno in tratti) non producono eventi di attraversamento: oggi si rilevano solo i passaggi da una provincia a un'altra.
-- Nessun dato su piene, gelo, disgelo, profondità, guadi, ponti e traghetti.
+- I fiumi che **corrono lungo** un confine (Oder, Neisse, Reno, Mosa, Danubio in tratti) producono eventi di attraversamento solo in parte e con rumore (sul Danubio: 209 eventi contro circa 45 coppie di province davvero affacciate). Per i ponti si usa `riverBanks` (sonda sulle due rive), non `riverProvinceCrossings`.
+- Nessun dato su piene, gelo, disgelo, profondità e guadi. Ponti e traghetti: solo il pilota Reno/Mosa (9 voci).
+- Nel catalogo il **Waal olandese è tracciato come parte di `R_RHINE`** (Natural Earth): `R_WAAL` copre solo 54 km vicino alla Mosa. Il Nederrijn ad Arnhem non è nel catalogo, quindi il ponte di Arnhem (1935) non si può inserire.
+
+## Attraversamenti (ponti, ponti di barche, traghetti, guadi)
+
+Schema di ogni voce di `data/crossings.json` (validato da `src/data/validate.js`):
+
+- `id` (es. `X_RHINE_MAXAU_PONTONE`), `name`, `type` (`bridge_road`, `bridge_rail`, `bridge_pontoon`, `ford`, `ferry`), `riverId`, `state` (stato iniziale: `intact`, `damaged`, `destroyed`, `temporary`), `controller` (nazione o `null` per un ponte di frontiera), `approximate`.
+- `place` (testo) e **`sideA` / `sideB`**: le province delle due rive. Possono coincidere (ponte dentro una provincia: Colonia, Remagen, Nimega, Maastricht). **Non ci sono coordinate**: non si inventano; la posizione è il luogo più le province delle rive.
+- `validFrom` / `validTo` (inizio incluso, fine esclusa; `9999-12-31` = senza fine), `dateBasis` (`source` o `assumed`). Un attraversamento può nascere dopo il 1/1/1936 (Maxau fisso 1938, Waalbrug 16/6/1936): non c'è alla partenza e comparirà per evento (il sistema di eventi non esiste ancora).
+- `dataQuality` (`verified`, `approximate`, `hypothesis`; oggi nessuna voce è `verified`), `source`, `license`, `knownIssues`, `notes`. Le distruzioni storiche (1940, 1945) sono scritte in `notes` come informazione: **non** sono eventi di gioco né cambiano `state`.
+
+Controlli: il validatore verifica campi, tipi, date (ISO, `validFrom <= validTo`), fiume e controllore esistenti e, se le province sono nel catalogo, che `sideA`/`sideB` esistano. `tests/crossings.test.js` verifica con la geometria che le rive siano coerenti: stessa provincia attraversata dal fiume, oppure coppia di province **affacciate** (`riverBanks`).
+
+Funzioni pure: `src/data/crossings.js` (`crossingExistsAt`, `crossingsAt`, `crossingProvinces`) e `riverBanks` in `src/data/rivers.js`. Lo stato operativo in partita (danni, distruzione, riparazione, genio) **non è implementato**.
+
+Lacune del pilota: sulla Mosa c'è un solo ponte (Maastricht), nessun traghetto o guado sul Reno e sulla Mosa, nessun ponte tra Belgio e Paesi Bassi o tra Francia e Belgio. Limite delle fonti: dati raccolti da Wikipedia e da un solo inventario cantonale, nessuna fonte storica primaria; per questo nessuna voce è `verified`.
 
 ## Prossimi passi, in ordine di dipendenza
 
-1. **Ponti, guadi e traghetti** (`data/crossings.json`). Schema già validato: `id`, `type` (`bridge_road`, `bridge_rail`, `ford`, `ferry`), `riverId`, `state` (`intact`, `damaged`, `destroyed`, `temporary`), `approximate`, `controller`. Mancano coordinate (non vanno inventate) e date di costruzione. Fonte da provare: OpenHistoricalMap (storica) con una richiesta Overpass che l'utente scarica dal telefono, come per le province:
+1. **Estendere i ponti oltre il pilota Reno/Mosa** (`data/crossings.json`, 9 voci oggi; schema e controlli: sezione «Attraversamenti»). Mancano le coordinate (non vanno inventate). Fonte da provare per l'inventario di massa: OpenHistoricalMap (storica) con una richiesta Overpass che l'utente scarica dal telefono, come per le province (non provata da qui):
    ```
    [out:json][timeout:180];
    (way["bridge"]["highway"~"motorway|trunk|primary|secondary|tertiary"](43.5,5.5,55.5,24.5);

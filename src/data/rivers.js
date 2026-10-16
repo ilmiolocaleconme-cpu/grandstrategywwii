@@ -109,6 +109,41 @@ export function riverBorderGraph(events) {
   return pairs;
 }
 
+/**
+ * Province lungo un fiume e coppie di province affacciate sulle due rive.
+ * Sonda: a ogni campione (stepKm) si guarda a destra e a sinistra della linea, a `offsetDeg` gradi.
+ * Serve dove il fiume fa da confine (Reno, Mosa, Danubio), cioè dove riverProvinceCrossings
+ * vede solo una parte dei passaggi. Un ponte può unire due province affacciate oppure stare
+ * dentro una sola provincia (Colonia, Maastricht): in quel caso la provincia è in `along`.
+ * Ritorna { along: Map<provincia, campioni sul fiume>, facing: Map<"A|B" ordinate, campioni> }.
+ */
+export function riverBanks(model, provinceIndex, riverId, { stepKm = 3, offsetDeg = 0.03 } = {}) {
+  const along = new Map();
+  const facing = new Map();
+  const ids = (lon, lat) => provinceIndex.provincesAt(lon, lat).map((f) => f.properties.id);
+  const entry = model.rivers.get(riverId);
+  if (!entry) return { along, facing };
+  for (const line of entry.lines) {
+    const s = sampleLine(line.coordinates, stepKm);
+    for (let i = 1; i < s.length - 1; i += 1) {
+      const [lon, lat] = s[i];
+      let dx = s[i + 1][0] - s[i - 1][0];
+      let dy = s[i + 1][1] - s[i - 1][1];
+      const n = Math.hypot(dx, dy) || 1;
+      dx /= n;
+      dy /= n;
+      for (const id of ids(lon, lat)) along.set(id, (along.get(id) ?? 0) + 1);
+      const left = ids(lon - dy * offsetDeg, lat + dx * offsetDeg);
+      const right = ids(lon + dy * offsetDeg, lat - dx * offsetDeg);
+      if (left.length === 1 && right.length === 1 && left[0] !== right[0]) {
+        const key = [left[0], right[0]].sort().join('|');
+        facing.set(key, (facing.get(key) ?? 0) + 1);
+      }
+    }
+  }
+  return { along, facing };
+}
+
 /** Fiumi sulla catena di confluenze fino alla foce: [id, flowsInto, ...]. */
 export function downstreamChain(catalog, riverId) {
   const byId = new Map(catalog.map((r) => [r.id, r]));
