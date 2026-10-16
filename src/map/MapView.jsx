@@ -170,8 +170,9 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const px = 1 / (pxPerUnit * view.k); // 1 pixel dello schermo in unità di mappa
   const level = moving && lod ? lodLevel(view.k) : -1;
   const rankLimit = riverRankLimit(view.k);
+  // i tratti dentro i laghi disegnati non si disegnano (restano nei dati per le regole); quelli del fiume selezionato sì, tratteggiati
   // elenco stabile tra un render e l'altro (il livello memorizzato dei fiumi non deve ridisegnarsi durante il gesto)
-  const shownRivers = useMemo(() => water.lines.filter((l) => l.rank <= rankLimit || l.riverId === selectedRiverId), [water.lines, rankLimit, selectedRiverId]);
+  const shownRivers = useMemo(() => water.lines.filter((l) => (l.rank <= rankLimit && !l.inLake) || l.riverId === selectedRiverId), [water.lines, rankLimit, selectedRiverId]);
   const waterLevel = moving ? lodLevel(view.k) : -1; // fiumi e laghi restano visibili, con meno punti
   const copies = visibleCopies(view, vbRect, bounds); // di norma una sola; due quando la vista attraversa l'antimeridiano
   const [legendOpen, setLegendOpen] = useState(false);

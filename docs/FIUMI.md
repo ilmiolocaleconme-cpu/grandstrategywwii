@@ -7,7 +7,7 @@ Stato: **dati reali ma approssimati** (Natural Earth, corso moderno). Le regole 
 | File | Contenuto | Fonte e licenza |
 |---|---|---|
 | `data/rivers.json` | Catalogo: 540 fiumi (211 nuovi dell'URSS inclusi) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
-| `data/rivers_geo.json` | 1532 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
+| `data/rivers_geo.json` | 2044 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
 | `data/lakes.json` | 896 laghi (435 dell'URSS inclusi; area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
 | `data/crossings.json` | **Vuoto**: ponti, guadi e traghetti non hanno ancora una fonte | — |
 
@@ -56,6 +56,15 @@ Natural Earth 10m `lakes` + `lakes_europe` (5.2.0-pre, commit ca96624). Stessa s
 - **Esclusi:** il Mar Caspio e le sue lagune (sono mare sulla mappa) e i laghi effimeri e le saline della bassa del Caspio settentrionale (49-59° E, 43-48,5° N), non attendibili come laghi permanenti.
 - **Limiti:** aree del poligono Natural Earth, non misure (Balkhash 17.551 contro 16.400-18.200 km² a seconda della fonte); il lago d'Aral è mostrato ai livelli moderni (molto ridotto rispetto al 1936); i tratti di fiume `inLake` ora attraversano laghi disegnati, ma non sono stati ricontrollati uno per uno.
 - Test: `tests/laghi_urss.test.js` (4).
+
+### Fiumi dentro i laghi
+
+Natural Earth disegna i fiumi come linee d'asse che attraversano i laghi, e sulla mappa si vedevano linee sopra l'acqua. Ora ogni tratto è **diviso sui poligoni dei laghi del catalogo** (`data/lakes.json`, bisezione dei punti di ingresso e uscita): `inLake` è vero solo dove la linea sta dentro un lago disegnato (14.631 km, 280 → 2044 tratti in tutto, lunghezze dei fiumi invariate).
+
+- **Dati e regole:** i tratti `inLake` restano nei dati, così la continuità del fiume (navigazione, confluenze) non si perde.
+- **Mappa:** i tratti `inLake` non si disegnano; si vedono, tratteggiati, solo quelli del fiume selezionato.
+- **Limiti:** nei grandi bacini artificiali (Kuybyshev, Rybinsk, Bratsk) il Volga e altri fiumi spariscono per tutta la lunghezza del bacino (bacini posteriori al 1936: vedi i laghi); una corda tra due vertici fuori dal lago può tagliarne un'insenatura (test: ≤ 0,5 % degli archi); le linee d'asse di laghi non presenti nel catalogo (piccoli o esclusi) restano visibili come fiumi.
+- Test: `tests/fiumi_laghi.test.js` (3).
 
 ### Densità sulla mappa
 
