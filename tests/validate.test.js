@@ -22,6 +22,7 @@ const base = () => ({
     {
       id: 'c1',
       type: 'bridge_road',
+      carries: ['road'],
       riverId: 'r_main',
       state: 'intact',
       controller: 'AAA',

@@ -96,14 +96,35 @@ A vista d'insieme tutti i 540 fiumi coprivano la mappa. `riverRankLimit` (in `sr
 
 Schema di ogni voce di `data/crossings.json` (validato da `src/data/validate.js`):
 
-- `id` (es. `X_RHINE_MAXAU_PONTONE`), `name`, `type` (`bridge_road`, `bridge_rail`, `bridge_pontoon`, `ford`, `ferry`), `riverId`, `state` (stato iniziale: `intact`, `damaged`, `destroyed`, `temporary`), `controller` (nazione o `null` per un ponte di frontiera), `approximate`.
+- `id` (es. `X_RHINE_MAXAU_PONTONE`), `name`, `type` (`bridge_road`, `bridge_rail`, `bridge_pontoon`, `ford`, `ferry`), `carries` (elenco esplicito del traffico: `road`, `rail` o entrambi; il tipo da solo non basta, il ponte di barche di Maxau portava strada e ferrovia), `riverId`, `state` (stato iniziale: `intact`, `damaged`, `destroyed`, `temporary`), `controller` (nazione o `null` per un ponte di frontiera), `approximate`.
 - `place` (testo) e **`sideA` / `sideB`**: le province delle due rive. Possono coincidere (ponte dentro una provincia: Colonia, Remagen, Nimega, Maastricht). **Non ci sono coordinate**: non si inventano; la posizione è il luogo più le province delle rive.
 - `validFrom` / `validTo` (inizio incluso, fine esclusa; `9999-12-31` = senza fine), `dateBasis` (`source` o `assumed`). Un attraversamento può nascere dopo il 1/1/1936 (Maxau fisso 1938, Waalbrug 16/6/1936): non c'è alla partenza e comparirà per evento (il sistema di eventi non esiste ancora).
 - `dataQuality` (`verified`, `approximate`, `hypothesis`; oggi nessuna voce è `verified`), `source`, `license`, `knownIssues`, `notes`. Le distruzioni storiche (1940, 1945) sono scritte in `notes` come informazione: **non** sono eventi di gioco né cambiano `state`.
 
 Controlli: il validatore verifica campi, tipi, date (ISO, `validFrom <= validTo`), fiume e controllore esistenti e, se le province sono nel catalogo, che `sideA`/`sideB` esistano. `tests/crossings.test.js` verifica con la geometria che le rive siano coerenti: stessa provincia attraversata dal fiume, oppure coppia di province **affacciate** (`riverBanks`).
 
-Funzioni pure: `src/data/crossings.js` (`crossingExistsAt`, `crossingsAt`, `crossingProvinces`) e `riverBanks` in `src/data/rivers.js`. Lo stato operativo in partita (danni, distruzione, riparazione, genio) **non è implementato**.
+Funzioni pure sui dati: `src/data/crossings.js` (`crossingExistsAt`, `crossingsAt`, `crossingProvinces`) e `riverBanks` in `src/data/rivers.js`.
+
+### Regola di attraversamento (`src/rules/crossings.js`)
+
+Funzioni pure, testate in `tests/crossing_rules.test.js`. Lo stato di partita di ogni attraversamento è `{ state, controller }` (`initialCrossingState`, `buildCrossingStates` lo ricavano dal dato; il dato non viene mai modificato).
+
+**`canCross(crossing, runtime, { date, traffic, actor, access })`** → `{ ok, capacity, reason }`. Controlli in quest'ordine: esistenza alla data (`not_built_yet`, `no_longer_exists`), traffico trasportato (`wrong_traffic`), stato (`destroyed`; con passaggio temporaneo la ferrovia è negata: `temporary_road_only`), controllore (`controller_denied` se il controllore non è `null`, non è l'attore e non è in `access`). Capacità qualitativa: intatto = `full`, danneggiato o temporaneo = `reduced`, distrutto = `none`.
+
+**`applyCrossingAction(crossing, runtime, azione, { engineers, by })`** → `{ ok, runtime, reason }` con uno stato nuovo (quello dato non cambia):
+
+| Azione | Da → a | Requisiti |
+|---|---|---|
+| `damage` | intatto → danneggiato; temporaneo → distrutto | — |
+| `destroy` | intatto, danneggiato, temporaneo → distrutto | — |
+| `repair` | danneggiato → intatto | genio |
+| `build_temporary` | distrutto → temporaneo | genio; solo ponti (non guadi né traghetti) |
+| `rebuild` | distrutto, temporaneo → intatto | genio |
+| `capture` | cambia il controllore, lo stato non cambia | `by` = nazione |
+
+**Scelte di progetto provvisorie** (da rivedere con le regole di movimento): il passaggio temporaneo porta solo strada, anche se l'originale portava la ferrovia; `access` (chi ha diritto di passare) lo fornisce il chiamante perché la diplomazia non esiste; un controllore `null` (ponte di frontiera) non limita nessuno.
+
+**Non implementato:** tempi di attraversamento, portata, costi e durata dei lavori del genio (mancano il modello di movimento, i rifornimenti e l'economia: qualsiasi numero oggi sarebbe inventato), stagioni, piene, gelo e disgelo, guadi e traghetti con condizioni (nei dati non ce ne sono), diplomazia e accesso. Le funzioni non sono ancora collegate a nessun ciclo di partita né all'interfaccia.
 
 Lacune del pilota: sulla Mosa c'è un solo ponte (Maastricht), nessun traghetto o guado sul Reno e sulla Mosa, nessun ponte tra Belgio e Paesi Bassi o tra Francia e Belgio. Limite delle fonti: dati raccolti da Wikipedia e da un solo inventario cantonale, nessuna fonte storica primaria; per questo nessuna voce è `verified`.
 

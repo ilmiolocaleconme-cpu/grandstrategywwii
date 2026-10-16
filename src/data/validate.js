@@ -5,6 +5,9 @@ export const ID_PATTERN = /^[A-Za-z][A-Za-z0-9_]*$/;
 export const RIVER_CLASSES = ['main', 'secondary', 'tributary'];
 export const CROSSING_TYPES = ['bridge_road', 'bridge_rail', 'bridge_pontoon', 'ford', 'ferry'];
 export const CROSSING_STATES = ['intact', 'damaged', 'destroyed', 'temporary'];
+// Traffico che un attraversamento può portare: strada (uomini, veicoli) e/o ferrovia. Elenco esplicito in
+// ogni voce (`carries`): il tipo da solo non basta (il ponte di barche di Maxau portava strada e ferrovia).
+export const CROSSING_TRAFFIC = ['road', 'rail'];
 // 'source' = data dichiarata da una fonte; 'assumed' = ipotesi (anno approssimato, apertura non datata).
 export const CROSSING_DATE_BASES = ['source', 'assumed'];
 // Ultimo giorno "aperto" per un attraversamento che non ha una fine nota.
@@ -297,7 +300,7 @@ export function validateCatalog(catalog) {
     'crossings',
     input.crossings,
     [
-      'id', 'type', 'riverId', 'state', 'approximate', 'place', 'sideA', 'sideB',
+      'id', 'type', 'carries', 'riverId', 'state', 'approximate', 'place', 'sideA', 'sideB',
       'validFrom', 'validTo', 'dateBasis', 'dataQuality', 'source', 'license',
     ],
     errors,
@@ -359,6 +362,23 @@ export function validateCatalog(catalog) {
     }
     if (typeof crossing.approximate !== 'boolean') {
       errors.push(`crossings: "${crossing.id}" approximate deve essere booleano`);
+    }
+    // carries: elenco non vuoto, senza duplicati, solo strada/ferrovia, coerente con il tipo.
+    if (crossing.carries != null) {
+      const c = crossing.carries;
+      if (!Array.isArray(c) || c.length === 0 || c.some((t) => !CROSSING_TRAFFIC.includes(t)) || new Set(c).size !== c.length) {
+        errors.push(`crossings: "${crossing.id}" carries deve essere un elenco non vuoto, senza duplicati, di ${CROSSING_TRAFFIC.join('/')}`);
+      } else {
+        if (crossing.type === 'bridge_road' && !c.includes('road')) {
+          errors.push(`crossings: "${crossing.id}" è un ponte stradale ma carries non include "road"`);
+        }
+        if (crossing.type === 'bridge_rail' && !c.includes('rail')) {
+          errors.push(`crossings: "${crossing.id}" è un ponte ferroviario ma carries non include "rail"`);
+        }
+        if ((crossing.type === 'ford' || crossing.type === 'ferry') && c.includes('rail')) {
+          errors.push(`crossings: "${crossing.id}" ${crossing.type} non può portare la ferrovia`);
+        }
+      }
     }
     // Date: ISO, validFrom <= validTo. Un attraversamento può nascere dopo il 1/1/1936 (evento).
     const fromOk = isIsoDate(crossing.validFrom);
