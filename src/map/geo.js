@@ -336,7 +336,11 @@ const edgeKey = (a, b) => {
 
 // Bordi "nazionali": tutti gli archi tranne quelli condivisi esattamente da due province dello stesso
 // proprietario. Servono a disegnare i confini interni più leggeri di quelli tra Stati e delle coste.
-export function nationalBorderPath(collection, tol = 0) {
+// La classificazione degli archi (la parte costosa: una chiave di testo per ogni arco) si fa una sola volta
+// per collezione; le versioni a bassa risoluzione dei bordi riusano gli stessi tratti e li semplificano soltanto.
+const borderRunsCache = new WeakMap();
+function nationalBorderRuns(collection) {
+  if (borderRunsCache.has(collection)) return borderRunsCache.get(collection);
   const owners = new Map();
   collection.features.forEach((f) => {
     polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
@@ -352,22 +356,28 @@ export function nationalBorderPath(collection, tol = 0) {
     // sulla cucitura le due meta (+180 e -180) possono essere della stessa provincia: sono comunque un taglio interno
     return o.length === 2 && (seam || o[0].id !== o[1].id) && o[0].owner === o[1].owner;
   };
-  let d = '';
-  const flush = (run) => {
-    if (run.length < 2) return;
-    simplifyLine(run, tol).forEach(([x, y], i) => { d += `${i === 0 ? 'M' : 'L'}${r3(x)} ${r3(y)}`; });
-  };
+  const runs = [];
   collection.features.forEach((f) => {
     polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
       let run = [];
+      const flush = () => { if (run.length >= 2) runs.push(run); run = []; };
       for (let i = 0; i + 1 < ring.length; i += 1) {
-        if (interior(edgeKey(ring[i], ring[i + 1]), isSeamEdge(ring[i], ring[i + 1]))) { flush(run); run = []; continue; }
+        if (interior(edgeKey(ring[i], ring[i + 1]), isSeamEdge(ring[i], ring[i + 1]))) { flush(); continue; }
         if (run.length === 0) run.push(project(ring[i][0], ring[i][1]));
         run.push(project(ring[i + 1][0], ring[i + 1][1]));
       }
-      flush(run);
+      flush();
     }));
   });
+  borderRunsCache.set(collection, runs);
+  return runs;
+}
+
+export function nationalBorderPath(collection, tol = 0) {
+  let d = '';
+  for (const run of nationalBorderRuns(collection)) {
+    simplifyLine(run, tol).forEach(([x, y], i) => { d += `${i === 0 ? 'M' : 'L'}${r3(x)} ${r3(y)}`; });
+  }
   return d;
 }
 

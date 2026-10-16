@@ -122,14 +122,20 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const [legendOpen, setLegendOpen] = useState(false);
   // etichette: solo quelle che stanno nella provincia e non si sovrappongono; nascoste durante il gesto
   // il nome sta dentro la forma (corpo, posizione e rotazione calcolati sulla provincia o sul lago)
-  const labels = useMemo(() => {
-    if (moving) return [];
-    const prov = pickLabels(model.items, view, vbRect, pxPerUnit, copies).map((l) => ({ ...l, kind: 'prov' }));
-    if (!showRivers) return prov;
-    const lakeLabels = pickLabels(water.lakes, view, vbRect, pxPerUnit, copies, {
-      maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((l) => l.rect), nameOf: (it) => it.props.name,
-    }).map((l) => ({ ...l, kind: 'lake' }));
-    return [...prov, ...lakeLabels];
+  // Il calcolo delle etichette è il passo più pesante dopo il disegno: parte dopo la prima schermata (la mappa
+  // si vede e si usa subito, i nomi compaiono dopo) e si annulla se la vista cambia prima della fine dell'attesa.
+  const [labels, setLabels] = useState([]);
+  useEffect(() => {
+    if (moving) { setLabels([]); return undefined; }
+    const t = setTimeout(() => {
+      const prov = pickLabels(model.items, view, vbRect, pxPerUnit, copies).map((l) => ({ ...l, kind: 'prov' }));
+      if (!showRivers) { setLabels(prov); return; }
+      const lakeLabels = pickLabels(water.lakes, view, vbRect, pxPerUnit, copies, {
+        maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((l) => l.rect), nameOf: (it) => it.props.name,
+      }).map((l) => ({ ...l, kind: 'lake' }));
+      setLabels([...prov, ...lakeLabels]);
+    }, 120);
+    return () => clearTimeout(t);
   }, [moving, model.items, water.lakes, showRivers, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join()]);
 
   return (
