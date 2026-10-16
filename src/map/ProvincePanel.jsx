@@ -1,4 +1,5 @@
-import { QUALITY_COLORS } from './geo.js';
+import { QUALITY_COLORS, TERRAIN_COLORS } from './geo.js';
+import { TERRAIN_LABEL, terrainOf } from '../data/terrain.js';
 
 const QUALITY_LABEL = { verified: 'verificato', approximate: 'approssimato', hypothesis: 'ipotesi' };
 const ISSUE_LABEL = {
@@ -21,7 +22,7 @@ const ISSUE_LABEL = {
   capoluogo_fuori_dal_contorno_costiero: 'il capoluogo cade fuori dal contorno costiero',
 };
 
-export default function ProvincePanel({ item, nationNames, nationControl, onClose }) {
+export default function ProvincePanel({ item, terrain, nationNames, nationControl, onClose }) {
   if (!item) {
     return (
       <aside className="panel" aria-live="polite">
@@ -41,6 +42,9 @@ export default function ProvincePanel({ item, nationNames, nationControl, onClos
       <dl>
         <dt>Territorio</dt><dd>{nationNames[p.owner] ?? p.owner}</dd>
         {nationControl?.[p.owner] && nationControl[p.owner] !== p.owner && <><dt>Controllato da</dt><dd>{nationNames[nationControl[p.owner]] ?? nationControl[p.owner]}</dd></>}
+        {terrainOf(terrain, p.id) && (
+          <><dt>Terreno</dt><dd><i className="dot" style={{ background: TERRAIN_COLORS[terrainOf(terrain, p.id)] }} />{TERRAIN_LABEL[terrainOf(terrain, p.id)]} <span className="muted small">(stima, non da dati di quota)</span></dd></>
+        )}
         <dt>Area approssimata</dt><dd>{Math.round(item.areaKm2).toLocaleString('it-IT')} km²</dd>
         <dt>Qualità dei confini</dt>
         <dd><i className="dot" style={{ background: QUALITY_COLORS[p.borderQuality] }} />{QUALITY_LABEL[p.borderQuality] ?? p.borderQuality}</dd>

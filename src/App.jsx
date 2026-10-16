@@ -3,6 +3,7 @@ import nations from '../data/nations.json';
 import resources from '../data/resources.json';
 import political from '../data/political_1936.json';
 import crossings from '../data/crossings.json';
+import terrain from '../data/terrain.json';
 import { validateCatalog } from './data/validate.js';
 import { loadProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
@@ -102,11 +103,11 @@ export default function App() {
           </main>
         ) : (
         <div className="map-layout">
-          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
+          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} terrain={terrain} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
           {selectedRiver ? (
             <RiverPanel river={selectedRiver} rivers={rivers ?? []} onClose={() => setRiverId(null)} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} onClose={() => setProvinceId(null)} />
+            <ProvincePanel item={selectedItem} terrain={terrain} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} onClose={() => setProvinceId(null)} />
           )}
         </div>
         )}

@@ -275,8 +275,15 @@ export const QUALITY_COLORS = {
   hypothesis: '#6f9bc4',
 };
 
+export const TERRAIN_COLORS = {
+  pianura: '#9fc46b',
+  colline: '#d6b25e',
+  montagna: '#8a6a50',
+};
+
 export const LAYERS = [
   { id: 'political', label: 'Politico' },
+  { id: 'terrain', label: 'Terreno' },
   { id: 'quality', label: 'Qualità dati' },
 ];
 
@@ -287,8 +294,10 @@ export function controllerOf(owner, control) {
   return control?.[owner] ?? owner;
 }
 
-export function provinceFill(props, layer, control) {
+// `terrain` = contenuto di data/terrain.json (serve solo al livello Terreno).
+export function provinceFill(props, layer, control, terrain) {
   if (layer === 'quality') return QUALITY_COLORS[props.borderQuality] ?? '#777';
+  if (layer === 'terrain') return TERRAIN_COLORS[terrain?.provinces?.[props.id]] ?? '#777';
   return ownerColor(controllerOf(props.owner, control), props.id);
 }
 

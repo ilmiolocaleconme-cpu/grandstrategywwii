@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { validateCatalog } from '../src/data/validate.js';
 import { loadProvinces } from './load-provinces.js';
+import { checkTerrain } from '../src/data/terrain.js';
 
 const dataDir = new URL('../data/', import.meta.url);
 
@@ -17,6 +18,7 @@ export async function loadCatalog(baseUrl = dataDir) {
     provinces: await loadProvinces(new URL('provinces/', baseUrl)),
     riversGeo: await read('rivers_geo.json'),
     lakes: await read('lakes.json'),
+    terrain: await read('terrain.json'),
   };
 }
 
@@ -30,7 +32,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     console.log('FALLITO: i file in data/provinces/ non sono coerenti');
     process.exit(1);
   }
-  const { ok, errors, warnings } = validateCatalog(catalog);
+  const { ok: catalogOk, errors, warnings } = validateCatalog(catalog);
+  const terrainErrors = checkTerrain(catalog.terrain, catalog.provinces.features.map((f) => f.properties.id));
+  errors.push(...terrainErrors);
+  if (catalog.terrain?.basis === 'hypothesis') warnings.push(`terreno: ${Object.keys(catalog.terrain.provinces ?? {}).length} province classificate a stima (basis "hypothesis"), non da dati di quota`);
+  const ok = catalogOk && terrainErrors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));
   errors.forEach((e) => console.error(`ERRORE ${e}`));
   console.log(
