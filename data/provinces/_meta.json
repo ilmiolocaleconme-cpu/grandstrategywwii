@@ -42,7 +42,8 @@
   "DNK",
   "NOR",
   "SWE",
-  "FIN"
+  "FIN",
+  "USSR"
  ],
  "metadata": {
   "asOf": "1936-01-01",
@@ -69,7 +70,8 @@
    "ESP (50 province, Canarie incluse), PRT (22 distretti: 18 continentali più Ponta Delgada, Angra do Heroísmo, Horta e Funchal), MAR (12 regioni attuali, senza le tre regioni sahariane) e MAR_ES (zona nord del protettorato spagnolo, da immagine): da Natural Earth 10m 5.1.1, ipotesi",
    "GBR (Regno Unito, 88 unità: Inghilterra 40 contee 1936 e Galles 10 e Irlanda del Nord 6 ricomposte da unità attuali di Natural Earth; Scozia 32 council area attuali, non le contee storiche; l'Irlanda indipendente non è inclusa), ALG (48), TUN (23), LBA (5: Tripoli, Misurata, Bengasi, Derna e Territorio Militare del Sud, tracciate da immagine storica), EGY (27), PAL (8), JOR (12), SYR (15, con Hatay), LBN (6), TUR (80, senza Hatay), CYP (6), MLT (1), GIB (1) da Natural Earth 10m 5.1.1, ipotesi",
    "EST (10 contee: Harju con Rapla, Järva, Lääne con Hiiu, Pärnu, Saare, Tartu con Jõgeva, Valga, Viljandi, Viru, Võru con Põlva), LVA (6: Rīga città, Pierīga, Vidzeme, Latgale, Zemgale, Kurzeme) e LTU (11: otto contee attuali ritagliate sul 1936, Kretinga, Tauragė e Memel) da Natural Earth 10m 5.1.1, ipotesi; Memel con linea interna tracciata a mano",
-   "DNK (5 regioni attuali), NOR (19 fylker), SWE (21 län) e FIN (19: 18 regioni attuali più Åland) da Natural Earth 10m 5.1.1, ipotesi"
+   "DNK (5 regioni attuali), NOR (19 fylker), SWE (21 län) e FIN (19: 18 regioni attuali più Åland) da Natural Earth 10m 5.1.1, ipotesi",
+   "USSR (177 unità del 1936 ricomposte da Natural Earth 10m admin-1 5.2.0-pre, ipotesi: RSFSR 81, Ucraina 18 con la ASSR moldava, Bielorussia 4, Kazakistan 14, Uzbekistan 13, Turkmenistan 5, Tagikistan 4, Kirghizistan 7, Transcaucasia 31 con l'Azerbaigian in regioni economiche); la Ciukotka è divisa in due parti a +180° e −180° con gli stessi vertici di cucitura"
   ],
   "limitations": [
    "Nessun confine è verificato: tutte le feature sono borderQuality=approximate (OHM segnala \"needs source for boundary lines\")",
