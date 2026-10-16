@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { checkProvinceParts, fileName, loadProvincesFrom, mergeProvinceParts, META_SCHEMA } from '../src/data/provinces.js';
 import { listProvinceFiles, loadProvinces } from '../scripts/load-provinces.js';
-import { checkPrecache, precacheUrls, provinceMarkers } from '../scripts/check-precache.js';
+import { checkPrecache, hasMarker, precacheUrls, provinceMarkers } from '../scripts/check-precache.js';
 import { buildMapModel, nationalBorderPath } from '../src/map/geo.js';
 
 // Fixture sintetiche SOLO per i test: non sono dati geografici storici.
@@ -111,19 +111,43 @@ test('precache: legge gli indirizzi di un sw.js minificato', () => {
   assert.equal(precacheUrls('nulla').size, 0);
 });
 
+// Forme in cui un id di provincia compare in un chunk: oggetto minificato, JSON.parse("...") con escape, JSON quotato.
+const DEU_OBJ = '{id:"P_DEU_X",name:"A"}';
+const DEU_ESC = 'JSON.parse("{\\"id\\":\\"P_DEU_X\\",\\"name\\":\\"A\\"}")';
+const DEU_JSON = '{"id":"P_DEU_X"}';
+
 test('precache: ogni file delle province deve stare in un chunk proprio e nel precache', () => {
   const markers = { DEU: 'P_DEU_X', _meta: 'provinces-meta-v1' };
-  const chunks = { 'assets/index-1.js': 'app', 'assets/DEU-2.js': 'JSON.parse("P_DEU_X")', 'assets/_meta-3.js': '"provinces-meta-v1"' };
+  const chunks = { 'assets/index-1.js': 'app', 'assets/DEU-2.js': DEU_ESC, 'assets/_meta-3.js': '"provinces-meta-v1"' };
   assert.deepEqual(checkPrecache({ chunks, swText: SW, markers }), []);
   // chunk fuori dal precache
-  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/DEU-9.js': 'P_DEU_X', 'assets/DEU-2.js': 'x' }, swText: SW, markers }).join('|'), /DEU-9\.js non è nel precache/);
+  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/DEU-9.js': DEU_OBJ, 'assets/DEU-2.js': 'x' }, swText: SW, markers }).join('|'), /DEU-9\.js non è nel precache/);
   // dati finiti nel bundle principale insieme ad altri
-  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/index-1.js': 'P_DEU_X provinces-meta-v1' }, swText: SW, markers }).join('|'), /presente in più chunk/);
+  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/index-1.js': `${DEU_OBJ} provinces-meta-v1` }, swText: SW, markers }).join('|'), /presente in più chunk/);
   // file non trovato nella build
   assert.match(checkPrecache({ chunks: { 'assets/index-1.js': 'app' }, swText: SW, markers }).join('|'), /DEU\.json: non trovato/);
   // due nazioni nello stesso chunk
-  assert.match(checkPrecache({ chunks: { 'assets/index-1.js': 'app', 'assets/_meta-3.js': 'P_DEU_X provinces-meta-v1', 'assets/DEU-2.js': 'P_DEU_X' }, swText: SW, markers }).join('|'), /contiene anche/);
+  assert.match(checkPrecache({ chunks: { 'assets/index-1.js': 'app', 'assets/_meta-3.js': `${DEU_OBJ} provinces-meta-v1`, 'assets/DEU-2.js': DEU_OBJ }, swText: SW, markers }).join('|'), /contiene anche/);
   assert.match(checkPrecache({ chunks, swText: 'vuoto', markers }).join('|'), /nessun indirizzo nel precache/);
+});
+
+test('precache: un id citato da un altro dato (sideA in crossings.json) nel bundle principale non è un dato di provincia', () => {
+  assert.equal(hasMarker(DEU_OBJ, 'P_DEU_X'), true);
+  assert.equal(hasMarker(DEU_ESC, 'P_DEU_X'), true);
+  assert.equal(hasMarker(DEU_JSON, 'P_DEU_X'), true);
+  // riferimenti: non sono definizioni di provincia
+  assert.equal(hasMarker('{"sideA":"P_DEU_X","sideB":"P_DEU_X"}', 'P_DEU_X'), false);
+  assert.equal(hasMarker('{sideA:"P_DEU_X"}', 'P_DEU_X'), false);
+  assert.equal(hasMarker('JSON.parse("[{\\"sideA\\":\\"P_DEU_X\\"}]")', 'P_DEU_X'), false);
+  assert.equal(hasMarker('{riverId:"P_DEU_X"}', 'P_DEU_X'), false);
+  // altro id con lo stesso prefisso: non deve combaciare
+  assert.equal(hasMarker('{id:"P_DEU_XY"}', 'P_DEU_X'), false);
+  // la sentinella di _meta (non è un id) resta una ricerca di testo
+  assert.equal(hasMarker('..provinces-meta-v1..', 'provinces-meta-v1'), true);
+  // bundle principale con crossings.json e senza dati di provincia: il controllo non lo conta
+  const markers = { DEU: 'P_DEU_X' };
+  const chunks = { 'assets/index-1.js': '{"sideA":"P_DEU_X"}', 'assets/DEU-2.js': DEU_ESC };
+  assert.deepEqual(checkPrecache({ chunks, swText: SW, markers }), []);
 });
 
 test('precache: le sentinelle dei dati reali esistono, sono distinte e non stanno nel codice', async () => {

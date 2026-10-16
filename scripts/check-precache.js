@@ -17,6 +17,19 @@ export function precacheUrls(swText) {
 }
 
 /**
+ * Il testo di un chunk contiene la sentinella? Un id di provincia (P_...) conta solo come valore della
+ * chiave `id` — così `"id":"P_X"`, `id:"P_X"` o la forma con virgolette escape di JSON.parse("...") —
+ * e NON come riferimento da un altro dato (es. `sideA` in data/crossings.json, che sta nel bundle
+ * principale e cita gli id delle province). Le altre sentinelle (es. _meta) restano una semplice ricerca di testo.
+ */
+export function hasMarker(text, marker) {
+  if (/^P_[A-Za-z0-9_]+$/.test(marker)) {
+    return new RegExp(`(?<![A-Za-z0-9_])id\\\\*"?:\\\\*"${marker}\\\\*"`).test(text);
+  }
+  return text.includes(marker);
+}
+
+/**
  * `chunks`: { "assets/x.js": testo } della build; `markers`: { nome file: stringa che compare solo
  * nei dati di quel file }. Ritorna gli errori (lista vuota se ogni file è in un chunk proprio e nel precache).
  */
@@ -26,12 +39,12 @@ export function checkPrecache({ chunks, swText, markers }) {
   if (cached.size === 0) errors.push('sw.js: nessun indirizzo nel precache (formato non riconosciuto?)');
   const names = Object.keys(markers);
   for (const name of names) {
-    const hits = Object.entries(chunks).filter(([, text]) => text.includes(markers[name])).map(([path]) => path);
+    const hits = Object.entries(chunks).filter(([, text]) => hasMarker(text, markers[name])).map(([path]) => path);
     if (hits.length === 0) errors.push(`${name}.json: non trovato in nessun chunk della build`);
     else if (hits.length > 1) errors.push(`${name}.json: presente in più chunk (${hits.join(', ')})`);
     for (const path of hits) {
       if (!cached.has(path)) errors.push(`${name}.json: il chunk ${path} non è nel precache di sw.js`);
-      const others = names.filter((n) => n !== name && chunks[path].includes(markers[n]));
+      const others = names.filter((n) => n !== name && hasMarker(chunks[path], markers[n]));
       if (others.length > 0) errors.push(`${name}.json: il chunk ${path} contiene anche ${others.join(', ')} (devono restare file separati)`);
     }
   }
