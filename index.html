@@ -6,9 +6,23 @@
     <meta name="theme-color" content="#1d2418" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>Grand Strategy WWII</title>
+    <style>
+      /* visibile subito, prima del JavaScript: mai uno schermo nero */
+      html, body { margin: 0; background: #1d2418; color: #e8eadf; font-family: system-ui, sans-serif; }
+      #boot { padding: 24px; font-size: 16px; line-height: 1.4; }
+      #boot .err { color: #f0b27a; word-break: break-word; margin-top: 12px; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div id="boot">Grand Strategy WWII — avvio in corso…<div id="boot-err" class="err"></div></div></div>
+    <script>
+      // se il caricamento fallisce, l'errore si legge sullo schermo invece di restare nero
+      (function () {
+        function show(m) { var e = document.getElementById('boot-err'); if (e) e.textContent = 'Errore: ' + m; }
+        window.addEventListener('error', function (ev) { show(ev.message || 'caricamento non riuscito'); });
+        window.addEventListener('unhandledrejection', function (ev) { show(String((ev.reason && ev.reason.message) || ev.reason)); });
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

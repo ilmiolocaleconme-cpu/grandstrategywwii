@@ -125,18 +125,26 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   // Il calcolo delle etichette è il passo più pesante dopo il disegno: parte dopo la prima schermata (la mappa
   // si vede e si usa subito, i nomi compaiono dopo) e si annulla se la vista cambia prima della fine dell'attesa.
   const [labels, setLabels] = useState([]);
+  const [labelPass, setLabelPass] = useState(0); // sale finché il calcolo a tempo limitato non ha finito
   useEffect(() => {
     if (moving) { setLabels([]); return undefined; }
     const t = setTimeout(() => {
-      const prov = pickLabels(model.items, view, vbRect, pxPerUnit, copies).map((l) => ({ ...l, kind: 'prov' }));
-      if (!showRivers) { setLabels(prov); return; }
-      const lakeLabels = pickLabels(water.lakes, view, vbRect, pxPerUnit, copies, {
-        maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((l) => l.rect), nameOf: (it) => it.props.name,
-      }).map((l) => ({ ...l, kind: 'lake' }));
-      setLabels([...prov, ...lakeLabels]);
+      const provRaw = pickLabels(model.items, view, vbRect, pxPerUnit, copies, { budgetMs: 150 });
+      const prov = provRaw.map((l) => ({ ...l, kind: 'prov' }));
+      let partial = Boolean(provRaw.partial);
+      let result = prov;
+      if (showRivers) {
+        const lakeLabels = pickLabels(water.lakes, view, vbRect, pxPerUnit, copies, {
+          maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((l) => l.rect), nameOf: (it) => it.props.name, budgetMs: 100,
+        });
+        partial = partial || Boolean(lakeLabels.partial);
+        result = [...prov, ...lakeLabels.map((l) => ({ ...l, kind: 'lake' }))];
+      }
+      setLabels(result);
+      if (partial) setLabelPass((n) => n + 1);
     }, 120);
     return () => clearTimeout(t);
-  }, [moving, model.items, water.lakes, showRivers, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join()]);
+  }, [moving, model.items, water.lakes, showRivers, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join(), labelPass]);
 
   return (
     <div className="map-wrap">

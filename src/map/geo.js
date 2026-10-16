@@ -446,7 +446,10 @@ export function labelFitOf(item, text, charW = CHAR_W) {
 // (gradi), `length` (larghezza del testo in unità di mappa: va imposta con textLength) e `rect` (ingombro in pixel).
 // `charW`: larghezza media di un carattere in em; `upper`: maiuscolo (province) o testo com'è (laghi).
 export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {}) {
-  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name } = opts;
+  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name, budgetMs = Infinity } = opts;
+  // budgetMs: tempo massimo speso a calcolare forme nuove (i risultati restano in cache): scaduto il tempo si
+  // restituisce quanto trovato con out.partial = true, e una chiamata successiva prosegue dalle forme già pronte.
+  const t0 = Number.isFinite(budgetMs) ? performance.now() : 0;
   const sx = view.k * pxPerUnit; // pixel per unità di mappa
   const order = [...items].sort((a, b) => b.areaKm2 - a.areaKm2);
   const placed = [...avoid]; // rettangoli in pixel [x0,y0,x1,y1]
@@ -459,6 +462,8 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
       const name = upper ? raw.toLocaleUpperCase('it') : raw; // lettering da carta anni Trenta: maiuscolo per le province
       // scarto economico: nemmeno riempiendo tutto il rettangolo di ingombro il nome arriverebbe al corpo minimo
       if (it.bbox.w * it.bbox.h * sx * sx < name.length * charW * TEXT_H * minPx * minPx) continue;
+      const cached = it.fit && it.fit.text === name && it.fit.charW === charW;
+      if (!cached && Number.isFinite(budgetMs) && performance.now() - t0 > budgetMs) { out.partial = true; return out; }
       const fit = labelFitOf(it, name, charW);
       if (!fit) continue;
       const fontPx = Math.min(fit.size * sx, maxPx);
