@@ -437,6 +437,19 @@ export function labelFitOf(item, text, charW = CHAR_W) {
   return value;
 }
 
+// Condizione necessaria (economica) perché un rettangolo w x h, ruotato fino a 75 gradi, stia nel riquadro della
+// forma: l'ingombro orizzontale e verticale del rettangolo ruotato non può superare il riquadro. Scarta in
+// anticipo le forme per cui il calcolo del posizionamento (costoso) non può dare un corpo sufficiente.
+export function rectCouldFit(bbox, w, h) {
+  for (let deg = 0; deg <= 75; deg += 5) {
+    const a = (deg * Math.PI) / 180;
+    const c = Math.cos(a);
+    const sn = Math.sin(a);
+    if (w * c + h * sn <= bbox.w && w * sn + h * c <= bbox.h) return true;
+  }
+  return false;
+}
+
 // Etichette incastrate nella forma: il nome sta dentro la provincia (o il lago), con corpo, posizione e
 // rotazione calcolati sulla forma (src/map/labelfit.js). Il corpo cresce con lo zoom fino a `maxPx`; sotto
 // `minPx` il nome non si mostra. Priorità ai più grandi; si salta chi si sovrappone a un'etichetta già scelta
@@ -462,6 +475,7 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
       const name = upper ? raw.toLocaleUpperCase('it') : raw; // lettering da carta anni Trenta: maiuscolo per le province
       // scarto economico: nemmeno riempiendo tutto il rettangolo di ingombro il nome arriverebbe al corpo minimo
       if (it.bbox.w * it.bbox.h * sx * sx < name.length * charW * TEXT_H * minPx * minPx) continue;
+      if (!rectCouldFit(it.bbox, name.length * charW * minPx / sx, TEXT_H * minPx / sx)) continue;
       const cached = it.fit && it.fit.text === name && it.fit.charW === charW;
       if (!cached && Number.isFinite(budgetMs) && performance.now() - t0 > budgetMs) { out.partial = true; return out; }
       const fit = labelFitOf(it, name, charW);

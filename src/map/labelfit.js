@@ -141,10 +141,11 @@ export function textRectOk(x, y, angle, wUnits, hUnits, rings) {
   const hw = (wUnits * 1.03) / 2;
   const hh = (hUnits * 1.03) / 2;
   const at = (u, v) => pointInRings(x + c * u - s * v, y + s * u + c * v, rings);
-  const N = 16;
+  // punti dei due bordi lunghi e della mezzeria; i vertici del poligono dentro il rettangolo (sotto) coprono spigoli e isole
+  const N = 12;
   for (let i = 0; i <= N; i += 1) {
     const u = -hw + ((2 * hw) * i) / N;
-    if (!at(u, -hh) || !at(u, hh) || !at(u, 0) || !at(u, -hh / 2) || !at(u, hh / 2)) return false;
+    if (!at(u, -hh) || !at(u, hh) || !at(u, 0)) return false;
   }
   for (const ring of rings) {
     for (const [px, py] of ring) {

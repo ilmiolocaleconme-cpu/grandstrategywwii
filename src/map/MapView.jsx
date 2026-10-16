@@ -1,8 +1,54 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { HOME_BOUNDS, LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const MIN_K = 0.3; // si puo allontanare fino a vedere quasi tutto il giro del mondo
+
+// Livelli memorizzati: durante il trascinamento cambia solo la trasformazione del gruppo (x, y), non le
+// proprietà di questi componenti, quindi React non riconfronta le migliaia di tracciati a ogni movimento.
+const ProvinceLayer = memo(function ProvinceLayer({ items, layer, nationControl, selectedId, level, lod, px, borderD, onPick }) {
+  return (
+    <>
+      {items.map((it) => {
+        const fill = provinceFill(it.props, layer, nationControl);
+        const cls = it.id === selectedId ? 'prov selected' : 'prov';
+        const d = level >= 0 ? lod.items.get(it.id)[level] : it.d;
+        if (!it.seamD) {
+          return <path key={it.id} d={d} fillRule="evenodd" fill={fill} className={cls} strokeWidth={0.6 * px} data-id={it.id} onClick={() => onPick(it.id)} />;
+        }
+        // provincia sulla cucitura: riempimento senza contorno (con un filo dello stesso colore contro i
+        // vuoti tra le due meta) e contorno a parte che salta gli archi di cucitura
+        return (
+          <g key={it.id}>
+            <path d={d} fillRule="evenodd" fill={fill} style={{ stroke: fill }} className="prov seam-fill" strokeWidth={1 * px} data-id={it.id} onClick={() => onPick(it.id)} />
+            <path d={it.seamD} fill="none" className={cls} strokeWidth={0.6 * px} pointerEvents="none" />
+          </g>
+        );
+      })}
+      <path d={level >= 0 ? lod.borders[level] : borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
+    </>
+  );
+});
+
+const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, moving, selectedRiverId, riverNames, onPickRiver }) {
+  return (
+    <>
+      {lakes.map((l) => (
+        <path key={l.id} d={waterLevel >= 0 ? l.low[waterLevel] : l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
+      ))}
+      {lines.map((l) => (
+        <g key={l.key}>
+          <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
+          {!moving && (
+            <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => onPickRiver(l.riverId)}>
+              <title>{riverNames.get(l.riverId)}</title>
+            </path>
+          )}
+        </g>
+      ))}
+    </>
+  );
+});
 
 // Mappa strategica SVG: zoom (rotella, pizzico, pulsanti), spostamento, selezione, livelli.
 // Legge le stesse province (data/provinces/, un file per nazione, uniti in memoria) usate dalle regole e dai test.
@@ -32,6 +78,11 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const pointers = useRef(new Map());
   const gesture = useRef(null);
   const moved = useRef(false);
+  // callback stabili (i livelli memorizzati non devono ridisegnarsi a ogni render): leggono sempre l'ultimo gestore
+  const handlers = useRef({ onSelect, onSelectRiver });
+  handlers.current = { onSelect, onSelectRiver };
+  const pickProvince = useCallback((id) => { if (!moved.current) handlers.current.onSelect(id); }, []);
+  const pickRiver = useCallback((id) => { if (!moved.current) handlers.current.onSelectRiver(id); }, []);
 
   const measure = useCallback(() => {
     const ctm = svgRef.current?.getScreenCTM();
@@ -126,23 +177,25 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   // si vede e si usa subito, i nomi compaiono dopo) e si annulla se la vista cambia prima della fine dell'attesa.
   const [labels, setLabels] = useState([]);
   const [labelPass, setLabelPass] = useState(0); // sale finché il calcolo a tempo limitato non ha finito
+  const labelsContinue = useRef(false); // true tra una passata parziale e la successiva: si lascia più respiro all'interfaccia
   useEffect(() => {
     if (moving) { setLabels([]); return undefined; }
     const t = setTimeout(() => {
-      const provRaw = pickLabels(model.items, view, vbRect, pxPerUnit, copies, { budgetMs: 150 });
+      const provRaw = pickLabels(model.items, view, vbRect, pxPerUnit, copies, { budgetMs: 50 });
       const prov = provRaw.map((l) => ({ ...l, kind: 'prov' }));
       let partial = Boolean(provRaw.partial);
       let result = prov;
       if (showRivers) {
         const lakeLabels = pickLabels(water.lakes, view, vbRect, pxPerUnit, copies, {
-          maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((l) => l.rect), nameOf: (it) => it.props.name, budgetMs: 100,
+          maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((l) => l.rect), nameOf: (it) => it.props.name, budgetMs: 40,
         });
         partial = partial || Boolean(lakeLabels.partial);
         result = [...prov, ...lakeLabels.map((l) => ({ ...l, kind: 'lake' }))];
       }
       setLabels(result);
+      labelsContinue.current = partial;
       if (partial) setLabelPass((n) => n + 1);
-    }, 120);
+    }, labelsContinue.current ? 350 : 120);
     return () => clearTimeout(t);
   }, [moving, model.items, water.lakes, showRivers, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join(), labelPass]);
 
@@ -164,36 +217,8 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
         <g transform={`translate(${view.x} ${view.y}) scale(${view.k})`}>
           {copies.map((off) => (
             <g key={off} transform={off ? `translate(${off} 0)` : undefined}>
-              {model.items.map((it) => {
-                const fill = provinceFill(it.props, layer, nationControl);
-                const cls = it.id === selectedId ? 'prov selected' : 'prov';
-                const d = level >= 0 ? lod.items.get(it.id)[level] : it.d;
-                if (!it.seamD) {
-                  return <path key={it.id} d={d} fillRule="evenodd" fill={fill} className={cls} strokeWidth={0.6 * px} data-id={it.id} onClick={() => !moved.current && onSelect(it.id)} />;
-                }
-                // provincia sulla cucitura: riempimento senza contorno (con un filo dello stesso colore contro i
-                // vuoti tra le due meta) e contorno a parte che salta gli archi di cucitura
-                return (
-                  <g key={it.id}>
-                    <path d={d} fillRule="evenodd" fill={fill} style={{ stroke: fill }} className="prov seam-fill" strokeWidth={1 * px} data-id={it.id} onClick={() => !moved.current && onSelect(it.id)} />
-                    <path d={it.seamD} fill="none" className={cls} strokeWidth={0.6 * px} pointerEvents="none" />
-                  </g>
-                );
-              })}
-              <path d={level >= 0 ? lod.borders[level] : model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
-              {showRivers && water.lakes.map((l) => (
-                <path key={l.id} d={waterLevel >= 0 ? l.low[waterLevel] : l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
-              ))}
-              {showRivers && water.lines.map((l) => (
-                <g key={l.key}>
-                  <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width) * px} pointerEvents="none" />
-                  {!moving && (
-                    <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => !moved.current && onSelectRiver(l.riverId)}>
-                      <title>{riverNames.get(l.riverId)}</title>
-                    </path>
-                  )}
-                </g>
-              ))}
+              <ProvinceLayer items={model.items} layer={layer} nationControl={nationControl} selectedId={selectedId} level={level} lod={lod} px={px} borderD={model.borderD} onPick={pickProvince} />
+              {showRivers && <WaterLayer lakes={water.lakes} lines={water.lines} waterLevel={waterLevel} px={px} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
               {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
               {labels.filter((l) => l.off === off).map((l) => (
                 <text key={l.id} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className={l.kind === 'lake' ? 'map-label lake-label' : 'map-label'} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central" transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">
