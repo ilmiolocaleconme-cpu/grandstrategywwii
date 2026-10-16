@@ -3,9 +3,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { featureAreaKm2 } from '../src/map/geo.js';
+import { loadProvinces } from '../scripts/load-provinces.js';
 
 const load = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
-const provinces = load('provinces_1936.json');
+const provinces = await loadProvinces();
 const archive = load('archive/provinces_deu_1936_lander.json'); // province tedesche originali, solo per confronto
 const gaue = { type: 'FeatureCollection', features: provinces.features.filter((f) => f.properties.owner === 'DEU') };
 const gauIndex = buildProvinceIndex(gaue);

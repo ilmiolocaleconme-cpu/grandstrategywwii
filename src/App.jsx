@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import nations from '../data/nations.json';
 import resources from '../data/resources.json';
 import political from '../data/political_1936.json';
-import provinces from '../data/provinces_1936.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
+import { loadProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
 import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
@@ -24,13 +24,31 @@ function useWaterData() {
   return water;
 }
 
+// Province: un file per nazione (data/provinces/), tutti caricati all'avvio in parallelo e uniti
+// in memoria. La mappa parte solo a caricamento completo: una mappa a metà falserebbe i bordi nazionali.
+function useProvinces() {
+  const [state, setState] = useState({ status: 'loading', provinces: null, error: null });
+  useEffect(() => {
+    let alive = true;
+    loadProvinces().then(
+      (provinces) => alive && setState({ status: 'ready', provinces, error: null }),
+      (error) => alive && setState({ status: 'error', provinces: null, error }),
+    );
+    return () => { alive = false; };
+  }, []);
+  return state;
+}
+
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
+// chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico
+const NATION_CONTROL = Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
 
 // Due schermate: la mappa strategica (province del 1936) e lo stato dei dati.
 // Le meccaniche di gioco non sono ancora implementate.
 export default function App() {
   const [tab, setTab] = useState('map');
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData();
+  const { provinces, status: provincesStatus, error: provincesError } = useProvinces();
   const [layer, setLayer] = useState('political');
   const [provinceId, setProvinceId] = useState(null);
   const [riverId, setRiverId] = useState(null);
@@ -42,7 +60,7 @@ export default function App() {
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
 
-  const mapItems = useMemo(() => buildMapModel(provinces).items, []);
+  const mapItems = useMemo(() => (provinces ? buildMapModel(provinces).items : []), [provinces]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
 
   const validation = useMemo(
@@ -71,14 +89,27 @@ export default function App() {
     return (
       <div className="shell">
         {tabs}
+        {provincesStatus !== 'ready' ? (
+          <main className="map-status" role="status">
+            {provincesStatus === 'loading' ? (
+              <p>Caricamento delle province…</p>
+            ) : (
+              <>
+                <p className="warn">Province non caricate: {provincesError?.message ?? 'errore sconosciuto'}</p>
+                <button type="button" onClick={() => window.location.reload()}>Ricarica</button>
+              </>
+            )}
+          </main>
+        ) : (
         <div className="map-layout">
-          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
+          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
           {selectedRiver ? (
             <RiverPanel river={selectedRiver} rivers={rivers ?? []} onClose={() => setRiverId(null)} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} onClose={() => setProvinceId(null)} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} onClose={() => setProvinceId(null)} />
           )}
         </div>
+        )}
       </div>
     );
   }
@@ -116,9 +147,10 @@ export default function App() {
         <ul className="status">
           <li>
             Dati: {!validation ? (waterStatus === 'error' ? 'fiumi e laghi non caricati' : 'caricamento di fiumi e laghi…') : validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
-            {resources.length} risorse, {rivers?.length ?? '…'} fiumi, {lakes?.features.length ?? '…'} laghi, {crossings.length} attraversamenti, {provinces.features.length} province)
+            {resources.length} risorse, {rivers?.length ?? '…'} fiumi, {lakes?.features.length ?? '…'} laghi, {crossings.length} attraversamenti, {provinces?.features.length ?? '…'} province)
           </li>
           <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
+          {provincesStatus === 'error' && <li className="warn">Province non caricate: {provincesError?.message}</li>}
           {pwa.error && <li className="warn">Errore del service worker</li>}
         </ul>
         {pwa.updateAvailable && applyUpdate && (

@@ -1,6 +1,6 @@
 # Gaue della NSDAP come livello principale della Germania
 
-**Stato: dati e mappa implementati e testati (logica e dati); tutti i confini sono ipotesi.** I 32 Gaue sostituiscono le 30 province/Länder tedesche in `data/provinces_1936.json` (feature `P_DEU_*`, `kind: nsdap_gau`). I Gaue sono distretti di partito, non una divisione amministrativa: la scelta è di design (richiesta dell'utente). Le vecchie province tedesche sono archiviate in `data/archive/provinces_deu_1936_lander.json` e **non sono più caricate dall'app**.
+**Stato: dati e mappa implementati e testati (logica e dati); tutti i confini sono ipotesi.** I 32 Gaue sostituiscono le 30 province/Länder tedesche in `data/provinces/DEU.json` (feature `P_DEU_*`, `kind: nsdap_gau`). I Gaue sono distretti di partito, non una divisione amministrativa: la scelta è di design (richiesta dell'utente). Le vecchie province tedesche sono archiviate in `data/archive/provinces_deu_1936_lander.json` e **non sono più caricate dall'app**.
 
 ## Dati
 

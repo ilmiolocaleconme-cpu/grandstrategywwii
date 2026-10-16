@@ -4,10 +4,12 @@ import { readFileSync } from 'node:fs';
 import {
   project, ringToPath, featureToPath, featureAreaKm2, labelPoint, boundsOf,
   buildMapModel, buildWaterModel, buildLod, lodLevel, simplifyLine, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
+  WORLD_W, MAX_LAT, wrapLon, lonDelta, wrapView, visibleCopies,
 } from '../src/map/geo.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
+import { loadProvinces } from '../scripts/load-provinces.js';
 
-const provinces = JSON.parse(readFileSync(new URL('../data/provinces_1936.json', import.meta.url), 'utf8'));
+const provinces = await loadProvinces();
 const political = JSON.parse(readFileSync(new URL('../data/political_1936.json', import.meta.url), 'utf8'));
 
 const square = (x, y, s) => [[x, y], [x + s, y], [x + s, y + s], [x, y + s], [x, y]];
@@ -92,7 +94,8 @@ test('modello della mappa: stesse province dei dati e delle regole, tutte disegn
   assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => f.properties.id), ['P_ITA_LAZIO']);
   assert.ok(ids.has('P_ITA_LAZIO'));
   const { bounds } = model;
-  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 25, JSON.stringify(bounds));
+  // h < 50: dalle Shetland (61° N) al Sahara libico (19° N) l'altezza e ~42 unita; oltre sarebbe un'anomalia (territori oltremare lontani)
+  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 50, JSON.stringify(bounds));
 });
 
 test('ogni nazione disegnata ha un nome nel catalogo politico (legenda e pannello)', () => {
@@ -171,4 +174,126 @@ test('fiumi e laghi: versioni semplificate presenti e con meno punti', () => {
   assert.ok(w.lines.every((l) => l.low.length === 3 && l.low.every((d) => count(d) >= 2)));
   assert.ok(w.lines.reduce((a, l) => a + count(l.low[0]), 0) < w.lines.reduce((a, l) => a + count(l.d), 0) / 2);
   assert.ok(w.lakes.every((l) => l.low.length === 3));
+});
+
+// --- mappa circumnavigabile ---
+
+test('longitudine: wrapLon porta in [-180, 180) e lonDelta sceglie sempre la via piu breve', () => {
+  assert.equal(wrapLon(190), -170);
+  assert.equal(wrapLon(-190), 170);
+  assert.equal(wrapLon(540), -180);
+  assert.equal(wrapLon(10), 10);
+  assert.equal(lonDelta(170, -170), 20); // verso est attraverso l'antimeridiano
+  assert.equal(lonDelta(-170, 170), -20); // verso ovest
+  assert.equal(lonDelta(10, 40), 30);
+  assert.equal(lonDelta(0, 180), -180); // meta giro: convenzionalmente verso ovest
+});
+
+test('wrapView: un giro completo di spostamento da la stessa vista; il centro resta tra -180 e 180 gradi', () => {
+  const vb = { x: -10, y: -60, w: 50, h: 40 };
+  const v = { k: 3, x: -30, y: 10 };
+  const turn = wrapView({ ...v, x: v.x - WORLD_W * v.k }, vb);
+  const base = wrapView(v, vb);
+  assert.ok(Math.abs(turn.x - base.x) < 1e-9 && turn.y === base.y && turn.k === base.k);
+  // spostamenti enormi (molti giri) restano normalizzati
+  for (const dx of [-1e6, -123456.7, 0, 98765.4, 1e6]) {
+    const w = wrapView({ k: 2, x: dx, y: 0 }, vb);
+    const cx = (vb.x + vb.w / 2 - w.x) / w.k;
+    assert.ok(cx >= -WORLD_W / 2 - 1e-6 && cx < WORLD_W / 2 + 1e-6, `centro ${cx}`);
+  }
+  // idempotente
+  assert.deepEqual(wrapView(base, vb), base);
+});
+
+test('wrapView: in verticale la vista non supera +-MAX_LAT; una vista valida resta identica', () => {
+  const vb = { x: -10, y: -60, w: 50, h: 40 };
+  const up = wrapView({ k: 2, x: 0, y: 1e5 }, vb); // trascinata molto in basso: si vede il nord oltre il polo
+  const top = (vb.y - up.y) / up.k;
+  assert.ok(Math.abs(top - -MAX_LAT) < 1e-9, String(top));
+  const down = wrapView({ k: 2, x: 0, y: -1e5 }, vb);
+  const bottom = (vb.y - down.y) / down.k + vb.h / down.k;
+  assert.ok(Math.abs(bottom - MAX_LAT) < 1e-9, String(bottom));
+  const ok = { k: 1, x: 0, y: 0 };
+  assert.deepEqual(wrapView(ok, vb), ok);
+});
+
+test('visibleCopies: una sola copia nella vista iniziale; da lontano, a ogni longitudine se ne vede almeno una', () => {
+  const bounds = { x: -21, y: -56, w: 52, h: 37 }; // da -31 a 45 gradi di longitudine, come i dati
+  const vb = { x: -22, y: -57, w: 54, h: 39 };
+  assert.deepEqual(visibleCopies({ k: 1, x: 0, y: 0 }, vb, bounds), [0]);
+  // in zoom normale e centrati sull'antimeridiano (oceano) non si vede nessuna copia
+  const cxLocal = WORLD_W / 2;
+  assert.deepEqual(visibleCopies({ k: 1, x: vb.x + vb.w / 2 - cxLocal, y: 0 }, vb, bounds), []);
+  // con la vista allargata (k=0.2, ~320 gradi) i dati compaiono comunque, anche due volte ai bordi
+  let twice = 0;
+  for (let lon = -180; lon < 180; lon += 5) {
+    const view = wrapView({ k: 0.2, x: vb.x + vb.w / 2 - lon * Math.cos((47 * Math.PI) / 180) * 0.2, y: 0 }, vb);
+    const c = visibleCopies(view, vb, bounds);
+    assert.ok(c.length >= 1 && c.length <= 2, `lon ${lon}: ${JSON.stringify(c)}`);
+    if (c.length === 2) twice += 1;
+  }
+  assert.ok(twice > 0, 'ai lati dell\'antimeridiano le copie sono due');
+});
+
+test('dati: nessun anello attraversa l\'antimeridiano (salto di longitudine > 180 gradi tra due vertici)', () => {
+  for (const f of provinces.features) {
+    const polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+    for (const poly of polys) for (const ring of poly) {
+      for (let i = 0; i + 1 < ring.length; i += 1) {
+        assert.ok(Math.abs(ring[i + 1][0] - ring[i][0]) < 180, `${f.properties.id}: salto di longitudine`);
+      }
+      assert.ok(ring.every(([lon]) => lon >= -180 && lon <= 180), f.properties.id);
+    }
+  }
+});
+
+test('pickLabels: nessuna sovrapposizione, rispetta il tetto e salta le province troppo piccole per il nome', async () => {
+  const { buildMapModel, pickLabels } = await import('../src/map/geo.js');
+  const model = buildMapModel(provinces);
+  const vb = { x: model.bounds.x, y: model.bounds.y, w: model.bounds.w, h: model.bounds.h };
+  const pxPerUnit = 360 / vb.w; // telefono stretto
+  for (const k of [1, 2, 4, 8, 16]) {
+    const view = { k, x: 0, y: 0 };
+    const out = pickLabels(model.items, view, vb, pxPerUnit);
+    assert.ok(out.length <= 70, `k=${k}: tetto rispettato`);
+    const rects = out.map((l) => {
+      const px = (k * l.x + view.x - vb.x) * pxPerUnit;
+      const py = (k * l.y + view.y - vb.y) * pxPerUnit;
+      const w = l.name.length * 11 * 0.56;
+      return [px - w / 2, py - 6, px + w / 2, py + 6];
+    });
+    for (let i = 0; i < rects.length; i += 1) {
+      for (let j = i + 1; j < rects.length; j += 1) {
+        const a = rects[i];
+        const b = rects[j];
+        assert.ok(!(a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1]), `k=${k}: ${out[i].name} / ${out[j].name} si sovrappongono`);
+      }
+    }
+  }
+  // zoomando compaiono più etichette (fino al tetto), non meno
+  const cx = vb.x + vb.w / 2;
+  const cy = vb.y + vb.h / 2;
+  const n = (k) => pickLabels(model.items, zoomAt({ k: 1, x: 0, y: 0 }, k, cx, cy), vb, pxPerUnit).length;
+  assert.ok(n(4) > n(1), `k=1: ${n(1)}, k=4: ${n(4)}`);
+});
+
+test('colore politico: le colonie prendono il colore di chi le controlla nel 1936 (Libia = Italia)', async () => {
+  const { controllerOf, provinceFill } = await import('../src/map/geo.js');
+  const political = JSON.parse(readFileSync(new URL('../data/political_1936.json', import.meta.url)));
+  const control = Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
+  const ids = new Set(political.map((e) => e.id));
+  assert.equal(controllerOf('LBA', control), 'ITA');
+  assert.equal(controllerOf('DOD', control), 'ITA');
+  assert.equal(controllerOf('ALG', control), 'FRA');
+  assert.equal(controllerOf('SYR', control), 'FRA'); // mandato francese
+  assert.equal(controllerOf('PAL', control), 'GBR'); // mandato britannico
+  assert.equal(controllerOf('MAR_ES', control), 'ESP');
+  // stessa tinta (il colore cambia solo di luminosità per provincia): confronto con lo stesso id
+  assert.equal(provinceFill({ owner: 'LBA', id: 'x' }, 'political', control), provinceFill({ owner: 'ITA', id: 'x' }, 'political'));
+  assert.notEqual(provinceFill({ owner: 'LBA', id: 'x' }, 'political'), provinceFill({ owner: 'ITA', id: 'x' }, 'political'));
+  // ogni territorio con province ha un controllore che esiste
+  for (const f of provinces.features) {
+    const c = controllerOf(f.properties.owner, control);
+    assert.ok(ids.has(c), `${f.properties.id}: controllore ${c} inesistente`);
+  }
 });

@@ -1,0 +1,98 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { loadProvinces } from '../scripts/load-provinces.js';
+import { buildProvinceIndex } from '../src/data/geometry.js';
+import { featureAreaKm2 } from '../src/map/geo.js';
+
+// Inghilterra (GBR) e Mediterraneo (ALG, TUN, LBA, EGY, PAL, JOR, SYR, LBN, TUR, CYP, MLT, GIB):
+// Natural Earth (confini attuali), qualita hypothesis. Soglie larghe: intercettano rotture, non certificano precisione.
+
+const provinces = await loadProvinces();
+const index = buildProvinceIndex(provinces);
+const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o);
+const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+
+test('conteggi per nazione e id con il codice del proprietario', () => {
+  const N = { GBR: 88, ALG: 48, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
+  for (const [o, n] of Object.entries(N)) {
+    const fs = byOwner(o);
+    assert.equal(fs.length, n, o);
+    assert.ok(fs.every((f) => f.properties.id.startsWith(`P_${o}_`) && f.properties.borderQuality === 'hypothesis'), o);
+  }
+});
+
+test('citta note nella provincia attesa', () => {
+  assert.deepEqual(at(-0.12, 51.5), ['P_GBR_LONDRA']);
+  assert.deepEqual(at(-1.26, 51.75), ['P_GBR_OXFORDSHIRE']);
+  assert.deepEqual(at(-2.24, 53.48), ['P_GBR_LANCASHIRE']);
+  assert.deepEqual(at(-1.55, 53.8), ['P_GBR_YORKSHIRE']);
+  assert.deepEqual(at(3.05, 36.75), ['P_ALG_ALGER']);
+  assert.deepEqual(at(10.18, 36.8), ['P_TUN_TUNIS']);
+  assert.deepEqual(at(31.24, 30.04), ['P_EGY_AL_QAHIRAH']);
+  assert.deepEqual(at(35.22, 31.78), ['P_PAL_JERUSALEM']);
+  assert.deepEqual(at(36.29, 33.51), ['P_SYR_DAMASCUS']);
+  assert.deepEqual(at(35.5, 33.89), ['P_LBN_BEIRUT']);
+  assert.deepEqual(at(32.85, 39.93), ['P_TUR_ANKARA']);
+  assert.deepEqual(at(14.4, 35.9), ['P_MLT_MALTA']);
+  assert.deepEqual(at(-5.35, 36.14), ['P_GIB_GIBRALTAR']);
+});
+
+test('Hatay (Alessandretta) e in Siria, non in Turchia, nel 1936', () => {
+  assert.deepEqual(at(36.16, 36.2), ['P_SYR_HATAY']);
+  assert.equal(byOwner('TUR').some((f) => f.properties.id === 'P_TUR_HATAY'), false);
+});
+
+const WALES = ['Anglesey', 'Caernarvonshire e Merionethshire', 'Denbighshire', 'Flintshire', 'Montgomeryshire, Radnorshire e Brecknockshire', 'Cardiganshire', 'Carmarthenshire', 'Pembrokeshire', 'Glamorgan', 'Monmouthshire'];
+const NI = ['Antrim', 'Down', 'Armagh', 'Fermanagh', 'Tyrone', 'Londonderry'];
+const part = (pred) => byOwner('GBR').filter((f) => pred(f.properties));
+const total = (fs) => fs.reduce((sum, f) => sum + featureAreaKm2(f), 0);
+
+test('Regno Unito (GBR): Inghilterra 40 contee, Galles 10, Scozia 32, Irlanda del Nord 6; Irlanda indipendente esclusa', () => {
+  const wales = part((p) => WALES.includes(p.name));
+  const ni = part((p) => NI.includes(p.name));
+  const scot = part((p) => p.kind === 'council area');
+  const eng = part((p) => !WALES.includes(p.name) && !NI.includes(p.name) && p.kind !== 'council area');
+  assert.deepEqual([eng.length, wales.length, scot.length, ni.length], [40, 10, 32, 6]);
+  const rng = (fs, lo, hi, nome) => assert.ok(total(fs) > lo && total(fs) < hi, `${nome}: ${Math.round(total(fs))} km2`);
+  rng(eng, 125000, 135000, 'Inghilterra');
+  rng(wales, 19000, 22500, 'Galles');
+  rng(scot, 74000, 82000, 'Scozia');
+  rng(ni, 12500, 15000, 'Irlanda del Nord');
+  const london = featureAreaKm2(byOwner('GBR').find((f) => f.properties.id === 'P_GBR_LONDRA'));
+  assert.ok(london > 250 && london < 360, String(Math.round(london)));
+  assert.ok(eng.concat(wales, ni).every((f) => f.properties.knownIssues.includes('raggruppata_da_unita_attuali')));
+  assert.ok(scot.every((f) => f.properties.knownIssues.includes('unita_attuali_non_contee_storiche')));
+  // punti noti: Cardiff in Glamorgan, Edimburgo, Belfast in Antrim, Londonderry; Dublino NON e nel Regno Unito
+  const nameAt = (lon, lat) => at(lon, lat).map((id) => provinces.features.find((f) => f.properties.id === id).properties.name);
+  assert.deepEqual(nameAt(-3.18, 51.48), ['Glamorgan']);
+  assert.deepEqual(nameAt(-3.19, 55.95), ['Edimburgo']);
+  assert.deepEqual(nameAt(-5.93, 54.6), ['Antrim']);
+  assert.deepEqual(nameAt(-7.32, 54.99), ['Londonderry']);
+  assert.deepEqual(nameAt(-6.26, 53.35), []);
+});
+
+test('confini internazionali agganciati: nessuna sovrapposizione tra Stati (campionamento a 0,02 gradi)', () => {
+  const boxes = { Maghreb: [-3, 29, 12, 37.5], 'Algeria-Marocco': [-9, 27, -0.5, 36], 'Libia-Egitto': [11, 22, 36, 33], Levante: [34, 29, 42, 38], 'Spagna-Portogallo-Marocco': [-10, 34, -1, 38] };
+  for (const [name, [x0, y0, x1, y1]] of Object.entries(boxes)) {
+    let overlapping = 0;
+    for (let lat = y0; lat < y1; lat += 0.02) for (let lon = x0; lon < x1; lon += 0.02) if (at(lon, lat).length > 1) overlapping += 1;
+    assert.equal(overlapping, 0, `${name}: ${overlapping} celle sovrapposte`);
+  }
+  // Turchia-Grecia-Bulgaria: poche celle (~2 km2) per fonti diverse sul tratto di Edirne
+  let tr = 0;
+  for (let lat = 39.5; lat < 42.5; lat += 0.02) for (let lon = 24; lon < 30; lon += 0.02) if (at(lon, lat).length > 1) tr += 1;
+  assert.ok(tr <= 10, `Turchia-Grecia-Bulgaria: ${tr}`);
+});
+
+test('Libia italiana 1934-43: 5 unita (4 province + Territorio Militare del Sud), citta nelle unita giuste', () => {
+  const names = byOwner('LBA').map((f) => f.properties.name).sort();
+  assert.deepEqual(names, ['Bengasi', 'Derna', 'Misurata', 'Territorio Militare del Sud', 'Tripoli']);
+  const where = { Tripoli: [13.19, 32.89], Misurata: [15.09, 32.38], Bengasi: [20.07, 32.12], Derna: [22.64, 32.7] /* Derna e sulla costa: punto subito all'interno */, 'Territorio Militare del Sud': [14.43, 27.04] };
+  for (const [name, [lon, lat]] of Object.entries(where)) {
+    const hit = at(lon, lat).map((id) => provinces.features.find((f) => f.properties.id === id).properties.name);
+    assert.deepEqual(hit, [name], `(${lon}, ${lat}) dovrebbe stare solo in ${name}`);
+  }
+  // Ghadames, Cufra e Giarabub (Jaghbub) stanno nel Territorio del Sud / Cirenaica meridionale: Sud copre il deserto
+  const sud = byOwner('LBA').find((f) => f.properties.name === 'Territorio Militare del Sud');
+  assert.ok(featureAreaKm2(sud) > 900000, 'il Sud e la parte piu grande');
+});
