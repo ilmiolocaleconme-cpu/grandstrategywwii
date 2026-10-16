@@ -17,16 +17,14 @@ export function precacheUrls(swText) {
 }
 
 /**
- * Il testo di un chunk contiene la sentinella? Un id di provincia (P_...) conta solo come valore della
- * chiave `id` — così `"id":"P_X"`, `id:"P_X"` o la forma con virgolette escape di JSON.parse("...") —
- * e NON come riferimento da un altro dato (es. `sideA` in data/crossings.json, che sta nel bundle
- * principale e cita gli id delle province). Le altre sentinelle (es. _meta) restano una semplice ricerca di testo.
+ * Il testo di un chunk contiene la sentinella? Una sentinella è una stringa oppure un elenco di stringhe
+ * (devono esserci TUTTE). Per i file delle province l'elenco sono tutti gli id delle sue province: un altro dato
+ * che ne cita solo alcune (es. sideA/sideB in data/crossings.json, nel bundle principale) non è "il file delle
+ * province". Non dipende dalla forma del codice generato (JSON.parse, oggetto minificato, ecc.).
+ * Limite noto: un file con poche province (es. una sola) citate TUTTE da un altro dato verrebbe visto in due chunk.
  */
 export function hasMarker(text, marker) {
-  if (/^P_[A-Za-z0-9_]+$/.test(marker)) {
-    return new RegExp(`(?<![A-Za-z0-9_])id\\\\*"?:\\\\*"${marker}\\\\*"`).test(text);
-  }
-  return text.includes(marker);
+  return Array.isArray(marker) ? marker.every((m) => text.includes(m)) : text.includes(marker);
 }
 
 /**
@@ -52,15 +50,15 @@ export function checkPrecache({ chunks, swText, markers }) {
 }
 
 /**
- * Stringhe-sentinella che compaiono solo nei dati: id della prima provincia di ogni nazione; per _meta l'inizio
- * della prima voce di `metadata.coverage` (non il campo "schema": è anche una costante del codice, nel bundle principale).
+ * Sentinelle che compaiono solo nei dati: per ogni nazione l'elenco di TUTTI gli id delle sue province; per _meta
+ * l'inizio della prima voce di `metadata.coverage` (non il campo "schema": è anche una costante del codice, nel bundle principale).
  */
 export async function provinceMarkers(dirUrl = provincesDir) {
   const markers = {};
   for (const file of await listProvinceFiles(dirUrl)) {
     const data = JSON.parse(await readFile(new URL(file, dirUrl), 'utf8'));
     const name = fileName(file);
-    markers[name] = name === META_NAME ? String(data.metadata.coverage[0]).slice(0, 30) : data.features[0].properties.id;
+    markers[name] = name === META_NAME ? String(data.metadata.coverage[0]).slice(0, 30) : data.features.map((f) => f.properties.id);
   }
   return markers;
 }
