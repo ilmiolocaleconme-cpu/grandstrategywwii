@@ -8,7 +8,7 @@ Stato: **dati reali ma approssimati** (Natural Earth, corso moderno). Le regole 
 |---|---|---|
 | `data/rivers.json` | Catalogo: 329 fiumi (133 principali, 136 secondari, 60 affluenti) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
 | `data/rivers_geo.json` | 736 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
-| `data/lakes.json` | 119 laghi (area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe`, pubblico dominio |
+| `data/lakes.json` | 461 laghi (area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
 | `data/crossings.json` | **Vuoto**: ponti, guadi e traghetti non hanno ancora una fonte | — |
 
 La mappa e le regole leggono gli stessi file (`src/map/geo.js`, `src/data/rivers.js`): nessuna discrepanza tra grafica e simulazione.
@@ -34,6 +34,13 @@ Stesso metodo del resto del catalogo, con queste differenze e limiti:
 - **Lunghezze:** misurate sulla linea generalizzata e ritagliata, tra il 55 e il 105 % del valore reale: non sono misure.
 - **Esclusi:** canali (Suez, Ismailiya, Caledonian), la Garonna (francese), i fiumi baltici e Giordano. **Natural Earth non ha nessun fiume per Danimarca, Algeria, Tunisia e Libia**: restano vuoti e non sono stati inventati. Altre fonti verificabili (OpenStreetMap, HydroSHEDS) non sono raggiungibili da questo ambiente.
 - Test: `tests/fiumi_nord_iberia.test.js` (7).
+
+### Laghi aggiunti: Gran Bretagna, Irlanda, Spagna, Portogallo, Nord Africa, Baltici, Danimarca, Norvegia, Svezia, Finlandia (342 laghi)
+
+- **Selezione:** stessa soglia del resto (≥ 25 km² o con nome ≥ 8 km²), centroide dentro il territorio delle province presenti (margine 0,04°; Irlanda: confini attuali, nessuna provincia `IRL`). Tolti i duplicati tra `lakes` e `lakes_europe` e i laghi già presenti (per Wikidata o per posizione e area). 298 sono in Scandinavia e Finlandia, 19 in Gran Bretagna e Irlanda, 14 in Iberia, 9 nei Baltici, 2 in Nord Africa (Nasser, Grande Lago Amaro).
+- **Forma:** `MultiPolygon` semplificato a 0,002°; le isole interne ≥ 3 km² restano come buchi (la mappa disegna con `evenodd`). Ottantatré laghi non hanno nome in Natural Earth: id `L_NONAME_n`, come già fatto per gli altri.
+- **Limiti:** `areaKm2` è l'area del poligono Natural Earth e può differire molto dal valore reale per i laghi con molte isole (Saimaa 9.309, Päijänne 4.189 km²: sovrastimate). Laghi artificiali moderni (Nasser, Lokka, Porttipahta) non distinti da quelli del 1936. Laghi in più parti hanno più poligoni con lo stesso Wikidata (come Como). I chott algerini e tunisini sono nel dataset pluviale di Natural Earth e non sono inclusi.
+- Test: `tests/laghi_nord_iberia.test.js` (4).
 
 ## Cosa c'è già nel codice
 
