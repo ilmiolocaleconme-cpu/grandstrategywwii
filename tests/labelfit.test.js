@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadProvinces } from '../scripts/load-provinces.js';
-import { project, buildMapModel, buildWaterModel, labelFitOf, pickLabels, polygonsOf, withoutSmallHoles } from '../src/map/geo.js';
+import { project, buildMapModel, buildWaterModel, labelFitOf, pickLabels, polygonsOf, withoutSmallHoles, HOME_BOUNDS } from '../src/map/geo.js';
 import { fitLabel, poleOfInaccessibility, principalAxis, CHAR_W, TEXT_H } from '../src/map/labelfit.js';
 import { readFileSync } from 'node:fs';
 
@@ -119,7 +119,7 @@ test('pickLabels sui laghi: nessuna sovrapposizione con i nomi delle province', 
   const model = buildMapModel(provinces);
   const lakes = JSON.parse(readFileSync(new URL('../data/lakes.json', import.meta.url), 'utf8'));
   const water = buildWaterModel([], { features: [] }, lakes);
-  const vb = { x: model.bounds.x, y: model.bounds.y, w: model.bounds.w, h: model.bounds.h };
+  const vb = { ...HOME_BOUNDS }; // come in MapView: vista iniziale, non i limiti dei dati (ora tutto il giro)
   const pxPerUnit = 360 / vb.w;
   for (const k of [3, 8]) {
     const view = { k, x: -(vb.x + vb.w * 0.55) * k + vb.w / 2 + vb.x, y: -(vb.y + vb.h * 0.2) * k + vb.h / 2 + vb.y }; // verso il Nord
@@ -129,5 +129,6 @@ test('pickLabels sui laghi: nessuna sovrapposizione con i nomi delle province', 
       assert.ok(!(a.rect[0] < b.rect[2] && a.rect[2] > b.rect[0] && a.rect[1] < b.rect[3] && a.rect[3] > b.rect[1]), `k=${k}: ${a.name} / ${b.name}`);
     }
     assert.ok(lk.length <= 30);
+    assert.ok(prov.length > 0, `k=${k}: nessun nome di provincia nella vista verso il Nord`);
   }
 });

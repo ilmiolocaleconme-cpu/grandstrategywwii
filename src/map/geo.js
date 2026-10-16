@@ -17,6 +17,23 @@ export function project(lon, lat) {
 export const WORLD_W = 360 * COS0;
 export const MAX_LAT = 85; // limite verticale della vista (i poli non sono navigabili con questa proiezione)
 
+// Vista iniziale (⌂): indipendente dai limiti dei dati. Con l'Unione Sovietica i dati coprono tutte le
+// longitudini (da -180 a 180), quindi il viewBox non puo derivare da essi: si parte da Europa, Mediterraneo
+// e URSS europea e ci si sposta (o si circumnaviga) con lo scorrimento.
+export const HOME_LON = [-25, 75];
+export const HOME_LAT = [15, 72];
+export const HOME_BOUNDS = {
+  x: HOME_LON[0] * COS0,
+  y: -HOME_LAT[1],
+  w: (HOME_LON[1] - HOME_LON[0]) * COS0,
+  h: HOME_LAT[1] - HOME_LAT[0],
+};
+
+// Cucitura dell'antimeridiano: i dati non hanno anelli che attraversano +-180 (la Ciukotka e divisa in una
+// parte a +180 e una a -180 con gli stessi vertici). Un arco con entrambi gli estremi su +180 (o su -180) e
+// un taglio dei dati, non una costa ne un confine: non va disegnato come linea.
+export const isSeamEdge = (a, b) => Math.abs(a[0]) === 180 && a[0] === b[0];
+
 /** Longitudine riportata nell'intervallo [-180, 180). */
 export function wrapLon(lon) {
   return ((((lon + 180) % 360) + 360) % 360) - 180;
@@ -133,6 +150,36 @@ export function featureToPath(feature, tol = 0) {
     .join('');
 }
 
+/** La provincia ha archi sulla cucitura dell'antimeridiano? */
+export function hasSeam(feature) {
+  return polygonsOf(feature).some((poly) => poly.some((ring) => {
+    for (let i = 0; i + 1 < ring.length; i += 1) if (isSeamEdge(ring[i], ring[i + 1])) return true;
+    return false;
+  }));
+}
+
+// Contorno senza gli archi di cucitura: polilinee aperte che si interrompono sul taglio. Serve a disegnare
+// il bordo di una provincia a cavallo dell'antimeridiano senza una falsa costa lungo +-180.
+export function featureToStrokePath(feature) {
+  let d = '';
+  for (const poly of polygonsOf(feature)) {
+    for (const ring of poly) {
+      let run = [];
+      const flush = () => {
+        if (run.length >= 2) d += run.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${r3(x)} ${r3(y)}`).join('');
+        run = [];
+      };
+      for (let i = 0; i + 1 < ring.length; i += 1) {
+        if (isSeamEdge(ring[i], ring[i + 1])) { flush(); continue; }
+        if (run.length === 0) run.push(project(ring[i][0], ring[i][1]));
+        run.push(project(ring[i + 1][0], ring[i + 1][1]));
+      }
+      flush();
+    }
+  }
+  return d;
+}
+
 // Area approssimata di un anello in km² (formula del geoide sferico semplificata).
 export function ringAreaKm2(ring) {
   let s = 0;
@@ -207,7 +254,7 @@ const OWNER_HUE = {
   CZE: [220, 36], NLD: [26, 62], ITA: [92, 34], YUG: [280, 28], DANZIG: [196, 45],
   FRA: [250, 38], CHE: [330, 48], LIE: [160, 50],
   HUN: [140, 38], ROM: [58, 45], BGR: [350, 40], GRC: [165, 40], ALB: [28, 62],
-  GBR: [315, 40], ESP: [14, 66],
+  GBR: [315, 40], ESP: [14, 66], USSR: [0, 62],
 };
 
 function hash(str) {
@@ -280,8 +327,10 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
 }
 
 const edgeKey = (a, b) => {
-  const ka = `${a[0]},${a[1]}`;
-  const kb = `${b[0]},${b[1]}`;
+  // sulla cucitura +180 e -180 sono lo stesso meridiano: la chiave le unisce, cosi le due meta si accoppiano
+  const lon = (p) => (isSeamEdge(a, b) ? 180 : p[0]);
+  const ka = `${lon(a)},${a[1]}`;
+  const kb = `${lon(b)},${b[1]}`;
   return ka < kb ? `${ka}|${kb}` : `${kb}|${ka}`;
 };
 
@@ -298,9 +347,10 @@ export function nationalBorderPath(collection, tol = 0) {
       }
     }));
   });
-  const interior = (k) => {
+  const interior = (k, seam) => {
     const o = owners.get(k);
-    return o.length === 2 && o[0].id !== o[1].id && o[0].owner === o[1].owner;
+    // sulla cucitura le due meta (+180 e -180) possono essere della stessa provincia: sono comunque un taglio interno
+    return o.length === 2 && (seam || o[0].id !== o[1].id) && o[0].owner === o[1].owner;
   };
   let d = '';
   const flush = (run) => {
@@ -311,7 +361,7 @@ export function nationalBorderPath(collection, tol = 0) {
     polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
       let run = [];
       for (let i = 0; i + 1 < ring.length; i += 1) {
-        if (interior(edgeKey(ring[i], ring[i + 1]))) { flush(run); run = []; continue; }
+        if (interior(edgeKey(ring[i], ring[i + 1]), isSeamEdge(ring[i], ring[i + 1]))) { flush(run); run = []; continue; }
         if (run.length === 0) run.push(project(ring[i][0], ring[i][1]));
         run.push(project(ring[i + 1][0], ring[i + 1][1]));
       }
@@ -331,7 +381,8 @@ export function lodLevel(k) {
 // Versioni semplificate di province e bordi, calcolate a parte (dopo la prima schermata).
 export function buildLod(collection) {
   return {
-    items: new Map(collection.features.map((f) => [f.properties.id, LOD_TOLERANCES.map((t) => featureToPath(f, t))])),
+    // le province sulla cucitura restano al dettaglio pieno: la semplificazione potrebbe spostare i vertici del taglio
+    items: new Map(collection.features.map((f) => [f.properties.id, LOD_TOLERANCES.map((t) => featureToPath(f, hasSeam(f) ? 0 : t))])),
     borders: LOD_TOLERANCES.map((t) => nationalBorderPath(collection, t)),
   };
 }
@@ -348,6 +399,7 @@ function buildMapModelUncached(collection) {
     id: f.properties.id,
     props: f.properties,
     d: featureToPath(f),
+    seamD: hasSeam(f) ? featureToStrokePath(f) : null,
     label: labelPoint(f),
     areaKm2: featureAreaKm2(f),
     bbox: boundsOf([f]),

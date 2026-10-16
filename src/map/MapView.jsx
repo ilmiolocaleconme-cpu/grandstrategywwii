@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { HOME_BOUNDS, LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const MIN_K = 0.3; // si puo allontanare fino a vedere quasi tutto il giro del mondo
@@ -11,9 +11,10 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   // fiumi e laghi arrivano a parte (caricamento differito): finché mancano, la mappa funziona senza
   const water = useMemo(() => (rivers && riversGeo && lakes ? buildWaterModel(rivers, riversGeo, lakes) : { lines: [], lakes: [] }), [rivers, riversGeo, lakes]);
   const riverNames = useMemo(() => new Map((rivers ?? []).map((r) => [r.id, r.name])), [rivers]);
-  const { bounds } = model;
-  const pad = bounds.w * 0.02;
-  const vbRect = { x: bounds.x - pad, y: bounds.y - pad, w: bounds.w + 2 * pad, h: bounds.h + 2 * pad };
+  const { bounds } = model; // limiti reali dei dati (possono coprire tutte le longitudini)
+  const pad = HOME_BOUNDS.w * 0.02;
+  // il viewBox e la vista iniziale fissa, non i limiti dei dati
+  const vbRect = { x: HOME_BOUNDS.x - pad, y: HOME_BOUNDS.y - pad, w: HOME_BOUNDS.w + 2 * pad, h: HOME_BOUNDS.h + 2 * pad };
   const vb = `${vbRect.x} ${vbRect.y} ${vbRect.w} ${vbRect.h}`;
 
   const svgRef = useRef(null);
@@ -149,18 +150,22 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
         <g transform={`translate(${view.x} ${view.y}) scale(${view.k})`}>
           {copies.map((off) => (
             <g key={off} transform={off ? `translate(${off} 0)` : undefined}>
-              {model.items.map((it) => (
-                <path
-                  key={it.id}
-                  d={level >= 0 ? lod.items.get(it.id)[level] : it.d}
-                  fillRule="evenodd"
-                  fill={provinceFill(it.props, layer, nationControl)}
-                  className={it.id === selectedId ? 'prov selected' : 'prov'}
-                  strokeWidth={0.6 * px}
-                  data-id={it.id}
-                  onClick={() => !moved.current && onSelect(it.id)}
-                />
-              ))}
+              {model.items.map((it) => {
+                const fill = provinceFill(it.props, layer, nationControl);
+                const cls = it.id === selectedId ? 'prov selected' : 'prov';
+                const d = level >= 0 ? lod.items.get(it.id)[level] : it.d;
+                if (!it.seamD) {
+                  return <path key={it.id} d={d} fillRule="evenodd" fill={fill} className={cls} strokeWidth={0.6 * px} data-id={it.id} onClick={() => !moved.current && onSelect(it.id)} />;
+                }
+                // provincia sulla cucitura: riempimento senza contorno (con un filo dello stesso colore contro i
+                // vuoti tra le due meta) e contorno a parte che salta gli archi di cucitura
+                return (
+                  <g key={it.id}>
+                    <path d={d} fillRule="evenodd" fill={fill} style={{ stroke: fill }} className="prov seam-fill" strokeWidth={1 * px} data-id={it.id} onClick={() => !moved.current && onSelect(it.id)} />
+                    <path d={it.seamD} fill="none" className={cls} strokeWidth={0.6 * px} pointerEvents="none" />
+                  </g>
+                );
+              })}
               <path d={level >= 0 ? lod.borders[level] : model.borderD} className="border-national" strokeWidth={1.2 * px} pointerEvents="none" />
               {showRivers && water.lakes.map((l) => (
                 <path key={l.id} d={waterLevel >= 0 ? l.low[waterLevel] : l.d} fillRule="evenodd" className="lake" strokeWidth={0.6 * px} pointerEvents="none" />
@@ -175,7 +180,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
                   )}
                 </g>
               ))}
-              {selected && <path d={selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
+              {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
               {labels.filter((l) => l.off === off).map((l) => (
                 <text key={l.id} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className={l.kind === 'lake' ? 'map-label lake-label' : 'map-label'} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central" transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">
                   {l.name}
