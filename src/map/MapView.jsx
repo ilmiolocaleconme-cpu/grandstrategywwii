@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { HOME_BOUNDS, LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
+const PROVINCE_MIN_LABEL_PX = 5; // corpo minimo dei nomi delle province (px): più basso = più nomi anche a zoom ridotto, ma più piccoli
 const MIN_K = 0.3; // si puo allontanare fino a vedere quasi tutto il giro del mondo
 
 // Livelli memorizzati: durante il trascinamento cambia solo la trasformazione del gruppo (x, y), non le
@@ -181,7 +182,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   useEffect(() => {
     if (moving) { setLabels([]); return undefined; }
     const t = setTimeout(() => {
-      const provRaw = pickLabels(model.items, view, vbRect, pxPerUnit, copies, { budgetMs: 50 });
+      const provRaw = pickLabels(model.items, view, vbRect, pxPerUnit, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX });
       const prov = provRaw.map((l) => ({ ...l, kind: 'prov' }));
       let partial = Boolean(provRaw.partial);
       let result = prov;
