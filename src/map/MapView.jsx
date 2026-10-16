@@ -256,7 +256,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   );
 }
 
-function Legend({ layer, nationNames, nationControl, items, open, onToggle }) {
+export function Legend({ layer, nationNames, nationControl, items, open, onToggle }) {
   const owners = useMemo(() => [...new Set(items.map((i) => controllerOf(i.props.owner, nationControl)))].sort(), [items, nationControl]);
   const entries = layer === 'quality'
     ? [['verificato', provinceFill({ borderQuality: 'verified' }, 'quality')], ['approssimato', provinceFill({ borderQuality: 'approximate' }, 'quality')], ['ipotesi', provinceFill({ borderQuality: 'hypothesis' }, 'quality')]]

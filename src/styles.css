@@ -96,6 +96,8 @@ h2 {
 .map *:focus { outline: none; }
 .map { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; user-select: none; }
 .map-sea { fill: #17324a; }
+/* mappa Canvas (prototipo): la tela della scena sta sotto quella dei gesti e dei nomi */
+.map-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
 .prov { stroke: rgba(29, 36, 24, 0.4); stroke-linejoin: round; cursor: pointer; }
 .border-national { fill: none; stroke: #1d2418; stroke-linejoin: round; stroke-linecap: round; }
 .prov:hover { filter: brightness(1.15); }

@@ -7,20 +7,27 @@ import { validateCatalog } from './data/validate.js';
 import { loadProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
+import MapCanvas from './map/MapCanvas.jsx';
 import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
 import { buildMapModel } from './map/geo.js';
+import { buildCanvasModel } from './map/canvasModel.js';
+
+// PROTOTIPO: la mappa Canvas 2D si attiva con ?map=canvas (di norma resta la mappa SVG)
+const USE_CANVAS = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('map') === 'canvas';
+const MapScreen = USE_CANVAS ? MapCanvas : MapView;
 
 // Fiumi e laghi (~600 kB) non stanno nel pacchetto iniziale: si scaricano dopo la comparsa della
 // mappa, in blocchi separati che il service worker mette nella cache del dispositivo (offline).
-function useWaterData() {
+function useWaterData(start) {
   const [water, setWater] = useState({ status: 'loading', rivers: null, riversGeo: null, lakes: null });
   useEffect(() => {
+    if (!start) return undefined;
     let alive = true;
     Promise.all([import('../data/rivers.json'), import('../data/rivers_geo.json'), import('../data/lakes.json')])
       .then(([r, g, l]) => alive && setWater({ status: 'ready', rivers: r.default, riversGeo: g.default, lakes: l.default }))
       .catch(() => alive && setWater({ status: 'error', rivers: null, riversGeo: null, lakes: null }));
     return () => { alive = false; };
-  }, []);
+  }, [start]);
   return water;
 }
 
@@ -47,8 +54,15 @@ const NATION_CONTROL = Object.fromEntries(political.map((e) => [e.id, e.controll
 // Le meccaniche di gioco non sono ancora implementate.
 export default function App() {
   const [tab, setTab] = useState('map');
-  const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData();
   const { provinces, status: provincesStatus, error: provincesError } = useProvinces();
+  // SVG: fiumi e laghi si caricano subito (come prima). Canvas (prototipo): dopo la comparsa delle province, per non rallentare la prima schermata
+  const [mapShown, setMapShown] = useState(false);
+  useEffect(() => {
+    if (provincesStatus !== 'ready') return undefined;
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => setMapShown(true)));
+    return () => cancelAnimationFrame(id);
+  }, [provincesStatus]);
+  const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
   const [layer, setLayer] = useState('political');
   const [provinceId, setProvinceId] = useState(null);
   const [riverId, setRiverId] = useState(null);
@@ -60,7 +74,7 @@ export default function App() {
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
 
-  const mapItems = useMemo(() => (provinces ? buildMapModel(provinces).items : []), [provinces]);
+  const mapItems = useMemo(() => (provinces ? (USE_CANVAS ? buildCanvasModel(provinces) : buildMapModel(provinces)).items : []), [provinces]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
 
   const validation = useMemo(
@@ -102,7 +116,7 @@ export default function App() {
           </main>
         ) : (
         <div className="map-layout">
-          <MapView provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
+          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={NATION_CONTROL} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
           {selectedRiver ? (
             <RiverPanel river={selectedRiver} rivers={rivers ?? []} onClose={() => setRiverId(null)} />
           ) : (
