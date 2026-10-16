@@ -8,7 +8,7 @@ Stato: **dati reali ma approssimati** (Natural Earth, corso moderno). Le regole 
 |---|---|---|
 | `data/rivers.json` | Catalogo: 540 fiumi (211 nuovi dell'URSS inclusi) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
 | `data/rivers_geo.json` | 1532 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
-| `data/lakes.json` | 461 laghi (area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
+| `data/lakes.json` | 896 laghi (435 dell'URSS inclusi; area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
 | `data/crossings.json` | **Vuoto**: ponti, guadi e traghetti non hanno ancora una fonte | — |
 
 La mappa e le regole leggono gli stessi file (`src/map/geo.js`, `src/data/rivers.js`): nessuna discrepanza tra grafica e simulazione.
@@ -44,8 +44,18 @@ Natural Earth 10m `rivers_lake_centerlines_scale_rank` + `rivers_europe` (versio
 - **Confluenze:** derivate dalla geometria con la stessa regola del resto (estremo libero entro 0,04° dalla linea di un fiume di importanza pari o maggiore) più una regola nuova: un estremo che tocca l'estremo di un altro fiume (entro 0,06°) è una prosecuzione (fiume spezzato, delta, lago) e non una confluenza. Risultato: **120 fiumi su 211 hanno uno sbocco**; gli altri sfociano in mari o laghi assenti o non sono rilevati (Prypiat → Dnieper non è rilevata; Tobol → Irtysh e Selenga → Baikal mancano). I distributari dei delta (Lena: Bykovskaya, Trofimovskaya, ecc., `*_PROTOKA`) sono fiumi a sé.
 - **Due fiumi omonimi:** l'Oka europeo (affluente del Volga) ha l'id `R_OKA`; quello siberiano (affluente dell'Angara) `R_OKA_ANGARA`.
 - **Navigabilità:** solo 12 fiumi da elenco curato **non verificato** (Volga, Don, Dnieper, Dvina settentrionale, Neva, Ob, Irtysh, Yenisey, Lena, Amur, Kama, Oka europeo).
-- **Limiti:** corsi di confine (Amur, Amu Darya, Panj, Kura) possono essere tagliati o spostati dal ritaglio sul confine semplificato (due vertici fuori margine nel test); lunghezze tra il 79 % (Yenisey) e il 98 % del reale per i grandi fiumi, non sono misure; nessun lago sovietico (Ladoga, Onega, Baikal, Aral) è ancora presente: i tratti `inLake` attraversano laghi non disegnati.
+- **Limiti:** corsi di confine (Amur, Amu Darya, Panj, Kura) possono essere tagliati o spostati dal ritaglio sul confine semplificato (due vertici fuori margine nel test); lunghezze tra il 79 % (Yenisey) e il 98 % del reale per i grandi fiumi, non sono misure; i laghi sovietici sono stati aggiunti dopo (sezione sotto).
 - Test: `tests/fiumi_urss.test.js` (6).
+
+### Laghi aggiunti: URSS (435 laghi, 40 bacini artificiali)
+
+Natural Earth 10m `lakes` + `lakes_europe` (5.2.0-pre, commit ca96624). Stessa soglia (≥ 25 km² o con nome ≥ 8 km²), isole interne ≥ 3 km² come buchi, Douglas-Peucker 0,002°; un lago è dentro se il centroide o almeno metà dei vertici sono nelle province sovietiche (margine 0,04°). Tolti i duplicati tra le due fonti e i laghi con Wikidata già presente (Peipus).
+
+- **Presenti:** Baikal, Ladoga, Balkhash, Onega, Issyk-Kul, Zaysan, Khanka, Alakol, Sarygamysh, Aral Nord e Sud, Taymyr e altri; 238 senza nome (`L_NONAME_n`).
+- **Bacini artificiali:** 40 segnati `reservoir_may_postdate_1936` (Kuybyshev, Rybinsk, Bratsk, Zeya, Tsimlyansk, Vilyuy, ecc.): molti sono **posteriori al 1936** e non sono stati esclusi perché la fonte non dà la data in modo utilizzabile (`year` è −99 quasi ovunque).
+- **Esclusi:** il Mar Caspio e le sue lagune (sono mare sulla mappa) e i laghi effimeri e le saline della bassa del Caspio settentrionale (49-59° E, 43-48,5° N), non attendibili come laghi permanenti.
+- **Limiti:** aree del poligono Natural Earth, non misure (Balkhash 17.551 contro 16.400-18.200 km² a seconda della fonte); il lago d'Aral è mostrato ai livelli moderni (molto ridotto rispetto al 1936); i tratti di fiume `inLake` ora attraversano laghi disegnati, ma non sono stati ricontrollati uno per uno.
+- Test: `tests/laghi_urss.test.js` (4).
 
 ### Densità sulla mappa
 
@@ -84,4 +94,4 @@ A vista d'insieme tutti i 540 fiumi coprivano la mappa. `riverRankLimit` (in `sr
    Poi filtrare per `start_date` ≤ 1936 e `end_date` > 1936; i ponti senza date restano `approximate` e non verificati. In alternativa OpenStreetMap con `start_date` < 1936 (dati moderni, più completi ma meno storici). Inventario prima, geometrie dopo (i download grandi falliscono).
 2. **Collegare i ponti ai fiumi** (distanza dalla linea ≤ 1,5 km, `distanceToRiverKm`) e alle coppie di province di `riverBorderGraph`.
 3. **Regole**: costo e tempo di attraversamento per classe di larghezza e stagione, bonus difensivo, rifornimenti interrotti da un ponte distrutto, genio (ponte temporaneo, riparazione), trasporto fluviale per i fiumi navigabili con continuità del percorso.
-4. **Fiumi di confine** e fiumi non ancora coperti (Danimarca, Algeria, Tunisia, Libia, Baltico; l'URSS è coperta, vedi sopra) quando arriveranno le province; laghi sovietici.
+4. **Fiumi di confine** e fiumi non ancora coperti (Danimarca, Algeria, Tunisia, Libia, Baltico; l'URSS è coperta, vedi sopra) quando arriveranno le province.
