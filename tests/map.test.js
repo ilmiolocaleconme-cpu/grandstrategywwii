@@ -94,8 +94,9 @@ test('modello della mappa: stesse province dei dati e delle regole, tutte disegn
   assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => f.properties.id), ['P_ITA_LAZIO']);
   assert.ok(ids.has('P_ITA_LAZIO'));
   const { bounds } = model;
-  // h < 55: da Capo Nord (71° N) al Sahara libico (19° N) l'altezza e ~52 unita; oltre sarebbe un'anomalia (territori oltremare lontani)
-  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 55, JSON.stringify(bounds));
+  // h < 70: dall'Artico sovietico (~82° N, Terra di Francesco Giuseppe) all'Algeria meridionale (19° N) l'altezza e ~63 unita;
+  // oltre sarebbe un'anomalia. La larghezza copre tutto il giro (-180..180) per via della Ciukotka.
+  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 70, JSON.stringify(bounds));
 });
 
 test('ogni nazione disegnata ha un nome nel catalogo politico (legenda e pannello)', () => {
@@ -162,7 +163,12 @@ test('livelli semplificati: molti meno punti, nessuna provincia svuotata, bordi 
   assert.equal(lodLevel(1), 0);
   assert.equal(lodLevel(5), 1);
   assert.equal(lodLevel(20), 2);
-  assert.ok(pts((i) => lod.items.get(i.id)[2]) < fullPts * 0.6);
+  // livello alto (zoom forte): le province gia semplificate a 0,005 gradi (URSS) non perdono altri punti, per costruzione;
+  // le altre scendono sotto il 60%. Il totale non cresce mai.
+  const other = full.items.filter((i) => !i.id.startsWith('P_USSR_'));
+  const otherFull = other.reduce((a, i) => a + count(i.d), 0);
+  assert.ok(other.reduce((a, i) => a + count(lod.items.get(i.id)[2]), 0) < otherFull * 0.6);
+  assert.ok(pts((i) => lod.items.get(i.id)[2]) <= fullPts);
 });
 
 test('fiumi e laghi: versioni semplificate presenti e con meno punti', () => {
@@ -247,30 +253,29 @@ test('dati: nessun anello attraversa l\'antimeridiano (salto di longitudine > 18
   }
 });
 
-test('pickLabels: nessuna sovrapposizione, rispetta il tetto e salta le province troppo piccole per il nome', async () => {
-  const { buildMapModel, pickLabels } = await import('../src/map/geo.js');
+test('pickLabels: nessuna sovrapposizione, rispetta il tetto, il corpo minimo e massimo; zoomando compaiono più nomi', async () => {
+  const { buildMapModel, pickLabels, HOME_BOUNDS } = await import('../src/map/geo.js');
   const model = buildMapModel(provinces);
-  const vb = { x: model.bounds.x, y: model.bounds.y, w: model.bounds.w, h: model.bounds.h };
+  // come in MapView: il viewBox e la vista iniziale (HOME_BOUNDS), non i limiti dei dati (ora tutto il giro)
+  const vb = { ...HOME_BOUNDS };
   const pxPerUnit = 360 / vb.w; // telefono stretto
   for (const k of [1, 2, 4, 8, 16]) {
     const view = { k, x: 0, y: 0 };
     const out = pickLabels(model.items, view, vb, pxPerUnit);
     assert.ok(out.length <= 70, `k=${k}: tetto rispettato`);
-    const rects = out.map((l) => {
-      const px = (k * l.x + view.x - vb.x) * pxPerUnit;
-      const py = (k * l.y + view.y - vb.y) * pxPerUnit;
-      const w = l.name.length * 11 * 0.56;
-      return [px - w / 2, py - 6, px + w / 2, py + 6];
-    });
-    for (let i = 0; i < rects.length; i += 1) {
-      for (let j = i + 1; j < rects.length; j += 1) {
-        const a = rects[i];
-        const b = rects[j];
+    for (const l of out) {
+      const fontPx = l.size * k * pxPerUnit;
+      assert.ok(fontPx >= 7 - 1e-9 && fontPx <= 20 + 1e-9, `k=${k}: ${l.name} corpo ${fontPx.toFixed(1)} px`);
+      assert.ok(Math.abs(l.angle) <= 75 + 1e-9, `${l.name}: angolo ${l.angle}`);
+    }
+    for (let i = 0; i < out.length; i += 1) {
+      for (let j = i + 1; j < out.length; j += 1) {
+        const a = out[i].rect;
+        const b = out[j].rect;
         assert.ok(!(a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1]), `k=${k}: ${out[i].name} / ${out[j].name} si sovrappongono`);
       }
     }
   }
-  // zoomando compaiono più etichette (fino al tetto), non meno
   const cx = vb.x + vb.w / 2;
   const cy = vb.y + vb.h / 2;
   const n = (k) => pickLabels(model.items, zoomAt({ k: 1, x: 0, y: 0 }, k, cx, cy), vb, pxPerUnit).length;
