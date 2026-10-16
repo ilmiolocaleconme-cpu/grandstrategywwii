@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { HOME_BOUNDS, LAYERS, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { HOME_BOUNDS, LAYERS, riverRankLimit, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const PROVINCE_MIN_LABEL_PX = 5; // corpo minimo dei nomi delle province (px): più basso = più nomi anche a zoom ridotto, ma più piccoli
@@ -169,6 +169,9 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const selected = model.items.find((i) => i.id === selectedId);
   const px = 1 / (pxPerUnit * view.k); // 1 pixel dello schermo in unità di mappa
   const level = moving && lod ? lodLevel(view.k) : -1;
+  const rankLimit = riverRankLimit(view.k);
+  // elenco stabile tra un render e l'altro (il livello memorizzato dei fiumi non deve ridisegnarsi durante il gesto)
+  const shownRivers = useMemo(() => water.lines.filter((l) => l.rank <= rankLimit || l.riverId === selectedRiverId), [water.lines, rankLimit, selectedRiverId]);
   const waterLevel = moving ? lodLevel(view.k) : -1; // fiumi e laghi restano visibili, con meno punti
   const copies = visibleCopies(view, vbRect, bounds); // di norma una sola; due quando la vista attraversa l'antimeridiano
   const [legendOpen, setLegendOpen] = useState(false);
@@ -219,7 +222,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
           {copies.map((off) => (
             <g key={off} transform={off ? `translate(${off} 0)` : undefined}>
               <ProvinceLayer items={model.items} layer={layer} nationControl={nationControl} selectedId={selectedId} level={level} lod={lod} px={px} borderD={model.borderD} onPick={pickProvince} />
-              {showRivers && <WaterLayer lakes={water.lakes} lines={water.lines} waterLevel={waterLevel} px={px} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
+              {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
               {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
               {labels.filter((l) => l.off === off).map((l) => (
                 <text key={l.id} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className={l.kind === 'lake' ? 'map-label lake-label' : 'map-label'} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central" transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">

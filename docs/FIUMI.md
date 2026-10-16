@@ -6,8 +6,8 @@ Stato: **dati reali ma approssimati** (Natural Earth, corso moderno). Le regole 
 
 | File | Contenuto | Fonte e licenza |
 |---|---|---|
-| `data/rivers.json` | Catalogo: 329 fiumi (133 principali, 136 secondari, 60 affluenti) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
-| `data/rivers_geo.json` | 736 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
+| `data/rivers.json` | Catalogo: 540 fiumi (211 nuovi dell'URSS inclusi) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
+| `data/rivers_geo.json` | 1532 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
 | `data/lakes.json` | 461 laghi (area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
 | `data/crossings.json` | **Vuoto**: ponti, guadi e traghetti non hanno ancora una fonte | — |
 
@@ -34,6 +34,22 @@ Stesso metodo del resto del catalogo, con queste differenze e limiti:
 - **Lunghezze:** misurate sulla linea generalizzata e ritagliata, tra il 55 e il 105 % del valore reale: non sono misure.
 - **Esclusi:** canali (Suez, Ismailiya, Caledonian), la Garonna (francese), i fiumi baltici e Giordano. **Natural Earth non ha nessun fiume per Danimarca, Algeria, Tunisia e Libia**: restano vuoti e non sono stati inventati. Altre fonti verificabili (OpenStreetMap, HydroSHEDS) non sono raggiungibili da questo ambiente.
 - Test: `tests/fiumi_nord_iberia.test.js` (7).
+
+### Fiumi aggiunti: URSS (211 fiumi nuovi, 5 fiumi esistenti estesi; 796 tratti)
+
+Natural Earth 10m `rivers_lake_centerlines_scale_rank` + `rivers_europe` (versione di sviluppo 5.2.0-pre, commit ca96624), stesso metodo del resto; solo fiumi con nome, canali esclusi.
+
+- **Ritaglio:** sulle 177 province `USSR` con margine di 0,04° (bisezione dei punti di ingresso e uscita). Lunghezza minima 25 km nel territorio. Tratti di `rivers_europe` che ricalcano la linea centrale (≥ 70 % dei punti entro 0,02°) scartati.
+- **Fiumi già presenti** (Dnestr, Daugava, Neman, Kemijoki, Prypiat, ecc.): si aggiungono solo i vertici non già coperti (distanza > 0,01° dai tratti esistenti) e collegati (entro 0,05°) ai tratti esistenti; i tratti isolati sono tenuti solo se lunghi almeno 100 km e marcati `segments_not_connected_to_earlier_course` (Southern Bug, Lutto). Il fiume è sempre quello con lo stesso Wikidata: **non verificato** che i raggruppamenti di Natural Earth siano corretti (le lunghezze di Jänisjoki e Vuoksi nel catalogo sono molto superiori al reale).
+- **Confluenze:** derivate dalla geometria con la stessa regola del resto (estremo libero entro 0,04° dalla linea di un fiume di importanza pari o maggiore) più una regola nuova: un estremo che tocca l'estremo di un altro fiume (entro 0,06°) è una prosecuzione (fiume spezzato, delta, lago) e non una confluenza. Risultato: **120 fiumi su 211 hanno uno sbocco**; gli altri sfociano in mari o laghi assenti o non sono rilevati (Prypiat → Dnieper non è rilevata; Tobol → Irtysh e Selenga → Baikal mancano). I distributari dei delta (Lena: Bykovskaya, Trofimovskaya, ecc., `*_PROTOKA`) sono fiumi a sé.
+- **Due fiumi omonimi:** l'Oka europeo (affluente del Volga) ha l'id `R_OKA`; quello siberiano (affluente dell'Angara) `R_OKA_ANGARA`.
+- **Navigabilità:** solo 12 fiumi da elenco curato **non verificato** (Volga, Don, Dnieper, Dvina settentrionale, Neva, Ob, Irtysh, Yenisey, Lena, Amur, Kama, Oka europeo).
+- **Limiti:** corsi di confine (Amur, Amu Darya, Panj, Kura) possono essere tagliati o spostati dal ritaglio sul confine semplificato (due vertici fuori margine nel test); lunghezze tra il 79 % (Yenisey) e il 98 % del reale per i grandi fiumi, non sono misure; nessun lago sovietico (Ladoga, Onega, Baikal, Aral) è ancora presente: i tratti `inLake` attraversano laghi non disegnati.
+- Test: `tests/fiumi_urss.test.js` (6).
+
+### Densità sulla mappa
+
+A vista d'insieme tutti i 540 fiumi coprivano la mappa. `riverRankLimit` (in `src/map/geo.js`) mostra solo i fiumi grandi (`scalerank` ≤ 5) con zoom < 1,8, anche i medi (≤ 8) fino a 3,5, tutti oltre; il fiume selezionato resta sempre visibile. Soglie scelte a occhio, **non provate su telefono**.
 
 ### Laghi aggiunti: Gran Bretagna, Irlanda, Spagna, Portogallo, Nord Africa, Baltici, Danimarca, Norvegia, Svezia, Finlandia (342 laghi)
 
@@ -68,4 +84,4 @@ Stesso metodo del resto del catalogo, con queste differenze e limiti:
    Poi filtrare per `start_date` ≤ 1936 e `end_date` > 1936; i ponti senza date restano `approximate` e non verificati. In alternativa OpenStreetMap con `start_date` < 1936 (dati moderni, più completi ma meno storici). Inventario prima, geometrie dopo (i download grandi falliscono).
 2. **Collegare i ponti ai fiumi** (distanza dalla linea ≤ 1,5 km, `distanceToRiverKm`) e alle coppie di province di `riverBorderGraph`.
 3. **Regole**: costo e tempo di attraversamento per classe di larghezza e stagione, bonus difensivo, rifornimenti interrotti da un ponte distrutto, genio (ponte temporaneo, riparazione), trasporto fluviale per i fiumi navigabili con continuità del percorso.
-4. **Fiumi di confine** e fiumi non ancora coperti (Danimarca, Algeria, Tunisia, Libia, Baltico, URSS) quando arriveranno le province.
+4. **Fiumi di confine** e fiumi non ancora coperti (Danimarca, Algeria, Tunisia, Libia, Baltico; l'URSS è coperta, vedi sopra) quando arriveranno le province; laghi sovietici.

@@ -20,12 +20,12 @@ const model = buildRiverModel(catalog.rivers, catalog.riversGeo);
 const byId = new Map(catalog.rivers.map((r) => [r.id, r]));
 const index = buildProvinceIndex(provinces);
 
-test('catalogo valido, 329 fiumi e 736 tratti, ogni fiume ha almeno un tratto', () => {
+test('catalogo valido, 540 fiumi e 1532 tratti, ogni fiume ha almeno un tratto', () => {
   const v = validateCatalog(catalog);
   assert.equal(v.ok, true, v.errors.join('|'));
-  assert.equal(catalog.rivers.length, 329);
-  assert.equal(catalog.riversGeo.features.length, 736);
-  assert.equal(new Set(catalog.rivers.map((r) => r.id)).size, 329);
+  assert.equal(catalog.rivers.length, 540);
+  assert.equal(catalog.riversGeo.features.length, 1532);
+  assert.equal(new Set(catalog.rivers.map((r) => r.id)).size, 540);
 });
 
 test('fiumi aggiunti: fonte, licenza, stime dichiarate, nessun canale e nessun fiume francese', () => {

@@ -296,6 +296,12 @@ export function provinceFill(props, layer, control) {
 // così i grandi restano sopra. Stessi dati (data/rivers_geo.json) usati dalle regole.
 export const RIVER_WIDTH_PX = { large: 2.4, medium: 1.5, small: 0.9 };
 
+// Densita dei fiumi in base allo zoom: a vista d'insieme solo i grandi (scalerank <= 5), poi anche i medi (<= 8),
+// da zoom 3 tutti. Evita che 540 fiumi coprano la mappa; il fiume selezionato resta sempre visibile.
+export function riverRankLimit(k) {
+  return k < 1.8 ? 5 : k < 3.5 ? 8 : 99;
+}
+
 export function buildWaterModel(rivers, riversGeo, lakes) {
   const byId = new Map(rivers.map((r) => [r.id, r]));
   const lines = riversGeo.features
