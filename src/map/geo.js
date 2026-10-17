@@ -1,7 +1,7 @@
 // Funzioni pure per la mappa: proiezione, percorsi SVG, aree, colori.
 // Nessuna dipendenza da React: sono testate in tests/map.test.js.
 
-import { fitLabel, mainPolygon, splitName, shortName, CHAR_W, TEXT_H, LINE_STEP } from './labelfit.js';
+import { fitLabel, mainPolygon, splitName, shortName, assignShortNames, CHAR_W, TEXT_H, LINE_STEP } from './labelfit.js';
 
 export const LAT0 = 47; // latitudine di riferimento della proiezione (equirettangolare)
 const COS0 = Math.cos((LAT0 * Math.PI) / 180);
@@ -468,7 +468,7 @@ export function rectCouldFit(bbox, w, h) {
 // (gradi), `length` (larghezza del testo in unità di mappa: va imposta con textLength) e `rect` (ingombro in pixel).
 // `charW`: larghezza media di un carattere in em; `upper`: maiuscolo (province) o testo com'è (laghi).
 export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {}) {
-  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name, shortOf = (it) => it.props.short, variants = false, budgetMs = Infinity } = opts;
+  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name, shortOf = null, variants = false, budgetMs = Infinity } = opts;
   // budgetMs: tempo massimo speso a calcolare forme nuove (i risultati restano in cache): scaduto il tempo si
   // restituisce quanto trovato con out.partial = true, e una chiamata successiva prosegue dalle forme già pronte.
   // variants: se il nome intero non entra con corpo comodo (< VARIANT_COMFORT_PX) si provano due righe e la sigla
@@ -476,6 +476,7 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
   const t0 = Number.isFinite(budgetMs) ? performance.now() : 0;
   const sx = view.k * pxPerUnit; // pixel per unità di mappa
   const order = [...items].sort((a, b) => b.areaKm2 - a.areaKm2);
+  const shorts = variants && !shortOf ? shortsOf(items, nameOf) : null;
   const placed = [...avoid]; // rettangoli in pixel [x0,y0,x1,y1]
   const out = [];
   const usedAbbr = new Set(); // una sigla già mostrata non si ripete (due province con le stesse iniziali: meglio nessun nome che un nome ambiguo)
@@ -485,7 +486,7 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
       const raw = nameOf(it);
       if (!raw) continue;
       const name = upper ? raw.toLocaleUpperCase('it') : raw; // lettering da carta anni Trenta: maiuscolo per le province
-      const forms = variants ? labelForms(name, upper && shortOf(it) ? String(shortOf(it)).toLocaleUpperCase('it') : shortOf(it)) : [{ lines: [name], longest: name.length }];
+      const forms = variants ? labelForms(name, (() => { const x = shortOf ? shortOf(it) : shorts.get(it.id); const list = Array.isArray(x) ? x : x ? [x] : []; return upper ? list.map((q) => String(q).toLocaleUpperCase('it')) : list; })()) : [{ lines: [name], longest: name.length }];
       const probeLen = Math.min(...forms.map((f) => f.longest)); // la forma più corta: condizione necessaria per tutte
       // scarto economico: nemmeno riempiendo tutto il rettangolo di ingombro il nome arriverebbe al corpo minimo
       if (it.bbox.w * it.bbox.h * sx * sx < probeLen * charW * TEXT_H * minPx * minPx) continue;
@@ -508,7 +509,8 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
         const fontPx = Math.min(fit.size * sx, maxPx);
         if (fontPx < minPx) continue;
         if (form.abbr) {
-          if (fontPx >= ABBR_MIN_PX && !usedAbbr.has(form.lines[0])) abbrChoice = { form, fit, fontPx: Math.min(fontPx, ABBR_MAX_PX) };
+          // la prima sigla che entra (le più esplicite stanno prima), mai una già mostrata nella schermata
+          if (!abbrChoice && fontPx >= ABBR_MIN_PX && !usedAbbr.has(form.lines[0])) abbrChoice = { form, fit, fontPx: Math.min(fontPx, ABBR_MAX_PX) };
           continue;
         }
         if (!chosen || fontPx > chosen.fontPx) chosen = { form, fit, fontPx };
@@ -542,6 +544,21 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
   return out;
 }
 
+// Sigle uniche per nazione, calcolate una volta per elenco di elementi (le nazioni hanno nomi che si somigliano:
+// «Pohjois-Savo» e «Pohjois-Karjala» non devono diventare entrambe «PS»/«PK» ambigue, o due «BN» in Romania).
+const shortsCache = new WeakMap();
+function shortsOf(items, nameOf) {
+  if (shortsCache.has(items)) return shortsCache.get(items);
+  const entries = [];
+  for (const it of items) {
+    const name = nameOf(it);
+    if (name) entries.push({ id: it.id, name, group: it.props.owner ?? '', area: it.areaKm2, explicit: it.props.short });
+  }
+  const map = assignShortNames(entries);
+  shortsCache.set(items, map);
+  return map;
+}
+
 // Sotto questo corpo (px) si provano le forme alternative del nome (due righe, sigla) e si sceglie la più leggibile.
 export const VARIANT_COMFORT_PX = 8;
 // Una sigla sotto questo corpo (px) non si legge: meglio nessun nome.
@@ -550,12 +567,19 @@ export const ABBR_MIN_PX = 7;
 export const ABBR_MAX_PX = 11;
 
 // Forme di un nome, dalla più completa alla più compatta: intero, due righe, sigla.
-export function labelForms(name, explicitShort) {
+export function labelForms(name, shortList) {
   const forms = [{ lines: [name], longest: name.length }];
   const two = splitName(name);
   if (two) forms.push({ lines: two, longest: Math.max(two[0].length, two[1].length) });
-  const abbr = shortName(name, explicitShort);
-  if (abbr) forms.push({ lines: [abbr], longest: abbr.length, abbr: true });
+  // sigle già assegnate (dalla più esplicita alla più compatta); senza assegnazione, una sigla automatica sola
+  let list = Array.isArray(shortList) ? shortList : shortList ? [shortList] : [];
+  if (!Array.isArray(shortList) && !shortList) { const one = shortName(name); list = one ? [one] : []; }
+  const seen = new Set();
+  for (const sg of list) {
+    if (!sg || sg.length >= name.length || seen.has(sg)) continue;
+    seen.add(sg);
+    forms.push({ lines: [sg], longest: sg.length, abbr: true });
+  }
   return forms;
 }
 

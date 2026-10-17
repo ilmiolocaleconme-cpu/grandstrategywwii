@@ -13,7 +13,7 @@ const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o
 const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
 
 test('conteggi per nazione e id con il codice del proprietario', () => {
-  const N = { GBR: 88, ALG: 48, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
+  const N = { GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
   for (const [o, n] of Object.entries(N)) {
     const fs = byOwner(o);
     assert.equal(fs.length, n, o);
@@ -95,4 +95,23 @@ test('Libia italiana 1934-43: 5 unita (4 province + Territorio Militare del Sud)
   // Ghadames, Cufra e Giarabub (Jaghbub) stanno nel Territorio del Sud / Cirenaica meridionale: Sud copre il deserto
   const sud = byOwner('LBA').find((f) => f.properties.name === 'Territorio Militare del Sud');
   assert.ok(featureAreaKm2(sud) > 900000, 'il Sud e la parte piu grande');
+});
+
+test('Algeria: 48 wilaya attuali accorpate in 19 regioni strategiche, senza perdite né sovrapposizioni', () => {
+  const alg = byOwner('ALG');
+  assert.equal(alg.length, 19);
+  const parts = alg.flatMap((f) => f.properties.derivedFromNe);
+  assert.equal(parts.length, 48, 'ogni wilaya compare in una sola regione');
+  assert.equal(new Set(parts).size, 48);
+  assert.ok(alg.every((f) => f.properties.knownIssues.includes('raggruppata_da_unita_attuali') && f.geometry.type === 'Polygon' && f.geometry.coordinates.length === 1));
+  // città note dentro la regione giusta
+  const cities = [
+    [-0.62, 35.7, 'P_ALG_ORAN'], [-1.31, 34.88, 'P_ALG_TLEMCEN'], [0.09, 35.93, 'P_ALG_MOSTAGANEM'], [1.33, 36.17, 'P_ALG_CHELIFF'],
+    [2.75, 36.27, 'P_ALG_TITTERI'], [4.05, 36.71, 'P_ALG_KABYLIE'], [5.08, 36.76, 'P_ALG_KABYLIE'], [5.41, 36.19, 'P_ALG_SETIF'],
+    [6.61, 36.36, 'P_ALG_CONSTANTINE'], [6.9, 36.87, 'P_ALG_CONSTANTINE'], [7.74, 36.89, 'P_ALG_BONE'], [8.12, 35.4, 'P_ALG_TEBESSA'],
+    [1.32, 35.37, 'P_ALG_TIARET'], [5.73, 34.85, 'P_ALG_AURES'], [3.26, 34.67, 'P_ALG_HODNA'], [-2.22, 31.62, 'P_ALG_AIN_SEFRA'],
+    [6.86, 33.37, 'P_ALG_TOUGGOURT'], [3.67, 32.49, 'P_ALG_GHARDAIA'], [-0.29, 27.87, 'P_ALG_ADRAR'], [-8.15, 27.67, 'P_ALG_ADRAR'],
+    [5.53, 22.79, 'P_ALG_HOGGAR'],
+  ];
+  for (const [lon, lat, id] of cities) assert.deepEqual(at(lon, lat), [id], `${id} @ ${lon},${lat}`);
 });
