@@ -245,7 +245,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       const l = lay();
       const view = s.view;
       const copies = visibleCopies(view, VB, p.model.bounds);
-      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(p.model.items, view, VB, l.s, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX }) : [];
+      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(p.model.items, view, VB, l.s, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX, variants: true }) : [];
       const prov = provRaw.map((x) => ({ ...x, kind: 'prov' }));
       let partial = Boolean(provRaw.partial);
       let result = prov;
