@@ -5,7 +5,7 @@
 import { WORLD_W, provinceFill, riverRankLimit } from './geo.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
 import { LINE_STEP } from './labelfit.js';
-import { declutterSea, SEA_FONT_PX } from './seaView.js';
+import { declutterSea, SEA_LINE_STEP } from './seaView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 
 const COS0 = WORLD_W / 360;
@@ -263,7 +263,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, seaNames } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, seaNames, reserved } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -285,15 +285,19 @@ export function drawOverlay(ctx, p) {
     ctx.lineJoin = 'round';
     for (const off of copies) {
       const toScreen = (z) => [a.sx * (z.seed[0] * COS0 + off) + a.tx, a.sx * -z.seed[1] + a.ty];
-      for (const { z, x, y } of declutterSea(seaNames, toScreen, { w: ctx.canvas.width / dpr, h: ctx.canvas.height / dpr })) {
-        const fontPx = SEA_FONT_PX(z);
+      const fromScreen = (z, px, py) => [((px - a.tx) / a.sx - off) / COS0, -(py - a.ty) / a.sx];
+      const view = { w: ctx.canvas.width / dpr, h: ctx.canvas.height / dpr, reserved, fromScreen };
+      for (const { x, y, lines, f } of declutterSea(seaNames, toScreen, view)) {
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.font = `italic 500 ${fontPx}px ${FONT_FAMILY}`;
-        ctx.lineWidth = 0.2 * fontPx;
+        ctx.font = `italic 500 ${f}px ${FONT_FAMILY}`;
+        ctx.lineWidth = 0.2 * f;
         ctx.strokeStyle = COLORS.seaLabelHalo;
         ctx.fillStyle = COLORS.seaLabel;
-        ctx.strokeText(z.name, x, y);
-        ctx.fillText(z.name, x, y);
+        for (let i = 0; i < lines.length; i += 1) {
+          const ly = y + (i - (lines.length - 1) / 2) * f * SEA_LINE_STEP;
+          ctx.strokeText(lines[i], x, ly);
+          ctx.fillText(lines[i], x, ly);
+        }
       }
     }
   }

@@ -95,7 +95,14 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies, seaNames: p.showSeas && p.seaData ? seaLabels(p.seaData.zones, s.view.k) : null });
+    // pulsanti e legenda sopra la mappa: i nomi dei mari non ci passano sotto
+    const wrap = wrapRef.current;
+    const wb = wrap ? wrap.getBoundingClientRect() : null;
+    const reserved = wb ? [...wrap.querySelectorAll('.map-tools > *, .legend-box > *')].map((el) => {
+      const r = el.getBoundingClientRect();
+      return [r.left - wb.left - 4, r.top - wb.top - 4, r.right - wb.left + 4, r.bottom - wb.top + 4];
+    }).filter((r) => r[2] > r[0] && r[3] > r[1]) : [];
+    drawOverlay(o.getContext('2d'), { reserved, model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies, seaNames: p.showSeas && p.seaData ? seaLabels(p.seaData.zones, s.view.k) : null });
   };
 
   // porta l'ultima immagine disegnata alla vista corrente (trascinamento e zoom costano solo questo)

@@ -1,5 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SeaLayer, buildSeaModel, seaLabels } from './SeaLayer.jsx';
+import { seaLabelLines, SEA_LINE_STEP } from './seaView.js';
 import { HOME_BOUNDS, LAYERS, riverRankLimit, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
@@ -230,9 +231,14 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
               <ProvinceLayer items={model.items} layer={layer} nationControl={nationControl} selectedId={selectedId} level={level} lod={lod} px={px} borderD={model.borderD} onPick={pickProvince} />
               {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
               {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
-              {showSeas && !moving && seaLabels(seaModel, view.k).map((z) => (
-                <text key={z.id} x={z.at[0]} y={z.at[1]} fontSize={Math.min(14, z.kind === 'ocean' ? 14 : 10) * px} className="map-label sea-label" strokeWidth={0.2 * 10 * px} textAnchor="middle" dominantBaseline="central" pointerEvents="none">{z.name}</text>
-              ))}
+              {showSeas && !moving && seaLabels(seaModel, view.k).map((z) => {
+                const lines = seaLabelLines(z.name);
+                return (
+                  <text key={z.id} x={z.at[0]} y={z.at[1] - ((lines.length - 1) / 2) * SEA_LINE_STEP * Math.min(14, z.kind === 'ocean' ? 14 : 10) * px} fontSize={Math.min(14, z.kind === 'ocean' ? 14 : 10) * px} className="map-label sea-label" strokeWidth={0.2 * 10 * px} textAnchor="middle" dominantBaseline="central" pointerEvents="none">
+                    {lines.map((l, i) => <tspan key={l} x={z.at[0]} dy={i === 0 ? 0 : `${SEA_LINE_STEP}em`}>{l}</tspan>)}
+                  </text>
+                );
+              })}
               {labels.filter((l) => l.off === off).map((l) => (
                 <text key={l.id} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className={l.kind === 'lake' ? 'map-label lake-label' : 'map-label'} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central" transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">
                   {l.name}
