@@ -1,7 +1,7 @@
 // Funzioni pure per la mappa: proiezione, percorsi SVG, aree, colori.
 // Nessuna dipendenza da React: sono testate in tests/map.test.js.
 
-import { fitLabel, mainPolygon, CHAR_W, TEXT_H } from './labelfit.js';
+import { fitLabel, mainPolygon, splitName, shortName, assignShortNames, CHAR_W, TEXT_H, LINE_STEP } from './labelfit.js';
 
 export const LAT0 = 47; // latitudine di riferimento della proiezione (equirettangolare)
 const COS0 = Math.cos((LAT0 * Math.PI) / 180);
@@ -433,13 +433,16 @@ export function withoutSmallHoles(poly) {
 }
 
 // Posizione e corpo del nome dentro la forma (unità di mappa), calcolati una volta per elemento.
-export function labelFitOf(item, text, charW = CHAR_W) {
-  if (item.fit && item.fit.text === text && item.fit.charW === charW) return item.fit.value;
+export function labelFitOf(item, text, charW = CHAR_W, lines = 1) {
+  const key = `${text}|${charW}|${lines}`;
+  if (item.fits?.has(key)) return item.fits.get(key);
   const polys = polygonsOf(item.feature).map((poly) => poly.map((ring) => ring.map(([lon, lat]) => project(lon, lat))));
   let main = mainPolygon(polys);
   if (main && item.kind === 'lake') main = withoutSmallHoles(main);
-  const value = main ? fitLabel(main, text.length, { charW }) : null;
-  item.fit = { text, charW, value };
+  // `text` = riga più lunga (per più righe si passa la riga più lunga, `lines` dice quante sono)
+  const value = main ? fitLabel(main, text.length, { charW, lines }) : null;
+  if (!item.fits) item.fits = new Map();
+  item.fits.set(key, value);
   return value;
 }
 
@@ -465,37 +468,62 @@ export function rectCouldFit(bbox, w, h) {
 // (gradi), `length` (larghezza del testo in unità di mappa: va imposta con textLength) e `rect` (ingombro in pixel).
 // `charW`: larghezza media di un carattere in em; `upper`: maiuscolo (province) o testo com'è (laghi).
 export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {}) {
-  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name, budgetMs = Infinity } = opts;
+  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name, shortOf = null, variants = false, budgetMs = Infinity } = opts;
   // budgetMs: tempo massimo speso a calcolare forme nuove (i risultati restano in cache): scaduto il tempo si
   // restituisce quanto trovato con out.partial = true, e una chiamata successiva prosegue dalle forme già pronte.
+  // variants: se il nome intero non entra con corpo comodo (< VARIANT_COMFORT_PX) si provano due righe e la sigla
+  // (campo `short` dei dati o iniziali), e si sceglie la forma con il corpo più grande. Solo la mappa Canvas le disegna.
   const t0 = Number.isFinite(budgetMs) ? performance.now() : 0;
   const sx = view.k * pxPerUnit; // pixel per unità di mappa
   const order = [...items].sort((a, b) => b.areaKm2 - a.areaKm2);
+  const shorts = variants && !shortOf ? shortsOf(items, nameOf) : null;
   const placed = [...avoid]; // rettangoli in pixel [x0,y0,x1,y1]
   const out = [];
+  const usedAbbr = new Set(); // una sigla già mostrata non si ripete (due province con le stesse iniziali: meglio nessun nome che un nome ambiguo)
   for (const off of offsets) {
     for (const it of order) {
       if (out.length >= maxLabels) return out;
       const raw = nameOf(it);
       if (!raw) continue;
       const name = upper ? raw.toLocaleUpperCase('it') : raw; // lettering da carta anni Trenta: maiuscolo per le province
+      const forms = variants ? labelForms(name, (() => { const x = shortOf ? shortOf(it) : shorts.get(it.id); const list = Array.isArray(x) ? x : x ? [x] : []; return upper ? list.map((q) => String(q).toLocaleUpperCase('it')) : list; })()) : [{ lines: [name], longest: name.length }];
+      const probeLen = Math.min(...forms.map((f) => f.longest)); // la forma più corta: condizione necessaria per tutte
       // scarto economico: nemmeno riempiendo tutto il rettangolo di ingombro il nome arriverebbe al corpo minimo
-      if (it.bbox.w * it.bbox.h * sx * sx < name.length * charW * TEXT_H * minPx * minPx) continue;
-      if (!rectCouldFit(it.bbox, name.length * charW * minPx / sx, TEXT_H * minPx / sx)) continue;
+      if (it.bbox.w * it.bbox.h * sx * sx < probeLen * charW * TEXT_H * minPx * minPx) continue;
+      if (!rectCouldFit(it.bbox, probeLen * charW * minPx / sx, TEXT_H * minPx / sx)) continue;
       // fuori vista (il nome sta dentro la forma, quindi dentro il suo riquadro): si scarta prima del calcolo, che è il passo costoso
       const bx0 = (view.k * (it.bbox.x + off) + view.x - vb.x) * pxPerUnit;
       const by0 = (view.k * it.bbox.y + view.y - vb.y) * pxPerUnit;
       if (bx0 + it.bbox.w * sx < 0 || bx0 > vb.w * pxPerUnit || by0 + it.bbox.h * sx < 0 || by0 > vb.h * pxPerUnit) continue;
-      const cached = it.fit && it.fit.text === name && it.fit.charW === charW;
-      if (!cached && Number.isFinite(budgetMs) && performance.now() - t0 > budgetMs) { out.partial = true; return out; }
-      const fit = labelFitOf(it, name, charW);
-      if (!fit) continue;
-      const fontPx = Math.min(fit.size * sx, maxPx);
-      if (fontPx < minPx) continue;
+      // Ordine di preferenza: nome intero, poi due righe, poi sigla. Vince la prima forma con corpo comodo; se nessuna lo è,
+      // la forma non-sigla con il corpo più grande (>= minPx); la sigla (corpo tra ABBR_MIN_PX e ABBR_MAX_PX) solo se non entra nessun'altra forma.
+      let chosen = null;
+      let abbrChoice = null;
+      for (const form of forms) {
+        const longestLine = form.lines.reduce((x, y) => (y.length > x.length ? y : x));
+        const key = `${longestLine}|${charW}|${form.lines.length}`;
+        const cached = it.fits?.has(key);
+        if (!cached && Number.isFinite(budgetMs) && performance.now() - t0 > budgetMs) { out.partial = true; return out; }
+        const fit = labelFitOf(it, longestLine, charW, form.lines.length);
+        if (!fit) continue;
+        const fontPx = Math.min(fit.size * sx, maxPx);
+        if (fontPx < minPx) continue;
+        if (form.abbr) {
+          // la prima sigla che entra (le più esplicite stanno prima), mai una già mostrata nella schermata
+          if (!abbrChoice && fontPx >= ABBR_MIN_PX && !usedAbbr.has(form.lines[0])) abbrChoice = { form, fit, fontPx: Math.min(fontPx, ABBR_MAX_PX) };
+          continue;
+        }
+        if (!chosen || fontPx > chosen.fontPx) chosen = { form, fit, fontPx };
+        if (fontPx >= VARIANT_COMFORT_PX) break; // corpo comodo: non serve provare forme più compatte
+      }
+      if (!chosen) chosen = abbrChoice; // la sigla è l'ultima scelta: mai al posto di un nome che entra (anche piccolo)
+      if (!chosen) continue;
+      const { form, fit, fontPx } = chosen;
+      const nLines = form.lines.length;
       const cxp = (view.k * (fit.x + off) + view.x - vb.x) * pxPerUnit;
       const cyp = (view.k * fit.y + view.y - vb.y) * pxPerUnit;
-      const w = name.length * fontPx * charW;
-      const h = fontPx * TEXT_H;
+      const w = form.longest * fontPx * charW;
+      const h = fontPx * (TEXT_H + (nLines - 1) * LINE_STEP);
       const a = (fit.angle * Math.PI) / 180;
       const hx = (w / 2) * Math.abs(Math.cos(a)) + (h / 2) * Math.abs(Math.sin(a));
       const hy = (w / 2) * Math.abs(Math.sin(a)) + (h / 2) * Math.abs(Math.cos(a));
@@ -503,10 +531,56 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
       const r = [cxp - hx - 2, cyp - hy - 1, cxp + hx + 2, cyp + hy + 1];
       if (placed.some((q) => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1])) continue;
       placed.push(r);
-      out.push({ id: it.id, name, x: fit.x, y: fit.y, off, angle: fit.angle, size: fontPx / sx, length: w / sx, rect: r });
+      if (form.abbr) usedAbbr.add(form.lines[0]);
+      const rec = { id: it.id, name: form.lines.join(' '), x: fit.x, y: fit.y, off, angle: fit.angle, size: fontPx / sx, length: w / sx, rect: r };
+      if (variants) {
+        rec.lines = form.lines;
+        rec.lineLengths = form.lines.map((ln) => (ln.length * fontPx * charW) / sx);
+        rec.abbr = Boolean(form.abbr);
+      }
+      out.push(rec);
     }
   }
   return out;
+}
+
+// Sigle uniche per nazione, calcolate una volta per elenco di elementi (le nazioni hanno nomi che si somigliano:
+// «Pohjois-Savo» e «Pohjois-Karjala» non devono diventare entrambe «PS»/«PK» ambigue, o due «BN» in Romania).
+const shortsCache = new WeakMap();
+function shortsOf(items, nameOf) {
+  if (shortsCache.has(items)) return shortsCache.get(items);
+  const entries = [];
+  for (const it of items) {
+    const name = nameOf(it);
+    if (name) entries.push({ id: it.id, name, group: it.props.owner ?? '', area: it.areaKm2, explicit: it.props.short });
+  }
+  const map = assignShortNames(entries);
+  shortsCache.set(items, map);
+  return map;
+}
+
+// Sotto questo corpo (px) si provano le forme alternative del nome (due righe, sigla) e si sceglie la più leggibile.
+export const VARIANT_COMFORT_PX = 8;
+// Una sigla sotto questo corpo (px) non si legge: meglio nessun nome.
+export const ABBR_MIN_PX = 7;
+// ...e non deve dominare la mappa: corpo massimo delle sigle (px).
+export const ABBR_MAX_PX = 11;
+
+// Forme di un nome, dalla più completa alla più compatta: intero, due righe, sigla.
+export function labelForms(name, shortList) {
+  const forms = [{ lines: [name], longest: name.length }];
+  const two = splitName(name);
+  if (two) forms.push({ lines: two, longest: Math.max(two[0].length, two[1].length) });
+  // sigle già assegnate (dalla più esplicita alla più compatta); senza assegnazione, una sigla automatica sola
+  let list = Array.isArray(shortList) ? shortList : shortList ? [shortList] : [];
+  if (!Array.isArray(shortList) && !shortList) { const one = shortName(name); list = one ? [one] : []; }
+  const seen = new Set();
+  for (const sg of list) {
+    if (!sg || sg.length >= name.length || seen.has(sg)) continue;
+    seen.add(sg);
+    forms.push({ lines: [sg], longest: sg.length, abbr: true });
+  }
+  return forms;
 }
 
 // Zoom attorno a un punto fisso (coordinate della vista), limiti min/max inclusi.

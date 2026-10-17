@@ -4,6 +4,8 @@
 
 import { WORLD_W, provinceFill, riverRankLimit } from './geo.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
+import { LINE_STEP } from './labelfit.js';
+import { declutterSea, SEA_FONT_PX } from './seaView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 
 const COS0 = WORLD_W / 360;
@@ -21,6 +23,14 @@ export const COLORS = {
   labelHalo: 'rgba(14, 18, 10, 0.65)',
   lakeLabel: '#dde3e8',
   lakeLabelHalo: 'rgba(10, 36, 60, 0.65)',
+  seaFill: 'rgba(120, 190, 235, 0.07)',
+  seaStroke: 'rgba(170, 215, 245, 0.45)',
+  straitFill: 'rgba(255, 214, 120, 0.16)',
+  straitStroke: 'rgba(255, 214, 120, 0.7)',
+  seaSelFill: 'rgba(255, 214, 120, 0.28)',
+  seaSelStroke: '#ffd678',
+  seaLabel: '#bcd9ee',
+  seaLabelHalo: 'rgba(10, 36, 60, 0.7)',
 };
 const FONT_FAMILY = "'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif";
 
@@ -98,6 +108,43 @@ function featurePath(feature) {
   return p;
 }
 
+/** Path2D delle zone marittime (anelli aperti nel file: si chiudono qui), in gruppi per stile; la zona è in cache sull'oggetto. */
+function zonePath(z) {
+  if (z.path) return z.path;
+  const p = new Path2D();
+  for (const ring of z.rings) {
+    ring.forEach(([lon, lat], i) => (i === 0 ? p.moveTo(lon * COS0, -lat) : p.lineTo(lon * COS0, -lat)));
+    p.closePath();
+  }
+  z.path = p;
+  return p;
+}
+
+function seaGroups(seas) {
+  if (seas.groups) return seas.groups;
+  const open = new Path2D();
+  const strait = new Path2D();
+  for (const z of seas.zones) (z.kind === 'strait' || z.kind === 'approach' ? strait : open).addPath(zonePath(z));
+  seas.groups = { open, strait };
+  return seas.groups;
+}
+
+function drawSeas(ctx, seas, selectedSeaId, sx) {
+  const g = seaGroups(seas);
+  ctx.setLineDash([4 / sx, 3 / sx]);
+  ctx.lineWidth = 0.8 / sx;
+  ctx.fillStyle = COLORS.seaFill; ctx.strokeStyle = COLORS.seaStroke;
+  ctx.fill(g.open, 'evenodd'); ctx.stroke(g.open);
+  ctx.fillStyle = COLORS.straitFill; ctx.strokeStyle = COLORS.straitStroke;
+  ctx.fill(g.strait, 'evenodd'); ctx.stroke(g.strait);
+  ctx.setLineDash([]);
+  const sel = selectedSeaId ? seas.zones.find((z) => z.id === selectedSeaId) : null;
+  if (sel) {
+    ctx.fillStyle = COLORS.seaSelFill; ctx.strokeStyle = COLORS.seaSelStroke; ctx.lineWidth = 2 / sx;
+    ctx.fill(zonePath(sel), 'evenodd'); ctx.stroke(zonePath(sel));
+  }
+}
+
 function lakesPath(water) {
   if (!water.lakesPath) {
     const p = new Path2D();
@@ -135,7 +182,7 @@ function fillOf(item, layer, control) {
  * p: { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies }
  */
 export function renderBase(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace } = p;
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId } = p;
   const a = affineOf(view, vb, lay);
   const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
   const cull = regionToUnits(view, vb, lay, region);
@@ -151,6 +198,10 @@ export function renderBase(ctx, p) {
     const x1 = cull.x1 - off + pad;
     const y0 = cull.y0 - pad;
     const y1 = cull.y1 + pad;
+    if (seas) {
+      // sotto le province: la terra copre i bordi imprecisi. Un errore qui non deve mai bloccare la mappa.
+      try { drawSeas(ctx, seas, selectedSeaId, a.sx); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
+    }
     const groups = new Map();
     const strokeAll = new Path2D();
     const seamFills = [];
@@ -212,7 +263,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, seaNames } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -228,6 +279,24 @@ export function drawOverlay(ctx, p) {
       ctx.stroke(path);
     }
   }
+  if (seaNames && seaNames.length > 0) {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.lineJoin = 'round';
+    for (const off of copies) {
+      const toScreen = (z) => [a.sx * (z.seed[0] * COS0 + off) + a.tx, a.sx * -z.seed[1] + a.ty];
+      for (const { z, x, y } of declutterSea(seaNames, toScreen, { w: ctx.canvas.width / dpr, h: ctx.canvas.height / dpr })) {
+        const fontPx = SEA_FONT_PX(z);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.font = `italic 500 ${fontPx}px ${FONT_FAMILY}`;
+        ctx.lineWidth = 0.2 * fontPx;
+        ctx.strokeStyle = COLORS.seaLabelHalo;
+        ctx.fillStyle = COLORS.seaLabel;
+        ctx.strokeText(z.name, x, y);
+        ctx.fillText(z.name, x, y);
+      }
+    }
+  }
   if (!labels || labels.length === 0) return;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -241,13 +310,22 @@ export function drawOverlay(ctx, p) {
     ctx.translate(px, py);
     if (l.angle) ctx.rotate((l.angle * Math.PI) / 180);
     ctx.font = `${lake ? 'italic 500' : '600'} ${fontPx}px ${FONT_FAMILY}`;
-    const w = ctx.measureText(l.name).width;
-    const target = l.length * a.sx; // larghezza imposta (come textLength in SVG)
-    if (w > 0) ctx.scale(target / w, 1);
+    const lines = l.lines || [l.name];
+    const pitch = fontPx * LINE_STEP; // distanza fra le righe (solo nomi su più righe)
     ctx.lineWidth = 0.2 * fontPx;
     ctx.strokeStyle = lake ? COLORS.lakeLabelHalo : COLORS.labelHalo;
-    ctx.strokeText(l.name, 0, 0);
     ctx.fillStyle = lake ? COLORS.lakeLabel : COLORS.label;
-    ctx.fillText(l.name, 0, 0);
+    for (let i = 0; i < lines.length; i += 1) {
+      const text = lines[i];
+      const dy = (i - (lines.length - 1) / 2) * pitch;
+      const w = ctx.measureText(text).width;
+      const target = (l.lineLengths ? l.lineLengths[i] : l.length) * a.sx; // larghezza imposta (come textLength in SVG)
+      ctx.save();
+      ctx.translate(0, dy);
+      if (w > 0) ctx.scale(target / w, 1);
+      ctx.strokeText(text, 0, 0);
+      ctx.fillText(text, 0, 0);
+      ctx.restore();
+    }
   }
 }

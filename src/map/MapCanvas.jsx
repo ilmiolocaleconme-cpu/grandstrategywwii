@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { HOME_BOUNDS, LAYERS, RIVER_WIDTH_PX, riverRankLimit, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { HOME_BOUNDS, LAYERS, RIVER_WIDTH_PX, WORLD_W, riverRankLimit, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, pickRiverNear, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase } from './canvasDraw.js';
 import { Legend } from './MapView.jsx';
+import { seaLabels, seaZoneAt } from './seaView.js';
 
 // Mappa strategica su Canvas 2D (predefinita; la mappa SVG si attiva con ?map=svg): React resta per interfaccia, pannelli,
 // selezione, livelli e legenda; la mappa si disegna su due tele (scena e sovrapposizione) e il gesto non passa da React:
@@ -25,8 +26,9 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
+  const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
     () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, (r) => r?.scalerank ?? 99) : EMPTY_WATER),
     [rivers, riversGeo, lakes],
@@ -43,7 +45,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver };
+  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -80,7 +82,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, copies: copiesFor(view, region, l), trace: window.__gsTrace });
+    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), trace: window.__gsTrace });
     s.cache = { canvas: c, view: { ...view }, region };
     baseRef.current.dataset.drawn = '1';
     if (p.water.lines.length && p.showRivers) baseRef.current.dataset.water = '1';
@@ -93,7 +95,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies });
+    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies, seaNames: p.showSeas && p.seaData ? seaLabels(p.seaData.zones, s.view.k) : null });
   };
 
   // porta l'ultima immagine disegnata alla vista corrente (trascinamento e zoom costano solo questo)
@@ -231,9 +233,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       // i nomi partono solo dopo che la prima schermata è stata presentata (due fotogrammi)
       requestAnimationFrame(() => requestAnimationFrame(() => { s.painted = true; setViewRev((n) => n + 1); }));
     }
-  }, [size, model, water, layer, showRivers, selectedRiverId]);
+  }, [size, model, water, layer, showRivers, selectedRiverId, seaData, showSeas, selectedSeaId]);
   // la selezione della provincia cambia solo la sovrapposizione
-  useEffect(() => { paintOverlay(); }, [selectedId]);
+  useEffect(() => { paintOverlay(); }, [selectedId, seaData, showSeas]);
 
   // nomi: solo quelli che stanno nella provincia e non si sovrappongono; compaiono a gesto fermo
   useEffect(() => {
@@ -245,7 +247,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       const l = lay();
       const view = s.view;
       const copies = visibleCopies(view, VB, p.model.bounds);
-      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(p.model.items, view, VB, l.s, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX }) : [];
+      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(p.model.items, view, VB, l.s, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX, variants: true }) : [];
       const prov = provRaw.map((x) => ({ ...x, kind: 'prov' }));
       let partial = Boolean(provRaw.partial);
       let result = prov;
@@ -315,6 +317,12 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     for (const off of copies) {
       const it = pickProvinceAt(p.model, ux - off, uy);
       if (it) { p.onSelect(it.id); return; }
+    }
+    if (p.showSeas && p.seaData) {
+      for (const off of copies) {
+        const z = seaZoneAt(p.seaData.zones, (ux - off) / (WORLD_W / 360), -uy);
+        if (z) { p.onSelectSea?.(z.id); return; }
+      }
     }
     p.onSelect(null);
   };
@@ -402,6 +410,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
         </div>
         <div className="zoom">
           <button type="button" className={showRivers ? 'on' : ''} aria-pressed={showRivers} aria-label="Mostra o nascondi i fiumi" onClick={onToggleRivers}>≈</button>
+          <button type="button" className={showSeas ? 'on' : ''} aria-pressed={showSeas} aria-label="Mostra o nascondi le zone marittime" onClick={onToggleSeas}>⚓</button>
           <button type="button" aria-label="Ingrandisci" onClick={() => zoomButton(1.6)}>+</button>
           <button type="button" aria-label="Riduci" onClick={() => zoomButton(1 / 1.6)}>−</button>
           <button type="button" aria-label="Vista iniziale" onClick={goHome}>⌂</button>
