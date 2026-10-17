@@ -12,7 +12,8 @@ const dataUrl = (n) => new URL(`../data/${n}`, import.meta.url);
 export async function buildSeaFile({ debug = false } = {}) {
   const collection = await loadProvinces();
   const design = JSON.parse(await readFile(dataUrl('sea_zones_design.json'), 'utf8'));
-  const { zones, grid, report, debug: dbg } = computeSeaZones(collection, design, { debug });
+  const land = design.landFile ? JSON.parse(await readFile(dataUrl(design.landFile), 'utf8')).polygons : [];
+  const { zones, grid, report, debug: dbg } = computeSeaZones(collection, design, { debug, land });
   const ids = collection.features.map((f) => f.properties.id);
   return {
     file: {

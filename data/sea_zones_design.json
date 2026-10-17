@@ -1,89 +1,1230 @@
 {
-  "schema": "sea-zones-design-v1",
-  "note": "Progetto delle zone marittime (design, non dato storico). L'area d'interesse è Europa e Mediterraneo. Le coste vengono dalle province (data/provinces/): l'acqua è ciò che resta dentro l'area d'interesse, esclusi i territori non coperti (holes). I semi (seeds) decidono come l'acqua si divide in zone: ogni cella d'acqua va al seme più vicino per via d'acqua; con radiusKm il seme non oltrepassa quel raggio (zone piccole per i passaggi strategici). Tutto è `hypothesis`: posizioni e confini tra zone sono scelte di gioco.",
-  "grid": { "lon0": -32, "lat0": 27.6, "lon1": 42.5, "lat1": 73, "step": 0.05 },
-  "simplifyTolDeg": 0.06,
-  "holes": [
-    { "name": "Irlanda (non ancora nei dati)", "ring": [[-7.4,55.4],[-6.15,55.2],[-5.85,54.65],[-5.5,54.4],[-6.1,54.0],[-6.0,53.3],[-6.0,52.9],[-6.35,52.2],[-6.9,52.1],[-8.2,51.8],[-9.8,51.45],[-10.3,51.9],[-10.4,52.1],[-9.9,52.55],[-9.2,53.2],[-10.2,53.4],[-10.1,53.95],[-10.0,54.3],[-9.2,54.3],[-8.7,54.65],[-8.3,55.15],[-7.4,55.4]] },
-    { "name": "Islanda (fuori dai dati)", "ring": [[-24.8,63.3],[-22.5,63.3],[-19.0,63.2],[-15.0,63.7],[-13.3,64.5],[-13.4,65.6],[-15.5,66.6],[-19.0,66.6],[-22.8,66.6],[-24.8,65.8],[-24.8,63.3]] },
-    { "name": "Isole Fær Øer (fuori dai dati)", "ring": [[-7.8,61.3],[-6.2,61.3],[-6.2,62.4],[-7.8,62.4],[-7.8,61.3]] },
-    { "name": "Jan Mayen (fuori dai dati)", "ring": [[-9.2,70.8],[-7.8,70.8],[-7.8,71.2],[-9.2,71.2],[-9.2,70.8]] },
-    { "name": "Mare d'Azov (escluso)", "ring": [[34.8,45.2],[36.5,45.0],[38.5,46.2],[39.4,47.3],[36.5,47.3],[34.8,46.4],[34.8,45.2]] }
+ "schema": "sea-zones-design-v1",
+ "note": "Progetto delle zone marittime (design, non dato storico). L'area d'interesse è Europa e Mediterraneo. Le coste vengono dalle province (data/provinces/): l'acqua è ciò che resta dentro l'area d'interesse, esclusi i territori non coperti (holes). I semi (seeds) decidono come l'acqua si divide in zone: ogni cella d'acqua va al seme più vicino per via d'acqua; con radiusKm il seme non oltrepassa quel raggio (zone piccole per i passaggi strategici). Tutto è `hypothesis`: posizioni e confini tra zone sono scelte di gioco. Estensione a Irlanda, Africa atlantica, Capo, Oceano Indiano occidentale e Mar Rosso (maschera di terra Natural Earth 50m nei rettangoli landRegions).",
+ "grid": {
+  "lon0": -32,
+  "lat0": -37,
+  "lon1": 60,
+  "lat1": 73,
+  "step": 0.05
+ },
+ "simplifyTolDeg": 0.06,
+ "holes": [
+  {
+   "name": "Islanda (fuori dai dati)",
+   "ring": [
+    [
+     -24.8,
+     63.3
+    ],
+    [
+     -22.5,
+     63.3
+    ],
+    [
+     -19.0,
+     63.2
+    ],
+    [
+     -15.0,
+     63.7
+    ],
+    [
+     -13.3,
+     64.5
+    ],
+    [
+     -13.4,
+     65.6
+    ],
+    [
+     -15.5,
+     66.6
+    ],
+    [
+     -19.0,
+     66.6
+    ],
+    [
+     -22.8,
+     66.6
+    ],
+    [
+     -24.8,
+     65.8
+    ],
+    [
+     -24.8,
+     63.3
+    ]
+   ]
+  },
+  {
+   "name": "Isole Fær Øer (fuori dai dati)",
+   "ring": [
+    [
+     -7.8,
+     61.3
+    ],
+    [
+     -6.2,
+     61.3
+    ],
+    [
+     -6.2,
+     62.4
+    ],
+    [
+     -7.8,
+     62.4
+    ],
+    [
+     -7.8,
+     61.3
+    ]
+   ]
+  },
+  {
+   "name": "Jan Mayen (fuori dai dati)",
+   "ring": [
+    [
+     -9.2,
+     70.8
+    ],
+    [
+     -7.8,
+     70.8
+    ],
+    [
+     -7.8,
+     71.2
+    ],
+    [
+     -9.2,
+     71.2
+    ],
+    [
+     -9.2,
+     70.8
+    ]
+   ]
+  },
+  {
+   "name": "Mare d'Azov (escluso)",
+   "ring": [
+    [
+     34.8,
+     45.2
+    ],
+    [
+     36.5,
+     45.0
+    ],
+    [
+     38.5,
+     46.2
+    ],
+    [
+     39.4,
+     47.3
+    ],
+    [
+     36.5,
+     47.3
+    ],
+    [
+     34.8,
+     46.4
+    ],
+    [
+     34.8,
+     45.2
+    ]
+   ]
+  }
+ ],
+ "forcedWater": [
+  {
+   "name": "Bosforo (stretto più stretto della griglia)",
+   "ring": [
+    [
+     28.95,
+     40.95
+    ],
+    [
+     29.2,
+     40.95
+    ],
+    [
+     29.2,
+     41.3
+    ],
+    [
+     28.95,
+     41.3
+    ],
+    [
+     28.95,
+     40.95
+    ]
+   ]
+  },
+  {
+   "name": "Dardanelli (stretto più stretto della griglia)",
+   "ring": [
+    [
+     26.1,
+     40.02
+    ],
+    [
+     26.25,
+     39.97
+    ],
+    [
+     26.95,
+     40.28
+    ],
+    [
+     27.15,
+     40.33
+    ],
+    [
+     27.15,
+     40.42
+    ],
+    [
+     26.9,
+     40.42
+    ],
+    [
+     26.2,
+     40.12
+    ],
+    [
+     26.1,
+     40.02
+    ]
+   ]
+  },
+  {
+   "name": "Øresund settentrionale (Helsingør-Helsingborg)",
+   "ring": [
+    [
+     12.55,
+     55.9
+    ],
+    [
+     12.8,
+     55.9
+    ],
+    [
+     12.8,
+     56.15
+    ],
+    [
+     12.55,
+     56.15
+    ],
+    [
+     12.55,
+     55.9
+    ]
+   ]
+  },
+  {
+   "name": "Canale di Suez (più stretto della griglia)",
+   "ring": [
+    [
+     32.25,
+     31.28
+    ],
+    [
+     32.38,
+     31.28
+    ],
+    [
+     32.38,
+     30.6
+    ],
+    [
+     32.62,
+     29.95
+    ],
+    [
+     32.45,
+     29.88
+    ],
+    [
+     32.22,
+     30.6
+    ],
+    [
+     32.25,
+     31.28
+    ]
+   ]
+  }
+ ],
+ "seeds": [
+  {
+   "id": "SZ_ATL_AZZORRE",
+   "name": "Atlantico — Azzorre",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -27.5,
+   "lat": 38.5,
+   "strategic": true,
+   "note": "Rotte transatlantiche e basi portoghesi delle Azzorre."
+  },
+  {
+   "id": "SZ_ATL_MADERA_CANARIE",
+   "name": "Atlantico — Madera e Canarie",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -20,
+   "lat": 30,
+   "note": "Rotte verso l'Africa occidentale e il Sud Atlantico."
+  },
+  {
+   "id": "SZ_ATL_MAROCCO",
+   "name": "Atlantico — coste del Marocco",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -11.5,
+   "lat": 32.0,
+   "radiusKm": 450
+  },
+  {
+   "id": "SZ_ATL_PORTOGALLO",
+   "name": "Approcci del Portogallo e Finisterre",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -11.5,
+   "lat": 40.5,
+   "radiusKm": 500,
+   "strategic": true,
+   "note": "Rotta atlantica tra Gibilterra e la Manica."
+  },
+  {
+   "id": "SZ_GOLFO_CADICE",
+   "name": "Golfo di Cadice",
+   "kind": "gulf",
+   "region": "atlantico",
+   "lon": -7.6,
+   "lat": 36.2,
+   "radiusKm": 200
+  },
+  {
+   "id": "SZ_GIBILTERRA",
+   "name": "Stretto di Gibilterra",
+   "kind": "strait",
+   "region": "atlantico",
+   "lon": -5.6,
+   "lat": 35.95,
+   "radiusKm": 45,
+   "strategic": true,
+   "note": "Unico accesso dall'Atlantico al Mediterraneo."
+  },
+  {
+   "id": "SZ_BISCAGLIA",
+   "name": "Golfo di Biscaglia",
+   "kind": "gulf",
+   "region": "atlantico",
+   "lon": -4.5,
+   "lat": 45.3,
+   "strategic": true,
+   "note": "Porti atlantici francesi e spagnoli del nord."
+  },
+  {
+   "id": "SZ_ATL_OVEST",
+   "name": "Atlantico — approcci occidentali",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -17,
+   "lat": 50.5,
+   "strategic": true,
+   "note": "Rotta dei convogli verso Gran Bretagna e Irlanda."
+  },
+  {
+   "id": "SZ_MARE_CELTICO",
+   "name": "Mare Celtico",
+   "kind": "sea",
+   "region": "atlantico",
+   "lon": -7.3,
+   "lat": 50.3,
+   "radiusKm": 280
+  },
+  {
+   "id": "SZ_ATL_NORD",
+   "name": "Atlantico settentrionale (a nord-ovest della Scozia)",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -13,
+   "lat": 58.5
+  },
+  {
+   "id": "SZ_CANALE_NORD",
+   "name": "Canale del Nord e Ebridi",
+   "kind": "sea",
+   "region": "atlantico",
+   "lon": -6.6,
+   "lat": 56.0,
+   "radiusKm": 220
+  },
+  {
+   "id": "SZ_MARE_IRLANDA",
+   "name": "Mare d'Irlanda",
+   "kind": "sea",
+   "region": "atlantico",
+   "lon": -4.9,
+   "lat": 53.7,
+   "radiusKm": 220
+  },
+  {
+   "id": "SZ_MANICA_OVEST",
+   "name": "Manica occidentale",
+   "kind": "sea",
+   "region": "atlantico",
+   "lon": -3.6,
+   "lat": 49.6,
+   "radiusKm": 260
+  },
+  {
+   "id": "SZ_MANICA",
+   "name": "Manica centrale",
+   "kind": "sea",
+   "region": "atlantico",
+   "lon": -0.2,
+   "lat": 50.1,
+   "radiusKm": 150
+  },
+  {
+   "id": "SZ_DOVER",
+   "name": "Stretto di Dover",
+   "kind": "strait",
+   "region": "nord",
+   "lon": 1.45,
+   "lat": 51.0,
+   "radiusKm": 60,
+   "strategic": true,
+   "note": "Passaggio tra Manica e Mare del Nord; porti della Manica e delle Fiandre."
+  },
+  {
+   "id": "SZ_NORD_SUD",
+   "name": "Mare del Nord meridionale",
+   "kind": "sea",
+   "region": "nord",
+   "lon": 2.9,
+   "lat": 52.6,
+   "radiusKm": 260,
+   "strategic": true,
+   "note": "Approcci ad Anversa, Rotterdam e all'estuario del Tamigi."
+  },
+  {
+   "id": "SZ_BAIA_GERMANICA",
+   "name": "Baia Germanica (Helgoland)",
+   "kind": "gulf",
+   "region": "nord",
+   "lon": 7.6,
+   "lat": 54.3,
+   "radiusKm": 170,
+   "strategic": true,
+   "note": "Porti tedeschi del Mare del Nord (Wilhelmshaven, Amburgo, Brema)."
+  },
+  {
+   "id": "SZ_NORD_CENTRO",
+   "name": "Mare del Nord centrale",
+   "kind": "sea",
+   "region": "nord",
+   "lon": 2.8,
+   "lat": 55.9
+  },
+  {
+   "id": "SZ_NORD_NORD",
+   "name": "Mare del Nord settentrionale",
+   "kind": "sea",
+   "region": "nord",
+   "lon": 2.0,
+   "lat": 59.5
+  },
+  {
+   "id": "SZ_SKAGERRAK",
+   "name": "Skagerrak",
+   "kind": "strait",
+   "region": "nord",
+   "lon": 9.0,
+   "lat": 57.8,
+   "radiusKm": 190,
+   "strategic": true,
+   "note": "Accesso al Baltico dal Mare del Nord, davanti a Oslo e Göteborg."
+  },
+  {
+   "id": "SZ_KATTEGAT",
+   "name": "Kattegat",
+   "kind": "strait",
+   "region": "baltico",
+   "lon": 11.5,
+   "lat": 56.7,
+   "radiusKm": 130,
+   "strategic": true
+  },
+  {
+   "id": "SZ_ORESUND",
+   "name": "Øresund",
+   "kind": "strait",
+   "region": "baltico",
+   "lon": 12.7,
+   "lat": 55.75,
+   "radiusKm": 45,
+   "strategic": true,
+   "note": "Stretto tra Copenaghen e la Svezia."
+  },
+  {
+   "id": "SZ_GRANDE_BELT",
+   "name": "Grande e Piccolo Belt",
+   "kind": "strait",
+   "region": "baltico",
+   "lon": 10.9,
+   "lat": 55.4,
+   "radiusKm": 70,
+   "strategic": true,
+   "note": "Secondo accesso al Baltico, tra le isole danesi. Il canale di Kiel non è nei dati."
+  },
+  {
+   "id": "SZ_BALTICO_OVEST",
+   "name": "Baltico occidentale",
+   "kind": "sea",
+   "region": "baltico",
+   "lon": 11.9,
+   "lat": 54.6,
+   "radiusKm": 220,
+   "strategic": true,
+   "note": "Porti di Kiel, Lubecca, Rostock e Stettino."
+  },
+  {
+   "id": "SZ_BALTICO_SUD",
+   "name": "Baltico meridionale",
+   "kind": "sea",
+   "region": "baltico",
+   "lon": 18.8,
+   "lat": 55.6,
+   "strategic": true,
+   "note": "Danzica, Königsberg, Memel e la Svezia meridionale."
+  },
+  {
+   "id": "SZ_BALTICO_NORD",
+   "name": "Baltico settentrionale",
+   "kind": "sea",
+   "region": "baltico",
+   "lon": 20.0,
+   "lat": 58.9
+  },
+  {
+   "id": "SZ_GOLFO_RIGA",
+   "name": "Golfo di Riga",
+   "kind": "gulf",
+   "region": "baltico",
+   "lon": 23.9,
+   "lat": 57.4,
+   "radiusKm": 120
+  },
+  {
+   "id": "SZ_GOLFO_FINLANDIA",
+   "name": "Golfo di Finlandia",
+   "kind": "gulf",
+   "region": "baltico",
+   "lon": 25.5,
+   "lat": 59.7,
+   "strategic": true,
+   "note": "Leningrado, Tallinn, Helsinki."
+  },
+  {
+   "id": "SZ_BOTNIA_SUD",
+   "name": "Mare di Botnia",
+   "kind": "gulf",
+   "region": "baltico",
+   "lon": 19.4,
+   "lat": 61.8
+  },
+  {
+   "id": "SZ_BOTNIA_NORD",
+   "name": "Baia di Botnia",
+   "kind": "gulf",
+   "region": "baltico",
+   "lon": 23.2,
+   "lat": 64.9
+  },
+  {
+   "id": "SZ_NORVEGIA_SUD",
+   "name": "Mare di Norvegia meridionale",
+   "kind": "sea",
+   "region": "nord",
+   "lon": 3.5,
+   "lat": 63.5,
+   "strategic": true,
+   "note": "Costa norvegese: minerale svedese da Narvik, rotte per l'Artico."
+  },
+  {
+   "id": "SZ_NORVEGIA_NORD",
+   "name": "Mare di Norvegia settentrionale",
+   "kind": "sea",
+   "region": "nord",
+   "lon": 10,
+   "lat": 70.5,
+   "strategic": true
+  },
+  {
+   "id": "SZ_BARENTS",
+   "name": "Mare di Barents",
+   "kind": "sea",
+   "region": "artico",
+   "lon": 36,
+   "lat": 71.4,
+   "strategic": true,
+   "note": "Convogli artici verso Murmansk."
+  },
+  {
+   "id": "SZ_ALBORAN",
+   "name": "Mare di Alboran",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": -3.0,
+   "lat": 36.0,
+   "radiusKm": 260,
+   "strategic": true
+  },
+  {
+   "id": "SZ_BALEARI",
+   "name": "Mare delle Baleari",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 2.4,
+   "lat": 39.8,
+   "radiusKm": 230
+  },
+  {
+   "id": "SZ_ALGERINO",
+   "name": "Bacino algerino",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 4.0,
+   "lat": 37.7
+  },
+  {
+   "id": "SZ_GOLFO_LEONE",
+   "name": "Golfo del Leone",
+   "kind": "gulf",
+   "region": "mediterraneo",
+   "lon": 4.7,
+   "lat": 42.6,
+   "radiusKm": 190,
+   "strategic": true,
+   "note": "Marsiglia e Tolone."
+  },
+  {
+   "id": "SZ_LIGURE",
+   "name": "Mar Ligure",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 8.7,
+   "lat": 43.7,
+   "radiusKm": 160,
+   "strategic": true,
+   "note": "Genova e La Spezia."
+  },
+  {
+   "id": "SZ_SARDEGNA_OVEST",
+   "name": "Mare di Sardegna",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 7.0,
+   "lat": 40.0
+  },
+  {
+   "id": "SZ_CANALE_SARDEGNA",
+   "name": "Canale di Sardegna",
+   "kind": "strait",
+   "region": "mediterraneo",
+   "lon": 8.8,
+   "lat": 38.2,
+   "radiusKm": 190,
+   "strategic": true
+  },
+  {
+   "id": "SZ_TIRRENO_NORD",
+   "name": "Tirreno settentrionale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 10.4,
+   "lat": 41.8,
+   "radiusKm": 260
+  },
+  {
+   "id": "SZ_TIRRENO_SUD",
+   "name": "Tirreno meridionale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 13.2,
+   "lat": 39.6,
+   "strategic": true,
+   "note": "Napoli e accesso allo Stretto di Messina."
+  },
+  {
+   "id": "SZ_MESSINA",
+   "name": "Stretto di Messina",
+   "kind": "strait",
+   "region": "mediterraneo",
+   "lon": 15.65,
+   "lat": 38.2,
+   "radiusKm": 30,
+   "strategic": true
+  },
+  {
+   "id": "SZ_CANALE_SICILIA",
+   "name": "Canale di Sicilia",
+   "kind": "strait",
+   "region": "mediterraneo",
+   "lon": 11.8,
+   "lat": 37.3,
+   "radiusKm": 190,
+   "strategic": true,
+   "note": "Cerniera tra Mediterraneo occidentale e orientale; rotta Italia–Libia."
+  },
+  {
+   "id": "SZ_MALTA",
+   "name": "Approcci di Malta",
+   "kind": "approach",
+   "region": "mediterraneo",
+   "lon": 14.5,
+   "lat": 35.75,
+   "radiusKm": 130,
+   "strategic": true,
+   "note": "Base navale e aerea dell'isola di Malta."
+  },
+  {
+   "id": "SZ_MED_CENTRALE",
+   "name": "Mediterraneo centrale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 15.0,
+   "lat": 33.9
+  },
+  {
+   "id": "SZ_SIRTE",
+   "name": "Golfo della Sirte",
+   "kind": "gulf",
+   "region": "mediterraneo",
+   "lon": 18.0,
+   "lat": 31.6,
+   "radiusKm": 280
+  },
+  {
+   "id": "SZ_IONIO_OVEST",
+   "name": "Ionio occidentale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 17.0,
+   "lat": 37.0
+  },
+  {
+   "id": "SZ_IONIO_EST",
+   "name": "Ionio orientale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 19.6,
+   "lat": 37.3,
+   "radiusKm": 300
+  },
+  {
+   "id": "SZ_OTRANTO",
+   "name": "Canale d'Otranto",
+   "kind": "strait",
+   "region": "mediterraneo",
+   "lon": 18.9,
+   "lat": 40.1,
+   "radiusKm": 95,
+   "strategic": true,
+   "note": "Accesso all'Adriatico."
+  },
+  {
+   "id": "SZ_ADRIATICO_SUD",
+   "name": "Adriatico meridionale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 18.2,
+   "lat": 41.9,
+   "radiusKm": 200
+  },
+  {
+   "id": "SZ_ADRIATICO_CENTRO",
+   "name": "Adriatico centrale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 15.6,
+   "lat": 43.0,
+   "radiusKm": 190
+  },
+  {
+   "id": "SZ_ADRIATICO_NORD",
+   "name": "Adriatico settentrionale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 13.6,
+   "lat": 44.9,
+   "strategic": true,
+   "note": "Venezia, Trieste, Fiume."
+  },
+  {
+   "id": "SZ_EGEO_NORD",
+   "name": "Egeo settentrionale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 25.2,
+   "lat": 40.3
+  },
+  {
+   "id": "SZ_EGEO_CENTRO",
+   "name": "Egeo centrale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 25.2,
+   "lat": 38.2
+  },
+  {
+   "id": "SZ_EGEO_SUD",
+   "name": "Egeo meridionale e Mare di Creta",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 25.1,
+   "lat": 35.8
+  },
+  {
+   "id": "SZ_DARDANELLI",
+   "name": "Dardanelli",
+   "kind": "strait",
+   "region": "mediterraneo",
+   "lon": 26.55,
+   "lat": 40.15,
+   "radiusKm": 65,
+   "strategic": true
+  },
+  {
+   "id": "SZ_MARMARA",
+   "name": "Mare di Marmara",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 28.0,
+   "lat": 40.75,
+   "radiusKm": 120,
+   "strategic": true
+  },
+  {
+   "id": "SZ_BOSFORO",
+   "name": "Bosforo",
+   "kind": "strait",
+   "region": "nero",
+   "lon": 29.07,
+   "lat": 41.1,
+   "radiusKm": 35,
+   "strategic": true,
+   "note": "Collega il Mediterraneo al Mar Nero (con Dardanelli e Marmara)."
+  },
+  {
+   "id": "SZ_NERO_OVEST",
+   "name": "Mar Nero occidentale",
+   "kind": "sea",
+   "region": "nero",
+   "lon": 29.8,
+   "lat": 43.4
+  },
+  {
+   "id": "SZ_NERO_NORDOVEST",
+   "name": "Mar Nero nord-occidentale",
+   "kind": "sea",
+   "region": "nero",
+   "lon": 31.0,
+   "lat": 45.2,
+   "strategic": true,
+   "note": "Odessa, Danubio, Costanza."
+  },
+  {
+   "id": "SZ_NERO_CENTRO",
+   "name": "Mar Nero centrale",
+   "kind": "sea",
+   "region": "nero",
+   "lon": 34.5,
+   "lat": 43.2
+  },
+  {
+   "id": "SZ_NERO_EST",
+   "name": "Mar Nero orientale",
+   "kind": "sea",
+   "region": "nero",
+   "lon": 39.0,
+   "lat": 42.7,
+   "strategic": true,
+   "note": "Batumi e Sebastopoli sono nelle zone vicine."
+  },
+  {
+   "id": "SZ_MED_LIBICO",
+   "name": "Mare Libico",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 24.0,
+   "lat": 34.0
+  },
+  {
+   "id": "SZ_CIRENAICA",
+   "name": "Costa orientale libica",
+   "kind": "approach",
+   "region": "mediterraneo",
+   "lon": 23.8,
+   "lat": 32.8,
+   "radiusKm": 150,
+   "strategic": true,
+   "note": "Bengasi e Tobruk."
+  },
+  {
+   "id": "SZ_LEVANTE",
+   "name": "Mediterraneo orientale (Levante)",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 33.5,
+   "lat": 33.2
+  },
+  {
+   "id": "SZ_CIPRO",
+   "name": "Mare di Cipro",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 33.6,
+   "lat": 34.4,
+   "radiusKm": 220
+  },
+  {
+   "id": "SZ_PORT_SAID",
+   "name": "Delta del Nilo e Port Said",
+   "kind": "approach",
+   "region": "mediterraneo",
+   "lon": 31.8,
+   "lat": 31.9,
+   "radiusKm": 160,
+   "strategic": true,
+   "note": "Ingresso mediterraneo del Canale di Suez (il canale non è ancora nei dati)."
+  },
+  {
+   "id": "SZ_ANATOLIA_SUD",
+   "name": "Mare di Anatolia meridionale",
+   "kind": "sea",
+   "region": "mediterraneo",
+   "lon": 31.5,
+   "lat": 36.1,
+   "radiusKm": 280
+  },
+  {
+   "id": "SZ_ATL_IRLANDA_OVEST",
+   "name": "Atlantico — coste occidentali dell'Irlanda",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -11.5,
+   "lat": 53.3,
+   "radiusKm": 150,
+   "note": "Approcci a Galway, Shannon e Cork; rotta dei convogli verso Gran Bretagna."
+  },
+  {
+   "id": "SZ_ATL_SAHARA",
+   "name": "Atlantico — Sahara e Mauritania",
+   "kind": "approach",
+   "region": "africa_atlantica",
+   "lon": -17.8,
+   "lat": 21,
+   "radiusKm": 500
+  },
+  {
+   "id": "SZ_CAPO_VERDE",
+   "name": "Atlantico — Senegal e Capo Verde",
+   "kind": "sea",
+   "region": "africa_atlantica",
+   "lon": -21,
+   "lat": 14,
+   "radiusKm": 600,
+   "strategic": true,
+   "note": "Dakar e Capo Verde: tappa delle rotte per il Sud America e il Capo."
+  },
+  {
+   "id": "SZ_GUINEA_OVEST",
+   "name": "Costa di Guinea e Sierra Leone",
+   "kind": "approach",
+   "region": "africa_atlantica",
+   "lon": -15,
+   "lat": 9,
+   "radiusKm": 450,
+   "strategic": true,
+   "note": "Freetown, base britannica dei convogli."
+  },
+  {
+   "id": "SZ_GOLFO_GUINEA",
+   "name": "Golfo di Guinea — Costa d'Oro e Nigeria",
+   "kind": "gulf",
+   "region": "africa_atlantica",
+   "lon": 1,
+   "lat": 4.5,
+   "radiusKm": 600,
+   "note": "Accra, Lagos e il delta del Niger."
+  },
+  {
+   "id": "SZ_BIAFRA",
+   "name": "Baia di Biafra e Camerun",
+   "kind": "gulf",
+   "region": "africa_atlantica",
+   "lon": 8,
+   "lat": 3.5,
+   "radiusKm": 450
+  },
+  {
+   "id": "SZ_GABON_CONGO",
+   "name": "Atlantico — Gabon e Congo",
+   "kind": "approach",
+   "region": "africa_atlantica",
+   "lon": 7,
+   "lat": -3.5,
+   "radiusKm": 500
+  },
+  {
+   "id": "SZ_ANGOLA",
+   "name": "Atlantico — Angola",
+   "kind": "approach",
+   "region": "africa_atlantica",
+   "lon": 10,
+   "lat": -12.5,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_BENGUELA",
+   "name": "Atlantico — Namibia (Benguela)",
+   "kind": "approach",
+   "region": "africa_atlantica",
+   "lon": 11.5,
+   "lat": -23,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_ATL_CAPO",
+   "name": "Atlantico — approcci al Capo",
+   "kind": "approach",
+   "region": "africa_atlantica",
+   "lon": 15.5,
+   "lat": -33.5,
+   "radiusKm": 450,
+   "strategic": true,
+   "note": "Rotta del Capo quando il Mediterraneo è chiuso."
+  },
+  {
+   "id": "SZ_CAPO",
+   "name": "Capo di Buona Speranza e Agulhas",
+   "kind": "approach",
+   "region": "africa_atlantica",
+   "lon": 20.5,
+   "lat": -35.5,
+   "radiusKm": 300,
+   "strategic": true,
+   "note": "Passaggio obbligato tra Atlantico e Indiano senza Suez."
+  },
+  {
+   "id": "SZ_ATL_EQUATORIALE",
+   "name": "Atlantico equatoriale",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -18,
+   "lat": 2
+  },
+  {
+   "id": "SZ_ATL_SUD",
+   "name": "Atlantico meridionale",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -8,
+   "lat": -22
+  },
+  {
+   "id": "SZ_NATAL",
+   "name": "Oceano Indiano — coste del Natal",
+   "kind": "approach",
+   "region": "oceano_indiano",
+   "lon": 31.5,
+   "lat": -31,
+   "radiusKm": 450
+  },
+  {
+   "id": "SZ_CANALE_MOZAMBICO",
+   "name": "Canale del Mozambico",
+   "kind": "sea",
+   "region": "oceano_indiano",
+   "lon": 41,
+   "lat": -20,
+   "radiusKm": 600,
+   "strategic": true,
+   "note": "Tra Madagascar e Mozambico: Lourenço Marques e Beira."
+  },
+  {
+   "id": "SZ_TANGANICA",
+   "name": "Tanganica e Zanzibar",
+   "kind": "approach",
+   "region": "oceano_indiano",
+   "lon": 41.5,
+   "lat": -7,
+   "radiusKm": 500
+  },
+  {
+   "id": "SZ_KENYA",
+   "name": "Kenya e Somalia meridionale",
+   "kind": "approach",
+   "region": "oceano_indiano",
+   "lon": 44.5,
+   "lat": -1,
+   "radiusKm": 500,
+   "note": "Mombasa."
+  },
+  {
+   "id": "SZ_SOMALIA_ITALIANA",
+   "name": "Somalia italiana (Mogadiscio)",
+   "kind": "approach",
+   "region": "oceano_indiano",
+   "lon": 49.5,
+   "lat": 3.5,
+   "radiusKm": 450,
+   "strategic": true,
+   "note": "Colonia italiana: porti di Mogadiscio e Chisimaio."
+  },
+  {
+   "id": "SZ_CORNO_AFRICA",
+   "name": "Corno d'Africa e Guardafui",
+   "kind": "approach",
+   "region": "oceano_indiano",
+   "lon": 52.5,
+   "lat": 11,
+   "radiusKm": 350,
+   "strategic": true
+  },
+  {
+   "id": "SZ_GOLFO_ADEN",
+   "name": "Golfo di Aden",
+   "kind": "gulf",
+   "region": "mar_rosso",
+   "lon": 47,
+   "lat": 12.5,
+   "radiusKm": 500,
+   "strategic": true,
+   "note": "Aden britannica, Somalia britannica e francese (Gibuti)."
+  },
+  {
+   "id": "SZ_BAB_EL_MANDEB",
+   "name": "Bab el-Mandeb",
+   "kind": "strait",
+   "region": "mar_rosso",
+   "lon": 43.3,
+   "lat": 12.6,
+   "radiusKm": 45,
+   "strategic": true,
+   "note": "Ingresso meridionale del Mar Rosso."
+  },
+  {
+   "id": "SZ_MAR_ROSSO_SUD",
+   "name": "Mar Rosso meridionale",
+   "kind": "sea",
+   "region": "mar_rosso",
+   "lon": 41.5,
+   "lat": 15.5,
+   "radiusKm": 450,
+   "note": "Massaua, Assab e Hodeida."
+  },
+  {
+   "id": "SZ_MAR_ROSSO_CENTRO",
+   "name": "Mar Rosso centrale",
+   "kind": "sea",
+   "region": "mar_rosso",
+   "lon": 38.5,
+   "lat": 20.5,
+   "radiusKm": 400,
+   "note": "Porto Sudan e Gedda."
+  },
+  {
+   "id": "SZ_MAR_ROSSO_NORD",
+   "name": "Mar Rosso settentrionale",
+   "kind": "sea",
+   "region": "mar_rosso",
+   "lon": 35.5,
+   "lat": 25.5,
+   "radiusKm": 400
+  },
+  {
+   "id": "SZ_GOLFO_SUEZ",
+   "name": "Golfo di Suez",
+   "kind": "gulf",
+   "region": "mar_rosso",
+   "lon": 32.8,
+   "lat": 28.8,
+   "radiusKm": 150
+  },
+  {
+   "id": "SZ_GOLFO_AQABA",
+   "name": "Golfo di Aqaba",
+   "kind": "gulf",
+   "region": "mar_rosso",
+   "lon": 34.95,
+   "lat": 28.7,
+   "radiusKm": 120
+  },
+  {
+   "id": "SZ_SUEZ",
+   "name": "Canale di Suez",
+   "kind": "strait",
+   "region": "mar_rosso",
+   "lon": 32.35,
+   "lat": 30.6,
+   "radiusKm": 110,
+   "strategic": true,
+   "note": "Collega il Mediterraneo al Mar Rosso: unico passaggio senza il Capo."
+  },
+  {
+   "id": "SZ_IND_OCC",
+   "name": "Oceano Indiano occidentale",
+   "kind": "ocean",
+   "region": "oceano_indiano",
+   "lon": 52,
+   "lat": -6
+  },
+  {
+   "id": "SZ_IND_SUD",
+   "name": "Oceano Indiano meridionale",
+   "kind": "ocean",
+   "region": "oceano_indiano",
+   "lon": 40,
+   "lat": -33
+  },
+  {
+   "id": "SZ_MARE_ARABICO",
+   "name": "Mare Arabico",
+   "kind": "ocean",
+   "region": "oceano_indiano",
+   "lon": 58,
+   "lat": 15,
+   "radiusKm": 850
+  }
+ ],
+ "landFile": "sources/ne_land_50m_region.json",
+ "landRegions": [
+  [
+   -11,
+   -5.2,
+   51.2,
+   55.6
   ],
-  "forcedWater": [
-    { "name": "Bosforo (stretto più stretto della griglia)", "ring": [[28.95,40.95],[29.20,40.95],[29.20,41.30],[28.95,41.30],[28.95,40.95]] },
-    { "name": "Dardanelli (stretto più stretto della griglia)", "ring": [[26.10,40.02],[26.25,39.97],[26.95,40.28],[27.15,40.33],[27.15,40.42],[26.90,40.42],[26.20,40.12],[26.10,40.02]] },
-    { "name": "Øresund settentrionale (Helsingør-Helsingborg)", "ring": [[12.55,55.90],[12.80,55.90],[12.80,56.15],[12.55,56.15],[12.55,55.90]] }
-  ],
-  "seeds": [
-    { "id": "SZ_ATL_AZZORRE", "name": "Atlantico — Azzorre", "kind": "ocean", "region": "atlantico", "lon": -27.5, "lat": 38.5, "strategic": true, "note": "Rotte transatlantiche e basi portoghesi delle Azzorre." },
-    { "id": "SZ_ATL_MADERA_CANARIE", "name": "Atlantico — Madera e Canarie", "kind": "ocean", "region": "atlantico", "lon": -20, "lat": 30, "note": "Rotte verso l'Africa occidentale e il Sud Atlantico." },
-    { "id": "SZ_ATL_MAROCCO", "name": "Atlantico — coste del Marocco", "kind": "approach", "region": "atlantico", "lon": -11.5, "lat": 32.0, "radiusKm": 450 },
-    { "id": "SZ_ATL_PORTOGALLO", "name": "Approcci del Portogallo e Finisterre", "kind": "approach", "region": "atlantico", "lon": -11.5, "lat": 40.5, "radiusKm": 500, "strategic": true, "note": "Rotta atlantica tra Gibilterra e la Manica." },
-    { "id": "SZ_GOLFO_CADICE", "name": "Golfo di Cadice", "kind": "gulf", "region": "atlantico", "lon": -7.6, "lat": 36.2, "radiusKm": 200 },
-    { "id": "SZ_GIBILTERRA", "name": "Stretto di Gibilterra", "kind": "strait", "region": "atlantico", "lon": -5.6, "lat": 35.95, "radiusKm": 45, "strategic": true, "note": "Unico accesso dall'Atlantico al Mediterraneo." },
-    { "id": "SZ_BISCAGLIA", "name": "Golfo di Biscaglia", "kind": "gulf", "region": "atlantico", "lon": -4.5, "lat": 45.3, "strategic": true, "note": "Porti atlantici francesi e spagnoli del nord." },
-    { "id": "SZ_ATL_OVEST", "name": "Atlantico — approcci occidentali", "kind": "ocean", "region": "atlantico", "lon": -17, "lat": 50.5, "strategic": true, "note": "Rotta dei convogli verso Gran Bretagna e Irlanda." },
-    { "id": "SZ_MARE_CELTICO", "name": "Mare Celtico", "kind": "sea", "region": "atlantico", "lon": -7.3, "lat": 50.3, "radiusKm": 280 },
-    { "id": "SZ_ATL_NORD", "name": "Atlantico settentrionale (a nord-ovest della Scozia)", "kind": "ocean", "region": "atlantico", "lon": -13, "lat": 58.5 },
-    { "id": "SZ_CANALE_NORD", "name": "Canale del Nord e Ebridi", "kind": "sea", "region": "atlantico", "lon": -6.6, "lat": 56.0, "radiusKm": 220 },
-    { "id": "SZ_MARE_IRLANDA", "name": "Mare d'Irlanda", "kind": "sea", "region": "atlantico", "lon": -4.9, "lat": 53.7, "radiusKm": 220 },
-    { "id": "SZ_MANICA_OVEST", "name": "Manica occidentale", "kind": "sea", "region": "atlantico", "lon": -3.6, "lat": 49.6, "radiusKm": 260 },
-    { "id": "SZ_MANICA", "name": "Manica centrale", "kind": "sea", "region": "atlantico", "lon": -0.2, "lat": 50.1, "radiusKm": 150 },
-    { "id": "SZ_DOVER", "name": "Stretto di Dover", "kind": "strait", "region": "nord", "lon": 1.45, "lat": 51.0, "radiusKm": 60, "strategic": true, "note": "Passaggio tra Manica e Mare del Nord; porti della Manica e delle Fiandre." },
-    { "id": "SZ_NORD_SUD", "name": "Mare del Nord meridionale", "kind": "sea", "region": "nord", "lon": 2.9, "lat": 52.6, "radiusKm": 260, "strategic": true, "note": "Approcci ad Anversa, Rotterdam e all'estuario del Tamigi." },
-    { "id": "SZ_BAIA_GERMANICA", "name": "Baia Germanica (Helgoland)", "kind": "gulf", "region": "nord", "lon": 7.6, "lat": 54.3, "radiusKm": 170, "strategic": true, "note": "Porti tedeschi del Mare del Nord (Wilhelmshaven, Amburgo, Brema)." },
-    { "id": "SZ_NORD_CENTRO", "name": "Mare del Nord centrale", "kind": "sea", "region": "nord", "lon": 2.8, "lat": 55.9 },
-    { "id": "SZ_NORD_NORD", "name": "Mare del Nord settentrionale", "kind": "sea", "region": "nord", "lon": 2.0, "lat": 59.5 },
-    { "id": "SZ_SKAGERRAK", "name": "Skagerrak", "kind": "strait", "region": "nord", "lon": 9.0, "lat": 57.8, "radiusKm": 190, "strategic": true, "note": "Accesso al Baltico dal Mare del Nord, davanti a Oslo e Göteborg." },
-    { "id": "SZ_KATTEGAT", "name": "Kattegat", "kind": "strait", "region": "baltico", "lon": 11.5, "lat": 56.7, "radiusKm": 130, "strategic": true },
-    { "id": "SZ_ORESUND", "name": "Øresund", "kind": "strait", "region": "baltico", "lon": 12.7, "lat": 55.75, "radiusKm": 45, "strategic": true, "note": "Stretto tra Copenaghen e la Svezia." },
-    { "id": "SZ_GRANDE_BELT", "name": "Grande e Piccolo Belt", "kind": "strait", "region": "baltico", "lon": 10.9, "lat": 55.4, "radiusKm": 70, "strategic": true, "note": "Secondo accesso al Baltico, tra le isole danesi. Il canale di Kiel non è nei dati." },
-    { "id": "SZ_BALTICO_OVEST", "name": "Baltico occidentale", "kind": "sea", "region": "baltico", "lon": 11.9, "lat": 54.6, "radiusKm": 220, "strategic": true, "note": "Porti di Kiel, Lubecca, Rostock e Stettino." },
-    { "id": "SZ_BALTICO_SUD", "name": "Baltico meridionale", "kind": "sea", "region": "baltico", "lon": 18.8, "lat": 55.6, "strategic": true, "note": "Danzica, Königsberg, Memel e la Svezia meridionale." },
-    { "id": "SZ_BALTICO_NORD", "name": "Baltico settentrionale", "kind": "sea", "region": "baltico", "lon": 20.0, "lat": 58.9 },
-    { "id": "SZ_GOLFO_RIGA", "name": "Golfo di Riga", "kind": "gulf", "region": "baltico", "lon": 23.9, "lat": 57.4, "radiusKm": 120 },
-    { "id": "SZ_GOLFO_FINLANDIA", "name": "Golfo di Finlandia", "kind": "gulf", "region": "baltico", "lon": 25.5, "lat": 59.7, "strategic": true, "note": "Leningrado, Tallinn, Helsinki." },
-    { "id": "SZ_BOTNIA_SUD", "name": "Mare di Botnia", "kind": "gulf", "region": "baltico", "lon": 19.4, "lat": 61.8 },
-    { "id": "SZ_BOTNIA_NORD", "name": "Baia di Botnia", "kind": "gulf", "region": "baltico", "lon": 23.2, "lat": 64.9 },
-    { "id": "SZ_NORVEGIA_SUD", "name": "Mare di Norvegia meridionale", "kind": "sea", "region": "nord", "lon": 3.5, "lat": 63.5, "strategic": true, "note": "Costa norvegese: minerale svedese da Narvik, rotte per l'Artico." },
-    { "id": "SZ_NORVEGIA_NORD", "name": "Mare di Norvegia settentrionale", "kind": "sea", "region": "nord", "lon": 10, "lat": 70.5, "strategic": true },
-    { "id": "SZ_BARENTS", "name": "Mare di Barents", "kind": "sea", "region": "artico", "lon": 36, "lat": 71.4, "strategic": true, "note": "Convogli artici verso Murmansk." },
-    { "id": "SZ_ALBORAN", "name": "Mare di Alboran", "kind": "sea", "region": "mediterraneo", "lon": -3.0, "lat": 36.0, "radiusKm": 260, "strategic": true },
-    { "id": "SZ_BALEARI", "name": "Mare delle Baleari", "kind": "sea", "region": "mediterraneo", "lon": 2.4, "lat": 39.8, "radiusKm": 230 },
-    { "id": "SZ_ALGERINO", "name": "Bacino algerino", "kind": "sea", "region": "mediterraneo", "lon": 4.0, "lat": 37.7 },
-    { "id": "SZ_GOLFO_LEONE", "name": "Golfo del Leone", "kind": "gulf", "region": "mediterraneo", "lon": 4.7, "lat": 42.6, "radiusKm": 190, "strategic": true, "note": "Marsiglia e Tolone." },
-    { "id": "SZ_LIGURE", "name": "Mar Ligure", "kind": "sea", "region": "mediterraneo", "lon": 8.7, "lat": 43.7, "radiusKm": 160, "strategic": true, "note": "Genova e La Spezia." },
-    { "id": "SZ_SARDEGNA_OVEST", "name": "Mare di Sardegna", "kind": "sea", "region": "mediterraneo", "lon": 7.0, "lat": 40.0 },
-    { "id": "SZ_CANALE_SARDEGNA", "name": "Canale di Sardegna", "kind": "strait", "region": "mediterraneo", "lon": 8.8, "lat": 38.2, "radiusKm": 190, "strategic": true },
-    { "id": "SZ_TIRRENO_NORD", "name": "Tirreno settentrionale", "kind": "sea", "region": "mediterraneo", "lon": 10.4, "lat": 41.8, "radiusKm": 260 },
-    { "id": "SZ_TIRRENO_SUD", "name": "Tirreno meridionale", "kind": "sea", "region": "mediterraneo", "lon": 13.2, "lat": 39.6, "strategic": true, "note": "Napoli e accesso allo Stretto di Messina." },
-    { "id": "SZ_MESSINA", "name": "Stretto di Messina", "kind": "strait", "region": "mediterraneo", "lon": 15.65, "lat": 38.2, "radiusKm": 30, "strategic": true },
-    { "id": "SZ_CANALE_SICILIA", "name": "Canale di Sicilia", "kind": "strait", "region": "mediterraneo", "lon": 11.8, "lat": 37.3, "radiusKm": 190, "strategic": true, "note": "Cerniera tra Mediterraneo occidentale e orientale; rotta Italia–Libia." },
-    { "id": "SZ_MALTA", "name": "Approcci di Malta", "kind": "approach", "region": "mediterraneo", "lon": 14.5, "lat": 35.75, "radiusKm": 130, "strategic": true, "note": "Base navale e aerea dell'isola di Malta." },
-    { "id": "SZ_MED_CENTRALE", "name": "Mediterraneo centrale", "kind": "sea", "region": "mediterraneo", "lon": 15.0, "lat": 33.9 },
-    { "id": "SZ_SIRTE", "name": "Golfo della Sirte", "kind": "gulf", "region": "mediterraneo", "lon": 18.0, "lat": 31.6, "radiusKm": 280 },
-    { "id": "SZ_IONIO_OVEST", "name": "Ionio occidentale", "kind": "sea", "region": "mediterraneo", "lon": 17.0, "lat": 37.0 },
-    { "id": "SZ_IONIO_EST", "name": "Ionio orientale", "kind": "sea", "region": "mediterraneo", "lon": 19.6, "lat": 37.3, "radiusKm": 300 },
-    { "id": "SZ_OTRANTO", "name": "Canale d'Otranto", "kind": "strait", "region": "mediterraneo", "lon": 18.9, "lat": 40.1, "radiusKm": 95, "strategic": true, "note": "Accesso all'Adriatico." },
-    { "id": "SZ_ADRIATICO_SUD", "name": "Adriatico meridionale", "kind": "sea", "region": "mediterraneo", "lon": 18.2, "lat": 41.9, "radiusKm": 200 },
-    { "id": "SZ_ADRIATICO_CENTRO", "name": "Adriatico centrale", "kind": "sea", "region": "mediterraneo", "lon": 15.6, "lat": 43.0, "radiusKm": 190 },
-    { "id": "SZ_ADRIATICO_NORD", "name": "Adriatico settentrionale", "kind": "sea", "region": "mediterraneo", "lon": 13.6, "lat": 44.9, "strategic": true, "note": "Venezia, Trieste, Fiume." },
-    { "id": "SZ_EGEO_NORD", "name": "Egeo settentrionale", "kind": "sea", "region": "mediterraneo", "lon": 25.2, "lat": 40.3 },
-    { "id": "SZ_EGEO_CENTRO", "name": "Egeo centrale", "kind": "sea", "region": "mediterraneo", "lon": 25.2, "lat": 38.2 },
-    { "id": "SZ_EGEO_SUD", "name": "Egeo meridionale e Mare di Creta", "kind": "sea", "region": "mediterraneo", "lon": 25.1, "lat": 35.8 },
-    { "id": "SZ_DARDANELLI", "name": "Dardanelli", "kind": "strait", "region": "mediterraneo", "lon": 26.55, "lat": 40.15, "radiusKm": 65, "strategic": true },
-    { "id": "SZ_MARMARA", "name": "Mare di Marmara", "kind": "sea", "region": "mediterraneo", "lon": 28.0, "lat": 40.75, "radiusKm": 120, "strategic": true },
-    { "id": "SZ_BOSFORO", "name": "Bosforo", "kind": "strait", "region": "nero", "lon": 29.07, "lat": 41.1, "radiusKm": 35, "strategic": true, "note": "Collega il Mediterraneo al Mar Nero (con Dardanelli e Marmara)." },
-    { "id": "SZ_NERO_OVEST", "name": "Mar Nero occidentale", "kind": "sea", "region": "nero", "lon": 29.8, "lat": 43.4 },
-    { "id": "SZ_NERO_NORDOVEST", "name": "Mar Nero nord-occidentale", "kind": "sea", "region": "nero", "lon": 31.0, "lat": 45.2, "strategic": true, "note": "Odessa, Danubio, Costanza." },
-    { "id": "SZ_NERO_CENTRO", "name": "Mar Nero centrale", "kind": "sea", "region": "nero", "lon": 34.5, "lat": 43.2 },
-    { "id": "SZ_NERO_EST", "name": "Mar Nero orientale", "kind": "sea", "region": "nero", "lon": 39.0, "lat": 42.7, "strategic": true, "note": "Batumi e Sebastopoli sono nelle zone vicine." },
-    { "id": "SZ_MED_LIBICO", "name": "Mare Libico", "kind": "sea", "region": "mediterraneo", "lon": 24.0, "lat": 34.0 },
-    { "id": "SZ_CIRENAICA", "name": "Costa orientale libica", "kind": "approach", "region": "mediterraneo", "lon": 23.8, "lat": 32.8, "radiusKm": 150, "strategic": true, "note": "Bengasi e Tobruk." },
-    { "id": "SZ_LEVANTE", "name": "Mediterraneo orientale (Levante)", "kind": "sea", "region": "mediterraneo", "lon": 33.5, "lat": 33.2 },
-    { "id": "SZ_CIPRO", "name": "Mare di Cipro", "kind": "sea", "region": "mediterraneo", "lon": 33.6, "lat": 34.4, "radiusKm": 220 },
-    { "id": "SZ_PORT_SAID", "name": "Delta del Nilo e Port Said", "kind": "approach", "region": "mediterraneo", "lon": 31.8, "lat": 31.9, "radiusKm": 160, "strategic": true, "note": "Ingresso mediterraneo del Canale di Suez (il canale non è ancora nei dati)." },
-    { "id": "SZ_ANATOLIA_SUD", "name": "Mare di Anatolia meridionale", "kind": "sea", "region": "mediterraneo", "lon": 31.5, "lat": 36.1, "radiusKm": 280 }
+  [
+   -32,
+   60,
+   -37,
+   31.4
   ]
+ ]
 }

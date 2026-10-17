@@ -6,7 +6,7 @@
 // (Dijkstra a più sorgenti): una penisola separa due mari anche se i semi sono vicini in linea d'aria.
 // Un seme con radiusKm non va oltre quel raggio: così i passaggi strategici restano zone piccole.
 // Poi si ricavano contorni, zone confinanti (km di confine) e province costiere (km di costa).
-import { makeGrid, rasterizeProvinces, fillPolygon } from './sea-raster.js';
+import { makeGrid, rasterizeProvinces, fillPolygon, cellCenter } from './sea-raster.js';
 
 const KM_LAT = 110.57;
 const KM_LON_EQ = 111.32;
@@ -71,7 +71,7 @@ function simplifyClosed(ring, tol) {
   return ring.filter((_, i) => keep[i]);
 }
 
-export function computeSeaZones(collection, design, { debug = false } = {}) {
+export function computeSeaZones(collection, design, { debug = false, land = [] } = {}) {
   const g = makeGrid(design.grid);
   const { nx, ny, step } = g;
   const total = nx * ny;
@@ -82,8 +82,25 @@ export function computeSeaZones(collection, design, { debug = false } = {}) {
   const forcedMask = new Uint16Array(total);
   for (const f of design.forcedWater ?? []) fillPolygon(g, [f.ring], forcedMask, 1);
 
+  // terre fuori dalle province (Africa a sud del Sahara, Arabia, Irlanda...): maschera `land` (poligoni
+  // [anelli]) valida solo nei rettangoli `landRegions` [lon0, lon1, lat0, lat1] del progetto, così non
+  // cambia le coste già ricavate dalle province (stretti d'Europa) dove la maschera è più grossolana
+  const landMask = new Uint16Array(total);
+  if (land.length > 0) {
+    for (const rings of land) fillPolygon(g, rings, landMask, 1);
+    const regions = design.landRegions ?? [];
+    for (let iy = 0; iy < ny; iy += 1) {
+      for (let ix = 0; ix < nx; ix += 1) {
+        const c = iy * nx + ix;
+        if (!landMask[c]) continue;
+        const [lon, lat] = cellCenter(g, ix, iy);
+        if (!regions.some(([a, b, c0, c1]) => lon >= a && lon <= b && lat >= c0 && lat <= c1)) landMask[c] = 0;
+      }
+    }
+  }
+
   const water = new Uint8Array(total);
-  for (let c = 0; c < total; c += 1) water[c] = forcedMask[c] || (!prov[c] && !holeMask[c]) ? 1 : 0;
+  for (let c = 0; c < total; c += 1) water[c] = forcedMask[c] || (!prov[c] && !holeMask[c] && !landMask[c]) ? 1 : 0;
 
   const lat = (iy) => g.lat0 + (iy + 0.5) * step;
   const hKm = new Float64Array(ny); // passo orizzontale in km

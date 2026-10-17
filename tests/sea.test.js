@@ -102,3 +102,29 @@ test('mare: validazione, esempi negativi', () => {
   assert.ok(validateSea(f, ids).some((e) => e.includes('sconosciuto')));
   assert.throws(() => buildSea(collection, { ...file, checksum: idsChecksum(['x']) }));
 });
+
+test('mare: Africa e Mar Rosso, con Suez, Bab el-Mandeb e rotta del Capo', () => {
+  const link = (a, b) => assert.ok(sea.areAdjacent(a, b), `${a} non confina con ${b}`);
+  // Mediterraneo -> Suez -> Mar Rosso -> Bab el-Mandeb -> Golfo di Aden -> Oceano Indiano
+  link('SZ_PORT_SAID', 'SZ_SUEZ'); link('SZ_SUEZ', 'SZ_GOLFO_SUEZ'); link('SZ_GOLFO_SUEZ', 'SZ_MAR_ROSSO_NORD');
+  link('SZ_MAR_ROSSO_SUD', 'SZ_BAB_EL_MANDEB'); link('SZ_BAB_EL_MANDEB', 'SZ_GOLFO_ADEN'); link('SZ_GOLFO_ADEN', 'SZ_CORNO_AFRICA');
+  link('SZ_SOMALIA_ITALIANA', 'SZ_KENYA');
+  // rotta del Capo: Atlantico -> Capo -> Indiano
+  link('SZ_ATL_CAPO', 'SZ_CAPO'); link('SZ_CAPO', 'SZ_IND_SUD');
+  // costa atlantica africana in catena, dal Marocco al Capo
+  const chain = ['SZ_ATL_MAROCCO', 'SZ_ATL_SAHARA', 'SZ_CAPO_VERDE', 'SZ_GUINEA_OVEST', 'SZ_ATL_EQUATORIALE', 'SZ_GOLFO_GUINEA', 'SZ_GABON_CONGO', 'SZ_ANGOLA', 'SZ_BENGUELA', 'SZ_ATL_CAPO'];
+  const r = reach('SZ_ATL_MAROCCO', (id) => id !== 'SZ_ATL_MADERA_CANARIE');
+  for (const id of chain) assert.ok(r.has(id), `${id} non raggiungibile`);
+  assert.ok(sea.zone('SZ_SOMALIA_ITALIANA').strategic);
+});
+
+test('mare: senza Suez e Gibilterra l\'Indiano si raggiunge solo dal Capo', () => {
+  const noCanals = (id) => id !== 'SZ_SUEZ' && id !== 'SZ_GIBILTERRA';
+  assert.ok(reach('SZ_ATL_AZZORRE', noCanals).has('SZ_SOMALIA_ITALIANA'), 'la rotta del Capo deve esistere');
+  assert.ok(!reach('SZ_ATL_AZZORRE', (id) => noCanals(id) && id !== 'SZ_CAPO').has('SZ_SOMALIA_ITALIANA'), 'senza il Capo l\'Indiano non deve essere raggiungibile');
+});
+
+test('mare: Irlanda è terra (non mare) e ha acque attorno', () => {
+  assert.ok(sea.zone('SZ_ATL_IRLANDA_OVEST'));
+  assert.ok(sea.areAdjacent('SZ_ATL_IRLANDA_OVEST', 'SZ_ATL_OVEST'));
+});
