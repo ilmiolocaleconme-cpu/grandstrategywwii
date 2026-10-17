@@ -96,14 +96,16 @@ h2 {
 .map *:focus { outline: none; }
 .map { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; user-select: none; }
 .map-sea { fill: #17324a; }
+/* mappa Canvas (prototipo): la tela della scena sta sotto quella dei gesti e dei nomi */
+.map-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
 .prov { stroke: rgba(29, 36, 24, 0.4); stroke-linejoin: round; cursor: pointer; }
 .border-national { fill: none; stroke: #1d2418; stroke-linejoin: round; stroke-linecap: round; }
 .prov:hover { filter: brightness(1.15); }
 .prov-outline { fill: none; stroke: #fff; stroke-linejoin: round; }
 /* lettering da carta degli anni Trenta: serif di sistema (nessun font scaricato, funziona offline); la larghezza e imposta da textLength.
-   Grigio chiaro con alone sfumato (le etichette si nascondono durante il gesto, quindi il filtro costa solo a mappa ferma) */
-.map-label { fill: #d9d9d6; stroke: rgba(14, 18, 10, 0.5); paint-order: stroke; stroke-linejoin: round; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif; font-weight: 600; filter: drop-shadow(0 0 0.14em rgba(10, 14, 8, 0.9)); }
-.map-label.lake-label { fill: #dde3e8; stroke: rgba(10, 36, 60, 0.5); font-style: italic; font-weight: 500; filter: drop-shadow(0 0 0.14em rgba(8, 30, 52, 0.9)); }
+   Grigio chiaro con alone sfumato fatto con il tratto (nessun filtro SVG: sui telefoni i filtri per-testo possono annerire o bloccare la mappa) */
+.map-label { fill: #d9d9d6; stroke: rgba(14, 18, 10, 0.65); paint-order: stroke; stroke-linejoin: round; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif; font-weight: 600; stroke-width: 0.2em; }
+.map-label.lake-label { fill: #dde3e8; stroke: rgba(10, 36, 60, 0.65); font-style: italic; font-weight: 500; stroke-width: 0.2em; }
 .map-tools { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 8px; pointer-events: none; }
 .map-tools > * { pointer-events: auto; display: flex; gap: 6px; }
 .map-tools button { background: rgba(29, 36, 24, 0.88); }

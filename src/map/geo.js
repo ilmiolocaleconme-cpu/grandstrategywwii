@@ -296,6 +296,12 @@ export function provinceFill(props, layer, control) {
 // così i grandi restano sopra. Stessi dati (data/rivers_geo.json) usati dalle regole.
 export const RIVER_WIDTH_PX = { large: 2.4, medium: 1.5, small: 0.9 };
 
+// Densita dei fiumi in base allo zoom: a vista d'insieme solo i grandi (scalerank <= 5), poi anche i medi (<= 8),
+// da zoom 3 tutti. Evita che 540 fiumi coprano la mappa; il fiume selezionato resta sempre visibile.
+export function riverRankLimit(k) {
+  return k < 1.8 ? 5 : k < 3.5 ? 8 : 99;
+}
+
 export function buildWaterModel(rivers, riversGeo, lakes) {
   const byId = new Map(rivers.map((r) => [r.id, r]));
   const lines = riversGeo.features
@@ -336,7 +342,11 @@ const edgeKey = (a, b) => {
 
 // Bordi "nazionali": tutti gli archi tranne quelli condivisi esattamente da due province dello stesso
 // proprietario. Servono a disegnare i confini interni più leggeri di quelli tra Stati e delle coste.
-export function nationalBorderPath(collection, tol = 0) {
+// La classificazione degli archi (la parte costosa: una chiave di testo per ogni arco) si fa una sola volta
+// per collezione; le versioni a bassa risoluzione dei bordi riusano gli stessi tratti e li semplificano soltanto.
+const borderRunsCache = new WeakMap();
+function nationalBorderRuns(collection) {
+  if (borderRunsCache.has(collection)) return borderRunsCache.get(collection);
   const owners = new Map();
   collection.features.forEach((f) => {
     polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
@@ -352,22 +362,28 @@ export function nationalBorderPath(collection, tol = 0) {
     // sulla cucitura le due meta (+180 e -180) possono essere della stessa provincia: sono comunque un taglio interno
     return o.length === 2 && (seam || o[0].id !== o[1].id) && o[0].owner === o[1].owner;
   };
-  let d = '';
-  const flush = (run) => {
-    if (run.length < 2) return;
-    simplifyLine(run, tol).forEach(([x, y], i) => { d += `${i === 0 ? 'M' : 'L'}${r3(x)} ${r3(y)}`; });
-  };
+  const runs = [];
   collection.features.forEach((f) => {
     polygonsOf(f).forEach((poly) => poly.forEach((ring) => {
       let run = [];
+      const flush = () => { if (run.length >= 2) runs.push(run); run = []; };
       for (let i = 0; i + 1 < ring.length; i += 1) {
-        if (interior(edgeKey(ring[i], ring[i + 1]), isSeamEdge(ring[i], ring[i + 1]))) { flush(run); run = []; continue; }
+        if (interior(edgeKey(ring[i], ring[i + 1]), isSeamEdge(ring[i], ring[i + 1]))) { flush(); continue; }
         if (run.length === 0) run.push(project(ring[i][0], ring[i][1]));
         run.push(project(ring[i + 1][0], ring[i + 1][1]));
       }
-      flush(run);
+      flush();
     }));
   });
+  borderRunsCache.set(collection, runs);
+  return runs;
+}
+
+export function nationalBorderPath(collection, tol = 0) {
+  let d = '';
+  for (const run of nationalBorderRuns(collection)) {
+    simplifyLine(run, tol).forEach(([x, y], i) => { d += `${i === 0 ? 'M' : 'L'}${r3(x)} ${r3(y)}`; });
+  }
   return d;
 }
 
@@ -427,6 +443,19 @@ export function labelFitOf(item, text, charW = CHAR_W) {
   return value;
 }
 
+// Condizione necessaria (economica) perché un rettangolo w x h, ruotato fino a 75 gradi, stia nel riquadro della
+// forma: l'ingombro orizzontale e verticale del rettangolo ruotato non può superare il riquadro. Scarta in
+// anticipo le forme per cui il calcolo del posizionamento (costoso) non può dare un corpo sufficiente.
+export function rectCouldFit(bbox, w, h) {
+  for (let deg = 0; deg <= 75; deg += 5) {
+    const a = (deg * Math.PI) / 180;
+    const c = Math.cos(a);
+    const sn = Math.sin(a);
+    if (w * c + h * sn <= bbox.w && w * sn + h * c <= bbox.h) return true;
+  }
+  return false;
+}
+
 // Etichette incastrate nella forma: il nome sta dentro la provincia (o il lago), con corpo, posizione e
 // rotazione calcolati sulla forma (src/map/labelfit.js). Il corpo cresce con lo zoom fino a `maxPx`; sotto
 // `minPx` il nome non si mostra. Priorità ai più grandi; si salta chi si sovrappone a un'etichetta già scelta
@@ -436,7 +465,10 @@ export function labelFitOf(item, text, charW = CHAR_W) {
 // (gradi), `length` (larghezza del testo in unità di mappa: va imposta con textLength) e `rect` (ingombro in pixel).
 // `charW`: larghezza media di un carattere in em; `upper`: maiuscolo (province) o testo com'è (laghi).
 export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {}) {
-  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name } = opts;
+  const { minPx = 7, maxPx = 20, maxLabels = 70, avoid = [], charW = CHAR_W, upper = true, nameOf = (it) => it.props.nameLocal ?? it.props.name, budgetMs = Infinity } = opts;
+  // budgetMs: tempo massimo speso a calcolare forme nuove (i risultati restano in cache): scaduto il tempo si
+  // restituisce quanto trovato con out.partial = true, e una chiamata successiva prosegue dalle forme già pronte.
+  const t0 = Number.isFinite(budgetMs) ? performance.now() : 0;
   const sx = view.k * pxPerUnit; // pixel per unità di mappa
   const order = [...items].sort((a, b) => b.areaKm2 - a.areaKm2);
   const placed = [...avoid]; // rettangoli in pixel [x0,y0,x1,y1]
@@ -449,6 +481,13 @@ export function pickLabels(items, view, vb, pxPerUnit, offsets = [0], opts = {})
       const name = upper ? raw.toLocaleUpperCase('it') : raw; // lettering da carta anni Trenta: maiuscolo per le province
       // scarto economico: nemmeno riempiendo tutto il rettangolo di ingombro il nome arriverebbe al corpo minimo
       if (it.bbox.w * it.bbox.h * sx * sx < name.length * charW * TEXT_H * minPx * minPx) continue;
+      if (!rectCouldFit(it.bbox, name.length * charW * minPx / sx, TEXT_H * minPx / sx)) continue;
+      // fuori vista (il nome sta dentro la forma, quindi dentro il suo riquadro): si scarta prima del calcolo, che è il passo costoso
+      const bx0 = (view.k * (it.bbox.x + off) + view.x - vb.x) * pxPerUnit;
+      const by0 = (view.k * it.bbox.y + view.y - vb.y) * pxPerUnit;
+      if (bx0 + it.bbox.w * sx < 0 || bx0 > vb.w * pxPerUnit || by0 + it.bbox.h * sx < 0 || by0 > vb.h * pxPerUnit) continue;
+      const cached = it.fit && it.fit.text === name && it.fit.charW === charW;
+      if (!cached && Number.isFinite(budgetMs) && performance.now() - t0 > budgetMs) { out.partial = true; return out; }
       const fit = labelFitOf(it, name, charW);
       if (!fit) continue;
       const fontPx = Math.min(fit.size * sx, maxPx);

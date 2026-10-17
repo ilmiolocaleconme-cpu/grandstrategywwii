@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { checkProvinceParts, fileName, loadProvincesFrom, mergeProvinceParts, META_SCHEMA } from '../src/data/provinces.js';
 import { listProvinceFiles, loadProvinces } from '../scripts/load-provinces.js';
-import { checkPrecache, precacheUrls, provinceMarkers } from '../scripts/check-precache.js';
+import { checkPrecache, hasMarker, precacheUrls, provinceMarkers } from '../scripts/check-precache.js';
 import { buildMapModel, nationalBorderPath } from '../src/map/geo.js';
 
 // Fixture sintetiche SOLO per i test: non sono dati geografici storici.
@@ -111,19 +111,42 @@ test('precache: legge gli indirizzi di un sw.js minificato', () => {
   assert.equal(precacheUrls('nulla').size, 0);
 });
 
+// Forme in cui un id di provincia compare in un chunk: oggetto minificato, JSON.parse("...") con escape, JSON quotato.
+const DEU_OBJ = '{id:"P_DEU_X",name:"A"}';
+const DEU_ESC = 'JSON.parse("{\\"id\\":\\"P_DEU_X\\",\\"name\\":\\"A\\"}")';
+const DEU_JSON = '{"id":"P_DEU_X"}';
+
 test('precache: ogni file delle province deve stare in un chunk proprio e nel precache', () => {
   const markers = { DEU: 'P_DEU_X', _meta: 'provinces-meta-v1' };
-  const chunks = { 'assets/index-1.js': 'app', 'assets/DEU-2.js': 'JSON.parse("P_DEU_X")', 'assets/_meta-3.js': '"provinces-meta-v1"' };
+  const chunks = { 'assets/index-1.js': 'app', 'assets/DEU-2.js': DEU_ESC, 'assets/_meta-3.js': '"provinces-meta-v1"' };
   assert.deepEqual(checkPrecache({ chunks, swText: SW, markers }), []);
   // chunk fuori dal precache
-  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/DEU-9.js': 'P_DEU_X', 'assets/DEU-2.js': 'x' }, swText: SW, markers }).join('|'), /DEU-9\.js non è nel precache/);
+  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/DEU-9.js': DEU_OBJ, 'assets/DEU-2.js': 'x' }, swText: SW, markers }).join('|'), /DEU-9\.js non è nel precache/);
   // dati finiti nel bundle principale insieme ad altri
-  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/index-1.js': 'P_DEU_X provinces-meta-v1' }, swText: SW, markers }).join('|'), /presente in più chunk/);
+  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/index-1.js': `${DEU_OBJ} provinces-meta-v1` }, swText: SW, markers }).join('|'), /presente in più chunk/);
   // file non trovato nella build
   assert.match(checkPrecache({ chunks: { 'assets/index-1.js': 'app' }, swText: SW, markers }).join('|'), /DEU\.json: non trovato/);
   // due nazioni nello stesso chunk
-  assert.match(checkPrecache({ chunks: { 'assets/index-1.js': 'app', 'assets/_meta-3.js': 'P_DEU_X provinces-meta-v1', 'assets/DEU-2.js': 'P_DEU_X' }, swText: SW, markers }).join('|'), /contiene anche/);
+  assert.match(checkPrecache({ chunks: { 'assets/index-1.js': 'app', 'assets/_meta-3.js': `${DEU_OBJ} provinces-meta-v1`, 'assets/DEU-2.js': DEU_OBJ }, swText: SW, markers }).join('|'), /contiene anche/);
   assert.match(checkPrecache({ chunks, swText: 'vuoto', markers }).join('|'), /nessun indirizzo nel precache/);
+});
+
+test('precache: un dato che cita solo alcuni id di un file (sideA in crossings.json) non è quel file', () => {
+  const ids = ['P_DEU_A', 'P_DEU_B', 'P_DEU_C'];
+  const crossingsText = '{"sideA":"P_DEU_A","sideB":"P_DEU_B"}';
+  const provinceText = 'JSON.parse("[{\\"id\\":\\"P_DEU_A\\"},{\\"id\\":\\"P_DEU_B\\"},{\\"id\\":\\"P_DEU_C\\"}]")';
+  assert.equal(hasMarker(crossingsText, ids), false);
+  assert.equal(hasMarker(provinceText, ids), true);
+  // una sentinella singola (stringa) resta una semplice ricerca di testo, es. _meta
+  assert.equal(hasMarker('..provinces-meta-v1..', 'provinces-meta-v1'), true);
+  assert.equal(hasMarker('niente', 'provinces-meta-v1'), false);
+  // bundle principale con crossings.json + chunk con tutti i dati del file: nessun errore
+  const chunks = { 'assets/index-1.js': crossingsText, 'assets/DEU-2.js': provinceText };
+  assert.deepEqual(checkPrecache({ chunks, swText: SW, markers: { DEU: ids } }), []);
+  // i dati del file nel bundle principale insieme al resto restano un errore
+  assert.match(checkPrecache({ chunks: { ...chunks, 'assets/index-1.js': `${crossingsText}${provinceText}` }, swText: SW, markers: { DEU: ids } }).join('|'), /presente in più chunk/);
+  // un chunk con solo alcuni id non basta: il file risulta non trovato
+  assert.match(checkPrecache({ chunks: { 'assets/index-1.js': crossingsText }, swText: SW, markers: { DEU: ids } }).join('|'), /DEU\.json: non trovato/);
 });
 
 test('precache: le sentinelle dei dati reali esistono, sono distinte e non stanno nel codice', async () => {
@@ -131,6 +154,7 @@ test('precache: le sentinelle dei dati reali esistono, sono distinte e non stann
   assert.equal(Object.keys(markers).length, 44);
   assert.equal(markers._meta.length, 30);
   assert.equal(readFileSync(new URL('../src/data/provinces.js', import.meta.url), 'utf8').includes(markers._meta), false, 'la sentinella di _meta non deve comparire nel codice dell\'app');
-  assert.equal(new Set(Object.values(markers)).size, 44);
-  assert.equal(markers.DEU.startsWith('P_DEU_'), true);
+  assert.equal(new Set(Object.values(markers).map((v) => JSON.stringify(v))).size, 44);
+  assert.equal(markers.DEU.every((id) => id.startsWith('P_DEU_')), true);
+  assert.equal(markers.DEU.length > 10, true);
 });

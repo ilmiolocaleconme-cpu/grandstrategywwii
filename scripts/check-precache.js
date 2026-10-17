@@ -17,6 +17,17 @@ export function precacheUrls(swText) {
 }
 
 /**
+ * Il testo di un chunk contiene la sentinella? Una sentinella è una stringa oppure un elenco di stringhe
+ * (devono esserci TUTTE). Per i file delle province l'elenco sono tutti gli id delle sue province: un altro dato
+ * che ne cita solo alcune (es. sideA/sideB in data/crossings.json, nel bundle principale) non è "il file delle
+ * province". Non dipende dalla forma del codice generato (JSON.parse, oggetto minificato, ecc.).
+ * Limite noto: un file con poche province (es. una sola) citate TUTTE da un altro dato verrebbe visto in due chunk.
+ */
+export function hasMarker(text, marker) {
+  return Array.isArray(marker) ? marker.every((m) => text.includes(m)) : text.includes(marker);
+}
+
+/**
  * `chunks`: { "assets/x.js": testo } della build; `markers`: { nome file: stringa che compare solo
  * nei dati di quel file }. Ritorna gli errori (lista vuota se ogni file è in un chunk proprio e nel precache).
  */
@@ -26,12 +37,12 @@ export function checkPrecache({ chunks, swText, markers }) {
   if (cached.size === 0) errors.push('sw.js: nessun indirizzo nel precache (formato non riconosciuto?)');
   const names = Object.keys(markers);
   for (const name of names) {
-    const hits = Object.entries(chunks).filter(([, text]) => text.includes(markers[name])).map(([path]) => path);
+    const hits = Object.entries(chunks).filter(([, text]) => hasMarker(text, markers[name])).map(([path]) => path);
     if (hits.length === 0) errors.push(`${name}.json: non trovato in nessun chunk della build`);
     else if (hits.length > 1) errors.push(`${name}.json: presente in più chunk (${hits.join(', ')})`);
     for (const path of hits) {
       if (!cached.has(path)) errors.push(`${name}.json: il chunk ${path} non è nel precache di sw.js`);
-      const others = names.filter((n) => n !== name && chunks[path].includes(markers[n]));
+      const others = names.filter((n) => n !== name && hasMarker(chunks[path], markers[n]));
       if (others.length > 0) errors.push(`${name}.json: il chunk ${path} contiene anche ${others.join(', ')} (devono restare file separati)`);
     }
   }
@@ -39,15 +50,15 @@ export function checkPrecache({ chunks, swText, markers }) {
 }
 
 /**
- * Stringhe-sentinella che compaiono solo nei dati: id della prima provincia di ogni nazione; per _meta l'inizio
- * della prima voce di `metadata.coverage` (non il campo "schema": è anche una costante del codice, nel bundle principale).
+ * Sentinelle che compaiono solo nei dati: per ogni nazione l'elenco di TUTTI gli id delle sue province; per _meta
+ * l'inizio della prima voce di `metadata.coverage` (non il campo "schema": è anche una costante del codice, nel bundle principale).
  */
 export async function provinceMarkers(dirUrl = provincesDir) {
   const markers = {};
   for (const file of await listProvinceFiles(dirUrl)) {
     const data = JSON.parse(await readFile(new URL(file, dirUrl), 'utf8'));
     const name = fileName(file);
-    markers[name] = name === META_NAME ? String(data.metadata.coverage[0]).slice(0, 30) : data.features[0].properties.id;
+    markers[name] = name === META_NAME ? String(data.metadata.coverage[0]).slice(0, 30) : data.features.map((f) => f.properties.id);
   }
   return markers;
 }
@@ -71,7 +82,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   } catch (error) {
     errors = [`impossibile leggere dist/ (eseguire prima npm run build): ${error.message}`];
   }
-  errors.forEach((e) => console.error(`ERRORE ${e}`));
+  // In GitHub Actions `::error::` diventa un'annotazione leggibile senza scaricare il log.
+  errors.forEach((e) => console.error(process.env.GITHUB_ACTIONS ? `::error title=precache::${e}` : `ERRORE ${e}`));
   console.log(errors.length === 0 ? 'OK: tutti i file delle province sono in chunk separati e nel precache' : 'FALLITO: controllo del precache');
   process.exit(errors.length === 0 ? 0 : 1);
 }
