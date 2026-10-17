@@ -5,6 +5,7 @@
 import { WORLD_W, provinceFill, riverRankLimit } from './geo.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
 import { LINE_STEP } from './labelfit.js';
+import { declutterSea, SEA_FONT_PX } from './seaView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 
 const COS0 = WORLD_W / 360;
@@ -197,7 +198,10 @@ export function renderBase(ctx, p) {
     const x1 = cull.x1 - off + pad;
     const y0 = cull.y0 - pad;
     const y1 = cull.y1 + pad;
-    if (seas) drawSeas(ctx, seas, selectedSeaId, a.sx); // sotto le province: la terra copre i bordi imprecisi
+    if (seas) {
+      // sotto le province: la terra copre i bordi imprecisi. Un errore qui non deve mai bloccare la mappa.
+      try { drawSeas(ctx, seas, selectedSeaId, a.sx); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
+    }
     const groups = new Map();
     const strokeAll = new Path2D();
     const seamFills = [];
@@ -279,16 +283,15 @@ export function drawOverlay(ctx, p) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.lineJoin = 'round';
-    for (const z of seaNames) {
-      const fontPx = z.kind === 'ocean' ? 14 : 10;
-      ctx.font = `italic 500 ${fontPx}px ${FONT_FAMILY}`;
-      ctx.lineWidth = 0.2 * fontPx;
-      ctx.strokeStyle = COLORS.seaLabelHalo;
-      ctx.fillStyle = COLORS.seaLabel;
-      for (const off of copies) {
+    for (const off of copies) {
+      const toScreen = (z) => [a.sx * (z.seed[0] * COS0 + off) + a.tx, a.sx * -z.seed[1] + a.ty];
+      for (const { z, x, y } of declutterSea(seaNames, toScreen, { w: ctx.canvas.width / dpr, h: ctx.canvas.height / dpr })) {
+        const fontPx = SEA_FONT_PX(z);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        const x = a.sx * (z.seed[0] * COS0 + off) + a.tx;
-        const y = a.sx * -z.seed[1] + a.ty;
+        ctx.font = `italic 500 ${fontPx}px ${FONT_FAMILY}`;
+        ctx.lineWidth = 0.2 * fontPx;
+        ctx.strokeStyle = COLORS.seaLabelHalo;
+        ctx.fillStyle = COLORS.seaLabel;
         ctx.strokeText(z.name, x, y);
         ctx.fillText(z.name, x, y);
       }

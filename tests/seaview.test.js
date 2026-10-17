@@ -30,3 +30,18 @@ test('mare in mappa: ogni zona contiene il proprio punto di partenza oppure uno 
   const inside = zones.filter((z) => seaZoneAt([z], z.seed[0], z.seed[1]));
   assert.ok(inside.length >= zones.length - 3, `solo ${inside.length}/${zones.length} semi dentro la propria zona`);
 });
+
+test('mare in mappa: i nomi non si sovrappongono e gli oceani hanno la precedenza', async () => {
+  const { declutterSea, SEA_FONT_PX } = await import('../src/map/seaView.js');
+  // vista a zoom basso: tutte le zone in 400x400 px con la longitudine come ascissa
+  const toScreen = (z) => [(z.seed[0] + 32) * 5, (73 - z.seed[1]) * 8];
+  const kept = declutterSea(zones, toScreen, { w: 400, h: 400 });
+  assert.ok(kept.length > 0 && kept.length < zones.length);
+  const rect = ({ z, x, y }) => { const w = z.name.length * SEA_FONT_PX(z) * 0.5; const h = SEA_FONT_PX(z) * 1.25; return [x - w / 2, y - h / 2, x + w / 2, y + h / 2]; };
+  const rs = kept.map(rect);
+  for (let i = 0; i < rs.length; i += 1) for (let j = i + 1; j < rs.length; j += 1) {
+    const [a, b] = [rs[i], rs[j]];
+    assert.ok(!(a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1]), `${kept[i].z.id} e ${kept[j].z.id} si sovrappongono`);
+  }
+  assert.equal(kept[0].z.kind, 'ocean');
+});
