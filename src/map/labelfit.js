@@ -4,6 +4,7 @@
 
 export const CHAR_W = 0.66; // larghezza media di un carattere in maiuscolo serif spaziato, in em (la mappa forza questa larghezza con textLength)
 export const TEXT_H = 0.9; // altezza della riga usata per l'ingombro, in em (maiuscole e discendenti)
+export const LINE_STEP = 1.0; // distanza fra le righe di un nome su più righe, in em
 
 // Un poligono = elenco di anelli [[x,y],...] (il primo è l'esterno, gli altri sono isole/buchi); regola pari-dispari.
 export function pointInRings(x, y, rings) {
@@ -193,7 +194,7 @@ export function principalAxis(ring) {
   return { angle: 0.5 * Math.atan2(2 * cxy, cxx - cyy), elongation: Math.sqrt(l1 / l2) };
 }
 
-function bestSizeAt(x, y, angle, len, rings, charW) {
+function bestSizeAt(x, y, angle, len, rings, charW, hEm = TEXT_H) {
   const c = Math.cos(angle);
   const s = Math.sin(angle);
   const along = rayExtent(x, y, c, s, rings);
@@ -201,11 +202,11 @@ function bestSizeAt(x, y, angle, len, rings, charW) {
   const halfW = Math.min(along.tp, along.tn);
   const halfH = Math.min(across.tp, across.tn);
   if (!Number.isFinite(halfW) || !Number.isFinite(halfH) || halfW <= 0 || halfH <= 0) return { size: 0, span: 0 };
-  let hi = Math.min((2 * halfW) / (len * charW), (2 * halfH) / TEXT_H) * 1.02;
+  let hi = Math.min((2 * halfW) / (len * charW), (2 * halfH) / hEm) * 1.02;
   let lo = 0;
   for (let k = 0; k < 9; k += 1) {
     const mid = (lo + hi) / 2;
-    if (textRectOk(x, y, angle, len * charW * mid, TEXT_H * mid, rings)) lo = mid;
+    if (textRectOk(x, y, angle, len * charW * mid, hEm * mid, rings)) lo = mid;
     else hi = mid;
   }
   return { size: lo, span: along.tp + along.tn };
@@ -218,7 +219,8 @@ function bestSizeAt(x, y, angle, len, rings, charW) {
  * almeno 25 % più grande). Ritorna {x, y, angle (gradi), size} oppure null se non entra niente.
  */
 export function fitLabel(rings, len, opts = {}) {
-  const { maxAngleDeg = 75, minElongation = 1.6, charW = CHAR_W } = opts;
+  const { maxAngleDeg = 75, minElongation = 1.6, charW = CHAR_W, lines = 1 } = opts;
+  const hEm = TEXT_H + (Math.max(1, lines) - 1) * LINE_STEP; // altezza del blocco di testo in em (`len` = riga più lunga)
   if (!rings?.length || rings[0].length < 4 || len <= 0) return null;
   const pole = poleOfInaccessibility(rings);
   if (!(pole.d > 0)) return null;
@@ -229,13 +231,13 @@ export function fitLabel(rings, len, opts = {}) {
   let best = null;
   for (const angle of candidates) {
     let local = null;
-    const first = bestSizeAt(pole.x, pole.y, angle, len, rings, charW);
+    const first = bestSizeAt(pole.x, pole.y, angle, len, rings, charW, hEm);
     local = { x: pole.x, y: pole.y, angle, size: first.size };
     for (const shift of [-0.3, 0.3]) {
       const x = pole.x + Math.cos(angle) * first.span * shift;
       const y = pole.y + Math.sin(angle) * first.span * shift;
       if (!pointInRings(x, y, rings)) continue;
-      const r = bestSizeAt(x, y, angle, len, rings, charW);
+      const r = bestSizeAt(x, y, angle, len, rings, charW, hEm);
       if (r.size > local.size) local = { x, y, angle, size: r.size };
     }
     if (!best || (angle !== 0 && local.size > best.size * 1.25) || (angle === 0 && !best)) best = local;
@@ -256,4 +258,44 @@ export function mainPolygon(polys) {
     }
   }
   return best;
+}
+
+
+const CONNECTIVES = new Set(['e', 'ed', 'di', 'de', 'del', 'della', 'dei', 'delle', 'da', 'of', 'and', 'the', 'la', 'le', 'el', 'y', 'i', 'et', 'und', 'og', 'och', 'kai', 'bei', 'am', 'an', 'der', 'den']);
+
+/**
+ * Divide un nome lungo in due righe bilanciate, spezzando a spazi, trattini e virgole. Ritorna [riga1, riga2] oppure
+ * null se non c'è un punto di rottura sensato (una sola parola, o una riga resterebbe troppo corta).
+ */
+export function splitName(name) {
+  const text = String(name).trim();
+  if (text.length < 9) return null;
+  let best = null;
+  for (let i = 1; i < text.length - 1; i += 1) {
+    const ch = text[i];
+    if (ch !== ' ' && ch !== '-' && ch !== ',') continue;
+    const cut = ch === ' ' ? i : i + 1; // il trattino e la virgola restano sulla prima riga
+    const a = text.slice(0, cut).trim().replace(/,$/, ',');
+    const b = text.slice(cut).trim();
+    if (a.length < 3 || b.length < 3) continue;
+    const longest = Math.max(a.length, b.length);
+    if (!best || longest < best.longest) best = { lines: [a, b], longest };
+  }
+  return best ? best.lines : null;
+}
+
+/**
+ * Sigla o nome breve quando il nome intero non entra. `explicit` (campo `short` dei dati) ha la precedenza; altrimenti
+ * iniziali delle parole significative (3+ parole o composti) o, per una parola sola, le prime 4 lettere con il punto.
+ * Ritorna null se la forma breve non è più corta del nome.
+ */
+export function shortName(name, explicit) {
+  const full = String(name).trim();
+  if (explicit && String(explicit).trim() && String(explicit).trim().length < full.length) return String(explicit).trim();
+  const words = full.replace(/\([^)]*\)/g, ' ').split(/[\s,\-–/]+/).filter((w) => w && !CONNECTIVES.has(w.toLowerCase()));
+  let out;
+  if (words.length >= 2) out = words.map((w) => w[0]).join('');
+  else if (words.length === 1 && words[0].length > 5) out = `${words[0].slice(0, 4)}.`;
+  else return null;
+  return out.length < full.length ? out : null;
 }

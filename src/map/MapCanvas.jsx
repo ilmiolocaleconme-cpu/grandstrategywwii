@@ -5,7 +5,7 @@ import { affineOf, blitPlan, coversScreen, layoutOf, lodLevelForScale, screenToU
 import { COLORS, drawOverlay, renderBase } from './canvasDraw.js';
 import { Legend } from './MapView.jsx';
 
-// Mappa strategica su Canvas 2D (PROTOTIPO, attivabile con ?map=canvas): React resta per interfaccia, pannelli,
+// Mappa strategica su Canvas 2D (predefinita; la mappa SVG si attiva con ?map=svg): React resta per interfaccia, pannelli,
 // selezione, livelli e legenda; la mappa si disegna su due tele (scena e sovrapposizione) e il gesto non passa da React:
 // durante il trascinamento e lo zoom si ridisegna solo un'immagine già pronta (bitmap con margine), e il dettaglio
 // pieno torna a gesto fermo. Stesse province, fiumi e laghi di MapView (nessun dato duplicato).
@@ -245,7 +245,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       const l = lay();
       const view = s.view;
       const copies = visibleCopies(view, VB, p.model.bounds);
-      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(p.model.items, view, VB, l.s, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX }) : [];
+      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(p.model.items, view, VB, l.s, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX, variants: true }) : [];
       const prov = provRaw.map((x) => ({ ...x, kind: 'prov' }));
       let partial = Boolean(provRaw.partial);
       let result = prov;

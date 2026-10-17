@@ -4,6 +4,7 @@
 
 import { WORLD_W, provinceFill, riverRankLimit } from './geo.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
+import { LINE_STEP } from './labelfit.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 
 const COS0 = WORLD_W / 360;
@@ -241,13 +242,22 @@ export function drawOverlay(ctx, p) {
     ctx.translate(px, py);
     if (l.angle) ctx.rotate((l.angle * Math.PI) / 180);
     ctx.font = `${lake ? 'italic 500' : '600'} ${fontPx}px ${FONT_FAMILY}`;
-    const w = ctx.measureText(l.name).width;
-    const target = l.length * a.sx; // larghezza imposta (come textLength in SVG)
-    if (w > 0) ctx.scale(target / w, 1);
+    const lines = l.lines || [l.name];
+    const pitch = fontPx * LINE_STEP; // distanza fra le righe (solo nomi su più righe)
     ctx.lineWidth = 0.2 * fontPx;
     ctx.strokeStyle = lake ? COLORS.lakeLabelHalo : COLORS.labelHalo;
-    ctx.strokeText(l.name, 0, 0);
     ctx.fillStyle = lake ? COLORS.lakeLabel : COLORS.label;
-    ctx.fillText(l.name, 0, 0);
+    for (let i = 0; i < lines.length; i += 1) {
+      const text = lines[i];
+      const dy = (i - (lines.length - 1) / 2) * pitch;
+      const w = ctx.measureText(text).width;
+      const target = (l.lineLengths ? l.lineLengths[i] : l.length) * a.sx; // larghezza imposta (come textLength in SVG)
+      ctx.save();
+      ctx.translate(0, dy);
+      if (w > 0) ctx.scale(target / w, 1);
+      ctx.strokeText(text, 0, 0);
+      ctx.fillText(text, 0, 0);
+      ctx.restore();
+    }
   }
 }
