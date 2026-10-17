@@ -255,6 +255,7 @@ const OWNER_HUE = {
   FRA: [250, 38], CHE: [330, 48], LIE: [160, 50],
   HUN: [140, 38], ROM: [58, 45], BGR: [350, 40], GRC: [165, 40], ALB: [28, 62],
   GBR: [315, 40], ESP: [14, 66], USSR: [0, 62],
+  IRL: [128, 58], ISL: [200, 52],
 };
 
 function hash(str) {

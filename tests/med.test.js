@@ -68,7 +68,7 @@ test('Regno Unito (GBR): Inghilterra 40 contee, Galles 10, Scozia 32, Irlanda de
   assert.deepEqual(nameAt(-3.19, 55.95), ['Edimburgo']);
   assert.deepEqual(nameAt(-5.93, 54.6), ['Antrim']);
   assert.deepEqual(nameAt(-7.32, 54.99), ['Londonderry']);
-  assert.deepEqual(nameAt(-6.26, 53.35), []);
+  assert.deepEqual(nameAt(-6.26, 53.35), ['Dublino']); // Dublino è nello Stato Libero (IRL), non nel Regno Unito
 });
 
 test('confini internazionali agganciati: nessuna sovrapposizione tra Stati (campionamento a 0,02 gradi)', () => {

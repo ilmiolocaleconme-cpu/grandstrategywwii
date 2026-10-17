@@ -72,7 +72,7 @@ test('adiacenza: coppie separate dal mare non sono adiacenti', () => {
   const owner = (id) => id.split('_')[1];
   for (const id of ids) {
     if (owner(id) !== 'GBR') continue;
-    for (const n of graph.neighbors(id)) assert.equal(owner(n), 'GBR', `${id} -> ${n}`);
+    for (const n of graph.neighbors(id)) assert.ok(owner(n) === 'GBR' || (owner(n) === 'IRL' && /ANTRIM|ARMAGH|DOWN|FERMANAGH|LONDONDERRY|TYRONE/.test(id)), `${id} -> ${n}`);
   }
   for (const id of ids.filter((i) => owner(i) === 'SWE')) {
     assert.ok(!graph.neighbors(id).some((n) => owner(n) === 'DNK'), `${id}: Svezia-Danimarca per terra`);
@@ -87,9 +87,9 @@ test('adiacenza: raggiungibilità via terra', () => {
   for (const id of ['P_GBR_LONDRA', 'P_ITA_SICILY', 'P_ITA_SARDINIA', 'P_MLT_MALTA']) {
     assert.ok(!eurasia.has(id), `${id} non dovrebbe essere raggiungibile via terra`);
   }
-  // 24 isole senza collegamenti terrestri: il numero cambia solo se cambiano province o regole, e va rivisto a mano
+  // 25 isole senza collegamenti terrestri (con l'Islanda): il numero cambia solo se cambiano province o regole, e va rivisto a mano
   const isolated = ids.filter((id) => graph.neighbors(id).length === 0);
-  assert.equal(isolated.length, 24, `isolate: ${isolated.join(', ')}`);
+  assert.equal(isolated.length, 25, `isolate: ${isolated.join(', ')}`);
 });
 
 test('adiacenza: ogni ponte tra due province diverse collega province adiacenti', () => {
