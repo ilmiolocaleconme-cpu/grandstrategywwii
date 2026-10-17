@@ -113,3 +113,42 @@ test('pickLabels senza variants resta identico (la mappa SVG non cambia)', async
   for (const l of out) assert.ok(!('lines' in l) && !('abbr' in l), l.name);
   assert.ok(out.length > 0);
 });
+
+test('assignShortNames: ogni sigla è unica nella sua nazione e livello; il campo short dei dati vince; mai più lunga del nome', async () => {
+  const { assignShortNames } = await import('../src/map/labelfit.js');
+  const provinces = await loadProvinces();
+  const entries = provinces.features.map((f) => ({ id: f.properties.id, name: f.properties.nameLocal ?? f.properties.name, group: f.properties.owner, area: 1, explicit: f.properties.short }));
+  const map = assignShortNames(entries);
+  assert.equal(map.size, entries.length);
+  const seen = new Map();
+  let withExplicit = 0;
+  let withCompact = 0;
+  let naiveClash = 0;
+  const naive = new Map();
+  for (const e of entries) {
+    const list = map.get(e.id);
+    assert.ok(Array.isArray(list));
+    for (const [i, sg] of list.entries()) {
+      assert.ok(sg.length < e.name.length, `${e.name} -> ${sg}`);
+      const key = `${e.group}|${i}|${sg.toUpperCase()}`;
+      assert.ok(!seen.has(key), `sigla ripetuta in ${e.group}: ${sg} (${seen.get(key)} / ${e.name})`);
+      seen.set(key, e.name);
+    }
+    if (list.length) withExplicit += 1;
+    if (list.some((x) => /^[A-ZÀ-Ý]{2,}$/.test(x))) withCompact += 1;
+    const n = shortName(e.name);
+    if (n) { const k = `${e.group}|${n.toUpperCase()}`; if (naive.has(k)) naiveClash += 1; else naive.set(k, e.name); }
+  }
+  console.log(`# sigle: ${withExplicit} province con almeno una sigla (${withCompact} anche compatta); con il metodo semplice le collisioni nella stessa nazione erano ${naiveClash}`);
+  assert.ok(withExplicit > 300);
+  // il campo short dei dati ha la precedenza e non viene toccato
+  const m2 = assignShortNames([{ id: 'a', name: 'Pohjois-Savo', group: 'FIN', area: 5, explicit: 'P-S' }, { id: 'b', name: 'Pohjois-Karjala', group: 'FIN', area: 9 }]);
+  assert.deepEqual(m2.get('a'), ['P-S']);
+  assert.ok(m2.get('b').length >= 1 && m2.get('b')[0] !== 'P-S');
+  // due province con le stesse iniziali nella stessa nazione ricevono sigle diverse; la più grande ha la più semplice
+  const m3 = assignShortNames([{ id: 'x', name: 'Pohjois-Savo', group: 'FIN', area: 2 }, { id: 'y', name: 'Pohjois-Karjala', group: 'FIN', area: 8 }, { id: 'z', name: 'Pohjois-Pohjanmaa', group: 'FIN', area: 9 }]);
+  const all = ['x', 'y', 'z'].map((k) => m3.get(k));
+  const compacts = all.map((l) => l.find((q) => /^[A-Z]{2}$/.test(q))).filter(Boolean);
+  assert.equal(new Set(compacts).size, compacts.length, `sigle compatte ripetute: ${compacts}`);
+  assert.equal(m3.get('z')[0].startsWith('P.'), true);
+});

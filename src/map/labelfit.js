@@ -299,3 +299,65 @@ export function shortName(name, explicit) {
   else return null;
   return out.length < full.length ? out : null;
 }
+
+// Parole significative di un nome (senza collegamenti come "e", "di", "kai"), spezzate anche a trattino.
+function significantWords(name) {
+  return String(name).replace(/\([^)]*\)/g, ' ').split(/[\s,\-–/]+/).filter((w) => w && !CONNECTIVES.has(w.toLowerCase()));
+}
+
+// Due livelli di sigla, ognuno con i suoi candidati dal più semplice al più esplicito:
+//  - esplicita (leggibile): iniziali + inizio dell'ultima parola ("P.Sav"), o prime lettere con il punto ("Jämt.");
+//  - compatta (poco spazio): solo iniziali ("PS", "AMT").
+function shortLevels(name) {
+  const w = significantWords(name);
+  const cap = (x) => x.charAt(0).toUpperCase() + x.slice(1);
+  const explicit = [];
+  const compact = [];
+  if (w.length >= 2) {
+    const last = w[w.length - 1];
+    const init = w.slice(0, -1).map((x) => x[0]).join('').toUpperCase();
+    for (const n of [3, 4]) explicit.push(`${init}.${cap(last.slice(0, n))}`); // "P.Sav"
+    explicit.push(`${cap(w[0].slice(0, 3))}.${cap(last.slice(0, 3))}`); // "Poh.Sav"
+    explicit.push(cap(last)); // l'ultima parola da sola: di solito è quella che distingue
+    compact.push(w.map((x) => x[0]).join('').toUpperCase()); // "PS"
+  } else if (w.length === 1 && w[0].length > 5) {
+    for (let n = 4; n < w[0].length - 1; n += 1) explicit.push(`${cap(w[0].slice(0, n))}.`); // "Jämt.", "Jämtl."
+  }
+  return { explicit, compact };
+}
+
+/**
+ * Assegna a ogni elemento fino a due sigle, ordinate dalla più esplicita alla più compatta, ciascuna unica nel suo
+ * gruppo (di solito la nazione) e nel proprio livello. Il campo `short` dei dati ha la precedenza e viene riservato per
+ * primo (resta l'unica sigla di quell'elemento); gli altri scorrono i candidati e prendono il primo non ancora usato
+ * nel gruppo, dalle province più grandi (che ricevono le sigle più semplici). Una sigla non più corta del nome non si
+ * assegna; senza candidato libero l'elemento resta senza sigla di quel livello: meglio nessun nome che uno ambiguo.
+ * `entries`: [{ id, name, group, area, explicit }]. Ritorna Map id -> [sigla, ...] (anche vuota se non c'è nulla).
+ */
+export function assignShortNames(entries) {
+  const used = new Map(); // `${gruppo}|${livello}` -> Set di sigle (maiuscole)
+  const taken = (g, lvl) => { const k = `${g}|${lvl}`; if (!used.has(k)) used.set(k, new Set()); return used.get(k); };
+  const out = new Map();
+  for (const e of entries) {
+    const x = e.explicit && String(e.explicit).trim();
+    if (!x) continue;
+    out.set(e.id, [x]);
+    taken(e.group, 'explicit').add(x.toUpperCase());
+    taken(e.group, 'compact').add(x.toUpperCase());
+  }
+  for (const e of [...entries].sort((a, b) => (b.area ?? 0) - (a.area ?? 0) || String(a.id).localeCompare(String(b.id)))) {
+    if (out.has(e.id)) continue;
+    const full = String(e.name).trim();
+    const lv = shortLevels(full);
+    const picks = [];
+    for (const [lvl, cands] of [['explicit', lv.explicit], ['compact', lv.compact]]) {
+      const set = taken(e.group, lvl);
+      const pick = cands.find((c) => c.length < full.length && !set.has(c.toUpperCase()));
+      if (!pick) continue;
+      set.add(pick.toUpperCase());
+      if (!picks.some((q) => q.toUpperCase() === pick.toUpperCase())) picks.push(pick);
+    }
+    out.set(e.id, picks);
+  }
+  return out;
+}
