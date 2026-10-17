@@ -12,8 +12,8 @@ import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
 import { buildMapModel } from './map/geo.js';
 import { buildCanvasModel } from './map/canvasModel.js';
 
-// PROTOTIPO: la mappa Canvas 2D si attiva con ?map=canvas (di norma resta la mappa SVG)
-const USE_CANVAS = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('map') === 'canvas';
+// La mappa Canvas 2D è quella predefinita; la mappa SVG resta come ripiego con ?map=svg
+const USE_CANVAS = typeof window === 'undefined' || new URLSearchParams(window.location.search).get('map') !== 'svg';
 const MapScreen = USE_CANVAS ? MapCanvas : MapView;
 
 // Fiumi e laghi (~600 kB) non stanno nel pacchetto iniziale: si scaricano dopo la comparsa della

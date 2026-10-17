@@ -5,7 +5,7 @@ import { affineOf, blitPlan, coversScreen, layoutOf, lodLevelForScale, screenToU
 import { COLORS, drawOverlay, renderBase } from './canvasDraw.js';
 import { Legend } from './MapView.jsx';
 
-// Mappa strategica su Canvas 2D (PROTOTIPO, attivabile con ?map=canvas): React resta per interfaccia, pannelli,
+// Mappa strategica su Canvas 2D (predefinita; la mappa SVG si attiva con ?map=svg): React resta per interfaccia, pannelli,
 // selezione, livelli e legenda; la mappa si disegna su due tele (scena e sovrapposizione) e il gesto non passa da React:
 // durante il trascinamento e lo zoom si ridisegna solo un'immagine già pronta (bitmap con margine), e il dettaglio
 // pieno torna a gesto fermo. Stesse province, fiumi e laghi di MapView (nessun dato duplicato).
