@@ -17,8 +17,8 @@ import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar, { SPEEDS } from './ui/GameBar.jsx';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
 
-// PROTOTIPO: la mappa Canvas 2D si attiva con ?map=canvas (di norma resta la mappa SVG)
-const USE_CANVAS = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('map') === 'canvas';
+// La mappa Canvas 2D è quella predefinita; la mappa SVG resta come ripiego con ?map=svg
+const USE_CANVAS = typeof window === 'undefined' || new URLSearchParams(window.location.search).get('map') !== 'svg';
 const MapScreen = USE_CANVAS ? MapCanvas : MapView;
 
 // Fiumi e laghi (~600 kB) non stanno nel pacchetto iniziale: si scaricano dopo la comparsa della
