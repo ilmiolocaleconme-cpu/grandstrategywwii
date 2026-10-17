@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { SeaLayer, buildSeaModel, seaLabels } from './SeaLayer.jsx';
 import { HOME_BOUNDS, LAYERS, riverRankLimit, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
@@ -54,10 +55,11 @@ const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, movi
 
 // Mappa strategica SVG: zoom (rotella, pizzico, pulsanti), spostamento, selezione, livelli.
 // Legge le stesse province (data/provinces/, un file per nazione, uniti in memoria) usate dalle regole e dai test.
-export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers }) {
+export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea }) {
   const model = useMemo(() => buildMapModel(provinces), [provinces]);
   // fiumi e laghi arrivano a parte (caricamento differito): finché mancano, la mappa funziona senza
   const water = useMemo(() => (rivers && riversGeo && lakes ? buildWaterModel(rivers, riversGeo, lakes) : { lines: [], lakes: [] }), [rivers, riversGeo, lakes]);
+  const seaModel = useMemo(() => (seas ? buildSeaModel(seas) : []), [seas]);
   const riverNames = useMemo(() => new Map((rivers ?? []).map((r) => [r.id, r.name])), [rivers]);
   const { bounds } = model; // limiti reali dei dati (possono coprire tutte le longitudini)
   const pad = HOME_BOUNDS.w * 0.02;
@@ -81,9 +83,10 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const gesture = useRef(null);
   const moved = useRef(false);
   // callback stabili (i livelli memorizzati non devono ridisegnarsi a ogni render): leggono sempre l'ultimo gestore
-  const handlers = useRef({ onSelect, onSelectRiver });
-  handlers.current = { onSelect, onSelectRiver };
+  const handlers = useRef({ onSelect, onSelectRiver, onSelectSea });
+  handlers.current = { onSelect, onSelectRiver, onSelectSea };
   const pickProvince = useCallback((id) => { if (!moved.current) handlers.current.onSelect(id); }, []);
+  const pickSea = useCallback((id) => { if (!moved.current) handlers.current.onSelectSea?.(id); }, []);
   const pickRiver = useCallback((id) => { if (!moved.current) handlers.current.onSelectRiver(id); }, []);
 
   const measure = useCallback(() => {
@@ -223,9 +226,13 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
         <g transform={`translate(${view.x} ${view.y}) scale(${view.k})`}>
           {copies.map((off) => (
             <g key={off} transform={off ? `translate(${off} 0)` : undefined}>
+              {showSeas && <SeaLayer model={seaModel} selectedId={selectedSeaId} px={px} onPick={pickSea} />}
               <ProvinceLayer items={model.items} layer={layer} nationControl={nationControl} selectedId={selectedId} level={level} lod={lod} px={px} borderD={model.borderD} onPick={pickProvince} />
               {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
               {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
+              {showSeas && !moving && seaLabels(seaModel, view.k).map((z) => (
+                <text key={z.id} x={z.at[0]} y={z.at[1]} fontSize={Math.min(14, z.kind === 'ocean' ? 14 : 10) * px} className="map-label sea-label" strokeWidth={0.2 * 10 * px} textAnchor="middle" dominantBaseline="central" pointerEvents="none">{z.name}</text>
+              ))}
               {labels.filter((l) => l.off === off).map((l) => (
                 <text key={l.id} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className={l.kind === 'lake' ? 'map-label lake-label' : 'map-label'} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central" transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">
                   {l.name}
@@ -246,6 +253,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
         </div>
         <div className="zoom">
           <button type="button" className={showRivers ? 'on' : ''} aria-pressed={showRivers} aria-label="Mostra o nascondi i fiumi" onClick={onToggleRivers}>≈</button>
+          <button type="button" className={showSeas ? 'on' : ''} aria-pressed={showSeas} aria-label="Mostra o nascondi le zone marittime" onClick={onToggleSeas}>⚓</button>
           <button type="button" aria-label="Ingrandisci" onClick={() => zoomButton(1.6)}>+</button>
           <button type="button" aria-label="Riduci" onClick={() => zoomButton(1 / 1.6)}>−</button>
           <button type="button" aria-label="Vista iniziale" onClick={() => setView(IDENTITY)}>⌂</button>

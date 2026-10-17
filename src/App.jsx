@@ -9,6 +9,7 @@ import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
 import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
+import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
 import { buildCanvasModel } from './map/canvasModel.js';
 import { newGame, playableNations } from './game/state.js';
@@ -34,6 +35,20 @@ function useWaterData(start) {
     return () => { alive = false; };
   }, [start]);
   return water;
+}
+
+// Zone marittime (~95 kB): come fiumi e laghi, caricate dopo la mappa e messe in cache dal service worker.
+function useSeaData(start) {
+  const [sea, setSea] = useState({ status: 'loading', file: null });
+  useEffect(() => {
+    if (!start) return undefined;
+    let alive = true;
+    import('../data/sea_zones.json')
+      .then((m) => alive && setSea({ status: 'ready', file: m.default }))
+      .catch(() => alive && setSea({ status: 'error', file: null }));
+    return () => { alive = false; };
+  }, [start]);
+  return sea;
 }
 
 // Province: un file per nazione (data/provinces/), tutti caricati all'avvio in parallelo e uniti
@@ -78,12 +93,17 @@ export default function App() {
     return () => cancelAnimationFrame(id);
   }, [provincesStatus]);
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
+  const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
+  const seaById = useSeaIndex(seaFile);
+  const [showSeas, setShowSeas] = useState(true);
+  const [seaId, setSeaId] = useState(null);
   const [layer, setLayer] = useState('political');
   const [provinceId, setProvinceId] = useState(null);
   const [riverId, setRiverId] = useState(null);
   const [showRivers, setShowRivers] = useState(true);
-  const selectProvince = (id) => { setProvinceId(id); setRiverId(null); };
-  const selectRiver = (id) => { setRiverId(id); setProvinceId(null); };
+  const selectProvince = (id) => { setProvinceId(id); setRiverId(null); setSeaId(null); };
+  const selectRiver = (id) => { setRiverId(id); setProvinceId(null); setSeaId(null); };
+  const selectSea = (id) => { setSeaId(id); setProvinceId(null); setRiverId(null); };
   const selectedRiver = rivers?.find((r) => r.id === riverId) ?? null;
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
@@ -198,8 +218,10 @@ export default function App() {
           </main>
         ) : (
         <div className="map-layout">
-          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} />
-          {selectedRiver ? (
+          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} />
+          {seaId && seaById.get(seaId) ? (
+            <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setSeaId(null)} onSelect={selectSea} />
+          ) : selectedRiver ? (
             <RiverPanel river={selectedRiver} rivers={rivers ?? []} onClose={() => setRiverId(null)} />
           ) : (
             <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} onClose={() => setProvinceId(null)} />
