@@ -12,7 +12,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "node --test",
-    "validate:data": "node scripts/validate-data.js"
+    "validate:data": "node scripts/validate-data.js",
+    "build:adjacency": "node scripts/build-adjacency.js"
   },
   "dependencies": {
     "react": "^19.3.0",

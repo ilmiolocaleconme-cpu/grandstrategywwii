@@ -1,0 +1,41 @@
+{
+ "schema": "adjacency-overrides-v1",
+ "note": "Coppie che il calcolo dai poligoni segnala adiacenti ma che sono separate dal mare (poligoni costieri non ritagliati). Escluse a mano, ciascuna con il motivo. Vanno riviste quando i poligoni costieri vengono ritagliati.",
+ "remove": [
+  {
+   "a": "P_ITA_ABRUZZI_E_MOLISE",
+   "b": "P_ALB_SHKODER",
+   "reason": "Mare Adriatico (circa 70 km al punto più stretto)"
+  },
+  {
+   "a": "P_ITA_LAZIO",
+   "b": "P_ALB_SHKODER",
+   "reason": "Mare Adriatico"
+  },
+  {
+   "a": "P_ESP_CADIZ",
+   "b": "P_MAR_ES_PROTETTORATO_NORD",
+   "reason": "Stretto di Gibilterra (circa 14 km)"
+  },
+  {
+   "a": "P_ESP_MALAGA",
+   "b": "P_MAR_ES_PROTETTORATO_NORD",
+   "reason": "Stretto di Gibilterra"
+  },
+  {
+   "a": "P_GRC_IONIOI_NISOI",
+   "b": "P_ALB_VLORE",
+   "reason": "Canale di Corfù: Corfù è un'isola"
+  },
+  {
+   "a": "P_GRC_IONIOI_NISOI",
+   "b": "P_GRC_DYTIKI_ELLADA",
+   "reason": "Isole Ionie separate dalla terraferma dal mare"
+  },
+  {
+   "a": "P_GRC_VOREIO_AIGAIO",
+   "b": "P_TUR_AYDIN",
+   "reason": "Mare Egeo: isole dell'Egeo settentrionale"
+  }
+ ]
+}
