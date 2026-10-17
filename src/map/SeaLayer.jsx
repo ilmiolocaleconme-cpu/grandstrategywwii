@@ -1,5 +1,8 @@
 import { memo, useMemo } from 'react';
 import { ringToPath, project } from './geo.js';
+import { seaLabels } from './seaView.js';
+
+export { seaLabels };
 
 const KIND_LABEL = { ocean: 'oceano', sea: 'mare', gulf: 'golfo', strait: 'stretto', approach: 'approdo' };
 
@@ -33,11 +36,6 @@ export const SeaLayer = memo(function SeaLayer({ model, selectedId, px, onPick }
     </>
   );
 });
-
-/** Nomi delle zone: i grandi mari sempre, gli stretti solo ingranditi (non coprono la mappa). */
-export function seaLabels(model, k) {
-  return model.filter((z) => (z.kind === 'strait' || z.kind === 'approach' ? k >= 4 : z.kind === 'gulf' ? k >= 2 : true));
-}
 
 export function SeaPanel({ zone, byId, onClose, onSelect }) {
   if (!zone) return null;
