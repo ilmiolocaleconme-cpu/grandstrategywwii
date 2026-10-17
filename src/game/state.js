@@ -1,0 +1,73 @@
+// Stato di una partita. Contiene solo ciò che serve a riprodurla: niente geometrie né cataloghi
+// (quelli restano nei file di data/ e si ricaricano). Qui nasce l'unica fonte di verità sul
+// controllo dei territori: `control` mappa ogni id di `political_1936.json` al suo controllore.
+
+import { START_DATE, addDays, daysBetween, isValidDate } from './calendar.js';
+
+export const STATE_SCHEMA = 1;
+
+/**
+ * Nazioni scegliibili: `playable` nel dataset politico E almeno una provincia sulla mappa.
+ * (Oggi, ad esempio, il Giappone non è scegliibile: ha la voce politica ma nessuna provincia.)
+ * `ownersWithProvinces` è un Set (o un array) di id proprietario presenti nei file delle province.
+ */
+export function playableNations(political, ownersWithProvinces) {
+  const owners = new Set(ownersWithProvinces);
+  return political.filter((e) => e.playable === true && e.type === 'country' && owners.has(e.id));
+}
+
+/** Controllore iniziale di ogni voce politica (colonie, mandati, protettorati inclusi). */
+export function initialControl(political) {
+  return Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
+}
+
+/**
+ * Nuova partita. Ritorna { ok: true, state } oppure { ok: false, reason } con reason in
+ * `invalid_nation`, `unknown_nation`, `not_playable`, `no_provinces`, `invalid_date`.
+ */
+export function newGame({ nation, political, ownersWithProvinces, startDate = START_DATE }) {
+  if (typeof nation !== 'string' || nation === '') return { ok: false, reason: 'invalid_nation' };
+  if (!isValidDate(startDate)) return { ok: false, reason: 'invalid_date' };
+  const entry = political.find((e) => e.id === nation);
+  if (!entry) return { ok: false, reason: 'unknown_nation' };
+  if (entry.playable !== true || entry.type !== 'country') return { ok: false, reason: 'not_playable' };
+  if (!new Set(ownersWithProvinces).has(nation)) return { ok: false, reason: 'no_provinces' };
+  return {
+    ok: true,
+    state: {
+      schema: STATE_SCHEMA,
+      startDate,
+      date: startDate,
+      day: 0,
+      player: nation,
+      control: initialControl(political),
+    },
+  };
+}
+
+/** Errori di coerenza interna di uno stato (lista vuota = valido). Non conosce i cataloghi. */
+export function validateState(state) {
+  const errors = [];
+  if (state === null || typeof state !== 'object' || Array.isArray(state)) return ['stato: non è un oggetto'];
+  if (state.schema !== STATE_SCHEMA) errors.push(`stato: schema ${JSON.stringify(state.schema)} (atteso ${STATE_SCHEMA})`);
+  if (!isValidDate(state.startDate)) errors.push('stato: startDate non valida');
+  if (!isValidDate(state.date)) errors.push('stato: date non valida');
+  if (!Number.isInteger(state.day) || state.day < 0) errors.push('stato: day deve essere un intero >= 0');
+  if (typeof state.player !== 'string' || state.player === '') errors.push('stato: player mancante');
+  if (isValidDate(state.startDate) && isValidDate(state.date) && Number.isInteger(state.day)
+    && daysBetween(state.startDate, state.date) !== state.day) {
+    errors.push('stato: date non coincide con startDate + day');
+  }
+  const c = state.control;
+  if (c === null || typeof c !== 'object' || Array.isArray(c)) errors.push('stato: control non è un oggetto');
+  else {
+    for (const [k, v] of Object.entries(c)) if (typeof v !== 'string' || v === '') errors.push(`stato: control["${k}"] non valido`);
+    if (typeof state.player === 'string' && !(state.player in c)) errors.push('stato: player assente da control');
+  }
+  return errors;
+}
+
+/** Stato avanzato di un giorno, senza altri effetti (le regole sono in engine.js). */
+export function withNextDay(state) {
+  return { ...state, day: state.day + 1, date: addDays(state.date, 1) };
+}
