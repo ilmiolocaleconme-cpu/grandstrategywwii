@@ -82,6 +82,9 @@ test('mare: coste coerenti con le province (porti sul mare giusto, interno senza
   assert.ok(zonesOf('P_GBR_KENT').some((z) => ['SZ_DOVER', 'SZ_NORD_SUD', 'SZ_MANICA'].includes(z)));
   assert.ok(zonesOf('P_USSR_ODESSA').some((z) => z.startsWith('SZ_NERO')));
   assert.ok(zonesOf('P_USSR_MURMANSK').length > 0);
+  assert.ok(zonesOf('P_IRL_DUBLINO').some((z) => z === 'SZ_MARE_IRLANDA'), 'Dublino sul Mare d\'Irlanda');
+  assert.ok(zonesOf('P_IRL_MUNSTER').some((z) => ['SZ_MARE_CELTICO', 'SZ_ATL_IRLANDA_OVEST', 'SZ_ATL_OVEST'].includes(z)), 'Munster sull\'Atlantico o Celtico');
+  assert.ok(sea.isCoastal('P_ISL_ISLANDA'), 'l\'Islanda è costiera');
   assert.ok(zonesOf('P_TUR_ISTANBUL').some((z) => ['SZ_MARMARA', 'SZ_BOSFORO', 'SZ_NERO_OVEST'].includes(z)));
   assert.ok(sea.isCoastal('P_ESP_CADIZ'));
   for (const inland of ['P_POL_WARSAW_VOIVODESHIP', 'P_POL_WILNO_VOIVODESHIP', 'P_USSR_TASHKENT']) assert.ok(!sea.isCoastal(inland), `${inland} non dovrebbe avere costa`);
