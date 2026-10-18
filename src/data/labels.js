@@ -1,6 +1,8 @@
 // Posizione dei nomi sulla mappa (data/labels.json), calcolata da `npm run build:labels`: nazioni, province (con le
 // varianti del nome: intero, due righe, sigle) e zone marittime. Il browser non calcola nulla, filtra per zoom e vista.
 // Il file è protetto da una somma di controllo degli id delle province e delle zone di mare: se cambiano, va rigenerato.
+// Le province sono indicate con l'indice nella collezione unita (come adjacency.json): così i loro id restano solo nei file
+// data/provinces/ e `scripts/check-precache.js` vede ogni file in un chunk proprio.
 import { idsChecksum } from './adjacency.js';
 
 export const LABELS_SCHEMA = 'labels-v1';
@@ -28,11 +30,12 @@ export function validateLabels(file, ids, seaIds, nationIds) {
   }
   const seen = new Set();
   for (const p of file.provinces) {
-    if (seen.has(p.id)) errors.push(`nomi: provincia ${p.id} duplicata`);
-    seen.add(p.id);
-    if (!known.provinces.has(p.id)) { errors.push(`nomi: provincia ${p.id} sconosciuta`); continue; }
-    if (!Array.isArray(p.f) || p.f.length === 0) { errors.push(`nomi: provincia ${p.id} senza varianti`); continue; }
-    for (const form of p.f) check('provinces', { ...form, id: p.id }, 'provincia');
+    // le province sono indicate con l'indice nella collezione unita, protetto dalla somma di controllo degli id
+    if (!Number.isInteger(p.i) || p.i < 0 || p.i >= ids.length) { errors.push(`nomi: provincia con indice ${JSON.stringify(p.i)} non valido`); continue; }
+    if (seen.has(p.i)) errors.push(`nomi: provincia ${ids[p.i]} duplicata`);
+    seen.add(p.i);
+    if (!Array.isArray(p.f) || p.f.length === 0) { errors.push(`nomi: provincia ${ids[p.i]} senza varianti`); continue; }
+    for (const form of p.f) check('provinces', { ...form, id: ids[p.i] }, 'provincia');
   }
   return errors;
 }

@@ -40,7 +40,7 @@ export function pickStaticLabels(file, view, vb, pxPerUnit, offsets = [0], opts 
     const hx = (w / 2) * Math.abs(Math.cos(a)) + (h / 2) * Math.abs(Math.sin(a));
     const hy = (w / 2) * Math.abs(Math.sin(a)) + (h / 2) * Math.abs(Math.cos(a));
     if (cx + hx < 0 || cx - hx > W || cy + hy < 0 || cy - hy > H) return null;
-    return { id: e.id, name: form.l.join(' '), x: form.x, y: form.y, off, angle: form.r, size: fontPx / sx, length: w / sx, rect: [cx - hx - 2, cy - hy - 1, cx + hx + 2, cy + hy + 1], lines: form.l, lineLengths: form.l.map((l) => (l.length * fontPx * charW) / sx), abbr: Boolean(form.a) };
+    return { id: e.id ?? e.i, name: form.l.join(' '), x: form.x, y: form.y, off, angle: form.r, size: fontPx / sx, length: w / sx, rect: [cx - hx - 2, cy - hy - 1, cx + hx + 2, cy + hy + 1], lines: form.l, lineLengths: form.l.map((l) => (l.length * fontPx * charW) / sx), abbr: Boolean(form.a) };
   };
 
   const single = (list, kind, charW, minPx, maxPx, off) => {

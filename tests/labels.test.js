@@ -29,6 +29,7 @@ test('nomi: il file è valido (somme di controllo, id noti, corpi e righe)', () 
   assert.equal(labels.nations.length, owners.length, 'ogni nazione ha un nome');
   assert.equal(labels.seas.length, sea.zones.length, 'ogni zona marittima ha un nome');
   assert.equal(labels.provinces.length, ids.length, 'ogni provincia ha almeno una variante');
+  assert.equal(JSON.stringify(labels).includes('P_IRL_DUBLINO'), false, 'gli id delle province non devono comparire nel file (precache: un file per nazione)');
 });
 
 test('nomi: il validatore segnala somma di controllo diversa, id sconosciuti e corpi non validi', () => {
@@ -46,15 +47,15 @@ test('nomi: rigenerando lo script si ottiene lo stesso file (nessun dato scritto
 });
 
 test('nomi delle province: ogni variante sta dentro la sua provincia (rettangolo del testo ruotato)', () => {
-  const byId = new Map(collection.features.map((f) => [f.properties.id, f]));
   let checked = 0;
   for (const p of labels.provinces) {
-    const f = byId.get(p.id);
+    const f = collection.features[p.i];
+    const pid = f.properties.id;
     const polys = polygonsOf(f).map(proj);
     for (const form of p.f) {
       const { w, h } = boxOf(form, labels.charW.provinces);
       const ok = polys.some((rings) => textRectOk(form.x, form.y, (form.r * Math.PI) / 180, w, h, rings));
-      assert.ok(ok, `${p.id}: la variante ${JSON.stringify(form.l)} esce dalla provincia`);
+      assert.ok(ok, `${pid}: la variante ${JSON.stringify(form.l)} esce dalla provincia`);
       checked += 1;
     }
   }
@@ -90,11 +91,11 @@ test('nomi: nazioni e province in maiuscolo, mari come nei dati; sigle uniche pe
   const seaName = new Map(sea.zones.map((z) => [z.id, z.name]));
   for (const s of labels.seas) assert.equal(s.l.join(' ').replace(/- /g, '-').replace(/\s+/g, ' '), seaName.get(s.id).replace(/\s+/g, ' '), `${s.id}: parole cambiate`); // a capo dopo il trattino: nessuno spazio in più
   const seen = new Map();
-  const owner = new Map(collection.features.map((f) => [f.properties.id, f.properties.owner]));
   for (const p of labels.provinces) for (const form of p.f) {
     if (!form.a) continue;
-    const key = `${owner.get(p.id)}|${form.l[0]}`;
-    if (seen.has(key) && seen.get(key) !== p.id) assert.fail(`sigla ${form.l[0]} usata da ${seen.get(key)} e ${p.id} nella stessa nazione`);
-    seen.set(key, p.id);
+    const f = collection.features[p.i];
+    const key = `${f.properties.owner}|${form.l[0]}`;
+    if (seen.has(key) && seen.get(key) !== p.i) assert.fail(`sigla ${form.l[0]} usata da ${collection.features[seen.get(key)].properties.id} e ${f.properties.id} nella stessa nazione`);
+    seen.set(key, p.i);
   }
 });

@@ -24,7 +24,8 @@ export function computeProvinceLabels(collection) {
     .map((f) => ({ id: f.properties.id, name: nameOf(f), group: f.properties.owner ?? '', area: featureAreaKm2(f), explicit: f.properties.short }));
   const shorts = assignShortNames(entries);
   const out = [];
-  for (const f of collection.features) {
+  for (let index = 0; index < collection.features.length; index += 1) {
+    const f = collection.features[index];
     const raw = nameOf(f);
     if (!raw) continue;
     const polys = polygonsOf(f).map((poly) => poly.map((ring) => ring.map(([lon, lat]) => project(lon, lat))));
@@ -40,7 +41,8 @@ export function computeProvinceLabels(collection) {
       const fit = cache.get(key);
       if (fit) forms.push(rec(form.lines, fit, form.abbr ? { a: 1 } : {}));
     }
-    if (forms.length) out.push({ id: f.properties.id, f: forms });
+    // si usa l'indice nella collezione unita (come adjacency.json e sea_zones.json): gli id delle province compaiono solo nei loro file
+    if (forms.length) out.push({ i: index, f: forms });
   }
   return out;
 }
