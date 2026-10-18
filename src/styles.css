@@ -159,5 +159,6 @@ h2 {
 .sea-zone.strait, .sea-zone.approach { fill: rgba(255, 214, 120, 0.16); stroke: rgba(255, 214, 120, 0.7); }
 .sea-zone:hover { fill: rgba(120, 190, 235, 0.18); }
 .sea-zone.selected { fill: rgba(255, 214, 120, 0.28); stroke: #ffd678; stroke-dasharray: none; }
-.map-label.sea-label { fill: #bcd9ee; stroke: rgba(10, 36, 60, 0.7); font-style: italic; letter-spacing: 0.04em; }
+.map-label.sea-label { fill: #bcd9ee; stroke: rgba(10, 36, 60, 0.7); font-style: italic; font-weight: 500; }
+.map-label.nation-label { font-weight: 700; }
 .panel .linklike { background: none; border: 0; padding: 4px 0; min-height: 32px; color: #9fd0ff; text-decoration: underline; font: inherit; cursor: pointer; }

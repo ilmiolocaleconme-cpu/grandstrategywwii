@@ -5,7 +5,6 @@
 import { WORLD_W, provinceFill, riverRankLimit } from './geo.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
 import { LINE_STEP } from './labelfit.js';
-import { declutterSea, SEA_LINE_STEP } from './seaView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 
 const COS0 = WORLD_W / 360;
@@ -31,6 +30,14 @@ export const COLORS = {
   seaSelStroke: '#ffd678',
   seaLabel: '#bcd9ee',
   seaLabelHalo: 'rgba(10, 36, 60, 0.7)',
+};
+
+// Stile dei nomi per tipo: nazioni (grassetto, più grandi), province, laghi e mari (corsivo).
+const LABEL_STYLE = {
+  nation: { font: '700', fill: COLORS.label, halo: COLORS.labelHalo },
+  prov: { font: '600', fill: COLORS.label, halo: COLORS.labelHalo },
+  lake: { font: 'italic 500', fill: COLORS.lakeLabel, halo: COLORS.lakeLabelHalo },
+  sea: { font: 'italic 500', fill: COLORS.seaLabel, halo: COLORS.seaLabelHalo },
 };
 const FONT_FAMILY = "'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif";
 
@@ -263,7 +270,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, seaNames, reserved } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -279,46 +286,24 @@ export function drawOverlay(ctx, p) {
       ctx.stroke(path);
     }
   }
-  if (seaNames && seaNames.length > 0) {
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.lineJoin = 'round';
-    for (const off of copies) {
-      const toScreen = (z) => [a.sx * (z.seed[0] * COS0 + off) + a.tx, a.sx * -z.seed[1] + a.ty];
-      const fromScreen = (z, px, py) => [((px - a.tx) / a.sx - off) / COS0, -(py - a.ty) / a.sx];
-      const view = { w: ctx.canvas.width / dpr, h: ctx.canvas.height / dpr, reserved, fromScreen };
-      for (const { x, y, lines, f } of declutterSea(seaNames, toScreen, view)) {
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.font = `italic 500 ${f}px ${FONT_FAMILY}`;
-        ctx.lineWidth = 0.2 * f;
-        ctx.strokeStyle = COLORS.seaLabelHalo;
-        ctx.fillStyle = COLORS.seaLabel;
-        for (let i = 0; i < lines.length; i += 1) {
-          const ly = y + (i - (lines.length - 1) / 2) * f * SEA_LINE_STEP;
-          ctx.strokeText(lines[i], x, ly);
-          ctx.fillText(lines[i], x, ly);
-        }
-      }
-    }
-  }
   if (!labels || labels.length === 0) return;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.lineJoin = 'round';
   for (const l of labels) {
-    const lake = l.kind === 'lake';
+    const st = LABEL_STYLE[l.kind] ?? LABEL_STYLE.prov;
     const px = a.sx * (l.x + l.off) + a.tx;
     const py = a.sx * l.y + a.ty;
     const fontPx = l.size * a.sx;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.translate(px, py);
     if (l.angle) ctx.rotate((l.angle * Math.PI) / 180);
-    ctx.font = `${lake ? 'italic 500' : '600'} ${fontPx}px ${FONT_FAMILY}`;
+    ctx.font = `${st.font} ${fontPx}px ${FONT_FAMILY}`;
     const lines = l.lines || [l.name];
     const pitch = fontPx * LINE_STEP; // distanza fra le righe (solo nomi su più righe)
     ctx.lineWidth = 0.2 * fontPx;
-    ctx.strokeStyle = lake ? COLORS.lakeLabelHalo : COLORS.labelHalo;
-    ctx.fillStyle = lake ? COLORS.lakeLabel : COLORS.label;
+    ctx.strokeStyle = st.halo;
+    ctx.fillStyle = st.fill;
     for (let i = 0; i < lines.length; i += 1) {
       const text = lines[i];
       const dy = (i - (lines.length - 1) / 2) * pitch;

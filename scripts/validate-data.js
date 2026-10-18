@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { validateCatalog } from '../src/data/validate.js';
 import { validateAdjacency } from '../src/data/adjacency.js';
 import { validateSea } from '../src/data/sea.js';
+import { validateLabels } from '../src/data/labels.js';
 import { loadProvinces } from './load-provinces.js';
 
 const dataDir = new URL('../data/', import.meta.url);
@@ -21,6 +22,7 @@ export async function loadCatalog(baseUrl = dataDir) {
     lakes: await read('lakes.json'),
     adjacency: await read('adjacency.json'),
     sea: await read('sea_zones.json'),
+    labels: await read('labels.json'),
   };
 }
 
@@ -36,14 +38,14 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   const { ok: catalogOk, errors, warnings } = validateCatalog(catalog);
   const provinceIds = catalog.provinces.features.map((f) => f.properties.id);
-  errors.push(...validateAdjacency(catalog.adjacency, provinceIds), ...validateSea(catalog.sea, provinceIds));
+  errors.push(...validateAdjacency(catalog.adjacency, provinceIds), ...validateSea(catalog.sea, provinceIds), ...validateLabels(catalog.labels, provinceIds, catalog.sea.zones.map((z) => z.id), [...new Set(catalog.provinces.features.map((f) => f.properties.owner))]));
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));
   errors.forEach((e) => console.error(`ERRORE ${e}`));
   console.log(
     `${ok ? 'OK' : 'FALLITO'}: ${catalog.nations.length} nazioni, ${catalog.resources.length} risorse, ` +
       `${catalog.rivers.length} fiumi (${catalog.riversGeo.features.length} tratti), ${catalog.lakes.features.length} laghi, ${catalog.crossings.length} attraversamenti, ` +
-      `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province, ${catalog.adjacency.edges.length} adiacenze, ${catalog.sea.zones.length} zone marittime`,
+      `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province, ${catalog.adjacency.edges.length} adiacenze, ${catalog.sea.zones.length} zone marittime, ${catalog.labels.nations.length + catalog.labels.provinces.length + catalog.labels.seas.length} nomi in mappa`,
   );
   process.exit(ok ? 0 : 1);
 }

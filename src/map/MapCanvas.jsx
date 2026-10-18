@@ -4,7 +4,8 @@ import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, c
 import { affineOf, blitPlan, coversScreen, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase } from './canvasDraw.js';
 import { Legend } from './MapView.jsx';
-import { seaLabels, seaZoneAt } from './seaView.js';
+import { seaZoneAt } from './seaView.js';
+import { pickStaticLabels } from './labelview.js';
 
 // Mappa strategica su Canvas 2D (predefinita; la mappa SVG si attiva con ?map=svg): React resta per interfaccia, pannelli,
 // selezione, livelli e legenda; la mappa si disegna su due tele (scena e sovrapposizione) e il gesto non passa da React:
@@ -12,8 +13,7 @@ import { seaLabels, seaZoneAt } from './seaView.js';
 // pieno torna a gesto fermo. Stesse province, fiumi e laghi di MapView (nessun dato duplicato).
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
-const PROVINCE_MIN_LABEL_PX = 5;
-const PROVINCE_LABEL_MIN_K = 8; // i nomi delle province compaiono solo da questo zoom in su (più alto = meno lavoro e mappa più pulita)
+const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
 const MIN_K = 0.3;
 const MAX_DPR = 2; // oltre, il costo di disegno cresce senza vantaggi visibili
 const MARGIN = 0.3; // margine della bitmap attorno allo schermo (frazione di W e H)
@@ -26,7 +26,7 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
@@ -45,7 +45,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea };
+  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea, labelData };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -95,14 +95,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    // pulsanti e legenda sopra la mappa: i nomi dei mari non ci passano sotto
-    const wrap = wrapRef.current;
-    const wb = wrap ? wrap.getBoundingClientRect() : null;
-    const reserved = wb ? [...wrap.querySelectorAll('.map-tools > *, .legend-box > *')].map((el) => {
-      const r = el.getBoundingClientRect();
-      return [r.left - wb.left - 4, r.top - wb.top - 4, r.right - wb.left + 4, r.bottom - wb.top + 4];
-    }).filter((r) => r[2] > r[0] && r[3] > r[1]) : [];
-    drawOverlay(o.getContext('2d'), { reserved, model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies, seaNames: p.showSeas && p.seaData ? seaLabels(p.seaData.zones, s.view.k) : null });
+    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies });
   };
 
   // porta l'ultima immagine disegnata alla vista corrente (trascinamento e zoom costano solo questo)
@@ -254,26 +247,28 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       const l = lay();
       const view = s.view;
       const copies = visibleCopies(view, VB, p.model.bounds);
-      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(p.model.items, view, VB, l.s, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX, variants: true }) : [];
-      const prov = provRaw.map((x) => ({ ...x, kind: 'prov' }));
-      let partial = Boolean(provRaw.partial);
-      let result = prov;
+      // nazioni, province e mari: posizioni già calcolate (data/labels.json), qui si sceglie solo per zoom e vista
+      const stat = p.labelData ? pickStaticLabels(p.labelData, view, VB, l.s, copies, { showSeas: p.showSeas }) : [];
+      let partial = false;
+      let result = stat;
       let lakeCount = 0;
-      if (p.showRivers && p.water.lakes.length) {
-        const lakeLabels = pickLabels(p.water.lakes, view, VB, l.s, copies, { maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((x) => x.rect), nameOf: (it) => it.props.name, budgetMs: 40 });
-        partial = partial || Boolean(lakeLabels.partial);
+      if (p.showRivers && p.water.lakes.length && view.k >= LAKE_LABEL_MIN_K) {
+        const lakeLabels = pickLabels(p.water.lakes, view, VB, l.s, copies, { maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: stat.map((x) => x.rect), nameOf: (it) => it.props.name, budgetMs: 40 });
+        partial = Boolean(lakeLabels.partial);
         lakeCount = lakeLabels.length;
-        result = [...prov, ...lakeLabels.map((x) => ({ ...x, kind: 'lake' }))];
+        result = [...stat, ...lakeLabels.map((x) => ({ ...x, kind: 'lake' }))];
       }
       s.labels = result;
       s.labelsContinue = partial;
-      baseRef.current.dataset.labels = String(prov.length);
+      baseRef.current.dataset.labels = String(stat.filter((x) => x.kind === 'prov').length);
+      baseRef.current.dataset.nationLabels = String(stat.filter((x) => x.kind === 'nation').length);
+      baseRef.current.dataset.seaLabels = String(stat.filter((x) => x.kind === 'sea').length);
       baseRef.current.dataset.lakeLabels = String(lakeCount);
       paintOverlay();
       if (partial) setLabelPass((n) => n + 1);
     }, s.labelsContinue ? 350 : 120);
     return () => clearTimeout(t);
-  }, [viewRev, labelPass, showRivers, model, water, size]);
+  }, [viewRev, labelPass, showRivers, showSeas, model, water, size, labelData]);
 
   useEffect(() => () => {
     const s = st.current;

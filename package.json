@@ -14,7 +14,8 @@
     "test": "node --test",
     "validate:data": "node scripts/validate-data.js",
     "build:adjacency": "node scripts/build-adjacency.js",
-    "build:sea": "node scripts/build-sea.js"
+    "build:sea": "node scripts/build-sea.js",
+    "build:labels": "node scripts/build-labels.js"
   },
   "dependencies": {
     "react": "^19.3.0",

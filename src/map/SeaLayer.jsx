@@ -1,8 +1,5 @@
 import { memo, useMemo } from 'react';
-import { ringToPath, project } from './geo.js';
-import { seaLabels } from './seaView.js';
-
-export { seaLabels };
+import { ringToPath } from './geo.js';
 
 const KIND_LABEL = { ocean: 'oceano', sea: 'mare', gulf: 'golfo', strait: 'stretto', approach: 'approdo' };
 
@@ -14,7 +11,6 @@ export function buildSeaModel(file) {
     kind: z.kind,
     strategic: Boolean(z.strategic),
     d: z.rings.map((r) => ringToPath(r, 0.03)).join(''),
-    at: project(z.seed[0], z.seed[1]),
   }));
 }
 

@@ -1,11 +1,10 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { SeaLayer, buildSeaModel, seaLabels } from './SeaLayer.jsx';
-import { seaLabelLines, SEA_LINE_STEP } from './seaView.js';
+import { SeaLayer, buildSeaModel } from './SeaLayer.jsx';
+import { pickStaticLabels } from './labelview.js';
 import { HOME_BOUNDS, LAYERS, riverRankLimit, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
-const PROVINCE_LABEL_MIN_K = 8; // i nomi delle province compaiono solo da questo zoom in su (più alto = meno lavoro e mappa più pulita)
-const PROVINCE_MIN_LABEL_PX = 5; // corpo minimo dei nomi delle province (px): più basso = più nomi anche a zoom ridotto, ma più piccoli
+const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
 const MIN_K = 0.3; // si puo allontanare fino a vedere quasi tutto il giro del mondo
 
 // Livelli memorizzati: durante il trascinamento cambia solo la trasformazione del gruppo (x, y), non le
@@ -56,7 +55,7 @@ const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, movi
 
 // Mappa strategica SVG: zoom (rotella, pizzico, pulsanti), spostamento, selezione, livelli.
 // Legge le stesse province (data/provinces/, un file per nazione, uniti in memoria) usate dalle regole e dai test.
-export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea }) {
+export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData }) {
   const model = useMemo(() => buildMapModel(provinces), [provinces]);
   // fiumi e laghi arrivano a parte (caricamento differito): finché mancano, la mappa funziona senza
   const water = useMemo(() => (rivers && riversGeo && lakes ? buildWaterModel(rivers, riversGeo, lakes) : { lines: [], lakes: [] }), [rivers, riversGeo, lakes]);
@@ -191,23 +190,23 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   useEffect(() => {
     if (moving) { setLabels([]); return undefined; }
     const t = setTimeout(() => {
-      const provRaw = view.k >= PROVINCE_LABEL_MIN_K ? pickLabels(model.items, view, vbRect, pxPerUnit, copies, { budgetMs: 50, minPx: PROVINCE_MIN_LABEL_PX }) : [];
-      const prov = provRaw.map((l) => ({ ...l, kind: 'prov' }));
-      let partial = Boolean(provRaw.partial);
-      let result = prov;
-      if (showRivers) {
+      // nazioni, province e mari: posizioni già calcolate (data/labels.json); i laghi si calcolano ancora qui
+      const stat = labelData ? pickStaticLabels(labelData, view, vbRect, pxPerUnit, copies, { showSeas }) : [];
+      let partial = false;
+      let result = stat;
+      if (showRivers && view.k >= LAKE_LABEL_MIN_K) {
         const lakeLabels = pickLabels(water.lakes, view, vbRect, pxPerUnit, copies, {
-          maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: prov.map((l) => l.rect), nameOf: (it) => it.props.name, budgetMs: 40,
+          maxLabels: 30, minPx: 6, maxPx: 15, charW: 0.52, upper: false, avoid: stat.map((l) => l.rect), nameOf: (it) => it.props.name, budgetMs: 40,
         });
-        partial = partial || Boolean(lakeLabels.partial);
-        result = [...prov, ...lakeLabels.map((l) => ({ ...l, kind: 'lake' }))];
+        partial = Boolean(lakeLabels.partial);
+        result = [...stat, ...lakeLabels.map((l) => ({ ...l, kind: 'lake' }))];
       }
       setLabels(result);
       labelsContinue.current = partial;
       if (partial) setLabelPass((n) => n + 1);
     }, labelsContinue.current ? 350 : 120);
     return () => clearTimeout(t);
-  }, [moving, model.items, water.lakes, showRivers, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join(), labelPass]);
+  }, [moving, model.items, water.lakes, showRivers, showSeas, labelData, view, pxPerUnit, vbRect.x, vbRect.y, vbRect.w, vbRect.h, copies.join(), labelPass]);
 
   return (
     <div className="map-wrap">
@@ -231,19 +230,19 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
               <ProvinceLayer items={model.items} layer={layer} nationControl={nationControl} selectedId={selectedId} level={level} lod={lod} px={px} borderD={model.borderD} onPick={pickProvince} />
               {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
               {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
-              {showSeas && !moving && seaLabels(seaModel, view.k).map((z) => {
-                const lines = seaLabelLines(z.name);
+              {labels.filter((l) => l.off === off).map((l) => {
+                const lines = l.lines ?? [l.name];
+                const cls = `map-label ${l.kind === 'lake' ? 'lake-label' : l.kind === 'sea' ? 'sea-label' : l.kind === 'nation' ? 'nation-label' : ''}`;
                 return (
-                  <text key={z.id} x={z.at[0]} y={z.at[1] - ((lines.length - 1) / 2) * SEA_LINE_STEP * Math.min(14, z.kind === 'ocean' ? 14 : 10) * px} fontSize={Math.min(14, z.kind === 'ocean' ? 14 : 10) * px} className="map-label sea-label" strokeWidth={0.2 * 10 * px} textAnchor="middle" dominantBaseline="central" pointerEvents="none">
-                    {lines.map((l, i) => <tspan key={l} x={z.at[0]} dy={i === 0 ? 0 : `${SEA_LINE_STEP}em`}>{l}</tspan>)}
-                  </text>
+                  <g key={`${l.kind}-${l.id}`} transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">
+                    {lines.map((text, i) => (
+                      <text key={text} x={l.x} y={l.y + (i - (lines.length - 1) / 2) * l.size} fontSize={l.size} textLength={l.lineLengths ? l.lineLengths[i] : l.length} lengthAdjust="spacingAndGlyphs" className={cls} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central">
+                        {text}
+                      </text>
+                    ))}
+                  </g>
                 );
               })}
-              {labels.filter((l) => l.off === off).map((l) => (
-                <text key={l.id} x={l.x} y={l.y} fontSize={l.size} textLength={l.length} lengthAdjust="spacingAndGlyphs" className={l.kind === 'lake' ? 'map-label lake-label' : 'map-label'} strokeWidth={0.2 * l.size} textAnchor="middle" dominantBaseline="central" transform={l.angle ? `rotate(${l.angle.toFixed(1)} ${l.x} ${l.y})` : undefined} pointerEvents="none">
-                  {l.name}
-                </text>
-              ))}
             </g>
           ))}
         </g>
