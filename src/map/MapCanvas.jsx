@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { HOME_BOUNDS, LAYERS, RIVER_WIDTH_PX, WORLD_W, riverRankLimit, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, pickRiverNear, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
-import { COLORS, drawOverlay, renderBase } from './canvasDraw.js';
+import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
 import { Legend } from './MapView.jsx';
 import { seaZoneAt } from './seaView.js';
 import { pickStaticLabels } from './labelview.js';
@@ -42,7 +42,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const [legendOpen, setLegendOpen] = useState(false);
 
   // stato mutabile del disegno: fuori da React, così il gesto non provoca ridisegni dell'interfaccia
-  const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
+  const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
   props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea, labelData };
@@ -68,6 +68,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
 
   const renderCache = (light = false) => {
     const s = st.current;
+    cancelSlice();
     const { w, h } = s.size;
     if (!w || !h) return;
     const p = props.current;
@@ -86,6 +87,77 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     s.cache = { canvas: c, view: { ...view }, region, light };
     baseRef.current.dataset.drawn = '1';
     if (p.water.lines.length && p.showRivers && !light) baseRef.current.dataset.water = '1';
+  };
+
+  // --- ridisegno completo a passi ---------------------------------------------------------------------------
+  // Il ridisegno completo (contorni, bordi, laghi, fiumi) costa da centinaia di ms a secondi sul telefono: in un solo compito
+  // blocca i gesti. Qui si guida renderBaseSteps un passo alla volta, lasciando passare i tocchi (setTimeout) e forzando la
+  // rasterizzazione dopo ogni passo (la tela la rimanda fino alla prima lettura). Si disegna su una seconda tela (doppio buffer):
+  // l'immagine mostrata resta intatta finché i riempimenti non sono pronti, poi si vede comparire il resto un passo alla volta.
+  // Un nuovo gesto (o un nuovo ridisegno) interrompe quello in corso.
+  const cancelSlice = () => {
+    const s = st.current;
+    const sl = s.slice;
+    if (!sl) return;
+    clearTimeout(sl.timer);
+    if (!sl.exposed) s.spare = sl.canvas; // mai mostrata: si può riusare
+    s.slice = null;
+  };
+
+  const flushCanvas = (c) => {
+    const s = st.current;
+    if (!s.scratch) { s.scratch = document.createElement('canvas'); s.scratch.width = 1; s.scratch.height = 1; }
+    s.scratch.getContext('2d').drawImage(c, 0, 0, 1, 1, 0, 0, 1, 1);
+  };
+
+  const SLICE_BUDGET_MS = 8; // più passi nello stesso compito finché ci stanno in questo tempo
+
+  const renderFull = () => {
+    const s = st.current;
+    cancelSlice();
+    const { w, h } = s.size;
+    if (!w || !h) return;
+    const p = props.current;
+    const dpr = s.dpr;
+    const mx = Math.round(w * MARGIN);
+    const my = Math.round(h * MARGIN);
+    const region = { x: -mx, y: -my, w: w + 2 * mx, h: h + 2 * my };
+    const pw = Math.round(region.w * dpr);
+    const ph = Math.round(region.h * dpr);
+    let c = s.spare;
+    s.spare = null;
+    if (!c || c.width !== pw || c.height !== ph) { c = document.createElement('canvas'); c.width = pw; c.height = ph; }
+    const l = lay();
+    const view = s.view;
+    ensureLevel(view);
+    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), trace: window.__gsTrace, light: false });
+    const sl = { canvas: c, exposed: false, timer: 0 };
+    s.slice = sl;
+    const expose = () => {
+      const old = s.cache?.canvas;
+      s.cache = { canvas: c, view: { ...view }, region, light: false };
+      if (old && old !== c) s.spare = old;
+      sl.exposed = true;
+      baseRef.current.dataset.drawn = '1';
+    };
+    const tick = () => {
+      if (s.slice !== sl) return;
+      const t0 = performance.now();
+      let done = false;
+      do {
+        const r = gen.next();
+        if (r.done) { done = true; break; }
+        flushCanvas(c);
+        if (!sl.exposed) expose();
+      } while (performance.now() - t0 < SLICE_BUDGET_MS);
+      if (done) {
+        if (!sl.exposed) expose();
+        s.slice = null;
+        if (p.water.lines.length && props.current.showRivers) baseRef.current.dataset.water = '1';
+      } else sl.timer = setTimeout(tick, 0);
+      blit();
+    };
+    tick();
   };
 
   const paintOverlay = () => {
@@ -132,7 +204,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       s.renderTimer = 0;
       s.renderDue = 0;
       const t0 = performance.now();
-      renderCache(s.moving);
+      if (s.moving) renderCache(true); else renderFull();
       s.lastEnd = performance.now(); // provvisorio: se blit() chiedesse subito un altro ridisegno, rispetterebbe comunque il ritmo
       blit();
       s.lastEnd = performance.now();
@@ -154,7 +226,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     clearTimeout(s.renderTimer);
     s.renderTimer = 0;
     s.renderDue = 0;
-    renderCache(); // a gesto fermo sempre la scena completa
+    renderFull(); // a gesto fermo sempre la scena completa, a passi
     blit();
     setViewRev((n) => n + 1);
   };
@@ -162,6 +234,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const s = st.current;
     if (!s.moving) {
       s.moving = true;
+      cancelSlice();
       if (s.labels.length) { s.labels = []; baseRef.current.dataset.labels = '0'; baseRef.current.dataset.lakeLabels = '0'; }
     }
     clearTimeout(s.idleTimer);
@@ -217,12 +290,13 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       s.borders = buildBorders(m);
       s.borders.levels = [];
       later(() => {
-        if (!s.moving) { renderCache(); blit(); }
+        if (!s.moving) { renderFull(); blit(); }
         if (LOD_METHOD !== 'dp') return; // con il metodo veloce non serve altro
         const jobs = [];
         const replace = (lv) => {
           for (const it of m.items) if (it.paths) it.paths[lv] = null;
           if (s.borders.paths) s.borders.paths[lv] = null;
+          if (s.borders.chunks) s.borders.chunks[lv] = null;
         };
         CANVAS_LOD_TOLS.forEach((tol, i) => {
           jobs.push({ job: createLodJob(m, tol, 'dp'), done: (r) => { s.lod.levels[i] = r; replace(i); } });
@@ -243,7 +317,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   // primo disegno e ridisegno quando cambiano i dati o le opzioni che cambiano la scena
   useEffect(() => {
     if (!size.w) return;
-    renderCache();
+    renderFull();
     blit();
     startBackground();
     const s = st.current;
@@ -291,6 +365,8 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   useEffect(() => () => {
     const s = st.current;
     cancelAnimationFrame(s.raf);
+    if (s.slice) clearTimeout(s.slice.timer);
+    s.slice = null;
     clearTimeout(s.idleTimer);
     clearTimeout(s.renderTimer);
     clearTimeout(s.labelTimer);

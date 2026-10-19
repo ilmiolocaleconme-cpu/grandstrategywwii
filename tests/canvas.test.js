@@ -8,6 +8,7 @@ import { buildCanvasModel, buildBorders, createLodJob, createBorderLodJob, pickP
 import { layoutOf, affineOf, screenToUnit, screenToView, blitPlan, coversScreen, lodLevelForScale, regionToUnits, gestureRenderDelay, MOVING_MIN_GAP_MS } from '../src/map/canvasView.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
+import { renderBase, renderBaseSteps } from '../src/map/canvasDraw.js';
 
 const provinces = await loadProvinces();
 const cm = buildCanvasModel(provinces);
@@ -235,4 +236,37 @@ test('vista canvas: i ridisegni a gesto in corso hanno un ritmo (non partono a o
     const d = gestureRenderDelay({ covers, ratio, now: 123456 });
     assert.ok(d === null || (Number.isFinite(d) && d >= 0), `${covers}/${ratio}: ${d}`);
   }
+});
+
+// Il disegno vero gira solo nel browser (Path2D, contesto 2D): qui un contesto finto registra le chiamate, per provare che la scena si
+// disegna a passi (che cedono il controllo) e che la versione leggera non fa contorni, bordi, laghi e fiumi.
+function fakeDrawing() {
+  globalThis.Path2D ??= class { addPath() {} moveTo() {} lineTo() {} closePath() {} };
+  const calls = { fill: 0, stroke: 0 };
+  const ctx = new Proxy({ canvas: { width: 624, height: 1350 }, calls }, {
+    get: (t, k) => (k in t ? t[k] : (k === 'fill' ? () => { calls.fill += 1; } : k === 'stroke' ? () => { calls.stroke += 1; } : () => {})),
+    set: () => true,
+  });
+  const vb = { x: HOME_BOUNDS.x, y: HOME_BOUNDS.y, w: HOME_BOUNDS.w, h: HOME_BOUNDS.h };
+  const lay = layoutOf(vb, 390, 844);
+  const base = { model: cm, lod: null, borders: null, water: null, view: { k: 1, x: 0, y: 0 }, vb, lay, dpr: 1, region: { x: -117, y: -253, w: 624, h: 1350 }, layer: 'political', nationControl: new Map(), showRivers: false, selectedRiverId: null, copies: [0], seas: null, selectedSeaId: null };
+  return { ctx, calls, base };
+}
+
+test('disegno a passi: i contorni vanno a gruppi (più passi), la versione leggera fa solo i riempimenti, il colpo unico fa le stesse chiamate', () => {
+  const full = fakeDrawing();
+  const kinds = [...renderBaseSteps(full.ctx, { ...full.base, light: false })];
+  assert.equal(kinds[0], 'fill');
+  assert.ok(kinds.filter((k) => k === 'stroke').length >= 2, `contorni in un solo passo: ${kinds.join()}`);
+  assert.ok(full.calls.stroke >= 2 && full.calls.fill >= 1);
+
+  const light = fakeDrawing();
+  const lightKinds = [...renderBaseSteps(light.ctx, { ...light.base, light: true })];
+  assert.deepEqual(lightKinds, ['fill']);
+  assert.equal(light.calls.stroke, 0);
+  assert.ok(light.calls.fill >= 1);
+
+  const once = fakeDrawing();
+  renderBase(once.ctx, { ...once.base, light: false });
+  assert.deepEqual(once.calls, full.calls);
 });

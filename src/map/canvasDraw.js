@@ -85,21 +85,29 @@ export function seamStrokePath(model, item) {
   return p;
 }
 
-function borderPath(borders, level) {
-  const cache = borders.paths ?? (borders.paths = [null, null, null, null]);
+// Bordi nazionali a gruppi di percorsi (ognuno con al massimo ~BORDER_CHUNK_PTS punti): si disegnano in passi separati, così nessun
+// passo occupa il thread principale a lungo. Il risultato è identico a un unico tracciato (polilinee aperte, tutte dello stesso colore).
+const BORDER_CHUNK_PTS = 6000;
+function borderChunks(borders, level) {
+  const cache = borders.chunks ?? (borders.chunks = [null, null, null, null]);
   const lv = level < 3 && borders.levels?.[level] ? level : 3;
   if (cache[lv]) return cache[lv];
   const src = lv === 3 ? borders : borders.levels[lv];
-  const p = new Path2D();
+  const chunks = [];
+  let p = new Path2D();
+  let n = 0;
   for (let k = 0; k + 1 < src.runStarts.length; k += 1) {
     const s = src.runStarts[k];
     const e = src.runStarts[k + 1];
     if (e - s < 2) continue;
     p.moveTo(src.points[2 * s], src.points[2 * s + 1]);
     for (let i = s + 1; i < e; i += 1) p.lineTo(src.points[2 * i], src.points[2 * i + 1]);
+    n += e - s;
+    if (n >= BORDER_CHUNK_PTS) { chunks.push(p); p = new Path2D(); n = 0; }
   }
-  cache[lv] = p;
-  return p;
+  if (n > 0) chunks.push(p);
+  cache[lv] = chunks;
+  return chunks;
 }
 
 function featurePath(feature) {
@@ -180,25 +188,34 @@ function fillOf(item, layer, control) {
   return cache[layer] ?? (cache[layer] = provinceFill(item.props, layer, control));
 }
 
+const STROKE_CHUNK = 60; // province per passo di tracciamento dei contorni
+const LAKE_CHUNK = 60; // laghi per passo
+
 /**
- * Disegna la scena nella tela `ctx` (grande quanto `region`, in pixel CSS rispetto allo schermo, per `dpr`).
+ * Disegna la scena nella tela `ctx` (grande quanto `region`, in pixel CSS rispetto allo schermo, per `dpr`) a passi:
+ * è un generatore che cede il controllo dopo ogni passo (mare e riempimenti, gruppi di contorni, gruppi di bordi, laghi,
+ * ogni spessore di fiumi), così chi lo guida può lasciare passare i tocchi tra un passo e l'altro. Un ridisegno completo
+ * costa da centinaia di ms a secondi sul telefono: in un solo compito bloccherebbe i gesti.
  * p: { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, light }
  * light: versione leggera per i ridisegni a gesto in corso (solo mare e riempimenti delle province, senza contorni, bordi,
  * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
-export function renderBase(ctx, p) {
+export function* renderBaseSteps(ctx, p) {
   const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId, light } = p;
   const a = affineOf(view, vb, lay);
   const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
   const cull = regionToUnits(view, vb, lay, region);
   const pad = 2 / a.sx;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.setLineDash([]);
+  ctx.globalAlpha = 1;
   ctx.fillStyle = COLORS.sea;
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
   for (const off of copies) {
-    ctx.setTransform(dpr * a.sx, 0, 0, dpr * a.sx, dpr * (a.tx - region.x + a.sx * off), dpr * (a.ty - region.y));
+    const place = () => ctx.setTransform(dpr * a.sx, 0, 0, dpr * a.sx, dpr * (a.tx - region.x + a.sx * off), dpr * (a.ty - region.y));
+    place();
     const x0 = cull.x0 - off - pad;
     const x1 = cull.x1 - off + pad;
     const y0 = cull.y0 - pad;
@@ -208,8 +225,7 @@ export function renderBase(ctx, p) {
       try { drawSeas(ctx, seas, selectedSeaId, a.sx); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
     }
     const groups = new Map();
-    const strokeAll = new Path2D();
-    const seamFills = [];
+    const visible = [];
     for (const it of model.items) {
       const b = it.bbox;
       if (b.x > x1 || b.x + b.w < x0 || b.y > y1 || b.y + b.h < y0) continue;
@@ -218,40 +234,65 @@ export function renderBase(ctx, p) {
       let g = groups.get(col);
       if (!g) { g = new Path2D(); groups.set(col, g); }
       g.addPath(path);
-      if (light) continue;
-      if (it.hasSeam) { strokeAll.addPath(seamStrokePath(model, it)); seamFills.push([col, path]); } else strokeAll.addPath(path);
+      if (!light) visible.push([it, path, col]);
     }
     trace?.('prep', ctx);
     for (const [col, g] of groups) { ctx.fillStyle = col; ctx.fill(g, 'evenodd'); }
     trace?.('fill', ctx);
+    yield 'fill';
     if (light) continue;
     // province sulla cucitura: un filo dello stesso colore contro i vuoti tra le due metà, come in SVG
-    ctx.lineWidth = 1 / a.sx;
-    for (const [col, path] of seamFills) { ctx.strokeStyle = col; ctx.stroke(path); }
-    ctx.lineWidth = 0.6 / a.sx;
-    ctx.strokeStyle = COLORS.provStroke;
-    ctx.stroke(strokeAll);
+    const seam = visible.filter(([it]) => it.hasSeam);
+    if (seam.length) {
+      ctx.lineWidth = 1 / a.sx;
+      for (const [, path, col] of seam) { ctx.strokeStyle = col; ctx.stroke(path); }
+    }
+    // contorni delle province, a gruppi
+    for (let i = 0; i < visible.length; i += STROKE_CHUNK) {
+      const strokeAll = new Path2D();
+      for (let j = i; j < Math.min(i + STROKE_CHUNK, visible.length); j += 1) {
+        const [it, path] = visible[j];
+        strokeAll.addPath(it.hasSeam ? seamStrokePath(model, it) : path);
+      }
+      ctx.lineWidth = 0.6 / a.sx;
+      ctx.strokeStyle = COLORS.provStroke;
+      ctx.stroke(strokeAll);
+      yield 'stroke';
+    }
     trace?.('stroke', ctx);
     if (borders) {
-      ctx.lineWidth = 1.2 / a.sx;
-      ctx.strokeStyle = COLORS.border;
-      ctx.stroke(borderPath(borders, level));
+      for (const chunk of borderChunks(borders, level)) {
+        ctx.lineWidth = 1.2 / a.sx;
+        ctx.strokeStyle = COLORS.border;
+        ctx.stroke(chunk);
+        yield 'borders';
+      }
       trace?.('borders', ctx);
     }
     if (showRivers && water) {
-      ctx.fillStyle = COLORS.lakeFill;
-      ctx.strokeStyle = COLORS.lakeStroke;
-      ctx.lineWidth = 0.6 / a.sx;
-      for (const l of water.lakes) {
+      const lakes = water.lakes.filter((l) => {
         const b = l.bbox;
-        if (b.x > x1 || b.x + b.w < x0 || b.y > y1 || b.y + b.h < y0) continue; // fuori dalla regione: niente da rasterizzare
-        const lp = lakePath(l);
-        ctx.fill(lp, 'evenodd');
-        ctx.stroke(lp);
+        return !(b.x > x1 || b.x + b.w < x0 || b.y > y1 || b.y + b.h < y0); // fuori dalla regione: niente da rasterizzare
+      });
+      for (let i = 0; i < lakes.length; i += LAKE_CHUNK) {
+        ctx.fillStyle = COLORS.lakeFill;
+        ctx.strokeStyle = COLORS.lakeStroke;
+        ctx.lineWidth = 0.6 / a.sx;
+        for (let j = i; j < Math.min(i + LAKE_CHUNK, lakes.length); j += 1) {
+          const lp = lakePath(lakes[j]);
+          ctx.fill(lp, 'evenodd');
+          ctx.stroke(lp);
+        }
+        yield 'lakes';
       }
-      ctx.strokeStyle = COLORS.river;
       trace?.('lakes', ctx);
-      for (const [width, path] of riverGroups(water, riverRankLimit(view.k))) { ctx.lineWidth = width / a.sx; ctx.stroke(path); }
+      ctx.strokeStyle = COLORS.river;
+      for (const [width, path] of riverGroups(water, riverRankLimit(view.k))) {
+        ctx.strokeStyle = COLORS.river;
+        ctx.lineWidth = width / a.sx;
+        ctx.stroke(path);
+        yield 'rivers';
+      }
       trace?.('rivers', ctx);
       if (selectedRiverId) {
         for (const l of water.lines) {
@@ -260,6 +301,7 @@ export function renderBase(ctx, p) {
           const path = new Path2D();
           path.moveTo(c[0], c[1]);
           for (let i = 2; i < c.length; i += 2) path.lineTo(c[i], c[i + 1]);
+          ctx.strokeStyle = COLORS.river;
           ctx.lineWidth = (l.width + 1.5) / a.sx;
           ctx.setLineDash(l.inLake ? [2, 3] : []);
           ctx.globalAlpha = l.inLake ? 0.7 : 1;
@@ -267,9 +309,15 @@ export function renderBase(ctx, p) {
         }
         ctx.setLineDash([]);
         ctx.globalAlpha = 1;
+        yield 'selected';
       }
     }
   }
+}
+
+/** Disegna la scena in un solo colpo (tutti i passi di renderBaseSteps di seguito). */
+export function renderBase(ctx, p) {
+  for (const step of renderBaseSteps(ctx, p)) void step;
 }
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
