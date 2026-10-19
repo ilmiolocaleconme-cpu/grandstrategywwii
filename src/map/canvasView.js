@@ -43,6 +43,24 @@ export function coversScreen(rect, W, H, slack = 0.5) {
   return rect.x <= slack && rect.y <= slack && rect.x + rect.w >= W - slack && rect.y + rect.h >= H - slack;
 }
 
+// Ridisegni durante il gesto. Un ridisegno della scena è sincrono e può costare da centinaia di ms a secondi sul telefono:
+// se parte a ogni fotogramma il thread principale non si libera più e il gesto si ferma. Regole: si ridisegna solo se
+// l'immagine non copre lo schermo o è troppo ingrandita/rimpicciolita, mai più spesso di MOVING_MIN_GAP_MS e mai prima che
+// sia passato il doppio del costo dell'ultimo ridisegno (così il tempo libero per i gesti è almeno la metà).
+export const MOVING_MIN_GAP_MS = 250;
+export const RATIO_MAX = 1.8;
+export const RATIO_MIN = 0.55;
+/**
+ * Ritardo (ms) con cui ridisegnare durante un gesto, o null se l'immagine attuale basta.
+ * covers: l'immagine copre lo schermo; ratio: rapporto di scala immagine/vista; now, lastEnd: istanti (ms) e fine
+ * dell'ultimo ridisegno; lastCost: durata (ms) dell'ultimo ridisegno.
+ */
+export function gestureRenderDelay({ covers, ratio, now, lastEnd = -Infinity, lastCost = 0 }) {
+  if (covers && ratio <= RATIO_MAX && ratio >= RATIO_MIN) return null;
+  const earliest = lastEnd + Math.max(MOVING_MIN_GAP_MS, 2 * lastCost);
+  return Math.max(covers ? 80 : 0, earliest - now);
+}
+
 // Versioni semplificate: la tolleranza di ogni livello (unità di mappa) deve restare sotto MAX_ERR_PX pixel allo zoom corrente.
 export const MAX_ERR_PX = 0.35;
 /** Livello di semplificazione (0..2) o 3 = dettaglio pieno, dato `sx` = pixel CSS per unità di mappa. `tols` in unità di mappa, dal più grossolano. */

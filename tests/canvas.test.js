@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildMapModel, buildLod, nationalBorderPath, project, HOME_BOUNDS, WORLD_W, zoomAt, wrapView } from '../src/map/geo.js';
 import { buildCanvasModel, buildBorders, createLodJob, createBorderLodJob, pickProvinceAt, pickRiverNear, buildCanvasWater, CANVAS_LOD_TOLS } from '../src/map/canvasModel.js';
-import { layoutOf, affineOf, screenToUnit, screenToView, blitPlan, coversScreen, lodLevelForScale, regionToUnits } from '../src/map/canvasView.js';
+import { layoutOf, affineOf, screenToUnit, screenToView, blitPlan, coversScreen, lodLevelForScale, regionToUnits, gestureRenderDelay, MOVING_MIN_GAP_MS } from '../src/map/canvasView.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 
@@ -211,4 +211,28 @@ test('vista canvas: la normalizzazione del giro del mondo non cambia l\'immagine
   const b = affineOf(norm, vb, lay);
   const turns = (b.tx - a.tx) / (lay.s * WORLD_W * raw.k);
   assert.ok(Math.abs(turns - Math.round(turns)) < 1e-9, 'differenza = numero intero di giri');
+});
+
+test('vista canvas: i ridisegni a gesto in corso hanno un ritmo (non partono a ogni fotogramma e non prima del doppio del costo dell\'ultimo)', () => {
+  // l'immagine copre lo schermo e la scala è vicina: nessun ridisegno
+  assert.equal(gestureRenderDelay({ covers: true, ratio: 1, now: 1000, lastEnd: 0, lastCost: 0 }), null);
+  assert.equal(gestureRenderDelay({ covers: true, ratio: 1.8, now: 1000 }), null);
+  assert.equal(gestureRenderDelay({ covers: true, ratio: 0.55, now: 1000 }), null);
+  // bordi vuoti e nessun ridisegno precedente: subito
+  assert.equal(gestureRenderDelay({ covers: false, ratio: 1, now: 1000 }), 0);
+  // bordi vuoti subito dopo un ridisegno economico: si aspetta il passo minimo
+  assert.equal(gestureRenderDelay({ covers: false, ratio: 1, now: 1000, lastEnd: 1000, lastCost: 40 }), MOVING_MIN_GAP_MS);
+  assert.equal(gestureRenderDelay({ covers: false, ratio: 1, now: 1100, lastEnd: 1000, lastCost: 40 }), MOVING_MIN_GAP_MS - 100);
+  // ridisegno costoso (400 ms) terminato 100 ms fa: il prossimo non prima di 2 x 400 ms dalla sua fine, cioè tra 700 ms
+  assert.equal(gestureRenderDelay({ covers: false, ratio: 1, now: 1100, lastEnd: 1000, lastCost: 400 }), 700);
+  // già passato il tempo: nessuna attesa in più
+  assert.equal(gestureRenderDelay({ covers: false, ratio: 1, now: 5000, lastEnd: 1000, lastCost: 400 }), 0);
+  // scala troppo diversa ma schermo coperto: attesa minima di 80 ms (lo zoom continua), mai negativa
+  assert.equal(gestureRenderDelay({ covers: true, ratio: 2, now: 5000, lastEnd: 1000, lastCost: 400 }), 80);
+  assert.equal(gestureRenderDelay({ covers: true, ratio: 0.4, now: 1100, lastEnd: 1000, lastCost: 400 }), 700);
+  // il ritardo non scende mai sotto zero e non diventa infinito senza ridisegni precedenti
+  for (const ratio of [0.3, 1, 3]) for (const covers of [true, false]) {
+    const d = gestureRenderDelay({ covers, ratio, now: 123456 });
+    assert.ok(d === null || (Number.isFinite(d) && d >= 0), `${covers}/${ratio}: ${d}`);
+  }
 });

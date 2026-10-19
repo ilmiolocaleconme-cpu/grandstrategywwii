@@ -152,13 +152,9 @@ function drawSeas(ctx, seas, selectedSeaId, sx) {
   }
 }
 
-function lakesPath(water) {
-  if (!water.lakesPath) {
-    const p = new Path2D();
-    for (const l of water.lakes) p.addPath(featurePath(l.feature));
-    water.lakesPath = p;
-  }
-  return water.lakesPath;
+// Percorso di un lago (in cache sull'elemento): i laghi si disegnano uno per uno, così quelli fuori dalla regione si saltano.
+function lakePath(lake) {
+  return lake.path ?? (lake.path = featurePath(lake.feature));
 }
 
 // Fiumi raggruppati per spessore (i grandi sopra ai piccoli) per ciascuna soglia di densità; i tratti dentro i laghi si escludono.
@@ -186,10 +182,12 @@ function fillOf(item, layer, control) {
 
 /**
  * Disegna la scena nella tela `ctx` (grande quanto `region`, in pixel CSS rispetto allo schermo, per `dpr`).
- * p: { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies }
+ * p: { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, light }
+ * light: versione leggera per i ridisegni a gesto in corso (solo mare e riempimenti delle province, senza contorni, bordi,
+ * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
 export function renderBase(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId } = p;
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId, light } = p;
   const a = affineOf(view, vb, lay);
   const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
   const cull = regionToUnits(view, vb, lay, region);
@@ -220,11 +218,13 @@ export function renderBase(ctx, p) {
       let g = groups.get(col);
       if (!g) { g = new Path2D(); groups.set(col, g); }
       g.addPath(path);
+      if (light) continue;
       if (it.hasSeam) { strokeAll.addPath(seamStrokePath(model, it)); seamFills.push([col, path]); } else strokeAll.addPath(path);
     }
     trace?.('prep', ctx);
     for (const [col, g] of groups) { ctx.fillStyle = col; ctx.fill(g, 'evenodd'); }
     trace?.('fill', ctx);
+    if (light) continue;
     // province sulla cucitura: un filo dello stesso colore contro i vuoti tra le due metà, come in SVG
     ctx.lineWidth = 1 / a.sx;
     for (const [col, path] of seamFills) { ctx.strokeStyle = col; ctx.stroke(path); }
@@ -242,9 +242,13 @@ export function renderBase(ctx, p) {
       ctx.fillStyle = COLORS.lakeFill;
       ctx.strokeStyle = COLORS.lakeStroke;
       ctx.lineWidth = 0.6 / a.sx;
-      const lp = lakesPath(water);
-      ctx.fill(lp, 'evenodd');
-      ctx.stroke(lp);
+      for (const l of water.lakes) {
+        const b = l.bbox;
+        if (b.x > x1 || b.x + b.w < x0 || b.y > y1 || b.y + b.h < y0) continue; // fuori dalla regione: niente da rasterizzare
+        const lp = lakePath(l);
+        ctx.fill(lp, 'evenodd');
+        ctx.stroke(lp);
+      }
       ctx.strokeStyle = COLORS.river;
       trace?.('lakes', ctx);
       for (const [width, path] of riverGroups(water, riverRankLimit(view.k))) { ctx.lineWidth = width / a.sx; ctx.stroke(path); }

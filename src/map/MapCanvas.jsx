@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { HOME_BOUNDS, LAYERS, RIVER_WIDTH_PX, WORLD_W, riverRankLimit, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, pickRiverNear, CANVAS_LOD_TOLS } from './canvasModel.js';
-import { affineOf, blitPlan, coversScreen, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
+import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase } from './canvasDraw.js';
 import { Legend } from './MapView.jsx';
 import { seaZoneAt } from './seaView.js';
@@ -42,7 +42,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const [legendOpen, setLegendOpen] = useState(false);
 
   // stato mutabile del disegno: fuori da React, così il gesto non provoca ridisegni dell'interfaccia
-  const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
+  const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
   props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea, labelData };
@@ -66,7 +66,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     if (s.borders && !s.borders.levels[lv]) s.borders.levels[lv] = createBorderLodJob(s.borders, CANVAS_LOD_TOLS[lv], 'radial').step(Infinity);
   };
 
-  const renderCache = () => {
+  const renderCache = (light = false) => {
     const s = st.current;
     const { w, h } = s.size;
     if (!w || !h) return;
@@ -82,10 +82,10 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), trace: window.__gsTrace });
-    s.cache = { canvas: c, view: { ...view }, region };
+    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), trace: window.__gsTrace, light });
+    s.cache = { canvas: c, view: { ...view }, region, light };
     baseRef.current.dataset.drawn = '1';
-    if (p.water.lines.length && p.showRivers) baseRef.current.dataset.water = '1';
+    if (p.water.lines.length && p.showRivers && !light) baseRef.current.dataset.water = '1';
   };
 
   const paintOverlay = () => {
@@ -111,17 +111,33 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     if (c) {
       const plan = blitPlan(c.view, s.view, VB, lay(), c.region);
       ctx.drawImage(c.canvas, 0, 0, c.canvas.width, c.canvas.height, plan.x * s.dpr, plan.y * s.dpr, plan.w * s.dpr, plan.h * s.dpr);
-      // bordi vuoti o immagine troppo ingrandita/rimpicciolita: serve un nuovo disegno senza aspettare la fine del gesto
-      if (!coversScreen(plan, s.size.w, s.size.h)) scheduleRender(0);
-      else if (plan.r > 1.8 || plan.r < 0.55) scheduleRender(80);
+      // bordi vuoti o immagine troppo ingrandita/rimpicciolita: serve un nuovo disegno senza aspettare la fine del gesto,
+      // ma a ritmo controllato (ogni ridisegno è sincrono: se parte a ogni fotogramma il gesto si blocca)
+      const delay = gestureRenderDelay({ covers: coversScreen(plan, s.size.w, s.size.h), ratio: plan.r, now: performance.now(), lastEnd: s.lastEnd, lastCost: s.lastCost });
+      if (delay !== null) scheduleRender(delay);
     }
     paintOverlay();
   };
 
+  // Ridisegno programmato: se ce n'è già uno in programma e non più tardi, si lascia quello (senza rimandarlo a ogni fotogramma).
+  // A gesto in corso è la versione leggera (solo mare e riempimenti: i contorni, i bordi, i laghi e i fiumi sono il grosso del costo);
+  // il costo misurato (ridisegno + presentazione, che è dove la tela rasterizza) regola il ritmo del prossimo.
   const scheduleRender = (delay) => {
     const s = st.current;
+    const due = performance.now() + delay;
+    if (s.renderTimer && s.renderDue <= due) return;
     clearTimeout(s.renderTimer);
-    s.renderTimer = setTimeout(() => { renderCache(); blit(); }, delay);
+    s.renderDue = due;
+    s.renderTimer = setTimeout(() => {
+      s.renderTimer = 0;
+      s.renderDue = 0;
+      const t0 = performance.now();
+      renderCache(s.moving);
+      s.lastEnd = performance.now(); // provvisorio: se blit() chiedesse subito un altro ridisegno, rispetterebbe comunque il ritmo
+      blit();
+      s.lastEnd = performance.now();
+      s.lastCost = s.lastEnd - t0;
+    }, delay);
   };
 
   const requestFrame = () => {
@@ -136,7 +152,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     s.moving = false;
     s.view = wrapView(s.view, VB);
     clearTimeout(s.renderTimer);
-    renderCache();
+    s.renderTimer = 0;
+    s.renderDue = 0;
+    renderCache(); // a gesto fermo sempre la scena completa
     blit();
     setViewRev((n) => n + 1);
   };
