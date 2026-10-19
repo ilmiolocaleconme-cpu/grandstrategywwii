@@ -7,13 +7,29 @@ import { loadProvincesFrom } from './provinces.js';
 const modules = import.meta.glob('../../data/provinces/*.json');
 
 let pending = null;
+let progress = { done: 0, total: 0 };
+const listeners = new Set();
 
 /**
  * Tutte le province unite in una collezione. L'unione si fa una volta sola per sessione (la
  * stessa collezione serve a mappa e App: buildMapModel la mette in cache per oggetto).
  * Se un file non si carica l'errore resta: i browser non ripetono un import() fallito, serve ricaricare la pagina.
  */
-export function loadProvinces() {
-  if (pending === null) pending = loadProvincesFrom(modules);
+export function loadProvinces(onProgress) {
+  if (typeof onProgress === 'function') {
+    listeners.add(onProgress);
+    onProgress(progress.done, progress.total);
+  }
+  if (pending === null) {
+    pending = loadProvincesFrom(modules, (done, total) => {
+      progress = { done, total };
+      for (const fn of listeners) fn(done, total);
+    });
+  }
   return pending;
+}
+
+/** Toglie un ascoltatore di avanzamento (quando il componente si smonta). */
+export function unwatchProvinces(onProgress) {
+  listeners.delete(onProgress);
 }

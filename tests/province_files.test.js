@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { checkProvinceParts, fileName, loadProvincesFrom, mergeProvinceParts, META_SCHEMA } from '../src/data/provinces.js';
 import { listProvinceFiles, loadProvinces } from '../scripts/load-provinces.js';
 import { checkPrecache, hasMarker, precacheUrls, provinceMarkers } from '../scripts/check-precache.js';
+import { loadingPercent } from '../src/ui/loadingPercent.js';
 import { buildMapModel, nationalBorderPath } from '../src/map/geo.js';
 
 // Fixture sintetiche SOLO per i test: non sono dati geografici storici.
@@ -157,4 +158,28 @@ test('precache: le sentinelle dei dati reali esistono, sono distinte e non stann
   assert.equal(new Set(Object.values(markers).map((v) => JSON.stringify(v))).size, 46);
   assert.equal(markers.DEU.every((id) => id.startsWith('P_DEU_')), true);
   assert.equal(markers.DEU.length > 10, true);
+});
+
+test('caricamento: l\'avanzamento parte da 0/totale, cresce di uno a file (anche se fallisce) e finisce a totale/totale', async () => {
+  const ok = (value) => async () => ({ default: value });
+  const modules = {
+    '../../data/provinces/_meta.json': ok(meta()),
+    '../../data/provinces/AAA.json': ok(parts().AAA),
+    '../../data/provinces/BBB.json': ok(parts().BBB),
+  };
+  const calls = [];
+  await loadProvincesFrom(modules, (d, t) => calls.push([d, t]));
+  assert.deepEqual(calls, [[0, 3], [1, 3], [2, 3], [3, 3]]);
+  const failing = { ...modules, '../../data/provinces/BBB.json': async () => { throw new Error('offline'); } };
+  const calls2 = [];
+  await assert.rejects(loadProvincesFrom(failing, (d, t) => calls2.push([d, t])), /BBB\.json/);
+  assert.deepEqual(calls2.at(-1), [3, 3]);
+});
+
+test('barra di caricamento: percentuale limitata a 0..100 e 0 se il totale è ignoto', () => {
+  assert.equal(loadingPercent(0, 0), 0);
+  assert.equal(loadingPercent(1, 3), 33);
+  assert.equal(loadingPercent(3, 3), 100);
+  assert.equal(loadingPercent(5, 3), 100);
+  assert.equal(loadingPercent(-1, 3), 0);
 });

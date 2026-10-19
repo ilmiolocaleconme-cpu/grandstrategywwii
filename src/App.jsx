@@ -4,7 +4,7 @@ import resources from '../data/resources.json';
 import political from '../data/political_1936.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
-import { loadProvinces } from './data/loadProvinces.js';
+import { loadProvinces, unwatchProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
@@ -17,6 +17,7 @@ import { advanceDay } from './game/engine.js';
 import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar, { SPEEDS } from './ui/GameBar.jsx';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
+import LoadingScreen from './ui/LoadingScreen.jsx';
 
 // La mappa Canvas 2D è quella predefinita; la mappa SVG resta come ripiego con ?map=svg
 const USE_CANVAS = typeof window === 'undefined' || new URLSearchParams(window.location.search).get('map') !== 'svg';
@@ -67,15 +68,17 @@ function useLabelData(start) {
 // in memoria. La mappa parte solo a caricamento completo: una mappa a metà falserebbe i bordi nazionali.
 function useProvinces() {
   const [state, setState] = useState({ status: 'loading', provinces: null, error: null });
+  const [progress, setProgress] = useState({ done: 0, total: 0 });
   useEffect(() => {
     let alive = true;
-    loadProvinces().then(
+    const onProgress = (done, total) => { if (alive) setProgress({ done, total }); };
+    loadProvinces(onProgress).then(
       (provinces) => alive && setState({ status: 'ready', provinces, error: null }),
       (error) => alive && setState({ status: 'error', provinces: null, error }),
     );
-    return () => { alive = false; };
+    return () => { alive = false; unwatchProvinces(onProgress); };
   }, []);
-  return state;
+  return { ...state, progress };
 }
 
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
@@ -96,7 +99,7 @@ export default function App() {
   useEffect(() => { refreshSaves(); }, [refreshSaves]);
   const gameRef = useRef(null);
   gameRef.current = game;
-  const { provinces, status: provincesStatus, error: provincesError } = useProvinces();
+  const { provinces, status: provincesStatus, error: provincesError, progress: provincesProgress } = useProvinces();
   // SVG: fiumi e laghi si caricano subito (come prima). Canvas (prototipo): dopo la comparsa delle province, per non rallentare la prima schermata
   const [mapShown, setMapShown] = useState(false);
   useEffect(() => {
@@ -195,7 +198,7 @@ export default function App() {
       <div className="shell">
         {tabs}
         {provincesStatus !== 'ready' ? (
-          <main className="map-status" role="status"><p>{provincesStatus === 'loading' ? 'Caricamento delle province…' : `Province non caricate: ${provincesError?.message ?? 'errore sconosciuto'}`}</p></main>
+          <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : game ? (
           <main className="app">
             <header><h1>Partita in corso</h1><p className="muted">{NATION_NAMES[game.player]} · {game.date}. Usa la barra nella schermata Mappa per far scorrere il tempo.</p></header>
@@ -219,16 +222,7 @@ export default function App() {
             onSave={() => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); }} onExit={exitGame} />
         ) : null}
         {provincesStatus !== 'ready' ? (
-          <main className="map-status" role="status">
-            {provincesStatus === 'loading' ? (
-              <p>Caricamento delle province…</p>
-            ) : (
-              <>
-                <p className="warn">Province non caricate: {provincesError?.message ?? 'errore sconosciuto'}</p>
-                <button type="button" onClick={() => window.location.reload()}>Ricarica</button>
-              </>
-            )}
-          </main>
+          <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : (
         <div className="map-layout">
           <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} />
