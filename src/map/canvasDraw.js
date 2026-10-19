@@ -18,26 +18,26 @@ export const COLORS = {
   lakeFill: '#2f6f9c',
   lakeStroke: '#5aa3d8',
   river: '#5aa3d8',
-  label: '#d9d9d6',
-  labelHalo: 'rgba(14, 18, 10, 0.65)',
-  lakeLabel: '#dde3e8',
-  lakeLabelHalo: 'rgba(10, 36, 60, 0.65)',
+  label: 'rgba(228, 228, 224, 0.72)',
+  labelHalo: 'rgba(14, 18, 10, 0.28)',
+  lakeLabel: 'rgba(221, 227, 232, 0.72)',
+  lakeLabelHalo: 'rgba(10, 36, 60, 0.28)',
   seaFill: 'rgba(120, 190, 235, 0.07)',
   seaStroke: 'rgba(170, 215, 245, 0.45)',
   straitFill: 'rgba(255, 214, 120, 0.16)',
   straitStroke: 'rgba(255, 214, 120, 0.7)',
   seaSelFill: 'rgba(255, 214, 120, 0.28)',
   seaSelStroke: '#ffd678',
-  seaLabel: '#bcd9ee',
-  seaLabelHalo: 'rgba(10, 36, 60, 0.7)',
+  seaLabel: 'rgba(188, 217, 238, 0.7)',
+  seaLabelHalo: 'rgba(10, 36, 60, 0.28)',
 };
 
 // Stile dei nomi per tipo: nazioni (grassetto, più grandi), province, laghi e mari (corsivo).
 const LABEL_STYLE = {
-  nation: { font: '700', fill: COLORS.label, halo: COLORS.labelHalo },
-  prov: { font: '600', fill: COLORS.label, halo: COLORS.labelHalo },
-  lake: { font: 'italic 500', fill: COLORS.lakeLabel, halo: COLORS.lakeLabelHalo },
-  sea: { font: 'italic 500', fill: COLORS.seaLabel, halo: COLORS.seaLabelHalo },
+  nation: { font: '600', fill: COLORS.label, halo: COLORS.labelHalo },
+  prov: { font: '500', fill: COLORS.label, halo: COLORS.labelHalo },
+  lake: { font: 'italic 400', fill: COLORS.lakeLabel, halo: COLORS.lakeLabelHalo },
+  sea: { font: 'italic 400', fill: COLORS.seaLabel, halo: COLORS.seaLabelHalo },
 };
 const FONT_FAMILY = "'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif";
 
@@ -353,7 +353,7 @@ export function drawOverlay(ctx, p) {
     ctx.font = `${st.font} ${fontPx}px ${FONT_FAMILY}`;
     const lines = l.lines || [l.name];
     const pitch = fontPx * LINE_STEP; // distanza fra le righe (solo nomi su più righe)
-    ctx.lineWidth = 0.2 * fontPx;
+    ctx.lineWidth = 0.12 * fontPx;
     ctx.strokeStyle = st.halo;
     ctx.fillStyle = st.fill;
     for (let i = 0; i < lines.length; i += 1) {

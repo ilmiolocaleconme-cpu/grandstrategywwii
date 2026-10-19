@@ -104,8 +104,8 @@ h2 {
 .prov-outline { fill: none; stroke: #fff; stroke-linejoin: round; }
 /* lettering da carta degli anni Trenta: serif di sistema (nessun font scaricato, funziona offline); la larghezza e imposta da textLength.
    Grigio chiaro con alone sfumato fatto con il tratto (nessun filtro SVG: sui telefoni i filtri per-testo possono annerire o bloccare la mappa) */
-.map-label { fill: #d9d9d6; stroke: rgba(14, 18, 10, 0.65); paint-order: stroke; stroke-linejoin: round; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif; font-weight: 600; stroke-width: 0.2em; }
-.map-label.lake-label { fill: #dde3e8; stroke: rgba(10, 36, 60, 0.65); font-style: italic; font-weight: 500; stroke-width: 0.2em; }
+.map-label { fill: rgba(228, 228, 224, 0.72); stroke: rgba(14, 18, 10, 0.28); paint-order: stroke; stroke-linejoin: round; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif; font-weight: 500; stroke-width: 0.12em; }
+.map-label.lake-label { fill: rgba(221, 227, 232, 0.72); stroke: rgba(10, 36, 60, 0.28); font-style: italic; font-weight: 400; stroke-width: 0.12em; }
 .map-tools { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 8px; pointer-events: none; }
 .map-tools > * { pointer-events: auto; display: flex; gap: 6px; }
 .map-tools button { background: rgba(29, 36, 24, 0.88); }
@@ -159,6 +159,6 @@ h2 {
 .sea-zone.strait, .sea-zone.approach { fill: rgba(255, 214, 120, 0.16); stroke: rgba(255, 214, 120, 0.7); }
 .sea-zone:hover { fill: rgba(120, 190, 235, 0.18); }
 .sea-zone.selected { fill: rgba(255, 214, 120, 0.28); stroke: #ffd678; stroke-dasharray: none; }
-.map-label.sea-label { fill: #bcd9ee; stroke: rgba(10, 36, 60, 0.7); font-style: italic; font-weight: 500; }
-.map-label.nation-label { font-weight: 700; }
+.map-label.sea-label { fill: rgba(188, 217, 238, 0.7); stroke: rgba(10, 36, 60, 0.28); font-style: italic; font-weight: 400; }
+.map-label.nation-label { font-weight: 600; }
 .panel .linklike { background: none; border: 0; padding: 4px 0; min-height: 32px; color: #9fd0ff; text-decoration: underline; font: inherit; cursor: pointer; }
