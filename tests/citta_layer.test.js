@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { withCities, markCapitals, cityNamesAt, CAPITAL_NAME_ZOOM, CITY_NAME_ZOOM } from '../src/map/citta.js';
+import { withCities, markCapitals, cityNamesAt, nearestCityAt, CAPITAL_NAME_ZOOM, CITY_NAME_ZOOM, PART_NAME_ZOOM } from '../src/map/citta.js';
 import nations from '../data/nations.json' with { type: 'json' };
 import { buildCanvasModel, pickProvinceAt } from '../src/map/canvasModel.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
@@ -101,6 +101,20 @@ test('zoom dei nomi: lontano nessuna città, da zoom medio solo le capitali, da 
     { props: { kind: 'sponda', name: 'X' } },
   ];
   assert.deepEqual(cityNamesAt(fake, 1).length, 0, 'zoom basso');
-  assert.deepEqual(cityNamesAt(fake, CAPITAL_NAME_ZOOM).map((i) => i.props.name), ['Roma', 'Roma sud'], 'zoom medio');
-  assert.deepEqual(cityNamesAt(fake, CITY_NAME_ZOOM).map((i) => i.props.name), ['Roma', 'Roma sud', 'Milano'], 'zoom vicino');
+  assert.deepEqual(cityNamesAt(fake, CAPITAL_NAME_ZOOM).map((i) => i.props.name), ['Roma'], 'zoom medio: solo la capitale a nord');
+  assert.deepEqual(cityNamesAt(fake, CITY_NAME_ZOOM).map((i) => i.props.name), ['Roma', 'Milano'], 'zoom vicino: le parti sud solo al massimo');
+  assert.deepEqual(cityNamesAt(fake, PART_NAME_ZOOM).map((i) => i.props.name), ['Roma', 'Roma sud', 'Milano'], 'massimo zoom');
+});
+
+test('tocco città: la più vicina entro la tolleranza, altrimenti niente', () => {
+  const box = (x, y, w, h, name) => ({ props: { kind: 'citta', name }, bbox: { x, y, w, h }, id: name });
+  const items = [box(-5, -5, 1, 1, 'A'), box(10, 10, 0.2, 0.2, 'B'), box(0.4, 0.4, 0.1, 0.1, 'C')];
+  assert.equal(nearestCityAt(items, 0.5, 0.5, 0.3)?.id, 'C');
+  assert.equal(nearestCityAt(items, 50, 50, 1), null);
+});
+
+test('massimo zoom più alto del minimo di tocco: tutte le città si possono toccare da vicino', async () => {
+  const { MAX_K } = await import('../src/map/geo.js');
+  assert.ok(MAX_K >= 100, `zoom massimo ${MAX_K}`);
+  assert.ok(PART_NAME_ZOOM < MAX_K, 'le parti secondarie hanno un nome solo prima del massimo');
 });

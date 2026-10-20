@@ -594,6 +594,7 @@ export function labelForms(name, shortList) {
 }
 
 // Zoom attorno a un punto fisso (coordinate della vista), limiti min/max inclusi.
+export const MAX_K = 120; // zoom massimo della mappa canvas: serve per toccare anche le città più piccole
 export function zoomAt(view, factor, cx, cy, minK = 1, maxK = 40) {
   const k = Math.min(maxK, Math.max(minK, view.k * factor));
   const f = k / view.k;

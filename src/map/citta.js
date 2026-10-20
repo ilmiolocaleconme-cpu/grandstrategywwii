@@ -28,13 +28,34 @@ export function markCapitals(cities, nations) {
   });
 }
 
-// Zoom (view.k) da cui si scrivono i nomi: le capitali un po' prima, tutte le città solo da vicino.
+// Zoom (view.k) da cui si scrivono i nomi: le capitali un po' prima, tutte le città solo da vicino,
+// le parti secondarie (sud, nord, est, ovest) solo al massimo zoom.
 export const CAPITAL_NAME_ZOOM = 2.5;
 export const CITY_NAME_ZOOM = 5;
+export const PART_NAME_ZOOM = 60;
+const PARTE_SECONDARIA = / (sud|nord|est|ovest)$/;
 
-/** Città da etichettare al livello di zoom `k`: capitali (con la stella) da CAPITAL_NAME_ZOOM, le altre da CITY_NAME_ZOOM. */
+/** Città da etichettare al livello di zoom `k`. */
 export function cityNamesAt(items, k) {
-  return items.filter((it) => it.props.kind === 'citta' && (it.props.capitale ? k >= CAPITAL_NAME_ZOOM : k >= CITY_NAME_ZOOM));
+  return items.filter((it) => {
+    if (it.props.kind !== 'citta') return false;
+    if (PARTE_SECONDARIA.test(it.props.name)) return k >= PART_NAME_ZOOM;
+    return it.props.capitale ? k >= CAPITAL_NAME_ZOOM : k >= CITY_NAME_ZOOM;
+  });
+}
+
+/** Città più vicina al punto (unità di mappa) entro `tol`, misurata dal centro del riquadro; o null. */
+export function nearestCityAt(items, x, y, tol) {
+  let best = null;
+  let bestD = tol;
+  for (const it of items) {
+    if (it.props.kind !== 'citta') continue;
+    const cx = it.bbox.x + it.bbox.w / 2;
+    const cy = it.bbox.y + it.bbox.h / 2;
+    const d = Math.hypot(cx - x, cy - y);
+    if (d <= bestD) { best = it; bestD = d; }
+  }
+  return best;
 }
 
 /** Segna le capitali anche fra le città già presenti nelle province (es. Budapest, divisa dal Danubio). */
