@@ -299,10 +299,17 @@ export function provinceFill(props, layer, control) {
 // così i grandi restano sopra. Stessi dati (data/rivers_geo.json) usati dalle regole.
 export const RIVER_WIDTH_PX = { large: 2.4, medium: 1.5, small: 0.9 };
 
-// Densita dei fiumi in base allo zoom: a vista d'insieme solo i grandi (scalerank <= 5), poi anche i medi (<= 8),
-// da zoom 3 tutti. Evita che 540 fiumi coprano la mappa; il fiume selezionato resta sempre visibile.
+// Livelli dei fiumi: più si ingrandisce, più livelli si vedono. A vista d'insieme solo i grandi, da zoom 1,8 anche i principali
+// e i secondari, da zoom 3,5 tutti. Il fiume selezionato resta sempre visibile.
+// Livello 0: i grandi fiumi (classe main e scalerank <= 5, come prima). Livello 1: gli altri principali e i secondari.
+// Livello 2: i piccoli (tributari e il resto).
+export function riverTier(river) {
+  if (river?.class === 'main' && (river?.scalerank ?? 99) <= 5) return 0;
+  if (river?.class === 'main' || river?.class === 'secondary') return 1;
+  return 2;
+}
 export function riverRankLimit(k) {
-  return k < 1.8 ? 5 : k < 3.5 ? 8 : 99;
+  return k < 1.8 ? 0 : k < 3.5 ? 1 : 2;
 }
 
 export function buildWaterModel(rivers, riversGeo, lakes) {
@@ -317,7 +324,7 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
         d: lineToPath(f.geometry.coordinates),
         low: LOD_TOLERANCES.map((t) => lineToPath(f.geometry.coordinates, t)),
         width: RIVER_WIDTH_PX[river?.widthClass] ?? RIVER_WIDTH_PX.small,
-        rank: river?.scalerank ?? 99,
+        rank: riverTier(river),
       };
     })
     .sort((a, b) => b.rank - a.rank);
