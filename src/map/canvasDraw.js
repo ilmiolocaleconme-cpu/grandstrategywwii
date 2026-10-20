@@ -23,6 +23,7 @@ export const COLORS = {
   lakeLabel: 'rgba(221, 227, 232, 0.72)',
   lakeLabelHalo: 'rgba(10, 36, 60, 0.28)',
   seaFill: 'rgba(120, 190, 235, 0.07)',
+  cityGrey: '#7d8288', // città (centro urbano)
   cityLabel: 'rgba(252, 240, 200, 0.95)',
   cityLabelHalo: 'rgba(14, 18, 10, 0.6)',
   seaStroke: 'rgba(170, 215, 245, 0.45)',
@@ -188,6 +189,7 @@ function riverGroups(water, rankLimit) {
 }
 
 function fillOf(item, layer, control) {
+  if (item.props.kind === 'citta' && layer !== 'quality') return COLORS.cityGrey; // centro urbano: grigio
   const cache = item.fills ?? (item.fills = {});
   return cache[layer] ?? (cache[layer] = provinceFill(item.props, layer, control));
 }
@@ -344,7 +346,7 @@ export function drawOverlay(ctx, p) {
   }
   // capitali: nome con una stella (stessa grandezza delle altre etichette). Le altre città non hanno nome.
   if (view.k >= CITY_NAME_MIN_ZOOM) {
-    const capitali = model.items.filter((it) => it.props.capital);
+    const capitali = model.items.filter((it) => it.props.capitale);
     if (capitali.length) {
       ctx.font = `${CITY_NAME_PX}px ${FONT_FAMILY}`;
       ctx.textAlign = 'center';
@@ -358,8 +360,9 @@ export function drawOverlay(ctx, p) {
         for (const off of copies) {
           const px = a.sx * (b.x + b.w / 2 + off) + a.tx;
           const py = a.sx * (b.y + b.h / 2) + a.ty;
-          ctx.strokeText(`★ ${it.props.name}`, px, py);
-          ctx.fillText(`★ ${it.props.name}`, px, py);
+          const testo = it.props.capital ? `★ ${it.props.name}` : it.props.name;
+          ctx.strokeText(testo, px, py);
+          ctx.fillText(testo, px, py);
         }
       }
     }
