@@ -9,6 +9,7 @@ import { layoutOf, affineOf, screenToUnit, screenToView, blitPlan, coversScreen,
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 import { renderBase, renderBaseSteps } from '../src/map/canvasDraw.js';
+import { madreId } from './famiglie.js';
 
 const provinces = await loadProvinces();
 const cm = buildCanvasModel(provinces);
@@ -107,8 +108,8 @@ test('ricerca della provincia: concorda con l\'indice delle regole su città not
     const [x, y] = project(lon, lat);
     const it = pickProvinceAt(cm, x, y);
     const expected = index.provincesAt(lon, lat);
-    if (id) assert.equal(it?.id, id);
-    assert.equal(it?.id ?? null, expected.length === 1 ? expected[0].properties.id : it?.id ?? null, `${lon},${lat}`);
+    if (id) assert.equal(madreId(it?.id ?? ''), id);
+    assert.equal(madreId(it?.id ?? '') || null, expected.length === 1 ? madreId(expected[0].properties.id) : madreId(it?.id ?? '') || null, `${lon},${lat}`);
   }
   // punti sparsi (generatore deterministico): dove le regole indicano una sola provincia la mappa indica la stessa
   let seed = 12345;

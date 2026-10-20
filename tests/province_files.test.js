@@ -5,6 +5,7 @@ import { checkProvinceParts, fileName, loadProvincesFrom, mergeProvinceParts, ME
 import { listProvinceFiles, loadProvinces } from '../scripts/load-provinces.js';
 import { checkPrecache, hasMarker, precacheUrls, provinceMarkers } from '../scripts/check-precache.js';
 import { buildMapModel, nationalBorderPath } from '../src/map/geo.js';
+import { vistaProvince, madreId } from './famiglie.js';
 
 // Fixture sintetiche SOLO per i test: non sono dati geografici storici.
 const feat = (id, owner) => ({ type: 'Feature', id, properties: { id, owner }, geometry: { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 0]]] } });
@@ -72,7 +73,7 @@ test('fileName ricava il nome dal percorso', () => {
 
 // --- dati reali ---
 
-const EXPECTED = { DEU: 32, POL: 16, AUT: 8, BEL: 9, LUX: 3, CZE: 4, NLD: 11, ITA: 20, YUG: 33, DANZIG: 1, EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 19, SWE: 21, FIN: 19, CHE: 25, LIE: 1, FRA: 90, HUN: 20, ROM: 45, BGR: 26, GRC: 14, ALB: 12, ESP: 50, MAR_ES: 1, PRT: 22, MAR: 12, GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1, USSR: 177, IRL: 5, ISL: 1 };
+const EXPECTED = { DEU: 32, POL: 16, AUT: 8, BEL: 9, LUX: 3, CZE: 4, NLD: 11, ITA: 20, YUG: 33, DANZIG: 1, EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 19, SWE: 21, FIN: 19, CHE: 25, LIE: 1, FRA: 90, HUN: 20, ROM: 45, BGR: 25, GRC: 14, ALB: 12, ESP: 50, MAR_ES: 1, PRT: 22, MAR: 12, GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1, USSR: 177, IRL: 5, ISL: 1 };
 
 test('dati reali: un file per nazione più _meta, nessun file monolitico', async () => {
   const names = (await listProvinceFiles()).map(fileName).sort();
@@ -80,16 +81,17 @@ test('dati reali: un file per nazione più _meta, nessun file monolitico', async
   assert.equal(existsSync(new URL('../data/provinces_1936.json', import.meta.url)), false, 'il file unico non deve tornare: duplicherebbe i dati');
 });
 
-test('dati reali: unione di 1020 province, conteggi per nazione, id unici, owner = file', async () => {
+test('dati reali: unione di 2080 pezzi (1019 province, di cui molte divise in sponde), conteggi per nazione, id unici, owner = file', async () => {
   const merged = await loadProvinces();
-  assert.equal(merged.features.length, 1020);
+  // Sofia città è ora nel livello delle città (data/citta_grandi.json), non nel file della Bulgaria
+  assert.equal(merged.features.length, 2080);
   const counts = {};
-  for (const f of merged.features) counts[f.properties.owner] = (counts[f.properties.owner] ?? 0) + 1;
+  for (const f of vistaProvince(merged).features) counts[f.properties.owner] = (counts[f.properties.owner] ?? 0) + 1;
   assert.deepEqual(counts, EXPECTED);
-  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 1020);
+  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 2080);
   assert.equal(merged.metadata.asOf, '1936-01-01');
   // le tre province che nel vecchio file unico stavano fuori dal blocco della propria nazione
-  const owner = (id) => merged.features.find((f) => f.properties.id === id)?.properties.owner;
+  const owner = (id) => merged.features.find((f) => madreId(f.properties.id) === id)?.properties.owner;
   assert.deepEqual(['P_CZE_SLOVAKIA', 'P_ITA_ZARA', 'P_ITA_DODECANESO'].map(owner), ['CZE', 'ITA', 'ITA']);
 });
 

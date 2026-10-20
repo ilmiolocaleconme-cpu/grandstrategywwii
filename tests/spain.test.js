@@ -1,13 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadProvinces } from '../scripts/load-provinces.js';
+import { vistaProvince, madreId } from './famiglie.js';
 import { pointInPolygon } from '../src/data/geometry.js';
 import { featureAreaKm2, polygonsOf } from '../src/map/geo.js';
 
 // Penisola iberica e Marocco: ESP, PRT e MAR da Natural Earth (confini attuali), MAR_ES tracciato da immagine.
 // Le soglie sono larghe di proposito: servono a intercettare rotture, non a certificare precisione.
 
-const provinces = await loadProvinces();
+const provinces = vistaProvince(await loadProvinces());
 const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o);
 const esp = byOwner('ESP');
 const mar = byOwner('MAR_ES');

@@ -2,11 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
+import { madreId, vistaProvince } from './famiglie.js';
 
-const provinces = await loadProvinces();
+const provinces = vistaProvince(await loadProvinces());
 const index = buildProvinceIndex(provinces);
 const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o);
-const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
 
 test('Francia 1936: 90 dipartimenti, Senna, Senna e Oise e Corsica uniti, Belfort presente', () => {
   const fra = byOwner('FRA');

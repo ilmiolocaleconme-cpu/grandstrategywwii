@@ -5,11 +5,12 @@ import { loadProvinces } from '../scripts/load-provinces.js';
 import {
   HOME_BOUNDS, WORLD_W, buildMapModel, featureToStrokePath, hasSeam, isSeamEdge, nationalBorderPath, polygonsOf, project, visibleCopies, featureAreaKm2,
 } from '../src/map/geo.js';
+import { madreId, vistaProvince } from './famiglie.js';
 
-const provinces = await loadProvinces();
+const provinces = vistaProvince(await loadProvinces());
 const index = buildProvinceIndex(provinces);
 const ussr = provinces.features.filter((f) => f.properties.owner === 'USSR');
-const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
 const CHUKOTKA = 'P_USSR_CHUKCHI_AUTONOMOUS_OKRUG';
 const COS0 = project(1, 0)[0];
 
@@ -22,7 +23,7 @@ test('URSS: 177 unità, id unici, qualità ipotesi, fonte e licenza, repubbliche
     assert.equal(p.borderQuality, 'hypothesis', p.id);
     assert.ok(p.source && p.license && p.knownIssues.includes('modern_borders'), p.id);
     assert.match(p.notes, /Repubblica del 1936: /, p.id);
-    assert.equal(f.geometry.type, 'MultiPolygon', p.id);
+    assert.ok(['Polygon', 'MultiPolygon'].includes(f.geometry.type), p.id);
   }
   const rep = {};
   for (const f of ussr) { const r = f.properties.notes.match(/Repubblica del 1936: ([^.]+)\./)[1]; rep[r] = (rep[r] ?? 0) + 1; }

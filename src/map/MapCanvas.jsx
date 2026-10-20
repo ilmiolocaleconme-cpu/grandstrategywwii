@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { HOME_BOUNDS, LAYERS, RIVER_WIDTH_PX, WORLD_W, riverRankLimit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
-import { buildCityModel, pickCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, pickRiverNear, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
@@ -27,9 +26,8 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, cities, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
-  const cityModel = useMemo(() => (cities ? buildCityModel(cities) : null), [cities]);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
     () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, riverTier) : EMPTY_WATER),
@@ -47,7 +45,7 @@ export default function MapCanvas({ provinces, cities, rivers, riversGeo, lakes,
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, cityModel, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea, labelData };
+  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea, labelData };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -169,7 +167,7 @@ export default function MapCanvas({ provinces, cities, rivers, riversGeo, lakes,
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    drawOverlay(o.getContext('2d'), { model: p.model, cityModel: p.cityModel, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies });
+    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies });
   };
 
   // porta l'ultima immagine disegnata alla vista corrente (trascinamento e zoom costano solo questo)
@@ -410,12 +408,6 @@ export default function MapCanvas({ provinces, cities, rivers, riversGeo, lakes,
       for (const off of copies) {
         const id = pickRiverNear(p.water, ux - off, uy, tol, riverRankLimit(view.k), p.selectedRiverId);
         if (id) { p.onSelectRiver(id); return; }
-      }
-    }
-    if (p.cityModel) {
-      for (const off of copies) {
-        const c = pickCityAt(p.cityModel, ux - off, uy);
-        if (c) { p.onSelect(c.props.parentProvince); return; }
       }
     }
     for (const off of copies) {

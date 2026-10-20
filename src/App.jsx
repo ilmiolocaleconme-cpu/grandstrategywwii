@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import nations from '../data/nations.json';
 import resources from '../data/resources.json';
 import political from '../data/political_1936.json';
+import nations from '../data/nations.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { loadProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
+import { markCapitals, withCities } from './map/citta.js';
 import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
@@ -119,7 +120,10 @@ export default function App() {
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
   const labelData = useLabelData(!USE_CANVAS || mapShown);
-  const cities = useCities(USE_CANVAS && mapShown);
+  const citiesRaw = useCities(USE_CANVAS && mapShown);
+  // le città sono province a parte: entrano nello stesso modello e sono cliccabili come le altre
+  const cities = useMemo(() => (citiesRaw ? markCapitals(citiesRaw, nations) : null), [citiesRaw]);
+  const provincesWithCities = useMemo(() => withCities(provinces, cities), [provinces, cities]);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
   const [seaId, setSeaId] = useState(null);
@@ -134,7 +138,7 @@ export default function App() {
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
 
-  const mapItems = useMemo(() => (provinces ? (USE_CANVAS ? buildCanvasModel(provinces) : buildMapModel(provinces)).items : []), [provinces]);
+  const mapItems = useMemo(() => (provincesWithCities ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
   const control = game ? game.control : NATION_CONTROL;
   const choosable = useMemo(
@@ -244,7 +248,7 @@ export default function App() {
           </main>
         ) : (
         <div className="map-layout">
-          <MapScreen provinces={provinces} cities={cities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} />
+          <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} />
           {seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setSeaId(null)} onSelect={selectSea} />
           ) : selectedRiver ? (

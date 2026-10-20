@@ -28,7 +28,10 @@ test('nomi: il file è valido (somme di controllo, id noti, corpi e righe)', () 
   assert.deepEqual(validateLabels(labels, ids, seaIds, owners), []);
   assert.equal(labels.nations.length, owners.length, 'ogni nazione ha un nome');
   assert.equal(labels.seas.length, sea.zones.length, 'ogni zona marittima ha un nome');
-  assert.equal(labels.provinces.length, ids.length, 'ogni provincia ha almeno una variante');
+  // ogni provincia non divisa ha una variante; una provincia divisa in sponde ne ha una sola (sulla sponda più grande)
+  const madri = new Set(collection.features.filter((f) => !f.properties.sponda_fiume).map((f) => f.properties.id));
+  const famiglie = new Set(collection.features.filter((f) => f.properties.sponda_fiume === true).map((f) => f.properties.parentProvince));
+  assert.equal(labels.provinces.length, madri.size + famiglie.size, 'ogni provincia (o divisa in sponde) ha una sola variante');
   assert.equal(JSON.stringify(labels).includes('P_IRL_DUBLINO'), false, 'gli id delle province non devono comparire nel file (precache: un file per nazione)');
 });
 

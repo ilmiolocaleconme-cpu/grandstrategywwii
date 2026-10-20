@@ -23,7 +23,6 @@ export const COLORS = {
   lakeLabel: 'rgba(221, 227, 232, 0.72)',
   lakeLabelHalo: 'rgba(10, 36, 60, 0.28)',
   seaFill: 'rgba(120, 190, 235, 0.07)',
-  city: 'rgba(242, 210, 122, 0.9)', // contorno delle città a parte (ottone chiaro)
   cityLabel: 'rgba(252, 240, 200, 0.95)',
   cityLabelHalo: 'rgba(14, 18, 10, 0.6)',
   seaStroke: 'rgba(170, 215, 245, 0.45)',
@@ -343,32 +342,24 @@ export function drawOverlay(ctx, p) {
       ctx.stroke(path);
     }
   }
-  // città a parte: contorno sempre, nome solo quando la mappa è abbastanza ingrandita
-  const cm = p.cityModel;
-  if (cm) {
-    ctx.lineJoin = 'round';
-    ctx.strokeStyle = COLORS.city;
-    ctx.lineWidth = 1.2 / a.sx;
-    const cityPaths = cm.items.map((it) => itemPath(cm, null, it, 3));
-    for (const off of copies) {
-      ctx.setTransform(dpr * a.sx, 0, 0, dpr * a.sx, dpr * (a.tx + a.sx * off), dpr * a.ty);
-      for (const path of cityPaths) ctx.stroke(path);
-    }
-    if (view.k >= CITY_NAME_MIN_ZOOM) {
+  // capitali: nome con una stella (stessa grandezza delle altre etichette). Le altre città non hanno nome.
+  if (view.k >= CITY_NAME_MIN_ZOOM) {
+    const capitali = model.items.filter((it) => it.props.capital);
+    if (capitali.length) {
       ctx.font = `${CITY_NAME_PX}px ${FONT_FAMILY}`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.lineWidth = 3;
       ctx.strokeStyle = COLORS.cityLabelHalo;
       ctx.fillStyle = COLORS.cityLabel;
-      for (const it of cm.items) {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      for (const it of capitali) {
         const b = it.bbox;
         for (const off of copies) {
           const px = a.sx * (b.x + b.w / 2 + off) + a.tx;
           const py = a.sx * (b.y + b.h / 2) + a.ty;
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          ctx.strokeText(it.props.name, px, py);
-          ctx.fillText(it.props.name, px, py);
+          ctx.strokeText(`★ ${it.props.name}`, px, py);
+          ctx.fillText(`★ ${it.props.name}`, px, py);
         }
       }
     }
