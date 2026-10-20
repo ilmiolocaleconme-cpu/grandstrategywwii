@@ -28,6 +28,8 @@ export function labelFeatures(collection) {
     if (!piuGrande.has(madre) || area > piuGrande.get(madre).area) piuGrande.set(madre, { id: f.properties.id, area });
   }
   const features = collection.features.map((f) => {
+    // le città non hanno un'etichetta di provincia: il loro nome si scrive dal livello delle città (zoom)
+    if (f.properties.kind === 'citta') return { ...f, properties: { ...f.properties, name: '', nameLocal: '' } };
     if (!f.properties.sponda_fiume) return f;
     if (piuGrande.get(f.properties.parentProvince)?.id !== f.properties.id) return { ...f, properties: { ...f.properties, name: '', nameLocal: '' } };
     const nome = f.properties.name.replace(/ \(sponda [A-Z]\)$/, '');

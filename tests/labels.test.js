@@ -29,8 +29,9 @@ test('nomi: il file è valido (somme di controllo, id noti, corpi e righe)', () 
   assert.equal(labels.nations.length, owners.length, 'ogni nazione ha un nome');
   assert.equal(labels.seas.length, sea.zones.length, 'ogni zona marittima ha un nome');
   // ogni provincia non divisa ha una variante; una provincia divisa in sponde ne ha una sola (sulla sponda più grande)
-  const madri = new Set(collection.features.filter((f) => !f.properties.sponda_fiume).map((f) => f.properties.id));
-  const famiglie = new Set(collection.features.filter((f) => f.properties.sponda_fiume === true).map((f) => f.properties.parentProvince));
+  const madri = new Set(collection.features.filter((f) => !f.properties.sponda_fiume && f.properties.kind !== 'citta').map((f) => f.properties.id));
+  const cittaMadri = new Set(collection.features.filter((f) => f.properties.kind === 'citta').map((f) => f.properties.parentProvince ?? f.properties.id.replace(/_SP\d+$/, '')));
+  const famiglie = new Set(collection.features.filter((f) => f.properties.sponda_fiume === true && !cittaMadri.has(f.properties.parentProvince)).map((f) => f.properties.parentProvince));
   assert.equal(labels.provinces.length, madri.size + famiglie.size, 'ogni provincia (o divisa in sponde) ha una sola variante');
   assert.equal(JSON.stringify(labels).includes('P_IRL_DUBLINO'), false, 'gli id delle province non devono comparire nel file (precache: un file per nazione)');
 });

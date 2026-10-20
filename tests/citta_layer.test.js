@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { withCities, markCapitals } from '../src/map/citta.js';
+import { withCities, markCapitals, cityNamesAt, CAPITAL_NAME_ZOOM, CITY_NAME_ZOOM } from '../src/map/citta.js';
 import nations from '../data/nations.json' with { type: 'json' };
 import { buildCanvasModel, pickProvinceAt } from '../src/map/canvasModel.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
@@ -91,4 +91,16 @@ test('solo le capitali delle nazioni sono marcate (con il nome sulla mappa)', ()
   assert.equal(new Set(nomi).size, nomi.length, 'una capitale è marcata una sola volta');
   assert.ok(marcate.length <= nations.length, `capitali marcate: ${marcate.length}`);
   assert.ok(marcate.length < cities.length / 5, 'il nome sulla mappa solo per le capitali');
+});
+
+test('zoom dei nomi: lontano nessuna città, da zoom medio solo le capitali, da vicino tutte le città', () => {
+  const fake = [
+    { props: { kind: 'citta', capitale: true, capital: true, name: 'Roma' } },
+    { props: { kind: 'citta', capitale: true, name: 'Roma sud' } },
+    { props: { kind: 'citta', name: 'Milano' } },
+    { props: { kind: 'sponda', name: 'X' } },
+  ];
+  assert.deepEqual(cityNamesAt(fake, 1).length, 0, 'zoom basso');
+  assert.deepEqual(cityNamesAt(fake, CAPITAL_NAME_ZOOM).map((i) => i.props.name), ['Roma', 'Roma sud'], 'zoom medio');
+  assert.deepEqual(cityNamesAt(fake, CITY_NAME_ZOOM).map((i) => i.props.name), ['Roma', 'Roma sud', 'Milano'], 'zoom vicino');
 });

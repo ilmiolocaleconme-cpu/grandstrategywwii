@@ -3,6 +3,7 @@
 // canvasModel.js e canvasView.js (testate in tests/canvas.test.js). Gli stessi colori e spessori di styles.css (.prov, .lake, .river, ...).
 
 import { WORLD_W, provinceFill, riverRankLimit } from './geo.js';
+import { cityNamesAt } from './citta.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
 import { LINE_STEP } from './labelfit.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
@@ -42,7 +43,6 @@ const LABEL_STYLE = {
   lake: { font: 'italic 400', fill: COLORS.lakeLabel, halo: COLORS.lakeLabelHalo },
   sea: { font: 'italic 400', fill: COLORS.seaLabel, halo: COLORS.seaLabelHalo },
 };
-const CITY_NAME_MIN_ZOOM = 2; // zoom (view.k) da cui si scrivono i nomi delle città
 const CITY_NAME_PX = 11;
 const FONT_FAMILY = "'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif";
 
@@ -186,6 +186,14 @@ function riverGroups(water, rankLimit) {
   const groups = [...byWidth.entries()].sort((a, b) => a[0] - b[0]);
   water.groups.set(rankLimit, groups);
   return groups;
+}
+
+// Testo del nome di una città: senza la sigla di sponda; la stella solo sulla capitale a nord; le altre parti di una capitale sono "<nome> sud".
+function cityText(p) {
+  const nome = p.name.replace(/ \(sponda [A-Z]\)$/, '');
+  if (p.capital) return `★ ${nome}`;
+  if (p.capitale && !/ sud$/.test(nome)) return `${nome} sud`;
+  return nome;
 }
 
 function fillOf(item, layer, control) {
@@ -344,26 +352,24 @@ export function drawOverlay(ctx, p) {
       ctx.stroke(path);
     }
   }
-  // capitali: nome con una stella (stessa grandezza delle altre etichette). Le altre città non hanno nome.
-  if (view.k >= CITY_NAME_MIN_ZOOM) {
-    const capitali = model.items.filter((it) => it.props.capitale);
-    if (capitali.length) {
-      ctx.font = `${CITY_NAME_PX}px ${FONT_FAMILY}`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = COLORS.cityLabelHalo;
-      ctx.fillStyle = COLORS.cityLabel;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      for (const it of capitali) {
-        const b = it.bbox;
-        for (const off of copies) {
-          const px = a.sx * (b.x + b.w / 2 + off) + a.tx;
-          const py = a.sx * (b.y + b.h / 2) + a.ty;
-          const testo = it.props.capital ? `★ ${it.props.name}` : it.props.name;
-          ctx.strokeText(testo, px, py);
-          ctx.fillText(testo, px, py);
-        }
+  // nomi delle città: le capitali (con la stella) da zoom medio, le altre città solo da vicino
+  const nomi = cityNamesAt(model.items, view.k);
+  if (nomi.length) {
+    ctx.font = `${CITY_NAME_PX}px ${FONT_FAMILY}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = COLORS.cityLabelHalo;
+    ctx.fillStyle = COLORS.cityLabel;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    for (const it of nomi) {
+      const b = it.bbox;
+      for (const off of copies) {
+        const px = a.sx * (b.x + b.w / 2 + off) + a.tx;
+        const py = a.sx * (b.y + b.h / 2) + a.ty;
+        const testo = cityText(it.props);
+        ctx.strokeText(testo, px, py);
+        ctx.fillText(testo, px, py);
       }
     }
   }

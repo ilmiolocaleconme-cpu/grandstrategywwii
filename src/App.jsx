@@ -8,7 +8,7 @@ import { loadProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
-import { markCapitals, withCities } from './map/citta.js';
+import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.js';
 import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
@@ -123,7 +123,7 @@ export default function App() {
   const citiesRaw = useCities(USE_CANVAS && mapShown);
   // le città sono province a parte: entrano nello stesso modello e sono cliccabili come le altre
   const cities = useMemo(() => (citiesRaw ? markCapitals(citiesRaw, nations) : null), [citiesRaw]);
-  const provincesWithCities = useMemo(() => withCities(provinces, cities), [provinces, cities]);
+  const provincesWithCities = useMemo(() => withCities(provinces && markCapitalsInCollection(provinces, nations), cities), [provinces, cities]);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
   const [seaId, setSeaId] = useState(null);
