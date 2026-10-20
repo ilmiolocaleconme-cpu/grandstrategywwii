@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { validateCatalog } from '../src/data/validate.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
-import { riverRankLimit, riverTier } from '../src/map/geo.js';
+import { riverRankLimit, riverTier, riverWidthScale } from '../src/map/geo.js';
 
 // Fiumi dell'URSS: Natural Earth 10m (v5.2.0-pre), ritagliati sulle 177 unità sovietiche con margine 0,04 gradi.
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
@@ -82,6 +82,9 @@ test('mappa: i fiumi compaiono per classe e livello di zoom (principali, poi sec
   assert.equal(riverRankLimit(1), 0);
   assert.equal(riverRankLimit(2.5), 1);
   assert.equal(riverRankLimit(4), 2);
+  // più si allontana, più i fiumi sono sottili (mai più spessi che a dettaglio pieno)
+  assert.ok(riverWidthScale(1) < riverWidthScale(2.5) && riverWidthScale(2.5) < riverWidthScale(4));
+  assert.equal(riverWidthScale(4), 1);
   const total = rivers.length;
   const rank = new Map(rivers.map((r) => [r.id, riverTier(r)]));
   const visible = (k) => geo.features.filter((f) => rank.get(f.properties.riverId) <= riverRankLimit(k)).length;
