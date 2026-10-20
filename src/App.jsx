@@ -38,6 +38,18 @@ function useWaterData(start) {
   return water;
 }
 
+// Punti di passaggio calcolati (~210 kB, data/crossing_points.json): caricati dopo la mappa e messi in cache dal service worker.
+function useCrossingPoints(start) {
+  const [file, setFile] = useState(null);
+  useEffect(() => {
+    if (!start) return undefined;
+    let alive = true;
+    import('../data/crossing_points.json').then((m) => alive && setFile(m.default)).catch(() => alive && setFile(null));
+    return () => { alive = false; };
+  }, [start]);
+  return file;
+}
+
 // Zone marittime (~95 kB): come fiumi e laghi, caricate dopo la mappa e messe in cache dal service worker.
 function useSeaData(start) {
   const [sea, setSea] = useState({ status: 'loading', file: null });
@@ -109,6 +121,8 @@ export default function App() {
   }, [provincesStatus]);
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
+  const crossingPoints = useCrossingPoints(USE_CANVAS && mapShown);
+  const [showBridges, setShowBridges] = useState(true);
   const labelData = useLabelData(!USE_CANVAS || mapShown);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
@@ -225,7 +239,7 @@ export default function App() {
           <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : (
         <div className="map-layout">
-          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} />
+          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} />
           {seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setSeaId(null)} onSelect={selectSea} />
           ) : selectedRiver ? (
