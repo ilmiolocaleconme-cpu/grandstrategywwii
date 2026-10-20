@@ -38,7 +38,7 @@ function useWaterData(start) {
   return water;
 }
 
-// Punti di passaggio calcolati (~210 kB, data/crossing_points.json): caricati dopo la mappa e messi in cache dal service worker.
+// Punti di passaggio calcolati (~170 kB, data/crossing_points.json): caricati dopo la mappa e messi in cache dal service worker.
 function useCrossingPoints(start) {
   const [file, setFile] = useState(null);
   useEffect(() => {

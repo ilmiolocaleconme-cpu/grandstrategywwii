@@ -134,7 +134,22 @@ export function computeCrossingPoints(model, index, catalog, { maxRank = 8, step
   });
 }
 
-/** Controlli sul file: schema, id unici, tipi, livelli, coordinate, fiumi e province esistenti. Ritorna la lista degli errori. */
+/**
+ * Nel file le due province di ogni punto sono INDICI nell'elenco ordinato degli id (come in data/adjacency.json, con
+ * la somma di controllo `checksum`): citare gli id per esteso metterebbe nello stesso chunk della build le province
+ * di nazioni piccole (CZE, DANZIG, LIE) e farebbe fallire il controllo del precache (scripts/check-precache.js).
+ */
+export function packCrossingPoints(points, ids) {
+  const index = new Map(ids.map((id, i) => [id, i]));
+  return points.map((p) => ({ ...p, from: index.get(p.from), to: index.get(p.to) }));
+}
+
+/** Operazione inversa di packCrossingPoints: indici → id delle province. */
+export function unpackCrossingPoints(file, ids) {
+  return file.points.map((p) => ({ ...p, from: ids[p.from], to: ids[p.to] }));
+}
+
+/** Controlli sul file: schema, id unici, tipi, livelli, coordinate, fiumi e indici di provincia validi (`provinceIds` = elenco ordinato degli id). Ritorna la lista degli errori. */
 export function validateCrossingPoints(file, { riverIds, provinceIds } = {}) {
   const errors = [];
   if (file?.schema !== CROSSING_POINTS_SCHEMA) errors.push(`schema atteso ${CROSSING_POINTS_SCHEMA}`);
@@ -149,7 +164,7 @@ export function validateCrossingPoints(file, { riverIds, provinceIds } = {}) {
     if (!CROSSING_LEVELS.some((l) => l.level === p.level)) errors.push(`${p.id}: livello non valido`);
     if (!(Math.abs(p.lon) <= 180) || !(Math.abs(p.lat) <= 90)) errors.push(`${p.id}: coordinate non valide`);
     if (riverIds && !riverIds.has(p.riverId)) errors.push(`${p.id}: fiume sconosciuto ${p.riverId}`);
-    if (provinceIds) for (const side of [p.from, p.to]) if (!provinceIds.has(side)) errors.push(`${p.id}: provincia sconosciuta ${side}`);
+    if (provinceIds) for (const side of [p.from, p.to]) if (!Number.isInteger(side) || side < 0 || side >= provinceIds.length) errors.push(`${p.id}: indice di provincia non valido ${side}`);
   }
   return errors;
 }

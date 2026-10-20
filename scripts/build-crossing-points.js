@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { loadProvinces } from './load-provinces.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { buildRiverModel } from '../src/data/rivers.js';
-import { CROSSING_POINTS_SCHEMA, LEVEL_BASIS, computeCrossingPoints } from '../src/data/crossingPoints.js';
+import { CROSSING_POINTS_SCHEMA, LEVEL_BASIS, computeCrossingPoints, packCrossingPoints } from '../src/data/crossingPoints.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
@@ -16,7 +16,8 @@ export async function buildCrossingPointsFile() {
   const catalog = await readJson('rivers.json');
   const geo = await readJson('rivers_geo.json');
   const params = { maxRank: 8, stepKm: 1, bankStepKm: 3, spacingKm: 40, offsetDeg: 0.03, mergeKm: 8 };
-  const points = computeCrossingPoints(buildRiverModel(catalog, geo), buildProvinceIndex(provinces), catalog, params);
+  const ids = provinces.features.map((f) => f.properties.id);
+  const points = packCrossingPoints(computeCrossingPoints(buildRiverModel(catalog, geo), buildProvinceIndex(provinces), catalog, params), ids);
   return {
     schema: CROSSING_POINTS_SCHEMA,
     method: 'incrocio fiume/confine di provincia (bisezione, passo 1 km) e fiumi che fanno da confine (sonda sulle due rive, un punto ogni 40 km per coppia; passaggi ripetuti entro 8 km uniti)',
@@ -24,7 +25,8 @@ export async function buildCrossingPointsFile() {
     quality: 'hypothesis',
     levelBasis: LEVEL_BASIS,
     params,
-    checksum: idsChecksum(provinces.features.map((f) => f.properties.id)),
+    checksum: idsChecksum(ids),
+    provinceRefs: 'indici nell\'elenco ordinato delle province (come adjacency.json)',
     count: points.length,
     points,
   };

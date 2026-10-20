@@ -42,7 +42,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { ok: catalogOk, errors, warnings } = validateCatalog(catalog);
   const provinceIds = catalog.provinces.features.map((f) => f.properties.id);
   errors.push(...validateAdjacency(catalog.adjacency, provinceIds), ...validateSea(catalog.sea, provinceIds), ...validateLabels(catalog.labels, provinceIds, catalog.sea.zones.map((z) => z.id), [...new Set(catalog.provinces.features.map((f) => f.properties.owner))]));
-  errors.push(...validateCrossingPoints(catalog.crossingPoints, { riverIds: new Set(catalog.rivers.map((r) => r.id)), provinceIds: new Set(provinceIds) }));
+  errors.push(...validateCrossingPoints(catalog.crossingPoints, { riverIds: new Set(catalog.rivers.map((r) => r.id)), provinceIds }));
   if (catalog.crossingPoints.checksum !== idsChecksum(provinceIds)) errors.push('punti di passaggio: somma di controllo diversa, le province sono cambiate: rigenerare con npm run build:crossing-points');
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));

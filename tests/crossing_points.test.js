@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { CROSSING_POINTS_SCHEMA, CROSSING_LEVELS, computeCrossingPoints, levelForRiver, minLevelForZoom, validateCrossingPoints } from '../src/data/crossingPoints.js';
+import { CROSSING_POINTS_SCHEMA, CROSSING_LEVELS, computeCrossingPoints, levelForRiver, minLevelForZoom, packCrossingPoints, unpackCrossingPoints, validateCrossingPoints } from '../src/data/crossingPoints.js';
 import { buildRiverModel, distanceToRiverKm } from '../src/data/rivers.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { idsChecksum } from '../src/data/adjacency.js';
@@ -11,7 +11,7 @@ import { MARKER_STYLE, buildMarkers, drawMarkers, markerLegend, visibleMarkers }
 import { loadProvinces } from '../scripts/load-provinces.js';
 
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
-const file = read('crossing_points.json');
+const raw = read('crossing_points.json');
 const catalog = read('rivers.json');
 const geo = read('rivers_geo.json');
 const provinces = await loadProvinces();
@@ -19,12 +19,13 @@ const ids = provinces.features.map((f) => f.properties.id);
 const model = buildRiverModel(catalog, geo);
 const index = buildProvinceIndex(provinces);
 const riverById = new Map(catalog.map((r) => [r.id, r]));
+const file = { ...raw, points: unpackCrossingPoints(raw, ids) }; // province per id
 const ownerOf = new Map(provinces.features.map((f) => [f.properties.id, f.properties.owner]));
 
 test('punti di passaggio: file valido, legato alle province attuali e dichiarato ipotesi', () => {
   assert.equal(file.schema, CROSSING_POINTS_SCHEMA);
-  assert.deepEqual(validateCrossingPoints(file, { riverIds: new Set(catalog.map((r) => r.id)), provinceIds: new Set(ids) }), []);
-  assert.equal(file.checksum, idsChecksum(ids), 'province cambiate: rigenerare con npm run build:crossing-points');
+  assert.deepEqual(validateCrossingPoints(raw, { riverIds: new Set(catalog.map((r) => r.id)), provinceIds: ids }), []);
+  assert.equal(raw.checksum, idsChecksum(ids), 'province cambiate: rigenerare con npm run build:crossing-points');
   assert.equal(file.quality, 'hypothesis');
   assert.ok(file.count > 500, `punti: ${file.count}`);
 });
@@ -66,15 +67,20 @@ test('punti di passaggio: livello provvisorio dalla larghezza del fiume, 3 livel
 test('punti di passaggio: ricalcolando un fiume si ottengono gli stessi punti del file (Reno)', () => {
   const rhine = new Map([['R_RHINE', model.rivers.get('R_RHINE')]]);
   const got = computeCrossingPoints({ rivers: rhine }, index, catalog, file.params);
-  assert.deepEqual(got, file.points.filter((p) => p.riverId === 'R_RHINE'));
+  assert.deepEqual(packCrossingPoints(got, ids), raw.points.filter((p) => p.riverId === 'R_RHINE'));
+  assert.deepEqual(unpackCrossingPoints({ points: packCrossingPoints(got, ids) }, ids), got);
 });
 
 test('punti di passaggio: il validatore rifiuta id duplicati, livelli e tipi non validi', () => {
-  const bad = { ...file, count: 2, points: [{ ...file.points[0] }, { ...file.points[0], level: 9, kind: 'x' }] };
+  const bad = { ...raw, count: 2, points: [{ ...raw.points[0] }, { ...raw.points[0], level: 9, kind: 'x', from: 99999 }] };
   const errors = validateCrossingPoints(bad);
   assert.ok(errors.some((e) => e.includes('duplicato')));
   assert.ok(errors.some((e) => e.includes('livello')));
   assert.ok(errors.some((e) => e.includes('tipo')));
+  assert.ok(validateCrossingPoints(bad, { provinceIds: ids }).some((e) => e.includes('indice')));
+  // nessun id di provincia per esteso nel file (precache: province di nazioni piccole in chunk separati)
+  const text = readFileSync(new URL('../data/crossing_points.json', import.meta.url), 'utf8');
+  assert.ok(!text.includes('P_CZE_') && !text.includes('P_LIE_') && !text.includes('P_DANZIG_'));
 });
 
 test('marcatori: il livello si riconosce da forma, colore e dimensione (tutti diversi, crescenti)', () => {
