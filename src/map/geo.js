@@ -299,13 +299,13 @@ export function provinceFill(props, layer, control) {
 // così i grandi restano sopra. Stessi dati (data/rivers_geo.json) usati dalle regole.
 export const RIVER_WIDTH_PX = { large: 2.4, medium: 1.5, small: 0.9 };
 
-// Livelli dei fiumi: più si ingrandisce, più livelli si vedono. A vista d'insieme solo i grandi, da zoom 1,8 anche i principali
-// e i secondari, da zoom 3,5 tutti. Il fiume selezionato resta sempre visibile.
-// Livello 0: i grandi fiumi (classe main e scalerank <= 5, come prima). Livello 1: gli altri principali e i secondari.
+// Livelli dei fiumi per classe: più si ingrandisce, più classi si vedono. A vista d'insieme solo i principali, da zoom 1,8
+// anche i secondari, da zoom 3,5 anche i terziari (tributary). Il fiume selezionato resta sempre visibile.
+// Livello 0: principali (main). Livello 1: secondari. Livello 2: terziari.
 // Livello 2: i piccoli (tributari e il resto).
 export function riverTier(river) {
-  if (river?.class === 'main' && (river?.scalerank ?? 99) <= 5) return 0;
-  if (river?.class === 'main' || river?.class === 'secondary') return 1;
+  if (river?.class === 'main') return 0;
+  if (river?.class === 'secondary') return 1;
   return 2;
 }
 export function riverRankLimit(k) {
@@ -327,7 +327,7 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
         rank: riverTier(river),
       };
     })
-    .sort((a, b) => b.rank - a.rank);
+    .sort((a, b) => b.rank - a.rank || a.width - b.width);
   const lakeItems = lakes.features.map((f) => ({
     id: f.properties.id,
     name: f.properties.name,
