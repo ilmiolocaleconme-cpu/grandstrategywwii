@@ -78,16 +78,16 @@ test('fiumi URSS: ogni vertice dei tratti nuovi sta nelle province sovietiche o 
   assert.ok(outside <= 5, `vertici fuori dal territorio: ${outside}`);
 });
 
-test('mappa: i fiumi compaiono per livelli di zoom (grandi, poi principali e secondari, poi tutti)', () => {
+test('mappa: i fiumi compaiono per classe e livello di zoom (principali, poi secondari, poi terziari)', () => {
   assert.equal(riverRankLimit(1), 0);
   assert.equal(riverRankLimit(2.5), 1);
   assert.equal(riverRankLimit(4), 2);
   const total = rivers.length;
   const rank = new Map(rivers.map((r) => [r.id, riverTier(r)]));
   const visible = (k) => geo.features.filter((f) => rank.get(f.properties.riverId) <= riverRankLimit(k)).length;
-  // a zoom 1 solo i grandi (main con scalerank <= 5), a zoom 2,5 anche gli altri principali e i secondari, a zoom 4 tutti
-  const grandi = new Map(rivers.map((r) => [r.id, r.class === 'main' && (r.scalerank ?? 99) <= 5]));
-  assert.equal(visible(1), geo.features.filter((f) => grandi.get(f.properties.riverId)).length);
+  // a zoom 1 solo i principali (main), a zoom 2,5 anche i secondari, a zoom 4 anche i terziari (tutti)
+  const principali = new Map(rivers.map((r) => [r.id, r.class === 'main']));
+  assert.equal(visible(1), geo.features.filter((f) => principali.get(f.properties.riverId)).length);
   assert.ok(visible(1) < visible(2.5) && visible(2.5) < visible(4) && visible(4) === geo.features.length);
   assert.ok(total > 500);
 });
