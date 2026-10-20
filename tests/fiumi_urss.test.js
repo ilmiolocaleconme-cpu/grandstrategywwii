@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { validateCatalog } from '../src/data/validate.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
-import { riverRankLimit } from '../src/map/geo.js';
+import { riverRankLimit, riverTier } from '../src/map/geo.js';
 
 // Fiumi dell'URSS: Natural Earth 10m (v5.2.0-pre), ritagliati sulle 177 unità sovietiche con margine 0,04 gradi.
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
@@ -78,14 +78,16 @@ test('fiumi URSS: ogni vertice dei tratti nuovi sta nelle province sovietiche o 
   assert.ok(outside <= 5, `vertici fuori dal territorio: ${outside}`);
 });
 
-test('mappa: i fiumi si diradano a vista d\'insieme (solo i grandi), tutti da zoom 3,5', () => {
-  assert.equal(riverRankLimit(1), 5);
-  assert.equal(riverRankLimit(2.5), 8);
-  assert.equal(riverRankLimit(4), 99);
+test('mappa: i fiumi compaiono per livelli di zoom (grandi, poi principali e secondari, poi tutti)', () => {
+  assert.equal(riverRankLimit(1), 0);
+  assert.equal(riverRankLimit(2.5), 1);
+  assert.equal(riverRankLimit(4), 2);
   const total = rivers.length;
-  const rank = new Map(rivers.map((r) => [r.id, r.scalerank]));
+  const rank = new Map(rivers.map((r) => [r.id, riverTier(r)]));
   const visible = (k) => geo.features.filter((f) => rank.get(f.properties.riverId) <= riverRankLimit(k)).length;
-  assert.ok(visible(1) < geo.features.length / 3, `${visible(1)} tratti a zoom 1 su ${geo.features.length}`);
+  // a zoom 1 solo i grandi (main con scalerank <= 5), a zoom 2,5 anche gli altri principali e i secondari, a zoom 4 tutti
+  const grandi = new Map(rivers.map((r) => [r.id, r.class === 'main' && (r.scalerank ?? 99) <= 5]));
+  assert.equal(visible(1), geo.features.filter((f) => grandi.get(f.properties.riverId)).length);
   assert.ok(visible(1) < visible(2.5) && visible(2.5) < visible(4) && visible(4) === geo.features.length);
   assert.ok(total > 500);
 });

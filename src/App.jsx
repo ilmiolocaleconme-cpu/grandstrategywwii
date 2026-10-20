@@ -63,6 +63,18 @@ function useLabelData(start) {
   return labels;
 }
 
+// Città a parte (data/citta_grandi.json): si caricano dopo le province, come l'acqua, per non rallentare la prima schermata
+function useCities(enabled) {
+  const [cities, setCities] = useState(null);
+  useEffect(() => {
+    if (!enabled) return undefined;
+    let alive = true;
+    import('../data/citta_grandi.json').then((m) => alive && setCities(m.default.features)).catch(() => {});
+    return () => { alive = false; };
+  }, [enabled]);
+  return cities;
+}
+
 // Province: un file per nazione (data/provinces/), tutti caricati all'avvio in parallelo e uniti
 // in memoria. La mappa parte solo a caricamento completo: una mappa a metà falserebbe i bordi nazionali.
 function useProvinces() {
@@ -107,6 +119,7 @@ export default function App() {
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
   const labelData = useLabelData(!USE_CANVAS || mapShown);
+  const cities = useCities(USE_CANVAS && mapShown);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
   const [seaId, setSeaId] = useState(null);
@@ -231,7 +244,7 @@ export default function App() {
           </main>
         ) : (
         <div className="map-layout">
-          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} />
+          <MapScreen provinces={provinces} cities={cities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} />
           {seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setSeaId(null)} onSelect={selectSea} />
           ) : selectedRiver ? (
