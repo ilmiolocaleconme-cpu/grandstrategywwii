@@ -311,6 +311,10 @@ export function riverTier(river) {
 export function riverRankLimit(k) {
   return k < 1.8 ? 0 : k < 3.5 ? 1 : 2;
 }
+// Spessore dei fiumi per zoom: a vista d'insieme più sottili, così i principali non coprono la mappa.
+export function riverWidthScale(k) {
+  return k < 1.8 ? 0.55 : k < 3.5 ? 0.8 : 1;
+}
 
 export function buildWaterModel(rivers, riversGeo, lakes) {
   const byId = new Map(rivers.map((r) => [r.id, r]));
