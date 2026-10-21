@@ -184,5 +184,5 @@ h2 {
 .bridge-legend li { display: flex; align-items: center; gap: 6px; line-height: 1.25; }
 .bridge-legend li.note { font-size: 11px; color: #c9cdbf; }
 .bridge-legend svg, .bridge-legend canvas { flex: none; }
-.bridge-legend { max-height: calc(100% - 200px); overflow-y: auto; pointer-events: auto; }
+.bridge-legend { max-height: max(150px, calc(100% - 132px - 300px)); overflow-y: auto; pointer-events: auto; z-index: 2; }
 @media (max-width: 480px) { .bridge-legend { font-size: 11px; padding: 4px 8px; max-width: 220px; } }

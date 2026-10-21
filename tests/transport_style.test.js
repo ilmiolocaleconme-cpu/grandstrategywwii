@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DECK_ZOOM, DETAIL_ZOOMS, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, drawBridgeDeck, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
+import { DECK_ZOOM, DETAIL_ZOOMS, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, OFFSETS, drawBridgeDeck, drawStraight, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
 import { buildMarkers, drawMarkers, showsDeck, visibleMarkers } from '../src/map/crossingMarkers.js';
 import { headingDeg } from '../src/data/transport.js';
 import { validateBridges } from '../src/data/bridges.js';
@@ -20,26 +20,31 @@ test('dettaglio per zoom: tre livelli, soglie crescenti', () => {
   assert.equal(detailTier(100), 2);
 });
 
-test('autostrada: a zoom alto ha due carreggiate (spartitraffico), la strada principale una sola con mezzeria', () => {
-  const motorway = RECIPES['road-3'][2];
-  const road = RECIPES['road-2'][2];
-  assert.ok(motorway[0].w > road[0].w, 'più larga');
-  assert.equal(motorway.at(-1).c, '#2b2618', 'ultima passata scura al centro = spartitraffico');
-  assert.ok(motorway.at(-1).w < motorway[1].w && !motorway.at(-1).dash, 'linea continua più stretta del riempimento');
-  assert.ok(road.at(-1).dash, 'mezzeria tratteggiata sulla strada');
+test('autostrada: a zoom pieno sono due carreggiate scostate (spartitraffico), la strada principale una con mezzeria', () => {
+  assert.ok(OFFSETS['road-3'] > recipeWidth('road-2', 2) / 2 - 3, 'le due carreggiate non si sovrappongono');
+  const lane = RECIPES['road-3'][2];
+  assert.ok(2 * OFFSETS['road-3'] > lane[0].w, 'tra le carreggiate resta uno spartitraffico libero');
+  assert.ok(lane.at(-1).dash, 'linea di corsia tratteggiata');
+  assert.ok(recipeWidth('road-3', 2) > recipeWidth('road-2', 2), 'più larga');
+  assert.ok(RECIPES['road-2'][2].at(-1).dash, 'mezzeria tratteggiata sulla strada');
 });
 
-test('ferrovie: rotaie sottili con traversine; il doppio binario ha il doppio di rotaie', () => {
+test('ferrovie: rotaie sottili con traversine fitte; il doppio binario sono due binari paralleli', () => {
   const single = RECIPES['rail-2'][2];
-  const dbl = RECIPES['rail-3'][2];
-  const last = (r) => r.at(-1);
-  assert.ok(last(single).dash && last(single).dash[0] < last(single).w, 'traversine: tratti più corti che larghi');
-  assert.ok(last(dbl).dash && last(dbl).dash[0] < last(dbl).w);
-  const rails = (r) => r.filter((p, i) => !p.dash && p.c === single[0].c && (r[i + 1]?.c !== p.c)).length; // strati scuri coperti da uno chiaro = coppie di rotaie
-  assert.equal(rails(single), 1, 'un binario = una coppia di rotaie');
-  assert.equal(rails(dbl), 2, 'doppio binario = due coppie');
-  assert.ok(recipeWidth('rail-3', 2) > recipeWidth('rail-2', 2), 'doppio binario più largo');
-  assert.equal(last(single).c, last(dbl).c, 'stesse traversine, stessa fase di tratteggio');
+  const t = single.at(-1);
+  assert.ok(t.dash && t.dash[0] < t.w && t.dash[1] < 3 * t.dash[0], 'traversine fitte, più corte che larghe');
+  assert.equal(single.length, 3, 'rotaie + massicciata + traversine');
+  assert.equal(OFFSETS['rail-2'], undefined, 'binario unico: un solo tracciato');
+  assert.ok(2 * OFFSETS['rail-3'] > t.w, 'tra i due binari resta uno spazio');
+  assert.ok(recipeWidth('rail-3', 2) > 2 * recipeWidth('rail-2', 2) - 1, 'doppio binario ≈ due binari');
+});
+
+test('tracciati paralleli: drawStraight disegna due volte per i tipi con scostamento', () => {
+  const count = (key) => { const f = fakeCtx(); drawStraight(f.ctx, key, 2, 1, -10, 10); return f.log.filter(([k]) => k === 'stroke').length; };
+  assert.equal(count('rail-3'), 2 * count('rail-2'));
+  assert.equal(count('road-3'), 2 * RECIPES['road-3'][2].length);
+  const f = fakeCtx(); drawStraight(f.ctx, 'rail-3', 1, 1, -10, 10);
+  assert.equal(f.log.filter(([k]) => k === 'stroke').length, RECIPES['rail-3'][1].length, 'a dettaglio 1 un solo tracciato');
 });
 
 test('ponti: tipo dai livelli di strada e ferrovia e legenda senza ripetizioni', () => {

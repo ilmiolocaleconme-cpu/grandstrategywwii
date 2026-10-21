@@ -42,19 +42,22 @@ export const RECIPES = Object.freeze({
   'road-3': [
     [{ c: '#ff7a1a', w: 2.8 }],
     [{ c: INK, w: 6 }, { c: '#ff7a1a', w: 4.6 }, { c: INK, w: 0.9 }],
-    [{ c: INK, w: 11 }, { c: '#ff7a1a', w: 9.4 }, { c: INK, w: 1.8 }],
+    [{ c: INK, w: 8.6 }, { c: '#ff7a1a', w: 7 }, { c: '#fffbe6', w: 0.8, dash: [4, 3.5] }], // una carreggiata: sono due, affiancate (OFFSETS)
   ],
   'rail-2': [
     [{ c: '#e4e4dc', w: 1, dash: [3, 2.2] }],
     [{ c: INK, w: 2.2 }, { c: RAIL, w: 1.3, dash: [3, 3] }],
-    [{ c: TIE, w: 4.4 }, { c: BED, w: 2.8 }, { c: TIE, w: 6.2, dash: [1.4, 3.8] }], // due rotaie sottili + traversine di traverso
+    [{ c: TIE, w: 4.4 }, { c: BED, w: 3 }, { c: TIE, w: 6.6, dash: [1.2, 2.4] }], // un binario: due rotaie sottili e traversine fitte
   ],
   'rail-3': [
     [{ c: '#ffffff', w: 1.8, dash: [4.5, 2.2] }],
     [{ c: INK, w: 4.4 }, { c: RAIL, w: 3.2, dash: [3.6, 2.6] }, { c: INK, w: 1.2 }],
-    [{ c: TIE, w: 9.2 }, { c: BED, w: 7.6 }, { c: TIE, w: 6.4 }, { c: BED, w: 5.2 }, { c: TIE, w: 9.2, dash: [1.4, 3.8] }], // quattro rotaie (due binari affiancati) + traversine
+    [{ c: TIE, w: 4.4 }, { c: BED, w: 3 }, { c: TIE, w: 6.6, dash: [1.2, 2.4] }], // un binario: sono due, affiancati (OFFSETS)
   ],
 });
+
+/** A zoom pieno questi tipi si disegnano come DUE tracciati paralleli, scostati di ± il valore (px): autostrada = due carreggiate con spartitraffico, doppio binario = due binari. */
+export const OFFSETS = Object.freeze({ 'road-3': 5.2, 'rail-3': 4.4 });
 
 export const LINE_KEYS = Object.freeze(['road-1', 'road-2', 'road-3', 'rail-2', 'rail-3']);
 
@@ -63,7 +66,18 @@ export const DRAW_GROUPS = Object.freeze([['road-1', 'road-2'], ['rail-2', 'rail
 
 /** Spessore massimo in px del simbolo di un tipo a un livello di dettaglio. */
 export function recipeWidth(key, tier) {
-  return Math.max(...RECIPES[key][tier].map((p) => p.w));
+  return Math.max(...RECIPES[key][tier].map((p) => p.w)) + (tier === 2 ? 2 * (OFFSETS[key] ?? 0) : 0);
+}
+
+/** Disegna un segno dritto da x0 a x1 (unità di mappa) sull'asse y = 0 del contesto: con scostamenti (OFFSETS) sono due tracciati paralleli. */
+export function drawStraight(ctx, key, tier, sx, x0, x1) {
+  const offs = tier === 2 && OFFSETS[key] ? [-OFFSETS[key] / sx, OFFSETS[key] / sx] : [0];
+  for (const pass of RECIPES[key][tier]) {
+    for (const y of offs) {
+      ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y);
+      strokePass(ctx, pass, sx);
+    }
+  }
 }
 
 /** Applica una passata di tratto al percorso corrente di `ctx` (o a `path`, un Path2D). Misure in px, divise per `sx`. */
@@ -95,7 +109,7 @@ export function bridgeLegend() {
   ].map((b) => ({ ...bridgeKind(b), spec: { kind: 'bridge', ...b } }));
 }
 
-const DECK_LEN = 24; // px, lungo la linea
+const DECK_LEN = 30; // px, lungo la linea
 const DECK_PAD = 3.2; // px di impalcato oltre il simbolo, per lato
 
 /**
@@ -122,7 +136,9 @@ export function drawBridgeDeck(ctx, { road = 0, rail = 0 }, sx) {
   };
   ctx.lineCap = 'butt';
   ctx.setLineDash([]);
-  // piano del ponte
+  // ombra e piano del ponte: staccano il ponte dalla linea e dal fiume
+  ctx.fillStyle = 'rgba(0,0,0,0.38)';
+  ctx.fillRect(-L / 2 + 1.6 * u, -hw + 1.8 * u, L, 2 * hw);
   ctx.fillStyle = kind.style === 'wood' ? '#b58f5a' : kind.style === 'stone' ? '#cfcfc6' : '#dfe4ea';
   ctx.fillRect(-L / 2, -hw, L, 2 * hw);
   if (kind.style === 'wood') line(-L / 2, 0, L / 2, 0, 2 * hw * sx, '#8a6a3c', [0.9, 2.1]); // tavole di traverso
@@ -151,10 +167,7 @@ export function drawBridgeDeck(ctx, { road = 0, rail = 0 }, sx) {
     off += ws[i] + gap;
     ctx.save();
     ctx.translate(0, y);
-    for (const pass of RECIPES[k][2]) {
-      ctx.beginPath(); ctx.moveTo(-L / 2 + u, 0); ctx.lineTo(L / 2 - u, 0);
-      strokePass(ctx, pass, sx);
-    }
+    drawStraight(ctx, k, 2, sx, -L / 2 + u, L / 2 - u);
     ctx.restore();
   });
   if (kind.style === 'iron') { // traliccio: controventi a X in quattro campate sopra il piano
@@ -187,10 +200,7 @@ export function drawSwatch(ctx, spec, w, h) {
   ctx.lineCap = 'butt';
   ctx.lineJoin = 'round';
   if (spec.kind === 'line') {
-    for (const pass of RECIPES[spec.key][2]) {
-      ctx.beginPath(); ctx.moveTo(-w / 2 + 2, 0); ctx.lineTo(w / 2 - 2, 0);
-      strokePass(ctx, pass, 1);
-    }
+    drawStraight(ctx, spec.key, 2, 1, -w / 2 + 2, w / 2 - 2);
   } else if (spec.kind === 'bridge') {
     drawBridgeDeck(ctx, spec, 1);
   }

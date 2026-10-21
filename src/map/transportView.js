@@ -4,7 +4,7 @@
 // buildTransportModel, transportRankLimit e transportLegend si provano senza browser (tests/transport.test.js);
 // drawTransport usa Path2D.
 
-import { DRAW_GROUPS, RECIPES, detailTier, sizeBoost, strokePass } from './transportStyle.js';
+import { DRAW_GROUPS, OFFSETS, RECIPES, detailTier, sizeBoost, strokePass } from './transportStyle.js';
 
 /**
  * Soglia di importanza (scalerank di Natural Earth) mostrata a un dato zoom: da molto lontano nessuna linea (la mappa
@@ -36,6 +36,23 @@ export function buildTransportModel(file, cos0) {
     return { id: l.id, key: `${l.k}-${l.level}`, kind: l.k, level: l.level, rank: l.rank ?? 99, coords: a, bbox: { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } };
   });
   return { lines, groups: new Map() };
+}
+
+/** Aggiunge a `path` la polilinea `c` scostata di `d` unità di lato (normale media tra segmenti; angoli stretti limitati). */
+function addOffset(path, c, d) {
+  const n = c.length / 2;
+  const pt = (i) => {
+    const i0 = Math.max(0, i - 1);
+    const i1 = Math.min(n - 1, i + 1);
+    let tx = c[2 * i1] - c[2 * i0];
+    let ty = c[2 * i1 + 1] - c[2 * i0 + 1];
+    const len = Math.hypot(tx, ty) || 1;
+    tx /= len; ty /= len;
+    return [c[2 * i] - ty * d, c[2 * i + 1] + tx * d];
+  };
+  const [x0, y0] = pt(0);
+  path.moveTo(x0, y0);
+  for (let i = 1; i < n; i += 1) { const [x, y] = pt(i); path.lineTo(x, y); }
 }
 
 /** Righe della legenda: tipo, nome e come si riconosce («spec» per drawSwatch: stesso disegno della mappa a zoom alto). */
@@ -82,18 +99,20 @@ export function drawTransport(ctx, model, { sx: sxMap, k, cull }) {
     for (const key of group) {
       const list = byKey.get(key);
       if (!list) continue;
+      const off = tier === 2 ? OFFSETS[key] : undefined; // due tracciati paralleli (carreggiate, binari)
       const path = new Path2D();
+      const path2 = off ? new Path2D() : null;
       let any = false;
       for (const l of list) {
         const b = l.bbox;
         if (b.x > cull.x1 || b.x + b.w < cull.x0 || b.y > cull.y1 || b.y + b.h < cull.y0) continue;
         const c = l.coords;
         path.moveTo(c[0], c[1]);
-        for (let i = 2; i < c.length; i += 2) path.lineTo(c[i], c[i + 1]);
+        if (off) { addOffset(path, c, -off / sx); addOffset(path2, c, off / sx); } else for (let i = 2; i < c.length; i += 2) path.lineTo(c[i], c[i + 1]);
         any = true;
         drawn += 1;
       }
-      if (any) paths.push({ key, path });
+      if (any) { paths.push({ key, path }); if (path2) paths.push({ key, path: path2 }); }
     }
     const passes = Math.max(0, ...paths.map((p) => RECIPES[p.key][tier].length));
     for (let i = 0; i < passes; i += 1) {

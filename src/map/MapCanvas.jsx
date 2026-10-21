@@ -554,7 +554,7 @@ function BridgeLegend({ bridges, transport }) {
       {transport ? transportLegend().map((t) => (
         <li key={t.key}>
           <Swatch spec={t.spec} />
-          <span><b>{t.label}</b> {t.how}</span>
+          <span><b>{t.label}</b></span>
         </li>
       )) : null}
       {bridges ? bridgeLegend().map((b) => (
