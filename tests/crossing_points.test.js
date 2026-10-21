@@ -40,8 +40,26 @@ test('punti di passaggio: ogni punto sta sul suo fiume e tra due province divers
 });
 
 test('punti di passaggio: gli incroci sono davvero sul confine (le due province sono a pochi km)', () => {
-  const near = (id, lon, lat) => [0.02, -0.02].some((d) => [[d, 0], [0, d], [d, d], [-d, d]].some(([dx, dy]) => index.provincesAt(lon + dx, lat + dy).some((f) => f.properties.id === id)))
-    || index.provincesAt(lon, lat).some((f) => f.properties.id === id);
+  // vicino = dentro la provincia, oppure a meno di 0,02 gradi (circa 2 km) dal suo contorno: le sponde dei fiumi possono
+  // essere strisce più strette di 2 km, quindi non basta provare qualche punto attorno
+  const featureById = new Map(provinces.features.map((f) => [f.properties.id, f]));
+  const distToRing = (x, y, ring) => {
+    let best = Infinity;
+    for (let i = 0; i + 1 < ring.length; i += 1) {
+      const [ax, ay] = ring[i];
+      const [bx, by] = ring[i + 1];
+      const dx = bx - ax; const dy = by - ay; const l2 = dx * dx + dy * dy || 1;
+      const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / l2));
+      best = Math.min(best, Math.hypot(ax + t * dx - x, ay + t * dy - y));
+    }
+    return best;
+  };
+  const near = (id, lon, lat) => {
+    if (index.provincesAt(lon, lat).some((f) => f.properties.id === id)) return true;
+    const g = featureById.get(id).geometry;
+    const polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+    return polys.some((p) => distToRing(lon, lat, p[0]) < 0.02);
+  };
   const sample = file.points.filter((p) => p.kind === 'border_cross').filter((_, i) => i % 12 === 0);
   assert.ok(sample.length > 50);
   for (const p of sample) assert.ok(near(p.from, p.lon, p.lat) && near(p.to, p.lon, p.lat), `${p.id}: ${p.from} / ${p.to}`);

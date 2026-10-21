@@ -345,8 +345,15 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
 const edgeKey = (a, b) => {
   // sulla cucitura +180 e -180 sono lo stesso meridiano: la chiave le unisce, cosi le due meta si accoppiano
   const lon = (p) => (isSeamEdge(a, b) ? 180 : p[0]);
-  const ka = `${lon(a)},${a[1]}`;
-  const kb = `${lon(b)},${b[1]}`;
+  // stesso arrotondamento del Canvas (canvasModel.buildBorders: 1e-5 gradi, circa 1 m): vertici agganciati entro 1 m
+  // ma non identici nel file (0,000001 gradi di differenza) contano come lo stesso punto in entrambi i percorsi
+  // Il Canvas lavora in unità di mappa (x = lon * COS0, y = -lat) in float32 e arrotonda lì: qui lo stesso passaggio,
+  // altrimenti due vertici vicini cadrebbero nella stessa cella in un percorso e in due celle diverse nell'altro.
+  const cos0 = WORLD_W / 360;
+  const qx = (p) => Math.round(Math.fround(lon(p) * cos0) * 1e5);
+  const qy = (p) => Math.round(Math.fround(-p[1]) * 1e5);
+  const ka = `${qx(a)},${qy(a)}`;
+  const kb = `${qx(b)},${qy(b)}`;
   return ka < kb ? `${ka}|${kb}` : `${kb}|${ka}`;
 };
 
