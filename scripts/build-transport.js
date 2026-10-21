@@ -85,15 +85,16 @@ export async function buildTransportFiles(srcDir, params = DEFAULT_PARAMS) {
   const merged = [];
   for (const b of bridgeRaw) {
     const near = merged.find((m) => m.riverId === b.riverId && Math.abs(m.lon - b.lon) < params.mergeDeg && Math.abs(m.lat - b.lat) < params.mergeDeg);
-    const m = near ?? { riverId: b.riverId, lon: b.lon, lat: b.lat, road: 0, rail: 0 };
+    const m = near ?? { riverId: b.riverId, lon: b.lon, lat: b.lat, road: 0, rail: 0, ang: b.ang, angLevel: 0 };
     if (!near) merged.push(m);
     m[b.k] = Math.max(m[b.k], b.level);
+    if (b.level > m.angLevel) { m.angLevel = b.level; m.ang = b.ang; } // l'impalcato segue la linea più importante
   }
   const perRiver = new Map();
   const points = merged.map((m) => {
     const n = (perRiver.get(m.riverId) ?? 0) + 1;
     perRiver.set(m.riverId, n);
-    return { id: `BR_${m.riverId.replace(/^R_/, '')}_${String(n).padStart(3, '0')}`, riverId: m.riverId, lon: r4(m.lon), lat: r4(m.lat), road: m.road, rail: m.rail, level: bridgeLevel({ roadLevel: m.road, railLevel: m.rail }) };
+    return { id: `BR_${m.riverId.replace(/^R_/, '')}_${String(n).padStart(3, '0')}`, riverId: m.riverId, lon: r4(m.lon), lat: r4(m.lat), road: m.road, rail: m.rail, ang: m.ang, level: bridgeLevel({ roadLevel: m.road, railLevel: m.rail }) };
   });
 
   const common = {

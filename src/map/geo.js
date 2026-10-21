@@ -587,7 +587,8 @@ export function labelForms(name, shortList) {
 }
 
 // Zoom attorno a un punto fisso (coordinate della vista), limiti min/max inclusi.
-export function zoomAt(view, factor, cx, cy, minK = 1, maxK = 40) {
+export const MAX_K = 120; // abbastanza per vedere le due carreggiate delle autostrade e i binari
+export function zoomAt(view, factor, cx, cy, minK = 1, maxK = MAX_K) {
   const k = Math.min(maxK, Math.max(minK, view.k * factor));
   const f = k / view.k;
   return { k, x: cx - (cx - view.x) * f, y: cy - (cy - view.y) * f };

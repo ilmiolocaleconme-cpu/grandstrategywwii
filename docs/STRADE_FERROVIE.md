@@ -51,3 +51,13 @@ Sulla mappa si mostrano questi ponti **più** i passaggi di confine di `data/cro
 - Nessun collegamento con città, porti e province; nessuna capacità numerica, velocità o costo; nessun stato in partita (danni, distruzione, miglioramento); i ponti non sono selezionabili al tocco; la mappa SVG di ripiego non li mostra.
 - Non sono stati corretti a mano né i livelli né i ponti mancanti o doppi.
 - Test: `tests/transport.test.js` (13).
+
+## Aspetto sulla mappa (disegno per zoom)
+
+Un solo file, `src/map/transportStyle.js`, decide l'aspetto di linee, ponti e legenda. Tre livelli di dettaglio dallo zoom (soglie 5 e 9; i ponti diventano impalcati da 14):
+- **0 (lontano):** linee semplici per livello.
+- **1 (da zoom 5):** strade con bordo scuro, ferrovie a tratteggio.
+- **2 (da zoom 9)**:** disegno «vero». Strada principale gialla con mezzeria; **autostrada a due carreggiate** con spartitraffico; **ferrovia con due rotaie e traversine**; **ferrovia potenziata a doppio binario** (quattro rotaie).
+- **Ponti da zoom 14:** impalcato ruotato lungo la linea (campo `ang` in `data/transport_bridges.json`, gradi 0–179, direzione della strada/ferrovia più importante). Aspetto per tipo, stile dallo schema di riferimento: **legno** (strada secondaria: tavolato e montanti), **muratura** (strada principale e autostrada: mezzeria e spalle tonde), **ferro a traliccio con X** (doppio binario, strada+ferrovia), **ferrovia in ferro** (binario unico: blocchi agli angoli). Il materiale è un'**ipotesi grafica derivata dal livello**, non un dato storico.
+- Zoom massimo portato da 40 a 120 (`MAX_K` in `src/map/geo.js`). Legenda con campioni disegnati dallo stesso codice della mappa.
+Test: `tests/transport_style.test.js` (contesto Canvas simulato). Verificato con screenshot in Chromium headless; **non provato sul telefono reale**.

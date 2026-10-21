@@ -111,9 +111,15 @@ export function buildRiverSegmentGrid(riverGeo) {
   return cells;
 }
 
+/** Direzione non orientata (0..179°) di un segmento nello spazio lon/lat: atan2(Δlat, Δlon). Sulla mappa si ruota il vettore (Δlon·cos0, −Δlat). */
+export function headingDeg(a, b) {
+  const d = (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI;
+  return Math.round(((d % 180) + 180) % 180) % 180;
+}
+
 /**
- * Incroci di una polilinea (strada o ferrovia) con i fiumi: [{ riverId, lon, lat }]. Un incrocio per segmento
- * di strada e fiume; i duplicati (stesso fiume entro `dedupeDeg`) sono uniti.
+ * Incroci di una polilinea (strada o ferrovia) con i fiumi: [{ riverId, lon, lat, ang }]. Un incrocio per segmento
+ * di strada e fiume; i duplicati (stesso fiume entro `dedupeDeg`) sono uniti. `ang` = direzione della strada (headingDeg).
  */
 export function lineRiverIntersections(coords, grid, dedupeDeg = 0.02) {
   const out = [];
@@ -129,7 +135,7 @@ export function lineRiverIntersections(coords, grid, dedupeDeg = 0.02) {
         const p = segmentIntersection(a1, a2, seg.a, seg.b);
         if (!p) continue;
         if (out.some((q) => q.riverId === seg.riverId && Math.abs(q.lon - p.x) < dedupeDeg && Math.abs(q.lat - p.y) < dedupeDeg)) continue;
-        out.push({ riverId: seg.riverId, lon: p.x, lat: p.y });
+        out.push({ riverId: seg.riverId, lon: p.x, lat: p.y, ang: headingDeg(a1, a2) });
       }
     }
   }

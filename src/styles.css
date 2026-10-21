@@ -183,5 +183,6 @@ h2 {
 .bridge-legend { position: absolute; right: 8px; top: 132px; margin: 0; padding: 6px 10px; list-style: none; background: rgba(29, 36, 24, 0.92); border-radius: 8px; font-size: 12px; max-width: min(260px, calc(100% - 16px)); pointer-events: none; display: grid; gap: 3px; }
 .bridge-legend li { display: flex; align-items: center; gap: 6px; line-height: 1.25; }
 .bridge-legend li.note { font-size: 11px; color: #c9cdbf; }
-.bridge-legend svg { flex: none; }
+.bridge-legend svg, .bridge-legend canvas { flex: none; }
+.bridge-legend { max-height: calc(100% - 200px); overflow-y: auto; pointer-events: auto; }
 @media (max-width: 480px) { .bridge-legend { font-size: 11px; padding: 4px 8px; max-width: 220px; } }

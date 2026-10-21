@@ -1,15 +1,10 @@
 // Strade e ferrovie sulla mappa Canvas: modello proiettato (array tipizzati), densità per zoom e disegno.
-// Il livello si riconosce da colore e spessore (strade) e da tratteggio e spessore (ferrovie). I dati e le regole
-// stanno in src/data/transport.js e data/transport.json; qui solo la parte grafica. buildTransportModel,
-// transportRankLimit e transportLegend si provano senza browser (tests/transport.test.js); drawTransport usa Path2D.
+// L'aspetto (bordi, due carreggiate, traversine e rotaie, doppio binario) sta in transportStyle.js e cresce con lo
+// zoom. I dati e le regole stanno in src/data/transport.js e data/transport.json; qui solo la parte grafica.
+// buildTransportModel, transportRankLimit e transportLegend si provano senza browser (tests/transport.test.js);
+// drawTransport usa Path2D.
 
-export const TRANSPORT_STYLE = Object.freeze({
-  'road-1': { stroke: '#d8c690', width: 0.8, dash: null },
-  'road-2': { stroke: '#f2d25a', width: 1.5, dash: null },
-  'road-3': { stroke: '#ff7a1a', width: 2.8, dash: null }, // autostrada (prime, 1936)
-  'rail-2': { stroke: '#e4e4dc', width: 1, dash: [3, 2.2] },
-  'rail-3': { stroke: '#ffffff', width: 1.8, dash: [4.5, 2.2] },
-});
+import { DRAW_GROUPS, RECIPES, detailTier, strokePass } from './transportStyle.js';
 
 /** Soglia di importanza (scalerank di Natural Earth) mostrata a un dato zoom: a vista d'insieme solo le linee principali. */
 export function transportRankLimit(k) {
@@ -40,18 +35,18 @@ export function buildTransportModel(file, cos0) {
   return { lines, groups: new Map() };
 }
 
-/** Righe della legenda: nome, tipo di tratto e stile (colore, spessore, tratteggio). */
+/** Righe della legenda: tipo, nome e come si riconosce («spec» per drawSwatch: stesso disegno della mappa a zoom alto). */
 export function transportLegend() {
   return [
-    { key: 'road-1', label: 'Strada secondaria' },
-    { key: 'road-2', label: 'Strada principale' },
-    { key: 'road-3', label: 'Autostrada (prime, 1936)' },
-    { key: 'rail-2', label: 'Ferrovia a binario unico' },
-    { key: 'rail-3', label: 'Ferrovia principale' },
-  ].map((r) => ({ ...r, ...TRANSPORT_STYLE[r.key] }));
+    { key: 'road-1', label: 'Strada secondaria', how: 'una carreggiata, bordo scuro' },
+    { key: 'road-2', label: 'Strada principale', how: 'gialla, linea di mezzeria' },
+    { key: 'road-3', label: 'Autostrada (prime, 1936)', how: 'due carreggiate con spartitraffico' },
+    { key: 'rail-2', label: 'Ferrovia a binario unico', how: 'rotaie con traversine' },
+    { key: 'rail-3', label: 'Ferrovia potenziata', how: 'doppio binario' },
+  ].map((r) => ({ ...r, spec: { kind: 'line', key: r.key } }));
 }
 
-// Tratti raggruppati per stile e per soglia di densità, in cache nel modello (un Path2D per gruppo).
+// Tratti raggruppati per stile e per soglia di densità, in cache nel modello.
 function groupsFor(model, rankLimit) {
   if (model.groups.has(rankLimit)) return model.groups.get(rankLimit);
   const byKey = new Map();
@@ -66,34 +61,42 @@ function groupsFor(model, rankLimit) {
 
 /**
  * Disegna strade e ferrovie visibili: strade sotto, ferrovie sopra, le autostrade (livello 3) per ultime in cima a tutto.
+ * Il dettaglio dipende dallo zoom (detailTier): linee semplici, poi bordi e tratteggi, poi il disegno completo.
+ * Ogni gruppo si fa per passate (tutti i bordi, poi tutti i riempimenti…) così gli incroci restano puliti.
  * Il contesto ha già la trasformazione mappa → schermo (`sx` pixel per unità): spessori e tratteggi in pixel si dividono per `sx`.
  * cull = { x0, x1, y0, y1 } in unità di mappa. Ritorna il numero di tratti disegnati.
  */
 export function drawTransport(ctx, model, { sx, k, cull }) {
   const byKey = groupsFor(model, transportRankLimit(k));
+  const tier = detailTier(k);
   let drawn = 0;
   ctx.lineJoin = 'round';
   ctx.lineCap = 'butt';
-  for (const key of ['road-1', 'road-2', 'rail-2', 'rail-3', 'road-3']) {
-    const list = byKey.get(key);
-    if (!list) continue;
-    const st = TRANSPORT_STYLE[key];
-    const path = new Path2D();
-    let any = false;
-    for (const l of list) {
-      const b = l.bbox;
-      if (b.x > cull.x1 || b.x + b.w < cull.x0 || b.y > cull.y1 || b.y + b.h < cull.y0) continue;
-      const c = l.coords;
-      path.moveTo(c[0], c[1]);
-      for (let i = 2; i < c.length; i += 2) path.lineTo(c[i], c[i + 1]);
-      any = true;
-      drawn += 1;
+  for (const group of DRAW_GROUPS) {
+    const paths = [];
+    for (const key of group) {
+      const list = byKey.get(key);
+      if (!list) continue;
+      const path = new Path2D();
+      let any = false;
+      for (const l of list) {
+        const b = l.bbox;
+        if (b.x > cull.x1 || b.x + b.w < cull.x0 || b.y > cull.y1 || b.y + b.h < cull.y0) continue;
+        const c = l.coords;
+        path.moveTo(c[0], c[1]);
+        for (let i = 2; i < c.length; i += 2) path.lineTo(c[i], c[i + 1]);
+        any = true;
+        drawn += 1;
+      }
+      if (any) paths.push({ key, path });
     }
-    if (!any) continue;
-    ctx.strokeStyle = st.stroke;
-    ctx.lineWidth = st.width / sx;
-    ctx.setLineDash(st.dash ? st.dash.map((d) => d / sx) : []);
-    ctx.stroke(path);
+    const passes = Math.max(0, ...paths.map((p) => RECIPES[p.key][tier].length));
+    for (let i = 0; i < passes; i += 1) {
+      for (const { key, path } of paths) {
+        const pass = RECIPES[key][tier][i];
+        if (pass) strokePass(ctx, pass, sx, path);
+      }
+    }
   }
   ctx.setLineDash([]);
   return drawn;

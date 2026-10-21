@@ -54,7 +54,7 @@ test('zoom: il punto sotto il cursore resta fermo e i limiti sono rispettati', (
   const before = [(cx - v0.x) / v0.k, (cy - v0.y) / v0.k];
   const after = [(cx - v1.x) / v1.k, (cy - v1.y) / v1.k];
   assert.ok(Math.abs(before[0] - after[0]) < 1e-9 && Math.abs(before[1] - after[1]) < 1e-9);
-  assert.equal(zoomAt({ k: 39, x: 0, y: 0 }, 5, 0, 0).k, 40);
+  assert.equal(zoomAt({ k: 39, x: 0, y: 0 }, 5, 0, 0).k, 120);
   assert.equal(zoomAt({ k: 1.2, x: 0, y: 0 }, 0.1, 0, 0).k, 1);
 });
 

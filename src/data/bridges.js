@@ -16,6 +16,7 @@ export function validateBridges(file, { riverIds } = {}) {
     seen.add(p.id);
     if (![1, 2, 3].includes(p.level)) errors.push(`${p.id}: livello non valido`);
     if (![0, 1, 2, 3].includes(p.road) || ![0, 2, 3].includes(p.rail) || p.road + p.rail === 0) errors.push(`${p.id}: livelli di strada/ferrovia non validi`);
+    if (!Number.isInteger(p.ang) || p.ang < 0 || p.ang > 179) errors.push(`${p.id}: direzione (ang) non valida`);
     if (p.level !== Math.max(p.road, p.rail)) errors.push(`${p.id}: livello incoerente con strada e ferrovia`);
     if (!(Math.abs(p.lon) <= 180) || !(Math.abs(p.lat) <= 90)) errors.push(`${p.id}: coordinate non valide`);
   }
@@ -39,10 +40,10 @@ export function mergeCandidates(bridges, borderPoints, { radiusKm = 15 } = {}) {
     const list = byRiver.get(b.riverId);
     if (list) list.push(b); else byRiver.set(b.riverId, [b]);
   }
-  const out = bridges.map((b) => ({ id: b.id, kind: 'bridge', riverId: b.riverId, lon: b.lon, lat: b.lat, level: b.level, road: b.road, rail: b.rail }));
+  const out = bridges.map((b) => ({ id: b.id, kind: 'bridge', riverId: b.riverId, lon: b.lon, lat: b.lat, level: b.level, road: b.road, rail: b.rail, ang: b.ang }));
   for (const p of borderPoints) {
     if ((byRiver.get(p.riverId) ?? []).some((b) => kmBetween(b, p) < radiusKm)) continue;
-    out.push({ id: p.id, kind: p.kind, riverId: p.riverId, lon: p.lon, lat: p.lat, level: p.level, road: 0, rail: 0 });
+    out.push({ id: p.id, kind: p.kind, riverId: p.riverId, lon: p.lon, lat: p.lat, level: p.level, road: 0, rail: 0, ang: null });
   }
   return out;
 }

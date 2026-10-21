@@ -5,6 +5,7 @@ import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLeve
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
 import { buildMarkers, markerLegend } from './crossingMarkers.js';
 import { buildTransportModel, transportLegend } from './transportView.js';
+import { bridgeLegend, drawSwatch } from './transportStyle.js';
 import { Legend } from './MapView.jsx';
 import { seaZoneAt } from './seaView.js';
 import { pickStaticLabels } from './labelview.js';
@@ -530,16 +531,36 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
 }
 
 
-// Legenda di ponti, strade e ferrovie: il livello della struttura si riconosce da forma, colore, spessore e tratteggio.
+// Campione della legenda: lo stesso disegno della mappa a zoom alto (transportStyle.drawSwatch), su una piccola tela.
+function Swatch({ spec, w = 44, h = 24 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const c = ref.current;
+    const ctx = c?.getContext('2d');
+    if (!ctx) return;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    c.width = w * dpr;
+    c.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawSwatch(ctx, spec, w, h);
+  }, [spec, w, h]);
+  return <canvas ref={ref} style={{ width: w, height: h }} aria-hidden="true" />;
+}
+
+// Legenda di ponti, strade e ferrovie: stesso disegno della mappa; da lontano i ponti sono simboli di livello.
 function BridgeLegend({ bridges, transport }) {
   return (
     <ul className="bridge-legend" aria-label="Legenda di ponti, strade e ferrovie">
       {transport ? transportLegend().map((t) => (
         <li key={t.key}>
-          <svg width="26" height="16" viewBox="0 0 26 16" aria-hidden="true">
-            <line x1="1" y1="8" x2="25" y2="8" stroke={t.stroke} strokeWidth={t.width + 0.8} strokeDasharray={t.dash ? t.dash.join(' ') : undefined} />
-          </svg>
-          <span>{t.label}</span>
+          <Swatch spec={t.spec} />
+          <span><b>{t.label}</b> {t.how}</span>
+        </li>
+      )) : null}
+      {bridges ? bridgeLegend().map((b) => (
+        <li key={b.id}>
+          <Swatch spec={b.spec} />
+          <span><b>{b.label}</b></span>
         </li>
       )) : null}
       {bridges ? markerLegend().map((m) => (
@@ -549,10 +570,10 @@ function BridgeLegend({ bridges, transport }) {
             {m.shape === 'square' ? <rect x="-4.6" y="-4.6" width="9.2" height="9.2" fill={m.fill} stroke={m.stroke} strokeWidth="1.2" /> : null}
             {m.shape === 'diamond' ? (<><polygon points="0,-7 7,0 0,7 -7,0" fill={m.fill} stroke={m.stroke} strokeWidth="1.4" /><circle r="2" fill="#fff" /></>) : null}
           </svg>
-          <span><b>Ponte livello {m.level}</b> {m.hint}</span>
+          <span><b>Da lontano · livello {m.level}</b> {m.hint}</span>
         </li>
       )) : null}
-      <li className="note"><span>Rete moderna, non del 1936. Livelli provvisori.</span></li>
+      <li className="note"><span>Rete moderna, non del 1936. Livelli provvisori. Avvicinati (zoom oltre 9 (ponti oltre 14)) per vedere corsie, binari e ponti.</span></li>
     </ul>
   );
 }

@@ -8,7 +8,8 @@ import { BRIDGES_SCHEMA, mergeCandidates, validateBridges } from '../src/data/br
 import { buildRiverModel, distanceToLineKm, distanceToRiverKm } from '../src/data/rivers.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { idsChecksum } from '../src/data/adjacency.js';
-import { TRANSPORT_STYLE, buildTransportModel, drawTransport, transportLegend, transportRankLimit } from '../src/map/transportView.js';
+import { recipeWidth } from '../src/map/transportStyle.js';
+import { buildTransportModel, drawTransport, transportLegend, transportRankLimit } from '../src/map/transportView.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
@@ -135,8 +136,12 @@ test('mappa: modello proiettato, densità per zoom, legenda con stili diversi', 
   assert.ok(transportRankLimit(1) < transportRankLimit(3) && transportRankLimit(3) < transportRankLimit(5));
   const legend = transportLegend();
   assert.equal(legend.length, 5);
-  assert.equal(new Set(legend.map((l) => `${l.stroke}|${l.width}|${l.dash}`)).size, 5);
-  assert.ok(TRANSPORT_STYLE['rail-3'].width > TRANSPORT_STYLE['rail-2'].width && TRANSPORT_STYLE['road-3'].width > TRANSPORT_STYLE['road-2'].width && TRANSPORT_STYLE['road-2'].width > TRANSPORT_STYLE['road-1'].width);
+  assert.equal(new Set(legend.map((l) => l.key)).size, 5);
+  // a ogni livello di dettaglio le larghezze crescono: strada secondaria < principale < autostrada, binario unico < doppio
+  for (const t of [0, 1, 2]) {
+    assert.ok(recipeWidth('road-1', t) < recipeWidth('road-2', t) && recipeWidth('road-2', t) < recipeWidth('road-3', t), `strade a dettaglio ${t}`);
+    assert.ok(recipeWidth('rail-2', t) < recipeWidth('rail-3', t), `ferrovie a dettaglio ${t}`);
+  }
 });
 
 test('mappa: drawTransport rispetta zoom e riquadro (Path2D simulato)', () => {

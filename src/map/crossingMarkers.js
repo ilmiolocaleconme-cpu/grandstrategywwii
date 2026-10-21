@@ -4,6 +4,9 @@
 // Il browser non è necessario per provare buildMarkers e markerLegend (tests/crossing_points.test.js).
 
 import { CROSSING_LEVELS, markerCellPx, minLevelForZoom } from '../data/crossingPoints.js';
+import { DECK_ZOOM, drawBridgeDeck } from './transportStyle.js';
+
+const DECK_CELL_PX = 30; // a zoom alto un impalcato è lungo ~30 px: celle più larghe
 
 export const MARKER_STYLE = Object.freeze({
   1: { fill: 'rgba(0,0,0,0)', stroke: '#e8e2c8', size: 2.8, shape: 'circle' }, // guado, traghetto, passerella: cerchio vuoto
@@ -22,7 +25,16 @@ export function buildMarkers(file, cos0) {
     riverId: p.riverId,
     from: p.from,
     to: p.to,
+    road: p.road ?? 0,
+    rail: p.rail ?? 0,
+    // direzione dell'impalcato sulla mappa: il vettore lon/lat (cosα, sinα) diventa (cosα·cos0, −sinα)
+    rot: Number.isInteger(p.ang) ? Math.atan2(-Math.sin((p.ang * Math.PI) / 180), Math.cos((p.ang * Math.PI) / 180) * cos0) : null,
   }));
+}
+
+/** I ponti con una direzione (da strada/ferrovia) si disegnano come impalcato da questo zoom; prima restano i simboli di livello. */
+export function showsDeck(m, k) {
+  return m.kind === 'bridge' && m.rot !== null && m.rot !== undefined && k >= DECK_ZOOM;
 }
 
 /** Righe della legenda: livello, nome, esempio di struttura e come si riconosce sulla mappa. */
@@ -54,7 +66,7 @@ function shapePath(ctx, shape, x, y, r) {
 /** Marcatori visibili a quel zoom e dentro `cull`, senza sovrapposizioni: i livelli alti hanno la precedenza. */
 export function visibleMarkers(markers, { sx, k, cull }) {
   const minLevel = minLevelForZoom(k);
-  const cell = markerCellPx(k) / sx; // due marcatori nella stessa cella non si disegnano entrambi (vince il livello più alto)
+  const cell = (k >= DECK_ZOOM ? DECK_CELL_PX : markerCellPx(k)) / sx; // due marcatori nella stessa cella non si disegnano entrambi (vince il livello più alto)
   const taken = new Set();
   const out = [];
   for (const level of [3, 2, 1]) {
@@ -84,6 +96,14 @@ export function drawMarkers(ctx, markers, { sx, k, cull }) {
     const r = st.size / sx;
     for (const m of list) {
       if (m.level !== level) continue;
+      if (showsDeck(m, k)) { // zoom alto: impalcato con parapetti e il simbolo di ciò che porta, ruotato lungo la linea
+        ctx.save();
+        ctx.translate(m.x, m.y);
+        ctx.rotate(m.rot);
+        drawBridgeDeck(ctx, m, sx);
+        ctx.restore();
+        continue;
+      }
       ctx.fillStyle = st.fill;
       ctx.strokeStyle = st.stroke;
       if (m.kind === 'river_border' && k >= 3.5) { // il fiume fa da confine: anello tratteggiato intorno al simbolo
