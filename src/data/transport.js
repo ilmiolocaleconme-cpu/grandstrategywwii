@@ -87,7 +87,7 @@ export function segmentIntersection(a1, a2, b1, b2) {
   return { x: a1[0] + t * rx, y: a1[1] + t * ry };
 }
 
-const CELL = 0.25; // gradi: lato delle celle dell'indice spaziale dei segmenti di fiume
+export const CELL = 0.25; // gradi: lato delle celle dell'indice spaziale dei segmenti di fiume
 
 /** Indice spaziale dei segmenti dei fiumi (tratti fuori dai laghi): celle da 0,25°. */
 export function buildRiverSegmentGrid(riverGeo) {
