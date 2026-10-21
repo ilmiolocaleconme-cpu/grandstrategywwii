@@ -8,9 +8,9 @@
 export const DETAIL_ZOOMS = Object.freeze([12, 20]); // da questo zoom: bordi e tratteggi · disegno completo di strade e ferrovie
 export const DECK_ZOOM = 20; // da questo zoom i ponti diventano impalcati con materiale
 
-/** Ingrandimento dei segni (spessori, tratteggi, ponti) oltre lo zoom dei ponti: 1 fino a 20, poi cresce fino a 2,6 a zoom 120. */
+/** Ingrandimento dei segni (spessori, tratteggi, ponti) oltre lo zoom dei ponti: 1 fino a 20, poi cresce fino a 1,6 a zoom 120. */
 export function sizeBoost(k) {
-  return k <= DECK_ZOOM ? 1 : Math.min(2.6, 1 + ((k - DECK_ZOOM) / (120 - DECK_ZOOM)) * 1.6);
+  return k <= DECK_ZOOM ? 1 : Math.min(1.6, 1 + ((k - DECK_ZOOM) / (120 - DECK_ZOOM)) * 0.6);
 }
 
 /** Livello di dettaglio dallo zoom: 0 linee semplici, 1 bordi e tratteggi, 2 disegno completo (corsie, binari, ponti). */
@@ -78,6 +78,23 @@ export function drawStraight(ctx, key, tier, sx, x0, x1) {
       strokePass(ctx, pass, sx);
     }
   }
+}
+
+/** Aggiunge a `path` la polilinea `c` scostata di `d` unità di lato (normale media tra segmenti; angoli stretti limitati). */
+export function addOffset(path, c, d) {
+  const n = c.length / 2;
+  const pt = (i) => {
+    const i0 = Math.max(0, i - 1);
+    const i1 = Math.min(n - 1, i + 1);
+    let tx = c[2 * i1] - c[2 * i0];
+    let ty = c[2 * i1 + 1] - c[2 * i0 + 1];
+    const len = Math.hypot(tx, ty) || 1;
+    tx /= len; ty /= len;
+    return [c[2 * i] - ty * d, c[2 * i + 1] + tx * d];
+  };
+  const [x0, y0] = pt(0);
+  path.moveTo(x0, y0);
+  for (let i = 1; i < n; i += 1) { const [x, y] = pt(i); path.lineTo(x, y); }
 }
 
 /** Applica una passata di tratto al percorso corrente di `ctx` (o a `path`, un Path2D). Misure in px, divise per `sx`. */
@@ -205,4 +222,52 @@ export function drawSwatch(ctx, spec, w, h) {
     drawBridgeDeck(ctx, spec, 1);
   }
   ctx.restore();
+}
+
+/**
+ * Ponti come TRATTI della linea (grafo dei collegamenti): lo stesso tracciato della strada o ferrovia, con aspetto di ponte.
+ * `list` = tratti-ponte del modello ({ kind, level, coords:Float32Array }); `tier` = dettaglio (detailTier). Misure in px / `sx`.
+ * Dettaglio 0: come la linea normale. 1: la linea con un bordo chiaro. 2: ombra, impalcato col materiale (legno, muratura,
+ * ferro), parapetti scuri, spalle alle estremità e, sopra, il simbolo di ciò che porta (carreggiate, binari).
+ */
+export function drawBridgeSegments(ctx, list, { sx, tier }) {
+  const byKey = new Map();
+  for (const l of list) { const key = `${l.kind}-${l.level}`; if (!RECIPES[key]) continue; (byKey.get(key) ?? byKey.set(key, []).get(key)).push(l); }
+  const u = 1 / sx;
+  const build = (lines, d) => { const p = new Path2D(); for (const l of lines) addOffset(p, l.coords, d * u); return p; };
+  ctx.lineCap = 'butt';
+  ctx.lineJoin = 'round';
+  for (const [key, lines] of byKey) {
+    const kind = bridgeKind({ road: key.startsWith('road') ? lines[0].level : 0, rail: key.startsWith('rail') ? lines[0].level : 0 });
+    const off = tier === 2 ? OFFSETS[key] : undefined;
+    const symbol = off ? [build(lines, -off), build(lines, off)] : [build(lines, 0)];
+    if (tier === 1) { // bordo chiaro attorno alla linea: il ponte si nota
+      for (const p of symbol) strokePass(ctx, { c: 'rgba(250,250,246,0.95)', w: recipeWidth(key, 1) + 3.4 }, sx, p);
+    }
+    if (tier === 2) {
+      const W = recipeWidth(key, 2) + 6;
+      const mid = build(lines, 0);
+      ctx.save();
+      ctx.translate(1.6 * u, 1.8 * u);
+      strokePass(ctx, { c: 'rgba(0,0,0,0.38)', w: W }, sx, mid);
+      ctx.restore();
+      strokePass(ctx, { c: kind.style === 'wood' ? '#b58f5a' : kind.style === 'stone' ? '#cfcfc6' : '#dfe4ea', w: W }, sx, mid);
+      if (kind.style === 'wood') strokePass(ctx, { c: '#8a6a3c', w: W, dash: [0.9, 2.1] }, sx, mid);
+      if (kind.style !== 'wood' && kind.style !== 'stone') strokePass(ctx, { c: 'rgba(43,51,64,0.85)', w: W - 1.4, dash: [1.1, 3.6] }, sx, mid);
+      const edge = kind.style === 'wood' ? '#4a3418' : '#14140f';
+      for (const d of [-W / 2, W / 2]) strokePass(ctx, { c: edge, w: 1.6 }, sx, build(lines, d));
+      const ends = new Path2D(); // spalle: un tratto di traverso a ogni estremità
+      for (const l of lines) {
+        const c = l.coords; const n = c.length;
+        for (const [x, y, dx, dy] of [[c[0], c[1], c[2] - c[0], c[3] - c[1]], [c[n - 2], c[n - 1], c[n - 2] - c[n - 4], c[n - 1] - c[n - 3]]]) {
+          const len = Math.hypot(dx, dy) || 1; const nx = -dy / len; const ny = dx / len; const h = (W / 2 + 1.5) * u;
+          ends.moveTo(x - nx * h, y - ny * h); ends.lineTo(x + nx * h, y + ny * h);
+        }
+      }
+      strokePass(ctx, { c: '#14140f', w: 1.8 }, sx, ends);
+    }
+    const passes = RECIPES[key][tier];
+    for (const pass of passes) for (const p of symbol) strokePass(ctx, pass, sx, p);
+  }
+  ctx.setLineDash([]);
 }

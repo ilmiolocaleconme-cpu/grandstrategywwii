@@ -116,7 +116,7 @@ test('dati: i ponti stanno sul fiume (≤ 1,5 km), appartengono al loro segmento
     assert.equal(s.k, b.mode);
     assert.ok(distanceToRiverKm(model, b.riverId, b.lon, b.lat) < 1.5, `${b.id} lontano dal fiume`);
     const mid = [s.c[0] + (s.c.at(-2) - s.c[0]) / 2, s.c[1] + (s.c.at(-1) - s.c[1]) / 2];
-    assert.ok(kmBetween(mid[0], mid[1], b.lon, b.lat) < 3, `${b.id}: ponte lontano dal suo segmento`);
-    assert.ok(b.level === s.level && b.km > 0.1 && b.km < 3);
+    assert.ok(kmBetween(mid[0], mid[1], b.lon, b.lat) < 6, `${b.id}: ponte lontano dal suo segmento`);
+    assert.ok(b.level === s.level && b.km > 0.1 && b.km < 6.5);
   }
 });

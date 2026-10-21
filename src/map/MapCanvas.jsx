@@ -4,7 +4,7 @@ import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, c
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
 import { buildMarkers, markerLegend } from './crossingMarkers.js';
-import { buildTransportModel, transportLegend } from './transportView.js';
+import { buildLinksModel, transportLegend } from './transportView.js';
 import { bridgeLegend, drawSwatch } from './transportStyle.js';
 import { Legend } from './MapView.jsx';
 import { seaZoneAt } from './seaView.js';
@@ -37,7 +37,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     [rivers, riversGeo, lakes],
   );
   const markers = useMemo(() => (crossingPoints && showBridges ? buildMarkers(crossingPoints, WORLD_W / 360) : null), [crossingPoints, showBridges]);
-  const transportModel = useMemo(() => (transport && showTransport ? buildTransportModel(transport, WORLD_W / 360) : null), [transport, showTransport]);
+  const transportModel = useMemo(() => (transport && showTransport ? buildLinksModel(transport, WORLD_W / 360) : null), [transport, showTransport]);
   const wrapRef = useRef(null);
   const baseRef = useRef(null);
   const overlayRef = useRef(null);

@@ -18,7 +18,7 @@ export const LEVEL_COST = Object.freeze({
 });
 
 /** Semilunghezza in km del tratto-ponte per classe di larghezza del fiume. */
-export const BRIDGE_HALF_KM = Object.freeze({ small: 0.25, medium: 0.5, large: 1 });
+export const BRIDGE_HALF_KM = Object.freeze({ small: 1.2, medium: 2, large: 3 });
 
 const toRad = Math.PI / 180;
 

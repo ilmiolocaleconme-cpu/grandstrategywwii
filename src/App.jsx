@@ -39,31 +39,28 @@ function useWaterData(start) {
   return water;
 }
 
-// Ponti candidati (~330 kB da incroci strada/ferrovia–fiume + ~170 kB di passaggi sul confine tra province): caricati
-// dopo la mappa e messi in cache dal service worker; uniti dove sullo stesso fiume non c'è un ponte entro 15 km.
-function useCrossingPoints(start) {
+// Grafo dei collegamenti (~1,3 MB: strade, ferrovie e ponti come tratti della linea): caricato dopo la mappa e messo in cache dal
+// service worker. I marcatori dei ponti (e dei passaggi sul confine dove manca un ponte entro 15 km) ne derivano.
+function useLinks(start) {
   const [file, setFile] = useState(null);
   useEffect(() => {
-    if (!start) return undefined;
+    if (!start || file) return undefined;
     let alive = true;
-    Promise.all([import('../data/transport_bridges.json'), import('../data/crossing_points.json')])
-      .then(([b, c]) => alive && setFile({ points: mergeCandidates(b.default.points, c.default.points) }))
-      .catch(() => alive && setFile(null));
+    import('../data/links.json').then((m) => alive && setFile(m.default)).catch(() => {});
     return () => { alive = false; };
-  }, [start]);
+  }, [start, file]);
   return file;
 }
 
-// Strade e ferrovie (~1,8 MB, ~430 kB compressi): si scaricano solo quando si accende il livello (spento all'avvio).
-function useTransport(wanted) {
-  const [file, setFile] = useState(null);
+function useCrossingPoints(links) {
+  const [border, setBorder] = useState(null);
   useEffect(() => {
-    if (!wanted || file) return undefined;
+    if (!links) return undefined;
     let alive = true;
-    import('../data/transport.json').then((m) => alive && setFile(m.default)).catch(() => {});
+    import('../data/crossing_points.json').then((c) => alive && setBorder(c.default.points)).catch(() => alive && setBorder([]));
     return () => { alive = false; };
-  }, [wanted, file]);
-  return file;
+  }, [links]);
+  return useMemo(() => (links && border ? { points: mergeCandidates(links.bridges, border) } : null), [links, border]);
 }
 
 // Zone marittime (~95 kB): come fiumi e laghi, caricate dopo la mappa e messe in cache dal service worker.
@@ -137,10 +134,11 @@ export default function App() {
   }, [provincesStatus]);
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
-  const crossingPoints = useCrossingPoints(USE_CANVAS && mapShown);
+  const links = useLinks(USE_CANVAS && mapShown);
+  const crossingPoints = useCrossingPoints(links);
   const [showBridges, setShowBridges] = useState(true);
   const [showTransport, setShowTransport] = useState(false);
-  const transport = useTransport(USE_CANVAS && showTransport);
+  const transport = showTransport ? links : null;
   const labelData = useLabelData(!USE_CANVAS || mapShown);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);

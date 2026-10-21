@@ -67,3 +67,14 @@ Test: `tests/transport_style.test.js` (contesto Canvas simulato). Verificato con
 - Da molto lontano (zoom < 8) le strade e le ferrovie **non si disegnano**; fino a 12 restano autostrade e linee principali (rank ≤ 4), fino a 18 rank ≤ 6, poi tutto.
 - Oltre zoom 20 i segni (spessori, tratteggi, impalcati dei ponti) crescono fino a ×2,6 a zoom 120 (`sizeBoost`), così a zoom massimo restano ben riconoscibili.
 - Ponti diradati nella generazione (`thinDeg` 0,07° ≈ 5–8 km): sullo stesso fiume, il ponte più importante assorbe quelli vicini, così non ce ne sono quattro intorno allo stesso fiume. Le posizioni restano quelle vere degli incroci.
+
+## Grafo dei collegamenti (la rete usata dalla mappa)
+
+La mappa non disegna più le linee di Natural Earth così come sono: usa `data/links.json` (schema `links-v1`, `src/data/links.js`, `scripts/build-links.js`, `npm run build:links -- <cartella Natural Earth con ne_10m_populated_places_simple.geojson>`).
+- **Sedi:** per ogni provincia la città più popolosa (Natural Earth populated places); senza città, un punto interno (`basis` lo dice).
+- **Collegamenti:** al massimo UNO stradale e UNO ferroviario per ogni coppia di province confinanti (`adjacency.json`), lungo il percorso di costo minimo (km × costo per livello) sulla rete di `transport.json`, solo dentro le due province, con limite di deviazione (2,5× la distanza + 25 km). Ogni collegamento ha livello (il più basso lungo il percorso), km, segmenti e ponti.
+- **Segmenti unici:** i tratti usati si fondono in catene spezzate agli incroci, alle sedi e ai cambi di livello o nome: nessuna sovrapposizione né linee parallele duplicate.
+- **Ponti = tratti della linea:** dove un segmento incrocia un fiume, la linea si taglia e il tratto a cavallo (semilunghezza 1,2 / 2 / 3 km per fiume piccolo / medio / grande) diventa il ponte, con la geometria della linea. Incroci dello stesso fiume entro 4 km (meandri) sono un ponte solo. Disegno: da zoom 12 bordo chiaro, da zoom 20 impalcato con materiale (legno, muratura, ferro), parapetti e spalle, e sopra il simbolo di strada/ferrovia.
+- **Numeri attuali:** 1.394 collegamenti (487 stradali, 907 ferroviari), circa 5.000 segmenti, 1.429 ponti, 870 province su 1.020 collegate; le altre non hanno dati di strada/ferrovia utili nella rete.
+- **Limiti:** rete moderna, non del 1936; la rete stradale di Natural Earth è scheletrica (solo le principali), quindi molti collegamenti stradali mancano; le sedi usano la popolazione moderna; le semilunghezze dei ponti sono una scelta grafica in scala con la mappa, non misure reali.
+`transport.json` e `transport_bridges.json` restano solo come ingressi di calcolo: l'app non li carica più.

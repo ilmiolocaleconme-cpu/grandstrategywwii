@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DECK_ZOOM, DETAIL_ZOOMS, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, OFFSETS, drawBridgeDeck, drawStraight, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
-import { buildMarkers, drawMarkers, showsDeck, visibleMarkers } from '../src/map/crossingMarkers.js';
+import { DECK_ZOOM, DETAIL_ZOOMS, drawBridgeSegments, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, OFFSETS, drawBridgeDeck, drawStraight, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
+import { buildMarkers, drawMarkers, visibleMarkers } from '../src/map/crossingMarkers.js';
+import { buildLinksModel, drawTransport } from '../src/map/transportView.js';
 import { headingDeg } from '../src/data/transport.js';
 import { validateBridges } from '../src/data/bridges.js';
 import { MAX_K, zoomAt } from '../src/map/geo.js';
@@ -84,23 +85,38 @@ test('direzione dei ponti: gradi non orientati e validazione', () => {
   assert.deepEqual(validateBridges(f), []);
 });
 
-test('marcatori: impalcato solo da zoom alto e solo con direzione; ruotato sulla mappa', () => {
-  const cos0 = 2;
+test('marcatori: i ponti diventano tratti della linea da zoom 18 (niente marcatore), i passaggi di confine restano', () => {
   const file = { points: [
     { id: 'A', kind: 'bridge', level: 2, riverId: 'R', lon: 1, lat: 1, road: 2, rail: 0, ang: 0 },
     { id: 'B', kind: 'border_cross', level: 2, riverId: 'R', lon: 5, lat: 1, road: 0, rail: 0 },
   ] };
-  const [a, b] = buildMarkers(file, cos0);
-  assert.ok(Math.abs(a.rot) < 1e-12);
-  assert.equal(b.rot, null);
-  assert.ok(showsDeck(a, DECK_ZOOM) && !showsDeck(a, 2) && !showsDeck(b, 50));
-  const v = buildMarkers({ points: [{ ...file.points[0], ang: 90 }] }, cos0)[0];
-  assert.ok(Math.abs(v.rot - Math.atan2(-1, 0)) < 1e-9, 'strada verso nord = verso l’alto sullo schermo');
-  const { ctx, log } = fakeCtx();
+  const ms = buildMarkers(file, 2);
   const all = { x0: -1e9, x1: 1e9, y0: -1e9, y1: 1e9 };
-  drawMarkers(ctx, [a, b], { sx: 10, k: 20, cull: all });
-  assert.ok(log.some(([k]) => k === 'rotate'), 'impalcato ruotato');
-  assert.equal(visibleMarkers([a, b], { sx: 10, k: 20, cull: all }).length, 2);
+  assert.equal(visibleMarkers(ms, { sx: 10, k: 10, cull: all }).length, 2);
+  assert.deepEqual(visibleMarkers(ms, { sx: 10, k: 20, cull: all }).map((m) => m.id), ['B']);
+  const { ctx } = fakeCtx();
+  assert.equal(drawMarkers(ctx, ms, { sx: 10, k: 20, cull: all }), 1);
+});
+
+test('ponti come tratti: stessa geometria della linea, aspetto per materiale e dettaglio', () => {
+  globalThis.Path2D ??= class { moveTo() {} lineTo() {} };
+  const seg = (id, k, level, br) => ({ id, k, level, rank: 4, ...(br ? { br: { r: 'R_X' } } : {}), c: [10, 45, 10.01, 45.005, 10.02, 45] });
+  const file = { segments: [seg('S1', 'road', 2, false), seg('S2', 'road', 2, true), seg('S3', 'rail', 3, true)] };
+  const m = buildLinksModel(file, 2);
+  assert.equal(m.lines.length, 1);
+  assert.equal(m.bridges.length, 2);
+  assert.equal(m.bridges[0].coords[0], Math.fround(10 * 2), 'stessa geometria della linea');
+  for (const tier of [0, 1, 2]) {
+    const { ctx, log } = fakeCtx();
+    drawBridgeSegments(ctx, m.bridges, { sx: 10, tier });
+    assert.ok(log.filter(([k]) => k === 'stroke').length >= 2, `dettaglio ${tier}`);
+  }
+  const t0 = fakeCtx(); drawBridgeSegments(t0.ctx, m.bridges, { sx: 10, tier: 0 });
+  const t2 = fakeCtx(); drawBridgeSegments(t2.ctx, m.bridges, { sx: 10, tier: 2 });
+  assert.ok(t2.log.filter(([k]) => k === 'stroke').length > 3 * t0.log.filter(([k]) => k === 'stroke').length, 'a dettaglio pieno molti più tratti (impalcato, parapetti, spalle)');
+  const far = fakeCtx();
+  assert.equal(drawTransport(far.ctx, m, { sx: 10, k: 3, cull: { x0: -1e9, x1: 1e9, y0: -1e9, y1: 1e9 } }), 0, 'da lontano niente');
+  assert.equal(drawTransport(far.ctx, m, { sx: 10, k: 25, cull: { x0: -1e9, x1: 1e9, y0: -1e9, y1: 1e9 } }), 3);
 });
 
 test('zoom massimo portato a 120', () => {
@@ -108,9 +124,9 @@ test('zoom massimo portato a 120', () => {
   assert.equal(zoomAt({ k: 100, x: 0, y: 0 }, 5, 0, 0).k, 120);
 });
 
-test('ingrandimento dei segni a zoom massimo: 1 fino ai ponti, poi cresce senza superare 2,6', () => {
+test('ingrandimento dei segni a zoom massimo: 1 fino ai ponti, poi cresce senza superare 1,6', () => {
   assert.equal(sizeBoost(1), 1);
   assert.equal(sizeBoost(DECK_ZOOM), 1);
   assert.ok(sizeBoost(40) > 1 && sizeBoost(40) < sizeBoost(100));
-  assert.ok(Math.abs(sizeBoost(120) - 2.6) < 1e-9 && sizeBoost(500) === 2.6);
+  assert.ok(Math.abs(sizeBoost(120) - 1.6) < 1e-9 && sizeBoost(500) === 1.6);
 });

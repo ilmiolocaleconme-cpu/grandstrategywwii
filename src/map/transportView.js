@@ -4,7 +4,7 @@
 // buildTransportModel, transportRankLimit e transportLegend si provano senza browser (tests/transport.test.js);
 // drawTransport usa Path2D.
 
-import { DRAW_GROUPS, OFFSETS, RECIPES, detailTier, sizeBoost, strokePass } from './transportStyle.js';
+import { DRAW_GROUPS, OFFSETS, RECIPES, addOffset, detailTier, drawBridgeSegments, sizeBoost, strokePass } from './transportStyle.js';
 
 /**
  * Soglia di importanza (scalerank di Natural Earth) mostrata a un dato zoom: da molto lontano nessuna linea (la mappa
@@ -36,23 +36,6 @@ export function buildTransportModel(file, cos0) {
     return { id: l.id, key: `${l.k}-${l.level}`, kind: l.k, level: l.level, rank: l.rank ?? 99, coords: a, bbox: { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } };
   });
   return { lines, groups: new Map() };
-}
-
-/** Aggiunge a `path` la polilinea `c` scostata di `d` unità di lato (normale media tra segmenti; angoli stretti limitati). */
-function addOffset(path, c, d) {
-  const n = c.length / 2;
-  const pt = (i) => {
-    const i0 = Math.max(0, i - 1);
-    const i1 = Math.min(n - 1, i + 1);
-    let tx = c[2 * i1] - c[2 * i0];
-    let ty = c[2 * i1 + 1] - c[2 * i0 + 1];
-    const len = Math.hypot(tx, ty) || 1;
-    tx /= len; ty /= len;
-    return [c[2 * i] - ty * d, c[2 * i + 1] + tx * d];
-  };
-  const [x0, y0] = pt(0);
-  path.moveTo(x0, y0);
-  for (let i = 1; i < n; i += 1) { const [x, y] = pt(i); path.lineTo(x, y); }
 }
 
 /** Righe della legenda: tipo, nome e come si riconosce («spec» per drawSwatch: stesso disegno della mappa a zoom alto). */
@@ -122,6 +105,23 @@ export function drawTransport(ctx, model, { sx: sxMap, k, cull }) {
       }
     }
   }
+  if (model.bridges?.length) { // ponti: tratti della stessa linea, con la stessa soglia di importanza
+    const limit = transportRankLimit(k);
+    const vis = model.bridges.filter((l) => l.rank <= limit && !(l.bbox.x > cull.x1 || l.bbox.x + l.bbox.w < cull.x0 || l.bbox.y > cull.y1 || l.bbox.y + l.bbox.h < cull.y0));
+    drawBridgeSegments(ctx, vis, { sx, tier });
+    drawn += vis.length;
+  }
   ctx.setLineDash([]);
   return drawn;
+}
+
+/**
+ * Modello del grafo dei collegamenti (data/links.json): i tratti normali come in buildTransportModel e, a parte, i tratti-ponte
+ * (`bridges`), disegnati sopra. Stesso formato di riga di transport.json: { id, k, level, rank, c }.
+ */
+export function buildLinksModel(file, cos0) {
+  const rows = (file?.segments ?? []).map((s) => ({ id: s.id, k: s.k, level: s.level, rank: s.rank ?? 99, c: s.c, br: Boolean(s.br) }));
+  const base = buildTransportModel({ lines: rows.filter((r) => !r.br) }, cos0);
+  const bridges = buildTransportModel({ lines: rows.filter((r) => r.br) }, cos0).lines;
+  return { ...base, bridges };
 }
