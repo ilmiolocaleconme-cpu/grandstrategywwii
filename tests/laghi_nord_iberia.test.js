@@ -23,15 +23,15 @@ const inRing = (x, y, r) => {
 // anelli concentrici (isole): vale la regola pari-dispari, come nel disegno della mappa (fillRule evenodd)
 const inLake = (f, x, y) => f.geometry.coordinates.some((poly) => poly.reduce((n, r) => n + (inRing(x, y, r) ? 1 : 0), 0) % 2 === 1);
 
-test('catalogo valido: 896 laghi, 342 aggiunti, id e wikidata senza duplicati', () => {
+test('catalogo valido: 895 laghi, 342 aggiunti, id e wikidata senza duplicati', () => {
   const v = validateCatalog({
     nations: read('nations.json'), resources: read('resources.json'), rivers: read('rivers.json'), crossings: read('crossings.json'),
     political: read('political_1936.json'), riversGeo: read('rivers_geo.json'), lakes,
   });
   assert.equal(v.ok, true, v.errors.join('|'));
-  assert.equal(lakes.features.length, 896);
+  assert.equal(lakes.features.length, 895); // 896 meno 1: Nord e Sud Aral moderni sostituiti dall'Aral storico (L_ARAL_SEA)
   assert.equal(added.length, 342);
-  assert.equal(byId.size, 896);
+  assert.equal(byId.size, 895);
   // i laghi in piu parti (Como, Femund) hanno piu poligoni con lo stesso wikidata; un lago nuovo non deve ripetere uno gia presente
   const old = new Set(lakes.features.filter((f) => !/v5\.1\.1/.test(f.properties.source)).map((f) => f.properties.wikidata).filter(Boolean));
   for (const f of added) assert.equal(old.has(f.properties.wikidata), false, `${f.properties.id} gia presente`);

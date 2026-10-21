@@ -24,8 +24,8 @@ const inRing = (x, y, r) => {
 };
 const inLake = (f, x, y) => f.geometry.coordinates.some((poly) => poly.reduce((n, r) => n + (inRing(x, y, r) ? 1 : 0), 0) % 2 === 1);
 
-test('laghi URSS: 435 laghi, catalogo valido, id unici, fonte e licenza', () => {
-  assert.equal(added.length, 435);
+test('laghi URSS: 433 laghi, catalogo valido, id unici, fonte e licenza', () => {
+  assert.equal(added.length, 433); // 435 meno i due Aral moderni (L_ARAL_SEA ha fonte lakes_historic)
   assert.equal(new Set(lakes.features.map((f) => f.properties.id)).size, lakes.features.length);
   const v = validateCatalog({ nations: read('nations.json'), resources: read('resources.json'), rivers: read('rivers.json'), crossings: read('crossings.json'), political: read('political_1936.json'), provinces, riversGeo: read('rivers_geo.json'), lakes });
   assert.equal(v.ok, true, v.errors.join('|'));
@@ -84,4 +84,19 @@ test('laghi URSS: ogni lago ha vertici nelle province sovietiche o entro ~0,05 g
     if (ok / n < 0.3 && f.geometry.coordinates.length === 1) bad.push(`${f.properties.id} ${ok}/${n}`);
   }
   assert.deepEqual(bad, []);
+});
+
+test('Mar d\'Aral: contorno storico di fine anni 1950, un solo lago, area vicina ai ~68.000 km2 del 1960', () => {
+  const ids = lakes.features.map((f) => f.properties.id);
+  assert.equal(ids.includes('L_NORTH_ARAL_SEA'), false, 'Nord Aral moderno ritirato');
+  assert.equal(ids.includes('L_SOUTH_ARAL_SEA'), false, 'Sud Aral moderno ritirato');
+  const aral = lakes.features.find((f) => f.properties.id === 'L_ARAL_SEA');
+  assert.ok(aral, 'L_ARAL_SEA presente');
+  assert.match(aral.properties.source, /lakes_historic/);
+  assert.equal(aral.properties.license, 'Public Domain (Natural Earth)');
+  assert.ok(aral.properties.knownIssues.includes('historic_extent_late_1950s_used_for_1936'));
+  // ordine di grandezza storico: circa 68.000 km2 nel 1960 (il 1936 non e misurato: vedi note del lago)
+  assert.ok(aral.properties.areaKm2 > 60000 && aral.properties.areaKm2 < 75000, `area ${aral.properties.areaKm2}`);
+  // punto al centro dell'antico mare (circa 59,5 E, 45 N), oggi in gran parte asciutto
+  assert.equal(inLake(aral, 59.5, 45.0), true);
 });
