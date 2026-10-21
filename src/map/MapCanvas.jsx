@@ -4,6 +4,7 @@ import { nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, pickRiverNear, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
+import { buildMarkers, markerLegend } from './crossingMarkers.js';
 import { Legend } from './MapView.jsx';
 import { seaZoneAt } from './seaView.js';
 import { pickStaticLabels } from './labelview.js';
@@ -27,13 +28,14 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, crossingPoints, showBridges, onToggleBridges }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
     () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, riverTier) : EMPTY_WATER),
     [rivers, riversGeo, lakes],
   );
+  const markers = useMemo(() => (crossingPoints && showBridges ? buildMarkers(crossingPoints, WORLD_W / 360) : null), [crossingPoints, showBridges]);
   const wrapRef = useRef(null);
   const baseRef = useRef(null);
   const overlayRef = useRef(null);
@@ -46,7 +48,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea, labelData };
+  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea, labelData, markers };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -84,7 +86,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), trace: window.__gsTrace, light });
+    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), markers: p.markers, trace: window.__gsTrace, light });
     s.cache = { canvas: c, view: { ...view }, region, light };
     baseRef.current.dataset.drawn = '1';
     if (p.water.lines.length && p.showRivers && !light) baseRef.current.dataset.water = '1';
@@ -131,7 +133,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), trace: window.__gsTrace, light: false });
+    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), markers: p.markers, trace: window.__gsTrace, light: false });
     const sl = { canvas: c, exposed: false, timer: 0 };
     s.slice = sl;
     const expose = () => {
@@ -326,7 +328,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       // i nomi partono solo dopo che la prima schermata è stata presentata (due fotogrammi)
       requestAnimationFrame(() => requestAnimationFrame(() => { s.painted = true; setViewRev((n) => n + 1); }));
     }
-  }, [size, model, water, layer, showRivers, selectedRiverId, seaData, showSeas, selectedSeaId]);
+  }, [size, model, water, layer, showRivers, selectedRiverId, seaData, showSeas, selectedSeaId, markers]);
   // la selezione della provincia cambia solo la sovrapposizione
   useEffect(() => { paintOverlay(); }, [selectedId, seaData, showSeas]);
 
@@ -512,6 +514,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
         </div>
         <div className="zoom">
           <button type="button" className={showRivers ? 'on' : ''} aria-pressed={showRivers} aria-label="Mostra o nascondi i fiumi" onClick={onToggleRivers}>≈</button>
+          {onToggleBridges ? (
+            <button type="button" className={showBridges ? 'on' : ''} aria-pressed={Boolean(showBridges)} aria-label="Mostra o nascondi i ponti e i punti di passaggio" onClick={onToggleBridges}>⊓</button>
+          ) : null}
           <button type="button" className={showSeas ? 'on' : ''} aria-pressed={showSeas} aria-label="Mostra o nascondi le zone marittime" onClick={onToggleSeas}>⚓</button>
           <button type="button" aria-label="Ingrandisci" onClick={() => zoomButton(1.6)}>+</button>
           <button type="button" aria-label="Riduci" onClick={() => zoomButton(1 / 1.6)}>−</button>
@@ -519,7 +524,29 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
         </div>
       </div>
 
+      {showBridges && crossingPoints && legendOpen ? <BridgeLegend /> : null}
       <Legend layer={layer} nationNames={nationNames} nationControl={nationControl} items={model.items} open={legendOpen} onToggle={() => setLegendOpen((o) => !o)} />
     </div>
+  );
+}
+
+
+// Legenda dei punti di passaggio: il livello della struttura si riconosce da forma, colore e dimensione.
+function BridgeLegend() {
+  return (
+    <ul className="bridge-legend" aria-label="Legenda dei punti di passaggio sui fiumi">
+      {markerLegend().map((m) => (
+        <li key={m.level}>
+          <svg width="16" height="16" viewBox="-8 -8 16 16" aria-hidden="true">
+            {m.shape === 'circle' ? <circle r="3.6" fill="none" stroke={m.stroke} strokeWidth="1.4" /> : null}
+            {m.shape === 'square' ? <rect x="-4.6" y="-4.6" width="9.2" height="9.2" fill={m.fill} stroke={m.stroke} strokeWidth="1.2" /> : null}
+            {m.shape === 'diamond' ? (<><polygon points="0,-7 7,0 0,7 -7,0" fill={m.fill} stroke={m.stroke} strokeWidth="1.4" /><circle r="2" fill="#fff" /></>) : null}
+          </svg>
+          <span><b>{m.label}</b> {m.hint}</span>
+        </li>
+      ))}
+      <li className="note"><svg width="16" height="16" viewBox="-8 -8 16 16" aria-hidden="true"><circle r="6.5" fill="none" stroke="#fff" strokeWidth="1" strokeDasharray="2 2" /></svg><span>anello: il fiume fa da confine</span></li>
+      <li className="note"><span>Calcolati dalla geometria, livello provvisorio: non sono ponti storici verificati.</span></li>
+    </ul>
   );
 }

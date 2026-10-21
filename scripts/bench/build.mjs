@@ -31,7 +31,14 @@ const plugin = {
       contents: `import { loadProvincesFrom } from './provinces.js';
 const modules = {${files.map((f) => `'../../data/provinces/${f}': () => import('../../data/provinces/${f}')`).join(',')}};
 let pending = null;
-export function loadProvinces() { if (pending === null) pending = loadProvincesFrom(modules); return pending; }`,
+let progress = { done: 0, total: 0 };
+const listeners = new Set();
+export function loadProvinces(cb) {
+  if (typeof cb === 'function') { listeners.add(cb); cb(progress.done, progress.total); }
+  if (pending === null) pending = loadProvincesFrom(modules, (done, total) => { progress = { done, total }; for (const fn of listeners) fn(done, total); });
+  return pending;
+}
+export function unwatchProvinces(cb) { listeners.delete(cb); }`,
     }));
   },
 };

@@ -85,9 +85,14 @@ export function mergeProvinceParts(meta, parts) {
  * Se anche un solo file non si carica la mappa non parte: una mappa a metà falserebbe i bordi
  * nazionali, e l'errore elenca tutti i file mancanti (utile quando manca qualcosa nella cache offline).
  */
-export async function loadProvincesFrom(modules) {
+export async function loadProvincesFrom(modules, onProgress) {
   const entries = Object.entries(modules);
-  const settled = await Promise.allSettled(entries.map(([, load]) => load()));
+  const total = entries.length;
+  let done = 0;
+  // onProgress(done, total) dopo ogni file finito (riuscito o no): serve alla barra di caricamento
+  const tick = () => { done += 1; if (typeof onProgress === 'function') onProgress(done, total); };
+  if (typeof onProgress === 'function') onProgress(0, total);
+  const settled = await Promise.allSettled(entries.map(([, load]) => Promise.resolve().then(load).finally(tick)));
   const failed = [];
   const parts = {};
   let meta = null;
