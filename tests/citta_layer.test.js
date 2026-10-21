@@ -37,12 +37,13 @@ test('modello delle città: una voce per città, con il nome nelle proprietà', 
 });
 
 test('toccare dentro Berlino trova la città di Berlino, non il Gau', () => {
-  const it = cityModel.items.find((i) => i.id === 'P_DEU_BERLINO_CITTA');
+  // Berlino è divisa dalla Sprea: il tocco al centro di una sua parte trova una parte di Berlino
+  const it = cityModel.items.find((i) => i.props.cittaId === 'P_DEU_BERLINO_CITTA');
   assert.ok(it, 'manca Berlino città');
   const [x, y] = centre(cityModel, it);
   const hit = pickCityAt(cityModel, x, y);
   assert.ok(hit, 'nessuna città sotto il centro di Berlino');
-  assert.equal(hit.id, 'P_DEU_BERLINO_CITTA');
+  assert.equal(hit.props.cittaId, 'P_DEU_BERLINO_CITTA');
   assert.equal(hit.props.parentProvince, 'P_DEU_BERLIN');
 });
 

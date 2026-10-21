@@ -16,7 +16,8 @@
     "build:adjacency": "node scripts/build-adjacency.js",
     "build:sea": "node scripts/build-sea.js",
     "build:labels": "node scripts/build-labels.js",
-    "build:citta-forme": "node scripts/build-citta-forme.js"
+    "build:citta-forme": "node scripts/build-citta-forme.js",
+    "build:citta-sponde": "node scripts/build-citta-sponde.js"
   },
   "dependencies": {
     "react": "^19.3.0",
