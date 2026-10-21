@@ -4,8 +4,9 @@ import { validateCatalog } from '../src/data/validate.js';
 import { buildProvinceIndex, pointInPolygon } from '../src/data/geometry.js';
 import { loadCatalog } from '../scripts/validate-data.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
+import { madreId, vistaProvince } from './famiglie.js';
 
-const provinces = await loadProvinces();
+const provinces = vistaProvince(await loadProvinces());
 const index = buildProvinceIndex(provinces);
 
 // Fixture sintetiche SOLO per i test: non sono dati geografici storici.
@@ -84,7 +85,7 @@ test('i dati reali delle province sono validi e dichiarano la qualità', async (
 });
 
 test('città note cadono nella provincia attesa', () => {
-  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
   const cases = [
     ['Eupen (cantoni dell\'Est, Belgio dal 1920)', 6.03, 50.63, 'P_BEL_LIEGE'],
     ['Bruxelles', 4.35, 50.85, 'P_BEL_BRABANT'],
@@ -158,7 +159,7 @@ test('le province non si sovrappongono oltre le tolleranze note', () => {
 });
 
 test('Italia: città note nella regione attesa e regioni mancanti coperte come ipotesi', () => {
-  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
   const cases = [
     ['Roma', 12.5, 41.9, 'P_ITA_LAZIO'],
     ['Milano', 9.19, 45.46, 'P_ITA_LOMBARDY'],
@@ -201,7 +202,7 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
 });
 
 test('Cecoslovacchia: le quattro terre, con la Slovacchia derivata', () => {
-  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
   const cases = [
     ['Praga', 14.42, 50.08, 'P_CZE_BOHEMIA'],
     ['Brno', 16.6, 49.2, 'P_CZE_MORAVIAN_SILESIAN_COUNTRY'],
@@ -262,7 +263,7 @@ const YUG_CAPITALS = {
 
 test('Iugoslavia: ogni regione contiene il proprio capoluogo (Dubrovnik escluso: costa semplificata)', () => {
   for (const [key, [lon, lat]] of Object.entries(YUG_CAPITALS)) {
-    const ids = index.provincesAt(lon, lat).map((f) => f.properties.id);
+    const ids = index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
     assert.ok(ids.includes(`P_YUG_${key}`), `${key}: trovato ${ids.join(',') || 'nessuna'}`);
   }
   const yug = provinces.features.filter((f) => f.properties.owner === 'YUG');

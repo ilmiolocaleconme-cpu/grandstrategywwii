@@ -2,9 +2,11 @@
 // Usa Path2D e il contesto 2D: gira solo nel browser. La logica che si può provare senza browser sta in
 // canvasModel.js e canvasView.js (testate in tests/canvas.test.js). Gli stessi colori e spessori di styles.css (.prov, .lake, .river, ...).
 
-import { WORLD_W, provinceFill, riverRankLimit } from './geo.js';
+import { WORLD_W, provinceFill, riverOpacity, riverRankLimit, riverWidthScale } from './geo.js';
+import { cityNamesAt } from './citta.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
 import { LINE_STEP } from './labelfit.js';
+import { drawMarkers } from './crossingMarkers.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 
 const COS0 = WORLD_W / 360;
@@ -23,6 +25,9 @@ export const COLORS = {
   lakeLabel: 'rgba(221, 227, 232, 0.72)',
   lakeLabelHalo: 'rgba(10, 36, 60, 0.28)',
   seaFill: 'rgba(120, 190, 235, 0.07)',
+  cityGrey: '#7d8288', // città (centro urbano)
+  cityLabel: 'rgba(252, 240, 200, 0.95)',
+  cityLabelHalo: 'rgba(14, 18, 10, 0.6)',
   seaStroke: 'rgba(170, 215, 245, 0.45)',
   straitFill: 'rgba(255, 214, 120, 0.16)',
   straitStroke: 'rgba(255, 214, 120, 0.7)',
@@ -39,6 +44,7 @@ const LABEL_STYLE = {
   lake: { font: 'italic 400', fill: COLORS.lakeLabel, halo: COLORS.lakeLabelHalo },
   sea: { font: 'italic 400', fill: COLORS.seaLabel, halo: COLORS.seaLabelHalo },
 };
+const CITY_NAME_PX = 11;
 const FONT_FAMILY = "'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif";
 
 function ringsToPath(path, coords, offsets, r0, r1) {
@@ -183,7 +189,16 @@ function riverGroups(water, rankLimit) {
   return groups;
 }
 
+// Testo del nome di una città: senza la sigla di sponda; la stella solo sulla capitale a nord; le altre parti di una capitale sono "<nome> sud".
+function cityText(p) {
+  const nome = p.name.replace(/ \(sponda [A-Z]\)$/, '');
+  if (p.capital) return `★ ${nome}`;
+  if (p.capitale && !/ (sud|nord|est|ovest)( \d+)?$/.test(nome)) return `${nome} sud`;
+  return nome;
+}
+
 function fillOf(item, layer, control) {
+  if (item.props.kind === 'citta' && layer !== 'quality') return COLORS.cityGrey; // centro urbano: grigio
   const cache = item.fills ?? (item.fills = {});
   return cache[layer] ?? (cache[layer] = provinceFill(item.props, layer, control));
 }
@@ -201,7 +216,7 @@ const LAKE_CHUNK = 60; // laghi per passo
  * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
 export function* renderBaseSteps(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId, light } = p;
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId, light, markers } = p;
   const a = affineOf(view, vb, lay);
   const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
   const cull = regionToUnits(view, vb, lay, region);
@@ -287,12 +302,14 @@ export function* renderBaseSteps(ctx, p) {
       }
       trace?.('lakes', ctx);
       ctx.strokeStyle = COLORS.river;
+      ctx.globalAlpha = riverOpacity(view.k);
       for (const [width, path] of riverGroups(water, riverRankLimit(view.k))) {
         ctx.strokeStyle = COLORS.river;
-        ctx.lineWidth = width / a.sx;
+        ctx.lineWidth = (width * riverWidthScale(view.k)) / a.sx;
         ctx.stroke(path);
         yield 'rivers';
       }
+      ctx.globalAlpha = 1;
       trace?.('rivers', ctx);
       if (selectedRiverId) {
         for (const l of water.lines) {
@@ -311,6 +328,12 @@ export function* renderBaseSteps(ctx, p) {
         ctx.globalAlpha = 1;
         yield 'selected';
       }
+    }
+    // punti di passaggio (ponti candidati) sopra i fiumi, con il livello della struttura: vedi crossingMarkers.js
+    if (markers && markers.length) {
+      drawMarkers(ctx, markers, { sx: a.sx, k: view.k, cull: { x0, x1, y0, y1 } });
+      trace?.('bridges', ctx);
+      yield 'bridges';
     }
   }
 }
@@ -338,6 +361,38 @@ export function drawOverlay(ctx, p) {
       ctx.stroke(path);
     }
   }
+  // nomi delle città: le capitali (con la stella) da zoom medio, le altre città solo da vicino
+  const cityBoxes = []; // riquadri dei nomi di città già scritti (pixel CSS)
+  const nomi = cityNamesAt(model.items, view.k);
+  if (nomi.length) {
+    ctx.font = `${CITY_NAME_PX}px ${FONT_FAMILY}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = COLORS.cityLabelHalo;
+    ctx.fillStyle = COLORS.cityLabel;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Regola dei nomi: prima le capitali, poi le città più grandi; un nome che toccherebbe uno già scritto si salta
+    // (a zoom maggiore, con più spazio sullo schermo, ricompare). I nomi delle province che cadrebbero sotto un nome di
+    // città si saltano più sotto: la città, sopra, è l'informazione più utile.
+    const ordine = [...nomi].sort((x, y) => (Number(Boolean(y.props.capitale)) - Number(Boolean(x.props.capitale))) || ((y.props.areaKm2 ?? 0) - (x.props.areaKm2 ?? 0)) || (x.props.id < y.props.id ? -1 : 1));
+    for (const it of ordine) {
+      const b = it.bbox;
+      const testo = cityText(it.props);
+      const w = ctx.measureText(testo).width + 4;
+      const h = CITY_NAME_PX + 2;
+      for (const off of copies) {
+        const px = a.sx * (b.x + b.w / 2 + off) + a.tx;
+        const py = a.sx * (b.y + b.h / 2) + a.ty;
+        if (px < -w || py < -h || px > ctx.canvas.width / dpr + w || py > ctx.canvas.height / dpr + h) continue; // fuori schermo
+        const box = [px - w / 2, py - h / 2, px + w / 2, py + h / 2];
+        if (cityBoxes.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) continue;
+        cityBoxes.push(box);
+        ctx.strokeText(testo, px, py);
+        ctx.fillText(testo, px, py);
+      }
+    }
+  }
   if (!labels || labels.length === 0) return;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -347,6 +402,12 @@ export function drawOverlay(ctx, p) {
     const px = a.sx * (l.x + l.off) + a.tx;
     const py = a.sx * l.y + a.ty;
     const fontPx = l.size * a.sx;
+    if (cityBoxes.length) {
+      const nl = (l.lines || [l.name]).length;
+      const hw = (l.lineLengths ? Math.max(...l.lineLengths) : l.length) * a.sx / 2;
+      const hh = (nl * fontPx * LINE_STEP) / 2;
+      if (cityBoxes.some((o) => px - hw < o[2] && px + hw > o[0] && py - hh < o[3] && py + hh > o[1])) continue;
+    }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.translate(px, py);
     if (l.angle) ctx.rotate((l.angle * Math.PI) / 180);

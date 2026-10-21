@@ -5,13 +5,15 @@ import { buildProvinceIndex } from '../src/data/geometry.js';
 import { featureAreaKm2 } from '../src/map/geo.js';
 import { buildAdjacency } from '../src/data/adjacency.js';
 import { readFileSync } from 'node:fs';
+import { madreId, vistaProvince, grafoFamiglie } from './famiglie.js';
 
 // Stato Libero d'Irlanda (IRL, 5 province storiche) e Islanda (ISL, una provincia).
 // Natural Earth 10m admin-1 (confini attuali), raster 0,002°; qualità hypothesis. Soglie larghe.
-const provinces = await loadProvinces();
+const rawProvinces = await loadProvinces();
+const provinces = vistaProvince(rawProvinces);
 const index = buildProvinceIndex(provinces);
 const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o);
-const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
 const km2 = (id) => featureAreaKm2(provinces.features.find((f) => f.properties.id === id));
 
 test('Irlanda: 5 province storiche con id, proprietario e qualità corretti', () => {
@@ -48,7 +50,7 @@ test('Irlanda: confine con l\'Irlanda del Nord senza sovrapposizioni né buchi e
 });
 
 test('Irlanda: adiacente per terra alle sole province dell\'Irlanda del Nord e tra di loro', () => {
-  const g = buildAdjacency(provinces, JSON.parse(readFileSync(new URL('../data/adjacency.json', import.meta.url), 'utf8')));
+  const g = grafoFamiglie(buildAdjacency(rawProvinces, JSON.parse(readFileSync(new URL('../data/adjacency.json', import.meta.url), 'utf8'))), rawProvinces);
   assert.ok(g.areAdjacent('P_IRL_ULSTER', 'P_GBR_LONDONDERRY') || g.areAdjacent('P_IRL_ULSTER', 'P_GBR_TYRONE'));
   assert.ok(g.areAdjacent('P_IRL_DUBLINO', 'P_IRL_LEINSTER'));
   assert.ok(g.areAdjacent('P_IRL_MUNSTER', 'P_IRL_LEINSTER') && g.areAdjacent('P_IRL_MUNSTER', 'P_IRL_CONNACHT'));

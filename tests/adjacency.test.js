@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { buildAdjacency, validateAdjacency, idsChecksum, ADJACENCY_SCHEMA } from '../src/data/adjacency.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 import { buildAdjacencyFile } from '../scripts/build-adjacency.js';
+import { grafoFamiglie, madreId, vistaProvince } from './famiglie.js';
 
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
 const file = read('adjacency.json');
@@ -12,12 +13,14 @@ const crossings = read('crossings.json');
 const collection = await loadProvinces();
 const ids = collection.features.map((f) => f.properties.id);
 const graph = buildAdjacency(collection, file);
+const fam = grafoFamiglie(graph, collection); // adiacenza fra madri (una provincia divisa in sponde conta come una sola)
+const madri = [...new Set(ids.map(madreId))];
 
 /** Province raggiungibili via terra da `start`. */
 function reach(start) {
   const seen = new Set([start]);
   const queue = [start];
-  while (queue.length > 0) for (const n of graph.neighbors(queue.shift())) if (!seen.has(n)) { seen.add(n); queue.push(n); }
+  while (queue.length > 0) for (const n of fam.neighbors(queue.shift())) if (!seen.has(n)) { seen.add(n); queue.push(n); }
   return seen;
 }
 
@@ -32,11 +35,11 @@ test('adiacenza: rigenerando dai poligoni si ottiene esattamente il file nel rep
 });
 
 test('adiacenza: simmetrica, senza auto-collegamenti, grado ragionevole', () => {
+  for (const m of madri) assert.ok(fam.neighbors(m).length <= 25, `${m}: ${fam.neighbors(m).length} vicini`);
   for (const id of ids) {
     const ns = graph.neighbors(id);
     assert.ok(!ns.includes(id), `${id} adiacente a sé stessa`);
     assert.equal(new Set(ns).size, ns.length, `${id}: vicini duplicati`);
-    assert.ok(ns.length <= 25, `${id}: ${ns.length} vicini`);
     for (const n of ns) {
       assert.ok(graph.neighbors(n).includes(id), `${id} -> ${n} non è simmetrico`);
       assert.equal(graph.borderKm(id, n), graph.borderKm(n, id));
@@ -56,16 +59,16 @@ test('adiacenza: coppie terrestri note', () => {
     ['P_BEL_ANTWERP', 'P_NLD_ZEELAND'], // Fiandre zelandesi
     ['P_FIN_KYMENLAAKSO', 'P_USSR_LENINGRAD'],
   ];
-  for (const [a, b] of pairs) assert.ok(graph.areAdjacent(a, b), `${a} / ${b} dovrebbero essere adiacenti`);
+  for (const [a, b] of pairs) assert.ok(fam.areAdjacent(a, b), `${a} / ${b} dovrebbero essere adiacenti`);
 });
 
 test('adiacenza: coppie separate dal mare non sono adiacenti', () => {
   assert.equal(graph.areAdjacent('P_ITA_SICILY', 'P_ITA_CALABRIA'), false);
   for (const island of ['P_ITA_SICILY', 'P_ITA_SARDINIA', 'P_FRA_CORSE', 'P_MLT_MALTA', 'P_GRC_KRITI', 'P_ESP_BALEARES', 'P_SWE_GOTLAND']) {
-    assert.deepEqual(graph.neighbors(island), [], `${island} dovrebbe essere un'isola senza collegamenti terrestri`);
+    assert.deepEqual(fam.neighbors(island), [], `${island} dovrebbe essere un'isola senza collegamenti terrestri`);
   }
   for (const { a, b, reason } of overrides.remove) {
-    assert.equal(graph.areAdjacent(a, b), false, `${a} / ${b} (${reason})`);
+    assert.equal(fam.areAdjacent(a, b), false, `${a} / ${b} (${reason})`);
     assert.ok(typeof reason === 'string' && reason.length > 0);
   }
   // nessun collegamento diretto tra Gran Bretagna e continente o tra Danimarca e Svezia
@@ -88,7 +91,7 @@ test('adiacenza: raggiungibilità via terra', () => {
     assert.ok(!eurasia.has(id), `${id} non dovrebbe essere raggiungibile via terra`);
   }
   // 25 isole senza collegamenti terrestri (con l'Islanda): il numero cambia solo se cambiano province o regole, e va rivisto a mano
-  const isolated = ids.filter((id) => graph.neighbors(id).length === 0);
+  const isolated = madri.filter((m) => fam.neighbors(m).length === 0);
   assert.equal(isolated.length, 25, `isolate: ${isolated.join(', ')}`);
 });
 

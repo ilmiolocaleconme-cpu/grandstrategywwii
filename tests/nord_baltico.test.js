@@ -3,14 +3,15 @@ import assert from 'node:assert/strict';
 import { loadProvinces } from '../scripts/load-provinces.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { featureAreaKm2 } from '../src/map/geo.js';
+import { madreId, vistaProvince } from './famiglie.js';
 
 // Baltici (EST, LVA, LTU con Memel), Danimarca, Norvegia, Svezia, Finlandia.
 // Natural Earth 10m admin-1 v5.1.1 (confini attuali), qualita hypothesis. Soglie larghe: intercettano rotture, non certificano precisione.
 
-const provinces = await loadProvinces();
+const provinces = vistaProvince(await loadProvinces());
 const index = buildProvinceIndex(provinces);
 const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o);
-const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
 const total = (fs) => fs.reduce((sum, f) => sum + featureAreaKm2(f), 0);
 
 const N = { EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 19, SWE: 21, FIN: 19 };

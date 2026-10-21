@@ -299,10 +299,25 @@ export function provinceFill(props, layer, control) {
 // così i grandi restano sopra. Stessi dati (data/rivers_geo.json) usati dalle regole.
 export const RIVER_WIDTH_PX = { large: 2.4, medium: 1.5, small: 0.9 };
 
-// Densita dei fiumi in base allo zoom: a vista d'insieme solo i grandi (scalerank <= 5), poi anche i medi (<= 8),
-// da zoom 3 tutti. Evita che 540 fiumi coprano la mappa; il fiume selezionato resta sempre visibile.
+// Livelli dei fiumi per classe: più si ingrandisce, più classi si vedono. A vista d'insieme solo i principali, da zoom 1,8
+// anche i secondari, da zoom 3,5 anche i terziari (tributary). Il fiume selezionato resta sempre visibile.
+// Livello 0: principali (main). Livello 1: secondari. Livello 2: terziari.
+// Livello 2: i piccoli (tributari e il resto).
+export function riverTier(river) {
+  if (river?.class === 'main') return 0;
+  if (river?.class === 'secondary') return 1;
+  return 2;
+}
 export function riverRankLimit(k) {
-  return k < 1.8 ? 5 : k < 3.5 ? 8 : 99;
+  return k < 1.8 ? 0 : k < 3.5 ? 1 : 2;
+}
+// Spessore dei fiumi per zoom: a vista d'insieme più sottili, così i principali non coprono la mappa.
+export function riverWidthScale(k) {
+  return k < 1.8 ? 0.55 : k < 3.5 ? 0.8 : 1;
+}
+// Opacità dei fiumi per zoom: a vista d'insieme più trasparenti, così non fanno da rete di linee blu sulla mappa.
+export function riverOpacity(k) {
+  return k < 1.8 ? 0.6 : k < 3.5 ? 0.8 : 1;
 }
 
 export function buildWaterModel(rivers, riversGeo, lakes) {
@@ -317,10 +332,10 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
         d: lineToPath(f.geometry.coordinates),
         low: LOD_TOLERANCES.map((t) => lineToPath(f.geometry.coordinates, t)),
         width: RIVER_WIDTH_PX[river?.widthClass] ?? RIVER_WIDTH_PX.small,
-        rank: river?.scalerank ?? 99,
+        rank: riverTier(river),
       };
     })
-    .sort((a, b) => b.rank - a.rank);
+    .sort((a, b) => b.rank - a.rank || a.width - b.width);
   const lakeItems = lakes.features.map((f) => ({
     id: f.properties.id,
     name: f.properties.name,
@@ -338,8 +353,15 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
 const edgeKey = (a, b) => {
   // sulla cucitura +180 e -180 sono lo stesso meridiano: la chiave le unisce, cosi le due meta si accoppiano
   const lon = (p) => (isSeamEdge(a, b) ? 180 : p[0]);
-  const ka = `${lon(a)},${a[1]}`;
-  const kb = `${lon(b)},${b[1]}`;
+  // stesso arrotondamento del Canvas (canvasModel.buildBorders: 1e-5 gradi, circa 1 m): vertici agganciati entro 1 m
+  // ma non identici nel file (0,000001 gradi di differenza) contano come lo stesso punto in entrambi i percorsi
+  // Il Canvas lavora in unità di mappa (x = lon * COS0, y = -lat) in float32 e arrotonda lì: qui lo stesso passaggio,
+  // altrimenti due vertici vicini cadrebbero nella stessa cella in un percorso e in due celle diverse nell'altro.
+  const cos0 = WORLD_W / 360;
+  const qx = (p) => Math.round(Math.fround(lon(p) * cos0) * 1e5);
+  const qy = (p) => Math.round(Math.fround(-p[1]) * 1e5);
+  const ka = `${qx(a)},${qy(a)}`;
+  const kb = `${qx(b)},${qy(b)}`;
   return ka < kb ? `${ka}|${kb}` : `${kb}|${ka}`;
 };
 
@@ -587,6 +609,7 @@ export function labelForms(name, shortList) {
 }
 
 // Zoom attorno a un punto fisso (coordinate della vista), limiti min/max inclusi.
+export const MAX_K = 120; // zoom massimo della mappa canvas: serve per toccare anche le città più piccole
 export function zoomAt(view, factor, cx, cy, minK = 1, maxK = 40) {
   const k = Math.min(maxK, Math.max(minK, view.k * factor));
   const f = k / view.k;
