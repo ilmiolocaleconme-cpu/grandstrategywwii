@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import nations from '../data/nations.json';
 import resources from '../data/resources.json';
 import political from '../data/political_1936.json';
+import nations from '../data/nations.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { mergeCandidates } from './data/bridges.js';
@@ -9,6 +9,7 @@ import { loadProvinces, unwatchProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
+import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.js';
 import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
@@ -89,6 +90,18 @@ function useLabelData(start) {
   return labels;
 }
 
+// Città a parte (data/citta_grandi.json): si caricano dopo le province, come l'acqua, per non rallentare la prima schermata
+function useCities(enabled) {
+  const [cities, setCities] = useState(null);
+  useEffect(() => {
+    if (!enabled) return undefined;
+    let alive = true;
+    import('../data/citta_grandi.json').then((m) => alive && setCities(m.default.features)).catch(() => {});
+    return () => { alive = false; };
+  }, [enabled]);
+  return cities;
+}
+
 // Province: un file per nazione (data/provinces/), tutti caricati all'avvio in parallelo e uniti
 // in memoria. La mappa parte solo a caricamento completo: una mappa a metà falserebbe i bordi nazionali.
 function useProvinces() {
@@ -136,10 +149,14 @@ export default function App() {
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
   const links = useLinks(USE_CANVAS && mapShown);
   const crossingPoints = useCrossingPoints(links);
-  const [showBridges, setShowBridges] = useState(true);
+  const [showBridges, setShowBridges] = useState(false); // i marcatori dei passaggi (gialli) si accendono col pulsante ⊓
   const [showTransport, setShowTransport] = useState(false);
   const transport = showTransport ? links : null;
   const labelData = useLabelData(!USE_CANVAS || mapShown);
+  const citiesRaw = useCities(USE_CANVAS && mapShown);
+  // le città sono province a parte: entrano nello stesso modello e sono cliccabili come le altre
+  const cities = useMemo(() => (citiesRaw ? markCapitals(citiesRaw, nations) : null), [citiesRaw]);
+  const provincesWithCities = useMemo(() => withCities(provinces && markCapitalsInCollection(provinces, nations), cities), [provinces, cities]);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
   const [seaId, setSeaId] = useState(null);
@@ -154,7 +171,7 @@ export default function App() {
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
 
-  const mapItems = useMemo(() => (provinces ? (USE_CANVAS ? buildCanvasModel(provinces) : buildMapModel(provinces)).items : []), [provinces]);
+  const mapItems = useMemo(() => (provincesWithCities ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
   const control = game ? game.control : NATION_CONTROL;
   const choosable = useMemo(
@@ -255,7 +272,7 @@ export default function App() {
           <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : (
         <div className="map-layout">
-          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} />
+          <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} />
           {seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setSeaId(null)} onSelect={selectSea} />
           ) : selectedRiver ? (

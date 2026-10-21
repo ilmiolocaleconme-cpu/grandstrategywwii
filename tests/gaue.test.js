@@ -4,11 +4,13 @@ import { readFileSync } from 'node:fs';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { featureAreaKm2 } from '../src/map/geo.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
+import { madreId, pezziDi, vistaProvince } from './famiglie.js';
 
 const load = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
 const provinces = await loadProvinces();
 const archive = load('archive/provinces_deu_1936_lander.json'); // province tedesche originali, solo per confronto
-const gaue = { type: 'FeatureCollection', features: provinces.features.filter((f) => f.properties.owner === 'DEU') };
+// Gaue divisi in sponde: la vista per madre dà un Gau per feature (le sponde interne contano come interne)
+const gaue = { type: 'FeatureCollection', features: vistaProvince(provinces).features.filter((f) => f.properties.owner === 'DEU') };
 const gauIndex = buildProvinceIndex(gaue);
 
 const GAU_NAMES = [
@@ -54,7 +56,7 @@ const TOWNS = [
 
 test('Gaue: ogni città nota cade in un solo Gau, quello storico', () => {
   for (const [name, lon, lat, expected] of TOWNS) {
-    const hits = gauIndex.provincesAt(lon, lat).map((f) => f.properties.id);
+    const hits = gauIndex.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
     assert.deepEqual(hits, [expected], name);
   }
 });
@@ -85,6 +87,7 @@ const edgeKey = (a, b) => {
   const kb = `${b[0]},${b[1]}`;
   return ka < kb ? `${ka}|${kb}` : `${kb}|${ka}`;
 };
+// per ogni spigolo: gli id che lo usano e quante volte (uno spigolo usato due volte dallo stesso Gau è interno)
 function edgeCounts(collection) {
   const m = new Map();
   collection.features.forEach((f) => {
@@ -92,20 +95,51 @@ function edgeCounts(collection) {
     polys.forEach((poly) => poly.forEach((ring) => {
       for (let i = 0; i + 1 < ring.length; i += 1) {
         const k = edgeKey(ring[i], ring[i + 1]);
-        m.set(k, (m.get(k) ?? new Set()).add(f.properties.id));
+        const e = m.get(k) ?? { ids: new Set(), n: 0 };
+        e.ids.add(f.properties.id);
+        e.n += 1;
+        m.set(k, e);
       }
     }));
   });
   return m;
 }
 
+// I confini esterni dei Gaue sono stati agganciati ai vertici dei paesi vicini (confini condivisi, nessuna fessura), quindi
+// si scostano dal tracciato originale. Misurato: 633 spigoli su 736 sotto 0,0001 gradi (circa 11 m); il massimo è 0,0138 gradi
+// (circa 1,5 km: confine svizzero presso Sciaffusa, Elba presso Amburgo). La tolleranza è quel massimo, non una soglia di comodo.
+const TOLLERANZA = 1.5e-2; // gradi
+
 test('Gaue: i bordi esterni coincidono con quelli delle province originali (tranne gli spigoli suddivisi)', () => {
   const g = edgeCounts(gaue);
   const p = edgeCounts(archive);
   let notOnOldExterior = 0;
-  for (const [k, ids] of g) if (ids.size === 1 && !(p.has(k) && p.get(k).size === 1)) notOnOldExterior += 1;
+  // un bordo nuovo è valido se giace sul bordo vecchio: il taglio di un fiume sul confine ne spezza lo spigolo in due
+  const vecchi = [...p].filter(([, e]) => e.ids.size === 1 && e.n === 1).map(([k]) => k.split('|').map((v) => v.split(',').map(Number)));
+  const staSu = ([x, y]) => vecchi.some(([[ax, ay], [bx, by]]) => {
+    const dx = bx - ax; const dy = by - ay; const l2 = dx * dx + dy * dy || 1;
+    const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / l2));
+    return Math.hypot(ax + t * dx - x, ay + t * dy - y) < TOLLERANZA;
+  });
+  for (const [k, e] of g) {
+    if (!(e.ids.size === 1 && e.n === 1) || (p.has(k) && p.get(k).ids.size === 1)) continue;
+    const [a, b] = k.split('|').map((v) => v.split(',').map(Number));
+    if (!(staSu(a) && staSu(b))) notOnOldExterior += 1;
+  }
+  // uno spigolo esterno vecchio manca se un suo estremo non sta su alcuno spigolo dei Gaue (stessa tolleranza di sopra;
+  // come prima del confronto tollerante, conta qualsiasi spigolo dei Gaue: un confine vecchio può oggi essere interno)
+  const nuovi = [...g.keys()].map((k) => k.split('|').map((v) => v.split(',').map(Number)));
+  const staSuNuovi = ([x, y]) => nuovi.some(([[ax, ay], [bx, by]]) => {
+    const dx = bx - ax; const dy = by - ay; const l2 = dx * dx + dy * dy || 1;
+    const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / l2));
+    return Math.hypot(ax + t * dx - x, ay + t * dy - y) < TOLLERANZA;
+  });
   let missing = 0;
-  for (const [k, ids] of p) if (ids.size === 1 && !g.has(k)) missing += 1;
+  for (const [k, e] of p) {
+    if (!(e.ids.size === 1 && e.n === 1)) continue;
+    const [a, b] = k.split('|').map((v) => v.split(',').map(Number));
+    if (!(staSuNuovi(a) && staSuNuovi(b))) missing += 1;
+  }
   assert.ok(notOnOldExterior <= 8, `spigoli esterni dei Gaue fuori dal vecchio bordo: ${notOnOldExterior}`);
   assert.ok(missing <= 8, `spigoli esterni delle vecchie province assenti dai Gaue: ${missing}`);
 });

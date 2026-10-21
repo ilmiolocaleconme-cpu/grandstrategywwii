@@ -7,6 +7,7 @@ import { CELL, buildRiverSegmentGrid, segmentIntersection } from '../src/data/tr
 import { distanceToRiverKm, buildRiverModel } from '../src/data/rivers.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
+import { buildProvinceIndex } from '../src/data/geometry.js';
 
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
 const L = (k, level, ...pts) => ({ k, level, rank: 3, c: pts.flat() });
@@ -75,11 +76,13 @@ test('dati: file valido, legato alle province, ipotesi dichiarata', async () => 
   assert.deepEqual(validateLinks({ ...links, links: [{ ...links.links[0], segs: ['XX'] }] }, { provinceIds: ids, riverIds }).length > 0, true);
 });
 
-test('dati: un collegamento per coppia di province confinanti, in linea retta tra le sedi, un solo tipo', () => {
+test('dati: un collegamento per coppia di province confinanti (tranne le tratte marittime lunghe scartate), un solo tipo, dalla sede alla sede', () => {
   const links = read('links.json');
   const adj = read('adjacency.json').edges;
-  assert.equal(links.links.length, adj.length, 'uno per ogni coppia');
-  assert.deepEqual(links.links.map((l) => `${l.a}|${l.b}`).sort(), adj.map(([i, j]) => `${i}|${j}`).sort());
+  assert.equal(links.links.length + (links.routes.droppedSea ?? 0), adj.length, 'uno per ogni coppia, salvo le tratte marittime scartate');
+  const pairs = new Set(adj.map(([i, j]) => `${i}|${j}`));
+  assert.ok(links.links.every((l) => pairs.has(`${l.a}|${l.b}`)), 'solo coppie confinanti');
+  assert.equal(new Set(links.links.map((l) => l.id)).size, links.links.length);
   const seat = new Map(links.nodes.map((n) => [n.p, n]));
   const byLink = new Map();
   for (const s of links.segments) (byLink.get(s.link) ?? byLink.set(s.link, []).get(s.link)).push(s);
@@ -91,6 +94,32 @@ test('dati: un collegamento per coppia di province confinanti, in linea retta tr
     assert.ok(Math.abs(last.at(-2) - seat.get(l.b).lon) < 1e-3 && Math.abs(last.at(-1) - seat.get(l.b).lat) < 1e-3, `${l.id}: arriva alla sede`);
   }
   assert.ok(links.links.some((l) => l.t === 6) && links.links.some((l) => l.t === 5) && links.links.some((l) => l.t === 1) && links.links.some((l) => l.t === 2 || l.t === 3));
+});
+
+test('dati: i tracciati restano dentro le due province (mai sul mare), le tratte marittime sono poche, brevi e senza ponti', async () => {
+  const links = read('links.json');
+  const provinces = await loadProvinces();
+  const index = buildProvinceIndex(provinces);
+  const idxOf = new Map(provinces.features.map((f, i) => [f.properties.id, i]));
+  const provAt = (lon, lat) => { const h = index.provincesAt(lon, lat); return h.length === 0 ? -1 : idxOf.get(h[0].properties.id); };
+  const byLink = new Map();
+  for (const s of links.segments) (byLink.get(s.link) ?? byLink.set(s.link, []).get(s.link)).push(s);
+  let n = 0; let ok = 0;
+  for (const l of links.links.filter((x, i) => i % 9 === 0 && !x.sea && x.how !== 'third')) {
+    for (const s of byLink.get(l.id)) for (let i = 0; i + 3 < s.c.length; i += 2) {
+      for (const f of [0.25, 0.5, 0.75]) {
+        const p = provAt(s.c[i] + (s.c[i + 2] - s.c[i]) * f, s.c[i + 1] + (s.c[i + 3] - s.c[i + 1]) * f);
+        n += 1; if (p === l.a || p === l.b) ok += 1;
+      }
+    }
+  }
+  assert.ok(n > 1000 && ok / n > 0.97, `${ok}/${n} punti nelle due province`);
+  const sea = links.links.filter((l) => l.sea);
+  assert.ok(sea.length < links.links.length * 0.03, `${sea.length} tratte marittime`);
+  assert.ok(sea.every((l) => l.km <= links.params.seaMaxKm && l.t === 1 && l.how === 'sea'));
+  const seaSegs = links.segments.filter((s) => s.sea);
+  assert.ok(seaSegs.length === sea.length && seaSegs.every((s) => s.k === 'sea' && !s.br), 'niente ponti sul mare');
+  assert.ok(links.routes.straight > 1000 && links.routes.bend > 100 && links.routes.grid > 50, JSON.stringify(links.routes));
 });
 
 test('dati: strozzatura — nessun collegamento supera il gradino delle sue due province; ferrovia sopra strada', () => {

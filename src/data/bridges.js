@@ -1,10 +1,10 @@
-// Ponti candidati dagli incroci tra strade/ferrovie e fiumi (data/transport_bridges.json) e loro unione con i
+// Ponti candidati dagli incroci tra strade/ferrovie e fiumi (grafo dei collegamenti, data/links.json) e loro unione con i
 // passaggi sul confine delle province (src/data/crossingPoints.js). Funzioni PURE, senza I/O.
 // Sono candidati geometrici sulla rete MODERNA di Natural Earth: non ponti storici verificati.
 
 export const BRIDGES_SCHEMA = 'transport-bridges-v1';
 
-/** Controlli su data/transport_bridges.json. Ritorna la lista degli errori. */
+/** Controlli su un file di ponti. Ritorna la lista degli errori. */
 export function validateBridges(file, { riverIds } = {}) {
   const errors = [];
   if (file?.schema !== BRIDGES_SCHEMA) errors.push(`schema atteso ${BRIDGES_SCHEMA}`);

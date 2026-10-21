@@ -7,15 +7,14 @@ Stato: **dati reali ma di rete moderna** (Natural Earth 10m, pubblico dominio), 
 | File | Contenuto |
 |---|---|
 | `data/autostrade_1936.json` | Elenco curato delle prime autostrade (vedi sotto), ipotesi |
-| `data/transport.json` (1,8 MB, ~430 kB compressi, caricato solo quando si accende il livello ═) | 15.199 tratti: 6.986 strade e 8.213 ferrovie, ritagliati sul territorio delle province, semplificati a 0,01° (~1 km), coordinate a 0,001°. Schema `transport-v1`: `{ id, k: 'road'\|'rail', level, rank, n?, y?, c: [lon, lat, …] }` (`n` e `y` solo sulle autostrade curate) |
-| `data/transport_bridges.json` (~330 kB, caricato con la mappa) | 3.305 ponti candidati: dove una strada o ferrovia incrocia un fiume (tratti fuori dai laghi). Schema `transport-bridges-v1`: `{ id, riverId, lon, lat, road, rail, level }` |
+| `data/transport.json` (**solo ingresso di calcolo** di `build-links.js`, l'app non lo carica più; 1,8 MB, ~430 kB compressi, caricato solo quando si accende il livello ═) | 15.199 tratti: 6.986 strade e 8.213 ferrovie, ritagliati sul territorio delle province, semplificati a 0,01° (~1 km), coordinate a 0,001°. Schema `transport-v1`: `{ id, k: 'road'\|'rail', level, rank, n?, y?, c: [lon, lat, …] }` (`n` e `y` solo sulle autostrade curate) |
 
 Fonte: `ne_10m_roads` e `ne_10m_railroads` (Natural Earth, commit `ca96624`). I file sorgente (~90 MB) **non stanno nel repository**. Per rigenerare:
 
 ```
 git clone --depth 1 --filter=blob:none --sparse https://github.com/nvkelso/natural-earth-vector ne
 git -C ne sparse-checkout set --no-cone /geojson/ne_10m_roads.geojson /geojson/ne_10m_railroads.geojson
-npm run build:transport -- ne/geojson      # circa 20 s
+npm run build:transport -- ne/geojson      # circa 20 s: rifà solo data/transport.json (i vecchi ponti candidati sono stati eliminati: li sostituiscono i ponti del grafo)
 ```
 
 ## Livelli provvisori (`src/data/transport.js`)
@@ -72,11 +71,13 @@ Test: `tests/transport_style.test.js` (contesto Canvas simulato). Verificato con
 
 La mappa disegna `data/links.json` (schema `links-v2`, `src/data/links.js`, `scripts/build-links.js`, `npm run build:links -- <cartella Natural Earth con ne_10m_populated_places_simple.geojson>`), non più le linee di Natural Earth.
 - **Sedi:** per ogni provincia la città più popolosa (Natural Earth populated places); senza città, un punto interno (`basis`).
-- **Un collegamento per coppia di province confinanti** (`adjacency.json`: 2.590), in **linea retta** tra le due sedi. Niente tracciati reali, niente linee parallele, niente sovrapposizioni.
+- **Un collegamento per coppia di province confinanti** (`adjacency.json`: 4.341 coppie, 4.327 collegamenti: 14 tratte marittime lunghe, > 120 km, sono state scartate perché non servono al gioco). Niente linee parallele né sovrapposte.
+- **Tracciato** (`src/data/linkroute.js`, 6 test): deve restare dentro le due province, mai sul mare né sopra una terza. Tentativi in ordine: 1) retta tra le sedi (2.368); 2) **un punto sul confine condiviso**, due tratti dritti (1.044); 3) percorso a griglia sulla terra delle due province (A*, senza tagli d'angolo) poi tirato a tratti dritti (598); 4) via terra ma passando sopra altre province, di solito sponde di fiume o enclave (239); 5) nessuna terra: **tratta marittima** (traghetto, tratteggio azzurro, sempre gradino 1, senza ponti): 92, di cui 78 restano (≤ 120 km). Il tipo di tracciato è nel campo `how` del collegamento (assente = retta).
 - **Un solo tipo visibile per collegamento, scala a 6 gradini:** 1 strada sterrata · 2 strada · 3 strada principale · 4 autostrada · 5 ferrovia a binario unico · 6 ferrovia potenziata (doppio binario). La ferrovia sostituisce la strada.
 - **Gradino di un collegamento:** dal percorso migliore sulla rete reale (`transport.json`) tra le due sedi, dentro le due province: il gradino raggiunto da almeno metà della lunghezza (il minimo assoluto sarebbe troppo severo); per le strade basta il 30% di autostrada 1936 per il gradino 4. Senza dati: strada sterrata. **Strozzatura:** un collegamento non supera mai il gradino delle sue due province (il gradino di una provincia è il massimo dei suoi collegamenti), verificato da `validateLinks` e dai test.
 - **Ponti = tratti della linea:** dove la linea incrocia un fiume medio o grande, il tratto a cavallo (semilunghezza 1,2 / 2 / 3 km) diventa il ponte; uno per fiume e collegamento. Materiale per gradino: legno (1-2), muratura (3-4), ferro (5-6).
-- **Disegno:** collegamenti da zoom 8 (ferrovie e autostrade), strade principali da 12, tutto da 18; sedi come punti da 12; dettaglio completo (carreggiate, binari, impalcati) da zoom 20.
-- **Numeri attuali:** 2.590 collegamenti (sterrata 1.477, strada 148, principale 58, autostrada 0, ferrovia 457, potenziata 450), 995 sedi, 1.035 ponti. Nessuna autostrada compare perché dove esiste c'è anche una ferrovia, che vince.
-- **Limiti:** rete moderna, non del 1936; le linee rette possono attraversare mare o province terze dove le sedi sono lontane; strade solo principali nei dati; nessuna regola di gioco legata al grafo (movimento, rifornimenti, danni ai ponti, miglioramento di livello); collegamenti e ponti non toccabili.
-`transport.json` e `transport_bridges.json` restano solo come ingressi di calcolo: l'app non li carica più.
+- **Disegno:** collegamenti da zoom 8 (ferrovie e autostrade), strade principali da 12, tutto da 18; sedi come punti da 12; da zoom 12 autostrada e doppio binario sono già due linee vicine; dettaglio completo (carreggiate, binari, ponti veri) da zoom 20.
+- **Ponti (disegno, `drawBridgeDeck` in `transportStyle.js`, come nella tavola dei simboli):** legno (strade comuni e sterrate: tavolato, montanti tondi), muratura ad arco (strada principale: conci sfalsati, profilo ad arco, contrafforti quadrati), autostrada (due carreggiate, pile tonde), ferro a travata (binario unico: travi piene, blocchi di fondazione), ferro a traliccio (doppio binario: controventi a X). Il ponte è orientato come il tratto e lungo come lui, almeno 30 px. Il ponte autostradale compare solo in legenda finché nessun collegamento è un'autostrada.
+- **Numeri attuali (2.084 province):** 4.327 collegamenti (sterrata 3.015, strada 182, principale 81, autostrada 0, ferrovia 542, potenziata 507; le 78 tratte marittime sono contate tra le sterrate), 1.713 sedi, 1.596 ponti. Nessuna autostrada compare perché dove esiste c'è anche una ferrovia, che vince.
+- **Limiti:** rete moderna, non del 1936; i percorsi «sopra altre province» (239) sono la parte meno curata; strade solo principali nei dati; nessuna regola di gioco legata al grafo (movimento, rifornimenti, danni ai ponti, miglioramento di livello); collegamenti e ponti non toccabili.
+`transport.json` resta solo come ingresso di calcolo (l'app non lo carica più); `transport_bridges.json` è stato eliminato.

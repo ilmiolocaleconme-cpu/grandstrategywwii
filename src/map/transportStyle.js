@@ -29,6 +29,11 @@ const BED = '#f4f4ee'; // massicciata tra le rotaie
  * un tratto largo con tratteggio cortissimo, disegnato per ultimo (stessa fase): segni di traverso sulle rotaie. Il doppio binario ha quattro rotaie.
  */
 export const RECIPES = Object.freeze({
+  'sea-0': [ // tratta marittima (traghetto): tratteggio azzurro, sotto a tutto
+    [{ c: '#8fb4d6', w: 1, dash: [3, 3.5] }],
+    [{ c: '#9cc3e6', w: 1.8, dash: [5, 4.5] }],
+    [{ c: '#bcd8f2', w: 2.6, dash: [7, 5] }, { c: '#4f7aa3', w: 1, dash: [7, 5] }],
+  ],
   'road-0': [ // strada sterrata: tratteggio marrone
     [{ c: '#b08a55', w: 1, dash: [2.4, 2.4] }],
     [{ c: '#8f6c38', w: 2, dash: [5, 3.4] }],
@@ -46,37 +51,44 @@ export const RECIPES = Object.freeze({
   ],
   'road-3': [
     [{ c: '#ff7a1a', w: 2.8 }],
-    [{ c: INK, w: 6 }, { c: '#ff7a1a', w: 4.6 }, { c: INK, w: 0.9 }],
+    [{ c: INK, w: 4.4 }, { c: '#ff7a1a', w: 2.8 }], // una carreggiata: sono due, affiancate (OFFSETS_T1)
     [{ c: INK, w: 8.6 }, { c: '#ff7a1a', w: 7 }, { c: '#fffbe6', w: 0.8, dash: [4, 3.5] }], // una carreggiata: sono due, affiancate (OFFSETS)
   ],
   'rail-2': [
     [{ c: '#e4e4dc', w: 1, dash: [3, 2.2] }],
-    [{ c: INK, w: 2.2 }, { c: RAIL, w: 1.3, dash: [3, 3] }],
+    [{ c: INK, w: 2.6 }, { c: RAIL, w: 1.2, dash: [3.2, 3.2] }], // linea nera con trattini bianchi, come sulle carte
     [{ c: TIE, w: 4.4 }, { c: BED, w: 3 }, { c: TIE, w: 6.6, dash: [1.2, 2.4] }], // un binario: due rotaie sottili e traversine fitte
   ],
   'rail-3': [
     [{ c: '#ffffff', w: 1.8, dash: [4.5, 2.2] }],
-    [{ c: INK, w: 4.4 }, { c: RAIL, w: 3.2, dash: [3.6, 2.6] }, { c: INK, w: 1.2 }],
+    [{ c: INK, w: 2.6 }, { c: RAIL, w: 1.2, dash: [3.2, 3.2] }], // un binario: sono due, affiancati (OFFSETS_T1)
     [{ c: TIE, w: 4.4 }, { c: BED, w: 3 }, { c: TIE, w: 6.6, dash: [1.2, 2.4] }], // un binario: sono due, affiancati (OFFSETS)
   ],
 });
 
 /** A zoom pieno questi tipi si disegnano come DUE tracciati paralleli, scostati di ± il valore (px): autostrada = due carreggiate con spartitraffico, doppio binario = due binari. */
 export const OFFSETS = Object.freeze({ 'road-3': 5.2, 'rail-3': 4.4 });
+/** Anche a dettaglio 1 (bordi e tratteggi) autostrada e doppio binario sono due linee parallele, più vicine. */
+export const OFFSETS_T1 = Object.freeze({ 'road-3': 2.8, 'rail-3': 2.3 });
+/** Scostamento (px) delle due linee parallele di un tipo a un livello di dettaglio, o undefined se è una linea sola. */
+export function offsetOf(key, tier) {
+  return tier === 2 ? OFFSETS[key] : tier === 1 ? OFFSETS_T1[key] : undefined;
+}
 
-export const LINE_KEYS = Object.freeze(['road-0', 'road-1', 'road-2', 'road-3', 'rail-2', 'rail-3']);
+export const LINE_KEYS = Object.freeze(['sea-0', 'road-0', 'road-1', 'road-2', 'road-3', 'rail-2', 'rail-3']);
 
-/** Ordine di disegno: strade, poi ferrovie, poi autostrade in cima. Dentro un gruppo si fa prima la passata 0 di tutti i tipi (bordi), poi la 1, ecc. */
-export const DRAW_GROUPS = Object.freeze([['road-0', 'road-1', 'road-2'], ['rail-2', 'rail-3'], ['road-3']]);
+/** Ordine di disegno: tratte marittime, strade, poi ferrovie, poi autostrade in cima. Dentro un gruppo si fa prima la passata 0 di tutti i tipi (bordi), poi la 1, ecc. */
+export const DRAW_GROUPS = Object.freeze([['sea-0'], ['road-0', 'road-1', 'road-2'], ['rail-2', 'rail-3'], ['road-3']]);
 
 /** Spessore massimo in px del simbolo di un tipo a un livello di dettaglio. */
 export function recipeWidth(key, tier) {
-  return Math.max(...RECIPES[key][tier].map((p) => p.w)) + (tier === 2 ? 2 * (OFFSETS[key] ?? 0) : 0);
+  return Math.max(...RECIPES[key][tier].map((p) => p.w)) + 2 * (offsetOf(key, tier) ?? 0);
 }
 
 /** Disegna un segno dritto da x0 a x1 (unità di mappa) sull'asse y = 0 del contesto: con scostamenti (OFFSETS) sono due tracciati paralleli. */
 export function drawStraight(ctx, key, tier, sx, x0, x1) {
-  const offs = tier === 2 && OFFSETS[key] ? [-OFFSETS[key] / sx, OFFSETS[key] / sx] : [0];
+  const o = offsetOf(key, tier);
+  const offs = o ? [-o / sx, o / sx] : [0];
   for (const pass of RECIPES[key][tier]) {
     for (const y of offs) {
       ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y);
@@ -131,56 +143,82 @@ export function bridgeLegend() {
   ].map((b) => ({ ...bridgeKind(b), spec: { kind: 'bridge', ...b } }));
 }
 
-const DECK_LEN = 30; // px, lungo la linea
-const DECK_PAD = 3.2; // px di impalcato oltre il simbolo, per lato
+const DECK_LEN = 34; // px: lunghezza del campione della legenda
+const DECK_PAD = 2.4; // px di impalcato oltre il simbolo, per lato (legno e autostrada)
+export const BRIDGE_MIN_PX = 30; // lunghezza minima sullo schermo di un ponte a dettaglio pieno (sotto, il tratto-ponte sarebbe un puntino)
+
+const DECK_FILL = { wood: '#b98f58', stone: '#d3d1c6', iron: '#dde3ea', 'iron-deck': '#dde3ea' };
+const STEEL = '#2f3a49';
 
 /**
- * Disegna un ponte visto dall'alto, con l'aspetto del materiale (bridgeKind): legno = tavolato con montanti; muratura =
- * carreggiata grigia con mezzeria e spalle arrotondate; ferro = telaio con controventi a X (doppio binario o strada+ferrovia)
- * oppure binario su piano d'acciaio con blocchi agli angoli. Il simbolo di ciò che porta (strada/ferrovia) sta sempre sopra.
- * Il contesto ha già origine nel ponte e rotazione lungo la linea; `sx` = px per unità. Ritorna { len, width } in px.
+ * Disegna un ponte visto dall'alto, con la costruzione riconoscibile dal tipo (bridgeKind), come nella tavola dei simboli:
+ *  - legno (strada comune): tavolato di traverso, montanti tondi lungo i bordi, parapetti scuri;
+ *  - muratura (strada principale): conci sfalsati, profilo ad arco, contrafforti quadrati agli angoli;
+ *  - autostrada: piano grigio con due carreggiate e pile tonde ovali agli angoli;
+ *  - ferro a traliccio (doppio binario, o strada + ferrovia): controventi a X in campate quadre, travi di bordo, blocchi bianchi di fondazione;
+ *  - ferro a travata (binario unico): due travi piene ai lati, traversi, blocchi di fondazione.
+ * Il simbolo di ciò che il ponte porta (carreggiate, binari) sta sempre sopra il piano.
+ * Il contesto ha già origine nel centro del ponte e rotazione lungo la linea; `sx` = px per unità, `len` = lunghezza in px.
+ * Ritorna { len, width } in px.
  */
-export function drawBridgeDeck(ctx, { road = 0, rail = 0 }, sx) {
+export function drawBridgeDeck(ctx, { road = 0, rail = 0 }, sx, len = DECK_LEN) {
   const kind = bridgeKind({ road, rail });
+  const wood = kind.style === 'wood';
+  const arch = kind.style === 'stone' && kind.id !== 'road-3';
+  const highway = kind.id === 'road-3';
+  const truss = kind.style === 'iron';
+  const girder = kind.style === 'iron-deck';
   const keys = [];
   if (road) keys.push(`road-${Math.min(3, road)}`);
   if (rail) keys.push(`rail-${rail >= 3 ? 3 : 2}`);
   const ws = keys.map((k) => recipeWidth(k, 2));
   const gap = keys.length > 1 ? 1.5 : 0;
   const inner = ws.reduce((a, b) => a + b, 0) + gap;
-  const width = inner + 2 * DECK_PAD;
-  const L = DECK_LEN / sx;
-  const hw = width / 2 / sx;
+  const pad = arch ? 4.6 : truss || girder ? 3.2 : DECK_PAD; // la muratura e il ferro mostrano più piano ai lati della strada
+  const width = inner + 2 * pad;
   const u = 1 / sx;
-  const line = (x0, y0, x1, y1, w, c, dash) => {
+  const L = Math.max(len, 12) * u;
+  const hw = (width / 2) * u;
+  const line = (x0, y0, x1, y1, w, c, dash, off = 0) => {
     ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
-    ctx.strokeStyle = c; ctx.lineWidth = w * u; ctx.setLineDash(dash ? dash.map((d) => d * u) : []); ctx.stroke();
+    ctx.strokeStyle = c; ctx.lineWidth = w * u; ctx.setLineDash(dash ? dash.map((d) => d * u) : []); ctx.lineDashOffset = off * u; ctx.stroke();
+    ctx.lineDashOffset = 0;
   };
+  ctx.save();
   ctx.lineCap = 'butt';
   ctx.setLineDash([]);
   // ombra e piano del ponte: staccano il ponte dalla linea e dal fiume
   ctx.fillStyle = 'rgba(0,0,0,0.38)';
   ctx.fillRect(-L / 2 + 1.6 * u, -hw + 1.8 * u, L, 2 * hw);
-  ctx.fillStyle = kind.style === 'wood' ? '#b58f5a' : kind.style === 'stone' ? '#cfcfc6' : '#dfe4ea';
+  ctx.fillStyle = DECK_FILL[kind.style];
   ctx.fillRect(-L / 2, -hw, L, 2 * hw);
-  if (kind.style === 'wood') line(-L / 2, 0, L / 2, 0, 2 * hw * sx, '#8a6a3c', [0.9, 2.1]); // tavole di traverso
-  // parapetti
-  const rail1 = kind.style === 'wood' ? '#4a3418' : '#14140f';
-  line(-L / 2, -hw, L / 2, -hw, 1.6, rail1);
-  line(-L / 2, hw, L / 2, hw, 1.6, rail1);
-  if (kind.style === 'wood') { // montanti
-    line(-L / 2 + 1.5 * u, -hw, L / 2, -hw, 3.4, rail1, [1.4, 3.2]);
-    line(-L / 2 + 1.5 * u, hw, L / 2, hw, 3.4, rail1, [1.4, 3.2]);
-  }
-  // spalle
-  if (kind.style === 'stone') { // spalle tonde ai quattro angoli
-    ctx.fillStyle = '#b9b9b0'; ctx.strokeStyle = '#14140f'; ctx.lineWidth = 1.2 * u; ctx.setLineDash([]);
-    for (const sxn of [-1, 1]) for (const syn of [-1, 1]) {
-      ctx.beginPath(); ctx.arc(sxn * L / 2, syn * hw, 3.6 * u, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  // costruzione
+  if (wood) {
+    line(-L / 2, 0, L / 2, 0, 2 * hw * sx, '#8a6a3c', [0.9, 2.1]); // tavole di traverso
+  } else if (arch) {
+    line(-L / 2, -hw / 2, L / 2, -hw / 2, hw * sx, '#8d8c82', [0.7, 3.6]); // conci in due corsi sfalsati
+    line(-L / 2, hw / 2, L / 2, hw / 2, hw * sx, '#8d8c82', [0.7, 3.6], 2.15);
+    line(-L / 2, 0, L / 2, 0, 0.7, '#8d8c82');
+    ctx.save(); // profilo dell'arco: mezza ellissi dal bordo di sotto, due anelli
+    ctx.beginPath(); ctx.rect(-L / 2, -hw, L, 2 * hw); ctx.clip();
+    for (const [k, c, w] of [[1, '#4b4a44', 1.2], [0.8, '#7d7c72', 0.8]]) {
+      ctx.beginPath(); ctx.ellipse(0, hw, (L / 2 - 2.5 * u) * k, hw * 1.75 * k, 0, Math.PI, 2 * Math.PI);
+      ctx.strokeStyle = c; ctx.lineWidth = w * u; ctx.stroke();
     }
-  } else {
-    line(-L / 2, -hw - 1.6 * u, -L / 2, hw + 1.6 * u, 2.4, '#14140f');
-    line(L / 2, -hw - 1.6 * u, L / 2, hw + 1.6 * u, 2.4, '#14140f');
+    ctx.restore();
+  } else if (truss) { // controventi a X in campate quadre, sotto i binari
+    const n = Math.max(2, Math.round(L / (2 * hw * 1.15)));
+    ctx.strokeStyle = STEEL; ctx.lineWidth = 1 * u; ctx.setLineDash([]);
+    ctx.beginPath();
+    for (let i = 0; i < n; i += 1) {
+      const x0 = -L / 2 + (i * L) / n;
+      const x1 = x0 + L / n;
+      ctx.moveTo(x0, -hw); ctx.lineTo(x1, hw); ctx.moveTo(x0, hw); ctx.lineTo(x1, -hw);
+      ctx.moveTo(x1, -hw); ctx.lineTo(x1, hw);
+    }
+    ctx.stroke();
+  } else if (girder) {
+    line(-L / 2, 0, L / 2, 0, 2 * hw * sx, 'rgba(47,58,73,0.55)', [1.1, 4.4]); // traversi
   }
   // simbolo di ciò che porta
   let off = -inner / 2;
@@ -192,26 +230,35 @@ export function drawBridgeDeck(ctx, { road = 0, rail = 0 }, sx) {
     drawStraight(ctx, k, 2, sx, -L / 2 + u, L / 2 - u);
     ctx.restore();
   });
-  if (kind.style === 'iron') { // traliccio: controventi a X in quattro campate sopra il piano
-    const n = 4;
-    ctx.strokeStyle = '#2b3340'; ctx.lineWidth = 1 * u; ctx.setLineDash([]);
-    ctx.beginPath();
-    for (let i = 0; i < n; i += 1) {
-      const x0 = -L / 2 + (i * L) / n;
-      const x1 = x0 + L / n;
-      ctx.moveTo(x0, -hw); ctx.lineTo(x1, hw); ctx.moveTo(x0, hw); ctx.lineTo(x1, -hw);
-      ctx.moveTo(x1, -hw); ctx.lineTo(x1, hw);
-    }
-    ctx.stroke();
+  // bordi: parapetti (legno: scuri e con montanti tondi; ferro: travi d'acciaio piene)
+  ctx.setLineDash([]);
+  if (truss || girder) {
+    for (const y of [-hw, hw]) line(-L / 2, y, L / 2, y, girder ? 2.6 : 2, STEEL);
+  } else {
+    const edge = wood ? '#4a3418' : '#14140f';
+    for (const y of [-hw, hw]) line(-L / 2, y, L / 2, y, 1.6, edge);
   }
-  if (kind.style === 'iron' || kind.style === 'iron-deck') { // blocchi di fondazione agli angoli
+  if (wood) { // montanti tondi
+    ctx.fillStyle = '#4a3418';
+    for (let x = -L / 2 + 2 * u; x <= L / 2 - 1.5 * u; x += 6 * u) for (const y of [-hw - 0.4 * u, hw + 0.4 * u]) { ctx.beginPath(); ctx.arc(x, y, 1.5 * u, 0, Math.PI * 2); ctx.fill(); }
+  }
+  // spalle e fondazioni
+  ctx.setLineDash([]);
+  if (arch) { // contrafforti quadrati di muratura
+    ctx.fillStyle = '#bdbbb0'; ctx.strokeStyle = '#14140f'; ctx.lineWidth = 1.1 * u;
+    for (const a of [-1, 1]) for (const b of [-1, 1]) { ctx.fillRect(a * L / 2 - 2.4 * u, b * hw - 2.4 * u, 4.8 * u, 4.8 * u); ctx.strokeRect(a * L / 2 - 2.4 * u, b * hw - 2.4 * u, 4.8 * u, 4.8 * u); }
+  } else if (highway) { // pile tonde agli angoli
+    ctx.fillStyle = '#b9b9b0'; ctx.strokeStyle = '#14140f'; ctx.lineWidth = 1.2 * u;
+    for (const a of [-1, 1]) for (const b of [-1, 1]) { ctx.beginPath(); ctx.arc(a * L / 2, b * hw, 3.6 * u, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); }
+  } else if (truss || girder) { // blocchi bianchi di fondazione
     ctx.fillStyle = '#f4f4ee'; ctx.strokeStyle = '#14140f'; ctx.lineWidth = 1 * u;
-    for (const sxn of [-1, 1]) for (const syn of [-1, 1]) {
-      ctx.fillRect(sxn * L / 2 - 2 * u, syn * hw - 2 * u, 4 * u, 4 * u);
-      ctx.strokeRect(sxn * L / 2 - 2 * u, syn * hw - 2 * u, 4 * u, 4 * u);
-    }
+    for (const a of [-1, 1]) for (const b of [-1, 1]) { ctx.fillRect(a * L / 2 - 2.2 * u, b * hw - 2.2 * u, 4.4 * u, 4.4 * u); ctx.strokeRect(a * L / 2 - 2.2 * u, b * hw - 2.2 * u, 4.4 * u, 4.4 * u); }
+  } else { // legno: travi di testata
+    line(-L / 2, -hw - 1.6 * u, -L / 2, hw + 1.6 * u, 2.4, '#4a3418');
+    line(L / 2, -hw - 1.6 * u, L / 2, hw + 1.6 * u, 2.4, '#4a3418');
   }
-  return { len: DECK_LEN, width };
+  ctx.restore();
+  return { len: Math.max(len, 12), width };
 }
 
 /** Campioni per la legenda: disegna un esempio nel contesto `ctx` di una tela w × h px (pixel di schermo, sx = 1). */
@@ -224,7 +271,7 @@ export function drawSwatch(ctx, spec, w, h) {
   if (spec.kind === 'line') {
     drawStraight(ctx, spec.key, 2, 1, -w / 2 + 2, w / 2 - 2);
   } else if (spec.kind === 'bridge') {
-    drawBridgeDeck(ctx, spec, 1);
+    drawBridgeDeck(ctx, spec, 1, Math.min(DECK_LEN, w - 8));
   }
   ctx.restore();
 }
@@ -232,8 +279,8 @@ export function drawSwatch(ctx, spec, w, h) {
 /**
  * Ponti come TRATTI della linea (grafo dei collegamenti): lo stesso tracciato della strada o ferrovia, con aspetto di ponte.
  * `list` = tratti-ponte del modello ({ kind, level, coords:Float32Array }); `tier` = dettaglio (detailTier). Misure in px / `sx`.
- * Dettaglio 0: come la linea normale. 1: la linea con un bordo chiaro. 2: ombra, impalcato col materiale (legno, muratura,
- * ferro), parapetti scuri, spalle alle estremità e, sopra, il simbolo di ciò che porta (carreggiate, binari).
+ * Dettaglio 0: come la linea normale. 1: la linea con un bordo chiaro. 2: il ponte vero (drawBridgeDeck) sul tratto, orientato
+ * come la corda del tratto e lungo come lui (almeno BRIDGE_MIN_PX): legno, muratura, autostrada, ferro a traliccio o a travata.
  */
 export function drawBridgeSegments(ctx, list, { sx, tier }) {
   const byKey = new Map();
@@ -243,36 +290,26 @@ export function drawBridgeSegments(ctx, list, { sx, tier }) {
   ctx.lineCap = 'butt';
   ctx.lineJoin = 'round';
   for (const [key, lines] of byKey) {
-    const kind = bridgeKind({ road: key.startsWith('road') ? lines[0].level : 0, rail: key.startsWith('rail') ? lines[0].level : 0 });
-    const off = tier === 2 ? OFFSETS[key] : undefined;
+    if (tier === 2) {
+      const level = lines[0].level;
+      const spec = key.startsWith('rail') ? { road: 0, rail: level } : { road: Math.max(1, level), rail: 0 }; // strada sterrata: ponte di legno come la strada comune
+      for (const l of lines) {
+        const c = l.coords; const n = c.length;
+        const dx = c[n - 2] - c[0]; const dy = c[n - 1] - c[1];
+        ctx.save();
+        ctx.translate((c[0] + c[n - 2]) / 2, (c[1] + c[n - 1]) / 2);
+        ctx.rotate(Math.atan2(dy, dx));
+        drawBridgeDeck(ctx, spec, sx, Math.max(BRIDGE_MIN_PX, Math.hypot(dx, dy) * sx));
+        ctx.restore();
+      }
+      continue;
+    }
+    const off = offsetOf(key, tier);
     const symbol = off ? [build(lines, -off), build(lines, off)] : [build(lines, 0)];
     if (tier === 1) { // bordo chiaro attorno alla linea: il ponte si nota
       for (const p of symbol) strokePass(ctx, { c: 'rgba(250,250,246,0.95)', w: recipeWidth(key, 1) + 3.4 }, sx, p);
     }
-    if (tier === 2) {
-      const W = recipeWidth(key, 2) + 6;
-      const mid = build(lines, 0);
-      ctx.save();
-      ctx.translate(1.6 * u, 1.8 * u);
-      strokePass(ctx, { c: 'rgba(0,0,0,0.38)', w: W }, sx, mid);
-      ctx.restore();
-      strokePass(ctx, { c: kind.style === 'wood' ? '#b58f5a' : kind.style === 'stone' ? '#cfcfc6' : '#dfe4ea', w: W }, sx, mid);
-      if (kind.style === 'wood') strokePass(ctx, { c: '#8a6a3c', w: W, dash: [0.9, 2.1] }, sx, mid);
-      if (kind.style !== 'wood' && kind.style !== 'stone') strokePass(ctx, { c: 'rgba(43,51,64,0.85)', w: W - 1.4, dash: [1.1, 3.6] }, sx, mid);
-      const edge = kind.style === 'wood' ? '#4a3418' : '#14140f';
-      for (const d of [-W / 2, W / 2]) strokePass(ctx, { c: edge, w: 1.6 }, sx, build(lines, d));
-      const ends = new Path2D(); // spalle: un tratto di traverso a ogni estremità
-      for (const l of lines) {
-        const c = l.coords; const n = c.length;
-        for (const [x, y, dx, dy] of [[c[0], c[1], c[2] - c[0], c[3] - c[1]], [c[n - 2], c[n - 1], c[n - 2] - c[n - 4], c[n - 1] - c[n - 3]]]) {
-          const len = Math.hypot(dx, dy) || 1; const nx = -dy / len; const ny = dx / len; const h = (W / 2 + 1.5) * u;
-          ends.moveTo(x - nx * h, y - ny * h); ends.lineTo(x + nx * h, y + ny * h);
-        }
-      }
-      strokePass(ctx, { c: '#14140f', w: 1.8 }, sx, ends);
-    }
-    const passes = RECIPES[key][tier];
-    for (const pass of passes) for (const p of symbol) strokePass(ctx, pass, sx, p);
+    for (const pass of RECIPES[key][tier]) for (const p of symbol) strokePass(ctx, pass, sx, p);
   }
   ctx.setLineDash([]);
 }

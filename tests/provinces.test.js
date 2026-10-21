@@ -4,8 +4,9 @@ import { validateCatalog } from '../src/data/validate.js';
 import { buildProvinceIndex, pointInPolygon } from '../src/data/geometry.js';
 import { loadCatalog } from '../scripts/validate-data.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
+import { madreId, vistaProvince } from './famiglie.js';
 
-const provinces = await loadProvinces();
+const provinces = vistaProvince(await loadProvinces());
 const index = buildProvinceIndex(provinces);
 
 // Fixture sintetiche SOLO per i test: non sono dati geografici storici.
@@ -84,7 +85,7 @@ test('i dati reali delle province sono validi e dichiarano la qualità', async (
 });
 
 test('città note cadono nella provincia attesa', () => {
-  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
   const cases = [
     ['Eupen (cantoni dell\'Est, Belgio dal 1920)', 6.03, 50.63, 'P_BEL_LIEGE'],
     ['Bruxelles', 4.35, 50.85, 'P_BEL_BRABANT'],
@@ -158,7 +159,7 @@ test('le province non si sovrappongono oltre le tolleranze note', () => {
 });
 
 test('Italia: città note nella regione attesa e regioni mancanti coperte come ipotesi', () => {
-  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
   const cases = [
     ['Roma', 12.5, 41.9, 'P_ITA_LAZIO'],
     ['Milano', 9.19, 45.46, 'P_ITA_LOMBARDY'],
@@ -167,7 +168,15 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Fiume', 14.44, 45.33, 'P_ITA_JULIAN_MARCH'],
     ['Bolzano (Venezia Tridentina)', 11.35, 46.5, 'P_ITA_TRIDENTINE_VENETIA'],
     ['Napoli', 14.27, 40.85, 'P_ITA_CAMPANIA'],
-    ['Palermo', 13.36, 38.12, 'P_ITA_SICILY'],
+    ['Palermo', 13.36, 38.12, 'P_ITA_PALERMO'],
+    ['Catania', 15.09, 37.5, 'P_ITA_CATANIA'],
+    ['Messina', 15.55, 38.19, 'P_ITA_MESSINA'],
+    ['Siracusa', 15.29, 37.07, 'P_ITA_SIRACUSA'],
+    ['Trapani', 12.51, 38.02, 'P_ITA_TRAPANI'],
+    ['Agrigento', 13.58, 37.31, 'P_ITA_AGRIGENTO'],
+    ['Enna', 14.28, 37.57, 'P_ITA_ENNA'],
+    ['Ragusa', 14.73, 36.93, 'P_ITA_RAGUSA'],
+    ['Caltanissetta', 14.06, 37.49, 'P_ITA_CALTANISSETTA'],
     ['Cosenza', 16.25, 39.3, 'P_ITA_CALABRIA'],
     ['Ancona', 13.5, 43.6, 'P_ITA_MARCHE'],
     ['Ascoli Piceno (Marche fino al Tronto)', 13.58, 42.85, 'P_ITA_MARCHE'],
@@ -193,15 +202,15 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
   ];
   for (const [name, lon, lat, expected] of cases) assert.deepEqual(at(lon, lat), [expected], name);
   const byId = new Map(provinces.features.map((f) => [f.properties.id, f.properties]));
-  for (const id of ['P_ITA_SICILY', 'P_ITA_CALABRIA']) {
+  for (const id of ['P_ITA_PALERMO', 'P_ITA_CATANIA', 'P_ITA_CALABRIA']) {
     assert.equal(byId.get(id).borderQuality, 'hypothesis');
     assert.equal(byId.get(id).source.startsWith('Natural Earth'), true);
   }
-  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA' && f.properties.id !== 'P_ITA_DODECANESO').length, 19);
+  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA' && f.properties.id !== 'P_ITA_DODECANESO').length, 27);
 });
 
 test('Cecoslovacchia: le quattro terre, con la Slovacchia derivata', () => {
-  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+  const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
   const cases = [
     ['Praga', 14.42, 50.08, 'P_CZE_BOHEMIA'],
     ['Brno', 16.6, 49.2, 'P_CZE_MORAVIAN_SILESIAN_COUNTRY'],
@@ -262,7 +271,7 @@ const YUG_CAPITALS = {
 
 test('Iugoslavia: ogni regione contiene il proprio capoluogo (Dubrovnik escluso: costa semplificata)', () => {
   for (const [key, [lon, lat]] of Object.entries(YUG_CAPITALS)) {
-    const ids = index.provincesAt(lon, lat).map((f) => f.properties.id);
+    const ids = index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
     assert.ok(ids.includes(`P_YUG_${key}`), `${key}: trovato ${ids.join(',') || 'nessuna'}`);
   }
   const yug = provinces.features.filter((f) => f.properties.owner === 'YUG');

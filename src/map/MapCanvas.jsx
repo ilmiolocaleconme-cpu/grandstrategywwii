@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { HOME_BOUNDS, LAYERS, RIVER_WIDTH_PX, WORLD_W, riverRankLimit, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, riverRankLimit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, pickRiverNear, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
@@ -33,7 +34,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
-    () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, (r) => r?.scalerank ?? 99) : EMPTY_WATER),
+    () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, riverTier) : EMPTY_WATER),
     [rivers, riversGeo, lakes],
   );
   const markers = useMemo(() => (crossingPoints && showBridges ? buildMarkers(crossingPoints, WORLD_W / 360) : null), [crossingPoints, showBridges]);
@@ -389,7 +390,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
 
   const onWheel = (e) => {
     const [cx, cy] = toView(e.clientX, e.clientY);
-    applyView(zoomAt(st.current.view, Math.exp(-e.deltaY * 0.0015), cx, cy, MIN_K));
+    applyView(zoomAt(st.current.view, Math.exp(-e.deltaY * 0.0015), cx, cy, MIN_K, MAX_K));
   };
   const onWheelRef = useRef(onWheel);
   onWheelRef.current = onWheel;
@@ -414,6 +415,11 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
         const id = pickRiverNear(p.water, ux - off, uy, tol, riverRankLimit(view.k), p.selectedRiverId);
         if (id) { p.onSelectRiver(id); return; }
       }
+    }
+    const tolCitta = 16 / (l.s * view.k); // le città piccole si toccano anche un po' fuori dal contorno
+    for (const off of copies) {
+      const c = nearestCityAt(p.model.items, ux - off, uy, tolCitta);
+      if (c) { p.onSelect(c.id); return; }
     }
     for (const off of copies) {
       const it = pickProvinceAt(p.model, ux - off, uy);
@@ -457,7 +463,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       const d0 = Math.hypot(g.start[0][0] - g.start[1][0], g.start[0][1] - g.start[1][1]);
       const d1 = Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]);
       const [cx, cy] = toView((pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2);
-      applyView(zoomAt(g.view, d1 / Math.max(d0, 1), cx, cy, MIN_K));
+      applyView(zoomAt(g.view, d1 / Math.max(d0, 1), cx, cy, MIN_K, MAX_K));
     }
   };
   const onPointerUp = (e) => {
@@ -477,7 +483,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   };
 
   const zoomButton = (factor) => {
-    applyView(zoomAt(st.current.view, factor, VB.x + VB.w / 2, VB.y + VB.h / 2, MIN_K)); // centro della vista, non dei dati
+    applyView(zoomAt(st.current.view, factor, VB.x + VB.w / 2, VB.y + VB.h / 2, MIN_K, MAX_K)); // centro della vista, non dei dati
   };
   const goHome = useCallback(() => {
     const s = st.current;

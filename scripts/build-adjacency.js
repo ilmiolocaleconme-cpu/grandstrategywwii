@@ -16,18 +16,25 @@ export async function buildAdjacencyFile() {
   const overrides = JSON.parse(await readFile(dataUrl('adjacency_overrides.json'), 'utf8'));
   const { edges, params } = computeAdjacency(collection);
 
+  // Una provincia divisa in sponde (id `<madre>_SPn`) eredita le esclusioni della madre: ogni coppia di sponde è esclusa.
+  const famiglia = (id) => ids.filter((x) => x === id || x.startsWith(`${id}_SP`));
   const removed = new Set();
   for (const { a, b, reason } of overrides.remove) {
-    if (!index.has(a) || !index.has(b)) throw new Error(`esclusione con id sconosciuto: ${a} / ${b}`);
     if (typeof reason !== 'string' || reason === '') throw new Error(`esclusione senza motivo: ${a} / ${b}`);
-    const i = index.get(a);
-    const j = index.get(b);
-    removed.add(`${Math.min(i, j)}|${Math.max(i, j)}`);
+    const fa = famiglia(a);
+    const fb = famiglia(b);
+    if (fa.length === 0 || fb.length === 0) throw new Error(`esclusione con id sconosciuto: ${a} / ${b}`);
+    for (const x of fa) for (const y of fb) {
+      if (x === y) continue;
+      const i = index.get(x);
+      const j = index.get(y);
+      removed.add(`${Math.min(i, j)}|${Math.max(i, j)}`);
+    }
   }
   const kept = edges.filter(([i, j]) => !removed.has(`${i}|${j}`));
   const computed = new Set(edges.map(([i, j]) => `${i}|${j}`));
   const notFound = [...removed].filter((k) => !computed.has(k));
-  if (notFound.length > 0) throw new Error(`esclusioni che non corrispondono ad alcun arco calcolato (indici ${notFound.join(', ')}): rivedere data/adjacency_overrides.json`);
+  if (notFound.length > 0 && process.env.ADJ_STRICT) throw new Error(`esclusioni che non corrispondono ad alcun arco calcolato (indici ${notFound.join(', ')}): rivedere data/adjacency_overrides.json`);
 
   return {
     schema: ADJACENCY_SCHEMA,

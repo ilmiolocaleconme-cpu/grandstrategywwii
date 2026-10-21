@@ -17,7 +17,29 @@ const ringArea = (ring) => Math.abs(ring.reduce((a, p, i) => { const q = ring[(i
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Province: ogni variante del nome (intero, due righe, sigle) con il suo posizionamento.
-export function computeProvinceLabels(collection) {
+// Una provincia divisa in sponde ha un solo nome: quello della madre, sulla sponda più grande. Le altre sponde
+// restano nell'elenco (stessi indici dei dati) ma senza nome. Gli indici dei nomi puntano sempre alla collezione intera.
+export function labelFeatures(collection) {
+  const piuGrande = new Map();
+  for (const f of collection.features) {
+    if (!f.properties.sponda_fiume) continue;
+    const madre = f.properties.parentProvince;
+    const area = featureAreaKm2(f);
+    if (!piuGrande.has(madre) || area > piuGrande.get(madre).area) piuGrande.set(madre, { id: f.properties.id, area });
+  }
+  const features = collection.features.map((f) => {
+    // le città non hanno un'etichetta di provincia: il loro nome si scrive dal livello delle città (zoom)
+    if (f.properties.kind === 'citta') return { ...f, properties: { ...f.properties, name: '', nameLocal: '' } };
+    if (!f.properties.sponda_fiume) return f;
+    if (piuGrande.get(f.properties.parentProvince)?.id !== f.properties.id) return { ...f, properties: { ...f.properties, name: '', nameLocal: '' } };
+    const nome = f.properties.name.replace(/ \(sponda [A-Z]\)$/, '');
+    return { ...f, properties: { ...f.properties, name: nome, nameLocal: nome } };
+  });
+  return { ...collection, features };
+}
+
+export function computeProvinceLabels(input) {
+  const collection = labelFeatures(input);
   const nameOf = (f) => f.properties.nameLocal ?? f.properties.name;
   const entries = collection.features
     .filter((f) => nameOf(f))

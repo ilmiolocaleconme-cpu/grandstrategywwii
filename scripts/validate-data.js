@@ -7,7 +7,6 @@ import { validateSea } from '../src/data/sea.js';
 import { validateLabels } from '../src/data/labels.js';
 import { validateCrossingPoints } from '../src/data/crossingPoints.js';
 import { validateAutostrade, validateTransport } from '../src/data/transport.js';
-import { validateBridges } from '../src/data/bridges.js';
 import { validateLinks } from '../src/data/links.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 import { loadProvinces } from './load-provinces.js';
@@ -30,7 +29,6 @@ export async function loadCatalog(baseUrl = dataDir) {
     labels: await read('labels.json'),
     crossingPoints: await read('crossing_points.json'),
     transport: await read('transport.json'),
-    bridges: await read('transport_bridges.json'),
     links: await read('links.json'),
     autostrade: await read('autostrade_1936.json'),
   };
@@ -51,17 +49,16 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   errors.push(...validateAdjacency(catalog.adjacency, provinceIds), ...validateSea(catalog.sea, provinceIds), ...validateLabels(catalog.labels, provinceIds, catalog.sea.zones.map((z) => z.id), [...new Set(catalog.provinces.features.map((f) => f.properties.owner))]));
   errors.push(...validateCrossingPoints(catalog.crossingPoints, { riverIds: new Set(catalog.rivers.map((r) => r.id)), provinceIds }));
   if (catalog.crossingPoints.checksum !== idsChecksum(provinceIds)) errors.push('punti di passaggio: somma di controllo diversa, le province sono cambiate: rigenerare con npm run build:crossing-points');
-  errors.push(...validateAutostrade(catalog.autostrade), ...validateTransport(catalog.transport), ...validateBridges(catalog.bridges, { riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
+  errors.push(...validateAutostrade(catalog.autostrade), ...validateTransport(catalog.transport));
   errors.push(...validateLinks(catalog.links, { provinceIds, riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
   if (catalog.links.checksum !== idsChecksum(provinceIds)) errors.push('collegamenti: somma di controllo diversa, rigenerare con npm run build:links -- <cartella Natural Earth>');
-  for (const [name, f] of [['strade e ferrovie', catalog.transport], ['ponti da strade e ferrovie', catalog.bridges]]) if (f.checksum !== idsChecksum(provinceIds)) errors.push(`${name}: somma di controllo diversa, le province sono cambiate: rigenerare con npm run build:transport -- <cartella Natural Earth>`);
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));
   errors.forEach((e) => console.error(`ERRORE ${e}`));
   console.log(
     `${ok ? 'OK' : 'FALLITO'}: ${catalog.nations.length} nazioni, ${catalog.resources.length} risorse, ` +
       `${catalog.rivers.length} fiumi (${catalog.riversGeo.features.length} tratti), ${catalog.lakes.features.length} laghi, ${catalog.crossings.length} attraversamenti, ` +
-      `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province, ${catalog.adjacency.edges.length} adiacenze, ${catalog.sea.zones.length} zone marittime, ${catalog.labels.nations.length + catalog.labels.provinces.length + catalog.labels.seas.length} nomi in mappa, ${catalog.crossingPoints.count} punti di passaggio, ${catalog.transport.count} tratti di strada/ferrovia, ${catalog.bridges.count} ponti, ${catalog.links.counts.links} collegamenti (${catalog.links.counts.bridges} ponti nel grafo)`,
+      `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province, ${catalog.adjacency.edges.length} adiacenze, ${catalog.sea.zones.length} zone marittime, ${catalog.labels.nations.length + catalog.labels.provinces.length + catalog.labels.seas.length} nomi in mappa, ${catalog.crossingPoints.count} punti di passaggio, ${catalog.links.counts.links} collegamenti (${catalog.links.counts.bridges} ponti nel grafo)`,
   );
   process.exit(ok ? 0 : 1);
 }

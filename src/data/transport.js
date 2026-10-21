@@ -1,5 +1,5 @@
 // Strade e ferrovie come dati di gioco: classificazione in livelli, semplificazione e ponti dagli incroci con i fiumi.
-// Funzioni PURE, senza I/O (la lettura di Natural Earth sta in scripts/build-transport.js).
+// Funzioni PURE, senza I/O (la lettura di Natural Earth sta in scripts/build-links.js).
 //
 // COSA SONO I DATI: la rete MODERNA di Natural Earth 10m (strade e ferrovie), non quella del 1936. Molte strade
 // principali di oggi (autostrade) nel 1936 non c'erano; la rete ferroviaria invece in gran parte sì, ma con linee
@@ -196,7 +196,7 @@ export function validateAutostrade(file) {
   return errors;
 }
 
-/** Controlli su data/transport.json: schema, id unici, tipo, livello, coordinate. Ritorna la lista degli errori. */
+/** Controlli su un file di strade e ferrovie: schema, id unici, tipo, livello, coordinate. Ritorna la lista degli errori. */
 export function validateTransport(file) {
   const errors = [];
   if (file?.schema !== TRANSPORT_SCHEMA) errors.push(`schema atteso ${TRANSPORT_SCHEMA}`);

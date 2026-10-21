@@ -3,14 +3,15 @@ import assert from 'node:assert/strict';
 import { loadProvinces } from '../scripts/load-provinces.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { featureAreaKm2 } from '../src/map/geo.js';
+import { madreId, vistaProvince } from './famiglie.js';
 
 // Inghilterra (GBR) e Mediterraneo (ALG, TUN, LBA, EGY, PAL, JOR, SYR, LBN, TUR, CYP, MLT, GIB):
 // Natural Earth (confini attuali), qualita hypothesis. Soglie larghe: intercettano rotture, non certificano precisione.
 
-const provinces = await loadProvinces();
+const provinces = vistaProvince(await loadProvinces());
 const index = buildProvinceIndex(provinces);
 const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o);
-const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => f.properties.id);
+const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
 
 test('conteggi per nazione e id con il codice del proprietario', () => {
   const N = { GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };

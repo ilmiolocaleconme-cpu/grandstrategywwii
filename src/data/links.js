@@ -1,8 +1,9 @@
-// Grafo dei collegamenti per il gioco (data/links.json): UN collegamento per ogni coppia di province confinanti, in linea
-// retta tra le «sedi» (la città più popolosa), con UN solo tipo visibile: una scala da strada sterrata a ferrovia potenziata.
+// Grafo dei collegamenti per il gioco (data/links.json): UN collegamento per ogni coppia di province confinanti, con un tracciato
+// (dritto, o curvo se serve) tra le «sedi» (la città più popolosa) e UN solo tipo visibile: una scala da strada sterrata a ferrovia potenziata.
 // Il livello del collegamento è la STROZZATURA: il tratto peggiore del percorso migliore trovato sulla rete di
 // strade/ferrovie (data/transport.json, Natural Earth); senza dati è strada sterrata. Un ponte nasce dove la linea del
-// collegamento incrocia un fiume importante, ed è un tratto della linea stessa. Funzioni PURE, senza I/O.
+// collegamento incrocia un fiume importante, ed è un tratto della linea stessa. Il tracciato resta dentro le due province
+// (src/data/linkroute.js); senza percorso via terra è una tratta marittima breve (traghetto). Funzioni PURE, senza I/O.
 // Tutto è `quality: hypothesis`: rete moderna, sedi da popolazione moderna.
 
 import { lineLengthKm } from './rivers.js';
@@ -261,6 +262,8 @@ export function validateLinks(file, { provinceIds, riverIds } = {}) {
     if (!nodeT.has(l.a) || !nodeT.has(l.b)) errors.push(`${l.id}: manca la sede di una provincia`);
     else if (l.t > Math.min(nodeT.get(l.a), nodeT.get(l.b))) errors.push(`${l.id}: più alto delle sue province (strozzatura)`);
     if (!(l.km > 0)) errors.push(`${l.id}: km non validi`);
+    if (l.how !== undefined && !['bend', 'grid', 'third', 'sea'].includes(l.how)) errors.push(`${l.id}: tracciato non valido ${l.how}`);
+    if (Boolean(l.sea) !== (l.how === 'sea')) errors.push(`${l.id}: tratta marittima e tracciato incoerenti`);
   }
   const segIds = new Set();
   for (const s of file?.segments ?? []) {
@@ -269,8 +272,12 @@ export function validateLinks(file, { provinceIds, riverIds } = {}) {
     const lk = linkIds.get(s.link);
     if (!lk) errors.push(`${s.id}: collegamento sconosciuto ${s.link}`);
     else if (lk.t !== s.t) errors.push(`${s.id}: gradino diverso dal collegamento`);
-    const st = LADDER.find((x) => x.t === s.t);
-    if (!st || st.k !== s.k || st.level !== s.level) errors.push(`${s.id}: tipo incoerente con il gradino`);
+    if (s.sea) { // tratta marittima (traghetto): non è una strada, non ha ponti e sta al gradino più basso
+      if (s.k !== 'sea' || s.level !== 0 || s.t !== 1 || s.br) errors.push(`${s.id}: tratta marittima incoerente`);
+    } else {
+      const st = LADDER.find((x) => x.t === s.t);
+      if (!st || st.k !== s.k || st.level !== s.level) errors.push(`${s.id}: tipo incoerente con il gradino`);
+    }
     if (!(s.c?.length >= 4) || s.c.length % 2 !== 0) errors.push(`${s.id}: coordinate non valide`);
     if (s.br && riverIds && !riverIds.has(s.br.r)) errors.push(`${s.id}: ponte su fiume sconosciuto ${s.br.r}`);
   }

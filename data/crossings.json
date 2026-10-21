@@ -3,189 +3,241 @@
     "id": "X_RHINE_KOELN_HOHENZOLLERN",
     "name": "Hohenzollernbrücke",
     "type": "bridge_rail",
-    "carries": ["rail", "road"],
+    "carries": [
+      "rail",
+      "road"
+    ],
     "riverId": "R_RHINE",
     "state": "intact",
     "controller": "DEU",
     "approximate": true,
     "place": "Colonia (Köln)",
-    "sideA": "P_DEU_KOELN_AACHEN",
-    "sideB": "P_DEU_KOELN_AACHEN",
+    "sideA": "P_DEU_KOELN_AACHEN_SP2",
+    "sideB": "P_DEU_KOELN_AACHEN_SP1",
     "validFrom": "1911-05-22",
     "validTo": "9999-12-31",
     "dateBasis": "source",
     "dataQuality": "approximate",
     "source": "Wikipedia (en), Hohenzollern Bridge: apertura 22/5/1911, in origine ferroviario e stradale",
     "license": "Solo fatti (anno, tipo, località) da Wikipedia, CC BY-SA 4.0; nessun testo copiato",
-    "knownIssues": ["posizione_non_georeferenziata", "ponte_dentro_una_provincia", "rive_da_province_gaue_1936"],
+    "knownIssues": [
+      "posizione_non_georeferenziata",
+      "ponte_dentro_una_provincia",
+      "rive_da_province_gaue_1936"
+    ],
     "notes": "Nessuna coordinata inventata: il ponte è legato alle province delle due rive (la stessa, Köln-Aachen). Dato informativo, non evento di gioco: storicamente distrutto il 6/3/1945."
   },
   {
     "id": "X_RHINE_REMAGEN_LUDENDORFF",
     "name": "Ludendorff-Brücke",
     "type": "bridge_rail",
-    "carries": ["rail"],
+    "carries": [
+      "rail"
+    ],
     "riverId": "R_RHINE",
     "state": "intact",
     "controller": "DEU",
     "approximate": true,
     "place": "Remagen – Erpel",
-    "sideA": "P_DEU_KOBLENZ_TRIER",
-    "sideB": "P_DEU_KOBLENZ_TRIER",
+    "sideA": "P_DEU_KOBLENZ_TRIER_SP2",
+    "sideB": "P_DEU_KOBLENZ_TRIER_SP1",
     "validFrom": "1919-01-01",
     "validTo": "9999-12-31",
     "dateBasis": "assumed",
     "dataQuality": "approximate",
     "source": "Wikipedia (en), Ludendorff Bridge: costruito 1916-1919, ponte ferroviario con passerelle pedonali",
     "license": "Solo fatti (anno, tipo, località) da Wikipedia, CC BY-SA 4.0; nessun testo copiato",
-    "knownIssues": ["anno_di_apertura_non_dichiarato_dalla_fonte", "posizione_non_georeferenziata", "ponte_dentro_una_provincia"],
+    "knownIssues": [
+      "anno_di_apertura_non_dichiarato_dalla_fonte",
+      "posizione_non_georeferenziata",
+      "ponte_dentro_una_provincia"
+    ],
     "notes": "L'anno di apertura (1919) è ipotesi: la fonte dà solo gli anni di costruzione. Dato informativo, non evento di gioco: crollato il 17/3/1945."
   },
   {
     "id": "X_RHINE_MAXAU_PONTONE",
     "name": "Ponte di barche di Maxau",
     "type": "bridge_pontoon",
-    "carries": ["road", "rail"],
+    "carries": [
+      "road",
+      "rail"
+    ],
     "riverId": "R_RHINE",
     "state": "intact",
     "controller": "DEU",
     "approximate": true,
     "place": "Maxau (Karlsruhe) – Maximiliansau",
-    "sideA": "P_DEU_BADEN",
-    "sideB": "P_DEU_SAARPFALZ",
+    "sideA": "P_DEU_BADEN_SP3",
+    "sideB": "P_DEU_SAARPFALZ_SP1",
     "validFrom": "1865-01-01",
     "validTo": "1938-04-03",
     "dateBasis": "assumed",
     "dataQuality": "approximate",
     "source": "Wikipedia (en), Maxau Rhine Bridges: ponte di barche misto ferrovia e strada (la fonte cita il 1865), sostituito dal ponte fisso del 1938",
     "license": "Solo fatti (anno, tipo, località) da Wikipedia, CC BY-SA 4.0; nessun testo copiato",
-    "knownIssues": ["anno_di_apertura_approssimato", "data_di_fine_approssimata", "posizione_non_georeferenziata"],
+    "knownIssues": [
+      "anno_di_apertura_approssimato",
+      "data_di_fine_approssimata",
+      "posizione_non_georeferenziata"
+    ],
     "notes": "Nel 1936 qui c'è un ponte di barche, non un ponte fisso. validTo = apertura del ponte ferroviario fisso (3/4/1938): ipotesi, la fonte non dà la data esatta di chiusura del ponte di barche."
   },
   {
     "id": "X_RHINE_MAXAU_FISSO_STRADA",
     "name": "Ponte fisso di Maxau (strada)",
     "type": "bridge_road",
-    "carries": ["road"],
+    "carries": [
+      "road"
+    ],
     "riverId": "R_RHINE",
     "state": "intact",
     "controller": "DEU",
     "approximate": true,
     "place": "Maxau (Karlsruhe) – Maximiliansau",
-    "sideA": "P_DEU_BADEN",
-    "sideB": "P_DEU_SAARPFALZ",
+    "sideA": "P_DEU_BADEN_SP3",
+    "sideB": "P_DEU_SAARPFALZ_SP1",
     "validFrom": "1938-01-17",
     "validTo": "9999-12-31",
     "dateBasis": "source",
     "dataQuality": "approximate",
     "source": "Wikipedia (en), Maxau Rhine Bridges: ponte fisso a travatura, strada aperta il 17/1/1938",
     "license": "Solo fatti (anno, tipo, località) da Wikipedia, CC BY-SA 4.0; nessun testo copiato",
-    "knownIssues": ["posizione_non_georeferenziata", "stessa_struttura_di_X_RHINE_MAXAU_FISSO_FERROVIA"],
+    "knownIssues": [
+      "posizione_non_georeferenziata",
+      "stessa_struttura_di_X_RHINE_MAXAU_FISSO_FERROVIA"
+    ],
     "notes": "Non esiste al 1/1/1936: compare per evento. Stessa struttura del ramo ferroviario, aperto dopo. Dato informativo: distrutto il 21/3/1945."
   },
   {
     "id": "X_RHINE_MAXAU_FISSO_FERROVIA",
     "name": "Ponte fisso di Maxau (ferrovia)",
     "type": "bridge_rail",
-    "carries": ["rail"],
+    "carries": [
+      "rail"
+    ],
     "riverId": "R_RHINE",
     "state": "intact",
     "controller": "DEU",
     "approximate": true,
     "place": "Maxau (Karlsruhe) – Maximiliansau",
-    "sideA": "P_DEU_BADEN",
-    "sideB": "P_DEU_SAARPFALZ",
+    "sideA": "P_DEU_BADEN_SP3",
+    "sideB": "P_DEU_SAARPFALZ_SP1",
     "validFrom": "1938-04-03",
     "validTo": "9999-12-31",
     "dateBasis": "source",
     "dataQuality": "approximate",
     "source": "Wikipedia (en), Maxau Rhine Bridges: ponte fisso a travatura, ferrovia aperta il 3/4/1938",
     "license": "Solo fatti (anno, tipo, località) da Wikipedia, CC BY-SA 4.0; nessun testo copiato",
-    "knownIssues": ["posizione_non_georeferenziata", "stessa_struttura_di_X_RHINE_MAXAU_FISSO_STRADA"],
+    "knownIssues": [
+      "posizione_non_georeferenziata",
+      "stessa_struttura_di_X_RHINE_MAXAU_FISSO_STRADA"
+    ],
     "notes": "Non esiste al 1/1/1936: compare per evento."
   },
   {
     "id": "X_RHINE_WALDSHUT_FERROVIA",
     "name": "Ponte ferroviario Waldshut–Koblenz",
     "type": "bridge_rail",
-    "carries": ["rail"],
+    "carries": [
+      "rail"
+    ],
     "riverId": "R_RHINE",
     "state": "intact",
     "controller": null,
     "approximate": true,
     "place": "Waldshut – Koblenz (Aargau)",
     "sideA": "P_CHE_AARGAU",
-    "sideB": "P_DEU_BADEN",
+    "sideB": "P_DEU_BADEN_SP3",
     "validFrom": "1859-08-18",
     "validTo": "9999-12-31",
     "dateBasis": "source",
     "dataQuality": "approximate",
     "source": "Wikipedia (en), Waldshut–Koblenz Rhine Bridge: entrata in servizio il 18/8/1859",
     "license": "Solo fatti (anno, tipo, località) da Wikipedia, CC BY-SA 4.0; nessun testo copiato",
-    "knownIssues": ["posizione_non_georeferenziata", "ponte_di_frontiera_senza_controllore"],
+    "knownIssues": [
+      "posizione_non_georeferenziata",
+      "ponte_di_frontiera_senza_controllore"
+    ],
     "notes": "Ponte di frontiera Svizzera/Germania: controller nullo, nessun controllore unico assegnato."
   },
   {
     "id": "X_RHINE_WALDSHUT_STRADA",
     "name": "Ponte stradale Koblenz–Waldshut",
     "type": "bridge_road",
-    "carries": ["road"],
+    "carries": [
+      "road"
+    ],
     "riverId": "R_RHINE",
     "state": "intact",
     "controller": null,
     "approximate": true,
     "place": "Waldshut – Koblenz (Aargau)",
     "sideA": "P_CHE_AARGAU",
-    "sideB": "P_DEU_BADEN",
+    "sideB": "P_DEU_BADEN_SP3",
     "validFrom": "1932-11-27",
     "validTo": "9999-12-31",
     "dateBasis": "source",
     "dataQuality": "approximate",
     "source": "Canton Argovia, inventario dei beni culturali, scheda INV-KOB906: costruito 1931-1932, inaugurato il 27/11/1932 (https://www.ag.ch/denkmalpflege/suche/detail.aspx?ID=38652)",
     "license": "Licenza da accertare (inventario cantonale); riportati solo fatti: anno, tipo, località",
-    "knownIssues": ["posizione_non_georeferenziata", "ponte_di_frontiera_senza_controllore", "licenza_da_accertare"],
+    "knownIssues": [
+      "posizione_non_georeferenziata",
+      "ponte_di_frontiera_senza_controllore",
+      "licenza_da_accertare"
+    ],
     "notes": "Ponte di frontiera Svizzera/Germania: controller nullo."
   },
   {
     "id": "X_RHINE_NIMEGA_WAALBRUG",
     "name": "Waalbrug",
     "type": "bridge_road",
-    "carries": ["road"],
+    "carries": [
+      "road"
+    ],
     "riverId": "R_RHINE",
     "state": "intact",
     "controller": "NLD",
     "approximate": true,
     "place": "Nimega (Nijmegen)",
-    "sideA": "P_NLD_GELDERLAND",
-    "sideB": "P_NLD_GELDERLAND",
+    "sideA": "P_NLD_GELDERLAND_SP2",
+    "sideB": "P_NLD_GELDERLAND_SP1",
     "validFrom": "1936-06-16",
     "validTo": "9999-12-31",
     "dateBasis": "source",
     "dataQuality": "approximate",
     "source": "Wikipedia (en), Waalbrug (Nijmegen): lavori dal 23/10/1931, aperto il 16/6/1936",
     "license": "Solo fatti (anno, tipo, località) da Wikipedia, CC BY-SA 4.0; nessun testo copiato",
-    "knownIssues": ["posizione_non_georeferenziata", "ponte_dentro_una_provincia", "waal_registrato_come_R_RHINE"],
+    "knownIssues": [
+      "posizione_non_georeferenziata",
+      "ponte_dentro_una_provincia",
+      "waal_registrato_come_R_RHINE"
+    ],
     "notes": "Non esiste al 1/1/1936 (in costruzione): compare il 16/6/1936. Nel catalogo il Waal olandese è tracciato come parte di R_RHINE (da Natural Earth), non come R_WAAL. Dato informativo: fatto saltare il 10/5/1940."
   },
   {
     "id": "X_MEUSE_MAASTRICHT_WILHELMINA",
     "name": "Wilhelminabrug",
     "type": "bridge_road",
-    "carries": ["road"],
+    "carries": [
+      "road"
+    ],
     "riverId": "R_MEUSE",
     "state": "intact",
     "controller": "NLD",
     "approximate": true,
     "place": "Maastricht",
-    "sideA": "P_NLD_LIMBURG",
-    "sideB": "P_NLD_LIMBURG",
+    "sideA": "P_NLD_LIMBURG_SP3",
+    "sideB": "P_NLD_LIMBURG_SP2",
     "validFrom": "1932-04-18",
     "validTo": "9999-12-31",
     "dateBasis": "source",
     "dataQuality": "approximate",
     "source": "Wikipedia (nl), Wilhelminabrug (Maastricht): costruito 1930-1932, inaugurato il 18/4/1932, ponte stradale ad arco",
     "license": "Solo fatti (anno, tipo, località) da Wikipedia, CC BY-SA 4.0; nessun testo copiato",
-    "knownIssues": ["posizione_non_georeferenziata", "ponte_dentro_una_provincia"],
+    "knownIssues": [
+      "posizione_non_georeferenziata",
+      "ponte_dentro_una_provincia"
+    ],
     "notes": "Dato informativo: la campata d'acciaio fu fatta saltare nel maggio 1940."
   }
 ]

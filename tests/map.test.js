@@ -8,8 +8,9 @@ import {
 } from '../src/map/geo.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
+import { madreId, vistaProvince } from './famiglie.js';
 
-const provinces = await loadProvinces();
+const provinces = vistaProvince(await loadProvinces());
 const political = JSON.parse(readFileSync(new URL('../data/political_1936.json', import.meta.url), 'utf8'));
 
 const square = (x, y, s) => [[x, y], [x + s, y], [x + s, y + s], [x, y + s], [x, y]];
@@ -91,7 +92,7 @@ test('modello della mappa: stesse province dei dati e delle regole, tutte disegn
     assert.ok(Number.isFinite(it.label[0]) && Number.isFinite(it.label[1]), it.id);
   }
   // Roma, cercata con le regole, è nella provincia che la mappa disegna come P_ITA_LAZIO
-  assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => f.properties.id), ['P_ITA_LAZIO']);
+  assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => madreId(f.properties.id)), ['P_ITA_LAZIO']);
   assert.ok(ids.has('P_ITA_LAZIO'));
   const { bounds } = model;
   // h < 70: dall'Artico sovietico (~82° N, Terra di Francesco Giuseppe) all'Algeria meridionale (19° N) l'altezza e ~63 unita;

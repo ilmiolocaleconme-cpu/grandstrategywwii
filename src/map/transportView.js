@@ -1,10 +1,10 @@
 // Strade e ferrovie sulla mappa Canvas: modello proiettato (array tipizzati), densità per zoom e disegno.
 // L'aspetto (bordi, due carreggiate, traversine e rotaie, doppio binario) sta in transportStyle.js e cresce con lo
-// zoom. I dati e le regole stanno in src/data/transport.js e data/transport.json; qui solo la parte grafica.
+// zoom. I dati e le regole stanno in src/data/transport.js e data/links.json; qui solo la parte grafica.
 // buildTransportModel, transportRankLimit e transportLegend si provano senza browser (tests/transport.test.js);
 // drawTransport usa Path2D.
 
-import { DRAW_GROUPS, OFFSETS, RECIPES, addOffset, DETAIL_ZOOMS, detailTier, drawBridgeSegments, sizeBoost, strokePass } from './transportStyle.js';
+import { DRAW_GROUPS, RECIPES, addOffset, DETAIL_ZOOMS, detailTier, drawBridgeSegments, offsetOf, sizeBoost, strokePass } from './transportStyle.js';
 
 /**
  * Soglia di importanza (scalerank di Natural Earth) mostrata a un dato zoom: da molto lontano nessuna linea (la mappa
@@ -41,6 +41,7 @@ export function buildTransportModel(file, cos0) {
 /** Righe della legenda: tipo, nome e come si riconosce («spec» per drawSwatch: stesso disegno della mappa a zoom alto). */
 export function transportLegend() {
   return [
+    { key: 'sea-0', label: 'Tratta marittima (traghetto)', how: 'tratteggio azzurro' },
     { key: 'road-0', label: 'Strada sterrata', how: 'tratteggio marrone' },
     { key: 'road-1', label: 'Strada', how: 'una carreggiata, bordo scuro' },
     { key: 'road-2', label: 'Strada principale', how: 'gialla, linea di mezzeria' },
@@ -83,7 +84,7 @@ export function drawTransport(ctx, model, { sx: sxMap, k, cull }) {
     for (const key of group) {
       const list = byKey.get(key);
       if (!list) continue;
-      const off = tier === 2 ? OFFSETS[key] : undefined; // due tracciati paralleli (carreggiate, binari)
+      const off = offsetOf(key, tier); // due tracciati paralleli (carreggiate, binari)
       const path = new Path2D();
       const path2 = off ? new Path2D() : null;
       let any = false;
