@@ -2,6 +2,7 @@
 // Nessuna dipendenza da React: sono testate in tests/map.test.js.
 
 import { fitLabel, mainPolygon, splitName, shortName, assignShortNames, CHAR_W, TEXT_H, LINE_STEP } from './labelfit.js';
+import { TERRAIN_COLORS } from '../data/terrain.js';
 
 export const LAT0 = 47; // latitudine di riferimento della proiezione (equirettangolare)
 const COS0 = Math.cos((LAT0 * Math.PI) / 180);
@@ -280,6 +281,7 @@ export const QUALITY_COLORS = {
 
 export const LAYERS = [
   { id: 'political', label: 'Politico' },
+  { id: 'terrain', label: 'Terreno' },
   { id: 'quality', label: 'Qualità dati' },
 ];
 
@@ -292,6 +294,7 @@ export function controllerOf(owner, control) {
 
 export function provinceFill(props, layer, control) {
   if (layer === 'quality') return QUALITY_COLORS[props.borderQuality] ?? '#777';
+  if (layer === 'terrain') return TERRAIN_COLORS[props.terreno] ?? '#777'; // senza dato (es. Chukotka) grigio scuro
   return ownerColor(controllerOf(props.owner, control), props.id);
 }
 

@@ -18,7 +18,8 @@
     "build:labels": "node scripts/build-labels.js",
     "build:crossing-points": "node scripts/build-crossing-points.js",
     "build:links": "node scripts/build-links.js",
-    "build:transport": "node scripts/build-transport.js"
+    "build:transport": "node scripts/build-transport.js",
+    "build:terrain": "python3 -I scripts/terrain/build_terrain.py"
   },
   "dependencies": {
     "react": "^19.3.0",

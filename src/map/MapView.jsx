@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SeaLayer, buildSeaModel } from './SeaLayer.jsx';
 import { pickStaticLabels } from './labelview.js';
 import { HOME_BOUNDS, LAYERS, riverRankLimit, riverWidthScale, riverOpacity, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { TERRAIN_COLORS, TERRAIN_LABEL, TERRAIN_TYPES } from '../data/terrain.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
@@ -265,7 +266,9 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
 
 export function Legend({ layer, nationNames, nationControl, items, open, onToggle }) {
   const owners = useMemo(() => [...new Set(items.map((i) => controllerOf(i.props.owner, nationControl)))].sort(), [items, nationControl]);
-  const entries = layer === 'quality'
+  const entries = layer === 'terrain'
+    ? [...TERRAIN_TYPES, 'urbano'].map((t) => [TERRAIN_LABEL[t], TERRAIN_COLORS[t]])
+    : layer === 'quality'
     ? [['verificato', provinceFill({ borderQuality: 'verified' }, 'quality')], ['approssimato', provinceFill({ borderQuality: 'approximate' }, 'quality')], ['ipotesi', provinceFill({ borderQuality: 'hypothesis' }, 'quality')]]
     : owners.map((o) => [nationNames[o] ?? o, provinceFill({ owner: o, id: '' }, 'political')]);
   return (
@@ -274,7 +277,7 @@ export function Legend({ layer, nationNames, nationControl, items, open, onToggl
         Legenda {open ? '▾' : '▴'}
       </button>
       {open && (
-        <ul className="legend" aria-label={layer === 'quality' ? 'Legenda qualità dei confini' : 'Legenda nazioni'}>
+        <ul className="legend" aria-label={layer === 'terrain' ? 'Legenda terreno' : layer === 'quality' ? 'Legenda qualità dei confini' : 'Legenda nazioni'}>
           {entries.map(([name, color]) => (
             <li key={name}><i style={{ background: color }} />{name}</li>
           ))}

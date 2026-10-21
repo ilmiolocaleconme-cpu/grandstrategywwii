@@ -10,6 +10,8 @@ import { validateAutostrade, validateTransport } from '../src/data/transport.js'
 import { validateLinks } from '../src/data/links.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 import { loadProvinces } from './load-provinces.js';
+import { readFile as readFileTerrain } from 'node:fs/promises';
+import { validateTerrain } from '../src/data/terrain.js';
 
 const dataDir = new URL('../data/', import.meta.url);
 
@@ -52,6 +54,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   errors.push(...validateAutostrade(catalog.autostrade), ...validateTransport(catalog.transport));
   errors.push(...validateLinks(catalog.links, { provinceIds, riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
   if (catalog.links.checksum !== idsChecksum(provinceIds)) errors.push('collegamenti: somma di controllo diversa, rigenerare con npm run build:links -- <cartella Natural Earth>');
+  {
+    const motherIds = [...new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id))];
+    const terrainDoc = JSON.parse(await readFileTerrain(new URL('../data/terrain.json', import.meta.url), 'utf8'));
+    errors.push(...validateTerrain(terrainDoc, motherIds, ['P_USSR_CHUKCHI_AUTONOMOUS_OKRUG']));
+  }
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));
   errors.forEach((e) => console.error(`ERRORE ${e}`));

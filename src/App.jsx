@@ -13,6 +13,7 @@ import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.
 import ProvincePanel from './map/ProvincePanel.jsx';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
+import { withTerrain } from './data/terrain.js';
 import { buildCanvasModel } from './map/canvasModel.js';
 import { newGame, playableNations } from './game/state.js';
 import { advanceDay } from './game/engine.js';
@@ -90,6 +91,18 @@ function useLabelData(start) {
   return labels;
 }
 
+// Terreno (data/terrain.json, ~200 kB): blocco a parte, dopo la prima schermata; nel precache per l'offline
+function useTerrain(enabled) {
+  const [terrain, setTerrain] = useState(null);
+  useEffect(() => {
+    if (!enabled) return undefined;
+    let alive = true;
+    import('../data/terrain.json').then((m) => alive && setTerrain(m.default)).catch(() => {});
+    return () => { alive = false; };
+  }, [enabled]);
+  return terrain;
+}
+
 // Città a parte (data/citta_grandi.json): si caricano dopo le province, come l'acqua, per non rallentare la prima schermata
 function useCities(enabled) {
   const [cities, setCities] = useState(null);
@@ -153,14 +166,16 @@ export default function App() {
   const [showTransport, setShowTransport] = useState(false);
   const transport = showTransport ? links : null;
   const labelData = useLabelData(!USE_CANVAS || mapShown);
+  const [layer, setLayer] = useState('political');
   const citiesRaw = useCities(USE_CANVAS && mapShown);
   // le città sono province a parte: entrano nello stesso modello e sono cliccabili come le altre
   const cities = useMemo(() => (citiesRaw ? markCapitals(citiesRaw, nations) : null), [citiesRaw]);
-  const provincesWithCities = useMemo(() => withCities(provinces && markCapitalsInCollection(provinces, nations), cities), [provinces, cities]);
+  // il terreno si scarica solo quando si apre il livello Terreno: il modello della mappa non si ricostruisce una volta in più all'avvio
+  const terrain = useTerrain(USE_CANVAS && mapShown && layer === 'terrain');
+  const provincesWithCities = useMemo(() => withTerrain(withCities(provinces && markCapitalsInCollection(provinces, nations), cities), terrain), [provinces, cities, terrain]);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
   const [seaId, setSeaId] = useState(null);
-  const [layer, setLayer] = useState('political');
   const [provinceId, setProvinceId] = useState(null);
   const [showRivers, setShowRivers] = useState(true);
   const selectProvince = (id) => { setProvinceId(id); setSeaId(null); };
