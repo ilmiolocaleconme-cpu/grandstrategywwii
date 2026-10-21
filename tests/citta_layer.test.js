@@ -40,12 +40,12 @@ test('modello delle città: una voce per città, con il nome nelle proprietà', 
 });
 
 test('toccare dentro Berlino trova la città di Berlino, non il Gau', () => {
-  const it = cityModel.items.find((i) => i.id === 'P_DEU_BERLINO_CITTA');
+  const it = cityModel.items.find((i) => i.props.cittaId === 'P_DEU_BERLINO_CITTA' && i.props.name === 'Berlino');
   assert.ok(it, 'manca Berlino città');
   const [x, y] = centre(cityModel, it);
   const hit = pickCityAt(cityModel, x, y);
   assert.ok(hit, 'nessuna città sotto il centro di Berlino');
-  assert.equal(hit.id, 'P_DEU_BERLINO_CITTA');
+  assert.equal(hit.props.cittaId, 'P_DEU_BERLINO_CITTA');
   assert.equal(hit.props.parentProvince, 'P_DEU_BERLIN');
 });
 
@@ -87,7 +87,7 @@ test('solo le capitali delle nazioni sono marcate (con il nome sulla mappa)', ()
   const nomi = marcate.map((f) => `${f.properties.owner}:${f.properties.name.replace(/ \(parte .+\)$/, '')}`).sort();
   assert.ok(nomi.includes('DEU:Berlino') && nomi.includes('ITA:Roma'), nomi.join(', '));
   const parti = markCapitals(cities, nations).filter((f) => f.properties.capitale);
-  assert.ok(parti.some((f) => f.properties.name === 'Roma sud' && !f.properties.capital), 'la parte sud di Roma ha il nome, senza stella');
+  assert.ok(parti.some((f) => /^Roma (sud|nord|est|ovest)/.test(f.properties.name) && !f.properties.capital), 'le altre zone di Roma hanno il nome, senza stella');
   assert.equal(new Set(nomi).size, nomi.length, 'una capitale è marcata una sola volta');
   assert.ok(marcate.length <= nations.length, `capitali marcate: ${marcate.length}`);
   assert.ok(marcate.length < cities.length / 5, 'il nome sulla mappa solo per le capitali');

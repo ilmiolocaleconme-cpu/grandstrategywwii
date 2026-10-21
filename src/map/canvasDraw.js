@@ -193,7 +193,7 @@ function riverGroups(water, rankLimit) {
 function cityText(p) {
   const nome = p.name.replace(/ \(sponda [A-Z]\)$/, '');
   if (p.capital) return `★ ${nome}`;
-  if (p.capitale && !/ sud$/.test(nome)) return `${nome} sud`;
+  if (p.capitale && !/ (sud|nord|est|ovest)( \d+)?$/.test(nome)) return `${nome} sud`;
   return nome;
 }
 

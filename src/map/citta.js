@@ -14,7 +14,7 @@ export function markCapitals(cities, nations) {
   const capitali = new Map(nations.map((n) => [n.id, n.capital]));
   // gruppo: la città (cittaId), oppure la provincia madre per le città già nei dati divise in sponde
   const gruppoDi = (f) => f.properties.cittaId ?? f.properties.parentProvince ?? f.id.replace(/_SP\d+$/, '');
-  const base = (f) => f.properties.name.replace(/ sud$/, '').replace(/ \(sponda [A-Z]\)$/, '');
+  const base = (f) => f.properties.name.replace(/ (sud|nord|est|ovest)( \d+)?$/, '').replace(/ \(sponda [A-Z]\)$/, '');
   const nordDi = new Map();
   for (const f of cities) {
     const g = gruppoDi(f);
@@ -33,7 +33,7 @@ export function markCapitals(cities, nations) {
 export const CAPITAL_NAME_ZOOM = 2.5;
 export const CITY_NAME_ZOOM = 5;
 export const PART_NAME_ZOOM = 60;
-const PARTE_SECONDARIA = / (sud|nord|est|ovest)$/;
+const PARTE_SECONDARIA = / (sud|nord|est|ovest)( \d+)?$/;
 
 /** Città da etichettare al livello di zoom `k`. */
 export function cityNamesAt(items, k) {

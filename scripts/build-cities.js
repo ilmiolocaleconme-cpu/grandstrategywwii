@@ -12,10 +12,12 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { loadProvinces } from './load-provinces.js';
 import { intersect, polygonArea } from '../src/data/polyclip.js';
+import { splitPolygon } from '../src/data/splitline.js';
 import { ringAreaKm2 } from '../src/map/geo.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
 const SUBSET = 'sources/ne_urban_areas_citta.json';
+const BASE = 'sources/citta_base.json';
 export const MIN_AREA_KM2 = 3; // sotto questa area totale la città resta il disco attuale
 export const SAFETY = 2.0; // cerchio massimo = SAFETY x raggio stimato; fra città vicine decide la cella di Voronoi (vedi cellOf)
 const KM_PER_DEG = 111.195;
@@ -109,10 +111,112 @@ async function loadUrban(arg) {
   return sub.polygons.map((poly) => ({ poly, bbox: bboxOfPolys([poly]) }));
 }
 
+
+export const COVER_RATIO = 0.5; // l'area urbana riempie almeno questa parte della provincia: la città prende tutta la provincia
+export const COVER_MAX_KM2 = 3000; // ...ma solo per province non enormi
+export const ZONE_MIN_KM2 = 3; // una zona (parte cliccabile) ha almeno questa area; i pezzi più piccoli si uniscono a una zona vicina
+const dedupe = (ring) => ring.filter((p, i) => i === 0 || p[0] !== ring[i - 1][0] || p[1] !== ring[i - 1][1]);
+
+/**
+ * Linee dei fiumi (data/rivers_geo.json). I tratti di uno stesso fiume (separati dove passa in un lago) si ricollegano
+ * per estremi coincidenti, così un fiume che attraversa una città è una linea sola.
+ */
+export function chainLines(lines) {
+  const key = (p) => `${p[0]},${p[1]}`;
+  const work = lines.map((l) => [...l]);
+  let merged = true;
+  while (merged) {
+    merged = false;
+    outer: for (let i = 0; i < work.length; i += 1) {
+      for (let j = 0; j < work.length; j += 1) {
+        if (i === j) continue;
+        const a = work[i];
+        const b = work[j];
+        let next = null;
+        if (key(a.at(-1)) === key(b[0])) next = [...a, ...b.slice(1)];
+        else if (key(a.at(-1)) === key(b.at(-1))) next = [...a, ...[...b].reverse().slice(1)];
+        else if (key(a[0]) === key(b[0])) next = [...[...a].reverse(), ...b.slice(1)];
+        if (next) { work.splice(Math.max(i, j), 1); work.splice(Math.min(i, j), 1, next); merged = true; break outer; }
+      }
+    }
+  }
+  return work;
+}
+
+async function readRivers() {
+  const g = JSON.parse(await readFile(dataUrl('rivers_geo.json'), 'utf8'));
+  const byRiver = new Map();
+  for (const f of g.features) {
+    const parts = f.geometry.type === 'LineString' ? [f.geometry.coordinates] : f.geometry.coordinates;
+    byRiver.set(f.properties.riverId, [...(byRiver.get(f.properties.riverId) ?? []), ...parts]);
+  }
+  return [...byRiver.values()].flatMap(chainLines);
+}
+
+/** Divide ogni poligono dai fiumi: [{ src: indice del poligono di partenza, polygon, area }]. */
+function splitParts(polys, lines) {
+  const items = [];
+  polys.forEach((poly, src) => {
+    for (const piece of splitPolygon(poly, lines)) items.push({ src, polygon: piece, area: polygonAreaKm2(piece) });
+  });
+  return items;
+}
+
+const centreOf = (polys) => {
+  let x = 0; let y = 0; let n = 0;
+  for (const p of polys) for (const [lon, lat] of p[0]) { x += lon; y += lat; n += 1; }
+  return [x / n, y / n];
+};
+
+/**
+ * Zone cliccabili di una città: per ogni parte attuale, i pezzi del poligono più grande (se >= ZONE_MIN_KM2 ciascuno);
+ * i frammenti degli altri poligoni e i pezzi minuscoli si uniscono alla zona più vicina della stessa parte.
+ */
+function buildZones(pieces) {
+  const zones = [];
+  for (const { f, urban, cover, items } of pieces) {
+    const bySrc = new Map();
+    for (const it of items) bySrc.set(it.src, (bySrc.get(it.src) ?? 0) + it.area);
+    const main = [...bySrc].sort((a, b) => b[1] - a[1])[0]?.[0];
+    const mine = items.filter((it) => it.src === main).sort((a, b) => b.area - a.area);
+    let core = mine.filter((it) => it.area >= ZONE_MIN_KM2);
+    if (!core.length) core = mine.slice(0, 1);
+    const local = core.map((it) => ({ origin: f, urban, cover, polys: [it.polygon], area: it.area }));
+    for (const it of items) {
+      if (core.includes(it)) continue;
+      const [cx, cy] = centreOf([it.polygon]);
+      let best = local[0];
+      let bd = Infinity;
+      for (const z of local) { const [zx, zy] = centreOf(z.polys); const d = Math.hypot(zx - cx, zy - cy); if (d < bd) { bd = d; best = z; } }
+      best.polys.push(it.polygon);
+      best.area += it.area;
+    }
+    zones.push(...local);
+  }
+  return zones;
+}
+
+/** Nomi: la zona più grande porta il nome della città; le altre il punto cardinale rispetto ad essa (con numero se si ripete). */
+function nameZones(zones, baseName) {
+  const sorted = [...zones].sort((a, b) => b.area - a.area);
+  const [mx, my] = centreOf(sorted[0].polys);
+  const used = new Map();
+  return sorted.map((z, i) => {
+    if (i === 0) return { ...z, name: baseName };
+    const [x, y] = centreOf(z.polys);
+    const dx = (x - mx) * Math.cos((my * Math.PI) / 180);
+    const dy = y - my;
+    const dir = Math.abs(dy) >= Math.abs(dx) ? (dy < 0 ? 'sud' : 'nord') : (dx > 0 ? 'est' : 'ovest');
+    const n = (used.get(dir) ?? 0) + 1;
+    used.set(dir, n);
+    return { ...z, name: n === 1 ? `${baseName} ${dir}` : `${baseName} ${dir} ${n}` };
+  });
+}
+
 export async function main(argv) {
   const dry = argv.includes('--dry');
   const urbanArg = argv.find((a) => a.startsWith('--urban='))?.slice(8);
-  const cities = JSON.parse(await readFile(dataUrl('citta_grandi.json'), 'utf8'));
+  const cities = JSON.parse(await readFile(dataUrl(BASE), 'utf8')); // punto di partenza fisso: i dischi originali (le zone nuove non rientrano nel calcolo)
   const provinces = await loadProvinces();
   const byId = new Map(provinces.features.map((f) => [f.properties.id, f]));
   const bySponda = new Map();
@@ -172,53 +276,71 @@ export async function main(argv) {
     console.log(`sottoinsieme scritto: ${needed.length} poligoni urbani su ${urban.length}`);
   }
 
-  const stats = { groups: 0, urban: 0, disc: 0, partsKept: 0, partsDisc: 0, noRegion: 0, ratio: [] };
-  const newGeom = new Map();
-  const flag = new Map();
+  const lines = (await readRivers()).filter((l) => l.length >= 2);
+  const partById = new Map(cities.features.map((f) => [f.id, f]));
+  const stats = { groups: 0, urban: 0, disc: 0, cover: 0, zonesTotal: 0, split: 0, ratio: [] };
+  const out = [];
   for (const [gid, parts] of groups) {
     stats.groups += 1;
     const r = cityGeometry(parts, regionOf, needed, neighboursOf(gid));
     const areaNuova = r.parts.reduce((t, p) => t + (p.polys ? p.polys.reduce((a, q) => a + polygonAreaKm2(q), 0) : 0), 0);
     if (areaNuova < MIN_AREA_KM2) for (const p of r.parts) p.polys = null; // quasi nulla: meglio il disco che una striscia
     const anyUrban = r.parts.some((p) => p.polys);
-    if (r.parts.some((p) => p.reason === 'regione non trovata')) stats.noRegion += 1;
-    if (!anyUrban) { stats.disc += 1; for (const p of r.parts) flag.set(p.id, 'disco'); continue; }
-    stats.urban += 1;
-    for (const p of r.parts) {
-      if (p.polys) {
-        newGeom.set(p.id, p.polys);
-        flag.set(p.id, 'urbana');
-        stats.partsKept += 1;
-      } else {
-        flag.set(p.id, 'disco');
-        stats.partsDisc += 1;
+    if (anyUrban) stats.urban += 1; else stats.disc += 1;
+    // Città che riempie la sua provincia (Berlino e il suo Gau): la provincia si copre tutta, non resta un "territorio" attorno.
+    if (!regioniAttuali.has(gid)) {
+      for (const p of r.parts) {
+        if (!p.polys) continue;
+        const region = regionOf(partById.get(p.id));
+        const regionArea = region.reduce((t, q) => t + polygonAreaKm2(q), 0);
+        const urbanArea = p.polys.reduce((t, q) => t + polygonAreaKm2(q), 0);
+        if (regionArea < COVER_MAX_KM2 && urbanArea / regionArea >= COVER_RATIO) { p.polys = region; p.cover = true; stats.cover += 1; }
       }
     }
-    const old = parts.reduce((s, f) => s + f.properties.areaKm2, 0);
-    const nu = r.parts.reduce((s, p) => s + (p.polys ? p.polys.reduce((a, q) => a + polygonAreaKm2(q), 0) : 0), 0);
-    stats.ratio.push([gid, old, nu]);
+    // poligoni finali di ogni parte attuale (area urbana, provincia intera o disco di prima), poi divisi dai fiumi
+    const pieces = parts.map((f) => {
+      const res = r.parts.find((p) => p.id === f.id);
+      const polys = res?.polys ?? polysOf(f.geometry);
+      return { f, urban: Boolean(res?.polys), cover: Boolean(res?.cover), items: splitParts(polys, lines) };
+    });
+    const zones = buildZones(pieces);
+    stats.zonesTotal += zones.length;
+    if (zones.length > parts.length) stats.split += 1;
+    const baseName = parts[0].properties.name.replace(/ \((sponda [A-Z])\)$/, '').replace(/ (sud|nord|est|ovest)( \d+)?$/, '');
+    const named = nameZones(zones, baseName);
+    named.forEach((z, i) => {
+      const coords = z.polys.map((poly) => poly.map((ring) => dedupe(ring.map(([x, y]) => [round6(x), round6(y)]))));
+      const area = coords.reduce((s2, poly) => s2 + polygonAreaKm2(poly), 0);
+      const o = z.origin;
+      const zoneId = named.length === 1 ? gid : `${gid}_P${i + 1}`;
+      const props = {
+        ...o.properties,
+        id: zoneId,
+        name: z.name,
+        parti: named.length,
+        geometria: z.urban ? 'urbana' : 'disco',
+        areaKm2: Math.round(area * 10) / 10,
+      };
+      if (z.urban) props.source = z.cover ? 'NE urban areas 10m (aree reali): la città riempie la provincia madre' : 'NE urban areas 10m (poligoni reali) ritagliati sulla provincia madre';
+      if (named.length > parts.length) props.zone = 'divisa dai fiumi (data/rivers_geo.json)';
+      out.push({
+        ...o,
+        id: zoneId,
+        properties: props,
+        geometry: coords.length === 1 ? { type: 'Polygon', coordinates: coords[0] } : { type: 'MultiPolygon', coordinates: coords },
+      });
+    });
+    const old = parts.reduce((s2, f) => s2 + f.properties.areaKm2, 0);
+    stats.ratio.push([gid, old, named.reduce((s2, z) => s2 + z.area, 0)]);
   }
-  console.log(`città: ${stats.groups}; con area urbana: ${stats.urban}; restano dischi: ${stats.disc}; regioni non trovate: ${stats.noRegion}`);
-  console.log(`parti: ${stats.partsKept} nuove, ${stats.partsDisc} restano disco (città con area urbana solo in altre parti)`);
+  console.log(`città: ${stats.groups}; con area urbana: ${stats.urban}; restano dischi: ${stats.disc}; provincia coperta (città = provincia): ${stats.cover}; regioni non trovate: 0`);
+  console.log(`zone: ${stats.zonesTotal} (prima ${cities.features.length}); città divise in più zone dai fiumi: ${stats.split}`);
   const sorted = stats.ratio.map(([g, o, n]) => [g, o, n, n / o]).sort((a, b) => a[3] - b[3]);
   console.log('area nuova / vecchia: min', sorted[0]?.[3].toFixed(2), 'mediana', sorted[Math.floor(sorted.length / 2)]?.[3].toFixed(2), 'max', sorted.at(-1)?.[3].toFixed(2));
-  console.log('più piccole:', sorted.slice(0, 5).map((s) => `${s[0]} ${s[1].toFixed(0)}->${s[2].toFixed(0)}`).join('; '));
-  console.log('più grandi:', sorted.slice(-5).map((s) => `${s[0]} ${s[1].toFixed(0)}->${s[2].toFixed(0)}`).join('; '));
-  if (dry) return { cities, newGeom, flag };
-
-  const features = cities.features.map((f) => {
-    const polys = newGeom.get(f.id);
-    const props = { ...f.properties, geometria: flag.get(f.id) ?? 'disco' };
-    if (!polys) return { ...f, properties: props };
-    const coords = polys.map((p) => p.map((r) => r.map(([x, y]) => [round6(x), round6(y)])));
-    const area = coords.reduce((s, p) => s + polygonAreaKm2(p), 0);
-    props.areaKm2 = Math.round(area * 10) / 10;
-    props.source = 'NE urban areas 10m (poligoni reali) ritagliati sulla provincia madre';
-    return { ...f, properties: props, geometry: coords.length === 1 ? { type: 'Polygon', coordinates: coords[0] } : { type: 'MultiPolygon', coordinates: coords } };
-  });
-  await writeFile(dataUrl('citta_grandi.json'), `${JSON.stringify({ ...cities, features })}\n`);
+  if (dry) return { cities, out };
+  await writeFile(dataUrl('citta_grandi.json'), `${JSON.stringify({ ...cities, features: out })}\n`);
   console.log('data/citta_grandi.json riscritto');
-  return { cities, newGeom, flag };
+  return { cities, out };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) await main(process.argv.slice(2));
