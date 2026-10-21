@@ -8,6 +8,7 @@
 // build-cities.js legge il sottoinsieme e scrive nameLocal, nameLocalLang e la base del dato su ogni zona.
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { cyrillicToLatin, greekToLatin } from './translit.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
 export const SUBSET_NAMES = 'sources/ne_places_citta.json';
@@ -15,42 +16,52 @@ export const SUBSET_NAMES = 'sources/ne_places_citta.json';
 /** Lingua del nome originale per nazione 1936: [codice lingua, campo NE]. Campo null = si usa NAME (di solito già locale). */
 export const LINGUA_PER_NAZIONE = {
   DEU: ['de', 'NAME_DE'], AUT: ['de', 'NAME_DE'], LIE: ['de', 'NAME_DE'], DANZIG: ['de', 'NAME_DE'],
-  FRA: ['fr', 'NAME_FR'], ESP: ['es', 'NAME_ES'], ITA: ['it', 'NAME_IT'], POL: ['pl', 'NAME_PL'], TUR: ['tr', 'NAME_TR'],
+  FRA: ['fr', 'NAME_FR'], ESP: ['es', 'NAME_ES'], MAR_ES: ['es', 'NAME_ES'], ITA: ['it', 'NAME_IT'], POL: ['pl', 'NAME_PL'], TUR: ['tr', 'NAME_TR'],
   GRC: ['el', 'NAME_EL'], CYP: ['el', 'NAME_EL'], HUN: ['hu', 'NAME_HU'], NLD: ['nl', 'NAME_NL'], SWE: ['sv', 'NAME_SV'], PRT: ['pt', 'NAME_PT'],
   USSR: ['ru', 'NAME_RU'],
-  EGY: ['ar', 'NAME_AR'], SYR: ['ar', 'NAME_AR'], JOR: ['ar', 'NAME_AR'], LBN: ['ar', 'NAME_AR'], PAL: ['ar', 'NAME_AR'],
-  LBA: ['ar', 'NAME_AR'], TUN: ['ar', 'NAME_AR'], ALG: ['ar', 'NAME_AR'], MAR: ['ar', 'NAME_AR'],
+  // protettorati/colonie francesi: nome francese in uso nel 1936; paesi arabi: NAME di NE (alfabeto latino)
+  ALG: ['fr', 'NAME_FR'], TUN: ['fr', 'NAME_FR'], MAR: ['fr', 'NAME_FR'],
+  EGY: ['ar', null], SYR: ['ar', null], JOR: ['ar', null], LBN: ['ar', null], PAL: ['ar', null], LBA: ['ar', null],
 };
 // senza campo NE dedicato: NAME. Lingue attese (solo informative): rumeno, serbo-croato/sloveno, bulgaro, ceco, finlandese,
 // norvegese, danese, estone, lettone, albanese, irlandese/inglese, islandese, francese/tedesco/italiano (Svizzera), olandese/francese (Belgio)
 export const LINGUA_NAME = { ROM: 'ro', YUG: 'sh', BGR: 'bg', CZE: 'cs', FIN: 'fi', NOR: 'no', DNK: 'da', EST: 'et', LVA: 'lv', ALB: 'sq', IRL: 'en', GBR: 'en', ISL: 'is', CHE: 'de', BEL: 'nl' };
 
-// URSS: la lingua originale è quella della repubblica in cui sta la città (paese attuale del luogo NE). Dove NE non ha il campo
-// della lingua si usa NAME (traslitterato in alfabeto latino); Bielorussia: solo il nome russo (NE non ha il bielorusso).
+// URSS: la lingua originale è quella della repubblica in cui sta la città (paese attuale del luogo NE). Il nome è sempre in
+// alfabeto latino: cirillico e greco si traslitterano (scripts/translit.js); per l'arabo e le lingue senza campo NE si usa NAME
+// di NE (nome latino, spesso esonimo inglese: limite dichiarato).
 const LINGUA_URSS = {
-  Russia: ['ru', 'NAME_RU'], Ukraine: ['uk', 'NAME_UK'], Belarus: ['ru', 'NAME_RU'], Georgia: ['ka', null], Armenia: ['hy', null], Azerbaijan: ['az', null],
+  Russia: ['ru', 'NAME_RU'], Ukraine: ['uk', 'NAME_UK'], Belarus: ['be', 'NAME_RU'], Georgia: ['ka', null], Armenia: ['hy', null], Azerbaijan: ['az', null],
   Uzbekistan: ['uz', null], Kazakhstan: ['kk', null], Kyrgyzstan: ['ky', null], Tajikistan: ['tg', null], Turkmenistan: ['tk', null], Moldova: ['ro', null],
 };
 
 // Nomi del 1936 diversi da quelli odierni di Natural Earth (città poi rinominate): inseriti a mano da conoscenza storica,
-// quindi sempre da verificare. cittaId -> [nome originale 1936, lingua].
+// quindi sempre da verificare; traslitterati in alfabeto latino. cittaId -> [nome 1936, lingua].
 export const NOMI_STORICI = {
-  P_USSR_LENINGRADO_CITTA: ['Ленинград', 'ru'], P_USSR_STALINGRADO_CITTA: ['Сталинград', 'ru'], P_USSR_NIZNIJ_NOVGOROD_CITTA: ['Горький', 'ru'],
-  P_USSR_SAMARA_CITTA: ['Куйбышев', 'ru'], P_USSR_EKATERINBURG_CITTA: ['Свердловск', 'ru'], P_USSR_ORENBURG_CITTA: ['Чкалов', 'ru'],
-  P_USSR_PERM_CITTA: ['Молотов', 'ru'], P_USSR_TVER_CITTA: ['Калинин', 'ru'], P_USSR_NOVOKUZNECK_CITTA: ['Сталинск', 'ru'],
-  P_USSR_STAVROPOL_CITTA: ['Ворошиловск', 'ru'], P_USSR_VLADIKAVKAZ_CITTA: ['Орджоникидзе', 'ru'], P_USSR_ALMATY_CITTA: ['Алма-Ата', 'kk'],
-  P_USSR_BISKEK_CITTA: ['Фрунзе', 'ky'], P_USSR_DUSANBE_CITTA: ['Сталинабад', 'ru'], P_USSR_DNIPRO_CITTA: ['Дніпропетровськ', 'uk'],
-  P_USSR_DONEC_K_CITTA: ['Сталіно', 'uk'], P_USSR_LUHANS_K_CITTA: ['Ворошиловград', 'uk'], P_USSR_KROPYVNYC_KYJ_CITTA: ['Кіровоград', 'uk'],
+  P_USSR_LENINGRADO_CITTA: ['Leningrad', 'ru'], P_USSR_STALINGRADO_CITTA: ['Stalingrad', 'ru'], P_USSR_NIZNIJ_NOVGOROD_CITTA: ['Gorkiy', 'ru'],
+  P_USSR_SAMARA_CITTA: ['Kuybyshev', 'ru'], P_USSR_EKATERINBURG_CITTA: ['Sverdlovsk', 'ru'], P_USSR_ORENBURG_CITTA: ['Chkalov', 'ru'],
+  P_USSR_PERM_CITTA: ['Molotov', 'ru'], P_USSR_TVER_CITTA: ['Kalinin', 'ru'], P_USSR_NOVOKUZNECK_CITTA: ['Stalinsk', 'ru'],
+  P_USSR_STAVROPOL_CITTA: ['Voroshilovsk', 'ru'], P_USSR_VLADIKAVKAZ_CITTA: ['Ordzhonikidze', 'ru'], P_USSR_ALMATY_CITTA: ['Alma-Ata', 'kk'],
+  P_USSR_BISKEK_CITTA: ['Frunze', 'ky'], P_USSR_DUSANBE_CITTA: ['Stalinabad', 'ru'], P_USSR_DNIPRO_CITTA: ['Dnipropetrovsk', 'uk'],
+  P_USSR_DONEC_K_CITTA: ['Stalino', 'uk'], P_USSR_LUHANS_K_CITTA: ['Voroshylovhrad', 'uk'], P_USSR_KROPYVNYC_KYJ_CITTA: ['Kirovohrad', 'uk'],
 };
 
 const norm = (s) => String(s ?? '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
-/** Nome originale da una riga NE e dal proprietario: { nameLocal, lang, basis } */
+/** Vero se ogni lettera del testo è in alfabeto latino (cifre, spazi e segni ammessi). */
+export const isLatin = (t) => typeof t === 'string' && t.length > 0 && /^[\p{Script=Latin}\p{M}\d\s.,'’`ʹʼ()\/&-]+$/u.test(t);
+
+/** Nome originale (sempre in alfabeto latino) da una riga NE e dal proprietario: { nameLocal, lang, basis } */
 export function localName(owner, row, cittaId = null) {
-  if (cittaId && NOMI_STORICI[cittaId]) return { nameLocal: NOMI_STORICI[cittaId][0], lang: NOMI_STORICI[cittaId][1], basis: 'nome storico 1936 (inserito a mano)' };
+  if (cittaId && NOMI_STORICI[cittaId]) return { nameLocal: NOMI_STORICI[cittaId][0], lang: NOMI_STORICI[cittaId][1], basis: 'nome storico 1936 (inserito a mano, traslitterato)' };
   const [lang, field] = (owner === 'USSR' && LINGUA_URSS[row.ADM0NAME]) || LINGUA_PER_NAZIONE[owner] || [LINGUA_NAME[owner] ?? null, null];
-  if (field && row[field]) return { nameLocal: row[field], lang, basis: `NE ${field}` };
-  return { nameLocal: row.NAME, lang, basis: 'NE NAME' };
+  if (field && row[field]) {
+    if (isLatin(row[field])) return { nameLocal: row[field], lang, basis: `NE ${field}` };
+    if (/[\u0400-\u04FF]/.test(row[field])) return { nameLocal: cyrillicToLatin(row[field], field === 'NAME_UK' ? 'uk' : 'ru'), lang, basis: `NE ${field} traslitterato` };
+    if (/[\u0370-\u03FF\u1F00-\u1FFF]/.test(row[field])) return { nameLocal: greekToLatin(row[field]), lang, basis: `NE ${field} traslitterato` };
+  }
+  for (const k of ['NAME', 'NAMEASCII']) if (isLatin(row[k])) return { nameLocal: row[k], lang, basis: `NE ${k}` };
+  return { nameLocal: row.NAMEASCII ?? row.NAME, lang, basis: 'NE NAMEASCII' };
 }
 
 const centreOf = (g) => {
