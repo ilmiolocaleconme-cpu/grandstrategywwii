@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { loadProvinces } from './load-provinces.js';
 import { intersect, polygonArea } from '../src/data/polyclip.js';
 import { splitPolygon } from '../src/data/splitline.js';
+import { SUBSET_NAMES, localName } from './city-names.js';
 import { ringAreaKm2 } from '../src/map/geo.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
@@ -277,6 +278,7 @@ export async function main(argv) {
   }
 
   const lines = (await readRivers()).filter((l) => l.length >= 2);
+  const places = JSON.parse(await readFile(dataUrl(SUBSET_NAMES), 'utf8').catch(() => '{"cities":{}}')).cities;
   const partById = new Map(cities.features.map((f) => [f.id, f]));
   const stats = { groups: 0, urban: 0, disc: 0, cover: 0, zonesTotal: 0, split: 0, ratio: [] };
   const out = [];
@@ -321,6 +323,15 @@ export async function main(argv) {
         geometria: z.urban ? 'urbana' : 'disco',
         areaKm2: Math.round(area * 10) / 10,
       };
+      props.terreno = 'urbano'; // terreno di combattimento: la città ha regole proprie (diverse da pianura, montagna, ecc.)
+      const place = places[gid];
+      if (place) {
+        const ln = localName(o.properties.owner, place.names, gid);
+        props.nameLocal = ln.nameLocal;
+        props.nameLocalLang = ln.lang;
+        props.nameLocalBasis = `${ln.basis}; luogo NE '${place.names.NAME}' (${place.basis}, ${place.distKm} km dal centro)`;
+        props.nameLocalDaVerificare = true; // nome moderno di Natural Earth: l'ortografia del 1936 può differire
+      }
       if (z.urban) props.source = z.cover ? 'NE urban areas 10m (aree reali): la città riempie la provincia madre' : 'NE urban areas 10m (poligoni reali) ritagliati sulla provincia madre';
       if (named.length > parts.length) props.zone = 'divisa dai fiumi (data/rivers_geo.json)';
       out.push({
