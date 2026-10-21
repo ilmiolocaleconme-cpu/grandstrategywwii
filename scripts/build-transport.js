@@ -20,7 +20,7 @@ const readJson = async (name) => JSON.parse(await readFile(dataUrl(name), 'utf8'
 const r3 = (x) => Math.round(x * 1e3) / 1e3;
 const r4 = (x) => Math.round(x * 1e4) / 1e4;
 
-export const DEFAULT_PARAMS = { roadMaxRank: 6, railMaxRank: 8, simplifyDeg: 0.01, minInsideShare: 0.5, mergeDeg: 0.03 };
+export const DEFAULT_PARAMS = { roadMaxRank: 6, railMaxRank: 8, simplifyDeg: 0.01, minInsideShare: 0.5, mergeDeg: 0.03, thinDeg: 0.07 };
 
 const linesOf = (g) => (!g ? [] : g.type === 'LineString' ? [g.coordinates] : g.type === 'MultiLineString' ? g.coordinates : []);
 
@@ -90,8 +90,17 @@ export async function buildTransportFiles(srcDir, params = DEFAULT_PARAMS) {
     m[b.k] = Math.max(m[b.k], b.level);
     if (b.level > m.angLevel) { m.angLevel = b.level; m.ang = b.ang; } // l'impalcato segue la linea più importante
   }
+  // diradamento: sullo stesso fiume, un ponte più importante (o pari, già tenuto) entro `thinDeg` assorbe i vicini:
+  // niente quattro ponti a pochi km uno dall'altro dove la strada serpeggia intorno al fiume. Le posizioni restano quelle vere.
+  const byImportance = [...merged].sort((a, b) => Math.max(b.road, b.rail) - Math.max(a.road, a.rail) || (b.road > 0 && b.rail > 0) - (a.road > 0 && a.rail > 0) || a.lon - b.lon || a.lat - b.lat);
+  const kept = [];
+  for (const m of byImportance) {
+    if (kept.some((q) => q.riverId === m.riverId && Math.abs(q.lon - m.lon) < params.thinDeg && Math.abs(q.lat - m.lat) < params.thinDeg)) continue;
+    kept.push(m);
+  }
+  kept.sort((a, b) => (a.riverId < b.riverId ? -1 : a.riverId > b.riverId ? 1 : a.lon - b.lon || a.lat - b.lat));
   const perRiver = new Map();
-  const points = merged.map((m) => {
+  const points = kept.map((m) => {
     const n = (perRiver.get(m.riverId) ?? 0) + 1;
     perRiver.set(m.riverId, n);
     return { id: `BR_${m.riverId.replace(/^R_/, '')}_${String(n).padStart(3, '0')}`, riverId: m.riverId, lon: r4(m.lon), lat: r4(m.lat), road: m.road, rail: m.rail, ang: m.ang, level: bridgeLevel({ roadLevel: m.road, railLevel: m.rail }) };

@@ -95,8 +95,9 @@ test('marcatori: il livello si riconosce da forma, colore e dimensione (tutti di
 
 test('marcatori: a vista d\'insieme solo i pesanti, con lo zoom compaiono i più leggeri', () => {
   assert.equal(minLevelForZoom(1), 3);
-  assert.equal(minLevelForZoom(3), 2);
-  assert.equal(minLevelForZoom(6), 1);
+  assert.equal(minLevelForZoom(3), 3);
+  assert.equal(minLevelForZoom(5), 2);
+  assert.equal(minLevelForZoom(10), 1);
   const markers = buildMarkers(file, 2);
   assert.equal(markers.length, file.count);
   assert.equal(markers[0].x, file.points[0].lon * 2);

@@ -133,7 +133,8 @@ test('mappa: modello proiettato, densità per zoom, legenda con stili diversi', 
   assert.equal(m.lines.length, transport.count);
   assert.equal(m.lines[0].coords[0], Math.fround(transport.lines[0].c[0] * 2)); // Float32Array
   assert.equal(m.lines[0].coords[1], Math.fround(-transport.lines[0].c[1]));
-  assert.ok(transportRankLimit(1) < transportRankLimit(3) && transportRankLimit(3) < transportRankLimit(5));
+  assert.equal(transportRankLimit(1), 0, 'da lontano nessuna linea');
+  assert.ok(transportRankLimit(1) < transportRankLimit(2) && transportRankLimit(2) < transportRankLimit(4) && transportRankLimit(4) < transportRankLimit(7));
   const legend = transportLegend();
   assert.equal(legend.length, 5);
   assert.equal(new Set(legend.map((l) => l.key)).size, 5);
@@ -150,9 +151,11 @@ test('mappa: drawTransport rispetta zoom e riquadro (Path2D simulato)', () => {
   const ctx = new Proxy({}, { get: (t, k) => (k === 'stroke' ? () => calls.push('stroke') : () => {}), set: () => true });
   const m = buildTransportModel(transport, 2);
   const all = { x0: -1e9, x1: 1e9, y0: -1e9, y1: 1e9 };
-  const n1 = drawTransport(ctx, m, { sx: 10, k: 1, cull: all });
-  const n3 = drawTransport(ctx, m, { sx: 10, k: 3, cull: all });
+  const n0 = drawTransport(ctx, m, { sx: 10, k: 1, cull: all });
+  const n1 = drawTransport(ctx, m, { sx: 10, k: 2, cull: all });
+  const n3 = drawTransport(ctx, m, { sx: 10, k: 4, cull: all });
   const n6 = drawTransport(ctx, m, { sx: 10, k: 6, cull: all });
+  assert.equal(n0, 0, 'zoom lontano: niente');
   assert.ok(n1 > 0 && n1 < n3 && n3 < n6, `${n1} ${n3} ${n6}`);
   assert.equal(n6, m.lines.length);
   assert.equal(drawTransport(ctx, m, { sx: 10, k: 6, cull: { x0: 1e8, x1: 1e9, y0: 1e8, y1: 1e9 } }), 0);

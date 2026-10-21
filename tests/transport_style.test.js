@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DECK_ZOOM, DETAIL_ZOOMS, RECIPES, bridgeKind, bridgeLegend, detailTier, drawBridgeDeck, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
+import { DECK_ZOOM, DETAIL_ZOOMS, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, drawBridgeDeck, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
 import { buildMarkers, drawMarkers, showsDeck, visibleMarkers } from '../src/map/crossingMarkers.js';
 import { headingDeg } from '../src/data/transport.js';
 import { validateBridges } from '../src/data/bridges.js';
@@ -101,4 +101,11 @@ test('marcatori: impalcato solo da zoom alto e solo con direzione; ruotato sulla
 test('zoom massimo portato a 120', () => {
   assert.equal(MAX_K, 120);
   assert.equal(zoomAt({ k: 100, x: 0, y: 0 }, 5, 0, 0).k, 120);
+});
+
+test('ingrandimento dei segni a zoom massimo: 1 fino ai ponti, poi cresce senza superare 2,6', () => {
+  assert.equal(sizeBoost(1), 1);
+  assert.equal(sizeBoost(DECK_ZOOM), 1);
+  assert.ok(sizeBoost(40) > 1 && sizeBoost(40) < sizeBoost(100));
+  assert.ok(Math.abs(sizeBoost(120) - 2.6) < 1e-9 && sizeBoost(500) === 2.6);
 });

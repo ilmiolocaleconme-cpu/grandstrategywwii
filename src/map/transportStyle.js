@@ -8,6 +8,11 @@
 export const DETAIL_ZOOMS = Object.freeze([5, 9]); // da questo zoom: bordi e tratteggi · disegno completo di strade e ferrovie
 export const DECK_ZOOM = 14; // da questo zoom i ponti diventano impalcati con materiale
 
+/** Ingrandimento dei segni (spessori, tratteggi, ponti) oltre lo zoom dei ponti: 1 fino a 14, poi cresce fino a 2,6 a zoom 120. */
+export function sizeBoost(k) {
+  return k <= DECK_ZOOM ? 1 : Math.min(2.6, 1 + ((k - DECK_ZOOM) / (120 - DECK_ZOOM)) * 1.6);
+}
+
 /** Livello di dettaglio dallo zoom: 0 linee semplici, 1 bordi e tratteggi, 2 disegno completo (corsie, binari, ponti). */
 export function detailTier(k) {
   return k < DETAIL_ZOOMS[0] ? 0 : k < DETAIL_ZOOMS[1] ? 1 : 2;

@@ -4,7 +4,7 @@
 // Il browser non è necessario per provare buildMarkers e markerLegend (tests/crossing_points.test.js).
 
 import { CROSSING_LEVELS, markerCellPx, minLevelForZoom } from '../data/crossingPoints.js';
-import { DECK_ZOOM, drawBridgeDeck } from './transportStyle.js';
+import { DECK_ZOOM, drawBridgeDeck, sizeBoost } from './transportStyle.js';
 
 const DECK_CELL_PX = 30; // a zoom alto un impalcato è lungo ~30 px: celle più larghe
 
@@ -66,7 +66,7 @@ function shapePath(ctx, shape, x, y, r) {
 /** Marcatori visibili a quel zoom e dentro `cull`, senza sovrapposizioni: i livelli alti hanno la precedenza. */
 export function visibleMarkers(markers, { sx, k, cull }) {
   const minLevel = minLevelForZoom(k);
-  const cell = (k >= DECK_ZOOM ? DECK_CELL_PX : markerCellPx(k)) / sx; // due marcatori nella stessa cella non si disegnano entrambi (vince il livello più alto)
+  const cell = (k >= DECK_ZOOM ? DECK_CELL_PX * sizeBoost(k) : markerCellPx(k)) / sx; // due marcatori nella stessa cella non si disegnano entrambi (vince il livello più alto)
   const taken = new Set();
   const out = [];
   for (const level of [3, 2, 1]) {
@@ -100,7 +100,7 @@ export function drawMarkers(ctx, markers, { sx, k, cull }) {
         ctx.save();
         ctx.translate(m.x, m.y);
         ctx.rotate(m.rot);
-        drawBridgeDeck(ctx, m, sx);
+        drawBridgeDeck(ctx, m, sx / sizeBoost(k));
         ctx.restore();
         continue;
       }

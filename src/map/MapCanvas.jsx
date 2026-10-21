@@ -573,7 +573,7 @@ function BridgeLegend({ bridges, transport }) {
           <span><b>Da lontano · livello {m.level}</b> {m.hint}</span>
         </li>
       )) : null}
-      <li className="note"><span>Rete moderna, non del 1936. Livelli provvisori. Avvicinati (zoom oltre 9 (ponti oltre 14)) per vedere corsie, binari e ponti.</span></li>
+      <li className="note"><span>Rete moderna, non del 1936. Livelli provvisori. Da lontano le strade non si vedono: restano solo autostrade e linee principali. Avvicinati (zoom oltre 9 (ponti oltre 14)) per vedere corsie, binari e ponti.</span></li>
     </ul>
   );
 }

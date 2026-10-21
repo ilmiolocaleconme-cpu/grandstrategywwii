@@ -4,11 +4,14 @@
 // buildTransportModel, transportRankLimit e transportLegend si provano senza browser (tests/transport.test.js);
 // drawTransport usa Path2D.
 
-import { DRAW_GROUPS, RECIPES, detailTier, strokePass } from './transportStyle.js';
+import { DRAW_GROUPS, RECIPES, detailTier, sizeBoost, strokePass } from './transportStyle.js';
 
-/** Soglia di importanza (scalerank di Natural Earth) mostrata a un dato zoom: a vista d'insieme solo le linee principali. */
+/**
+ * Soglia di importanza (scalerank di Natural Earth) mostrata a un dato zoom: da molto lontano nessuna linea (la mappa
+ * resta leggibile), poi solo autostrade e linee principali, poi le altre.
+ */
 export function transportRankLimit(k) {
-  return k < 1.8 ? 4 : k < 3.5 ? 6 : 99;
+  return k < 1.5 ? 0 : k < 3 ? 4 : k < 6 ? 6 : 99;
 }
 
 /** Tratti proiettati sul piano della mappa (x = lon·cos0, y = −lat), con riquadro e chiave di stile. `c` = [lon, lat, ...]. */
@@ -66,7 +69,9 @@ function groupsFor(model, rankLimit) {
  * Il contesto ha già la trasformazione mappa → schermo (`sx` pixel per unità): spessori e tratteggi in pixel si dividono per `sx`.
  * cull = { x0, x1, y0, y1 } in unità di mappa. Ritorna il numero di tratti disegnati.
  */
-export function drawTransport(ctx, model, { sx, k, cull }) {
+export function drawTransport(ctx, model, { sx: sxMap, k, cull }) {
+  const sx = sxMap / sizeBoost(k); // a zoom massimo i segni crescono (spessori e tratteggi in px × boost)
+  if (transportRankLimit(k) === 0) return 0;
   const byKey = groupsFor(model, transportRankLimit(k));
   const tier = detailTier(k);
   let drawn = 0;

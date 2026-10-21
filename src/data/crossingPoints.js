@@ -31,12 +31,12 @@ export function levelForRiver(river) {
 
 /** Livello minimo mostrato a un certo zoom: a vista d'insieme solo le strutture pesanti. */
 export function minLevelForZoom(k) {
-  return k < 2.5 ? 3 : k < 5 ? 2 : 1;
+  return k < 4 ? 3 : k < 8 ? 2 : 1;
 }
 
 /** Lato in pixel della cella anti-sovrapposizione dei marcatori: più grande a vista d'insieme, dove ce ne sono di più per schermo. */
 export function markerCellPx(k) {
-  return k < 2.5 ? 24 : k < 5 ? 15 : 10;
+  return k < 4 ? 28 : k < 8 ? 16 : 10;
 }
 
 function singleId(index, lon, lat) {
