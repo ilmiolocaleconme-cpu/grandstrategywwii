@@ -17,7 +17,7 @@ export const CROSSING_POINTS_SCHEMA = 'crossing-points-v1';
 export const CROSSING_LEVELS = Object.freeze([
   { level: 1, id: 'light', label: 'Leggera', hint: 'strada secondaria' },
   { level: 2, id: 'medium', label: 'Media', hint: 'strada principale o ferrovia secondaria' },
-  { level: 3, id: 'heavy', label: 'Pesante', hint: 'linea ferroviaria principale' },
+  { level: 3, id: 'heavy', label: 'Pesante', hint: 'autostrada o ferrovia principale' },
 ]);
 
 export const LEVEL_BASIS = 'provvisorio_da_larghezza_fiume';

@@ -10,8 +10,9 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { loadProvinces } from './load-provinces.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
+import { lineLengthKm } from '../src/data/rivers.js';
 import { idsChecksum } from '../src/data/adjacency.js';
-import { TRANSPORT_SCHEMA, bridgeLevel, buildRiverSegmentGrid, lineRiverIntersections, railLevel, roadLevel, simplify } from '../src/data/transport.js';
+import { MOTORWAY_RANK, TRANSPORT_SCHEMA, bridgeLevel, buildRiverSegmentGrid, lineRiverIntersections, railLevel, roadLevel, simplify, splitByAutostrade } from '../src/data/transport.js';
 import { BRIDGES_SCHEMA } from '../src/data/bridges.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
@@ -37,22 +38,36 @@ export async function buildTransportFiles(srcDir, params = DEFAULT_PARAMS) {
   const ids = provinces.features.map((f) => f.properties.id);
   const index = buildProvinceIndex(provinces);
   const grid = buildRiverSegmentGrid(await readJson('rivers_geo.json'));
+  const au = await readJson('autostrade_1936.json');
+  const auStats = new Map(au.autostrade.map((a) => [a.id, { id: a.id, name: a.name, fromYear: a.fromYear, matchedKm: 0 }]));
   const read = async (n) => JSON.parse(await readFile(path.join(srcDir, n), 'utf8')).features;
 
   const lines = [];
   const bridgeRaw = []; // { riverId, lon, lat, k, level }
+  const emit = (k, rank, level, coords, extra = {}) => {
+    const s = simplify(coords, params.simplifyDeg);
+    lines.push({ k, level, rank, ...extra, c: s.flatMap(([x, y]) => [r3(x), r3(y)]) });
+    for (const p of lineRiverIntersections(coords, grid)) bridgeRaw.push({ ...p, k, level });
+  };
   const add = (k, props, level, parts) => {
     for (const coords of parts) {
       if (coords.length < 2 || insideShare(index, coords) < params.minInsideShare) continue;
-      const s = simplify(coords, params.simplifyDeg);
-      lines.push({ k, level, rank: props.scalerank, c: s.flatMap(([x, y]) => [r3(x), r3(y)]) });
-      for (const p of lineRiverIntersections(coords, grid)) bridgeRaw.push({ ...p, k, level });
+      if (k === 'road' && (props.expressway === 1 || props.type === 'Major Highway')) {
+        // le prime autostrade (data/autostrade_1936.json) prendono il livello 3, il resto dell'autostrada moderna resta a 2
+        for (const piece of splitByAutostrade(coords, au.autostrade, au.snapKm)) {
+          if (piece.auto === null) { if (props.scalerank <= params.roadMaxRank) emit(k, props.scalerank, level, piece.coords); continue; } // fuori corridoio vale il filtro di importanza
+          const a = au.autostrade.find((x) => x.id === piece.auto);
+          auStats.get(a.id).matchedKm += lineLengthKm(piece.coords);
+          emit(k, Math.min(props.scalerank, MOTORWAY_RANK), 3, piece.coords, { n: a.name, y: a.fromYear });
+        }
+      } else emit(k, props.scalerank, level, coords);
     }
   };
   for (const f of await read('ne_10m_roads.geojson')) {
     const p = f.properties;
     const level = roadLevel({ type: p.type, featurecla: p.featurecla, expressway: p.expressway });
-    if (level === null || p.scalerank > params.roadMaxRank) continue;
+    const motorway = p.expressway === 1 || p.type === 'Major Highway';
+    if (level === null || (p.scalerank > params.roadMaxRank && !motorway)) continue; // le autostrade di rango basso servono lo stesso: nel corridoio delle prime autostrade si tengono
     add('road', p, level, linesOf(f.geometry));
   }
   for (const f of await read('ne_10m_railroads.geojson')) {
@@ -61,7 +76,7 @@ export async function buildTransportFiles(srcDir, params = DEFAULT_PARAMS) {
     if (level === null || p.scalerank > params.railMaxRank) continue;
     add('rail', p, level, linesOf(f.geometry));
   }
-  lines.sort((a, b) => (a.k < b.k ? -1 : a.k > b.k ? 1 : b.level - a.level || a.c[0] - b.c[0] || a.c[1] - b.c[1]));
+  lines.sort((a, b) => (a.k < b.k ? -1 : a.k > b.k ? 1 : a.level - b.level || a.c[0] - b.c[0] || a.c[1] - b.c[1]));
   const perKind = { road: 0, rail: 0 };
   const outLines = lines.map((l) => { perKind[l.k] += 1; return { id: `${l.k === 'road' ? 'RD' : 'RL'}_${String(perKind[l.k]).padStart(5, '0')}`, ...l }; });
 
@@ -88,7 +103,7 @@ export async function buildTransportFiles(srcDir, params = DEFAULT_PARAMS) {
     checksum: idsChecksum(ids),
   };
   return {
-    transport: { schema: TRANSPORT_SCHEMA, ...common, count: outLines.length, perKind, lines: outLines },
+    transport: { schema: TRANSPORT_SCHEMA, ...common, count: outLines.length, perKind, autostrade: [...auStats.values()].map((a) => ({ ...a, matchedKm: Math.round(a.matchedKm) })), lines: outLines },
     bridges: {
       schema: BRIDGES_SCHEMA,
       ...common,
@@ -111,5 +126,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   await writeFile(dataUrl('transport_bridges.json'), `${bw}\n`);
   const vert = transport.lines.reduce((n, l) => n + l.c.length / 2, 0);
   console.log(`data/transport.json: ${transport.count} tratti (strade ${transport.perKind.road}, ferrovie ${transport.perKind.rail}), ${vert} vertici, ${(tw.length / 1e3).toFixed(0)} kB`);
+  for (const a of transport.autostrade) console.log(`  ${a.matchedKm < 5 ? 'ATTENZIONE ' : ''}${a.id}: ${a.matchedKm} km agganciati`);
   console.log(`data/transport_bridges.json: ${bridges.count} ponti (livelli 1/2/3: ${[1, 2, 3].map((l) => bridges.points.filter((p) => p.level === l).length).join('/')}), ${(bw.length / 1e3).toFixed(0)} kB, ${((Date.now() - t0) / 1000).toFixed(0)} s`);
 }

@@ -1,0 +1,22 @@
+{
+  "schema": "autostrade-v1",
+  "quality": "hypothesis",
+  "dateBasis": "memory_unverified",
+  "note": "Prime autostrade aperte entro il 1936: percorso approssimato da città di passaggio (coordinate al centro città), anni dalla memoria dell'autore, NON verificati. Servono solo ad assegnare il livello 3 ai tratti di autostrada moderna di Natural Earth che corrono entro snapKm da questi percorsi.",
+  "snapKm": 7,
+  "autostrade": [
+    { "id": "AU_ITA_MILANO_LAGHI", "name": "Milano–Laghi (Varese, Como, Sesto Calende)", "nation": "ITA", "fromYear": 1924, "via": [[8.63,45.73],[8.83,45.82],[9.19,45.46],[9.09,45.81]] },
+    { "id": "AU_ITA_MILANO_BRESCIA", "name": "Milano–Bergamo–Brescia", "nation": "ITA", "fromYear": 1931, "via": [[9.19,45.46],[9.67,45.70],[10.22,45.54]] },
+    { "id": "AU_ITA_TORINO_MILANO", "name": "Torino–Milano", "nation": "ITA", "fromYear": 1932, "via": [[7.69,45.07],[8.62,45.45],[9.19,45.46]] },
+    { "id": "AU_ITA_PADOVA_VENEZIA", "name": "Padova–Venezia (Mestre)", "nation": "ITA", "fromYear": 1933, "via": [[11.88,45.41],[12.24,45.49]] },
+    { "id": "AU_ITA_FIRENZE_MARE", "name": "Firenze–Pistoia–Lucca–Viareggio", "nation": "ITA", "fromYear": 1932, "via": [[11.25,43.77],[10.92,43.93],[10.50,43.84],[10.25,43.87]] },
+    { "id": "AU_ITA_GENOVA_SERRAVALLE", "name": "Genova–Serravalle Scrivia", "nation": "ITA", "fromYear": 1935, "via": [[8.93,44.41],[8.86,44.73]] },
+    { "id": "AU_ITA_NAPOLI_POMPEI", "name": "Napoli–Pompei", "nation": "ITA", "fromYear": 1929, "via": [[14.25,40.85],[14.50,40.75]] },
+    { "id": "AU_ITA_ROMA_OSTIA", "name": "Roma–Ostia", "nation": "ITA", "fromYear": 1928, "via": [[12.50,41.89],[12.29,41.73]] },
+    { "id": "AU_DEU_KOELN_BONN", "name": "Köln–Bonn", "nation": "DEU", "fromYear": 1932, "via": [[6.96,50.94],[7.10,50.73]] },
+    { "id": "AU_DEU_FRANKFURT_HEIDELBERG", "name": "Frankfurt–Darmstadt–Mannheim–Heidelberg", "nation": "DEU", "fromYear": 1935, "via": [[8.68,50.11],[8.65,49.87],[8.47,49.49],[8.69,49.40]] },
+    { "id": "AU_DEU_MUENCHEN_SALZBURG", "name": "München–Rosenheim–Salzburg", "nation": "DEU", "fromYear": 1936, "via": [[11.58,48.14],[11.70,47.88],[12.12,47.86],[13.04,47.80]] },
+    { "id": "AU_DEU_HALLE_LEIPZIG", "name": "Halle–Leipzig", "nation": "DEU", "fromYear": 1936, "via": [[11.97,51.48],[12.37,51.34]] },
+    { "id": "AU_DEU_BERLIN_STETTIN", "name": "Berlin–Stettin", "nation": "DEU", "fromYear": 1936, "via": [[13.40,52.52],[14.55,53.43]] }
+  ]
+}

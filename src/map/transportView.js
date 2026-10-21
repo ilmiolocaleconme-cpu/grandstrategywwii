@@ -6,6 +6,7 @@
 export const TRANSPORT_STYLE = Object.freeze({
   'road-1': { stroke: '#d8c690', width: 0.8, dash: null },
   'road-2': { stroke: '#f2d25a', width: 1.5, dash: null },
+  'road-3': { stroke: '#ff7a1a', width: 2.8, dash: null }, // autostrada (prime, 1936)
   'rail-2': { stroke: '#e4e4dc', width: 1, dash: [3, 2.2] },
   'rail-3': { stroke: '#ffffff', width: 1.8, dash: [4.5, 2.2] },
 });
@@ -44,6 +45,7 @@ export function transportLegend() {
   return [
     { key: 'road-1', label: 'Strada secondaria' },
     { key: 'road-2', label: 'Strada principale' },
+    { key: 'road-3', label: 'Autostrada (prime, 1936)' },
     { key: 'rail-2', label: 'Ferrovia a binario unico' },
     { key: 'rail-3', label: 'Ferrovia principale' },
   ].map((r) => ({ ...r, ...TRANSPORT_STYLE[r.key] }));
@@ -63,7 +65,7 @@ function groupsFor(model, rankLimit) {
 }
 
 /**
- * Disegna strade e ferrovie visibili: le strade sotto, le ferrovie sopra, i livelli alti per ultimi.
+ * Disegna strade e ferrovie visibili: strade sotto, ferrovie sopra, le autostrade (livello 3) per ultime in cima a tutto.
  * Il contesto ha già la trasformazione mappa → schermo (`sx` pixel per unità): spessori e tratteggi in pixel si dividono per `sx`.
  * cull = { x0, x1, y0, y1 } in unità di mappa. Ritorna il numero di tratti disegnati.
  */
@@ -72,7 +74,7 @@ export function drawTransport(ctx, model, { sx, k, cull }) {
   let drawn = 0;
   ctx.lineJoin = 'round';
   ctx.lineCap = 'butt';
-  for (const key of ['road-1', 'road-2', 'rail-2', 'rail-3']) {
+  for (const key of ['road-1', 'road-2', 'rail-2', 'rail-3', 'road-3']) {
     const list = byKey.get(key);
     if (!list) continue;
     const st = TRANSPORT_STYLE[key];

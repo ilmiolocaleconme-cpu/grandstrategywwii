@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { TRANSPORT_SCHEMA, bridgeLevel, buildRiverSegmentGrid, lineRiverIntersections, railLevel, roadLevel, segmentIntersection, simplify, validateTransport } from '../src/data/transport.js';
+import { TRANSPORT_SCHEMA, bridgeLevel, distanceToViaKm, splitByAutostrade, validateAutostrade, buildRiverSegmentGrid, lineRiverIntersections, railLevel, roadLevel, segmentIntersection, simplify, validateTransport } from '../src/data/transport.js';
 import { BRIDGES_SCHEMA, mergeCandidates, validateBridges } from '../src/data/bridges.js';
 import { buildRiverModel, distanceToLineKm, distanceToRiverKm } from '../src/data/rivers.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
@@ -13,6 +13,7 @@ import { loadProvinces } from '../scripts/load-provinces.js';
 
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
 const transport = read('transport.json');
+const autostrade = read('autostrade_1936.json');
 const bridges = read('transport_bridges.json');
 const crossingPoints = read('crossing_points.json');
 const catalog = read('rivers.json');
@@ -55,7 +56,7 @@ test('trasporti: livelli provvisori da classe Natural Earth, ferry esclusi, auto
   assert.equal(bridgeLevel({ roadLevel: 1 }), 1);
   assert.equal(bridgeLevel({ roadLevel: 2, railLevel: 2 }), 2);
   assert.equal(bridgeLevel({ roadLevel: 1, railLevel: 3 }), 3);
-  assert.ok(transport.lines.every((l) => (l.k === 'road' ? [1, 2] : [2, 3]).includes(l.level)));
+  assert.ok(transport.lines.every((l) => (l.k === 'road' ? [1, 2, 3] : [2, 3]).includes(l.level)));
 });
 
 test('geometria: semplificazione tiene gli estremi e riduce i punti; intersezione tra segmenti', () => {
@@ -85,14 +86,14 @@ test('ponti: incrocio sintetico strada-fiume, tratti dentro i laghi ignorati, du
   assert.equal(lineRiverIntersections([[4, 41.5], [6, 41.5], [4.5, 41.505], [5.5, 41.505]], grid).length, 1);
 });
 
-test('ponti: ogni ponte sta sul suo fiume (≤ 1,5 km) e su un tratto di strada o ferrovia (≤ 2,5 km)', () => {
+test('ponti: ogni ponte sta sul suo fiume (≤ 1,5 km) e su un tratto di strada o ferrovia (≤ 4 km: strada e ferrovia affiancate si uniscono entro 0,03°)', () => {
   const near = (lon, lat, k) => transport.lines.some((l) => {
     if (l.k !== k) return false;
     let x0 = Infinity; let x1 = -Infinity; let y0 = Infinity; let y1 = -Infinity;
     const pts = [];
     for (let i = 0; i < l.c.length; i += 2) { pts.push([l.c[i], l.c[i + 1]]); x0 = Math.min(x0, l.c[i]); x1 = Math.max(x1, l.c[i]); y0 = Math.min(y0, l.c[i + 1]); y1 = Math.max(y1, l.c[i + 1]); }
     if (lon < x0 - 0.05 || lon > x1 + 0.05 || lat < y0 - 0.05 || lat > y1 + 0.05) return false;
-    return distanceToLineKm(lon, lat, pts) < 2.5;
+    return distanceToLineKm(lon, lat, pts) < 4;
   });
   const sample = bridges.points.filter((_, i) => i % 20 === 0);
   assert.ok(sample.length > 100);
@@ -133,9 +134,9 @@ test('mappa: modello proiettato, densità per zoom, legenda con stili diversi', 
   assert.equal(m.lines[0].coords[1], Math.fround(-transport.lines[0].c[1]));
   assert.ok(transportRankLimit(1) < transportRankLimit(3) && transportRankLimit(3) < transportRankLimit(5));
   const legend = transportLegend();
-  assert.equal(legend.length, 4);
-  assert.equal(new Set(legend.map((l) => `${l.stroke}|${l.width}|${l.dash}`)).size, 4);
-  assert.ok(TRANSPORT_STYLE['rail-3'].width > TRANSPORT_STYLE['rail-2'].width && TRANSPORT_STYLE['road-2'].width > TRANSPORT_STYLE['road-1'].width);
+  assert.equal(legend.length, 5);
+  assert.equal(new Set(legend.map((l) => `${l.stroke}|${l.width}|${l.dash}`)).size, 5);
+  assert.ok(TRANSPORT_STYLE['rail-3'].width > TRANSPORT_STYLE['rail-2'].width && TRANSPORT_STYLE['road-3'].width > TRANSPORT_STYLE['road-2'].width && TRANSPORT_STYLE['road-2'].width > TRANSPORT_STYLE['road-1'].width);
 });
 
 test('mappa: drawTransport rispetta zoom e riquadro (Path2D simulato)', () => {
@@ -151,4 +152,38 @@ test('mappa: drawTransport rispetta zoom e riquadro (Path2D simulato)', () => {
   assert.equal(n6, m.lines.length);
   assert.equal(drawTransport(ctx, m, { sx: 10, k: 6, cull: { x0: 1e8, x1: 1e9, y0: 1e8, y1: 1e9 } }), 0);
   assert.ok(calls.length >= 1);
+});
+
+test('autostrade 1936: file curato valido, anni entro il 1936, ipotesi dichiarata', () => {
+  assert.deepEqual(validateAutostrade(autostrade), []);
+  assert.equal(autostrade.dateBasis, 'memory_unverified');
+  assert.ok(autostrade.autostrade.some((a) => a.nation === 'ITA') && autostrade.autostrade.some((a) => a.nation === 'DEU'));
+  const bad = { ...autostrade, autostrade: [{ id: 'X', name: '', via: [[0, 0]], fromYear: 1950 }, { id: 'X', name: 'y', via: [[0, 0], [1, 1]], fromYear: 1930 }] };
+  const errors = validateAutostrade(bad);
+  assert.ok(errors.some((e) => e.includes('percorso')) && errors.some((e) => e.includes('anno')) && errors.some((e) => e.includes('duplicato')) && errors.some((e) => e.includes('nome')));
+});
+
+test('autostrade 1936: distanza dal percorso e divisione di una strada in pezzi', () => {
+  const via = [[10, 45], [11, 45]];
+  assert.ok(distanceToViaKm(10.5, 45, via) < 0.01);
+  assert.ok(Math.abs(distanceToViaKm(10.5, 45.09, via) - 9.95) < 0.3);
+  const road = [[9, 45], [10, 45.01], [10.5, 45.01], [11, 45.01], [12, 45.5]];
+  const pieces = splitByAutostrade(road, [{ id: 'AU_X', via }], 7);
+  assert.deepEqual(pieces.map((p) => p.auto), [null, 'AU_X', null]);
+  // i pezzi sono contigui: condividono il vertice di giunzione e ricompongono la strada
+  assert.deepEqual(pieces[0].coords.at(-1), pieces[1].coords[0]);
+  assert.deepEqual(pieces[1].coords.at(-1), pieces[2].coords[0]);
+  assert.equal(pieces.reduce((n, p) => n + p.coords.length - 1, 0), road.length - 1);
+});
+
+test('autostrade 1936: ogni autostrada ha tratti di livello 3 agganciati sulla mappa, con nome e anno', () => {
+  const motorway = transport.lines.filter((l) => l.k === 'road' && l.level === 3);
+  assert.ok(motorway.length >= 13);
+  assert.ok(motorway.every((l) => typeof l.n === 'string' && Number.isInteger(l.y) && l.y <= 1936 && l.rank <= 4));
+  assert.ok(transport.lines.filter((l) => l.level < 3 || l.k === 'rail').every((l) => l.n === undefined));
+  for (const a of autostrade.autostrade) {
+    const st = transport.autostrade.find((x) => x.id === a.id);
+    assert.ok(st && st.matchedKm >= 15, `${a.id}: ${st?.matchedKm} km agganciati`);
+  }
+  assert.ok(bridges.points.some((p) => p.road === 3 && p.level === 3), 'ponti su autostrada 1936');
 });

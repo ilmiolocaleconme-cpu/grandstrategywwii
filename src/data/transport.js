@@ -4,15 +4,19 @@
 // COSA SONO I DATI: la rete MODERNA di Natural Earth 10m (strade e ferrovie), non quella del 1936. Molte strade
 // principali di oggi (autostrade) nel 1936 non c'erano; la rete ferroviaria invece in gran parte sì, ma con linee
 // poi chiuse e altre aperte dopo. Per questo ogni tratto è `quality: 'hypothesis'` e il LIVELLO è provvisorio.
-// Le autostrade sono tenute a livello 2 (strada principale), non 3: il livello 3 stradale è quello a cui il giocatore
-// può migliorare la strada in partita (modello a livelli concordato); idem l'elettrificazione per la ferrovia.
+// Le autostrade moderne restano a livello 2 (strada principale), salvo quelle curate in data/autostrade_1936.json
+// (le prime autostrade aperte entro il 1936, a livello 3): per il resto il livello 3 stradale è quello a cui il
+// giocatore potrà migliorare la strada in partita (modello a livelli concordato); idem l'elettrificazione.
 
 export const TRANSPORT_SCHEMA = 'transport-v1';
+export const AUTOSTRADE_SCHEMA = 'autostrade-v1';
+export const MOTORWAY_RANK = 4; // scalerank forzato ai tratti di autostrada 1936: si vedono già a vista d'insieme
 
 /** Livelli delle strade (0 = assente) e delle ferrovie, come nel modello delle infrastrutture migliorabili. */
 export const ROAD_LEVELS = Object.freeze([
   { level: 1, id: 'track', label: 'Strada secondaria' },
   { level: 2, id: 'main', label: 'Strada principale' },
+  { level: 3, id: 'motorway', label: 'Autostrada (prime, 1936)' },
 ]);
 export const RAIL_LEVELS = Object.freeze([
   { level: 2, id: 'single', label: 'Ferrovia a binario unico' },
@@ -130,6 +134,60 @@ export function lineRiverIntersections(coords, grid, dedupeDeg = 0.02) {
     }
   }
   return out;
+}
+
+function pointToSegmentKm(lon, lat, a, b) {
+  const kx = 111.32 * Math.cos((lat * Math.PI) / 180);
+  const ax = (a[0] - lon) * kx; const ay = (a[1] - lat) * 110.57;
+  const bx = (b[0] - lon) * kx; const by = (b[1] - lat) * 110.57;
+  const dx = bx - ax; const dy = by - ay;
+  const len2 = dx * dx + dy * dy;
+  const t = len2 === 0 ? 0 : Math.max(0, Math.min(1, -(ax * dx + ay * dy) / len2));
+  return Math.hypot(ax + t * dx, ay + t * dy);
+}
+
+/** Distanza in km di un punto da una spezzata di città di passaggio `via` ([lon, lat, ...]). */
+export function distanceToViaKm(lon, lat, via) {
+  let best = Infinity;
+  for (let i = 0; i < via.length - 1; i += 1) best = Math.min(best, pointToSegmentKm(lon, lat, via[i], via[i + 1]));
+  return best;
+}
+
+/**
+ * Divide una strada (coordinate [lon, lat]) in pezzi: quelli che corrono entro `snapKm` da una delle autostrade curate
+ * (`autostrade`: [{ id, via, ... }]) portano `auto` = id, gli altri `auto` = null. Un segmento è "autostrada" se entrambi
+ * gli estremi lo sono, per la stessa. Ritorna [{ auto, coords }] con i pezzi contigui (condividono il vertice di giunzione).
+ */
+export function splitByAutostrade(coords, autostrade, snapKm) {
+  const label = coords.map(([lon, lat]) => {
+    for (const a of autostrade) if (distanceToViaKm(lon, lat, a.via) <= snapKm) return a.id;
+    return null;
+  });
+  const pieces = [];
+  let cur = null;
+  for (let i = 0; i < coords.length - 1; i += 1) {
+    const seg = label[i] !== null && label[i] === label[i + 1] ? label[i] : null;
+    if (cur && cur.auto === seg) cur.coords.push(coords[i + 1]);
+    else { cur = { auto: seg, coords: [coords[i], coords[i + 1]] }; pieces.push(cur); }
+  }
+  return pieces;
+}
+
+/** Controlli su data/autostrade_1936.json: schema, id unici, almeno due città di passaggio, anno ≤ 1936. */
+export function validateAutostrade(file) {
+  const errors = [];
+  if (file?.schema !== AUTOSTRADE_SCHEMA) errors.push(`schema atteso ${AUTOSTRADE_SCHEMA}`);
+  if (file?.quality !== 'hypothesis') errors.push('intestazione: qualità attesa "hypothesis"');
+  if (!(file?.snapKm > 0)) errors.push('snapKm non valido');
+  const seen = new Set();
+  for (const a of file?.autostrade ?? []) {
+    if (seen.has(a.id)) errors.push(`${a.id}: id duplicato`);
+    seen.add(a.id);
+    if (!Array.isArray(a.via) || a.via.length < 2 || a.via.some((p) => !Array.isArray(p) || p.length !== 2 || Math.abs(p[0]) > 180 || Math.abs(p[1]) > 90)) errors.push(`${a.id}: percorso non valido`);
+    if (!Number.isInteger(a.fromYear) || a.fromYear > 1936 || a.fromYear < 1920) errors.push(`${a.id}: anno non valido`);
+    if (typeof a.name !== 'string' || a.name === '') errors.push(`${a.id}: nome mancante`);
+  }
+  return errors;
 }
 
 /** Controlli su data/transport.json: schema, id unici, tipo, livello, coordinate. Ritorna la lista degli errori. */

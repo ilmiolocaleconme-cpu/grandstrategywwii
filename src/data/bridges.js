@@ -15,7 +15,7 @@ export function validateBridges(file, { riverIds } = {}) {
     if (seen.has(p.id)) errors.push(`${p.id}: id duplicato`);
     seen.add(p.id);
     if (![1, 2, 3].includes(p.level)) errors.push(`${p.id}: livello non valido`);
-    if (![0, 1, 2].includes(p.road) || ![0, 2, 3].includes(p.rail) || p.road + p.rail === 0) errors.push(`${p.id}: livelli di strada/ferrovia non validi`);
+    if (![0, 1, 2, 3].includes(p.road) || ![0, 2, 3].includes(p.rail) || p.road + p.rail === 0) errors.push(`${p.id}: livelli di strada/ferrovia non validi`);
     if (p.level !== Math.max(p.road, p.rail)) errors.push(`${p.id}: livello incoerente con strada e ferrovia`);
     if (!(Math.abs(p.lon) <= 180) || !(Math.abs(p.lat) <= 90)) errors.push(`${p.id}: coordinate non valide`);
   }

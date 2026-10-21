@@ -6,7 +6,7 @@ import { validateAdjacency } from '../src/data/adjacency.js';
 import { validateSea } from '../src/data/sea.js';
 import { validateLabels } from '../src/data/labels.js';
 import { validateCrossingPoints } from '../src/data/crossingPoints.js';
-import { validateTransport } from '../src/data/transport.js';
+import { validateAutostrade, validateTransport } from '../src/data/transport.js';
 import { validateBridges } from '../src/data/bridges.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 import { loadProvinces } from './load-provinces.js';
@@ -30,6 +30,7 @@ export async function loadCatalog(baseUrl = dataDir) {
     crossingPoints: await read('crossing_points.json'),
     transport: await read('transport.json'),
     bridges: await read('transport_bridges.json'),
+    autostrade: await read('autostrade_1936.json'),
   };
 }
 
@@ -48,7 +49,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   errors.push(...validateAdjacency(catalog.adjacency, provinceIds), ...validateSea(catalog.sea, provinceIds), ...validateLabels(catalog.labels, provinceIds, catalog.sea.zones.map((z) => z.id), [...new Set(catalog.provinces.features.map((f) => f.properties.owner))]));
   errors.push(...validateCrossingPoints(catalog.crossingPoints, { riverIds: new Set(catalog.rivers.map((r) => r.id)), provinceIds }));
   if (catalog.crossingPoints.checksum !== idsChecksum(provinceIds)) errors.push('punti di passaggio: somma di controllo diversa, le province sono cambiate: rigenerare con npm run build:crossing-points');
-  errors.push(...validateTransport(catalog.transport), ...validateBridges(catalog.bridges, { riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
+  errors.push(...validateAutostrade(catalog.autostrade), ...validateTransport(catalog.transport), ...validateBridges(catalog.bridges, { riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
   for (const [name, f] of [['strade e ferrovie', catalog.transport], ['ponti da strade e ferrovie', catalog.bridges]]) if (f.checksum !== idsChecksum(provinceIds)) errors.push(`${name}: somma di controllo diversa, le province sono cambiate: rigenerare con npm run build:transport -- <cartella Natural Earth>`);
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));
