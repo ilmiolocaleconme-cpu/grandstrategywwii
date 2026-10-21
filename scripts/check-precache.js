@@ -58,7 +58,12 @@ export async function provinceMarkers(dirUrl = provincesDir) {
   for (const file of await listProvinceFiles(dirUrl)) {
     const data = JSON.parse(await readFile(new URL(file, dirUrl), 'utf8'));
     const name = fileName(file);
-    markers[name] = name === META_NAME ? String(data.metadata.coverage[0]).slice(0, 30) : data.features.map((f) => f.properties.id);
+    if (name === META_NAME) { markers[name] = String(data.metadata.coverage[0]).slice(0, 30); continue; }
+    // Gli id delle province compaiono anche nei dati delle città (parentProvince): per le nazioni con poche province
+    // (LIE, ISL: una sola) bastavano a far credere che il chunk delle città fosse il loro file. Si aggiunge il testo della
+    // fonte di ogni provincia (assente nelle città); solo se è ASCII semplice, così non cambia con l'escape della build.
+    const sources = new Set(data.features.map((f) => f.properties.source).filter((s) => typeof s === 'string' && s && /^[\x20-\x7E]*$/.test(s) && !/["\\]/.test(s)));
+    markers[name] = [...data.features.map((f) => f.properties.id), ...sources];
   }
   return markers;
 }

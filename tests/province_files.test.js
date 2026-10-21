@@ -158,8 +158,12 @@ test('precache: le sentinelle dei dati reali esistono, sono distinte e non stann
   assert.equal(markers._meta.length, 30);
   assert.equal(readFileSync(new URL('../src/data/provinces.js', import.meta.url), 'utf8').includes(markers._meta), false, 'la sentinella di _meta non deve comparire nel codice dell\'app');
   assert.equal(new Set(Object.values(markers).map((v) => JSON.stringify(v))).size, 46);
-  assert.equal(markers.DEU.every((id) => id.startsWith('P_DEU_')), true);
-  assert.equal(markers.DEU.length > 10, true);
+  const idsDeu = markers.DEU.filter((m) => m.startsWith('P_DEU_'));
+  assert.equal(idsDeu.length > 10, true);
+  // per le nazioni piccole le sentinelle includono anche il testo della fonte (assente nei dati delle città, che citano solo gli id delle madri)
+  for (const name of ['LIE', 'ISL']) assert.equal(markers[name].length > markers[name].filter((m) => m.startsWith(`P_${name}_`)).length, true, `${name}: manca la fonte nella sentinella`);
+  const cities = readFileSync(new URL('../data/citta_grandi.json', import.meta.url), 'utf8');
+  for (const name of ['LIE', 'ISL']) assert.equal(hasMarker(cities, markers[name]), false, `${name}: il file delle città non deve sembrare il file delle province`);
 });
 
 test('caricamento: l\'avanzamento parte da 0/totale, cresce di uno a file (anche se fallisce) e finisce a totale/totale', async () => {
