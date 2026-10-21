@@ -54,16 +54,16 @@ Sulla mappa si mostrano questi ponti **più** i passaggi di confine di `data/cro
 
 ## Aspetto sulla mappa (disegno per zoom)
 
-Un solo file, `src/map/transportStyle.js`, decide l'aspetto di linee, ponti e legenda. Tre livelli di dettaglio dallo zoom (soglie 5 e 9; i ponti diventano impalcati da 14):
+Un solo file, `src/map/transportStyle.js`, decide l'aspetto di linee, ponti e legenda. Tre livelli di dettaglio dallo zoom (soglie 12 e 20; i ponti diventano impalcati da 20):
 - **0 (lontano):** linee semplici per livello.
-- **1 (da zoom 5):** strade con bordo scuro, ferrovie a tratteggio.
-- **2 (da zoom 9)**:** disegno «vero». Strada principale gialla con mezzeria; **autostrada a due carreggiate** con spartitraffico; **ferrovia con due rotaie e traversine**; **ferrovia potenziata a doppio binario** (quattro rotaie).
-- **Ponti da zoom 14:** impalcato ruotato lungo la linea (campo `ang` in `data/transport_bridges.json`, gradi 0–179, direzione della strada/ferrovia più importante). Aspetto per tipo, stile dallo schema di riferimento: **legno** (strada secondaria: tavolato e montanti), **muratura** (strada principale e autostrada: mezzeria e spalle tonde), **ferro a traliccio con X** (doppio binario, strada+ferrovia), **ferrovia in ferro** (binario unico: blocchi agli angoli). Il materiale è un'**ipotesi grafica derivata dal livello**, non un dato storico.
+- **1 (da zoom 12):** strade con bordo scuro, ferrovie a tratteggio.
+- **2 (da zoom 20)**:** disegno «vero». Strada principale gialla con mezzeria; **autostrada a due carreggiate** con spartitraffico; **ferrovia con due rotaie e traversine**; **ferrovia potenziata a doppio binario** (quattro rotaie).
+- **Ponti da zoom 20:** impalcato ruotato lungo la linea (campo `ang` in `data/transport_bridges.json`, gradi 0–179, direzione della strada/ferrovia più importante). Aspetto per tipo, stile dallo schema di riferimento: **legno** (strada secondaria: tavolato e montanti), **muratura** (strada principale e autostrada: mezzeria e spalle tonde), **ferro a traliccio con X** (doppio binario, strada+ferrovia), **ferrovia in ferro** (binario unico: blocchi agli angoli). Il materiale è un'**ipotesi grafica derivata dal livello**, non un dato storico.
 - Zoom massimo portato da 40 a 120 (`MAX_K` in `src/map/geo.js`). Legenda con campioni disegnati dallo stesso codice della mappa.
 Test: `tests/transport_style.test.js` (contesto Canvas simulato). Verificato con screenshot in Chromium headless; **non provato sul telefono reale**.
 
 ## Densità e zoom massimo
 
-- Da molto lontano (zoom < 1,5) le strade e le ferrovie **non si disegnano**; fino a 3 restano autostrade e linee principali (rank ≤ 4), fino a 6 rank ≤ 6, poi tutto.
-- Oltre zoom 14 i segni (spessori, tratteggi, impalcati dei ponti) crescono fino a ×2,6 a zoom 120 (`sizeBoost`), così a zoom massimo restano ben riconoscibili.
+- Da molto lontano (zoom < 8) le strade e le ferrovie **non si disegnano**; fino a 12 restano autostrade e linee principali (rank ≤ 4), fino a 18 rank ≤ 6, poi tutto.
+- Oltre zoom 20 i segni (spessori, tratteggi, impalcati dei ponti) crescono fino a ×2,6 a zoom 120 (`sizeBoost`), così a zoom massimo restano ben riconoscibili.
 - Ponti diradati nella generazione (`thinDeg` 0,07° ≈ 5–8 km): sullo stesso fiume, il ponte più importante assorbe quelli vicini, così non ce ne sono quattro intorno allo stesso fiume. Le posizioni restano quelle vere degli incroci.

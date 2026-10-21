@@ -5,10 +5,10 @@
 // ciò che trasporta. Solo disegno (Canvas 2D, misure in pixel di schermo): nessun dato, nessuna regola.
 // Si prova senza browser con un contesto simulato (tests/transport_style.test.js).
 
-export const DETAIL_ZOOMS = Object.freeze([5, 9]); // da questo zoom: bordi e tratteggi · disegno completo di strade e ferrovie
-export const DECK_ZOOM = 14; // da questo zoom i ponti diventano impalcati con materiale
+export const DETAIL_ZOOMS = Object.freeze([12, 20]); // da questo zoom: bordi e tratteggi · disegno completo di strade e ferrovie
+export const DECK_ZOOM = 20; // da questo zoom i ponti diventano impalcati con materiale
 
-/** Ingrandimento dei segni (spessori, tratteggi, ponti) oltre lo zoom dei ponti: 1 fino a 14, poi cresce fino a 2,6 a zoom 120. */
+/** Ingrandimento dei segni (spessori, tratteggi, ponti) oltre lo zoom dei ponti: 1 fino a 20, poi cresce fino a 2,6 a zoom 120. */
 export function sizeBoost(k) {
   return k <= DECK_ZOOM ? 1 : Math.min(2.6, 1 + ((k - DECK_ZOOM) / (120 - DECK_ZOOM)) * 1.6);
 }

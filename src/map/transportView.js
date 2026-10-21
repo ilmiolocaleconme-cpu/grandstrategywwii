@@ -11,7 +11,7 @@ import { DRAW_GROUPS, RECIPES, detailTier, sizeBoost, strokePass } from './trans
  * resta leggibile), poi solo autostrade e linee principali, poi le altre.
  */
 export function transportRankLimit(k) {
-  return k < 1.5 ? 0 : k < 3 ? 4 : k < 6 ? 6 : 99;
+  return k < 8 ? 0 : k < 12 ? 4 : k < 18 ? 6 : 99;
 }
 
 /** Tratti proiettati sul piano della mappa (x = lon·cos0, y = −lat), con riquadro e chiave di stile. `c` = [lon, lat, ...]. */
