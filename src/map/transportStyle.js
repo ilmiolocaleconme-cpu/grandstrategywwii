@@ -29,6 +29,11 @@ const BED = '#f4f4ee'; // massicciata tra le rotaie
  * un tratto largo con tratteggio cortissimo, disegnato per ultimo (stessa fase): segni di traverso sulle rotaie. Il doppio binario ha quattro rotaie.
  */
 export const RECIPES = Object.freeze({
+  'road-0': [ // strada sterrata: tratteggio marrone
+    [{ c: '#b08a55', w: 1, dash: [2.4, 2.4] }],
+    [{ c: '#8f6c38', w: 2, dash: [5, 3.4] }],
+    [{ c: '#6b4e24', w: 3.8, dash: [6, 3.8] }, { c: '#d6b98a', w: 2.2, dash: [6, 3.8] }],
+  ],
   'road-1': [
     [{ c: '#d8c690', w: 0.8 }],
     [{ c: INK, w: 2.8 }, { c: '#e8dcae', w: 1.5 }],
@@ -59,10 +64,10 @@ export const RECIPES = Object.freeze({
 /** A zoom pieno questi tipi si disegnano come DUE tracciati paralleli, scostati di ± il valore (px): autostrada = due carreggiate con spartitraffico, doppio binario = due binari. */
 export const OFFSETS = Object.freeze({ 'road-3': 5.2, 'rail-3': 4.4 });
 
-export const LINE_KEYS = Object.freeze(['road-1', 'road-2', 'road-3', 'rail-2', 'rail-3']);
+export const LINE_KEYS = Object.freeze(['road-0', 'road-1', 'road-2', 'road-3', 'rail-2', 'rail-3']);
 
 /** Ordine di disegno: strade, poi ferrovie, poi autostrade in cima. Dentro un gruppo si fa prima la passata 0 di tutti i tipi (bordi), poi la 1, ecc. */
-export const DRAW_GROUPS = Object.freeze([['road-1', 'road-2'], ['rail-2', 'rail-3'], ['road-3']]);
+export const DRAW_GROUPS = Object.freeze([['road-0', 'road-1', 'road-2'], ['rail-2', 'rail-3'], ['road-3']]);
 
 /** Spessore massimo in px del simbolo di un tipo a un livello di dettaglio. */
 export function recipeWidth(key, tier) {

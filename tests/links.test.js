@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { BRIDGE_HALF_KM, LINKS_SCHEMA, buildChains, buildNetwork, crossingsAlong, cumulativeKm, kmBetween, shortestPath, sliceByDistance, validateLinks } from '../src/data/links.js';
+import { BRIDGE_HALF_KM, LADDER, LINKS_SCHEMA, buildNetwork, crossingsAlong, cumulativeKm, kmBetween, ladderStep, markerLevelOfStep, pathStep, shortestPath, sliceByDistance, validateLinks } from '../src/data/links.js';
 import { CELL, buildRiverSegmentGrid, segmentIntersection } from '../src/data/transport.js';
 import { distanceToRiverKm, buildRiverModel } from '../src/data/rivers.js';
 import { idsChecksum } from '../src/data/adjacency.js';
@@ -31,15 +31,18 @@ test('percorso minimo: preferisce il livello alto, rispetta i nodi ammessi, null
   assert.equal(shortestPath(net, A, C, (u) => u === A || u === C), null);
 });
 
-test('catene: ogni arco in una sola catena, rotture a incroci, sedi e cambi di livello', () => {
-  const lines = [L('road', 2, [0, 0], [0.1, 0], [0.2, 0]), L('road', 3, [0.2, 0], [0.3, 0]), L('road', 2, [0.1, 0], [0.1, 0.1])];
-  const net = buildNetwork(lines, 'road');
-  const all = net.edges.map((_, i) => i);
-  const { chains, edgeChain } = buildChains(net, all);
-  assert.equal(edgeChain.size, net.edges.length);
-  assert.equal(chains.length, 4, 'incrocio a T e cambio di livello spezzano');
-  const total = chains.reduce((n, c) => n + c.nodes.length - 1, 0);
-  assert.equal(total, net.edges.length, 'nessun arco ripetuto');
+test('scala: strada 1-3 → gradini 2-4, ferrovia 2-3 → 5-6; il percorso prende il gradino di metà della lunghezza', () => {
+  assert.deepEqual([ladderStep('road', 1), ladderStep('road', 2), ladderStep('road', 3), ladderStep('rail', 2), ladderStep('rail', 3)], [2, 3, 4, 5, 6]);
+  assert.equal(LADDER.length, 6);
+  assert.deepEqual([1, 2, 3, 4, 5, 6].map(markerLevelOfStep), [1, 1, 2, 2, 3, 3]);
+  // 100 km di autostrada con un tratto secondario di 10 km: resta autostrada; metà e metà: vince il gradino più basso raggiunto dal 50%
+  const net = buildNetwork([L('road', 3, [0, 0], [0.9, 0]), L('road', 1, [0.9, 0], [1, 0])], 'road');
+  assert.equal(pathStep(net, net.edges.map((_, i) => i)), 4);
+  const half = buildNetwork([L('road', 3, [0, 0], [0.5, 0]), L('road', 1, [0.5, 0], [1, 0])], 'road');
+  assert.equal(pathStep(half, half.edges.map((_, i) => i)), 4);
+  const mostlyLow = buildNetwork([L('road', 3, [0, 0], [0.3, 0]), L('road', 1, [0.3, 0], [1, 0])], 'road');
+  assert.equal(pathStep(mostlyLow, mostlyLow.edges.map((_, i) => i)), 2);
+  assert.equal(pathStep(net, []), 1);
 });
 
 test('ponte come tratto: incrocio col fiume, distanza lungo la linea e taglio della polilinea', () => {
@@ -72,51 +75,43 @@ test('dati: file valido, legato alle province, ipotesi dichiarata', async () => 
   assert.deepEqual(validateLinks({ ...links, links: [{ ...links.links[0], segs: ['XX'] }] }, { provinceIds: ids, riverIds }).length > 0, true);
 });
 
-test('dati: un collegamento per coppia e modalità, solo tra province confinanti, sedi dentro la provincia', async () => {
+test('dati: un collegamento per coppia di province confinanti, in linea retta tra le sedi, un solo tipo', () => {
   const links = read('links.json');
-  const adj = new Set(read('adjacency.json').edges.map(([i, j]) => `${i}|${j}`));
-  const seen = new Set();
-  for (const l of links.links) {
-    assert.ok(adj.has(`${l.a}|${l.b}`), `${l.id}: non confinanti`);
-    const key = `${l.a}|${l.b}|${l.mode}`;
-    assert.ok(!seen.has(key), `${l.id}: doppio`);
-    seen.add(key);
+  const adj = read('adjacency.json').edges;
+  assert.equal(links.links.length, adj.length, 'uno per ogni coppia');
+  assert.deepEqual(links.links.map((l) => `${l.a}|${l.b}`).sort(), adj.map(([i, j]) => `${i}|${j}`).sort());
+  const seat = new Map(links.nodes.map((n) => [n.p, n]));
+  const byLink = new Map();
+  for (const s of links.segments) (byLink.get(s.link) ?? byLink.set(s.link, []).get(s.link)).push(s);
+  for (const l of links.links.filter((_, i) => i % 11 === 0)) {
+    const segs = byLink.get(l.id);
+    assert.ok(segs.length >= 1 && new Set(segs.map((s) => s.t)).size === 1 && segs[0].t === l.t, `${l.id}: un solo tipo`);
+    const first = segs[0].c; const last = segs.at(-1).c;
+    assert.ok(Math.abs(first[0] - seat.get(l.a).lon) < 1e-3 && Math.abs(first[1] - seat.get(l.a).lat) < 1e-3, `${l.id}: parte dalla sede`);
+    assert.ok(Math.abs(last.at(-2) - seat.get(l.b).lon) < 1e-3 && Math.abs(last.at(-1) - seat.get(l.b).lat) < 1e-3, `${l.id}: arriva alla sede`);
   }
-  assert.ok(links.links.filter((l) => l.mode === 'rail').length > 500 && links.links.filter((l) => l.mode === 'road').length > 300);
-  const provinces = await loadProvinces();
-  const { buildProvinceIndex } = await import('../src/data/geometry.js');
-  const index = buildProvinceIndex(provinces);
-  const sample = links.nodes.filter((n, i) => i % 25 === 0 && n.basis === 'populated_place');
-  for (const n of sample) assert.equal(index.provincesAt(n.lon, n.lat)[0]?.properties.id, provinces.features[n.p].properties.id, `${n.name} fuori dalla sua provincia`);
+  assert.ok(links.links.some((l) => l.t === 6) && links.links.some((l) => l.t === 5) && links.links.some((l) => l.t === 1) && links.links.some((l) => l.t === 2 || l.t === 3));
 });
 
-test('dati: nessuna sovrapposizione — i tratti non si ripetono e ogni segmento di un collegamento esiste', () => {
+test('dati: strozzatura — nessun collegamento supera il gradino delle sue due province; ferrovia sopra strada', () => {
   const links = read('links.json');
-  const geom = new Set();
-  for (const s of links.segments) {
-    const key = `${s.k}|${s.c.slice(0, 4).join(',')}|${s.c.slice(-4).join(',')}`;
-    const rev = `${s.k}|${s.c.slice(-2).join(',')},${s.c.slice(-4, -2).join(',')}|${s.c.slice(2, 4).join(',')},${s.c.slice(0, 2).join(',')}`;
-    assert.ok(!geom.has(key) && !geom.has(rev), `${s.id}: tratto ripetuto`);
-    geom.add(key);
-  }
-  const ids = new Set(links.segments.map((s) => s.id));
-  assert.ok(links.links.every((l) => l.segs.length > 0 && l.segs.every((x) => ids.has(x))));
-  const bridgeSegs = links.segments.filter((s) => s.br);
-  assert.equal(bridgeSegs.length, links.bridges.length, 'un ponte per ogni segmento-ponte');
+  const nodeT = new Map(links.nodes.map((n) => [n.p, n.t]));
+  for (const l of links.links) assert.ok(l.t <= Math.min(nodeT.get(l.a), nodeT.get(l.b)), l.id);
+  for (const n of links.nodes) assert.equal(n.t, Math.max(...links.links.filter((l) => l.a === n.p || l.b === n.p).map((l) => l.t)), `sede ${n.p}`);
 });
 
-test('dati: i ponti stanno sul fiume (≤ 1,5 km), appartengono al loro segmento e ne seguono la geometria', () => {
+test('dati: ponti sul fiume (≤ 1,5 km), uno per fiume e collegamento, sul loro segmento', () => {
   const links = read('links.json');
   const model = buildRiverModel(read('rivers.json'), read('rivers_geo.json'));
   const segs = new Map(links.segments.map((s) => [s.id, s]));
-  assert.ok(links.bridges.length > 500);
-  for (const b of links.bridges.filter((_, i) => i % 7 === 0)) {
+  assert.ok(links.bridges.length > 300);
+  assert.equal(links.segments.filter((s) => s.br).length, links.bridges.length, 'un ponte per ogni segmento-ponte');
+  assert.equal(new Set(links.bridges.map((b) => `${b.link}|${b.riverId}`)).size, links.bridges.length, 'un ponte per fiume e collegamento');
+  for (const b of links.bridges.filter((_, i) => i % 5 === 0)) {
     const s = segs.get(b.seg);
     assert.equal(s.br.r, b.riverId);
-    assert.equal(s.k, b.mode);
+    assert.equal(s.link, b.link);
     assert.ok(distanceToRiverKm(model, b.riverId, b.lon, b.lat) < 1.5, `${b.id} lontano dal fiume`);
-    const mid = [s.c[0] + (s.c.at(-2) - s.c[0]) / 2, s.c[1] + (s.c.at(-1) - s.c[1]) / 2];
-    assert.ok(kmBetween(mid[0], mid[1], b.lon, b.lat) < 6, `${b.id}: ponte lontano dal suo segmento`);
-    assert.ok(b.level === s.level && b.km > 0.1 && b.km < 6.5);
+    assert.ok(b.t === s.t && b.km >= 0.05 && b.km < 6.5);
   }
 });

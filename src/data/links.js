@@ -1,14 +1,52 @@
-// Grafo dei collegamenti per il gioco (data/links.json): UN collegamento stradale e UNO ferroviario per ogni coppia
-// di province confinanti, tra le «sedi» delle province (la città più popolosa), lungo il percorso migliore trovato
-// sulla rete di strade/ferrovie (data/transport.json, da Natural Earth). Funzioni PURE, senza I/O.
-//
-// Perché: la rete di Natural Earth è cartografica (linee parallele, nessuna topologia). Qui ogni tratto usato appartiene
-// a UN solo segmento (nessuna sovrapposizione) e un ponte è un tratto del segmento stesso, con la sua geometria:
-// strada e ponte sono la stessa linea. Tutto è `quality: hypothesis`: rete moderna, sedi da popolazione moderna.
+// Grafo dei collegamenti per il gioco (data/links.json): UN collegamento per ogni coppia di province confinanti, in linea
+// retta tra le «sedi» (la città più popolosa), con UN solo tipo visibile: una scala da strada sterrata a ferrovia potenziata.
+// Il livello del collegamento è la STROZZATURA: il tratto peggiore del percorso migliore trovato sulla rete di
+// strade/ferrovie (data/transport.json, Natural Earth); senza dati è strada sterrata. Un ponte nasce dove la linea del
+// collegamento incrocia un fiume importante, ed è un tratto della linea stessa. Funzioni PURE, senza I/O.
+// Tutto è `quality: hypothesis`: rete moderna, sedi da popolazione moderna.
 
 import { lineLengthKm } from './rivers.js';
 
-export const LINKS_SCHEMA = 'links-v1';
+export const LINKS_SCHEMA = 'links-v2';
+
+/**
+ * Scala dei collegamenti: da strada sterrata a ferrovia potenziata. `k`/`level` sono i nomi che usano disegno e rete di
+ * transport.json (strada 0-3, ferrovia 2-3); `rank` decide da che zoom si vede (strade importanti da più lontano).
+ */
+export const LADDER = Object.freeze([
+  { t: 1, id: 'dirt', label: 'Strada sterrata', k: 'road', level: 0, rank: 99 },
+  { t: 2, id: 'road', label: 'Strada', k: 'road', level: 1, rank: 99 },
+  { t: 3, id: 'main-road', label: 'Strada principale', k: 'road', level: 2, rank: 6 },
+  { t: 4, id: 'motorway', label: 'Autostrada', k: 'road', level: 3, rank: 4 },
+  { t: 5, id: 'rail', label: 'Ferrovia a binario unico', k: 'rail', level: 2, rank: 4 },
+  { t: 6, id: 'rail-double', label: 'Ferrovia potenziata (doppio binario)', k: 'rail', level: 3, rank: 4 },
+]);
+
+/** Gradino della scala di un livello di transport.json (strada 1-3 → 2-4, ferrovia 2-3 → 5-6). */
+export function ladderStep(mode, level) {
+  return mode === 'rail' ? (level >= 3 ? 6 : 5) : Math.min(4, Math.max(1, level + 1));
+}
+
+/** Livello 1-3 del marcatore del ponte (forma sulla mappa) dal gradino. */
+export function markerLevelOfStep(t) {
+  return t <= 2 ? 1 : t <= 4 ? 2 : 3;
+}
+
+/**
+ * Gradino di un percorso: il più alto raggiunto da almeno metà della sua lunghezza. Il minimo assoluto sarebbe troppo severo:
+ * un solo tratto secondario in 150 km di autostrada la farebbe diventare una strada. (La strozzatura tra province resta:
+ * un collegamento non supera mai il gradino delle sue due province, verificato da validateLinks.)
+ */
+export function pathStep(net, edges) {
+  if (edges.length === 0) return 1;
+  const total = edges.reduce((n, ei) => n + net.edges[ei].km, 0);
+  for (let t = 6; t >= 1; t -= 1) {
+    const km = edges.reduce((n, ei) => n + (ladderStep(net.mode, net.edges[ei].level) >= t ? net.edges[ei].km : 0), 0);
+    if (km >= total / 2) return t;
+  }
+  return 1;
+}
+
 export const MODES = Object.freeze(['road', 'rail']);
 
 /** Moltiplicatore di costo per livello: i livelli alti sono preferiti nella ricerca del percorso. */
@@ -139,50 +177,6 @@ export function shortestPath(net, src, dst, allowed) {
   return { nodes, edges, km, cost: dist.get(dst) };
 }
 
-/**
- * Catene: gli archi usati (insieme di indici) si raggruppano in catene di nodi di grado 2, spezzate ai nodi di
- * grado ≠ 2, ai nodi `breaks` (sedi) e dove cambiano livello o nome. Ogni arco sta in UNA sola catena.
- * Ritorna [{ nodes:[...], level, rank, n?, y? }] e la mappa arco -> indice di catena.
- */
-export function buildChains(net, usedEdges, breaks = new Set()) {
-  const used = new Set(usedEdges);
-  const deg = new Map();
-  const at = new Map();
-  for (const ei of used) {
-    const e = net.edges[ei];
-    for (const u of [e.a, e.b]) { deg.set(u, (deg.get(u) ?? 0) + 1); if (!at.has(u)) at.set(u, []); at.get(u).push(ei); }
-  }
-  const same = (x, y) => x.level === y.level && x.n === y.n;
-  const isBreak = (u, e1, e2) => deg.get(u) !== 2 || breaks.has(u) || (e1 !== undefined && e2 !== undefined && !same(net.edges[e1], net.edges[e2]));
-  const visited = new Set();
-  const chains = [];
-  const edgeChain = new Map();
-  const walk = (start, firstEdge) => {
-    const nodes = [start];
-    const es = [];
-    let u = start;
-    let ei = firstEdge;
-    for (;;) {
-      visited.add(ei);
-      es.push(ei);
-      const e = net.edges[ei];
-      u = e.a === u ? e.b : e.a;
-      nodes.push(u);
-      const next = (at.get(u) ?? []).filter((x) => x !== ei);
-      if (next.length !== 1 || isBreak(u, ei, next[0]) || visited.has(next[0])) break;
-      ei = next[0];
-    }
-    const first = net.edges[es[0]];
-    const chain = { nodes, level: first.level, rank: Math.min(...es.map((x) => net.edges[x].rank)), n: first.n, y: first.y };
-    es.forEach((x) => edgeChain.set(x, chains.length));
-    chains.push(chain);
-  };
-  const startNodes = [...at.keys()].filter((u) => deg.get(u) !== 2 || breaks.has(u)).sort((p, q) => p - q);
-  for (const u of startNodes) for (const ei of at.get(u)) if (!visited.has(ei)) walk(u, ei);
-  for (const ei of [...used].sort((p, q) => p - q)) if (!visited.has(ei)) walk(net.edges[ei].a, ei); // anelli senza nodi di rottura
-  return { chains, edgeChain };
-}
-
 /** Lunghezze cumulate in km lungo una polilinea [[lon,lat],...]. */
 export function cumulativeKm(coords) {
   const cum = [0];
@@ -250,29 +244,35 @@ export function validateLinks(file, { provinceIds, riverIds } = {}) {
   if (file?.schema !== LINKS_SCHEMA) errors.push(`schema atteso ${LINKS_SCHEMA}`);
   if (file?.quality !== 'hypothesis') errors.push('intestazione: qualità attesa "hypothesis"');
   const nP = provinceIds?.length ?? Infinity;
+  const steps = new Set(LADDER.map((l) => l.t));
+  const nodeT = new Map();
+  for (const n of file?.nodes ?? []) {
+    if (!Number.isInteger(n.p) || n.p < 0 || n.p >= nP) errors.push(`sede: indice di provincia non valido ${n.p}`);
+    if (nodeT.has(n.p)) errors.push(`sede duplicata per la provincia ${n.p}`);
+    if (!steps.has(n.t)) errors.push(`sede ${n.p}: gradino non valido`);
+    nodeT.set(n.p, n.t);
+  }
+  const linkIds = new Map();
+  for (const l of file?.links ?? []) {
+    if (linkIds.has(l.id)) errors.push(`${l.id}: id collegamento duplicato`);
+    linkIds.set(l.id, l);
+    if (!steps.has(l.t)) errors.push(`${l.id}: gradino non valido`);
+    if (!(l.a < l.b) || l.a < 0 || l.b >= nP) errors.push(`${l.id}: province non valide`);
+    if (!nodeT.has(l.a) || !nodeT.has(l.b)) errors.push(`${l.id}: manca la sede di una provincia`);
+    else if (l.t > Math.min(nodeT.get(l.a), nodeT.get(l.b))) errors.push(`${l.id}: più alto delle sue province (strozzatura)`);
+    if (!(l.km > 0)) errors.push(`${l.id}: km non validi`);
+  }
   const segIds = new Set();
   for (const s of file?.segments ?? []) {
     if (segIds.has(s.id)) errors.push(`${s.id}: id segmento duplicato`);
     segIds.add(s.id);
-    if (!MODES.includes(s.k)) errors.push(`${s.id}: modalità non valida`);
+    const lk = linkIds.get(s.link);
+    if (!lk) errors.push(`${s.id}: collegamento sconosciuto ${s.link}`);
+    else if (lk.t !== s.t) errors.push(`${s.id}: gradino diverso dal collegamento`);
+    const st = LADDER.find((x) => x.t === s.t);
+    if (!st || st.k !== s.k || st.level !== s.level) errors.push(`${s.id}: tipo incoerente con il gradino`);
     if (!(s.c?.length >= 4) || s.c.length % 2 !== 0) errors.push(`${s.id}: coordinate non valide`);
     if (s.br && riverIds && !riverIds.has(s.br.r)) errors.push(`${s.id}: ponte su fiume sconosciuto ${s.br.r}`);
-  }
-  const seats = new Set();
-  for (const n of file?.nodes ?? []) {
-    if (!Number.isInteger(n.p) || n.p < 0 || n.p >= nP) errors.push(`sede: indice di provincia non valido ${n.p}`);
-    if (seats.has(n.p)) errors.push(`sede duplicata per la provincia ${n.p}`);
-    seats.add(n.p);
-  }
-  const linkIds = new Set();
-  for (const l of file?.links ?? []) {
-    if (linkIds.has(l.id)) errors.push(`${l.id}: id collegamento duplicato`);
-    linkIds.add(l.id);
-    if (!MODES.includes(l.mode)) errors.push(`${l.id}: modalità non valida`);
-    if (!(l.a < l.b) || l.a < 0 || l.b >= nP) errors.push(`${l.id}: province non valide`);
-    if (!seats.has(l.a) || !seats.has(l.b)) errors.push(`${l.id}: manca la sede di una provincia`);
-    if (!(l.km > 0)) errors.push(`${l.id}: km non validi`);
-    for (const s of l.segs ?? []) if (!segIds.has(s)) errors.push(`${l.id}: segmento sconosciuto ${s}`);
   }
   const brIds = new Set();
   for (const b of file?.bridges ?? []) {

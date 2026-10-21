@@ -101,7 +101,7 @@ test('marcatori: i ponti diventano tratti della linea da zoom 18 (niente marcato
 test('ponti come tratti: stessa geometria della linea, aspetto per materiale e dettaglio', () => {
   globalThis.Path2D ??= class { moveTo() {} lineTo() {} };
   const seg = (id, k, level, br) => ({ id, k, level, rank: 4, ...(br ? { br: { r: 'R_X' } } : {}), c: [10, 45, 10.01, 45.005, 10.02, 45] });
-  const file = { segments: [seg('S1', 'road', 2, false), seg('S2', 'road', 2, true), seg('S3', 'rail', 3, true)] };
+  const file = { nodes: [{ lon: 10, lat: 45, t: 5, name: 'X' }], segments: [seg('S1', 'road', 2, false), seg('S2', 'road', 2, true), seg('S3', 'rail', 3, true)] };
   const m = buildLinksModel(file, 2);
   assert.equal(m.lines.length, 1);
   assert.equal(m.bridges.length, 2);

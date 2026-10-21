@@ -136,8 +136,8 @@ test('mappa: modello proiettato, densità per zoom, legenda con stili diversi', 
   assert.equal(transportRankLimit(1), 0, 'da lontano nessuna linea');
   assert.ok(transportRankLimit(1) < transportRankLimit(10) && transportRankLimit(10) < transportRankLimit(15) && transportRankLimit(15) < transportRankLimit(25));
   const legend = transportLegend();
-  assert.equal(legend.length, 5);
-  assert.equal(new Set(legend.map((l) => l.key)).size, 5);
+  assert.equal(legend.length, 6);
+  assert.equal(new Set(legend.map((l) => l.key)).size, 6);
   // a ogni livello di dettaglio le larghezze crescono: strada secondaria < principale < autostrada, binario unico < doppio
   for (const t of [0, 1, 2]) {
     assert.ok(recipeWidth('road-1', t) < recipeWidth('road-2', t) && recipeWidth('road-2', t) < recipeWidth('road-3', t), `strade a dettaglio ${t}`);

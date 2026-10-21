@@ -10,13 +10,13 @@ import { loadProvinces } from './load-provinces.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 import { CELL, buildRiverSegmentGrid, segmentIntersection } from '../src/data/transport.js';
-import { BRIDGE_HALF_KM, LINKS_SCHEMA, MODES, buildChains, buildNetwork, crossingsAlong, cumulativeKm, heading, kmBetween, shortestPath, sliceByDistance } from '../src/data/links.js';
+import { BRIDGE_HALF_KM, LADDER, LINKS_SCHEMA, MODES, pathStep, buildNetwork, crossingsAlong, cumulativeKm, heading, kmBetween, markerLevelOfStep, shortestPath, sliceByDistance } from '../src/data/links.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
 const readJson = async (name) => JSON.parse(await readFile(dataUrl(name), 'utf8'));
 const r4 = (x) => Math.round(x * 1e4) / 1e4;
 
-export const PARAMS = { snapDeg: 0.004, seatSnapKm: 40, detourFactor: 2.5, detourExtraKm: 25, bridgeThinKm: 4, minPieceKm: 0.05 };
+export const PARAMS = { snapDeg: 0.004, seatSnapKm: 40, detourFactor: 2.5, detourExtraKm: 25, bridgeClasses: ['medium', 'large'], minPieceKm: 0.05 };
 
 export async function buildLinksFile(neDir, params = PARAMS) {
   const provinces = await loadProvinces();
@@ -52,13 +52,14 @@ export async function buildLinksFile(neDir, params = PARAMS) {
     seatOf.set(p, { p, name: f.properties.name, lon: r4(inside ? cx : ring[0][0]), lat: r4(inside ? cy : ring[0][1]), pop: 0, basis: inside ? 'centroid' : 'border_vertex' });
   });
 
-  const result = { segments: [], bridges: [], links: [] };
+  // gradino di ogni coppia dalla rete reale: strozzatura del percorso migliore, per strada e per ferrovia
+  const stepOf = new Map(); // "i|j" -> { t, via }
   const stats = {};
   for (const mode of MODES) {
     const net = buildNetwork(transport.lines, mode, params.snapDeg);
     const nodeProv = new Int32Array(net.size).fill(-2);
     const provOf = (u) => { if (nodeProv[u] === -2) nodeProv[u] = provAt(net.lon[u], net.lat[u]); return nodeProv[u]; };
-    const cellOf = new Map(); // griglia 0,1° dei nodi, per agganciare le sedi
+    const cellOf = new Map();
     for (let u = 0; u < net.size; u += 1) { if (net.adj[u].length === 0) continue; const k = `${Math.floor(net.lon[u] / 0.1)}|${Math.floor(net.lat[u] / 0.1)}`; (cellOf.get(k) ?? cellOf.set(k, []).get(k)).push(u); }
     const snap = (seat) => {
       let best = null; let bd = params.seatSnapKm;
@@ -71,8 +72,7 @@ export async function buildLinksFile(neDir, params = PARAMS) {
     };
     const seatNode = new Map();
     for (const [p, seat] of seatOf) { const u = snap(seat); if (u !== null) seatNode.set(p, u); }
-
-    const paths = []; // { a, b, path }
+    let found = 0;
     for (const [i, j] of adjacency.edges) {
       const u = seatNode.get(i); const v = seatNode.get(j);
       if (u === undefined || v === undefined) continue;
@@ -80,79 +80,77 @@ export async function buildLinksFile(neDir, params = PARAMS) {
       const straight = kmBetween(si.lon, si.lat, sj.lon, sj.lat);
       const sp = shortestPath(net, u, v, (w) => { const p = provOf(w); return p === i || p === j || p === -1; });
       if (!sp || sp.km > params.detourFactor * straight + params.detourExtraKm) continue;
-      paths.push({ a: i, b: j, sp });
-    }
-    const usedEdges = new Set(paths.flatMap((x) => x.sp.edges));
-    const { chains, edgeChain } = buildChains(net, usedEdges, new Set(seatNode.values()));
-
-    // pezzi: ogni catena si taglia nei tratti-ponte (dove incrocia un fiume) e nei tratti normali
-    const pieceIds = chains.map(() => []);
-    chains.forEach((ch, ci) => {
-      const coords = ch.nodes.map((u) => [net.lon[u], net.lat[u]]);
-      const cum = cumulativeKm(coords);
-      const total = cum[cum.length - 1];
-      const crossings = crossingsAlong(coords, cum, grid, segmentIntersection, CELL, params.bridgeThinKm);
-      const windows = [];
-      let prevEnd = 0;
-      for (const c of crossings) {
-        const h = BRIDGE_HALF_KM[widthOf.get(c.riverId)] ?? BRIDGE_HALF_KM.small;
-        const s0 = Math.max(c.s - h, prevEnd); const s1 = Math.min(c.s + h, total);
-        if (s1 - s0 < params.minPieceKm) continue;
-        windows.push({ s0, s1, c });
-        prevEnd = s1;
+      found += 1;
+      let t = pathStep(net, sp.edges);
+      if (mode === 'road') { // le prime autostrade (livello 3 con nome): bastano il 30% del percorso
+        const named = sp.edges.reduce((n, ei) => n + (net.edges[ei].n ? net.edges[ei].km : 0), 0);
+        if (named >= 0.3 * sp.km) t = Math.max(t, 4);
       }
-      const base = { k: mode, level: ch.level, rank: ch.rank, ...(ch.n ? { n: ch.n, y: ch.y } : {}) };
-      const push = (s0, s1, bridge) => {
-        if (s1 - s0 < params.minPieceKm) return;
-        const pc = sliceByDistance(coords, cum, s0, s1);
-        const id = `LS_${String(result.segments.length + 1).padStart(5, '0')}`;
-        result.segments.push({ id, ...base, ...(bridge ? { br: { r: bridge.c.riverId } } : {}), c: pc.flatMap(([x, y]) => [r4(x), r4(y)]) });
-        pieceIds[ci].push(id);
-        if (bridge) {
-          const n = result.bridges.filter((b) => b.riverId === bridge.c.riverId).length + 1;
-          result.bridges.push({ id: `LB_${bridge.c.riverId.replace(/^R_/, '')}_${String(n).padStart(3, '0')}`, riverId: bridge.c.riverId, seg: id, mode, lon: r4(bridge.c.lon), lat: r4(bridge.c.lat), level: ch.level, road: mode === 'road' ? ch.level : 0, rail: mode === 'rail' ? ch.level : 0, ang: heading(pc[0], pc.at(-1)), km: Math.round((s1 - s0) * 100) / 100 });
-        }
-      };
-      let cur = 0;
-      for (const w of windows) { push(cur, w.s0, null); push(w.s0, w.s1, w); cur = w.s1; }
-      push(cur, total, null);
-    });
-
-    for (const { a, b, sp } of paths) {
-      const at = new Map(sp.nodes.map((u, k) => [u, k]));
-      const order = [];
-      for (const ei of sp.edges) { const ci = edgeChain.get(ei); if (order[order.length - 1] !== ci) order.push(ci); }
-      const segs = [];
-      for (const ci of order) {
-        const ns = chains[ci].nodes;
-        const rev = (at.get(ns[0]) ?? 0) > (at.get(ns.at(-1)) ?? 0);
-        segs.push(...(rev ? [...pieceIds[ci]].reverse() : pieceIds[ci]));
-      }
-      const level = Math.min(...sp.edges.map((ei) => net.edges[ei].level));
-      result.links.push({ id: `LK_${a}_${b}_${mode}`, a, b, mode, level, km: Math.round(sp.km), segs, _bridgeSegs: segs });
+      const key = `${i}|${j}`;
+      if (t > (stepOf.get(key)?.t ?? 0)) stepOf.set(key, { t, via: mode });
     }
-    stats[mode] = { nodes: net.size, links: paths.length, chains: chains.length };
+    stats[mode] = { nodes: net.size, pairsWithPath: found };
   }
-  const bridgeBySeg = new Map(result.bridges.map((b) => [b.seg, b.id]));
-  for (const l of result.links) { l.bridges = l._bridgeSegs.filter((s) => bridgeBySeg.has(s)).map((s) => bridgeBySeg.get(s)); delete l._bridgeSegs; }
-  result.links.sort((p, q) => p.a - q.a || p.b - q.b || (p.mode < q.mode ? -1 : 1));
 
-  const nodes = [...seatOf.values()].sort((p, q) => p.p - q.p);
+  // collegamenti: una linea retta tra le sedi, con i ponti dove incrocia un fiume importante
+  const links = []; const segments = []; const bridges = [];
+  const nodeT = new Map();
+  const perRiver = new Map();
+  for (const [i, j, ] of adjacency.edges) {
+    const si = seatOf.get(i); const sj = seatOf.get(j);
+    if (!si || !sj) continue;
+    const st = stepOf.get(`${i}|${j}`) ?? { t: 1, via: 'none' };
+    const link = { id: `LK_${i}_${j}`, a: i, b: j, t: st.t, km: Math.max(1, Math.round(kmBetween(si.lon, si.lat, sj.lon, sj.lat))), via: st.via };
+    links.push(link);
+    nodeT.set(i, Math.max(nodeT.get(i) ?? 1, st.t)); nodeT.set(j, Math.max(nodeT.get(j) ?? 1, st.t));
+    const lad = LADDER[st.t - 1];
+    const coords = [[si.lon, si.lat], [sj.lon, sj.lat]];
+    const cum = cumulativeKm(coords);
+    const total = cum[1];
+    const windows = [];
+    let prevEnd = 0;
+    for (const c of crossingsAlong(coords, cum, grid, segmentIntersection, CELL, Infinity)) {
+      if (!params.bridgeClasses.includes(widthOf.get(c.riverId))) continue;
+      const h = BRIDGE_HALF_KM[widthOf.get(c.riverId)] ?? BRIDGE_HALF_KM.small;
+      const s0 = Math.max(c.s - h, prevEnd); const s1 = Math.min(c.s + h, total);
+      if (s1 - s0 < params.minPieceKm) continue;
+      windows.push({ s0, s1, c });
+      prevEnd = s1;
+    }
+    const push = (s0, s1, bridge) => {
+      if (s1 - s0 < params.minPieceKm) return;
+      const pc = sliceByDistance(coords, cum, s0, s1);
+      const id = `LS_${String(segments.length + 1).padStart(5, '0')}`;
+      segments.push({ id, link: link.id, t: st.t, k: lad.k, level: lad.level, rank: lad.rank, ...(bridge ? { br: { r: bridge.c.riverId } } : {}), c: pc.flatMap(([x, y]) => [r4(x), r4(y)]) });
+      if (bridge) {
+        const n = (perRiver.get(bridge.c.riverId) ?? 0) + 1;
+        perRiver.set(bridge.c.riverId, n);
+        const ml = markerLevelOfStep(st.t);
+        bridges.push({ id: `LB_${bridge.c.riverId.replace(/^R_/, '')}_${String(n).padStart(3, '0')}`, riverId: bridge.c.riverId, seg: id, link: link.id, t: st.t, mode: lad.k, lon: r4(bridge.c.lon), lat: r4(bridge.c.lat), level: ml, road: lad.k === 'road' ? ml : 0, rail: lad.k === 'rail' ? ml : 0, ang: heading(pc[0], pc.at(-1)), km: Math.round((s1 - s0) * 100) / 100 });
+      }
+    };
+    let cur = 0;
+    for (const w of windows) { push(cur, w.s0, null); push(w.s0, w.s1, w); cur = w.s1; }
+    push(cur, total, null);
+  }
+  const nodes = [...seatOf.values()].filter((n) => nodeT.has(n.p)).map((n) => ({ ...n, t: nodeT.get(n.p) })).sort((p, q) => p.p - q.p);
+  stats.steps = Object.fromEntries(LADDER.map((l) => [l.id, links.filter((x) => x.t === l.t).length]));
   return {
     stats,
     file: {
       schema: LINKS_SCHEMA,
       quality: 'hypothesis',
-      method: 'per ogni coppia di province confinanti: percorso di costo minimo (km × costo per livello) tra le sedi sulla rete di transport.json, solo dentro le due province; tratti usati unici (nessuna sovrapposizione); ponti = tratti del segmento che incrociano un fiume',
+      method: 'un collegamento per coppia di province confinanti (linea retta tra le sedi); gradino = quello raggiunto da almeno metà del percorso migliore sulla rete di transport.json (rotaia sopra strada), strada sterrata senza dati; ponti dove la linea incrocia un fiume medio/grande, uno per fiume',
       source: 'Natural Earth 10m roads/railroads/populated places (pubblico dominio), rete moderna: non è quella del 1936',
+      ladder: LADDER,
       params,
       checksum: idsChecksum(ids),
       provinceRefs: "indici nell'elenco ordinato delle province (come adjacency.json)",
-      counts: { nodes: nodes.length, links: result.links.length, segments: result.segments.length, bridges: result.bridges.length },
+      counts: { nodes: nodes.length, links: links.length, segments: segments.length, bridges: bridges.length },
       nodes,
-      links: result.links,
-      segments: result.segments,
-      bridges: result.bridges,
+      links,
+      segments,
+      bridges,
     },
   };
 }

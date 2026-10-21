@@ -4,7 +4,7 @@
 // buildTransportModel, transportRankLimit e transportLegend si provano senza browser (tests/transport.test.js);
 // drawTransport usa Path2D.
 
-import { DRAW_GROUPS, OFFSETS, RECIPES, addOffset, detailTier, drawBridgeSegments, sizeBoost, strokePass } from './transportStyle.js';
+import { DRAW_GROUPS, OFFSETS, RECIPES, addOffset, DETAIL_ZOOMS, detailTier, drawBridgeSegments, sizeBoost, strokePass } from './transportStyle.js';
 
 /**
  * Soglia di importanza (scalerank di Natural Earth) mostrata a un dato zoom: da molto lontano nessuna linea (la mappa
@@ -41,9 +41,10 @@ export function buildTransportModel(file, cos0) {
 /** Righe della legenda: tipo, nome e come si riconosce («spec» per drawSwatch: stesso disegno della mappa a zoom alto). */
 export function transportLegend() {
   return [
-    { key: 'road-1', label: 'Strada secondaria', how: 'una carreggiata, bordo scuro' },
+    { key: 'road-0', label: 'Strada sterrata', how: 'tratteggio marrone' },
+    { key: 'road-1', label: 'Strada', how: 'una carreggiata, bordo scuro' },
     { key: 'road-2', label: 'Strada principale', how: 'gialla, linea di mezzeria' },
-    { key: 'road-3', label: 'Autostrada (prime, 1936)', how: 'due carreggiate con spartitraffico' },
+    { key: 'road-3', label: 'Autostrada', how: 'due carreggiate con spartitraffico' },
     { key: 'rail-2', label: 'Ferrovia a binario unico', how: 'rotaie con traversine' },
     { key: 'rail-3', label: 'Ferrovia potenziata', how: 'doppio binario' },
   ].map((r) => ({ ...r, spec: { kind: 'line', key: r.key } }));
@@ -111,6 +112,19 @@ export function drawTransport(ctx, model, { sx: sxMap, k, cull }) {
     drawBridgeSegments(ctx, vis, { sx, tier });
     drawn += vis.length;
   }
+  if (model.nodes?.length && k >= DETAIL_ZOOMS[0]) { // sedi delle province: un punto, più grande per i gradini alti
+    ctx.setLineDash([]);
+    for (const n of model.nodes) {
+      if (n.x < cull.x0 || n.x > cull.x1 || n.y < cull.y0 || n.y > cull.y1) continue;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, (n.t >= 5 ? 3.4 : 2.6) / sx, 0, Math.PI * 2);
+      ctx.fillStyle = '#1d2418';
+      ctx.fill();
+      ctx.lineWidth = 1.2 / sx;
+      ctx.strokeStyle = '#f4f4ee';
+      ctx.stroke();
+    }
+  }
   ctx.setLineDash([]);
   return drawn;
 }
@@ -123,5 +137,6 @@ export function buildLinksModel(file, cos0) {
   const rows = (file?.segments ?? []).map((s) => ({ id: s.id, k: s.k, level: s.level, rank: s.rank ?? 99, c: s.c, br: Boolean(s.br) }));
   const base = buildTransportModel({ lines: rows.filter((r) => !r.br) }, cos0);
   const bridges = buildTransportModel({ lines: rows.filter((r) => r.br) }, cos0).lines;
-  return { ...base, bridges };
+  const nodes = (file?.nodes ?? []).map((n) => ({ x: n.lon * cos0, y: -n.lat, t: n.t, name: n.name }));
+  return { ...base, bridges, nodes };
 }
