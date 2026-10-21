@@ -4,6 +4,7 @@ import resources from '../data/resources.json';
 import political from '../data/political_1936.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
+import { mergeCandidates } from './data/bridges.js';
 import { loadProvinces, unwatchProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
@@ -38,15 +39,30 @@ function useWaterData(start) {
   return water;
 }
 
-// Punti di passaggio calcolati (~170 kB, data/crossing_points.json): caricati dopo la mappa e messi in cache dal service worker.
+// Ponti candidati (~330 kB da incroci strada/ferrovia–fiume + ~170 kB di passaggi sul confine tra province): caricati
+// dopo la mappa e messi in cache dal service worker; uniti dove sullo stesso fiume non c'è un ponte entro 15 km.
 function useCrossingPoints(start) {
   const [file, setFile] = useState(null);
   useEffect(() => {
     if (!start) return undefined;
     let alive = true;
-    import('../data/crossing_points.json').then((m) => alive && setFile(m.default)).catch(() => alive && setFile(null));
+    Promise.all([import('../data/transport_bridges.json'), import('../data/crossing_points.json')])
+      .then(([b, c]) => alive && setFile({ points: mergeCandidates(b.default.points, c.default.points) }))
+      .catch(() => alive && setFile(null));
     return () => { alive = false; };
   }, [start]);
+  return file;
+}
+
+// Strade e ferrovie (~1,8 MB, ~430 kB compressi): si scaricano solo quando si accende il livello (spento all'avvio).
+function useTransport(wanted) {
+  const [file, setFile] = useState(null);
+  useEffect(() => {
+    if (!wanted || file) return undefined;
+    let alive = true;
+    import('../data/transport.json').then((m) => alive && setFile(m.default)).catch(() => {});
+    return () => { alive = false; };
+  }, [wanted, file]);
   return file;
 }
 
@@ -123,6 +139,8 @@ export default function App() {
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
   const crossingPoints = useCrossingPoints(USE_CANVAS && mapShown);
   const [showBridges, setShowBridges] = useState(true);
+  const [showTransport, setShowTransport] = useState(false);
+  const transport = useTransport(USE_CANVAS && showTransport);
   const labelData = useLabelData(!USE_CANVAS || mapShown);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
@@ -239,7 +257,7 @@ export default function App() {
           <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : (
         <div className="map-layout">
-          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} />
+          <MapScreen provinces={provinces} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} />
           {seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setSeaId(null)} onSelect={selectSea} />
           ) : selectedRiver ? (

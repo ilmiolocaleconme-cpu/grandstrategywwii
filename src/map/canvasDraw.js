@@ -6,6 +6,7 @@ import { WORLD_W, provinceFill, riverRankLimit } from './geo.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
 import { LINE_STEP } from './labelfit.js';
 import { drawMarkers } from './crossingMarkers.js';
+import { drawTransport } from './transportView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 
 const COS0 = WORLD_W / 360;
@@ -202,7 +203,7 @@ const LAKE_CHUNK = 60; // laghi per passo
  * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
 export function* renderBaseSteps(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId, light, markers } = p;
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId, light, markers, transport } = p;
   const a = affineOf(view, vb, lay);
   const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
   const cull = regionToUnits(view, vb, lay, region);
@@ -312,6 +313,12 @@ export function* renderBaseSteps(ctx, p) {
         ctx.globalAlpha = 1;
         yield 'selected';
       }
+    }
+    // strade e ferrovie (livello Logistica, spento di default): sopra i fiumi, sotto i ponti
+    if (transport) {
+      drawTransport(ctx, transport, { sx: a.sx, k: view.k, cull: { x0, x1, y0, y1 } });
+      trace?.('transport', ctx);
+      yield 'transport';
     }
     // punti di passaggio (ponti candidati) sopra i fiumi, con il livello della struttura: vedi crossingMarkers.js
     if (markers && markers.length) {

@@ -95,8 +95,8 @@ test('marcatori: il livello si riconosce da forma, colore e dimensione (tutti di
 
 test('marcatori: a vista d\'insieme solo i pesanti, con lo zoom compaiono i più leggeri', () => {
   assert.equal(minLevelForZoom(1), 3);
-  assert.equal(minLevelForZoom(2.5), 2);
-  assert.equal(minLevelForZoom(5), 1);
+  assert.equal(minLevelForZoom(3), 2);
+  assert.equal(minLevelForZoom(6), 1);
   const markers = buildMarkers(file, 2);
   assert.equal(markers.length, file.count);
   assert.equal(markers[0].x, file.points[0].lon * 2);
@@ -105,17 +105,17 @@ test('marcatori: a vista d\'insieme solo i pesanti, con lo zoom compaiono i più
   const ctx = new Proxy({}, { get: (t, k) => (k === 'beginPath' || k === 'closePath' ? () => { calls.shapes += k === 'beginPath' ? 1 : 0; } : () => {}), set: () => true });
   const all = { x0: -1e9, x1: 1e9, y0: -1e9, y1: 1e9 };
   const n3 = drawMarkers(ctx, markers, { sx: 10, k: 1, cull: all });
-  const n2 = drawMarkers(ctx, markers, { sx: 10, k: 2.5, cull: all });
-  const n1 = drawMarkers(ctx, markers, { sx: 10, k: 5, cull: all });
+  const n2 = drawMarkers(ctx, markers, { sx: 10, k: 3, cull: all });
+  const n1 = drawMarkers(ctx, markers, { sx: 10, k: 6, cull: all });
   assert.ok(n3 > 0 && n3 <= markers.filter((m) => m.level === 3).length);
   assert.ok(visibleMarkers(markers, { sx: 10, k: 1, cull: all }).every((m) => m.level === 3));
-  assert.ok(visibleMarkers(markers, { sx: 10, k: 2.5, cull: all }).every((m) => m.level >= 2));
+  assert.ok(visibleMarkers(markers, { sx: 10, k: 3, cull: all }).every((m) => m.level >= 2));
   assert.ok(n3 <= n2 && n2 <= n1 && n1 <= markers.length);
   // senza sovrapposizioni: due marcatori scelti non stanno mai nella stessa cella da 9 px
-  const picked = visibleMarkers(markers, { sx: 10, k: 5, cull: all });
-  assert.equal(new Set(picked.map((m) => `${Math.floor(m.x / 0.9)}|${Math.floor(m.y / 0.9)}`)).size, picked.length);
+  const picked = visibleMarkers(markers, { sx: 10, k: 6, cull: all });
+  assert.equal(new Set(picked.map((m) => `${Math.floor(m.x / 1)}|${Math.floor(m.y / 1)}`)).size, picked.length); // 10 px a zoom 6, sx = 10
   // un marcatore isolato di livello 1 sopravvive; uno pesante vicino toglie quello leggero nella stessa cella
   const two = [{ x: 0, y: 0, level: 1, kind: 'border_cross' }, { x: 0.1, y: 0.1, level: 3, kind: 'border_cross' }];
-  assert.deepEqual(visibleMarkers(two, { sx: 10, k: 5, cull: all }).map((m) => m.level), [3]);
-  assert.equal(drawMarkers(ctx, markers, { sx: 10, k: 5, cull: { x0: 1e8, x1: 1e9, y0: 1e8, y1: 1e9 } }), 0);
+  assert.deepEqual(visibleMarkers(two, { sx: 10, k: 6, cull: all }).map((m) => m.level), [3]);
+  assert.equal(drawMarkers(ctx, markers, { sx: 10, k: 6, cull: { x0: 1e8, x1: 1e9, y0: 1e8, y1: 1e9 } }), 0);
 });

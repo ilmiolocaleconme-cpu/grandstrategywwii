@@ -3,7 +3,7 @@
 // Solo disegno: i dati e le regole stanno in src/data/crossingPoints.js e data/crossing_points.json.
 // Il browser non è necessario per provare buildMarkers e markerLegend (tests/crossing_points.test.js).
 
-import { CROSSING_LEVELS, minLevelForZoom } from '../data/crossingPoints.js';
+import { CROSSING_LEVELS, markerCellPx, minLevelForZoom } from '../data/crossingPoints.js';
 
 export const MARKER_STYLE = Object.freeze({
   1: { fill: 'rgba(0,0,0,0)', stroke: '#e8e2c8', size: 2.8, shape: 'circle' }, // guado, traghetto, passerella: cerchio vuoto
@@ -50,12 +50,11 @@ function shapePath(ctx, shape, x, y, r) {
   }
 }
 
-const CELL_PX = 9; // due marcatori più vicini di così sullo schermo non si disegnano entrambi (vince il livello più alto)
 
 /** Marcatori visibili a quel zoom e dentro `cull`, senza sovrapposizioni: i livelli alti hanno la precedenza. */
 export function visibleMarkers(markers, { sx, k, cull }) {
   const minLevel = minLevelForZoom(k);
-  const cell = CELL_PX / sx;
+  const cell = markerCellPx(k) / sx; // due marcatori nella stessa cella non si disegnano entrambi (vince il livello più alto)
   const taken = new Set();
   const out = [];
   for (const level of [3, 2, 1]) {

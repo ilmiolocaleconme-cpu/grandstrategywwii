@@ -15,9 +15,9 @@ export const CROSSING_POINTS_SCHEMA = 'crossing-points-v1';
 
 /** Livelli della struttura (come proposto per il grafo delle infrastrutture: tre per strade e ponti). */
 export const CROSSING_LEVELS = Object.freeze([
-  { level: 1, id: 'light', label: 'Leggera', hint: 'guado, traghetto o passerella' },
-  { level: 2, id: 'medium', label: 'Media', hint: 'ponte stradale' },
-  { level: 3, id: 'heavy', label: 'Pesante', hint: 'ponte stradale e ferroviario' },
+  { level: 1, id: 'light', label: 'Leggera', hint: 'strada secondaria' },
+  { level: 2, id: 'medium', label: 'Media', hint: 'strada principale o ferrovia secondaria' },
+  { level: 3, id: 'heavy', label: 'Pesante', hint: 'linea ferroviaria principale' },
 ]);
 
 export const LEVEL_BASIS = 'provvisorio_da_larghezza_fiume';
@@ -31,7 +31,12 @@ export function levelForRiver(river) {
 
 /** Livello minimo mostrato a un certo zoom: a vista d'insieme solo le strutture pesanti. */
 export function minLevelForZoom(k) {
-  return k < 1.8 ? 3 : k < 3.5 ? 2 : 1;
+  return k < 2.5 ? 3 : k < 5 ? 2 : 1;
+}
+
+/** Lato in pixel della cella anti-sovrapposizione dei marcatori: più grande a vista d'insieme, dove ce ne sono di più per schermo. */
+export function markerCellPx(k) {
+  return k < 2.5 ? 24 : k < 5 ? 15 : 10;
 }
 
 function singleId(index, lon, lat) {
