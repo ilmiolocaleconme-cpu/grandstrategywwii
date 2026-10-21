@@ -17,7 +17,7 @@ import { ringAreaKm2 } from '../src/map/geo.js';
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
 const SUBSET = 'sources/ne_urban_areas_citta.json';
 export const MIN_AREA_KM2 = 3; // sotto questa area totale la città resta il disco attuale
-export const SAFETY = 1.5; // cerchio di sicurezza = SAFETY x raggio stimato
+export const SAFETY = 2.0; // cerchio massimo = SAFETY x raggio stimato; fra città vicine decide la cella di Voronoi (vedi cellOf)
 const KM_PER_DEG = 111.195;
 const round6 = (v) => Math.round(v * 1e6) / 1e6;
 
@@ -50,11 +50,40 @@ function disc(lon, lat, radiusKm, n = 72) {
   return [[...ring, ring[0]]];
 }
 
+/**
+ * Regione di competenza di una città: il suo cerchio massimo ritagliato dalle celle di Voronoi con le città vicine
+ * (retta equidistante fra i due centri). Due città sulla stessa area urbana (Ruhr, Rhein-Main) si dividono l'area con una
+ * linea retta invece di due archi di cerchio. Calcolo in coordinate scalate (lon x cos(lat), lat), poligono convesso.
+ */
+export function cellOf(centre, radiusKm, neighbours) {
+  const c = Math.cos((centre.lat * Math.PI) / 180);
+  const to = (p) => [(p[0] - centre.lon) * c, p[1] - centre.lat];
+  const back = (q) => [centre.lon + q[0] / c, centre.lat + q[1]];
+  let poly = disc(centre.lon, centre.lat, radiusKm)[0].slice(0, -1).map(to);
+  for (const n of neighbours) {
+    const [nx, ny] = to([n.lon, n.lat]);
+    const side = (q) => (q[0] - nx / 2) * nx + (q[1] - ny / 2) * ny; // <= 0: dalla parte della città
+    const out = [];
+    for (let i = 0; i < poly.length; i += 1) {
+      const a = poly[i];
+      const b = poly[(i + 1) % poly.length];
+      const sa = side(a);
+      const sb = side(b);
+      if (sa <= 0) out.push(a);
+      if ((sa < 0 && sb > 0) || (sa > 0 && sb < 0)) { const t = sa / (sa - sb); out.push([a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])]); }
+    }
+    poly = out;
+    if (poly.length < 3) return null;
+  }
+  const ring = poly.map(back);
+  return [[...ring, ring[0]]];
+}
+
 /** Calcola la nuova geometria per ogni parte di una città. Restituisce { parts: [{id, polys|null}], urban: bool }. */
-export function cityGeometry(parts, regionOf, urbanIndex) {
+export function cityGeometry(parts, regionOf, urbanIndex, neighbours = []) {
   const { lon, lat, areaKm2 } = groupCentre(parts);
   const radius = Math.sqrt(areaKm2 / Math.PI) * SAFETY;
-  const bound = disc(lon, lat, radius);
+  const bound = cellOf({ lon, lat }, radius, neighbours) ?? disc(lon, lat, radius);
   const bb = bboxOfPolys([bound]);
   const inBound = [];
   for (const u of urbanIndex) {
@@ -118,6 +147,19 @@ export async function main(argv) {
     return polysOf(provinceOf(cf).geometry);
   };
 
+  const centres = new Map([...groups].map(([g, parts]) => [g, groupCentre(parts)]));
+  const neighboursOf = (g) => {
+    const me = centres.get(g);
+    const reach = (Math.sqrt(me.areaKm2 / Math.PI) * SAFETY * 2) / KM_PER_DEG * 1.6; // gradi: cerchio massimo di una città grande e un vicino
+    const near = [];
+    for (const [h, o] of centres) {
+      if (h === g) continue;
+      const d = Math.hypot((o.lon - me.lon) * Math.cos((me.lat * Math.PI) / 180), o.lat - me.lat);
+      if (d < reach + (Math.sqrt(o.areaKm2 / Math.PI) * SAFETY) / KM_PER_DEG) near.push({ lon: o.lon, lat: o.lat });
+    }
+    return near;
+  };
+
   const urban = await loadUrban(urbanArg);
   // sottoinsieme: solo le aree urbane che toccano il cerchio di sicurezza di almeno una città
   const bounds = [...groups.values()].map((parts) => {
@@ -135,7 +177,7 @@ export async function main(argv) {
   const flag = new Map();
   for (const [gid, parts] of groups) {
     stats.groups += 1;
-    const r = cityGeometry(parts, regionOf, needed);
+    const r = cityGeometry(parts, regionOf, needed, neighboursOf(gid));
     const areaNuova = r.parts.reduce((t, p) => t + (p.polys ? p.polys.reduce((a, q) => a + polygonAreaKm2(q), 0) : 0), 0);
     if (areaNuova < MIN_AREA_KM2) for (const p of r.parts) p.polys = null; // quasi nulla: meglio il disco che una striscia
     const anyUrban = r.parts.some((p) => p.polys);

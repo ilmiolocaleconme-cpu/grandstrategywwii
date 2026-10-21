@@ -135,7 +135,7 @@ export default function App() {
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
   const crossingPoints = useCrossingPoints(USE_CANVAS && mapShown);
-  const [showBridges, setShowBridges] = useState(true);
+  const [showBridges, setShowBridges] = useState(false); // i marcatori dei passaggi (gialli) si accendono col pulsante ⊓
   const labelData = useLabelData(!USE_CANVAS || mapShown);
   const citiesRaw = useCities(USE_CANVAS && mapShown);
   // le città sono province a parte: entrano nello stesso modello e sono cliccabili come le altre

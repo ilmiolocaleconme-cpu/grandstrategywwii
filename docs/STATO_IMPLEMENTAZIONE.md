@@ -83,3 +83,8 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 - Test: conteggi laghi aggiornati (896 -> 895; URSS aggiunti 435 -> 433) e nuovo test dedicato in `tests/laghi_urss.test.js`.
 - Non fatto: Lago Ciad (NE storico "early 1960s") e Lop Nur ("early 1970s") restano moderni.
 - Controllo precache: la sentinella delle province include ora la fonte, perché le città citano gli id delle province madri (LIE, ISL).
+
+### Città con aree urbane reali, nomi e passaggi (21/10/2026)
+- `data/citta_grandi.json` rigenerato con `scripts/build-cities.js` (aree urbane Natural Earth 10m, pubblico dominio, sottoinsieme in `data/sources/ne_urban_areas_citta.json`): 490 gruppi con area urbana, 18 restano dischi (dove NE non ha un'area urbana). Cerchio massimo 2 x raggio stimato; fra città vicine decide la cella di Voronoi (`cellOf`, 2 test). Id, parti, sponde e proprietà invariati (cliccabili per zona come prima); riempimento sempre grigio. **Approssimazione dichiarata:** sono contorni urbani moderni, non del 1936; area mediana 1,19 x la stima precedente, massimo 3,1 x (Mosca, Milano, Madrid); le città con parti divise lungo il fiume (Varsavia, Firenze…) restano ritagliate sulle parti attuali (archi del vecchio disco).
+- Nomi di città (`canvasDraw.js`): prima le capitali, poi le città più grandi; un nome che toccherebbe uno già scritto si salta (ricompare con più zoom); i nomi di provincia sotto un nome di città si nascondono. **Implementato, non testato** (disegno su Canvas, nessun test automatico).
+- Marcatori dei passaggi (gialli/arancio): ora spenti di default, si accendono col pulsante ⊓ (come in produzione la mappa parte senza giallo).

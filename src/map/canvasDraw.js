@@ -360,6 +360,7 @@ export function drawOverlay(ctx, p) {
     }
   }
   // nomi delle città: le capitali (con la stella) da zoom medio, le altre città solo da vicino
+  const cityBoxes = []; // riquadri dei nomi di città già scritti (pixel CSS)
   const nomi = cityNamesAt(model.items, view.k);
   if (nomi.length) {
     ctx.font = `${CITY_NAME_PX}px ${FONT_FAMILY}`;
@@ -369,12 +370,22 @@ export function drawOverlay(ctx, p) {
     ctx.strokeStyle = COLORS.cityLabelHalo;
     ctx.fillStyle = COLORS.cityLabel;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    for (const it of nomi) {
+    // Regola dei nomi: prima le capitali, poi le città più grandi; un nome che toccherebbe uno già scritto si salta
+    // (a zoom maggiore, con più spazio sullo schermo, ricompare). I nomi delle province che cadrebbero sotto un nome di
+    // città si saltano più sotto: la città, sopra, è l'informazione più utile.
+    const ordine = [...nomi].sort((x, y) => (Number(Boolean(y.props.capitale)) - Number(Boolean(x.props.capitale))) || ((y.props.areaKm2 ?? 0) - (x.props.areaKm2 ?? 0)) || (x.props.id < y.props.id ? -1 : 1));
+    for (const it of ordine) {
       const b = it.bbox;
+      const testo = cityText(it.props);
+      const w = ctx.measureText(testo).width + 4;
+      const h = CITY_NAME_PX + 2;
       for (const off of copies) {
         const px = a.sx * (b.x + b.w / 2 + off) + a.tx;
         const py = a.sx * (b.y + b.h / 2) + a.ty;
-        const testo = cityText(it.props);
+        if (px < -w || py < -h || px > ctx.canvas.width / dpr + w || py > ctx.canvas.height / dpr + h) continue; // fuori schermo
+        const box = [px - w / 2, py - h / 2, px + w / 2, py + h / 2];
+        if (cityBoxes.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) continue;
+        cityBoxes.push(box);
         ctx.strokeText(testo, px, py);
         ctx.fillText(testo, px, py);
       }
@@ -389,6 +400,12 @@ export function drawOverlay(ctx, p) {
     const px = a.sx * (l.x + l.off) + a.tx;
     const py = a.sx * l.y + a.ty;
     const fontPx = l.size * a.sx;
+    if (cityBoxes.length) {
+      const nl = (l.lines || [l.name]).length;
+      const hw = (l.lineLengths ? Math.max(...l.lineLengths) : l.length) * a.sx / 2;
+      const hh = (nl * fontPx * LINE_STEP) / 2;
+      if (cityBoxes.some((o) => px - hw < o[2] && px + hw > o[0] && py - hh < o[3] && py + hh > o[1])) continue;
+    }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.translate(px, py);
     if (l.angle) ctx.rotate((l.angle * Math.PI) / 180);
