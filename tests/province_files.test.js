@@ -82,14 +82,14 @@ test('dati reali: un file per nazione più _meta, nessun file monolitico', async
   assert.equal(existsSync(new URL('../data/provinces_1936.json', import.meta.url)), false, 'il file unico non deve tornare: duplicherebbe i dati');
 });
 
-test('dati reali: unione di 2084 pezzi (1027 province, di cui molte divise in sponde), conteggi per nazione, id unici, owner = file', async () => {
+test('dati reali: unione di 1643 pezzi (1027 province, di cui molte divise in sponde, senza le sponde sotto 100 km²), conteggi per nazione, id unici, owner = file', async () => {
   const merged = await loadProvinces();
   // Sofia città è ora nel livello delle città (data/citta_grandi.json), non nel file della Bulgaria
-  assert.equal(merged.features.length, 2084);
+  assert.equal(merged.features.length, 1643);
   const counts = {};
   for (const f of vistaProvince(merged).features) counts[f.properties.owner] = (counts[f.properties.owner] ?? 0) + 1;
   assert.deepEqual(counts, EXPECTED);
-  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 2084);
+  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 1643);
   assert.equal(merged.metadata.asOf, '1936-01-01');
   // le tre province che nel vecchio file unico stavano fuori dal blocco della propria nazione
   const owner = (id) => merged.features.find((f) => madreId(f.properties.id) === id)?.properties.owner;

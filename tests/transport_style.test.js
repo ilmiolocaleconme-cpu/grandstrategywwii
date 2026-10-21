@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BRIDGE_MIN_PX, DECK_ZOOM, DETAIL_ZOOMS, drawBridgeSegments, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, drawBridgeDeck, drawStraight, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
+import { BRIDGE_MAX_PX, BRIDGE_MIN_PX, BRIDGE_SCALE, DECK_ZOOM, DETAIL_ZOOMS, drawBridgeSegments, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, drawBridgeDeck, drawStraight, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
 import { buildMarkers, drawMarkers, visibleMarkers } from '../src/map/crossingMarkers.js';
 import { buildLinksModel, drawTransport } from '../src/map/transportView.js';
 import { headingDeg } from '../src/data/transport.js';
@@ -139,14 +139,23 @@ test('ponti: quattro costruzioni distinguibili (legno, muratura ad arco, ferro a
   assert.equal(bridgeLegend().length, 3, 'la legenda mostra le tre costruzioni che esistono nel gioco');
 });
 
-test('ponti a dettaglio pieno: orientati come il tratto e lunghi almeno BRIDGE_MIN_PX', () => {
+test('ponti a dettaglio pieno: orientati come il tratto, lunghi tra BRIDGE_MIN_PX e BRIDGE_MAX_PX e più piccoli della linea', () => {
   globalThis.Path2D ??= class { moveTo() {} lineTo() {} };
+  const lenOf = (coords) => {
+    const f = fakeCtx();
+    drawBridgeSegments(f.ctx, [{ kind: 'road', level: 2, coords: Float32Array.from(coords) }], { sx: 10, tier: 2 });
+    const rot = f.log.find(([k]) => k === 'rotate');
+    const sc = f.log.find(([k]) => k === 'scale');
+    const rect = f.log.find(([k]) => k === 'fillRect');
+    return { rot, sc, px: (rect[3] * BRIDGE_SCALE) * 10 }; // lunghezza sullo schermo: unità × scala × px per unità
+  };
   // tratto cortissimo (0,001 unità a 10 px/unità = 0,01 px): il ponte resta riconoscibile
-  const tiny = { kind: 'road', level: 2, coords: Float32Array.from([5, 5, 5.0005, 5.0005, 5.001, 5.001]) };
-  const f = fakeCtx();
-  drawBridgeSegments(f.ctx, [tiny], { sx: 10, tier: 2 });
-  const rot = f.log.find(([k]) => k === 'rotate');
-  assert.ok(rot && Math.abs(rot[1] - Math.PI / 4) < 1e-3, 'ruotato lungo il tratto');
-  const rect = f.log.find(([k]) => k === 'fillRect');
-  assert.ok(Math.abs(rect[3] - BRIDGE_MIN_PX / 10) < 1e-6, 'lunghezza minima in px');
+  const tiny = lenOf([5, 5, 5.0005, 5.0005, 5.001, 5.001]);
+  assert.ok(tiny.rot && Math.abs(tiny.rot[1] - Math.PI / 4) < 1e-3, 'ruotato lungo il tratto');
+  assert.deepEqual(tiny.sc.slice(1), [BRIDGE_SCALE, BRIDGE_SCALE], 'scala ridotta');
+  assert.ok(Math.abs(tiny.px - BRIDGE_MIN_PX) < 1e-6, `lunghezza minima in px: ${tiny.px}`);
+  // tratto lunghissimo (100 unità = 1000 px): il ponte non lo segue, si ferma a BRIDGE_MAX_PX
+  const huge = lenOf([0, 0, 50, 0, 100, 0]);
+  assert.ok(Math.abs(huge.px - BRIDGE_MAX_PX) < 1e-6, `lunghezza massima in px: ${huge.px}`);
+  assert.ok(BRIDGE_MAX_PX <= 32 && BRIDGE_SCALE < 1);
 });

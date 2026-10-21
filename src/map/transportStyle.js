@@ -104,7 +104,9 @@ export function bridgeLegend() {
 
 const DECK_LEN = 34; // px: lunghezza del campione della legenda
 const DECK_PAD = 2.4; // px di impalcato oltre il simbolo, per lato (legno)
-export const BRIDGE_MIN_PX = 30; // lunghezza minima sullo schermo di un ponte a dettaglio pieno (sotto, il tratto-ponte sarebbe un puntino)
+export const BRIDGE_MIN_PX = 16; // lunghezza minima sullo schermo di un ponte a dettaglio pieno (sotto, il tratto-ponte sarebbe un puntino)
+export const BRIDGE_MAX_PX = 30; // lunghezza massima: a zoom alto il tratto-ponte sarebbe enorme, il ponte no
+export const BRIDGE_SCALE = 0.7; // il ponte intero (larghezza, parapetti, spalle) si disegna a questa scala: più piccolo della linea di cui è un tratto
 
 const DECK_FILL = { wood: '#b98f58', stone: '#d3d1c6', iron: '#dde3ea', 'iron-deck': '#dde3ea' };
 const STEEL = '#2f3a49';
@@ -234,7 +236,7 @@ export function drawSwatch(ctx, spec, w, h) {
  * Ponti come TRATTI della linea (grafo dei collegamenti): lo stesso tracciato della strada o ferrovia, con aspetto di ponte.
  * `list` = tratti-ponte del modello ({ kind, level, coords:Float32Array }); `tier` = dettaglio (detailTier). Misure in px / `sx`.
  * Dettaglio 0: come la linea normale. 1: la linea con un bordo chiaro. 2: il ponte vero (drawBridgeDeck) sul tratto, orientato
- * come la corda del tratto e lungo come lui (almeno BRIDGE_MIN_PX): legno, muratura, ferro a travata (o a traliccio se porta strada e ferrovia).
+ * come la corda del tratto, lungo come lui ma tra BRIDGE_MIN_PX e BRIDGE_MAX_PX e disegnato a scala BRIDGE_SCALE: legno, muratura, ferro a travata (o a traliccio se porta strada e ferrovia).
  */
 export function drawBridgeSegments(ctx, list, { sx, tier }) {
   const byKey = new Map();
@@ -252,7 +254,8 @@ export function drawBridgeSegments(ctx, list, { sx, tier }) {
         ctx.save();
         ctx.translate((c[0] + c[n - 2]) / 2, (c[1] + c[n - 1]) / 2);
         ctx.rotate(Math.atan2(dy, dx));
-        drawBridgeDeck(ctx, spec, sx, Math.max(BRIDGE_MIN_PX, Math.hypot(dx, dy) * sx));
+        ctx.scale(BRIDGE_SCALE, BRIDGE_SCALE);
+        drawBridgeDeck(ctx, spec, sx, Math.min(BRIDGE_MAX_PX, Math.max(BRIDGE_MIN_PX, Math.hypot(dx, dy) * sx)) / BRIDGE_SCALE);
         ctx.restore();
       }
       continue;
