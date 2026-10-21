@@ -13,6 +13,11 @@ const collection = await loadProvinces();
 const ids = collection.features.map((f) => f.properties.id);
 const graph = buildAdjacency(collection, file);
 
+/** Pezzi di una provincia: la provincia stessa o le sue sponde («<id>_SP<n>», dopo la divisione lungo i fiumi). */
+const pezzi = (id) => ids.filter((x) => x === id || x.startsWith(`${id}_SP`));
+/** Due province (anche divise in sponde) sono adiacenti se lo è almeno una coppia di pezzi. */
+const adiacenti = (a, b) => pezzi(a).some((x) => pezzi(b).some((y) => graph.areAdjacent(x, y)));
+
 /** Province raggiungibili via terra da `start`. */
 function reach(start) {
   const seen = new Set([start]);
@@ -36,7 +41,8 @@ test('adiacenza: simmetrica, senza auto-collegamenti, grado ragionevole', () => 
     const ns = graph.neighbors(id);
     assert.ok(!ns.includes(id), `${id} adiacente a sé stessa`);
     assert.equal(new Set(ns).size, ns.length, `${id}: vicini duplicati`);
-    assert.ok(ns.length <= 25, `${id}: ${ns.length} vicini`);
+    // le sponde lungo i fiumi toccano più pezzi: il tetto è più alto della singola provincia
+    assert.ok(ns.length <= 30, `${id}: ${ns.length} vicini`);
     for (const n of ns) {
       assert.ok(graph.neighbors(n).includes(id), `${id} -> ${n} non è simmetrico`);
       assert.equal(graph.borderKm(id, n), graph.borderKm(n, id));
@@ -56,7 +62,7 @@ test('adiacenza: coppie terrestri note', () => {
     ['P_BEL_ANTWERP', 'P_NLD_ZEELAND'], // Fiandre zelandesi
     ['P_FIN_KYMENLAAKSO', 'P_USSR_LENINGRAD'],
   ];
-  for (const [a, b] of pairs) assert.ok(graph.areAdjacent(a, b), `${a} / ${b} dovrebbero essere adiacenti`);
+  for (const [a, b] of pairs) assert.ok(adiacenti(a, b), `${a} / ${b} dovrebbero essere adiacenti`);
 });
 
 test('adiacenza: coppie separate dal mare non sono adiacenti', () => {
@@ -65,7 +71,7 @@ test('adiacenza: coppie separate dal mare non sono adiacenti', () => {
     assert.deepEqual(graph.neighbors(island), [], `${island} dovrebbe essere un'isola senza collegamenti terrestri`);
   }
   for (const { a, b, reason } of overrides.remove) {
-    assert.equal(graph.areAdjacent(a, b), false, `${a} / ${b} (${reason})`);
+    assert.equal(adiacenti(a, b), false, `${a} / ${b} (${reason})`);
     assert.ok(typeof reason === 'string' && reason.length > 0);
   }
   // nessun collegamento diretto tra Gran Bretagna e continente o tra Danimarca e Svezia
@@ -80,12 +86,13 @@ test('adiacenza: coppie separate dal mare non sono adiacenti', () => {
 });
 
 test('adiacenza: raggiungibilità via terra', () => {
-  const eurasia = reach('P_DEU_BERLIN');
+  const eurasia = reach(pezzi('P_DEU_BERLIN')[0]);
+  const raggiunta = (id) => pezzi(id).some((x) => eurasia.has(x));
   for (const id of ['P_ITA_EMILIA', 'P_FRA_SEINE', 'P_ESP_CADIZ', 'P_USSR_MOSKOVSKAYA', 'P_TUR_ISTANBUL', 'P_NOR_OSLO', 'P_EGY_AL_QAHIRAH']) {
-    assert.ok(eurasia.has(id), `${id} non raggiungibile da Berlino via terra`);
+    assert.ok(raggiunta(id), `${id} non raggiungibile da Berlino via terra`);
   }
   for (const id of ['P_GBR_LONDRA', 'P_ITA_SICILY', 'P_ITA_SARDINIA', 'P_MLT_MALTA']) {
-    assert.ok(!eurasia.has(id), `${id} non dovrebbe essere raggiungibile via terra`);
+    assert.ok(!raggiunta(id), `${id} non dovrebbe essere raggiungibile via terra`);
   }
   // 25 isole senza collegamenti terrestri (con l'Islanda): il numero cambia solo se cambiano province o regole, e va rivisto a mano
   const isolated = ids.filter((id) => graph.neighbors(id).length === 0);
@@ -95,7 +102,7 @@ test('adiacenza: raggiungibilità via terra', () => {
 test('adiacenza: ogni ponte tra due province diverse collega province adiacenti', () => {
   const checked = crossings.filter((c) => c.sideA !== c.sideB);
   assert.ok(checked.length >= 3);
-  for (const c of checked) assert.ok(graph.areAdjacent(c.sideA, c.sideB), `${c.id}: ${c.sideA} / ${c.sideB} non adiacenti`);
+  for (const c of checked) assert.ok(adiacenti(c.sideA, c.sideB), `${c.id}: ${c.sideA} / ${c.sideB} non adiacenti`);
 });
 
 test('adiacenza: validazione, casi negativi', () => {
