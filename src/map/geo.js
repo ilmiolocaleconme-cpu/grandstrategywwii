@@ -315,6 +315,10 @@ export function riverRankLimit(k) {
 export function riverWidthScale(k) {
   return k < 1.8 ? 0.55 : k < 3.5 ? 0.8 : 1;
 }
+// Opacità dei fiumi per zoom: a vista d'insieme più trasparenti, così non fanno da rete di linee blu sulla mappa.
+export function riverOpacity(k) {
+  return k < 1.8 ? 0.6 : k < 3.5 ? 0.8 : 1;
+}
 
 export function buildWaterModel(rivers, riversGeo, lakes) {
   const byId = new Map(rivers.map((r) => [r.id, r]));

@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SeaLayer, buildSeaModel } from './SeaLayer.jsx';
 import { pickStaticLabels } from './labelview.js';
-import { HOME_BOUNDS, LAYERS, riverRankLimit, riverWidthScale, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { HOME_BOUNDS, LAYERS, riverRankLimit, riverWidthScale, riverOpacity, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
@@ -33,7 +33,7 @@ const ProvinceLayer = memo(function ProvinceLayer({ items, layer, nationControl,
   );
 });
 
-const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, widthScale, moving, selectedRiverId, riverNames, onPickRiver }) {
+const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, widthScale, opacity, moving, selectedRiverId, riverNames, onPickRiver }) {
   return (
     <>
       {lakes.map((l) => (
@@ -41,7 +41,7 @@ const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, widt
       ))}
       {lines.map((l) => (
         <g key={l.key}>
-          <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width * widthScale) * px} pointerEvents="none" />
+          <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} style={{ opacity: l.inLake ? opacity * 0.7 : opacity }} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width * widthScale) * px} pointerEvents="none" />
           {!moving && (
             <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => onPickRiver(l.riverId)}>
               <title>{riverNames.get(l.riverId)}</title>
@@ -228,7 +228,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
             <g key={off} transform={off ? `translate(${off} 0)` : undefined}>
               {showSeas && <SeaLayer model={seaModel} selectedId={selectedSeaId} px={px} onPick={pickSea} />}
               <ProvinceLayer items={model.items} layer={layer} nationControl={nationControl} selectedId={selectedId} level={level} lod={lod} px={px} borderD={model.borderD} onPick={pickProvince} />
-              {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} widthScale={riverWidthScale(view.k)} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
+              {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} widthScale={riverWidthScale(view.k)} opacity={riverOpacity(view.k)} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
               {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
               {labels.filter((l) => l.off === off).map((l) => {
                 const lines = l.lines ?? [l.name];

@@ -2,7 +2,7 @@
 // Usa Path2D e il contesto 2D: gira solo nel browser. La logica che si può provare senza browser sta in
 // canvasModel.js e canvasView.js (testate in tests/canvas.test.js). Gli stessi colori e spessori di styles.css (.prov, .lake, .river, ...).
 
-import { WORLD_W, provinceFill, riverRankLimit, riverWidthScale } from './geo.js';
+import { WORLD_W, provinceFill, riverOpacity, riverRankLimit, riverWidthScale } from './geo.js';
 import { cityNamesAt } from './citta.js';
 import { CANVAS_LOD_TOLS } from './canvasModel.js';
 import { LINE_STEP } from './labelfit.js';
@@ -302,12 +302,14 @@ export function* renderBaseSteps(ctx, p) {
       }
       trace?.('lakes', ctx);
       ctx.strokeStyle = COLORS.river;
+      ctx.globalAlpha = riverOpacity(view.k);
       for (const [width, path] of riverGroups(water, riverRankLimit(view.k))) {
         ctx.strokeStyle = COLORS.river;
         ctx.lineWidth = (width * riverWidthScale(view.k)) / a.sx;
         ctx.stroke(path);
         yield 'rivers';
       }
+      ctx.globalAlpha = 1;
       trace?.('rivers', ctx);
       if (selectedRiverId) {
         for (const l of water.lines) {
