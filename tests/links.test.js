@@ -32,17 +32,20 @@ test('percorso minimo: preferisce il livello alto, rispetta i nodi ammessi, null
   assert.equal(shortestPath(net, A, C, (u) => u === A || u === C), null);
 });
 
-test('scala: strada 1-3 → gradini 2-4, ferrovia 2-3 → 5-6; il percorso prende il gradino di metà della lunghezza', () => {
-  assert.deepEqual([ladderStep('road', 1), ladderStep('road', 2), ladderStep('road', 3), ladderStep('rail', 2), ladderStep('rail', 3)], [2, 3, 4, 5, 6]);
-  assert.equal(LADDER.length, 6);
-  assert.deepEqual([1, 2, 3, 4, 5, 6].map(markerLevelOfStep), [1, 1, 2, 2, 3, 3]);
-  // 100 km di autostrada con un tratto secondario di 10 km: resta autostrada; metà e metà: vince il gradino più basso raggiunto dal 50%
+test('scala: 4 gradini (sterrata, strada, principale, ferrovia); autostrade = principali, ogni ferrovia = 4; il percorso prende il gradino di metà della lunghezza', () => {
+  assert.deepEqual([ladderStep('road', 0), ladderStep('road', 1), ladderStep('road', 2), ladderStep('road', 3), ladderStep('rail', 2), ladderStep('rail', 3)], [1, 2, 3, 3, 4, 4]);
+  assert.deepEqual(LADDER.map((l) => l.id), ['dirt', 'road', 'main-road', 'rail']);
+  assert.ok(LADDER.every((l) => l.level <= 2), 'mai due corsie né doppio binario');
+  assert.deepEqual([1, 2, 3, 4].map(markerLevelOfStep), [1, 1, 2, 2]);
+  // 90 km di strada principale con un tratto secondario di 10 km: resta principale; metà e metà: vince il gradino più alto raggiunto dal 50%
   const net = buildNetwork([L('road', 3, [0, 0], [0.9, 0]), L('road', 1, [0.9, 0], [1, 0])], 'road');
-  assert.equal(pathStep(net, net.edges.map((_, i) => i)), 4);
+  assert.equal(pathStep(net, net.edges.map((_, i) => i)), 3);
   const half = buildNetwork([L('road', 3, [0, 0], [0.5, 0]), L('road', 1, [0.5, 0], [1, 0])], 'road');
-  assert.equal(pathStep(half, half.edges.map((_, i) => i)), 4);
+  assert.equal(pathStep(half, half.edges.map((_, i) => i)), 3);
   const mostlyLow = buildNetwork([L('road', 3, [0, 0], [0.3, 0]), L('road', 1, [0.3, 0], [1, 0])], 'road');
   assert.equal(pathStep(mostlyLow, mostlyLow.edges.map((_, i) => i)), 2);
+  const rail = buildNetwork([L('rail', 3, [0, 0], [0.6, 0]), L('rail', 2, [0.6, 0], [1, 0])], 'rail');
+  assert.equal(pathStep(rail, rail.edges.map((_, i) => i)), 4, 'doppio e unico binario sono entrambi ferrovia');
   assert.equal(pathStep(net, []), 1);
 });
 
@@ -93,7 +96,19 @@ test('dati: un collegamento per coppia di province confinanti (tranne le tratte 
     assert.ok(Math.abs(first[0] - seat.get(l.a).lon) < 1e-3 && Math.abs(first[1] - seat.get(l.a).lat) < 1e-3, `${l.id}: parte dalla sede`);
     assert.ok(Math.abs(last.at(-2) - seat.get(l.b).lon) < 1e-3 && Math.abs(last.at(-1) - seat.get(l.b).lat) < 1e-3, `${l.id}: arriva alla sede`);
   }
-  assert.ok(links.links.some((l) => l.t === 6) && links.links.some((l) => l.t === 5) && links.links.some((l) => l.t === 1) && links.links.some((l) => l.t === 2 || l.t === 3));
+  assert.ok(links.links.some((l) => l.t === 4) && links.links.some((l) => l.t === 1) && links.links.some((l) => l.t === 2) && links.links.some((l) => l.t === 3));
+  assert.ok(links.links.every((l) => l.t >= 1 && l.t <= 4), 'scala a 4 gradini');
+  assert.ok(links.segments.every((s) => !s.sea ? (s.k === 'road' && s.level <= 2) || (s.k === 'rail' && s.level === 2) : true), 'né autostrade né doppio binario');
+  assert.ok((links.ladder ?? []).length === 4);
+});
+
+test('dati: gli angoli dei tracciati non dritti sono arrotondati (molti punti per curva, non spigoli)', () => {
+  const links = read('links.json');
+  const bendIds = new Set(links.links.filter((l) => l.how === 'bend').map((l) => l.id));
+  const pts = links.segments.filter((s) => bendIds.has(s.link) && !s.br).map((s) => s.c.length / 2);
+  assert.ok(pts.length > 500);
+  const avg = pts.reduce((a, b) => a + b, 0) / pts.length;
+  assert.ok(avg > 3, `${avg.toFixed(1)} punti per tratto in media: con un solo spigolo sarebbero 3`);
 });
 
 test('dati: i tracciati restano dentro le due province (mai sul mare), le tratte marittime sono poche, brevi e senza ponti', async () => {

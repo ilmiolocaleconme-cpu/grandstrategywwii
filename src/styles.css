@@ -138,7 +138,6 @@ h2 {
 .lake { fill: #2f6f9c; stroke: #5aa3d8; }
 .river { fill: none; stroke: #5aa3d8; stroke-linecap: round; stroke-linejoin: round; }
 .river.in-lake { stroke-dasharray: 2 3; opacity: 0.7; }
-.river-hit { fill: none; stroke: transparent; pointer-events: stroke; cursor: pointer; }
 
 /* Partita: schermata iniziale e barra della data (mobile-first) */
 .newgame h2 { font-size: 16px; margin: 16px 0 8px; }

@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildMapModel, buildLod, nationalBorderPath, project, HOME_BOUNDS, WORLD_W, zoomAt, wrapView } from '../src/map/geo.js';
-import { buildCanvasModel, buildBorders, createLodJob, createBorderLodJob, pickProvinceAt, pickRiverNear, buildCanvasWater, CANVAS_LOD_TOLS } from '../src/map/canvasModel.js';
+import { buildCanvasModel, buildBorders, createLodJob, createBorderLodJob, pickProvinceAt, buildCanvasWater, CANVAS_LOD_TOLS } from '../src/map/canvasModel.js';
 import { layoutOf, affineOf, screenToUnit, screenToView, blitPlan, coversScreen, lodLevelForScale, regionToUnits, gestureRenderDelay, MOVING_MIN_GAP_MS } from '../src/map/canvasView.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
@@ -132,7 +132,7 @@ test('ricerca della provincia: concorda con l\'indice delle regole su città not
   assert.equal(pickProvinceAt(cm, sx, sy), null);
 });
 
-test('ricerca del fiume: il tratto vicino si trova, quello lontano o dentro un lago no, il fiume selezionato sì', () => {
+test('fiumi: il modello d\'acqua conserva rango e laghi, ma non c\'è più nessuna ricerca per il tocco (non cliccabili)', async () => {
   const rivers = [{ id: 'R1', widthClass: 'large', scalerank: 3 }, { id: 'R2', widthClass: 'small', scalerank: 9 }];
   const geo = {
     features: [
@@ -140,15 +140,10 @@ test('ricerca del fiume: il tratto vicino si trova, quello lontano o dentro un l
       { properties: { riverId: 'R2', segment: 0, inLake: true }, geometry: { type: 'LineString', coordinates: [[0, 50], [10, 50]] } },
     ],
   };
-  const lakes = { features: [] };
-  const w = buildCanvasWater(rivers, geo, lakes, (r) => (r?.widthClass === 'large' ? 2.4 : 0.9), (r) => r?.scalerank ?? 99);
-  const [x, y] = project(5, 40);
-  assert.equal(pickRiverNear(w, x, y + 0.05, 0.1, 5), 'R1');
-  assert.equal(pickRiverNear(w, x, y + 1, 0.1, 5), null);
-  const [x2, y2] = project(5, 50);
-  assert.equal(pickRiverNear(w, x2, y2, 0.1, 99), null, 'tratto dentro un lago non selezionabile');
-  assert.equal(pickRiverNear(w, x2, y2, 0.1, 99, 'R2'), 'R2', 'ma se il fiume è selezionato sì');
-  assert.equal(pickRiverNear(w, x, y, 0.1, 2), null, 'rango oltre la soglia di densità');
+  const w = buildCanvasWater(rivers, geo, { features: [] }, (r) => (r?.widthClass === 'large' ? 2.4 : 0.9), (r) => r?.scalerank ?? 99);
+  assert.deepEqual(w.lines.map((l) => [l.riverId, l.rank, Boolean(l.inLake)]).sort(), [['R1', 3, false], ['R2', 9, true]]);
+  const model = await import('../src/map/canvasModel.js');
+  assert.equal(model.pickRiverNear, undefined, 'la ricerca del fiume sotto il dito non esiste più');
 });
 
 // --- vista --------------------------------------------------------------------------------------------------------

@@ -111,11 +111,7 @@ export async function buildLinksFile(neDir, params = PARAMS) {
       const sp = shortestPath(net, u, v, (w) => { const p = provOf(w); return p === i || p === j || p === -1; });
       if (!sp || sp.km > params.detourFactor * straight + params.detourExtraKm) continue;
       found += 1;
-      let t = pathStep(net, sp.edges);
-      if (mode === 'road') { // le prime autostrade (livello 3 con nome): bastano il 30% del percorso
-        const named = sp.edges.reduce((n, ei) => n + (net.edges[ei].n ? net.edges[ei].km : 0), 0);
-        if (named >= 0.3 * sp.km) t = Math.max(t, 4);
-      }
+      const t = pathStep(net, sp.edges);
       const key = `${i}|${j}`;
       if (t > (stepOf.get(key)?.t ?? 0)) stepOf.set(key, { t, via: mode });
     }
@@ -179,7 +175,7 @@ export async function buildLinksFile(neDir, params = PARAMS) {
     file: {
       schema: LINKS_SCHEMA,
       quality: 'hypothesis',
-      method: 'un collegamento per coppia di province confinanti (tracciato tra le sedi che resta dentro le due province: retta, un punto sul confine condiviso o percorso a griglia; senza percorso via terra, tratta marittima); gradino = quello raggiunto da almeno metà del percorso migliore sulla rete di transport.json (rotaia sopra strada), strada sterrata senza dati; ponti dove la linea incrocia un fiume medio/grande, uno per fiume',
+      method: 'un collegamento per coppia di province confinanti (tracciato tra le sedi che resta dentro le due province: retta, un punto sul confine condiviso o percorso a griglia; senza percorso via terra, tratta marittima); gradino (strada sterrata, strada, strada principale, ferrovia; mai due corsie) = quello raggiunto da almeno metà del percorso migliore sulla rete di transport.json (rotaia sopra strada, autostrada = strada principale), strada sterrata senza dati; ponti dove la linea incrocia un fiume medio/grande, uno per fiume',
       source: 'Natural Earth 10m roads/railroads/populated places (pubblico dominio), rete moderna: non è quella del 1936',
       ladder: LADDER,
       params,

@@ -33,7 +33,7 @@ const ProvinceLayer = memo(function ProvinceLayer({ items, layer, nationControl,
   );
 });
 
-const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, widthScale, opacity, moving, selectedRiverId, riverNames, onPickRiver }) {
+const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, widthScale, opacity }) {
   return (
     <>
       {lakes.map((l) => (
@@ -41,12 +41,7 @@ const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, widt
       ))}
       {lines.map((l) => (
         <g key={l.key}>
-          <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} style={{ opacity: l.inLake ? opacity * 0.7 : opacity }} strokeWidth={(l.riverId === selectedRiverId ? l.width + 1.5 : l.width * widthScale) * px} pointerEvents="none" />
-          {!moving && (
-            <path d={l.d} className="river-hit" strokeWidth={12 * px} onClick={() => onPickRiver(l.riverId)}>
-              <title>{riverNames.get(l.riverId)}</title>
-            </path>
-          )}
+          <path d={waterLevel >= 0 ? l.low[waterLevel] : l.d} className={l.inLake ? 'river in-lake' : 'river'} style={{ opacity: l.inLake ? opacity * 0.7 : opacity }} strokeWidth={l.width * widthScale * px} pointerEvents="none" />
         </g>
       ))}
     </>
@@ -55,12 +50,11 @@ const WaterLayer = memo(function WaterLayer({ lakes, lines, waterLevel, px, widt
 
 // Mappa strategica SVG: zoom (rotella, pizzico, pulsanti), spostamento, selezione, livelli.
 // Legge le stesse province (data/provinces/, un file per nazione, uniti in memoria) usate dalle regole e dai test.
-export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData }) {
+export default function MapView({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData }) {
   const model = useMemo(() => buildMapModel(provinces), [provinces]);
   // fiumi e laghi arrivano a parte (caricamento differito): finché mancano, la mappa funziona senza
   const water = useMemo(() => (rivers && riversGeo && lakes ? buildWaterModel(rivers, riversGeo, lakes) : { lines: [], lakes: [] }), [rivers, riversGeo, lakes]);
   const seaModel = useMemo(() => (seas ? buildSeaModel(seas) : []), [seas]);
-  const riverNames = useMemo(() => new Map((rivers ?? []).map((r) => [r.id, r.name])), [rivers]);
   const { bounds } = model; // limiti reali dei dati (possono coprire tutte le longitudini)
   const pad = HOME_BOUNDS.w * 0.02;
   // il viewBox e la vista iniziale fissa, non i limiti dei dati
@@ -83,11 +77,10 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const gesture = useRef(null);
   const moved = useRef(false);
   // callback stabili (i livelli memorizzati non devono ridisegnarsi a ogni render): leggono sempre l'ultimo gestore
-  const handlers = useRef({ onSelect, onSelectRiver, onSelectSea });
-  handlers.current = { onSelect, onSelectRiver, onSelectSea };
+  const handlers = useRef({ onSelect, onSelectSea });
+  handlers.current = { onSelect, onSelectSea };
   const pickProvince = useCallback((id) => { if (!moved.current) handlers.current.onSelect(id); }, []);
   const pickSea = useCallback((id) => { if (!moved.current) handlers.current.onSelectSea?.(id); }, []);
-  const pickRiver = useCallback((id) => { if (!moved.current) handlers.current.onSelectRiver(id); }, []);
 
   const measure = useCallback(() => {
     const ctm = svgRef.current?.getScreenCTM();
@@ -174,9 +167,9 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   const px = 1 / (pxPerUnit * view.k); // 1 pixel dello schermo in unità di mappa
   const level = moving && lod ? lodLevel(view.k) : -1;
   const rankLimit = riverRankLimit(view.k);
-  // i tratti dentro i laghi disegnati non si disegnano (restano nei dati per le regole); quelli del fiume selezionato sì, tratteggiati
+  // i tratti dentro i laghi disegnati non si disegnano (restano nei dati per le regole)
   // elenco stabile tra un render e l'altro (il livello memorizzato dei fiumi non deve ridisegnarsi durante il gesto)
-  const shownRivers = useMemo(() => water.lines.filter((l) => (l.rank <= rankLimit && !l.inLake) || l.riverId === selectedRiverId), [water.lines, rankLimit, selectedRiverId]);
+  const shownRivers = useMemo(() => water.lines.filter((l) => l.rank <= rankLimit && !l.inLake), [water.lines, rankLimit]);
   const waterLevel = moving ? lodLevel(view.k) : -1; // fiumi e laghi restano visibili, con meno punti
   const copies = visibleCopies(view, vbRect, bounds); // di norma una sola; due quando la vista attraversa l'antimeridiano
   const [legendOpen, setLegendOpen] = useState(false);
@@ -228,7 +221,7 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
             <g key={off} transform={off ? `translate(${off} 0)` : undefined}>
               {showSeas && <SeaLayer model={seaModel} selectedId={selectedSeaId} px={px} onPick={pickSea} />}
               <ProvinceLayer items={model.items} layer={layer} nationControl={nationControl} selectedId={selectedId} level={level} lod={lod} px={px} borderD={model.borderD} onPick={pickProvince} />
-              {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} widthScale={riverWidthScale(view.k)} opacity={riverOpacity(view.k)} moving={moving} selectedRiverId={selectedRiverId} riverNames={riverNames} onPickRiver={pickRiver} />}
+              {showRivers && <WaterLayer lakes={water.lakes} lines={shownRivers} waterLevel={waterLevel} px={px} widthScale={riverWidthScale(view.k)} opacity={riverOpacity(view.k)} />}
               {selected && <path d={selected.seamD ?? selected.d} fillRule="evenodd" className="prov-outline" strokeWidth={2 * px} pointerEvents="none" />}
               {labels.filter((l) => l.off === off).map((l) => {
                 const lines = l.lines ?? [l.name];

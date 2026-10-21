@@ -1,14 +1,14 @@
 // Strade e ferrovie sulla mappa Canvas: modello proiettato (array tipizzati), densità per zoom e disegno.
-// L'aspetto (bordi, due carreggiate, traversine e rotaie, doppio binario) sta in transportStyle.js e cresce con lo
+// L'aspetto (bordi, mezzeria, traversine e rotaie) sta in transportStyle.js e cresce con lo
 // zoom. I dati e le regole stanno in src/data/transport.js e data/links.json; qui solo la parte grafica.
 // buildTransportModel, transportRankLimit e transportLegend si provano senza browser (tests/transport.test.js);
 // drawTransport usa Path2D.
 
-import { DRAW_GROUPS, RECIPES, addOffset, DETAIL_ZOOMS, detailTier, drawBridgeSegments, offsetOf, sizeBoost, strokePass } from './transportStyle.js';
+import { DRAW_GROUPS, RECIPES, DETAIL_ZOOMS, detailTier, drawBridgeSegments, sizeBoost, strokePass } from './transportStyle.js';
 
 /**
  * Soglia di importanza (scalerank di Natural Earth) mostrata a un dato zoom: da molto lontano nessuna linea (la mappa
- * resta leggibile), poi solo autostrade e linee principali, poi le altre.
+ * resta leggibile), poi solo le linee principali, poi le altre.
  */
 export function transportRankLimit(k) {
   return k < 8 ? 0 : k < 12 ? 4 : k < 18 ? 6 : 99;
@@ -45,9 +45,7 @@ export function transportLegend() {
     { key: 'road-0', label: 'Strada sterrata', how: 'tratteggio marrone' },
     { key: 'road-1', label: 'Strada', how: 'una carreggiata, bordo scuro' },
     { key: 'road-2', label: 'Strada principale', how: 'gialla, linea di mezzeria' },
-    { key: 'road-3', label: 'Autostrada', how: 'due carreggiate con spartitraffico' },
-    { key: 'rail-2', label: 'Ferrovia a binario unico', how: 'rotaie con traversine' },
-    { key: 'rail-3', label: 'Ferrovia potenziata', how: 'doppio binario' },
+    { key: 'rail-2', label: 'Ferrovia', how: 'rotaie con traversine' },
   ].map((r) => ({ ...r, spec: { kind: 'line', key: r.key } }));
 }
 
@@ -65,7 +63,7 @@ function groupsFor(model, rankLimit) {
 }
 
 /**
- * Disegna strade e ferrovie visibili: strade sotto, ferrovie sopra, le autostrade (livello 3) per ultime in cima a tutto.
+ * Disegna strade e ferrovie visibili: strade sotto, ferrovie sopra.
  * Il dettaglio dipende dallo zoom (detailTier): linee semplici, poi bordi e tratteggi, poi il disegno completo.
  * Ogni gruppo si fa per passate (tutti i bordi, poi tutti i riempimenti…) così gli incroci restano puliti.
  * Il contesto ha già la trasformazione mappa → schermo (`sx` pixel per unità): spessori e tratteggi in pixel si dividono per `sx`.
@@ -84,20 +82,18 @@ export function drawTransport(ctx, model, { sx: sxMap, k, cull }) {
     for (const key of group) {
       const list = byKey.get(key);
       if (!list) continue;
-      const off = offsetOf(key, tier); // due tracciati paralleli (carreggiate, binari)
       const path = new Path2D();
-      const path2 = off ? new Path2D() : null;
       let any = false;
       for (const l of list) {
         const b = l.bbox;
         if (b.x > cull.x1 || b.x + b.w < cull.x0 || b.y > cull.y1 || b.y + b.h < cull.y0) continue;
         const c = l.coords;
         path.moveTo(c[0], c[1]);
-        if (off) { addOffset(path, c, -off / sx); addOffset(path2, c, off / sx); } else for (let i = 2; i < c.length; i += 2) path.lineTo(c[i], c[i + 1]);
+        for (let i = 2; i < c.length; i += 2) path.lineTo(c[i], c[i + 1]);
         any = true;
         drawn += 1;
       }
-      if (any) { paths.push({ key, path }); if (path2) paths.push({ key, path: path2 }); }
+      if (any) paths.push({ key, path });
     }
     const passes = Math.max(0, ...paths.map((p) => RECIPES[p.key][tier].length));
     for (let i = 0; i < passes; i += 1) {
@@ -118,7 +114,7 @@ export function drawTransport(ctx, model, { sx: sxMap, k, cull }) {
     for (const n of model.nodes) {
       if (n.x < cull.x0 || n.x > cull.x1 || n.y < cull.y0 || n.y > cull.y1) continue;
       ctx.beginPath();
-      ctx.arc(n.x, n.y, (n.t >= 5 ? 3.4 : 2.6) / sx, 0, Math.PI * 2);
+      ctx.arc(n.x, n.y, (n.t >= 4 ? 3.4 : 2.6) / sx, 0, Math.PI * 2);
       ctx.fillStyle = '#1d2418';
       ctx.fill();
       ctx.lineWidth = 1.2 / sx;

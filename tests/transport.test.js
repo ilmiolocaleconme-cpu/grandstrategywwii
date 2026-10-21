@@ -15,7 +15,7 @@ const net = read('transport.json'); // rete di origine dei collegamenti
 const transport = { count: 3, lines: [
   { id: 'A', k: 'road', level: 2, rank: 6, c: [0, 0, 1, 1] },
   { id: 'B', k: 'road', level: 1, rank: 99, c: [1, 1, 2, 1.5] },
-  { id: 'C', k: 'rail', level: 3, rank: 4, c: [0, 1, 1, 2] },
+  { id: 'C', k: 'rail', level: 2, rank: 4, c: [0, 1, 1, 2] },
 ] };
 
 test('trasporti: livelli provvisori da classe Natural Earth, ferry esclusi, autostrade a livello 2', () => {
@@ -78,13 +78,9 @@ test('mappa: modello proiettato, densità per zoom, legenda con stili diversi', 
   assert.equal(transportRankLimit(1), 0, 'da lontano nessuna linea');
   assert.ok(transportRankLimit(1) < transportRankLimit(10) && transportRankLimit(10) < transportRankLimit(15) && transportRankLimit(15) < transportRankLimit(25));
   const legend = transportLegend();
-  assert.equal(legend.length, 7);
-  assert.equal(new Set(legend.map((l) => l.key)).size, 7);
-  // a ogni livello di dettaglio le larghezze crescono: strada secondaria < principale < autostrada, binario unico < doppio
-  for (const t of [0, 1, 2]) {
-    assert.ok(recipeWidth('road-1', t) < recipeWidth('road-2', t) && recipeWidth('road-2', t) < recipeWidth('road-3', t), `strade a dettaglio ${t}`);
-    assert.ok(recipeWidth('rail-2', t) < recipeWidth('rail-3', t), `ferrovie a dettaglio ${t}`);
-  }
+  assert.deepEqual(legend.map((l) => l.key), ['sea-0', 'road-0', 'road-1', 'road-2', 'rail-2'], 'tratta marittima, sterrata, strada, principale, ferrovia: niente autostrade né doppio binario');
+  // a ogni livello di dettaglio la strada principale è più larga della strada comune
+  for (const t of [0, 1, 2]) assert.ok(recipeWidth('road-1', t) < recipeWidth('road-2', t), `strade a dettaglio ${t}`);
 });
 
 test('mappa: drawTransport rispetta zoom e riquadro (Path2D simulato)', () => {

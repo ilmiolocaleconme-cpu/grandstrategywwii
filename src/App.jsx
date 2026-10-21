@@ -10,7 +10,7 @@ import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
 import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.js';
-import ProvincePanel, { RiverPanel } from './map/ProvincePanel.jsx';
+import ProvincePanel from './map/ProvincePanel.jsx';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
 import { buildCanvasModel } from './map/canvasModel.js';
@@ -162,12 +162,9 @@ export default function App() {
   const [seaId, setSeaId] = useState(null);
   const [layer, setLayer] = useState('political');
   const [provinceId, setProvinceId] = useState(null);
-  const [riverId, setRiverId] = useState(null);
   const [showRivers, setShowRivers] = useState(true);
-  const selectProvince = (id) => { setProvinceId(id); setRiverId(null); setSeaId(null); };
-  const selectRiver = (id) => { setRiverId(id); setProvinceId(null); setSeaId(null); };
-  const selectSea = (id) => { setSeaId(id); setProvinceId(null); setRiverId(null); };
-  const selectedRiver = rivers?.find((r) => r.id === riverId) ?? null;
+  const selectProvince = (id) => { setProvinceId(id); setSeaId(null); };
+  const selectSea = (id) => { setSeaId(id); setProvinceId(null); };
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
 
@@ -272,11 +269,9 @@ export default function App() {
           <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : (
         <div className="map-layout">
-          <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} selectedRiverId={riverId} onSelectRiver={selectRiver} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} />
+          <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} />
           {seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setSeaId(null)} onSelect={selectSea} />
-          ) : selectedRiver ? (
-            <RiverPanel river={selectedRiver} rivers={rivers ?? []} onClose={() => setRiverId(null)} />
           ) : (
             <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} onClose={() => setProvinceId(null)} />
           )}

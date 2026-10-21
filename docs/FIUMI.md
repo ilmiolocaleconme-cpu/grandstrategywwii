@@ -62,7 +62,7 @@ Natural Earth 10m `lakes` + `lakes_europe` (5.2.0-pre, commit ca96624). Stessa s
 Natural Earth disegna i fiumi come linee d'asse che attraversano i laghi, e sulla mappa si vedevano linee sopra l'acqua. Ora ogni tratto è **diviso sui poligoni dei laghi del catalogo** (`data/lakes.json`, bisezione dei punti di ingresso e uscita): `inLake` è vero solo dove la linea sta dentro un lago disegnato (14.631 km, 280 → 2044 tratti in tutto, lunghezze dei fiumi invariate).
 
 - **Dati e regole:** i tratti `inLake` restano nei dati, così la continuità del fiume (navigazione, confluenze) non si perde.
-- **Mappa:** i tratti `inLake` non si disegnano; si vedono, tratteggiati, solo quelli del fiume selezionato.
+- **Mappa:** i tratti `inLake` non si disegnano. **I fiumi non sono più cliccabili** (21/10/2026): niente selezione, niente scheda del fiume (`RiverPanel` e `pickRiverNear` eliminati); i dati dei fiumi restano per le regole.
 - **Limiti:** nei grandi bacini artificiali (Kuybyshev, Rybinsk, Bratsk) il Volga e altri fiumi spariscono per tutta la lunghezza del bacino (bacini posteriori al 1936: vedi i laghi); una corda tra due vertici fuori dal lago può tagliarne un'insenatura (test: ≤ 0,5 % degli archi); le linee d'asse di laghi non presenti nel catalogo (piccoli o esclusi) restano visibili come fiumi.
 - Test: `tests/fiumi_laghi.test.js` (3).
 

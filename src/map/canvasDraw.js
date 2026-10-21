@@ -212,12 +212,12 @@ const LAKE_CHUNK = 60; // laghi per passo
  * è un generatore che cede il controllo dopo ogni passo (mare e riempimenti, gruppi di contorni, gruppi di bordi, laghi,
  * ogni spessore di fiumi), così chi lo guida può lasciare passare i tocchi tra un passo e l'altro. Un ridisegno completo
  * costa da centinaia di ms a secondi sul telefono: in un solo compito bloccherebbe i gesti.
- * p: { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, light }
+ * p: { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, light }
  * light: versione leggera per i ridisegni a gesto in corso (solo mare e riempimenti delle province, senza contorni, bordi,
  * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
 export function* renderBaseSteps(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, selectedRiverId, copies, trace, seas, selectedSeaId, light, markers, transport } = p;
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, markers, transport } = p;
   const a = affineOf(view, vb, lay);
   const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
   const cull = regionToUnits(view, vb, lay, region);
@@ -312,23 +312,6 @@ export function* renderBaseSteps(ctx, p) {
       }
       ctx.globalAlpha = 1;
       trace?.('rivers', ctx);
-      if (selectedRiverId) {
-        for (const l of water.lines) {
-          if (l.riverId !== selectedRiverId) continue;
-          const c = l.coords;
-          const path = new Path2D();
-          path.moveTo(c[0], c[1]);
-          for (let i = 2; i < c.length; i += 2) path.lineTo(c[i], c[i + 1]);
-          ctx.strokeStyle = COLORS.river;
-          ctx.lineWidth = (l.width + 1.5) / a.sx;
-          ctx.setLineDash(l.inLake ? [2, 3] : []);
-          ctx.globalAlpha = l.inLake ? 0.7 : 1;
-          ctx.stroke(path);
-        }
-        ctx.setLineDash([]);
-        ctx.globalAlpha = 1;
-        yield 'selected';
-      }
     }
     // strade e ferrovie (livello Logistica, spento di default): sopra i fiumi, sotto i ponti
     if (transport) {

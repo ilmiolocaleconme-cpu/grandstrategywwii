@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, riverRankLimit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { nearestCityAt } from './citta.js';
-import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, pickRiverNear, CANVAS_LOD_TOLS } from './canvasModel.js';
+import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
 import { buildMarkers, markerLegend } from './crossingMarkers.js';
@@ -30,7 +30,7 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, selectedRiverId, onSelectRiver, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, crossingPoints, showBridges, onToggleBridges, transport, showTransport, onToggleTransport }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, crossingPoints, showBridges, onToggleBridges, transport, showTransport, onToggleTransport }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
@@ -51,7 +51,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationControl, selectedId, selectedRiverId, showRivers, onSelect, onSelectRiver, seaData, showSeas, selectedSeaId, onSelectSea, labelData, markers, transportModel };
+  props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, markers, transportModel };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -89,7 +89,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), markers: p.markers, transport: p.transportModel, trace: window.__gsTrace, light });
+    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), markers: p.markers, transport: p.transportModel, trace: window.__gsTrace, light });
     s.cache = { canvas: c, view: { ...view }, region, light };
     baseRef.current.dataset.drawn = '1';
     if (p.water.lines.length && p.showRivers && !light) baseRef.current.dataset.water = '1';
@@ -136,7 +136,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, selectedRiverId: p.selectedRiverId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), markers: p.markers, transport: p.transportModel, trace: window.__gsTrace, light: false });
+    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), markers: p.markers, transport: p.transportModel, trace: window.__gsTrace, light: false });
     const sl = { canvas: c, exposed: false, timer: 0 };
     s.slice = sl;
     const expose = () => {
@@ -331,7 +331,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       // i nomi partono solo dopo che la prima schermata è stata presentata (due fotogrammi)
       requestAnimationFrame(() => requestAnimationFrame(() => { s.painted = true; setViewRev((n) => n + 1); }));
     }
-  }, [size, model, water, layer, showRivers, selectedRiverId, seaData, showSeas, selectedSeaId, markers, transportModel]);
+  }, [size, model, water, layer, showRivers, seaData, showSeas, selectedSeaId, markers, transportModel]);
   // la selezione della provincia cambia solo la sovrapposizione
   useEffect(() => { paintOverlay(); }, [selectedId, seaData, showSeas]);
 
@@ -409,13 +409,6 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const view = s.view;
     const [ux, uy] = screenToUnit(view, VB, l, px, py);
     const copies = visibleCopies(view, VB, p.model.bounds);
-    if (p.showRivers && p.water.lines.length) {
-      const tol = 6 / (l.s * view.k); // la zona sensibile dei fiumi è larga 12 pixel, come in SVG
-      for (const off of copies) {
-        const id = pickRiverNear(p.water, ux - off, uy, tol, riverRankLimit(view.k), p.selectedRiverId);
-        if (id) { p.onSelectRiver(id); return; }
-      }
-    }
     const tolCitta = 16 / (l.s * view.k); // le città piccole si toccano anche un po' fuori dal contorno
     for (const off of copies) {
       const c = nearestCityAt(p.model.items, ux - off, uy, tolCitta);

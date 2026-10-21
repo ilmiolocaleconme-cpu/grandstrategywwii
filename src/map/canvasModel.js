@@ -405,20 +405,3 @@ function segDist2(px, py, ax, ay, bx, by) {
   const ey = py - (ay + t * dy);
   return ex * ex + ey * ey;
 }
-
-/** Fiume visibile più vicino al punto (unità di mappa) entro `tol`, o null. Visibili: rango <= rankLimit e fuori dai laghi, più il fiume selezionato. */
-export function pickRiverNear(water, x, y, tol, rankLimit, selectedRiverId = null) {
-  let best = null;
-  let bestD = tol * tol;
-  for (const l of water.lines) {
-    if (!((l.rank <= rankLimit && !l.inLake) || l.riverId === selectedRiverId)) continue;
-    const b = l.bbox;
-    if (x < b.x - tol || x > b.x + b.w + tol || y < b.y - tol || y > b.y + b.h + tol) continue;
-    const c = l.coords;
-    for (let i = 0; i + 3 < c.length; i += 2) {
-      const d = segDist2(x, y, c[i], c[i + 1], c[i + 2], c[i + 3]);
-      if (d <= bestD) { bestD = d; best = l.riverId; }
-    }
-  }
-  return best;
-}

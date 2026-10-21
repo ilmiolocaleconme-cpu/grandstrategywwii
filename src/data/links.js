@@ -1,5 +1,6 @@
 // Grafo dei collegamenti per il gioco (data/links.json): UN collegamento per ogni coppia di province confinanti, con un tracciato
-// (dritto, o curvo se serve) tra le «sedi» (la città più popolosa) e UN solo tipo visibile: una scala da strada sterrata a ferrovia potenziata.
+// (dritto, o curvo se serve) tra le «sedi» (la città più popolosa) e UN solo tipo visibile: una scala di 4 gradini, strada
+// sterrata, strada, strada principale, ferrovia, tutti a corsia/binario unico (niente autostrade né doppio binario).
 // Il livello del collegamento è la STROZZATURA: il tratto peggiore del percorso migliore trovato sulla rete di
 // strade/ferrovie (data/transport.json, Natural Earth); senza dati è strada sterrata. Un ponte nasce dove la linea del
 // collegamento incrocia un fiume importante, ed è un tratto della linea stessa. Il tracciato resta dentro le due province
@@ -11,37 +12,39 @@ import { lineLengthKm } from './rivers.js';
 export const LINKS_SCHEMA = 'links-v2';
 
 /**
- * Scala dei collegamenti: da strada sterrata a ferrovia potenziata. `k`/`level` sono i nomi che usano disegno e rete di
- * transport.json (strada 0-3, ferrovia 2-3); `rank` decide da che zoom si vede (strade importanti da più lontano).
+ * Scala dei collegamenti: strada sterrata, strada, strada principale, ferrovia (una sola corsia o binario). `k`/`level` sono i
+ * nomi che usano disegno e rete di transport.json (strada 0-2, ferrovia 2); `rank` decide da che zoom si vede (le linee
+ * importanti da più lontano).
  */
 export const LADDER = Object.freeze([
   { t: 1, id: 'dirt', label: 'Strada sterrata', k: 'road', level: 0, rank: 99 },
   { t: 2, id: 'road', label: 'Strada', k: 'road', level: 1, rank: 99 },
   { t: 3, id: 'main-road', label: 'Strada principale', k: 'road', level: 2, rank: 6 },
-  { t: 4, id: 'motorway', label: 'Autostrada', k: 'road', level: 3, rank: 4 },
-  { t: 5, id: 'rail', label: 'Ferrovia a binario unico', k: 'rail', level: 2, rank: 4 },
-  { t: 6, id: 'rail-double', label: 'Ferrovia potenziata (doppio binario)', k: 'rail', level: 3, rank: 4 },
+  { t: 4, id: 'rail', label: 'Ferrovia', k: 'rail', level: 2, rank: 4 },
 ]);
 
-/** Gradino della scala di un livello di transport.json (strada 1-3 → 2-4, ferrovia 2-3 → 5-6). */
+/**
+ * Gradino della scala di un livello di transport.json: strada 0-1-2 → 1-2-3, le autostrade (livello 3) sono strade principali,
+ * ogni ferrovia (anche a doppio binario) è il gradino 4.
+ */
 export function ladderStep(mode, level) {
-  return mode === 'rail' ? (level >= 3 ? 6 : 5) : Math.min(4, Math.max(1, level + 1));
+  return mode === 'rail' ? 4 : Math.min(3, Math.max(1, level + 1));
 }
 
-/** Livello 1-3 del marcatore del ponte (forma sulla mappa) dal gradino. */
+/** Livello 1-2 del marcatore del ponte (forma sulla mappa) dal gradino: legno (1-2), muratura (3) e ferro (4). */
 export function markerLevelOfStep(t) {
-  return t <= 2 ? 1 : t <= 4 ? 2 : 3;
+  return t <= 2 ? 1 : 2;
 }
 
 /**
  * Gradino di un percorso: il più alto raggiunto da almeno metà della sua lunghezza. Il minimo assoluto sarebbe troppo severo:
- * un solo tratto secondario in 150 km di autostrada la farebbe diventare una strada. (La strozzatura tra province resta:
+ * un solo tratto secondario in 150 km di strada principale la farebbe diventare una strada. (La strozzatura tra province resta:
  * un collegamento non supera mai il gradino delle sue due province, verificato da validateLinks.)
  */
 export function pathStep(net, edges) {
   if (edges.length === 0) return 1;
   const total = edges.reduce((n, ei) => n + net.edges[ei].km, 0);
-  for (let t = 6; t >= 1; t -= 1) {
+  for (let t = LADDER.length; t >= 1; t -= 1) {
     const km = edges.reduce((n, ei) => n + (ladderStep(net.mode, net.edges[ei].level) >= t ? net.edges[ei].km : 0), 0);
     if (km >= total / 2) return t;
   }
@@ -286,7 +289,7 @@ export function validateLinks(file, { provinceIds, riverIds } = {}) {
     if (brIds.has(b.id)) errors.push(`${b.id}: id ponte duplicato`);
     brIds.add(b.id);
     if (!segIds.has(b.seg)) errors.push(`${b.id}: segmento sconosciuto ${b.seg}`);
-    if (![1, 2, 3].includes(b.level)) errors.push(`${b.id}: livello non valido`);
+    if (![1, 2].includes(b.level)) errors.push(`${b.id}: livello non valido`);
     if (!Number.isInteger(b.ang) || b.ang < 0 || b.ang > 179) errors.push(`${b.id}: direzione non valida`);
     if (riverIds && !riverIds.has(b.riverId)) errors.push(`${b.id}: fiume sconosciuto ${b.riverId}`);
   }

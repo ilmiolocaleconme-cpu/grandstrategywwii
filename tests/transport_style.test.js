@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BRIDGE_MIN_PX, DECK_ZOOM, DETAIL_ZOOMS, drawBridgeSegments, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, OFFSETS, offsetOf, drawBridgeDeck, drawStraight, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
+import { BRIDGE_MIN_PX, DECK_ZOOM, DETAIL_ZOOMS, drawBridgeSegments, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, drawBridgeDeck, drawStraight, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
 import { buildMarkers, drawMarkers, visibleMarkers } from '../src/map/crossingMarkers.js';
 import { buildLinksModel, drawTransport } from '../src/map/transportView.js';
 import { headingDeg } from '../src/data/transport.js';
@@ -21,46 +21,35 @@ test('dettaglio per zoom: tre livelli, soglie crescenti', () => {
   assert.equal(detailTier(100), 2);
 });
 
-test('autostrada: a zoom pieno sono due carreggiate scostate (spartitraffico), la strada principale una con mezzeria', () => {
-  assert.ok(OFFSETS['road-3'] > recipeWidth('road-2', 2) / 2 - 3, 'le due carreggiate non si sovrappongono');
-  const lane = RECIPES['road-3'][2];
-  assert.ok(2 * OFFSETS['road-3'] > lane[0].w, 'tra le carreggiate resta uno spartitraffico libero');
-  assert.ok(lane.at(-1).dash, 'linea di corsia tratteggiata');
-  assert.ok(recipeWidth('road-3', 2) > recipeWidth('road-2', 2), 'più larga');
-  assert.ok(RECIPES['road-2'][2].at(-1).dash, 'mezzeria tratteggiata sulla strada');
+test('strade: una sola corsia a ogni livello di dettaglio, la principale ha la mezzeria tratteggiata', () => {
+  assert.ok(RECIPES['road-2'][2].at(-1).dash, 'mezzeria tratteggiata sulla strada principale');
+  assert.ok(recipeWidth('road-1', 2) < recipeWidth('road-2', 2), 'la principale è più larga');
+  for (const key of Object.keys(RECIPES)) assert.ok(!/-3$/.test(key), `${key}: niente autostrade né doppio binario`);
 });
 
-test('ferrovie: rotaie sottili con traversine fitte; il doppio binario sono due binari paralleli', () => {
+test('ferrovia: rotaie sottili con traversine fitte, un solo binario', () => {
   const single = RECIPES['rail-2'][2];
   const t = single.at(-1);
   assert.ok(t.dash && t.dash[0] < t.w && t.dash[1] < 3 * t.dash[0], 'traversine fitte, più corte che larghe');
   assert.equal(single.length, 3, 'rotaie + massicciata + traversine');
-  assert.equal(OFFSETS['rail-2'], undefined, 'binario unico: un solo tracciato');
-  assert.ok(2 * OFFSETS['rail-3'] > t.w, 'tra i due binari resta uno spazio');
-  assert.ok(recipeWidth('rail-3', 2) > 2 * recipeWidth('rail-2', 2) - 1, 'doppio binario ≈ due binari');
 });
 
-test('tracciati paralleli: drawStraight disegna due volte per i tipi con scostamento', () => {
-  const count = (key) => { const f = fakeCtx(); drawStraight(f.ctx, key, 2, 1, -10, 10); return f.log.filter(([k]) => k === 'stroke').length; };
-  assert.equal(count('rail-3'), 2 * count('rail-2'));
-  assert.equal(count('road-3'), 2 * RECIPES['road-3'][2].length);
-  const f = fakeCtx(); drawStraight(f.ctx, 'rail-3', 1, 1, -10, 10);
-  assert.equal(f.log.filter(([k]) => k === 'stroke').length, 2 * RECIPES['rail-3'][1].length, 'a dettaglio 1 due linee vicine');
-  const g = fakeCtx(); drawStraight(g.ctx, 'rail-3', 0, 1, -10, 10);
-  assert.equal(g.log.filter(([k]) => k === 'stroke').length, RECIPES['rail-3'][0].length, 'a dettaglio 0 una linea sola');
-  assert.ok(offsetOf('rail-3', 1) < offsetOf('rail-3', 2) && offsetOf('rail-3', 0) === undefined && offsetOf('rail-2', 2) === undefined);
+test('un segno dritto si disegna una volta sola per passata (niente tracciati paralleli)', () => {
+  for (const key of Object.keys(RECIPES)) for (const tier of [0, 1, 2]) {
+    const f = fakeCtx(); drawStraight(f.ctx, key, tier, 1, -10, 10);
+    assert.equal(f.log.filter(([k]) => k === 'stroke').length, RECIPES[key][tier].length, `${key} dettaglio ${tier}`);
+  }
 });
 
 test('ponti: tipo dai livelli di strada e ferrovia e legenda senza ripetizioni', () => {
-  assert.equal(bridgeKind({ road: 3, rail: 0 }).id, 'road-3');
   assert.equal(bridgeKind({ road: 1, rail: 0 }).style, 'wood');
   assert.equal(bridgeKind({ road: 2, rail: 0 }).style, 'stone');
-  assert.equal(bridgeKind({ road: 0, rail: 3 }).style, 'iron');
-  assert.equal(bridgeKind({ road: 0, rail: 3 }).id, 'rail-double');
   assert.equal(bridgeKind({ road: 0, rail: 2 }).id, 'rail-single');
-  assert.equal(bridgeKind({ road: 1, rail: 2 }).id, 'mixed');
+  assert.equal(bridgeKind({ road: 0, rail: 2 }).style, 'iron-deck');
+  assert.equal(bridgeKind({ road: 1, rail: 2 }).id, 'mixed', 'strada + ferrovia insieme: traliccio');
   const l = bridgeLegend();
   assert.equal(new Set(l.map((x) => x.id)).size, l.length);
+  assert.deepEqual(l.map((x) => x.style), ['wood', 'stone', 'iron-deck'], 'tre costruzioni, come i tre tipi di linea');
 });
 
 test('impalcato: parapetti, spalle e simbolo; più largo se porta strada e ferrovia', () => {
@@ -68,11 +57,11 @@ test('impalcato: parapetti, spalle e simbolo; più largo se porta strada e ferro
   const road = drawBridgeDeck(a.ctx, { road: 2, rail: 0 }, 10);
   assert.ok(a.log.some(([k]) => k === 'fillRect') && a.log.filter(([k]) => k === 'stroke').length >= 3);
   const b = fakeCtx();
-  const mixed = drawBridgeDeck(b.ctx, { road: 2, rail: 3 }, 10);
+  const mixed = drawBridgeDeck(b.ctx, { road: 2, rail: 2 }, 10);
   assert.ok(mixed.width > road.width && mixed.len === road.len);
   const sw = fakeCtx();
-  drawSwatch(sw.ctx, { kind: 'line', key: 'rail-3' }, 44, 24);
-  drawSwatch(sw.ctx, { kind: 'bridge', road: 3, rail: 0 }, 44, 24);
+  drawSwatch(sw.ctx, { kind: 'line', key: 'rail-2' }, 44, 24);
+  drawSwatch(sw.ctx, { kind: 'bridge', road: 2, rail: 0 }, 44, 24);
   assert.ok(sw.log.length > 10);
   for (const key of Object.keys(RECIPES)) assert.ok(recipeWidth(key, 2) <= 24, `${key} entra nel campione`);
 });
@@ -104,7 +93,7 @@ test('marcatori: i ponti diventano tratti della linea da zoom 18 (niente marcato
 test('ponti come tratti: stessa geometria della linea, aspetto per materiale e dettaglio', () => {
   globalThis.Path2D ??= class { moveTo() {} lineTo() {} };
   const seg = (id, k, level, br) => ({ id, k, level, rank: 4, ...(br ? { br: { r: 'R_X' } } : {}), c: [10, 45, 10.01, 45.005, 10.02, 45] });
-  const file = { nodes: [{ lon: 10, lat: 45, t: 5, name: 'X' }], segments: [seg('S1', 'road', 2, false), seg('S2', 'road', 2, true), seg('S3', 'rail', 3, true)] };
+  const file = { nodes: [{ lon: 10, lat: 45, t: 4, name: 'X' }], segments: [seg('S1', 'road', 2, false), seg('S2', 'road', 2, true), seg('S3', 'rail', 2, true)] };
   const m = buildLinksModel(file, 2);
   assert.equal(m.lines.length, 1);
   assert.equal(m.bridges.length, 2);
@@ -134,27 +123,26 @@ test('ingrandimento dei segni a zoom massimo: 1 fino ai ponti, poi cresce senza 
   assert.ok(Math.abs(sizeBoost(120) - 1.6) < 1e-9 && sizeBoost(500) === 1.6);
 });
 
-test('ponti: cinque costruzioni distinguibili (legno, muratura ad arco, autostrada, ferro a travata, ferro a traliccio)', () => {
+test('ponti: quattro costruzioni distinguibili (legno, muratura ad arco, ferro a travata, ferro a traliccio per strada + ferrovia)', () => {
   const sig = (spec) => {
     const f = fakeCtx();
     drawBridgeDeck(f.ctx, spec, 4, 60);
     const count = (name) => f.log.filter(([k]) => k === name).length;
     return { arc: count('arc'), ellipse: count('ellipse'), fillRect: count('fillRect'), strokeRect: count('strokeRect'), clip: count('clip'), stroke: count('stroke') };
   };
-  const wood = sig({ road: 1 }); const stone = sig({ road: 2 }); const highway = sig({ road: 3 }); const girder = sig({ rail: 2 }); const truss = sig({ rail: 3 });
+  const wood = sig({ road: 1 }); const stone = sig({ road: 2 }); const girder = sig({ rail: 2 }); const truss = sig({ road: 1, rail: 2 });
   assert.ok(wood.arc > 6 && wood.ellipse === 0, 'legno: montanti tondi');
   assert.ok(stone.ellipse === 2 && stone.clip === 1 && stone.strokeRect === 4, 'muratura: arco a due anelli e contrafforti quadrati');
-  assert.ok(highway.arc === 4 && highway.ellipse === 0 && highway.strokeRect === 0, 'autostrada: quattro pile tonde');
   assert.ok(girder.strokeRect === 4 && girder.ellipse === 0 && girder.arc === 0, 'travata: blocchi di fondazione');
-  assert.ok(truss.stroke > girder.stroke, 'traliccio: più segni (controventi a X, doppio binario)');
-  assert.equal(new Set([wood, stone, highway, girder, truss].map((x) => JSON.stringify(x))).size, 5, 'cinque firme diverse');
-  assert.equal(bridgeLegend().length, 6);
+  assert.ok(truss.stroke > girder.stroke, 'traliccio: più segni (controventi a X, strada e ferrovia)');
+  assert.equal(new Set([wood, stone, girder, truss].map((x) => JSON.stringify(x))).size, 4, 'quattro firme diverse');
+  assert.equal(bridgeLegend().length, 3, 'la legenda mostra le tre costruzioni che esistono nel gioco');
 });
 
 test('ponti a dettaglio pieno: orientati come il tratto e lunghi almeno BRIDGE_MIN_PX', () => {
   globalThis.Path2D ??= class { moveTo() {} lineTo() {} };
   // tratto cortissimo (0,001 unità a 10 px/unità = 0,01 px): il ponte resta riconoscibile
-  const tiny = { kind: 'road', level: 3, coords: Float32Array.from([5, 5, 5.0005, 5.0005, 5.001, 5.001]) };
+  const tiny = { kind: 'road', level: 2, coords: Float32Array.from([5, 5, 5.0005, 5.0005, 5.001, 5.001]) };
   const f = fakeCtx();
   drawBridgeSegments(f.ctx, [tiny], { sx: 10, tier: 2 });
   const rot = f.log.find(([k]) => k === 'rotate');
