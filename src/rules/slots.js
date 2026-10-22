@@ -8,6 +8,7 @@
 // arrivano con l'economia. Funzioni PURE senza I/O. Le capitali si riconoscono con markCapitals (nome in data/nations.json).
 
 import { markCapitals } from '../map/citta.js';
+import { conversionsFrom } from '../data/buildings.js';
 
 export const SLOT_CAPACITY = Object.freeze({ cityPart: 10, province: 14, capitalPart: 14 });
 
@@ -74,6 +75,23 @@ export function canPlace(capacity, placed, buildingId, index, { supportCapacity 
   }
   if (occ.used + b.slots > capacity) return { ok: false, reason: 'slots_full' };
   return { ok: true };
+}
+
+/**
+ * Converte UN edificio `from` già presente in `placed` in `to` (es. fabbrica civile → militare). Lo slot resta lo stesso: niente slot
+ * in più né in meno, niente duplicazioni. Ritorna { ok, placed } con l'elenco nuovo (l'originale non cambia) oppure { ok:false, reason }.
+ * NON gestisce costo, durata, produzione sospesa durante i lavori: la conversione qui è istantanea e gratuita finché quelle regole
+ * non esistono (cost/days null nei dati). `file`: contenuto di buildings.json.
+ */
+export function convertBuilding(file, capacity, placed, from, to, index) {
+  const i = placed.indexOf(from);
+  if (i < 0) return { ok: false, reason: 'not_present' };
+  if (!conversionsFrom(file, from).some((c) => c.to === to)) return { ok: false, reason: 'not_allowed' };
+  const next = placed.slice(); next.splice(i, 1);
+  const check = canPlace(capacity, next, to, index);
+  if (!check.ok) return { ok: false, reason: check.reason };
+  next.push(to);
+  return { ok: true, placed: next };
 }
 
 /** Slot del luogo con quell'id (madre di provincia o parte di città), o null se non esiste. */

@@ -2,8 +2,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { SLOT_CAPACITY, buildSlotCatalog, canPlace, occupancy, slotsOf } from '../src/rules/slots.js';
-import { buildingIndex, validateBuildings } from '../src/data/buildings.js';
+import { SLOT_CAPACITY, buildSlotCatalog, canPlace, convertBuilding, occupancy, slotsOf } from '../src/rules/slots.js';
+import { buildingIndex, conversionsFrom, validateBuildings } from '../src/data/buildings.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 
 const read = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
@@ -71,4 +71,24 @@ test('occupazione: gli edifici ausiliari non tolgono spazio; con gli slot pieni 
   assert.deepEqual(canPlace(14, Array(13).fill('port'), 'airport', idx), { ok: true });
   assert.deepEqual(canPlace(10, [], 'inesistente', idx), { ok: false, reason: 'unknown_building' });
   assert.deepEqual(canPlace(10, [], 'radar', idx, { supportCapacity: 0 }), { ok: false, reason: 'support_full' });
+});
+
+test('conversione: fabbrica civile ↔ militare, stesso slot, nessuna duplicazione; coppie non previste, edificio assente e pool diversi rifiutati', () => {
+  const file = read('buildings.json');
+  const idx = buildingIndex(file);
+  assert.deepEqual(conversionsFrom(file, 'factory_civil').map((c) => c.to), ['factory_military']);
+  assert.deepEqual(conversionsFrom(file, 'factory_military').map((c) => c.to), ['factory_civil']);
+  assert.deepEqual(conversionsFrom(file, 'barracks'), []);
+  const piena = [...Array(9).fill('port'), 'factory_civil'];
+  const r = convertBuilding(file, 10, piena, 'factory_civil', 'factory_military', idx);
+  assert.equal(r.ok, true);
+  assert.equal(r.placed.length, 10);
+  assert.equal(occupancy(r.placed, idx).used, 10);
+  assert.equal(r.placed.filter((x) => x === 'factory_civil').length, 0);
+  assert.equal(r.placed.filter((x) => x === 'factory_military').length, 1);
+  assert.equal(piena.at(-1), 'factory_civil', 'l\'elenco di partenza non cambia');
+  assert.deepEqual(convertBuilding(file, 10, piena, 'factory_civil', 'airport', idx), { ok: false, reason: 'not_allowed' });
+  assert.deepEqual(convertBuilding(file, 10, ['port'], 'factory_civil', 'factory_military', idx), { ok: false, reason: 'not_present' });
+  assert.ok(validateBuildings({ ...file, conversions: [{ a: 'radar', b: 'port' }] }).some((e) => e.includes('pool diversi')));
+  assert.ok(validateBuildings({ ...file, conversions: [{ a: 'port', b: 'nulla' }] }).some((e) => e.includes('inesistente')));
 });

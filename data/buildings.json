@@ -1,25 +1,122 @@
 {
   "schema": "buildings-v1",
   "quality": "design-draft",
-  "note": "Bozza di design concordata in chat (22/10/2026). Due gruppi: edifici che OCCUPANO uno slot (pool 'slot': 10 per parte di città, 14 per provincia/capitale) e strutture che stanno in slot AUSILIARI a parte (pool 'support'), che non tolgono spazio. `slots` = quanti slot occupa: 1 per tutti, PROVVISORIO. Capienza dei slot ausiliari: non definita. Costi, tempi, risorse, requisiti geografici (porto sulla costa...) e tecnologie: non ancora definiti.",
+  "note": "Bozza di design concordata in chat (22/10/2026). Due gruppi: edifici che OCCUPANO uno slot (pool 'slot': 10 per parte di città, 14 per provincia/capitale) e strutture che stanno in slot AUSILIARI a parte (pool 'support'), che non tolgono spazio. `slots` = quanti slot occupa: 1 per tutti, PROVVISORIO. Capienza dei slot ausiliari: non definita. Costi, tempi, risorse, requisiti geografici (porto sulla costa...) e tecnologie: non ancora definiti. Conversioni: un edificio può essere convertito in un altro dello stesso pool (decisione 22/10/2026); per ora è consentita solo la coppia dell'esempio (fabbrica civile ↔ fabbrica militare); altre coppie, costi e tempi di conversione non sono definiti (null).",
   "pools": {
-    "slot": { "label": "Slot di costruzione" },
-    "support": { "label": "Slot ausiliari (non occupano spazio)" }
+    "slot": {
+      "label": "Slot di costruzione"
+    },
+    "support": {
+      "label": "Slot ausiliari (non occupano spazio)"
+    }
   },
   "buildings": [
-    { "id": "factory_civil", "name": "Fabbrica civile", "pool": "slot", "group": "industry", "slots": 1 },
-    { "id": "factory_military", "name": "Fabbrica militare", "pool": "slot", "group": "industry", "slots": 1 },
-    { "id": "shipyard", "name": "Cantiere navale", "pool": "slot", "group": "industry", "slots": 1 },
-    { "id": "steelworks", "name": "Acciaieria", "pool": "slot", "group": "industry", "slots": 1 },
-    { "id": "chemical_industry", "name": "Industria chimica", "pool": "slot", "group": "industry", "slots": 1 },
-    { "id": "port", "name": "Porto", "pool": "slot", "group": "logistics", "slots": 1 },
-    { "id": "depot", "name": "Deposito", "pool": "slot", "group": "logistics", "slots": 1 },
-    { "id": "airport", "name": "Aeroporto", "pool": "slot", "group": "logistics", "slots": 1 },
-    { "id": "barracks", "name": "Caserma", "pool": "slot", "group": "military", "slots": 1 },
-    { "id": "fortification", "name": "Fortificazione", "pool": "support", "group": "defence", "slots": 1 },
-    { "id": "minefield", "name": "Campo minato", "pool": "support", "group": "defence", "slots": 1 },
-    { "id": "field_hospital", "name": "Ospedale da campo", "pool": "support", "group": "support", "slots": 1 },
-    { "id": "radar", "name": "Radar", "pool": "support", "group": "information", "slots": 1 },
-    { "id": "radio", "name": "Stazione radio", "pool": "support", "group": "information", "slots": 1 }
+    {
+      "id": "factory_civil",
+      "name": "Fabbrica civile",
+      "pool": "slot",
+      "group": "industry",
+      "slots": 1
+    },
+    {
+      "id": "factory_military",
+      "name": "Fabbrica militare",
+      "pool": "slot",
+      "group": "industry",
+      "slots": 1
+    },
+    {
+      "id": "shipyard",
+      "name": "Cantiere navale",
+      "pool": "slot",
+      "group": "industry",
+      "slots": 1
+    },
+    {
+      "id": "steelworks",
+      "name": "Acciaieria",
+      "pool": "slot",
+      "group": "industry",
+      "slots": 1
+    },
+    {
+      "id": "chemical_industry",
+      "name": "Industria chimica",
+      "pool": "slot",
+      "group": "industry",
+      "slots": 1
+    },
+    {
+      "id": "port",
+      "name": "Porto",
+      "pool": "slot",
+      "group": "logistics",
+      "slots": 1
+    },
+    {
+      "id": "depot",
+      "name": "Deposito",
+      "pool": "slot",
+      "group": "logistics",
+      "slots": 1
+    },
+    {
+      "id": "airport",
+      "name": "Aeroporto",
+      "pool": "slot",
+      "group": "logistics",
+      "slots": 1
+    },
+    {
+      "id": "barracks",
+      "name": "Caserma",
+      "pool": "slot",
+      "group": "military",
+      "slots": 1
+    },
+    {
+      "id": "fortification",
+      "name": "Fortificazione",
+      "pool": "support",
+      "group": "defence",
+      "slots": 1
+    },
+    {
+      "id": "minefield",
+      "name": "Campo minato",
+      "pool": "support",
+      "group": "defence",
+      "slots": 1
+    },
+    {
+      "id": "field_hospital",
+      "name": "Ospedale da campo",
+      "pool": "support",
+      "group": "support",
+      "slots": 1
+    },
+    {
+      "id": "radar",
+      "name": "Radar",
+      "pool": "support",
+      "group": "information",
+      "slots": 1
+    },
+    {
+      "id": "radio",
+      "name": "Stazione radio",
+      "pool": "support",
+      "group": "information",
+      "slots": 1
+    }
+  ],
+  "conversions": [
+    {
+      "a": "factory_civil",
+      "b": "factory_military",
+      "bidirectional": true,
+      "cost": null,
+      "days": null
+    }
   ]
 }
