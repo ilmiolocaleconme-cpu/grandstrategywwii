@@ -9,6 +9,7 @@ import { validateCrossingPoints } from '../src/data/crossingPoints.js';
 import { validateAutostrade, validateTransport } from '../src/data/transport.js';
 import { validateLinks } from '../src/data/links.js';
 import { validateCityLinks } from '../src/data/cityLinks.js';
+import { validateBuildings } from '../src/data/buildings.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 import { loadProvinces } from './load-provinces.js';
 import { readFile as readFileTerrain } from 'node:fs/promises';
@@ -34,6 +35,7 @@ export async function loadCatalog(baseUrl = dataDir) {
     transport: await read('transport.json'),
     links: await read('links.json'),
     cityLinks: await read('city_links.json'),
+    buildings: await read('buildings.json'),
     cityZones: await read('citta_grandi.json'),
     autostrade: await read('autostrade_1936.json'),
   };
@@ -56,6 +58,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   if (catalog.crossingPoints.checksum !== idsChecksum(provinceIds)) errors.push('punti di passaggio: somma di controllo diversa, le province sono cambiate: rigenerare con npm run build:crossing-points');
   errors.push(...validateAutostrade(catalog.autostrade), ...validateTransport(catalog.transport));
   errors.push(...validateLinks(catalog.links, { provinceIds, riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
+  errors.push(...validateBuildings(catalog.buildings));
   errors.push(...validateCityLinks(catalog.cityLinks, { zoneIds: new Set(catalog.cityZones.features.map((f) => f.properties.id)), tileIds: new Set(provinceIds), riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
   if (catalog.cityLinks.checksum !== idsChecksum(catalog.cityZones.features.map((f) => f.properties.id))) errors.push('collegamenti urbani: somma di controllo diversa, rigenerare con npm run build:city-links');
   if (catalog.links.checksum !== idsChecksum(provinceIds)) errors.push('collegamenti: somma di controllo diversa, rigenerare con npm run build:links -- <cartella Natural Earth>');

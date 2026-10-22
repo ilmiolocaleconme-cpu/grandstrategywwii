@@ -44,6 +44,38 @@ export function buildSlotCatalog({ provinces, zones, nations }) {
   };
 }
 
+/**
+ * Occupazione di un luogo: `placed` = elenco di id di edificio già costruiti lì. Gli edifici del pool 'slot' occupano slot di
+ * costruzione; quelli del pool 'support' (fortificazioni, campi minati, ospedali da campo, radar, radio) stanno a parte e NON tolgono spazio.
+ * Ritorna { used, support, byBuilding }.
+ */
+export function occupancy(placed, index) {
+  let used = 0; let support = 0; const byBuilding = {};
+  for (const id of placed) {
+    const b = index.get(id);
+    if (!b) throw new Error(`edificio sconosciuto: ${id}`);
+    byBuilding[id] = (byBuilding[id] ?? 0) + 1;
+    if (b.pool === 'support') support += b.slots; else used += b.slots;
+  }
+  return { used, support, byBuilding };
+}
+
+/**
+ * Si può costruire `buildingId` in un luogo con `capacity` slot e gli edifici `placed`? Il pool 'slot' è limitato dalla capacità;
+ * il pool 'support' non lo è (capienza degli slot ausiliari NON definita: `supportCapacity` opzionale, null = senza limite).
+ */
+export function canPlace(capacity, placed, buildingId, index, { supportCapacity = null } = {}) {
+  const b = index.get(buildingId);
+  if (!b) return { ok: false, reason: 'unknown_building' };
+  const occ = occupancy(placed, index);
+  if (b.pool === 'support') {
+    if (supportCapacity !== null && occ.support + b.slots > supportCapacity) return { ok: false, reason: 'support_full' };
+    return { ok: true };
+  }
+  if (occ.used + b.slots > capacity) return { ok: false, reason: 'slots_full' };
+  return { ok: true };
+}
+
 /** Slot del luogo con quell'id (madre di provincia o parte di città), o null se non esiste. */
 export function slotsOf(catalog, id) {
   return catalog.cityParts[id] ?? catalog.provinces[id] ?? null;

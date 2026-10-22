@@ -2,7 +2,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { SLOT_CAPACITY, buildSlotCatalog, slotsOf } from '../src/rules/slots.js';
+import { SLOT_CAPACITY, buildSlotCatalog, canPlace, occupancy, slotsOf } from '../src/rules/slots.js';
+import { buildingIndex, validateBuildings } from '../src/data/buildings.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 
 const read = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
@@ -47,4 +48,27 @@ test('dati reali: una provincia madre = 14 (tranne le 3 province-città), ogni z
   // Sofia: le zone si chiamano "Sofia (città)", la capitale va riconosciuta lo stesso
   const sof = Object.entries(cat.cityParts).filter(([id]) => id.includes('SOFIA'));
   assert.ok(sof.length >= 2 && sof.some(([, v]) => v === 14), 'Sofia capitale: 14 slot sulle sue parti');
+});
+
+
+test('edifici: catalogo valido; industria, porti, depositi, aeroporti e caserme occupano slot; difese, ospedali, radar e radio no', () => {
+  const file = read('buildings.json');
+  assert.deepEqual(validateBuildings(file), []);
+  const idx = buildingIndex(file);
+  for (const id of ['factory_civil', 'factory_military', 'shipyard', 'steelworks', 'chemical_industry', 'port', 'depot', 'airport', 'barracks']) assert.equal(idx.get(id).pool, 'slot', id);
+  for (const id of ['fortification', 'minefield', 'field_hospital', 'radar', 'radio']) assert.equal(idx.get(id).pool, 'support', id);
+  assert.ok(validateBuildings({ ...file, buildings: [...file.buildings, file.buildings[0]] }).some((e) => e.includes('duplicato')));
+});
+
+test('occupazione: gli edifici ausiliari non tolgono spazio; con gli slot pieni si costruisce solo ausiliario', () => {
+  const idx = buildingIndex(read('buildings.json'));
+  const piena = Array(10).fill('factory_civil');
+  assert.deepEqual({ used: occupancy(piena, idx).used, support: occupancy(piena, idx).support }, { used: 10, support: 0 });
+  assert.deepEqual(canPlace(10, piena, 'barracks', idx), { ok: false, reason: 'slots_full' });
+  assert.deepEqual(canPlace(10, piena, 'radar', idx), { ok: true });
+  assert.deepEqual(canPlace(10, [...piena, 'minefield', 'fortification', 'radio'], 'field_hospital', idx), { ok: true });
+  assert.equal(occupancy([...piena, 'radar', 'radio'], idx).used, 10);
+  assert.deepEqual(canPlace(14, Array(13).fill('port'), 'airport', idx), { ok: true });
+  assert.deepEqual(canPlace(10, [], 'inesistente', idx), { ok: false, reason: 'unknown_building' });
+  assert.deepEqual(canPlace(10, [], 'radar', idx, { supportCapacity: 0 }), { ok: false, reason: 'support_full' });
 });
