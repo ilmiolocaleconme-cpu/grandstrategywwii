@@ -61,7 +61,7 @@ test('rugosità e tinta sono coerenti col tipo: le montagne sono più rugose del
 
 test('sponde dei fiumi ereditano il terreno della madre; la collezione in ingresso non cambia', () => {
   const sponde = collection.features.filter((f) => f.properties.parentProvince && f.properties.kind !== 'citta');
-  assert.ok(sponde.length > 900); // 957 dopo la fusione delle sponde sotto 100 km²
+  assert.ok(sponde.length > 700); // 778 dopo la fusione delle sponde sotto 200 km²
   const prima = JSON.stringify(collection.features[0].properties);
   const merged = withTerrain(collection, doc);
   assert.notEqual(merged, collection);

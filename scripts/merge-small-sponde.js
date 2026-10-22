@@ -4,7 +4,7 @@
 // restano buchi. Se di una provincia resta una sola sponda, torna provincia intera (id e nome della madre).
 //
 //   node scripts/merge-small-sponde.js --dry            (stampa cosa farebbe, non scrive nulla)
-//   node scripts/merge-small-sponde.js [--min=100]      (scrive data/provinces/*.json, data/sources/citta_base.json, data/crossings.json)
+//   node scripts/merge-small-sponde.js [--min=200]      (scrive data/provinces/*.json, data/sources/citta_base.json, data/crossings.json)
 //
 // Dopo: node scripts/build-cities.js, npm run build:adjacency, build:sea, build:labels, build:crossing-points, build:links.
 // Idempotente: una seconda esecuzione non trova più sponde sotto la soglia.
@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 import { pointInPolygon, signedArea } from '../src/data/polyclip.js';
 import { ringKm2 } from '../src/data/splitline.js';
 
-export const MIN_SPONDA_KM2 = 100;
+export const MIN_SPONDA_KM2 = 200;
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
 // vertici uguali SOLO se identici: i confini condivisi dei file usano gli stessi numeri (tests/province_files.test.js, spain.test.js);
 // agganciare «entro 1 m» spezzerebbe i grappoli di vertici quasi coincidenti e lascerebbe fessure

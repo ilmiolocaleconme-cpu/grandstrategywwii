@@ -72,7 +72,7 @@
     "P_BGR_SHUMEN": {"terreno": "collina", "secondario": "pianura", "frazioni": {"pianura": 0.26, "collina": 0.65, "montagna": 0.03, "foresta": 0.05}, "rugosita": 7.3, "tinta": -15.4, "campioni": 349, "affidabilita": "normale"},
     "P_BGR_SLIVEN": {"terreno": "montagna", "secondario": "collina", "frazioni": {"pianura": 0.22, "collina": 0.39, "montagna": 0.36, "foresta": 0.02}, "rugosita": 12.5, "tinta": -8.4, "campioni": 369, "affidabilita": "normale"},
     "P_BGR_SMOLYAN": {"terreno": "montagna", "secondario": null, "frazioni": {"collina": 0.14, "montagna": 0.86}, "rugosita": 18.4, "tinta": 28.0, "campioni": 375, "affidabilita": "normale"},
-    "P_BGR_SOFIA": {"terreno": "montagna", "secondario": "collina", "frazioni": {"pianura": 0.01, "collina": 0.42, "montagna": 0.54, "foresta": 0.03}, "rugosita": 15.8, "tinta": 17.6, "campioni": 733, "affidabilita": "normale"},
+    "P_BGR_SOFIA": {"terreno": "montagna", "secondario": "collina", "frazioni": {"pianura": 0.01, "collina": 0.44, "montagna": 0.52, "foresta": 0.03}, "rugosita": 15.6, "tinta": 17.6, "campioni": 815, "affidabilita": "normale"},
     "P_BGR_STARA_ZAGORA": {"terreno": "pianura", "secondario": "montagna", "frazioni": {"pianura": 0.36, "collina": 0.28, "montagna": 0.35, "foresta": 0.01}, "rugosita": 11.5, "tinta": -10.5, "campioni": 497, "affidabilita": "normale"},
     "P_BGR_TARGOVISHTE": {"terreno": "collina", "secondario": null, "frazioni": {"pianura": 0.11, "collina": 0.84, "montagna": 0.02, "foresta": 0.03}, "rugosita": 6.8, "tinta": -13.2, "campioni": 280, "affidabilita": "normale"},
     "P_BGR_VARNA": {"terreno": "collina", "secondario": "pianura", "frazioni": {"pianura": 0.24, "collina": 0.76}, "rugosita": 6.7, "tinta": -18.4, "campioni": 402, "affidabilita": "normale"},
