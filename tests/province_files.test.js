@@ -117,7 +117,6 @@ test('precache: legge gli indirizzi di un sw.js minificato', () => {
 // Forme in cui un id di provincia compare in un chunk: oggetto minificato, JSON.parse("...") con escape, JSON quotato.
 const DEU_OBJ = '{id:"P_DEU_X",name:"A"}';
 const DEU_ESC = 'JSON.parse("{\\"id\\":\\"P_DEU_X\\",\\"name\\":\\"A\\"}")';
-const DEU_JSON = '{"id":"P_DEU_X"}';
 
 test('precache: ogni file delle province deve stare in un chunk proprio e nel precache', () => {
   const markers = { DEU: 'P_DEU_X', _meta: 'provinces-meta-v1' };

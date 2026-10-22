@@ -55,8 +55,6 @@ export const RECIPES = Object.freeze({
   ],
 });
 
-export const LINE_KEYS = Object.freeze(['sea-0', 'road-0', 'road-1', 'road-2', 'rail-2']);
-
 /** Ordine di disegno: tratte marittime, strade, poi ferrovie in cima. Dentro un gruppo si fa prima la passata 0 di tutti i tipi (bordi), poi la 1, ecc. */
 export const DRAW_GROUPS = Object.freeze([['sea-0'], ['road-0', 'road-1', 'road-2'], ['rail-2']]);
 

@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { withCities, markCapitals, cityNamesAt, nearestCityAt, CAPITAL_NAME_ZOOM, CITY_NAME_ZOOM, PART_NAME_ZOOM } from '../src/map/citta.js';
+import { withCities, markCapitals, cityNamesAt, nearestCityAt, citySnapTolerance, CITY_SNAP_ZOOM, CITY_SNAP_PX, CAPITAL_NAME_ZOOM, CITY_NAME_ZOOM, PART_NAME_ZOOM } from '../src/map/citta.js';
 import nations from '../data/nations.json' with { type: 'json' };
 import { buildCanvasModel, pickProvinceAt } from '../src/map/canvasModel.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
@@ -117,4 +117,16 @@ test('massimo zoom più alto del minimo di tocco: tutte le città si possono toc
   const { MAX_K } = await import('../src/map/geo.js');
   assert.ok(MAX_K >= 100, `zoom massimo ${MAX_K}`);
   assert.ok(PART_NAME_ZOOM < MAX_K, 'le parti secondarie hanno un nome solo prima del massimo');
+});
+
+test('aggancio alla città: solo da vicino; a vista d\'insieme il tocco va alla provincia', () => {
+  const items = [{ id: 'C', props: { kind: 'citta' }, bbox: { x: 0, y: 0, w: 1, h: 1 } }];
+  assert.equal(citySnapTolerance(1, 10), 0, 'zoom 1: nessun aggancio');
+  assert.equal(citySnapTolerance(CITY_SNAP_ZOOM - 0.01, 10), 0, 'appena sotto la soglia: nessun aggancio');
+  assert.equal(citySnapTolerance(CITY_SNAP_ZOOM, 10), CITY_SNAP_PX / (10 * CITY_SNAP_ZOOM), 'dalla soglia: 16 px');
+  assert.ok(citySnapTolerance(20, 10) < citySnapTolerance(CITY_SNAP_ZOOM, 10), 'più si ingrandisce, meno unità di mappa vale il margine');
+  // senza aggancio nemmeno un tocco quasi sul centro sceglie la città (sceglie la provincia: ci pensa pickProvinceAt)
+  assert.equal(nearestCityAt(items, 0.5, 0.5, citySnapTolerance(1, 10)), null);
+  assert.equal(nearestCityAt(items, 0.5, 0.5, 0), null);
+  assert.equal(nearestCityAt(items, 0.5, 0.5, citySnapTolerance(CITY_SNAP_ZOOM, 10) * 1000)?.id, 'C');
 });

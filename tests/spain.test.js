@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadProvinces } from '../scripts/load-provinces.js';
-import { vistaProvince, madreId } from './famiglie.js';
+import { vistaProvince } from './famiglie.js';
 import { pointInPolygon } from '../src/data/geometry.js';
 import { featureAreaKm2, polygonsOf } from '../src/map/geo.js';
 

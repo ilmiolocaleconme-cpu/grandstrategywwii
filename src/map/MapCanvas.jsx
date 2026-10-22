@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
-import { nearestCityAt } from './citta.js';
+import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
@@ -409,7 +409,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const view = s.view;
     const [ux, uy] = screenToUnit(view, VB, l, px, py);
     const copies = visibleCopies(view, VB, p.model.bounds);
-    const tolCitta = 16 / (l.s * view.k); // le città piccole si toccano anche un po' fuori dal contorno
+    const tolCitta = citySnapTolerance(view.k, l.s); // le città piccole si toccano anche un po' fuori dal contorno, ma solo da vicino (vedi citta.js)
     for (const off of copies) {
       const c = nearestCityAt(p.model.items, ux - off, uy, tolCitta);
       if (c) { p.onSelect(c.id); return; }

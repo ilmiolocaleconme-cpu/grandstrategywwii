@@ -395,13 +395,3 @@ export function buildCanvasWater(rivers, riversGeo, lakes, widthOf = () => 1, ra
   return { lines, lakes: lakeItems };
 }
 
-function segDist2(px, py, ax, ay, bx, by) {
-  const dx = bx - ax;
-  const dy = by - ay;
-  const len2 = dx * dx + dy * dy;
-  let t = len2 === 0 ? 0 : ((px - ax) * dx + (py - ay) * dy) / len2;
-  t = t < 0 ? 0 : t > 1 ? 1 : t;
-  const ex = px - (ax + t * dx);
-  const ey = py - (ay + t * dy);
-  return ex * ex + ey * ey;
-}

@@ -44,8 +44,20 @@ export function cityNamesAt(items, k) {
   });
 }
 
-/** Città più vicina al punto (unità di mappa) entro `tol`, misurata dal centro del riquadro; o null. */
+// Aggancio del tocco alla città vicina: 16 px dal centro, ma solo da zoom CITY_SNAP_ZOOM. A vista d'insieme (zoom 1)
+// ogni punto dell'Europa è a meno di 16 px da una città e le province non si potrebbero più toccare: sotto questo zoom
+// vince la provincia (una città si tocca comunque dentro il proprio contorno, che sta sopra la provincia madre).
+export const CITY_SNAP_ZOOM = CITY_NAME_ZOOM;
+export const CITY_SNAP_PX = 16;
+
+/** Tolleranza in unità di mappa per l'aggancio alla città: `k` = zoom della vista, `scale` = pixel per unità a zoom 1. 0 = nessun aggancio. */
+export function citySnapTolerance(k, scale) {
+  return k >= CITY_SNAP_ZOOM ? CITY_SNAP_PX / (scale * k) : 0;
+}
+
+/** Città più vicina al punto (unità di mappa) entro `tol`, misurata dal centro del riquadro; o null (anche se `tol` è 0). */
 export function nearestCityAt(items, x, y, tol) {
+  if (!(tol > 0)) return null;
   let best = null;
   let bestD = tol;
   for (const it of items) {

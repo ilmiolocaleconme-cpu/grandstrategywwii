@@ -10,8 +10,6 @@ export const CROSSING_STATES = ['intact', 'damaged', 'destroyed', 'temporary'];
 export const CROSSING_TRAFFIC = ['road', 'rail'];
 // 'source' = data dichiarata da una fonte; 'assumed' = ipotesi (anno approssimato, apertura non datata).
 export const CROSSING_DATE_BASES = ['source', 'assumed'];
-// Ultimo giorno "aperto" per un attraversamento che non ha una fine nota.
-export const OPEN_ENDED = '9999-12-31';
 
 function isIsoDate(value) {
   if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;

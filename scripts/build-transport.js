@@ -17,7 +17,6 @@ import { MOTORWAY_RANK, TRANSPORT_SCHEMA, railLevel, roadLevel, simplify, splitB
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
 const readJson = async (name) => JSON.parse(await readFile(dataUrl(name), 'utf8'));
 const r3 = (x) => Math.round(x * 1e3) / 1e3;
-const r4 = (x) => Math.round(x * 1e4) / 1e4;
 
 export const DEFAULT_PARAMS = { roadMaxRank: 6, railMaxRank: 8, simplifyDeg: 0.01, minInsideShare: 0.5, mergeDeg: 0.03, thinDeg: 0.07 };
 
@@ -88,7 +87,6 @@ export async function buildTransportFiles(srcDir, params = DEFAULT_PARAMS) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const src = process.argv[2] ?? process.env.NE_DIR;
   if (!src) { console.error('uso: node scripts/build-transport.js <cartella con ne_10m_roads.geojson e ne_10m_railroads.geojson>'); process.exit(2); }
-  const t0 = Date.now();
   const { transport } = await buildTransportFiles(src);
   const tw = JSON.stringify(transport);
   await writeFile(dataUrl('transport.json'), `${tw}\n`);

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadProvinces } from '../scripts/load-provinces.js';
-import { buildMapModel, labelFitOf, pickLabels, labelForms, polygonsOf, project, HOME_BOUNDS } from '../src/map/geo.js';
+import { buildMapModel, pickLabels, labelForms, polygonsOf, project, HOME_BOUNDS } from '../src/map/geo.js';
 import { fitLabel, splitName, shortName, CHAR_W, TEXT_H, LINE_STEP } from '../src/map/labelfit.js';
 
 // Forme alternative dei nomi (due righe, sigla) per le province il cui nome intero non entra con corpo comodo.

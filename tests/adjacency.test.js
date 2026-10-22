@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { buildAdjacency, validateAdjacency, idsChecksum, ADJACENCY_SCHEMA } from '../src/data/adjacency.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 import { buildAdjacencyFile } from '../scripts/build-adjacency.js';
-import { grafoFamiglie, madreId, vistaProvince } from './famiglie.js';
+import { grafoFamiglie, madreId } from './famiglie.js';
 
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
 const file = read('adjacency.json');

@@ -2,7 +2,6 @@
 // matematica della vista). Il disegno vero e proprio (Path2D, contesto 2D) gira solo nel browser: lo copre scripts/bench/measure.mjs.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import { buildMapModel, buildLod, nationalBorderPath, project, HOME_BOUNDS, WORLD_W, zoomAt, wrapView } from '../src/map/geo.js';
 import { buildCanvasModel, buildBorders, createLodJob, createBorderLodJob, pickProvinceAt, buildCanvasWater, CANVAS_LOD_TOLS } from '../src/map/canvasModel.js';
 import { layoutOf, affineOf, screenToUnit, screenToView, blitPlan, coversScreen, lodLevelForScale, regionToUnits, gestureRenderDelay, MOVING_MIN_GAP_MS } from '../src/map/canvasView.js';

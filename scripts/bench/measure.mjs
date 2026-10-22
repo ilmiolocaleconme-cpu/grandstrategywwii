@@ -62,7 +62,7 @@ const INIT = () => {
   };
   requestAnimationFrame(tick);
   window.__gs.lastLong = 0;
-  try { new PerformanceObserver((l) => { window.__gs.lastLong = performance.now(); }).observe({ entryTypes: ['longtask'] }); } catch (e) { /* senza longtask si usa solo la stabilità del conteggio */ }
+  try { new PerformanceObserver((l) => { window.__gs.lastLong = performance.now(); }).observe({ entryTypes: ['longtask'] }); } catch { /* senza longtask si usa solo la stabilità del conteggio */ }
   window.__labels = () => {
     const c = document.querySelector('canvas.map-canvas');
     if (c) return { prov: Number(c.dataset.labels ?? 0), lake: Number(c.dataset.lakeLabels ?? 0), elements: document.querySelectorAll('*').length };

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { buildProvinceIndex } from '../src/data/geometry.js';
 import { featureAreaKm2 } from '../src/map/geo.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
-import { madreId, pezziDi, vistaProvince } from './famiglie.js';
+import { madreId, vistaProvince } from './famiglie.js';
 
 const load = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
 const provinces = await loadProvinces();
