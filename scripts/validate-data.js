@@ -8,6 +8,7 @@ import { validateLabels } from '../src/data/labels.js';
 import { validateCrossingPoints } from '../src/data/crossingPoints.js';
 import { validateAutostrade, validateTransport } from '../src/data/transport.js';
 import { validateLinks } from '../src/data/links.js';
+import { validateCityLinks } from '../src/data/cityLinks.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 import { loadProvinces } from './load-provinces.js';
 import { readFile as readFileTerrain } from 'node:fs/promises';
@@ -32,6 +33,8 @@ export async function loadCatalog(baseUrl = dataDir) {
     crossingPoints: await read('crossing_points.json'),
     transport: await read('transport.json'),
     links: await read('links.json'),
+    cityLinks: await read('city_links.json'),
+    cityZones: await read('citta_grandi.json'),
     autostrade: await read('autostrade_1936.json'),
   };
 }
@@ -53,6 +56,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   if (catalog.crossingPoints.checksum !== idsChecksum(provinceIds)) errors.push('punti di passaggio: somma di controllo diversa, le province sono cambiate: rigenerare con npm run build:crossing-points');
   errors.push(...validateAutostrade(catalog.autostrade), ...validateTransport(catalog.transport));
   errors.push(...validateLinks(catalog.links, { provinceIds, riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
+  errors.push(...validateCityLinks(catalog.cityLinks, { zoneIds: new Set(catalog.cityZones.features.map((f) => f.properties.id)), tileIds: new Set(provinceIds), riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
+  if (catalog.cityLinks.checksum !== idsChecksum(catalog.cityZones.features.map((f) => f.properties.id))) errors.push('collegamenti urbani: somma di controllo diversa, rigenerare con npm run build:city-links');
   if (catalog.links.checksum !== idsChecksum(provinceIds)) errors.push('collegamenti: somma di controllo diversa, rigenerare con npm run build:links -- <cartella Natural Earth>');
   {
     const motherIds = [...new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id))];
@@ -65,7 +70,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   console.log(
     `${ok ? 'OK' : 'FALLITO'}: ${catalog.nations.length} nazioni, ${catalog.resources.length} risorse, ` +
       `${catalog.rivers.length} fiumi (${catalog.riversGeo.features.length} tratti), ${catalog.lakes.features.length} laghi, ${catalog.crossings.length} attraversamenti, ` +
-      `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province, ${catalog.adjacency.edges.length} adiacenze, ${catalog.sea.zones.length} zone marittime, ${catalog.labels.nations.length + catalog.labels.provinces.length + catalog.labels.seas.length} nomi in mappa, ${catalog.crossingPoints.count} punti di passaggio, ${catalog.links.counts.links} collegamenti (${catalog.links.counts.bridges} ponti nel grafo)`,
+      `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province, ${catalog.adjacency.edges.length} adiacenze, ${catalog.sea.zones.length} zone marittime, ${catalog.labels.nations.length + catalog.labels.provinces.length + catalog.labels.seas.length} nomi in mappa, ${catalog.crossingPoints.count} punti di passaggio, ${catalog.links.counts.links} collegamenti (${catalog.links.counts.bridges} ponti nel grafo), ${catalog.cityLinks.counts.nodes} nodi urbani (${catalog.cityLinks.counts.part} collegamenti fra parti di città)`,
   );
   process.exit(ok ? 0 : 1);
 }
