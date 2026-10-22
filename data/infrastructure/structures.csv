@@ -1,0 +1,79 @@
+structure_id,domain,type,level,function,capacity,inputs,system
+INF-001,logistics,Strada,L1,locale,capacità base,Cemento; acciaio; manodopera,Cantiere stradale
+INF-002,logistics,Strada,L2,regionale,capacità media,Cemento; acciaio; macchinari,Cantiere stradale
+INF-003,logistics,Strada,L3,strategica,alta capacità,Cemento; acciaio; macchinari; specialisti,Grande cantiere stradale
+INF-004,logistics,Ferrovia,L1,locale,capacità base,Acciaio; legname; manodopera,Cantiere ferroviario
+INF-005,logistics,Ferrovia,L2,regionale,capacità media,Acciaio; macchinari; energia,Cantiere ferroviario
+INF-006,logistics,Ferrovia,L3,strategica,alta capacità,Acciaio; macchinari; specialisti,Grande cantiere ferroviario
+INF-007,logistics,Hub,L1,locale,smistamento base,Cemento; acciaio; manodopera,Hub logistico
+INF-008,logistics,Hub,L2,regionale,smistamento medio,Cemento; acciaio; macchinari; energia,Hub logistico
+INF-009,logistics,Hub,L3,strategico,smistamento alto,Acciaio; macchinari; energia; specialisti,Hub strategico
+INF-010,logistics,Deposito,L1,locale,scorte locali,Cemento; acciaio; manodopera,Deposito
+INF-011,logistics,Deposito,L2,regionale,scorte regionali,Cemento; acciaio; macchinari,Deposito regionale
+INF-012,logistics,Deposito,L3,strategico,grandi scorte,Cemento; acciaio; macchinari; specialisti,Deposito strategico
+INF-013,logistics,Porto,L1,locale,traffico limitato,Cemento; acciaio; macchinari,Porto
+INF-014,logistics,Porto,L2,regionale,traffico medio,Cemento; acciaio; macchinari; energia,Porto regionale
+INF-015,logistics,Porto,L3,strategico,alto traffico,Acciaio; macchinari; energia; specialisti,Grande porto
+INF-016,logistics,Base aerea,L1,locale,capacità aerea base,Cemento; acciaio; manodopera,Base aerea
+INF-017,logistics,Base aerea,L2,regionale,capacità aerea media,Cemento; acciaio; energia; macchinari,Base aerea
+INF-018,logistics,Base aerea,L3,strategica,alta capacità aerea,Cemento; acciaio; energia; specialisti,Base aerea strategica
+COMS-001,communications,Stazione radio,L1,locale,copertura locale,Rame; componenti; energia,Radio
+COMS-002,communications,Centro radio,L2,regionale,copertura regionale,Rame; componenti; energia,Radio
+COMS-003,communications,Centro radio strategico,L3,strategico,copertura strategica,Rame; componenti; energia; specialisti,Radio
+COMS-004,communications,Centrale telefonica,L1,locale,collegamento locale,Rame; cavi; energia,Telefono
+COMS-005,communications,Centrale telefonica,L2,regionale,collegamento regionale,Rame; cavi; energia,Telefono
+COMS-006,communications,Centrale telefonica,L3,strategica,collegamento strategico,Rame; cavi; energia; specialisti,Telefono
+COMS-007,communications,Ripetitore,L1,locale,estensione radio,Rame; componenti; energia,Ripetizione
+COMS-008,communications,Ripetitore,L2,regionale,estensione regionale,Componenti; energia,Ripetizione
+COMS-009,communications,Ripetitore,L3,strategico,estensione strategica,Componenti; energia; specialisti,Ripetizione
+COMS-010,communications,Centro comunicazioni militari,L1,locale,comando tattico,Rame; componenti; energia,Comando
+COMS-011,communications,Centro operativo,L2,operativo,comando operativo,Componenti; energia; specialisti,Comando
+COMS-012,communications,Centro comando strategico,L3,strategico,comando nazionale/teatro,Componenti; energia; specialisti,Comando
+COMS-013,communications,Posto intercettazione,L1,locale,ascolto,Radio; specialisti,Intercettazione
+COMS-014,communications,Centro intercettazione,L2,regionale,ascolto integrato,Radio; specialisti; energia,Intercettazione
+COMS-015,communications,Centro intercettazione strategico,L3,strategico,rete di ascolto,Radio; specialisti; energia,Intercettazione
+COMS-016,communications,Stazione radar,L1,locale,scoperta,Componenti elettronici; rame; energia; specialisti,Radar
+COMS-017,communications,Stazione radar,L2,regionale,rete radar,Componenti; energia; specialisti,Radar
+COMS-018,communications,Stazione radar,L3,strategica,rete radar nazionale,Componenti; energia; specialisti,Radar
+RASTR-001,research,Laboratorio scientifico,L1,base,ricerca generale,Energia; materiali; specialisti,Laboratorio
+RASTR-002,research,Laboratorio scientifico,L2,avanzato,ricerca avanzata,Energia; materiali; specialisti,Laboratorio
+RASTR-003,research,Centro ricerca strategico,L3,strategico,programmi complessi,Energia; materiali; specialisti,Centro ricerca
+RASTR-004,research,Laboratorio elettronico,L2,specializzato,elettronica/radar,Componenti; rame; energia; specialisti,Laboratorio elettronico
+RASTR-005,research,Centro motori,L2,specializzato,motori,Metalli; macchinari; specialisti,Centro motori
+RASTR-006,research,Centro aeronautico,L3,specializzato,aeronautica,Materiali; motori; specialisti,Centro aeronautico
+RASTR-007,research,Centro navale,L3,specializzato,navale,Acciaio; macchinari; specialisti,Centro navale
+RASTR-008,research,Centro corazzati,L2,specializzato,corazzati,Acciaio; motori; specialisti,Centro corazzati
+RASTR-009,research,Laboratorio chimico,L2,specializzato,chimica,Materie chimiche; energia; specialisti,Laboratorio chimico
+RASTR-010,research,Centro missilistico,L3,strategico,missilistica,Materiali; chimica; specialisti; energia,Centro missilistico
+RASTR-011,research,Centro medico,L2,specializzato,medicina,Farmaci; energia; specialisti,Centro medico
+RASTR-012,research,Centro industrializzazione,L2,specializzato,trasferimento tecnologia,Macchinari; specialisti; energia,Centro industriale
+PWR-001,energy,Centrale termoelettrica a carbone,L1,generazione,100,Carbone; acciaio; macchinari; manodopera,Centrale elettrica
+PWR-002,energy,Centrale termoelettrica a lignite,L1,generazione,90,Lignite; acciaio; macchinari; manodopera,Centrale elettrica
+PWR-003,energy,Centrale a olio combustibile,L1,generazione,110,Carburante; acciaio; macchinari; manodopera,Centrale elettrica
+PWR-004,energy,Centrale idroelettrica,L1,generazione,120,Acciaio; cemento; macchinari; sito idoneo,Diga/centrale
+PWR-005,energy,Centrale termica migliorata,L2,generazione,135,Carbone; acciaio; rame; macchinari,Centrale elettrica
+PWR-006,energy,Centrale idroelettrica migliorata,L2,generazione,165,Acciaio; cemento; macchinari,Diga/centrale
+PWR-007,energy,Centrale ad alta efficienza,L3,generazione,175,Carbone; acciaio; rame; macchinari; specialisti,Centrale elettrica
+PWR-008,energy,Rete elettrica locale,L1,trasmissione,100,Rame; acciaio; manodopera,Linee locali; sottostazioni
+PWR-009,energy,Rete elettrica regionale,L2,trasmissione,250,Rame; acciaio; macchinari,Linee regionali; sottostazioni
+PWR-010,energy,Rete elettrica strategica,L3,trasmissione,500,Rame; acciaio; macchinari; specialisti,Linee strategiche; grandi sottostazioni
+FAC-001,industry,Acciaieria L1,L1,steel production,100,Minerale di ferro; carbone; energia; manodopera,Acciaieria
+FAC-002,industry,Impianto alluminio L1,L1,aluminium production,70,Bauxite; energia; manodopera,Metallurgia non ferrosa
+FAC-003,industry,Impianto chimico L1,L1,chemical production,80,Carbone; petrolio; energia; manodopera,Chimica
+FAC-004,industry,Raffineria L1,L1,fuel refining,100,Petrolio; energia; manodopera,Raffineria
+FAC-005,industry,Impianto carburante sintetico L1,L1,synthetic fuel,70,Carbone; prodotti chimici; energia; manodopera,Carburante sintetico
+FAC-006,industry,Fabbrica alimentare L1,L1,food processing,100,Cereali; farina; carne; energia; manodopera,Industria alimentare
+FAC-007,industry,Fabbrica materiali industriali L1,L1,industrial materials,100,Acciaio; alluminio; energia; manodopera,Materiali industriali
+FAC-008,industry,Fabbrica munizioni L1,L1,munitions,100,Acciaio; rame; prodotti chimici; energia; manodopera,Munizioni
+FAC-009,industry,Fabbrica armi leggere L1,L1,small arms,100,Acciaio; materiali industriali; munizioni; energia; manodopera,Armi leggere
+FAC-010,industry,Fabbrica veicoli L1,L1,vehicles,70,Acciaio; gomma; motori; carburante; energia; manodopera,Veicoli
+FAC-011,industry,Fabbrica artiglieria L1,L1,artillery,70,Acciaio; materiali industriali; munizioni; energia; manodopera,Artiglieria
+FAC-012,industry,Fabbrica corazzati L1,L1,tanks,45,Acciaio; motori; materiali industriali; carburante; energia; manodopera,Corazzati
+FAC-013,industry,Stabilimento aeronautico L1,L1,aircraft,45,Alluminio; acciaio; motori; componenti; energia; manodopera,Aeronautica
+FAC-014,industry,Cantiere navale L1,L1,shipbuilding,20,Acciaio; motori; componenti; energia; manodopera,Cantieristica
+FAC-015,industry,Impianto gomma L1,L1,rubber processing,90,Gomma naturale; energia; manodopera,Gomma
+FAC-016,industry,Fabbrica macchinari L1,L1,machinery,70,Acciaio; componenti; energia; manodopera,Macchinari
+FAC-017,industry,Fabbrica motori L1,L1,engines,60,Acciaio; componenti; macchinari; energia; manodopera,Motori
+FAC-018,industry,Fabbrica componenti L1,L1,components,80,Acciaio; rame; energia; manodopera,Componenti
+FAC-019,agriculture,Azienda agricola L1,L1,farm production,100,Terreno coltivabile; manodopera; energia,Agricoltura
+FAC-020,energy,Centrale elettrica L1,L1,power generation,100,Combustibile; acciaio; macchinari; manodopera,Energia

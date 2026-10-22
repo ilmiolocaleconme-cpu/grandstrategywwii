@@ -1,0 +1,18 @@
+{
+  "pack": "GrandStrategyWWII_Clean_Vite_DataPack_v11_1_AUDIT_NAVAL_CSV",
+  "version": "v11.1",
+  "zipSha256": "7b191c5a1369201cdc3db337872105b4b2986afde596b8aa93ded0d6648bbe71",
+  "importedOn": "2026-10-22",
+  "validatorOnPack": "0 errori, 0 avvisi, 0 lacune sulle fonti delle risorse (eseguito il 2026-10-22 sul pacchetto estratto)",
+  "note": "Importazione additiva e parziale: i CSV qui sotto sono copie byte per byte del Pack (stessi percorsi sotto data/). Il Pack resta la fonte canonica: non modificare queste copie a mano, reimportarle da una versione nuova e aggiornare questo file. Le versioni precedenti (v1-v10) non si sovrascrivono. Non sono stati importati tecnologie, risorse, ricette, equipaggiamento, energia e navi: i riferimenti a tecnologie (technology_required) non sono ancora validati dal repository.",
+  "files": {
+    "data/industry/factories.csv": "96eed24cbf1500b5b4e685f9138d034dfaa82f951fcd7bb89db0715c17bd30ca",
+    "data/industry/production_categories.csv": "03f05f2055cc8cb2392efb85164f645bb76408d6c4a8f9038c3e4c42c426210a",
+    "data/infrastructure/structures.csv": "48d7439bfb0a33384459909ea883f1a2bb85023ca79b1b127033f8b1c715dd0b",
+    "data/core/countries.csv": "4a61d1b5a87c6d110506efd2920a1c6eaacbe209b417725cb630c2f4bec8acca"
+  },
+  "repoOwnFiles": {
+    "data/core/country_crosswalk.csv": "tabella di corrispondenza fra gli ID paese del Pack e quelli del repository (non fa parte del Pack)",
+    "data/industry/province_industry.csv": "potenziale e capacità industriale PROVISIONAL (non fa parte del Pack), generato da scripts/build-province-industry.js"
+  }
+}

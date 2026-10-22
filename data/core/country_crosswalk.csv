@@ -1,0 +1,10 @@
+pack_country_id,repo_political_id,note_it
+GER,DEU,Germania: il Pack usa GER; data/political_1936.json usa DEU
+ITA,ITA,
+JPN,JPN,
+GBR,GBR,
+FRA,FRA,
+SOV,USSR,URSS: il Pack usa SOV; data/political_1936.json usa USSR
+USA,USA,
+CHN,CHN,
+OTHER,,Voce generica del Pack: nessuna corrispondenza

@@ -1,0 +1,21 @@
+factory_id,facility_type,name_it,category,technology_required,building_name,construction_ecv,construction_days,base_capacity_per_day,energy_consumption,workers,balance_status,structure_id,factory_class,production_mode,status
+FCT-STEEL,steel_mill,Acciaieria,materials,IND-001,Acciaieria L1,120,45,100,12,500,PROVISIONAL,FAC-001,industry,manufacturing,canonical
+FCT-ALUMINIUM,aluminium_plant,Impianto di alluminio,materials,MIN-007,Impianto metallurgico non ferroso,130,50,70,18,450,PROVISIONAL,FAC-002,industry,manufacturing,canonical
+FCT-CHEMICAL,chemical_plant,Impianto chimico,chemicals,IND-009,Impianto chimico L1,100,40,80,14,350,PROVISIONAL,FAC-003,industry,manufacturing,canonical
+FCT-REFINERY,refinery,Raffineria,fuel,RA-038,Raffineria/laboratorio,140,50,100,10,300,PROVISIONAL,FAC-004,industry,manufacturing,canonical
+FCT-SYNFUEL,synthetic_fuel_plant,Impianto carburanti sintetici,fuel,RA-039,Impianto sintetico,160,60,70,20,400,PROVISIONAL,FAC-005,industry,manufacturing,canonical
+FCT-FOOD,food_factory,Industria alimentare,food,AGR-017,Fattorie produttive,70,25,100,8,400,PROVISIONAL,FAC-006,industry,manufacturing,canonical
+FCT-INDUSTRIAL,industrial_factory,Fabbrica materiali industriali,materials,IND-001,Fabbrica industriale,90,35,100,10,500,PROVISIONAL,FAC-007,industry,manufacturing,canonical
+FCT-MUNITIONS,munitions_factory,Fabbrica munizioni,weapons,IND-028,Fabbrica munizioni L1,100,35,100,12,500,PROVISIONAL,FAC-008,industry,manufacturing,canonical
+FCT-WEAPONS,weapons_factory,Fabbrica armi leggere,weapons,IND-027,Fabbrica armi L1,90,35,100,8,450,PROVISIONAL,FAC-009,industry,manufacturing,canonical
+FCT-VEHICLES,vehicle_factory,Fabbrica veicoli,vehicles,IND-023,Fabbrica autocarri L1,130,45,70,16,450,PROVISIONAL,FAC-010,industry,manufacturing,canonical
+FCT-ARTILLERY,artillery_factory,Fabbrica artiglieria,artillery,IND-029,Fabbrica artiglieria L1,130,45,70,15,450,PROVISIONAL,FAC-011,industry,manufacturing,canonical
+FCT-TANKS,tank_factory,Fabbrica carri armati,vehicles,IND-025,Fabbrica corazzati L1,180,60,45,24,600,PROVISIONAL,FAC-012,industry,manufacturing,canonical
+FCT-AIRCRAFT,aircraft_factory,Fabbrica aeronautica,aircraft,AIR-03,Stabilimento aeronautico,180,60,45,22,600,PROVISIONAL,FAC-013,industry,manufacturing,canonical
+FCT-SHIPYARD,shipyard,Cantiere navale,naval,NAV-002,Cantiere navale,250,120,20,30,700,PROVISIONAL,FAC-014,industry,manufacturing,canonical
+FCT-RUBBER,rubber_plant,Impianto lavorazione gomma,materials,IND-011,Impianto gomma,80,30,90,9,300,PROVISIONAL,FAC-015,industry,manufacturing,canonical
+FCT-MACHINERY,machinery_factory,Fabbrica macchinari,components,IND-006,Fabbrica macchinari L1,120,45,70,14,400,PROVISIONAL,FAC-016,industry,manufacturing,canonical
+FCT-ENGINE,engine_factory,Fabbrica motori,components,IND-006,Fabbrica macchinari L1,140,50,60,18,450,PROVISIONAL,FAC-017,industry,manufacturing,canonical
+FCT-COMPONENTS,components_factory,Fabbrica componenti,components,IND-006,Fabbrica macchinari L1,110,40,80,12,400,PROVISIONAL,FAC-018,industry,manufacturing,canonical
+FCT-POWER,power_plant,Centrale elettrica,energy,RA-035,Impianto energetico,150,55,0,25,100,PROVISIONAL,FAC-020,energy,generation,canonical
+FCT-AGRICULTURE,farm,Azienda agricola,food,AGR-001,Aree agricole,40,15,0,2,300,PROVISIONAL,FAC-019,agriculture,regional,canonical

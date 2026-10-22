@@ -14,6 +14,10 @@ import { idsChecksum } from '../src/data/adjacency.js';
 import { loadProvinces } from './load-provinces.js';
 import { readFile as readFileTerrain } from 'node:fs/promises';
 import { validateTerrain } from '../src/data/terrain.js';
+import { parseCsv } from '../src/data/csv.js';
+import { loadIndustryCatalog, validateIndustryCatalog, validateProvinceIndustry } from '../src/data/industry.js';
+import { buildSlotCatalog } from '../src/rules/slots.js';
+import { createHash } from 'node:crypto';
 
 const dataDir = new URL('../data/', import.meta.url);
 
@@ -66,6 +70,27 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const motherIds = [...new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id))];
     const terrainDoc = JSON.parse(await readFileTerrain(new URL('../data/terrain.json', import.meta.url), 'utf8'));
     errors.push(...validateTerrain(terrainDoc, motherIds, ['P_USSR_CHUKCHI_AUTONOMOUS_OKRUG']));
+  }
+  {
+    // Data Pack v11.1: catalogo industriale, struttura dei file importati e tabella provvisoria delle province
+    const text = (p) => readFileTerrain(new URL(`../data/${p}`, import.meta.url), 'utf8');
+    const industry = loadIndustryCatalog({ factoriesCsv: await text('industry/factories.csv'), structuresCsv: await text('infrastructure/structures.csv'), categoriesCsv: await text('industry/production_categories.csv') });
+    errors.push(...validateIndustryCatalog(industry));
+    const source = JSON.parse(await text('PACK_SOURCE.json'));
+    for (const [file, sha] of Object.entries(source.files)) {
+      const actual = createHash('sha256').update(await readFileTerrain(new URL(`../data/${file.replace(/^data\//, '')}`, import.meta.url))).digest('hex');
+      if (actual !== sha) errors.push(`pack: ${file} diverso dal Pack ${source.version} (sha256): reimportare o aggiornare PACK_SOURCE.json`);
+    }
+    const slotCat = buildSlotCatalog({ provinces: catalog.provinces, zones: catalog.cityZones.features, nations: catalog.nations });
+    errors.push(...validateProvinceIndustry(parseCsv(await text('industry/province_industry.csv'), { name: 'province_industry.csv' }), { motherIds: new Set(Object.keys(slotCat.provinces)), cityPartIds: new Set(Object.keys(slotCat.cityParts)) }));
+    const crosswalk = parseCsv(await text('core/country_crosswalk.csv'), { name: 'country_crosswalk.csv' });
+    const packCountries = new Set(parseCsv(await text('core/countries.csv'), { name: 'countries.csv' }).map((c) => c.country_id));
+    const repoIds = new Set(catalog.political.map((p) => p.id));
+    for (const c of crosswalk) {
+      if (!packCountries.has(c.pack_country_id)) errors.push(`corrispondenza paesi: ${c.pack_country_id} non esiste nel Pack`);
+      if (c.repo_political_id && !repoIds.has(c.repo_political_id)) errors.push(`corrispondenza paesi: ${c.repo_political_id} non esiste in political_1936.json`);
+    }
+    for (const id of packCountries) if (!crosswalk.some((c) => c.pack_country_id === id)) errors.push(`corrispondenza paesi: ${id} del Pack senza riga`);
   }
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));
