@@ -241,19 +241,25 @@ export function* renderBaseSteps(ctx, p) {
       try { drawSeas(ctx, seas, selectedSeaId, a.sx); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
     }
     const groups = new Map();
+    const singles = []; // percorsi riempiti uno per uno (evenodd annulla le sovrapposizioni dello stesso colore)
     const visible = [];
     for (const it of model.items) {
       const b = it.bbox;
       if (b.x > x1 || b.x + b.w < x0 || b.y > y1 || b.y + b.h < y0) continue;
       const path = itemPath(model, lod, it, level);
       const col = fillOf(it, layer, nationControl);
-      let g = groups.get(col);
-      if (!g) { g = new Path2D(); groups.set(col, g); }
-      g.addPath(path);
+      if (col === COLORS.cityGrey) singles.push(path); // zone urbane e province-città si sovrappongono: ognuna a parte
+      else {
+        let g = groups.get(col);
+        if (!g) { g = new Path2D(); groups.set(col, g); }
+        g.addPath(path);
+      }
       if (!light) visible.push([it, path, col]);
     }
     trace?.('prep', ctx);
     for (const [col, g] of groups) { ctx.fillStyle = col; ctx.fill(g, 'evenodd'); }
+    ctx.fillStyle = COLORS.cityGrey;
+    for (const path of singles) ctx.fill(path, 'evenodd');
     trace?.('fill', ctx);
     yield 'fill';
     if (light) continue;
