@@ -192,7 +192,7 @@ function riverGroups(water, rankLimit) {
 
 // Testo del nome di una città: senza la sigla di sponda; la stella solo sulla capitale a nord; le altre parti di una capitale sono "<nome> sud".
 function cityText(p) {
-  const nome = p.name.replace(/ \(sponda [A-Z]\)$/, '');
+  const nome = p.name.replace(/ \(sponda [A-Z]\)$/, '').replace(/ \(città\)/, '');
   if (p.capital) return `★ ${nome}`;
   if (p.capitale && !/ (sud|nord|est|ovest)( \d+)?$/.test(nome)) return `${nome} sud`;
   return nome;
