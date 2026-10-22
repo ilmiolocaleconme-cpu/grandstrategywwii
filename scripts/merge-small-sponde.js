@@ -4,7 +4,7 @@
 // restano buchi. Se di una provincia resta una sola sponda, torna provincia intera (id e nome della madre).
 //
 //   node scripts/merge-small-sponde.js --dry            (stampa cosa farebbe, non scrive nulla)
-//   node scripts/merge-small-sponde.js [--min=200]      (scrive data/provinces/*.json, data/sources/citta_base.json, data/crossings.json)
+//   node scripts/merge-small-sponde.js [--min=200] [--whole=P_BGR_SOFIA,...]   (--whole: queste province tornano intere, qualunque sia l'area delle sponde; scrive data/provinces/*.json, data/sources/citta_base.json, data/crossings.json)
 //
 // Dopo: node scripts/build-cities.js, npm run build:adjacency, build:sea, build:labels, build:crossing-points, build:links.
 // Idempotente: una seconda esecuzione non trova più sponde sotto la soglia.
@@ -122,7 +122,7 @@ function gap(g1, g2) {
  * Fonde le sponde sotto `minKm2` di ogni provincia divisa. `features` = le province di UN file (modificate sul posto).
  * Ritorna { features, idMap (id vecchio → id nuovo), letterMap (madre|numero → numero nuovo o null se la provincia è tornata intera), log }.
  */
-export function mergeSmall(features, minKm2 = MIN_SPONDA_KM2) {
+export function mergeSmall(features, minKm2 = MIN_SPONDA_KM2, whole = new Set()) {
   const idMap = new Map();
   const letterMap = new Map();
   const log = [];
@@ -134,7 +134,8 @@ export function mergeSmall(features, minKm2 = MIN_SPONDA_KM2) {
     for (;;) {
       if (pieces.length < 2) break;
       const areas = new Map(pieces.map((p) => [p, areaKm2(p.geometry)]));
-      const small = pieces.filter((p) => areas.get(p) < minKm2).sort((a, b) => areas.get(a) - areas.get(b))[0];
+      const limit = whole.has(mother) ? Infinity : minKm2; // province volute intere: si fonde fino a una sola sponda
+      const small = pieces.filter((p) => areas.get(p) < limit).sort((a, b) => areas.get(a) - areas.get(b))[0];
       if (!small) break;
       const sibs = pieces.filter((p) => p !== small);
       const ranked = sibs.map((s) => ({ s, shared: sharedEdges(small.geometry, s.geometry), d: gap(small.geometry, s.geometry) })).sort((a, b) => b.shared - a.shared || a.d - b.d);
@@ -173,6 +174,7 @@ function dump(v) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const dry = process.argv.includes('--dry');
   const min = Number(process.argv.find((a) => a.startsWith('--min='))?.slice(6) ?? MIN_SPONDA_KM2);
+  const whole = new Set((process.argv.find((a) => a.startsWith('--whole='))?.slice(8) ?? '').split(',').filter(Boolean));
   const names = (await readdir(dataUrl('provinces/'))).filter((n) => n.endsWith('.json') && n !== '_meta.json').sort();
   const allIds = new Map(); const allLetters = new Map(); const log = [];
   let before = 0; let after = 0;
@@ -180,7 +182,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const text = await readFile(dataUrl(`provinces/${n}`), 'utf8');
     const file = JSON.parse(text);
     before += file.features.length;
-    const r = mergeSmall(file.features, min);
+    const r = mergeSmall(file.features, min, whole);
     after += r.features.length;
     for (const [k, v] of r.idMap) allIds.set(k, v);
     for (const [k, v] of r.letterMap) allLetters.set(k, v);

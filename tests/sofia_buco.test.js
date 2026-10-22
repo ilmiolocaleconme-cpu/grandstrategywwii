@@ -22,3 +22,16 @@ test('Sofia: le zone urbane restano zone a parte (non diventano regione)', () =>
   const zone = read('citta_grandi.json').features.filter((f) => f.properties.parentProvince === 'P_BGR_SOFIA');
   assert.ok(zone.every((f) => f.properties.kind === 'citta'));
 });
+
+test('Sofia: una provincia sola, senza sponde, senza buchi e con le zone urbane dentro i suoi confini', () => {
+  const regione = read('provinces/BGR.json').features.filter((f) => f.properties.id.startsWith('P_BGR_SOFIA'));
+  assert.equal(regione.length, 1);
+  assert.equal(regione[0].properties.id, 'P_BGR_SOFIA');
+  assert.equal(regione[0].properties.sponda_fiume, undefined);
+  assert.equal(regione[0].properties.parentProvince, undefined);
+  assert.equal(regione[0].geometry.type, 'Polygon');
+  assert.equal(regione[0].geometry.coordinates.length, 1, 'nessun buco');
+  const zone = read('citta_grandi.json').features.filter((f) => f.properties.parentProvince === 'P_BGR_SOFIA');
+  assert.equal(zone.length, 3);
+  for (const z of zone) assert.equal(z.properties.sponda, null);
+});
