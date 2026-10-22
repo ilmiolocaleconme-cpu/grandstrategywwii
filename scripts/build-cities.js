@@ -15,11 +15,13 @@ import { intersect, polygonArea } from '../src/data/polyclip.js';
 import { splitPolygon } from '../src/data/splitline.js';
 import { SUBSET_NAMES, localName } from './city-names.js';
 import { ringAreaKm2 } from '../src/map/geo.js';
+import { simplify } from '../src/data/transport.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
 const SUBSET = 'sources/ne_urban_areas_citta.json';
 const BASE = 'sources/citta_base.json';
 export const MIN_AREA_KM2 = 3; // sotto questa area totale la città resta il disco attuale
+export const URBAN_TOLERANCE_DEG = 0.003; // contorno urbano più pulito: Douglas-Peucker a ~0,8 km (i poligoni di Natural Earth sono molto frastagliati)
 export const SAFETY = 2.0; // cerchio massimo = SAFETY x raggio stimato; fra città vicine decide la cella di Voronoi (vedi cellOf)
 const KM_PER_DEG = 111.195;
 const round6 = (v) => Math.round(v * 1e6) / 1e6;
@@ -103,13 +105,28 @@ export function cityGeometry(parts, regionOf, urbanIndex, neighbours = []) {
   return { parts: result, centre: { lon, lat }, radiusKm: radius, boundPieces: inBound.length };
 }
 
+/** Anello chiuso semplificato (Douglas-Peucker); null se dopo la semplificazione non resta un'area (meno di 4 punti). */
+export function cleanRing(ring, tol = URBAN_TOLERANCE_DEG) {
+  if (tol <= 0 || ring.length <= 4) return ring;
+  const open = ring.slice(0, -1);
+  const kept = simplify([...open, open[0]], tol).slice(0, -1);
+  return kept.length >= 3 ? [...kept, kept[0]] : null;
+}
+/** Poligono (anello esterno + buchi) con contorno più pulito; null se l'anello esterno sparisce. I buchi che spariscono si perdono. */
+export function cleanPolygon(poly, tol = URBAN_TOLERANCE_DEG) {
+  const outer = cleanRing(poly[0], tol);
+  if (!outer) return null;
+  return [outer, ...poly.slice(1).map((h) => cleanRing(h, tol)).filter(Boolean)];
+}
+const toUrban = (poly) => { const c = cleanPolygon(poly); return c ? { poly: c, bbox: bboxOfPolys([c]) } : null; };
+
 async function loadUrban(arg) {
   if (arg) {
     const src = JSON.parse(await readFile(arg, 'utf8'));
-    return src.features.filter((f) => f.geometry).flatMap((f) => polysOf(f.geometry).map((poly) => ({ poly, bbox: bboxOfPolys([poly]) })));
+    return src.features.filter((f) => f.geometry).flatMap((f) => polysOf(f.geometry).map(toUrban)).filter(Boolean);
   }
   const sub = JSON.parse(await readFile(dataUrl(SUBSET), 'utf8'));
-  return sub.polygons.map((poly) => ({ poly, bbox: bboxOfPolys([poly]) }));
+  return sub.polygons.map(toUrban).filter(Boolean);
 }
 
 

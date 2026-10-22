@@ -130,3 +130,11 @@ test('aggancio alla città: solo da vicino; a vista d\'insieme il tocco va alla 
   assert.equal(nearestCityAt(items, 0.5, 0.5, 0), null);
   assert.equal(nearestCityAt(items, 0.5, 0.5, citySnapTolerance(CITY_SNAP_ZOOM, 10) * 1000)?.id, 'C');
 });
+
+test('zone urbane: contorni puliti (meno di 40 000 vertici in tutto) e 732 zone', async () => {
+  const { readFileSync } = await import('node:fs');
+  const z = JSON.parse(readFileSync(new URL('../data/citta_grandi.json', import.meta.url), 'utf8')).features;
+  assert.equal(z.length, 732);
+  const polys = (g) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates);
+  assert.ok(z.reduce((n, f) => n + polys(f.geometry).reduce((m, p) => m + p.reduce((k, r) => k + r.length, 0), 0), 0) < 40000);
+});

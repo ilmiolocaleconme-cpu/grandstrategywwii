@@ -24,3 +24,26 @@ test('cellOf: due città si dividono lo spazio senza sovrapporsi', () => {
     assert.equal(pointInPolygon(x, y, ca) && pointInPolygon(x, y, cb), false, `${x},${y}`);
   }
 });
+
+import { cleanRing, cleanPolygon, URBAN_TOLERANCE_DEG } from '../scripts/build-cities.js';
+
+test('cleanRing: toglie le piccole dentellature, tiene gli angoli veri e l\'anello resta chiuso', () => {
+  const dente = [[0, 0], [1, 0], [2, 0.0005], [3, 0], [4, 0], [4, 4], [0, 4], [0, 0]]; // dentellatura di 0,0005° sul lato sud
+  const out = cleanRing(dente);
+  assert.deepEqual(out[0], out[out.length - 1]);
+  assert.ok(out.length < dente.length);
+  for (const angolo of [[0, 0], [4, 0], [4, 4], [0, 4]]) assert.ok(out.some((p) => p[0] === angolo[0] && p[1] === angolo[1]), `angolo ${angolo}`);
+});
+
+test('cleanRing: un anello più piccolo della tolleranza sparisce, uno già semplice resta uguale', () => {
+  const minuscolo = [[0, 0], [0.001, 0], [0.001, 0.001], [0.0005, 0.0015], [0, 0.001], [0, 0]];
+  assert.equal(cleanRing(minuscolo, URBAN_TOLERANCE_DEG * 5), null);
+  const quadrato = [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]];
+  assert.deepEqual(cleanRing(quadrato), quadrato);
+});
+
+test('cleanPolygon: i buchi spariscono se troppo piccoli, l\'anello esterno no', () => {
+  const ext = [[0, 0], [2, 0], [2, 2], [0, 2], [0, 0]];
+  const buco = [[1, 1], [1.001, 1], [1.001, 1.001], [1.0005, 1.0015], [1, 1.001], [1, 1]];
+  assert.equal(cleanPolygon([ext, buco], URBAN_TOLERANCE_DEG * 5).length, 1);
+});
