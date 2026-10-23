@@ -1,7 +1,7 @@
 import { formatDate } from '../game/calendar.js';
-import flagsFile from '../../data/flags.json';
-import descriptionsFile from '../../data/nation_descriptions.json';
-import Flag from './Flag.jsx';
+import orderFile from '../../data/nation_order.json';
+import NationWheel from './NationWheel.jsx';
+import { buildWheel } from '../game/nationWheel.js';
 
 const REASONS = {
   invalid_json: 'file illeggibile (non è JSON valido)',
@@ -29,7 +29,8 @@ function SaveCard({ title, info, onLoad }) {
 }
 
 /** Schermata iniziale: scelta della nazione e ripresa dei salvataggi. Niente stato proprio. */
-export default function NewGame({ nations, saves, canSave, notice, onStart, onLoad }) {
+export default function NewGame({ nations, nationNames, saves, canSave, notice, onStart, onLoad }) {
+  const list = buildWheel({ order: orderFile.order, names: nationNames, playableIds: nations.map((n) => n.id) });
   return (
     <main className="app newgame">
       <header>
@@ -49,18 +50,8 @@ export default function NewGame({ nations, saves, canSave, notice, onStart, onLo
       ) : null}
       <section aria-labelledby="pick-title">
         <h2 id="pick-title">Scegli la nazione</h2>
-        <ul className="nation-scroll" aria-label="Nazioni: scorri in orizzontale">
-          {nations.map((n) => (
-            <li key={n.id}>
-              <button type="button" className="nation-card" onClick={() => onStart(n.id)}>
-                <Flag flag={flagsFile.flags[n.id]} />
-                <strong>{n.name}</strong>
-                <span className={descriptionsFile.descriptions[n.id] ? 'nation-desc' : 'nation-desc muted'}>{descriptionsFile.descriptions[n.id] || 'Descrizione in arrivo'}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <p className="muted">Il Giappone non è ancora scegliibile: mancano le sue province sulla mappa.</p>
+        <NationWheel list={list} startId={orderFile.start} onStart={onStart} />
+        <p className="muted">Stati Uniti e Giappone si vedono ma non sono ancora giocabili: mancano le loro province sulla mappa.</p>
       </section>
     </main>
   );

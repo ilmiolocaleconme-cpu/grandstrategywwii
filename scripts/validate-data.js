@@ -72,8 +72,15 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateTerrain(terrainDoc, motherIds, ['P_USSR_CHUKCHI_AUTONOMOUS_OKRUG']));
     const regionsDoc = JSON.parse(await readFileTerrain(new URL('../data/regions.json', import.meta.url), 'utf8'));
     const choosable = playableNations(catalog.political, catalog.provinces.features.map((f) => f.properties.owner)).map((n) => n.id);
-    errors.push(...validateFlags(JSON.parse(await readFileTerrain(new URL('../data/flags.json', import.meta.url), 'utf8')), { nationIds: choosable }));
-    errors.push(...validateDescriptions(JSON.parse(await readFileTerrain(new URL('../data/nation_descriptions.json', import.meta.url), 'utf8')), { nationIds: choosable }));
+    const wheel = JSON.parse(await readFileTerrain(new URL('../data/nation_order.json', import.meta.url), 'utf8'));
+    const politicalIds = new Set(catalog.political.map((e) => e.id));
+    if (wheel.schema !== 'nation-order-v1') errors.push(`ruota nazioni: schema ${wheel.schema}`);
+    if (new Set(wheel.order).size !== wheel.order.length) errors.push('ruota nazioni: id doppi nell\'ordine');
+    for (const id of wheel.order) if (!politicalIds.has(id)) errors.push(`ruota nazioni: ${id} non esiste tra le entità politiche`);
+    for (const id of choosable) if (!wheel.order.includes(id)) errors.push(`ruota nazioni: ${id} è scegliibile ma manca dall'ordine`);
+    if (!wheel.order.includes(wheel.start)) errors.push(`ruota nazioni: la nazione iniziale ${wheel.start} non è nell'ordine`);
+    errors.push(...validateFlags(JSON.parse(await readFileTerrain(new URL('../data/flags.json', import.meta.url), 'utf8')), { nationIds: wheel.order }));
+    errors.push(...validateDescriptions(JSON.parse(await readFileTerrain(new URL('../data/nation_descriptions.json', import.meta.url), 'utf8')), { nationIds: wheel.order }));
     errors.push(...validateRegions(regionsDoc, { provinces: catalog.provinces.features, nationIds: catalog.nations.map((n) => n.id) }));
   }
   {

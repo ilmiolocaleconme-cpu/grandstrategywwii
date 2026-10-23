@@ -308,7 +308,7 @@ export default function App() {
           </main>
         ) : (
           <>
-            <NewGame nations={choosable} saves={saves} canSave={store !== null} notice={notice} onStart={startGame} onLoad={loadGame} />
+            <NewGame nations={choosable} nationNames={NATION_NAMES} saves={saves} canSave={store !== null} notice={notice} onStart={startGame} onLoad={loadGame} />
             <main className="app">{statusSection}</main>
           </>
         )}

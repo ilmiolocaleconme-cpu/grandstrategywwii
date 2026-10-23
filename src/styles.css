@@ -150,13 +150,6 @@ h2 {
 .save-card { display: flex; flex-direction: column; gap: 2px; }
 .nation-btn:active, .save-card:active { background: var(--accent); color: #1d2418; }
 /* scelta della nazione: una fila che scorre in orizzontale, bandiera + nome + breve descrizione */
-.nation-scroll { display: flex; gap: 10px; margin: 0; padding: 4px 2px 12px; list-style: none; overflow-x: auto; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
-.nation-scroll li { flex: 0 0 auto; scroll-snap-align: start; }
-.nation-card { display: flex; flex-direction: column; align-items: stretch; gap: 6px; width: 156px; min-height: 172px; padding: 10px; background: var(--panel); color: var(--ink); border: 1px solid #4a553f; border-radius: 10px; font: inherit; text-align: left; }
-.nation-card:active { background: #2c3626; border-color: var(--accent); }
-.nation-card .flag { display: block; width: 100%; aspect-ratio: 3 / 2; height: auto; border-radius: 3px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18); background: #2a3324; }
-.nation-card strong { font-size: 14px; }
-.nation-desc { font-size: 12px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .gamebar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 6px 12px; background: #232b1e; border-bottom: 1px solid #4a553f; }
 .gb-info { display: flex; flex-direction: column; min-width: 120px; }
 .gb-controls { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
@@ -214,3 +207,20 @@ h2 {
 .info-section { margin-top: 18px; }
 .info-section .legend { position: static; max-height: none; }
 .info-section .bridge-legend { position: static; max-height: none; max-width: 340px; margin-top: 10px; pointer-events: auto; }
+
+/* ruota di scelta nazione: cinque posti in prospettiva; il centro sporge */
+.wheel-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.wheel { position: relative; width: 100%; max-width: 760px; height: 256px; perspective: 700px; perspective-origin: 50% 40%; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; outline-offset: 2px; }
+.wheel-card { position: absolute; left: 50%; top: 28px; width: 150px; height: 194px; margin-left: -75px; display: flex; flex-direction: column; align-items: stretch; gap: 6px; padding: 10px; background: var(--panel); color: var(--ink); border: 1px solid #4a553f; border-radius: 10px; font: inherit; text-align: left; transition: transform 0.35s ease, opacity 0.35s ease, background 0.35s ease; backface-visibility: hidden; cursor: pointer; }
+.wheel-card .flag { flex: none; display: block; width: 100%; aspect-ratio: 3 / 2; height: auto; border-radius: 3px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18); background: #2a3324; }
+.wheel-card strong { font-size: 14px; }
+.wheel-card.is-center { background: #44552f; border: 2px solid var(--accent); box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55); cursor: default; }
+.wheel-card.is-locked { filter: grayscale(0.85); }
+.wheel-card.is-locked.is-center { background: #3a3f35; border-color: #6b7360; }
+.wheel-actions { display: flex; align-items: center; gap: 8px; }
+.wheel-actions .nation-btn { text-align: center; min-height: 40px; }
+.wheel-actions .nation-btn:disabled { opacity: 0.45; }
+.wheel-play { min-width: 220px; background: var(--accent); color: #1d2418; border-color: var(--accent); font-weight: 600; }
+.wheel-play:disabled { background: var(--panel); color: var(--muted); border-color: #4a553f; }
+@media (max-height: 460px) { .wheel { height: 236px; } .wheel-card { top: 22px; height: 176px; } }
+@media (prefers-reduced-motion: reduce) { .wheel-card { transition: none; } }

@@ -1,0 +1,33 @@
+{
+ "schema": "nation-order-v1",
+ "note": "Ordine della ruota di scelta, da sinistra a destra. 'start' è la nazione al centro all'apertura. Le nazioni senza province sono mostrate bloccate ('In arrivo'). Aggiungere qui le altre quando avranno le province.",
+ "start": "DEU",
+ "order": [
+  "USSR",
+  "JPN",
+  "FRA",
+  "GBR",
+  "USA",
+  "DEU",
+  "ITA",
+  "HUN",
+  "ROM",
+  "BGR",
+  "FIN",
+  "ESP",
+  "TUR",
+  "YUG",
+  "GRC",
+  "POL",
+  "CZE",
+  "AUT",
+  "CHE",
+  "SWE",
+  "NOR",
+  "DNK",
+  "NLD",
+  "BEL",
+  "PRT",
+  "EGY"
+ ]
+}

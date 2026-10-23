@@ -913,6 +913,445 @@
     }
    ],
    "note": "Bandiera del Regno d'Egitto (1923-52)"
+  },
+  "USA": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 20,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0.0,
+     "w": 30,
+     "h": 1.538,
+     "fill": "#b22234"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 3.077,
+     "w": 30,
+     "h": 1.538,
+     "fill": "#b22234"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 6.154,
+     "w": 30,
+     "h": 1.538,
+     "fill": "#b22234"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 9.231,
+     "w": 30,
+     "h": 1.538,
+     "fill": "#b22234"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 12.308,
+     "w": 30,
+     "h": 1.538,
+     "fill": "#b22234"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 15.385,
+     "w": 30,
+     "h": 1.538,
+     "fill": "#b22234"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 18.462,
+     "w": 30,
+     "h": 1.538,
+     "fill": "#b22234"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 12,
+     "h": 10.769,
+     "fill": "#3c3b6e"
+    },
+    {
+     "t": "circle",
+     "cx": 0.75,
+     "cy": 0.9,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 2.25,
+     "cy": 0.9,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 3.75,
+     "cy": 0.9,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 5.25,
+     "cy": 0.9,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 6.75,
+     "cy": 0.9,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 8.25,
+     "cy": 0.9,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 9.75,
+     "cy": 0.9,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 11.25,
+     "cy": 0.9,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 0.75,
+     "cy": 2.69,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 2.25,
+     "cy": 2.69,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 3.75,
+     "cy": 2.69,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 5.25,
+     "cy": 2.69,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 6.75,
+     "cy": 2.69,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 8.25,
+     "cy": 2.69,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 9.75,
+     "cy": 2.69,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 11.25,
+     "cy": 2.69,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 0.75,
+     "cy": 4.49,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 2.25,
+     "cy": 4.49,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 3.75,
+     "cy": 4.49,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 5.25,
+     "cy": 4.49,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 6.75,
+     "cy": 4.49,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 8.25,
+     "cy": 4.49,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 9.75,
+     "cy": 4.49,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 11.25,
+     "cy": 4.49,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 0.75,
+     "cy": 6.28,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 2.25,
+     "cy": 6.28,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 3.75,
+     "cy": 6.28,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 5.25,
+     "cy": 6.28,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 6.75,
+     "cy": 6.28,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 8.25,
+     "cy": 6.28,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 9.75,
+     "cy": 6.28,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 11.25,
+     "cy": 6.28,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 0.75,
+     "cy": 8.08,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 2.25,
+     "cy": 8.08,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 3.75,
+     "cy": 8.08,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 5.25,
+     "cy": 8.08,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 6.75,
+     "cy": 8.08,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 8.25,
+     "cy": 8.08,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 9.75,
+     "cy": 8.08,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 11.25,
+     "cy": 8.08,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 0.75,
+     "cy": 9.87,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 2.25,
+     "cy": 9.87,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 3.75,
+     "cy": 9.87,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 5.25,
+     "cy": 9.87,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 6.75,
+     "cy": 9.87,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 8.25,
+     "cy": 9.87,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 9.75,
+     "cy": 9.87,
+     "r": 0.32,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 11.25,
+     "cy": 9.87,
+     "r": 0.32,
+     "fill": "#ffffff"
+    }
+   ],
+   "note": "13 strisce, 48 stelle rese come punti (griglia 6x8)"
+  },
+  "JPN": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 20,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 15,
+     "cy": 10,
+     "r": 6,
+     "fill": "#bc002d"
+    }
+   ],
+   "note": "Hinomaru (bandiera nazionale); non la bandiera di guerra con i raggi"
   }
  }
 }

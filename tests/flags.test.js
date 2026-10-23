@@ -16,9 +16,11 @@ async function choosable() {
 test('ogni nazione scegliibile ha una bandiera valida e una voce di descrizione', async () => {
   const ids = await choosable();
   assert.ok(ids.length >= 24);
-  assert.deepEqual(validateFlags(json('flags.json'), { nationIds: ids }), []);
-  assert.deepEqual(validateDescriptions(json('nation_descriptions.json'), { nationIds: ids }), []);
-  for (const id of ids) assert.ok(id in json('nation_descriptions.json').descriptions, `descrizione di ${id}`);
+  const wheel = json('nation_order.json').order; // scegliibili + quelle mostrate bloccate (USA, Giappone)
+  for (const id of ids) assert.ok(wheel.includes(id), `${id} nella ruota`);
+  assert.deepEqual(validateFlags(json('flags.json'), { nationIds: wheel }), []);
+  assert.deepEqual(validateDescriptions(json('nation_descriptions.json'), { nationIds: wheel }), []);
+  for (const id of wheel) assert.ok(id in json('nation_descriptions.json').descriptions, `descrizione di ${id}`);
 });
 
 test('il validatore rifiuta forme sconosciute, colori non esadecimali e bandiere mancanti', () => {
