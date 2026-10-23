@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   project, ringToPath, featureToPath, featureAreaKm2, labelPoint, boundsOf,
-  buildMapModel, buildWaterModel, buildLod, lodLevel, simplifyLine, nationalBorderPath, zoomAt, clampView, ownerColor, provinceFill, QUALITY_COLORS,
+  buildMapModel, buildWaterModel, buildLod, lodLevel, simplifyLine, nationalBorderPath, zoomAt, clampView, ownerColor, QUALITY_COLORS,
   WORLD_W, MAX_LAT, wrapLon, lonDelta, wrapView, visibleCopies,
 } from '../src/map/geo.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
@@ -69,13 +69,12 @@ test('clampView: la mappa non può uscire del tutto dalla vista', () => {
   assert.deepEqual(ok, { k: 1, x: 0, y: 0 });
 });
 
-test('colori: deterministici, una tinta per nazione, livello qualità coerente coi dati', () => {
+test('colori: deterministici, una tinta per nazione, ogni provincia ha un colore di qualità del confine', () => {
   assert.equal(ownerColor('ITA', 'P_ITA_LAZIO'), ownerColor('ITA', 'P_ITA_LAZIO'));
   assert.notEqual(ownerColor('ITA', 'a'), ownerColor('POL', 'a'));
   assert.match(ownerColor('XXX', 'p'), /^hsl\(/);
   for (const f of provinces.features) {
     assert.ok(QUALITY_COLORS[f.properties.borderQuality], f.properties.id);
-    assert.equal(provinceFill(f.properties, 'quality'), QUALITY_COLORS[f.properties.borderQuality]);
   }
 });
 

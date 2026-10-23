@@ -282,7 +282,6 @@ export const QUALITY_COLORS = {
 export const LAYERS = [
   { id: 'political', label: 'Politico' },
   { id: 'terrain', label: 'Terreno' },
-  { id: 'quality', label: 'Qualità dati' },
 ];
 
 // Colore politico: quello della potenza che controlla il territorio (colonie, protettorati e mandati
@@ -293,7 +292,6 @@ export function controllerOf(owner, control) {
 }
 
 export function provinceFill(props, layer, control) {
-  if (layer === 'quality') return QUALITY_COLORS[props.borderQuality] ?? '#777';
   if (layer === 'terrain') return TERRAIN_COLORS[props.terreno] ?? '#777'; // senza dato (es. Chukotka) grigio scuro
   return ownerColor(controllerOf(props.owner, control), props.id);
 }

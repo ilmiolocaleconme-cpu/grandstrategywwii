@@ -56,9 +56,25 @@ h2 {
 /* --- Mappa --- */
 .shell { display: flex; flex-direction: column; min-height: 100dvh; }
 .tabs { display: flex; align-items: center; gap: 8px; padding: max(8px, env(safe-area-inset-top)) 12px 8px; background: var(--panel); }
-.tabs .brand { margin-right: auto; font-size: 15px; }
+.tabs .brand { font-size: 15px; white-space: nowrap; }
+/* livelli e zoom della mappa stanno nella barra in alto (portale di MapCanvas): una sola barra */
+.nav-tools-host { display: flex; flex: 1 1 auto; min-width: 0; }
+.nav-tools { display: flex; align-items: center; gap: 6px; }
+.nav-tools .seg, .nav-tools .zoom { display: flex; gap: 6px; }
 .tabs button, .seg button, .zoom button { min-height: 44px; min-width: 44px; padding: 0 14px; background: transparent; color: var(--ink); border: 1px solid #4a553f; border-radius: 8px; font: inherit; }
 .tabs button.on, .seg button.on { background: var(--accent); color: #1d2418; border-color: var(--accent); }
+/* telefono: con i livelli in barra il titolo lascia il posto e i pulsanti si stringono, così resta una sola riga */
+@media (max-width: 900px) {
+  .tabs:has(.nav-tools) .brand { display: none; }
+  .tabs button { padding: 0 9px; min-width: 40px; }
+}
+/* telefono stretto: + e − si tolgono dalla barra (si ingrandisce già pizzicando); ⌂ riporta alla vista iniziale */
+@media (max-width: 760px) {
+  .nav-tools .zoom-step { display: none; }
+}
+@media (max-width: 690px) {
+  .tabs button { padding: 0 6px; }
+}
 .map-layout { flex: 1; display: grid; grid-template-rows: minmax(0, 1fr) auto; min-height: 0; }
 .map-wrap { position: relative; min-height: 55dvh; background: #16301f; overflow: hidden; }
 .map, .map * { -webkit-tap-highlight-color: transparent; }

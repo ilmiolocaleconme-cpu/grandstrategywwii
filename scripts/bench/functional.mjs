@@ -1,7 +1,7 @@
 // Prove funzionali della mappa (SVG o Canvas) nello stesso browser e con le stesse azioni, per confrontarle:
 //   node scripts/bench/functional.mjs --dir <build> [--query "?map=canvas"] --out <file.json> [--shots <cartella> --label x]
 // - selezione per tocco: griglia di tocchi a zoom 1 e a zoom 4; si registra il titolo del pannello (provincia, fiume o nessuna);
-// - livelli e fiumi: schermate con livello "Qualità dati", con i fiumi spenti, e con la mappa rimpicciolita (il mondo si ripete: giro a ±180°);
+// - livelli e fiumi: schermate con i fiumi spenti, e con la mappa rimpicciolita (il mondo si ripete: giro a ±180°);
 // - sul Canvas: nessun errore di pagina. Il confronto tra i due file .json si fa con scripts/bench/compare-select.mjs.
 import { createRequire } from 'node:module';
 import { createServer } from 'node:http';
@@ -72,13 +72,9 @@ await page.touchscreen.tap(wrapRect.x + 160, wrapRect.y + 300);
 await sleep(200);
 if (shots) await page.screenshot({ path: path.join(shots, `${label}-selected-k4.png`) });
 
-// livello "Qualità dati" e fiumi spenti
+// fiumi spenti
 await page.click('button[aria-label="Vista iniziale"]');
 await sleep(1500);
-await page.getByRole('button', { name: 'Qualità dati' }).click();
-await sleep(1200);
-if (shots) await page.screenshot({ path: path.join(shots, `${label}-quality-k1.png`) });
-await page.getByRole('button', { name: 'Politico' }).click();
 await page.click('button[aria-label="Mostra o nascondi i fiumi"]');
 await sleep(1200);
 if (shots) await page.screenshot({ path: path.join(shots, `${label}-norivers-k1.png`) });
