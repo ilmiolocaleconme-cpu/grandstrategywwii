@@ -1,0 +1,10 @@
+resource,country_text,period,flag,note
+Petrolio,*,1937,value_suspect,"[Probabile] Valore circa dieci volte inferiore alla produzione attesa per quell'anno (ricordo di Claude, non verificato su una fonte). Per ora solo riferimento: non usare come bilanciamento"
+Petrolio,Iraq,1938,value_suspect,"[Probabile] Valore molto inferiore all'ordine di grandezza atteso (ricordo di Claude, non verificato)"
+Petrolio,Iraq,1944,value_suspect,"[Probabile] Valore molto inferiore all'ordine di grandezza atteso (ricordo di Claude, non verificato)"
+Petrolio,Giappone,1937,unit_inconsistent,"Il testo dice circa 3,5 milioni di barili annui, che sono molte più delle 38300 t indicate: unità o valore da controllare"
+Ferro,Messico,1937,duplicate_value,"Stesso valore 1655000 anche su ferro Terranova 1937 e bauxite Suriname 1943: probabile copia (Claude, 2026-10-23)"
+Ferro,Terranova,1937,duplicate_value,"Stesso valore 1655000 anche su ferro Messico 1937 e bauxite Suriname 1943: probabile copia (Claude, 2026-10-23)"
+Bauxite,Guyana olandese / Suriname,1943,duplicate_value,"Stesso valore 1655000 anche su ferro Messico e Terranova 1937: probabile copia (Claude, 2026-10-23)"
+Carbone,Germania e territori occupati,*,double_count,"Aggregato che comprende righe già presenti (Ruhr, Francia, Benelux, Polonia, Austria): non sommare ai luoghi"
+Tungsteno,Portogallo,*,trade_flow_check,"Le righe Export e Quote descrivono flussi di commercio, non produzione: usarle solo per gli scambi"

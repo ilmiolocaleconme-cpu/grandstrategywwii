@@ -1,0 +1,8 @@
+{
+  "file": "data/resources/risorse_riferimento.csv",
+  "sha256": "3ef3d0e720c42827553648fec03b67457da10c2891f6f1e263cee05a42e58e41",
+  "receivedOn": "2026-10-23",
+  "origin": "CSV fornito dall'utente in chat, fonte originale non indicata",
+  "use": "Solo riferimento per sapere DOVE collocare le risorse sulle province (quality = reference). Non è un dato storico verificato; quantità, estrazione e massimi saranno definiti col sistema economico.",
+  "note": "Copia byte per byte, da non modificare a mano. Le correzioni e le segnalazioni stanno in location_notes.csv, le righe aggiunte in risorse_aggiunte.csv (source = claude_note), il resto è generato da scripts/build-resource-locations.js."
+}

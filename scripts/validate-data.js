@@ -17,6 +17,7 @@ import { validateTerrain } from '../src/data/terrain.js';
 import { parseCsv } from '../src/data/csv.js';
 import { loadIndustryCatalog, validateIndustryCatalog, validateProvinceIndustry } from '../src/data/industry.js';
 import { buildSlotCatalog } from '../src/rules/slots.js';
+import { buildResourceLocations, validateResourceLocations } from '../src/data/resourceLocations.js';
 import { createHash } from 'node:crypto';
 
 const dataDir = new URL('../data/', import.meta.url);
@@ -91,6 +92,21 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       if (c.repo_political_id && !repoIds.has(c.repo_political_id)) errors.push(`corrispondenza paesi: ${c.repo_political_id} non esiste in political_1936.json`);
     }
     for (const id of packCountries) if (!crosswalk.some((c) => c.pack_country_id === id)) errors.push(`corrispondenza paesi: ${id} del Pack senza riga`);
+  }
+  {
+    // Luoghi delle risorse (riferimento, non storico): copia grezza non alterata, CSV generati allineati allo script, province esistenti
+    const text = (p) => readFileTerrain(new URL(`../data/${p}`, import.meta.url), 'utf8');
+    const src = JSON.parse(await text('resources/SOURCE.json'));
+    const actual = createHash('sha256').update(await readFileTerrain(new URL(`../data/${src.file.replace(/^data\//, '')}`, import.meta.url))).digest('hex');
+    if (actual !== src.sha256) errors.push(`risorse: ${src.file} diverso dalla copia ricevuta (sha256)`);
+    const built = buildResourceLocations({ rawCsv: await text('resources/risorse_riferimento.csv'), addedCsv: await text('resources/risorse_aggiunte.csv'), notesCsv: await text('resources/location_notes.csv'), placesCsv: await text('resources/place_provinces.csv') });
+    const motherIds = new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id));
+    errors.push(...validateResourceLocations(built, { resourceIds: new Set(catalog.resources.map((r) => r.id)), countryIds: new Set(catalog.political.map((p) => p.id)), motherIds }));
+    for (const u of built.unmapped) errors.push(`risorse: ${u.location_id} luogo senza provincia (${u.country_id}/${u.place})`);
+    const onDisk = parseCsv(await text('resources/resource_locations.csv'), { name: 'resource_locations.csv' });
+    if (onDisk.length !== built.locations.length) errors.push('risorse: resource_locations.csv non allineato alle sorgenti, rigenerare con npm run build:resource-locations');
+    const linksOnDisk = parseCsv(await text('resources/location_provinces.csv'), { name: 'location_provinces.csv' });
+    if (linksOnDisk.length !== built.links.length) errors.push('risorse: location_provinces.csv non allineato alle sorgenti, rigenerare con npm run build:resource-locations');
   }
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));
