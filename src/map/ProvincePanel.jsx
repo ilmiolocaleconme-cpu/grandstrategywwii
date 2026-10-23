@@ -23,14 +23,7 @@ const ISSUE_LABEL = {
 };
 
 export default function ProvincePanel({ item, nationNames, nationControl, onClose }) {
-  if (!item) {
-    return (
-      <aside className="panel" aria-live="polite">
-        <h2>Nessuna provincia selezionata</h2>
-        <p className="muted">Tocca una provincia sulla mappa per vederne i dettagli. Trascina per spostare, pizzica o usa + e − per ingrandire.</p>
-      </aside>
-    );
-  }
+  if (!item) return null; // il pannello esiste solo su richiesta (pulsante «i» nell'angolo della mappa)
   const p = item.props;
   return (
     <aside className="panel" aria-live="polite">

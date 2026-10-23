@@ -180,8 +180,11 @@ export default function App() {
   const [seaId, setSeaId] = useState(null);
   const [provinceId, setProvinceId] = useState(null);
   const [showRivers, setShowRivers] = useState(true);
-  const selectProvince = (id) => { setProvinceId(id); setSeaId(null); };
-  const selectSea = (id) => { setSeaId(id); setProvinceId(null); };
+  // Il pannello dei dati è nascosto: toccando una provincia, città o zona di mare compare solo il pulsante «i»;
+  // il pannello si apre toccandolo. Se è già aperto, toccare un'altra voce ne aggiorna il contenuto; toccare il vuoto lo chiude.
+  const [infoOpen, setInfoOpen] = useState(false);
+  const selectProvince = (id) => { setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false); };
+  const selectSea = (id) => { setSeaId(id); setProvinceId(null); if (id == null) setInfoOpen(false); };
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
 
@@ -291,10 +294,14 @@ export default function App() {
         ) : (
         <div className="map-layout">
           <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} />
-          {seaId && seaById.get(seaId) ? (
-            <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setSeaId(null)} onSelect={selectSea} />
+          {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
+            seaId && seaById.get(seaId) ? (
+              <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
+            ) : (
+              <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} onClose={() => setInfoOpen(false)} />
+            )
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} onClose={() => setProvinceId(null)} />
+            <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>
           )}
         </div>
         )}
