@@ -17,6 +17,7 @@ import { validateTerrain } from '../src/data/terrain.js';
 import { parseCsv } from '../src/data/csv.js';
 import { loadIndustryCatalog, validateIndustryCatalog, validateProvinceIndustry } from '../src/data/industry.js';
 import { buildSlotCatalog } from '../src/rules/slots.js';
+import { validateRegions } from '../src/data/regions.js';
 import { createHash } from 'node:crypto';
 
 const dataDir = new URL('../data/', import.meta.url);
@@ -70,6 +71,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const motherIds = [...new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id))];
     const terrainDoc = JSON.parse(await readFileTerrain(new URL('../data/terrain.json', import.meta.url), 'utf8'));
     errors.push(...validateTerrain(terrainDoc, motherIds, ['P_USSR_CHUKCHI_AUTONOMOUS_OKRUG']));
+    const regionsDoc = JSON.parse(await readFileTerrain(new URL('../data/regions.json', import.meta.url), 'utf8'));
+    errors.push(...validateRegions(regionsDoc, { provinces: catalog.provinces.features, nationIds: catalog.nations.map((n) => n.id) }));
   }
   {
     // Data Pack v11.1: catalogo industriale, struttura dei file importati e tabella provvisoria delle province
