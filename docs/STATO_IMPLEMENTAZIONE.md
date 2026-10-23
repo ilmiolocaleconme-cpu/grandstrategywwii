@@ -176,3 +176,7 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 - **Punti di passaggio tolti:** pulsante ⊓, marcatori, `src/map/crossingMarkers.js`, `src/data/crossingPoints.js`, `data/crossing_points.json`, `scripts/build-crossing-points.js` (`npm run build:crossing-points`), `mergeCandidates` e i test relativi. I ponti restano come tratti del grafo dei collegamenti (legenda di strade e ferrovie con i campioni dei ponti).
 - **Tenuti:** `data/crossings.json` (9 attraversamenti pilota Reno/Mosa) con `src/data/crossings.js` e `src/rules/crossings.js` (`canCross`, `applyCrossingAction`): sono l'unico posto con stato, controllore e date di un ponte (danni, distruzione, riparazione), che `links.json` non ha. Non collegati alla mappa né alla partita.
 - **Verificato:** 385/385 test, `validate-data` OK, ESLint senza simboli indefiniti né importazioni inutilizzate nei file toccati.
+
+## Tempo a tre pulsanti (23/10/2026)
+- **Indietro, pausa, avanti** al posto di Avvia/Pausa e 1×/2×/3× (`src/ui/GameBar.jsx`, logica pura in `src/game/speed.js`). Si parte in pausa a 1×. Avanti: riprende, poi 2×, poi 3× (massimo). Indietro: scende di una velocità, a 1× mette in pausa. Pausa: ferma (diventa rossa e compare «Pausa»); premuta di nuovo riprende alla velocità di prima. «+1 g» resta, attivo solo in pausa. Una nuova partita o un caricamento ripartono in pausa a 1×.
+- **Provato:** 5 test sulla logica (`tests/speed.test.js`), 390/390 test; aspetto della barra a 805 px con gli stili veri (pausa e in corso). **Non provato** nell'app intera né su telefono.
