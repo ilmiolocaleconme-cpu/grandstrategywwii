@@ -21,6 +21,8 @@ import GameBar from './ui/GameBar.jsx';
 import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
 import LoadingScreen from './ui/LoadingScreen.jsx';
+import { LegendList } from './map/MapView.jsx';
+import TransportLegend from './map/TransportLegend.jsx';
 import FullscreenButton from './ui/FullscreenButton.jsx';
 import { fullscreenSupport } from './ui/fullscreen.js';
 
@@ -238,18 +240,54 @@ export default function App() {
     setApplyUpdate(() => update);
   }, []);
 
+  // Una sola barra: livelli e zoom (portale della mappa), data e tempo (solo sulla mappa con una partita) e Partita.
+  // Mappa, legenda e stato non hanno più un pulsante: da Partita si torna alla mappa e si aprono Info e Stato.
   const tabs = (
     <>
       <nav className="tabs" aria-label="Schermate">
         <strong className="brand">Grand Strategy WWII</strong>
         <div className="nav-tools-host" ref={setToolsHost} />
+        {game && tab === 'map' ? (
+          <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed}
+            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g))} />
+        ) : null}
         <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
-        <button type="button" className={tab === 'map' ? 'on' : ''} aria-pressed={tab === 'map'} onClick={() => setTab('map')}>Mappa</button>
-        <button type="button" className={tab === 'status' ? 'on' : ''} aria-pressed={tab === 'status'} onClick={() => setTab('status')}>Stato</button>
         <FullscreenButton />
       </nav>
+      {game && tab === 'map' && notice?.kind === 'error' ? <p className="gb-note warn" role="status">{notice.text}</p> : null}
       <p className="rotate-hint" role="note">Il gioco è pensato in orizzontale: ruota il telefono.</p>
     </>
+  );
+
+  const statusSection = (
+    <section aria-labelledby="status-title" className="info-section">
+      <h2 id="status-title">Stato</h2>
+      <ul className="status">
+        <li>
+          Dati: {!validation ? (waterStatus === 'error' ? 'fiumi e laghi non caricati' : 'caricamento di fiumi e laghi…') : validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
+          {resources.length} risorse, {rivers?.length ?? '…'} fiumi, {lakes?.features.length ?? '…'} laghi, {crossings.length} attraversamenti, {provinces?.features.length ?? '…'} province)
+        </li>
+        <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
+        <li>Schermo intero: {{ installed: 'attivo (app installata)', api: 'disponibile col pulsante ⛶ nella barra', none: 'non disponibile in questo browser; su iPhone: Condividi → Aggiungi alla schermata Home' }[fullscreenSupport(window)]}</li>
+        {provincesStatus === 'error' && <li className="warn">Province non caricate: {provincesError?.message}</li>}
+        {pwa.error && <li className="warn">Errore del service worker</li>}
+      </ul>
+      {pwa.updateAvailable && applyUpdate && (
+        <p className="notice">
+          Aggiornamento disponibile.{' '}
+          <button type="button" onClick={applyUpdate}>Aggiorna ora</button>
+        </p>
+      )}
+    </section>
+  );
+
+  // Legenda (nazioni o terreno, secondo il livello attivo; strade, ferrovie e ponti se il livello è acceso)
+  const infoSection = (
+    <section aria-labelledby="info-title" className="info-section">
+      <h2 id="info-title">Info: legenda</h2>
+      <LegendList layer={layer} nationNames={NATION_NAMES} nationControl={control} items={mapItems} />
+      {showTransport ? <TransportLegend /> : <p className="muted">Strade, ferrovie e ponti: accendi il livello ≈ per vederne la legenda.</p>}
+    </section>
   );
 
   if (tab === 'game') {
@@ -260,78 +298,44 @@ export default function App() {
           <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : game ? (
           <main className="app">
-            <header><h1>Partita in corso</h1><p className="muted">{NATION_NAMES[game.player]} · {game.date}. Usa la barra nella schermata Mappa per far scorrere il tempo.</p></header>
+            <header><h1>Partita in corso</h1><p className="muted">{NATION_NAMES[game.player]} · {game.date}. Il tempo si governa con i pulsanti nella barra in alto, sulla mappa.</p></header>
             {notice ? <p className={notice.kind === 'error' ? 'warn' : 'muted'} role="status">{notice.text}</p> : null}
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
+            {infoSection}
+            {statusSection}
           </main>
         ) : (
-          <NewGame nations={choosable} saves={saves} canSave={store !== null} notice={notice} onStart={startGame} onLoad={loadGame} />
+          <>
+            <NewGame nations={choosable} nationNames={NATION_NAMES} saves={saves} canSave={store !== null} notice={notice} onStart={startGame} onLoad={loadGame} />
+            <main className="app">{statusSection}</main>
+          </>
         )}
       </div>
     );
   }
 
-  if (tab === 'map') {
-    return (
-      <div className="shell">
-        {tabs}
-        {game ? (
-          <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed} notice={notice}
-            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g))} />
-        ) : null}
-        {provincesStatus !== 'ready' ? (
-          <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
-        ) : (
-        <div className="map-layout">
-          <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} />
-          {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
-            seaId && seaById.get(seaId) ? (
-              <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
-            ) : (
-              <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} onClose={() => setInfoOpen(false)} />
-            )
-          ) : (
-            <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>
-          )}
-        </div>
-        )}
-      </div>
-    );
-  }
-
+  // tab === 'map'
   return (
     <div className="shell">
-    {tabs}
-    <main className="app">
-      <header>
-        <h1>Grand Strategy WWII</h1>
-        <p className="muted">Prototipo: mappa del 1936 e partita con calendario e salvataggi; economia, unità ed eventi non ancora attivi.</p>
-      </header>
-
-      <section aria-labelledby="status-title">
-        <h2 id="status-title">Stato</h2>
-        <ul className="status">
-          <li>
-            Dati: {!validation ? (waterStatus === 'error' ? 'fiumi e laghi non caricati' : 'caricamento di fiumi e laghi…') : validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
-            {resources.length} risorse, {rivers?.length ?? '…'} fiumi, {lakes?.features.length ?? '…'} laghi, {crossings.length} attraversamenti, {provinces?.features.length ?? '…'} province)
-          </li>
-          <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
-          <li>Schermo intero: {{ installed: 'attivo (app installata)', api: 'disponibile col pulsante ⛶ nella barra', none: 'non disponibile in questo browser; su iPhone: Condividi → Aggiungi alla schermata Home' }[fullscreenSupport(window)]}</li>
-          {provincesStatus === 'error' && <li className="warn">Province non caricate: {provincesError?.message}</li>}
-          {pwa.error && <li className="warn">Errore del service worker</li>}
-        </ul>
-        {pwa.updateAvailable && applyUpdate && (
-          <p className="notice">
-            Aggiornamento disponibile.{' '}
-            <button type="button" onClick={applyUpdate}>
-              Aggiorna ora
-            </button>
-          </p>
+      {tabs}
+      {provincesStatus !== 'ready' ? (
+        <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
+      ) : (
+      <div className="map-layout">
+        <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} />
+        {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
+          seaId && seaById.get(seaId) ? (
+            <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
+          ) : (
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} onClose={() => setInfoOpen(false)} />
+          )
+        ) : (
+          <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>
         )}
-      </section>
-    </main>
+      </div>
+      )}
     </div>
   );
 }

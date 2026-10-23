@@ -1,4 +1,7 @@
 import { formatDate } from '../game/calendar.js';
+import orderFile from '../../data/nation_order.json';
+import NationWheel from './NationWheel.jsx';
+import { buildWheel } from '../game/nationWheel.js';
 
 const REASONS = {
   invalid_json: 'file illeggibile (non è JSON valido)',
@@ -26,7 +29,8 @@ function SaveCard({ title, info, onLoad }) {
 }
 
 /** Schermata iniziale: scelta della nazione e ripresa dei salvataggi. Niente stato proprio. */
-export default function NewGame({ nations, saves, canSave, notice, onStart, onLoad }) {
+export default function NewGame({ nations, nationNames, saves, canSave, notice, onStart, onLoad }) {
+  const list = buildWheel({ order: orderFile.order, names: nationNames, playableIds: nations.map((n) => n.id) });
   return (
     <main className="app newgame">
       <header>
@@ -46,12 +50,8 @@ export default function NewGame({ nations, saves, canSave, notice, onStart, onLo
       ) : null}
       <section aria-labelledby="pick-title">
         <h2 id="pick-title">Scegli la nazione</h2>
-        <div className="nation-grid">
-          {nations.map((n) => (
-            <button key={n.id} type="button" className="nation-btn" onClick={() => onStart(n.id)}>{n.name}</button>
-          ))}
-        </div>
-        <p className="muted">Il Giappone non è ancora scegliibile: mancano le sue province sulla mappa.</p>
+        <NationWheel list={list} startId={orderFile.start} onStart={onStart} />
+        <p className="muted">Stati Uniti e Giappone si vedono ma non sono ancora giocabili: mancano le loro province sulla mappa.</p>
       </section>
     </main>
   );

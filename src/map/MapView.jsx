@@ -264,23 +264,28 @@ export default function MapView({ provinces, rivers, riversGeo, lakes, nationNam
   );
 }
 
-export function Legend({ layer, nationNames, nationControl, items, open, onToggle }) {
+// Elenco dei colori della legenda (nazioni o terreno): usato dalla legenda del ripiego SVG e dalla scheda Info della schermata Partita.
+export function LegendList({ layer, nationNames, nationControl, items }) {
   const owners = useMemo(() => [...new Set(items.map((i) => controllerOf(i.props.owner, nationControl)))].sort(), [items, nationControl]);
   const entries = layer === 'terrain'
     ? [...TERRAIN_TYPES, 'urbano'].map((t) => [TERRAIN_LABEL[t], TERRAIN_COLORS[t]])
     : owners.map((o) => [nationNames[o] ?? o, provinceFill({ owner: o, id: '' }, 'political')]);
   return (
+    <ul className="legend" aria-label={layer === 'terrain' ? 'Legenda terreno' : 'Legenda nazioni'}>
+      {entries.map(([name, color]) => (
+        <li key={name}><i style={{ background: color }} />{name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export function Legend({ layer, nationNames, nationControl, items, open, onToggle }) {
+  return (
     <div className="legend-box">
       <button type="button" className="legend-toggle" aria-expanded={open} onClick={onToggle}>
         Legenda {open ? '▾' : '▴'}
       </button>
-      {open && (
-        <ul className="legend" aria-label={layer === 'terrain' ? 'Legenda terreno' : 'Legenda nazioni'}>
-          {entries.map(([name, color]) => (
-            <li key={name}><i style={{ background: color }} />{name}</li>
-          ))}
-        </ul>
-      )}
+      {open && <LegendList layer={layer} nationNames={nationNames} nationControl={nationControl} items={items} />}
     </div>
   );
 }
