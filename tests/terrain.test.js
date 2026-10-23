@@ -50,7 +50,7 @@ test('luoghi noti (soglie larghe: è una stima)', () => {
   assert.equal(t('P_USSR_KARELIA'), 'foresta');
   assert.equal(t('P_FIN_NORTH_KARELIA'), 'foresta');
   assert.ok(doc.province.P_FIN_LAPLAND.frazioni.tundra > 0.1, 'la Lapponia ha tundra a nord');
-  assert.ok(doc.province.P_ITA_LOMBARDY.frazioni.pianura > 0.3 && doc.province.P_ITA_LOMBARDY.frazioni.montagna > 0.3, 'Lombardia: pianura e Alpi');
+  assert.ok(doc.province.P_ITA_MILANO.frazioni.pianura > 0.7 && doc.province.P_ITA_BRESCIA.frazioni.montagna > 0.5, 'Lombardia: pianura (Milano) e Alpi (Brescia)');
 });
 
 test('rugosità e tinta sono coerenti col tipo: le montagne sono più rugose delle pianure', () => {

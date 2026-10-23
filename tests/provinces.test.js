@@ -71,7 +71,7 @@ test('i dati reali delle province sono validi e dichiarano la qualità', async (
   // Nessun confine è verificato; le province non OHM (Paesi Bassi, Natural Earth) sono solo ipotesi.
   assert.ok(provinces.features.every((f) => f.properties.borderQuality !== 'verified'));
   const ohm = provinces.features.filter((f) => f.properties.source === 'OpenHistoricalMap');
-  assert.ok(ohm.length >= 50);
+  assert.ok(ohm.length >= 40); // le 51 province italiane nate dal taglio in 3 sono ipotesi (borderQuality 'hypothesis') e non contano più qui
   assert.ok(ohm.every((f) => f.properties.borderQuality === 'approximate' && f.properties.ohmRelation));
   const nl = provinces.features.filter((f) => f.properties.owner === 'NLD');
   assert.equal(nl.length, 11);
@@ -161,13 +161,13 @@ test('le province non si sovrappongono oltre le tolleranze note', () => {
 test('Italia: città note nella regione attesa e regioni mancanti coperte come ipotesi', () => {
   const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
   const cases = [
-    ['Roma', 12.5, 41.9, 'P_ITA_LAZIO'],
-    ['Milano', 9.19, 45.46, 'P_ITA_LOMBARDY'],
-    ['Bologna', 11.34, 44.49, 'P_ITA_EMILIA'],
-    ['Trieste (Venezia Giulia)', 13.77, 45.65, 'P_ITA_JULIAN_MARCH'],
-    ['Fiume', 14.44, 45.33, 'P_ITA_JULIAN_MARCH'],
-    ['Bolzano (Venezia Tridentina)', 11.35, 46.5, 'P_ITA_TRIDENTINE_VENETIA'],
-    ['Napoli', 14.27, 40.85, 'P_ITA_CAMPANIA'],
+    ['Roma', 12.5, 41.9, 'P_ITA_ROMA'],
+    ['Milano', 9.19, 45.46, 'P_ITA_MILANO'],
+    ['Bologna', 11.34, 44.49, 'P_ITA_BOLOGNA'],
+    ['Trieste (Venezia Giulia)', 13.77, 45.65, 'P_ITA_TRIESTE'],
+    ['Fiume', 14.44, 45.33, 'P_ITA_POLA'],
+    ['Bolzano (Venezia Tridentina)', 11.35, 46.5, 'P_ITA_BOLZANO_EST'],
+    ['Napoli', 14.27, 40.85, 'P_ITA_NAPOLI'],
     ['Palermo', 13.36, 38.12, 'P_ITA_PALERMO'],
     ['Catania', 15.09, 37.5, 'P_ITA_CATANIA'],
     ['Messina', 15.55, 38.19, 'P_ITA_MESSINA'],
@@ -177,13 +177,13 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Enna', 14.28, 37.57, 'P_ITA_ENNA'],
     ['Ragusa', 14.73, 36.93, 'P_ITA_RAGUSA'],
     ['Caltanissetta', 14.06, 37.49, 'P_ITA_CALTANISSETTA'],
-    ['Cosenza', 16.25, 39.3, 'P_ITA_CALABRIA'],
-    ['Ancona', 13.5, 43.6, 'P_ITA_MARCHE'],
-    ['Ascoli Piceno (Marche fino al Tronto)', 13.58, 42.85, 'P_ITA_MARCHE'],
-    ['Teramo', 13.7, 42.66, 'P_ITA_ABRUZZI_E_MOLISE'],
-    ['Perugia', 12.39, 43.11, 'P_ITA_UMBRIA'],
-    ['Pescara', 14.21, 42.46, 'P_ITA_ABRUZZI_E_MOLISE'],
-    ['Amatrice (Rieti, Lazio)', 13.29, 42.63, 'P_ITA_LAZIO'],
+    ['Cosenza', 16.25, 39.3, 'P_ITA_COSENZA'],
+    ['Ancona', 13.5, 43.6, 'P_ITA_ANCONA'],
+    ['Ascoli Piceno (Marche fino al Tronto)', 13.58, 42.85, 'P_ITA_ASCOLI_PICENO'],
+    ['Teramo', 13.7, 42.66, 'P_ITA_PESCARA'],
+    ['Perugia', 12.39, 43.11, 'P_ITA_PERUGIA_NORD'],
+    ['Pescara', 14.21, 42.46, 'P_ITA_PESCARA'],
+    ['Amatrice (Rieti, Lazio)', 13.29, 42.63, 'P_ITA_VITERBO'],
     ['Zara (enclave italiana)', 15.23, 44.12, 'P_ITA_ZARA'],
     ['Berlino', 13.4, 52.52, 'P_DEU_BERLIN'],
     ['Spandau (Berlino)', 13.2, 52.54, 'P_DEU_BERLIN'],
@@ -197,16 +197,16 @@ test('Italia: città note nella regione attesa e regioni mancanti coperte come i
     ['Sarajevo', 18.41, 43.86, 'P_YUG_SARAJEVO'],
     ['Skopje', 21.43, 42.0, 'P_YUG_SKOPJE'],
     ['Spalato', 16.44, 43.51, 'P_YUG_SPLIT'],
-    ['Fiume (italiana)', 14.44, 45.33, 'P_ITA_JULIAN_MARCH'],
+    ['Fiume (italiana)', 14.44, 45.33, 'P_ITA_POLA'],
     ['Klagenfurt', 14.31, 46.62, 'P_AUT_CARINTHIA'],
   ];
   for (const [name, lon, lat, expected] of cases) assert.deepEqual(at(lon, lat), [expected], name);
   const byId = new Map(provinces.features.map((f) => [f.properties.id, f.properties]));
-  for (const id of ['P_ITA_PALERMO', 'P_ITA_CATANIA', 'P_ITA_CALABRIA']) {
+  for (const id of ['P_ITA_PALERMO', 'P_ITA_CATANIA', 'P_ITA_COSENZA']) {
     assert.equal(byId.get(id).borderQuality, 'hypothesis');
     assert.equal(byId.get(id).source.startsWith('Natural Earth'), true);
   }
-  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA' && f.properties.id !== 'P_ITA_DODECANESO').length, 27);
+  assert.equal(provinces.features.filter((f) => f.properties.owner === 'ITA' && f.properties.id !== 'P_ITA_DODECANESO').length, 61); // 9 siciliane + Zara + 17 regioni x 3 province
 });
 
 test('Cecoslovacchia: le quattro terre, con la Slovacchia derivata', () => {

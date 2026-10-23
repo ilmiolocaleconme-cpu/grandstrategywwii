@@ -101,11 +101,11 @@ test('dati reali: ogni provincia madre di Italia e Germania ha esattamente una r
   }
 });
 
-test('dati reali: conteggi (Italia 20 regioni / 28 madri; Germania 19 regioni / 32 madri) e ogni madre contata una volta', async () => {
+test('dati reali: conteggi (Italia 20 regioni / 62 madri; Germania 19 regioni / 32 madri) e ogni madre contata una volta', async () => {
   const features = (await loadProvinces()).features;
   const idx = buildRegionIndex(read('regions.json'));
   const mothers = (owner) => new Set(features.filter((f) => f.properties.owner === owner).map((f) => motherOf(f.properties)));
-  for (const [owner, nRegions, nMothers] of [['ITA', 20, 28], ['DEU', 19, 32]]) {
+  for (const [owner, nRegions, nMothers] of [['ITA', 20, 62], ['DEU', 19, 32]]) {
     assert.equal(idx.regionsOf(owner).length, nRegions);
     assert.equal(mothers(owner).size, nMothers);
     const listed = idx.regionsOf(owner).flatMap((r) => idx.provincesOf(r));
@@ -118,7 +118,7 @@ test('dati reali: Sicilia ha 9 province (incl. Catania); Amburgo, Berlino e Dode
   const idx = buildRegionIndex(read('regions.json'));
   assert.equal(idx.provincesOf('R_ITA_SICILIA').length, 9);
   assert.equal(idx.regionOfMother('P_ITA_CATANIA'), 'R_ITA_SICILIA');
-  assert.equal(idx.regionOfMother('P_ITA_LAZIO'), 'R_ITA_LAZIO');
+  assert.equal(idx.regionOfMother('P_ITA_ROMA'), 'R_ITA_LAZIO');
   for (const r of ['R_DEU_AMBURGO', 'R_DEU_BERLINO', 'R_ITA_DODECANESO']) assert.equal(idx.provincesOf(r).length, 1);
   assert.equal(idx.regionOfMother('P_DEU_ESSEN'), 'R_DEU_RENANIA');
   assert.equal(idx.regionOfMother('P_DEU_KURHESSEN'), 'R_DEU_ASSIA');
@@ -129,4 +129,13 @@ test('dati reali: tutte le assegnazioni sono ipotesi dichiarate (nessuna "verifi
   const doc = read('regions.json');
   assert.equal(doc.quality, 'hypothesis');
   assert.ok(doc.regions.every((r) => r.assignmentQuality === 'hypothesis' && r.basis));
+});
+
+test('dati reali: le 17 regioni italiane divise hanno 3 province ciascuna (ipotesi); Sicilia, Zara e Dodecaneso restano come prima', () => {
+  const doc = read('regions.json');
+  const italian = doc.regions.filter((r) => r.owner === 'ITA');
+  const divided = italian.filter((r) => r.provinces.length === 3);
+  assert.equal(divided.length, 17);
+  assert.deepEqual(italian.filter((r) => r.provinces.length !== 3).map((r) => r.id).sort(), ['R_ITA_DODECANESO', 'R_ITA_SICILIA', 'R_ITA_ZARA']);
+  assert.ok(divided.every((r) => /3 province/.test(r.basis)), 'la base dichiara il taglio in 3');
 });

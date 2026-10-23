@@ -3,12 +3,12 @@
  "note": "Coppie che il calcolo dai poligoni segnala adiacenti ma che sono separate dal mare (poligoni costieri non ritagliati). Escluse a mano, ciascuna con il motivo. Vanno riviste quando i poligoni costieri vengono ritagliati.",
  "remove": [
   {
-   "a": "P_ITA_ABRUZZI_E_MOLISE",
+   "a": "P_ITA_CAMPOBASSO",
    "b": "P_ALB_SHKODER",
    "reason": "Mare Adriatico (circa 70 km al punto più stretto)"
   },
   {
-   "a": "P_ITA_LAZIO",
+   "a": "P_ITA_FROSINONE",
    "b": "P_ALB_SHKODER",
    "reason": "Mare Adriatico"
   },

@@ -74,7 +74,7 @@ test('fileName ricava il nome dal percorso', () => {
 
 // --- dati reali ---
 
-const EXPECTED = { DEU: 32, POL: 16, AUT: 8, BEL: 9, LUX: 3, CZE: 4, NLD: 11, ITA: 28, YUG: 33, DANZIG: 1, EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 19, SWE: 21, FIN: 19, CHE: 25, LIE: 1, FRA: 90, HUN: 20, ROM: 45, BGR: 25, GRC: 14, ALB: 12, ESP: 50, MAR_ES: 1, PRT: 22, MAR: 12, GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1, USSR: 177, IRL: 5, ISL: 1 };
+const EXPECTED = { DEU: 32, POL: 16, AUT: 8, BEL: 9, LUX: 3, CZE: 4, NLD: 11, ITA: 62, YUG: 33, DANZIG: 1, EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 19, SWE: 21, FIN: 19, CHE: 25, LIE: 1, FRA: 90, HUN: 20, ROM: 45, BGR: 25, GRC: 14, ALB: 12, ESP: 50, MAR_ES: 1, PRT: 22, MAR: 12, GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1, USSR: 177, IRL: 5, ISL: 1 };
 
 test('dati reali: un file per nazione più _meta, nessun file monolitico', async () => {
   const names = (await listProvinceFiles()).map(fileName).sort();
@@ -82,14 +82,14 @@ test('dati reali: un file per nazione più _meta, nessun file monolitico', async
   assert.equal(existsSync(new URL('../data/provinces_1936.json', import.meta.url)), false, 'il file unico non deve tornare: duplicherebbe i dati');
 });
 
-test('dati reali: unione di 1505 pezzi (1027 province, di cui molte divise in sponde, senza le sponde sotto 200 km²), conteggi per nazione, id unici, owner = file', async () => {
+test('dati reali: unione di 1547 pezzi (1058 province, di cui molte divise in sponde, senza le sponde sotto 200 km²), conteggi per nazione, id unici, owner = file', async () => {
   const merged = await loadProvinces();
   // Sofia città è ora nel livello delle città (data/citta_grandi.json), non nel file della Bulgaria
-  assert.equal(merged.features.length, 1505);
+  assert.equal(merged.features.length, 1547);
   const counts = {};
   for (const f of vistaProvince(merged).features) counts[f.properties.owner] = (counts[f.properties.owner] ?? 0) + 1;
   assert.deepEqual(counts, EXPECTED);
-  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 1505);
+  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 1547);
   assert.equal(merged.metadata.asOf, '1936-01-01');
   // le tre province che nel vecchio file unico stavano fuori dal blocco della propria nazione
   const owner = (id) => merged.features.find((f) => madreId(f.properties.id) === id)?.properties.owner;

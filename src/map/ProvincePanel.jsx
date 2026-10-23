@@ -4,6 +4,9 @@ import { TERRAIN_COLORS, TERRAIN_LABEL } from '../data/terrain.js';
 const QUALITY_LABEL = { verified: 'verificato', approximate: 'approssimato', hypothesis: 'ipotesi' };
 const ISSUE_LABEL = {
   includes_sea: 'il poligono include tratti di mare',
+  divisione_ipotetica_in_3_province: 'provincia ipotetica: la regione è stata divisa in 3 unendo province attuali',
+  taglio_curvo_ipotetico: 'confine interno tracciato come taglio curvo ipotetico',
+  raggruppata_da_unita_attuali: 'raggruppata da province attuali (confini moderni)',
   country_outline_not_provinces: 'contorno nazionale, non province',
   land_only: 'solo terraferma',
   modern_borders: 'confini possibilmente moderni',

@@ -82,7 +82,7 @@ test('mare: coste coerenti con le province (porti sul mare giusto, interno senza
   const famiglia = (p) => collection.features.filter((f) => madreId(f.properties.id) === p);
   const isCoastal = (p) => famiglia(p).some((f) => sea.isCoastal(f.properties.id));
   const zonesOf = (p) => collection.features.filter((f) => madreId(f.properties.id) === p).flatMap((f) => sea.coastalZones(f.properties.id).map((c) => c.zone));
-  assert.ok(zonesOf('P_ITA_LIGURIA').includes('SZ_LIGURE'));
+  assert.ok(zonesOf('P_ITA_GENOVA').includes('SZ_LIGURE'));
   assert.ok(zonesOf('P_GBR_KENT').some((z) => ['SZ_DOVER', 'SZ_NORD_SUD', 'SZ_MANICA'].includes(z)));
   assert.ok(zonesOf('P_USSR_ODESSA').some((z) => z.startsWith('SZ_NERO')));
   assert.ok(zonesOf('P_USSR_MURMANSK').length > 0);

@@ -102,7 +102,7 @@ test('versioni semplificate canvas (Douglas-Peucker e veloce): meno vertici, ane
 
 test('ricerca della provincia: concorda con l\'indice delle regole su città note e su punti sparsi', () => {
   const index = buildProvinceIndex(provinces);
-  const cities = [[12.5, 41.9, 'P_ITA_LAZIO'], [2.35, 48.85, null], [13.4, 52.5, null], [37.6, 55.75, null], [-3.7, 40.4, null]];
+  const cities = [[12.5, 41.9, 'P_ITA_ROMA'], [2.35, 48.85, null], [13.4, 52.5, null], [37.6, 55.75, null], [-3.7, 40.4, null]];
   for (const [lon, lat, id] of cities) {
     const [x, y] = project(lon, lat);
     const it = pickProvinceAt(cm, x, y);

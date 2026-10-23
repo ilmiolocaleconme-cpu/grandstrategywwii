@@ -50,8 +50,8 @@ test('adiacenza: simmetrica, senza auto-collegamenti, grado ragionevole', () => 
 
 test('adiacenza: coppie terrestri note', () => {
   const pairs = [
-    ['P_ITA_EMILIA', 'P_ITA_LOMBARDY'],
-    ['P_ITA_EMILIA', 'P_ITA_TUSCANY'],
+    ['P_ITA_PARMA', 'P_ITA_MILANO'], // Emilia/Lombardia: ora province del taglio in 3 (ipotesi)
+    ['P_ITA_BOLOGNA', 'P_ITA_FIRENZE'],
     ['P_DEU_BADEN', 'P_CHE_AARGAU'], // Reno a Waldshut
     ['P_FRA_SEINE', 'P_FRA_SEINE_ET_OISE'],
     ['P_FRA_PYRENEES_ORIENTALES', 'P_ESP_LERIDA'],
@@ -64,12 +64,15 @@ test('adiacenza: coppie terrestri note', () => {
 
 test('adiacenza: coppie separate dal mare non sono adiacenti', () => {
   const sicilia = ['P_ITA_TRAPANI', 'P_ITA_PALERMO', 'P_ITA_MESSINA', 'P_ITA_AGRIGENTO', 'P_ITA_CALTANISSETTA', 'P_ITA_ENNA', 'P_ITA_CATANIA', 'P_ITA_RAGUSA', 'P_ITA_SIRACUSA'];
-  for (const p of sicilia) assert.equal(graph.areAdjacent(p, 'P_ITA_CALABRIA'), false, `${p} / Calabria: lo Stretto non è terra`);
+  for (const p of sicilia) assert.equal(graph.areAdjacent(p, 'P_ITA_REGGIO_CALABRIA'), false, `${p} / Reggio Calabria: lo Stretto non è terra`);
   for (const p of sicilia) assert.ok(fam.neighbors(p).every((n) => sicilia.includes(n)), `${p}: vicini solo siciliani`);
   assert.ok(fam.areAdjacent('P_ITA_MESSINA', 'P_ITA_CATANIA') && fam.areAdjacent('P_ITA_RAGUSA', 'P_ITA_SIRACUSA') && fam.areAdjacent('P_ITA_ENNA', 'P_ITA_CALTANISSETTA'));
-  for (const island of ['P_ITA_SARDINIA', 'P_FRA_CORSE', 'P_MLT_MALTA', 'P_GRC_KRITI', 'P_ESP_BALEARES', 'P_SWE_GOTLAND']) {
+  for (const island of ['P_FRA_CORSE', 'P_MLT_MALTA', 'P_GRC_KRITI', 'P_ESP_BALEARES', 'P_SWE_GOTLAND']) {
     assert.deepEqual(fam.neighbors(island), [], `${island} dovrebbe essere un'isola senza collegamenti terrestri`);
   }
+  // Sardegna: tre province vicine tra loro e nessuna sulla terraferma
+  const sardegna = ['P_ITA_CAGLIARI', 'P_ITA_SASSARI', 'P_ITA_NUORO'];
+  for (const p of sardegna) assert.ok(fam.neighbors(p).length > 0 && fam.neighbors(p).every((n) => sardegna.includes(n)), `${p}: vicini solo sardi`);
   for (const { a, b, reason } of overrides.remove) {
     assert.equal(fam.areAdjacent(a, b), false, `${a} / ${b} (${reason})`);
     assert.ok(typeof reason === 'string' && reason.length > 0);
@@ -87,15 +90,15 @@ test('adiacenza: coppie separate dal mare non sono adiacenti', () => {
 
 test('adiacenza: raggiungibilità via terra', () => {
   const eurasia = reach('P_DEU_BERLIN');
-  for (const id of ['P_ITA_EMILIA', 'P_FRA_SEINE', 'P_ESP_CADIZ', 'P_USSR_MOSKOVSKAYA', 'P_TUR_ISTANBUL', 'P_NOR_OSLO', 'P_EGY_AL_QAHIRAH']) {
+  for (const id of ['P_ITA_BOLOGNA', 'P_FRA_SEINE', 'P_ESP_CADIZ', 'P_USSR_MOSKOVSKAYA', 'P_TUR_ISTANBUL', 'P_NOR_OSLO', 'P_EGY_AL_QAHIRAH']) {
     assert.ok(eurasia.has(id), `${id} non raggiungibile da Berlino via terra`);
   }
-  for (const id of ['P_GBR_LONDRA', 'P_ITA_PALERMO', 'P_ITA_CATANIA', 'P_ITA_SARDINIA', 'P_MLT_MALTA']) {
+  for (const id of ['P_GBR_LONDRA', 'P_ITA_PALERMO', 'P_ITA_CATANIA', 'P_ITA_CAGLIARI', 'P_MLT_MALTA']) {
     assert.ok(!eurasia.has(id), `${id} non dovrebbe essere raggiungibile via terra`);
   }
-  // 24 isole senza collegamenti terrestri (con l'Islanda; la Sicilia ora ha 9 province vicine tra loro): il numero cambia solo se cambiano province o regole, e va rivisto a mano
+  // 23 isole senza collegamenti terrestri (con l'Islanda; la Sicilia ha 9 province vicine tra loro, la Sardegna 3): il numero cambia solo se cambiano province o regole, e va rivisto a mano
   const isolated = madri.filter((m) => fam.neighbors(m).length === 0);
-  assert.equal(isolated.length, 24, `isolate: ${isolated.join(', ')}`);
+  assert.equal(isolated.length, 23, `isolate: ${isolated.join(', ')}`);
 });
 
 test('adiacenza: ogni ponte tra due province diverse collega province adiacenti', () => {

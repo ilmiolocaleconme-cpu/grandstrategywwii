@@ -70,7 +70,7 @@ test('clampView: la mappa non può uscire del tutto dalla vista', () => {
 });
 
 test('colori: deterministici, una tinta per nazione, ogni provincia ha un colore di qualità del confine', () => {
-  assert.equal(ownerColor('ITA', 'P_ITA_LAZIO'), ownerColor('ITA', 'P_ITA_LAZIO'));
+  assert.equal(ownerColor('ITA', 'P_ITA_ROMA'), ownerColor('ITA', 'P_ITA_ROMA'));
   assert.notEqual(ownerColor('ITA', 'a'), ownerColor('POL', 'a'));
   assert.match(ownerColor('XXX', 'p'), /^hsl\(/);
   for (const f of provinces.features) {
@@ -90,9 +90,9 @@ test('modello della mappa: stesse province dei dati e delle regole, tutte disegn
     assert.ok(it.areaKm2 > 1, `${it.id} area ${it.areaKm2}`);
     assert.ok(Number.isFinite(it.label[0]) && Number.isFinite(it.label[1]), it.id);
   }
-  // Roma, cercata con le regole, è nella provincia che la mappa disegna come P_ITA_LAZIO
-  assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => madreId(f.properties.id)), ['P_ITA_LAZIO']);
-  assert.ok(ids.has('P_ITA_LAZIO'));
+  // Roma, cercata con le regole, è nella provincia che la mappa disegna come P_ITA_ROMA
+  assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => madreId(f.properties.id)), ['P_ITA_ROMA']);
+  assert.ok(ids.has('P_ITA_ROMA'));
   const { bounds } = model;
   // h < 70: dall'Artico sovietico (~82° N, Terra di Francesco Giuseppe) all'Algeria meridionale (19° N) l'altezza e ~63 unita;
   // oltre sarebbe un'anomalia. La larghezza copre tutto il giro (-180..180) per via della Ciukotka.

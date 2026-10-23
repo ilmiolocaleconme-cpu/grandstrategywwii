@@ -23,7 +23,7 @@ Feature GeoJSON (coordinate `[lon, lat]`), un file per nazione. Stato: **dati re
 | AUT | 8 Länder |
 | BEL | 9 province |
 | LUX | 3 distretti |
-| ITA | Zara (anello dell'enclave dal contorno del Regno d'Italia OHM) + 16 regioni OHM (Piemonte, Liguria, Lombardia, Venezia Tridentina, Veneto, Venezia Giulia, Emilia, Toscana, Marche, Umbria, Lazio, Abruzzi e Molise, Campania, Puglie, Lucania, Sardegna) + **Sicilia e Calabria da Natural Earth** (`hypothesis`) |
+| ITA | Zara (anello dell'enclave dal contorno del Regno d'Italia OHM) + 17 regioni OHM (Piemonte, Liguria, Lombardia, Venezia Tridentina, Veneto, Venezia Giulia, Emilia, Toscana, Marche, Umbria, Lazio, Abruzzi e Molise, Campania, Puglie, Lucania, Calabria, Sardegna) **ciascuna divisa in 3 province ipotetiche** con `scripts/build-italy-split.js` (unione di province attuali Natural Earth, taglio curvo; `knownIssues`: `divisione_ipotetica_in_3_province`, `taglio_curvo_ipotetico`, `raggruppata_da_unita_attuali`) + **Sicilia (9 province) da Natural Earth** (`hypothesis`). Dopo il taglio: `node scripts/merge-small-sponde.js`, poi le rigenerazioni dei dati derivati |
 | FRA | 90 dipartimenti da **Natural Earth** (`kind: departement`), come nel 1936: Senna (Parigi e 3 attuali), Senna e Oise (3 attuali) e Corsica (2 attuali) uniti; Alsazia-Lorena e Territorio di Belfort inclusi. `hypothesis` |
 | CHE | 25 cantoni da **Natural Earth** (`kind: kanton`); il Giura (cantone dal 1979) è unito a Berna. `hypothesis` |
 | LIE | Liechtenstein, 1 stato (11 comuni uniti), da Natural Earth. `hypothesis` |
