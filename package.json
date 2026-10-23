@@ -19,6 +19,7 @@
     "build:links": "node scripts/build-links.js",
     "build:city-links": "node scripts/build-city-links.js",
     "build:province-industry": "node scripts/build-province-industry.js",
+    "build:resource-locations": "node scripts/build-resource-locations.js",
     "build:transport": "node scripts/build-transport.js",
     "build:terrain": "python3 -I scripts/terrain/build_terrain.py"
   },

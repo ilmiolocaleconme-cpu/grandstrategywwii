@@ -4,5 +4,21 @@
   { "id": "iron_ore", "name": "Minerale di ferro", "status": "bozza-di-design" },
   { "id": "steel", "name": "Acciaio", "status": "bozza-di-design" },
   { "id": "food", "name": "Cibo", "status": "bozza-di-design" },
-  { "id": "manpower", "name": "Manodopera", "status": "bozza-di-design" }
+  { "id": "manpower", "name": "Manodopera", "status": "bozza-di-design" },
+  { "id": "bauxite", "name": "Bauxite", "status": "riferimento" },
+  { "id": "aluminium", "name": "Alluminio", "status": "riferimento" },
+  { "id": "rubber", "name": "Gomma naturale", "status": "riferimento" },
+  { "id": "wheat", "name": "Frumento", "status": "riferimento" },
+  { "id": "tungsten", "name": "Tungsteno", "status": "riferimento" },
+  { "id": "sulphur", "name": "Zolfo", "status": "riferimento" },
+  { "id": "tin", "name": "Stagno", "status": "riferimento" },
+  { "id": "manganese", "name": "Manganese", "status": "riferimento" },
+  { "id": "chromium", "name": "Cromo", "status": "riferimento" },
+  { "id": "nickel", "name": "Nichel", "status": "riferimento" },
+  { "id": "cobalt", "name": "Cobalto", "status": "riferimento" },
+  { "id": "molybdenum", "name": "Molibdeno", "status": "riferimento" },
+  { "id": "vanadium", "name": "Vanadio", "status": "riferimento" },
+  { "id": "antimony", "name": "Antimonio", "status": "riferimento" },
+  { "id": "mercury", "name": "Mercurio", "status": "riferimento" },
+  { "id": "uranium", "name": "Uranio", "status": "riferimento" }
 ]
