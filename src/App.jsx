@@ -21,6 +21,8 @@ import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar, { SPEEDS } from './ui/GameBar.jsx';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
 import LoadingScreen from './ui/LoadingScreen.jsx';
+import FullscreenButton from './ui/FullscreenButton.jsx';
+import { fullscreenSupport } from './ui/fullscreen.js';
 
 // La mappa Canvas 2D è quella predefinita; la mappa SVG resta come ripiego con ?map=svg
 const USE_CANVAS = typeof window === 'undefined' || new URLSearchParams(window.location.search).get('map') !== 'svg';
@@ -244,12 +246,16 @@ export default function App() {
   }, []);
 
   const tabs = (
-    <nav className="tabs" aria-label="Schermate">
-      <strong className="brand">Grand Strategy WWII</strong>
-      <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
-      <button type="button" className={tab === 'map' ? 'on' : ''} aria-pressed={tab === 'map'} onClick={() => setTab('map')}>Mappa</button>
-      <button type="button" className={tab === 'status' ? 'on' : ''} aria-pressed={tab === 'status'} onClick={() => setTab('status')}>Stato</button>
-    </nav>
+    <>
+      <nav className="tabs" aria-label="Schermate">
+        <strong className="brand">Grand Strategy WWII</strong>
+        <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
+        <button type="button" className={tab === 'map' ? 'on' : ''} aria-pressed={tab === 'map'} onClick={() => setTab('map')}>Mappa</button>
+        <button type="button" className={tab === 'status' ? 'on' : ''} aria-pressed={tab === 'status'} onClick={() => setTab('status')}>Stato</button>
+        <FullscreenButton />
+      </nav>
+      <p className="rotate-hint" role="note">Il gioco è pensato in orizzontale: ruota il telefono.</p>
+    </>
   );
 
   if (tab === 'game') {
@@ -313,6 +319,7 @@ export default function App() {
             {resources.length} risorse, {rivers?.length ?? '…'} fiumi, {lakes?.features.length ?? '…'} laghi, {crossings.length} attraversamenti, {provinces?.features.length ?? '…'} province)
           </li>
           <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
+          <li>Schermo intero: {{ installed: 'attivo (app installata)', api: 'disponibile col pulsante ⛶ nella barra', none: 'non disponibile in questo browser; su iPhone: Condividi → Aggiungi alla schermata Home' }[fullscreenSupport(window)]}</li>
           {provincesStatus === 'error' && <li className="warn">Province non caricate: {provincesError?.message}</li>}
           {pwa.error && <li className="warn">Errore del service worker</li>}
         </ul>

@@ -17,8 +17,10 @@ export default defineConfig({
         lang: 'it',
         start_url: '.',
         scope: '.',
-        display: 'standalone',
-        orientation: 'any',
+        // schermo intero e orizzontale con l'app installata; se il sistema non offre lo schermo intero ripiega su standalone
+        display: 'fullscreen',
+        display_override: ['fullscreen', 'standalone'],
+        orientation: 'landscape',
         background_color: '#1d2418',
         theme_color: '#1d2418',
         icons: [
