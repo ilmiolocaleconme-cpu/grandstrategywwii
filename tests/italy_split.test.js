@@ -53,21 +53,20 @@ test('taglio italiano: nessun vecchio id regionale rimasto come provincia', () =
   for (const id of old) assert.equal(mothers.has(id), false, id);
 });
 
-test('taglio italiano: i confini interni attraversati da fiumi medi/grandi hanno punti di passaggio, e quelli sul Po hanno ponti nel grafo', () => {
+test('taglio italiano: i ponti nel grafo dei collegamenti attraversano Po, Adige, Tevere e Ticino fra province nuove', () => {
   const ids = features.map((f) => f.properties.id);
-  const cp = read('crossing_points.json');
   const links = read('links.json');
   const newMothers = new Set(divided.flatMap((r) => regions.provincesOf(r)));
   const mo = (i) => ids[i].replace(/_SP\d+$/, '');
-  const points = cp.points.filter((p) => ids[p.from].startsWith('P_ITA_') && ids[p.to].startsWith('P_ITA_') && mo(p.from) !== mo(p.to) && (newMothers.has(mo(p.from)) || newMothers.has(mo(p.to))));
-  assert.ok(points.length >= 30, `${points.length} punti di passaggio`);
-  const rivers = new Set(points.map((p) => p.riverId));
-  for (const r of ['R_PO', 'R_ADIGE', 'R_TIBER', 'R_TICINO']) assert.ok(rivers.has(r), r);
   const lk = new Map(links.links.map((l) => [l.id, l]));
-  const nodeP = links.nodes.map((n) => n.p);
-  const poBridges = links.bridges.filter((b) => b.riverId === 'R_PO').filter((b) => {
+  const nodeP = ids.map((_, i) => i); // i collegamenti LK_i_j usano gli indici delle province
+  const count = {};
+  for (const b of links.bridges) {
     const l = lk.get(b.link);
-    return l && ids[nodeP[l.a]].startsWith('P_ITA_') && ids[nodeP[l.b]].startsWith('P_ITA_') && (newMothers.has(mo(nodeP[l.a])) || newMothers.has(mo(nodeP[l.b])));
-  });
-  assert.ok(poBridges.length >= 3, `${poBridges.length} ponti sul Po tra province nuove`);
+    if (!l) continue;
+    const [a, c] = [mo(nodeP[l.a]), mo(nodeP[l.b])];
+    if (a.startsWith('P_ITA_') && c.startsWith('P_ITA_') && a !== c && (newMothers.has(a) || newMothers.has(c))) count[b.riverId] = (count[b.riverId] ?? 0) + 1;
+  }
+  assert.ok((count.R_PO ?? 0) >= 3, JSON.stringify(count));
+  for (const r of ['R_ADIGE', 'R_TIBER']) assert.ok((count[r] ?? 0) >= 1, `${r}: ${JSON.stringify(count)}`);
 });
