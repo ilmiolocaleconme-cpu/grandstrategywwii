@@ -56,9 +56,21 @@ h2 {
 /* --- Mappa --- */
 .shell { display: flex; flex-direction: column; min-height: 100dvh; }
 .tabs { display: flex; align-items: center; gap: 8px; padding: max(8px, env(safe-area-inset-top)) 12px 8px; background: var(--panel); }
-.tabs .brand { margin-right: auto; font-size: 15px; }
+.tabs .brand { font-size: 15px; white-space: nowrap; }
+/* livelli e zoom della mappa stanno nella barra in alto (portale di MapCanvas): una sola barra */
+.nav-tools-host { display: flex; flex: 1 1 auto; min-width: 0; }
+.nav-tools { display: flex; align-items: center; gap: 6px; }
+.nav-tools .seg, .nav-tools .zoom { display: flex; gap: 6px; }
 .tabs button, .seg button, .zoom button { min-height: 34px; min-width: 34px; padding: 0 9px; background: transparent; color: var(--ink); border: 1px solid #4a553f; border-radius: 7px; font: inherit; font-size: 13px; }
 .tabs button.on, .seg button.on { background: var(--accent); color: #1d2418; border-color: var(--accent); }
+/* telefono: con i livelli in barra il titolo lascia il posto */
+@media (max-width: 900px) {
+  .tabs:has(.nav-tools) .brand { display: none; }
+}
+/* telefono stretto: + e − si tolgono dalla barra (si ingrandisce già pizzicando); ⌂ riporta alla vista iniziale */
+@media (max-width: 760px) {
+  .nav-tools .zoom-step { display: none; }
+}
 .map-layout { flex: 1; position: relative; display: grid; grid-template-rows: minmax(0, 1fr); min-height: 0; }
 .map-wrap { position: relative; min-height: 55dvh; background: #16301f; overflow: hidden; }
 .map, .map * { -webkit-tap-highlight-color: transparent; }
@@ -143,6 +155,11 @@ h2 {
 .gb-controls button { min-height: 34px; min-width: 34px; padding: 0 9px; background: transparent; color: var(--ink); border: 1px solid #4a553f; border-radius: 7px; font: inherit; font-size: 13px; }
 .gb-controls button.on, .gb-controls button[aria-pressed="true"] { background: var(--accent); color: #1d2418; border-color: var(--accent); }
 .gb-controls button:disabled { opacity: 0.45; }
+/* tempo: tre pulsanti come un registratore; la pausa diventa rossa quando il gioco è fermo (e ha anche l'etichetta «Pausa») */
+.gb-clock { display: flex; align-items: center; gap: 6px; }
+.gb-clock button { display: inline-flex; align-items: center; justify-content: center; padding: 0 12px; }
+.gb-controls button.gb-pause.paused, .gb-controls button.gb-pause[aria-pressed="true"] { background: #b3261e; border-color: #e0584e; color: #fff; }
+.gb-speed { min-width: 3.2em; text-align: center; font-variant-numeric: tabular-nums; color: var(--muted); }
 .gb-note { flex-basis: 100%; margin: 0; font-size: 13px; }
 
 /* zone marittime (livello ⚓): sotto le province, tinta leggera e bordo tratteggiato */

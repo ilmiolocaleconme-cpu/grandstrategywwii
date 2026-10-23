@@ -6,7 +6,7 @@
 //   node scripts/merge-small-sponde.js --dry            (stampa cosa farebbe, non scrive nulla)
 //   node scripts/merge-small-sponde.js [--min=200] [--whole=P_BGR_SOFIA,...]   (--whole: queste province tornano intere, qualunque sia l'area delle sponde; scrive data/provinces/*.json, data/sources/citta_base.json, data/crossings.json)
 //
-// Dopo: node scripts/build-cities.js, npm run build:adjacency, build:sea, build:labels, build:crossing-points, build:links.
+// Dopo: node scripts/build-cities.js, npm run build:adjacency, build:sea, build:labels, build:links.
 // Idempotente: una seconda esecuzione non trova più sponde sotto la soglia.
 // Non tocca le province che non sono sponde (Gibraltar, Lussemburgo, le città a parte...).
 import { readFile, readdir, writeFile } from 'node:fs/promises';

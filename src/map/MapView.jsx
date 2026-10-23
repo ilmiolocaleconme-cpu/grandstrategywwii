@@ -268,8 +268,6 @@ export function Legend({ layer, nationNames, nationControl, items, open, onToggl
   const owners = useMemo(() => [...new Set(items.map((i) => controllerOf(i.props.owner, nationControl)))].sort(), [items, nationControl]);
   const entries = layer === 'terrain'
     ? [...TERRAIN_TYPES, 'urbano'].map((t) => [TERRAIN_LABEL[t], TERRAIN_COLORS[t]])
-    : layer === 'quality'
-    ? [['verificato', provinceFill({ borderQuality: 'verified' }, 'quality')], ['approssimato', provinceFill({ borderQuality: 'approximate' }, 'quality')], ['ipotesi', provinceFill({ borderQuality: 'hypothesis' }, 'quality')]]
     : owners.map((o) => [nationNames[o] ?? o, provinceFill({ owner: o, id: '' }, 'political')]);
   return (
     <div className="legend-box">
@@ -277,7 +275,7 @@ export function Legend({ layer, nationNames, nationControl, items, open, onToggl
         Legenda {open ? '▾' : '▴'}
       </button>
       {open && (
-        <ul className="legend" aria-label={layer === 'terrain' ? 'Legenda terreno' : layer === 'quality' ? 'Legenda qualità dei confini' : 'Legenda nazioni'}>
+        <ul className="legend" aria-label={layer === 'terrain' ? 'Legenda terreno' : 'Legenda nazioni'}>
           {entries.map(([name, color]) => (
             <li key={name}><i style={{ background: color }} />{name}</li>
           ))}

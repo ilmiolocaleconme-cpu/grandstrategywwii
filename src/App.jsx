@@ -4,7 +4,6 @@ import political from '../data/political_1936.json';
 import nations from '../data/nations.json';
 import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
-import { mergeCandidates } from './data/bridges.js';
 import { loadProvinces, unwatchProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
 import MapView from './map/MapView.jsx';
@@ -18,7 +17,8 @@ import { buildCanvasModel } from './map/canvasModel.js';
 import { newGame, playableNations } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { browserStorage, createSaveStore } from './game/save.js';
-import GameBar, { SPEEDS } from './ui/GameBar.jsx';
+import GameBar from './ui/GameBar.jsx';
+import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
 import LoadingScreen from './ui/LoadingScreen.jsx';
 import FullscreenButton from './ui/FullscreenButton.jsx';
@@ -44,7 +44,7 @@ function useWaterData(start) {
 }
 
 // Grafo dei collegamenti (~1,3 MB: strade, ferrovie e ponti come tratti della linea): caricato dopo la mappa e messo in cache dal
-// service worker. I marcatori dei ponti (e dei passaggi sul confine dove manca un ponte entro 15 km) ne derivano.
+// service worker.
 function useLinks(start) {
   const [file, setFile] = useState(null);
   useEffect(() => {
@@ -54,17 +54,6 @@ function useLinks(start) {
     return () => { alive = false; };
   }, [start, file]);
   return file;
-}
-
-function useCrossingPoints(links) {
-  const [border, setBorder] = useState(null);
-  useEffect(() => {
-    if (!links) return undefined;
-    let alive = true;
-    import('../data/crossing_points.json').then((c) => alive && setBorder(c.default.points)).catch(() => alive && setBorder([]));
-    return () => { alive = false; };
-  }, [links]);
-  return useMemo(() => (links && border ? { points: mergeCandidates(links.bridges, border) } : null), [links, border]);
 }
 
 // Zone marittime (~95 kB): come fiumi e laghi, caricate dopo la mappa e messe in cache dal service worker.
@@ -143,8 +132,9 @@ const NATION_CONTROL = Object.fromEntries(political.map((e) => [e.id, e.controll
 export default function App() {
   const [tab, setTab] = useState('game');
   const [game, setGame] = useState(null);
-  const [running, setRunning] = useState(false);
-  const [speed, setSpeed] = useState(1);
+  const [clock, setClock] = useState(initialClock); // { running, speed }: tre pulsanti (indietro, pausa, avanti), vedi src/game/speed.js
+  const { running, speed } = clock;
+  const setRunning = (fn) => setClock((c) => ({ ...c, running: typeof fn === 'function' ? fn(c.running) : fn }));
   const [notice, setNotice] = useState(null);
   const store = useMemo(() => { const st = browserStorage(); return st ? createSaveStore(st) : null; }, []);
   const [saves, setSaves] = useState({ auto: null, manual: null });
@@ -163,12 +153,11 @@ export default function App() {
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
   const links = useLinks(USE_CANVAS && mapShown);
-  const crossingPoints = useCrossingPoints(links);
-  const [showBridges, setShowBridges] = useState(false); // i marcatori dei passaggi (gialli) si accendono col pulsante ⊓
   const [showTransport, setShowTransport] = useState(false);
   const transport = showTransport ? links : null;
   const labelData = useLabelData(!USE_CANVAS || mapShown);
   const [layer, setLayer] = useState('political');
+  const [toolsHost, setToolsHost] = useState(null); // contenitore in barra dove la mappa mette livelli e zoom (una sola barra in alto)
   const citiesRaw = useCities(USE_CANVAS && mapShown);
   // le città sono province a parte: entrano nello stesso modello e sono cliccabili come le altre
   const cities = useMemo(() => (citiesRaw ? markCapitals(citiesRaw, nations) : null), [citiesRaw]);
@@ -209,20 +198,21 @@ export default function App() {
     if (!provinces) return;
     const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner) });
     if (!r.ok) { setNotice({ kind: 'error', text: `Partita non creata: ${r.reason}` }); return; }
-    setGame(r.state); setRunning(false); setNotice(null); setTab('map');
+    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map');
   };
   const loadGame = (slot) => {
     const r = store?.read(slot);
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
-    setGame(r.state); setRunning(false); setNotice(null); setTab('map');
+    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map');
   };
+  const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
-  const toggleRun = () => { if (running) saveTo('auto', 'automatico'); setRunning((v) => !v); };
+  const pressClock = (press) => { const next = press(clock); if (clock.running && !next.running) saveTo('auto', 'automatico'); setClock(next); };
 
   // un tick al giorno; si ferma da solo se l'app va in secondo piano (telefono)
   useEffect(() => {
     if (!running) return undefined;
-    const ms = SPEEDS.find((s) => s.id === speed).ms;
+    const ms = msPerDay(speed);
     const id = setInterval(() => setGame((g) => (g ? advanceDay(g) : g)), ms);
     return () => clearInterval(id);
   }, [running, speed]);
@@ -252,6 +242,7 @@ export default function App() {
     <>
       <nav className="tabs" aria-label="Schermate">
         <strong className="brand">Grand Strategy WWII</strong>
+        <div className="nav-tools-host" ref={setToolsHost} />
         <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
         <button type="button" className={tab === 'map' ? 'on' : ''} aria-pressed={tab === 'map'} onClick={() => setTab('map')}>Mappa</button>
         <button type="button" className={tab === 'status' ? 'on' : ''} aria-pressed={tab === 'status'} onClick={() => setTab('status')}>Stato</button>
@@ -270,7 +261,9 @@ export default function App() {
         ) : game ? (
           <main className="app">
             <header><h1>Partita in corso</h1><p className="muted">{NATION_NAMES[game.player]} · {game.date}. Usa la barra nella schermata Mappa per far scorrere il tempo.</p></header>
-            <button type="button" className="nation-btn" onClick={() => setTab('map')}>Torna alla mappa</button>{' '}
+            {notice ? <p className={notice.kind === 'error' ? 'warn' : 'muted'} role="status">{notice.text}</p> : null}
+            <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
+            <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
           </main>
         ) : (
@@ -285,15 +278,14 @@ export default function App() {
       <div className="shell">
         {tabs}
         {game ? (
-          <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed} canSave={store !== null} notice={notice}
-            onToggle={toggleRun} onStep={() => setGame((g) => advanceDay(g))} onSpeed={setSpeed}
-            onSave={() => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); }} onExit={exitGame} />
+          <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed} notice={notice}
+            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g))} />
         ) : null}
         {provincesStatus !== 'ready' ? (
           <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : (
         <div className="map-layout">
-          <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} crossingPoints={crossingPoints} showBridges={showBridges} onToggleBridges={() => setShowBridges((v) => !v)} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} />
+          <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} />
           {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
             seaId && seaById.get(seaId) ? (
               <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />

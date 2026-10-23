@@ -34,11 +34,11 @@ Ogni autostrada è una spezzata tra città di passaggio (coordinate al centro ci
 
 Incrocio tra i segmenti di ogni strada/ferrovia (a dettaglio pieno di Natural Earth, non semplificata) e i segmenti dei fiumi di `rivers_geo.json` (indice a celle da 0,25°). Incroci dello stesso fiume entro 0,02° sulla stessa linea sono uniti; strada e ferrovia affiancate (entro 0,03°) diventano un solo ponte. Posizione: sul fiume entro 1,5 km e sulla strada/ferrovia entro 4 km (testato; le linee affiancate si uniscono entro 0,03°, quindi la posizione è quella del primo incrocio).
 
-Sulla mappa si mostrano questi ponti **più** i passaggi di confine di `data/crossing_points.json` (livello dalla larghezza del fiume) solo dove sullo stesso fiume non c'è un ponte entro 15 km (`mergeCandidates`).
+Sulla mappa i ponti si vedono come tratti della linea quando è accesa la rete (pulsante ═): non esiste più un livello separato di marcatori dei ponti.
 
 ## Mappa (Canvas)
 
-- Pulsante **═**: strade e ferrovie (spento all'avvio, il file si scarica alla prima accensione). Pulsante **⊓**: ponti.
+- Pulsante **═**: strade e ferrovie (spento all'avvio, il file si scarica alla prima accensione). Livelli e zoom stanno nella barra in alto.
 - Strade: colore e spessore (livello 1 sabbia sottile, 2 giallo più spesso, 3 arancio spesso per le autostrade). Ferrovie: tratteggio bianco, più spesso e più lungo per le linee principali.
 - Densità per zoom: a vista d'insieme solo le linee con `scalerank` ≤ 4, da zoom 1,8 fino a ≤ 6, da zoom 3,5 tutte. Ponti: livello 3 sotto zoom 4, livelli ≥ 2 sotto zoom 8, poi tutti; due ponti nella stessa cella (28, 16 o 10 px) non si sovrappongono (vince il livello più alto).
 - Legenda nel pannello «Legenda» (in alto a destra).

@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
-import { buildMarkers, markerLegend } from './crossingMarkers.js';
 import { buildLinksModel, transportLegend } from './transportView.js';
 import { bridgeLegend, drawSwatch } from './transportStyle.js';
 import { Legend } from './MapView.jsx';
@@ -30,14 +30,13 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, crossingPoints, showBridges, onToggleBridges, transport, showTransport, onToggleTransport }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
     () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, riverTier) : EMPTY_WATER),
     [rivers, riversGeo, lakes],
   );
-  const markers = useMemo(() => (crossingPoints && showBridges ? buildMarkers(crossingPoints, WORLD_W / 360) : null), [crossingPoints, showBridges]);
   const transportModel = useMemo(() => (transport && showTransport ? buildLinksModel(transport, WORLD_W / 360) : null), [transport, showTransport]);
   const wrapRef = useRef(null);
   const baseRef = useRef(null);
@@ -51,7 +50,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, markers, transportModel };
+  props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -89,7 +88,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), markers: p.markers, transport: p.transportModel, trace: window.__gsTrace, light });
+    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, trace: window.__gsTrace, light });
     s.cache = { canvas: c, view: { ...view }, region, light };
     baseRef.current.dataset.drawn = '1';
     if (p.water.lines.length && p.showRivers && !light) baseRef.current.dataset.water = '1';
@@ -136,7 +135,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), markers: p.markers, transport: p.transportModel, trace: window.__gsTrace, light: false });
+    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, trace: window.__gsTrace, light: false });
     const sl = { canvas: c, exposed: false, timer: 0 };
     s.slice = sl;
     const expose = () => {
@@ -331,7 +330,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       // i nomi partono solo dopo che la prima schermata è stata presentata (due fotogrammi)
       requestAnimationFrame(() => requestAnimationFrame(() => { s.painted = true; setViewRev((n) => n + 1); }));
     }
-  }, [size, model, water, layer, showRivers, seaData, showSeas, selectedSeaId, markers, transportModel]);
+  }, [size, model, water, layer, showRivers, seaData, showSeas, selectedSeaId, transportModel]);
   // la selezione della provincia cambia solo la sovrapposizione
   useEffect(() => { paintOverlay(); }, [selectedId, seaData, showSeas]);
 
@@ -500,7 +499,8 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
         onClick={onClick}
       />
 
-      <div className="map-tools" role="toolbar" aria-label="Livelli e zoom">
+      {toolsHost ? createPortal(
+      <div className="nav-tools" role="toolbar" aria-label="Livelli e zoom">
         <div className="seg">
           {LAYERS.map((l) => (
             <button key={l.id} type="button" className={layer === l.id ? 'on' : ''} aria-pressed={layer === l.id} onClick={() => onLayerChange(l.id)}>
@@ -513,17 +513,15 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
           {onToggleTransport ? (
             <button type="button" className={showTransport ? 'on' : ''} aria-pressed={Boolean(showTransport)} aria-label="Mostra o nascondi strade e ferrovie" onClick={onToggleTransport}>═</button>
           ) : null}
-          {onToggleBridges ? (
-            <button type="button" className={showBridges ? 'on' : ''} aria-pressed={Boolean(showBridges)} aria-label="Mostra o nascondi i ponti e i punti di passaggio" onClick={onToggleBridges}>⊓</button>
-          ) : null}
           <button type="button" className={showSeas ? 'on' : ''} aria-pressed={showSeas} aria-label="Mostra o nascondi le zone marittime" onClick={onToggleSeas}>⚓</button>
-          <button type="button" aria-label="Ingrandisci" onClick={() => zoomButton(1.6)}>+</button>
-          <button type="button" aria-label="Riduci" onClick={() => zoomButton(1 / 1.6)}>−</button>
+          <button type="button" className="zoom-step" aria-label="Ingrandisci" onClick={() => zoomButton(1.6)}>+</button>
+          <button type="button" className="zoom-step" aria-label="Riduci" onClick={() => zoomButton(1 / 1.6)}>−</button>
           <button type="button" aria-label="Vista iniziale" onClick={goHome}>⌂</button>
         </div>
       </div>
+      , toolsHost) : null}
 
-      {legendOpen && ((showBridges && crossingPoints) || (showTransport && transport)) ? <BridgeLegend bridges={Boolean(showBridges && crossingPoints)} transport={Boolean(showTransport && transport)} /> : null}
+      {legendOpen && showTransport && transport ? <TransportLegend /> : null}
       <Legend layer={layer} nationNames={nationNames} nationControl={nationControl} items={model.items} open={legendOpen} onToggle={() => setLegendOpen((o) => !o)} />
     </div>
   );
@@ -546,32 +544,22 @@ function Swatch({ spec, w = 44, h = 24 }) {
   return <canvas ref={ref} style={{ width: w, height: h }} aria-hidden="true" />;
 }
 
-// Legenda di ponti, strade e ferrovie: stesso disegno della mappa; da lontano i ponti sono simboli di livello.
-function BridgeLegend({ bridges, transport }) {
+// Legenda di strade, ferrovie e ponti (i ponti sono tratti della linea): stesso disegno della mappa.
+function TransportLegend() {
   return (
-    <ul className="bridge-legend" aria-label="Legenda di ponti, strade e ferrovie">
-      {transport ? transportLegend().map((t) => (
+    <ul className="bridge-legend" aria-label="Legenda di strade, ferrovie e ponti">
+      {transportLegend().map((t) => (
         <li key={t.key}>
           <Swatch spec={t.spec} />
           <span><b>{t.label}</b></span>
         </li>
-      )) : null}
-      {bridges ? bridgeLegend().map((b) => (
+      ))}
+      {bridgeLegend().map((b) => (
         <li key={b.id}>
           <Swatch spec={b.spec} />
           <span><b>{b.label}</b></span>
         </li>
-      )) : null}
-      {bridges ? markerLegend().map((m) => (
-        <li key={m.level}>
-          <svg width="26" height="16" viewBox="-13 -8 26 16" aria-hidden="true">
-            {m.shape === 'circle' ? <circle r="3.6" fill="none" stroke={m.stroke} strokeWidth="1.4" /> : null}
-            {m.shape === 'square' ? <rect x="-4.6" y="-4.6" width="9.2" height="9.2" fill={m.fill} stroke={m.stroke} strokeWidth="1.2" /> : null}
-            {m.shape === 'diamond' ? (<><polygon points="0,-7 7,0 0,7 -7,0" fill={m.fill} stroke={m.stroke} strokeWidth="1.4" /><circle r="2" fill="#fff" /></>) : null}
-          </svg>
-          <span><b>Da lontano · livello {m.level}</b> {m.hint}</span>
-        </li>
-      )) : null}
+      ))}
       <li className="note"><span>Rete moderna, non del 1936. Livelli provvisori. Le strade compaiono solo avvicinandosi molto. Avvicinati per vedere corsie, binari e ponti.</span></li>
     </ul>
   );

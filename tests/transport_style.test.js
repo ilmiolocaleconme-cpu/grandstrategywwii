@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { BRIDGE_MAX_PX, BRIDGE_MIN_PX, BRIDGE_SCALE, DECK_ZOOM, DETAIL_ZOOMS, drawBridgeSegments, sizeBoost, RECIPES, bridgeKind, bridgeLegend, detailTier, drawBridgeDeck, drawStraight, drawSwatch, recipeWidth } from '../src/map/transportStyle.js';
-import { buildMarkers, drawMarkers, visibleMarkers } from '../src/map/crossingMarkers.js';
 import { buildLinksModel, drawTransport } from '../src/map/transportView.js';
 import { headingDeg } from '../src/data/transport.js';
 import { validateBridges } from '../src/data/bridges.js';
@@ -75,19 +74,6 @@ test('direzione dei ponti: gradi non orientati e validazione', () => {
   assert.ok(validateBridges(f).some((e) => e.includes('ang')));
   f.points[0].ang = 45;
   assert.deepEqual(validateBridges(f), []);
-});
-
-test('marcatori: i ponti diventano tratti della linea da zoom 18 (niente marcatore), i passaggi di confine restano', () => {
-  const file = { points: [
-    { id: 'A', kind: 'bridge', level: 2, riverId: 'R', lon: 1, lat: 1, road: 2, rail: 0, ang: 0 },
-    { id: 'B', kind: 'border_cross', level: 2, riverId: 'R', lon: 5, lat: 1, road: 0, rail: 0 },
-  ] };
-  const ms = buildMarkers(file, 2);
-  const all = { x0: -1e9, x1: 1e9, y0: -1e9, y1: 1e9 };
-  assert.equal(visibleMarkers(ms, { sx: 10, k: 10, cull: all }).length, 2);
-  assert.deepEqual(visibleMarkers(ms, { sx: 10, k: 20, cull: all }).map((m) => m.id), ['B']);
-  const { ctx } = fakeCtx();
-  assert.equal(drawMarkers(ctx, ms, { sx: 10, k: 20, cull: all }), 1);
 });
 
 test('ponti come tratti: stessa geometria della linea, aspetto per materiale e dettaglio', () => {

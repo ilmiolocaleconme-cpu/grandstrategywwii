@@ -4,7 +4,6 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { TRANSPORT_SCHEMA, validateTransport, bridgeLevel, distanceToViaKm, splitByAutostrade, validateAutostrade, buildRiverSegmentGrid, lineRiverIntersections, railLevel, roadLevel, segmentIntersection, simplify } from '../src/data/transport.js';
-import { mergeCandidates } from '../src/data/bridges.js';
 import { recipeWidth } from '../src/map/transportStyle.js';
 import { buildTransportModel, drawTransport, transportLegend, transportRankLimit } from '../src/map/transportView.js';
 
@@ -56,18 +55,6 @@ test('ponti: incrocio sintetico strada-fiume, tratti dentro i laghi ignorati, du
   assert.ok(Math.abs(hits[0].lon - 5) < 0.01 && Math.abs(hits[0].lat - 41.5) < 1e-9);
   // una strada a zig-zag che incrocia due volte lo stesso punto non genera due ponti
   assert.equal(lineRiverIntersections([[4, 41.5], [6, 41.5], [4.5, 41.505], [5.5, 41.505]], grid).length, 1);
-});
-
-test('ponti: unione con i passaggi di confine tiene i ponti e i confini senza ponte vicino', () => {
-  const b = [{ id: 'BR_X_001', riverId: 'R_X', lon: 10, lat: 45, road: 2, rail: 0, level: 2 }];
-  const border = [
-    { id: 'CP_X_001', kind: 'border_cross', riverId: 'R_X', lon: 10.05, lat: 45, level: 3 }, // a ~4 km: coperto dal ponte
-    { id: 'CP_X_002', kind: 'border_cross', riverId: 'R_X', lon: 11, lat: 45, level: 3 }, // lontano: resta
-    { id: 'CP_Y_001', kind: 'river_border', riverId: 'R_Y', lon: 10.05, lat: 45, level: 2 }, // altro fiume: resta
-  ];
-  const out = mergeCandidates(b, border);
-  assert.deepEqual(out.map((p) => p.id), ['BR_X_001', 'CP_X_002', 'CP_Y_001']);
-  assert.equal(out[0].kind, 'bridge');
 });
 
 test('mappa: modello proiettato, densità per zoom, legenda con stili diversi', () => {

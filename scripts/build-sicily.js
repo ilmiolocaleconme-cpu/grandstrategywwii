@@ -6,7 +6,7 @@
 // Scrive data/provinces/ITA.json (le sponde P_ITA_SICILY_SPn sono sostituite dalle 9 province: i poligoni hanno i vertici
 // di confine condivisi di Natural Earth, quindi niente fessure) e aggiorna `parentProvince` delle città siciliane in
 // data/sources/citta_base.json. Dopo: npm run build:adjacency, build:sea, build:labels,
-// build:crossing-points, build:links. Idempotente.
+// build:links. Idempotente.
 // Il Simeto (fiume «main») NON divide nessuna provincia: nasce e muore dentro l'isola, quindi non è un confine.
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
