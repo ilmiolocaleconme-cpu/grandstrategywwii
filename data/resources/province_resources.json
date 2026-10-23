@@ -1,0 +1,530 @@
+{
+ "schema": "province-resources-v1",
+ "quality": "reference",
+ "byProvince": {
+  "P_ALG_AURES": [
+   "antimony"
+  ],
+  "P_ALG_CONSTANTINE": [
+   "antimony"
+  ],
+  "P_AUT_STYRIA": [
+   "iron_ore"
+  ],
+  "P_BEL_ANTWERP": [
+   "uranium"
+  ],
+  "P_BEL_HAINAUT": [
+   "coal"
+  ],
+  "P_BEL_LIEGE": [
+   "coal"
+  ],
+  "P_BGR_SOFIA": [
+   "iron_ore"
+  ],
+  "P_CHE_AARGAU": [
+   "aluminium"
+  ],
+  "P_CHE_VALAIS": [
+   "aluminium"
+  ],
+  "P_CZE_BOHEMIA": [
+   "iron_ore",
+   "tin",
+   "antimony",
+   "mercury",
+   "uranium"
+  ],
+  "P_CZE_MORAVIAN_SILESIAN_COUNTRY": [
+   "iron_ore"
+  ],
+  "P_DEU_BADEN": [
+   "aluminium"
+  ],
+  "P_DEU_BAYERISCHE_OSTMARK": [
+   "mercury"
+  ],
+  "P_DEU_DUESSELDORF": [
+   "coal",
+   "aluminium",
+   "mercury"
+  ],
+  "P_DEU_ESSEN": [
+   "coal"
+  ],
+  "P_DEU_FRANKEN": [
+   "mercury"
+  ],
+  "P_DEU_KOBLENZ_TRIER": [
+   "mercury"
+  ],
+  "P_DEU_KOELN_AACHEN": [
+   "aluminium",
+   "mercury"
+  ],
+  "P_DEU_MAINFRANKEN": [
+   "mercury"
+  ],
+  "P_DEU_MUENCHEN_OBERBAYERN": [
+   "aluminium",
+   "mercury"
+  ],
+  "P_DEU_NIEDERSCHLESIEN": [
+   "aluminium"
+  ],
+  "P_DEU_SAARPFALZ": [
+   "coal"
+  ],
+  "P_DEU_SACHSEN": [
+   "iron_ore",
+   "tin",
+   "manganese",
+   "mercury"
+  ],
+  "P_DEU_SCHLESWIG_HOLSTEIN": [
+   "oil"
+  ],
+  "P_DEU_SCHWABEN": [
+   "mercury"
+  ],
+  "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": [
+   "oil"
+  ],
+  "P_DEU_THUERINGEN": [
+   "iron_ore",
+   "manganese"
+  ],
+  "P_DEU_WESTFALEN_SUED": [
+   "coal"
+  ],
+  "P_EGY_AL_BAHR_AL_AHMAR": [
+   "oil"
+  ],
+  "P_EGY_AS_SUWAYS": [
+   "oil"
+  ],
+  "P_ESP_ALMERIA": [
+   "vanadium",
+   "sulphur"
+  ],
+  "P_ESP_ASTURIAS": [
+   "iron_ore",
+   "tungsten"
+  ],
+  "P_ESP_CIUDAD_REAL": [
+   "mercury"
+  ],
+  "P_ESP_CORDOBA": [
+   "vanadium",
+   "sulphur"
+  ],
+  "P_ESP_CORUNA": [
+   "tungsten"
+  ],
+  "P_ESP_GRANADA": [
+   "vanadium",
+   "sulphur"
+  ],
+  "P_ESP_HUELVA": [
+   "vanadium",
+   "sulphur"
+  ],
+  "P_ESP_JAEN": [
+   "vanadium",
+   "sulphur"
+  ],
+  "P_ESP_LEON": [
+   "tungsten"
+  ],
+  "P_ESP_LUGO": [
+   "tungsten"
+  ],
+  "P_ESP_MURCIA": [
+   "sulphur"
+  ],
+  "P_ESP_ORENSE": [
+   "tungsten"
+  ],
+  "P_ESP_PONTEVEDRA": [
+   "tungsten"
+  ],
+  "P_ESP_SANTANDER": [
+   "iron_ore"
+  ],
+  "P_ESP_SEVILLA": [
+   "vanadium",
+   "sulphur"
+  ],
+  "P_ESP_VIZCAYA": [
+   "iron_ore"
+  ],
+  "P_FRA_ARIEGE": [
+   "bauxite"
+  ],
+  "P_FRA_BOUCHES_DU_RHONE": [
+   "bauxite"
+  ],
+  "P_FRA_MEURTHE_ET_MOSELLE": [
+   "coal",
+   "iron_ore"
+  ],
+  "P_FRA_MOSELLE": [
+   "coal",
+   "iron_ore"
+  ],
+  "P_FRA_NORD": [
+   "coal"
+  ],
+  "P_FRA_PAS_DE_CALAIS": [
+   "coal"
+  ],
+  "P_FRA_VAR": [
+   "bauxite"
+  ],
+  "P_GBR_CARMARTHENSHIRE": [
+   "coal"
+  ],
+  "P_GBR_EAST_AYRSHIRE": [
+   "coal"
+  ],
+  "P_GBR_FIFE": [
+   "coal"
+  ],
+  "P_GBR_GLAMORGAN": [
+   "coal"
+  ],
+  "P_GBR_MIDLOTHIAN": [
+   "coal"
+  ],
+  "P_GBR_MONMOUTHSHIRE": [
+   "coal"
+  ],
+  "P_GBR_NORTH_LANARKSHIRE": [
+   "coal"
+  ],
+  "P_GBR_SOUTH_LANARKSHIRE": [
+   "coal"
+  ],
+  "P_GBR_WEST_LOTHIAN": [
+   "coal"
+  ],
+  "P_GBR_YORKSHIRE": [
+   "coal"
+  ],
+  "P_GRC_ATTIKI": [
+   "iron_ore",
+   "bauxite"
+  ],
+  "P_GRC_NOTIO_AIGAIO": [
+   "iron_ore"
+  ],
+  "P_GRC_STEREA_ELLADA": [
+   "iron_ore",
+   "bauxite"
+  ],
+  "P_HUN_BORSOD_ABAUJ_ZEMPLEN": [
+   "iron_ore"
+  ],
+  "P_HUN_FEJER": [
+   "bauxite"
+  ],
+  "P_HUN_KOMAROM_ESZTERGOM": [
+   "bauxite"
+  ],
+  "P_HUN_VESZPREM": [
+   "bauxite"
+  ],
+  "P_ITA_AGRIGENTO": [
+   "coal",
+   "sulphur"
+  ],
+  "P_ITA_BARI": [
+   "bauxite"
+  ],
+  "P_ITA_BOLZANO_EST": [
+   "aluminium"
+  ],
+  "P_ITA_BOLZANO_OVEST": [
+   "aluminium"
+  ],
+  "P_ITA_BRESCIA": [
+   "aluminium"
+  ],
+  "P_ITA_CAGLIARI": [
+   "coal",
+   "manganese"
+  ],
+  "P_ITA_CALTANISSETTA": [
+   "coal",
+   "sulphur"
+  ],
+  "P_ITA_COMO": [
+   "aluminium"
+  ],
+  "P_ITA_ENNA": [
+   "coal",
+   "sulphur"
+  ],
+  "P_ITA_FIRENZE": [
+   "coal",
+   "manganese",
+   "mercury"
+  ],
+  "P_ITA_FOGGIA": [
+   "bauxite"
+  ],
+  "P_ITA_GENOVA": [
+   "manganese"
+  ],
+  "P_ITA_GORIZIA": [
+   "bauxite",
+   "mercury"
+  ],
+  "P_ITA_LA_SPEZIA": [
+   "manganese"
+  ],
+  "P_ITA_LECCE": [
+   "bauxite"
+  ],
+  "P_ITA_MILANO": [
+   "aluminium"
+  ],
+  "P_ITA_NUORO": [
+   "coal",
+   "manganese"
+  ],
+  "P_ITA_PISA": [
+   "coal",
+   "manganese",
+   "mercury"
+  ],
+  "P_ITA_POLA": [
+   "bauxite",
+   "mercury"
+  ],
+  "P_ITA_SASSARI": [
+   "coal",
+   "manganese"
+  ],
+  "P_ITA_SAVONA": [
+   "manganese"
+  ],
+  "P_ITA_SIENA": [
+   "coal",
+   "manganese",
+   "mercury"
+  ],
+  "P_ITA_TRENTO": [
+   "aluminium"
+  ],
+  "P_ITA_TRIESTE": [
+   "bauxite",
+   "mercury"
+  ],
+  "P_ITA_UDINE": [
+   "aluminium"
+  ],
+  "P_ITA_VENEZIA": [
+   "aluminium"
+  ],
+  "P_ITA_VERONA": [
+   "aluminium"
+  ],
+  "P_MAR_SOUSS___MASSA___DRAA": [
+   "cobalt"
+  ],
+  "P_NLD_LIMBURG": [
+   "coal"
+  ],
+  "P_NOR_FINNMARK": [
+   "iron_ore"
+  ],
+  "P_NOR_HORDALAND": [
+   "aluminium"
+  ],
+  "P_NOR_MORE_OG_ROMSDAL": [
+   "aluminium"
+  ],
+  "P_NOR_NORDLAND": [
+   "iron_ore"
+  ],
+  "P_NOR_NORD_TRONDELAG": [
+   "iron_ore"
+  ],
+  "P_NOR_SOGN_OG_FJORDANE": [
+   "aluminium"
+  ],
+  "P_NOR_SOR_TRONDELAG": [
+   "iron_ore"
+  ],
+  "P_NOR_VEST_AGDER": [
+   "molybdenum"
+  ],
+  "P_POL_KIELCE_VOIVODESHIP": [
+   "coal",
+   "iron_ore"
+  ],
+  "P_POL_KRAKOW_VOIVODESHIP": [
+   "coal"
+  ],
+  "P_POL_SILESIAN_VOIVODESHIP": [
+   "coal"
+  ],
+  "P_PRT_CASTELO_BRANCO": [
+   "tungsten"
+  ],
+  "P_PRT_VILA_REAL": [
+   "tungsten"
+  ],
+  "P_ROM_BIHOR": [
+   "bauxite"
+  ],
+  "P_ROM_BUZAU": [
+   "oil"
+  ],
+  "P_ROM_CARAS_SEVERIN": [
+   "iron_ore"
+  ],
+  "P_ROM_DAMBOVITA": [
+   "oil"
+  ],
+  "P_ROM_HUNEDOARA": [
+   "iron_ore"
+  ],
+  "P_ROM_PRAHOVA": [
+   "oil"
+  ],
+  "P_ROM_TIMIS": [
+   "iron_ore"
+  ],
+  "P_SWE_NORRBOTTEN": [
+   "iron_ore"
+  ],
+  "P_SWE_VASTRA_GOTALAND": [
+   "aluminium"
+  ],
+  "P_TUR_ELAZIG": [
+   "chromium"
+  ],
+  "P_TUR_ZINGULDAK": [
+   "coal"
+  ],
+  "P_USSR_ABSHERON": [
+   "oil"
+  ],
+  "P_USSR_BASHKORTOSTAN": [
+   "oil"
+  ],
+  "P_USSR_CHECHNYA": [
+   "oil"
+  ],
+  "P_USSR_CHELYABINSK": [
+   "bauxite"
+  ],
+  "P_USSR_DNIPROPETROVSK": [
+   "bauxite",
+   "wheat",
+   "manganese"
+  ],
+  "P_USSR_DONETSK": [
+   "coal",
+   "bauxite",
+   "wheat"
+  ],
+  "P_USSR_IMERETI": [
+   "manganese"
+  ],
+  "P_USSR_INGUSH": [
+   "oil"
+  ],
+  "P_USSR_KARELIA": [
+   "bauxite"
+  ],
+  "P_USSR_KEMEROVO": [
+   "coal"
+  ],
+  "P_USSR_KRASNODAR": [
+   "wheat"
+  ],
+  "P_USSR_LUHANSK": [
+   "coal"
+  ],
+  "P_USSR_ORENBURG": [
+   "oil"
+  ],
+  "P_USSR_PERM": [
+   "oil",
+   "bauxite"
+  ],
+  "P_USSR_POLTAVA": [
+   "bauxite",
+   "wheat"
+  ],
+  "P_USSR_SAKHALIN": [
+   "oil"
+  ],
+  "P_USSR_SAMARA": [
+   "oil",
+   "wheat"
+  ],
+  "P_USSR_SARATOV": [
+   "wheat"
+  ],
+  "P_USSR_SVERDLOVSK": [
+   "bauxite"
+  ],
+  "P_USSR_TATARSTAN": [
+   "oil"
+  ],
+  "P_USSR_ULYANOVSK": [
+   "wheat"
+  ],
+  "P_USSR_VOLGOGRAD": [
+   "wheat"
+  ],
+  "P_USSR_ZAPORIZHZHYA": [
+   "bauxite",
+   "wheat",
+   "manganese"
+  ],
+  "P_YUG_BANJA_LUKA": [
+   "bauxite",
+   "antimony"
+  ],
+  "P_YUG_BIHAC": [
+   "bauxite",
+   "antimony"
+  ],
+  "P_YUG_CETINJE": [
+   "bauxite"
+  ],
+  "P_YUG_DUBROVNIK": [
+   "bauxite"
+  ],
+  "P_YUG_MOSTAR": [
+   "bauxite"
+  ],
+  "P_YUG_SABAC": [
+   "antimony"
+  ],
+  "P_YUG_SARAJEVO": [
+   "bauxite",
+   "antimony"
+  ],
+  "P_YUG_SPLIT": [
+   "bauxite"
+  ],
+  "P_YUG_TRAVNIK": [
+   "bauxite",
+   "antimony"
+  ],
+  "P_YUG_TUZLA": [
+   "bauxite",
+   "antimony"
+  ],
+  "P_YUG_VALJEVO": [
+   "antimony"
+  ]
+ }
+}

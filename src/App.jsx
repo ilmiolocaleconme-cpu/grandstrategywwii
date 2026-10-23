@@ -84,6 +84,18 @@ function useLabelData(start) {
   return labels;
 }
 
+// Risorse per provincia (data/resources/province_resources.json, piccolo): si scaricano solo aprendo il livello Risorse
+function useProvinceResources(enabled) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    if (!enabled || data) return undefined;
+    let alive = true;
+    import('../data/resources/province_resources.json').then((m) => alive && setData(m.default.byProvince)).catch(() => {});
+    return () => { alive = false; };
+  }, [enabled, data]);
+  return data;
+}
+
 // Terreno (data/terrain.json, ~200 kB): blocco a parte, dopo la prima schermata; nel precache per l'offline
 function useTerrain(enabled) {
   const [terrain, setTerrain] = useState(null);
@@ -165,6 +177,7 @@ export default function App() {
   const cities = useMemo(() => (citiesRaw ? markCapitals(citiesRaw, nations) : null), [citiesRaw]);
   // il terreno si scarica solo quando si apre il livello Terreno: il modello della mappa non si ricostruisce una volta in più all'avvio
   const terrain = useTerrain(USE_CANVAS && mapShown && layer === 'terrain');
+  const provinceResources = useProvinceResources(mapShown && layer === 'resources');
   const provincesWithCities = useMemo(() => withTerrain(withCities(provinces && markCapitalsInCollection(provinces, nations), cities), terrain), [provinces, cities, terrain]);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
@@ -324,12 +337,12 @@ export default function App() {
         <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
       ) : (
       <div className="map-layout">
-        <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} />
+        <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
         {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} onClose={() => setInfoOpen(false)} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} onClose={() => setInfoOpen(false)} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>

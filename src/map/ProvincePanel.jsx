@@ -1,5 +1,6 @@
 import { QUALITY_COLORS } from './geo.js';
 import { TERRAIN_COLORS, TERRAIN_LABEL } from '../data/terrain.js';
+import { RESOURCE_META } from '../data/provinceResources.js';
 
 const QUALITY_LABEL = { verified: 'verificato', approximate: 'approssimato', hypothesis: 'ipotesi' };
 const ISSUE_LABEL = {
@@ -25,7 +26,7 @@ const ISSUE_LABEL = {
   capoluogo_fuori_dal_contorno_costiero: 'il capoluogo cade fuori dal contorno costiero',
 };
 
-export default function ProvincePanel({ item, nationNames, nationControl, onClose }) {
+export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, onClose }) {
   if (!item) return null; // il pannello esiste solo su richiesta (pulsante «i» nell'angolo della mappa)
   const p = item.props;
   return (
@@ -40,6 +41,7 @@ export default function ProvincePanel({ item, nationNames, nationControl, onClos
         {nationControl?.[p.owner] && nationControl[p.owner] !== p.owner && <><dt>Controllato da</dt><dd>{nationNames[nationControl[p.owner]] ?? nationControl[p.owner]}</dd></>}
         <dt>Area approssimata</dt><dd>{Math.round(item.areaKm2).toLocaleString('it-IT')} km²</dd>
         {p.terreno && <><dt>Terreno</dt><dd><i className="dot" style={{ background: TERRAIN_COLORS[p.terreno] }} />{TERRAIN_LABEL[p.terreno] ?? p.terreno}{p.terrenoSecondario ? ` (anche ${(TERRAIN_LABEL[p.terrenoSecondario] ?? p.terrenoSecondario).toLowerCase()})` : ''}{p.kind !== 'citta' ? ' · stima da raster' : ''}</dd></>}
+        {(provinceResources?.[p.id] ?? provinceResources?.[p.parentProvince]) && <><dt>Risorse</dt><dd>{(provinceResources[p.id] ?? provinceResources[p.parentProvince]).map((r) => RESOURCE_META[r]?.label ?? r).join(', ')} · posizione di riferimento, approssimata</dd></>}
         <dt>Qualità dei confini</dt>
         <dd><i className="dot" style={{ background: QUALITY_COLORS[p.borderQuality] }} />{QUALITY_LABEL[p.borderQuality] ?? p.borderQuality}</dd>
         <dt>Validità</dt><dd>{p.validFrom} → {p.validTo === '9999-12-31' ? 'oggi' : p.validTo}{p.dateBasis === 'assumed' ? ' (assunta)' : ''}</dd>

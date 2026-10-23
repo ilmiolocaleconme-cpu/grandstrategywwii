@@ -8,6 +8,7 @@ import { CANVAS_LOD_TOLS } from './canvasModel.js';
 import { LINE_STEP } from './labelfit.js';
 import { drawTransport } from './transportView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
+import { drawProvinceResources } from './resourceIcons.js';
 
 const COS0 = WORLD_W / 360;
 const SEAM_X = Math.fround(180 * COS0);
@@ -334,7 +335,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -352,6 +353,11 @@ export function drawOverlay(ctx, p) {
   }
   // nomi delle città: le capitali (con la stella) da zoom medio, le altre città solo da vicino
   const cityBoxes = []; // riquadri dei nomi di città già scritti (pixel CSS)
+  // livello Risorse: le icone vengono prima dei nomi, che le evitano (come per i nomi delle città)
+  if (layer === 'resources' && provinceResources) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawProvinceResources(ctx, { items: model.items, byProvince: provinceResources, a, dpr, copies, boxes: cityBoxes });
+  }
   const nomi = cityNamesAt(model.items, view.k);
   if (nomi.length) {
     ctx.font = `${CITY_NAME_PX}px ${FONT_FAMILY}`;

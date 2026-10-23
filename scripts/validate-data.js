@@ -18,6 +18,7 @@ import { loadIndustryCatalog, validateIndustryCatalog, validateProvinceIndustry 
 import { buildSlotCatalog } from '../src/rules/slots.js';
 import { validateRegions } from '../src/data/regions.js';
 import { buildResourceLocations, validateResourceLocations } from '../src/data/resourceLocations.js';
+import { buildProvinceResources, validateProvinceResources } from '../src/data/provinceResources.js';
 import { validateFlags, validateDescriptions } from '../src/data/flags.js';
 import { playableNations } from '../src/game/state.js';
 import { createHash } from 'node:crypto';
@@ -118,6 +119,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     if (onDisk.length !== built.locations.length) errors.push('risorse: resource_locations.csv non allineato alle sorgenti, rigenerare con npm run build:resource-locations');
     const linksOnDisk = parseCsv(await text('resources/location_provinces.csv'), { name: 'location_provinces.csv' });
     if (linksOnDisk.length !== built.links.length) errors.push('risorse: location_provinces.csv non allineato alle sorgenti, rigenerare con npm run build:resource-locations');
+    // risorse per provincia (livello Risorse della mappa): file generato dai due CSV, id noti e province esistenti
+    const pr = JSON.parse(await text('resources/province_resources.json'));
+    errors.push(...validateProvinceResources(pr, { resourceIds: new Set(catalog.resources.map((r) => r.id)), provinceIds: motherIds }));
+    if (JSON.stringify(pr) !== JSON.stringify(buildProvinceResources(onDisk, linksOnDisk))) errors.push('risorse: province_resources.json non allineato ai CSV, rigenerare con npm run build:province-resources');
   }
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));

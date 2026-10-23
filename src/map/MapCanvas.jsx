@@ -5,6 +5,7 @@ import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
+import { resolveResourceAnchors } from '../data/provinceResources.js';
 import { buildLinksModel } from './transportView.js';
 import { seaZoneAt } from './seaView.js';
 import { pickStaticLabels } from './labelview.js';
@@ -28,7 +29,7 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
@@ -38,6 +39,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const transportModel = useMemo(() => (transport && showTransport ? buildLinksModel(transport, WORLD_W / 360) : null), [transport, showTransport]);
   const wrapRef = useRef(null);
   const baseRef = useRef(null);
+  const anchoredResources = useMemo(() => (provinceResources ? resolveResourceAnchors(model.items, provinceResources) : null), [model, provinceResources]);
   const overlayRef = useRef(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [viewRev, setViewRev] = useState(0); // sale a ogni assestamento della vista: fa ripartire il calcolo dei nomi
@@ -47,7 +49,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel };
+  props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -169,7 +171,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies });
+    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies, layer: p.layer, provinceResources: p.provinceResources });
   };
 
   // porta l'ultima immagine disegnata alla vista corrente (trascinamento e zoom costano solo questo)
@@ -329,7 +331,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     }
   }, [size, model, water, layer, showRivers, seaData, showSeas, selectedSeaId, transportModel]);
   // la selezione della provincia cambia solo la sovrapposizione
-  useEffect(() => { paintOverlay(); }, [selectedId, seaData, showSeas]);
+  useEffect(() => { paintOverlay(); }, [selectedId, seaData, showSeas, layer, anchoredResources]);
 
   // nomi: solo quelli che stanno nella provincia e non si sovrappongono; compaiono a gesto fermo
   useEffect(() => {
