@@ -199,3 +199,10 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 - **Descrizioni (`data/nation_descriptions.json`):** tutte vuote; la card mostra «Descrizione in arrivo». Si compilano per ID nazione, senza toccare il codice.
 - **Controlli:** `scripts/validate-data.js` verifica che ogni nazione scegliibile abbia una bandiera valida e che le descrizioni riguardino nazioni esistenti (`src/data/flags.js`); `tests/flags.test.js` (3 test).
 - **Provato:** dati e test; resa grafica con gli stili veri in un browser su pagina di prova (scorrimento orizzontale senza scorrimento della pagina). **Non provato** nell'app intera né su telefono (le dipendenze non si installano in questo ambiente).
+
+## Barra senza Mappa e Stato; legenda e stato dentro Partita (23/10/2026)
+- **Barra:** data, nazione e tempo (indietro, pausa, avanti, +1 g) sono nella barra unica in alto, insieme a livelli e zoom, solo sulla mappa con una partita in corso. Tolti i pulsanti Mappa e Stato e la barra secondaria. Sotto i 760 px il nome della nazione e la scritta della velocità si nascondono (la pausa resta rossa); la nazione si vede nella schermata Partita.
+- **Partita:** oltre a Torna alla mappa, Salva ed Esci, contiene **Info: legenda** (colori di nazioni o terreno secondo il livello attivo; strade, ferrovie e ponti se il livello ≈ è acceso) e **Stato** (dati, offline, schermo intero, aggiornamenti). Senza partita, Stato compare sotto la scelta della nazione.
+- **Codice:** `LegendList` (`MapView.jsx`) e `TransportLegend.jsx` sono fuori dalla mappa; `MapCanvas` non disegna più il pulsante Legenda. La legenda del ripiego SVG (`?map=svg`) resta com'era.
+- **Conseguenza:** la mappa si apre solo da una partita (prima si poteva guardare senza partita).
+- **Provato:** ESLint sui file toccati, 413 test, validazione dati; barra a 667–900 px con gli stili veri (nessuna sovrapposizione). **Non provato** nell'app intera né su telefono.

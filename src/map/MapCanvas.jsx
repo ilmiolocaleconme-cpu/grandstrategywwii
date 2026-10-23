@@ -5,9 +5,7 @@ import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
-import { buildLinksModel, transportLegend } from './transportView.js';
-import { bridgeLegend, drawSwatch } from './transportStyle.js';
-import { Legend } from './MapView.jsx';
+import { buildLinksModel } from './transportView.js';
 import { seaZoneAt } from './seaView.js';
 import { pickStaticLabels } from './labelview.js';
 
@@ -44,7 +42,6 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [viewRev, setViewRev] = useState(0); // sale a ogni assestamento della vista: fa ripartire il calcolo dei nomi
   const [labelPass, setLabelPass] = useState(0);
-  const [legendOpen, setLegendOpen] = useState(false);
 
   // stato mutabile del disegno: fuori da React, così il gesto non provoca ridisegni dell'interfaccia
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
@@ -521,46 +518,6 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       </div>
       , toolsHost) : null}
 
-      {legendOpen && showTransport && transport ? <TransportLegend /> : null}
-      <Legend layer={layer} nationNames={nationNames} nationControl={nationControl} items={model.items} open={legendOpen} onToggle={() => setLegendOpen((o) => !o)} />
     </div>
-  );
-}
-
-
-// Campione della legenda: lo stesso disegno della mappa a zoom alto (transportStyle.drawSwatch), su una piccola tela.
-function Swatch({ spec, w = 44, h = 24 }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const c = ref.current;
-    const ctx = c?.getContext('2d');
-    if (!ctx) return;
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
-    c.width = w * dpr;
-    c.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    drawSwatch(ctx, spec, w, h);
-  }, [spec, w, h]);
-  return <canvas ref={ref} style={{ width: w, height: h }} aria-hidden="true" />;
-}
-
-// Legenda di strade, ferrovie e ponti (i ponti sono tratti della linea): stesso disegno della mappa.
-function TransportLegend() {
-  return (
-    <ul className="bridge-legend" aria-label="Legenda di strade, ferrovie e ponti">
-      {transportLegend().map((t) => (
-        <li key={t.key}>
-          <Swatch spec={t.spec} />
-          <span><b>{t.label}</b></span>
-        </li>
-      ))}
-      {bridgeLegend().map((b) => (
-        <li key={b.id}>
-          <Swatch spec={b.spec} />
-          <span><b>{b.label}</b></span>
-        </li>
-      ))}
-      <li className="note"><span>Rete moderna, non del 1936. Livelli provvisori. Le strade compaiono solo avvicinandosi molto. Avvicinati per vedere corsie, binari e ponti.</span></li>
-    </ul>
   );
 }

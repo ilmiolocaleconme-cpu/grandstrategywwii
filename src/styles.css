@@ -199,3 +199,18 @@ h2 {
 .bridge-legend svg, .bridge-legend canvas { flex: none; }
 .bridge-legend { max-height: max(150px, calc(100% - 132px - 300px)); overflow-y: auto; pointer-events: auto; z-index: 2; }
 @media (max-width: 480px) { .bridge-legend { font-size: 11px; padding: 4px 8px; max-width: 220px; } }
+
+/* barra unica: data e tempo dentro la barra in alto; legenda e stato nella schermata Partita */
+.tabs .gamebar { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px 8px; padding: 0; background: transparent; border: 0; flex: none; }
+.tabs .gb-info { min-width: 0; line-height: 1.15; font-size: 13px; }
+.tabs .gb-info .muted { font-size: 12px; }
+.tabs .gb-controls { flex-wrap: nowrap; margin-left: 0; gap: 4px; }
+.tabs .gb-controls button, .tabs .gb-clock button { min-height: 34px; }
+.tabs .gb-clock { gap: 4px; }
+.tabs .gb-speed { min-width: 2em; }
+.tabs .gb-info strong, .tabs .gb-info span { white-space: nowrap; }
+@media (max-width: 900px) { .tabs .gb-clock button { padding: 0 8px; } .tabs .gb-controls button { padding: 0 8px; } }
+@media (max-width: 760px) { .tabs .gb-info .muted { display: none; } .tabs .gb-speed { display: none; } }
+.info-section { margin-top: 18px; }
+.info-section .legend { position: static; max-height: none; }
+.info-section .bridge-legend { position: static; max-height: none; max-width: 340px; margin-top: 10px; pointer-events: auto; }
