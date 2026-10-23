@@ -18,6 +18,8 @@ import { loadIndustryCatalog, validateIndustryCatalog, validateProvinceIndustry 
 import { buildSlotCatalog } from '../src/rules/slots.js';
 import { validateRegions } from '../src/data/regions.js';
 import { buildResourceLocations, validateResourceLocations } from '../src/data/resourceLocations.js';
+import { validateFlags, validateDescriptions } from '../src/data/flags.js';
+import { playableNations } from '../src/game/state.js';
 import { createHash } from 'node:crypto';
 
 const dataDir = new URL('../data/', import.meta.url);
@@ -69,6 +71,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const terrainDoc = JSON.parse(await readFileTerrain(new URL('../data/terrain.json', import.meta.url), 'utf8'));
     errors.push(...validateTerrain(terrainDoc, motherIds, ['P_USSR_CHUKCHI_AUTONOMOUS_OKRUG']));
     const regionsDoc = JSON.parse(await readFileTerrain(new URL('../data/regions.json', import.meta.url), 'utf8'));
+    const choosable = playableNations(catalog.political, catalog.provinces.features.map((f) => f.properties.owner)).map((n) => n.id);
+    errors.push(...validateFlags(JSON.parse(await readFileTerrain(new URL('../data/flags.json', import.meta.url), 'utf8')), { nationIds: choosable }));
+    errors.push(...validateDescriptions(JSON.parse(await readFileTerrain(new URL('../data/nation_descriptions.json', import.meta.url), 'utf8')), { nationIds: choosable }));
     errors.push(...validateRegions(regionsDoc, { provinces: catalog.provinces.features, nationIds: catalog.nations.map((n) => n.id) }));
   }
   {

@@ -149,6 +149,14 @@ h2 {
 .nation-btn, .save-card { min-height: 48px; padding: 8px 12px; background: var(--panel); color: var(--ink); border: 1px solid #4a553f; border-radius: 8px; font: inherit; text-align: left; }
 .save-card { display: flex; flex-direction: column; gap: 2px; }
 .nation-btn:active, .save-card:active { background: var(--accent); color: #1d2418; }
+/* scelta della nazione: una fila che scorre in orizzontale, bandiera + nome + breve descrizione */
+.nation-scroll { display: flex; gap: 10px; margin: 0; padding: 4px 2px 12px; list-style: none; overflow-x: auto; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.nation-scroll li { flex: 0 0 auto; scroll-snap-align: start; }
+.nation-card { display: flex; flex-direction: column; align-items: stretch; gap: 6px; width: 156px; min-height: 172px; padding: 10px; background: var(--panel); color: var(--ink); border: 1px solid #4a553f; border-radius: 10px; font: inherit; text-align: left; }
+.nation-card:active { background: #2c3626; border-color: var(--accent); }
+.nation-card .flag { display: block; width: 100%; aspect-ratio: 3 / 2; height: auto; border-radius: 3px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18); background: #2a3324; }
+.nation-card strong { font-size: 14px; }
+.nation-desc { font-size: 12px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .gamebar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 6px 12px; background: #232b1e; border-bottom: 1px solid #4a553f; }
 .gb-info { display: flex; flex-direction: column; min-width: 120px; }
 .gb-controls { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }

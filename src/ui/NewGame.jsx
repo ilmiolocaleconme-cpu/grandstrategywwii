@@ -1,4 +1,7 @@
 import { formatDate } from '../game/calendar.js';
+import flagsFile from '../../data/flags.json';
+import descriptionsFile from '../../data/nation_descriptions.json';
+import Flag from './Flag.jsx';
 
 const REASONS = {
   invalid_json: 'file illeggibile (non è JSON valido)',
@@ -46,11 +49,17 @@ export default function NewGame({ nations, saves, canSave, notice, onStart, onLo
       ) : null}
       <section aria-labelledby="pick-title">
         <h2 id="pick-title">Scegli la nazione</h2>
-        <div className="nation-grid">
+        <ul className="nation-scroll" aria-label="Nazioni: scorri in orizzontale">
           {nations.map((n) => (
-            <button key={n.id} type="button" className="nation-btn" onClick={() => onStart(n.id)}>{n.name}</button>
+            <li key={n.id}>
+              <button type="button" className="nation-card" onClick={() => onStart(n.id)}>
+                <Flag flag={flagsFile.flags[n.id]} />
+                <strong>{n.name}</strong>
+                <span className={descriptionsFile.descriptions[n.id] ? 'nation-desc' : 'nation-desc muted'}>{descriptionsFile.descriptions[n.id] || 'Descrizione in arrivo'}</span>
+              </button>
+            </li>
           ))}
-        </div>
+        </ul>
         <p className="muted">Il Giappone non è ancora scegliibile: mancano le sue province sulla mappa.</p>
       </section>
     </main>

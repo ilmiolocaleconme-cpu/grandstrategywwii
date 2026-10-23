@@ -1,0 +1,30 @@
+{
+ "schema": "nation-descriptions-v1",
+ "note": "Descrizioni brevi mostrate sotto la bandiera nella scelta della nazione. Vuote: verranno scritte dopo.",
+ "descriptions": {
+  "AUT": "",
+  "BEL": "",
+  "BGR": "",
+  "CZE": "",
+  "DNK": "",
+  "FIN": "",
+  "FRA": "",
+  "DEU": "",
+  "GRC": "",
+  "HUN": "",
+  "ITA": "",
+  "NLD": "",
+  "NOR": "",
+  "POL": "",
+  "PRT": "",
+  "ROM": "",
+  "ESP": "",
+  "SWE": "",
+  "CHE": "",
+  "TUR": "",
+  "GBR": "",
+  "YUG": "",
+  "USSR": "",
+  "EGY": ""
+ }
+}

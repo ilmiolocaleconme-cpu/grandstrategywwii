@@ -191,3 +191,11 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 - **Quantità:** solo i numeri puliti sono in `quantity_value`; intervalli in `quantity_min/max`; il testo qualitativo non diventa mai un numero.
 - **Risorse:** 16 nuove voci in `data/resources.json` (`status = riferimento`); le 6 esistenti invariate. Acciaio e manodopera non compaiono nel CSV.
 - **Controlli e test:** `scripts/validate-data.js` (sha256, ID risorsa, paese, province madri, allineamento dei CSV generati), `tests/resource_locations.test.js` (6 test). Non collegato a partita né interfaccia.
+
+## Scelta della nazione a scorrimento orizzontale (23/10/2026)
+- **Cosa c'è:** nella schermata di nuova partita le nazioni sono una riga di card a scorrimento orizzontale (`.nation-scroll`, scroll-snap), ciascuna con bandiera, nome e descrizione. Toccare una card avvia subito la partita con quella nazione, come prima.
+- **Bandiere (`data/flags.json`, `src/ui/Flag.jsx`):** 24 bandiere disegnate a mano come forme SVG (rettangoli, cerchi, poligoni, tratti), `quality = simplified`. Non sono file ufficiali: stemmi e proporzioni sono semplificati (Italia: scudo sabaudo senza corona; Svizzera: quadrata; URSS: falce e martello molto stilizzati; Regno Unito semplificato). Da sostituire con asset verificati e con licenza chiara.
+- **Germania, scelta provvisoria:** il Reich ha il tricolore nero-bianco-rosso, NON la bandiera nazionale del 1936 (nota nel dato). Da confermare con l'utente.
+- **Descrizioni (`data/nation_descriptions.json`):** tutte vuote; la card mostra «Descrizione in arrivo». Si compilano per ID nazione, senza toccare il codice.
+- **Controlli:** `scripts/validate-data.js` verifica che ogni nazione scegliibile abbia una bandiera valida e che le descrizioni riguardino nazioni esistenti (`src/data/flags.js`); `tests/flags.test.js` (3 test).
+- **Provato:** dati e test; resa grafica con gli stili veri in un browser su pagina di prova (scorrimento orizzontale senza scorrimento della pagina). **Non provato** nell'app intera né su telefono (le dipendenze non si installano in questo ambiente).
