@@ -202,6 +202,7 @@ export default function App() {
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
     setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map');
   };
+  const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
   const pressClock = (press) => { const next = press(clock); if (clock.running && !next.running) saveTo('auto', 'automatico'); setClock(next); };
 
@@ -257,7 +258,9 @@ export default function App() {
         ) : game ? (
           <main className="app">
             <header><h1>Partita in corso</h1><p className="muted">{NATION_NAMES[game.player]} · {game.date}. Usa la barra nella schermata Mappa per far scorrere il tempo.</p></header>
-            <button type="button" className="nation-btn" onClick={() => setTab('map')}>Torna alla mappa</button>{' '}
+            {notice ? <p className={notice.kind === 'error' ? 'warn' : 'muted'} role="status">{notice.text}</p> : null}
+            <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
+            <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
           </main>
         ) : (
@@ -272,9 +275,8 @@ export default function App() {
       <div className="shell">
         {tabs}
         {game ? (
-          <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed} canSave={store !== null} notice={notice}
-            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g))}
-            onSave={() => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); }} onExit={exitGame} />
+          <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed} notice={notice}
+            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g))} />
         ) : null}
         {provincesStatus !== 'ready' ? (
           <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />

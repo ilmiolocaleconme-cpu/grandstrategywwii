@@ -6,9 +6,9 @@ const Back = () => <Icon><path d="M10 4v12L2 10zM18 4v12l-8-6z" /></Icon>;
 const Pause = () => <Icon><rect x="4" y="3" width="4.5" height="14" rx="1" /><rect x="11.5" y="3" width="4.5" height="14" rx="1" /></Icon>;
 const Forward = () => <Icon><path d="M2 4v12l8-6zM10 4v12l8-6z" /></Icon>;
 
-/** Barra della partita: data, nazione, tre pulsanti del tempo (indietro, pausa, avanti), salvataggio. Non possiede stato. */
+/** Barra della partita: data, nazione e tre pulsanti del tempo (indietro, pausa, avanti), più gli errori di salvataggio. Salva ed Esci stanno nella schermata Partita. Non possiede stato. */
 export default function GameBar({
-  game, playerName, running, speed, canSave, notice, onBack, onPause, onForward, onStep, onSave, onExit,
+  game, playerName, running, speed, notice, onBack, onPause, onForward, onStep,
 }) {
   const label = SPEEDS.find((s) => s.id === speed)?.label ?? '';
   return (
@@ -25,10 +25,8 @@ export default function GameBar({
           <span className="gb-speed" aria-live="polite">{running ? label : 'Pausa'}</span>
         </div>
         <button type="button" onClick={onStep} disabled={running} aria-label="Avanza di un giorno">+1 g</button>
-        <button type="button" onClick={onSave} disabled={!canSave}>Salva</button>
-        <button type="button" onClick={onExit}>Esci</button>
       </div>
-      {notice ? <p className={`gb-note ${notice.kind === 'error' ? 'warn' : 'muted'}`} role="status">{notice.text}</p> : null}
+      {notice?.kind === 'error' ? <p className="gb-note warn" role="status">{notice.text}</p> : null}
     </div>
   );
 }
