@@ -196,3 +196,9 @@ RL-0194,6,6,yes,user_csv,
 RL-0195,3,3,yes,user_csv,
 RL-0196,4,4,yes,user_csv,
 RL-0197,,3,yes,claude_note,"[Ipotesi] Piccolo giacimento tedesco (Nienhagen, Wietze, Hemmingstedt), riga aggiunta da Claude senza punteggio dell'utente: 3 come altri produttori minori. Da confermare."
+RL-0198,,9,yes,claude_note,"Riga aggiunta da Claude. [Probabile] Circa 130000 t (Alcoa), poco sotto la Germania (160000 t, 9): 9. Da confermare."
+RL-0199,,8,yes,claude_note,"Riga aggiunta da Claude. [Ipotesi] Circa 50000 t: sopra Canada 1936 (27000 t, 7) e sotto la Germania: 8. Da confermare."
+RL-0200,,7,yes,claude_note,"Riga aggiunta da Claude. [Probabile] Circa 30000 t, come Canada 1936 (27000 t, 7) e Norvegia (21300 t, 7): 7. Da confermare."
+RL-0201,,7,yes,claude_note,"Riga aggiunta da Claude. [Probabile] Circa 25000 t, come Norvegia e Svizzera (21000 t, 6-7): 7. Da confermare."
+RL-0202,,10,yes,claude_note,"Riga aggiunta da Claude. [Probabile] Circa 27 Mt, al livello degli USA (28,9 Mt, 10): 10. Da confermare."
+RL-0203,,9,yes,claude_note,"Riga aggiunta da Claude. [Probabile] Circa 13 Mt, poco sopra la Svezia (11,25 Mt, 9): 9. Da confermare."

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { parseCsv } from '../src/data/csv.js';
-import { startYear, placeKey, weightOf, allocate, buildCenters, buildResourcePoints, balanceOf, validateScores } from '../src/data/resourcePoints.js';
+import { startYear, placeKey, weightOf, maxScoreOf, allocate, buildCenters, buildResourcePoints, balanceOf, validateScores } from '../src/data/resourcePoints.js';
 import { resourcePointsInputs, resourcePointsFile, resourcePointsTable } from '../scripts/build-resource-points.js';
 
 const url = (p) => new URL(`../data/${p}`, import.meta.url);
@@ -42,9 +42,21 @@ test('centri: righe dello stesso luogo in anni diversi sono un centro, base più
   assert.equal(kuz.base.score, 6); assert.equal(kuz.base.period, '1938');
   assert.equal(kuz.peak.score, 8); assert.deepEqual(kuz.provinces, ['P1', 'P2']);
   assert.equal(centers.find((c) => c.key.endsWith('sulcis')).baseAfter1938, true);
-  const out = allocate(centers, { step: 2, budget: 100 });
-  assert.ok(Math.abs(out.reduce((a, c) => a + c.points, 0) - 100) < 0.01);
-  assert.equal(out.find((c) => c.key.endsWith('kuzbass')).peakFactor, 4);
+  const out = allocate(centers, { step: 2, budget: 100, extraLevels: 2 });
+  assert.ok(Math.abs(out.reduce((a, c) => a + c.points, 0) - 100) < 0.01, 'l\'output base somma al budget');
+  const k = out.find((c) => c.key.endsWith('kuzbass'));
+  assert.equal(k.maxScore, 8, 'tetto = massimo storico del luogo (8)');
+  assert.ok(Math.abs(k.maxPoints / k.points - 4) < 0.01, 'due livelli sopra la base = output x step^2');
+  assert.ok(out.reduce((a, c) => a + c.maxPoints, 0) > 100, 'il potenziale supera la base');
+});
+
+test('tetto: massimo storico o base + extraLevels, mai oltre 10', () => {
+  const c = (base, peak) => ({ base: { score: base }, peak: { score: peak } });
+  assert.equal(maxScoreOf(c(6, 8), 2), 8);
+  assert.equal(maxScoreOf(c(6, 6), 2), 8);
+  assert.equal(maxScoreOf(c(9, 9), 2), 10);
+  assert.equal(maxScoreOf(c(10, 10), 2), 10);
+  assert.equal(maxScoreOf(c(3, 3), 0), 3);
 });
 
 test('indici di concentrazione', () => {
@@ -73,6 +85,7 @@ test('dati reali: CSV ricevuto non alterato, punteggi dell\'utente intatti, ness
   assert.equal(user.length, received.length);
   user.forEach((s, i) => assert.equal(s.score_user, received[i].punteggio_output_1_10, `${s.location_id}: punteggio dell'utente alterato`));
   assert.equal(user.filter((s) => s.score_user !== s.score_final).length, 5, 'correzioni di Claude: 5, ognuna motivata');
+  assert.equal(inputs.scores.filter((s) => s.source === 'claude_note').length, 7, 'righe aggiunte da Claude: 7 (petrolio tedesco + 4 alluminio + 2 ferro), ognuna con motivo');
 });
 
 test('dati reali: ogni risorsa somma al budget, ogni centro ha un punteggio 1-10, file generati allineati', async () => {
@@ -84,8 +97,10 @@ test('dati reali: ogni risorsa somma al budget, ogni centro ha un punteggio 1-10
   for (const [id, r] of Object.entries(file.resources)) {
     const sum = r.centers.reduce((a, c) => a + c.punti, 0);
     assert.ok(Math.abs(sum - budgetPerResource) < 0.05, `${id}: somma punti ${sum}`);
-    assert.ok(Math.abs(Object.values(r.byControl).reduce((a, b) => a + b, 0) - budgetPerResource) < 0.05, `${id}: somma per controllore`);
-    for (const c of r.centers) assert.ok(c.punteggio >= 1 && c.punteggio <= 10 && c.punteggioPicco >= c.punteggio);
+    assert.ok(Math.abs(Object.values(r.byControl).reduce((a, b) => a + b.base, 0) - budgetPerResource) < 0.05, `${id}: somma base per controllore`);
+    assert.ok(Math.abs(Object.values(r.byControl).reduce((a, b) => a + b.max, 0) - r.totale.max) < 0.05, `${id}: somma tetti per controllore`);
+    assert.ok(r.totale.max >= r.totale.base && r.totale.potenziale >= 1);
+    for (const c of r.centers) assert.ok(c.punteggio >= 1 && c.punteggio <= 10 && c.punteggioMax >= c.punteggio && c.punteggioMax <= 10 && c.puntiMax >= c.punti, `${id}: ${c.id}`);
   }
   assert.equal(Object.keys(file.resources).length, 19);
 });
@@ -94,4 +109,14 @@ test('step 1: tutti i centri di una risorsa valgono uguale', async () => {
   const inputs = await resourcePointsInputs();
   const f = buildResourcePoints({ ...inputs, params: { step: 1, budgetPerResource: 100 } });
   for (const r of Object.values(f.resources)) { const set = new Set(r.centers.map((c) => c.punti)); assert.ok(set.size <= 2, 'a parità di peso i punti differiscono solo per arrotondamento'); }
+});
+
+test('province: il tetto di ogni provincia non scende sotto la base e somma ai centri', async () => {
+  const file = await resourcePointsFile();
+  for (const [pid, row] of Object.entries(file.byProvince)) for (const [res, cell] of Object.entries(row)) assert.ok(cell.max >= cell.base && cell.base > 0, `${pid} ${res}`);
+  for (const [res, r] of Object.entries(file.resources)) {
+    const fromProvinces = Object.values(file.byProvince).reduce((a, row) => a + (row[res]?.base ?? 0), 0);
+    const fromCenters = r.centers.filter((c) => c.province.length).reduce((a, c) => a + c.punti, 0);
+    assert.ok(Math.abs(fromProvinces - fromCenters) < 0.1, `${res}: punti delle province ${fromProvinces} contro centri ${fromCenters}`);
+  }
 });

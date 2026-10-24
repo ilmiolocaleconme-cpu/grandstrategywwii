@@ -1,2 +1,8 @@
 risorsa,categoria,nazione_o_territorio,provincia_o_giacimento,sovranita_o_controllo,stato_1935_45,periodo,produzione_o_capacita,unita,note
 Petrolio,Energia,Germania,"Nienhagen, Wietze, Hemmingstedt",Germania,Sovrana,1935-45,Piccola produzione,-,Esempio di piccolo giacimento: la Germania produceva petrolio in quantità marginale (Hannover e Holstein); i luoghi servono solo a posizionare la risorsa
+Alluminio,Metalli e minerali,Stati Uniti,"Pennsylvania, Tennessee, Washington",Stati Uniti,Sovrano,1938,Circa 130000,t metriche,"Riga aggiunta da Claude [Probabile]: impianti Alcoa, secondo produttore mondiale dopo la Germania; mancava nel CSV"
+Alluminio,Metalli e minerali,URSS,"Zaporizhzhya, Volkhov, Urali",URSS,Sovrano,1938,Circa 50000,t metriche,"Riga aggiunta da Claude [Ipotesi]: ordine di grandezza dell'alluminio sovietico prima della guerra; mancava nel CSV"
+Alluminio,Metalli e minerali,Francia,Maurienne,Francia,Occupata dalla Germania dal 1940,1938,Circa 30000,t metriche,"Riga aggiunta da Claude [Probabile]: alluminio idroelettrico alpino; mancava nel CSV"
+Alluminio,Metalli e minerali,Regno Unito,"Foyers, Kinlochleven",Regno Unito,Sovrano,1938,Circa 25000,t metriche,"Riga aggiunta da Claude [Probabile]: fonderie scozzesi a energia idroelettrica; mancava nel CSV"
+Ferro,Metalli e minerali,URSS,"Krivoj Rog, Magnitogorsk",URSS,Sovrano,1938,Circa 27000000,t metriche,"Riga aggiunta da Claude [Probabile]: Krivoj Rog e Urali, produttore al livello degli USA; mancava nel CSV"
+Ferro,Metalli e minerali,Regno Unito,"Northamptonshire, Cleveland",Regno Unito,Sovrano,1938,Circa 13000000,t metriche,"Riga aggiunta da Claude [Probabile]: minerale nazionale povero ma abbondante; mancava nel CSV"

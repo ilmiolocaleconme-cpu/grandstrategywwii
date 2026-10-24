@@ -179,6 +179,9 @@
   "P_FRA_PAS_DE_CALAIS": [
    "coal"
   ],
+  "P_FRA_SAVOIE": [
+   "aluminium"
+  ],
   "P_FRA_VAR": [
    "bauxite"
   ],
@@ -194,11 +197,17 @@
   "P_GBR_GLAMORGAN": [
    "coal"
   ],
+  "P_GBR_HIGHLAND": [
+   "aluminium"
+  ],
   "P_GBR_MIDLOTHIAN": [
    "coal"
   ],
   "P_GBR_MONMOUTHSHIRE": [
    "coal"
+  ],
+  "P_GBR_NORTHAMPTONSHIRE": [
+   "iron_ore"
   ],
   "P_GBR_NORTH_LANARKSHIRE": [
    "coal"
@@ -210,7 +219,8 @@
    "coal"
   ],
   "P_GBR_YORKSHIRE": [
-   "coal"
+   "coal",
+   "iron_ore"
   ],
   "P_GRC_ATTIKI": [
    "iron_ore",
@@ -420,9 +430,10 @@
    "oil"
   ],
   "P_USSR_CHELYABINSK": [
-   "bauxite"
+   "iron_ore"
   ],
   "P_USSR_DNIPROPETROVSK": [
+   "iron_ore",
    "bauxite",
    "wheat",
    "manganese"
@@ -447,6 +458,9 @@
   "P_USSR_KRASNODAR": [
    "wheat"
   ],
+  "P_USSR_LENINGRAD": [
+   "aluminium"
+  ],
   "P_USSR_LUHANSK": [
    "coal"
   ],
@@ -454,8 +468,7 @@
    "oil"
   ],
   "P_USSR_PERM": [
-   "oil",
-   "bauxite"
+   "oil"
   ],
   "P_USSR_POLTAVA": [
    "bauxite",
@@ -472,7 +485,8 @@
    "wheat"
   ],
   "P_USSR_SVERDLOVSK": [
-   "bauxite"
+   "bauxite",
+   "aluminium"
   ],
   "P_USSR_TATARSTAN": [
    "oil"
@@ -485,6 +499,7 @@
   ],
   "P_USSR_ZAPORIZHZHYA": [
    "bauxite",
+   "aluminium",
    "wheat",
    "manganese"
   ],

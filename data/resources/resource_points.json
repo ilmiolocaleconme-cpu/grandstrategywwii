@@ -3,7 +3,8 @@
  "quality": "reference",
  "params": {
   "step": 1.7,
-  "budgetPerResource": 100
+  "budgetPerResource": 100,
+  "extraLevels": 2
  },
  "resources": {
   "aluminium": {
@@ -15,10 +16,24 @@
      "luogo": "Arvida, Quebec; Shawinigan",
      "punteggio": 7,
      "periodoBase": "1936",
-     "punteggioPicco": 10,
-     "fattorePicco": 4.913,
-     "punti": 17.154,
+     "punteggioMax": 10,
+     "punti": 8.052,
+     "puntiMax": 39.559,
      "province": []
+    },
+    {
+     "id": "aluminium|Francia|maurienne",
+     "controllo": "Francia",
+     "paese": "Francia",
+     "luogo": "Maurienne",
+     "punteggio": 7,
+     "periodoBase": "1938",
+     "punteggioMax": 9,
+     "punti": 8.052,
+     "puntiMax": 23.27,
+     "province": [
+      "P_FRA_SAVOIE"
+     ]
     },
     {
      "id": "aluminium|Germania|rheinfelden",
@@ -27,9 +42,9 @@
      "luogo": "Rheinfelden, Lauta, Toging, Erftwerk, Horrem",
      "punteggio": 9,
      "periodoBase": "1938",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
-     "punti": 49.575,
+     "punteggioMax": 10,
+     "punti": 23.27,
+     "puntiMax": 39.559,
      "province": [
       "P_DEU_BADEN",
       "P_DEU_DUESSELDORF",
@@ -45,9 +60,9 @@
      "luogo": "Toyama, Niigata, Hokuriku, Manciukuo",
      "punteggio": 3,
      "periodoBase": "1935",
-     "punteggioPicco": 7,
-     "fattorePicco": 8.352,
-     "punti": 2.054,
+     "punteggioMax": 7,
+     "punti": 0.964,
+     "puntiMax": 8.052,
      "province": []
     },
     {
@@ -57,9 +72,9 @@
      "luogo": "Alwaye, Kerala",
      "punteggio": 1,
      "periodoBase": "1943",
-     "punteggioPicco": 1,
-     "fattorePicco": 1,
-     "punti": 0.711,
+     "punteggioMax": 3,
+     "punti": 0.334,
+     "puntiMax": 0.964,
      "province": [],
      "baseDopo1938": true
     },
@@ -70,9 +85,9 @@
      "luogo": "Bolzano, Mori, Paderno Dugnano, Porto Marghera",
      "punteggio": 3,
      "periodoBase": "1938",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
-     "punti": 2.054,
+     "punteggioMax": 5,
+     "punti": 0.964,
+     "puntiMax": 2.786,
      "province": [
       "P_ITA_BOLZANO_EST",
       "P_ITA_BOLZANO_OVEST",
@@ -92,14 +107,40 @@
      "luogo": "Hoyanger, Tyssedal, Ardal, Sunndalsora",
      "punteggio": 7,
      "periodoBase": "1935",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
-     "punti": 17.154,
+     "punteggioMax": 9,
+     "punti": 8.052,
+     "puntiMax": 23.27,
      "province": [
       "P_NOR_HORDALAND",
       "P_NOR_MORE_OG_ROMSDAL",
       "P_NOR_SOGN_OG_FJORDANE"
      ]
+    },
+    {
+     "id": "aluminium|Regno Unito|foyers",
+     "controllo": "Regno Unito",
+     "paese": "Regno Unito",
+     "luogo": "Foyers, Kinlochleven",
+     "punteggio": 7,
+     "periodoBase": "1938",
+     "punteggioMax": 9,
+     "punti": 8.052,
+     "puntiMax": 23.27,
+     "province": [
+      "P_GBR_HIGHLAND"
+     ]
+    },
+    {
+     "id": "aluminium|Stati Uniti|pennsylvania",
+     "controllo": "Stati Uniti",
+     "paese": "Stati Uniti",
+     "luogo": "Pennsylvania, Tennessee, Washington",
+     "punteggio": 9,
+     "periodoBase": "1938",
+     "punteggioMax": 10,
+     "punti": 23.27,
+     "puntiMax": 39.559,
+     "province": []
     },
     {
      "id": "aluminium|Svezia|trollhattan",
@@ -108,9 +149,9 @@
      "luogo": "Trollhattan",
      "punteggio": 2,
      "periodoBase": "1935",
-     "punteggioPicco": 3,
-     "fattorePicco": 1.7,
-     "punti": 1.208,
+     "punteggioMax": 4,
+     "punti": 0.567,
+     "puntiMax": 1.639,
      "province": [
       "P_SWE_VASTRA_GOTALAND"
      ]
@@ -122,29 +163,83 @@
      "luogo": "Valle del Rodano, Chippis, Steg, Rheinfelden",
      "punteggio": 6,
      "periodoBase": "1935",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
-     "punti": 10.091,
+     "punteggioMax": 8,
+     "punti": 4.736,
+     "puntiMax": 13.688,
      "province": [
       "P_CHE_AARGAU",
       "P_CHE_VALAIS"
      ]
+    },
+    {
+     "id": "aluminium|URSS|zaporizhzhya",
+     "controllo": "URSS",
+     "paese": "URSS",
+     "luogo": "Zaporizhzhya, Volkhov, Urali",
+     "punteggio": 8,
+     "periodoBase": "1938",
+     "punteggioMax": 10,
+     "punti": 13.688,
+     "puntiMax": 39.559,
+     "province": [
+      "P_USSR_LENINGRAD",
+      "P_USSR_SVERDLOVSK",
+      "P_USSR_ZAPORIZHZHYA"
+     ]
     }
    ],
    "byControl": {
-    "Germania": 49.575,
-    "Regno Unito": 17.865,
-    "Norvegia": 17.154,
-    "Svizzera": 10.091,
-    "Giappone": 2.054,
-    "Italia": 2.054,
-    "Svezia": 1.208
+    "Germania": {
+     "base": 23.27,
+     "max": 39.559
+    },
+    "Stati Uniti": {
+     "base": 23.27,
+     "max": 39.559
+    },
+    "Regno Unito": {
+     "base": 16.438,
+     "max": 63.793
+    },
+    "URSS": {
+     "base": 13.688,
+     "max": 39.559
+    },
+    "Francia": {
+     "base": 8.052,
+     "max": 23.27
+    },
+    "Norvegia": {
+     "base": 8.052,
+     "max": 23.27
+    },
+    "Svizzera": {
+     "base": 4.736,
+     "max": 13.688
+    },
+    "Giappone": {
+     "base": 0.964,
+     "max": 8.052
+    },
+    "Italia": {
+     "base": 0.964,
+     "max": 2.786
+    },
+    "Svezia": {
+     "base": 0.567,
+     "max": 1.639
+    }
+   },
+   "totale": {
+    "base": 100.001,
+    "max": 255.175,
+    "potenziale": 2.55
    },
    "balance": {
     "topControl": "Germania",
-    "topControlShare": 0.496,
-    "effectiveProducers": 3.14,
-    "controls": 7
+    "topControlShare": 0.233,
+    "effectiveProducers": 5.9,
+    "controls": 10
    }
   },
   "antimony": {
@@ -156,9 +251,9 @@
      "luogo": "Costantina, Aures",
      "punteggio": 2,
      "periodoBase": "1938",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 1.003,
+     "puntiMax": 2.899,
      "province": [
       "P_ALG_AURES",
       "P_ALG_CONSTANTINE"
@@ -171,9 +266,9 @@
      "luogo": "Shan State",
      "punteggio": 1,
      "periodoBase": "1938",
-     "punteggioPicco": 1,
-     "fattorePicco": 1,
+     "punteggioMax": 3,
      "punti": 0.59,
+     "puntiMax": 1.706,
      "province": []
     },
     {
@@ -183,9 +278,9 @@
      "luogo": "Potosi, Oruro",
      "punteggio": 7,
      "periodoBase": "1939",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 14.245,
+     "puntiMax": 41.167,
      "province": [],
      "baseDopo1938": true
     },
@@ -196,9 +291,9 @@
      "luogo": "Boemia",
      "punteggio": 4,
      "periodoBase": "1937",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 2.899,
+     "puntiMax": 8.379,
      "province": [
       "P_CZE_BOHEMIA"
      ]
@@ -210,9 +305,9 @@
      "luogo": "Hunan, Guangxi, Guizhou",
      "punteggio": 10,
      "periodoBase": "1939",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 69.984,
+     "puntiMax": 69.984,
      "province": [],
      "baseDopo1938": true
     },
@@ -223,9 +318,9 @@
      "luogo": "Serbia, Bosnia",
      "punteggio": 4,
      "periodoBase": "1938",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 2.899,
+     "puntiMax": 8.379,
      "province": [
       "P_YUG_BANJA_LUKA",
       "P_YUG_BIHAC",
@@ -243,21 +338,47 @@
      "luogo": "San Luis Potosi, Hidalgo, Zacatecas",
      "punteggio": 6,
      "periodoBase": "1939",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 8.379,
+     "puntiMax": 24.216,
      "province": [],
      "baseDopo1938": true
     }
    ],
    "byControl": {
-    "Cina": 69.984,
-    "Bolivia": 14.245,
-    "Messico": 8.379,
-    "Cecoslovacchia": 2.899,
-    "Jugoslavia": 2.899,
-    "Francia": 1.003,
-    "Regno Unito": 0.59
+    "Cina": {
+     "base": 69.984,
+     "max": 69.984
+    },
+    "Bolivia": {
+     "base": 14.245,
+     "max": 41.167
+    },
+    "Messico": {
+     "base": 8.379,
+     "max": 24.216
+    },
+    "Cecoslovacchia": {
+     "base": 2.899,
+     "max": 8.379
+    },
+    "Jugoslavia": {
+     "base": 2.899,
+     "max": 8.379
+    },
+    "Francia": {
+     "base": 1.003,
+     "max": 2.899
+    },
+    "Regno Unito": {
+     "base": 0.59,
+     "max": 1.706
+    }
+   },
+   "totale": {
+    "base": 99.999,
+    "max": 156.73,
+    "potenziale": 1.57
    },
    "balance": {
     "topControl": "Cina",
@@ -275,9 +396,9 @@
      "luogo": "Provenza, Les Baux, Brignoles, Ariege",
      "punteggio": 9,
      "periodoBase": "1937",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 25.577,
+     "puntiMax": 43.48,
      "province": [
       "P_FRA_ARIEGE",
       "P_FRA_BOUCHES_DU_RHONE",
@@ -291,9 +412,9 @@
      "luogo": "Parnasso, Elicone, Giona, Distomo, Eleusi",
      "punteggio": 5,
      "periodoBase": "1937",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 3.062,
+     "puntiMax": 8.85,
      "province": [
       "P_GRC_ATTIKI",
       "P_GRC_STEREA_ELLADA"
@@ -306,9 +427,9 @@
      "luogo": "Demerara, Berbice",
      "punteggio": 8,
      "periodoBase": "1937",
-     "punteggioPicco": 9,
-     "fattorePicco": 1.7,
+     "punteggioMax": 10,
      "punti": 15.045,
+     "puntiMax": 43.48,
      "province": []
     },
     {
@@ -318,9 +439,9 @@
      "luogo": "Paranam, Onverdacht, Moengo",
      "punteggio": 7,
      "periodoBase": "1937",
-     "punteggioPicco": 8,
-     "fattorePicco": 1.7,
+     "punteggioMax": 9,
      "punti": 8.85,
+     "puntiMax": 25.577,
      "province": []
     },
     {
@@ -330,9 +451,9 @@
      "luogo": "Bihar, Jharkhand, Lohardaga",
      "punteggio": 2,
      "periodoBase": "1937",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 0.623,
+     "puntiMax": 1.801,
      "province": []
     },
     {
@@ -342,9 +463,9 @@
      "luogo": "Bintan, Riau, Giava",
      "punteggio": 6,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 5.206,
+     "puntiMax": 15.045,
      "province": []
     },
     {
@@ -354,9 +475,9 @@
      "luogo": "Istria, Gargano, Puglia",
      "punteggio": 6,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 5.206,
+     "puntiMax": 15.045,
      "province": [
       "P_ITA_BARI",
       "P_ITA_FOGGIA",
@@ -373,9 +494,9 @@
      "luogo": "Dalmazia, Erzegovina, Bosnia, Montenegro",
      "punteggio": 7,
      "periodoBase": "1937",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 8.85,
+     "puntiMax": 25.577,
      "province": [
       "P_YUG_BANJA_LUKA",
       "P_YUG_BIHAC",
@@ -395,9 +516,9 @@
      "luogo": "Bihor, Padurea Craiului",
      "punteggio": 2,
      "periodoBase": "1937",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 0.623,
+     "puntiMax": 1.801,
      "province": [
       "P_ROM_BIHOR"
      ]
@@ -409,9 +530,9 @@
      "luogo": "Arkansas, Bauxite, Saline County; Alabama; Georgia",
      "punteggio": 7,
      "periodoBase": "1937",
-     "punteggioPicco": 9,
-     "fattorePicco": 2.89,
+     "punteggioMax": 9,
      "punti": 8.85,
+     "puntiMax": 25.577,
      "province": []
     },
     {
@@ -421,15 +542,13 @@
      "luogo": "Urali, Carelia, Ucraina",
      "punteggio": 5,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1.7,
+     "punteggioMax": 7,
      "punti": 3.062,
+     "puntiMax": 8.85,
      "province": [
-      "P_USSR_CHELYABINSK",
       "P_USSR_DNIPROPETROVSK",
       "P_USSR_DONETSK",
       "P_USSR_KARELIA",
-      "P_USSR_PERM",
       "P_USSR_POLTAVA",
       "P_USSR_SVERDLOVSK",
       "P_USSR_ZAPORIZHZHYA"
@@ -442,9 +561,9 @@
      "luogo": "Transdanubio, Gant, Halimba, Nyirad",
      "punteggio": 8,
      "periodoBase": "1937",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 15.045,
+     "puntiMax": 43.48,
      "province": [
       "P_HUN_FEJER",
       "P_HUN_KOMAROM_ESZTERGOM",
@@ -453,16 +572,51 @@
     }
    ],
    "byControl": {
-    "Francia": 25.577,
-    "Regno Unito": 15.668,
-    "Ungheria": 15.045,
-    "Paesi Bassi": 14.056,
-    "Jugoslavia": 8.85,
-    "Stati Uniti": 8.85,
-    "Italia": 5.206,
-    "Grecia": 3.062,
-    "URSS": 3.062,
-    "Romania": 0.623
+    "Francia": {
+     "base": 25.577,
+     "max": 43.48
+    },
+    "Regno Unito": {
+     "base": 15.668,
+     "max": 45.281
+    },
+    "Ungheria": {
+     "base": 15.045,
+     "max": 43.48
+    },
+    "Paesi Bassi": {
+     "base": 14.056,
+     "max": 40.622
+    },
+    "Jugoslavia": {
+     "base": 8.85,
+     "max": 25.577
+    },
+    "Stati Uniti": {
+     "base": 8.85,
+     "max": 25.577
+    },
+    "Italia": {
+     "base": 5.206,
+     "max": 15.045
+    },
+    "Grecia": {
+     "base": 3.062,
+     "max": 8.85
+    },
+    "URSS": {
+     "base": 3.062,
+     "max": 8.85
+    },
+    "Romania": {
+     "base": 0.623,
+     "max": 1.801
+    }
+   },
+   "totale": {
+    "base": 99.999,
+    "max": 258.563,
+    "potenziale": 2.59
    },
    "balance": {
     "topControl": "Francia",
@@ -480,9 +634,9 @@
      "luogo": "Zambales, Luzon",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 4.234,
+     "puntiMax": 12.237,
      "province": []
     },
     {
@@ -492,9 +646,9 @@
      "luogo": "Massiccio del Sud",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 4.234,
+     "puntiMax": 12.237,
      "province": []
     },
     {
@@ -504,9 +658,9 @@
      "luogo": "Great Dyke, Selukwe",
      "punteggio": 7,
      "periodoBase": "1935-45",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 20.803,
+     "puntiMax": 60.12,
      "province": []
     },
     {
@@ -516,9 +670,9 @@
      "luogo": "Transvaal, Rustenburg",
      "punteggio": 8,
      "periodoBase": "1938",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 35.364,
+     "puntiMax": 102.203,
      "province": []
     },
     {
@@ -528,19 +682,36 @@
      "luogo": "Guleman, Elazig",
      "punteggio": 8,
      "periodoBase": "1934-38 media",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 35.364,
+     "puntiMax": 102.203,
      "province": [
       "P_TUR_ELAZIG"
      ]
     }
    ],
    "byControl": {
-    "Regno Unito": 56.167,
-    "Turchia": 35.364,
-    "Francia": 4.234,
-    "Stati Uniti": 4.234
+    "Regno Unito": {
+     "base": 56.167,
+     "max": 162.323
+    },
+    "Turchia": {
+     "base": 35.364,
+     "max": 102.203
+    },
+    "Francia": {
+     "base": 4.234,
+     "max": 12.237
+    },
+    "Stati Uniti": {
+     "base": 4.234,
+     "max": 12.237
+    }
+   },
+   "totale": {
+    "base": 99.999,
+    "max": 289,
+    "potenziale": 2.89
    },
    "balance": {
     "topControl": "Regno Unito",
@@ -558,9 +729,9 @@
      "luogo": "Borinage, Charleroi, Liegi",
      "punteggio": 7,
      "periodoBase": "1937",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 4.304,
+     "puntiMax": 12.439,
      "province": [
       "P_BEL_HAINAUT",
       "P_BEL_LIEGE"
@@ -573,9 +744,9 @@
      "luogo": "Santa Catarina, Rio Grande do Sul",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 0.515,
+     "puntiMax": 1.489,
      "province": []
     },
     {
@@ -585,9 +756,9 @@
      "luogo": "Lorena",
      "punteggio": 7,
      "periodoBase": "1938",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 4.304,
+     "puntiMax": 12.439,
      "province": [
       "P_FRA_MEURTHE_ET_MOSELLE",
       "P_FRA_MOSELLE"
@@ -600,9 +771,9 @@
      "luogo": "Nord-Pas-de-Calais",
      "punteggio": 7,
      "periodoBase": "1937",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 4.304,
+     "puntiMax": 12.439,
      "province": [
       "P_FRA_NORD",
       "P_FRA_PAS_DE_CALAIS"
@@ -615,9 +786,9 @@
      "luogo": "Ruhr",
      "punteggio": 9,
      "periodoBase": "1938",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 12.439,
+     "puntiMax": 21.146,
      "province": [
       "P_DEU_DUESSELDORF",
       "P_DEU_ESSEN",
@@ -631,9 +802,9 @@
      "luogo": "Hokkaido, Kyushu",
      "punteggio": 6,
      "periodoBase": "1935-45",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 2.532,
+     "puntiMax": 7.317,
      "province": []
     },
     {
@@ -643,9 +814,9 @@
      "luogo": "Jharia, Raniganj, Bokaro, Jharkhand",
      "punteggio": 7,
      "periodoBase": "1935-45",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 4.304,
+     "puntiMax": 12.439,
      "province": []
     },
     {
@@ -655,9 +826,9 @@
      "luogo": "Valdarno, Sulcis, Sicilia",
      "punteggio": 2,
      "periodoBase": "1937",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 0.303,
+     "puntiMax": 0.876,
      "province": [
       "P_ITA_AGRIGENTO",
       "P_ITA_CAGLIARI",
@@ -677,9 +848,9 @@
      "luogo": "Fushun, Liaoning",
      "punteggio": 7,
      "periodoBase": "1935-45",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 4.304,
+     "puntiMax": 12.439,
      "province": []
     },
     {
@@ -689,9 +860,9 @@
      "luogo": "Coahuila, Nuevo Leon",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 0.876,
+     "puntiMax": 2.532,
      "province": []
     },
     {
@@ -701,9 +872,9 @@
      "luogo": "Limburgo meridionale",
      "punteggio": 6,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 2.532,
+     "puntiMax": 7.317,
      "province": [
       "P_NLD_LIMBURG"
      ]
@@ -715,9 +886,9 @@
      "luogo": "Alta Slesia, Dabrowa, Cracovia",
      "punteggio": 8,
      "periodoBase": "1937",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 7.317,
+     "puntiMax": 21.146,
      "province": [
       "P_POL_KIELCE_VOIVODESHIP",
       "P_POL_KRAKOW_VOIVODESHIP",
@@ -731,9 +902,9 @@
      "luogo": "Galles, Yorkshire, Scozia",
      "punteggio": 9,
      "periodoBase": "1938",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 12.439,
+     "puntiMax": 21.146,
      "province": [
       "P_GBR_CARMARTHENSHIRE",
       "P_GBR_EAST_AYRSHIRE",
@@ -754,9 +925,9 @@
      "luogo": "Bacino della Saar",
      "punteggio": 6,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 2.532,
+     "puntiMax": 7.317,
      "province": [
       "P_DEU_SAARPFALZ"
      ]
@@ -768,9 +939,9 @@
      "luogo": "Pennsylvania, Virginia Occidentale, Illinois",
      "punteggio": 10,
      "periodoBase": "1938",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 21.146,
+     "puntiMax": 21.146,
      "province": []
     },
     {
@@ -780,9 +951,9 @@
      "luogo": "Zonguldak, Eregli",
      "punteggio": 4,
      "periodoBase": "1934-38 media",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 0.876,
+     "puntiMax": 2.532,
      "province": [
       "P_TUR_ZINGULDAK"
      ]
@@ -794,9 +965,9 @@
      "luogo": "Donbass",
      "punteggio": 9,
      "periodoBase": "1938",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 12.439,
+     "puntiMax": 21.146,
      "province": [
       "P_USSR_DONETSK",
       "P_USSR_LUHANSK"
@@ -809,28 +980,72 @@
      "luogo": "Kuzbass",
      "punteggio": 6,
      "periodoBase": "1938",
-     "punteggioPicco": 8,
-     "fattorePicco": 2.89,
+     "punteggioMax": 8,
      "punti": 2.532,
+     "puntiMax": 7.317,
      "province": [
       "P_USSR_KEMEROVO"
      ]
     }
    ],
    "byControl": {
-    "Stati Uniti": 21.146,
-    "Regno Unito": 16.743,
-    "Germania": 14.971,
-    "URSS": 14.971,
-    "Francia": 8.608,
-    "Polonia": 7.317,
-    "Giappone": 6.836,
-    "Belgio": 4.304,
-    "Paesi Bassi": 2.532,
-    "Messico": 0.876,
-    "Turchia": 0.876,
-    "Brasile": 0.515,
-    "Italia": 0.303
+    "Stati Uniti": {
+     "base": 21.146,
+     "max": 21.146
+    },
+    "Regno Unito": {
+     "base": 16.743,
+     "max": 33.585
+    },
+    "Germania": {
+     "base": 14.971,
+     "max": 28.463
+    },
+    "URSS": {
+     "base": 14.971,
+     "max": 28.463
+    },
+    "Francia": {
+     "base": 8.608,
+     "max": 24.878
+    },
+    "Polonia": {
+     "base": 7.317,
+     "max": 21.146
+    },
+    "Giappone": {
+     "base": 6.836,
+     "max": 19.756
+    },
+    "Belgio": {
+     "base": 4.304,
+     "max": 12.439
+    },
+    "Paesi Bassi": {
+     "base": 2.532,
+     "max": 7.317
+    },
+    "Messico": {
+     "base": 0.876,
+     "max": 2.532
+    },
+    "Turchia": {
+     "base": 0.876,
+     "max": 2.532
+    },
+    "Brasile": {
+     "base": 0.515,
+     "max": 1.489
+    },
+    "Italia": {
+     "base": 0.303,
+     "max": 0.876
+    }
+   },
+   "totale": {
+    "base": 99.998,
+    "max": 204.622,
+    "potenziale": 2.05
    },
    "balance": {
     "topControl": "Stati Uniti",
@@ -848,9 +1063,9 @@
      "luogo": "Sudbury, Ontario",
      "punteggio": 7,
      "periodoBase": "1935-45",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 16.576,
+     "puntiMax": 47.905,
      "province": []
     },
     {
@@ -860,9 +1075,9 @@
      "luogo": "Katanga: Jadotville, Kolwezi",
      "punteggio": 10,
      "periodoBase": "1935-45",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 81.439,
+     "puntiMax": 81.439,
      "province": []
     },
     {
@@ -872,18 +1087,32 @@
      "luogo": "Bou Azzer",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 1.985,
+     "puntiMax": 5.736,
      "province": [
       "P_MAR_SOUSS___MASSA___DRAA"
      ]
     }
    ],
    "byControl": {
-    "Belgio": 81.439,
-    "Regno Unito": 16.576,
-    "Francia": 1.985
+    "Belgio": {
+     "base": 81.439,
+     "max": 81.439
+    },
+    "Regno Unito": {
+     "base": 16.576,
+     "max": 47.905
+    },
+    "Francia": {
+     "base": 1.985,
+     "max": 5.736
+    }
+   },
+   "totale": {
+    "base": 100,
+    "max": 135.08,
+    "potenziale": 1.35
    },
    "balance": {
     "topControl": "Belgio",
@@ -901,9 +1130,9 @@
      "luogo": "Erzberg, Stiria",
      "punteggio": 7,
      "periodoBase": "1937",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
-     "punti": 5.652,
+     "punteggioMax": 9,
+     "punti": 3.922,
+     "puntiMax": 11.335,
      "province": [
       "P_AUT_STYRIA"
      ]
@@ -915,9 +1144,9 @@
      "luogo": "Itabira, Minas Gerais; Amapa",
      "punteggio": 2,
      "periodoBase": "1937",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
-     "punti": 0.398,
+     "punteggioMax": 4,
+     "punti": 0.276,
+     "puntiMax": 0.798,
      "province": []
     },
     {
@@ -927,9 +1156,9 @@
      "luogo": "Kremikovtsi, Sofia",
      "punteggio": 1,
      "periodoBase": "1937",
-     "punteggioPicco": 1,
-     "fattorePicco": 1,
-     "punti": 0.234,
+     "punteggioMax": 3,
+     "punti": 0.162,
+     "puntiMax": 0.47,
      "province": [
       "P_BGR_SOFIA"
      ]
@@ -941,9 +1170,9 @@
      "luogo": "Kladno, Ostrava-Karvina",
      "punteggio": 6,
      "periodoBase": "1936",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
-     "punti": 3.325,
+     "punteggioMax": 8,
+     "punti": 2.307,
+     "puntiMax": 6.668,
      "province": [
       "P_CZE_BOHEMIA",
       "P_CZE_MORAVIAN_SILESIAN_COUNTRY"
@@ -956,9 +1185,9 @@
      "luogo": "El Tofo, Coquimbo",
      "punteggio": 6,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
-     "punti": 3.325,
+     "punteggioMax": 8,
+     "punti": 2.307,
+     "puntiMax": 6.668,
      "province": []
     },
     {
@@ -968,9 +1197,9 @@
      "luogo": "Mayari, Oriente",
      "punteggio": 5,
      "periodoBase": "1937",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
-     "punti": 1.956,
+     "punteggioMax": 7,
+     "punti": 1.357,
+     "puntiMax": 3.922,
      "province": []
     },
     {
@@ -980,9 +1209,9 @@
      "luogo": "Lorena",
      "punteggio": 9,
      "periodoBase": "1938",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
-     "punti": 16.334,
+     "punteggioMax": 10,
+     "punti": 11.335,
+     "puntiMax": 19.27,
      "province": [
       "P_FRA_MEURTHE_ET_MOSELLE",
       "P_FRA_MOSELLE"
@@ -995,9 +1224,9 @@
      "luogo": "Turingia, Sassonia, Austria",
      "punteggio": 8,
      "periodoBase": "1938",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
-     "punti": 9.608,
+     "punteggioMax": 10,
+     "punti": 6.668,
+     "puntiMax": 19.27,
      "province": [
       "P_AUT_STYRIA",
       "P_DEU_SACHSEN",
@@ -1011,9 +1240,9 @@
      "luogo": "Serifos, Lavrio, Eubea",
      "punteggio": 3,
      "periodoBase": "1936",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
-     "punti": 0.677,
+     "punteggioMax": 5,
+     "punti": 0.47,
+     "puntiMax": 1.357,
      "province": [
       "P_GRC_ATTIKI",
       "P_GRC_NOTIO_AIGAIO",
@@ -1027,9 +1256,9 @@
      "luogo": "Michoacan, Colima, Durango",
      "punteggio": 6,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
-     "punti": 3.325,
+     "punteggioMax": 8,
+     "punti": 2.307,
+     "puntiMax": 6.668,
      "province": []
     },
     {
@@ -1039,9 +1268,9 @@
      "luogo": "Trondelag, Nordland, Sydvaranger",
      "punteggio": 5,
      "periodoBase": "1937",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
-     "punti": 1.956,
+     "punteggioMax": 7,
+     "punti": 1.357,
+     "puntiMax": 3.922,
      "province": [
       "P_NOR_FINNMARK",
       "P_NOR_NORDLAND",
@@ -1056,11 +1285,26 @@
      "luogo": "Czestochowa, Kielce, Swietokrzyskie",
      "punteggio": 4,
      "periodoBase": "1937",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
-     "punti": 1.15,
+     "punteggioMax": 6,
+     "punti": 0.798,
+     "puntiMax": 2.307,
      "province": [
       "P_POL_KIELCE_VOIVODESHIP"
+     ]
+    },
+    {
+     "id": "iron_ore|Regno Unito|northamptonshire",
+     "controllo": "Regno Unito",
+     "paese": "Regno Unito",
+     "luogo": "Northamptonshire, Cleveland",
+     "punteggio": 9,
+     "periodoBase": "1938",
+     "punteggioMax": 10,
+     "punti": 11.335,
+     "puntiMax": 19.27,
+     "province": [
+      "P_GBR_NORTHAMPTONSHIRE",
+      "P_GBR_YORKSHIRE"
      ]
     },
     {
@@ -1070,9 +1314,9 @@
      "luogo": "Poiana Rusca, Banato",
      "punteggio": 2,
      "periodoBase": "1936",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
-     "punti": 0.398,
+     "punteggioMax": 4,
+     "punti": 0.276,
+     "puntiMax": 0.798,
      "province": [
       "P_ROM_CARAS_SEVERIN",
       "P_ROM_HUNEDOARA",
@@ -1086,9 +1330,9 @@
      "luogo": "Marampa",
      "punteggio": 1,
      "periodoBase": "1937",
-     "punteggioPicco": 1,
-     "fattorePicco": 1,
-     "punti": 0.234,
+     "punteggioMax": 3,
+     "punti": 0.162,
+     "puntiMax": 0.47,
      "province": []
     },
     {
@@ -1098,9 +1342,9 @@
      "luogo": "Vizcaya, Santander, Asturie",
      "punteggio": 6,
      "periodoBase": "1935",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
-     "punti": 3.325,
+     "punteggioMax": 8,
+     "punti": 2.307,
+     "puntiMax": 6.668,
      "province": [
       "P_ESP_ASTURIAS",
       "P_ESP_SANTANDER",
@@ -1114,9 +1358,9 @@
      "luogo": "Mesabi Range, Minnesota",
      "punteggio": 10,
      "periodoBase": "1938",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
-     "punti": 27.768,
+     "punteggioMax": 10,
+     "punti": 19.27,
+     "puntiMax": 19.27,
      "province": []
     },
     {
@@ -1126,9 +1370,9 @@
      "luogo": "Kiruna, Gallivare, Norrbotten",
      "punteggio": 9,
      "periodoBase": "1937",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
-     "punti": 16.334,
+     "punteggioMax": 10,
+     "punti": 11.335,
+     "puntiMax": 19.27,
      "province": [
       "P_SWE_NORRBOTTEN"
      ]
@@ -1140,10 +1384,25 @@
      "luogo": "Bell Island, Wabana",
      "punteggio": 6,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
-     "punti": 3.325,
+     "punteggioMax": 8,
+     "punti": 2.307,
+     "puntiMax": 6.668,
      "province": []
+    },
+    {
+     "id": "iron_ore|URSS|krivoj",
+     "controllo": "URSS",
+     "paese": "URSS",
+     "luogo": "Krivoj Rog, Magnitogorsk",
+     "punteggio": 10,
+     "periodoBase": "1938",
+     "punteggioMax": 10,
+     "punti": 19.27,
+     "puntiMax": 19.27,
+     "province": [
+      "P_USSR_CHELYABINSK",
+      "P_USSR_DNIPROPETROVSK"
+     ]
     },
     {
      "id": "iron_ore|Ungheria|rudabanya",
@@ -1152,38 +1411,98 @@
      "luogo": "Rudabanya, Ozd, Borsod",
      "punteggio": 3,
      "periodoBase": "1937",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
-     "punti": 0.677,
+     "punteggioMax": 5,
+     "punti": 0.47,
+     "puntiMax": 1.357,
      "province": [
       "P_HUN_BORSOD_ABAUJ_ZEMPLEN"
      ]
     }
    ],
    "byControl": {
-    "Stati Uniti": 27.768,
-    "Francia": 16.334,
-    "Svezia": 16.334,
-    "Germania": 15.26,
-    "Regno Unito": 3.559,
-    "Cecoslovacchia": 3.325,
-    "Cile": 3.325,
-    "Messico": 3.325,
-    "Spagna": 3.325,
-    "Cuba": 1.956,
-    "Norvegia": 1.956,
-    "Polonia": 1.15,
-    "Grecia": 0.677,
-    "Ungheria": 0.677,
-    "Brasile": 0.398,
-    "Romania": 0.398,
-    "Bulgaria": 0.234
+    "Stati Uniti": {
+     "base": 19.27,
+     "max": 19.27
+    },
+    "URSS": {
+     "base": 19.27,
+     "max": 19.27
+    },
+    "Regno Unito": {
+     "base": 13.804,
+     "max": 26.408
+    },
+    "Francia": {
+     "base": 11.335,
+     "max": 19.27
+    },
+    "Svezia": {
+     "base": 11.335,
+     "max": 19.27
+    },
+    "Germania": {
+     "base": 10.59,
+     "max": 30.605
+    },
+    "Cecoslovacchia": {
+     "base": 2.307,
+     "max": 6.668
+    },
+    "Cile": {
+     "base": 2.307,
+     "max": 6.668
+    },
+    "Messico": {
+     "base": 2.307,
+     "max": 6.668
+    },
+    "Spagna": {
+     "base": 2.307,
+     "max": 6.668
+    },
+    "Cuba": {
+     "base": 1.357,
+     "max": 3.922
+    },
+    "Norvegia": {
+     "base": 1.357,
+     "max": 3.922
+    },
+    "Polonia": {
+     "base": 0.798,
+     "max": 2.307
+    },
+    "Grecia": {
+     "base": 0.47,
+     "max": 1.357
+    },
+    "Ungheria": {
+     "base": 0.47,
+     "max": 1.357
+    },
+    "Brasile": {
+     "base": 0.276,
+     "max": 0.798
+    },
+    "Romania": {
+     "base": 0.276,
+     "max": 0.798
+    },
+    "Bulgaria": {
+     "base": 0.162,
+     "max": 0.47
+    }
+   },
+   "totale": {
+    "base": 99.998,
+    "max": 175.696,
+    "potenziale": 1.76
    },
    "balance": {
     "topControl": "Stati Uniti",
-    "topControlShare": 0.278,
-    "effectiveProducers": 6.23,
-    "controls": 17
+    "topControlShare": 0.193,
+    "effectiveProducers": 7.53,
+    "controls": 18
    }
   },
   "manganese": {
@@ -1195,9 +1514,9 @@
      "luogo": "Minas Gerais, Amapa",
      "punteggio": 6,
      "periodoBase": "1935-45",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 7.474,
+     "puntiMax": 21.6,
      "province": []
     },
     {
@@ -1207,9 +1526,9 @@
      "luogo": "Nsuta",
      "punteggio": 5,
      "periodoBase": "1935-45",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 4.396,
+     "puntiMax": 12.706,
      "province": []
     },
     {
@@ -1219,9 +1538,9 @@
      "luogo": "Turingia, Sassonia, Ilfeld",
      "punteggio": 3,
      "periodoBase": "1936",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 1.521,
+     "puntiMax": 4.396,
      "province": [
       "P_DEU_SACHSEN",
       "P_DEU_THUERINGEN"
@@ -1234,9 +1553,9 @@
      "luogo": "Madhya Pradesh, Maharashtra, Goa",
      "punteggio": 8,
      "periodoBase": "1935-45",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 21.6,
+     "puntiMax": 62.423,
      "province": []
     },
     {
@@ -1246,9 +1565,9 @@
      "luogo": "Liguria, Toscana, Sardegna",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 2.586,
+     "puntiMax": 7.474,
      "province": [
       "P_ITA_CAGLIARI",
       "P_ITA_FIRENZE",
@@ -1268,9 +1587,9 @@
      "luogo": "Nikopol, Chiatura, Ucraina/Georgia",
      "punteggio": 10,
      "periodoBase": "1935-45",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 62.423,
+     "puntiMax": 62.423,
      "province": [
       "P_USSR_DNIPROPETROVSK",
       "P_USSR_IMERETI",
@@ -1279,11 +1598,31 @@
     }
    ],
    "byControl": {
-    "URSS": 62.423,
-    "Regno Unito": 25.996,
-    "Brasile": 7.474,
-    "Italia": 2.586,
-    "Germania": 1.521
+    "URSS": {
+     "base": 62.423,
+     "max": 62.423
+    },
+    "Regno Unito": {
+     "base": 25.996,
+     "max": 75.129
+    },
+    "Brasile": {
+     "base": 7.474,
+     "max": 21.6
+    },
+    "Italia": {
+     "base": 2.586,
+     "max": 7.474
+    },
+    "Germania": {
+     "base": 1.521,
+     "max": 4.396
+    }
+   },
+   "totale": {
+    "base": 100,
+    "max": 171.022,
+    "potenziale": 1.71
    },
    "balance": {
     "topControl": "URSS",
@@ -1301,9 +1640,9 @@
      "luogo": "Boemia",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 1.966,
+     "puntiMax": 5.682,
      "province": [
       "P_CZE_BOHEMIA"
      ]
@@ -1315,9 +1654,9 @@
      "luogo": "Guizhou, Hunan",
      "punteggio": 2,
      "periodoBase": "1935-45",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 1.157,
+     "puntiMax": 3.342,
      "province": []
     },
     {
@@ -1327,9 +1666,9 @@
      "luogo": "Renania, Sassonia, Baviera",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 1.966,
+     "puntiMax": 5.682,
      "province": [
       "P_DEU_BAYERISCHE_OSTMARK",
       "P_DEU_DUESSELDORF",
@@ -1349,9 +1688,9 @@
      "luogo": "Idria, Monte Amiata",
      "punteggio": 9,
      "periodoBase": "1935-45",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 47.456,
+     "puntiMax": 80.675,
      "province": [
       "P_ITA_FIRENZE",
       "P_ITA_GORIZIA",
@@ -1368,20 +1707,40 @@
      "luogo": "Almaden, Ciudad Real",
      "punteggio": 9,
      "periodoBase": "1935-45",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 47.456,
+     "puntiMax": 80.675,
      "province": [
       "P_ESP_CIUDAD_REAL"
      ]
     }
    ],
    "byControl": {
-    "Italia": 47.456,
-    "Spagna": 47.456,
-    "Cecoslovacchia": 1.966,
-    "Germania": 1.966,
-    "Cina": 1.157
+    "Italia": {
+     "base": 47.456,
+     "max": 80.675
+    },
+    "Spagna": {
+     "base": 47.456,
+     "max": 80.675
+    },
+    "Cecoslovacchia": {
+     "base": 1.966,
+     "max": 5.682
+    },
+    "Germania": {
+     "base": 1.966,
+     "max": 5.682
+    },
+    "Cina": {
+     "base": 1.157,
+     "max": 3.342
+    }
+   },
+   "totale": {
+    "base": 100.001,
+    "max": 176.056,
+    "potenziale": 1.76
    },
    "balance": {
     "topControl": "Italia",
@@ -1399,9 +1758,9 @@
      "luogo": "Chuquicamata, El Teniente",
      "punteggio": 6,
      "periodoBase": "1935-45",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 10.247,
+     "puntiMax": 29.613,
      "province": []
     },
     {
@@ -1411,9 +1770,9 @@
      "luogo": "Knaben, Vest-Agder",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 2.086,
+     "puntiMax": 6.028,
      "province": [
       "P_NOR_VEST_AGDER"
      ]
@@ -1425,9 +1784,9 @@
      "luogo": "Cerro de Pasco, Junin",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 2.086,
+     "puntiMax": 6.028,
      "province": []
     },
     {
@@ -1437,17 +1796,34 @@
      "luogo": "Climax, Colorado",
      "punteggio": 10,
      "periodoBase": "1935-45",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 85.582,
+     "puntiMax": 85.582,
      "province": []
     }
    ],
    "byControl": {
-    "Stati Uniti": 85.582,
-    "Cile": 10.247,
-    "Norvegia": 2.086,
-    "Peru": 2.086
+    "Stati Uniti": {
+     "base": 85.582,
+     "max": 85.582
+    },
+    "Cile": {
+     "base": 10.247,
+     "max": 29.613
+    },
+    "Norvegia": {
+     "base": 2.086,
+     "max": 6.028
+    },
+    "Peru": {
+     "base": 2.086,
+     "max": 6.028
+    }
+   },
+   "totale": {
+    "base": 100.001,
+    "max": 127.251,
+    "potenziale": 1.27
    },
    "balance": {
     "topControl": "Stati Uniti",
@@ -1465,9 +1841,9 @@
      "luogo": "Sudbury, Ontario",
      "punteggio": 10,
      "periodoBase": "1935-45",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 89.939,
+     "puntiMax": 89.939,
      "province": []
     },
     {
@@ -1477,9 +1853,9 @@
      "luogo": "Moa, Nicaro, Oriente",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 3.726,
+     "puntiMax": 10.768,
      "province": []
     },
     {
@@ -1489,16 +1865,30 @@
      "luogo": "Thio, Nepoui, Massiccio del Sud",
      "punteggio": 5,
      "periodoBase": "1935-45",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 6.334,
+     "puntiMax": 18.306,
      "province": []
     }
    ],
    "byControl": {
-    "Regno Unito": 89.939,
-    "Francia": 6.334,
-    "Cuba": 3.726
+    "Regno Unito": {
+     "base": 89.939,
+     "max": 89.939
+    },
+    "Francia": {
+     "base": 6.334,
+     "max": 18.306
+    },
+    "Cuba": {
+     "base": 3.726,
+     "max": 10.768
+    }
+   },
+   "totale": {
+    "base": 99.999,
+    "max": 119.013,
+    "potenziale": 1.19
    },
    "balance": {
     "topControl": "Regno Unito",
@@ -1516,9 +1906,9 @@
      "luogo": "Dammam, al-Hasa",
      "punteggio": 4,
      "periodoBase": "1939",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 1.009,
+     "puntiMax": 2.917,
      "province": [],
      "baseDopo1938": true
     },
@@ -1529,9 +1919,9 @@
      "luogo": "Mendoza, Salta, Comodoro Rivadavia, Neuquen",
      "punteggio": 4,
      "periodoBase": "1937",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 1.009,
+     "puntiMax": 2.917,
      "province": []
     },
     {
@@ -1541,9 +1931,9 @@
      "luogo": "Awali",
      "punteggio": 5,
      "periodoBase": "1937",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 1.716,
+     "puntiMax": 4.96,
      "province": []
     },
     {
@@ -1553,9 +1943,9 @@
      "luogo": "Turner Valley, Alberta",
      "punteggio": 3,
      "periodoBase": "1937",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 0.594,
+     "puntiMax": 1.716,
      "province": []
     },
     {
@@ -1565,9 +1955,9 @@
      "luogo": "Yanchang, Shaanxi; Karamay, Xinjiang; Sichuan",
      "punteggio": 2,
      "periodoBase": "1938",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 0.349,
+     "puntiMax": 1.009,
      "province": []
     },
     {
@@ -1577,9 +1967,9 @@
      "luogo": "Barrancabermeja, Magdalena Medio",
      "punteggio": 5,
      "periodoBase": "1937",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 1.716,
+     "puntiMax": 4.96,
      "province": []
     },
     {
@@ -1589,9 +1979,9 @@
      "luogo": "Santa Elena",
      "punteggio": 2,
      "periodoBase": "1937",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 0.349,
+     "puntiMax": 1.009,
      "province": []
     },
     {
@@ -1601,9 +1991,9 @@
      "luogo": "Gemsa, Golfo di Suez",
      "punteggio": 2,
      "periodoBase": "1937",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 0.349,
+     "puntiMax": 1.009,
      "province": [
       "P_EGY_AL_BAHR_AL_AHMAR",
       "P_EGY_AS_SUWAYS"
@@ -1616,9 +2006,9 @@
      "luogo": "Nienhagen, Wietze, Hemmingstedt",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 0.594,
+     "puntiMax": 1.716,
      "province": [
       "P_DEU_SCHLESWIG_HOLSTEIN",
       "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG"
@@ -1631,9 +2021,9 @@
      "luogo": "Niigata, Akita, Hokkaido",
      "punteggio": 3,
      "periodoBase": "1937",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 0.594,
+     "puntiMax": 1.716,
      "province": []
     },
     {
@@ -1643,9 +2033,9 @@
      "luogo": "Digboi, Assam; Yenangyaung, Chauk, Minbu",
      "punteggio": 4,
      "periodoBase": "1937",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 1.009,
+     "puntiMax": 2.917,
      "province": []
     },
     {
@@ -1655,9 +2045,9 @@
      "luogo": "Sumatra, Giava, Borneo",
      "punteggio": 8,
      "periodoBase": "1937",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 8.431,
+     "puntiMax": 24.366,
      "province": []
     },
     {
@@ -1667,9 +2057,9 @@
      "luogo": "Khuzestan: Masjed Soleyman, Aghajari, Haftkel, Gachsaran",
      "punteggio": 8,
      "periodoBase": "1937",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 8.431,
+     "puntiMax": 24.366,
      "province": []
     },
     {
@@ -1679,9 +2069,9 @@
      "luogo": "Kirkuk, Baba Gurgur",
      "punteggio": 7,
      "periodoBase": "1937",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 4.96,
+     "puntiMax": 14.333,
      "province": []
     },
     {
@@ -1691,9 +2081,9 @@
      "luogo": "Burgan",
      "punteggio": 3,
      "periodoBase": "1938",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 0.594,
+     "puntiMax": 1.716,
      "province": []
     },
     {
@@ -1703,9 +2093,9 @@
      "luogo": "Veracruz, Tamaulipas, Tabasco, Golden Lane",
      "punteggio": 6,
      "periodoBase": "1937",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 2.917,
+     "puntiMax": 8.431,
      "province": []
     },
     {
@@ -1715,9 +2105,9 @@
      "luogo": "Talara, Piura; Loreto",
      "punteggio": 4,
      "periodoBase": "1937",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 1.009,
+     "puntiMax": 2.917,
      "province": []
     },
     {
@@ -1727,9 +2117,9 @@
      "luogo": "Ploiesti e altri campi",
      "punteggio": 8,
      "periodoBase": "1936",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 8.431,
+     "puntiMax": 24.366,
      "province": [
       "P_ROM_BUZAU",
       "P_ROM_DAMBOVITA",
@@ -1743,9 +2133,9 @@
      "luogo": "Miri, Borneo britannico",
      "punteggio": 3,
      "periodoBase": "1937",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 0.594,
+     "puntiMax": 1.716,
      "province": []
     },
     {
@@ -1755,9 +2145,9 @@
      "luogo": "Texas, Oklahoma, California",
      "punteggio": 10,
      "periodoBase": "1938",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 24.366,
+     "puntiMax": 24.366,
      "province": []
     },
     {
@@ -1767,9 +2157,9 @@
      "luogo": "Forest Reserve, Penal, Guayaguayare",
      "punteggio": 5,
      "periodoBase": "1937",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 1.716,
+     "puntiMax": 4.96,
      "province": []
     },
     {
@@ -1779,9 +2169,9 @@
      "luogo": "Baku, Groznyj, Volga-Urali",
      "punteggio": 9,
      "periodoBase": "1938",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 14.333,
+     "puntiMax": 24.366,
      "province": [
       "P_USSR_ABSHERON",
       "P_USSR_BASHKORTOSTAN",
@@ -1800,9 +2190,9 @@
      "luogo": "Nord Sakhalin",
      "punteggio": 3,
      "periodoBase": "1937",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 0.594,
+     "puntiMax": 1.716,
      "province": [
       "P_USSR_SAKHALIN"
      ]
@@ -1814,33 +2204,98 @@
      "luogo": "Lago di Maracaibo",
      "punteggio": 9,
      "periodoBase": "1938",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 14.333,
+     "puntiMax": 24.366,
      "province": []
     }
    ],
    "byControl": {
-    "Stati Uniti": 24.366,
-    "URSS": 14.927,
-    "Venezuela": 14.333,
-    "Iran": 8.431,
-    "Paesi Bassi": 8.431,
-    "Romania": 8.431,
-    "Iraq": 4.96,
-    "Regno Unito": 3.913,
-    "Messico": 2.917,
-    "Bahrain": 1.716,
-    "Colombia": 1.716,
-    "Arabia Saudita": 1.009,
-    "Argentina": 1.009,
-    "Peru": 1.009,
-    "Germania": 0.594,
-    "Giappone": 0.594,
-    "Kuwait": 0.594,
-    "Cina": 0.349,
-    "Ecuador": 0.349,
-    "Egitto": 0.349
+    "Stati Uniti": {
+     "base": 24.366,
+     "max": 24.366
+    },
+    "URSS": {
+     "base": 14.927,
+     "max": 26.082
+    },
+    "Venezuela": {
+     "base": 14.333,
+     "max": 24.366
+    },
+    "Iran": {
+     "base": 8.431,
+     "max": 24.366
+    },
+    "Paesi Bassi": {
+     "base": 8.431,
+     "max": 24.366
+    },
+    "Romania": {
+     "base": 8.431,
+     "max": 24.366
+    },
+    "Iraq": {
+     "base": 4.96,
+     "max": 14.333
+    },
+    "Regno Unito": {
+     "base": 3.913,
+     "max": 11.309
+    },
+    "Messico": {
+     "base": 2.917,
+     "max": 8.431
+    },
+    "Bahrain": {
+     "base": 1.716,
+     "max": 4.96
+    },
+    "Colombia": {
+     "base": 1.716,
+     "max": 4.96
+    },
+    "Arabia Saudita": {
+     "base": 1.009,
+     "max": 2.917
+    },
+    "Argentina": {
+     "base": 1.009,
+     "max": 2.917
+    },
+    "Peru": {
+     "base": 1.009,
+     "max": 2.917
+    },
+    "Germania": {
+     "base": 0.594,
+     "max": 1.716
+    },
+    "Giappone": {
+     "base": 0.594,
+     "max": 1.716
+    },
+    "Kuwait": {
+     "base": 0.594,
+     "max": 1.716
+    },
+    "Cina": {
+     "base": 0.349,
+     "max": 1.009
+    },
+    "Ecuador": {
+     "base": 0.349,
+     "max": 1.009
+    },
+    "Egitto": {
+     "base": 0.349,
+     "max": 1.009
+    }
+   },
+   "totale": {
+    "base": 99.997,
+    "max": 208.831,
+    "potenziale": 2.09
    },
    "balance": {
     "topControl": "Stati Uniti",
@@ -1858,9 +2313,9 @@
      "luogo": "Sumatra, Giava, Borneo",
      "punteggio": 9,
      "periodoBase": "1938",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 37.037,
+     "puntiMax": 62.963,
      "province": []
     },
     {
@@ -1870,16 +2325,27 @@
      "luogo": "Perak, Selangor, Johor",
      "punteggio": 10,
      "periodoBase": "1939",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 62.963,
+     "puntiMax": 62.963,
      "province": [],
      "baseDopo1938": true
     }
    ],
    "byControl": {
-    "Regno Unito": 62.963,
-    "Paesi Bassi": 37.037
+    "Regno Unito": {
+     "base": 62.963,
+     "max": 62.963
+    },
+    "Paesi Bassi": {
+     "base": 37.037,
+     "max": 62.963
+    }
+   },
+   "totale": {
+    "base": 100,
+    "max": 125.926,
+    "potenziale": 1.26
    },
    "balance": {
     "topControl": "Regno Unito",
@@ -1897,9 +2363,9 @@
      "luogo": "Honshu, Hokkaido",
      "punteggio": 5,
      "periodoBase": "1935-45",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 5.608,
+     "puntiMax": 16.206,
      "province": []
     },
     {
@@ -1909,9 +2375,9 @@
      "luogo": "Sicilia",
      "punteggio": 6,
      "periodoBase": "1935-45",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 9.533,
+     "puntiMax": 27.55,
      "province": [
       "P_ITA_AGRIGENTO",
       "P_ITA_CALTANISSETTA",
@@ -1925,9 +2391,9 @@
      "luogo": "Coahuila, San Luis Potosi",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 1.94,
+     "puntiMax": 5.608,
      "province": []
     },
     {
@@ -1937,9 +2403,9 @@
      "luogo": "Andalusia, Murcia",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 3.299,
+     "puntiMax": 9.533,
      "province": [
       "P_ESP_ALMERIA",
       "P_ESP_CORDOBA",
@@ -1957,18 +2423,38 @@
      "luogo": "Louisiana, Texas",
      "punteggio": 10,
      "periodoBase": "1935-45",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 79.62,
+     "puntiMax": 79.62,
      "province": []
     }
    ],
    "byControl": {
-    "Stati Uniti": 79.62,
-    "Italia": 9.533,
-    "Giappone": 5.608,
-    "Spagna": 3.299,
-    "Messico": 1.94
+    "Stati Uniti": {
+     "base": 79.62,
+     "max": 79.62
+    },
+    "Italia": {
+     "base": 9.533,
+     "max": 27.55
+    },
+    "Giappone": {
+     "base": 5.608,
+     "max": 16.206
+    },
+    "Spagna": {
+     "base": 3.299,
+     "max": 9.533
+    },
+    "Messico": {
+     "base": 1.94,
+     "max": 5.608
+    }
+   },
+   "totale": {
+    "base": 100,
+    "max": 138.517,
+    "potenziale": 1.39
    },
    "balance": {
     "topControl": "Stati Uniti",
@@ -1986,9 +2472,9 @@
      "luogo": "Llallagua, Potosi, Oruro",
      "punteggio": 7,
      "periodoBase": "1935-45",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 10.809,
+     "puntiMax": 31.238,
      "province": []
     },
     {
@@ -1998,9 +2484,9 @@
      "luogo": "Sassonia, Boemia occupata",
      "punteggio": 1,
      "periodoBase": "1935-45",
-     "punteggioPicco": 1,
-     "fattorePicco": 1,
+     "punteggioMax": 3,
      "punti": 0.448,
+     "puntiMax": 1.294,
      "province": [
       "P_CZE_BOHEMIA",
       "P_DEU_SACHSEN"
@@ -2013,9 +2499,9 @@
      "luogo": "Bangka, Belitung, Sumatra",
      "punteggio": 9,
      "periodoBase": "1939",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 31.238,
+     "puntiMax": 53.105,
      "province": [],
      "baseDopo1938": true
     },
@@ -2026,9 +2512,9 @@
      "luogo": "Perak, Selangor, Kinta Valley",
      "punteggio": 10,
      "periodoBase": "1935-45",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 53.105,
+     "puntiMax": 53.105,
      "province": []
     },
     {
@@ -2038,9 +2524,9 @@
      "luogo": "Plateau, Jos",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 2.2,
+     "puntiMax": 6.358,
      "province": []
     },
     {
@@ -2050,18 +2536,38 @@
      "luogo": "Phuket, Ranong, Yala",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 2.2,
+     "puntiMax": 6.358,
      "province": []
     }
    ],
    "byControl": {
-    "Regno Unito": 55.305,
-    "Paesi Bassi": 31.238,
-    "Bolivia": 10.809,
-    "Siam / Thailandia": 2.2,
-    "Germania": 0.448
+    "Regno Unito": {
+     "base": 55.305,
+     "max": 59.463
+    },
+    "Paesi Bassi": {
+     "base": 31.238,
+     "max": 53.105
+    },
+    "Bolivia": {
+     "base": 10.809,
+     "max": 31.238
+    },
+    "Siam / Thailandia": {
+     "base": 2.2,
+     "max": 6.358
+    },
+    "Germania": {
+     "base": 0.448,
+     "max": 1.294
+    }
+   },
+   "totale": {
+    "base": 100,
+    "max": 151.458,
+    "potenziale": 1.51
    },
    "balance": {
     "topControl": "Regno Unito",
@@ -2079,9 +2585,9 @@
      "luogo": "Shan State, Mawchi",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 1.593,
+     "puntiMax": 4.603,
      "province": []
     },
     {
@@ -2091,9 +2597,9 @@
      "luogo": "Llallagua, Potosi, Oruro",
      "punteggio": 6,
      "periodoBase": "1935-45",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 7.826,
+     "puntiMax": 22.617,
      "province": []
     },
     {
@@ -2103,9 +2609,9 @@
      "luogo": "Jiangxi, Hunan, Guangdong",
      "punteggio": 10,
      "periodoBase": "1935-45",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 65.362,
+     "puntiMax": 65.362,
      "province": []
     },
     {
@@ -2115,9 +2621,9 @@
      "luogo": "Sangdong, Kangwon",
      "punteggio": 5,
      "periodoBase": "1935-45",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 4.603,
+     "puntiMax": 13.304,
      "province": []
     },
     {
@@ -2127,9 +2633,9 @@
      "luogo": "Panasqueira, Borralha, Beira Baixa",
      "punteggio": 7,
      "periodoBase": "1938",
-     "punteggioPicco": 8,
-     "fattorePicco": 1.7,
+     "punteggioMax": 9,
      "punti": 13.304,
+     "puntiMax": 38.448,
      "province": [
       "P_PRT_CASTELO_BRANCO",
       "P_PRT_VILA_REAL"
@@ -2142,9 +2648,9 @@
      "luogo": "Galizia, Asturie, Leon",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 2.708,
+     "puntiMax": 7.826,
      "province": [
       "P_ESP_ASTURIAS",
       "P_ESP_CORUNA",
@@ -2161,21 +2667,47 @@
      "luogo": "Idaho: Cobalt, Yellow Pine; Montana; Nevada",
      "punteggio": 5,
      "periodoBase": "1943",
-     "punteggioPicco": 5,
-     "fattorePicco": 1,
+     "punteggioMax": 7,
      "punti": 4.603,
+     "puntiMax": 13.304,
      "province": [],
      "baseDopo1938": true
     }
    ],
    "byControl": {
-    "Cina": 65.362,
-    "Portogallo": 13.304,
-    "Bolivia": 7.826,
-    "Giappone": 4.603,
-    "Stati Uniti": 4.603,
-    "Spagna": 2.708,
-    "Regno Unito": 1.593
+    "Cina": {
+     "base": 65.362,
+     "max": 65.362
+    },
+    "Portogallo": {
+     "base": 13.304,
+     "max": 38.448
+    },
+    "Bolivia": {
+     "base": 7.826,
+     "max": 22.617
+    },
+    "Giappone": {
+     "base": 4.603,
+     "max": 13.304
+    },
+    "Stati Uniti": {
+     "base": 4.603,
+     "max": 13.304
+    },
+    "Spagna": {
+     "base": 2.708,
+     "max": 7.826
+    },
+    "Regno Unito": {
+     "base": 1.593,
+     "max": 4.603
+    }
+   },
+   "totale": {
+    "base": 99.999,
+    "max": 165.464,
+    "potenziale": 1.65
    },
    "balance": {
     "topControl": "Cina",
@@ -2193,9 +2725,9 @@
      "luogo": "Olen, Anversa",
      "punteggio": 4,
      "periodoBase": "1940",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 3.424,
+     "puntiMax": 9.896,
      "province": [
       "P_BEL_ANTWERP"
      ],
@@ -2208,9 +2740,9 @@
      "luogo": "Great Bear Lake, Port Radium",
      "punteggio": 6,
      "periodoBase": "1935-45",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 9.896,
+     "puntiMax": 28.599,
      "province": []
     },
     {
@@ -2220,9 +2752,9 @@
      "luogo": "Jachymov / Joachimsthal, Boemia",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 2.014,
+     "puntiMax": 5.821,
      "province": [
       "P_CZE_BOHEMIA"
      ]
@@ -2234,9 +2766,9 @@
      "luogo": "Shinkolobwe / Kasolo, Katanga",
      "punteggio": 10,
      "periodoBase": "1935-45",
-     "punteggioPicco": 10,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 82.651,
+     "puntiMax": 82.651,
      "province": []
     },
     {
@@ -2246,17 +2778,34 @@
      "luogo": "Colorado Plateau, Paradox Valley",
      "punteggio": 3,
      "periodoBase": "1935-45",
-     "punteggioPicco": 3,
-     "fattorePicco": 1,
+     "punteggioMax": 5,
      "punti": 2.014,
+     "puntiMax": 5.821,
      "province": []
     }
    ],
    "byControl": {
-    "Belgio": 86.075,
-    "Regno Unito": 9.896,
-    "Cecoslovacchia": 2.014,
-    "Stati Uniti": 2.014
+    "Belgio": {
+     "base": 86.075,
+     "max": 92.547
+    },
+    "Regno Unito": {
+     "base": 9.896,
+     "max": 28.599
+    },
+    "Cecoslovacchia": {
+     "base": 2.014,
+     "max": 5.821
+    },
+    "Stati Uniti": {
+     "base": 2.014,
+     "max": 5.821
+    }
+   },
+   "totale": {
+    "base": 99.999,
+    "max": 132.788,
+    "potenziale": 1.33
    },
    "balance": {
     "topControl": "Belgio",
@@ -2274,9 +2823,9 @@
      "luogo": "Minasragra, Cerro de Pasco",
      "punteggio": 7,
      "periodoBase": "1935-45",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 33.625,
+     "puntiMax": 97.176,
      "province": []
     },
     {
@@ -2286,9 +2835,9 @@
      "luogo": "Sierra Albarrana, Andalusia",
      "punteggio": 2,
      "periodoBase": "1935-45",
-     "punteggioPicco": 2,
-     "fattorePicco": 1,
+     "punteggioMax": 4,
      "punti": 2.368,
+     "puntiMax": 6.844,
      "province": [
       "P_ESP_ALMERIA",
       "P_ESP_CORDOBA",
@@ -2305,9 +2854,9 @@
      "luogo": "Colorado Plateau, Utah, Colorado",
      "punteggio": 8,
      "periodoBase": "1935-45",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 57.163,
+     "puntiMax": 165.2,
      "province": []
     },
     {
@@ -2317,17 +2866,34 @@
      "luogo": "Transvaal",
      "punteggio": 4,
      "periodoBase": "1935-45",
-     "punteggioPicco": 4,
-     "fattorePicco": 1,
+     "punteggioMax": 6,
      "punti": 6.844,
+     "puntiMax": 19.779,
      "province": []
     }
    ],
    "byControl": {
-    "Stati Uniti": 57.163,
-    "Peru": 33.625,
-    "Regno Unito": 6.844,
-    "Spagna": 2.368
+    "Stati Uniti": {
+     "base": 57.163,
+     "max": 165.2
+    },
+    "Peru": {
+     "base": 33.625,
+     "max": 97.176
+    },
+    "Regno Unito": {
+     "base": 6.844,
+     "max": 19.779
+    },
+    "Spagna": {
+     "base": 2.368,
+     "max": 6.844
+    }
+   },
+   "totale": {
+    "base": 100,
+    "max": 288.999,
+    "potenziale": 2.89
    },
    "balance": {
     "topControl": "Stati Uniti",
@@ -2345,9 +2911,9 @@
      "luogo": "Pampa: Buenos Aires, Cordoba, Santa Fe",
      "punteggio": 7,
      "periodoBase": "1935-45",
-     "punteggioPicco": 7,
-     "fattorePicco": 1,
+     "punteggioMax": 9,
      "punti": 12.693,
+     "puntiMax": 36.683,
      "province": []
     },
     {
@@ -2357,9 +2923,9 @@
      "luogo": "Saskatchewan, Manitoba, Alberta",
      "punteggio": 8,
      "periodoBase": "1935-45",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 21.578,
+     "puntiMax": 62.362,
      "province": []
     },
     {
@@ -2369,9 +2935,9 @@
      "luogo": "Punjab, Uttar Pradesh",
      "punteggio": 6,
      "periodoBase": "1935-45",
-     "punteggioPicco": 6,
-     "fattorePicco": 1,
+     "punteggioMax": 8,
      "punti": 7.467,
+     "puntiMax": 21.578,
      "province": []
     },
     {
@@ -2381,9 +2947,9 @@
      "luogo": "Grandi Pianure",
      "punteggio": 9,
      "periodoBase": "1935-45",
-     "punteggioPicco": 9,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 36.683,
+     "puntiMax": 62.362,
      "province": []
     },
     {
@@ -2393,9 +2959,9 @@
      "luogo": "Ucraina, Kuban, Volga",
      "punteggio": 8,
      "periodoBase": "1935-45",
-     "punteggioPicco": 8,
-     "fattorePicco": 1,
+     "punteggioMax": 10,
      "punti": 21.578,
+     "puntiMax": 62.362,
      "province": [
       "P_USSR_DNIPROPETROVSK",
       "P_USSR_DONETSK",
@@ -2410,10 +2976,27 @@
     }
    ],
    "byControl": {
-    "Stati Uniti": 36.683,
-    "Regno Unito": 29.045,
-    "URSS": 21.578,
-    "Argentina": 12.693
+    "Stati Uniti": {
+     "base": 36.683,
+     "max": 62.362
+    },
+    "Regno Unito": {
+     "base": 29.045,
+     "max": 83.94
+    },
+    "URSS": {
+     "base": 21.578,
+     "max": 62.362
+    },
+    "Argentina": {
+     "base": 12.693,
+     "max": 36.683
+    }
+   },
+   "totale": {
+    "base": 99.999,
+    "max": 245.347,
+    "potenziale": 2.45
    },
    "balance": {
     "topControl": "Stati Uniti",
@@ -2425,528 +3008,1194 @@
  },
  "byProvince": {
   "P_ALG_AURES": {
-   "antimony": 0.501
+   "antimony": {
+    "base": 0.501,
+    "max": 1.45
+   }
   },
   "P_ALG_CONSTANTINE": {
-   "antimony": 0.501
+   "antimony": {
+    "base": 0.501,
+    "max": 1.45
+   }
   },
   "P_AUT_STYRIA": {
-   "iron_ore": 8.855
+   "iron_ore": {
+    "base": 6.145,
+    "max": 17.758
+   }
   },
   "P_BEL_ANTWERP": {
-   "uranium": 3.424
+   "uranium": {
+    "base": 3.424,
+    "max": 9.896
+   }
   },
   "P_BEL_HAINAUT": {
-   "coal": 2.152
+   "coal": {
+    "base": 2.152,
+    "max": 6.22
+   }
   },
   "P_BEL_LIEGE": {
-   "coal": 2.152
+   "coal": {
+    "base": 2.152,
+    "max": 6.22
+   }
   },
   "P_BGR_SOFIA": {
-   "iron_ore": 0.234
+   "iron_ore": {
+    "base": 0.162,
+    "max": 0.47
+   }
   },
   "P_CHE_AARGAU": {
-   "aluminium": 5.046
+   "aluminium": {
+    "base": 2.368,
+    "max": 6.844
+   }
   },
   "P_CHE_VALAIS": {
-   "aluminium": 5.046
+   "aluminium": {
+    "base": 2.368,
+    "max": 6.844
+   }
   },
   "P_CZE_BOHEMIA": {
-   "antimony": 2.899,
-   "iron_ore": 1.663,
-   "mercury": 1.966,
-   "tin": 0.224,
-   "uranium": 2.014
+   "antimony": {
+    "base": 2.899,
+    "max": 8.379
+   },
+   "iron_ore": {
+    "base": 1.154,
+    "max": 3.334
+   },
+   "mercury": {
+    "base": 1.966,
+    "max": 5.682
+   },
+   "tin": {
+    "base": 0.224,
+    "max": 0.647
+   },
+   "uranium": {
+    "base": 2.014,
+    "max": 5.821
+   }
   },
   "P_CZE_MORAVIAN_SILESIAN_COUNTRY": {
-   "iron_ore": 1.663
+   "iron_ore": {
+    "base": 1.154,
+    "max": 3.334
+   }
   },
   "P_DEU_BADEN": {
-   "aluminium": 9.915
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   }
   },
   "P_DEU_BAYERISCHE_OSTMARK": {
-   "mercury": 0.218
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   }
   },
   "P_DEU_DUESSELDORF": {
-   "aluminium": 9.915,
-   "coal": 4.146,
-   "mercury": 0.218
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   },
+   "coal": {
+    "base": 4.146,
+    "max": 7.049
+   },
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   }
   },
   "P_DEU_ESSEN": {
-   "coal": 4.146
+   "coal": {
+    "base": 4.146,
+    "max": 7.049
+   }
   },
   "P_DEU_FRANKEN": {
-   "mercury": 0.218
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   }
   },
   "P_DEU_KOBLENZ_TRIER": {
-   "mercury": 0.218
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   }
   },
   "P_DEU_KOELN_AACHEN": {
-   "aluminium": 9.915,
-   "mercury": 0.218
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   },
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   }
   },
   "P_DEU_MAINFRANKEN": {
-   "mercury": 0.218
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   }
   },
   "P_DEU_MUENCHEN_OBERBAYERN": {
-   "aluminium": 9.915,
-   "mercury": 0.218
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   },
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   }
   },
   "P_DEU_NIEDERSCHLESIEN": {
-   "aluminium": 9.915
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   }
   },
   "P_DEU_SAARPFALZ": {
-   "coal": 2.532
+   "coal": {
+    "base": 2.532,
+    "max": 7.317
+   }
   },
   "P_DEU_SACHSEN": {
-   "iron_ore": 3.203,
-   "manganese": 0.761,
-   "mercury": 0.218,
-   "tin": 0.224
+   "iron_ore": {
+    "base": 2.223,
+    "max": 6.423
+   },
+   "manganese": {
+    "base": 0.761,
+    "max": 2.198
+   },
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   },
+   "tin": {
+    "base": 0.224,
+    "max": 0.647
+   }
   },
   "P_DEU_SCHLESWIG_HOLSTEIN": {
-   "oil": 0.297
+   "oil": {
+    "base": 0.297,
+    "max": 0.858
+   }
   },
   "P_DEU_SCHWABEN": {
-   "mercury": 0.218
+   "mercury": {
+    "base": 0.218,
+    "max": 0.631
+   }
   },
   "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": {
-   "oil": 0.297
+   "oil": {
+    "base": 0.297,
+    "max": 0.858
+   }
   },
   "P_DEU_THUERINGEN": {
-   "iron_ore": 3.203,
-   "manganese": 0.761
+   "iron_ore": {
+    "base": 2.223,
+    "max": 6.423
+   },
+   "manganese": {
+    "base": 0.761,
+    "max": 2.198
+   }
   },
   "P_DEU_WESTFALEN_SUED": {
-   "coal": 4.146
+   "coal": {
+    "base": 4.146,
+    "max": 7.049
+   }
   },
   "P_EGY_AL_BAHR_AL_AHMAR": {
-   "oil": 0.175
+   "oil": {
+    "base": 0.175,
+    "max": 0.504
+   }
   },
   "P_EGY_AS_SUWAYS": {
-   "oil": 0.175
+   "oil": {
+    "base": 0.175,
+    "max": 0.504
+   }
   },
   "P_ESP_ALMERIA": {
-   "sulphur": 0.471,
-   "vanadium": 0.395
+   "sulphur": {
+    "base": 0.471,
+    "max": 1.362
+   },
+   "vanadium": {
+    "base": 0.395,
+    "max": 1.141
+   }
   },
   "P_ESP_ASTURIAS": {
-   "iron_ore": 1.108,
-   "tungsten": 0.451
+   "iron_ore": {
+    "base": 0.769,
+    "max": 2.223
+   },
+   "tungsten": {
+    "base": 0.451,
+    "max": 1.304
+   }
   },
   "P_ESP_CIUDAD_REAL": {
-   "mercury": 47.456
+   "mercury": {
+    "base": 47.456,
+    "max": 80.675
+   }
   },
   "P_ESP_CORDOBA": {
-   "sulphur": 0.471,
-   "vanadium": 0.395
+   "sulphur": {
+    "base": 0.471,
+    "max": 1.362
+   },
+   "vanadium": {
+    "base": 0.395,
+    "max": 1.141
+   }
   },
   "P_ESP_CORUNA": {
-   "tungsten": 0.451
+   "tungsten": {
+    "base": 0.451,
+    "max": 1.304
+   }
   },
   "P_ESP_GRANADA": {
-   "sulphur": 0.471,
-   "vanadium": 0.395
+   "sulphur": {
+    "base": 0.471,
+    "max": 1.362
+   },
+   "vanadium": {
+    "base": 0.395,
+    "max": 1.141
+   }
   },
   "P_ESP_HUELVA": {
-   "sulphur": 0.471,
-   "vanadium": 0.395
+   "sulphur": {
+    "base": 0.471,
+    "max": 1.362
+   },
+   "vanadium": {
+    "base": 0.395,
+    "max": 1.141
+   }
   },
   "P_ESP_JAEN": {
-   "sulphur": 0.471,
-   "vanadium": 0.395
+   "sulphur": {
+    "base": 0.471,
+    "max": 1.362
+   },
+   "vanadium": {
+    "base": 0.395,
+    "max": 1.141
+   }
   },
   "P_ESP_LEON": {
-   "tungsten": 0.451
+   "tungsten": {
+    "base": 0.451,
+    "max": 1.304
+   }
   },
   "P_ESP_LUGO": {
-   "tungsten": 0.451
+   "tungsten": {
+    "base": 0.451,
+    "max": 1.304
+   }
   },
   "P_ESP_MURCIA": {
-   "sulphur": 0.471
+   "sulphur": {
+    "base": 0.471,
+    "max": 1.362
+   }
   },
   "P_ESP_ORENSE": {
-   "tungsten": 0.451
+   "tungsten": {
+    "base": 0.451,
+    "max": 1.304
+   }
   },
   "P_ESP_PONTEVEDRA": {
-   "tungsten": 0.451
+   "tungsten": {
+    "base": 0.451,
+    "max": 1.304
+   }
   },
   "P_ESP_SANTANDER": {
-   "iron_ore": 1.108
+   "iron_ore": {
+    "base": 0.769,
+    "max": 2.223
+   }
   },
   "P_ESP_SEVILLA": {
-   "sulphur": 0.471,
-   "vanadium": 0.395
+   "sulphur": {
+    "base": 0.471,
+    "max": 1.362
+   },
+   "vanadium": {
+    "base": 0.395,
+    "max": 1.141
+   }
   },
   "P_ESP_VIZCAYA": {
-   "iron_ore": 1.108
+   "iron_ore": {
+    "base": 0.769,
+    "max": 2.223
+   }
   },
   "P_FRA_ARIEGE": {
-   "bauxite": 8.526
+   "bauxite": {
+    "base": 8.526,
+    "max": 14.493
+   }
   },
   "P_FRA_BOUCHES_DU_RHONE": {
-   "bauxite": 8.526
+   "bauxite": {
+    "base": 8.526,
+    "max": 14.493
+   }
   },
   "P_FRA_MEURTHE_ET_MOSELLE": {
-   "coal": 2.152,
-   "iron_ore": 8.167
+   "coal": {
+    "base": 2.152,
+    "max": 6.22
+   },
+   "iron_ore": {
+    "base": 5.668,
+    "max": 9.635
+   }
   },
   "P_FRA_MOSELLE": {
-   "coal": 2.152,
-   "iron_ore": 8.167
+   "coal": {
+    "base": 2.152,
+    "max": 6.22
+   },
+   "iron_ore": {
+    "base": 5.668,
+    "max": 9.635
+   }
   },
   "P_FRA_NORD": {
-   "coal": 2.152
+   "coal": {
+    "base": 2.152,
+    "max": 6.22
+   }
   },
   "P_FRA_PAS_DE_CALAIS": {
-   "coal": 2.152
+   "coal": {
+    "base": 2.152,
+    "max": 6.22
+   }
+  },
+  "P_FRA_SAVOIE": {
+   "aluminium": {
+    "base": 8.052,
+    "max": 23.27
+   }
   },
   "P_FRA_VAR": {
-   "bauxite": 8.526
+   "bauxite": {
+    "base": 8.526,
+    "max": 14.493
+   }
   },
   "P_GBR_CARMARTHENSHIRE": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
   },
   "P_GBR_EAST_AYRSHIRE": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
   },
   "P_GBR_FIFE": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
   },
   "P_GBR_GLAMORGAN": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
+  },
+  "P_GBR_HIGHLAND": {
+   "aluminium": {
+    "base": 8.052,
+    "max": 23.27
+   }
   },
   "P_GBR_MIDLOTHIAN": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
   },
   "P_GBR_MONMOUTHSHIRE": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
+  },
+  "P_GBR_NORTHAMPTONSHIRE": {
+   "iron_ore": {
+    "base": 5.668,
+    "max": 9.635
+   }
   },
   "P_GBR_NORTH_LANARKSHIRE": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
   },
   "P_GBR_SOUTH_LANARKSHIRE": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
   },
   "P_GBR_WEST_LOTHIAN": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   }
   },
   "P_GBR_YORKSHIRE": {
-   "coal": 1.244
+   "coal": {
+    "base": 1.244,
+    "max": 2.115
+   },
+   "iron_ore": {
+    "base": 5.668,
+    "max": 9.635
+   }
   },
   "P_GRC_ATTIKI": {
-   "bauxite": 1.531,
-   "iron_ore": 0.226
+   "bauxite": {
+    "base": 1.531,
+    "max": 4.425
+   },
+   "iron_ore": {
+    "base": 0.157,
+    "max": 0.452
+   }
   },
   "P_GRC_NOTIO_AIGAIO": {
-   "iron_ore": 0.226
+   "iron_ore": {
+    "base": 0.157,
+    "max": 0.452
+   }
   },
   "P_GRC_STEREA_ELLADA": {
-   "bauxite": 1.531,
-   "iron_ore": 0.226
+   "bauxite": {
+    "base": 1.531,
+    "max": 4.425
+   },
+   "iron_ore": {
+    "base": 0.157,
+    "max": 0.452
+   }
   },
   "P_HUN_BORSOD_ABAUJ_ZEMPLEN": {
-   "iron_ore": 0.677
+   "iron_ore": {
+    "base": 0.47,
+    "max": 1.357
+   }
   },
   "P_HUN_FEJER": {
-   "bauxite": 5.015
+   "bauxite": {
+    "base": 5.015,
+    "max": 14.493
+   }
   },
   "P_HUN_KOMAROM_ESZTERGOM": {
-   "bauxite": 5.015
+   "bauxite": {
+    "base": 5.015,
+    "max": 14.493
+   }
   },
   "P_HUN_VESZPREM": {
-   "bauxite": 5.015
+   "bauxite": {
+    "base": 5.015,
+    "max": 14.493
+   }
   },
   "P_ITA_AGRIGENTO": {
-   "coal": 0.034,
-   "sulphur": 3.178
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "sulphur": {
+    "base": 3.178,
+    "max": 9.183
+   }
   },
   "P_ITA_BARI": {
-   "bauxite": 0.868
+   "bauxite": {
+    "base": 0.868,
+    "max": 2.508
+   }
   },
   "P_ITA_BOLZANO_EST": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_ITA_BOLZANO_OVEST": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_ITA_BRESCIA": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_ITA_CAGLIARI": {
-   "coal": 0.034,
-   "manganese": 0.287
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   }
   },
   "P_ITA_CALTANISSETTA": {
-   "coal": 0.034,
-   "sulphur": 3.178
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "sulphur": {
+    "base": 3.178,
+    "max": 9.183
+   }
   },
   "P_ITA_COMO": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_ITA_ENNA": {
-   "coal": 0.034,
-   "sulphur": 3.178
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "sulphur": {
+    "base": 3.178,
+    "max": 9.183
+   }
   },
   "P_ITA_FIRENZE": {
-   "coal": 0.034,
-   "manganese": 0.287,
-   "mercury": 7.909
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   },
+   "mercury": {
+    "base": 7.909,
+    "max": 13.446
+   }
   },
   "P_ITA_FOGGIA": {
-   "bauxite": 0.868
+   "bauxite": {
+    "base": 0.868,
+    "max": 2.508
+   }
   },
   "P_ITA_GENOVA": {
-   "manganese": 0.287
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   }
   },
   "P_ITA_GORIZIA": {
-   "bauxite": 0.868,
-   "mercury": 7.909
+   "bauxite": {
+    "base": 0.868,
+    "max": 2.508
+   },
+   "mercury": {
+    "base": 7.909,
+    "max": 13.446
+   }
   },
   "P_ITA_LA_SPEZIA": {
-   "manganese": 0.287
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   }
   },
   "P_ITA_LECCE": {
-   "bauxite": 0.868
+   "bauxite": {
+    "base": 0.868,
+    "max": 2.508
+   }
   },
   "P_ITA_MILANO": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_ITA_NUORO": {
-   "coal": 0.034,
-   "manganese": 0.287
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   }
   },
   "P_ITA_PISA": {
-   "coal": 0.034,
-   "manganese": 0.287,
-   "mercury": 7.909
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   },
+   "mercury": {
+    "base": 7.909,
+    "max": 13.446
+   }
   },
   "P_ITA_POLA": {
-   "bauxite": 0.868,
-   "mercury": 7.909
+   "bauxite": {
+    "base": 0.868,
+    "max": 2.508
+   },
+   "mercury": {
+    "base": 7.909,
+    "max": 13.446
+   }
   },
   "P_ITA_SASSARI": {
-   "coal": 0.034,
-   "manganese": 0.287
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   }
   },
   "P_ITA_SAVONA": {
-   "manganese": 0.287
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   }
   },
   "P_ITA_SIENA": {
-   "coal": 0.034,
-   "manganese": 0.287,
-   "mercury": 7.909
+   "coal": {
+    "base": 0.034,
+    "max": 0.097
+   },
+   "manganese": {
+    "base": 0.287,
+    "max": 0.83
+   },
+   "mercury": {
+    "base": 7.909,
+    "max": 13.446
+   }
   },
   "P_ITA_TRENTO": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_ITA_TRIESTE": {
-   "bauxite": 0.868,
-   "mercury": 7.909
+   "bauxite": {
+    "base": 0.868,
+    "max": 2.508
+   },
+   "mercury": {
+    "base": 7.909,
+    "max": 13.446
+   }
   },
   "P_ITA_UDINE": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_ITA_VENEZIA": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_ITA_VERONA": {
-   "aluminium": 0.228
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
   },
   "P_MAR_SOUSS___MASSA___DRAA": {
-   "cobalt": 1.985
+   "cobalt": {
+    "base": 1.985,
+    "max": 5.736
+   }
   },
   "P_NLD_LIMBURG": {
-   "coal": 2.532
+   "coal": {
+    "base": 2.532,
+    "max": 7.317
+   }
   },
   "P_NOR_FINNMARK": {
-   "iron_ore": 0.489
+   "iron_ore": {
+    "base": 0.339,
+    "max": 0.981
+   }
   },
   "P_NOR_HORDALAND": {
-   "aluminium": 5.718
+   "aluminium": {
+    "base": 2.684,
+    "max": 7.757
+   }
   },
   "P_NOR_MORE_OG_ROMSDAL": {
-   "aluminium": 5.718
+   "aluminium": {
+    "base": 2.684,
+    "max": 7.757
+   }
   },
   "P_NOR_NORDLAND": {
-   "iron_ore": 0.489
+   "iron_ore": {
+    "base": 0.339,
+    "max": 0.981
+   }
   },
   "P_NOR_NORD_TRONDELAG": {
-   "iron_ore": 0.489
+   "iron_ore": {
+    "base": 0.339,
+    "max": 0.981
+   }
   },
   "P_NOR_SOGN_OG_FJORDANE": {
-   "aluminium": 5.718
+   "aluminium": {
+    "base": 2.684,
+    "max": 7.757
+   }
   },
   "P_NOR_SOR_TRONDELAG": {
-   "iron_ore": 0.489
+   "iron_ore": {
+    "base": 0.339,
+    "max": 0.981
+   }
   },
   "P_NOR_VEST_AGDER": {
-   "molybdenum": 2.086
+   "molybdenum": {
+    "base": 2.086,
+    "max": 6.028
+   }
   },
   "P_POL_KIELCE_VOIVODESHIP": {
-   "coal": 2.439,
-   "iron_ore": 1.15
+   "coal": {
+    "base": 2.439,
+    "max": 7.049
+   },
+   "iron_ore": {
+    "base": 0.798,
+    "max": 2.307
+   }
   },
   "P_POL_KRAKOW_VOIVODESHIP": {
-   "coal": 2.439
+   "coal": {
+    "base": 2.439,
+    "max": 7.049
+   }
   },
   "P_POL_SILESIAN_VOIVODESHIP": {
-   "coal": 2.439
+   "coal": {
+    "base": 2.439,
+    "max": 7.049
+   }
   },
   "P_PRT_CASTELO_BRANCO": {
-   "tungsten": 6.652
+   "tungsten": {
+    "base": 6.652,
+    "max": 19.224
+   }
   },
   "P_PRT_VILA_REAL": {
-   "tungsten": 6.652
+   "tungsten": {
+    "base": 6.652,
+    "max": 19.224
+   }
   },
   "P_ROM_BIHOR": {
-   "bauxite": 0.623
+   "bauxite": {
+    "base": 0.623,
+    "max": 1.801
+   }
   },
   "P_ROM_BUZAU": {
-   "oil": 2.81
+   "oil": {
+    "base": 2.81,
+    "max": 8.122
+   }
   },
   "P_ROM_CARAS_SEVERIN": {
-   "iron_ore": 0.133
+   "iron_ore": {
+    "base": 0.092,
+    "max": 0.266
+   }
   },
   "P_ROM_DAMBOVITA": {
-   "oil": 2.81
+   "oil": {
+    "base": 2.81,
+    "max": 8.122
+   }
   },
   "P_ROM_HUNEDOARA": {
-   "iron_ore": 0.133
+   "iron_ore": {
+    "base": 0.092,
+    "max": 0.266
+   }
   },
   "P_ROM_PRAHOVA": {
-   "oil": 2.81
+   "oil": {
+    "base": 2.81,
+    "max": 8.122
+   }
   },
   "P_ROM_TIMIS": {
-   "iron_ore": 0.133
+   "iron_ore": {
+    "base": 0.092,
+    "max": 0.266
+   }
   },
   "P_SWE_NORRBOTTEN": {
-   "iron_ore": 16.334
+   "iron_ore": {
+    "base": 11.335,
+    "max": 19.27
+   }
   },
   "P_SWE_VASTRA_GOTALAND": {
-   "aluminium": 1.208
+   "aluminium": {
+    "base": 0.567,
+    "max": 1.639
+   }
   },
   "P_TUR_ELAZIG": {
-   "chromium": 35.364
+   "chromium": {
+    "base": 35.364,
+    "max": 102.203
+   }
   },
   "P_TUR_ZINGULDAK": {
-   "coal": 0.876
+   "coal": {
+    "base": 0.876,
+    "max": 2.532
+   }
   },
   "P_USSR_ABSHERON": {
-   "oil": 1.792
+   "oil": {
+    "base": 1.792,
+    "max": 3.046
+   }
   },
   "P_USSR_BASHKORTOSTAN": {
-   "oil": 1.792
+   "oil": {
+    "base": 1.792,
+    "max": 3.046
+   }
   },
   "P_USSR_CHECHNYA": {
-   "oil": 1.792
+   "oil": {
+    "base": 1.792,
+    "max": 3.046
+   }
   },
   "P_USSR_CHELYABINSK": {
-   "bauxite": 0.383
+   "iron_ore": {
+    "base": 9.635,
+    "max": 9.635
+   }
   },
   "P_USSR_DNIPROPETROVSK": {
-   "bauxite": 0.383,
-   "manganese": 20.808,
-   "wheat": 2.398
+   "bauxite": {
+    "base": 0.51,
+    "max": 1.475
+   },
+   "iron_ore": {
+    "base": 9.635,
+    "max": 9.635
+   },
+   "manganese": {
+    "base": 20.808,
+    "max": 20.808
+   },
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
   },
   "P_USSR_DONETSK": {
-   "bauxite": 0.383,
-   "coal": 6.22,
-   "wheat": 2.398
+   "bauxite": {
+    "base": 0.51,
+    "max": 1.475
+   },
+   "coal": {
+    "base": 6.22,
+    "max": 10.573
+   },
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
   },
   "P_USSR_IMERETI": {
-   "manganese": 20.808
+   "manganese": {
+    "base": 20.808,
+    "max": 20.808
+   }
   },
   "P_USSR_INGUSH": {
-   "oil": 1.792
+   "oil": {
+    "base": 1.792,
+    "max": 3.046
+   }
   },
   "P_USSR_KARELIA": {
-   "bauxite": 0.383
+   "bauxite": {
+    "base": 0.51,
+    "max": 1.475
+   }
   },
   "P_USSR_KEMEROVO": {
-   "coal": 2.532
+   "coal": {
+    "base": 2.532,
+    "max": 7.317
+   }
   },
   "P_USSR_KRASNODAR": {
-   "wheat": 2.398
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
+  },
+  "P_USSR_LENINGRAD": {
+   "aluminium": {
+    "base": 4.563,
+    "max": 13.186
+   }
   },
   "P_USSR_LUHANSK": {
-   "coal": 6.22
+   "coal": {
+    "base": 6.22,
+    "max": 10.573
+   }
   },
   "P_USSR_ORENBURG": {
-   "oil": 1.792
+   "oil": {
+    "base": 1.792,
+    "max": 3.046
+   }
   },
   "P_USSR_PERM": {
-   "bauxite": 0.383,
-   "oil": 1.792
+   "oil": {
+    "base": 1.792,
+    "max": 3.046
+   }
   },
   "P_USSR_POLTAVA": {
-   "bauxite": 0.383,
-   "wheat": 2.398
+   "bauxite": {
+    "base": 0.51,
+    "max": 1.475
+   },
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
   },
   "P_USSR_SAKHALIN": {
-   "oil": 0.594
+   "oil": {
+    "base": 0.594,
+    "max": 1.716
+   }
   },
   "P_USSR_SAMARA": {
-   "oil": 1.792,
-   "wheat": 2.398
+   "oil": {
+    "base": 1.792,
+    "max": 3.046
+   },
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
   },
   "P_USSR_SARATOV": {
-   "wheat": 2.398
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
   },
   "P_USSR_SVERDLOVSK": {
-   "bauxite": 0.383
+   "aluminium": {
+    "base": 4.563,
+    "max": 13.186
+   },
+   "bauxite": {
+    "base": 0.51,
+    "max": 1.475
+   }
   },
   "P_USSR_TATARSTAN": {
-   "oil": 1.792
+   "oil": {
+    "base": 1.792,
+    "max": 3.046
+   }
   },
   "P_USSR_ULYANOVSK": {
-   "wheat": 2.398
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
   },
   "P_USSR_VOLGOGRAD": {
-   "wheat": 2.398
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
   },
   "P_USSR_ZAPORIZHZHYA": {
-   "bauxite": 0.383,
-   "manganese": 20.808,
-   "wheat": 2.398
+   "aluminium": {
+    "base": 4.563,
+    "max": 13.186
+   },
+   "bauxite": {
+    "base": 0.51,
+    "max": 1.475
+   },
+   "manganese": {
+    "base": 20.808,
+    "max": 20.808
+   },
+   "wheat": {
+    "base": 2.398,
+    "max": 6.929
+   }
   },
   "P_YUG_BANJA_LUKA": {
-   "antimony": 0.414,
-   "bauxite": 0.983
+   "antimony": {
+    "base": 0.414,
+    "max": 1.197
+   },
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_BIHAC": {
-   "antimony": 0.414,
-   "bauxite": 0.983
+   "antimony": {
+    "base": 0.414,
+    "max": 1.197
+   },
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_CETINJE": {
-   "bauxite": 0.983
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_DUBROVNIK": {
-   "bauxite": 0.983
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_MOSTAR": {
-   "bauxite": 0.983
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_SABAC": {
-   "antimony": 0.414
+   "antimony": {
+    "base": 0.414,
+    "max": 1.197
+   }
   },
   "P_YUG_SARAJEVO": {
-   "antimony": 0.414,
-   "bauxite": 0.983
+   "antimony": {
+    "base": 0.414,
+    "max": 1.197
+   },
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_SPLIT": {
-   "bauxite": 0.983
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_TRAVNIK": {
-   "antimony": 0.414,
-   "bauxite": 0.983
+   "antimony": {
+    "base": 0.414,
+    "max": 1.197
+   },
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_TUZLA": {
-   "antimony": 0.414,
-   "bauxite": 0.983
+   "antimony": {
+    "base": 0.414,
+    "max": 1.197
+   },
+   "bauxite": {
+    "base": 0.983,
+    "max": 2.842
+   }
   },
   "P_YUG_VALJEVO": {
-   "antimony": 0.414
+   "antimony": {
+    "base": 0.414,
+    "max": 1.197
+   }
   }
  }
 }
