@@ -9,8 +9,12 @@ export const PROVINCE_RESOURCES_SCHEMA = 'province-resources-v1';
  * Prodotti: non sono risorse naturali ma uscita di una fabbrica (deciso in chat, 24/10/2026). L'alluminio si ottiene da bauxite ed energia:
  * i suoi centri sono fonderie e il loro punteggio è capacità industriale di base. Restano nel modello a punti, ma a parte, e non sulla mappa Risorse.
  */
-export const PRODUCT_IDS = Object.freeze(['aluminium']);
-export const PRODUCT_META = Object.freeze({ aluminium: { label: 'Alluminio', symbol: 'Al', input: 'bauxite' } });
+export const PRODUCT_IDS = Object.freeze(['aluminium', 'steel']);
+// inputs: materie prime consumate; factory: id in data/industry/factories.csv. L'acciaio non ha ancora centri né punti (nessun dato di partenza: non si inventa).
+export const PRODUCT_META = Object.freeze({
+  aluminium: { label: 'Alluminio', symbol: 'Al', inputs: ['bauxite'], factory: 'FCT-ALUMINIUM' },
+  steel: { label: 'Acciaio', symbol: 'Fe', inputs: ['iron_ore', 'coal'], factory: 'FCT-STEEL' },
+});
 
 /** Ordine di visualizzazione (e di priorità se in una provincia non entrano tutte le icone). */
 export const RESOURCE_ORDER = Object.freeze(['oil', 'coal', 'iron_ore', 'bauxite', 'rubber', 'wheat', 'tungsten', 'tin', 'manganese', 'chromium', 'nickel', 'cobalt', 'molybdenum', 'vanadium', 'antimony', 'mercury', 'sulphur', 'uranium']);

@@ -216,4 +216,4 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 
 ### Alluminio come prodotto (24/10/2026)
 Implementato e testato: l'alluminio esce dal livello Risorse (`PRODUCT_IDS`, `RESOURCE_ORDER`/`RESOURCE_META` ora hanno 18 materie prime), `data/resources.json` lo marca `tipo: prodotto` (da bauxite), il modello a punti lo tiene in una sezione `products` separata. Mancante: la fabbrica che lo produce (industrie non ancora implementate); acciaio non toccato.
-
+Acciaio: marcato `prodotto` (ingressi ferro e carbone, fabbrica FCT-STEEL), fuori dal livello Risorse. Parziale: nessun centro né punto di capacità (mancano i dati). Il legame prodotto → fabbrica è nei dati e testato, ma la produzione in gioco non è ancora implementata.

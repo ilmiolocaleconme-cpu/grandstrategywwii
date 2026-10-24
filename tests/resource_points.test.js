@@ -114,7 +114,7 @@ test('prodotti: l\'alluminio non è una materia prima, né nei punti per provinc
   for (const row of Object.values(file.byProvince)) assert.ok(!('aluminium' in row));
   assert.ok(Object.values(file.byProvinceProducts).every((row) => Object.keys(row).every((k) => k === 'aluminium')));
   const { RESOURCE_ORDER, RESOURCE_META, PRODUCT_IDS } = await import('../src/data/provinceResources.js');
-  assert.deepEqual(PRODUCT_IDS, ['aluminium']);
+  assert.deepEqual(PRODUCT_IDS, ['aluminium', 'steel']);
   assert.ok(!RESOURCE_ORDER.includes('aluminium') && !('aluminium' in RESOURCE_META));
   const pr = JSON.parse(text('../data/resources/province_resources.json'));
   assert.ok(Object.values(pr.byProvince).every((l) => !l.includes('aluminium')));
@@ -134,4 +134,19 @@ test('province: il tetto di ogni provincia non scende sotto la base e somma ai c
     const fromCenters = r.centers.filter((c) => c.province.length).reduce((a, c) => a + c.punti, 0);
     assert.ok(Math.abs(fromProvinces - fromCenters) < 0.1, `${res}: punti delle province ${fromProvinces} contro centri ${fromCenters}`);
   }
+});
+
+test('prodotti: ogni prodotto è marcato nei dati, ha ingressi che sono materie prime e una fabbrica esistente', async () => {
+  const { PRODUCT_IDS, PRODUCT_META, RESOURCE_ORDER } = await import('../src/data/provinceResources.js');
+  const resources = JSON.parse(text('../data/resources.json'));
+  const factories = text('../data/industry/factories.csv');
+  for (const id of PRODUCT_IDS) {
+    const r = resources.find((x) => x.id === id);
+    assert.equal(r?.tipo, 'prodotto', `${id}: tipo`);
+    assert.deepEqual(r.da, PRODUCT_META[id].inputs, `${id}: ingressi dati/codice`);
+    assert.equal(r.fabbrica, PRODUCT_META[id].factory);
+    assert.ok(factories.includes(`${r.fabbrica},`), `${id}: fabbrica ${r.fabbrica} inesistente`);
+    for (const i of r.da) assert.ok(RESOURCE_ORDER.includes(i), `${id}: ingresso ${i} non è una materia prima`);
+  }
+  assert.deepEqual(resources.filter((x) => x.tipo === 'prodotto').map((x) => x.id).sort(), [...PRODUCT_IDS].sort());
 });
