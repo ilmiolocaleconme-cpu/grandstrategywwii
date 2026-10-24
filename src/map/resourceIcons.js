@@ -16,8 +16,6 @@ const SHAPES = (() => {
   return {
     // pompa petrolifera: base, cavalletto, bilanciere con testa a cavallo, contrappeso
     pumpjack: [p('M3 20h18v1.8H3z'), p('M9 20 11.2 9.5h1.6L15 20h-1.6L12 12.4 10.6 20z'), p('M3.2 9.6 16 5l.7 1.9L3.9 11.5z'), p('M15.6 4.6C19.6 4 20.6 7.6 20 10h-1.7c.3-1.6.1-2.7-1.3-2.5z'), p('M18.9 9.6h1V17h-1z'), p('M3 13.4h3.6V18H3z')],
-    // lingotto (alluminio): due lingotti impilati
-    ingot: [p('M7.5 9.5h9l2.3 4.5H5.2z'), p('M3.5 14.8h8l1.9 4.2H1.6z'), p('M12.6 14.8h8l1.9 4.2h-11.8z')],
     // goccia (gomma)
     drop: [p('M12 3C12 3 6.5 9.4 6.5 13.6a5.5 5.5 0 0 0 11 0C17.5 9.4 12 3 12 3z')],
     // spiga di frumento

@@ -129,16 +129,19 @@ export function balanceOf(points) {
 }
 
 /**
- * Tiratura completa: { schema, params, resources: { id: { centers, byControl: {controllore: {base, max}}, totale: {base, max, potenziale}, balance } },
- * byProvince: { idProvincia: { idRisorsa: {base, max} } } }. `balance` è calcolato sull'output base.
+ * Tiratura completa: { schema, params, resources, products, byProvince, byProvinceProducts }.
+ * `resources` (materie prime) e `products` (prodotti industriali, `params.products`) hanno la stessa forma: { id: { centers, byControl: {controllore: {base, max}},
+ * totale: {base, max, potenziale}, balance } }. `byProvince` e `byProvinceProducts`: { idProvincia: { idRisorsa: {base, max} } }. `balance` è sull'output base.
  */
 export function buildResourcePoints({ locations, links, scores, params }) {
-  const { step, budgetPerResource: budget, extraLevels = 2 } = params;
+  const { step, budgetPerResource: budget, extraLevels = 2, products = [] } = params;
   const centers = allocate(buildCenters(locations, links, scores), { step, budget, extraLevels });
-  const resources = {};
-  const byProvince = {};
+  const out = { resources: {}, products: {} };
+  const prov = { resources: {}, products: {} };
   for (const c of centers) {
-    const r = resources[c.resource_id] ?? (resources[c.resource_id] = { centers: [], byControl: {}, totale: { base: 0, max: 0, potenziale: 0 }, balance: null });
+    const kind = products.includes(c.resource_id) ? 'products' : 'resources';
+    const group = out[kind];
+    const r = group[c.resource_id] ?? (group[c.resource_id] = { centers: [], byControl: {}, totale: { base: 0, max: 0, potenziale: 0 }, balance: null });
     r.centers.push({
       id: c.key, controllo: c.control_text, paese: c.country_text, luogo: c.place_text, punteggio: c.base.score, periodoBase: c.base.period, punteggioMax: c.maxScore,
       punti: c.points, puntiMax: c.maxPoints, province: c.provinces, baseDopo1938: c.baseAfter1938 || undefined,
@@ -147,18 +150,27 @@ export function buildResourcePoints({ locations, links, scores, params }) {
     ctl.base += c.points; ctl.max += c.maxPoints;
     r.totale.base += c.points; r.totale.max += c.maxPoints;
     for (const p of c.provinces) {
-      const row = byProvince[p] ?? (byProvince[p] = {});
+      const row = prov[kind][p] ?? (prov[kind][p] = {});
       const cell = row[c.resource_id] ?? (row[c.resource_id] = { base: 0, max: 0 });
       cell.base += c.points / c.provinces.length; cell.max += c.maxPoints / c.provinces.length;
     }
   }
-  for (const r of Object.values(resources)) {
-    r.balance = balanceOf(Object.fromEntries(Object.entries(r.byControl).map(([k, v]) => [k, v.base])));
-    r.byControl = Object.fromEntries(Object.entries(r.byControl).sort((a, b) => b[1].base - a[1].base || (a[0] < b[0] ? -1 : 1)).map(([k, v]) => [k, { base: round(v.base), max: round(v.max) }]));
-    r.totale = { base: round(r.totale.base), max: round(r.totale.max), potenziale: round(r.totale.max / r.totale.base, 2) };
+  for (const group of Object.values(out)) {
+    for (const r of Object.values(group)) {
+      r.balance = balanceOf(Object.fromEntries(Object.entries(r.byControl).map(([k, v]) => [k, v.base])));
+      r.byControl = Object.fromEntries(Object.entries(r.byControl).sort((a, b) => b[1].base - a[1].base || (a[0] < b[0] ? -1 : 1)).map(([k, v]) => [k, { base: round(v.base), max: round(v.max) }]));
+      r.totale = { base: round(r.totale.base), max: round(r.totale.max), potenziale: round(r.totale.max / r.totale.base, 2) };
+    }
   }
-  for (const row of Object.values(byProvince)) for (const k of Object.keys(row)) row[k] = { base: round(row[k].base), max: round(row[k].max) };
-  return { schema: POINTS_SCHEMA, quality: 'reference', params: { step, budgetPerResource: budget, extraLevels }, resources: Object.fromEntries(Object.entries(resources).sort()), byProvince: Object.fromEntries(Object.entries(byProvince).sort()) };
+  const finish = (byP) => {
+    for (const row of Object.values(byP)) for (const k of Object.keys(row)) row[k] = { base: round(row[k].base), max: round(row[k].max) };
+    return Object.fromEntries(Object.entries(byP).sort());
+  };
+  const sorted = (g) => Object.fromEntries(Object.entries(g).sort());
+  return {
+    schema: POINTS_SCHEMA, quality: 'reference', params: { step, budgetPerResource: budget, extraLevels, products },
+    resources: sorted(out.resources), products: sorted(out.products), byProvince: finish(prov.resources), byProvinceProducts: finish(prov.products),
+  };
 }
 
 /** Quota del maggior controllore di ogni risorsa per `step` diversi: serve a scegliere `step` guardando la concentrazione. */
@@ -179,24 +191,33 @@ const times = (v) => `×${String(v).replace('.', ',')}`;
 
 /**
  * Tabella leggibile (Markdown) della tiratura: primi tre controllori per risorsa (output base), potenziale massimo e quota del primo al variare di `step`.
- * `labels`: { idRisorsa: nome }. File GENERATO da scripts/build-resource-points.js: non modificarlo a mano.
+ * Prima le materie prime, poi i prodotti (capacità industriale). `labels`: { idRisorsa: nome }.
+ * File GENERATO da scripts/build-resource-points.js: non modificarlo a mano.
  */
 export function pointsTableMarkdown(file, sens, labels, steps) {
   const { step, budgetPerResource: budget, extraLevels } = file.params;
+  const head = (first) => [
+    `| ${first} | Centri | Primi tre controllori (output base) | Produttori effettivi | Potenziale mondiale (tetto / base) | Quota del primo a step ${steps.join(' / ')} | Dominante |`,
+    '| --- | ---: | --- | ---: | ---: | --- | --- |',
+  ];
+  const rows = (group) => Object.entries(group).map(([id, r]) => {
+    const top = Object.entries(r.byControl).slice(0, 3).map(([k, v]) => `${k} ${pct(v.base / budget)}`).join(', ');
+    const sh = steps.map((s) => pct(sens[id][s].topControlShare)).join(' / ');
+    return `| ${labels[id] ?? id} | ${r.centers.length} | ${top} | ${r.balance.effectiveProducers} | ${times(r.totale.potenziale)} | ${sh} | ${r.balance.topControlShare > 0.5 ? `sì (${r.balance.topControl})` : 'no'} |`;
+  });
   const lines = [
     '# Tiratura delle risorse a punti (generato)',
     '',
     'File generato da `npm run build:resource-points`: non modificare a mano. Spiegazione e regole in `docs/RISORSE_PUNTI.md`.',
     `Parametri: step ${step}, ${budget} punti di output base mondiale per risorsa (quindi percentuali), almeno ${extraLevels} livelli di sviluppo oltre la base. Punteggio 1 = peso 1; ogni punto in più moltiplica l'output per ${step}.`,
     '',
-    `| Risorsa | Centri | Primi tre controllori (output base) | Produttori effettivi | Potenziale mondiale (tetto / base) | Quota del primo a step ${steps.join(' / ')} | Dominante |`,
-    '| --- | ---: | --- | ---: | ---: | --- | --- |',
+    '## Materie prime (livello Risorse della mappa)',
+    '',
+    ...head('Risorsa'), ...rows(file.resources),
   ];
-  for (const [id, r] of Object.entries(file.resources)) {
-    const top = Object.entries(r.byControl).slice(0, 3).map(([k, v]) => `${k} ${pct(v.base / budget)}`).join(', ');
-    const sh = steps.map((s) => pct(sens[id][s].topControlShare)).join(' / ');
-    lines.push(`| ${labels[id] ?? id} | ${r.centers.length} | ${top} | ${r.balance.effectiveProducers} | ${times(r.totale.potenziale)} | ${sh} | ${r.balance.topControlShare > 0.5 ? `sì (${r.balance.topControl})` : 'no'} |`);
+  if (Object.keys(file.products).length) {
+    lines.push('', '## Prodotti (capacità industriale: fonderie e fabbriche, non giacimenti)', '', ...head('Prodotto'), ...rows(file.products));
   }
-  lines.push('', '«Produttori effettivi» = 1 / somma dei quadrati delle quote dei controllori (più è alto, più la risorsa è distribuita). «Dominante» = un solo controllore oltre il 50%. «Potenziale mondiale» = somma dei tetti di tutti i centri divisa per l\'output base: di quanto può crescere in totale la risorsa se ogni centro arriva al suo tetto.', '');
+  lines.push('', '«Produttori effettivi» = 1 / somma dei quadrati delle quote dei controllori (più è alto, più la risorsa è distribuita). «Dominante» = un solo controllore oltre il 50%. «Potenziale mondiale» = somma dei tetti di tutti i centri divisa per l\'output base: di quanto può crescere in totale se ogni centro arriva al suo tetto.', '');
   return lines.join('\n');
 }

@@ -102,7 +102,22 @@ test('dati reali: ogni risorsa somma al budget, ogni centro ha un punteggio 1-10
     assert.ok(r.totale.max >= r.totale.base && r.totale.potenziale >= 1);
     for (const c of r.centers) assert.ok(c.punteggio >= 1 && c.punteggio <= 10 && c.punteggioMax >= c.punteggio && c.punteggioMax <= 10 && c.puntiMax >= c.punti, `${id}: ${c.id}`);
   }
-  assert.equal(Object.keys(file.resources).length, 19);
+  assert.equal(Object.keys(file.resources).length, 18);
+  assert.deepEqual(Object.keys(file.products), ['aluminium']);
+  const al = file.products.aluminium;
+  assert.ok(Math.abs(al.centers.reduce((a, c) => a + c.punti, 0) - budgetPerResource) < 0.05, 'alluminio: somma punti');
+});
+
+test('prodotti: l\'alluminio non è una materia prima, né nei punti per provincia né nel livello Risorse', async () => {
+  const file = await resourcePointsFile();
+  assert.ok(!('aluminium' in file.resources));
+  for (const row of Object.values(file.byProvince)) assert.ok(!('aluminium' in row));
+  assert.ok(Object.values(file.byProvinceProducts).every((row) => Object.keys(row).every((k) => k === 'aluminium')));
+  const { RESOURCE_ORDER, RESOURCE_META, PRODUCT_IDS } = await import('../src/data/provinceResources.js');
+  assert.deepEqual(PRODUCT_IDS, ['aluminium']);
+  assert.ok(!RESOURCE_ORDER.includes('aluminium') && !('aluminium' in RESOURCE_META));
+  const pr = JSON.parse(text('../data/resources/province_resources.json'));
+  assert.ok(Object.values(pr.byProvince).every((l) => !l.includes('aluminium')));
 });
 
 test('step 1: tutti i centri di una risorsa valgono uguale', async () => {

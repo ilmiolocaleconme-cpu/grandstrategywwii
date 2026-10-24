@@ -4,244 +4,12 @@
  "params": {
   "step": 1.7,
   "budgetPerResource": 100,
-  "extraLevels": 2
+  "extraLevels": 2,
+  "products": [
+   "aluminium"
+  ]
  },
  "resources": {
-  "aluminium": {
-   "centers": [
-    {
-     "id": "aluminium|Canada|arvida",
-     "controllo": "Regno Unito",
-     "paese": "Canada",
-     "luogo": "Arvida, Quebec; Shawinigan",
-     "punteggio": 7,
-     "periodoBase": "1936",
-     "punteggioMax": 10,
-     "punti": 8.052,
-     "puntiMax": 39.559,
-     "province": []
-    },
-    {
-     "id": "aluminium|Francia|maurienne",
-     "controllo": "Francia",
-     "paese": "Francia",
-     "luogo": "Maurienne",
-     "punteggio": 7,
-     "periodoBase": "1938",
-     "punteggioMax": 9,
-     "punti": 8.052,
-     "puntiMax": 23.27,
-     "province": [
-      "P_FRA_SAVOIE"
-     ]
-    },
-    {
-     "id": "aluminium|Germania|rheinfelden",
-     "controllo": "Germania",
-     "paese": "Germania",
-     "luogo": "Rheinfelden, Lauta, Toging, Erftwerk, Horrem",
-     "punteggio": 9,
-     "periodoBase": "1938",
-     "punteggioMax": 10,
-     "punti": 23.27,
-     "puntiMax": 39.559,
-     "province": [
-      "P_DEU_BADEN",
-      "P_DEU_DUESSELDORF",
-      "P_DEU_KOELN_AACHEN",
-      "P_DEU_MUENCHEN_OBERBAYERN",
-      "P_DEU_NIEDERSCHLESIEN"
-     ]
-    },
-    {
-     "id": "aluminium|Giappone|toyama",
-     "controllo": "Giappone",
-     "paese": "Giappone",
-     "luogo": "Toyama, Niigata, Hokuriku, Manciukuo",
-     "punteggio": 3,
-     "periodoBase": "1935",
-     "punteggioMax": 7,
-     "punti": 0.964,
-     "puntiMax": 8.052,
-     "province": []
-    },
-    {
-     "id": "aluminium|India britannica|alwaye",
-     "controllo": "Regno Unito",
-     "paese": "India britannica",
-     "luogo": "Alwaye, Kerala",
-     "punteggio": 1,
-     "periodoBase": "1943",
-     "punteggioMax": 3,
-     "punti": 0.334,
-     "puntiMax": 0.964,
-     "province": [],
-     "baseDopo1938": true
-    },
-    {
-     "id": "aluminium|Italia|bolzano",
-     "controllo": "Italia",
-     "paese": "Italia",
-     "luogo": "Bolzano, Mori, Paderno Dugnano, Porto Marghera",
-     "punteggio": 3,
-     "periodoBase": "1938",
-     "punteggioMax": 5,
-     "punti": 0.964,
-     "puntiMax": 2.786,
-     "province": [
-      "P_ITA_BOLZANO_EST",
-      "P_ITA_BOLZANO_OVEST",
-      "P_ITA_BRESCIA",
-      "P_ITA_COMO",
-      "P_ITA_MILANO",
-      "P_ITA_TRENTO",
-      "P_ITA_UDINE",
-      "P_ITA_VENEZIA",
-      "P_ITA_VERONA"
-     ]
-    },
-    {
-     "id": "aluminium|Norvegia|hoyanger",
-     "controllo": "Norvegia",
-     "paese": "Norvegia",
-     "luogo": "Hoyanger, Tyssedal, Ardal, Sunndalsora",
-     "punteggio": 7,
-     "periodoBase": "1935",
-     "punteggioMax": 9,
-     "punti": 8.052,
-     "puntiMax": 23.27,
-     "province": [
-      "P_NOR_HORDALAND",
-      "P_NOR_MORE_OG_ROMSDAL",
-      "P_NOR_SOGN_OG_FJORDANE"
-     ]
-    },
-    {
-     "id": "aluminium|Regno Unito|foyers",
-     "controllo": "Regno Unito",
-     "paese": "Regno Unito",
-     "luogo": "Foyers, Kinlochleven",
-     "punteggio": 7,
-     "periodoBase": "1938",
-     "punteggioMax": 9,
-     "punti": 8.052,
-     "puntiMax": 23.27,
-     "province": [
-      "P_GBR_HIGHLAND"
-     ]
-    },
-    {
-     "id": "aluminium|Stati Uniti|pennsylvania",
-     "controllo": "Stati Uniti",
-     "paese": "Stati Uniti",
-     "luogo": "Pennsylvania, Tennessee, Washington",
-     "punteggio": 9,
-     "periodoBase": "1938",
-     "punteggioMax": 10,
-     "punti": 23.27,
-     "puntiMax": 39.559,
-     "province": []
-    },
-    {
-     "id": "aluminium|Svezia|trollhattan",
-     "controllo": "Svezia",
-     "paese": "Svezia",
-     "luogo": "Trollhattan",
-     "punteggio": 2,
-     "periodoBase": "1935",
-     "punteggioMax": 4,
-     "punti": 0.567,
-     "puntiMax": 1.639,
-     "province": [
-      "P_SWE_VASTRA_GOTALAND"
-     ]
-    },
-    {
-     "id": "aluminium|Svizzera|valle",
-     "controllo": "Svizzera",
-     "paese": "Svizzera",
-     "luogo": "Valle del Rodano, Chippis, Steg, Rheinfelden",
-     "punteggio": 6,
-     "periodoBase": "1935",
-     "punteggioMax": 8,
-     "punti": 4.736,
-     "puntiMax": 13.688,
-     "province": [
-      "P_CHE_AARGAU",
-      "P_CHE_VALAIS"
-     ]
-    },
-    {
-     "id": "aluminium|URSS|zaporizhzhya",
-     "controllo": "URSS",
-     "paese": "URSS",
-     "luogo": "Zaporizhzhya, Volkhov, Urali",
-     "punteggio": 8,
-     "periodoBase": "1938",
-     "punteggioMax": 10,
-     "punti": 13.688,
-     "puntiMax": 39.559,
-     "province": [
-      "P_USSR_LENINGRAD",
-      "P_USSR_SVERDLOVSK",
-      "P_USSR_ZAPORIZHZHYA"
-     ]
-    }
-   ],
-   "byControl": {
-    "Germania": {
-     "base": 23.27,
-     "max": 39.559
-    },
-    "Stati Uniti": {
-     "base": 23.27,
-     "max": 39.559
-    },
-    "Regno Unito": {
-     "base": 16.438,
-     "max": 63.793
-    },
-    "URSS": {
-     "base": 13.688,
-     "max": 39.559
-    },
-    "Francia": {
-     "base": 8.052,
-     "max": 23.27
-    },
-    "Norvegia": {
-     "base": 8.052,
-     "max": 23.27
-    },
-    "Svizzera": {
-     "base": 4.736,
-     "max": 13.688
-    },
-    "Giappone": {
-     "base": 0.964,
-     "max": 8.052
-    },
-    "Italia": {
-     "base": 0.964,
-     "max": 2.786
-    },
-    "Svezia": {
-     "base": 0.567,
-     "max": 1.639
-    }
-   },
-   "totale": {
-    "base": 100.001,
-    "max": 255.175,
-    "potenziale": 2.55
-   },
-   "balance": {
-    "topControl": "Germania",
-    "topControlShare": 0.233,
-    "effectiveProducers": 5.9,
-    "controls": 10
-   }
-  },
   "antimony": {
    "centers": [
     {
@@ -3006,6 +2774,243 @@
    }
   }
  },
+ "products": {
+  "aluminium": {
+   "centers": [
+    {
+     "id": "aluminium|Canada|arvida",
+     "controllo": "Regno Unito",
+     "paese": "Canada",
+     "luogo": "Arvida, Quebec; Shawinigan",
+     "punteggio": 7,
+     "periodoBase": "1936",
+     "punteggioMax": 10,
+     "punti": 8.052,
+     "puntiMax": 39.559,
+     "province": []
+    },
+    {
+     "id": "aluminium|Francia|maurienne",
+     "controllo": "Francia",
+     "paese": "Francia",
+     "luogo": "Maurienne",
+     "punteggio": 7,
+     "periodoBase": "1938",
+     "punteggioMax": 9,
+     "punti": 8.052,
+     "puntiMax": 23.27,
+     "province": [
+      "P_FRA_SAVOIE"
+     ]
+    },
+    {
+     "id": "aluminium|Germania|rheinfelden",
+     "controllo": "Germania",
+     "paese": "Germania",
+     "luogo": "Rheinfelden, Lauta, Toging, Erftwerk, Horrem",
+     "punteggio": 9,
+     "periodoBase": "1938",
+     "punteggioMax": 10,
+     "punti": 23.27,
+     "puntiMax": 39.559,
+     "province": [
+      "P_DEU_BADEN",
+      "P_DEU_DUESSELDORF",
+      "P_DEU_KOELN_AACHEN",
+      "P_DEU_MUENCHEN_OBERBAYERN",
+      "P_DEU_NIEDERSCHLESIEN"
+     ]
+    },
+    {
+     "id": "aluminium|Giappone|toyama",
+     "controllo": "Giappone",
+     "paese": "Giappone",
+     "luogo": "Toyama, Niigata, Hokuriku, Manciukuo",
+     "punteggio": 3,
+     "periodoBase": "1935",
+     "punteggioMax": 7,
+     "punti": 0.964,
+     "puntiMax": 8.052,
+     "province": []
+    },
+    {
+     "id": "aluminium|India britannica|alwaye",
+     "controllo": "Regno Unito",
+     "paese": "India britannica",
+     "luogo": "Alwaye, Kerala",
+     "punteggio": 1,
+     "periodoBase": "1943",
+     "punteggioMax": 3,
+     "punti": 0.334,
+     "puntiMax": 0.964,
+     "province": [],
+     "baseDopo1938": true
+    },
+    {
+     "id": "aluminium|Italia|bolzano",
+     "controllo": "Italia",
+     "paese": "Italia",
+     "luogo": "Bolzano, Mori, Paderno Dugnano, Porto Marghera",
+     "punteggio": 3,
+     "periodoBase": "1938",
+     "punteggioMax": 5,
+     "punti": 0.964,
+     "puntiMax": 2.786,
+     "province": [
+      "P_ITA_BOLZANO_EST",
+      "P_ITA_BOLZANO_OVEST",
+      "P_ITA_BRESCIA",
+      "P_ITA_COMO",
+      "P_ITA_MILANO",
+      "P_ITA_TRENTO",
+      "P_ITA_UDINE",
+      "P_ITA_VENEZIA",
+      "P_ITA_VERONA"
+     ]
+    },
+    {
+     "id": "aluminium|Norvegia|hoyanger",
+     "controllo": "Norvegia",
+     "paese": "Norvegia",
+     "luogo": "Hoyanger, Tyssedal, Ardal, Sunndalsora",
+     "punteggio": 7,
+     "periodoBase": "1935",
+     "punteggioMax": 9,
+     "punti": 8.052,
+     "puntiMax": 23.27,
+     "province": [
+      "P_NOR_HORDALAND",
+      "P_NOR_MORE_OG_ROMSDAL",
+      "P_NOR_SOGN_OG_FJORDANE"
+     ]
+    },
+    {
+     "id": "aluminium|Regno Unito|foyers",
+     "controllo": "Regno Unito",
+     "paese": "Regno Unito",
+     "luogo": "Foyers, Kinlochleven",
+     "punteggio": 7,
+     "periodoBase": "1938",
+     "punteggioMax": 9,
+     "punti": 8.052,
+     "puntiMax": 23.27,
+     "province": [
+      "P_GBR_HIGHLAND"
+     ]
+    },
+    {
+     "id": "aluminium|Stati Uniti|pennsylvania",
+     "controllo": "Stati Uniti",
+     "paese": "Stati Uniti",
+     "luogo": "Pennsylvania, Tennessee, Washington",
+     "punteggio": 9,
+     "periodoBase": "1938",
+     "punteggioMax": 10,
+     "punti": 23.27,
+     "puntiMax": 39.559,
+     "province": []
+    },
+    {
+     "id": "aluminium|Svezia|trollhattan",
+     "controllo": "Svezia",
+     "paese": "Svezia",
+     "luogo": "Trollhattan",
+     "punteggio": 2,
+     "periodoBase": "1935",
+     "punteggioMax": 4,
+     "punti": 0.567,
+     "puntiMax": 1.639,
+     "province": [
+      "P_SWE_VASTRA_GOTALAND"
+     ]
+    },
+    {
+     "id": "aluminium|Svizzera|valle",
+     "controllo": "Svizzera",
+     "paese": "Svizzera",
+     "luogo": "Valle del Rodano, Chippis, Steg, Rheinfelden",
+     "punteggio": 6,
+     "periodoBase": "1935",
+     "punteggioMax": 8,
+     "punti": 4.736,
+     "puntiMax": 13.688,
+     "province": [
+      "P_CHE_AARGAU",
+      "P_CHE_VALAIS"
+     ]
+    },
+    {
+     "id": "aluminium|URSS|zaporizhzhya",
+     "controllo": "URSS",
+     "paese": "URSS",
+     "luogo": "Zaporizhzhya, Volkhov, Urali",
+     "punteggio": 8,
+     "periodoBase": "1938",
+     "punteggioMax": 10,
+     "punti": 13.688,
+     "puntiMax": 39.559,
+     "province": [
+      "P_USSR_LENINGRAD",
+      "P_USSR_SVERDLOVSK",
+      "P_USSR_ZAPORIZHZHYA"
+     ]
+    }
+   ],
+   "byControl": {
+    "Germania": {
+     "base": 23.27,
+     "max": 39.559
+    },
+    "Stati Uniti": {
+     "base": 23.27,
+     "max": 39.559
+    },
+    "Regno Unito": {
+     "base": 16.438,
+     "max": 63.793
+    },
+    "URSS": {
+     "base": 13.688,
+     "max": 39.559
+    },
+    "Francia": {
+     "base": 8.052,
+     "max": 23.27
+    },
+    "Norvegia": {
+     "base": 8.052,
+     "max": 23.27
+    },
+    "Svizzera": {
+     "base": 4.736,
+     "max": 13.688
+    },
+    "Giappone": {
+     "base": 0.964,
+     "max": 8.052
+    },
+    "Italia": {
+     "base": 0.964,
+     "max": 2.786
+    },
+    "Svezia": {
+     "base": 0.567,
+     "max": 1.639
+    }
+   },
+   "totale": {
+    "base": 100.001,
+    "max": 255.175,
+    "potenziale": 2.55
+   },
+   "balance": {
+    "topControl": "Germania",
+    "topControlShare": 0.233,
+    "effectiveProducers": 5.9,
+    "controls": 10
+   }
+  }
+ },
  "byProvince": {
   "P_ALG_AURES": {
    "antimony": {
@@ -3049,18 +3054,6 @@
     "max": 0.47
    }
   },
-  "P_CHE_AARGAU": {
-   "aluminium": {
-    "base": 2.368,
-    "max": 6.844
-   }
-  },
-  "P_CHE_VALAIS": {
-   "aluminium": {
-    "base": 2.368,
-    "max": 6.844
-   }
-  },
   "P_CZE_BOHEMIA": {
    "antimony": {
     "base": 2.899,
@@ -3089,12 +3082,6 @@
     "max": 3.334
    }
   },
-  "P_DEU_BADEN": {
-   "aluminium": {
-    "base": 4.654,
-    "max": 7.912
-   }
-  },
   "P_DEU_BAYERISCHE_OSTMARK": {
    "mercury": {
     "base": 0.218,
@@ -3102,10 +3089,6 @@
    }
   },
   "P_DEU_DUESSELDORF": {
-   "aluminium": {
-    "base": 4.654,
-    "max": 7.912
-   },
    "coal": {
     "base": 4.146,
     "max": 7.049
@@ -3134,10 +3117,6 @@
    }
   },
   "P_DEU_KOELN_AACHEN": {
-   "aluminium": {
-    "base": 4.654,
-    "max": 7.912
-   },
    "mercury": {
     "base": 0.218,
     "max": 0.631
@@ -3150,19 +3129,9 @@
    }
   },
   "P_DEU_MUENCHEN_OBERBAYERN": {
-   "aluminium": {
-    "base": 4.654,
-    "max": 7.912
-   },
    "mercury": {
     "base": 0.218,
     "max": 0.631
-   }
-  },
-  "P_DEU_NIEDERSCHLESIEN": {
-   "aluminium": {
-    "base": 4.654,
-    "max": 7.912
    }
   },
   "P_DEU_SAARPFALZ": {
@@ -3403,12 +3372,6 @@
     "max": 6.22
    }
   },
-  "P_FRA_SAVOIE": {
-   "aluminium": {
-    "base": 8.052,
-    "max": 23.27
-   }
-  },
   "P_FRA_VAR": {
    "bauxite": {
     "base": 8.526,
@@ -3437,12 +3400,6 @@
    "coal": {
     "base": 1.244,
     "max": 2.115
-   }
-  },
-  "P_GBR_HIGHLAND": {
-   "aluminium": {
-    "base": 8.052,
-    "max": 23.27
    }
   },
   "P_GBR_MIDLOTHIAN": {
@@ -3557,24 +3514,6 @@
     "max": 2.508
    }
   },
-  "P_ITA_BOLZANO_EST": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
-   }
-  },
-  "P_ITA_BOLZANO_OVEST": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
-   }
-  },
-  "P_ITA_BRESCIA": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
-   }
-  },
   "P_ITA_CAGLIARI": {
    "coal": {
     "base": 0.034,
@@ -3593,12 +3532,6 @@
    "sulphur": {
     "base": 3.178,
     "max": 9.183
-   }
-  },
-  "P_ITA_COMO": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
    }
   },
   "P_ITA_ENNA": {
@@ -3657,12 +3590,6 @@
    "bauxite": {
     "base": 0.868,
     "max": 2.508
-   }
-  },
-  "P_ITA_MILANO": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
    }
   },
   "P_ITA_NUORO": {
@@ -3729,12 +3656,6 @@
     "max": 13.446
    }
   },
-  "P_ITA_TRENTO": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
-   }
-  },
   "P_ITA_TRIESTE": {
    "bauxite": {
     "base": 0.868,
@@ -3743,24 +3664,6 @@
    "mercury": {
     "base": 7.909,
     "max": 13.446
-   }
-  },
-  "P_ITA_UDINE": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
-   }
-  },
-  "P_ITA_VENEZIA": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
-   }
-  },
-  "P_ITA_VERONA": {
-   "aluminium": {
-    "base": 0.107,
-    "max": 0.31
    }
   },
   "P_MAR_SOUSS___MASSA___DRAA": {
@@ -3781,18 +3684,6 @@
     "max": 0.981
    }
   },
-  "P_NOR_HORDALAND": {
-   "aluminium": {
-    "base": 2.684,
-    "max": 7.757
-   }
-  },
-  "P_NOR_MORE_OG_ROMSDAL": {
-   "aluminium": {
-    "base": 2.684,
-    "max": 7.757
-   }
-  },
   "P_NOR_NORDLAND": {
    "iron_ore": {
     "base": 0.339,
@@ -3803,12 +3694,6 @@
    "iron_ore": {
     "base": 0.339,
     "max": 0.981
-   }
-  },
-  "P_NOR_SOGN_OG_FJORDANE": {
-   "aluminium": {
-    "base": 2.684,
-    "max": 7.757
    }
   },
   "P_NOR_SOR_TRONDELAG": {
@@ -3903,12 +3788,6 @@
    "iron_ore": {
     "base": 11.335,
     "max": 19.27
-   }
-  },
-  "P_SWE_VASTRA_GOTALAND": {
-   "aluminium": {
-    "base": 0.567,
-    "max": 1.639
    }
   },
   "P_TUR_ELAZIG": {
@@ -4009,12 +3888,6 @@
     "max": 6.929
    }
   },
-  "P_USSR_LENINGRAD": {
-   "aluminium": {
-    "base": 4.563,
-    "max": 13.186
-   }
-  },
   "P_USSR_LUHANSK": {
    "coal": {
     "base": 6.22,
@@ -4066,10 +3939,6 @@
    }
   },
   "P_USSR_SVERDLOVSK": {
-   "aluminium": {
-    "base": 4.563,
-    "max": 13.186
-   },
    "bauxite": {
     "base": 0.51,
     "max": 1.475
@@ -4094,10 +3963,6 @@
    }
   },
   "P_USSR_ZAPORIZHZHYA": {
-   "aluminium": {
-    "base": 4.563,
-    "max": 13.186
-   },
    "bauxite": {
     "base": 0.51,
     "max": 1.475
@@ -4195,6 +4060,158 @@
    "antimony": {
     "base": 0.414,
     "max": 1.197
+   }
+  }
+ },
+ "byProvinceProducts": {
+  "P_CHE_AARGAU": {
+   "aluminium": {
+    "base": 2.368,
+    "max": 6.844
+   }
+  },
+  "P_CHE_VALAIS": {
+   "aluminium": {
+    "base": 2.368,
+    "max": 6.844
+   }
+  },
+  "P_DEU_BADEN": {
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   }
+  },
+  "P_DEU_DUESSELDORF": {
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   }
+  },
+  "P_DEU_KOELN_AACHEN": {
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   }
+  },
+  "P_DEU_MUENCHEN_OBERBAYERN": {
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   }
+  },
+  "P_DEU_NIEDERSCHLESIEN": {
+   "aluminium": {
+    "base": 4.654,
+    "max": 7.912
+   }
+  },
+  "P_FRA_SAVOIE": {
+   "aluminium": {
+    "base": 8.052,
+    "max": 23.27
+   }
+  },
+  "P_GBR_HIGHLAND": {
+   "aluminium": {
+    "base": 8.052,
+    "max": 23.27
+   }
+  },
+  "P_ITA_BOLZANO_EST": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_ITA_BOLZANO_OVEST": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_ITA_BRESCIA": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_ITA_COMO": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_ITA_MILANO": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_ITA_TRENTO": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_ITA_UDINE": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_ITA_VENEZIA": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_ITA_VERONA": {
+   "aluminium": {
+    "base": 0.107,
+    "max": 0.31
+   }
+  },
+  "P_NOR_HORDALAND": {
+   "aluminium": {
+    "base": 2.684,
+    "max": 7.757
+   }
+  },
+  "P_NOR_MORE_OG_ROMSDAL": {
+   "aluminium": {
+    "base": 2.684,
+    "max": 7.757
+   }
+  },
+  "P_NOR_SOGN_OG_FJORDANE": {
+   "aluminium": {
+    "base": 2.684,
+    "max": 7.757
+   }
+  },
+  "P_SWE_VASTRA_GOTALAND": {
+   "aluminium": {
+    "base": 0.567,
+    "max": 1.639
+   }
+  },
+  "P_USSR_LENINGRAD": {
+   "aluminium": {
+    "base": 4.563,
+    "max": 13.186
+   }
+  },
+  "P_USSR_SVERDLOVSK": {
+   "aluminium": {
+    "base": 4.563,
+    "max": 13.186
+   }
+  },
+  "P_USSR_ZAPORIZHZHYA": {
+   "aluminium": {
+    "base": 4.563,
+    "max": 13.186
    }
   }
  }

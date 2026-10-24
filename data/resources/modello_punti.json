@@ -3,5 +3,8 @@
   "step": 1.7,
   "budgetPerResource": 100,
   "extraLevels": 2,
-  "note": "Bozza di design (quality = reference). step: ogni punto di punteggio in più moltiplica l'output del centro per questo fattore (1 = tutti uguali, circa 2,8 = scala reale delle quantità, più basso = più bilanciato). budgetPerResource: punti di output base mondiale per risorsa (100 = percentuale). extraLevels: livelli di sviluppo minimi sopra la base che ogni centro può raggiungere (tetto = max(massimo storico del luogo, base + extraLevels), al più 10)."
+  "note": "Bozza di design (quality = reference). step: ogni punto di punteggio in più moltiplica l'output del centro per questo fattore (1 = tutti uguali, circa 2,8 = scala reale delle quantità, più basso = più bilanciato). budgetPerResource: punti di output base mondiale per risorsa (100 = percentuale). extraLevels: livelli di sviluppo minimi sopra la base che ogni centro può raggiungere (tetto = max(massimo storico del luogo, base + extraLevels), al più 10). products: risorse che sono prodotti industriali (fonderie), non materie prime: restano nel modello ma separate e fuori dalla mappa Risorse.",
+  "products": [
+    "aluminium"
+  ]
 }

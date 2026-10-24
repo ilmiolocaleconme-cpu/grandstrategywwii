@@ -214,3 +214,6 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 - **Codice:** `src/data/resourcePoints.js` (funzioni pure), `scripts/build-resource-points.js` (`npm run build:resource-points`).
 - **Stato:** **implementato e testato** (`tests/resource_points.test.js`, 10 test; controllato da `scripts/validate-data.js`). **Deciso in chat (24/10/2026):** niente andamento anno per anno; si parte dall'output base e il giocatore, con potenziamenti e nuove miniere, sale fino a un tetto per centro e per provincia (`puntiMax`, `extraLevels` = 2). Aggiunte 6 righe di stima (alluminio USA/URSS/Francia/Regno Unito, ferro URSS/Regno Unito): in `resource_locations.csv` ora 203 righe (185 giacimenti). **Provvisorio:** `step` 1,7 scelto per il gioco; costi, tempi e requisiti dei potenziamenti non definiti; non collegato a economia, partita o interfaccia.
 
+### Alluminio come prodotto (24/10/2026)
+Implementato e testato: l'alluminio esce dal livello Risorse (`PRODUCT_IDS`, `RESOURCE_ORDER`/`RESOURCE_META` ora hanno 18 materie prime), `data/resources.json` lo marca `tipo: prodotto` (da bauxite), il modello a punti lo tiene in una sezione `products` separata. Mancante: la fabbrica che lo produce (industrie non ancora implementate); acciaio non toccato.
+

@@ -6,7 +6,7 @@
   { "id": "food", "name": "Cibo", "status": "bozza-di-design" },
   { "id": "manpower", "name": "Manodopera", "status": "bozza-di-design" },
   { "id": "bauxite", "name": "Bauxite", "status": "riferimento" },
-  { "id": "aluminium", "name": "Alluminio", "status": "riferimento" },
+  { "id": "aluminium", "name": "Alluminio", "status": "riferimento", "tipo": "prodotto", "da": "bauxite" },
   { "id": "rubber", "name": "Gomma naturale", "status": "riferimento" },
   { "id": "wheat", "name": "Frumento", "status": "riferimento" },
   { "id": "tungsten", "name": "Tungsteno", "status": "riferimento" },

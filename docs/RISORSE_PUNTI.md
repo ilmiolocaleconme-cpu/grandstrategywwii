@@ -43,3 +43,10 @@ Il punteggio dell'utente è sempre conservato in `score_user`: per tornare indie
 
 ## Come rigenerare
 `npm run build:resource-points` → `data/resources/resource_points.json` e `docs/RISORSE_PUNTI_TABELLA.md`. `npm run validate:data` e `tests/resource_points.test.js` controllano che i file generati siano allineati e che il CSV ricevuto non sia alterato.
+
+## Prodotti (alluminio)
+
+- **L'alluminio è un prodotto, non una risorsa naturale** (deciso il 24/10/2026): si ottiene in fonderia da bauxite ed energia. Non compare nel livello Risorse (né icone né colori né legenda) e non è in `province_resources.json`.
+- Nel modello a punti resta, ma separato: `modello_punti.json` ha `products: ["aluminium"]`, `resource_points.json` ha la sezione `products` (e `byProvinceProducts`), la tabella ha una sezione «Prodotti». I suoi punti sono la **capacità delle fonderie** di partenza; il tetto indica fin dove si può ampliarle.
+- Quando esisteranno le industrie, l'alluminio sarà l'uscita di una fabbrica con ingresso bauxite. Stesso ragionamento, in futuro, per l'acciaio (da ferro e carbone): [Ipotesi] nessuna modifica ora.
+

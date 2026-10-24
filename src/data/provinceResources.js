@@ -5,21 +5,28 @@
 
 export const PROVINCE_RESOURCES_SCHEMA = 'province-resources-v1';
 
+/**
+ * Prodotti: non sono risorse naturali ma uscita di una fabbrica (deciso in chat, 24/10/2026). L'alluminio si ottiene da bauxite ed energia:
+ * i suoi centri sono fonderie e il loro punteggio è capacità industriale di base. Restano nel modello a punti, ma a parte, e non sulla mappa Risorse.
+ */
+export const PRODUCT_IDS = Object.freeze(['aluminium']);
+export const PRODUCT_META = Object.freeze({ aluminium: { label: 'Alluminio', symbol: 'Al', input: 'bauxite' } });
+
 /** Ordine di visualizzazione (e di priorità se in una provincia non entrano tutte le icone). */
-export const RESOURCE_ORDER = Object.freeze(['oil', 'coal', 'iron_ore', 'bauxite', 'aluminium', 'rubber', 'wheat', 'tungsten', 'tin', 'manganese', 'chromium', 'nickel', 'cobalt', 'molybdenum', 'vanadium', 'antimony', 'mercury', 'sulphur', 'uranium']);
+export const RESOURCE_ORDER = Object.freeze(['oil', 'coal', 'iron_ore', 'bauxite', 'rubber', 'wheat', 'tungsten', 'tin', 'manganese', 'chromium', 'nickel', 'cobalt', 'molybdenum', 'vanadium', 'antimony', 'mercury', 'sulphur', 'uranium']);
 
 /**
  * Metadati di presentazione: etichetta, simbolo chimico (dove ha senso), famiglia d'icona e colore del distintivo.
  * Il colore è l'identità della risorsa (distintivo tondo sulla mappa e quadratino in legenda): vedi src/map/resourceIcons.js.
- * Famiglie: pumpjack (petrolio), picks (carbone), symbol (metalli: il simbolo chimico), ingot (alluminio), drop, wheat, flask, radiation.
+ * Famiglie: pumpjack (petrolio), picks (carbone), symbol (metalli: il simbolo chimico), drop, wheat, flask, radiation.
  * L'icona della fabbrica NON è usata dalle risorse: è riservata alle industrie.
+ * Solo MATERIE PRIME: i prodotti (PRODUCT_IDS) non si estraggono, si producono in fabbrica, e non compaiono nel livello Risorse.
  */
 export const RESOURCE_META = Object.freeze({
   oil: { label: 'Petrolio', icon: 'pumpjack', color: '#1c1c1c' },
   coal: { label: 'Carbone', icon: 'picks', color: '#5b4636' },
   iron_ore: { label: 'Minerale di ferro', icon: 'symbol', symbol: 'Fe', color: '#a0482a' },
   bauxite: { label: 'Bauxite', icon: 'symbol', symbol: 'Bx', color: '#d2812c' },
-  aluminium: { label: 'Alluminio', icon: 'ingot', symbol: 'Al', color: '#6f93ab' },
   rubber: { label: 'Gomma naturale', icon: 'drop', color: '#2e8b57' },
   wheat: { label: 'Frumento', icon: 'wheat', color: '#c8960c' },
   tungsten: { label: 'Tungsteno', icon: 'symbol', symbol: 'W', color: '#4b4f9e' },
@@ -60,7 +67,7 @@ const rank = (id) => { const i = RESOURCE_ORDER.indexOf(id); return i < 0 ? RESO
  */
 export function buildProvinceResources(locations, links) {
   const deposit = new Map();
-  for (const l of locations) if (l.kind === 'deposit') deposit.set(l.location_id, l.resource_id);
+  for (const l of locations) if (l.kind === 'deposit' && !PRODUCT_IDS.includes(l.resource_id)) deposit.set(l.location_id, l.resource_id); // i prodotti non sono risorse naturali
   const acc = new Map();
   for (const k of links) {
     const resource = deposit.get(k.location_id);
@@ -84,6 +91,7 @@ export function validateProvinceResources(file, { resourceIds, provinceIds }) {
     for (const r of list) {
       if (!resourceIds.has(r)) errors.push(`risorse per provincia: ${pid} risorsa ${r} sconosciuta`);
       if (!RESOURCE_META[r]) errors.push(`risorse per provincia: ${r} senza metadati di presentazione`);
+      if (PRODUCT_IDS.includes(r)) errors.push(`risorse per provincia: ${pid} contiene il prodotto ${r}, che non è una risorsa naturale`);
     }
   }
   return errors;

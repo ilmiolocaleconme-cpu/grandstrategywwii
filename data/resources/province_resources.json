@@ -23,12 +23,6 @@
   "P_BGR_SOFIA": [
    "iron_ore"
   ],
-  "P_CHE_AARGAU": [
-   "aluminium"
-  ],
-  "P_CHE_VALAIS": [
-   "aluminium"
-  ],
   "P_CZE_BOHEMIA": [
    "iron_ore",
    "tin",
@@ -39,15 +33,11 @@
   "P_CZE_MORAVIAN_SILESIAN_COUNTRY": [
    "iron_ore"
   ],
-  "P_DEU_BADEN": [
-   "aluminium"
-  ],
   "P_DEU_BAYERISCHE_OSTMARK": [
    "mercury"
   ],
   "P_DEU_DUESSELDORF": [
    "coal",
-   "aluminium",
    "mercury"
   ],
   "P_DEU_ESSEN": [
@@ -60,18 +50,13 @@
    "mercury"
   ],
   "P_DEU_KOELN_AACHEN": [
-   "aluminium",
    "mercury"
   ],
   "P_DEU_MAINFRANKEN": [
    "mercury"
   ],
   "P_DEU_MUENCHEN_OBERBAYERN": [
-   "aluminium",
    "mercury"
-  ],
-  "P_DEU_NIEDERSCHLESIEN": [
-   "aluminium"
   ],
   "P_DEU_SAARPFALZ": [
    "coal"
@@ -179,9 +164,6 @@
   "P_FRA_PAS_DE_CALAIS": [
    "coal"
   ],
-  "P_FRA_SAVOIE": [
-   "aluminium"
-  ],
   "P_FRA_VAR": [
    "bauxite"
   ],
@@ -196,9 +178,6 @@
   ],
   "P_GBR_GLAMORGAN": [
    "coal"
-  ],
-  "P_GBR_HIGHLAND": [
-   "aluminium"
   ],
   "P_GBR_MIDLOTHIAN": [
    "coal"
@@ -252,15 +231,6 @@
   "P_ITA_BARI": [
    "bauxite"
   ],
-  "P_ITA_BOLZANO_EST": [
-   "aluminium"
-  ],
-  "P_ITA_BOLZANO_OVEST": [
-   "aluminium"
-  ],
-  "P_ITA_BRESCIA": [
-   "aluminium"
-  ],
   "P_ITA_CAGLIARI": [
    "coal",
    "manganese"
@@ -268,9 +238,6 @@
   "P_ITA_CALTANISSETTA": [
    "coal",
    "sulphur"
-  ],
-  "P_ITA_COMO": [
-   "aluminium"
   ],
   "P_ITA_ENNA": [
    "coal",
@@ -297,9 +264,6 @@
   "P_ITA_LECCE": [
    "bauxite"
   ],
-  "P_ITA_MILANO": [
-   "aluminium"
-  ],
   "P_ITA_NUORO": [
    "coal",
    "manganese"
@@ -325,21 +289,9 @@
    "manganese",
    "mercury"
   ],
-  "P_ITA_TRENTO": [
-   "aluminium"
-  ],
   "P_ITA_TRIESTE": [
    "bauxite",
    "mercury"
-  ],
-  "P_ITA_UDINE": [
-   "aluminium"
-  ],
-  "P_ITA_VENEZIA": [
-   "aluminium"
-  ],
-  "P_ITA_VERONA": [
-   "aluminium"
   ],
   "P_MAR_SOUSS___MASSA___DRAA": [
    "cobalt"
@@ -350,20 +302,11 @@
   "P_NOR_FINNMARK": [
    "iron_ore"
   ],
-  "P_NOR_HORDALAND": [
-   "aluminium"
-  ],
-  "P_NOR_MORE_OG_ROMSDAL": [
-   "aluminium"
-  ],
   "P_NOR_NORDLAND": [
    "iron_ore"
   ],
   "P_NOR_NORD_TRONDELAG": [
    "iron_ore"
-  ],
-  "P_NOR_SOGN_OG_FJORDANE": [
-   "aluminium"
   ],
   "P_NOR_SOR_TRONDELAG": [
    "iron_ore"
@@ -411,9 +354,6 @@
   "P_SWE_NORRBOTTEN": [
    "iron_ore"
   ],
-  "P_SWE_VASTRA_GOTALAND": [
-   "aluminium"
-  ],
   "P_TUR_ELAZIG": [
    "chromium"
   ],
@@ -458,9 +398,6 @@
   "P_USSR_KRASNODAR": [
    "wheat"
   ],
-  "P_USSR_LENINGRAD": [
-   "aluminium"
-  ],
   "P_USSR_LUHANSK": [
    "coal"
   ],
@@ -485,8 +422,7 @@
    "wheat"
   ],
   "P_USSR_SVERDLOVSK": [
-   "bauxite",
-   "aluminium"
+   "bauxite"
   ],
   "P_USSR_TATARSTAN": [
    "oil"
@@ -499,7 +435,6 @@
   ],
   "P_USSR_ZAPORIZHZHYA": [
    "bauxite",
-   "aluminium",
    "wheat",
    "manganese"
   ],

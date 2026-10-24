@@ -3,9 +3,10 @@
 File generato da `npm run build:resource-points`: non modificare a mano. Spiegazione e regole in `docs/RISORSE_PUNTI.md`.
 Parametri: step 1.7, 100 punti di output base mondiale per risorsa (quindi percentuali), almeno 2 livelli di sviluppo oltre la base. Punteggio 1 = peso 1; ogni punto in più moltiplica l'output per 1.7.
 
+## Materie prime (livello Risorse della mappa)
+
 | Risorsa | Centri | Primi tre controllori (output base) | Produttori effettivi | Potenziale mondiale (tetto / base) | Quota del primo a step 1.4 / 1.7 / 2 / 2.8 | Dominante |
 | --- | ---: | --- | ---: | ---: | --- | --- |
-| Alluminio | 12 | Germania 23%, Stati Uniti 23%, Regno Unito 16% | 5.9 | ×2,55 | 20% / 23% / 27% / 34% | no |
 | Antimonio | 7 | Cina 70%, Bolivia 14%, Messico 8% | 1.93 | ×1,57 | 50% / 70% / 82% / 94% | sì (Cina) |
 | Bauxite | 12 | Francia 26%, Regno Unito 16%, Ungheria 15% | 6.55 | ×2,59 | 19% / 26% / 32% / 45% | no |
 | Cromo | 5 | Regno Unito 56%, Turchia 35%, Francia 4% | 2.25 | ×2,89 | 53% / 56% / 57% / 57% | sì (Regno Unito) |
@@ -25,4 +26,10 @@ Parametri: step 1.7, 100 punti di output base mondiale per risorsa (quindi perce
 | Vanadio | 4 | Stati Uniti 57%, Peru 34%, Regno Unito 7% | 2.25 | ×2,89 | 48% / 57% / 63% / 73% | sì (Stati Uniti) |
 | Frumento | 5 | Stati Uniti 37%, Regno Unito 29%, URSS 22% | 3.55 | ×2,45 | 33% / 37% / 42% / 53% | no |
 
-«Produttori effettivi» = 1 / somma dei quadrati delle quote dei controllori (più è alto, più la risorsa è distribuita). «Dominante» = un solo controllore oltre il 50%. «Potenziale mondiale» = somma dei tetti di tutti i centri divisa per l'output base: di quanto può crescere in totale la risorsa se ogni centro arriva al suo tetto.
+## Prodotti (capacità industriale: fonderie e fabbriche, non giacimenti)
+
+| Prodotto | Centri | Primi tre controllori (output base) | Produttori effettivi | Potenziale mondiale (tetto / base) | Quota del primo a step 1.4 / 1.7 / 2 / 2.8 | Dominante |
+| --- | ---: | --- | ---: | ---: | --- | --- |
+| Alluminio | 12 | Germania 23%, Stati Uniti 23%, Regno Unito 16% | 5.9 | ×2,55 | 20% / 23% / 27% / 34% | no |
+
+«Produttori effettivi» = 1 / somma dei quadrati delle quote dei controllori (più è alto, più la risorsa è distribuita). «Dominante» = un solo controllore oltre il 50%. «Potenziale mondiale» = somma dei tetti di tutti i centri divisa per l'output base: di quanto può crescere in totale se ogni centro arriva al suo tetto.
