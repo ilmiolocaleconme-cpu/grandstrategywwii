@@ -58,3 +58,12 @@ test('sui dati reali ogni provincia con risorse trova un elemento della mappa', 
   const out = resolveResourceAnchors(items, file.byProvince);
   assert.equal(Object.keys(out).length, Object.keys(file.byProvince).length);
 });
+
+test('colori distinti per risorsa e nessuna risorsa usa l\'icona della fabbrica (riservata alle industrie)', () => {
+  const colors = Object.values(RESOURCE_META).map((m) => m.color.toLowerCase());
+  assert.equal(new Set(colors).size, colors.length, 'due risorse con lo stesso colore');
+  for (const [id, m] of Object.entries(RESOURCE_META)) {
+    assert.match(m.color, /^#[0-9a-f]{6}$/i, `${id}: colore non valido`);
+    assert.notEqual(m.icon, 'factory', `${id} usa l'icona della fabbrica`);
+  }
+});

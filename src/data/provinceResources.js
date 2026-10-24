@@ -9,29 +9,31 @@ export const PROVINCE_RESOURCES_SCHEMA = 'province-resources-v1';
 export const RESOURCE_ORDER = Object.freeze(['oil', 'coal', 'iron_ore', 'bauxite', 'aluminium', 'rubber', 'wheat', 'tungsten', 'tin', 'manganese', 'chromium', 'nickel', 'cobalt', 'molybdenum', 'vanadium', 'antimony', 'mercury', 'sulphur', 'uranium']);
 
 /**
- * Metadati di presentazione: etichetta, simbolo chimico (dove ha senso), famiglia d'icona, colore del distintivo.
- * Le famiglie sono pochi pittogrammi (vedi src/map/resourceIcons.js); i metalli condividono il pittogramma e si distinguono dal simbolo.
+ * Metadati di presentazione: etichetta, simbolo chimico (dove ha senso), famiglia d'icona e colore del distintivo.
+ * Il colore è l'identità della risorsa (distintivo tondo sulla mappa e quadratino in legenda): vedi src/map/resourceIcons.js.
+ * Famiglie: pumpjack (petrolio), picks (carbone), symbol (metalli: il simbolo chimico), ingot (alluminio), drop, wheat, flask, radiation.
+ * L'icona della fabbrica NON è usata dalle risorse: è riservata alle industrie.
  */
 export const RESOURCE_META = Object.freeze({
-  oil: { label: 'Petrolio', icon: 'pumpjack', color: '#111111' },
-  coal: { label: 'Carbone', icon: 'mine', color: '#3a3a3a' },
-  iron_ore: { label: 'Minerale di ferro', icon: 'ore', symbol: 'Fe', color: '#8a4b2a' },
-  bauxite: { label: 'Bauxite', icon: 'ore', symbol: 'Bx', color: '#b5651d' },
-  aluminium: { label: 'Alluminio', icon: 'factory', symbol: 'Al', color: '#5d7a8c' },
-  rubber: { label: 'Gomma naturale', icon: 'drop', color: '#2f6f3e' },
-  wheat: { label: 'Frumento', icon: 'wheat', color: '#b88a00' },
-  tungsten: { label: 'Tungsteno', icon: 'ore', symbol: 'W', color: '#4a4a6a' },
-  tin: { label: 'Stagno', icon: 'ore', symbol: 'Sn', color: '#6b7b83' },
-  manganese: { label: 'Manganese', icon: 'ore', symbol: 'Mn', color: '#7a3b6e' },
-  chromium: { label: 'Cromo', icon: 'ore', symbol: 'Cr', color: '#2b6f8f' },
-  nickel: { label: 'Nichel', icon: 'ore', symbol: 'Ni', color: '#4f8a6a' },
-  cobalt: { label: 'Cobalto', icon: 'ore', symbol: 'Co', color: '#1f4fa0' },
-  molybdenum: { label: 'Molibdeno', icon: 'ore', symbol: 'Mo', color: '#5a5a2a' },
-  vanadium: { label: 'Vanadio', icon: 'ore', symbol: 'V', color: '#7a5a2a' },
-  antimony: { label: 'Antimonio', icon: 'ore', symbol: 'Sb', color: '#6a3a3a' },
-  mercury: { label: 'Mercurio', icon: 'flask', symbol: 'Hg', color: '#8a2a2a' },
-  sulphur: { label: 'Zolfo', icon: 'flask', symbol: 'S', color: '#a89a00' },
-  uranium: { label: 'Uranio', icon: 'radiation', color: '#2a7a2a' },
+  oil: { label: 'Petrolio', icon: 'pumpjack', color: '#1c1c1c' },
+  coal: { label: 'Carbone', icon: 'picks', color: '#4a5560' },
+  iron_ore: { label: 'Minerale di ferro', icon: 'symbol', symbol: 'Fe', color: '#a0482a' },
+  bauxite: { label: 'Bauxite', icon: 'symbol', symbol: 'Bx', color: '#d2812c' },
+  aluminium: { label: 'Alluminio', icon: 'ingot', symbol: 'Al', color: '#6f93ab' },
+  rubber: { label: 'Gomma naturale', icon: 'drop', color: '#2e8b57' },
+  wheat: { label: 'Frumento', icon: 'wheat', color: '#c8960c' },
+  tungsten: { label: 'Tungsteno', icon: 'symbol', symbol: 'W', color: '#4b4f9e' },
+  tin: { label: 'Stagno', icon: 'symbol', symbol: 'Sn', color: '#7d8c95' },
+  manganese: { label: 'Manganese', icon: 'symbol', symbol: 'Mn', color: '#8e44ad' },
+  chromium: { label: 'Cromo', icon: 'symbol', symbol: 'Cr', color: '#1b8aa6' },
+  nickel: { label: 'Nichel', icon: 'symbol', symbol: 'Ni', color: '#3f9c7a' },
+  cobalt: { label: 'Cobalto', icon: 'symbol', symbol: 'Co', color: '#1f5fbf' },
+  molybdenum: { label: 'Molibdeno', icon: 'symbol', symbol: 'Mo', color: '#7d7d2a' },
+  vanadium: { label: 'Vanadio', icon: 'symbol', symbol: 'V', color: '#a0732a' },
+  antimony: { label: 'Antimonio', icon: 'symbol', symbol: 'Sb', color: '#9c3c3c' },
+  mercury: { label: 'Mercurio', icon: 'flask', symbol: 'Hg', color: '#c0392b' },
+  sulphur: { label: 'Zolfo', icon: 'flask', symbol: 'S', color: '#b39b00' },
+  uranium: { label: 'Uranio', icon: 'radiation', color: '#3a9d23' },
 });
 
 const rank = (id) => { const i = RESOURCE_ORDER.indexOf(id); return i < 0 ? RESOURCE_ORDER.length : i; };

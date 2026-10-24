@@ -41,7 +41,7 @@ export default function ProvincePanel({ item, nationNames, nationControl, provin
         {nationControl?.[p.owner] && nationControl[p.owner] !== p.owner && <><dt>Controllato da</dt><dd>{nationNames[nationControl[p.owner]] ?? nationControl[p.owner]}</dd></>}
         <dt>Area approssimata</dt><dd>{Math.round(item.areaKm2).toLocaleString('it-IT')} km²</dd>
         {p.terreno && <><dt>Terreno</dt><dd><i className="dot" style={{ background: TERRAIN_COLORS[p.terreno] }} />{TERRAIN_LABEL[p.terreno] ?? p.terreno}{p.terrenoSecondario ? ` (anche ${(TERRAIN_LABEL[p.terrenoSecondario] ?? p.terrenoSecondario).toLowerCase()})` : ''}{p.kind !== 'citta' ? ' · stima da raster' : ''}</dd></>}
-        {(provinceResources?.[p.id] ?? provinceResources?.[p.parentProvince]) && <><dt>Risorse</dt><dd>{(provinceResources[p.id] ?? provinceResources[p.parentProvince]).map((r) => RESOURCE_META[r]?.label ?? r).join(', ')} · posizione di riferimento, approssimata</dd></>}
+        {(provinceResources?.[p.id] ?? provinceResources?.[p.parentProvince]) && <><dt>Risorse</dt><dd>{(provinceResources[p.id] ?? provinceResources[p.parentProvince]).map((r) => <span key={r} style={{ display: 'inline-block', marginRight: 10 }}><i className="dot" style={{ background: RESOURCE_META[r]?.color }} />{RESOURCE_META[r]?.label ?? r}</span>)}<br /><span className="muted small">posizione di riferimento, approssimata</span></dd></>}
         <dt>Qualità dei confini</dt>
         <dd><i className="dot" style={{ background: QUALITY_COLORS[p.borderQuality] }} />{QUALITY_LABEL[p.borderQuality] ?? p.borderQuality}</dd>
         <dt>Validità</dt><dd>{p.validFrom} → {p.validTo === '9999-12-31' ? 'oggi' : p.validTo}{p.dateBasis === 'assumed' ? ' (assunta)' : ''}</dd>
