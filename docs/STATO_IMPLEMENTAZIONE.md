@@ -207,3 +207,10 @@ Aggiornato dopo il primo deploy (infrastruttura web). Legenda: **T** implementat
 - **Codice:** `LegendList` (`MapView.jsx`) e `TransportLegend.jsx` sono fuori dalla mappa; `MapCanvas` non disegna più il pulsante Legenda. La legenda del ripiego SVG (`?map=svg`) resta com'era.
 - **Conseguenza:** la mappa si apre solo da una partita (prima si poteva guardare senza partita).
 - **Provato:** ESLint sui file toccati, 413 test, validazione dati; barra a 667–900 px con gli stili veri (nessuna sovrapposizione). **Non provato** nell'app intera né su telefono.
+
+## Punteggi di output e tiratura a punti (24/10/2026, riferimento)
+- **Scopo (deciso in chat):** usare i punteggi 1-10 dati dall'utente come base per una tiratura bilanciata delle risorse. Dettagli, regole e correzioni in `docs/RISORSE_PUNTI.md`; risultati in `docs/RISORSE_PUNTI_TABELLA.md`.
+- **File (`data/resources/`):** `risorse_con_punteggi.csv` (copia byte per byte del CSV ricevuto, sha256 in `SOURCE_PUNTEGGI.json`), `punteggi_output.csv` (`score_user` intatto, `score_final` con 5 correzioni motivate, 19 righe escluse dal modello), `modello_punti.json` (`step` 1,7; 100 punti per risorsa), generato `resource_points.json` (19 risorse, 148 centri produttivi, 157 province con punti).
+- **Codice:** `src/data/resourcePoints.js` (funzioni pure), `scripts/build-resource-points.js` (`npm run build:resource-points`).
+- **Stato:** **implementato e testato** (`tests/resource_points.test.js`, 8 test; controllato da `scripts/validate-data.js`). **Provvisorio:** `step` scelto a stima; crescita di guerra (`fattorePicco`) calcolata ma non applicata; non collegato a economia, partita o interfaccia; il CSV ha lacune (alluminio senza USA, ferro senza URSS).
+

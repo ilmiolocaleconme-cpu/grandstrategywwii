@@ -19,6 +19,8 @@ import { buildSlotCatalog } from '../src/rules/slots.js';
 import { validateRegions } from '../src/data/regions.js';
 import { buildResourceLocations, validateResourceLocations } from '../src/data/resourceLocations.js';
 import { buildProvinceResources, validateProvinceResources } from '../src/data/provinceResources.js';
+import { validateScores } from '../src/data/resourcePoints.js';
+import { resourcePointsFile } from './build-resource-points.js';
 import { validateFlags, validateDescriptions } from '../src/data/flags.js';
 import { playableNations } from '../src/game/state.js';
 import { createHash } from 'node:crypto';
@@ -123,6 +125,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const pr = JSON.parse(await text('resources/province_resources.json'));
     errors.push(...validateProvinceResources(pr, { resourceIds: new Set(catalog.resources.map((r) => r.id)), provinceIds: motherIds }));
     if (JSON.stringify(pr) !== JSON.stringify(buildProvinceResources(onDisk, linksOnDisk))) errors.push('risorse: province_resources.json non allineato ai CSV, rigenerare con npm run build:province-resources');
+    // punteggi di output 1-10 e tiratura a punti: CSV ricevuto non alterato, punteggi validi, file generato allineato
+    const sp = JSON.parse(await text('resources/SOURCE_PUNTEGGI.json'));
+    const spActual = createHash('sha256').update(await readFileTerrain(new URL(`../data/${sp.file.replace(/^data\//, '')}`, import.meta.url))).digest('hex');
+    if (spActual !== sp.sha256) errors.push(`punteggi: ${sp.file} diverso dalla copia ricevuta (sha256)`);
+    errors.push(...validateScores(parseCsv(await text('resources/punteggi_output.csv'), { name: 'punteggi_output.csv' }), onDisk));
+    if (JSON.stringify(JSON.parse(await text('resources/resource_points.json'))) !== JSON.stringify(await resourcePointsFile())) errors.push('punteggi: resource_points.json non allineato, rigenerare con npm run build:resource-points');
   }
   const ok = catalogOk && errors.length === 0;
   warnings.forEach((w) => console.warn(`AVVISO ${w}`));

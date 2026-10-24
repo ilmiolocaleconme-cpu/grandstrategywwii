@@ -1,0 +1,197 @@
+﻿risorsa,categoria,nazione_o_territorio,provincia_o_giacimento,sovranita_o_controllo,stato_1935_45,periodo,produzione_o_capacita,unita,note,punteggio_output_1_10
+Carbone,Energia,Stati Uniti,"Pennsylvania, Virginia Occidentale, Illinois",Stati Uniti,Sovrano,1938,263000000,t metriche,Maggiore produttore mondiale; base dei carburanti alleati,10
+Carbone,Energia,Germania,Ruhr,Germania,Sovrana,1938,Circa 130000000,t metriche,Cuore industriale tedesco,9
+Carbone,Energia,Germania e territori occupati,"Germania, Francia, Benelux, Polonia, Austria",Germania,Grande spazio economico,1938/39,332800000,t metriche,Inclusi territori occupati,9
+Carbone,Energia,Germania e territori occupati,"Germania, Francia, Benelux, Polonia, Austria",Germania,Grande spazio economico,1943/44,353000000,t metriche,Espansione con economie occupate,9
+Carbone,Energia,Regno Unito,"Galles, Yorkshire, Scozia",Regno Unito,Sovrano,1938,Circa 200000000,t metriche,Base dell'industria britannica,8
+Carbone,Energia,URSS,Donbass,URSS,Sovrano,1938,Circa 80000000,t metriche,Perso temporaneamente alla Germania nel 1941-43,9
+Carbone,Energia,URSS,Kuzbass,URSS,Sovrano,1938,17300000,t metriche,Cresciuto durante la guerra,6
+Carbone,Energia,URSS,Kuzbass,URSS,Sovrano,1945,54000000,t metriche,Sostitui il Donbass come principale bacino orientale,8
+Carbone,Energia,Francia,Nord-Pas-de-Calais,Francia,Occupata dalla Germania dal 1940,1937,44300000,t metriche,Sfruttata nell'economia di guerra tedesca,7
+Carbone,Energia,Francia,Lorena,Francia,Occupata dalla Germania dal 1940,1938,46500000,t metriche,Complementare alla siderurgia di Lorena,7
+Carbone,Energia,Polonia,"Alta Slesia, Dabrowa, Cracovia",Polonia,Occupata da Germania e URSS dal 1939,1937,36200000,t metriche,Bacino strategico conteso,8
+Carbone,Energia,Belgio,"Borinage, Charleroi, Liegi",Belgio,Occupato dalla Germania,1937,29900000,t metriche,Carbone per acciaierie belghe e tedesche,7
+Carbone,Energia,Paesi Bassi,Limburgo meridionale,Paesi Bassi,Occupati nel 1940,1937,14300000,t metriche,Integrato nell'economia di occupazione,6
+Carbone,Energia,Saar,Bacino della Saar,Germania,Territorio integrato nel Reich,1937,13400000,t metriche,Carbone e coke per la Ruhr,6
+Carbone,Energia,Saar,Bacino della Saar,Germania,Territorio integrato nel Reich,1938,14400000,t metriche,Crescita nel riarmo tedesco,6
+Carbone,Energia,Turchia,"Zonguldak, Eregli",Turchia,Neutrale,1934-38 media,2364000,t metriche,Principale bacino anatolico,4
+Carbone,Energia,Turchia,"Zonguldak, Eregli",Turchia,Neutrale,1945,3720000,t metriche,Crescita bellica e industriale,4
+Carbone,Energia,Italia,"Valdarno, Sulcis, Sicilia",Italia,Sovrana,1937,600000,t metriche,Produzione insufficiente per il fabbisogno,2
+Carbone,Energia,Italia,"Valdarno, Sulcis, Sicilia",Italia,Sovrana,1938,400000,t metriche,Dipendenza dalle importazioni,2
+Carbone,Energia,India britannica,"Jharia, Raniganj, Bokaro, Jharkhand",Regno Unito,Colonia,1935-45,Decine di milioni,t metriche,Principale bacino extraeuropeo del Commonwealth,7
+Carbone,Energia,Manciukuo,"Fushun, Liaoning",Giappone,Stato fantoccio,1935-45,Grande produzione,t metriche,Carbone e scisti bituminosi per l'Impero giapponese,7
+Carbone,Energia,Giappone,"Hokkaido, Kyushu",Giappone,Sovrano,1935-45,Circa 30000000-50000000,t metriche,"Integrato con Corea, Manciukuo e Cina occupata",6
+Carbone,Energia,Brasile,"Santa Catarina, Rio Grande do Sul",Brasile,Sovrano,1935-45,Circa 1000000-2000000,t metriche,Carbone nazionale limitato,3
+Carbone,Energia,Messico,"Coahuila, Nuevo Leon",Messico,Sovrano,1935-45,Circa 1000000-2000000,t metriche,"Ferrovie, acciaierie e industria settentrionale",4
+Petrolio,Energia,Stati Uniti,"Texas, Oklahoma, California",Stati Uniti,Sovrano,1938,163700000,t metriche,Circa il 60% della produzione mondiale,10
+Petrolio,Energia,Mondo,Produzione mondiale,-,-,1938,270900000,t metriche,Totale mondiale di greggio,10
+Petrolio,Energia,URSS,"Baku, Groznyj, Volga-Urali",URSS,Sovrano,1938,29000000,t metriche,Base dei carburanti sovietici,10
+Petrolio,Energia,Venezuela,Lago di Maracaibo,Venezuela,"Sovrano, capitali esteri",1938,27600000,t metriche,Primo esportatore mondiale,9
+Petrolio,Energia,Indie orientali olandesi,"Sumatra, Giava, Borneo",Paesi Bassi,Occupate dal Giappone nel 1942,1938,7300000,t metriche,Obiettivo primario giapponese,8
+Petrolio,Energia,Indie orientali olandesi,"Sumatra, Giava, Borneo",Paesi Bassi,Occupate dal Giappone nel 1942,1937,645200,t metriche,Dato della serie internazionale 1937,8
+Petrolio,Energia,Romania,"Ploiesti, Moreni, Boldesti, Targoviste",Romania,Alleata dell'Asse dal 1940,1938,6610000,t metriche,Principale fonte di greggio dell'Asse europeo,8
+Petrolio,Energia,Romania,Ploiesti e altri campi,Romania,Alleata dell'Asse dal 1940,1936,8704000,t metriche,Picco prebellico,8
+Petrolio,Energia,Romania,Ploiesti e altri campi,Romania,Alleata dell'Asse dal 1940,1940,5810000,t metriche,Calo e aumento dei consumi interni,7
+Petrolio,Energia,Romania,Ploiesti e altri campi,Romania,Occupata/influenzata,1944,3525000,t metriche,Effetto dei bombardamenti alleati,6
+Petrolio,Energia,Iran,"Khuzestan: Masjed Soleyman, Aghajari, Haftkel, Gachsaran",Iran,Sovrano; concessione anglo-iraniana,1937,971900,t metriche,Maggiore produttore mediorientale dell'epoca,8
+Petrolio,Energia,Iraq,"Kirkuk, Baba Gurgur",Iraq,Sovrano; forte influenza britannica,1937,417800,t metriche,Principale giacimento iracheno,7
+Petrolio,Energia,Iraq,Kirkuk,Iraq,Sovrano; forte influenza britannica,1938,978000,t metriche,Crescita durante la guerra,7
+Petrolio,Energia,Iraq,Kirkuk,Iraq,Sovrano; forte influenza britannica,1944,1212000,t metriche,Espansione della produzione,7
+Petrolio,Energia,Bahrain,Awali,Bahrain,Protettorato britannico,1937,117600,t metriche,Prima grande scoperta petrolifera araba,5
+Petrolio,Energia,Arabia Saudita,"Dammam, al-Hasa",Arabia Saudita,Sovrano; concessione americana,1939,Circa 21000,barili/giorno,Inizio della produzione saudita,4
+Petrolio,Energia,Kuwait,Burgan,Kuwait,Protettorato britannico,1938,Scoperto,-,Produzione commerciale solo dopo la guerra,3
+Petrolio,Energia,Messico,"Veracruz, Tamaulipas, Tabasco, Golden Lane",Messico,Sovrano; Pemex dal 1938,1937,682500,t metriche,Ex grande produttore in declino,6
+Petrolio,Energia,Argentina,"Mendoza, Salta, Comodoro Rivadavia, Neuquen",Argentina,Sovrana,1937,232200,t metriche,Autonomia energetica sudamericana,4
+Petrolio,Energia,Colombia,"Barrancabermeja, Magdalena Medio",Colombia,Sovrana,1937,279800,t metriche,Raffineria e oleodotto verso il Caribe,5
+Petrolio,Energia,Peru,"Talara, Piura; Loreto",Peru,Sovrano,1937,231200,t metriche,Produzione orientata all'esportazione,4
+Petrolio,Energia,Trinidad,"Forest Reserve, Penal, Guayaguayare",Regno Unito,Colonia,1937,218000,t metriche,Produttore del Commonwealth,5
+Petrolio,Energia,Ecuador,Santa Elena,Ecuador,Sovrano,1937,30700,t metriche,Produzione molto piccola,2
+Petrolio,Energia,Egitto,"Gemsa, Golfo di Suez",Egitto,Influenza britannica,1937,16600,t metriche,Logistica britannica nel Mediterraneo,2
+Petrolio,Energia,Canada,"Turner Valley, Alberta",Regno Unito,Dominion,1937,33700,t metriche,Principale campo canadese,3
+Petrolio,Energia,Sarawak,"Miri, Borneo britannico",Regno Unito,Colonia; occupazione giapponese,1937,59000,t metriche,Piccolo ma strategico,3
+Petrolio,Energia,India britannica e Birmania,"Digboi, Assam; Yenangyaung, Chauk, Minbu",Regno Unito,Colonie; occupazione giapponese in Birmania,1937,135500,t metriche,Fornitura locale britannica,4
+Petrolio,Energia,Giappone,"Niigata, Akita, Hokkaido",Giappone,Sovrano,1937,38300,t metriche,"Circa 3,5 milioni di barili annui; forte dipendenza dalle importazioni",3
+Petrolio,Energia,Cina,"Yanchang, Shaanxi; Karamay, Xinjiang; Sichuan",Cina,Sovrana; zone occupate,1938,270000,t metriche,Produzione piccola ma in crescita,2
+Petrolio,Energia,Cina,Produzione nazionale,Cina,Sovrana,1930,55000,t metriche,Base di confronto storico,2
+Petrolio,Energia,URSS,Nord Sakhalin,URSS,Sovrano; concessioni giapponesi,1937,35200,t metriche,Fonte minore contesa,3
+Ferro,Metalli e minerali,Stati Uniti,"Mesabi Range, Minnesota",Stati Uniti,Sovrano,1938,28447000,long ton,Base della siderurgia americana,10
+Ferro,Metalli e minerali,Francia,Lorena,Francia,Occupata dalla Germania dal 1940,1938,33000000,t metriche,Principale produttore europeo,9
+Ferro,Metalli e minerali,Germania,"Turingia, Sassonia, Austria",Germania,Sovrana; Austria annessa,1938,11100000-12300000,t metriche,Dipendenza da Svezia e Francia,6
+Ferro,Metalli e minerali,Svezia,"Kiruna, Gallivare, Norrbotten",Svezia,Neutrale,1937,11250000,t metriche,Minerale ad alto tenore per la Germania,9
+Ferro,Metalli e minerali,Norvegia,"Trondelag, Nordland, Sydvaranger",Norvegia,Occupata dalla Germania nel 1940,1937,1050000,t metriche,Circa il 90% esportato prima della guerra,5
+Ferro,Metalli e minerali,Norvegia,"Trondelag, Nordland, Sydvaranger",Norvegia,Occupata dalla Germania nel 1940,1938,1600000,t metriche,Integrata nell'economia tedesca,5
+Ferro,Metalli e minerali,Austria,"Erzberg, Stiria",Germania,Annessa nel 1938,1937,1884000,t metriche,Pilastro della siderurgia del Reich,7
+Ferro,Metalli e minerali,Cecoslovacchia,"Kladno, Ostrava-Karvina",Cecoslovacchia,Smembrata e occupata,1936,1089000,t metriche,Complesso di Ostrava sotto controllo tedesco,6
+Ferro,Metalli e minerali,Polonia,"Czestochowa, Kielce, Swietokrzyskie",Polonia,Occupata dal 1939,1937,780152,t metriche,Minerale relativamente povero,4
+Ferro,Metalli e minerali,Polonia,"Czestochowa, Kielce, Swietokrzyskie",Polonia,Occupata dal 1939,1938,872000,t metriche,Dipendenza da importazioni e rottame,4
+Ferro,Metalli e minerali,Ungheria,"Rudabanya, Ozd, Borsod",Ungheria,Alleata dell'Asse,1937,289520,t metriche,Base della siderurgia ungherese,3
+Ferro,Metalli e minerali,Grecia,"Serifos, Lavrio, Eubea",Grecia,Occupata dall'Asse dal 1941,1936,280271,t metriche,Giacimenti insulari e continentali,3
+Ferro,Metalli e minerali,Spagna,"Vizcaya, Santander, Asturie",Spagna,Neutrale,1935,1815000,t metriche,Minerale esportabile verso Germania e Regno Unito,6
+Ferro,Metalli e minerali,Romania,"Poiana Rusca, Banato",Romania,Alleata dell'Asse,1936,108429,t metriche,Ferro per industria nazionale,2
+Ferro,Metalli e minerali,Bulgaria,"Kremikovtsi, Sofia",Bulgaria,Alleata dell'Asse,1937,11802,t metriche,Rilevanza locale,1
+Ferro,Metalli e minerali,Cile,"El Tofo, Coquimbo",Cile,Sovrano,1937,1489000,t metriche,Export verso USA ed Europa,6
+Ferro,Metalli e minerali,Cuba,"Mayari, Oriente",Cuba,Sovrana,1937,496258,t metriche,Minerale per gli USA,5
+Ferro,Metalli e minerali,Messico,"Michoacan, Colima, Durango",Messico,Sovrano,1937,1655000,t metriche,Produttore medio vicino al mercato USA,6
+Ferro,Metalli e minerali,Terranova,"Bell Island, Wabana",Regno Unito,Dominion,1937,1655000,t metriche,Minerale per acciaierie canadesi e statunitensi,6
+Ferro,Metalli e minerali,Brasile,"Itabira, Minas Gerais; Amapa",Brasile,Sovrano,1937,30000,t metriche,Enormi riserve ma capacità limitata,3
+Ferro,Metalli e minerali,Sierra Leone,Marampa,Regno Unito,Colonia,1937,520,t metriche,Produzione quasi simbolica,1
+Ferro,Metalli e minerali,Sierra Leone,Marampa,Regno Unito,Colonia,1938,205,t metriche,Produzione quasi simbolica,1
+Bauxite,Metalli e minerali,Francia,"Provenza, Les Baux, Brignoles, Ariege",Francia,Occupata 1940-44,1937,691000,t metriche,Maggiore produttore europeo,9
+Bauxite,Metalli e minerali,Francia,Provenza e Ariege,Francia,Occupata 1940-44,1943,916000,t metriche,Produzione sotto controllo tedesco/Vichy,9
+Bauxite,Metalli e minerali,Ungheria,"Transdanubio, Gant, Halimba, Nyirad",Ungheria,Alleata dell'Asse,1937,533000,t metriche,Principale fornitore continentale della Germania,8
+Bauxite,Metalli e minerali,Ungheria,Transdanubio,Ungheria,Alleata dell'Asse,1943,800000,t metriche,Espansione bellica,8
+Bauxite,Metalli e minerali,Stati Uniti,"Arkansas, Bauxite, Saline County; Alabama; Georgia",Stati Uniti,Sovrano,1937,427000,t metriche,L'Arkansas circa il 95% della produzione USA nel 1938,7
+Bauxite,Metalli e minerali,Stati Uniti,Arkansas e altri stati,Stati Uniti,Sovrano,1943,6333000,t metriche,Espansione enorme per l'aviazione alleata,9
+Bauxite,Metalli e minerali,Italia,"Istria, Gargano, Puglia",Italia,Sovrana,1937,386000,t metriche,Quasi tutta la produzione dall'Istria,6
+Bauxite,Metalli e minerali,Jugoslavia,"Dalmazia, Erzegovina, Bosnia, Montenegro",Jugoslavia,Occupata dall'Asse nel 1941,1937,354000,t metriche,Fornitore crescente della Germania,7
+Bauxite,Metalli e minerali,Guyana britannica,"Demerara, Berbice",Regno Unito,Colonia,1937,367000,t metriche,"Fornitura cruciale per USA, Canada e Regno Unito",8
+Bauxite,Metalli e minerali,Guyana britannica,"Demerara, Berbice",Regno Unito,Colonia,1943,1919000,t metriche,Espansione bellica,9
+Bauxite,Metalli e minerali,Guyana olandese / Suriname,"Paranam, Onverdacht, Moengo",Paesi Bassi,Colonia,1937,292000,t metriche,Pilastro alleato,7
+Bauxite,Metalli e minerali,Guyana olandese / Suriname,"Paranam, Onverdacht, Moengo",Paesi Bassi,Colonia,1943,1655000,t metriche,Crescita dopo la perdita asiatica,8
+Bauxite,Metalli e minerali,Indie orientali olandesi,"Bintan, Riau, Giava",Paesi Bassi,Occupate dal Giappone nel 1942,1937,199000,t metriche,Fonte asiatica persa dagli Alleati,6
+Bauxite,Metalli e minerali,URSS,"Urali, Carelia, Ucraina",URSS,Sovrano,1937,230000,t metriche,Base dell'alluminio sovietico,5
+Bauxite,Metalli e minerali,URSS,"Urali, Carelia, Ucraina",URSS,Sovrano,1943,350000,t metriche,Espansione in guerra,6
+Bauxite,Metalli e minerali,Grecia,"Parnasso, Elicone, Giona, Distomo, Eleusi",Grecia,Occupata dall'Asse dal 1941,1937,Circa 127846,long ton,Riserve stimate intorno a 60 milioni di t,5
+Bauxite,Metalli e minerali,Romania,"Bihor, Padurea Craiului",Romania,Alleata dell'Asse,1937,Circa 11620,long ton,Produttore minore nella sfera tedesca,2
+Bauxite,Metalli e minerali,India britannica,"Bihar, Jharkhand, Lohardaga",Regno Unito,Colonia,1937,Circa 14768,long ton,Fonte asiatica del Commonwealth,2
+Alluminio,Metalli e minerali,Mondo,Produzione mondiale,-,-,1938,580000,t metriche,Totale indicativo mondiale,10
+Alluminio,Metalli e minerali,Germania,"Rheinfelden, Lauta, Toging, Erftwerk, Horrem",Germania,Sovrana,1938,160000,t metriche,Capacita di allumina stimata a 430000 t,9
+Alluminio,Metalli e minerali,Germania,Impianti del Reich,Germania,Sovrana,1944,250000,t metriche,Dipendenza critica dalle importazioni di bauxite,9
+Alluminio,Metalli e minerali,Canada,"Arvida, Quebec; Shawinigan",Regno Unito,Dominion,1936,27000,t metriche,Energia idroelettrica e bauxite importata,7
+Alluminio,Metalli e minerali,Canada,"Arvida, Quebec",Regno Unito,Dominion,1943,450000,t metriche,Maggiore produttore alleato,10
+Alluminio,Metalli e minerali,Norvegia,"Hoyanger, Tyssedal, Ardal, Sunndalsora",Norvegia,Occupata dalla Germania nel 1940,1935,21300,t metriche,Energia idroelettrica abbondante,7
+Alluminio,Metalli e minerali,Norvegia,"Hoyanger, Tyssedal, Ardal, Sunndalsora",Norvegia,Occupata dalla Germania nel 1940,1943,23500,t metriche,Integrata nel sistema tedesco,7
+Alluminio,Metalli e minerali,Svizzera,"Valle del Rodano, Chippis, Steg, Rheinfelden",Svizzera,Neutrale,1935,21000,t metriche,Produttore medio europeo,6
+Alluminio,Metalli e minerali,Svizzera,"Valle del Rodano, Chippis, Steg, Rheinfelden",Svizzera,Neutrale,1943,18500,t metriche,Export verso Germania e altri mercati,6
+Alluminio,Metalli e minerali,Svezia,Trollhattan,Svezia,Neutrale,1935,1700,t metriche,Piccolo produttore,2
+Alluminio,Metalli e minerali,Svezia,Trollhattan,Svezia,Neutrale,1938,4678,t metriche,Export grazie all'energia idroelettrica,3
+Alluminio,Metalli e minerali,Italia,"Bolzano, Mori, Paderno Dugnano, Porto Marghera",Italia,Sovrana,1938,2386,t metriche,Esportazioni italiane; produzione nazionale limitata,3
+Alluminio,Metalli e minerali,India britannica,"Alwaye, Kerala",Regno Unito,Colonia,1943,1300,t metriche,Produttore minore del Commonwealth,1
+Alluminio,Metalli e minerali,Giappone,"Toyama, Niigata, Hokuriku, Manciukuo",Giappone,Sovrano e stato fantoccio,1935,2700,t metriche,Dipendenza da bauxite asiatica,3
+Alluminio,Metalli e minerali,Giappone,"Toyama, Niigata, Hokuriku, Manciukuo",Giappone,Sovrano e stato fantoccio,1943,114100,t metriche,Quarto produttore mondiale; bauxite importata,7
+Gomma naturale,Materie prime,Indie orientali olandesi,"Sumatra, Giava, Borneo",Paesi Bassi,Occupate dal Giappone nel 1942,1938,302872,t metriche,Circa il 32% del mercato mondiale,9
+Gomma naturale,Materie prime,Malaya,"Perak, Selangor, Johor",Regno Unito,Occupata dal Giappone nel 1942,1939,376000,t metriche,Maggiore produttore mondiale,10
+Gomma naturale,Materie prime,Mondo,Domanda mondiale,-,-,1938,933000,t metriche,Domanda mondiale di gomma naturale,10
+Gomma naturale,Materie prime,Indie orientali olandesi,"Sumatra, Giava, Borneo",Paesi Bassi,Occupate dal Giappone nel 1942,1939,372000,t metriche,Circa il 35% del totale mondiale,9
+Frumento,Alimenti,Mondo,Produzione mondiale esclusi URSS e Cina,-,-,1938,4443000000,bushel,Stima record,10
+Frumento,Alimenti,Mondo,Produzione mondiale,-,-,1938,Circa 4200000000-4255000000,bushel,Stime alternative,10
+Frumento,Alimenti,Stati Uniti,Grandi Pianure,Stati Uniti,Sovrano,1935-45,Maggiore esportatore,-,Riserva alimentare alleata,9
+Frumento,Alimenti,Canada,"Saskatchewan, Manitoba, Alberta",Regno Unito,Dominion,1935-45,Grande esportatore,-,Fornitura al Regno Unito,8
+Frumento,Alimenti,Argentina,"Pampa: Buenos Aires, Cordoba, Santa Fe",Argentina,Sovrana,1935-45,Grande esportatore,-,Neutrale fino al 1943,7
+Frumento,Alimenti,URSS,"Ucraina, Kuban, Volga",URSS,Sovrana,1935-45,Produzione enorme,-,Crollo con l'occupazione tedesca 1941-43,8
+Frumento,Alimenti,India britannica,"Punjab, Uttar Pradesh",Regno Unito,Colonia,1935-45,Fornitura interna e bellica,-,Sostegno al Commonwealth,6
+Tungsteno,Metalli strategici,Cina,"Jiangxi, Hunan, Guangdong",Cina,Sovrana; zone occupate,1935-45,Maggiore produttore mondiale,-,Export controllato e conteso,10
+Tungsteno,Metalli strategici,Portogallo,"Panasqueira, Borralha, Beira Baixa",Portogallo,Neutrale,1938,2419,t metriche,Inizio dell'espansione bellica,7
+Tungsteno,Metalli strategici,Portogallo,Panasqueira e altre miniere,Portogallo,Neutrale,1942,6500,t metriche,Picco della produzione portoghese,8
+Tungsteno,Metalli strategici,Portogallo,Panasqueira,Portogallo,Neutrale,1943,2520,t metriche,Maggiore complesso minerario portoghese,8
+Tungsteno,Metalli strategici,Portogallo,Panasqueira e altre miniere,Portogallo,Neutrale,1939-44,Oltre 27000,t metriche,Totale di concentrati di wolframio,8
+Tungsteno,Metalli strategici,Portogallo,Export totale,Portogallo,Neutrale,1940,3443,t metriche,Regno Unito 1783 t; USA 768 t; Germania 185 t,7
+Tungsteno,Metalli strategici,Portogallo,Export totale,Portogallo,Neutrale,1941,5235,t metriche,Regno Unito 2363 t; USA 848 t; Germania 1814 t,8
+Tungsteno,Metalli strategici,Portogallo,Export totale,Portogallo,Neutrale,1942,4801,t metriche,Regno Unito 2589 t; Germania 2169 t,8
+Tungsteno,Metalli strategici,Portogallo,Export totale,Portogallo,Neutrale,1943,6669,t metriche,Regno Unito 5321 t; Germania 1342 t,8
+Tungsteno,Metalli strategici,Portogallo,Export totale,Portogallo,Neutrale,1944,2688,t metriche,Regno Unito 1987 t; Germania 70 t; embargo dal 5 giugno 1944,6
+Tungsteno,Metalli strategici,Portogallo,Export verso Germania,Germania,Neutrale portoghese,1941-44,Circa 1968;1306;1755;315,t metriche,"Serie tedesca per 1941, 1942, 1943, 1944",8
+Tungsteno,Metalli strategici,Portogallo,Quote di esportazione,Portogallo,Neutrale,1942,2800,t metriche/anno,Quota tedesca concordata,7
+Tungsteno,Metalli strategici,Portogallo,Quote di esportazione,Regno Unito e Stati Uniti,Neutrale portoghese,1942,4000,t metriche/anno,Quota alleata concordata,7
+Tungsteno,Metalli strategici,Bolivia,"Llallagua, Potosi, Oruro",Bolivia,Sovrana,1935-45,Migliaia di t annue,-,Alternativa extraeuropea,6
+Tungsteno,Metalli strategici,Spagna,"Galizia, Asturie, Leon",Spagna,Neutrale,1935-45,Produzione minore,-,Accessibile alla Germania,4
+Tungsteno,Metalli strategici,Birmania britannica,"Shan State, Mawchi",Regno Unito,Occupata dal Giappone nel 1942,1935-45,Produzione minore,-,Fonte asiatica secondaria,3
+Tungsteno,Metalli strategici,Corea,"Sangdong, Kangwon",Giappone,Colonia,1935-45,Produzione crescente,-,Importante per l'Impero giapponese,5
+Tungsteno,Metalli strategici,Stati Uniti,"Idaho: Cobalt, Yellow Pine; Montana; Nevada",Stati Uniti,Sovrano,1943,4200,t metriche,Solo Idaho; espansione bellica,5
+Zolfo,Chimica,Stati Uniti,"Louisiana, Texas",Stati Uniti,Sovrano,1935-45,Maggiore produttore mondiale,-,Zolfo recuperato dal sottosuolo,10
+Zolfo,Chimica,Italia,Sicilia,Italia,Sovrana,1935-45,Produttore importante,-,Base della chimica italiana,6
+Zolfo,Chimica,Giappone,"Honshu, Hokkaido",Giappone,Sovrano,1935-45,Produttore importante,-,Chimica bellica,5
+Zolfo,Chimica,Spagna,"Andalusia, Murcia",Spagna,Neutrale,1935-45,Produttore minore,-,Fornitore potenziale dell'Asse,4
+Zolfo,Chimica,Messico,"Coahuila, San Luis Potosi",Messico,Sovrano,1935-45,Produttore minore,-,Mercato americano,3
+Stagno,Metalli strategici,Indie orientali olandesi,"Bangka, Belitung, Sumatra",Paesi Bassi,Occupate dal Giappone nel 1942,1939,31280,long ton,17% della produzione mondiale,9
+Stagno,Metalli strategici,Malaya,"Perak, Selangor, Kinta Valley",Regno Unito,Occupata dal Giappone nel 1942,1935-45,Maggiore produttore mondiale,-,Base asiatica dello stagno,10
+Stagno,Metalli strategici,Bolivia,"Llallagua, Potosi, Oruro",Bolivia,Sovrana,1935-45,Principale alternativa extra-asiatica,-,Export verso USA e Alleati,7
+Stagno,Metalli strategici,Nigeria britannica,"Plateau, Jos",Regno Unito,Colonia,1935-45,Produttore minore,-,Fonte africana del Commonwealth,4
+Stagno,Metalli strategici,Siam / Thailandia,"Phuket, Ranong, Yala",Siam / Thailandia,Neutrale poi alleato del Giappone,1935-45,Produttore minore,-,Accessibile al Giappone,4
+Stagno,Metalli strategici,Germania,"Sassonia, Boemia occupata",Germania,Sovrana e territori occupati,1935-45,"5,4% della produzione europea",-,"Produzione europea solo 0,58% mondiale",1
+Manganese,Metalli strategici,URSS,"Nikopol, Chiatura, Ucraina/Georgia",URSS,Sovrano,1935-45,Maggiore produttore,-,Base dell'acciaio sovietico,10
+Manganese,Metalli strategici,India britannica,"Madhya Pradesh, Maharashtra, Goa",Regno Unito,Colonia,1935-45,Grande produttore,-,Fornitura al Commonwealth,8
+Manganese,Metalli strategici,Brasile,"Minas Gerais, Amapa",Brasile,Sovrano,1935-45,Produttore importante,-,Export alleato,6
+Manganese,Metalli strategici,Costa d'Oro britannica,Nsuta,Regno Unito,Colonia,1935-45,Produttore minore,-,Risorsa africana del Commonwealth,5
+Manganese,Metalli strategici,Germania,"Turingia, Sassonia, Ilfeld",Germania,Sovrana,1936,Circa 47% del fabbisogno,-,Giacimenti poveri ma strategicamente usati,3
+Manganese,Metalli strategici,Italia,"Liguria, Toscana, Sardegna",Italia,Sovrana,1935-45,Terzo produttore europeo,-,Minerali di buona qualita,4
+Cromo,Metalli strategici,Turchia,"Guleman, Elazig",Turchia,Neutrale,1934-38 media,167400,t metriche,Principale produttore europeo indipendente,8
+Cromo,Metalli strategici,Turchia,"Guleman, Elazig",Turchia,Neutrale,1939,183300,t metriche,Fornitore conteso,8
+Cromo,Metalli strategici,Turchia,"Guleman, Elazig",Turchia,Neutrale,1945,147000,t metriche,Produzione bellica e postbellica,7
+Cromo,Metalli strategici,Sudafrica,"Transvaal, Rustenburg",Regno Unito,Dominion,1938,"Circa 30,3% delle importazioni tedesche",-,Fornitura cruciale ma vulnerabile per la Germania,8
+Cromo,Metalli strategici,Rhodesia meridionale,"Great Dyke, Selukwe",Regno Unito,Colonia,1935-45,Produttore rilevante,-,Base del Commonwealth,7
+Cromo,Metalli strategici,Filippine,"Zambales, Luzon",Stati Uniti,Commonwealth; occupazione giapponese,1935-45,Produttore minore,-,Fonte asiatica contesa,4
+Cromo,Metalli strategici,Nuova Caledonia,Massiccio del Sud,Francia,Colonia,1935-45,Produttore minore,-,Cromo e nichel francesi,4
+Nichel,Metalli strategici,Canada,"Sudbury, Ontario",Regno Unito,Dominion,1935-45,Maggiore produttore mondiale,-,Base alleata di nichel e cobalto,10
+Nichel,Metalli strategici,Canada e Birmania,Sudbury; Shan State,Regno Unito,Dominion e colonia,1938,"93,1% delle importazioni tedesche",-,Dipendenza tedesca dal nichel importato,9
+Nichel,Metalli strategici,Nuova Caledonia,"Thio, Nepoui, Massiccio del Sud",Francia,Colonia,1935-45,Produttore minore,-,Nichel e cobalto nel Pacifico,5
+Nichel,Metalli strategici,Cuba,"Moa, Nicaro, Oriente",Cuba,Sovrana,1935-45,Giacimenti lateritici,-,Importanza crescente in guerra,4
+Cobalto,Metalli strategici,Congo belga,"Katanga: Jadotville, Kolwezi",Belgio,Colonia,1935-45,Circa 60% della produzione mondiale,-,Cobalto inviato soprattutto agli USA,10
+Cobalto,Metalli strategici,Canada,"Sudbury, Ontario",Regno Unito,Dominion,1935-45,Produttore rilevante,-,Leghe e magneti,7
+Cobalto,Metalli strategici,Marocco francese,Bou Azzer,Francia,Protettorato/colonia,1935-45,Produttore minore,-,Cobalto e arsenico,3
+Molibdeno,Metalli strategici,Stati Uniti,"Climax, Colorado",Stati Uniti,Sovrano,1935-45,Maggiore produttore mondiale,-,Base delle leghe alleate,10
+Molibdeno,Metalli strategici,Cile,"Chuquicamata, El Teniente",Cile,Sovrano,1935-45,Sottoprodotto del rame,-,Fornitore alleato,6
+Molibdeno,Metalli strategici,Norvegia,"Knaben, Vest-Agder",Norvegia,Occupata dalla Germania nel 1940,1935-45,Piccolo ma importante,-,Sotto controllo tedesco,3
+Molibdeno,Metalli strategici,Peru,"Cerro de Pasco, Junin",Peru,Sovrano,1935-45,Produttore minore,-,Collegamento al mercato americano,3
+Vanadio,Metalli strategici,Stati Uniti,"Colorado Plateau, Utah, Colorado",Stati Uniti,Sovrano,1935-45,Fonte principale,-,Leghe e uranio come sottoprodotto,8
+Vanadio,Metalli strategici,Peru,"Minasragra, Cerro de Pasco",Peru,Sovrano,1935-45,Produttore importante,-,Uno dei pochi grandi giacimenti extraeuropei,7
+Vanadio,Metalli strategici,Sudafrica,Transvaal,Regno Unito,Dominion,1935-45,Produttore minore,-,Acciai speciali del Commonwealth,4
+Vanadio,Metalli strategici,Spagna,"Sierra Albarrana, Andalusia",Spagna,Neutrale,1935-45,Produttore minore,-,Potenziale fornitore dell'Asse,2
+Antimonio,Metalli strategici,Mondo,Produzione mondiale primaria,-,-,1938,38000,t metriche,Totale mondiale,10
+Antimonio,Metalli strategici,Cina,"Hunan, Guangxi, Guizhou",Cina,Sovrana; zone occupate,1939,Circa 50% della produzione mondiale,-,Maggiore produttore globale,10
+Antimonio,Metalli strategici,Bolivia,"Potosi, Oruro",Bolivia,Sovrana,1939,Circa 29% della produzione mondiale,-,Fornitore extraeuropeo,7
+Antimonio,Metalli strategici,Messico,"San Luis Potosi, Hidalgo, Zacatecas",Messico,Sovrano,1939,Circa 25% della produzione mondiale,-,Fornitore americano,6
+Antimonio,Metalli strategici,Jugoslavia,"Serbia, Bosnia",Jugoslavia,Occupata nel 1941,1938,3370,long ton,Circa il 10% mondiale nel 1939,4
+Antimonio,Metalli strategici,Algeria francese,"Costantina, Aures",Francia,Colonia,1938,1010,long ton,Produttore minore dell'impero francese,2
+Antimonio,Metalli strategici,Birmania britannica,Shan State,Regno Unito,Occupata dal Giappone,1938,102,long ton,Produzione marginale,1
+Antimonio,Metalli strategici,Cecoslovacchia,Boemia,Cecoslovacchia,Occupata dalla Germania,1937,30% della produzione europea,-,Persa dal Reich dopo l'occupazione,4
+Mercurio,Metalli strategici,Italia,"Idria, Monte Amiata",Italia,Sovrana,1935-45,Maggiore produttore mondiale,-,Detonatori e chimica,9
+Mercurio,Metalli strategici,Spagna,"Almaden, Ciudad Real",Spagna,Neutrale,1935-45,Uno dei maggiori giacimenti mondiali,-,Export conteso,9
+Mercurio,Metalli strategici,Germania,"Renania, Sassonia, Baviera",Germania,Sovrana,1935-45,Circa 200-300 t annue,-,Circa il 30% del consumo tedesco,3
+Mercurio,Metalli strategici,Cecoslovacchia,Boemia,Cecoslovacchia,Occupata dalla Germania,1935-45,Produttore secondario,-,Integrata nell'economia tedesca,3
+Mercurio,Metalli strategici,Cina,"Guizhou, Hunan",Cina,Sovrana,1935-45,Produttore minore,-,Difficolta logistiche in guerra,2
+Uranio,Metalli nucleari,Congo belga,"Shinkolobwe / Kasolo, Katanga",Belgio,Colonia,1935-45,Maggiore fonte mondiale,-,Uraninite fino a circa 65% U3O8; riforni il Progetto Manhattan,10
+Uranio,Metalli nucleari,Cecoslovacchia,"Jachymov / Joachimsthal, Boemia",Cecoslovacchia,Occupata dalla Germania,1935-45,Produzione minima,-,Unico grande deposito europeo sotto controllo nazista,3
+Uranio,Metalli nucleari,Canada,"Great Bear Lake, Port Radium",Regno Unito,Dominion,1935-45,Seconda fonte alleata,-,Uranio per il Progetto Manhattan,6
+Uranio,Metalli nucleari,Stati Uniti,"Colorado Plateau, Paradox Valley",Stati Uniti,Sovrano,1935-45,Fonte minore,-,Uranio e vanadio,3
+Uranio,Metalli nucleari,Belgio,"Olen, Anversa",Belgio,Occupato nel 1940,1940,Circa 3500,t metriche,Minerale congolese catturato dalla Germania,4

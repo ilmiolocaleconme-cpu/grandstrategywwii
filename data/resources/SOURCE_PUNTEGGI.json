@@ -1,0 +1,8 @@
+{
+  "file": "data/resources/risorse_con_punteggi.csv",
+  "sha256": "ba3225c762442624a0b6c5925feaecf9406d9ab900cc3183f146611cc6882a2d",
+  "receivedOn": "2026-10-24",
+  "origin": "CSV fornito dall'utente in chat: stesse 196 righe di risorse_riferimento.csv (colonne identiche) più la colonna punteggio_output_1_10",
+  "use": "Punteggi 1-10 di output relativo di ogni giacimento DENTRO la sua risorsa (10 = massimo produttore di quella risorsa). Base del modello a punti (data/resources/modello_punti.json).",
+  "note": "Copia byte per byte, da non modificare a mano. Le correzioni di Claude stanno in punteggi_output.csv (score_final), mai qui."
+}
