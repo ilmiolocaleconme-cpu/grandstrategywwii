@@ -5,7 +5,7 @@ import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
-import { resolveResourceAnchors } from '../data/provinceResources.js';
+import { resolveResourceAnchors, resolveResourceFills } from '../data/provinceResources.js';
 import { buildLinksModel } from './transportView.js';
 import { seaZoneAt } from './seaView.js';
 import { pickStaticLabels } from './labelview.js';
@@ -40,6 +40,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const wrapRef = useRef(null);
   const baseRef = useRef(null);
   const anchoredResources = useMemo(() => (provinceResources ? resolveResourceAnchors(model.items, provinceResources) : null), [model, provinceResources]);
+  const resourceFills = useMemo(() => (layer === 'resources' && provinceResources ? resolveResourceFills(model.items, provinceResources) : null), [layer, model, provinceResources]);
   const overlayRef = useRef(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [viewRev, setViewRev] = useState(0); // sale a ogni assestamento della vista: fa ripartire il calcolo dei nomi
@@ -49,7 +50,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources };
+  props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, resourceFills };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
 
@@ -87,7 +88,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, trace: window.__gsTrace, light });
+    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, resourceFills: p.resourceFills, trace: window.__gsTrace, light });
     s.cache = { canvas: c, view: { ...view }, region, light };
     baseRef.current.dataset.drawn = '1';
     if (p.water.lines.length && p.showRivers && !light) baseRef.current.dataset.water = '1';
@@ -134,7 +135,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const l = lay();
     const view = s.view;
     ensureLevel(view);
-    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, trace: window.__gsTrace, light: false });
+    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, resourceFills: p.resourceFills, trace: window.__gsTrace, light: false });
     const sl = { canvas: c, exposed: false, timer: 0 };
     s.slice = sl;
     const expose = () => {
@@ -329,7 +330,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       // i nomi partono solo dopo che la prima schermata è stata presentata (due fotogrammi)
       requestAnimationFrame(() => requestAnimationFrame(() => { s.painted = true; setViewRev((n) => n + 1); }));
     }
-  }, [size, model, water, layer, showRivers, seaData, showSeas, selectedSeaId, transportModel]);
+  }, [size, model, water, layer, showRivers, seaData, showSeas, selectedSeaId, transportModel, resourceFills]);
   // la selezione della provincia cambia solo la sovrapposizione
   useEffect(() => { paintOverlay(); }, [selectedId, seaData, showSeas, layer, anchoredResources]);
 

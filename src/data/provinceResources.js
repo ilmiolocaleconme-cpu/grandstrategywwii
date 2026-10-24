@@ -16,7 +16,7 @@ export const RESOURCE_ORDER = Object.freeze(['oil', 'coal', 'iron_ore', 'bauxite
  */
 export const RESOURCE_META = Object.freeze({
   oil: { label: 'Petrolio', icon: 'pumpjack', color: '#1c1c1c' },
-  coal: { label: 'Carbone', icon: 'picks', color: '#4a5560' },
+  coal: { label: 'Carbone', icon: 'picks', color: '#5b4636' },
   iron_ore: { label: 'Minerale di ferro', icon: 'symbol', symbol: 'Fe', color: '#a0482a' },
   bauxite: { label: 'Bauxite', icon: 'symbol', symbol: 'Bx', color: '#d2812c' },
   aluminium: { label: 'Alluminio', icon: 'ingot', symbol: 'Al', color: '#6f93ab' },
@@ -35,6 +35,22 @@ export const RESOURCE_META = Object.freeze({
   sulphur: { label: 'Zolfo', icon: 'flask', symbol: 'S', color: '#b39b00' },
   uranium: { label: 'Uranio', icon: 'radiation', color: '#3a9d23' },
 });
+
+/** Colore delle province senza risorse nel livello Risorse: chiaro e neutro, perché risaltino quelle colorate. */
+export const RESOURCE_NEUTRAL = '#d9d6c3';
+
+/** Mescola due colori #rrggbb: t = 0 → a, t = 1 → b. */
+export function mixHex(a, b, t) {
+  const n = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const [x, y] = [n(a), n(b)];
+  return `#${x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join('')}`;
+}
+
+/** Colore di riempimento di una provincia con quella risorsa: il colore della risorsa schiarito, così il distintivo (stesso colore) resta ben visibile. */
+export function resourceFillColor(id) {
+  const meta = RESOURCE_META[id];
+  return meta ? mixHex(meta.color, '#ffffff', 0.4) : RESOURCE_NEUTRAL;
+}
 
 const rank = (id) => { const i = RESOURCE_ORDER.indexOf(id); return i < 0 ? RESOURCE_ORDER.length : i; };
 
@@ -94,6 +110,21 @@ export function resolveResourceAnchors(items, byProvince) {
     if (!kids?.length) continue;
     const best = kids.reduce((a, b) => ((b.areaKm2 ?? 0) > (a.areaKm2 ?? 0) || ((b.areaKm2 ?? 0) === (a.areaKm2 ?? 0) && b.props.id < a.props.id) ? b : a));
     out[best.props.id] = list;
+  }
+  return out;
+}
+
+/**
+ * Riempimento delle province nel livello Risorse: { idElemento: colore }. Una provincia madre divisa in sotto-province le colora TUTTE
+ * (è l'intera regione ad avere la risorsa; solo l'icona sta su una). Con più risorse vale la prima in ordine di priorità
+ * (le altre si vedono dalle icone). Le province non elencate restano neutre.
+ */
+export function resolveResourceFills(items, byProvince) {
+  const out = {};
+  if (!byProvince) return out;
+  for (const it of items) {
+    const list = byProvince[it.props.id] ?? byProvince[it.props.parentProvince];
+    if (list?.length) out[it.props.id] = resourceFillColor(list[0]);
   }
   return out;
 }

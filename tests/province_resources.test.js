@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { parseCsv } from '../src/data/csv.js';
-import { buildProvinceResources, validateProvinceResources, resolveResourceAnchors, RESOURCE_META, RESOURCE_ORDER } from '../src/data/provinceResources.js';
+import { buildProvinceResources, validateProvinceResources, resolveResourceAnchors, resolveResourceFills, resourceFillColor, mixHex, RESOURCE_NEUTRAL, RESOURCE_META, RESOURCE_ORDER } from '../src/data/provinceResources.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 
 const url = (p) => new URL(`../data/${p}`, import.meta.url);
@@ -66,4 +66,22 @@ test('colori distinti per risorsa e nessuna risorsa usa l\'icona della fabbrica 
     assert.match(m.color, /^#[0-9a-f]{6}$/i, `${id}: colore non valido`);
     assert.notEqual(m.icon, 'factory', `${id} usa l'icona della fabbrica`);
   }
+});
+
+test('riempimento: colore schiarito, sotto-province tutte colorate, prima risorsa vince, senza risorse neutro', () => {
+  assert.equal(mixHex('#000000', '#ffffff', 0.5), '#808080');
+  assert.equal(mixHex('#102030', '#ffffff', 0), '#102030');
+  for (const r of RESOURCE_ORDER) assert.match(resourceFillColor(r), /^#[0-9a-f]{6}$/);
+  assert.notEqual(resourceFillColor('oil'), RESOURCE_NEUTRAL);
+  const items = [
+    { props: { id: 'P_A' } },
+    { props: { id: 'P_B_SP1', parentProvince: 'P_B' } },
+    { props: { id: 'P_B_SP2', parentProvince: 'P_B' } },
+    { props: { id: 'P_C' } },
+  ];
+  const out = resolveResourceFills(items, { P_A: ['coal', 'oil'], P_B: ['wheat'] });
+  assert.deepEqual(Object.keys(out).sort(), ['P_A', 'P_B_SP1', 'P_B_SP2']);
+  assert.equal(out.P_A, resourceFillColor('coal'));
+  assert.equal(out.P_B_SP1, out.P_B_SP2);
+  assert.deepEqual(resolveResourceFills(items, null), {});
 });

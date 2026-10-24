@@ -3,7 +3,7 @@ import { SeaLayer, buildSeaModel } from './SeaLayer.jsx';
 import { pickStaticLabels } from './labelview.js';
 import { HOME_BOUNDS, LAYERS, riverRankLimit, riverWidthScale, riverOpacity, buildLod, buildMapModel, lodLevel, buildWaterModel, pickLabels, controllerOf, provinceFill, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { TERRAIN_COLORS, TERRAIN_LABEL, TERRAIN_TYPES } from '../data/terrain.js';
-import { RESOURCE_META, RESOURCE_ORDER } from '../data/provinceResources.js';
+import { RESOURCE_META, RESOURCE_NEUTRAL, RESOURCE_ORDER } from '../data/provinceResources.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
@@ -271,7 +271,7 @@ export function LegendList({ layer, nationNames, nationControl, items }) {
   const entries = layer === 'terrain'
     ? [...TERRAIN_TYPES, 'urbano'].map((t) => [TERRAIN_LABEL[t], TERRAIN_COLORS[t]])
     : layer === 'resources'
-      ? RESOURCE_ORDER.map((r) => [`${RESOURCE_META[r].label}${RESOURCE_META[r].symbol ? ` (${RESOURCE_META[r].symbol})` : ''}`, RESOURCE_META[r].color])
+      ? [...RESOURCE_ORDER.map((r) => [`${RESOURCE_META[r].label}${RESOURCE_META[r].symbol ? ` (${RESOURCE_META[r].symbol})` : ''}`, RESOURCE_META[r].color]), ['Senza risorse', RESOURCE_NEUTRAL]]
       : owners.map((o) => [nationNames[o] ?? o, provinceFill({ owner: o, id: '' }, 'political')]);
   return (
     <ul className="legend" aria-label={layer === 'terrain' ? 'Legenda terreno' : layer === 'resources' ? 'Legenda risorse' : 'Legenda nazioni'}>

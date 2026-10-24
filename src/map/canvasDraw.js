@@ -9,6 +9,7 @@ import { LINE_STEP } from './labelfit.js';
 import { drawTransport } from './transportView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 import { drawProvinceResources } from './resourceIcons.js';
+import { RESOURCE_NEUTRAL } from '../data/provinceResources.js';
 
 const COS0 = WORLD_W / 360;
 const SEAM_X = Math.fround(180 * COS0);
@@ -198,8 +199,9 @@ function cityText(p) {
   return nome;
 }
 
-function fillOf(item, layer, control) {
+function fillOf(item, layer, control, resourceFills) {
   if (item.props.kind === 'citta') return COLORS.cityGrey; // centro urbano: grigio
+  if (layer === 'resources') return resourceFills?.[item.props.id] ?? RESOURCE_NEUTRAL; // colore della risorsa; senza risorse neutro (nessuna cache: i dati arrivano dopo)
   const cache = item.fills ?? (item.fills = {});
   return cache[layer] ?? (cache[layer] = provinceFill(item.props, layer, control));
 }
@@ -217,7 +219,7 @@ const LAKE_CHUNK = 60; // laghi per passo
  * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
 export function* renderBaseSteps(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, transport } = p;
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, transport, resourceFills } = p;
   const a = affineOf(view, vb, lay);
   const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
   const cull = regionToUnits(view, vb, lay, region);
@@ -247,7 +249,7 @@ export function* renderBaseSteps(ctx, p) {
       const b = it.bbox;
       if (b.x > x1 || b.x + b.w < x0 || b.y > y1 || b.y + b.h < y0) continue;
       const path = itemPath(model, lod, it, level);
-      const col = fillOf(it, layer, nationControl);
+      const col = fillOf(it, layer, nationControl, resourceFills);
       if (col === COLORS.cityGrey) singles.push(path); // zone urbane e province-città si sovrappongono: ognuna a parte
       else {
         let g = groups.get(col);
