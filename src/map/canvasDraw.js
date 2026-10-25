@@ -157,15 +157,37 @@ function zoneBox(z) {
 
 // Solo le zone che toccano la regione: con le zone di tutto il mondo il tratteggio dell'intero contorno (decine di migliaia di
 // punti, a zoom alto milioni di trattini) costava molto anche per ciò che sta fuori schermo.
+/**
+ * Contorno di una zona senza i lati lungo l'antimeridiano (lon = ±180): il calcolo taglia le zone alla cucitura del mondo,
+ * ma lì non c'è nessun confine, quindi la riga non si deve vedere (il riempimento resta invariato).
+ */
+function zoneLinePath(z) {
+  if (z.line) return z.line;
+  const p = new Path2D();
+  const onSeam = (pt) => pt[0] === 180 || pt[0] === -180;
+  for (const ring of z.rings) {
+    const n = ring.length;
+    p.moveTo(ring[0][0] * COS0, -ring[0][1]);
+    for (let i = 1; i <= n; i += 1) {
+      const a = ring[i - 1], b = ring[i % n];
+      if (onSeam(a) && onSeam(b) && a[0] === b[0]) p.moveTo(b[0] * COS0, -b[1]);
+      else p.lineTo(b[0] * COS0, -b[1]);
+    }
+  }
+  z.line = p;
+  return p;
+}
+
 function seaGroups(seas, cull) {
-  const open = new Path2D();
-  const strait = new Path2D();
+  const g = { open: new Path2D(), strait: new Path2D(), openLine: new Path2D(), straitLine: new Path2D() };
   for (const z of seas.zones) {
     const b = zoneBox(z);
     if (cull && (b.x0 > cull.x1 || b.x1 < cull.x0 || b.y0 > cull.y1 || b.y1 < cull.y0)) continue;
-    (z.kind === 'strait' || z.kind === 'approach' ? strait : open).addPath(zonePath(z));
+    const strait = z.kind === 'strait' || z.kind === 'approach';
+    g[strait ? 'strait' : 'open'].addPath(zonePath(z));
+    g[strait ? 'straitLine' : 'openLine'].addPath(zoneLinePath(z));
   }
-  return { open, strait };
+  return g;
 }
 
 function drawSeas(ctx, seas, selectedSeaId, sx, cull) {
@@ -173,14 +195,14 @@ function drawSeas(ctx, seas, selectedSeaId, sx, cull) {
   ctx.setLineDash([4 / sx, 3 / sx]);
   ctx.lineWidth = 0.8 / sx;
   ctx.fillStyle = COLORS.seaFill; ctx.strokeStyle = COLORS.seaStroke;
-  ctx.fill(g.open, 'evenodd'); ctx.stroke(g.open);
+  ctx.fill(g.open, 'evenodd'); ctx.stroke(g.openLine);
   ctx.fillStyle = COLORS.straitFill; ctx.strokeStyle = COLORS.straitStroke;
-  ctx.fill(g.strait, 'evenodd'); ctx.stroke(g.strait);
+  ctx.fill(g.strait, 'evenodd'); ctx.stroke(g.straitLine);
   ctx.setLineDash([]);
   const sel = selectedSeaId ? seas.zones.find((z) => z.id === selectedSeaId) : null;
   if (sel) {
     ctx.fillStyle = COLORS.seaSelFill; ctx.strokeStyle = COLORS.seaSelStroke; ctx.lineWidth = 2 / sx;
-    ctx.fill(zonePath(sel), 'evenodd'); ctx.stroke(zonePath(sel));
+    ctx.fill(zonePath(sel), 'evenodd'); ctx.stroke(zoneLinePath(sel));
   }
 }
 

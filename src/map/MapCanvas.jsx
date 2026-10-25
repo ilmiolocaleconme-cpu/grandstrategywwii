@@ -18,7 +18,7 @@ import { pickStaticLabels } from './labelview.js';
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
 const MAX_DPR = 2; // oltre, il costo di disegno cresce senza vantaggi visibili
-const MARGIN = 0.3; // margine della bitmap attorno allo schermo (frazione di W e H)
+const MARGIN = 0.4; // margine della bitmap attorno allo schermo (frazione di W e H)
 const LOD_METHOD = 'radial'; // 'radial' (veloce, usata) o 'dp' (Douglas-Peucker in secondo piano: più fedele, ma ricostruisce i tracciati)
 const IDLE_MS = 160; // gesto fermo: dettaglio pieno e nomi
 const PAD = HOME_BOUNDS.w * 0.02;
@@ -118,6 +118,13 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
 
   const SLICE_BUDGET_MS = 8; // più passi nello stesso compito finché ci stanno in questo tempo
 
+  const coversNow = () => {
+    const s = st.current;
+    const c = s.cache;
+    if (!c) return false;
+    return coversScreen(blitPlan(c.view, s.view, VB, lay(), c.region), s.size.w, s.size.h);
+  };
+
   const renderFull = () => {
     const s = st.current;
     cancelSlice();
@@ -137,7 +144,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const view = s.view;
     ensureLevel(view);
     const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, resourceFills: p.resourceFills, trace: window.__gsTrace, light: false });
-    const sl = { canvas: c, exposed: false, timer: 0 };
+    const sl = { canvas: c, exposed: false, timer: 0, view: { ...view } };
     s.slice = sl;
     const expose = () => {
       const old = s.cache?.canvas;
@@ -154,7 +161,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
         const r = gen.next();
         if (r.done) { done = true; break; }
         flushCanvas(c);
-        if (!sl.exposed) expose();
+        // a gesto in corso la scena completa si mostra solo quando è finita (prima ci sarebbe un'immagine senza linee che
+        // poi le riacquista), salvo che quella attuale non copra più lo schermo
+        if (!sl.exposed && (!s.moving || !s.cache || !coversNow())) expose();
       } while (performance.now() - t0 < SLICE_BUDGET_MS);
       if (done) {
         if (!sl.exposed) expose();
@@ -210,7 +219,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       s.renderTimer = 0;
       s.renderDue = 0;
       const t0 = performance.now();
-      if (s.moving) renderCache(true); else renderFull();
+      renderFull(); // a passi (non blocca i gesti); a gesto in corso la scena nuova si mostra solo finita
       s.lastEnd = performance.now(); // provvisorio: se blit() chiedesse subito un altro ridisegno, rispetterebbe comunque il ritmo
       blit();
       s.lastEnd = performance.now();
@@ -233,7 +242,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     clearTimeout(s.renderTimer);
     s.renderTimer = 0;
     s.renderDue = 0;
-    renderFull(); // a gesto fermo sempre la scena completa, a passi
+    const sl = s.slice;
+    const same = sl && sl.view.k === s.view.k && sl.view.x === s.view.x && sl.view.y === s.view.y;
+    if (!same) renderFull(); // a gesto fermo sempre la scena completa, a passi (se è già in corso per questa vista, si lascia finire)
     blit();
     setViewRev((n) => n + 1);
   };
