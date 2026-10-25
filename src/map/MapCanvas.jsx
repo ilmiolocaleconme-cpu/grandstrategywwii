@@ -296,7 +296,10 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       s.borders.levels = [];
       later(() => {
         if (!s.moving) { renderFull(); blit(); }
-        if (LOD_METHOD !== 'dp') return; // con il metodo veloce non serve altro
+        // Versioni semplificate: con 'dp' sostituiscono quelle veloci; con 'radial' sono le stesse che ensureLevel
+        // costruirebbe in un colpo solo al primo zoom oltre la soglia (con tutte le province del mondo è un compito da
+        // centinaia di ms, nel mezzo di un gesto): si preparano a fette brevi a mappa ferma.
+        const dp = LOD_METHOD === 'dp';
         const jobs = [];
         const replace = (lv) => {
           for (const it of m.items) if (it.paths) it.paths[lv] = null;
@@ -304,15 +307,15 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
           if (s.borders.chunks) s.borders.chunks[lv] = null;
         };
         CANVAS_LOD_TOLS.forEach((tol, i) => {
-          jobs.push({ job: createLodJob(m, tol, 'dp'), done: (r) => { s.lod.levels[i] = r; replace(i); } });
-          jobs.push({ job: createBorderLodJob(s.borders, tol, 'dp'), done: (r) => { s.borders.levels[i] = r; replace(i); } });
+          if (dp || !s.lod.levels[i]) jobs.push({ job: createLodJob(m, tol, LOD_METHOD), done: (r) => { if (dp || !s.lod.levels[i]) { s.lod.levels[i] = r; if (dp) replace(i); } } });
+          if (dp || !s.borders.levels[i]) jobs.push({ job: createBorderLodJob(s.borders, tol, LOD_METHOD), done: (r) => { if (dp || !s.borders.levels[i]) { s.borders.levels[i] = r; if (dp) replace(i); } } });
         });
         const run = () => {
           const j = jobs[0];
           if (!j) return;
-          const r = j.job.step(6);
+          const r = j.job.step(dp ? 6 : 4);
           if (r) { j.done(r); jobs.shift(); }
-          later(run, 0);
+          later(run, s.moving ? 150 : 0); // durante un gesto si cede il passo
         };
         later(run, 50);
       }, 0);
