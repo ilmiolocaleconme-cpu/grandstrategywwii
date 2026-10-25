@@ -302,3 +302,15 @@ test('colore politico: le colonie prendono il colore di chi le controlla nel 193
     assert.ok(ids.has(c), `${f.properties.id}: controllore ${c} inesistente`);
   }
 });
+
+test('zoom minimo: il mondo riempie lo schermo in larghezza e in altezza, senza copie affiancate', async () => {
+  const { minZoomToFit, WORLD_W, MAX_LAT } = await import('../src/map/geo.js');
+  const s = 2; // pixel per unità
+  const k = minZoomToFit(844, 390, s);
+  // larghezza visibile (unità) non oltre un giro del mondo, altezza non oltre i poli
+  assert.ok(844 / (s * k) <= WORLD_W + 1e-9);
+  assert.ok(390 / (s * k) <= 2 * MAX_LAT + 1e-9);
+  // schermo molto alto: vince l'altezza
+  assert.ok(minZoomToFit(300, 900, s) > minZoomToFit(300, 300, s));
+  assert.ok(minZoomToFit(0, 0, 0) > 0);
+});

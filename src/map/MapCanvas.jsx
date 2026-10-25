@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
@@ -17,7 +17,6 @@ import { pickStaticLabels } from './labelview.js';
 
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
-const MIN_K = 0.3;
 const MAX_DPR = 2; // oltre, il costo di disegno cresce senza vantaggi visibili
 const MARGIN = 0.3; // margine della bitmap attorno allo schermo (frazione di W e H)
 const LOD_METHOD = 'radial'; // 'radial' (veloce, usata) o 'dp' (Douglas-Peucker in secondo piano: più fedele, ma ricostruisce i tracciati)
@@ -53,6 +52,8 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, resourceFills };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
+  // zoom minimo: tutto il mondo e non più (niente copie affiancate della mappa)
+  const minK = () => { const z = st.current.size; return minZoomToFit(z.w, z.h, lay().s); };
 
   // --- disegno --------------------------------------------------------------------------------------------
   const copiesFor = (view, region, l) => {
@@ -228,6 +229,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const s = st.current;
     s.moving = false;
     s.view = wrapView(s.view, VB);
+    if (s.view.k < minK()) s.view = wrapView(zoomAt(s.view, minK() / s.view.k, VB.x + VB.w / 2, VB.y + VB.h / 2, 0, MAX_K), VB); // dopo un ridimensionamento
     clearTimeout(s.renderTimer);
     s.renderTimer = 0;
     s.renderDue = 0;
@@ -392,7 +394,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
 
   const onWheel = (e) => {
     const [cx, cy] = toView(e.clientX, e.clientY);
-    applyView(zoomAt(st.current.view, Math.exp(-e.deltaY * 0.0015), cx, cy, MIN_K, MAX_K));
+    applyView(zoomAt(st.current.view, Math.exp(-e.deltaY * 0.0015), cx, cy, minK(), MAX_K));
   };
   const onWheelRef = useRef(onWheel);
   onWheelRef.current = onWheel;
@@ -458,7 +460,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       const d0 = Math.hypot(g.start[0][0] - g.start[1][0], g.start[0][1] - g.start[1][1]);
       const d1 = Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]);
       const [cx, cy] = toView((pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2);
-      applyView(zoomAt(g.view, d1 / Math.max(d0, 1), cx, cy, MIN_K, MAX_K));
+      applyView(zoomAt(g.view, d1 / Math.max(d0, 1), cx, cy, minK(), MAX_K));
     }
   };
   const onPointerUp = (e) => {
@@ -478,7 +480,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   };
 
   const zoomButton = (factor) => {
-    applyView(zoomAt(st.current.view, factor, VB.x + VB.w / 2, VB.y + VB.h / 2, MIN_K, MAX_K)); // centro della vista, non dei dati
+    applyView(zoomAt(st.current.view, factor, VB.x + VB.w / 2, VB.y + VB.h / 2, minK(), MAX_K)); // centro della vista, non dei dati
   };
   const goHome = useCallback(() => {
     const s = st.current;
