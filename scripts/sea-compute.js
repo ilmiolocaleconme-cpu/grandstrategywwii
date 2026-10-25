@@ -74,6 +74,7 @@ function simplifyClosed(ring, tol) {
 export function computeSeaZones(collection, design, { debug = false, land = [] } = {}) {
   const g = makeGrid(design.grid);
   const { nx, ny, step } = g;
+  const wrap = design.grid.wrap === true; // griglia di 360°: il bordo est confina con il bordo ovest (antimeridiano)
   const total = nx * ny;
   const prov = rasterizeProvinces(g, collection);
 
@@ -108,6 +109,7 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
   const vKm = step * KM_LAT;
 
   // semi: si spostano sulla cella d'acqua più vicina (entro 0,4°) se cadono su terra
+  const noWater = [];
   const seeds = design.seeds.map((s, k) => {
     const ix0 = Math.floor((s.lon - g.lon0) / step), iy0 = Math.floor((s.lat - g.lat0) / step);
     const maxR = Math.ceil(0.4 / step);
@@ -118,9 +120,10 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
       const d = dx * dx + dy * dy;
       if (d < bestD) { bestD = d; bestCell = iy * nx + ix; }
     }
-    if (bestCell < 0) throw new Error(`seme ${s.id}: nessuna cella d'acqua entro 0,4° da (${s.lon}, ${s.lat})`);
+    if (bestCell < 0) { noWater.push(`${s.id} (${s.lon}, ${s.lat})`); return { ...s, k, cell: 0, shiftDeg: 0 }; }
     return { ...s, k, cell: bestCell, shiftDeg: Math.sqrt(bestD) * step };
   });
+  if (noWater.length > 0) throw new Error(`semi senza acqua entro 0,4°: ${noWater.join('; ')}`);
 
   const owner = new Int16Array(total).fill(-1);
   const best = new Float64Array(total).fill(Infinity);
@@ -134,7 +137,7 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
     const cap = seeds[k].radiusKm ?? Infinity;
     const ix = cell % nx, iy = (cell - ix) / nx;
     for (const [dx, dy] of NB) {
-      const jx = ix + dx, jy = iy + dy;
+      const jx = wrap ? (ix + dx + nx) % nx : ix + dx, jy = iy + dy;
       if (jx < 0 || jy < 0 || jx >= nx || jy >= ny) continue;
       const nc = jy * nx + jx;
       if (!water[nc] || owner[nc] !== -1) continue;
@@ -163,7 +166,7 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
       const cell = comp[qi];
       const ix = cell % nx, iy = (cell - ix) / nx;
       for (const [dx, dy] of NB.slice(0, 4)) {
-        const jx = ix + dx, jy = iy + dy;
+        const jx = wrap ? (ix + dx + nx) % nx : ix + dx, jy = iy + dy;
         if (jx < 0 || jy < 0 || jx >= nx || jy >= ny) continue;
         const nc = jy * nx + jx;
         if (!water[nc]) continue;
@@ -200,11 +203,13 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
         [ix, iy + 1, V(ix + 1, iy + 1), V(ix, iy + 1), hKm[iy]],
         [ix - 1, iy, V(ix, iy + 1), V(ix, iy), vKm],
       ];
-      for (const [jx, jy, va, vb, km] of sides) {
+      for (const [jx0, jy, va, vb, km] of sides) {
+        const jx = wrap ? (jx0 + nx) % nx : jx0;
+        const seam = jx !== jx0; // lato sul bordo della griglia: il contorno si chiude lì anche se oltre c'è la stessa zona
         const o = nbr(jx, jy);
-        if (o === z) continue;
+        if (o === z && !seam) continue;
         addEdge(z, va, vb);
-        if (o >= 0) { if (z < o) bump(seaKm, `${z}|${o}`, km); } else if (o === -1) {
+        if (o >= 0) { if (o !== z && z < o) bump(seaKm, `${z}|${o}`, km); } else if (o === -1) {
           const p = prov[jy * nx + jx];
           if (p) bump(coastKm[z], p - 1, km);
         }

@@ -125,10 +125,20 @@ test('mare: Africa e Mar Rosso, con Suez, Bab el-Mandeb e rotta del Capo', () =>
   assert.ok(sea.zone('SZ_SOMALIA_ITALIANA').strategic);
 });
 
-test('mare: senza Suez e Gibilterra l\'Indiano si raggiunge solo dal Capo', () => {
+test('mare: la rotta del Capo esiste anche senza Suez e Gibilterra', () => {
   const noCanals = (id) => id !== 'SZ_SUEZ' && id !== 'SZ_GIBILTERRA';
   assert.ok(reach('SZ_ATL_AZZORRE', noCanals).has('SZ_SOMALIA_ITALIANA'), 'la rotta del Capo deve esistere');
-  assert.ok(!reach('SZ_ATL_AZZORRE', (id) => noCanals(id) && id !== 'SZ_CAPO').has('SZ_SOMALIA_ITALIANA'), 'senza il Capo l\'Indiano non deve essere raggiungibile');
+});
+
+test('mare: mondo intero (griglia di 360°), Panama collega Caraibi e Pacifico, Bering l\'Artico', () => {
+  assert.ok(sea.zone('SZ_PAC_HAWAII') && sea.zone('SZ_CORALLI') && sea.zone('SZ_GOLFO_PERSICO'));
+  const noPanama = (id) => id !== 'SZ_PANAMA';
+  const viaPanama = reach('SZ_CARAIBI_OVEST', (id) => id === 'SZ_PANAMA' || id === 'SZ_CARAIBI_OVEST' || id === 'SZ_COLOMBIA_PAC');
+  assert.ok(viaPanama.has('SZ_COLOMBIA_PAC'), 'il canale collega i Caraibi al Pacifico');
+  assert.ok(reach('SZ_ATL_AZZORRE', noPanama).has('SZ_COLOMBIA_PAC'), 'senza il canale si passa dal Capo Horn');
+  assert.ok(sea.areAdjacent('SZ_STRETTO_BERING', 'SZ_BERING') || sea.areAdjacent('SZ_STRETTO_BERING', 'SZ_MARE_BEAUFORT'));
+  // l'antimeridiano non spezza il Pacifico: il Mare di Bering confina con il Pacifico settentrionale ovest
+  assert.ok(reach('SZ_PAC_HAWAII', () => true).has('SZ_PAC_NORD_OVEST'));
 });
 
 test('mare: Irlanda è terra (non mare) e ha acque attorno', () => {
