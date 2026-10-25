@@ -143,17 +143,33 @@ function zonePath(z) {
   return p;
 }
 
-function seaGroups(seas) {
-  if (seas.groups) return seas.groups;
-  const open = new Path2D();
-  const strait = new Path2D();
-  for (const z of seas.zones) (z.kind === 'strait' || z.kind === 'approach' ? strait : open).addPath(zonePath(z));
-  seas.groups = { open, strait };
-  return seas.groups;
+// Riquadro (unità di mappa) di una zona, in cache: serve a scartare le zone fuori dalla regione disegnata.
+function zoneBox(z) {
+  if (z.box) return z.box;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const ring of z.rings) for (const [lon, lat] of ring) {
+    const x = lon * COS0, y = -lat;
+    if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+  }
+  z.box = { x0, y0, x1, y1 };
+  return z.box;
 }
 
-function drawSeas(ctx, seas, selectedSeaId, sx) {
-  const g = seaGroups(seas);
+// Solo le zone che toccano la regione: con le zone di tutto il mondo il tratteggio dell'intero contorno (decine di migliaia di
+// punti, a zoom alto milioni di trattini) costava molto anche per ciò che sta fuori schermo.
+function seaGroups(seas, cull) {
+  const open = new Path2D();
+  const strait = new Path2D();
+  for (const z of seas.zones) {
+    const b = zoneBox(z);
+    if (cull && (b.x0 > cull.x1 || b.x1 < cull.x0 || b.y0 > cull.y1 || b.y1 < cull.y0)) continue;
+    (z.kind === 'strait' || z.kind === 'approach' ? strait : open).addPath(zonePath(z));
+  }
+  return { open, strait };
+}
+
+function drawSeas(ctx, seas, selectedSeaId, sx, cull) {
+  const g = seaGroups(seas, cull);
   ctx.setLineDash([4 / sx, 3 / sx]);
   ctx.lineWidth = 0.8 / sx;
   ctx.fillStyle = COLORS.seaFill; ctx.strokeStyle = COLORS.seaStroke;
@@ -240,7 +256,7 @@ export function* renderBaseSteps(ctx, p) {
     const y1 = cull.y1 + pad;
     if (seas) {
       // sotto le province: la terra copre i bordi imprecisi. Un errore qui non deve mai bloccare la mappa.
-      try { drawSeas(ctx, seas, selectedSeaId, a.sx); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
+      try { drawSeas(ctx, seas, selectedSeaId, a.sx, { x0, x1, y0, y1 }); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
     }
     const groups = new Map();
     const singles = []; // percorsi riempiti uno per uno (evenodd annulla le sovrapposizioni dello stesso colore)
