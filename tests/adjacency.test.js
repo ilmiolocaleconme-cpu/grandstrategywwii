@@ -96,9 +96,9 @@ test('adiacenza: raggiungibilità via terra', () => {
   for (const id of ['P_GBR_LONDRA', 'P_ITA_PALERMO', 'P_ITA_CATANIA', 'P_ITA_CAGLIARI', 'P_MLT_MALTA']) {
     assert.ok(!eurasia.has(id), `${id} non dovrebbe essere raggiungibile via terra`);
   }
-  // 23 isole senza collegamenti terrestri (con l'Islanda; la Sicilia ha 9 province vicine tra loro, la Sardegna 3): il numero cambia solo se cambiano province o regole, e va rivisto a mano
+  // 58 isole senza collegamenti terrestri (23 europee con l'Islanda; la Sicilia ha 9 province vicine tra loro, la Sardegna 3; 35 nel resto del mondo: Hawaii, Hokkaido, Tasmania, Nuova Zelanda, Maluku, Capo Verde, Seychelles...): il numero cambia solo se cambiano province o regole, e va rivisto a mano
   const isolated = madri.filter((m) => fam.neighbors(m).length === 0);
-  assert.equal(isolated.length, 23, `isolate: ${isolated.join(', ')}`);
+  assert.equal(isolated.length, 58, `isolate: ${isolated.join(', ')}`);
 });
 
 test('adiacenza: ogni ponte tra due province diverse collega province adiacenti', () => {

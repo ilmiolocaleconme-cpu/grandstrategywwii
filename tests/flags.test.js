@@ -16,7 +16,7 @@ async function choosable() {
 test('ogni nazione scegliibile ha una bandiera valida e una voce di descrizione', async () => {
   const ids = await choosable();
   assert.ok(ids.length >= 24);
-  const wheel = json('nation_order.json').order; // scegliibili + quelle mostrate bloccate (USA, Giappone)
+  const wheel = json('nation_order.json').order; // scegliibili + eventuali bloccate
   for (const id of ids) assert.ok(wheel.includes(id), `${id} nella ruota`);
   assert.deepEqual(validateFlags(json('flags.json'), { nationIds: wheel }), []);
   assert.deepEqual(validateDescriptions(json('nation_descriptions.json'), { nationIds: wheel }), []);

@@ -74,7 +74,7 @@ test('fileName ricava il nome dal percorso', () => {
 
 // --- dati reali ---
 
-const EXPECTED = { DEU: 32, POL: 16, AUT: 8, BEL: 9, LUX: 3, CZE: 4, NLD: 11, ITA: 62, YUG: 33, DANZIG: 1, EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 19, SWE: 21, FIN: 19, CHE: 25, LIE: 1, FRA: 90, HUN: 20, ROM: 45, BGR: 25, GRC: 14, ALB: 12, ESP: 50, MAR_ES: 1, PRT: 22, MAR: 12, GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1, USSR: 177, IRL: 5, ISL: 1 };
+const EXPECTED = { DEU: 32, POL: 16, AUT: 8, BEL: 9, LUX: 3, CZE: 4, NLD: 11, ITA: 62, YUG: 33, DANZIG: 1, CHE: 25, LIE: 1, FRA: 90, HUN: 20, ROM: 45, BGR: 25, GRC: 14, ALB: 12, ESP: 50, PRT: 22, MAR: 12, MAR_ES: 1, GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1, EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 19, SWE: 21, FIN: 19, USSR: 177, IRL: 5, ISL: 1, CAN: 12, NFL: 1, USA: 50, MAL: 12, NLD_EI: 33, COD: 11, CHN: 27, MAN: 3, TIB: 1, AFG: 34, IRN: 31, IRQ: 18, SAU: 13, YEM: 20, MNG: 22, ETH: 10, LBR: 15, ARG: 23, BOL: 9, BRA: 27, COL: 32, CRI: 7, CUB: 16, DOM: 31, ECU: 24, SLV: 14, GTM: 22, HTI: 10, HND: 17, MEX: 32, NIC: 17, PAN: 12, PRY: 17, PER: 25, URY: 19, VEN: 23, AUS: 8, NZL: 4, ZAF: 9, BTN: 1, JPN: 47, KEN: 8, NGA: 37, GHA: 10, SLE: 4, UGA: 4, MWI: 6, SEN: 14, MRT: 13, MLI: 8, NER: 8, BFA: 13, CIV: 19, GIN: 7, BEN: 11, GAB: 9, COG: 11, CAF: 16, TCD: 21, MDG: 22, DJI: 1, AGO: 18, MOZ: 10, GNB: 7, CPV: 1, STP: 1, SUR: 8, ERI: 6, SOM: 12, TWN: 1, NRU: 1, WSM: 1, GNQ: 1, GRL: 6, CMR: 10, TGO: 1, TZA: 26, PHL: 17, NEP: 14, SIA: 6, CHL: 16, CEY: 9, BUR: 14, GAM: 1, ZAM: 10, ZIM: 9, BOT: 9, LES: 1, SWZ: 1, MAU: 1, SEY: 1, TIM: 1, SWA: 13, NHEB: 1, IND: 48, SUD: 17, INDO: 53, RWA: 21, KOR: 24, PAP: 5, NGU: 14, ESH: 1 };
 
 test('dati reali: un file per nazione più _meta, nessun file monolitico', async () => {
   const names = (await listProvinceFiles()).map(fileName).sort();
@@ -82,14 +82,14 @@ test('dati reali: un file per nazione più _meta, nessun file monolitico', async
   assert.equal(existsSync(new URL('../data/provinces_1936.json', import.meta.url)), false, 'il file unico non deve tornare: duplicherebbe i dati');
 });
 
-test('dati reali: unione di 1547 pezzi (1058 province, di cui molte divise in sponde, senza le sponde sotto 200 km²), conteggi per nazione, id unici, owner = file', async () => {
+test('dati reali: unione di 2965 pezzi (2479 province, di cui molte divise in sponde, senza le sponde sotto 200 km²), conteggi per nazione, id unici, owner = file', async () => {
   const merged = await loadProvinces();
   // Sofia città è ora nel livello delle città (data/citta_grandi.json), non nel file della Bulgaria
-  assert.equal(merged.features.length, 1547);
+  assert.equal(merged.features.length, 2965);
   const counts = {};
   for (const f of vistaProvince(merged).features) counts[f.properties.owner] = (counts[f.properties.owner] ?? 0) + 1;
   assert.deepEqual(counts, EXPECTED);
-  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 1547);
+  assert.equal(new Set(merged.features.map((f) => f.properties.id)).size, 2965);
   assert.equal(merged.metadata.asOf, '1936-01-01');
   // le tre province che nel vecchio file unico stavano fuori dal blocco della propria nazione
   const owner = (id) => merged.features.find((f) => madreId(f.properties.id) === id)?.properties.owner;
@@ -153,10 +153,10 @@ test('precache: un dato che cita solo alcuni id di un file (sideA in crossings.j
 
 test('precache: le sentinelle dei dati reali esistono, sono distinte e non stanno nel codice', async () => {
   const markers = await provinceMarkers();
-  assert.equal(Object.keys(markers).length, 46);
+  assert.equal(Object.keys(markers).length, 148);
   assert.equal(markers._meta.length, 30);
   assert.equal(readFileSync(new URL('../src/data/provinces.js', import.meta.url), 'utf8').includes(markers._meta), false, 'la sentinella di _meta non deve comparire nel codice dell\'app');
-  assert.equal(new Set(Object.values(markers).map((v) => JSON.stringify(v))).size, 46);
+  assert.equal(new Set(Object.values(markers).map((v) => JSON.stringify(v))).size, 148);
   const idsDeu = markers.DEU.filter((m) => m.startsWith('P_DEU_'));
   assert.equal(idsDeu.length > 10, true);
   // per le nazioni piccole le sentinelle includono anche il testo della fonte (assente nei dati delle città, che citano solo gli id delle madri)

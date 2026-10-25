@@ -44,7 +44,7 @@ test('gesto: mai più di un posto per volta', () => {
   assert.equal(stepFromDrag(10), 0);
 });
 
-test('data/nation_order.json: ordine voluto, Germania al centro, bloccati solo USA e Giappone, tutte con bandiera', async () => {
+test('data/nation_order.json: ordine voluto, Germania al centro, nessuna bloccata, tutte con bandiera', async () => {
   const file = json('nation_order.json');
   const political = json('political_1936.json');
   const provinces = await loadProvinces();
@@ -53,8 +53,8 @@ test('data/nation_order.json: ordine voluto, Germania al centro, bloccati solo U
   const w = buildWheel({ order: file.order, names: nm, playableIds: choosable });
   const mid = startIndex(w, file.start);
   assert.equal(w[mid].id, 'DEU');
-  assert.deepEqual(w.slice(mid - 5, mid + 2).map((e) => e.id), ['USSR', 'JPN', 'FRA', 'GBR', 'USA', 'DEU', 'ITA']);
-  assert.deepEqual(w.filter((e) => !e.playable).map((e) => e.id).sort(), ['JPN', 'USA']);
+  assert.deepEqual(w.slice(mid - 5, mid + 2).map((e) => e.id), ['JPN', 'FRA', 'GBR', 'CAN', 'USA', 'DEU', 'ITA']);
+  assert.deepEqual(w.filter((e) => !e.playable).map((e) => e.id).sort(), []);
   assert.equal(new Set(file.order).size, file.order.length, 'nessun doppione');
   for (const id of choosable) assert.ok(file.order.includes(id), `${id} manca dall'ordine`);
   const flags = json('flags.json').flags;

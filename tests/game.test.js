@@ -51,14 +51,14 @@ test('calendario: date non valide rifiutate, formato italiano', () => {
 });
 
 // ---------- nuova partita ----------
-test('nazioni scegliibili: solo giocabili con province; il Giappone oggi no', () => {
+test('nazioni scegliibili: solo giocabili con province (senza le sue province una nazione giocabile viene scartata)', () => {
   const list = playableNations(political, owners).map((e) => e.id);
   assert.ok(list.includes('DEU') && list.includes('ITA'));
-  assert.ok(!list.includes('JPN'), 'JPN non ha province: non deve essere scegliibile');
+  assert.ok(list.includes('JPN') && list.includes('USA') && list.includes('CHN'), 'ora anche Giappone, USA e Cina hanno province');
   for (const id of list) assert.ok(owners.has(id));
-  // il dataset politico dichiara JPN giocabile: lo scarto è esplicito, non un bug silenzioso
-  const jpn = political.find((e) => e.id === 'JPN');
-  assert.ok(jpn && jpn.playable === true && !owners.has('JPN'));
+  // il dataset politico dichiara JPN giocabile: se le sue province mancassero, lo scarto sarebbe esplicito, non un bug silenzioso
+  const senzaJpn = playableNations(political, [...owners].filter((o) => o !== 'JPN')).map((e) => e.id);
+  assert.ok(!senzaJpn.includes('JPN') && political.find((e) => e.id === 'JPN').playable === true);
 });
 
 test('nuova partita: stato iniziale coerente', () => {
@@ -75,7 +75,7 @@ test('nuova partita: stato iniziale coerente', () => {
 test('nuova partita: rifiuti con motivo', () => {
   const g = (nation, extra = {}) => newGame({ nation, political, ownersWithProvinces: owners, ...extra });
   assert.equal(g('XXX').reason, 'unknown_nation');
-  assert.equal(g('JPN').reason, 'no_provinces');
+  assert.equal(g('JPN', { ownersWithProvinces: [...owners].filter((o) => o !== 'JPN') }).reason, 'no_provinces'); // JPN ha province: lo scarto si prova togliendole
   assert.equal(g('LBA').reason, 'not_playable'); // territorio, non nazione
   assert.equal(g('').reason, 'invalid_nation');
   assert.equal(g(undefined).reason, 'invalid_nation');

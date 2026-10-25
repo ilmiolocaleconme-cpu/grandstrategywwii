@@ -23,6 +23,11 @@ export const COUNTRY_IDS = Object.freeze({
   Germania: 'DEU', Saar: 'DEU', 'Regno Unito': 'GBR', URSS: 'USSR', Francia: 'FRA', Polonia: 'POL', Belgio: 'BEL', 'Paesi Bassi': 'NLD', Turchia: 'TUR', Italia: 'ITA',
   Romania: 'ROM', Egitto: 'EGY', Cecoslovacchia: 'CZE', Ungheria: 'HUN', Grecia: 'GRC', Spagna: 'ESP', Bulgaria: 'BGR', Austria: 'AUT', Svezia: 'SWE', Norvegia: 'NOR',
   Jugoslavia: 'YUG', Svizzera: 'CHE', Portogallo: 'PRT', 'Marocco francese': 'MAR', 'Algeria francese': 'ALG',
+  'Stati Uniti': 'USA', Canada: 'CAN', Terranova: 'NFL', Malaya: 'MAL', 'Indie orientali olandesi': 'NLD_EI', 'Congo belga': 'COD', Cina: 'CHN', Manciukuo: 'MAN',
+  'Birmania britannica': 'BUR', Bolivia: 'BOL', Messico: 'MEX', 'Guyana olandese / Suriname': 'SUR', 'India britannica': 'IND', 'India britannica e Birmania': 'IND',
+  'Rhodesia meridionale': 'ZIM', Sudafrica: 'ZAF', Brasile: 'BRA', Giappone: 'JPN', Cile: 'CHL', Cuba: 'CUB', 'Sierra Leone': 'SLE', "Costa d'Oro britannica": 'GHA',
+  Peru: 'PER', 'Arabia Saudita': 'SAU', Argentina: 'ARG', Colombia: 'COL', Ecuador: 'ECU', Iran: 'IRN', Iraq: 'IRQ', Venezuela: 'VEN', 'Nigeria britannica': 'NGA',
+  'Siam / Thailandia': 'SIA', Corea: 'KOR', Filippine: 'PHL',
 });
 const AGGREGATE_COUNTRIES = new Set(['Mondo', 'Germania e territori occupati']);
 const NATIONAL_TOTAL_PLACES = new Set(['Impianti del Reich', 'Produzione nazionale']);
