@@ -10,7 +10,7 @@ Etichette dei dati: `DESIGN_DEFAULT` = valore di design proposto, non storico; `
 - `src/data/recipes.js`: validazione, `fullCapacityFlows`, `pointsToUnits`.
 
 ## Ricette (per 1 t di prodotto)
-| Ricetta | Fabbrica | Ingressi | Capacità/giorno | Fabbisogno a pieno regime | Energia/giorno |
+| Ricetta | Fabbrica | Ingressi | Capacità (t/giorno; MW per l'elettricità) | Fabbisogno a pieno regime | Energia assorbita (MW) |
 |---|---|---|---|---|---|
 | Acciaio | FCT-STEEL | 1,6 ferro + 0,8 carbone | 100 | 160 ferro + 80 carbone | 12 |
 | Alluminio | FCT-ALUMINIUM | 4 bauxite | 70 | 280 bauxite | 18 |
@@ -18,7 +18,7 @@ Etichette dei dati: `DESIGN_DEFAULT` = valore di design proposto, non storico; `
 | Carburante (carbone) | FCT-SYNFUEL | 4 carbone | 70 | 280 carbone | 20 |
 | Gomma lavorata | FCT-RUBBER | 1,2 gomma | 90 | 108 gomma | 9 |
 | Prodotti chimici | FCT-CHEMICAL | 0,5 zolfo | 80 | 40 zolfo | 14 |
-| Elettricità | FCT-POWER | 0,5 carbone per MWh | 120 MWh (definita qui) | 60 carbone | n/d |
+| Elettricità (potenza) | FCT-POWER | 0,5 t/giorno di carbone per ogni MW in funzione | 120 MW netti (definiti qui, nessun autoconsumo) | 60 t/giorno di carbone | 0 |
 | Elettricità idro | — | nessuno | **MISSING_DATA** | — | — |
 
 ## Scala di estrazione (t/giorno per punto)
@@ -44,20 +44,19 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 - Ogni **nuova costruzione o potenziamento** di una centrale aumenta il pool.
 - **Taratura storica:** l'Italia copriva oltre il 95% del fabbisogno elettrico nazionale (soprattutto con l'idro). Obiettivo di verifica per la Fase 1: con l'industria iniziale dell'Italia, l'idro deve coprire almeno il 95% della domanda.
 - Domanda = somma dell'energia delle fabbriche attive; con pool < domanda, la produzione scende in proporzione (da confermare).
-- Aperto: l'unità del pool e la conversione tra MW delle centrali e consumo delle fabbriche (G8).
+- **Unità (G8, deciso):** tutto in MW. Pool = somma dei MW delle centrali; domanda = somma dei MW delle fabbriche (`energy_consumption` del Pack letto come MW, es. acciaieria 12 MW). Nessuna conversione.
 
 ## Decisioni del 26/10/2026
 - G1 idro: dati forniti dall'utente + stime di Claude (marcate, da mostrare prima).
 - G2: nessun autoconsumo per la centrale a carbone: 120 MWh netti; il consumo 25 del Pack è ignorato (`noSelfConsumption`).
 - G3: ricette di componenti, motori, macchinari e munizioni da definire ORA, in Fase 0 (proposta da approvare).
 - G4: consumo di carburante per categoria di unità: proposta semplice da approvare.
-- G5: tonnellate per ogni massa, MWh per l'elettricità.
+- G5: tonnellate per ogni massa; l'elettricità è una potenza in MW (G8).
+- G6: ampliamenti della stessa centrale additivi (Vemork 216 MW dal 1937, Cubatão 524 MW dal 1936).
 
 ## Lacune ancora aperte
 | ID | Problema | Perché blocca | Proposta |
 |---|---|---|---|
 | G3 | Ricette di componenti, motori, macchinari, munizioni: da proporre | catena fino ad aerei e camion | proposta in arrivo, da approvare |
 | G4 | Consumo di carburante delle unità: da proporre | bilancio carburante, carbone, elettricità | proposta in arrivo, da approvare |
-| G6 | Fasi multiple della stessa centrale (Vemork, Cubatão): additive o cumulative? | cambia la potenza totale | domanda all'utente |
-| G7 | Base idro mancante: i totali per nazione vanno tarati sulla domanda (Italia ≥ 95%), non su MW assoluti | serve l'industria iniziale per nazione (non esiste ancora) | dopo G8 |
-| G8 | Unità del pool elettrico: MW delle centrali vs energia delle fabbriche del Pack (12, 18, 25 ... senza unità) | senza conversione non si confronta offerta e domanda | vedi domanda all'utente |
+| G7 | Base idro mancante: i totali per nazione vanno tarati sulla domanda (Italia ≥ 95%), non su MW assoluti | serve l'industria iniziale per nazione (non esiste ancora) | tarare in Fase 1, quando l'industria iniziale è definita |

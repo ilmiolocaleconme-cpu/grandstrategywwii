@@ -47,15 +47,17 @@ test('flussi a pieno regime dalla capacità del catalogo (nessuna duplicazione d
   const steel = fullCapacityFlows(f.recipes.find((r) => r.id === 'REC-STEEL-001'), cat.byId.get('FCT-STEEL'));
   assert.equal(steel.outputPerDay, 100);
   assert.deepEqual(steel.inputsPerDay, { iron_ore: 160, coal: 80 });
-  assert.equal(steel.energyPerDay, 12);
+  assert.equal(steel.energyMw, 12);
   const power = fullCapacityFlows(f.recipes.find((r) => r.factory === 'FCT-POWER'), cat.byId.get('FCT-POWER'));
   assert.equal(power.outputPerDay, 120);
   assert.deepEqual(power.inputsPerDay, { coal: 60 });
+  assert.equal(power.outputUnit, 'MW', 'l\'elettricità è una potenza');
+  assert.equal(steel.outputUnit, 't/day');
 });
 
 test('la capacità non si ridefinisce nelle ricette se la fabbrica ce l\'ha già', () => {
   const f = clone(json('industry/recipes.json'));
-  f.recipes.find((r) => r.id === 'REC-STEEL-001').nominalOutputPerDay = 200;
+  f.recipes.find((r) => r.id === 'REC-STEEL-001').nominalOutputMw = 200;
   assert.ok(validateRecipes(f, ctx()).some((e) => e.includes('ridefinisce la capacità')));
 });
 
@@ -72,7 +74,7 @@ test('errori rilevati: fabbrica, risorsa, prodotto, duplicati, valori', () => {
   assert.ok(withRec((f) => { f.recipes[0].rationale = ' '; }).some((e) => e.includes('senza motivazione')));
   assert.ok(withRec((f) => { f.recipes = f.recipes.filter((r) => r.output.product !== 'fuel'); }).some((e) => e.includes('fuel') && e.includes('nessuna ricetta')));
   assert.ok(withRec((f) => { f.recipes[0].inputs[0].resource = 'bauxite'; }).some((e) => e.includes('PRODUCT_META')));
-  assert.ok(withRec((f) => { delete f.recipes.find((r) => r.factory === 'FCT-POWER').nominalOutputPerDay; }).some((e) => e.includes('senza capacità giornaliera')));
+  assert.ok(withRec((f) => { delete f.recipes.find((r) => r.factory === 'FCT-POWER').nominalOutputMw; }).some((e) => e.includes('senza capacità giornaliera')));
   assert.ok(withRec((f) => { f.flows[0].inputs = [{ resource: 'coal', perUnit: 1 }]; }).some((e) => e.includes('non può consumare')));
   assert.deepEqual(validateRecipes({ schema: 'x' }, ctx()).length, 1);
 });

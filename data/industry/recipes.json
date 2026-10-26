@@ -1,7 +1,7 @@
 {
   "schema": "recipes-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Ricette di trasformazione: PROPOSTA di design, non dati storici. Ogni valore è un ingresso (perUnit) per 1 unità di prodotto. La capacità giornaliera a pieno regime è base_capacity_per_day della fabbrica in data/industry/factories.csv e l'energia è il suo energy_consumption (MWh al giorno a pieno regime): non si ripetono qui. Unità: tonnellate (t) per materie e prodotti, MWh per l'elettricità. Il bilanciamento va rivisto quando esisteranno i consumatori (unità, costruzioni).",
+  "note": "Ricette di trasformazione: PROPOSTA di design, non dati storici. Ogni valore è un ingresso (perUnit) per 1 unità di prodotto. La capacità giornaliera a pieno regime è base_capacity_per_day della fabbrica in data/industry/factories.csv e l'energia è il suo energy_consumption (MW assorbiti a pieno regime): non si ripetono qui. Unità: tonnellate (t) per materie e prodotti; l'elettricità è una POTENZA in MW (deciso in chat 26/10/2026): il pool nazionale somma i MW delle centrali, la domanda somma i MW delle fabbriche (energy_consumption del Pack letto come MW); l'ingresso di una centrale è t al giorno per MW. Il bilanciamento va rivisto quando esisteranno i consumatori (unità, costruzioni).",
   "recipes": [
     {
       "id": "REC-STEEL-001",
@@ -56,10 +56,11 @@
       "factory": "FCT-POWER",
       "inputs": [{ "resource": "coal", "perUnit": 0.5 }],
       "output": { "product": "electricity", "perUnit": 1 },
-      "nominalOutputPerDay": 120,
+      "nominalOutputMw": 120,
+      "outputUnit": "MW",
       "noSelfConsumption": true,
       "quality": "DESIGN_DEFAULT",
-      "rationale": "La centrale del Pack ha base_capacity_per_day = 0 (non produce merci): la generazione nominale (MWh al giorno) è definita qui, 120 come nel pacchetto ricevuto. Circa 0,5 t di carbone per MWh. Nessun autoconsumo (deciso in chat 26/10/2026): il energy_consumption = 25 del Pack per questa fabbrica viene ignorato, la generazione è netta."
+      "rationale": "La centrale del Pack ha base_capacity_per_day = 0 (non produce merci): la potenza nominale è definita qui: 120 MW, come nel pacchetto ricevuto. Il carbone è per giorno e per MW: 0,5 t/giorno per ogni MW in funzione (120 MW → 60 t/giorno). Nessun autoconsumo (deciso in chat 26/10/2026): il energy_consumption = 25 del Pack per questa fabbrica viene ignorato, la potenza è netta."
     }
   ],
   "flows": [

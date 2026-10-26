@@ -93,8 +93,8 @@ test('idro e centrale a carbone: nessun autoconsumo, idro senza ingressi', () =>
   const rec = json('industry/recipes.json');
   const power = rec.recipes.find((r) => r.factory === 'FCT-POWER');
   assert.equal(cat.byId.get('FCT-POWER').energy_consumption, 25, 'il Pack resta intatto');
-  assert.equal(fullCapacityFlows(power, cat.byId.get('FCT-POWER')).energyPerDay, 0);
-  assert.equal(fullCapacityFlows(rec.recipes.find((r) => r.factory === 'FCT-STEEL'), cat.byId.get('FCT-STEEL')).energyPerDay, 12, 'le altre fabbriche consumano');
+  assert.equal(fullCapacityFlows(power, cat.byId.get('FCT-POWER')).energyMw, 0);
+  assert.equal(fullCapacityFlows(rec.recipes.find((r) => r.factory === 'FCT-STEEL'), cat.byId.get('FCT-STEEL')).energyMw, 12, 'le altre fabbriche consumano');
   assert.deepEqual(rec.flows.find((x) => x.source === 'hydro').inputs, []);
 });
 
