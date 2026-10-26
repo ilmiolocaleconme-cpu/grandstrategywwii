@@ -20,7 +20,8 @@ const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
 const MAX_DPR = 2; // oltre, il costo di disegno cresce senza vantaggi visibili
 const PYRAMID_LEVELS = 0; // livelli intermedi prima di quello giusto: con 3 il riempimento dopo un salto di zoom raddoppiava (le piastrelle dei livelli bassi costano molto)
-const PREFETCH_NEXT = 4; // piastrelle del livello successivo preparate a schermo fermo
+const PREFETCH_NEXT = 4;
+const IDLE_PREFETCH = true; // a schermo fermo prepara anche un secondo giro di piastrelle e i livelli vicini // piastrelle del livello successivo preparate a schermo fermo
 const FADE_MS = 160; // dissolvenza di una piastrella nuova sopra quella provvisoria: niente scatto da sfocato a nitido
 const TILE_LIMIT = 72; // piastrelle in cache (a dpr 2 circa 1 MB l'una)
 const LOD_METHOD = 'radial'; // 'radial' (veloce, usata) o 'dp' (Douglas-Peucker in secondo piano: più fedele, ma ricostruisce i tracciati)
@@ -140,7 +141,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     for (const t of screen) out.push({ z, c: t.c, r: t.r, keep: z === 0 });
     const seen = new Set(screen.map((t) => `${t.ci}/${t.r}`));
     for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 1)) if (!seen.has(`${t.ci}/${t.r}`)) out.push({ z, c: t.c, r: t.r, keep: z === 0 });
-    if (!s.moving) {
+    if (IDLE_PREFETCH && !s.moving) {
       // a schermo fermo, in anticipo: un secondo giro attorno (il prossimo trascinamento trova già tutto), le piastrelle più vicine al centro
       // del livello successivo (il prossimo zoom parte già nitido) e quelle del livello sopra (per rimpicciolire)
       const seen1 = new Set(visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 1).map((t) => `${t.ci}/${t.r}`));
@@ -279,7 +280,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       missing += 1;
       drawFallback(t, dx0, dy0, dx1, dy1);
     }
-    if (fading) requestFrame(); // la dissolvenza va avanti finché dura
+    if (fading) startFade(); // la dissolvenza va avanti finché dura
     base.dataset.tileMiss = String(missing); // diagnostica dei test: piastrelle dello schermo non ancora al livello giusto
     if (missing || s.tiles.size < 4) pumpTiles();
     paintOverlay();
@@ -289,6 +290,46 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const s = st.current;
     if (s.raf) return;
     s.raf = requestAnimationFrame(() => { s.raf = 0; blit(); });
+  };
+
+  // Dissolvenza: finché una piastrella è appena nata (FADE_MS) la si ridisegna da sola, con opacità crescente, sopra quello che c'è già
+  // (la versione provvisoria): niente ridisegno dell'intera scena a ogni fotogramma, che rallentava il riempimento di un terzo.
+  const fadeStep = () => {
+    const s = st.current;
+    s.fadeRaf = 0;
+    const base = baseRef.current;
+    if (!base || !s.size.w) return;
+    const ctx = base.getContext('2d');
+    const dpr = s.dpr;
+    const a = affineOf(s.view, VB, lay());
+    const z = levelFor(a.sx, WORLD_W);
+    const T = s.tileDev;
+    const B = TILE_BLEED;
+    const full = T + 2 * B;
+    const now = performance.now();
+    let more = false;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 0)) {
+      const ex = s.tiles.get(tileKey(z, t.c, t.r));
+      if (!ex || !ex.born) continue;
+      const age = now - ex.born;
+      const rc = tileRect(z, t.ci, t.r, a, WORLD_W);
+      const dx0 = Math.round(rc.x * dpr);
+      const dy0 = Math.round(rc.y * dpr);
+      const dx1 = Math.round((rc.x + rc.w) * dpr);
+      const dy1 = Math.round((rc.y + rc.h) * dpr);
+      const fx = (dx1 - dx0) / T;
+      const fy = (dy1 - dy0) / T;
+      ctx.globalAlpha = Math.min(1, age / FADE_MS);
+      ctx.drawImage(ex.canvas, 0, 0, full, full, dx0 - B * fx, dy0 - B * fy, full * fx, full * fy);
+      if (age >= FADE_MS) ex.born = 0; else more = true;
+    }
+    ctx.globalAlpha = 1;
+    if (more) s.fadeRaf = requestAnimationFrame(fadeStep);
+  };
+  const startFade = () => {
+    const s = st.current;
+    if (!s.fadeRaf) s.fadeRaf = requestAnimationFrame(fadeStep);
   };
 
   // gesto fermo: giro del mondo normalizzato, poi i nomi
@@ -443,6 +484,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const s = st.current;
     cancelAnimationFrame(s.raf);
     clearTimeout(s.pumpTimer);
+    cancelAnimationFrame(s.fadeRaf);
     clearTimeout(s.idleTimer);
     clearTimeout(s.labelTimer);
   }, []);
