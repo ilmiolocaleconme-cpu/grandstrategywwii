@@ -44,14 +44,48 @@ const MANCHU = ['Liaoning', 'Jilin', 'Heilongjiang'];
 // utile): Vaticano, San Marino, Andorra, Monaco, Macao, Goa, Antille olandesi, Aden, Ifni, Hong Kong, Karafuto, Mandato giapponese,
 // Camerun e Togo britannici (inclusi nei vicini per quanto possibile).
 const PAP_PARTS = ['Western', 'Gulf', 'Central', 'Port Moresby', 'Milne Bay', 'Oro'];
+const TWN_GROUPS = { Taoyuan: 'Taiwan settentrionale', Hsinchu: 'Taiwan settentrionale', Miaoli: 'Taiwan settentrionale', Taipei: 'Taiwan settentrionale', 'New Taipei': 'Taiwan settentrionale', Keelung: 'Taiwan settentrionale', Yilan: 'Taiwan settentrionale', Tainan: 'Taiwan meridionale', Kaohsiung: 'Taiwan meridionale', Pingtung: 'Taiwan meridionale', Hualien: 'Taiwan orientale', Taitung: 'Taiwan orientale', Penghu: 'Pescadores', Kinmen: 'Pescadores' };
 const WORLD = [
-  ...['AFG', 'IRN', 'IRQ', 'SAU', 'YEM', 'MNG', 'ETH', 'LBR', 'ARG', 'BOL', 'BRA', 'COL', 'CRI', 'CUB', 'DOM', 'ECU', 'SLV', 'GTM', 'HTI', 'HND', 'MEX', 'NIC', 'PAN', 'PRY', 'PER', 'URY', 'VEN', 'AUS', 'NZL', 'ZAF', 'BTN', 'KEN', 'NGA', 'GHA', 'SLE', 'UGA', 'MWI', 'SEN', 'MRT', 'MLI', 'NER', 'BFA', 'CIV', 'GIN', 'BEN', 'GAB', 'COG', 'CAF', 'TCD', 'MDG', 'DJI', 'AGO', 'MOZ', 'GNB', 'CPV', 'STP', 'SUR', 'ERI', 'SOM', 'TWN', 'NRU', 'WSM', 'GNQ', 'GRL', 'CMR', 'TGO', 'TZA', 'PHL'].map((o) => ({ owner: o, adm0: [o] })),
+  ...['AFG', 'IRN', 'IRQ', 'SAU', 'YEM', 'MNG', 'ETH', 'LBR', 'ARG', 'BOL', 'BRA', 'COL', 'CRI', 'CUB', 'DOM', 'ECU', 'SLV', 'GTM', 'HTI', 'HND', 'MEX', 'NIC', 'PAN', 'PRY', 'PER', 'URY', 'VEN', 'AUS', 'NZL', 'ZAF', 'BTN', 'KEN', 'NGA', 'GHA', 'SLE', 'UGA', 'MWI', 'SEN', 'MRT', 'MLI', 'NER', 'BFA', 'CIV', 'GIN', 'BEN', 'GAB', 'COG', 'CAF', 'TCD', 'MDG', 'DJI', 'AGO', 'MOZ', 'GNB', 'CPV', 'STP', 'SUR', 'ERI', 'SOM', 'NRU', 'WSM', 'GNQ', 'GRL', 'CMR', 'TGO', 'TZA', 'PHL'].map((o) => ({ owner: o, adm0: [o] })),
   ...Object.entries({ NEP: 'NPL', SIA: 'THA', CHL: 'CHL', CEY: 'LKA', BUR: 'MMR', GAM: 'GMB', ZAM: 'ZMB', ZIM: 'ZWE', BOT: 'BWA', LES: 'LSO', SWZ: 'SWZ', MAU: 'MUS', SEY: 'SYC', TIM: 'TLS', SWA: 'NAM', NHEB: 'VUT' }).map(([o, a]) => ({ owner: o, adm0: [a] })),
   { owner: 'JPN', noMerge: true, adm0: ['JPN'], note: 'Giappone: 47 prefetture attuali (Karafuto, Corea e Taiwan sono entità a parte).' },
-  { owner: 'ESH', adm0: ['SAH'], note: 'Sahara spagnolo (Rio de Oro): contorno nazionale unico.' },
+  { owner: 'TWN', adm0: ['TWN'], minIsland: 0.02, groupOf: (p) => TWN_GROUPS[p.name_en] ?? 'Taiwan centrale', note: 'Taiwan giapponese (Formosa): quattro regioni più Penghu.' },
+  { owner: 'ESH', adm0: ['SAH', 'MAR'], pick: (p) => p.adm0_a3 === 'SAH' || ['Laâyoune-Boujdour-Sakia El Hamra', 'Oued Ed-Dahab', 'Guelmim-Es Semara'].includes(p.name_en), merge: { SAH: 'Rio de Oro', MAR: 'Saguia el-Hamra e Tarfaya' }, note: 'Sahara spagnolo (Rio de Oro) = Sahara Occidentale con le province marocchine meridionali di Guelmim-Es Semara (Tarfaya e Ifni), Laâyoune-Boujdour e Oued Ed-Dahab.' },
   { owner: 'IND', noMerge: true, adm0: ['IND', 'PAK', 'BGD'], note: 'India britannica = India, Pakistan e Bangladesh attuali.' },
-  { owner: 'SUD', adm0: ['SDN', 'SSD'], note: 'Sudan anglo-egiziano = Sudan e Sud Sudan attuali.' },
+  { owner: 'SUD', adm0: ['SDN', 'SDS'], note: 'Sudan anglo-egiziano = Sudan e Sud Sudan attuali.' },
   { owner: 'INDO', adm0: ['VNM', 'LAO', 'KHM'], note: 'Indocina francese = Vietnam, Laos e Cambogia attuali (Vietnam fuso per regione).' },
+  // --- entità aggiunte dopo la scansione dei buchi (26/10/2026): isole e territori che restavano senza provincia ---
+  { owner: 'OMN', adm0: ['OMN'], note: 'Sultanato di Mascate e Oman = regioni attuali dell\'Oman.' },
+  { owner: 'BGU', adm0: ['GUY'], note: 'Guyana britannica = Guyana attuale.' },
+  { owner: 'FGU', adm0: ['FRA'], pick: (p) => p.name_en === 'French Guiana', collapse: true, collapseName: 'Guyana francese', note: 'Guyana francese (Caienna).' },
+  { owner: 'BLZ', adm0: ['BLZ'], note: 'Honduras britannico = Belize attuale.' },
+  { owner: 'JAM', adm0: ['JAM'], collapse: true, collapseName: 'Giamaica', minIsland: 0.02, note: 'Giamaica britannica: una sola provincia.' },
+  { owner: 'TTO', adm0: ['TTO'], collapse: true, collapseName: 'Trinidad e Tobago', minIsland: 0.02, note: 'Trinidad e Tobago britannici: una sola provincia.' },
+  { owner: 'BHS', adm0: ['BHS'], collapse: true, collapseName: 'Bahamas', minIsland: 0.02, note: 'Bahamas britanniche: una sola provincia (isole maggiori).' },
+  { keepSmall: true, owner: 'ANTB', adm0: ['ATG', 'DMA', 'LCA', 'VCT', 'GRD', 'BRB', 'KNA'], merge: { ATG: 'Antigua e Barbuda', DMA: 'Dominica', LCA: 'Santa Lucia', VCT: 'Saint Vincent', GRD: 'Grenada', BRB: 'Barbados', KNA: 'Saint Kitts e Nevis' }, minIsland: 0.002, note: 'Antille britanniche minori (Sopravento e Sottovento): una provincia per isola.' },
+  { keepSmall: true, owner: 'ANTF', adm0: ['FRA'], pick: (p) => ['Guadeloupe', 'Martinique'].includes(p.name_en), minIsland: 0.002, note: 'Antille francesi: Guadalupa e Martinica.' },
+  { owner: 'RUN', adm0: ['FRA'], pick: (p) => p.name_en === 'Réunion', collapse: true, collapseName: 'Riunione', note: 'Riunione francese.' },
+  { owner: 'COM', adm0: ['COM', 'FRA'], pick: (p) => p.adm0_a3 === 'COM' || p.name_en === 'Mayotte', merge: { COM: 'Comore', FRA: 'Mayotte' }, minIsland: 0.002, note: 'Comore francesi (Grande Comore, Anjouan, Moheli) e Mayotte.' },
+  { owner: 'FLK', adm0: ['FLK'], collapse: true, collapseName: 'Falkland', note: 'Isole Falkland britanniche.' },
+  { keepSmall: true, owner: 'FJI', adm0: ['FJI'], pick: (p) => p.name_en !== 'Rotuma', note: 'Figi britanniche = divisioni attuali (senza Rotuma).' },
+  { keepSmall: true, owner: 'SLB', adm0: ['SLB'], note: 'Salomone britanniche = province attuali.' },
+  { owner: 'NCL', adm0: ['NCL'], minIsland: 0.02, note: 'Nuova Caledonia francese: Nord, Sud e Isole della Lealtà.' },
+  { owner: 'PYF', adm0: ['PYF'], collapse: true, collapseName: 'Polinesia francese', minIsland: 0.05, note: 'Polinesia francese: solo le isole maggiori (Tahiti, Moorea, ...) [approssimazione].' },
+  { owner: 'KUW', adm0: ['KWT'], collapse: true, collapseName: 'Kuwait', note: 'Kuwait (protettorato britannico).' },
+  { owner: 'QAT', adm0: ['QAT'], collapse: true, collapseName: 'Qatar', note: 'Qatar (protettorato britannico).' },
+  { owner: 'BHR', adm0: ['BHR'], collapse: true, collapseName: 'Bahrein', minIsland: 0.005, note: 'Bahrein (protettorato britannico).' },
+  { owner: 'TRU', adm0: ['ARE'], collapse: true, collapseName: 'Stati della Tregua', note: 'Stati della Tregua (Trucial States) = Emirati Arabi Uniti attuali, una sola provincia.' },
+  { owner: 'BSO', adm0: ['SOL'], note: 'Somaliland britannico = Somaliland attuale (contorno unico).' },
+  { keepSmall: true, owner: 'BNB', adm0: ['MYS', 'BRN'], pick: (p) => p.adm0_a3 === 'BRN' || ['Sabah', 'Sarawak', 'Labuan'].includes(p.name_en), merge: { BRN: 'Brunei' }, note: 'Borneo britannico = Sabah, Sarawak, Labuan e Brunei attuali.' },
+  { owner: 'PRI', adm0: ['PRI'], collapse: true, collapseName: 'Porto Rico', note: 'Porto Rico (territorio statunitense).' },
+  { owner: 'SVA', adm0: ['NOR'], pick: (p) => p.name_en === 'Svalbard', collapse: true, collapseName: 'Svalbard', minIsland: 0.1, note: 'Svalbard (norvegese dal 1925).' },
+  { owner: 'FRO', adm0: ['FRO'], collapse: true, collapseName: 'Far Oer', minIsland: 0.005, note: 'Isole Far Oer (Danimarca).' },
+  { owner: 'MDV', adm0: ['MDV'], collapse: true, collapseName: 'Maldive', minIsland: 0.0005, note: 'Maldive (protettorato britannico).' },
+  { owner: 'GUM', adm0: ['GUM'], collapse: true, collapseName: 'Guam', minIsland: 0.01, note: 'Guam (territorio statunitense).' },
+  { owner: 'HKG', adm0: ['HKG'], collapse: true, collapseName: 'Hong Kong', minIsland: 0.005, note: 'Hong Kong britannica.' },
+  { keepSmall: true, owner: 'ANT', adm0: ['ABW', 'CUW', 'SXM'], merge: { ABW: 'Aruba', CUW: 'Curaçao', SXM: 'Sint Maarten' }, minIsland: 0.002, note: 'Antille olandesi: Aruba, Curaçao e Sint Maarten (Bonaire, Saba e Sint Eustatius senza geometria separata) [approssimazione].' },
+  { keepSmall: true, owner: 'JPN_MANDATE', adm0: ['MNP', 'PLW', 'FSM', 'MHL'], merge: { MNP: 'Marianne settentrionali', PLW: 'Palau', FSM: 'Caroline', MHL: 'Marshall' }, minIsland: 0.002, note: 'Mandato giapponese dei Mari del Sud: Marianne (senza Guam), Palau, Caroline, Marshall; atolli minori omessi.' },
+  { owner: 'KAR', adm0: ['RUS'], pick: (p) => p.name_en === 'Sakhalin', clipLat: 50, minIsland: 0.05, note: 'Karafuto = Sakhalin a sud del 50° parallelo, con le Curili [approssimazione: ritaglio per latitudine].' },
   { owner: 'RWA', adm0: ['RWA', 'BDI'], note: 'Ruanda-Urundi = Ruanda e Burundi.' },
   { owner: 'KOR', adm0: ['KOR', 'PRK'], note: 'Corea giapponese = Corea del Sud e del Nord attuali.' },
   { owner: 'PAP', adm0: ['PNG'], pick: (p) => PAP_PARTS.includes(p.name_en), note: 'Papua australiana = province meridionali della Papua Nuova Guinea [approssimazione].' },
@@ -79,7 +113,7 @@ function ringArea(r) {
 export function snapRing(ring) {
   const out = [];
   for (const [x, y] of ring) {
-    const p = [fix(x), fix(y)];
+    const p = [Math.max(-179.98, Math.min(179.98, fix(x))), fix(y)]; // mai esattamente su ±180: la cucitura è solo della Ciukotka
     const last = out[out.length - 1];
     if (!last || last[0] !== p[0] || last[1] !== p[1]) out.push(p);
   }
@@ -123,25 +157,40 @@ export function dissolve(polys) {
       for (let i = 0; i + 1 < r.length; i++) {
         const a = key(r[i]); const b = key(r[i + 1]);
         if (a === b) continue;
-        if (edges.has(`${b}>${a}`)) edges.delete(`${b}>${a}`); else edges.set(`${a}>${b}`, [r[i], r[i + 1]]);
+        // lati con molteplicità: due poligoni sovrapposti dopo l'aggancio alla griglia possono avere lo stesso lato orientato
+        const rev = edges.get(`${b}>${a}`);
+        if (rev) { if (--rev.n === 0) edges.delete(`${b}>${a}`); continue; }
+        const same = edges.get(`${a}>${b}`);
+        if (same) same.n++; else edges.set(`${a}>${b}`, { a: r[i], b: r[i + 1], n: 1 });
       }
     });
   }
+  const list = [];
+  for (const e of edges.values()) for (let n = 0; n < e.n; n++) list.push([e.a, e.b]);
   const out = new Map();
-  for (const [a, b] of edges.values()) { const k = key(a); if (!out.has(k)) out.set(k, []); out.get(k).push(b); }
+  for (const [a, b] of list) { const k = key(a); if (!out.has(k)) out.set(k, []); out.get(k).push(b); }
   const loops = [];
-  for (const [a0, b0] of edges.values()) {
+  for (const [a0, b0] of list) {
     const list0 = out.get(key(a0));
     if (!list0.includes(b0)) continue; // già usato
     const ring = [a0];
-    let cur = a0; let next = b0;
+    let cur = a0; let next = b0; let prev = a0;
     for (let guard = 0; guard < 1e6; guard++) {
       const list = out.get(key(cur)); list.splice(list.indexOf(next), 1);
-      ring.push(next); cur = next;
+      ring.push(next); prev = cur; cur = next;
       if (key(cur) === key(a0)) break;
       const nl = out.get(key(cur));
       if (!nl || !nl.length) break;
-      next = nl[0];
+      // nei punti di contatto (più lati uscenti) si prende la svolta più a destra: i poligoni che si toccano in un vertice restano anelli separati
+      const din = Math.atan2(cur[1] - prev[1], cur[0] - prev[0]);
+      let best = nl[0]; let bestT = Infinity;
+      for (const c of nl) {
+        let t = Math.atan2(c[1] - cur[1], c[0] - cur[0]) - din;
+        while (t <= -Math.PI) t += 2 * Math.PI;
+        while (t > Math.PI) t -= 2 * Math.PI;
+        if (t < bestT) { bestT = t; best = c; }
+      }
+      next = best;
     }
     if (ring.length >= 4 && key(ring[0]) === key(ring[ring.length - 1])) loops.push(ring);
   }
@@ -153,6 +202,31 @@ export function dissolve(polys) {
   return outers;
 }
 
+
+/** Ritaglia una geometria a sud di `maxLat` (Sutherland–Hodgman su un semipiano). I poligoni interamente a nord restano solo se stanno a est di 145°E (Curili). */
+export function clipSouthOf(geometry, maxLat) {
+  const polys = geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates;
+  const cut = (ring) => {
+    const out = [];
+    for (let i = 0; i + 1 < ring.length; i++) {
+      const a = ring[i]; const b = ring[i + 1];
+      const ina = a[1] <= maxLat; const inb = b[1] <= maxLat;
+      if (ina) out.push(a);
+      if (ina !== inb) out.push([a[0] + ((b[0] - a[0]) * (maxLat - a[1])) / (b[1] - a[1]), maxLat]);
+    }
+    if (out.length) out.push(out[0]);
+    return out.length >= 4 ? out : null;
+  };
+  const kept = [];
+  for (const poly of polys) {
+    const ys = poly[0].map((q) => q[1]); const xs = poly[0].map((q) => q[0]);
+    if (Math.min(...ys) >= maxLat) { if (Math.min(...xs) >= 145) kept.push(poly); continue; }
+    if (Math.max(...ys) <= maxLat) { kept.push(poly); continue; }
+    const rings = poly.map(cut).filter(Boolean);
+    if (rings.length) kept.push(rings);
+  }
+  return { type: 'MultiPolygon', coordinates: kept };
+}
 const gridPolys = (geometry) => (geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates).map((poly) => poly.map(snapRing).filter(Boolean)).filter((poly) => poly.length);
 
 export function buildNation(nation, features, admin0 = []) {
@@ -165,6 +239,7 @@ export function buildNation(nation, features, admin0 = []) {
       picked.push({ properties: { adm0_a3: code, name_en: n, name_it: n, name: n, ne_id: f.properties.NE_ID ?? code, wikidataid: f.properties.WIKIDATAID ?? null }, geometry: f.geometry });
     }
   }
+  if (nation.clipLat) picked = picked.map((f) => ({ ...f, geometry: clipSouthOf(f.geometry, nation.clipLat) }));
   // paesi con troppe divisioni (> MAX_UNITS): si fondono per `region` di Natural Earth, se esiste e dà un numero ragionevole di gruppi
   const regionOf = (p) => (p.region || '').trim();
   const mergeBy = {};
@@ -178,7 +253,7 @@ export function buildNation(nation, features, admin0 = []) {
   const units = [];
   for (const f of picked) {
     const code = f.properties.adm0_a3;
-    const name = nation.collapse ? (nation.collapseName ?? f.properties.admin ?? nation.owner) : nation.merge?.[code] ?? (mergeBy[code] ? regionOf(f.properties) || null : null);
+    const name = nation.collapse ? (nation.collapseName ?? f.properties.admin ?? nation.owner) : nation.merge?.[code] ?? nation.groupOf?.(f.properties) ?? (mergeBy[code] ? regionOf(f.properties) || null : null);
     if (!name) { units.push(f); continue; }
     const k = `${code}|${name}`;
     let g = groups.get(k);
@@ -211,7 +286,7 @@ export function buildNation(nation, features, admin0 = []) {
       geometry,
     });
   }
-  if (out.length >= 3) {
+  if (out.length >= 3 && !nation.keepSmall) {
     const area = (g) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates).reduce((t, p) => t + ringArea(p[0]), 0);
     for (let i = out.length - 1; i >= 0; i--) if (area(out[i].geometry) < MIN_PROVINCE_AREA) out.splice(i, 1);
   }

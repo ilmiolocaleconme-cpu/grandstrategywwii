@@ -248,9 +248,11 @@ export default function App() {
   );
 
   useEffect(() => {
-    const update = initPwa({
+    let update = null;
+    update = initPwa({
       onOfflineReady: () => setPwa((s) => ({ ...s, offlineReady: true })),
-      onUpdateAvailable: () => setPwa((s) => ({ ...s, updateAvailable: true })),
+      // senza una partita in corso l'aggiornamento si applica subito (niente rischio di perdere nulla); con una partita resta il pulsante
+      onUpdateAvailable: () => { if (gameRef.current === null && update) update(); else setPwa((s) => ({ ...s, updateAvailable: true })); },
       onError: (error) => setPwa((s) => ({ ...s, error })),
     });
     setApplyUpdate(() => update);
