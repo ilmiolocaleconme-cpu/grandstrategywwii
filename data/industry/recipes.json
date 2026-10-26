@@ -57,8 +57,9 @@
       "inputs": [{ "resource": "coal", "perUnit": 0.5 }],
       "output": { "product": "electricity", "perUnit": 1 },
       "nominalOutputPerDay": 120,
+      "noSelfConsumption": true,
       "quality": "DESIGN_DEFAULT",
-      "rationale": "La centrale del Pack ha base_capacity_per_day = 0 (non produce merci): la generazione nominale (MWh al giorno) è definita qui, 120 come nel pacchetto ricevuto. Circa 0,5 t di carbone per MWh."
+      "rationale": "La centrale del Pack ha base_capacity_per_day = 0 (non produce merci): la generazione nominale (MWh al giorno) è definita qui, 120 come nel pacchetto ricevuto. Circa 0,5 t di carbone per MWh. Nessun autoconsumo (deciso in chat 26/10/2026): il energy_consumption = 25 del Pack per questa fabbrica viene ignorato, la generazione è netta."
     }
   ],
   "flows": [
@@ -68,7 +69,7 @@
       "output": { "product": "electricity", "perUnit": 1 },
       "inputs": [],
       "quality": "MISSING_DATA",
-      "rationale": "L'idroelettrica è un flusso, non uno stock: nessun ingresso consumato. Mancano però i siti e le capacità per provincia (nessun dato nel repository e nel Pack): non si inventano. Vedi RESOURCES_INDUSTRY_GAPS."
+      "rationale": "L'idroelettrica è un flusso in MW, non uno stock: nessun ingresso e nessun autoconsumo (deciso in chat 26/10/2026). Le centrali che entrano in servizio 1936-45 sono in data/resources/hydro_plants.json (CSV dell'utente); la base già attiva al 1/1/1936 non c'è ancora: stima da approvare, per questo resta MISSING_DATA."
     }
   ]
 }

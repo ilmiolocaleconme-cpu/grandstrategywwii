@@ -1,0 +1,3 @@
+plant_id,province_id,reason
+HYD-SCHOELLKOPF_POWER_STATION,P_USA_NEW_YORK,"Niagara Falls (NY): le coordinate cadono sul fiume di confine e il poligono semplificato le mette in Ontario; il CSV indica New York"
+HYD-SIR_ADAM_BECK_PUMP_GENERATING_STATION_I,P_CAN_ONTARIO,"Queenston (Ontario): le coordinate cadono sul fiume di confine e il poligono semplificato le mette a New York; il CSV indica Ontario"

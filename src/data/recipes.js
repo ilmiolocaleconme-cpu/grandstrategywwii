@@ -77,7 +77,8 @@ export function validateRecipes(file, { factoriesById, resources }) {
 export function fullCapacityFlows(recipe, factory) {
   const outputPerDay = recipe.nominalOutputPerDay ?? factory.base_capacity_per_day;
   const inputsPerDay = Object.fromEntries(recipe.inputs.map((i) => [i.resource, round(i.perUnit * outputPerDay / recipe.output.perUnit)]));
-  return { outputPerDay, inputsPerDay, energyPerDay: factory.energy_consumption };
+  // noSelfConsumption: la centrale non consuma energia propria (il Pack le assegna un consumo che qui si ignora)
+  return { outputPerDay, inputsPerDay, energyPerDay: recipe.noSelfConsumption ? 0 : factory.energy_consumption };
 }
 
 const round = (v) => Math.round(v * 1000) / 1000;
