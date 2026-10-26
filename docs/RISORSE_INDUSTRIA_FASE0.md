@@ -54,7 +54,7 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 - G1 idro: dati forniti dall'utente + stime di Claude (marcate, da mostrare prima).
 - G2: nessun autoconsumo per la centrale a carbone: 120 MWh netti; il consumo 25 del Pack è ignorato (`noSelfConsumption`).
 - G3: ricette di macchinari, componenti, motori e munizioni approvate dall'utente (26/10/2026): inserite. Gli ingressi possono ora essere anche prodotti (acciaio, alluminio, gomma lavorata, chimici), senza cicli.
-- G4: consumo di carburante per categoria di unità: proposta semplice da approvare.
+- G4: consumo di carburante per categoria, approvato dimezzato (una sola leva, Pack intatto): `data/military/fuel_consumption.json`, `src/data/fuel.js`, `tests/fuel.test.js`. Segnaposto per categoria, da riscalare con il catalogo unità. Una raffineria (100 t/giorno) regge 8 divisioni corazzate, il sintetico (70) 5.
 - G5: tonnellate per ogni massa; l'elettricità è una potenza in MW (G8).
 - G6: ampliamenti della stessa centrale additivi (Vemork 216 MW dal 1937, Cubatão 524 MW dal 1936).
 
@@ -62,5 +62,4 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 | ID | Problema | Perché blocca | Proposta |
 |---|---|---|---|
 | G3b | Ricette di armi leggere, artiglieria, camion, carri, aerei e navi: non definite | dipendono dal catalogo delle unità | con le unità (Fase 5) |
-| G4 | Consumo di carburante delle unità: da proporre | bilancio carburante, carbone, elettricità | proposta in arrivo, da approvare |
 | G7 | Base idro mancante: i totali per nazione vanno tarati sulla domanda (Italia ≥ 95%), non su MW assoluti | serve l'industria iniziale per nazione (non esiste ancora) | tarare in Fase 1, quando l'industria iniziale è definita |
