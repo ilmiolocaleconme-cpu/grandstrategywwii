@@ -20,5 +20,14 @@
   { "id": "vanadium", "name": "Vanadio", "status": "riferimento" },
   { "id": "antimony", "name": "Antimonio", "status": "riferimento" },
   { "id": "mercury", "name": "Mercurio", "status": "riferimento" },
-  { "id": "uranium", "name": "Uranio", "status": "riferimento" }
+  { "id": "uranium", "name": "Uranio", "status": "riferimento" },
+  { "id": "fuel", "name": "Carburante", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "processed_rubber", "name": "Gomma lavorata", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "chemicals", "name": "Prodotti chimici", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "electricity", "name": "Elettricità", "status": "bozza-di-design", "tipo": "flusso" },
+  { "id": "machinery", "name": "Macchinari", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "components", "name": "Componenti", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "engines", "name": "Motori", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "munitions", "name": "Munizioni", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "hydro", "name": "Idroelettrica", "status": "bozza-di-design", "tipo": "fonte-energia" }
 ]

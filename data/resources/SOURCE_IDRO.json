@@ -1,0 +1,8 @@
+{
+  "origin": "CSV forniti dall'utente il 26/10/2026; fonte originale non indicata. Copie byte per byte, non modificate.",
+  "files": [
+    { "file": "centrali_idroelettriche_pre_1936.csv", "sha256": "e82b650488eb989407a3a3d142fcc6b353bfd463728eb939dd3bd7b42d4bf3b7", "role": "base già attiva prima del 1/1/1936 (15 centrali)" },
+    { "file": "centrali_idroelettriche_1936_1945.csv", "sha256": "f00068363d0011fc0a0ee92c5473c92192b943f2ce511e4d78db4009415b01ec", "role": "centrali che entrano in servizio 1936-1945 (23 centrali), come eventi" }
+  ],
+  "note": "La provincia si ricava dalle coordinate; dove le coordinate cadono sul fiume di confine e il poligono semplificato sbaglia lato, vale hydro_province_overrides.csv (con motivo). La base NON è completa: sono solo le centrali fornite."
+}
