@@ -54,15 +54,38 @@ test('entrata: acciaieria a pieno regime e tempo di ripagamento ~75 giorni', () 
   assert.ok(days > 65 && days < 85, `ripagamento ${days}`);
 });
 
-test('entrata: merci, territorio e difficoltà; elettricità senza entrata', () => {
-  const inc = dailyIncome({ goods: { steel: 100, electricity: 500, wheat: 90 }, territory: { provinces: 10, cities: 2, capitals: 1 } }, economy, 'media');
+test('entrata: valore aggiunto, la catena non conta due volte; elettricità senza entrata', () => {
+  const terr = { provinces: 10, cities: 2, capitals: 1 }; // 4 ECV
+  // un'acciaieria: produce 100 t di acciaio, consuma 160 t di ferro e 80 t di carbone
+  const inc = dailyIncome({ goods: { steel: 100, electricity: 500 }, inputs: { iron_ore: 160, coal: 80 }, territory: terr }, economy, 'media');
   assert.equal(inc.goods, 3);
-  assert.equal(inc.territory, 4); // 10*0.2 + 2*0.5 + 1
-  assert.equal(inc.total, 7);
+  assert.equal(inc.inputs, 1.36);
+  assert.equal(inc.valueAdded, 1.64);
+  assert.equal(inc.territory, 4);
+  assert.equal(inc.total, 5.64);
   assert.deepEqual(inc.byGood, { steel: 3 });
-  assert.equal(dailyIncome({ goods: { steel: 100 }, territory: { provinces: 10, cities: 2, capitals: 1 } }, economy, 'facile').total, 9.1);
-  assert.equal(dailyIncome({ goods: { steel: 100 }, territory: { provinces: 10, cities: 2, capitals: 1 } }, economy, 'reale').total, 6.3);
+  assert.equal(dailyIncome({ goods: { steel: 100 }, inputs: { iron_ore: 160, coal: 80 }, territory: terr }, economy, 'facile').total, 7.332);
+  assert.equal(dailyIncome({ goods: { steel: 100 }, inputs: { iron_ore: 160, coal: 80 }, territory: terr }, economy, 'reale').total, 5.076);
   assert.throws(() => dailyIncome({}, economy, 'x'));
+});
+
+test('entrata: estrarre ferro e farne acciaio vale quanto il valore aggiunto, non la somma lorda', () => {
+  const estrazione = dailyIncome({ goods: { iron_ore: 160, coal: 80 } }, economy, 'media').total; // 1.36
+  const catena = dailyIncome({ goods: { iron_ore: 160, coal: 80, steel: 100 }, inputs: { iron_ore: 160, coal: 80 } }, economy, 'media').total;
+  assert.equal(estrazione, 1.36);
+  assert.equal(catena, 3); // 1.36 estratti + 1.64 dell'acciaieria = valore dell'acciaio, non 4.36
+});
+
+test('entrata: la centrale brucia carbone senza ricavo (costo), l\'entrata non scende sotto zero', () => {
+  const inc = dailyIncome({ goods: { electricity: 120 }, inputs: { coal: 60 } }, economy, 'media');
+  assert.equal(inc.valueAdded, -0.3);
+  assert.equal(inc.total, 0);
+});
+
+test('economia: ogni ricetta ha valore aggiunto positivo e il validatore rifiuta il contrario', () => {
+  const bad = structuredClone(economy);
+  bad.prices.steel = 0.01;
+  assert.match(validateEconomy(bad, { resources, recipes }).join('|'), /REC-STEEL-001 ha valore aggiunto non positivo/);
 });
 
 test('tesoreria: la spesa non porta mai il saldo sotto zero', () => {

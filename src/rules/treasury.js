@@ -6,25 +6,34 @@ import { difficulty } from '../data/economy.js';
 const round = (v) => Math.round(v * 1000) / 1000;
 
 /**
- * goods: { risorsa|prodotto: tonnellate del giorno } (produzione delle fabbriche + estrazione)
- * territory: { provinces, cities, capitals } (numeri interi di territori controllati)
- * Ritorna { goods, territory, total, byGood } (in ECV, prima e dopo il moltiplicatore nel campo total).
+ * Entrata a VALORE AGGIUNTO (deciso in chat 26/10/2026): valore di ciò che si produce o estrae meno il valore degli ingressi consumati,
+ * così una catena (ferro → acciaio → macchinari) non conta due volte lo stesso valore.
+ * goods: { merce: tonnellate prodotte o estratte nel giorno }; inputs: { merce: tonnellate consumate nel giorno };
+ * territory: { provinces, cities, capitals } (numeri interi di territori controllati).
+ * Ritorna { goods, inputs, valueAdded, territory, total, byGood } in ECV; total = (valueAdded + territory) × incomeMul, mai negativo.
+ * L'elettricità non ha prezzo (servizio): non produce entrata, mentre il carbone bruciato dalle centrali è un costo.
  */
-export function dailyIncome({ goods = {}, territory = {} }, economy, difficultyId) {
+export function dailyIncome({ goods = {}, inputs = {}, territory = {} }, economy, difficultyId) {
   const d = difficulty(economy, difficultyId);
   if (!d) throw new Error(`difficoltà sconosciuta: ${difficultyId}`);
-  const byGood = {};
-  let goodsValue = 0;
-  for (const id of Object.keys(goods).sort()) {
-    const p = economy.prices[id];
-    const t = goods[id];
-    if (!(t > 0) || typeof p !== 'number') continue; // senza prezzo (elettricità, risorse non commerciate) non genera entrata
-    byGood[id] = round(t * p);
-    goodsValue += t * p;
-  }
+  const value = (map) => {
+    const by = {};
+    let sum = 0;
+    for (const id of Object.keys(map).sort()) {
+      const p = economy.prices[id];
+      const t = map[id];
+      if (!(t > 0) || typeof p !== 'number') continue; // senza prezzo (elettricità, risorse non commerciate) non conta
+      by[id] = round(t * p);
+      sum += t * p;
+    }
+    return { by, sum };
+  };
+  const out = value(goods);
+  const inp = value(inputs);
   const t = economy.territory;
   const terr = (territory.provinces ?? 0) * t.perProvince + (territory.cities ?? 0) * t.perCity + (territory.capitals ?? 0) * t.perCapital;
-  return { goods: round(goodsValue), territory: round(terr), byGood, total: round((goodsValue + terr) * d.incomeMul) };
+  const valueAdded = out.sum - inp.sum;
+  return { goods: round(out.sum), inputs: round(inp.sum), valueAdded: round(valueAdded), territory: round(terr), byGood: out.by, total: round(Math.max(0, valueAdded + terr) * d.incomeMul) };
 }
 
 /** Applica una spesa alla tesoreria. Mai negativa: se non c'è abbastanza ritorna ok:false e NON modifica il saldo. */

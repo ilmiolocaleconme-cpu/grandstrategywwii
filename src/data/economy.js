@@ -21,6 +21,13 @@ export function validateEconomy(file, { resources, recipes }) {
   const traded = new Set();
   for (const r of recipes?.recipes ?? []) { traded.add(r.output.product); for (const i of r.inputs) traded.add(i.resource); }
   for (const id of traded) if (id !== 'electricity' && !(prices[id] > 0)) errors.push(`economia: ${id} è usata da una ricetta ma senza prezzo`);
+  // coerenza dei prezzi: ogni ricetta (centrale esclusa) deve avere valore aggiunto positivo, altrimenti produrre farebbe perdere denaro
+  for (const r of recipes?.recipes ?? []) {
+    if (r.output.product === 'electricity') continue;
+    const inVal = r.inputs.reduce((s, i) => s + i.perUnit * (prices[i.resource] ?? 0), 0);
+    const outVal = r.output.perUnit * (prices[r.output.product] ?? 0);
+    if (!(outVal > inVal)) errors.push(`economia: ${r.id} ha valore aggiunto non positivo (uscita ${outVal.toFixed(4)}, ingressi ${inVal.toFixed(4)})`);
+  }
   if (prices.electricity !== null && prices.electricity !== undefined) errors.push('economia: l\'elettricità è un servizio, il prezzo deve essere null');
   const t = file.territory ?? {};
   for (const k of ['perProvince', 'perCity', 'perCapital']) if (!(t[k] >= 0)) errors.push(`economia: territorio.${k} non valido`);
