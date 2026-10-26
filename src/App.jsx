@@ -158,12 +158,15 @@ export default function App() {
   gameRef.current = game;
   const { provinces, status: provincesStatus, error: provincesError, progress: provincesProgress } = useProvinces();
   // SVG: fiumi e laghi si caricano subito (come prima). Canvas (prototipo): dopo la comparsa delle province, per non rallentare la prima schermata
+  // Sulla schermata di scelta della nazione non si carica e non si costruisce nulla della mappa (modello di ~770 mila vertici,
+  // fiumi, mari, collegamenti): il telefono resta libero per la ruota. Il lavoro parte quando c'è una partita o si apre la mappa.
+  const mapWanted = game !== null || tab === 'map';
   const [mapShown, setMapShown] = useState(false);
   useEffect(() => {
-    if (provincesStatus !== 'ready') return undefined;
+    if (provincesStatus !== 'ready' || !mapWanted) return undefined;
     const id = requestAnimationFrame(() => requestAnimationFrame(() => setMapShown(true)));
     return () => cancelAnimationFrame(id);
-  }, [provincesStatus]);
+  }, [provincesStatus, mapWanted]);
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
   const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
   const links = useLinks(USE_CANVAS && mapShown);
@@ -192,7 +195,7 @@ export default function App() {
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
 
-  const mapItems = useMemo(() => (provincesWithCities ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces]);
+  const mapItems = useMemo(() => (provincesWithCities && mapWanted ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces, mapWanted]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
   const control = game ? game.control : NATION_CONTROL;
   const choosable = useMemo(
