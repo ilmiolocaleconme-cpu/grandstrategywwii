@@ -31,7 +31,7 @@ Esiti verificati in test sui punti base: USA ≥ 5 acciaierie con sole risorse n
 
 ## Decisioni di integrazione
 - Il repository resta la fonte: ID `FCT-*` al posto di `steel_mill`/`oil_refinery`/`power_plant_coal` del pacchetto; capacità dalle fabbriche del Pack (non 100 per tutte).
-- Nessun impianto di estrazione nuovo (`mine_coal`, `oil_field`...): l'estrazione resta il centro produttivo a punti. Nessun esaurimento dei giacimenti (deciso in chat 26/10/2026).
+- Miniere costruibili per provincia e risorsa (deciso in chat 26/10/2026, sostituisce la scelta iniziale di Fase 0 «nessun impianto nuovo»): 3 livelli che portano i punti da `base` verso `max` (`resource_points.json`), mai oltre. Nessun esaurimento dei giacimenti. Costi in `data/economy/economy.json`. Il catalogo edifici e la costruzione in partita NON sono ancora implementati (solo dati, funzioni `mineCost`, `minePoints` e test).
 - Un solo carburante con due vie (deciso in chat). Le catene tra prodotti (acciaio → componenti → aerei) NON sono ancora definite: le ricette usano solo materie prime, il validatore lo impone.
 
 ## Idroelettrica (dati dell'utente, 26/10/2026)
@@ -69,3 +69,9 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 |---|---|---|---|
 | G3b | Ricette di armi leggere, artiglieria, camion, carri, aerei e navi: non definite | dipendono dal catalogo delle unità | con le unità (Fase 5) |
 | G7 | Base idro mancante: i totali per nazione vanno tarati sulla domanda (Italia ≥ 95%), non su MW assoluti | serve l'industria iniziale per nazione (non esiste ancora) | tarare in Fase 1, quando l'industria iniziale è definita |
+
+## Economia di base (26/10/2026, DESIGN_DEFAULT)
+- `data/economy/economy.json` (schema `economy-v1`): valuta unica ECV (stessa unità di `construction_ecv` del Pack, non denaro reale), prezzi per tonnellata di ogni merce con ricetta (elettricità senza prezzo: è un servizio), quota fissa per provincia/città/capitale, tre difficoltà (Facile/Media/Reale) come soli moltiplicatori di costo, tempo, scorte iniziali ed entrata, costi dei 3 livelli di miniera.
+- Taratura: un'acciaieria a pieno regime ha un margine di 1,64 ECV/giorno e si ripaga in circa 73 giorni (verificato in test).
+- Mancano: la popolazione (nessun dato nel repository), lo stato di tesoreria nel salvataggio (schema 2), il collegamento al ciclo di partita, i consumatori. «Reale» è solo la difficoltà più dura con questi numeri, non una difficoltà storica verificata.
+- Codice: `src/data/economy.js` (validazione, `difficulty`, `mineCost`, `minePoints`), `src/rules/treasury.js` (`dailyIncome`, `spend`), test in `tests/economy.test.js` (10).
