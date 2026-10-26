@@ -314,3 +314,16 @@ test('zoom minimo: il mondo riempie lo schermo in larghezza e in altezza, senza 
   assert.ok(minZoomToFit(300, 900, s) > minZoomToFit(300, 300, s));
   assert.ok(minZoomToFit(0, 0, 0) > 0);
 });
+
+test('immagine ripetibile: con un giro del mondo intero si copre lo schermo senza bordi vuoti', async () => {
+  const { tileOffsets, coversScreenWrap } = await import('../src/map/canvasView.js');
+  // immagine più stretta di un giro: nessuna ripetizione
+  assert.deepEqual(tileOffsets({ x: -50, y: 0, w: 500, h: 300 }, 800, 400), [0]);
+  // larga almeno un giro (800): le copie spostate di ±800 riempiono lo schermo
+  const offs = tileOffsets({ x: 300, y: 0, w: 1000, h: 300 }, 800, 1200);
+  assert.ok(offs.includes(0) && offs.includes(-800)); // x=300 e x=-500: coprono 0..1200 senza buchi
+  // schermo coperto in orizzontale grazie alla ripetizione, in verticale serve comunque l'immagine
+  assert.equal(coversScreenWrap({ x: 900, y: 0, w: 1000, h: 300 }, 400, 300, 800), true);
+  assert.equal(coversScreenWrap({ x: 900, y: 10, w: 1000, h: 300 }, 400, 300, 800), false);
+  assert.equal(coversScreenWrap({ x: 900, y: 0, w: 500, h: 300 }, 400, 300, 800), false);
+});

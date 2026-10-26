@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
-import { affineOf, blitPlan, coversScreen, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
+import { affineOf, blitPlan, coversScreenWrap, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView, tileOffsets } from './canvasView.js';
 import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
 import { resolveResourceAnchors, resolveResourceFills } from '../data/provinceResources.js';
 import { buildLinksModel } from './transportView.js';
@@ -122,7 +122,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const s = st.current;
     const c = s.cache;
     if (!c) return false;
-    return coversScreen(blitPlan(c.view, s.view, VB, lay(), c.region), s.size.w, s.size.h);
+    return coversScreenWrap(blitPlan(c.view, s.view, VB, lay(), c.region), s.size.w, s.size.h, WORLD_W * affineOf(s.view, VB, lay()).sx);
   };
 
   const renderFull = () => {
@@ -148,7 +148,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     s.slice = sl;
     const expose = () => {
       const old = s.cache?.canvas;
-      s.cache = { canvas: c, view: { ...view }, region, light: false };
+      s.cache = { canvas: c, view: { ...view, x: view.x + (sl.dx ?? 0) }, region, light: false };
       if (old && old !== c) s.spare = old;
       sl.exposed = true;
       baseRef.current.dataset.drawn = '1';
@@ -197,10 +197,11 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const c = s.cache;
     if (c) {
       const plan = blitPlan(c.view, s.view, VB, lay(), c.region);
-      ctx.drawImage(c.canvas, 0, 0, c.canvas.width, c.canvas.height, plan.x * s.dpr, plan.y * s.dpr, plan.w * s.dpr, plan.h * s.dpr);
+      const period = WORLD_W * affineOf(s.view, VB, lay()).sx; // un giro del mondo in pixel
+      for (const dx of tileOffsets(plan, period, s.size.w)) ctx.drawImage(c.canvas, 0, 0, c.canvas.width, c.canvas.height, (plan.x + dx) * s.dpr, plan.y * s.dpr, plan.w * s.dpr, plan.h * s.dpr);
       // bordi vuoti o immagine troppo ingrandita/rimpicciolita: serve un nuovo disegno senza aspettare la fine del gesto,
       // ma a ritmo controllato (ogni ridisegno è sincrono: se parte a ogni fotogramma il gesto si blocca)
-      const delay = gestureRenderDelay({ covers: coversScreen(plan, s.size.w, s.size.h), ratio: plan.r, now: performance.now(), lastEnd: s.lastEnd, lastCost: s.lastCost });
+      const delay = gestureRenderDelay({ covers: coversScreenWrap(plan, s.size.w, s.size.h, period), ratio: plan.r, now: performance.now(), lastEnd: s.lastEnd, lastCost: s.lastCost });
       if (delay !== null) scheduleRender(delay);
     }
     paintOverlay();
@@ -237,7 +238,15 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const settle = () => {
     const s = st.current;
     s.moving = false;
+    const unwrapped = s.view;
     s.view = wrapView(s.view, VB);
+    // il giro del mondo cambia solo il modo di contare (la mappa si ripete): l'immagine già disegnata resta valida,
+    // basta spostare di altrettanto la vista a cui si riferisce (altrimenti finisce fuori schermo e la mappa sparisce)
+    const dx = s.view.x - unwrapped.x;
+    if (dx !== 0) {
+      if (s.cache) s.cache = { ...s.cache, view: { ...s.cache.view, x: s.cache.view.x + dx } };
+      if (s.slice) { s.slice.dx = (s.slice.dx ?? 0) + dx; s.slice.view = { ...s.slice.view, x: s.slice.view.x + dx }; }
+    }
     if (s.view.k < minK()) s.view = wrapView(zoomAt(s.view, minK() / s.view.k, VB.x + VB.w / 2, VB.y + VB.h / 2, 0, MAX_K), VB); // dopo un ridimensionamento
     clearTimeout(s.renderTimer);
     s.renderTimer = 0;
