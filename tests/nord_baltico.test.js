@@ -14,7 +14,7 @@ const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o
 const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
 const total = (fs) => fs.reduce((sum, f) => sum + featureAreaKm2(f), 0);
 
-const N = { EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 19, SWE: 21, FIN: 19 };
+const N = { EST: 10, LVA: 6, LTU: 11, DNK: 5, NOR: 20, SWE: 21, FIN: 19 };
 const AREA = { EST: [42000, 49000], LVA: [60000, 67000], LTU: [51000, 58000], DNK: [40000, 46000], NOR: [300000, 335000], SWE: [425000, 460000], FIN: [315000, 345000] };
 
 test('conteggi, prefisso id, qualita, fonte e licenza', () => {

@@ -10,7 +10,7 @@ const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o
 const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
 
 test('Francia 1936: 90 dipartimenti, Senna, Senna e Oise e Corsica uniti, Belfort presente', () => {
-  const fra = byOwner('FRA');
+  const fra = byOwner('FRA').filter((f) => f.properties.kind !== 'isole'); // esclusa la provincia di isole (Kerguelen)
   assert.equal(fra.length, 90);
   const ids = new Set(fra.map((f) => f.properties.id));
   for (const id of ['P_FRA_SEINE', 'P_FRA_SEINE_ET_OISE', 'P_FRA_CORSE', 'P_FRA_TERRITOIRE_DE_BELFORT', 'P_FRA_BAS_RHIN', 'P_FRA_HAUT_RHIN', 'P_FRA_MOSELLE']) assert.ok(ids.has(id), id);

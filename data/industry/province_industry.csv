@@ -118,7 +118,9 @@ P_ARG_SAN_LUIS,province,14,14,provisional_uniform,PROVISIONAL
 P_ARG_TIERRA_DEL_FUEGO,province,14,14,provisional_uniform,PROVISIONAL
 P_ARG_TUCUMAN,province,14,14,provisional_uniform,PROVISIONAL
 P_AUS_AUSTRALIAN_CAPITAL_TERRITORY,province,14,14,provisional_uniform,PROVISIONAL
+P_AUS_MACQUARIE,province,14,14,provisional_uniform,PROVISIONAL
 P_AUS_NEW_SOUTH_WALES,province,14,14,provisional_uniform,PROVISIONAL
+P_AUS_NORFOLK,province,14,14,provisional_uniform,PROVISIONAL
 P_AUS_NORTHERN_TERRITORY,province,14,14,provisional_uniform,PROVISIONAL
 P_AUS_QUEENSLAND,province,14,14,provisional_uniform,PROVISIONAL
 P_AUS_SOUTH_AUSTRALIA,province,14,14,provisional_uniform,PROVISIONAL
@@ -239,6 +241,7 @@ P_BRA_BAHIA,province,14,14,provisional_uniform,PROVISIONAL
 P_BRA_CEARA,province,14,14,provisional_uniform,PROVISIONAL
 P_BRA_ESPIRITO_SANTO,province,14,14,provisional_uniform,PROVISIONAL
 P_BRA_FEDERAL,province,14,14,provisional_uniform,PROVISIONAL
+P_BRA_FERNANDO_DE_NORONHA,province,14,14,provisional_uniform,PROVISIONAL
 P_BRA_GOIAS,province,14,14,provisional_uniform,PROVISIONAL
 P_BRA_MARANHAO,province,14,14,provisional_uniform,PROVISIONAL
 P_BRA_MATO_GROSSO,province,14,14,provisional_uniform,PROVISIONAL
@@ -343,6 +346,7 @@ P_CHL_ATACAMA,province,14,14,provisional_uniform,PROVISIONAL
 P_CHL_AYSEN,province,14,14,provisional_uniform,PROVISIONAL
 P_CHL_BIOBIO,province,14,14,provisional_uniform,PROVISIONAL
 P_CHL_COQUIMBO,province,14,14,provisional_uniform,PROVISIONAL
+P_CHL_ISOLA_DI_PASQUA,province,14,14,provisional_uniform,PROVISIONAL
 P_CHL_LOS_LAGOS,province,14,14,provisional_uniform,PROVISIONAL
 P_CHL_LOS_RIOS,province,14,14,provisional_uniform,PROVISIONAL
 P_CHL_MAGELLAN_AND_THE_CHILEAN_ANTARCTIC,province,14,14,provisional_uniform,PROVISIONAL
@@ -469,6 +473,7 @@ P_CRI_ALAJUELA,province,14,14,provisional_uniform,PROVISIONAL
 P_CRI_CARTAGO,province,14,14,provisional_uniform,PROVISIONAL
 P_CRI_GUANACASTE,province,14,14,provisional_uniform,PROVISIONAL
 P_CRI_HEREDIA,province,14,14,provisional_uniform,PROVISIONAL
+P_CRI_ISOLA_DEL_COCCO,province,14,14,provisional_uniform,PROVISIONAL
 P_CRI_LIMON,province,14,14,provisional_uniform,PROVISIONAL
 P_CRI_PUNTARENAS,province,14,14,provisional_uniform,PROVISIONAL
 P_CRI_SAN_JOSE,province,14,14,provisional_uniform,PROVISIONAL
@@ -720,8 +725,10 @@ P_FIN_UUSIMAA,province,14,14,provisional_uniform,PROVISIONAL
 P_FJI_CENTRAL,province,14,14,provisional_uniform,PROVISIONAL
 P_FJI_EASTERN,province,14,14,provisional_uniform,PROVISIONAL
 P_FJI_NORTHERN,province,14,14,provisional_uniform,PROVISIONAL
+P_FJI_TAVEUNI,province,14,14,provisional_uniform,PROVISIONAL
 P_FJI_WESTERN,province,14,14,provisional_uniform,PROVISIONAL
 P_FLK_FALKLAND,province,14,14,provisional_uniform,PROVISIONAL
+P_FLK_GEORGIA_DEL_SUD,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_AIN,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_AISNE,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_ALLIER,province,14,14,provisional_uniform,PROVISIONAL
@@ -770,6 +777,7 @@ P_FRA_INDRE,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_INDRE_ET_LOIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_ISERE,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_JURA,province,14,14,provisional_uniform,PROVISIONAL
+P_FRA_KERGUELEN,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_LANDES,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_LOIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_FRA_LOIRET,province,14,14,provisional_uniform,PROVISIONAL
@@ -832,6 +840,7 @@ P_GBR_ARGYLL_AND_BUTE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_ARMAGH,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_BEDFORDSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_BERKSHIRE,province,14,14,provisional_uniform,PROVISIONAL
+P_GBR_BERMUDA,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_BUCKINGHAMSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_CAERNARVONSHIRE_E_MERIONETHSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_CAMBRIDGESHIRE,province,14,14,provisional_uniform,PROVISIONAL
@@ -861,10 +870,12 @@ P_GBR_FALKIRK,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_FERMANAGH,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_FIFE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_FLINTSHIRE,province,14,14,provisional_uniform,PROVISIONAL
+P_GBR_GILBERT_ELLICE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_GLAMORGAN,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_GLASGOW,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_GLOUCESTERSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_HAMPSHIRE,province,14,14,provisional_uniform,PROVISIONAL
+P_GBR_HEARD,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_HEREFORDSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_HERTFORDSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_HIGHLAND,province,14,14,provisional_uniform,PROVISIONAL
@@ -874,6 +885,7 @@ P_GBR_KENT,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_LANCASHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_LEICESTERSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_LINCOLNSHIRE,province,14,14,provisional_uniform,PROVISIONAL
+P_GBR_LINE_FENICE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_LONDONDERRY,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_LONDRA,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_MIDDLESEX,province,14,14,provisional_uniform,PROVISIONAL
@@ -891,8 +903,10 @@ P_GBR_ORKNEY,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_OXFORDSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_PEMBROKESHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_PERTH_E_KINROSS,province,14,14,provisional_uniform,PROVISIONAL
+P_GBR_PITCAIRN,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_RENFREWSHIRE,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_RUTLAND,province,14,14,provisional_uniform,PROVISIONAL
+P_GBR_SANT_ELENA,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_SCOTTISH_BORDERS,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_SHETLAND_ISLANDS,province,14,14,provisional_uniform,PROVISIONAL
 P_GBR_SHROPSHIRE,province,14,14,provisional_uniform,PROVISIONAL
@@ -1292,6 +1306,7 @@ P_JPN_NAGANO_PREFECTURE,province,14,14,provisional_uniform,PROVISIONAL
 P_JPN_NAGASAKI_PREFECTURE,province,14,14,provisional_uniform,PROVISIONAL
 P_JPN_NARA_PREFECTURE,province,14,14,provisional_uniform,PROVISIONAL
 P_JPN_NIIGATA_PREFECTURE,province,14,14,provisional_uniform,PROVISIONAL
+P_JPN_OGASAWARA,province,14,14,provisional_uniform,PROVISIONAL
 P_JPN_OITA_PREFECTURE,province,14,14,provisional_uniform,PROVISIONAL
 P_JPN_OKAYAMA_PREFECTURE,province,14,14,provisional_uniform,PROVISIONAL
 P_JPN_OKINAWA_PREFECTURE,province,14,14,provisional_uniform,PROVISIONAL
@@ -1391,6 +1406,7 @@ P_LVA_LATGALE,province,14,14,provisional_uniform,PROVISIONAL
 P_LVA_PIERIGA,province,14,14,provisional_uniform,PROVISIONAL
 P_LVA_VIDZEME,province,14,14,provisional_uniform,PROVISIONAL
 P_LVA_ZEMGALE,province,14,14,provisional_uniform,PROVISIONAL
+P_MAL_ISOLA_DI_NATALE,province,14,14,provisional_uniform,PROVISIONAL
 P_MAL_JOHOR,province,14,14,provisional_uniform,PROVISIONAL
 P_MAL_KEDAH,province,14,14,provisional_uniform,PROVISIONAL
 P_MAL_KELANTAN,province,14,14,provisional_uniform,PROVISIONAL
@@ -1465,6 +1481,7 @@ P_MEX_OAXACA,province,14,14,provisional_uniform,PROVISIONAL
 P_MEX_PUEBLA,province,14,14,provisional_uniform,PROVISIONAL
 P_MEX_QUERETARO,province,14,14,provisional_uniform,PROVISIONAL
 P_MEX_QUINTANA_ROO,province,14,14,provisional_uniform,PROVISIONAL
+P_MEX_REVILLAGIGEDO,province,14,14,provisional_uniform,PROVISIONAL
 P_MEX_SAN_LUIS_POTOSI,province,14,14,provisional_uniform,PROVISIONAL
 P_MEX_SINALOA,province,14,14,provisional_uniform,PROVISIONAL
 P_MEX_SONORA,province,14,14,provisional_uniform,PROVISIONAL
@@ -1680,6 +1697,7 @@ P_NOR_BUSKERUD,province,14,14,provisional_uniform,PROVISIONAL
 P_NOR_FINNMARK,province,14,14,provisional_uniform,PROVISIONAL
 P_NOR_HEDMARK,province,14,14,provisional_uniform,PROVISIONAL
 P_NOR_HORDALAND,province,14,14,provisional_uniform,PROVISIONAL
+P_NOR_JAN_MAYEN,province,14,14,provisional_uniform,PROVISIONAL
 P_NOR_MORE_OG_ROMSDAL,province,14,14,provisional_uniform,PROVISIONAL
 P_NOR_NORDLAND,province,14,14,provisional_uniform,PROVISIONAL
 P_NOR_NORD_TRONDELAG,province,14,14,provisional_uniform,PROVISIONAL
@@ -1695,6 +1713,8 @@ P_NOR_VESTFOLD,province,14,14,provisional_uniform,PROVISIONAL
 P_NOR_VEST_AGDER,province,14,14,provisional_uniform,PROVISIONAL
 P_NRU_NAURU,province,14,14,provisional_uniform,PROVISIONAL
 P_NZL_CHATHAM_ISLANDS,province,14,14,provisional_uniform,PROVISIONAL
+P_NZL_ISOLE_COOK,province,14,14,provisional_uniform,PROVISIONAL
+P_NZL_KERMADEC,province,14,14,provisional_uniform,PROVISIONAL
 P_NZL_NEW_ZEALAND_OUTLYING_ISLANDS,province,14,14,provisional_uniform,PROVISIONAL
 P_NZL_NORTH_ISLAND,province,14,14,provisional_uniform,PROVISIONAL
 P_NZL_SOUTH_ISLAND,province,14,14,provisional_uniform,PROVISIONAL
@@ -2245,6 +2265,7 @@ P_URY_TACUAREMBO,province,14,14,provisional_uniform,PROVISIONAL
 P_URY_TREINTA_Y_TRES,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_ALABAMA,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_ALASKA,province,14,14,provisional_uniform,PROVISIONAL
+P_USA_ALEUTINE_OCCIDENTALI,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_ARIZONA,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_ARKANSAS,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_CALIFORNIA,province,14,14,provisional_uniform,PROVISIONAL
@@ -2258,6 +2279,7 @@ P_USA_IDAHO,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_ILLINOIS,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_INDIANA,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_IOWA,province,14,14,provisional_uniform,PROVISIONAL
+P_USA_ISOLE_MINORI_PACIFICO,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_KANSAS,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_KENTUCKY,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_LOUISIANA,province,14,14,provisional_uniform,PROVISIONAL
@@ -2289,6 +2311,7 @@ P_USA_TEXAS,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_UTAH,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_VERMONT,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_VIRGINIA,province,14,14,provisional_uniform,PROVISIONAL
+P_USA_WAKE,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_WASHINGTON,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_WEST_VIRGINIA,province,14,14,provisional_uniform,PROVISIONAL
 P_USA_WISCONSIN,province,14,14,provisional_uniform,PROVISIONAL

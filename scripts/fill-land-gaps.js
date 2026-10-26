@@ -9,7 +9,8 @@
 // attorno; i pezzi (terra e nessuna provincia) con almeno MIN_CELLS celle si tracciano come poligoni (bordo delle celle), si dilatano di
 // una cella dentro la provincia ricevente (nessuna fessura) e si semplificano. Dopo: build:adjacency, build:sea, build:labels.
 // I confini di questi pezzi sono APPROSSIMATI (`borderQuality` della provincia non cambia; la proprietà `landGapFill` registra l'aggiunta).
-import { readFile, readdir, writeFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
+import { readProvinceDocs, writeProvinceDocs } from './province-io.js';
 import { makeGrid, fillPolygon } from './sea-raster.js';
 import { simplify } from '../src/data/transport.js';
 
@@ -32,36 +33,8 @@ const inWater1936 = (lon, lat) => WATER_1936.some(([x0, y0, x1, y1]) => lon >= x
 const PROTECTED_BOX = [-12, 34, 30, 56.5];
 const PROTECTED_OWNERS = new Set(['ESP', 'FRA', 'NLD', 'BEL', 'DEU', 'POL', 'DANZIG', 'CHE', 'AUT', 'CZE', 'LTU', 'LVA', 'EST']);
 const inProtected = (lon, lat) => lon >= PROTECTED_BOX[0] && lon <= PROTECTED_BOX[2] && lat >= PROTECTED_BOX[1] && lat <= PROTECTED_BOX[3];
-const dir = new URL('../data/provinces/', import.meta.url);
 
-// --- lettura e scrittura nello stesso formato dei file (ce ne sono più di uno: ricostruiamo i byte originali) ------------------
-const FORMATS = [
-  { sep: ', ', ascii: false }, { sep: ',', ascii: false }, { sep: ',', ascii: true }, { sep: ', ', ascii: true },
-];
-function dump(v, { sep, ascii }) {
-  const kv = sep === ', ' ? ': ' : ':';
-  const str = (s) => { const j = JSON.stringify(s); return ascii ? j.replace(/[\u0080-￿]/g, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`) : j; };
-  const go = (x) => {
-    if (x === null) return 'null';
-    if (typeof x === 'string') return str(x);
-    if (typeof x === 'number' || typeof x === 'boolean') return String(x);
-    if (Array.isArray(x)) return `[${x.map(go).join(sep)}]`;
-    return `{${Object.entries(x).map(([k, y]) => `${str(k)}${kv}${go(y)}`).join(sep)}}`;
-  };
-  return go(v);
-}
-function detectFormat(raw, data) {
-  for (const f of FORMATS) for (const nl of ['', '\n']) if (raw === dump(data, f) + nl) return { ...f, nl };
-  return null;
-}
-
-const files = (await readdir(dir)).filter((n) => n.endsWith('.json') && !n.startsWith('_')).sort();
-const docs = [];
-for (const name of files) {
-  const raw = await readFile(new URL(name, dir), 'utf8');
-  const data = JSON.parse(raw);
-  docs.push({ name, data, fmt: detectFormat(raw, data) ?? { sep: ',', ascii: false, nl: '\n', changed: true }, touched: false });
-}
+const docs = await readProvinceDocs();
 const feats = [];
 for (const d of docs) for (const f of d.data.features) feats.push({ f, doc: d });
 if (feats.length >= 65535) throw new Error('troppe province per la griglia Uint16');
@@ -256,12 +229,4 @@ report.unassigned = [...uniq.values()];
 for (const u of report.unassigned.sort((a, b) => b.km2 - a.km2).slice(0, 40)) console.log('non assegnato', JSON.stringify(u));
 const perOwner = {}; for (const r of report.assigned) perOwner[r.owner] = (perOwner[r.owner] ?? 0) + r.km2;
 console.log('per nazione (km2)', JSON.stringify(Object.entries(perOwner).sort((a, b) => b[1] - a[1]).slice(0, 20)));
-if (!DRY) {
-  for (const d of docs) {
-    if (!d.touched) continue;
-    const fmt = d.fmt;
-    if (fmt.changed) console.log(`attenzione: formato di ${d.name} non riconosciuto, riscritto compatto`);
-    await writeFile(new URL(d.name, dir), dump(d.data, fmt) + (fmt.nl ?? '\n'));
-  }
-  console.log('scritti', docs.filter((d) => d.touched).map((d) => d.name).join(' '));
-}
+if (!DRY) console.log('scritti', (await writeProvinceDocs(docs)).join(' '));
