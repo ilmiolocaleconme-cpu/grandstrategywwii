@@ -22,7 +22,7 @@ import { buildProvinceResources, validateProvinceResources } from '../src/data/p
 import { validateScores } from '../src/data/resourcePoints.js';
 import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { validateHydro } from '../src/data/hydro.js';
-import { validateFuelConsumption } from '../src/data/fuel.js';
+import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
 import { hydroBuilt } from './build-hydro.js';
 import { resourcePointsFile } from './build-resource-points.js';
 import { validateFlags, validateDescriptions } from '../src/data/flags.js';
@@ -100,6 +100,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateRecipes(recipesDoc, { factoriesById: industry.byId, resources: catalog.resources }));
     errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
     errors.push(...validateFuelConsumption(JSON.parse(await text('military/fuel_consumption.json')), { resources: catalog.resources }));
+    errors.push(...validateFuelStorage(JSON.parse(await text('military/fuel_storage.json')), { structureIds: industry.structures, buildingIds: new Set(catalog.buildings.buildings.map((b) => b.id)) }));
     // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate
     for (const sh of JSON.parse(await text('resources/SOURCE_IDRO.json')).files) {
       if (createHash('sha256').update(await readFile(new URL(`../data/resources/${sh.file}`, import.meta.url))).digest('hex') !== sh.sha256) errors.push(`idro: ${sh.file} diverso dalla copia ricevuta (sha256)`);

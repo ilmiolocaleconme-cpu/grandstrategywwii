@@ -31,3 +31,47 @@ export function unitsSupported(file, categoryId, fuelPerDay) {
   const c = dailyFuel(file, categoryId, true);
   return c === null ? null : fuelPerDay / c;
 }
+
+// ---- Stoccaggio: la scorta di carburante è limitata dalla capacità dei depositi costruiti (deciso in chat 26/10/2026) ----
+export const FUEL_STORAGE_SCHEMA = 'fuel-storage-v1';
+
+/** Errori (lista vuota = valido). ctx: { structureIds: Set degli structure_id del Pack, buildingIds: Set degli id di data/buildings.json } */
+export function validateFuelStorage(file, { structureIds, buildingIds } = {}) {
+  const errors = [];
+  if (file?.schema !== FUEL_STORAGE_SCHEMA) return [`scorte: schema ${file?.schema}, atteso ${FUEL_STORAGE_SCHEMA}`];
+  if (file.quality !== 'DESIGN_DEFAULT') errors.push('scorte: qualità attesa DESIGN_DEFAULT');
+  if (!(file.baseCapacity >= 0)) errors.push('scorte: baseCapacity non valida');
+  if (file.overflow !== 'lost') errors.push('scorte: overflow deve essere "lost" (l\'eccesso si perde, nessuno stoccaggio gratuito)');
+  const seen = new Set(); let prev = 0;
+  for (const d of file.depots ?? []) {
+    if (seen.has(d.structure_id)) errors.push(`scorte: ${d.structure_id} duplicato`);
+    seen.add(d.structure_id);
+    if (structureIds && !structureIds.has(d.structure_id)) errors.push(`scorte: ${d.structure_id} non esiste nel Pack`);
+    if (buildingIds && !buildingIds.has(d.building)) errors.push(`scorte: edificio ${d.building} inesistente`);
+    if (!(d.capacity > 0)) errors.push(`scorte: ${d.structure_id} con capacità non valida`);
+    else if (d.capacity <= prev) errors.push(`scorte: ${d.structure_id} deve avere capacità maggiore del livello precedente`);
+    prev = Math.max(prev, d.capacity);
+  }
+  if ((file.depots ?? []).length === 0) errors.push('scorte: nessun deposito');
+  return errors;
+}
+
+/** Capacità totale di stoccaggio: baseCapacity + depositi costruiti. built = { 'INF-010': n, ... }. Struttura sconosciuta = errore, non zero silenzioso. */
+export function storageCapacity(file, built = {}) {
+  let total = file.baseCapacity ?? 0;
+  for (const [id, n] of Object.entries(built)) {
+    const d = (file.depots ?? []).find((x) => x.structure_id === id);
+    if (!d) throw new Error(`scorte: struttura sconosciuta ${id}`);
+    if (!Number.isInteger(n) || n < 0) throw new RangeError(`scorte: numero di depositi non valido per ${id}`);
+    total += d.capacity * n;
+  }
+  return total;
+}
+
+/** Scorta dopo un giorno: stock + produzione − consumo, limitata a [0, capacità]. Ritorna { stock, lost (eccesso perso), shortfall (consumo non coperto) }. */
+export function stockAfterDay(stock, produced, consumed, capacity) {
+  const raw = stock + produced - consumed;
+  if (raw < 0) return { stock: 0, lost: 0, shortfall: -raw };
+  if (raw > capacity) return { stock: capacity, lost: raw - capacity, shortfall: 0 };
+  return { stock: raw, lost: 0, shortfall: 0 };
+}

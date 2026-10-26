@@ -50,6 +50,11 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 - Domanda = somma dell'energia delle fabbriche attive; con pool < domanda, la produzione scende in proporzione (da confermare).
 - **Unità (G8, deciso):** tutto in MW. Pool = somma dei MW delle centrali; domanda = somma dei MW delle fabbriche (`energy_consumption` del Pack letto come MW, es. acciaieria 12 MW). Nessuna conversione.
 
+## Scorte di carburante e depositi (G9, deciso 26/10/2026)
+- La scorta massima è la somma della capacità dei depositi costruiti (`data/military/fuel_storage.json`, strutture INF-010/011/012 del Pack): L1 1.500 t, L2 5.000 t, L3 15.000 t. Valori `DESIGN_DEFAULT` approvati.
+- Nessuno stoccaggio gratuito (`baseCapacity = 0`): l'eccesso oltre la capacità si perde (`stockAfterDay`). Un deposito occupa uno slot della provincia (`depot` in `buildings.json`), quindi costruirlo in pace costa un posto che servirebbe a una fabbrica.
+- Calibrazione: un L3 dà circa 85 giorni di un esercito da 175 t/giorno (Germania 1939, stima).
+
 ## Decisioni del 26/10/2026
 - G1 idro: dati forniti dall'utente + stime di Claude (marcate, da mostrare prima).
 - G2: nessun autoconsumo per la centrale a carbone: 120 MWh netti; il consumo 25 del Pack è ignorato (`noSelfConsumption`).
