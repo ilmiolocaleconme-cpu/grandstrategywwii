@@ -53,6 +53,7 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 ## Scorte di carburante e depositi (G9, deciso 26/10/2026)
 - La scorta massima è la somma della capacità dei depositi costruiti (`data/military/fuel_storage.json`, strutture INF-010/011/012 del Pack): L1 1.500 t, L2 5.000 t, L3 15.000 t. Valori `DESIGN_DEFAULT` approvati.
 - Nessuno stoccaggio gratuito (`baseCapacity = 0`): l'eccesso oltre la capacità si perde (`stockAfterDay`). Un deposito occupa uno slot della provincia (`depot` in `buildings.json`), quindi costruirlo in pace costa un posto che servirebbe a una fabbrica.
+- **G10 (deciso):** i depositi valgono per ora SOLO per il carburante. Munizioni e altre merci si decideranno insieme alle unità e ai loro consumi.
 - Calibrazione: un L3 dà circa 85 giorni di un esercito da 175 t/giorno (Germania 1939, stima).
 
 ## Decisioni del 26/10/2026
