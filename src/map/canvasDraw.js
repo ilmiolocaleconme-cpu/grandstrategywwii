@@ -26,12 +26,14 @@ export const COLORS = {
   labelHalo: 'rgba(14, 18, 10, 0.28)',
   lakeLabel: 'rgba(221, 227, 232, 0.72)',
   lakeLabelHalo: 'rgba(10, 36, 60, 0.28)',
+  landBase: '#4a5140', // terra senza provincia: neutra, scura
   seaFill: 'rgba(120, 190, 235, 0.07)',
   cityGrey: '#7d8288', // città (centro urbano)
   cityLabel: 'rgba(252, 240, 200, 0.95)',
   cityLabelHalo: 'rgba(14, 18, 10, 0.6)',
   seaStroke: 'rgba(170, 215, 245, 0.45)',
   straitFill: 'rgba(255, 214, 120, 0.16)',
+  approachFill: 'rgba(120, 190, 235, 0.10)', // zone d'avvicinamento: azzurre e molto tenui, non grigie
   straitStroke: 'rgba(255, 214, 120, 0.7)',
   seaSelFill: 'rgba(255, 214, 120, 0.28)',
   seaSelStroke: '#ffd678',
@@ -223,12 +225,12 @@ function zoneLinePath(z) {
 }
 
 function seaGroups(seas, cull) {
-  const g = { open: new Path2D(), strait: new Path2D(), openLine: new Path2D(), straitLine: new Path2D() };
+  const g = { open: new Path2D(), strait: new Path2D(), approach: new Path2D(), openLine: new Path2D(), straitLine: new Path2D() };
   for (const z of seas.zones) {
     const b = zoneBox(z);
     if (cull && (b.x0 > cull.x1 || b.x1 < cull.x0 || b.y0 > cull.y1 || b.y1 < cull.y0)) continue;
     const strait = z.kind === 'strait' || z.kind === 'approach';
-    g[strait ? 'strait' : 'open'].addPath(zonePath(z));
+    g[z.kind === 'approach' ? 'approach' : strait ? 'strait' : 'open'].addPath(zonePath(z));
     g[strait ? 'straitLine' : 'openLine'].addPath(zoneLinePath(z));
   }
   return g;
@@ -240,9 +242,45 @@ function drawSeas(ctx, seas, selectedSeaId, sx, cull) {
   ctx.lineWidth = 0.8 / sx;
   ctx.fillStyle = COLORS.seaFill; ctx.strokeStyle = COLORS.seaStroke;
   ctx.fill(g.open, 'evenodd'); ctx.stroke(g.openLine);
-  ctx.fillStyle = COLORS.straitFill; ctx.strokeStyle = COLORS.straitStroke;
-  ctx.fill(g.strait, 'evenodd'); ctx.stroke(g.straitLine);
+  // Riempimenti sfumati: il tracciato si disegna lontano fuori dal canvas e la sua ombra sfocata rientra (shadowOffset non risente
+  // della trasformazione), così resta solo il contorno morbido senza il bordo netto che sembrava un taglio nella mappa.
+  featherFill(ctx, g.approach, COLORS.approachFill);
+  featherFill(ctx, g.strait, COLORS.straitFill);
+  ctx.strokeStyle = COLORS.straitStroke;
+  ctx.stroke(g.straitLine);
   ctx.setLineDash([]);
+}
+
+// Terra neutra sotto le province (data/land_base.json): dove le province non arrivano si vede terra, non mare.
+function landPath(land) {
+  if (land.path) return land.path;
+  const p = new Path2D();
+  for (const rings of land.polygons) for (const ring of rings) {
+    p.moveTo(ring[0][0] * COS0, -ring[0][1]);
+    for (let i = 1; i < ring.length; i += 1) p.lineTo(ring[i][0] * COS0, -ring[i][1]);
+    p.closePath();
+  }
+  land.path = p;
+  return p;
+}
+function drawLandBase(ctx, land) {
+  ctx.fillStyle = COLORS.landBase;
+  ctx.fill(landPath(land), 'evenodd');
+}
+
+const FEATHER_PX = 14;
+const FEATHER_OFF = 100000;
+function featherFill(ctx, path, color) {
+  const k = ctx.getTransform().a; // pixel del canvas per unità: lo spostamento dell'ombra è in pixel del canvas
+  ctx.save();
+  ctx.shadowColor = color;
+  ctx.shadowBlur = FEATHER_PX;
+  ctx.shadowOffsetX = FEATHER_OFF;
+  ctx.shadowOffsetY = 0;
+  ctx.fillStyle = '#000';
+  ctx.translate(-FEATHER_OFF / k, 0);
+  ctx.fill(path, 'evenodd');
+  ctx.restore();
 }
 
 // Percorso di un lago (in cache sull'elemento): i laghi si disegnano uno per uno, così quelli fuori dalla regione si saltano.
@@ -297,7 +335,7 @@ const LAKE_CHUNK = 60; // laghi per passo
  * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
 export function* renderBaseSteps(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, transport, resourceFills } = p;
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, transport, resourceFills, land } = p;
   // piastrella: trasformazione e riquadro di ritaglio già calcolati dal chiamante (sx = pixel CSS per unità a quel livello, tx/ty = origine
   // in pixel CSS rispetto alla tela, cull = riquadro in unità di mappa); view.k serve solo alle soglie di fiumi e simili
   const a = p.tile ? { sx: p.tile.sx, tx: p.tile.tx, ty: p.tile.ty } : affineOf(view, vb, lay);
@@ -325,6 +363,7 @@ export function* renderBaseSteps(ctx, p) {
       // sotto le province: la terra copre i bordi imprecisi. Un errore qui non deve mai bloccare la mappa.
       try { drawSeas(ctx, seas, selectedSeaId, a.sx, { x0, x1, y0, y1 }); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
     }
+    if (land) drawLandBase(ctx, land);
     const groups = new Map();
     const singles = []; // percorsi riempiti uno per uno (evenodd annulla le sovrapposizioni dello stesso colore)
     const visible = [];

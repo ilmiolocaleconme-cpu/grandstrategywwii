@@ -35,6 +35,12 @@ const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
 export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
+  const [land, setLand] = useState(null); // terra di base (~350 kB), caricata dopo la mappa: un errore non blocca nulla
+  useEffect(() => {
+    let alive = true;
+    import('../../data/land_base.json').then((m) => alive && setLand(m.default)).catch(() => {});
+    return () => { alive = false; };
+  }, []);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
     () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, riverTier) : EMPTY_WATER),
@@ -54,7 +60,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, tiles: new TileStore(TILE_LIMIT), gen: 0, job: null, pumpTimer: 0, tileDev: TILE_CSS, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, scratch: null, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, resourceFills };
+  props.current = { land, model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, resourceFills };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
   // zoom minimo: tutto il mondo e non più (niente copie affiancate della mappa)
@@ -109,7 +115,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view: { k: sx / l.s, x: 0, y: 0 }, vb: VB, lay: l, dpr: dprT,
       region: { x: 0, y: 0, w: size / dprT, h: size / dprT }, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers,
       seas: p.showSeas ? p.seaData : null, selectedSeaId: null, copies: [-WORLD_W, 0, WORLD_W], transport: p.transportModel, resourceFills: p.resourceFills,
-      trace: window.__gsTrace, light: false, tile,
+      land: p.land, trace: window.__gsTrace, light: false, tile,
     });
     return { z, c, r, canvas, it, gen: s.gen, key: tileKey(z, c, r), water: Boolean(p.water.lines.length && p.showRivers) };
   };
@@ -443,7 +449,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       // i nomi partono solo dopo che la prima schermata è stata presentata (due fotogrammi)
       requestAnimationFrame(() => requestAnimationFrame(() => { s.painted = true; setViewRev((n) => n + 1); }));
     }
-  }, [size, model, water, layer, showRivers, seaData, showSeas, transportModel, resourceFills]);
+  }, [size, model, water, layer, showRivers, seaData, showSeas, transportModel, resourceFills, land]);
   // la selezione della provincia cambia solo la sovrapposizione
   useEffect(() => { paintOverlay(); }, [selectedId, selectedSeaId, seaData, showSeas, layer, anchoredResources]);
 
