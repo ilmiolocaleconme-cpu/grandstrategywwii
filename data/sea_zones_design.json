@@ -1727,6 +1727,56 @@
    "strategic": true
   },
   {
+   "id": "SZ_MARE_GIAPPONE_NORD",
+   "name": "Mare del Giappone settentrionale",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 138.5,
+   "lat": 44.3,
+   "radiusKm": 480,
+   "strategic": true
+  },
+  {
+   "id": "SZ_STRETTO_TATARI",
+   "name": "Stretto dei Tatari",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 140.8,
+   "lat": 50.2,
+   "radiusKm": 330,
+   "strategic": true
+  },
+  {
+   "id": "SZ_STRETTO_LA_PEROUSE",
+   "name": "Stretto di La Pérouse",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 142,
+   "lat": 45.8,
+   "radiusKm": 110,
+   "strategic": true
+  },
+  {
+   "id": "SZ_STRETTO_TSUGARU",
+   "name": "Stretto di Tsugaru",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 140.6,
+   "lat": 41.6,
+   "radiusKm": 110,
+   "strategic": true
+  },
+  {
+   "id": "SZ_TOHOKU_PAC",
+   "name": "Pacifico di Tōhoku e Hokkaidō",
+   "kind": "approach",
+   "region": "asia_orientale",
+   "lon": 144.3,
+   "lat": 41.6,
+   "radiusKm": 420,
+   "strategic": false
+  },
+  {
    "id": "SZ_STRETTO_TSUSHIMA",
    "name": "Stretto di Corea e di Tsushima",
    "kind": "strait",
