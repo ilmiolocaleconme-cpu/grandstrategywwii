@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { focusView } from './focus.js';
 import { HOME_BOUNDS, LAYERS, MAX_K, MAX_LAT, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
@@ -33,7 +34,7 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, focus, dataReady, onReady }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   const [land, setLand] = useState(null); // terra di base (~350 kB), caricata dopo la mappa: un errore non blocca nulla
   useEffect(() => {
@@ -60,7 +61,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, tiles: new TileStore(TILE_LIMIT), gen: 0, job: null, pumpTimer: 0, tileDev: TILE_CSS, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, scratch: null, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { land, model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, resourceFills };
+  props.current = { dataReady, onReady, land, model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, resourceFills };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
   // zoom minimo: tutto il mondo e non più (niente copie affiancate della mappa)
@@ -437,6 +438,30 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       }, 0);
     })));
   };
+
+  // inquadratura iniziale sulla nazione scelta: una sola volta per nazione, prima del primo disegno
+  const focusKey = focus ? `${focus.lon0},${focus.lat0},${focus.lon1},${focus.lat1}` : '';
+  useEffect(() => {
+    const s = st.current;
+    if (!size.w || !focus || s.focusKey === focusKey) return;
+    s.focusKey = focusKey;
+    s.view = focusView(focus, s.size.w, s.size.h, VB);
+    if (s.view.k < minK()) s.view = wrapView(zoomAt(s.view, minK() / s.view.k, VB.x + VB.w / 2, VB.y + VB.h / 2, 0, MAX_K), VB);
+  }, [size, focusKey]);
+
+  // mappa pronta: dati caricati, bordi costruiti e tutte le piastrelle dello schermo al livello giusto, stabili per due controlli di fila
+  useEffect(() => {
+    let steady = 0;
+    let lastGen = -1;
+    const id = setInterval(() => {
+      const s = st.current;
+      const ok = props.current.dataReady && s.borders && s.size.w > 0 && baseRef.current?.dataset.tileMiss === '0' && !s.job;
+      steady = ok && s.gen === lastGen ? steady + 1 : 0;
+      lastGen = s.gen;
+      if (steady >= 2) { clearInterval(id); props.current.onReady?.(); }
+    }, 250);
+    return () => clearInterval(id);
+  }, []);
 
   // primo disegno e ridisegno quando cambiano i dati o le opzioni che cambiano la scena
   useEffect(() => {
