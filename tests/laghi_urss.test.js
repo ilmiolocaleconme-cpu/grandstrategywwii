@@ -10,7 +10,7 @@ const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.
 const lakes = read('lakes.json');
 const provinces = await loadProvinces();
 const index = buildProvinceIndex(provinces);
-const added = lakes.features.filter((f) => /v5\.2\.0-pre/.test(f.properties.source));
+const added = lakes.features.filter((f) => /v5\.2\.0-pre/.test(f.properties.source) && !/, world$/.test(f.properties.source));
 const byName = new Map(added.filter((f) => f.properties.name).map((f) => [f.properties.name, f]));
 
 const inRing = (x, y, r) => {
