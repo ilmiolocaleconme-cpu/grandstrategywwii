@@ -134,6 +134,27 @@ function rayExtent(x, y, dx, dy, rings) {
   return { tp, tn };
 }
 
+// Il segmento (ax,ay)-(bx,by) attraversa o tocca l'interno del rettangolo [-hw,hw] x [-hh,hh]? (Liang-Barsky)
+function segmentHitsBox(ax, ay, bx, by, hw, hh) {
+  let t0 = 0;
+  let t1 = 1;
+  const dx = bx - ax;
+  const dy = by - ay;
+  const clip = (p, q) => {
+    if (p === 0) return q > 0;
+    const r = q / p;
+    if (p < 0) {
+      if (r > t1) return false;
+      if (r > t0) t0 = r;
+    } else {
+      if (r < t0) return false;
+      if (r < t1) t1 = r;
+    }
+    return true;
+  };
+  return clip(-dx, ax + hw) && clip(dx, hw - ax) && clip(-dy, ay + hh) && clip(dy, hh - ay) && t0 < t1;
+}
+
 // Il rettangolo del testo (allargato del 3 %) deve stare dentro il poligono: punti campionati sul perimetro e
 // sull'interno, e nessun vertice del poligono (spigoli, isole sottili) dentro il rettangolo.
 export function textRectOk(x, y, angle, wUnits, hUnits, rings) {
@@ -148,13 +169,18 @@ export function textRectOk(x, y, angle, wUnits, hUnits, rings) {
     const u = -hw + ((2 * hw) * i) / N;
     if (!at(u, -hh) || !at(u, hh) || !at(u, 0)) return false;
   }
+  // nessuno spigolo del poligono (anche senza vertici dentro: un cuneo che taglia un angolo) deve attraversare il rettangolo
   for (const ring of rings) {
-    for (const [px, py] of ring) {
-      const dx = px - x;
-      const dy = py - y;
-      const u = c * dx + s * dy;
-      const v = -s * dx + c * dy;
-      if (Math.abs(u) < hw && Math.abs(v) < hh) return false;
+    let ax = 0;
+    let ay = 0;
+    for (let i = 0; i < ring.length; i += 1) {
+      const dx = ring[i][0] - x;
+      const dy = ring[i][1] - y;
+      const bx = c * dx + s * dy;
+      const by = -s * dx + c * dy;
+      if (i > 0 && segmentHitsBox(ax, ay, bx, by, hw, hh)) return false;
+      ax = bx;
+      ay = by;
     }
   }
   return true;

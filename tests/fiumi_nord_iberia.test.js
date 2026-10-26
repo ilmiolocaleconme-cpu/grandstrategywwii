@@ -20,12 +20,15 @@ const model = buildRiverModel(catalog.rivers, catalog.riversGeo);
 const byId = new Map(catalog.rivers.map((r) => [r.id, r]));
 const index = buildProvinceIndex(provinces);
 
-test('catalogo valido, 540 fiumi e 2044 tratti, ogni fiume ha almeno un tratto', () => {
+test('catalogo valido, 540 fiumi e 2044 tratti (senza il mondo), ogni fiume ha almeno un tratto', () => {
   const v = validateCatalog(catalog);
   assert.equal(v.ok, true, v.errors.join('|'));
-  assert.equal(catalog.rivers.length, 540);
-  assert.equal(catalog.riversGeo.features.length, 2044);
-  assert.equal(new Set(catalog.rivers.map((r) => r.id)).size, 540);
+  const isWorld = (r) => /, world$/.test(r.source);
+  const base = catalog.rivers.filter((r) => !isWorld(r));
+  const worldIds = new Set(catalog.rivers.filter(isWorld).map((r) => r.id));
+  assert.equal(base.length, 540);
+  assert.equal(catalog.riversGeo.features.filter((f) => !f.properties.world && !worldIds.has(f.properties.riverId)).length, 2044);
+  assert.equal(new Set(catalog.rivers.map((r) => r.id)).size, catalog.rivers.length);
 });
 
 test('fiumi aggiunti: fonte, licenza, stime dichiarate, nessun canale e nessun fiume francese', () => {
@@ -38,7 +41,7 @@ test('fiumi aggiunti: fonte, licenza, stime dichiarate, nessun canale e nessun f
     assert.ok(r.knownIssues.includes('modern_course_not_1936'), r.id);
     assert.ok(r.lengthKm >= 25, r.id);
   }
-  for (const id of ['R_SUEZ_CANAL', 'R_CALEDONIAN_CANAL', 'R_ISMAILIYA_CANAL', 'R_GARONNE']) assert.equal(byId.has(id), false, id);
+  for (const id of ['R_SUEZ_CANAL', 'R_CALEDONIAN_CANAL', 'R_ISMAILIYA_CANAL', 'R_GARONNE']) assert.equal(byId.has(id) && !/, world$/.test(byId.get(id).source), false, id); // la Garonna entra solo con il mondo
 });
 
 test('copertura per territorio: fiumi presenti e fiumi assenti dalla fonte', () => {

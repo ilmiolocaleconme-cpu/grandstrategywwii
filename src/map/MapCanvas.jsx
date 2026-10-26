@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { HOME_BOUNDS, LAYERS, MAX_K, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
+import { HOME_BOUNDS, LAYERS, MAX_K, MAX_LAT, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
-import { affineOf, blitPlan, coversScreenWrap, gestureRenderDelay, layoutOf, lodLevelForScale, screenToUnit, screenToView, tileOffsets } from './canvasView.js';
-import { COLORS, drawOverlay, renderBase, renderBaseSteps } from './canvasDraw.js';
+import { affineOf, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
+import { MAX_LEVEL, TILE_BLEED, TILE_CSS, TileStore, ancestorOf, childrenOf, columns, levelFor, levelScale, tileKey, tileOrigin, tileRect, visibleTiles } from './tiles.js';
+import { COLORS, drawOverlay, renderBaseSteps } from './canvasDraw.js';
 import { resolveResourceAnchors, resolveResourceFills } from '../data/provinceResources.js';
 import { buildLinksModel } from './transportView.js';
 import { seaZoneAt } from './seaView.js';
@@ -18,7 +19,11 @@ import { pickStaticLabels } from './labelview.js';
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
 const MAX_DPR = 2; // oltre, il costo di disegno cresce senza vantaggi visibili
-const MARGIN = 0.4; // margine della bitmap attorno allo schermo (frazione di W e H)
+const PYRAMID_LEVELS = 0; // livelli intermedi prima di quello giusto: con 3 il riempimento dopo un salto di zoom raddoppiava (le piastrelle dei livelli bassi costano molto)
+const PREFETCH_NEXT = 4;
+const IDLE_PREFETCH = true; // a schermo fermo prepara anche un secondo giro di piastrelle e i livelli vicini // piastrelle del livello successivo preparate a schermo fermo
+const FADE_MS = 160; // dissolvenza di una piastrella nuova sopra quella provvisoria: niente scatto da sfocato a nitido
+const TILE_LIMIT = 72; // piastrelle in cache (a dpr 2 circa 1 MB l'una)
 const LOD_METHOD = 'radial'; // 'radial' (veloce, usata) o 'dp' (Douglas-Peucker in secondo piano: più fedele, ma ricostruisce i tracciati)
 const IDLE_MS = 160; // gesto fermo: dettaglio pieno e nomi
 const PAD = HOME_BOUNDS.w * 0.02;
@@ -46,7 +51,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const [labelPass, setLabelPass] = useState(0);
 
   // stato mutabile del disegno: fuori da React, così il gesto non provoca ridisegni dell'interfaccia
-  const st = useRef({ view: IDENTITY, cache: null, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, renderTimer: 0, renderDue: 0, slice: null, spare: null, scratch: null, lastEnd: -Infinity, lastCost: 0, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
+  const st = useRef({ view: IDENTITY, tiles: new TileStore(TILE_LIMIT), gen: 0, job: null, pumpTimer: 0, tileDev: TILE_CSS, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, scratch: null, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
   props.current = { model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, resourceFills };
@@ -55,124 +60,149 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   // zoom minimo: tutto il mondo e non più (niente copie affiancate della mappa)
   const minK = () => { const z = st.current.size; return minZoomToFit(z.w, z.h, lay().s); };
 
-  // --- disegno --------------------------------------------------------------------------------------------
-  const copiesFor = (view, region, l) => {
-    const [x0, y0] = screenToView(VB, l, region.x, region.y);
-    const [x1, y1] = screenToView(VB, l, region.x + region.w, region.y + region.h);
-    return visibleCopies(view, { x: x0, y: y0, w: x1 - x0, h: y1 - y0 }, props.current.model.bounds);
-  };
+  // --- disegno a piastrelle ----------------------------------------------------------------------------------
+  // La scena non è un'unica immagine ridisegnata a ogni spostamento: il mondo è diviso in piastrelle (vedi tiles.js) che si
+  // disegnano una volta sola per livello di zoom e restano in cache. Trascinare significa copiare piastrelle già pronte;
+  // le nuove si disegnano una alla volta in secondo piano (dal centro verso fuori) e, finché non sono pronte, al loro posto si
+  // vede la versione meno (o più) dettagliata già in cache: lo schermo non resta mai vuoto e nulla si ridisegna da capo.
 
-  // versione semplificata per lo zoom corrente: se la definitiva (Douglas-Peucker, in secondo piano) non è ancora pronta
-  // se ne ricava subito una veloce, così la prima schermata non disegna tutti i 222.000 vertici
-  const ensureLevel = (view) => {
+  // versione semplificata per la scala `sx` (pixel CSS per unità): se la definitiva (in secondo piano) non è ancora pronta
+  // se ne ricava subito una veloce, così la prima schermata non disegna tutti i vertici
+  const ensureLevel = (sx) => {
     const s = st.current;
-    const lv = lodLevelForScale(affineOf(view, VB, lay()).sx, CANVAS_LOD_TOLS);
+    const lv = lodLevelForScale(sx, CANVAS_LOD_TOLS);
     if (lv >= CANVAS_LOD_TOLS.length) return;
     if (!s.lod.levels[lv]) s.lod.levels[lv] = createLodJob(props.current.model, CANVAS_LOD_TOLS[lv], 'radial').step(Infinity);
     if (s.borders && !s.borders.levels[lv]) s.borders.levels[lv] = createBorderLodJob(s.borders, CANVAS_LOD_TOLS[lv], 'radial').step(Infinity);
   };
 
-  const renderCache = (light = false) => {
-    const s = st.current;
-    cancelSlice();
-    const { w, h } = s.size;
-    if (!w || !h) return;
-    const p = props.current;
-    const dpr = s.dpr;
-    const mx = Math.round(w * MARGIN);
-    const my = Math.round(h * MARGIN);
-    const region = { x: -mx, y: -my, w: w + 2 * mx, h: h + 2 * my };
-    let c = s.cache?.canvas;
-    const pw = Math.round(region.w * dpr);
-    const ph = Math.round(region.h * dpr);
-    if (!c || c.width !== pw || c.height !== ph) { c = document.createElement('canvas'); c.width = pw; c.height = ph; }
-    const l = lay();
-    const view = s.view;
-    ensureLevel(view);
-    renderBase(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, resourceFills: p.resourceFills, trace: window.__gsTrace, light });
-    s.cache = { canvas: c, view: { ...view }, region, light };
-    baseRef.current.dataset.drawn = '1';
-    if (p.water.lines.length && p.showRivers && !light) baseRef.current.dataset.water = '1';
-  };
-
-  // --- ridisegno completo a passi ---------------------------------------------------------------------------
-  // Il ridisegno completo (contorni, bordi, laghi, fiumi) costa da centinaia di ms a secondi sul telefono: in un solo compito
-  // blocca i gesti. Qui si guida renderBaseSteps un passo alla volta, lasciando passare i tocchi (setTimeout) e forzando la
-  // rasterizzazione dopo ogni passo (la tela la rimanda fino alla prima lettura). Si disegna su una seconda tela (doppio buffer):
-  // l'immagine mostrata resta intatta finché i riempimenti non sono pronti, poi si vede comparire il resto un passo alla volta.
-  // Un nuovo gesto (o un nuovo ridisegno) interrompe quello in corso.
-  const cancelSlice = () => {
-    const s = st.current;
-    const sl = s.slice;
-    if (!sl) return;
-    clearTimeout(sl.timer);
-    if (!sl.exposed) s.spare = sl.canvas; // mai mostrata: si può riusare
-    s.slice = null;
-  };
-
   const flushCanvas = (c) => {
     const s = st.current;
     if (!s.scratch) { s.scratch = document.createElement('canvas'); s.scratch.width = 1; s.scratch.height = 1; }
-    s.scratch.getContext('2d').drawImage(c, 0, 0, 1, 1, 0, 0, 1, 1);
+    s.scratch.getContext('2d').drawImage(c, 0, 0, 1, 1, 0, 0, 1, 1); // la tela rimanda la rasterizzazione alla prima lettura: la si forza qui
   };
 
-  const SLICE_BUDGET_MS = 8; // più passi nello stesso compito finché ci stanno in questo tempo
-
-  const coversNow = () => {
+  // La scena è cambiata (dati, opzioni, bordi): le piastrelle in cache restano visibili finché la nuova non è pronta, poi la sostituiscono.
+  const invalidate = () => {
     const s = st.current;
-    const c = s.cache;
-    if (!c) return false;
-    return coversScreenWrap(blitPlan(c.view, s.view, VB, lay(), c.region), s.size.w, s.size.h, WORLD_W * affineOf(s.view, VB, lay()).sx);
+    s.gen += 1;
+    if (s.job) { s.tiles.pool.push(s.job.canvas); s.job = null; }
+    pumpTiles();
   };
 
-  const renderFull = () => {
+  const tileCss = () => st.current.tileDev / TILE_CSS; // pixel dispositivo per pixel CSS delle piastrelle (intero se dpr lo è)
+
+  const startJob = (z, c, r) => {
     const s = st.current;
-    cancelSlice();
-    const { w, h } = s.size;
-    if (!w || !h) return;
     const p = props.current;
-    const dpr = s.dpr;
-    const mx = Math.round(w * MARGIN);
-    const my = Math.round(h * MARGIN);
-    const region = { x: -mx, y: -my, w: w + 2 * mx, h: h + 2 * my };
-    const pw = Math.round(region.w * dpr);
-    const ph = Math.round(region.h * dpr);
-    let c = s.spare;
-    s.spare = null;
-    if (!c || c.width !== pw || c.height !== ph) { c = document.createElement('canvas'); c.width = pw; c.height = ph; }
+    const dprT = tileCss();
+    const { x0, y0, span } = tileOrigin(z, c, r, WORLD_W);
+    const sx = levelScale(z, WORLD_W);
+    const size = s.tileDev + 2 * TILE_BLEED;
+    let canvas = s.tiles.take();
+    if (!canvas || canvas.width !== size) { canvas = document.createElement('canvas'); canvas.width = size; canvas.height = size; }
+    const bleed = TILE_BLEED / dprT; // pixel CSS
     const l = lay();
-    const view = s.view;
-    ensureLevel(view);
-    const gen = renderBaseSteps(c.getContext('2d'), { model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view, vb: VB, lay: l, dpr, region, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, copies: copiesFor(view, region, l), transport: p.transportModel, resourceFills: p.resourceFills, trace: window.__gsTrace, light: false });
-    const sl = { canvas: c, exposed: false, timer: 0, view: { ...view } };
-    s.slice = sl;
-    const expose = () => {
-      const old = s.cache?.canvas;
-      s.cache = { canvas: c, view: { ...view, x: view.x + (sl.dx ?? 0) }, region, light: false };
-      if (old && old !== c) s.spare = old;
-      sl.exposed = true;
-      baseRef.current.dataset.drawn = '1';
-    };
-    const tick = () => {
-      if (s.slice !== sl) return;
-      const t0 = performance.now();
-      let done = false;
-      do {
-        const r = gen.next();
-        if (r.done) { done = true; break; }
-        flushCanvas(c);
-        // la scena nuova si mostra solo quando è finita (prima ci sarebbe un'immagine senza linee che poi le riacquista),
-        // salvo che manchi l'immagine attuale o non copra più lo schermo
-        if (!sl.exposed && (!s.cache || !coversNow())) expose();
-      } while (performance.now() - t0 < SLICE_BUDGET_MS);
-      if (done) {
-        if (!sl.exposed) expose();
-        s.slice = null;
-        if (p.water.lines.length && props.current.showRivers) baseRef.current.dataset.water = '1';
-      } else sl.timer = setTimeout(tick, 0);
-      blit();
-    };
-    tick();
+    ensureLevel(sx);
+    const tile = { sx, tx: bleed - x0 * sx, ty: bleed - y0 * sx, cull: { x0: x0 - bleed / sx, x1: x0 + span + bleed / sx, y0: y0 - bleed / sx, y1: y0 + span + bleed / sx } };
+    const it = renderBaseSteps(canvas.getContext('2d'), {
+      model: p.model, lod: s.lod, borders: s.borders, water: p.water.lines.length ? p.water : null, view: { k: sx / l.s, x: 0, y: 0 }, vb: VB, lay: l, dpr: dprT,
+      region: { x: 0, y: 0, w: size / dprT, h: size / dprT }, layer: p.layer, nationControl: p.nationControl, showRivers: p.showRivers,
+      seas: p.showSeas ? p.seaData : null, selectedSeaId: null, copies: [-WORLD_W, 0, WORLD_W], transport: p.transportModel, resourceFills: p.resourceFills,
+      trace: window.__gsTrace, light: false, tile,
+    });
+    return { z, c, r, canvas, it, gen: s.gen, key: tileKey(z, c, r), water: Boolean(p.water.lines.length && p.showRivers) };
+  };
+
+  // piastrelle da avere, in ordine: il livello 0 (sempre in cache: ultima risorsa), poi quelle sullo schermo, poi un giro attorno
+  const wantedTiles = () => {
+    const s = st.current;
+    const a = affineOf(s.view, VB, lay());
+    const z = levelFor(a.sx, WORLD_W);
+    const out = [];
+    if (z > 0) {
+      const span0 = WORLD_W / columns(0);
+      for (let r = Math.floor(-MAX_LAT / span0); r <= Math.floor((MAX_LAT - 1e-9) / span0); r += 1) for (let c = 0; c < columns(0); c += 1) out.push({ z: 0, c, r, keep: true });
+    }
+    const screen = visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 0);
+    // piramide, dal grossolano al fine: dopo un salto di zoom grande, prima i pochi tasselli dei 3 livelli sopra (ognuno copre 4 volte
+    // l'area del successivo, quindi costano poco) e solo dopo quelli del livello giusto. Così in pochi decimi di secondo lo schermo passa
+    // da una macchia ingrandita 16 volte a una a metà dettaglio, e non resta sfocato per tutto il tempo del riempimento.
+    for (let k = Math.min(PYRAMID_LEVELS, z - 1); k >= 1; k -= 1) {
+      const seenUp = new Set();
+      for (const t of screen) {
+        const an = ancestorOf(t.c, t.r, k);
+        const key = `${an.c}/${an.r}`;
+        if (seenUp.has(key)) continue;
+        seenUp.add(key);
+        out.push({ z: z - k, c: an.c, r: an.r, keep: false });
+      }
+    }
+    for (const t of screen) out.push({ z, c: t.c, r: t.r, keep: z === 0 });
+    const seen = new Set(screen.map((t) => `${t.ci}/${t.r}`));
+    for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 1)) if (!seen.has(`${t.ci}/${t.r}`)) out.push({ z, c: t.c, r: t.r, keep: z === 0 });
+    if (IDLE_PREFETCH && !s.moving) {
+      // a schermo fermo, in anticipo: un secondo giro attorno (il prossimo trascinamento trova già tutto), le piastrelle più vicine al centro
+      // del livello successivo (il prossimo zoom parte già nitido) e quelle del livello sopra (per rimpicciolire)
+      const seen1 = new Set(visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 1).map((t) => `${t.ci}/${t.r}`));
+      for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 2)) if (!seen1.has(`${t.ci}/${t.r}`)) out.push({ z, c: t.c, r: t.r, keep: z === 0 });
+      if (z < MAX_LEVEL) for (const t of visibleTiles(z + 1, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 0).slice(0, PREFETCH_NEXT)) out.push({ z: z + 1, c: t.c, r: t.r, keep: false });
+      if (z > 1) {
+        const seenUp = new Set();
+        for (const t of screen) {
+          const an = ancestorOf(t.c, t.r, 1);
+          const key = `${an.c}/${an.r}`;
+          if (seenUp.has(key)) continue;
+          seenUp.add(key);
+          out.push({ z: z - 1, c: an.c, r: an.r, keep: false });
+        }
+      }
+    }
+    return out;
+  };
+
+  const nextMissing = () => {
+    const s = st.current;
+    for (const w of wantedTiles()) {
+      const t = s.tiles.touch(tileKey(w.z, w.c, w.r)); // quelle volute non si scartano
+      if (!t || t.gen !== s.gen) return w;
+    }
+    return null;
+  };
+
+  const runPump = () => {
+    const s = st.current;
+    s.pumpTimer = 0;
+    if (!s.size.w) return;
+    const t0 = performance.now();
+    const budget = s.moving ? 5 : 12;
+    let done = 0;
+    do {
+      if (!s.job) {
+        const w = nextMissing();
+        if (!w) break;
+        s.job = startJob(w.z, w.c, w.r);
+        s.job.keep = w.keep;
+      }
+      const j = s.job;
+      const r = j.it.next();
+      if (r.done) {
+        const had = s.tiles.get(j.key);
+        s.tiles.set(j.key, { canvas: j.canvas, gen: j.gen, keep: j.keep, born: had ? 0 : performance.now() }); // sostituzione di una versione vecchia: nessuna dissolvenza
+        s.job = null;
+        done += 1;
+        baseRef.current.dataset.drawn = '1';
+        if (j.water) baseRef.current.dataset.water = '1';
+      } else flushCanvas(j.canvas);
+    } while (performance.now() - t0 < budget);
+    if (done) requestFrame();
+    if (s.job || nextMissing()) pumpTiles(); // altre da fare: dopo una pausa breve se c'è un gesto in corso
+  };
+
+  const pumpTiles = () => {
+    const s = st.current;
+    if (s.pumpTimer) return;
+    s.pumpTimer = setTimeout(runPump, s.moving ? 30 : 0);
   };
 
   const paintOverlay = () => {
@@ -185,47 +215,75 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, labels: s.labels, copies, layer: p.layer, provinceResources: p.provinceResources });
   };
 
-  // porta l'ultima immagine disegnata alla vista corrente (trascinamento e zoom costano solo questo)
+  // porta alla vista corrente le piastrelle in cache (trascinamento e zoom costano solo questo)
   const blit = () => {
     const s = st.current;
     const base = baseRef.current;
     if (!base || !s.size.w) return;
     const ctx = base.getContext('2d');
+    const dpr = s.dpr;
+    const l = lay();
+    const a = affineOf(s.view, VB, l);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.fillStyle = COLORS.sea;
     ctx.fillRect(0, 0, base.width, base.height);
-    const c = s.cache;
-    if (c) {
-      const plan = blitPlan(c.view, s.view, VB, lay(), c.region);
-      const period = WORLD_W * affineOf(s.view, VB, lay()).sx; // un giro del mondo in pixel
-      for (const dx of tileOffsets(plan, period, s.size.w)) ctx.drawImage(c.canvas, 0, 0, c.canvas.width, c.canvas.height, (plan.x + dx) * s.dpr, plan.y * s.dpr, plan.w * s.dpr, plan.h * s.dpr);
-      // bordi vuoti o immagine troppo ingrandita/rimpicciolita: serve un nuovo disegno senza aspettare la fine del gesto,
-      // ma a ritmo controllato (ogni ridisegno è sincrono: se parte a ogni fotogramma il gesto si blocca)
-      const delay = gestureRenderDelay({ covers: coversScreenWrap(plan, s.size.w, s.size.h, period), ratio: plan.r, now: performance.now(), lastEnd: s.lastEnd, lastCost: s.lastCost });
-      if (delay !== null) scheduleRender(delay);
+    const z = levelFor(a.sx, WORLD_W);
+    s.tiles.nextFrame();
+    const T = s.tileDev;
+    const B = TILE_BLEED;
+    const full = T + 2 * B;
+    let missing = 0;
+    let fading = false;
+    const now = performance.now();
+    // al posto di una piastrella assente: le 4 del livello più fine (se ci sono tutte), altrimenti il quadrante di quella più grossolana
+    const drawFallback = (t, dx0, dy0, dx1, dy1) => {
+      if (z < MAX_LEVEL) {
+        const kids = childrenOf(t.c, t.r).map((k) => ({ ...k, tile: s.tiles.touch(tileKey(z + 1, k.c, k.r)) }));
+        if (kids.every((k) => k.tile)) {
+          const mx = Math.round((dx0 + dx1) / 2);
+          const my = Math.round((dy0 + dy1) / 2);
+          for (const k of kids) ctx.drawImage(k.tile.canvas, B, B, T, T, k.qx ? mx : dx0, k.qy ? my : dy0, (k.qx ? dx1 : mx) - (k.qx ? mx : dx0), (k.qy ? dy1 : my) - (k.qy ? my : dy0));
+          return true;
+        }
+      }
+      for (let dz = 1; dz <= z; dz += 1) {
+        const an = ancestorOf(t.c, t.r, dz);
+        const pt = s.tiles.touch(tileKey(z - dz, an.c, an.r));
+        if (!pt) continue;
+        const sz = T / an.f;
+        ctx.drawImage(pt.canvas, B + an.qx * sz, B + an.qy * sz, sz, sz, dx0, dy0, dx1 - dx0, dy1 - dy0);
+        return true;
+      }
+      return false;
+    };
+    for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 0)) {
+      const rc = tileRect(z, t.ci, t.r, a, WORLD_W);
+      const dx0 = Math.round(rc.x * dpr);
+      const dy0 = Math.round(rc.y * dpr);
+      const dx1 = Math.round((rc.x + rc.w) * dpr);
+      const dy1 = Math.round((rc.y + rc.h) * dpr);
+      const exact = s.tiles.touch(tileKey(z, t.c, t.r));
+      if (exact) {
+        if (exact.gen !== s.gen) missing += 1;
+        const fx = (dx1 - dx0) / T;
+        const fy = (dy1 - dy0) / T;
+        const age = exact.born ? now - exact.born : FADE_MS;
+        if (age < FADE_MS) { // appena disegnata: si dissolve sopra la versione provvisoria
+          fading = true;
+          drawFallback(t, dx0, dy0, dx1, dy1);
+          ctx.globalAlpha = age / FADE_MS;
+        }
+        ctx.drawImage(exact.canvas, 0, 0, full, full, dx0 - B * fx, dy0 - B * fy, full * fx, full * fy);
+        ctx.globalAlpha = 1;
+        continue;
+      }
+      missing += 1;
+      drawFallback(t, dx0, dy0, dx1, dy1);
     }
+    if (fading) startFade(); // la dissolvenza va avanti finché dura
+    base.dataset.tileMiss = String(missing); // diagnostica dei test: piastrelle dello schermo non ancora al livello giusto
+    if (missing || s.tiles.size < 4) pumpTiles();
     paintOverlay();
-  };
-
-  // Ridisegno programmato: se ce n'è già uno in programma e non più tardi, si lascia quello (senza rimandarlo a ogni fotogramma).
-  // A gesto in corso è la versione leggera (solo mare e riempimenti: i contorni, i bordi, i laghi e i fiumi sono il grosso del costo);
-  // il costo misurato (ridisegno + presentazione, che è dove la tela rasterizza) regola il ritmo del prossimo.
-  const scheduleRender = (delay) => {
-    const s = st.current;
-    const due = performance.now() + delay;
-    if (s.renderTimer && s.renderDue <= due) return;
-    clearTimeout(s.renderTimer);
-    s.renderDue = due;
-    s.renderTimer = setTimeout(() => {
-      s.renderTimer = 0;
-      s.renderDue = 0;
-      const t0 = performance.now();
-      renderFull(); // a passi (non blocca i gesti); a gesto in corso la scena nuova si mostra solo finita
-      s.lastEnd = performance.now(); // provvisorio: se blit() chiedesse subito un altro ridisegno, rispetterebbe comunque il ritmo
-      blit();
-      s.lastEnd = performance.now();
-      s.lastCost = s.lastEnd - t0;
-    }, delay);
   };
 
   const requestFrame = () => {
@@ -234,34 +292,60 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     s.raf = requestAnimationFrame(() => { s.raf = 0; blit(); });
   };
 
-  // gesto fermo: giro del mondo normalizzato, dettaglio pieno, poi i nomi
+  // Dissolvenza: finché una piastrella è appena nata (FADE_MS) la si ridisegna da sola, con opacità crescente, sopra quello che c'è già
+  // (la versione provvisoria): niente ridisegno dell'intera scena a ogni fotogramma, che rallentava il riempimento di un terzo.
+  const fadeStep = () => {
+    const s = st.current;
+    s.fadeRaf = 0;
+    const base = baseRef.current;
+    if (!base || !s.size.w) return;
+    const ctx = base.getContext('2d');
+    const dpr = s.dpr;
+    const a = affineOf(s.view, VB, lay());
+    const z = levelFor(a.sx, WORLD_W);
+    const T = s.tileDev;
+    const B = TILE_BLEED;
+    const full = T + 2 * B;
+    const now = performance.now();
+    let more = false;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 0)) {
+      const ex = s.tiles.get(tileKey(z, t.c, t.r));
+      if (!ex || !ex.born) continue;
+      const age = now - ex.born;
+      const rc = tileRect(z, t.ci, t.r, a, WORLD_W);
+      const dx0 = Math.round(rc.x * dpr);
+      const dy0 = Math.round(rc.y * dpr);
+      const dx1 = Math.round((rc.x + rc.w) * dpr);
+      const dy1 = Math.round((rc.y + rc.h) * dpr);
+      const fx = (dx1 - dx0) / T;
+      const fy = (dy1 - dy0) / T;
+      ctx.globalAlpha = Math.min(1, age / FADE_MS);
+      ctx.drawImage(ex.canvas, 0, 0, full, full, dx0 - B * fx, dy0 - B * fy, full * fx, full * fy);
+      if (age >= FADE_MS) ex.born = 0; else more = true;
+    }
+    ctx.globalAlpha = 1;
+    if (more) s.fadeRaf = requestAnimationFrame(fadeStep);
+  };
+  const startFade = () => {
+    const s = st.current;
+    if (!s.fadeRaf) s.fadeRaf = requestAnimationFrame(fadeStep);
+  };
+
+  // gesto fermo: giro del mondo normalizzato, poi i nomi
   const settle = () => {
     const s = st.current;
     s.moving = false;
-    const unwrapped = s.view;
-    s.view = wrapView(s.view, VB);
-    // il giro del mondo cambia solo il modo di contare (la mappa si ripete): l'immagine già disegnata resta valida,
-    // basta spostare di altrettanto la vista a cui si riferisce (altrimenti finisce fuori schermo e la mappa sparisce)
-    const dx = s.view.x - unwrapped.x;
-    if (dx !== 0) {
-      if (s.cache) s.cache = { ...s.cache, view: { ...s.cache.view, x: s.cache.view.x + dx } };
-      if (s.slice) { s.slice.dx = (s.slice.dx ?? 0) + dx; s.slice.view = { ...s.slice.view, x: s.slice.view.x + dx }; }
-    }
+    s.view = wrapView(s.view, VB); // il giro del mondo cambia solo il modo di contare: le piastrelle si ripetono
     if (s.view.k < minK()) s.view = wrapView(zoomAt(s.view, minK() / s.view.k, VB.x + VB.w / 2, VB.y + VB.h / 2, 0, MAX_K), VB); // dopo un ridimensionamento
-    clearTimeout(s.renderTimer);
-    s.renderTimer = 0;
-    s.renderDue = 0;
-    const sl = s.slice;
-    const same = sl && sl.view.k === s.view.k && sl.view.x === s.view.x && sl.view.y === s.view.y;
-    if (!same) renderFull(); // a gesto fermo sempre la scena completa, a passi (se è già in corso per questa vista, si lascia finire)
     blit();
+    pumpTiles();
     setViewRev((n) => n + 1);
   };
   const touched = () => {
     const s = st.current;
     if (!s.moving) {
       s.moving = true;
-      cancelSlice();
       if (s.labels.length) { s.labels = []; baseRef.current.dataset.labels = '0'; baseRef.current.dataset.lakeLabels = '0'; }
     }
     clearTimeout(s.idleTimer);
@@ -282,9 +366,10 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
       if (Math.round(r.width) === s.size.w && Math.round(r.height) === s.size.h && dpr === s.dpr) return;
       s.size = { w: Math.round(r.width), h: Math.round(r.height) };
+      if (dpr !== s.dpr) { s.tiles.clear(); s.job = null; s.gen += 1; } // la risoluzione delle piastrelle dipende da dpr
       s.dpr = dpr;
+      s.tileDev = Math.round(TILE_CSS * dpr);
       for (const cv of [baseRef.current, overlayRef.current]) { cv.width = Math.round(s.size.w * dpr); cv.height = Math.round(s.size.h * dpr); }
-      s.cache = null;
       setSize(s.size);
     };
     measure();
@@ -299,7 +384,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     s.borders = null;
     s.lod = { levels: [] };
     s.bgDone = false;
-    s.cache = null;
+    s.tiles.clear();
+    s.job = null;
+    s.gen += 1;
     return () => { s.bgDead = true; };
   }, [model]);
 
@@ -317,7 +404,8 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       s.borders = buildBorders(m);
       s.borders.levels = [];
       later(() => {
-        if (!s.moving) { renderFull(); blit(); }
+        invalidate(); // bordi pronti: le piastrelle si rifanno con i bordi
+        blit();
         // Versioni semplificate: con 'dp' sostituiscono quelle veloci; con 'radial' sono le stesse che ensureLevel
         // costruirebbe in un colpo solo al primo zoom oltre la soglia (con tutte le province del mondo è un compito da
         // centinaia di ms, nel mezzo di un gesto): si preparano a fette brevi a mappa ferma.
@@ -347,7 +435,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   // primo disegno e ridisegno quando cambiano i dati o le opzioni che cambiano la scena
   useEffect(() => {
     if (!size.w) return;
-    renderFull();
+    invalidate();
     blit();
     startBackground();
     const s = st.current;
@@ -395,10 +483,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   useEffect(() => () => {
     const s = st.current;
     cancelAnimationFrame(s.raf);
-    if (s.slice) clearTimeout(s.slice.timer);
-    s.slice = null;
+    clearTimeout(s.pumpTimer);
+    cancelAnimationFrame(s.fadeRaf);
     clearTimeout(s.idleTimer);
-    clearTimeout(s.renderTimer);
     clearTimeout(s.labelTimer);
   }, []);
 

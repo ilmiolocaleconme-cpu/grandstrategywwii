@@ -13,7 +13,7 @@ const index = buildProvinceIndex(provinces);
 const rivers = read('rivers.json');
 const geo = read('rivers_geo.json');
 const byId = new Map(rivers.map((r) => [r.id, r]));
-const added = rivers.filter((r) => /v5\.2\.0-pre/.test(r.source));
+const added = rivers.filter((r) => /v5\.2\.0-pre/.test(r.source) && !/, world$/.test(r.source));
 
 test('fiumi URSS: 211 fiumi nuovi, fonte e licenza, stime dichiarate, lunghezza minima 25 km', () => {
   assert.equal(added.length, 211);
@@ -63,7 +63,7 @@ test('fiumi URSS: ogni vertice dei tratti nuovi sta nelle province sovietiche o 
   let outside = 0;
   let n = 0;
   for (const f of geo.features) {
-    if (!ids.has(f.properties.riverId)) continue;
+    if (!ids.has(f.properties.riverId) || f.properties.world) continue;
     assert.equal(f.geometry.type, 'LineString');
     const c = f.geometry.coordinates;
     for (let i = 0; i < c.length; i += 1) {
