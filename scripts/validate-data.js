@@ -25,6 +25,7 @@ import { validateHydro } from '../src/data/hydro.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
 import { validateEconomy } from '../src/data/economy.js';
 import { validateProduction } from '../src/data/production.js';
+import { validateExtractionFactors } from '../src/data/extraction.js';
 import { productionBuilt, productionFile } from './build-production.js';
 import { hydroBuilt } from './build-hydro.js';
 import { resourcePointsFile } from './build-resource-points.js';
@@ -112,6 +113,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const prodDoc = JSON.parse(await text('resources/production_1936.json'));
     errors.push(...validateProduction(prodDoc, { resources: catalog.resources, provinceIds: new Set(catalog.provinces.features.map((f) => f.properties.id)) }));
     if (JSON.stringify(prodDoc) !== JSON.stringify(productionFile(await productionBuilt()))) errors.push('produzione: production_1936.json non allineato ai CSV, rigenerare con npm run build:production');
+    errors.push(...validateExtractionFactors(JSON.parse(await text('resources/extraction_factors.json')), { resources: catalog.resources, production: prodDoc }));
     // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate
     for (const sh of JSON.parse(await text('resources/SOURCE_IDRO.json')).files) {
       if (createHash('sha256').update(await readFile(new URL(`../data/resources/${sh.file}`, import.meta.url))).digest('hex') !== sh.sha256) errors.push(`idro: ${sh.file} diverso dalla copia ricevuta (sha256)`);

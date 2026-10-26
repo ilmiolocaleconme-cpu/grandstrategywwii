@@ -87,3 +87,9 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 - Territori: ogni nazione del CSV ha un prefisso di province; le Indie Orientali Olandesi sono solo le province `P_NLD_EI_*`, il ferro di Terranova è `NFL`, l'Indocina è `INDO`.
 - Il **rame** entra nel catalogo risorse (32 voci) come materia prima, ma senza punti nelle province, senza prezzo e senza ricette: scala `null` (N/D). Non è in `RESOURCE_ORDER`, quindi non compare ancora sulla mappa.
 - Conversione proposta: 1 t di gioco ≈ 43,8 t reali (`production_1936.json`, DESIGN_DEFAULT; 1 acciaieria = 1,6 Mt/anno). NON ancora applicata ai punti delle province: i valori finali per nazione vanno approvati prima.
+
+## Estrazione per provincia dalla produzione reale (26/10/2026)
+- Metodo deciso in chat: quote fra nazioni dai dati reali (`production_1936.json`), un fattore per risorsa (`extraction_factors.json`, t reali per 1 t di gioco). Solo il **ferro è tarato** (43,8: 1 acciaieria ≈ 1,6 Mt/anno di acciaio; copre circa l'89% di 80 acciaierie). Carbone, petrolio, bauxite, gomma, zolfo sono **PROVVISORI**: scelti perché i territori con produzione storica mantengano il totale di prima, cambia solo la ripartizione; da tarare con le fasce B e C e i consumatori.
+- `src/data/extraction.js` (`resourceExtraction`): la produzione di una nazione si divide tra le sue province con punti in proporzione ai punti base; il resto resta punti × scala. Se una nazione ha produzione ma nessuna provincia con punti per quella risorsa, **non si inventa dove**: va in `unallocated` (MISSING_DATA).
+- Non assegnato oggi: ferro (India, Algeria, Manciukuò, Cina), carbone (Cina, Sudafrica, Canada), gomma (Ceylon, Indocina, Brasile, Liberia), zolfo (Cile) e tutto il rame (7 territori).
+- Stato: implementato e testato come funzioni pure (7 test), NON collegato al ciclo di partita; i punti in `resource_points.json` non sono cambiati.
