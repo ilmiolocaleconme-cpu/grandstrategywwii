@@ -24,6 +24,8 @@ import LoadingScreen from './ui/LoadingScreen.jsx';
 import { LegendList } from './map/MapView.jsx';
 import TransportLegend from './map/TransportLegend.jsx';
 import FullscreenButton from './ui/FullscreenButton.jsx';
+import flagsFile from '../data/flags.json';
+import { nationBounds } from './map/focus.js';
 import { fullscreenSupport } from './ui/fullscreen.js';
 
 // La mappa Canvas 2D è quella predefinita; la mappa SVG resta come ripiego con ?map=svg
@@ -162,13 +164,15 @@ export default function App() {
   // fiumi, mari, collegamenti): il telefono resta libero per la ruota. Il lavoro parte quando c'è una partita o si apre la mappa.
   const mapWanted = game !== null || tab === 'map';
   const [mapShown, setMapShown] = useState(false);
+  const [mapReady, setMapReady] = useState(true); // false da quando parte una partita fino a mappa disegnata: copertura con la bandiera
+  const [coverGiveUp, setCoverGiveUp] = useState(false);
   useEffect(() => {
     if (provincesStatus !== 'ready' || !mapWanted) return undefined;
     const id = requestAnimationFrame(() => requestAnimationFrame(() => setMapShown(true)));
     return () => cancelAnimationFrame(id);
   }, [provincesStatus, mapWanted]);
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
-  const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
+  const { file: seaFile, status: seaStatus } = useSeaData(!USE_CANVAS || mapShown);
   const links = useLinks(USE_CANVAS && mapShown);
   const [showTransport, setShowTransport] = useState(false);
   const transport = showTransport ? links : null;
@@ -197,6 +201,13 @@ export default function App() {
 
   const mapItems = useMemo(() => (provincesWithCities && mapWanted ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces, mapWanted]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
+  const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
+  const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null;
+  useEffect(() => {
+    if (mapReady) return undefined;
+    const id = setTimeout(() => setCoverGiveUp(true), 45000); // un file che non arriva non deve tenere la bandiera per sempre
+    return () => clearTimeout(id);
+  }, [mapReady]);
   const control = game ? game.control : NATION_CONTROL;
   const choosable = useMemo(
     () => (provinces ? playableNations(political, provinces.features.map((f) => f.properties.owner)) : []),
@@ -216,12 +227,12 @@ export default function App() {
     if (!provinces) return;
     const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner) });
     if (!r.ok) { setNotice({ kind: 'error', text: `Partita non creata: ${r.reason}` }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map');
+    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const loadGame = (slot) => {
     const r = store?.read(slot);
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map');
+    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
@@ -342,7 +353,22 @@ export default function App() {
         <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
       ) : (
       <div className="map-layout">
-        <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
+        {USE_CANVAS && !mapReady && !coverGiveUp && game ? (
+          <div className="map-cover">
+            <LoadingScreen nation={{
+              name: NATION_NAMES[game.player] ?? game.player,
+              flag: flagsFile.flags[game.player],
+              steps: [
+                { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
+                { label: 'Mari e rotte', done: seaStatus !== 'loading' },
+                { label: 'Città', done: citiesRaw !== null },
+                { label: 'Nomi sulla mappa', done: labelData !== null },
+                { label: 'Disegno della mappa', done: mapReady },
+              ],
+            }} />
+          </div>
+        ) : null}
+        <MapScreen focus={focus} dataReady={dataReady} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
         {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />

@@ -14,7 +14,7 @@ const byOwner = (o) => provinces.features.filter((f) => f.properties.owner === o
 const at = (lon, lat) => index.provincesAt(lon, lat).map((f) => madreId(f.properties.id));
 
 test('conteggi per nazione e id con il codice del proprietario', () => {
-  const N = { GBR: 88, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
+  const N = { GBR: 94, ALG: 19, TUN: 23, LBA: 5, EGY: 27, PAL: 8, JOR: 12, SYR: 15, LBN: 6, TUR: 80, CYP: 6, MLT: 1, GIB: 1 };
   for (const [o, n] of Object.entries(N)) {
     const fs = byOwner(o);
     assert.equal(fs.length, n, o);
@@ -52,7 +52,7 @@ test('Regno Unito (GBR): Inghilterra 40 contee, Galles 10, Scozia 32, Irlanda de
   const wales = part((p) => WALES.includes(p.name));
   const ni = part((p) => NI.includes(p.name));
   const scot = part((p) => p.kind === 'council area');
-  const eng = part((p) => !WALES.includes(p.name) && !NI.includes(p.name) && p.kind !== 'council area');
+  const eng = part((p) => !WALES.includes(p.name) && !NI.includes(p.name) && p.kind !== 'council area' && p.kind !== 'isole'); // le province di isole (Bermuda, Sant'Elena...) sono a parte
   assert.deepEqual([eng.length, wales.length, scot.length, ni.length], [40, 10, 32, 6]);
   const rng = (fs, lo, hi, nome) => assert.ok(total(fs) > lo && total(fs) < hi, `${nome}: ${Math.round(total(fs))} km2`);
   rng(eng, 125000, 135000, 'Inghilterra');
