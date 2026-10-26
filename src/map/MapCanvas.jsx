@@ -161,9 +161,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
         const r = gen.next();
         if (r.done) { done = true; break; }
         flushCanvas(c);
-        // a gesto in corso la scena completa si mostra solo quando è finita (prima ci sarebbe un'immagine senza linee che
-        // poi le riacquista), salvo che quella attuale non copra più lo schermo
-        if (!sl.exposed && (!s.moving || !s.cache || !coversNow())) expose();
+        // la scena nuova si mostra solo quando è finita (prima ci sarebbe un'immagine senza linee che poi le riacquista),
+        // salvo che manchi l'immagine attuale o non copra più lo schermo
+        if (!sl.exposed && (!s.cache || !coversNow())) expose();
       } while (performance.now() - t0 < SLICE_BUDGET_MS);
       if (done) {
         if (!sl.exposed) expose();
@@ -182,7 +182,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, labels: s.labels, copies, layer: p.layer, provinceResources: p.provinceResources });
+    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, labels: s.labels, copies, layer: p.layer, provinceResources: p.provinceResources });
   };
 
   // porta l'ultima immagine disegnata alla vista corrente (trascinamento e zoom costano solo questo)
@@ -346,9 +346,9 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       // i nomi partono solo dopo che la prima schermata è stata presentata (due fotogrammi)
       requestAnimationFrame(() => requestAnimationFrame(() => { s.painted = true; setViewRev((n) => n + 1); }));
     }
-  }, [size, model, water, layer, showRivers, seaData, showSeas, selectedSeaId, transportModel, resourceFills]);
+  }, [size, model, water, layer, showRivers, seaData, showSeas, transportModel, resourceFills]);
   // la selezione della provincia cambia solo la sovrapposizione
-  useEffect(() => { paintOverlay(); }, [selectedId, seaData, showSeas, layer, anchoredResources]);
+  useEffect(() => { paintOverlay(); }, [selectedId, selectedSeaId, seaData, showSeas, layer, anchoredResources]);
 
   // nomi: solo quelli che stanno nella provincia e non si sovrappongono; compaiono a gesto fermo
   useEffect(() => {

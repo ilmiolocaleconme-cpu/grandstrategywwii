@@ -26,8 +26,13 @@ function insideRings(rings, lon, lat) {
 export function seaZoneAt(zones, lon, lat) {
   for (const z of zones) {
     const [x0, y0, x1, y1] = bboxOf(z);
-    if (lon < x0 || lon > x1 || lat < y0 || lat > y1) continue;
-    if (insideRings(z.rings, lon, lat)) return z;
+    if (lat < y0 || lat > y1) continue;
+    // le zone a cavallo dell'antimeridiano hanno longitudini oltre ±180: si prova anche il punto spostato di un giro
+    for (const dx of [0, -360, 360]) {
+      const x = lon + dx;
+      if (x < x0 || x > x1) continue;
+      if (insideRings(z.rings, x, lat)) return z;
+    }
   }
   return null;
 }

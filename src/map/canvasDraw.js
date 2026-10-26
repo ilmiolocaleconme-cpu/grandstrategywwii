@@ -164,13 +164,13 @@ function zoneBox(z) {
 function zoneLinePath(z) {
   if (z.line) return z.line;
   const p = new Path2D();
-  const onSeam = (pt) => pt[0] === 180 || pt[0] === -180;
+  const onSeam = (pt) => Math.abs(Math.abs(pt[0]) - 180) < 0.08;
   for (const ring of z.rings) {
     const n = ring.length;
     p.moveTo(ring[0][0] * COS0, -ring[0][1]);
     for (let i = 1; i <= n; i += 1) {
       const a = ring[i - 1], b = ring[i % n];
-      if (onSeam(a) && onSeam(b) && a[0] === b[0]) p.moveTo(b[0] * COS0, -b[1]);
+      if (onSeam(a) && onSeam(b) && Math.sign(a[0]) === Math.sign(b[0])) p.moveTo(b[0] * COS0, -b[1]);
       else p.lineTo(b[0] * COS0, -b[1]);
     }
   }
@@ -199,11 +199,6 @@ function drawSeas(ctx, seas, selectedSeaId, sx, cull) {
   ctx.fillStyle = COLORS.straitFill; ctx.strokeStyle = COLORS.straitStroke;
   ctx.fill(g.strait, 'evenodd'); ctx.stroke(g.straitLine);
   ctx.setLineDash([]);
-  const sel = selectedSeaId ? seas.zones.find((z) => z.id === selectedSeaId) : null;
-  if (sel) {
-    ctx.fillStyle = COLORS.seaSelFill; ctx.strokeStyle = COLORS.seaSelStroke; ctx.lineWidth = 2 / sx;
-    ctx.fill(zonePath(sel), 'evenodd'); ctx.stroke(zoneLinePath(sel));
-  }
 }
 
 // Percorso di un lago (in cache sull'elemento): i laghi si disegnano uno per uno, così quelli fuori dalla regione si saltano.
@@ -375,10 +370,23 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, seas, selectedSeaId } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  // zona di mare selezionata (nella sovrapposizione: cambiare selezione non rifà la scena)
+  const selSea = seas && selectedSeaId ? seas.zones.find((z) => z.id === selectedSeaId) : null;
+  if (selSea) {
+    ctx.lineJoin = 'round';
+    ctx.fillStyle = COLORS.seaSelFill;
+    ctx.strokeStyle = COLORS.seaSelStroke;
+    ctx.lineWidth = 2 / a.sx;
+    for (const off of copies) {
+      ctx.setTransform(dpr * a.sx, 0, 0, dpr * a.sx, dpr * (a.tx + a.sx * off), dpr * a.ty);
+      ctx.fill(zonePath(selSea), 'evenodd');
+      ctx.stroke(zoneLinePath(selSea));
+    }
+  }
   const sel = selectedId ? model.byId.get(selectedId) : null;
   if (sel) {
     const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
