@@ -20,6 +20,7 @@ import { validateRegions } from '../src/data/regions.js';
 import { buildResourceLocations, validateResourceLocations } from '../src/data/resourceLocations.js';
 import { buildProvinceResources, validateProvinceResources } from '../src/data/provinceResources.js';
 import { validateScores } from '../src/data/resourcePoints.js';
+import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { resourcePointsFile } from './build-resource-points.js';
 import { validateFlags, validateDescriptions } from '../src/data/flags.js';
 import { playableNations } from '../src/game/state.js';
@@ -91,6 +92,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const text = (p) => readFileTerrain(new URL(`../data/${p}`, import.meta.url), 'utf8');
     const industry = loadIndustryCatalog({ factoriesCsv: await text('industry/factories.csv'), structuresCsv: await text('infrastructure/structures.csv'), categoriesCsv: await text('industry/production_categories.csv') });
     errors.push(...validateIndustryCatalog(industry));
+    // Ricette e scala di estrazione (Fase 0 Risorse + Industria): riferimenti a fabbriche e risorse esistenti
+    const recipesDoc = JSON.parse(await text('industry/recipes.json'));
+    errors.push(...validateRecipes(recipesDoc, { factoriesById: industry.byId, resources: catalog.resources }));
+    errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
     const source = JSON.parse(await text('PACK_SOURCE.json'));
     for (const [file, sha] of Object.entries(source.files)) {
       const actual = createHash('sha256').update(await readFileTerrain(new URL(`../data/${file.replace(/^data\//, '')}`, import.meta.url))).digest('hex');

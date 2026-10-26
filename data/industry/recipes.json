@@ -1,0 +1,74 @@
+{
+  "schema": "recipes-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Ricette di trasformazione: PROPOSTA di design, non dati storici. Ogni valore è un ingresso (perUnit) per 1 unità di prodotto. La capacità giornaliera a pieno regime è base_capacity_per_day della fabbrica in data/industry/factories.csv e l'energia è il suo energy_consumption (MWh al giorno a pieno regime): non si ripetono qui. Unità: tonnellate (t) per materie e prodotti, MWh per l'elettricità. Il bilanciamento va rivisto quando esisteranno i consumatori (unità, costruzioni).",
+  "recipes": [
+    {
+      "id": "REC-STEEL-001",
+      "factory": "FCT-STEEL",
+      "inputs": [{ "resource": "iron_ore", "perUnit": 1.6 }, { "resource": "coal", "perUnit": 0.8 }],
+      "output": { "product": "steel", "perUnit": 1 },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Ordine di grandezza reale dell'altoforno (circa 1,6 t di minerale e 0,7-0,8 t di carbone/coke per tonnellata di acciaio), arrotondato."
+    },
+    {
+      "id": "REC-ALU-001",
+      "factory": "FCT-ALUMINIUM",
+      "inputs": [{ "resource": "bauxite", "perUnit": 4 }],
+      "output": { "product": "aluminium", "perUnit": 1 },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Circa 4-5 t di bauxite per tonnellata di alluminio; il resto (energia) è nel consumo della fabbrica."
+    },
+    {
+      "id": "REC-FUEL-OIL-001",
+      "factory": "FCT-REFINERY",
+      "inputs": [{ "resource": "oil", "perUnit": 1.1 }],
+      "output": { "product": "fuel", "perUnit": 1 },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Perdite di raffinazione del 10%: un solo carburante nel gioco (deciso in chat)."
+    },
+    {
+      "id": "REC-FUEL-COAL-001",
+      "factory": "FCT-SYNFUEL",
+      "inputs": [{ "resource": "coal", "perUnit": 4 }],
+      "output": { "product": "fuel", "perUnit": 1 },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Carbone liquefatto (tipo Bergius, usato dalla Germania): stesso prodotto del petrolio, molto più costoso in ingressi. Un solo carburante, nessuna distinzione di processo (deciso in chat)."
+    },
+    {
+      "id": "REC-RUBBER-001",
+      "factory": "FCT-RUBBER",
+      "inputs": [{ "resource": "rubber", "perUnit": 1.2 }],
+      "output": { "product": "processed_rubber", "perUnit": 1 },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Perdita di lavorazione del 20%."
+    },
+    {
+      "id": "REC-CHEM-001",
+      "factory": "FCT-CHEMICAL",
+      "inputs": [{ "resource": "sulphur", "perUnit": 0.5 }],
+      "output": { "product": "chemicals", "perUnit": 1 },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Semplificazione: lo zolfo è l'ingrediente critico (acido solforico); altri ingressi chimici verranno definiti con la produzione di munizioni."
+    },
+    {
+      "id": "REC-ELECTRIC-COAL-001",
+      "factory": "FCT-POWER",
+      "inputs": [{ "resource": "coal", "perUnit": 0.5 }],
+      "output": { "product": "electricity", "perUnit": 1 },
+      "nominalOutputPerDay": 120,
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "La centrale del Pack ha base_capacity_per_day = 0 (non produce merci): la generazione nominale (MWh al giorno) è definita qui, 120 come nel pacchetto ricevuto. Circa 0,5 t di carbone per MWh."
+    }
+  ],
+  "flows": [
+    {
+      "id": "FLOW-HYDRO-001",
+      "source": "hydro",
+      "output": { "product": "electricity", "perUnit": 1 },
+      "inputs": [],
+      "quality": "MISSING_DATA",
+      "rationale": "L'idroelettrica è un flusso, non uno stock: nessun ingresso consumato. Mancano però i siti e le capacità per provincia (nessun dato nel repository e nel Pack): non si inventano. Vedi RESOURCES_INDUSTRY_GAPS."
+    }
+  ]
+}
