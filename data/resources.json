@@ -29,5 +29,6 @@
   { "id": "components", "name": "Componenti", "status": "bozza-di-design", "tipo": "prodotto" },
   { "id": "engines", "name": "Motori", "status": "bozza-di-design", "tipo": "prodotto" },
   { "id": "munitions", "name": "Munizioni", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "copper", "name": "Rame", "status": "bozza-di-design" },
   { "id": "hydro", "name": "Idroelettrica", "status": "bozza-di-design", "tipo": "fonte-energia" }
 ]
