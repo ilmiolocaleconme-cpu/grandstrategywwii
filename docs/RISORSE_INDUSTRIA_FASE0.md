@@ -38,6 +38,14 @@ Esiti verificati in test sui punti base: USA ≥ 5 acciaierie con sole risorse n
 - Segnalazioni sui dati ricevuti (non corretti): Fusen-ko dichiara «Sinuiju» ma le coordinate sono in Ryanggang (vale la coordinata); Hoover Dam è a cavallo di Nevada e Arizona (il punto cade in Arizona); Vemork e Cubatão compaiono in entrambi i file come fasi diverse.
 - La base **non è completa**: sono solo le centrali fornite. Una stima per i grandi bacini mancanti resta da approvare.
 
+## Pool elettrico nazionale (regola dell'utente, 26/10/2026)
+Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITETTURA (verificato).
+- L'elettricità è un **pool nazionale**, non uno stock e non per provincia: la somma della potenza delle centrali della nazione (idro + carbone).
+- Ogni **nuova costruzione o potenziamento** di una centrale aumenta il pool.
+- **Taratura storica:** l'Italia copriva oltre il 95% del fabbisogno elettrico nazionale (soprattutto con l'idro). Obiettivo di verifica per la Fase 1: con l'industria iniziale dell'Italia, l'idro deve coprire almeno il 95% della domanda.
+- Domanda = somma dell'energia delle fabbriche attive; con pool < domanda, la produzione scende in proporzione (da confermare).
+- Aperto: l'unità del pool e la conversione tra MW delle centrali e consumo delle fabbriche (G8).
+
 ## Decisioni del 26/10/2026
 - G1 idro: dati forniti dall'utente + stime di Claude (marcate, da mostrare prima).
 - G2: nessun autoconsumo per la centrale a carbone: 120 MWh netti; il consumo 25 del Pack è ignorato (`noSelfConsumption`).
@@ -51,4 +59,5 @@ Esiti verificati in test sui punti base: USA ≥ 5 acciaierie con sole risorse n
 | G3 | Ricette di componenti, motori, macchinari, munizioni: da proporre | catena fino ad aerei e camion | proposta in arrivo, da approvare |
 | G4 | Consumo di carburante delle unità: da proporre | bilancio carburante, carbone, elettricità | proposta in arrivo, da approvare |
 | G6 | Fasi multiple della stessa centrale (Vemork, Cubatão): additive o cumulative? | cambia la potenza totale | domanda all'utente |
-| G7 | Stima della base idro mancante (grandi bacini non forniti) | senza base l'idro è molto sotto la realtà | proposta DESIGN_DEFAULT da approvare |
+| G7 | Base idro mancante: i totali per nazione vanno tarati sulla domanda (Italia ≥ 95%), non su MW assoluti | serve l'industria iniziale per nazione (non esiste ancora) | dopo G8 |
+| G8 | Unità del pool elettrico: MW delle centrali vs energia delle fabbriche del Pack (12, 18, 25 ... senza unità) | senza conversione non si confronta offerta e domanda | vedi domanda all'utente |
