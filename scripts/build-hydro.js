@@ -21,13 +21,18 @@ export async function hydroOverrides() {
   return new Map(rows.map((r) => [r.plant_id, r]));
 }
 
+export async function hydroSites() {
+  const rows = parseCsv(await readFile(dataUrl('resources/hydro_sites.csv'), 'utf8'), { name: 'hydro_sites.csv' });
+  return new Map(rows.map((r) => [r.plant_id, r.site_id]));
+}
+
 export async function hydroBuilt() {
   const all = [];
   for (const f of HYDRO_FILES) {
     const { rows, header } = csvWithHeader(await readFile(dataUrl(`resources/${f}`), 'utf8'), f);
     all.push(...normalizeHydroRows(rows, header));
   }
-  return buildHydroPlants(all, buildProvinceIndex(await loadProvinces()), { overrides: await hydroOverrides() });
+  return buildHydroPlants(all, buildProvinceIndex(await loadProvinces()), { overrides: await hydroOverrides(), sites: await hydroSites() });
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

@@ -39,7 +39,7 @@ export function parseCoordinates(text) {
  * se ne contiene più di una (o nessuna) la centrale va in unmapped/ambiguous e il validatore fallisce, niente scelte silenziose.
  * `overrides` (Map id → { province_id, reason }): per le coordinate sul fiume di confine, dove il poligono semplificato sbaglia lato.
  */
-export function buildHydroPlants(rows, provinceIndex, { overrides = new Map(), parentOf = (f) => f.properties.parentProvince ?? f.properties.id } = {}) {
+export function buildHydroPlants(rows, provinceIndex, { overrides = new Map(), sites = new Map(), parentOf = (f) => f.properties.parentProvince ?? f.properties.id } = {}) {
   const plants = []; const unmapped = []; const ambiguous = [];
   for (const r of rows) {
     const id = plantId(r.name);
@@ -54,6 +54,7 @@ export function buildHydroPlants(rows, provinceIndex, { overrides = new Map(), p
       validFrom: `${r.year}-${String(r.month).padStart(2, '0')}-01`, dateBasis: 'month',
       era: r.era, quality: 'user_csv',
     };
+    if (sites.has(id)) plant.siteId = sites.get(id);
     if (ov) { plant.provinceOverride = true; plant.provinceFromCoordinates = hits[0] ?? null; plant.overrideReason = ov.reason; }
     plants.push(plant);
   }
@@ -77,10 +78,19 @@ export function validateHydro(file, { motherIds, builtUnmapped = [], builtAmbigu
     if (motherIds && !motherIds.has(p.provinceId)) errors.push(`idro: ${p.id} in una provincia inesistente (${p.provinceId})`);
     if (!(p.megawatts > 0)) errors.push(`idro: ${p.id} con potenza non valida`);
     if (!/^\d{4}-(0[1-9]|1[0-2])-01$/.test(p.validFrom)) errors.push(`idro: ${p.id} con data non valida ${p.validFrom}`);
+    if (p.siteId !== undefined && !/^SITE-[A-Z0-9_]+$/.test(p.siteId)) errors.push(`idro: ${p.id} con siteId non valido`);
     if (!['pre1936', 'event'].includes(p.era)) errors.push(`idro: ${p.id} con era sconosciuta ${p.era}`);
     if ((p.era === 'pre1936') !== (p.validFrom < '1936-01-01')) errors.push(`idro: ${p.id} con era ${p.era} incoerente con la data ${p.validFrom}`);
     if (p.provinceOverride && !String(p.overrideReason ?? '').trim()) errors.push(`idro: ${p.id} con provincia forzata senza motivo`);
     if (!['user_csv', 'DESIGN_DEFAULT'].includes(p.quality)) errors.push(`idro: ${p.id} con qualità sconosciuta ${p.quality}`);
   }
   return errors;
+}
+
+/**
+ * Potenza idroelettrica installata a una data (MW): somma delle centrali già in servizio. Le fasi di uno stesso sito (`siteId`) sono
+ * AGGIUNTIVE (deciso in chat 26/10/2026): Vemork 108 + 108, Cubatão 84 + 440. `provinceId` filtra una provincia; senza, il totale.
+ */
+export function installedMegawatts(file, date, { provinceId = null } = {}) {
+  return (file.plants ?? []).filter((p) => p.validFrom <= date && (provinceId === null || p.provinceId === provinceId)).reduce((t, p) => t + p.megawatts, 0);
 }

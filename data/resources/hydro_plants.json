@@ -158,7 +158,8 @@
       "validFrom": "1911-01-01",
       "dateBasis": "month",
       "era": "pre1936",
-      "quality": "user_csv"
+      "quality": "user_csv",
+      "siteId": "SITE-VEMORK"
     },
     {
       "id": "HYD-SHANNONBRIDGE",
@@ -217,7 +218,8 @@
       "validFrom": "1926-10-01",
       "dateBasis": "month",
       "era": "pre1936",
-      "quality": "user_csv"
+      "quality": "user_csv",
+      "siteId": "SITE-CUBATAO"
     },
     {
       "id": "HYD-HOOVER_DAM",
@@ -301,7 +303,8 @@
       "validFrom": "1936-05-01",
       "dateBasis": "month",
       "era": "event",
-      "quality": "user_csv"
+      "quality": "user_csv",
+      "siteId": "SITE-CUBATAO"
     },
     {
       "id": "HYD-VEMORK",
@@ -315,7 +318,8 @@
       "validFrom": "1937-12-01",
       "dateBasis": "month",
       "era": "event",
-      "quality": "user_csv"
+      "quality": "user_csv",
+      "siteId": "SITE-VEMORK"
     },
     {
       "id": "HYD-PICKWICK_LANDING_DAM",

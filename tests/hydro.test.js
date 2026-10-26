@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { parseCsv } from '../src/data/csv.js';
 import { buildProvinceIndex } from '../src/data/geometry.js';
-import { plantId, parseCoordinates, buildHydroPlants, validateHydro, normalizeHydroRows, HYDRO_HEADER, HYDRO_HEADER_PRE } from '../src/data/hydro.js';
+import { installedMegawatts, plantId, parseCoordinates, buildHydroPlants, validateHydro, normalizeHydroRows, HYDRO_HEADER, HYDRO_HEADER_PRE } from '../src/data/hydro.js';
 import { fullCapacityFlows } from '../src/data/recipes.js';
 import { loadIndustryCatalog } from '../src/data/industry.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
@@ -96,4 +96,20 @@ test('idro e centrale a carbone: nessun autoconsumo, idro senza ingressi', () =>
   assert.equal(fullCapacityFlows(power, cat.byId.get('FCT-POWER')).energyPerDay, 0);
   assert.equal(fullCapacityFlows(rec.recipes.find((r) => r.factory === 'FCT-STEEL'), cat.byId.get('FCT-STEEL')).energyPerDay, 12, 'le altre fabbriche consumano');
   assert.deepEqual(rec.flows.find((x) => x.source === 'hydro').inputs, []);
+});
+
+test('fasi dello stesso sito: potenza additiva (Vemork, Cubatão), siti dichiarati nei dati', () => {
+  const doc = json('resources/hydro_plants.json');
+  const sites = {};
+  for (const p of doc.plants) if (p.siteId) (sites[p.siteId] ??= []).push(p.id);
+  assert.deepEqual(Object.keys(sites).sort(), ['SITE-CUBATAO', 'SITE-VEMORK']);
+  assert.ok(Object.values(sites).every((l) => l.length === 2));
+  const tel = (d) => installedMegawatts(doc, d, { provinceId: 'P_NOR_TELEMARK' });
+  assert.equal(tel('1935-12-31'), 108);
+  assert.equal(tel('1937-12-01'), 216, 'Vemork: 108 del 1911 + 108 del 1937');
+  const sp = (d) => installedMegawatts(doc, d, { provinceId: 'P_BRA_SAO_PAULO' });
+  assert.equal(sp('1936-04-30'), 84);
+  assert.equal(sp('1936-05-01'), 524, 'Cubatão: 84 del 1926 + 440 del 1936');
+  assert.equal(installedMegawatts(doc, '1935-12-31'), doc.plants.filter((p) => p.era === 'pre1936').reduce((t, p) => t + p.megawatts, 0));
+  assert.equal(installedMegawatts(doc, '1945-12-31'), doc.plants.reduce((t, p) => t + p.megawatts, 0));
 });
