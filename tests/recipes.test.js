@@ -66,7 +66,9 @@ test('errori rilevati: fabbrica, risorsa, prodotto, duplicati, valori', () => {
   const withRec = (fn) => { const f = clone(base); fn(f); return validateRecipes(f, ctx()); };
   assert.ok(withRec((f) => { f.recipes[0].factory = 'FCT-NOPE'; }).some((e) => e.includes('fabbrica inesistente')));
   assert.ok(withRec((f) => { f.recipes[0].inputs[0].resource = 'unobtainium'; }).some((e) => e.includes('non esiste in resources.json')));
-  assert.ok(withRec((f) => { f.recipes[0].inputs[0].resource = 'steel'; }).some((e) => e.includes('non è una materia prima')));
+  assert.ok(withRec((f) => { f.recipes[0].inputs[0].resource = 'steel'; }).some((e) => e.includes('ciclo tra prodotti')), 'l\'acciaio non può servire a produrre acciaio');
+  assert.ok(withRec((f) => { f.recipes.find((r) => r.id === 'REC-MACHINERY-001').inputs.push({ resource: 'munitions', perUnit: 1 }); f.recipes.find((r) => r.id === 'REC-MUNITIONS-001').inputs.push({ resource: 'machinery', perUnit: 1 }); }).some((e) => e.includes('ciclo tra prodotti')), 'ciclo indiretto');
+  assert.ok(withRec((f) => { f.recipes[0].inputs[0].resource = 'electricity'; }).some((e) => e.includes('flusso, non un materiale')));
   assert.ok(withRec((f) => { f.recipes[0].output.product = 'iron_ore'; }).some((e) => e.includes('non è un prodotto')));
   assert.ok(withRec((f) => { f.recipes[1].id = f.recipes[0].id; }).some((e) => e.includes('id duplicato')));
   assert.ok(withRec((f) => { f.recipes[0].inputs[0].perUnit = 0; }).some((e) => e.includes('perUnit non valido')));
@@ -104,4 +106,16 @@ test('bilanciamento di partenza: i grandi produttori alimentano più impianti, l
   assert.ok(plants('DEU', 'REC-STEEL-001') < 3, 'Germania: poco minerale di ferro, deve importare');
   assert.ok(plants('DEU', 'REC-FUEL-COAL-001') >= 3, 'Germania: carbone a sufficienza per i carburanti sintetici');
   assert.ok(plants('DEU', 'REC-FUEL-OIL-001') < 1, 'Germania: quasi nessun petrolio');
+});
+
+test('ricette militari intermedie: macchinari, componenti, motori, munizioni (approvate 26/10/2026)', () => {
+  const cat = catalog(); const f = json('industry/recipes.json');
+  const flows = (id) => { const r = f.recipes.find((x) => x.id === id); return fullCapacityFlows(r, cat.byId.get(r.factory)); };
+  assert.deepEqual(flows('REC-MACHINERY-001'), { outputPerDay: 70, outputUnit: 't/day', inputsPerDay: { steel: 84 }, energyMw: cat.byId.get('FCT-MACHINERY').energy_consumption });
+  assert.deepEqual(flows('REC-COMPONENTS-001').inputsPerDay, { steel: 48, aluminium: 16, processed_rubber: 8 });
+  assert.deepEqual(flows('REC-ENGINES-001').inputsPerDay, { steel: 48, aluminium: 18 });
+  assert.deepEqual(flows('REC-MUNITIONS-001').inputsPerDay, { steel: 60, chemicals: 40 });
+  assert.equal(flows('REC-COMPONENTS-001').outputPerDay, 80);
+  assert.equal(flows('REC-ENGINES-001').outputPerDay, 60);
+  assert.equal(flows('REC-MUNITIONS-001').outputPerDay, 100);
 });

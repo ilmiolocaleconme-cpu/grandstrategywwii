@@ -1,61 +1,201 @@
 {
   "schema": "recipes-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Ricette di trasformazione: PROPOSTA di design, non dati storici. Ogni valore è un ingresso (perUnit) per 1 unità di prodotto. La capacità giornaliera a pieno regime è base_capacity_per_day della fabbrica in data/industry/factories.csv e l'energia è il suo energy_consumption (MW assorbiti a pieno regime): non si ripetono qui. Unità: tonnellate (t) per materie e prodotti; l'elettricità è una POTENZA in MW (deciso in chat 26/10/2026): il pool nazionale somma i MW delle centrali, la domanda somma i MW delle fabbriche (energy_consumption del Pack letto come MW); l'ingresso di una centrale è t al giorno per MW. Il bilanciamento va rivisto quando esisteranno i consumatori (unità, costruzioni).",
+  "note": "Ricette di trasformazione: PROPOSTA di design, non dati storici. Ogni valore è un ingresso (perUnit) per 1 unità di prodotto, a livello di UNA singola fabbrica e al giorno a pieno regime (con N fabbriche si moltiplica per N; con ingressi parziali produce e consuma in proporzione). Gli ingressi possono essere materie prime o altri prodotti, senza cicli. La capacità giornaliera a pieno regime è base_capacity_per_day della fabbrica in data/industry/factories.csv e l'energia è il suo energy_consumption (MW assorbiti a pieno regime): non si ripetono qui. Unità: tonnellate (t) per materie e prodotti; l'elettricità è una POTENZA in MW (deciso in chat 26/10/2026): il pool nazionale somma i MW delle centrali, la domanda somma i MW delle fabbriche (energy_consumption del Pack letto come MW); l'ingresso di una centrale è t al giorno per MW. Il bilanciamento va rivisto quando esisteranno i consumatori (unità, costruzioni).",
   "recipes": [
     {
       "id": "REC-STEEL-001",
       "factory": "FCT-STEEL",
-      "inputs": [{ "resource": "iron_ore", "perUnit": 1.6 }, { "resource": "coal", "perUnit": 0.8 }],
-      "output": { "product": "steel", "perUnit": 1 },
+      "inputs": [
+        {
+          "resource": "iron_ore",
+          "perUnit": 1.6
+        },
+        {
+          "resource": "coal",
+          "perUnit": 0.8
+        }
+      ],
+      "output": {
+        "product": "steel",
+        "perUnit": 1
+      },
       "quality": "DESIGN_DEFAULT",
       "rationale": "Ordine di grandezza reale dell'altoforno (circa 1,6 t di minerale e 0,7-0,8 t di carbone/coke per tonnellata di acciaio), arrotondato."
     },
     {
       "id": "REC-ALU-001",
       "factory": "FCT-ALUMINIUM",
-      "inputs": [{ "resource": "bauxite", "perUnit": 4 }],
-      "output": { "product": "aluminium", "perUnit": 1 },
+      "inputs": [
+        {
+          "resource": "bauxite",
+          "perUnit": 4
+        }
+      ],
+      "output": {
+        "product": "aluminium",
+        "perUnit": 1
+      },
       "quality": "DESIGN_DEFAULT",
       "rationale": "Circa 4-5 t di bauxite per tonnellata di alluminio; il resto (energia) è nel consumo della fabbrica."
     },
     {
       "id": "REC-FUEL-OIL-001",
       "factory": "FCT-REFINERY",
-      "inputs": [{ "resource": "oil", "perUnit": 1.1 }],
-      "output": { "product": "fuel", "perUnit": 1 },
+      "inputs": [
+        {
+          "resource": "oil",
+          "perUnit": 1.1
+        }
+      ],
+      "output": {
+        "product": "fuel",
+        "perUnit": 1
+      },
       "quality": "DESIGN_DEFAULT",
       "rationale": "Perdite di raffinazione del 10%: un solo carburante nel gioco (deciso in chat)."
     },
     {
       "id": "REC-FUEL-COAL-001",
       "factory": "FCT-SYNFUEL",
-      "inputs": [{ "resource": "coal", "perUnit": 4 }],
-      "output": { "product": "fuel", "perUnit": 1 },
+      "inputs": [
+        {
+          "resource": "coal",
+          "perUnit": 4
+        }
+      ],
+      "output": {
+        "product": "fuel",
+        "perUnit": 1
+      },
       "quality": "DESIGN_DEFAULT",
       "rationale": "Carbone liquefatto (tipo Bergius, usato dalla Germania): stesso prodotto del petrolio, molto più costoso in ingressi. Un solo carburante, nessuna distinzione di processo (deciso in chat)."
     },
     {
       "id": "REC-RUBBER-001",
       "factory": "FCT-RUBBER",
-      "inputs": [{ "resource": "rubber", "perUnit": 1.2 }],
-      "output": { "product": "processed_rubber", "perUnit": 1 },
+      "inputs": [
+        {
+          "resource": "rubber",
+          "perUnit": 1.2
+        }
+      ],
+      "output": {
+        "product": "processed_rubber",
+        "perUnit": 1
+      },
       "quality": "DESIGN_DEFAULT",
       "rationale": "Perdita di lavorazione del 20%."
     },
     {
       "id": "REC-CHEM-001",
       "factory": "FCT-CHEMICAL",
-      "inputs": [{ "resource": "sulphur", "perUnit": 0.5 }],
-      "output": { "product": "chemicals", "perUnit": 1 },
+      "inputs": [
+        {
+          "resource": "sulphur",
+          "perUnit": 0.5
+        }
+      ],
+      "output": {
+        "product": "chemicals",
+        "perUnit": 1
+      },
       "quality": "DESIGN_DEFAULT",
       "rationale": "Semplificazione: lo zolfo è l'ingrediente critico (acido solforico); altri ingressi chimici verranno definiti con la produzione di munizioni."
     },
     {
+      "id": "REC-MACHINERY-001",
+      "factory": "FCT-MACHINERY",
+      "inputs": [
+        {
+          "resource": "steel",
+          "perUnit": 1.2
+        }
+      ],
+      "output": {
+        "product": "machinery",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Macchinari quasi tutto acciaio, con il 20% di perdite di lavorazione. Approvata dall'utente il 26/10/2026."
+    },
+    {
+      "id": "REC-COMPONENTS-001",
+      "factory": "FCT-COMPONENTS",
+      "inputs": [
+        {
+          "resource": "steel",
+          "perUnit": 0.6
+        },
+        {
+          "resource": "aluminium",
+          "perUnit": 0.2
+        },
+        {
+          "resource": "processed_rubber",
+          "perUnit": 0.1
+        }
+      ],
+      "output": {
+        "product": "components",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Parti meccaniche per veicoli e aerei: soprattutto acciaio, con alluminio (leggerezza) e gomma lavorata (guarnizioni, pneumatici). Approvata dall'utente il 26/10/2026."
+    },
+    {
+      "id": "REC-ENGINES-001",
+      "factory": "FCT-ENGINE",
+      "inputs": [
+        {
+          "resource": "steel",
+          "perUnit": 0.8
+        },
+        {
+          "resource": "aluminium",
+          "perUnit": 0.3
+        }
+      ],
+      "output": {
+        "product": "engines",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Motori: blocco in acciaio e parti in alluminio; perdite incluse. Approvata dall'utente il 26/10/2026."
+    },
+    {
+      "id": "REC-MUNITIONS-001",
+      "factory": "FCT-MUNITIONS",
+      "inputs": [
+        {
+          "resource": "steel",
+          "perUnit": 0.6
+        },
+        {
+          "resource": "chemicals",
+          "perUnit": 0.4
+        }
+      ],
+      "output": {
+        "product": "munitions",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Involucri in acciaio e carica chimica. Approvata dall'utente il 26/10/2026."
+    },
+    {
       "id": "REC-ELECTRIC-COAL-001",
       "factory": "FCT-POWER",
-      "inputs": [{ "resource": "coal", "perUnit": 0.5 }],
-      "output": { "product": "electricity", "perUnit": 1 },
+      "inputs": [
+        {
+          "resource": "coal",
+          "perUnit": 0.5
+        }
+      ],
+      "output": {
+        "product": "electricity",
+        "perUnit": 1
+      },
       "nominalOutputMw": 120,
       "outputUnit": "MW",
       "noSelfConsumption": true,
@@ -67,7 +207,10 @@
     {
       "id": "FLOW-HYDRO-001",
       "source": "hydro",
-      "output": { "product": "electricity", "perUnit": 1 },
+      "output": {
+        "product": "electricity",
+        "perUnit": 1
+      },
       "inputs": [],
       "quality": "MISSING_DATA",
       "rationale": "L'idroelettrica è un flusso in MW, non uno stock: nessun ingresso e nessun autoconsumo (deciso in chat 26/10/2026). Le centrali che entrano in servizio 1936-45 sono in data/resources/hydro_plants.json (CSV dell'utente); la base già attiva al 1/1/1936 non c'è ancora: stima da approvare, per questo resta MISSING_DATA."

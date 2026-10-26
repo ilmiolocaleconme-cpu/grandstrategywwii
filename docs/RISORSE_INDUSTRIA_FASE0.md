@@ -9,7 +9,7 @@ Etichette dei dati: `DESIGN_DEFAULT` = valore di design proposto, non storico; `
 - `data/resources.json`: 5 voci nuove (`fuel`, `processed_rubber`, `chemicals`, `electricity`, `hydro`). `hydro` è `fonte-energia`: un flusso, mai uno stock.
 - `src/data/recipes.js`: validazione, `fullCapacityFlows`, `pointsToUnits`.
 
-## Ricette (per 1 t di prodotto)
+## Ricette (rapporto per 1 t di prodotto; capacità e fabbisogno sono GIORNALIERI per UNA fabbrica a pieno regime: con N fabbriche si moltiplica per N, con ingressi parziali si produce e consuma in proporzione)
 | Ricetta | Fabbrica | Ingressi | Capacità (t/giorno; MW per l'elettricità) | Fabbisogno a pieno regime | Energia assorbita (MW) |
 |---|---|---|---|---|---|
 | Acciaio | FCT-STEEL | 1,6 ferro + 0,8 carbone | 100 | 160 ferro + 80 carbone | 12 |
@@ -18,6 +18,10 @@ Etichette dei dati: `DESIGN_DEFAULT` = valore di design proposto, non storico; `
 | Carburante (carbone) | FCT-SYNFUEL | 4 carbone | 70 | 280 carbone | 20 |
 | Gomma lavorata | FCT-RUBBER | 1,2 gomma | 90 | 108 gomma | 9 |
 | Prodotti chimici | FCT-CHEMICAL | 0,5 zolfo | 80 | 40 zolfo | 14 |
+| Macchinari | FCT-MACHINERY | 1,2 acciaio | 70 | 84 acciaio | 14 |
+| Componenti | FCT-COMPONENTS | 0,6 acciaio + 0,2 alluminio + 0,1 gomma lavorata | 80 | 48 acciaio + 16 alluminio + 8 gomma | 12 |
+| Motori | FCT-ENGINE | 0,8 acciaio + 0,3 alluminio | 60 | 48 acciaio + 18 alluminio | 18 |
+| Munizioni | FCT-MUNITIONS | 0,6 acciaio + 0,4 prodotti chimici | 100 | 60 acciaio + 40 chimici | 12 |
 | Elettricità (potenza) | FCT-POWER | 0,5 t/giorno di carbone per ogni MW in funzione | 120 MW netti (definiti qui, nessun autoconsumo) | 60 t/giorno di carbone | 0 |
 | Elettricità idro | — | nessuno | **MISSING_DATA** | — | — |
 
@@ -49,7 +53,7 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 ## Decisioni del 26/10/2026
 - G1 idro: dati forniti dall'utente + stime di Claude (marcate, da mostrare prima).
 - G2: nessun autoconsumo per la centrale a carbone: 120 MWh netti; il consumo 25 del Pack è ignorato (`noSelfConsumption`).
-- G3: ricette di componenti, motori, macchinari e munizioni da definire ORA, in Fase 0 (proposta da approvare).
+- G3: ricette di macchinari, componenti, motori e munizioni approvate dall'utente (26/10/2026): inserite. Gli ingressi possono ora essere anche prodotti (acciaio, alluminio, gomma lavorata, chimici), senza cicli.
 - G4: consumo di carburante per categoria di unità: proposta semplice da approvare.
 - G5: tonnellate per ogni massa; l'elettricità è una potenza in MW (G8).
 - G6: ampliamenti della stessa centrale additivi (Vemork 216 MW dal 1937, Cubatão 524 MW dal 1936).
@@ -57,6 +61,6 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 ## Lacune ancora aperte
 | ID | Problema | Perché blocca | Proposta |
 |---|---|---|---|
-| G3 | Ricette di componenti, motori, macchinari, munizioni: da proporre | catena fino ad aerei e camion | proposta in arrivo, da approvare |
+| G3b | Ricette di armi leggere, artiglieria, camion, carri, aerei e navi: non definite | dipendono dal catalogo delle unità | con le unità (Fase 5) |
 | G4 | Consumo di carburante delle unità: da proporre | bilancio carburante, carbone, elettricità | proposta in arrivo, da approvare |
 | G7 | Base idro mancante: i totali per nazione vanno tarati sulla domanda (Italia ≥ 95%), non su MW assoluti | serve l'industria iniziale per nazione (non esiste ancora) | tarare in Fase 1, quando l'industria iniziale è definita |

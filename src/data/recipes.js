@@ -1,4 +1,5 @@
 // Ricette di trasformazione (data/industry/recipes.json) e scala di estrazione (data/resources/extraction_scale.json).
+// Gli ingressi di una ricetta sono materie prime o altri prodotti (senza cicli); l'energia non è mai un ingresso materiale.
 // Fase 0: SOLO DATI e validazione, nessuna regola di gioco. Funzioni PURE: ricevono i file già letti.
 // Riusano il catalogo esistente: la capacità e l'energia di una fabbrica restano in data/industry/factories.csv (non si duplicano qui);
 // il legame prodotto → ingressi → fabbrica per acciaio e alluminio è già in PRODUCT_META (provinceResources.js): qui si controlla che coincida.
@@ -22,8 +23,7 @@ export function validateRecipes(file, { factoriesById, resources }) {
   if (file?.schema !== RECIPES_SCHEMA) return [`ricette: schema ${file?.schema}, atteso ${RECIPES_SCHEMA}`];
   const known = new Set(resources.map((r) => r.id));
   const derived = derivedIds(resources);
-  const raw = new Set([...known].filter((id) => !derived.has(id)));
-  const ids = new Set();
+    const ids = new Set();
   const producedBy = new Map(); // prodotto → [recipe id]
   const check = (r, label, isFlow) => {
     if (typeof r.id !== 'string' || !r.id) { errors.push(`ricette: ${label} senza id`); return; }
@@ -39,7 +39,7 @@ export function validateRecipes(file, { factoriesById, resources }) {
     const seen = new Set();
     for (const i of r.inputs) {
       if (!known.has(i.resource)) errors.push(`ricette: ${r.id} usa ${i.resource}, che non esiste in resources.json`);
-      else if (!raw.has(i.resource)) errors.push(`ricette: ${r.id} usa ${i.resource}, che non è una materia prima (niente catene tra prodotti in questa fase)`);
+      else if (i.resource === 'hydro' || i.resource === 'electricity') errors.push(`ricette: ${r.id} usa ${i.resource} come ingresso: l'energia è un flusso, non un materiale`);
       if (seen.has(i.resource)) errors.push(`ricette: ${r.id} con ingresso duplicato ${i.resource}`);
       seen.add(i.resource);
       if (!(i.perUnit > 0)) errors.push(`ricette: ${r.id} con perUnit non valido per ${i.resource}`);
@@ -59,6 +59,18 @@ export function validateRecipes(file, { factoriesById, resources }) {
   };
   for (const r of file.recipes ?? []) check(r, 'ricetta', false);
   for (const r of file.flows ?? []) check(r, 'flusso', true);
+  // niente cicli tra prodotti (un prodotto non può, direttamente o no, servire a produrre se stesso)
+  const deps = new Map();
+  for (const r of file.recipes ?? []) { const o = r.output?.product; if (!o) continue; if (!deps.has(o)) deps.set(o, new Set()); for (const i of r.inputs ?? []) if (derived.has(i.resource)) deps.get(o).add(i.resource); }
+  const state = new Map();
+  const visit = (id, path) => {
+    if (state.get(id) === 2) return;
+    if (state.get(id) === 1) { errors.push(`ricette: ciclo tra prodotti (${[...path, id].join(' → ')})`); return; }
+    state.set(id, 1);
+    for (const d of deps.get(id) ?? []) visit(d, [...path, id]);
+    state.set(id, 2);
+  };
+  for (const id of deps.keys()) visit(id, []);
   // ogni prodotto/flusso del catalogo ha almeno una ricetta (o un flusso)
   for (const id of derived) if (!producedBy.has(id)) errors.push(`ricette: il ${id} del catalogo non ha nessuna ricetta`);
   // coerenza con il legame prodotto → fabbrica già presente (PRODUCT_META)
@@ -103,7 +115,7 @@ export function validateExtractionScale(file, { recipes, resources }) {
     if (v !== null && !(v > 0)) errors.push(`scala di estrazione: ${id} con valore non valido ${JSON.stringify(v)}`);
   }
   for (const id of RESOURCE_ORDER) if (!(id in scale)) errors.push(`scala di estrazione: manca ${id} (usare null se nessuna ricetta lo consuma)`);
-  const consumed = new Set((recipes.recipes ?? []).flatMap((r) => r.inputs.map((i) => i.resource)));
+  const consumed = new Set((recipes.recipes ?? []).flatMap((r) => r.inputs.map((i) => i.resource)).filter((id) => !derived.has(id)));
   for (const id of consumed) if (!(scale[id] > 0)) errors.push(`scala di estrazione: ${id} è consumata da una ricetta ma senza scala`);
   return errors;
 }
