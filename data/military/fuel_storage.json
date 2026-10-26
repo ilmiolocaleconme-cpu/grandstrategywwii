@@ -1,0 +1,12 @@
+{
+  "schema": "fuel-storage-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Capacità di stoccaggio del carburante per livello di deposito (strutture INF-010/011/012 del Pack, in data/infrastructure/structures.csv). Valori in tonnellate, approvati dall'utente il 26/10/2026: SEGNAPOSTO di bilanciamento, non dati storici. Calibrati sul fabbisogno stimato dell'esercito tedesco del 1939 (circa 175 t/giorno): un deposito strategico dà circa tre mesi. Nessuno stoccaggio gratuito: senza depositi la capacità è zero e il carburante in eccesso va perso. Da riscalare con il catalogo delle unità.",
+  "baseCapacity": 0,
+  "overflow": "lost",
+  "depots": [
+    { "structure_id": "INF-010", "building": "depot", "level": "L1", "name_it": "Deposito locale", "capacity": 1500 },
+    { "structure_id": "INF-011", "building": "depot", "level": "L2", "name_it": "Deposito regionale", "capacity": 5000 },
+    { "structure_id": "INF-012", "building": "depot", "level": "L3", "name_it": "Deposito strategico", "capacity": 15000 }
+  ]
+}

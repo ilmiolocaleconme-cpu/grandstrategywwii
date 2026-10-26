@@ -1,0 +1,16 @@
+{
+  "schema": "fuel-consumption-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Consumo di carburante per CATEGORIA di unità, in tonnellate di `fuel` al giorno per un'unità standard (divisione, stormo, nave). Segnaposto di bilanciamento approvato dall'utente il 26/10/2026 (tabella dimezzata rispetto alla prima proposta), NON dato storico. Va riscalato quando verrà importato il catalogo delle unità e ne sarà definita la scala. Una sola leva: i consumi; la capacità delle raffinerie resta quella del Pack.",
+  "idleFactor": 0.1,
+  "idleNote": "Unità ferma = 10% del consumo operativo. Operativa = in movimento, in combattimento o in missione.",
+  "categories": [
+    { "id": "infantry_foot", "name_it": "Fanteria a piedi", "operational": 0.5 },
+    { "id": "infantry_motorized", "name_it": "Fanteria motorizzata / trasporti", "operational": 6 },
+    { "id": "armor", "name_it": "Corazzati", "operational": 12 },
+    { "id": "artillery_motorized", "name_it": "Artiglieria motorizzata", "operational": 4 },
+    { "id": "air_wing", "name_it": "Aerei (stormo in missione)", "operational": 15 },
+    { "id": "ship_small", "name_it": "Navi piccole", "operational": 5 },
+    { "id": "ship_large", "name_it": "Navi grandi", "operational": 30 }
+  ]
+}

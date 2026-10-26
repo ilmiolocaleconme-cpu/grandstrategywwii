@@ -148,5 +148,8 @@ test('prodotti: ogni prodotto è marcato nei dati, ha ingressi che sono materie 
     assert.ok(factories.includes(`${r.fabbrica},`), `${id}: fabbrica ${r.fabbrica} inesistente`);
     for (const i of r.da) assert.ok(RESOURCE_ORDER.includes(i), `${id}: ingresso ${i} non è una materia prima`);
   }
-  assert.deepEqual(resources.filter((x) => x.tipo === 'prodotto').map((x) => x.id).sort(), [...PRODUCT_IDS].sort());
+  // PRODUCT_IDS = prodotti con modello a punti (alluminio, acciaio). Ci sono altri prodotti (carburante, gomma lavorata, chimici) solo con ricetta:
+  // il legame prodotto → ricetta → fabbrica di tutti è controllato in tests/recipes.test.js.
+  const marked = new Set(resources.filter((x) => x.tipo === 'prodotto').map((x) => x.id));
+  for (const id of PRODUCT_IDS) assert.ok(marked.has(id), `${id} è in PRODUCT_IDS ma non è marcato prodotto`);
 });
