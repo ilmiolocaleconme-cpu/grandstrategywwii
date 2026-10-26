@@ -19,6 +19,9 @@ import { pickStaticLabels } from './labelview.js';
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
 const MAX_DPR = 2; // oltre, il costo di disegno cresce senza vantaggi visibili
+const PYRAMID_LEVELS = 0; // livelli intermedi prima di quello giusto: con 3 il riempimento dopo un salto di zoom raddoppiava (le piastrelle dei livelli bassi costano molto)
+const PREFETCH_NEXT = 4; // piastrelle del livello successivo preparate a schermo fermo
+const FADE_MS = 160; // dissolvenza di una piastrella nuova sopra quella provvisoria: niente scatto da sfocato a nitido
 const TILE_LIMIT = 72; // piastrelle in cache (a dpr 2 circa 1 MB l'una)
 const LOD_METHOD = 'radial'; // 'radial' (veloce, usata) o 'dp' (Douglas-Peucker in secondo piano: più fedele, ma ricostruisce i tracciati)
 const IDLE_MS = 160; // gesto fermo: dettaglio pieno e nomi
@@ -121,9 +124,39 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       for (let r = Math.floor(-MAX_LAT / span0); r <= Math.floor((MAX_LAT - 1e-9) / span0); r += 1) for (let c = 0; c < columns(0); c += 1) out.push({ z: 0, c, r, keep: true });
     }
     const screen = visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 0);
+    // piramide, dal grossolano al fine: dopo un salto di zoom grande, prima i pochi tasselli dei 3 livelli sopra (ognuno copre 4 volte
+    // l'area del successivo, quindi costano poco) e solo dopo quelli del livello giusto. Così in pochi decimi di secondo lo schermo passa
+    // da una macchia ingrandita 16 volte a una a metà dettaglio, e non resta sfocato per tutto il tempo del riempimento.
+    for (let k = Math.min(PYRAMID_LEVELS, z - 1); k >= 1; k -= 1) {
+      const seenUp = new Set();
+      for (const t of screen) {
+        const an = ancestorOf(t.c, t.r, k);
+        const key = `${an.c}/${an.r}`;
+        if (seenUp.has(key)) continue;
+        seenUp.add(key);
+        out.push({ z: z - k, c: an.c, r: an.r, keep: false });
+      }
+    }
     for (const t of screen) out.push({ z, c: t.c, r: t.r, keep: z === 0 });
     const seen = new Set(screen.map((t) => `${t.ci}/${t.r}`));
     for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 1)) if (!seen.has(`${t.ci}/${t.r}`)) out.push({ z, c: t.c, r: t.r, keep: z === 0 });
+    if (!s.moving) {
+      // a schermo fermo, in anticipo: un secondo giro attorno (il prossimo trascinamento trova già tutto), le piastrelle più vicine al centro
+      // del livello successivo (il prossimo zoom parte già nitido) e quelle del livello sopra (per rimpicciolire)
+      const seen1 = new Set(visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 1).map((t) => `${t.ci}/${t.r}`));
+      for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 2)) if (!seen1.has(`${t.ci}/${t.r}`)) out.push({ z, c: t.c, r: t.r, keep: z === 0 });
+      if (z < MAX_LEVEL) for (const t of visibleTiles(z + 1, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 0).slice(0, PREFETCH_NEXT)) out.push({ z: z + 1, c: t.c, r: t.r, keep: false });
+      if (z > 1) {
+        const seenUp = new Set();
+        for (const t of screen) {
+          const an = ancestorOf(t.c, t.r, 1);
+          const key = `${an.c}/${an.r}`;
+          if (seenUp.has(key)) continue;
+          seenUp.add(key);
+          out.push({ z: z - 1, c: an.c, r: an.r, keep: false });
+        }
+      }
+    }
     return out;
   };
 
@@ -153,7 +186,8 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       const j = s.job;
       const r = j.it.next();
       if (r.done) {
-        s.tiles.set(j.key, { canvas: j.canvas, gen: j.gen, keep: j.keep });
+        const had = s.tiles.get(j.key);
+        s.tiles.set(j.key, { canvas: j.canvas, gen: j.gen, keep: j.keep, born: had ? 0 : performance.now() }); // sostituzione di una versione vecchia: nessuna dissolvenza
         s.job = null;
         done += 1;
         baseRef.current.dataset.drawn = '1';
@@ -198,6 +232,29 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const B = TILE_BLEED;
     const full = T + 2 * B;
     let missing = 0;
+    let fading = false;
+    const now = performance.now();
+    // al posto di una piastrella assente: le 4 del livello più fine (se ci sono tutte), altrimenti il quadrante di quella più grossolana
+    const drawFallback = (t, dx0, dy0, dx1, dy1) => {
+      if (z < MAX_LEVEL) {
+        const kids = childrenOf(t.c, t.r).map((k) => ({ ...k, tile: s.tiles.touch(tileKey(z + 1, k.c, k.r)) }));
+        if (kids.every((k) => k.tile)) {
+          const mx = Math.round((dx0 + dx1) / 2);
+          const my = Math.round((dy0 + dy1) / 2);
+          for (const k of kids) ctx.drawImage(k.tile.canvas, B, B, T, T, k.qx ? mx : dx0, k.qy ? my : dy0, (k.qx ? dx1 : mx) - (k.qx ? mx : dx0), (k.qy ? dy1 : my) - (k.qy ? my : dy0));
+          return true;
+        }
+      }
+      for (let dz = 1; dz <= z; dz += 1) {
+        const an = ancestorOf(t.c, t.r, dz);
+        const pt = s.tiles.touch(tileKey(z - dz, an.c, an.r));
+        if (!pt) continue;
+        const sz = T / an.f;
+        ctx.drawImage(pt.canvas, B + an.qx * sz, B + an.qy * sz, sz, sz, dx0, dy0, dx1 - dx0, dy1 - dy0);
+        return true;
+      }
+      return false;
+    };
     for (const t of visibleTiles(z, a, s.size.w, s.size.h, WORLD_W, -MAX_LAT, MAX_LAT, 0)) {
       const rc = tileRect(z, t.ci, t.r, a, WORLD_W);
       const dx0 = Math.round(rc.x * dpr);
@@ -209,30 +266,20 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
         if (exact.gen !== s.gen) missing += 1;
         const fx = (dx1 - dx0) / T;
         const fy = (dy1 - dy0) / T;
+        const age = exact.born ? now - exact.born : FADE_MS;
+        if (age < FADE_MS) { // appena disegnata: si dissolve sopra la versione provvisoria
+          fading = true;
+          drawFallback(t, dx0, dy0, dx1, dy1);
+          ctx.globalAlpha = age / FADE_MS;
+        }
         ctx.drawImage(exact.canvas, 0, 0, full, full, dx0 - B * fx, dy0 - B * fy, full * fx, full * fy);
+        ctx.globalAlpha = 1;
         continue;
       }
       missing += 1;
-      // al suo posto: le 4 piastrelle del livello più fine (se ci sono tutte), altrimenti il quadrante di quella più grossolana
-      let drawn = false;
-      if (z < MAX_LEVEL) {
-        const kids = childrenOf(t.c, t.r).map((k) => ({ ...k, tile: s.tiles.touch(tileKey(z + 1, k.c, k.r)) }));
-        if (kids.every((k) => k.tile)) {
-          const mx = Math.round((dx0 + dx1) / 2);
-          const my = Math.round((dy0 + dy1) / 2);
-          for (const k of kids) ctx.drawImage(k.tile.canvas, B, B, T, T, k.qx ? mx : dx0, k.qy ? my : dy0, (k.qx ? dx1 : mx) - (k.qx ? mx : dx0), (k.qy ? dy1 : my) - (k.qy ? my : dy0));
-          drawn = true;
-        }
-      }
-      for (let dz = 1; !drawn && dz <= z; dz += 1) {
-        const an = ancestorOf(t.c, t.r, dz);
-        const pt = s.tiles.touch(tileKey(z - dz, an.c, an.r));
-        if (!pt) continue;
-        const sz = T / an.f;
-        ctx.drawImage(pt.canvas, B + an.qx * sz, B + an.qy * sz, sz, sz, dx0, dy0, dx1 - dx0, dy1 - dy0);
-        drawn = true;
-      }
+      drawFallback(t, dx0, dy0, dx1, dy1);
     }
+    if (fading) requestFrame(); // la dissolvenza va avanti finché dura
     base.dataset.tileMiss = String(missing); // diagnostica dei test: piastrelle dello schermo non ancora al livello giusto
     if (missing || s.tiles.size < 4) pumpTiles();
     paintOverlay();
