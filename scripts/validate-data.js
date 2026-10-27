@@ -25,6 +25,7 @@ import { validateHydro } from '../src/data/hydro.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
 import { validateEconomy } from '../src/data/economy.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
+import { validateInitialStocks } from '../src/data/initialStocks.js';
 import { validateProduction } from '../src/data/production.js';
 import { validateExtractionFactors, validateLocationsExtra } from '../src/data/extraction.js';
 import { productionBuilt, productionFile } from './build-production.js';
@@ -108,6 +109,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateFuelStorage(JSON.parse(await text('military/fuel_storage.json')), { structureIds: industry.structures, buildingIds: new Set(catalog.buildings.buildings.map((b) => b.id)) }));
     errors.push(...validateEconomy(JSON.parse(await text('economy/economy.json')), { resources: catalog.resources, recipes: JSON.parse(await text('industry/recipes.json')) }));
     errors.push(...validateInitialIndustry(JSON.parse(await text('industry/initial_industry.json')), { factoriesById: industry.byId, recipes: recipesDoc, entityIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), nationIds: JSON.parse(await text('nations.json')).map((n) => n.id) }));
+    errors.push(...validateInitialStocks(JSON.parse(await text('industry/initial_stocks.json')), { resourceIds: new Set(catalog.resources.map((r) => r.id)), industry: JSON.parse(await text('industry/initial_industry.json')) }));
     // Produzione 1936 (CSV dell'utente): copie non modificate e file generato allineato
     for (const sh of JSON.parse(await text('resources/SOURCE_PRODUZIONE.json')).files) {
       if (createHash('sha256').update(await readFile(new URL(`../data/resources/${sh.file}`, import.meta.url))).digest('hex') !== sh.sha256) errors.push(`produzione: ${sh.file} diverso dalla copia ricevuta (sha256)`);

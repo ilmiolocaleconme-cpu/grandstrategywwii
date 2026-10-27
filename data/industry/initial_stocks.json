@@ -1,0 +1,121 @@
+{
+  "schema": "initial-stocks-v1",
+  "quality": "DESIGN_DEFAULT",
+  "asOf": "1936-01-01",
+  "days": 150,
+  "utilisation": 1,
+  "unit": "t",
+  "note": "Regola approvata in chat il 27/10/2026: ogni nazione con industria iniziale resiste 150 giorni senza commercio con l'industria a pieno regime. Stock = giorni × (consumo − produzione nazionale), solo dove manca. Copre l'industria, non l'esercito (consumatori militari: Fase 5). I deficit di carbone delle nazioni piccole dipendono da dati di produzione 1936 mancanti (MISSING_DATA). Gli stock non sono sottratti a nessuno.",
+  "stocks": {
+    "AUT": {
+      "coal": 21000
+    },
+    "BEL": {
+      "iron_ore": 48000,
+      "sulphur": 6000,
+      "steel": 6000,
+      "aluminium": 5100,
+      "processed_rubber": 1200
+    },
+    "CAN": {
+      "iron_ore": 24000,
+      "sulphur": 6000,
+      "steel": 21000,
+      "aluminium": 5100,
+      "processed_rubber": 1200
+    },
+    "CEY": {
+      "coal": 9000
+    },
+    "CHL": {
+      "coal": 21000
+    },
+    "CZE": {
+      "coal": 21000,
+      "sulphur": 6000,
+      "steel": 21000,
+      "aluminium": 5100,
+      "processed_rubber": 1200
+    },
+    "DEU": {
+      "iron_ore": 227010,
+      "bauxite": 84000,
+      "rubber": 16200,
+      "sulphur": 6000
+    },
+    "ESP": {
+      "coal": 21000
+    },
+    "FRA": {
+      "oil": 16500,
+      "rubber": 16200,
+      "sulphur": 6000
+    },
+    "GBR": {
+      "iron_ore": 70020,
+      "oil": 16500,
+      "bauxite": 42000,
+      "rubber": 16200,
+      "sulphur": 6000
+    },
+    "HUN": {
+      "coal": 9000
+    },
+    "IRN": {
+      "coal": 9000
+    },
+    "ITA": {
+      "iron_ore": 24000,
+      "coal": 6195,
+      "steel": 21000,
+      "processed_rubber": 1200
+    },
+    "JPN": {
+      "iron_ore": 96000,
+      "oil": 12045,
+      "bauxite": 42000,
+      "rubber": 16200,
+      "sulphur": 510
+    },
+    "MAL": {
+      "coal": 9000
+    },
+    "MEX": {
+      "coal": 4560
+    },
+    "POL": {
+      "iron_ore": 12030,
+      "sulphur": 6000,
+      "steel": 21000,
+      "aluminium": 5100,
+      "processed_rubber": 1200
+    },
+    "ROM": {
+      "coal": 9000
+    },
+    "SUR": {
+      "coal": 9000
+    },
+    "SWE": {
+      "coal": 21000,
+      "sulphur": 6000,
+      "steel": 21000,
+      "aluminium": 5100,
+      "processed_rubber": 1200
+    },
+    "USA": {
+      "iron_ore": 250875,
+      "rubber": 16200
+    },
+    "USSR": {
+      "rubber": 16200,
+      "sulphur": 6000
+    },
+    "VEN": {
+      "coal": 9000
+    },
+    "YUG": {
+      "coal": 9000
+    }
+  }
+}

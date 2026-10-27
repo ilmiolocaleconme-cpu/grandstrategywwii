@@ -111,3 +111,9 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 - Decisioni del 27/10/2026 ancora da realizzare: mantenimento di alcune divisioni (Fase 5), vendita del surplus di sole risorse naturali (Fase 2).
 - Stato: dati implementati e testati; non ancora istanziati nelle partite né collegati a `SYSTEMS`.
 - **Rete di base** (approvata 27/10/2026): 40 MW per ognuna delle 51 nazioni di fascia C (`baseGrid`, MISSING_DATA, valore di progetto). Il mantenimento delle divisioni è previsto ma non attivo.
+
+## Stock iniziali (27/10/2026)
+
+- `data/industry/initial_stocks.json` (schema `initial-stocks-v1`, DESIGN_DEFAULT), generato da `npm run build:stocks`; logica in `src/data/initialStocks.js`; test `tests/initial_stocks.test.js` (ricalcolo dalla regola).
+- **Regola** (richiesta dell'utente: "una nazione deve almeno resistere 5 mesi senza commercio"): 150 giorni con l'industria iniziale a pieno regime (scelta tra 80% e 100%: 100%). Stock = giorni × (consumo − produzione nazionale), solo dove manca. 24 entità, 62 voci. Le nazioni che si bastano (es. Paesi Bassi) e la fascia C non hanno stock.
+- Limiti: copre l'industria, non l'esercito (Fase 5); i deficit di carbone delle nazioni piccole dipendono da dati di produzione 1936 mancanti (MISSING_DATA); gli stock non sono sottratti a nessuno. Non ancora istanziati nelle partite.
