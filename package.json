@@ -24,7 +24,8 @@
     "build:resource-points": "node scripts/build-resource-points.js",
     "build:transport": "node scripts/build-transport.js",
     "build:hydro": "node scripts/build-hydro.js",
-    "build:terrain": "python3 -I scripts/terrain/build_terrain.py"
+    "build:terrain": "python3 -I scripts/terrain/build_terrain.py",
+    "build:production": "node scripts/build-production.js"
   },
   "dependencies": {
     "react": "^19.3.0",

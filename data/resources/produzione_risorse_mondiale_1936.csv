@@ -1,0 +1,46 @@
+Risorsa,Nazione,Regione_Provincia,Produzione_Tonnellate,Contesto_Geopolitico
+Carbone,Stati Uniti,"Appalachia (Pennsylvania, West Virginia)",378000000,"Leader mondiale, spinta industriale post-Grande Depressione"
+Carbone,Regno Unito,"Galles del Sud, Yorkshire, Northumberland",223000000,"Principale produttore europeo, pilastro dell'Impero Britannico"
+Carbone,Germania,"Bacino della Ruhr, Slesia, Saar",158000000,Alimentava l'industria siderurgica del Terzo Reich e il riarmo
+Carbone,Unione Sovietica,"Bacino del Donbass (Ucraina), Kuzbass (Siberia)",115000000,In forte espansione sotto il Secondo Piano Quinquennale
+Carbone,Cina (Nazionalista),"Bacino di Kaiping, Hebei, Shanxi",24000000,Territori sotto controllo del governo centrale di Nanchino
+Carbone,Manciukuò,"Fushun, Benxihu",12500000,Stato fantoccio controllato dal Giappone per sfruttamento minerario
+Carbone,Giappone,"Kyushu, Hokkaido",40000000,"Madrepatria dell'Impero Giapponese, insufficiente per il consumo interno"
+Carbone,India Britannica,"Raniganj, Jharia (Bihar/Bengala)",23000000,"Colonia britannica, alimentava ferrovie e acciaierie Tata"
+Carbone,Australia,"Nuovo Galles del Sud, Victoria",1450000,"Dominion britannico, include litantrace e lignite"
+Petrolio,Stati Uniti,"Texas, Oklahoma, California",150000000,Dominio assoluto mondiale (oltre il 60% della produzione globale)
+Petrolio,Unione Sovietica,"Baku (Azerbaigian), Groznyj (Caucaso)",27400000,"Secondo produttore mondiale, pilastro energetico statale"
+Petrolio,Venezuela,Bacino di Maracaibo,23000000,"Principale esportatore mondiale, forte influenza di compagnie USA e UK"
+Petrolio,Indie Orientali Olandesi,"Sumatra, Borneo (Balikpapan)",7200000,"Colonia olandese, obiettivo strategico primario del Giappone"
+Petrolio,Iran,"Masjed Soleyman, Abadan",8300000,Controllato dalla Anglo-Iranian Oil Company (Regno Unito)
+Petrolio,Romania,Ploiești,8700000,"Maggiore produttore europeo (esclusa URSS), vitale per la Germania"
+Petrolio,Iraq,Kirkuk,4000000,Controllato dalla Iraq Petroleum Company (consorzio occidentale)
+Minerale di Ferro,Stati Uniti,"Mesabi Range (Minnesota), Michigan",50000000,"Leader mondiale, base per l'industria siderurgica USA"
+Minerale di Ferro,Francia,Lorena,33000000,"Maggiore produttore europeo, bacini strategici di confine"
+Minerale di Ferro,Unione Sovietica,"Krivoj Rog (Ucraina), Magnitogorsk (Urali)",27500000,Alimentava l'industrializzazione rapida pianificata da Stalin
+Minerale di Ferro,Svezia,"Kiruna, Gällivare (Lapponia)",11000000,"Nazione neutrale, esportatrice cruciale di ferro purissimo in Germania"
+Minerale di Ferro,Regno Unito,"Midlands, Cleveland",13000000,Produzione domestica integrata dalle massicce importazioni coloniali
+Minerale di Ferro,India Britannica,"Bihar, Orissa",2500000,Forniva le grandi acciaierie Tata a Jamshedpur
+Minerale di Ferro,Manciukuò,"Anshan, Benxihu",1300000,Interamente integrato nei flussi industriali verso il Giappone
+Gomma Naturale,Malesia Britannica,"Straits Settlements, Perak, Selangor",365000,"Leader mondiale assoluto, monopolio strategico dell'Impero Britannico"
+Gomma Naturale,Indie Orientali Olandesi,"Sumatra, Giava",310000,"Secondo produttore globale, controllato da piantagioni olandesi"
+Gomma Naturale,Ceylon,"Provincia Occidentale, Sabaragamuwa",67000,"Colonia britannica, importante riserva strategica nell'Oceano Indiano"
+Gomma Naturale,Indocina Francese,"Cocincina (Vietnam del Sud), Cambogia",42000,Sfruttamento coloniale francese (es. piantagioni Michelin)
+Gomma Naturale,Brasile,"Bacino del Rio delle Amazzoni (Pará, Amazonas)",15000,"Patria originaria dell'Hevea, ma ridotta a quota marginale dal boom asiatico"
+Rame,Stati Uniti,"Arizona, Utah (Bingham Canyon), Montana",550000,"Leader mondiale, essenziale per elettrificazione e munizioni"
+Rame,Cile,"Chuquicamata, El Teniente",260000,"Secondo produttore globale, miniere controllate da capitali USA"
+Rame,Canada,"Sudbury (Ontario), Flin Flon (Manitoba)",190000,"Dominion britannico, grande esportatore industriale"
+Rame,Rhodesia Settentrionale,Copperbelt (Zambia),140000,"Colonia britannica, una delle riserve di rame più ricche del mondo"
+Rame,Belgio / Congo Belga,Katanga,95000,"Colonia belga, sfruttata dalla Union Minière du Haut-Katanga"
+Rame,Giappone,"Ashio, Besshi",78000,Autosufficiente grazie a ricchi depositi vulcanici interni
+Rame,Unione Sovietica,"Urali, Balkhaš (Kazakistan)",80000,"Produzione insufficiente, l'URSS dipendeva in parte da importazioni"
+Bauxite,Francia,"Provenza (Var), Linguadoca",650000,"Leader mondiale, il termine 'bauxite' deriva dalla località francese di Les Baux"
+Bauxite,Stati Uniti,Arkansas,370000,Alimentava il colosso dell'alluminio ALCOA
+Bauxite,Ungheria,Monti Bakony,330000,"Forte crescita, stretti legami commerciali ed esportazioni verso la Germania"
+Bauxite,Suriname,Distretto di Para,240000,"Colonia olandese (Guyana Olandese), esportava quasi tutto il minerale negli USA"
+Bauxite,Unione Sovietica,"Tichvin (Leningrado), Krasnaja Šapočka (Urali)",200000,Settore critico per lo sviluppo dell'aviazione militare sovietica
+Bauxite,Indie Orientali Olandesi,Isola di Bintan (Riau),135000,Esportazioni dirette principalmente verso le industrie giapponesi
+Zolfo,Stati Uniti,"Costa del Golfo (Texas, Louisiana)",2000000,Monopolio quasi assoluto dello zolfo nativo grazie al processo Frasch
+Zolfo,Italia,"Sicilia (Caltanissetta, Enna, Agrigento)",340000,"Storico primato europeo dello zolfo, risorsa chiave del regime fascista"
+Zolfo,Giappone,"Hokkaido, Tohoku (Aomori)",175000,"Estrazione da depositi vulcanici nativi, leader in Asia"
+Zolfo,Cile,"Antofagasta, Atacama",25000,Zolfo vulcanico d'alta quota nelle Ande

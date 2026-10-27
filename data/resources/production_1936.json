@@ -1,0 +1,533 @@
+{
+  "schema": "production-1936-v1",
+  "quality": "USER_ESTIMATE",
+  "unit": "Mt/anno",
+  "note": "Stime 1936 fornite dall'utente (non verificate su fonti primarie; il ferro di USA, Francia, URSS, Regno Unito, Germania e Belgio coincide con US Bureau of Mines e NBER). Il file «completo» prevale sul primo dove si sovrappongono; le righe del primo che il completo non ha si aggiungono. Generato da scripts/build-production.js: non modificare a mano.",
+  "conversion": {
+    "realPerGame": 43.8,
+    "quality": "DESIGN_DEFAULT",
+    "rationale": "1 acciaieria (100 t/giorno) ≈ 1,6 Mt/anno di acciaio reale → 1 t di gioco ≈ 43,8 t reali. Non ancora applicata ai punti delle province."
+  },
+  "rows": [
+    {
+      "resource": "bauxite",
+      "territory": "Francia",
+      "prefix": "FRA",
+      "region": "Provenza (Var, Les Baux)",
+      "mt": 0.65,
+      "context": "Leader mondiale del minerale da cui prende il nome (Les Baux).",
+      "source": "completo"
+    },
+    {
+      "resource": "bauxite",
+      "territory": "Stati Uniti",
+      "prefix": "USA",
+      "region": "Arkansas",
+      "mt": 0.37,
+      "context": "Alimentava i giganti dell'alluminio aeronautico americano (Alcoa).",
+      "source": "completo"
+    },
+    {
+      "resource": "bauxite",
+      "territory": "Ungheria",
+      "prefix": "HUN",
+      "region": "Gánt, Bakony",
+      "mt": 0.33,
+      "context": "Esportava quasi interamente la produzione nella Germania nazista.",
+      "source": "completo"
+    },
+    {
+      "resource": "bauxite",
+      "territory": "Suriname",
+      "prefix": "SUR",
+      "region": "Distretto di Para",
+      "mt": 0.24,
+      "context": "Colonia olandese (Guyana Olandese), esportava quasi tutto il minerale negli USA",
+      "source": "primo"
+    },
+    {
+      "resource": "bauxite",
+      "territory": "Unione Sovietica",
+      "prefix": "USSR",
+      "region": "Tichvin (Leningrado), Krasnaja Sapočka (Urali)",
+      "mt": 0.2,
+      "context": "Sviluppo accelerato per svincolarsi dalle importazioni occidentali.",
+      "source": "completo"
+    },
+    {
+      "resource": "bauxite",
+      "territory": "Indie Orientali Olandesi",
+      "prefix": "NLD",
+      "scope": "P_NLD_EI_",
+      "region": "Isola di Bintan (vicino a Singapore)",
+      "mt": 0.135,
+      "context": "Inizio dei flussi verso le industrie metallurgiche di Giappone e Germania.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Stati Uniti",
+      "prefix": "USA",
+      "region": "Appalachia (Pennsylvania, West Virginia)",
+      "mt": 378,
+      "context": "Leader mondiale, alimentava l'immensa industria interna.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Regno Unito",
+      "prefix": "GBR",
+      "region": "Galles del Sud, Yorkshire, Newcastle",
+      "mt": 223,
+      "context": "Pilastro energetico dell'Impero Britannico.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Germania",
+      "prefix": "DEU",
+      "region": "Bacino della Ruhr, Slesia, Saar",
+      "mt": 158,
+      "context": "Motore dell'autarchia e del riarmo del Terzo Reich.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Unione Sovietica",
+      "prefix": "USSR",
+      "region": "Donbass (Ucraina), Kuzbass (Siberia)",
+      "mt": 115,
+      "context": "Produzione spinta dai Piani Quinquennali staliniani.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Francia",
+      "prefix": "FRA",
+      "region": "Nord-Pas-de-Calais, Lorena",
+      "mt": 46,
+      "context": "Produzione insufficiente, costretta a importare dalla Germania.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Giappone",
+      "prefix": "JPN",
+      "region": "Kyushu, Hokkaido",
+      "mt": 40,
+      "context": "Madrepatria dell'Impero Giapponese, insufficiente per il consumo interno",
+      "source": "primo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Polonia",
+      "prefix": "POL",
+      "region": "Alta Slesia",
+      "mt": 30,
+      "context": "Bacino conteso, esportatore chiave nell'Europa centrale.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Belgio",
+      "prefix": "BEL",
+      "region": "Sambre-Meuse, Campine",
+      "mt": 27,
+      "context": "Bacini storici ad alta densità estrattiva.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Cina (Nazionalista)",
+      "prefix": "CHN",
+      "region": "Bacino di Kaiping, Hebei",
+      "mt": 24,
+      "context": "Sotto controllo del governo di Nanchino prima dell'invasione del 1937.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "India Britannica",
+      "prefix": "IND",
+      "region": "Raniganj, Jharia (Bihar/Bengala)",
+      "mt": 23,
+      "context": "Maggiore produttore coloniale asiatico dell'Impero Britannico.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Unione Sudafricana",
+      "prefix": "ZAF",
+      "region": "Transvaal, Natal",
+      "mt": 15,
+      "context": "Unico polo carbonifero pesante del continente africano.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Manciukuò",
+      "prefix": "MAN",
+      "region": "Fushun, Benxihu (Manciuria occupata)",
+      "mt": 12.5,
+      "context": "Stato fantoccio controllato dal Giappone militarista.",
+      "source": "completo"
+    },
+    {
+      "resource": "coal",
+      "territory": "Canada",
+      "prefix": "CAN",
+      "region": "Nuova Scozia, Alberta",
+      "mt": 12,
+      "context": "Dominion britannico, rifornimento strategico atlantico.",
+      "source": "completo"
+    },
+    {
+      "resource": "copper",
+      "territory": "Stati Uniti",
+      "prefix": "USA",
+      "region": "Bingham Canyon (Utah), Arizona",
+      "mt": 0.55,
+      "context": "Primo produttore globale, essenziale per munizioni e reti elettriche.",
+      "source": "completo"
+    },
+    {
+      "resource": "copper",
+      "territory": "Cile",
+      "prefix": "CHL",
+      "region": "Chuquicamata, El Teniente",
+      "mt": 0.26,
+      "context": "Giacimenti immensi controllati da capitali statunitensi.",
+      "source": "completo"
+    },
+    {
+      "resource": "copper",
+      "territory": "Canada",
+      "prefix": "CAN",
+      "region": "Sudbury (Ontario), Flin Flon (Manitoba)",
+      "mt": 0.19,
+      "context": "Grande esportatore dell'Impero Britannico verso i mercati alleati.",
+      "source": "completo"
+    },
+    {
+      "resource": "copper",
+      "territory": "Rhodesia Settentrionale",
+      "prefix": "ZAM",
+      "region": "Copperbelt (Zambia britannico)",
+      "mt": 0.15,
+      "context": "Boom estrattivo coloniale negli anni '30, circa il 10% globale.",
+      "source": "completo"
+    },
+    {
+      "resource": "copper",
+      "territory": "Congo Belga",
+      "prefix": "COD",
+      "region": "Provincia del Katanga (Union Minière)",
+      "mt": 0.1,
+      "context": "Distretto minerario integrato ad altissima redditività coloniale.",
+      "source": "completo"
+    },
+    {
+      "resource": "copper",
+      "territory": "Unione Sovietica",
+      "prefix": "USSR",
+      "region": "Urali, Balkhaš (Kazakistan)",
+      "mt": 0.08,
+      "context": "Produzione insufficiente, l'URSS dipendeva in parte da importazioni",
+      "source": "primo"
+    },
+    {
+      "resource": "copper",
+      "territory": "Giappone",
+      "prefix": "JPN",
+      "region": "Miniera di Ashio, Besshi",
+      "mt": 0.078,
+      "context": "Isolati successi di autosufficienza mineraria nell'arcipelago nipponico.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Stati Uniti",
+      "prefix": "USA",
+      "region": "Mesabi Range (Minnesota)",
+      "mt": 50,
+      "context": "Base per la gigantesca siderurgia dei Grandi Laghi.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Francia",
+      "prefix": "FRA",
+      "region": "Bacino della Lorena (Minette)",
+      "mt": 33,
+      "context": "Leader europeo, esportava minerale povero ma abbondante in Germania.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Unione Sovietica",
+      "prefix": "USSR",
+      "region": "Krivoj Rog (Ucraina), Magnitogorsk (Urali)",
+      "mt": 27.5,
+      "context": "Alimentava i combinat siderurgici pianificati dallo Stato.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Regno Unito",
+      "prefix": "GBR",
+      "region": "Midlands, Cleveland",
+      "mt": 13,
+      "context": "Produzione domestica integrata dalle importazioni coloniali e svedesi.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Svezia",
+      "prefix": "SWE",
+      "region": "Kiruna, Gällivare (Lapponia)",
+      "mt": 11,
+      "context": "Nazione neutrale, esportatrice cruciale di ferro purissimo in Germania",
+      "source": "primo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Germania",
+      "prefix": "DEU",
+      "region": "Salzgitter, Siegerland",
+      "mt": 6.5,
+      "context": "Insufficiente per il riarmo, forte dipendenza dal ferro svedese.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "India Britannica",
+      "prefix": "IND",
+      "region": "Singhbhum, Mayurbhanj (Acciaierie Tata)",
+      "mt": 2.5,
+      "context": "Forniva le più grandi acciaierie dell'Impero fuori dal Regno Unito.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Algeria (Colonia Francese)",
+      "prefix": "ALG",
+      "region": "Ouenza, Boukhadra",
+      "mt": 2.2,
+      "context": "Minerale ad alto tenore interamente esportato in Europa.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Manciukuò",
+      "prefix": "MAN",
+      "region": "Anshan, Benxihu (Manciuria)",
+      "mt": 1.3,
+      "context": "Sfruttato intensivamente per le acciaierie dell'Impero Giapponese.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Canada (Terranova)",
+      "prefix": "NFL",
+      "region": "Isola di Terranova (Wabana)",
+      "mt": 0.8,
+      "context": "Minerale esportato sia nel Regno Unito sia in Germania prima del blocco.",
+      "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Cina (Nazionalista)",
+      "prefix": "CHN",
+      "region": "Miniere di Hanyeping (Valle dello Yangtze)",
+      "mt": 0.35,
+      "context": "Produzione residua non occupata, parzialmente vincolata a contratti prebellici.",
+      "source": "completo"
+    },
+    {
+      "resource": "oil",
+      "territory": "Stati Uniti",
+      "prefix": "USA",
+      "region": "Texas, Oklahoma, California",
+      "mt": 150,
+      "context": "Dominio assoluto (oltre il 60% globale), esportatore verso il Giappone.",
+      "source": "completo"
+    },
+    {
+      "resource": "oil",
+      "territory": "Unione Sovietica",
+      "prefix": "USSR",
+      "region": "Baku (Azerbaigian), Groznyj (Caucaso)",
+      "mt": 27.4,
+      "context": "Secondo produttore mondiale, vitale per la motorizzazione dell'Armata Rossa.",
+      "source": "completo"
+    },
+    {
+      "resource": "oil",
+      "territory": "Venezuela",
+      "prefix": "VEN",
+      "region": "Bacino di Maracaibo",
+      "mt": 23,
+      "context": "Principale fornitore estero controllato da compagnie USA e UK.",
+      "source": "completo"
+    },
+    {
+      "resource": "oil",
+      "territory": "Romania",
+      "prefix": "ROM",
+      "region": "Ploiești",
+      "mt": 8.7,
+      "context": "Maggiore produttore europeo (esclusa URSS), vitale per la Germania",
+      "source": "primo"
+    },
+    {
+      "resource": "oil",
+      "territory": "Iran",
+      "prefix": "IRN",
+      "region": "Masjed Soleyman",
+      "mt": 8,
+      "context": "Controllato dalla britannica Anglo-Iranian Oil Company.",
+      "source": "completo"
+    },
+    {
+      "resource": "oil",
+      "territory": "Indie Orientali Olandesi",
+      "prefix": "NLD",
+      "scope": "P_NLD_EI_",
+      "region": "Sumatra, Borneo (Balikpapan)",
+      "mt": 7.2,
+      "context": "Colonia olandese, obiettivo strategico primario per la marina giapponese.",
+      "source": "completo"
+    },
+    {
+      "resource": "oil",
+      "territory": "Iraq",
+      "prefix": "IRQ",
+      "region": "Kirkuk",
+      "mt": 4,
+      "context": "Sotto influenza britannica tramite la Iraq Petroleum Company.",
+      "source": "completo"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Malesia Britannica",
+      "prefix": "MAL",
+      "region": "Straits Settlements, Perak, Selangor",
+      "mt": 0.365,
+      "context": "Monopolio coloniale britannico (42% globale), risorsa ultra-strategica.",
+      "source": "completo"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Indie Orientali Olandesi",
+      "prefix": "NLD",
+      "scope": "P_NLD_EI_",
+      "region": "Sumatra, Giava",
+      "mt": 0.31,
+      "context": "Secondo produttore mondiale sotto controllo di Amsterdam.",
+      "source": "completo"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Ceylon",
+      "prefix": "CEY",
+      "region": "Provincia Occidentale, Sabaragamuwa",
+      "mt": 0.067,
+      "context": "Colonia britannica, importante riserva strategica nell'Oceano Indiano",
+      "source": "primo"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Indocina Francese",
+      "prefix": "INDO",
+      "region": "Cocincina (Vietnam del Sud), Cambogia",
+      "mt": 0.042,
+      "context": "Sfruttamento coloniale francese (es. piantagioni Michelin)",
+      "source": "primo"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Brasile",
+      "prefix": "BRA",
+      "region": "Bacino del Rio delle Amazzoni (Pará, Amazonas)",
+      "mt": 0.015,
+      "context": "Patria originaria dell'Hevea, ma ridotta a quota marginale dal boom asiatico",
+      "source": "primo"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Liberia",
+      "prefix": "LBR",
+      "region": "Piantagioni Firestone (Harbel)",
+      "mt": 0.012,
+      "context": "Stato indipendente ma economicamente legato alle concessioni USA.",
+      "source": "completo"
+    },
+    {
+      "resource": "sulphur",
+      "territory": "Stati Uniti",
+      "prefix": "USA",
+      "region": "Costa del Golfo (Texas, Louisiana)",
+      "mt": 2,
+      "context": "Dominio assoluto tramite il metodo Frasch su cupole saline.",
+      "source": "completo"
+    },
+    {
+      "resource": "sulphur",
+      "territory": "Italia",
+      "prefix": "ITA",
+      "region": "Zolfare della Sicilia, Romagna",
+      "mt": 0.34,
+      "context": "Tradizionale risorsa autarchica del regime fascista per acido solforico.",
+      "source": "completo"
+    },
+    {
+      "resource": "sulphur",
+      "territory": "Giappone",
+      "prefix": "JPN",
+      "region": "Hokkaido, Honshu settentrionale",
+      "mt": 0.175,
+      "context": "Sfruttamento intensivo di depositi vulcanici per la filiera degli esplosivi.",
+      "source": "completo"
+    },
+    {
+      "resource": "sulphur",
+      "territory": "Cile",
+      "prefix": "CHL",
+      "region": "Antofagasta, Atacama",
+      "mt": 0.025,
+      "context": "Zolfo vulcanico d'alta quota nelle Ande",
+      "source": "primo"
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "saltata",
+      "resource": "coal",
+      "territory": "Australia",
+      "primo": 1.45,
+      "reason": "il primo file dice 1,45 Mt, la tabella di sintesi 14,5 Mt, il completo non la riporta: da decidere"
+    },
+    {
+      "kind": "valore diverso",
+      "resource": "oil",
+      "territory": "Iran",
+      "completo": 8,
+      "primo": 8.3,
+      "reason": "prevale il completo"
+    },
+    {
+      "kind": "valore diverso",
+      "resource": "copper",
+      "territory": "Rhodesia Settentrionale",
+      "completo": 0.15,
+      "primo": 0.14,
+      "reason": "prevale il completo"
+    },
+    {
+      "kind": "saltata",
+      "resource": "copper",
+      "territory": "Belgio / Congo Belga",
+      "reason": "aggregato (Belgio / Congo Belga): il completo ha Congo Belga e Belgio separati"
+    }
+  ]
+}

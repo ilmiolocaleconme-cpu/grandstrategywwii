@@ -42,7 +42,7 @@ export default function LoadingScreen({ done = 0, total = 0, error = null, natio
           <div className={`loading-bar${known ? '' : ' indeterminate'}`} role="progressbar" aria-label="Caricamento delle province" aria-valuemin={0} aria-valuemax={100} aria-valuenow={known ? pct : undefined}>
             <span style={known ? { width: `${pct}%` } : undefined} />
           </div>
-          <p className="loading-note">{known ? `Caricamento delle province… ${pct}% (${done}/${total})` : 'Preparazione…'}</p>
+          <p className="loading-note">{known ? `Caricamento dei dati… ${pct}% (${done}/${total})` : 'Preparazione…'}</p>
         </>
       )}
     </main>

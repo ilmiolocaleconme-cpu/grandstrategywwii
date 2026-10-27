@@ -1,0 +1,104 @@
+{
+  "schema": "economy-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Economia di base: PROPOSTA di design, non dati storici (deciso in chat 26/10/2026). Una sola valuta di gioco; l'entrata giornaliera di una nazione è il valore delle merci prodotte o estratte più una quota fissa per i territori controllati. I prezzi sono tarati perché un'acciaieria a pieno regime si ripaghi in circa 75 giorni. Nessuna popolazione: il repository non ha quel dato. Il bilanciamento definitivo va rivisto quando esisteranno i consumatori (unità, carburante militare, munizioni).",
+  "currency": {
+    "id": "ECV",
+    "name_it": "Valore economico di costruzione",
+    "note": "Stessa unità dei costi construction_ecv di data/industry/factories.csv; non corrisponde a dollari o lire reali."
+  },
+  "prices": {
+    "coal": 0.005,
+    "iron_ore": 0.006,
+    "oil": 0.01,
+    "bauxite": 0.008,
+    "rubber": 0.008,
+    "sulphur": 0.008,
+    "steel": 0.03,
+    "aluminium": 0.05,
+    "fuel": 0.04,
+    "processed_rubber": 0.05,
+    "chemicals": 0.04,
+    "machinery": 0.06,
+    "components": 0.06,
+    "engines": 0.06,
+    "munitions": 0.05,
+    "electricity": null,
+    "wheat": null,
+    "tungsten": null,
+    "tin": null,
+    "manganese": null,
+    "chromium": null,
+    "nickel": null,
+    "cobalt": null,
+    "molybdenum": null,
+    "vanadium": null,
+    "antimony": null,
+    "mercury": null,
+    "uranium": null,
+    "copper": null
+  },
+  "territory": {
+    "perProvince": 0.2,
+    "perCity": 0.5,
+    "perCapital": 1,
+    "rationale": "Quota fissa al giorno per ogni provincia controllata, più un extra per le città grandi e per la capitale. Serve a dare un'entrata minima anche a chi ha poca industria (Italia, Giappone); da tarare nel bilanciamento finale."
+  },
+  "difficulty": {
+    "default": "media",
+    "levels": [
+      {
+        "id": "facile",
+        "name_it": "Facile",
+        "costMul": 0.5,
+        "timeMul": 0.7,
+        "stockMul": 1.5,
+        "incomeMul": 1.3
+      },
+      {
+        "id": "media",
+        "name_it": "Media",
+        "costMul": 1,
+        "timeMul": 1,
+        "stockMul": 1,
+        "incomeMul": 1
+      },
+      {
+        "id": "reale",
+        "name_it": "Reale",
+        "costMul": 1.5,
+        "timeMul": 1.3,
+        "stockMul": 0.7,
+        "incomeMul": 0.9
+      }
+    ],
+    "rationale": "Solo moltiplicatori applicati a runtime: i dati restano uno (Media). «Reale» è la più dura con i nostri numeri, non una difficoltà storica verificata."
+  },
+  "mines": {
+    "gapParts": 3,
+    "rationale": "Ogni livello porta i punti di una provincia e risorsa di 1/3 della distanza tra base e max (resource_points.json). Si costruisce in ordine, un livello per volta. Giacimenti non esauribili (deciso in chat). Il petrolio richiede energia per il pompaggio (da definire con la ricetta di estrazione).",
+    "levels": [
+      {
+        "level": 1,
+        "ecv": 60,
+        "days": 30,
+        "steel": 150,
+        "workers": 200
+      },
+      {
+        "level": 2,
+        "ecv": 80,
+        "days": 40,
+        "steel": 250,
+        "workers": 300
+      },
+      {
+        "level": 3,
+        "ecv": 100,
+        "days": 50,
+        "steel": 400,
+        "workers": 400
+      }
+    ]
+  }
+}
