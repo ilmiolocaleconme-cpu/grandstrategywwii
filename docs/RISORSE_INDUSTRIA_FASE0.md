@@ -31,7 +31,7 @@ Esiti verificati in test sui punti base: USA ≥ 5 acciaierie con sole risorse n
 
 ## Decisioni di integrazione
 - Il repository resta la fonte: ID `FCT-*` al posto di `steel_mill`/`oil_refinery`/`power_plant_coal` del pacchetto; capacità dalle fabbriche del Pack (non 100 per tutte).
-- Nessun impianto di estrazione nuovo (`mine_coal`, `oil_field`...): l'estrazione resta il centro produttivo a punti. Nessun esaurimento dei giacimenti (deciso in chat 26/10/2026).
+- Miniere costruibili per provincia e risorsa (deciso in chat 26/10/2026, sostituisce la scelta iniziale di Fase 0 «nessun impianto nuovo»): 3 livelli che portano i punti da `base` verso `max` (`resource_points.json`), mai oltre. Nessun esaurimento dei giacimenti. Costi in `data/economy/economy.json`. Il catalogo edifici e la costruzione in partita NON sono ancora implementati (solo dati, funzioni `mineCost`, `minePoints` e test).
 - Un solo carburante con due vie (deciso in chat). Le catene tra prodotti (acciaio → componenti → aerei) NON sono ancora definite: le ricette usano solo materie prime, il validatore lo impone.
 
 ## Idroelettrica (dati dell'utente, 26/10/2026)
@@ -69,3 +69,30 @@ Fonte: indicazione in chat; **non è scritta** in PROJECT_MASTER né in ARCHITET
 |---|---|---|---|
 | G3b | Ricette di armi leggere, artiglieria, camion, carri, aerei e navi: non definite | dipendono dal catalogo delle unità | con le unità (Fase 5) |
 | G7 | Base idro mancante: i totali per nazione vanno tarati sulla domanda (Italia ≥ 95%), non su MW assoluti | serve l'industria iniziale per nazione (non esiste ancora) | tarare in Fase 1, quando l'industria iniziale è definita |
+
+## Economia di base (26/10/2026, DESIGN_DEFAULT)
+- `data/economy/economy.json` (schema `economy-v1`): valuta unica ECV (stessa unità di `construction_ecv` del Pack, non denaro reale), prezzi per tonnellata di ogni merce con ricetta (elettricità senza prezzo: è un servizio), quota fissa per provincia/città/capitale, tre difficoltà (Facile/Media/Reale) come soli moltiplicatori di costo, tempo, scorte iniziali ed entrata, costi dei 3 livelli di miniera.
+- Taratura: un'acciaieria a pieno regime ha un margine di 1,64 ECV/giorno e si ripaga in circa 73 giorni (verificato in test).
+- Mancano: la popolazione (nessun dato nel repository), lo stato di tesoreria nel salvataggio (schema 2), il collegamento al ciclo di partita, i consumatori. «Reale» è solo la difficoltà più dura con questi numeri, non una difficoltà storica verificata.
+- Codice: `src/data/economy.js` (validazione, `difficulty`, `mineCost`, `minePoints`), `src/rules/treasury.js` (`dailyIncome`, `spend`), test in `tests/economy.test.js` (10).
+- Entrata a **valore aggiunto** (deciso in chat 26/10/2026): prodotti meno ingressi consumati, per non contare due volte una catena. Il validatore rifiuta prezzi per cui una ricetta ha valore aggiunto non positivo. La centrale a carbone è un costo (l'elettricità non ha prezzo); l'entrata non scende mai sotto zero.
+- Vincoli di costruzione (`src/rules/construction.js`, `canStartBuild`): denaro, acciaio, manodopera, energia disponibile nel pool, tecnologia richiesta; elenca tutti i vincoli mancanti. Il Pack dà per le fabbriche solo ECV, giorni, manodopera ed energia: il costo in acciaio delle fabbriche NON è definito (solo per le miniere).
+
+## Ricalibrazione della scala (26/10/2026)
+Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), per avere all'inizio una copertura mondiale della domanda a pieno regime di circa l'80% (deciso in chat: poi cresce con le miniere, e la domanda cresce con le fabbriche costruite). Conto con i punti `base`: ferro mondiale 10.000 t/giorno; 61 acciaierie (fascia A) ne chiedono 9.760 (copertura 102%), 76 acciaierie (A + circa 15 della fascia B) 12.160 (copertura 82%). La fascia B va quindi dimensionata per restare vicino a 76 acciaierie in totale. Valore da ricontrollare quando le fasce B e C saranno inserite.
+
+## Produzione storica 1936 e rame (26/10/2026)
+- Due CSV dell'utente (stime della produzione 1936 per risorsa e nazione) sono copiati byte per byte in `data/resources/` con sha256 in `SOURCE_PRODUZIONE.json`. `scripts/build-production.js` (`npm run build:production`) li fonde in `production_1936.json` (54 righe): il file «completo» prevale dove si sovrappone, le righe che ha solo il primo si aggiungono (Svezia ferro 11 Mt, Giappone carbone 40, Romania petrolio 8,7, Suriname bauxite, Cile zolfo, Ceylon, Indocina e Brasile gomma, URSS rame). Qualità `USER_ESTIMATE`: il ferro di USA, Francia, URSS, Regno Unito, Germania e Belgio coincide con le fonti US Bureau of Mines e NBER; il resto non è verificato.
+- Note nel file (`conflicts`): Iran petrolio 8,3 (primo) contro 8,0 (completo, prevale); Rhodesia rame 0,14 contro 0,15; Australia carbone esclusa (1,45 Mt nel primo file, 14,5 nella tabella di sintesi, assente nel completo: da decidere); la riga aggregata «Belgio / Congo Belga» saltata.
+- Territori: ogni nazione del CSV ha un prefisso di province; le Indie Orientali Olandesi sono solo le province `P_NLD_EI_*`, il ferro di Terranova è `NFL`, l'Indocina è `INDO`.
+- Il **rame** entra nel catalogo risorse (32 voci) come materia prima, ma senza punti nelle province, senza prezzo e senza ricette: scala `null` (N/D). Non è in `RESOURCE_ORDER`, quindi non compare ancora sulla mappa.
+- Conversione proposta: 1 t di gioco ≈ 43,8 t reali (`production_1936.json`, DESIGN_DEFAULT; 1 acciaieria = 1,6 Mt/anno). NON ancora applicata ai punti delle province: i valori finali per nazione vanno approvati prima.
+
+## Estrazione per provincia dalla produzione reale (26/10/2026)
+- Metodo deciso in chat: quote fra nazioni dai dati reali (`production_1936.json`), un fattore per risorsa (`extraction_factors.json`, t reali per 1 t di gioco). Solo il **ferro è tarato** (43,8: 1 acciaieria ≈ 1,6 Mt/anno di acciaio; copre circa l'89% di 80 acciaierie). Carbone, petrolio, bauxite, gomma, zolfo sono **PROVVISORI**: scelti perché i territori con produzione storica mantengano il totale di prima, cambia solo la ripartizione; da tarare con le fasce B e C e i consumatori.
+- `src/data/extraction.js` (`resourceExtraction`): la produzione di una nazione si divide tra le sue province con punti in proporzione ai punti base; il resto resta punti × scala. Se una nazione ha produzione ma nessuna provincia con punti per quella risorsa, **non si inventa dove**: va in `unallocated` (MISSING_DATA).
+- Non assegnato oggi: ferro (India, Algeria, Manciukuò, Cina), carbone (Cina, Sudafrica, Canada), gomma (Ceylon, Indocina, Brasile, Liberia), zolfo (Cile) e tutto il rame (7 territori).
+- Stato: implementato e testato come funzioni pure (7 test), NON collegato al ciclo di partita; i punti in `resource_points.json` non sono cambiati.
+
+## Posizioni aggiuntive dei giacimenti (27/10/2026, APPROXIMATE)
+`data/resources/resource_locations_extra.json`: 19 righe approvate in chat per i territori con produzione storica 1936 ma senza province con punti per quella risorsa (ferro: India, Algeria, Manciukuò, Cina; carbone: Cina, Sudafrica, Canada; gomma: Ceylon, Indocina, Brasile, Liberia; zolfo: Cile; rame: sette territori). Sono **solo aggiunte**: `resource_points.json` non cambia e nessuna provincia già esistente cambia valore (verificato in test). Quota divisa in parti uguali tra le province di ciascun giacimento; Balkhash non ha una provincia, quindi il rame sovietico va tutto agli Urali (Sverdlovsk). Con queste posizioni `unallocated` è vuoto per tutte le risorse. Il rame ha un fattore provvisorio senza effetto: i suoi t/giorno non sono definiti finché non esistono consumatori.

@@ -1,0 +1,209 @@
+{
+  "schema": "resource-locations-extra-v1",
+  "quality": "APPROXIMATE",
+  "note": "Posizioni PROPOSTE e approvate in chat (26-27/10/2026) per i territori con produzione storica 1936 ma senza province con punti per quella risorsa. Sono AGGIUNTE: non modificano né sostituiscono resource_points.json. Posizione approssimata (non verificata su fonti geologiche); dove il giacimento copre più province la quota è divisa in parti uguali (nessun dato per pesare).",
+  "rows": [
+    {
+      "resource": "iron_ore",
+      "territory": "India Britannica",
+      "provinces": [
+        "P_IND_JHARKHAND",
+        "P_IND_ODISHA"
+      ],
+      "split": "equal",
+      "deposit": "Singhbhum e Mayurbhanj (Tata)",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Algeria (Colonia Francese)",
+      "provinces": [
+        "P_ALG_TEBESSA"
+      ],
+      "split": "equal",
+      "deposit": "Ouenza e Boukhadra",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Manciukuò",
+      "provinces": [
+        "P_MAN_LIAONING"
+      ],
+      "split": "equal",
+      "deposit": "Anshan e Benxihu",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Cina (Nazionalista)",
+      "provinces": [
+        "P_CHN_HUBEI"
+      ],
+      "split": "equal",
+      "deposit": "Hanyeping (valle dello Yangtze)",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "coal",
+      "territory": "Cina (Nazionalista)",
+      "provinces": [
+        "P_CHN_HEBEI",
+        "P_CHN_SHANXI"
+      ],
+      "split": "equal",
+      "deposit": "Kaiping, Hebei",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "coal",
+      "territory": "Unione Sudafricana",
+      "provinces": [
+        "P_ZAF_GAUTENG",
+        "P_ZAF_KWAZULU_NATAL"
+      ],
+      "split": "equal",
+      "deposit": "Transvaal e Natal",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "coal",
+      "territory": "Canada",
+      "provinces": [
+        "P_CAN_NOVA_SCOTIA",
+        "P_CAN_ALBERTA"
+      ],
+      "split": "equal",
+      "deposit": "Nuova Scozia e Alberta",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Ceylon",
+      "provinces": [
+        "P_CEY_BASNAHIRA_PALATA",
+        "P_CEY_SABARAGAMUVA_PALATA"
+      ],
+      "split": "equal",
+      "deposit": "Provincia Occidentale e Sabaragamuwa",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Indocina Francese",
+      "provinces": [
+        "P_INDO_DONG_NAM_BO",
+        "P_INDO_KAMPONG_CHAM"
+      ],
+      "split": "equal",
+      "deposit": "Cocincina e Cambogia",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Brasile",
+      "provinces": [
+        "P_BRA_PARA",
+        "P_BRA_AMAZONAS"
+      ],
+      "split": "equal",
+      "deposit": "Bacino amazzonico",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "rubber",
+      "territory": "Liberia",
+      "provinces": [
+        "P_LBR_MONTSERRADO"
+      ],
+      "split": "equal",
+      "deposit": "Harbel (Firestone)",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "sulphur",
+      "territory": "Cile",
+      "provinces": [
+        "P_CHL_ANTOFAGASTA"
+      ],
+      "split": "equal",
+      "deposit": "Antofagasta",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "copper",
+      "territory": "Stati Uniti",
+      "provinces": [
+        "P_USA_UTAH",
+        "P_USA_ARIZONA",
+        "P_USA_MONTANA"
+      ],
+      "split": "equal",
+      "deposit": "Bingham Canyon, Arizona, Montana",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "copper",
+      "territory": "Cile",
+      "provinces": [
+        "P_CHL_O_HIGGINS",
+        "P_CHL_ANTOFAGASTA"
+      ],
+      "split": "equal",
+      "deposit": "El Teniente e Chuquicamata",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "copper",
+      "territory": "Canada",
+      "provinces": [
+        "P_CAN_ONTARIO",
+        "P_CAN_MANITOBA"
+      ],
+      "split": "equal",
+      "deposit": "Sudbury e Flin Flon",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "copper",
+      "territory": "Rhodesia Settentrionale",
+      "provinces": [
+        "P_ZAM_COPPERBELT"
+      ],
+      "split": "equal",
+      "deposit": "Copperbelt",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "copper",
+      "territory": "Congo Belga",
+      "provinces": [
+        "P_COD_KATANGA"
+      ],
+      "split": "equal",
+      "deposit": "Katanga (Union Minière)",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "copper",
+      "territory": "Giappone",
+      "provinces": [
+        "P_JPN_TOCHIGI_PREFECTURE",
+        "P_JPN_EHIME_PREFECTURE"
+      ],
+      "split": "equal",
+      "deposit": "Ashio e Besshi",
+      "quality": "APPROXIMATE"
+    },
+    {
+      "resource": "copper",
+      "territory": "Unione Sovietica",
+      "provinces": [
+        "P_USSR_SVERDLOVSK"
+      ],
+      "split": "equal",
+      "deposit": "Urali; Balkhash non ha una provincia nel repository, quindi tutto agli Urali",
+      "quality": "APPROXIMATE"
+    }
+  ]
+}

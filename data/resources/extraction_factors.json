@@ -1,0 +1,43 @@
+{
+  "schema": "extraction-factors-v1",
+  "quality": "DESIGN_DEFAULT",
+  "unit": "t reali per 1 t di gioco",
+  "note": "Un fattore per risorsa (deciso in chat 26/10/2026): le quote fra nazioni vengono dai dati reali di production_1936.json, la scala dai consumatori del gioco. Solo il ferro è tarato; gli altri sono PROVVISORI.",
+  "factors": {
+    "iron_ore": {
+      "realPerGame": 43.8,
+      "status": "DESIGN_DEFAULT",
+      "rationale": "1 acciaieria (100 t/giorno) = circa 1,6 Mt/anno di acciaio reale. Con questo fattore il ferro mondiale copre circa l'89% di 80 acciaierie."
+    },
+    "coal": {
+      "realPerGame": 243.1,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (11,862); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+    },
+    "oil": {
+      "realPerGame": 149.1,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (4,194); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+    },
+    "bauxite": {
+      "realPerGame": 1.3,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (3,995); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+    },
+    "rubber": {
+      "realPerGame": 1.8,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (1,000); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+    },
+    "sulphur": {
+      "realPerGame": 36.4,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (190); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+    },
+    "copper": {
+      "realPerGame": 1000.0,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio e senza effetto: nessuna provincia ha punti per questa risorsa, quindi nessuna estrazione è ancora ripartibile (MISSING_DATA)."
+    }
+  }
+}
