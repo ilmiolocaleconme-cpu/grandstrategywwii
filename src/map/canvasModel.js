@@ -351,6 +351,49 @@ export function pickProvinceAt(model, x, y) {
   return null;
 }
 
+/**
+ * Punto sulla terra della provincia dove mettere icone e simili (unità di mappa). Il centro del riquadro va bene per la maggior parte
+ * delle province, ma non per quelle con parti lontane (Agrigento con le Pelagie, Trapani con Pantelleria, arcipelaghi): cade in mare.
+ * In quel caso si usa il punto medio del tratto di terra più largo, su alcune righe orizzontali dell'anello più grande. Risultato in cache.
+ */
+export function anchorOf(model, item) {
+  if (item.anchor) return item.anchor;
+  const b = item.bbox;
+  let best = { x: b.x + b.w / 2, y: b.y + b.h / 2 };
+  if (!pointInItem(model, item, best.x, best.y)) {
+    const { coords, ringOffsets } = model;
+    let big = -1; let bigA = -1;
+    for (let r = item.ringStart; r < item.ringEnd; r += 1) {
+      const s0 = ringOffsets[r]; const e0 = ringOffsets[r + 1];
+      let a = 0;
+      for (let i = s0, j = e0 - 1; i < e0; j = i, i += 1) a += coords[2 * j] * coords[2 * i + 1] - coords[2 * i] * coords[2 * j + 1];
+      if (Math.abs(a) > bigA) { bigA = Math.abs(a); big = r; }
+    }
+    if (big >= 0) {
+      const s0 = ringOffsets[big]; const e0 = ringOffsets[big + 1];
+      let y0 = Infinity; let y1 = -Infinity;
+      for (let i = s0; i < e0; i += 1) { const y = coords[2 * i + 1]; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      let widest = -1;
+      for (let k = 1; k < 8; k += 1) {
+        const y = y0 + ((y1 - y0) * k) / 8;
+        const xs = [];
+        for (let i = s0, j = e0 - 1; i < e0; j = i, i += 1) {
+          const yi = coords[2 * i + 1]; const yj = coords[2 * j + 1];
+          if (yi > y !== yj > y) xs.push(coords[2 * i] + ((y - yi) * (coords[2 * j] - coords[2 * i])) / (yj - yi));
+        }
+        xs.sort((p, q) => p - q);
+        for (let m = 0; m + 1 < xs.length; m += 2) {
+          const w = xs[m + 1] - xs[m];
+          const cand = { x: (xs[m] + xs[m + 1]) / 2, y };
+          if (w > widest && pointInItem(model, item, cand.x, cand.y)) { widest = w; best = cand; }
+        }
+      }
+    }
+  }
+  item.anchor = best;
+  return best;
+}
+
 /** Distanza (unità di mappa) dal punto al contorno più vicino della provincia; Infinity se non ha anelli. */
 function distanceToItem(model, item, x, y) {
   const { coords, ringOffsets } = model;
