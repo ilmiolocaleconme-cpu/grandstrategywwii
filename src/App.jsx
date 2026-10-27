@@ -21,6 +21,7 @@ import GameBar from './ui/GameBar.jsx';
 import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
 import LoadingScreen from './ui/LoadingScreen.jsx';
+import { PRELOAD_GIVE_UP_MS, layerNeedsCover, preloadComplete, preloadProgress } from './ui/preload.js';
 import { LegendList } from './map/MapView.jsx';
 import TransportLegend from './map/TransportLegend.jsx';
 import FullscreenButton from './ui/FullscreenButton.jsx';
@@ -163,29 +164,42 @@ export default function App() {
   // Sulla schermata di scelta della nazione non si carica e non si costruisce nulla della mappa (modello di ~770 mila vertici,
   // fiumi, mari, collegamenti): il telefono resta libero per la ruota. Il lavoro parte quando c'è una partita o si apre la mappa.
   const mapWanted = game !== null || tab === 'map';
-  const [mapShown, setMapShown] = useState(false);
   const [mapReady, setMapReady] = useState(true); // false da quando parte una partita fino a mappa disegnata: copertura con la bandiera
   const [coverGiveUp, setCoverGiveUp] = useState(false);
   const [readyKey, setReadyKey] = useState(0); // cresce a ogni richiesta di copertura (avvio partita, cambio livello): la mappa ricomincia a controllare se è pronta
-  useEffect(() => {
-    if (provincesStatus !== 'ready' || !mapWanted) return undefined;
-    const id = requestAnimationFrame(() => requestAnimationFrame(() => setMapShown(true)));
-    return () => cancelAnimationFrame(id);
-  }, [provincesStatus, mapWanted]);
-  const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
-  const { file: seaFile, status: seaStatus } = useSeaData(!USE_CANVAS || mapShown);
-  const links = useLinks(USE_CANVAS && mapShown);
+  // Precaricamento (deciso in chat 27/10/2026): all'apertura si scaricano i dati di TUTTE le mappe, così a partita iniziata il cambio livello
+  // non rimostra la bandiera. Si scarica e si legge soltanto: il modello pesante della mappa si costruisce dopo la scelta della nazione.
+  const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(true);
+  const { file: seaFile, status: seaStatus } = useSeaData(true);
+  const links = useLinks(USE_CANVAS);
   const [showTransport, setShowTransport] = useState(false);
   const transport = showTransport ? links : null;
-  const labelData = useLabelData(!USE_CANVAS || mapShown);
+  const labelData = useLabelData(true);
   const [layer, setLayer] = useState('political');
   const [toolsHost, setToolsHost] = useState(null); // contenitore in barra dove la mappa mette livelli e zoom (una sola barra in alto)
-  const citiesRaw = useCities(USE_CANVAS && mapShown);
+  const citiesRaw = useCities(USE_CANVAS);
   // le città sono province a parte: entrano nello stesso modello e sono cliccabili come le altre
   const cities = useMemo(() => (citiesRaw ? markCapitals(citiesRaw, nations) : null), [citiesRaw]);
-  // il terreno si scarica solo quando si apre il livello Terreno: il modello della mappa non si ricostruisce una volta in più all'avvio
-  const terrain = useTerrain(USE_CANVAS && mapShown && layer === 'terrain');
-  const provinceResources = useProvinceResources(mapShown && layer === 'resources');
+  // terreno e risorse arrivano già all'apertura: il modello della mappa si costruisce una volta sola, dopo la scelta della nazione
+  const terrain = useTerrain(USE_CANVAS);
+  const provinceResources = useProvinceResources(true);
+  const preloadItems = useMemo(() => (USE_CANVAS ? [
+    { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
+    { label: 'Mari e rotte', done: seaStatus !== 'loading' },
+    { label: 'Città', done: citiesRaw !== null },
+    { label: 'Nomi', done: labelData !== null },
+    { label: 'Terreno', done: terrain !== null },
+    { label: 'Risorse', done: provinceResources !== null },
+    { label: 'Collegamenti', done: links !== null },
+  ] : []), [waterStatus, seaStatus, citiesRaw, labelData, terrain, provinceResources, links]);
+  const [preloadGaveUp, setPreloadGaveUp] = useState(false);
+  useEffect(() => {
+    if (provincesStatus !== 'ready' || preloadGaveUp) return undefined;
+    const id = setTimeout(() => setPreloadGaveUp(true), PRELOAD_GIVE_UP_MS); // un file che non arriva non deve bloccare l'apertura
+    return () => clearTimeout(id);
+  }, [provincesStatus, preloadGaveUp]);
+  const appReady = preloadComplete({ provincesReady: provincesStatus === 'ready', items: preloadItems, gaveUp: preloadGaveUp });
+  const openProgress = preloadProgress(provincesProgress, preloadItems);
   const provincesWithCities = useMemo(() => withTerrain(withCities(provinces && markCapitalsInCollection(provinces, nations), cities), terrain), [provinces, cities, terrain]);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
@@ -209,7 +223,8 @@ export default function App() {
   const changeLayer = (next) => {
     if (next === layer) return;
     setLayer(next);
-    if (game) { setMapReady(false); setCoverGiveUp(false); setReadyKey((k) => k + 1); }
+    // dati già in memoria (precaricati all'apertura): niente bandiera; la copertura resta solo come ripiego se il livello non è arrivato
+    if (game && layerNeedsCover(next, { terrain, resources: provinceResources })) { setMapReady(false); setCoverGiveUp(false); setReadyKey((k) => k + 1); }
   };
   useEffect(() => {
     if (mapReady) return undefined;
@@ -331,8 +346,8 @@ export default function App() {
     return (
       <div className="shell">
         {tabs}
-        {provincesStatus !== 'ready' ? (
-          <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
+        {!appReady ? (
+          <LoadingScreen done={openProgress.done} total={openProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : game ? (
           <main className="app">
             <header><h1>Partita in corso</h1><p className="muted">{NATION_NAMES[game.player]} · {game.date}. Il tempo si governa con i pulsanti nella barra in alto, sulla mappa.</p></header>
@@ -357,8 +372,8 @@ export default function App() {
   return (
     <div className="shell">
       {tabs}
-      {provincesStatus !== 'ready' ? (
-        <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
+      {!appReady ? (
+        <LoadingScreen done={openProgress.done} total={openProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
       ) : (
       <div className="map-layout">
         {USE_CANVAS && !mapReady && !coverGiveUp && game ? (
