@@ -848,5 +848,11 @@
     "LBR",
     "MAN",
     "MENG"
-  ]
+  ],
+  "baseGrid": {
+    "megawatts": 40,
+    "quality": "MISSING_DATA",
+    "appliesTo": "tierC",
+    "rationale": "Rete di base per le nazioni senza industria (approvata in chat il 27/10/2026): basta per le prime miniere e impianti piccoli e per mantenere qualche divisione. Valore di progetto, non storico: da sostituire con dati reali. Il mantenimento militare è previsto ma non attivo (Fase 5)."
+  }
 }

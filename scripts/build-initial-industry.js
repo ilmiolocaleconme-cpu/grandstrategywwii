@@ -50,6 +50,7 @@ const doc = {
   counts: 'numero di impianti identici, ciascuno con la capacità del Pack (nessuna modifica ai file del Pack)',
   nations,
   tierC: nationIds.filter((id) => !nations[id]),
+  baseGrid: { megawatts: 40, quality: 'MISSING_DATA', appliesTo: 'tierC', rationale: 'Rete di base per le nazioni senza industria (approvata in chat il 27/10/2026): basta per le prime miniere e impianti piccoli e per mantenere qualche divisione. Valore di progetto, non storico: da sostituire con dati reali. Il mantenimento militare è previsto ma non attivo (Fase 5).' },
 };
 fs.writeFileSync(new URL('../data/industry/initial_industry.json', import.meta.url), JSON.stringify(doc, null, 2) + '\n');
 console.log(`industria iniziale: ${Object.values(nations).filter((x) => x.tier === 'A').length} entità in fascia A, ${Object.values(nations).filter((x) => x.tier === 'B').length} in B, ${doc.tierC.length} nazioni in C`);

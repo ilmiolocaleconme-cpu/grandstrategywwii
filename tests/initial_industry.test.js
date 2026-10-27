@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { loadIndustryCatalog } from '../src/data/industry.js';
-import { validateInitialIndustry, facilityCounts } from '../src/data/initialIndustry.js';
+import { validateInitialIndustry, facilityCounts, baseGridMw } from '../src/data/initialIndustry.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
@@ -39,4 +39,13 @@ test('gli errori sono segnalati: ricetta di un\'altra fabbrica, fascia C con imp
   const m = structuredClone(file);
   m.tierC.pop();
   assert.match(validateInitialIndustry(m, ctx()).join('|'), /non è in nessuna fascia/);
+});
+
+test('rete di base: 40 MW (MISSING_DATA) solo per la fascia C', () => {
+  assert.equal(baseGridMw(file, file.tierC[0]), 40);
+  assert.equal(baseGridMw(file, 'USA'), 0);
+  const bad = structuredClone(file); bad.baseGrid.quality = 'DESIGN_DEFAULT';
+  assert.match(validateInitialIndustry(bad, ctx()).join('|'), /MISSING_DATA/);
+  delete bad.baseGrid;
+  assert.match(validateInitialIndustry(bad, ctx()).join('|'), /rete di base mancante/);
 });

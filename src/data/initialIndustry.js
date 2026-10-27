@@ -25,6 +25,9 @@ export function validateInitialIndustry(file, { factoriesById, recipes, entityId
       if (!Number.isInteger(f.count) || f.count < 1) errors.push(`industria iniziale: ${id}, numero di impianti non valido per ${key}`);
     }
   }
+  const g = file.baseGrid;
+  if (!(g?.megawatts > 0)) errors.push('industria iniziale: rete di base mancante o non valida');
+  else if (g.quality !== 'MISSING_DATA') errors.push('industria iniziale: la rete di base deve essere MISSING_DATA finché non ci sono dati storici');
   const nationSet = new Set(nationIds);
   for (const id of file.tierC ?? []) {
     if (!nationSet.has(id)) errors.push(`industria iniziale: ${id} in fascia C non è una nazione`);
@@ -39,4 +42,9 @@ export function facilityCounts(file, nationId) {
   const out = {};
   for (const f of file.nations?.[nationId]?.facilities ?? []) out[f.factory] = (out[f.factory] ?? 0) + f.count;
   return out;
+}
+
+/** MW di rete all'inizio per una nazione della fascia C (0 per le altre: la loro energia viene dalle centrali e dall'idro). */
+export function baseGridMw(file, nationId) {
+  return (file.tierC ?? []).includes(nationId) ? file.baseGrid.megawatts : 0;
 }
