@@ -166,6 +166,7 @@ export default function App() {
   const mapWanted = game !== null || tab === 'map';
   const [mapReady, setMapReady] = useState(true); // false da quando parte una partita fino a mappa disegnata: copertura con la bandiera
   const [coverGiveUp, setCoverGiveUp] = useState(false);
+  const [lightCover, setLightCover] = useState(false); // copertura leggera al cambio livello a dati già in memoria: niente bandiera, ma la mappa non si mostra a metà disegno
   const [readyKey, setReadyKey] = useState(0); // cresce a ogni richiesta di copertura (avvio partita, cambio livello): la mappa ricomincia a controllare se è pronta
   // Precaricamento (deciso in chat 27/10/2026): all'apertura si scaricano i dati di TUTTE le mappe, così a partita iniziata il cambio livello
   // non rimostra la bandiera. Si scarica e si legge soltanto: il modello pesante della mappa si costruisce dopo la scelta della nazione.
@@ -224,7 +225,9 @@ export default function App() {
     if (next === layer) return;
     setLayer(next);
     // dati già in memoria (precaricati all'apertura): niente bandiera; la copertura resta solo come ripiego se il livello non è arrivato
-    if (game && layerNeedsCover(next, { terrain, resources: provinceResources })) { setMapReady(false); setCoverGiveUp(false); setReadyKey((k) => k + 1); }
+    if (!game) return;
+    setLightCover(!layerNeedsCover(next, { terrain, resources: provinceResources })); // dati mancanti: bandiera piena; già presenti: solo un velo mentre si ridisegna
+    setMapReady(false); setCoverGiveUp(false); setReadyKey((k) => k + 1);
   };
   useEffect(() => {
     if (mapReady) return undefined;
@@ -250,12 +253,12 @@ export default function App() {
     if (!provinces) return;
     const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner) });
     if (!r.ok) { setNotice({ kind: 'error', text: `Partita non creata: ${r.reason}` }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false); setLightCover(false);
   };
   const loadGame = (slot) => {
     const r = store?.read(slot);
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false); setLightCover(false);
   };
   const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
@@ -376,7 +379,15 @@ export default function App() {
         <LoadingScreen done={openProgress.done} total={openProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
       ) : (
       <div className="map-layout">
-        {USE_CANVAS && !mapReady && !coverGiveUp && game ? (
+        {USE_CANVAS && !mapReady && !coverGiveUp && game && lightCover ? (
+          <div className="map-cover map-cover-light" role="status" aria-live="polite">
+            <div className="map-cover-pill">
+              <span>Disegno del livello {layer === 'terrain' ? 'Terreno' : layer === 'resources' ? 'Risorse' : 'Politico'}…</span>
+              <div className="loading-bar" aria-hidden="true"><span style={{ width: '100%' }} /></div>
+            </div>
+          </div>
+        ) : null}
+        {USE_CANVAS && !mapReady && !coverGiveUp && game && !lightCover ? (
           <div className="map-cover">
             <LoadingScreen nation={{
               name: NATION_NAMES[game.player] ?? game.player,
