@@ -102,3 +102,11 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 - **Fattori di estrazione alzati su richiesta dell'utente** (entrambi PROVISIONAL, in `data/resources/extraction_factors.json`): zolfo 36,4 → 13,1 (mondo: da 201 a circa 541 t/giorno), gomma 1,8 → 1,37 (da 1.235 a circa 1.622 t/giorno). Cambia solo la scala: le quote fra nazioni restano quelle reali di `production_1936.json`.
 - **Gomma sintetica** `REC-RUBBER-SYN-001` (DESIGN_DEFAULT): 3,5 t di carbone per 1 t di gomma lavorata, nell'impianto chimico `FCT-CHEMICAL` (capacità 100 t/giorno, Pack non modificato). Il rapporto è una stima di progetto, non un dato storico. Sblocco tecnologico: MISSING_DATA. Non è nell'industria iniziale.
 - Stato: implementato e testato come dati (test su ricette e totali di estrazione). Non ancora collegato al ciclo di gioco (`SYSTEMS`).
+
+## Industria iniziale 1/1/1936 (27/10/2026)
+
+- File `data/industry/initial_industry.json` (schema `initial-industry-v1`, DESIGN_DEFAULT), generato da `npm run build:industry`; validatore `src/data/initialIndustry.js`, test `tests/initial_industry.test.js`.
+- **Fascia A** (12 entità: USA, Germania, URSS, Gran Bretagna, Francia, Giappone, Belgio, Italia, Cecoslovacchia, Polonia, Canada, Svezia): acciaierie, raffinerie, alluminio, gomma, chimica, macchinari, componenti, motori, munizioni e centrali a carbone. **Fascia B** (13): un impianto per risorsa locale (alcune sono colonie o entità non giocabili: Ceylon, Malesia, Suriname, Iran; `owner` indica chi le possiede). **Fascia C** (51 nazioni, `tierC`): nessuna industria, la costruisce il giocatore.
+- Tutti i numeri sono stime di progetto approvate in chat, non dati storici per impianto. Le centrali a carbone coprono solo il fabbisogno non coperto dall'idroelettrico dei CSV: per la Germania (nessun idro nei CSV) è MISSING_DATA.
+- Decisioni del 27/10/2026 ancora da realizzare: rete elettrica di base per le nazioni minori (MISSING_DATA, MW da proporre e approvare), mantenimento di alcune divisioni (Fase 5), vendita del surplus di sole risorse naturali (Fase 2).
+- Stato: dati implementati e testati; non ancora istanziati nelle partite né collegati a `SYSTEMS`.

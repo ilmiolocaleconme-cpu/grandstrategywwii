@@ -1,0 +1,852 @@
+{
+  "schema": "initial-industry-v1",
+  "quality": "DESIGN_DEFAULT",
+  "asOf": "1936-01-01",
+  "note": "Industria iniziale: stime di progetto approvate in chat il 27/10/2026, NON dati storici per impianto. Fascia A = grandi potenze, B = un impianto per risorsa locale (può essere una colonia o un'entità non giocabile: `owner` indica chi la possiede), C = le nazioni in `tierC`, nessuna industria iniziale (la costruisce il giocatore; decisione del 27/10/2026). Le centrali a carbone coprono solo il fabbisogno non coperto dall'idroelettrico già nei CSV (hydro_plants.json): per la Germania, senza idro nei CSV, il valore è MISSING_DATA.",
+  "counts": "numero di impianti identici, ciascuno con la capacità del Pack (nessuna modifica ai file del Pack)",
+  "nations": {
+    "AUT": {
+      "tier": "B",
+      "owner": "AUT",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "BEL": {
+      "tier": "A",
+      "owner": "BEL",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 2
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "CAN": {
+      "tier": "A",
+      "owner": "CAN",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 1
+        }
+      ]
+    },
+    "CEY": {
+      "tier": "B",
+      "owner": "GBR",
+      "facilities": [
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "CHL": {
+      "tier": "B",
+      "owner": "CHL",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "CZE": {
+      "tier": "A",
+      "owner": "CZE",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "DEU": {
+      "tier": "A",
+      "owner": "DEU",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 12
+        },
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 2
+        },
+        {
+          "factory": "FCT-SYNFUEL",
+          "recipeId": "REC-FUEL-COAL-001",
+          "count": 2
+        },
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 2
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 2
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 3
+        }
+      ]
+    },
+    "ESP": {
+      "tier": "B",
+      "owner": "ESP",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "FRA": {
+      "tier": "A",
+      "owner": "FRA",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 4
+        },
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 4
+        },
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 2
+        }
+      ]
+    },
+    "GBR": {
+      "tier": "A",
+      "owner": "GBR",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 8
+        },
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 2
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 2
+        }
+      ]
+    },
+    "HUN": {
+      "tier": "B",
+      "owner": "HUN",
+      "facilities": [
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 2
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "IRN": {
+      "tier": "B",
+      "owner": "IRN",
+      "facilities": [
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "ITA": {
+      "tier": "A",
+      "owner": "ITA",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 1
+        }
+      ]
+    },
+    "JPN": {
+      "tier": "A",
+      "owner": "JPN",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 4
+        },
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 2
+        }
+      ]
+    },
+    "MAL": {
+      "tier": "B",
+      "owner": "GBR",
+      "facilities": [
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 6
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "MEX": {
+      "tier": "B",
+      "owner": "MEX",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "NLD": {
+      "tier": "B",
+      "owner": "NLD",
+      "facilities": [
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 5
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "POL": {
+      "tier": "A",
+      "owner": "POL",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "ROM": {
+      "tier": "B",
+      "owner": "ROM",
+      "facilities": [
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "SUR": {
+      "tier": "B",
+      "owner": "NLD",
+      "facilities": [
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "SWE": {
+      "tier": "A",
+      "owner": "SWE",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "USA": {
+      "tier": "A",
+      "owner": "USA",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 30
+        },
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 2
+        },
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 20
+        },
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 3
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 4
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 3
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 3
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 6
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "USSR": {
+      "tier": "A",
+      "owner": "USSR",
+      "facilities": [
+        {
+          "factory": "FCT-STEEL",
+          "recipeId": "REC-STEEL-001",
+          "count": 10
+        },
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 3
+        },
+        {
+          "factory": "FCT-RUBBER",
+          "recipeId": "REC-RUBBER-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-CHEMICAL",
+          "recipeId": "REC-CHEM-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MACHINERY",
+          "recipeId": "REC-MACHINERY-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-COMPONENTS",
+          "recipeId": "REC-COMPONENTS-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ENGINE",
+          "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-MUNITIONS",
+          "recipeId": "REC-MUNITIONS-001",
+          "count": 2
+        }
+      ]
+    },
+    "VEN": {
+      "tier": "B",
+      "owner": "VEN",
+      "facilities": [
+        {
+          "factory": "FCT-REFINERY",
+          "recipeId": "REC-FUEL-OIL-001",
+          "count": 3
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    },
+    "YUG": {
+      "tier": "B",
+      "owner": "YUG",
+      "facilities": [
+        {
+          "factory": "FCT-ALUMINIUM",
+          "recipeId": "REC-ALU-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "tierC": [
+    "ALB",
+    "AND",
+    "ARG",
+    "AFG",
+    "AUS",
+    "BOL",
+    "BRA",
+    "BGR",
+    "CHN",
+    "COL",
+    "CRI",
+    "CUB",
+    "DNK",
+    "DOM",
+    "ECU",
+    "EGY",
+    "SLV",
+    "EST",
+    "ETH",
+    "FIN",
+    "GRC",
+    "GTM",
+    "HTI",
+    "HND",
+    "ISL",
+    "IRL",
+    "LVA",
+    "LIE",
+    "LTU",
+    "LUX",
+    "MCO",
+    "MNG",
+    "NZL",
+    "NIC",
+    "NOR",
+    "PAN",
+    "PRY",
+    "PER",
+    "PRT",
+    "SAU",
+    "SMR",
+    "SIA",
+    "ZAF",
+    "CHE",
+    "TUR",
+    "URY",
+    "VAT",
+    "YEM",
+    "LBR",
+    "MAN",
+    "MENG"
+  ]
+}

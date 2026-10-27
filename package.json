@@ -21,6 +21,7 @@
     "build:province-industry": "node scripts/build-province-industry.js",
     "build:resource-locations": "node scripts/build-resource-locations.js",
     "build:province-resources": "node scripts/build-province-resources.js",
+    "build:industry": "node scripts/build-initial-industry.js",
     "build:resource-points": "node scripts/build-resource-points.js",
     "build:transport": "node scripts/build-transport.js",
     "build:hydro": "node scripts/build-hydro.js",
