@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { resourceExtraction, totalByPrefix, validateExtractionFactors } from '../src/data/extraction.js';
+import { resourceExtraction, totalByPrefix, validateExtractionFactors, validateLocationsExtra } from '../src/data/extraction.js';
 
 const j = (p) => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'));
 const production = j('data/resources/production_1936.json');
@@ -9,7 +9,9 @@ const factors = j('data/resources/extraction_factors.json');
 const scaleFile = j('data/resources/extraction_scale.json');
 const resources = j('data/resources.json');
 const pointsByProvince = j('data/resources/resource_points.json').byProvince;
+const extra = j('data/resources/resource_locations_extra.json');
 const ctx = { production, factors, scaleFile, pointsByProvince };
+const ctxExtra = { ...ctx, extra };
 
 test('fattori: validi, uno per ogni risorsa con produzione, solo il ferro è tarato', () => {
   assert.deepEqual(validateExtractionFactors(factors, { resources, production }), []);
@@ -41,13 +43,43 @@ test('ripartizione: la produzione di una nazione si divide tra le sue province i
   assert.ok(Math.abs(iron.byProvince.get('P_USA_MINNESOTA') - 3127.5) < 0.1);
 });
 
-test('territorio con produzione ma senza province con punti: non si inventa dove, finisce in unallocated', () => {
+test('territorio con produzione ma senza province con punti: senza posizioni extra finisce in unallocated, con le extra viene assegnato', () => {
   const e = resourceExtraction('iron_ore', ctx);
   const names = e.unallocated.map((u) => u.territory);
   assert.ok(names.includes('India Britannica') && names.includes('Algeria (Colonia Francese)'));
   const copper = resourceExtraction('copper', ctx);
   assert.equal(copper.byProvince.size, 0);
   assert.equal(copper.unallocated.length, production.rows.filter((r) => r.resource === 'copper').length);
+  // con le posizioni extra approvate non resta nulla di non assegnato
+  for (const r of ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper']) assert.deepEqual(resourceExtraction(r, ctxExtra).unallocated, [], r);
+  const x = resourceExtraction('iron_ore', ctxExtra);
+  assert.ok(Math.abs(x.byProvince.get('P_IND_JHARKHAND') - 78.2) < 0.2);
+  assert.equal(x.byProvince.get('P_IND_JHARKHAND'), x.byProvince.get('P_IND_ODISHA'));
+  assert.ok(Math.abs(x.byProvince.get('P_ALG_TEBESSA') - 137.6) < 0.2);
+});
+
+test('le posizioni extra sono solo aggiunte: nessuna provincia già esistente cambia valore e nessuna risorsa vecchia sparisce', () => {
+  for (const r of ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur']) {
+    const before = resourceExtraction(r, ctx);
+    const after = resourceExtraction(r, ctxExtra);
+    for (const [id, v] of before.byProvince) assert.equal(after.byProvince.get(id), v, `${r} ${id}`);
+    assert.ok(after.byProvince.size >= before.byProvince.size);
+    assert.ok(after.total >= before.total);
+  }
+  // il file dei punti originale non è toccato: Minnesota ha ancora i suoi punti di ferro
+  assert.equal(pointsByProvince.P_USA_MINNESOTA.iron_ore.base > 19, true);
+});
+
+test('posizioni extra: valide sui dati reali e il validatore rifiuta province inesistenti, doppioni e territori già coperti', () => {
+  const provinceIds = new Set(Object.keys(pointsByProvince).concat(extra.rows.flatMap((r) => r.provinces)));
+  assert.deepEqual(validateLocationsExtra(extra, { resources, production, provinceIds, pointsByProvince }), []);
+  const bad = structuredClone(extra);
+  bad.rows.push({ ...bad.rows[0] });
+  bad.rows.push({ resource: 'coal', territory: 'Stati Uniti', provinces: ['P_XXX_NONE'], quality: 'APPROXIMATE' });
+  const e = validateLocationsExtra(bad, { resources, production, provinceIds, pointsByProvince }).join('|');
+  assert.match(e, /duplicato/);
+  assert.match(e, /provincia inesistente/);
+  assert.match(e, /già province con punti/);
 });
 
 test('petrolio: le Indie Olandesi contano solo le province EI e gli USA dominano', () => {

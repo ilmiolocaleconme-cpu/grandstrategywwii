@@ -6,6 +6,33 @@
 export const EXTRACTION_FACTORS_SCHEMA = 'extraction-factors-v1';
 const round = (v) => Math.round(v * 10) / 10;
 
+export const LOCATIONS_EXTRA_SCHEMA = 'resource-locations-extra-v1';
+
+/** Errori delle posizioni aggiuntive. ctx: { resources, production, provinceIds, pointsByProvince } */
+export function validateLocationsExtra(file, { resources, production, provinceIds, pointsByProvince }) {
+  const errors = [];
+  if (file?.schema !== LOCATIONS_EXTRA_SCHEMA) return [`posizioni extra: schema ${file?.schema}, atteso ${LOCATIONS_EXTRA_SCHEMA}`];
+  const known = new Set(resources.map((r) => r.id));
+  const seen = new Set();
+  for (const r of file.rows ?? []) {
+    const k = `${r.resource}|${r.territory}`;
+    if (seen.has(k)) errors.push(`posizioni extra: duplicato ${k}`);
+    seen.add(k);
+    if (!known.has(r.resource)) errors.push(`posizioni extra: ${k} usa una risorsa inesistente`);
+    const prod = (production.rows ?? []).find((x) => x.resource === r.resource && x.territory === r.territory);
+    if (!prod) errors.push(`posizioni extra: ${k} non ha una riga in production_1936.json`);
+    if (!Array.isArray(r.provinces) || r.provinces.length === 0) errors.push(`posizioni extra: ${k} senza province`);
+    for (const id of r.provinces ?? []) if (!provinceIds.has(id)) errors.push(`posizioni extra: ${k} usa la provincia inesistente ${id}`);
+    if (r.quality !== 'APPROXIMATE') errors.push(`posizioni extra: ${k} deve essere APPROXIMATE`);
+    // sono solo aggiunte: il territorio non deve già avere province con punti per questa risorsa
+    if (prod) {
+      const start = prod.scope ?? `P_${prod.prefix}_`;
+      if (Object.keys(pointsByProvince).some((id) => id.startsWith(start) && pointsByProvince[id][r.resource]?.base > 0)) errors.push(`posizioni extra: ${k} ha già province con punti, la posizione extra non serve`);
+    }
+  }
+  return errors;
+}
+
 export function validateExtractionFactors(file, { resources, production }) {
   const errors = [];
   if (file?.schema !== EXTRACTION_FACTORS_SCHEMA) return [`fattori di estrazione: schema ${file?.schema}, atteso ${EXTRACTION_FACTORS_SCHEMA}`];
@@ -24,7 +51,7 @@ export function validateExtractionFactors(file, { resources, production }) {
  * pointsByProvince: { provinceId: { risorsa: { base } } } (resource_points.json `byProvince`)
  * Ritorna { byProvince: Map(provinceId → t/giorno), unallocated: [{resource, territory, tonsPerDay}], total }
  */
-export function resourceExtraction(resourceId, { production, factors, scaleFile, pointsByProvince }) {
+export function resourceExtraction(resourceId, { production, factors, scaleFile, pointsByProvince, extra = null }) {
   const factor = factors.factors[resourceId]?.realPerGame;
   const scale = scaleFile.unitsPerPoint?.[resourceId];
   const byProvince = new Map();
@@ -37,7 +64,12 @@ export function resourceExtraction(resourceId, { production, factors, scaleFile,
     const mine = ids.filter((id) => id.startsWith(start));
     const tpd = (r.mt * 1e6) / 365 / factor;
     const sum = mine.reduce((s, id) => s + basePts(id), 0);
-    if (mine.length === 0) { unallocated.push({ resource: resourceId, territory: r.territory, tonsPerDay: round(tpd) }); continue; }
+    if (mine.length === 0) {
+      // posizione aggiuntiva approvata (resource_locations_extra.json): quota divisa in parti uguali tra le sue province; i punti originali non cambiano
+      const loc = (extra?.rows ?? []).find((x) => x.resource === resourceId && x.territory === r.territory);
+      if (loc) { for (const id of loc.provinces) { byProvince.set(id, round((byProvince.get(id) ?? 0) + tpd / loc.provinces.length)); covered.add(id); } continue; }
+      unallocated.push({ resource: resourceId, territory: r.territory, tonsPerDay: round(tpd) }); continue;
+    }
     for (const id of mine) { byProvince.set(id, round(tpd * basePts(id) / sum)); covered.add(id); }
   }
   for (const id of ids) if (!covered.has(id) && typeof scale === 'number') byProvince.set(id, round(basePts(id) * scale));
