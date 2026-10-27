@@ -166,6 +166,7 @@ export default function App() {
   const [mapShown, setMapShown] = useState(false);
   const [mapReady, setMapReady] = useState(true); // false da quando parte una partita fino a mappa disegnata: copertura con la bandiera
   const [coverGiveUp, setCoverGiveUp] = useState(false);
+  const [readyKey, setReadyKey] = useState(0); // cresce a ogni richiesta di copertura (avvio partita, cambio livello): la mappa ricomincia a controllare se è pronta
   useEffect(() => {
     if (provincesStatus !== 'ready' || !mapWanted) return undefined;
     const id = requestAnimationFrame(() => requestAnimationFrame(() => setMapShown(true)));
@@ -202,7 +203,14 @@ export default function App() {
   const mapItems = useMemo(() => (provincesWithCities && mapWanted ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces, mapWanted]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
-  const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null;
+  const layerReady = (layer !== 'terrain' || terrain !== null) && (layer !== 'resources' || provinceResources !== null); // dati del livello scelto arrivati
+  const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && layerReady;
+  // cambio di livello (Politico / Terreno / Risorse): la mappa si ridisegna e va mostrata solo a disegno finito, come all'avvio
+  const changeLayer = (next) => {
+    if (next === layer) return;
+    setLayer(next);
+    if (game) { setMapReady(false); setCoverGiveUp(false); setReadyKey((k) => k + 1); }
+  };
   useEffect(() => {
     if (mapReady) return undefined;
     const id = setTimeout(() => setCoverGiveUp(true), 45000); // un file che non arriva non deve tenere la bandiera per sempre
@@ -359,6 +367,7 @@ export default function App() {
               name: NATION_NAMES[game.player] ?? game.player,
               flag: flagsFile.flags[game.player],
               steps: [
+                ...(layer === 'political' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
                 { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
                 { label: 'Mari e rotte', done: seaStatus !== 'loading' },
                 { label: 'Città', done: citiesRaw !== null },
@@ -368,7 +377,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen focus={focus} dataReady={dataReady} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
+        <MapScreen focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
         {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />

@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { focusView } from './focus.js';
 import { HOME_BOUNDS, LAYERS, MAX_K, MAX_LAT, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
-import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
+import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, nearestSmallProvinceAt, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
 import { affineOf, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { MAX_LEVEL, TILE_BLEED, TILE_CSS, TileStore, ancestorOf, childrenOf, columns, levelFor, levelScale, tileKey, tileOrigin, tileRect, visibleTiles } from './tiles.js';
 import { COLORS, drawOverlay, renderBaseSteps } from './canvasDraw.js';
@@ -17,6 +17,8 @@ import { pickStaticLabels } from './labelview.js';
 // durante il trascinamento e lo zoom si ridisegna solo un'immagine già pronta (bitmap con margine), e il dettaglio
 // pieno torna a gesto fermo. Stesse province, fiumi e laghi di MapView (nessun dato duplicato).
 
+const ISLAND_SNAP_PX = 22; // raggio di cattura (px) intorno a un'isola piccola
+const ISLAND_MAX_PX = 140; // oltre questa dimensione a schermo una provincia non è "piccola"
 const IDENTITY = { k: 1, x: 0, y: 0 };
 const LAKE_LABEL_MIN_K = 3; // i nomi dei laghi compaiono da questo zoom (a zoom basso restano solo le nazioni)
 const MAX_DPR = 2; // oltre, il costo di disegno cresce senza vantaggi visibili
@@ -34,7 +36,7 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, focus, dataReady, onReady }) {
+export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, focus, dataReady, readyKey, onReady }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   const [land, setLand] = useState(null); // terra di base (~350 kB), caricata dopo la mappa: un errore non blocca nulla
   useEffect(() => {
@@ -461,7 +463,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
       if (steady >= 2) { clearInterval(id); props.current.onReady?.(); }
     }, 250);
     return () => clearInterval(id);
-  }, []);
+  }, [readyKey]); // si riarma a ogni richiesta di copertura (cambio livello)
 
   // primo disegno e ridisegno quando cambiano i dati o le opzioni che cambiano la scena
   useEffect(() => {
@@ -558,6 +560,12 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     }
     for (const off of copies) {
       const it = pickProvinceAt(p.model, ux - off, uy);
+      if (it) { p.onSelect(it.id); return; }
+    }
+    // isole e atolli: se il tocco è vicino (ma fuori dal contorno) vincono sulla zona di mare, che è molto più grande
+    const tolIsola = ISLAND_SNAP_PX / (l.s * view.k);
+    for (const off of copies) {
+      const it = nearestSmallProvinceAt(p.model, ux - off, uy, tolIsola, ISLAND_MAX_PX / (l.s * view.k));
       if (it) { p.onSelect(it.id); return; }
     }
     if (p.showSeas && p.seaData) {
