@@ -88,6 +88,22 @@
       "rationale": "Perdita di lavorazione del 20%."
     },
     {
+      "id": "REC-RUBBER-SYN-001",
+      "factory": "FCT-CHEMICAL",
+      "inputs": [
+        {
+          "resource": "coal",
+          "perUnit": 3.5
+        }
+      ],
+      "output": {
+        "product": "processed_rubber",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Gomma sintetica da carbone (tipo Buna, Germania/URSS): stesso prodotto della gomma lavorata, molto più costoso in ingressi, come il carburante sintetico. Eseguita nell'impianto chimico (il Pack non si modifica); capacità = quella dell'impianto (100 t/giorno). Il rapporto 3,5 t di carbone per tonnellata è una stima di progetto, non un dato storico. Sblocco tecnologico: MISSING_DATA, da definire con l'albero tecnologico."
+    },
+    {
       "id": "REC-CHEM-001",
       "factory": "FCT-CHEMICAL",
       "inputs": [

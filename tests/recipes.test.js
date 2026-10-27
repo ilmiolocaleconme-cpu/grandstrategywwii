@@ -119,3 +119,14 @@ test('ricette militari intermedie: macchinari, componenti, motori, munizioni (ap
   assert.equal(flows('REC-ENGINES-001').outputPerDay, 60);
   assert.equal(flows('REC-MUNITIONS-001').outputPerDay, 100);
 });
+
+test('gomma sintetica: stessa merce della gomma lavorata, via carbone, più costosa in ingressi (27/10/2026)', () => {
+  const cat = catalog(); const f = json('industry/recipes.json');
+  const nat = f.recipes.find((r) => r.id === 'REC-RUBBER-001'); const syn = f.recipes.find((r) => r.id === 'REC-RUBBER-SYN-001');
+  assert.equal(syn.output.product, nat.output.product);
+  assert.equal(syn.factory, 'FCT-CHEMICAL');
+  assert.deepEqual(syn.inputs.map((i) => i.resource), ['coal']);
+  assert.ok(syn.inputs[0].perUnit > nat.inputs[0].perUnit, 'ingressi per tonnellata superiori alla via naturale');
+  assert.equal(fullCapacityFlows(syn, cat.byId.get('FCT-CHEMICAL')).outputPerDay, cat.byId.get('FCT-CHEMICAL').base_capacity_per_day);
+  assert.deepEqual(validateRecipes(f, ctx()), []);
+});

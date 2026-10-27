@@ -96,3 +96,9 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 
 ## Posizioni aggiuntive dei giacimenti (27/10/2026, APPROXIMATE)
 `data/resources/resource_locations_extra.json`: 19 righe approvate in chat per i territori con produzione storica 1936 ma senza province con punti per quella risorsa (ferro: India, Algeria, Manciukuò, Cina; carbone: Cina, Sudafrica, Canada; gomma: Ceylon, Indocina, Brasile, Liberia; zolfo: Cile; rame: sette territori). Sono **solo aggiunte**: `resource_points.json` non cambia e nessuna provincia già esistente cambia valore (verificato in test). Quota divisa in parti uguali tra le province di ciascun giacimento; Balkhash non ha una provincia, quindi il rame sovietico va tutto agli Urali (Sverdlovsk). Con queste posizioni `unallocated` è vuoto per tutte le risorse. Il rame ha un fattore provvisorio senza effetto: i suoi t/giorno non sono definiti finché non esistono consumatori.
+
+## Zolfo, gomma e gomma sintetica (27/10/2026)
+
+- **Fattori di estrazione alzati su richiesta dell'utente** (entrambi PROVISIONAL, in `data/resources/extraction_factors.json`): zolfo 36,4 → 13,1 (mondo: da 201 a circa 541 t/giorno), gomma 1,8 → 1,37 (da 1.235 a circa 1.622 t/giorno). Cambia solo la scala: le quote fra nazioni restano quelle reali di `production_1936.json`.
+- **Gomma sintetica** `REC-RUBBER-SYN-001` (DESIGN_DEFAULT): 3,5 t di carbone per 1 t di gomma lavorata, nell'impianto chimico `FCT-CHEMICAL` (capacità 100 t/giorno, Pack non modificato). Il rapporto è una stima di progetto, non un dato storico. Sblocco tecnologico: MISSING_DATA. Non è nell'industria iniziale.
+- Stato: implementato e testato come dati (test su ricette e totali di estrazione). Non ancora collegato al ciclo di gioco (`SYSTEMS`).

@@ -107,3 +107,9 @@ test('deterministico: due calcoli uguali danno lo stesso risultato', () => {
   assert.deepEqual([...a.byProvince], [...b.byProvince]);
   assert.deepEqual(a.unallocated, b.unallocated);
 });
+
+test('zolfo e gomma (alzati il 27/10/2026): offerta mondiale vicina al fabbisogno delle fasce A e B', () => {
+  const total = (r) => resourceExtraction(r, ctxExtra).total;
+  assert.ok(total('sulphur') > 500 && total('sulphur') < 600, `zolfo ${total('sulphur')} t/giorno (prima 201)`);
+  assert.ok(total('rubber') > 1500 && total('rubber') < 1750, `gomma ${total('rubber')} t/giorno (prima 1.235)`);
+});

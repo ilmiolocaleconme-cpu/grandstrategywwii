@@ -25,14 +25,14 @@
       "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (3,995); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
     },
     "rubber": {
-      "realPerGame": 1.8,
+      "realPerGame": 1.37,
       "status": "PROVISIONAL",
-      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (1,000); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+      "rationale": "Provvisorio, alzato il 27/10/2026 su richiesta dell'utente: la gomma naturale mondiale copre circa il 100% delle gommerie a pieno regime (prima 76%). Il resto del fabbisogno ha anche la via sintetica (REC-RUBBER-SYN-001). Da tarare con le fasce B e C."
     },
     "sulphur": {
-      "realPerGame": 36.4,
+      "realPerGame": 13.1,
       "status": "PROVISIONAL",
-      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (190); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+      "rationale": "Provvisorio, alzato il 27/10/2026 su richiesta dell'utente: lo zolfo mondiale copre circa il 100% degli impianti chimici a pieno regime (prima 36%). Da tarare con le fasce B e C."
     },
     "copper": {
       "realPerGame": 1000.0,
