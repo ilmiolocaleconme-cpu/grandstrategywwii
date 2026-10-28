@@ -35,9 +35,9 @@
       "rationale": "Provvisorio, alzato il 27/10/2026 su richiesta dell'utente: lo zolfo mondiale copre circa il 100% degli impianti chimici a pieno regime (prima 36%). Da tarare con le fasce B e C."
     },
     "copper": {
-      "realPerGame": 1000.0,
+      "realPerGame": 5.9,
       "status": "PROVISIONAL",
-      "rationale": "Provvisorio e senza effetto: nessuna provincia ha punti per questa risorsa, quindi nessuna estrazione è ancora ripartibile (MISSING_DATA)."
+      "rationale": "Provvisorio, tarato il 28/10/2026 su richiesta dell'utente dopo l'ingresso del rame nella ricetta delle munizioni (REC-MUNITIONS-001, 0,33 t per t): il rame mondiale (7 territori con produzione storica 1936, posizioni extra approvate) copre circa il 99% delle 20 fabbriche di munizioni a pieno regime (prima 1000, copertura circa 1%). Da tarare con le fasce B e C."
     }
   }
 }

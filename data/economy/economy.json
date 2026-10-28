@@ -36,7 +36,7 @@
     "antimony": null,
     "mercury": null,
     "uranium": null,
-    "copper": null
+    "copper": 0.02
   },
   "territory": {
     "perProvince": 0.2,

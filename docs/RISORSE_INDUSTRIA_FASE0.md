@@ -21,7 +21,7 @@ Etichette dei dati: `DESIGN_DEFAULT` = valore di design proposto, non storico; `
 | Macchinari | FCT-MACHINERY | 1,2 acciaio | 70 | 84 acciaio | 14 |
 | Componenti | FCT-COMPONENTS | 0,6 acciaio + 0,2 alluminio + 0,1 gomma lavorata | 80 | 48 acciaio + 16 alluminio + 8 gomma | 12 |
 | Motori | FCT-ENGINE | 0,8 acciaio + 0,3 alluminio | 60 | 48 acciaio + 18 alluminio | 18 |
-| Munizioni | FCT-MUNITIONS | 0,6 acciaio + 0,4 prodotti chimici | 100 | 60 acciaio + 40 chimici | 12 |
+| Munizioni | FCT-MUNITIONS | 0,6 acciaio + 0,4 prodotti chimici + 0,33 rame + 0,05 zolfo (rame e zolfo aggiunti il 28/10/2026: 1 t di rame = 120.000 colpi, con 40.000 colpi per t di munizioni) | 100 | 60 acciaio + 40 chimici + 33 rame + 5 zolfo | 12 |
 | Elettricità (potenza) | FCT-POWER | 0,5 t/giorno di carbone per ogni MW in funzione | 120 MW netti (definiti qui, nessun autoconsumo) | 60 t/giorno di carbone | 0 |
 | Elettricità idro | — | nessuno | **MISSING_DATA** | — | — |
 
