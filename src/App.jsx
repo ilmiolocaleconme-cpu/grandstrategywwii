@@ -22,6 +22,8 @@ import populationData from '../data/population/population.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { createEconomySystem } from './game/economySystem.js';
+import { createConstruction } from './game/construction.js';
+import mineSites from '../data/resources/mine_sites.json';
 import { loadIndustryCatalog } from './data/industry.js';
 import recipesFile from '../data/industry/recipes.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
@@ -157,10 +159,13 @@ function useProvinces() {
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-const GAME_SYSTEMS = [createEconomySystem({
-  catalog: { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId },
-  economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash,
-})];
+const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId };
+// Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; la UI per ordinarle non c'è ancora (solo regole e test)
+export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
+const GAME_SYSTEMS = [
+  GAME_BUILD.constructionDay,
+  createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites }),
+];
 
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
 // chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico

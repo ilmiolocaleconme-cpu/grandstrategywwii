@@ -1,0 +1,2326 @@
+{
+  "schema": "mine-sites-v1",
+  "quality": "PROVISIONAL",
+  "unit": "t di gioco al giorno in più della base, per livello 1..3 (cumulativo)",
+  "note": "Derivato da resource_points.json e extraction_scale.json (scala dei punti, anteriore ai fattori fisici di extraction_factors.json: da riallineare). Le località aggiuntive di resource_locations_extra.json non hanno punti e non sono edificabili.",
+  "byProvince": {
+    "P_ARG_CHUBUT": {
+      "oil": {
+        "base": 0.252,
+        "max": 0.729,
+        "extraPerDay": [
+          7.95,
+          15.9,
+          23.85
+        ]
+      }
+    },
+    "P_ARG_MENDOZA": {
+      "oil": {
+        "base": 0.252,
+        "max": 0.729,
+        "extraPerDay": [
+          7.95,
+          15.9,
+          23.85
+        ]
+      }
+    },
+    "P_ARG_NEUQUEN": {
+      "oil": {
+        "base": 0.252,
+        "max": 0.729,
+        "extraPerDay": [
+          7.95,
+          15.9,
+          23.85
+        ]
+      }
+    },
+    "P_ARG_SALTA": {
+      "oil": {
+        "base": 0.252,
+        "max": 0.729,
+        "extraPerDay": [
+          7.95,
+          15.9,
+          23.85
+        ]
+      }
+    },
+    "P_AUT_STYRIA": {
+      "iron_ore": {
+        "base": 6.145,
+        "max": 17.758,
+        "extraPerDay": [
+          387.1,
+          774.2,
+          1161.3
+        ]
+      }
+    },
+    "P_BEL_HAINAUT": {
+      "coal": {
+        "base": 2.152,
+        "max": 6.22,
+        "extraPerDay": [
+          169.5,
+          339,
+          508.5
+        ]
+      }
+    },
+    "P_BEL_LIEGE": {
+      "coal": {
+        "base": 2.152,
+        "max": 6.22,
+        "extraPerDay": [
+          169.5,
+          339,
+          508.5
+        ]
+      }
+    },
+    "P_BGR_SOFIA": {
+      "iron_ore": {
+        "base": 0.162,
+        "max": 0.47,
+        "extraPerDay": [
+          10.267,
+          20.533,
+          30.8
+        ]
+      }
+    },
+    "P_BRA_AMAPA": {
+      "iron_ore": {
+        "base": 0.138,
+        "max": 0.399,
+        "extraPerDay": [
+          8.7,
+          17.4,
+          26.1
+        ]
+      }
+    },
+    "P_BRA_MINAS_GERAIS": {
+      "iron_ore": {
+        "base": 0.138,
+        "max": 0.399,
+        "extraPerDay": [
+          8.7,
+          17.4,
+          26.1
+        ]
+      }
+    },
+    "P_BRA_RIO_GRANDE_DO_SUL": {
+      "coal": {
+        "base": 0.258,
+        "max": 0.745,
+        "extraPerDay": [
+          20.292,
+          40.583,
+          60.875
+        ]
+      }
+    },
+    "P_BRA_SANTA_CATARINA": {
+      "coal": {
+        "base": 0.258,
+        "max": 0.745,
+        "extraPerDay": [
+          20.292,
+          40.583,
+          60.875
+        ]
+      }
+    },
+    "P_BUR_MAGWAY": {
+      "oil": {
+        "base": 0.504,
+        "max": 1.459,
+        "extraPerDay": [
+          15.917,
+          31.833,
+          47.75
+        ]
+      }
+    },
+    "P_CAN_ALBERTA": {
+      "oil": {
+        "base": 0.594,
+        "max": 1.716,
+        "extraPerDay": [
+          18.7,
+          37.4,
+          56.1
+        ]
+      }
+    },
+    "P_CHL_COQUIMBO": {
+      "iron_ore": {
+        "base": 2.307,
+        "max": 6.668,
+        "extraPerDay": [
+          145.367,
+          290.733,
+          436.1
+        ]
+      }
+    },
+    "P_CHN_SHAANXI": {
+      "oil": {
+        "base": 0.116,
+        "max": 0.336,
+        "extraPerDay": [
+          3.667,
+          7.333,
+          11
+        ]
+      }
+    },
+    "P_CHN_SICHUAN": {
+      "oil": {
+        "base": 0.116,
+        "max": 0.336,
+        "extraPerDay": [
+          3.667,
+          7.333,
+          11
+        ]
+      }
+    },
+    "P_CHN_XINJIANG": {
+      "oil": {
+        "base": 0.116,
+        "max": 0.336,
+        "extraPerDay": [
+          3.667,
+          7.333,
+          11
+        ]
+      }
+    },
+    "P_COL_ANTIOQUIA": {
+      "oil": {
+        "base": 0.858,
+        "max": 2.48,
+        "extraPerDay": [
+          27.033,
+          54.067,
+          81.1
+        ]
+      }
+    },
+    "P_COL_SANTANDER": {
+      "oil": {
+        "base": 0.858,
+        "max": 2.48,
+        "extraPerDay": [
+          27.033,
+          54.067,
+          81.1
+        ]
+      }
+    },
+    "P_CUB_GUANTANAMO": {
+      "iron_ore": {
+        "base": 0.452,
+        "max": 1.307,
+        "extraPerDay": [
+          28.5,
+          57,
+          85.5
+        ]
+      }
+    },
+    "P_CUB_HOLGUIN": {
+      "iron_ore": {
+        "base": 0.452,
+        "max": 1.307,
+        "extraPerDay": [
+          28.5,
+          57,
+          85.5
+        ]
+      }
+    },
+    "P_CUB_SANTIAGO_DE_CUBA": {
+      "iron_ore": {
+        "base": 0.452,
+        "max": 1.307,
+        "extraPerDay": [
+          28.5,
+          57,
+          85.5
+        ]
+      }
+    },
+    "P_CZE_BOHEMIA": {
+      "iron_ore": {
+        "base": 1.154,
+        "max": 3.334,
+        "extraPerDay": [
+          72.667,
+          145.333,
+          218
+        ]
+      }
+    },
+    "P_CZE_MORAVIAN_SILESIAN_COUNTRY": {
+      "iron_ore": {
+        "base": 1.154,
+        "max": 3.334,
+        "extraPerDay": [
+          72.667,
+          145.333,
+          218
+        ]
+      }
+    },
+    "P_DEU_DUESSELDORF": {
+      "coal": {
+        "base": 4.146,
+        "max": 7.049,
+        "extraPerDay": [
+          120.958,
+          241.917,
+          362.875
+        ]
+      }
+    },
+    "P_DEU_ESSEN": {
+      "coal": {
+        "base": 4.146,
+        "max": 7.049,
+        "extraPerDay": [
+          120.958,
+          241.917,
+          362.875
+        ]
+      }
+    },
+    "P_DEU_SAARPFALZ": {
+      "coal": {
+        "base": 2.532,
+        "max": 7.317,
+        "extraPerDay": [
+          199.375,
+          398.75,
+          598.125
+        ]
+      }
+    },
+    "P_DEU_SACHSEN": {
+      "iron_ore": {
+        "base": 2.223,
+        "max": 6.423,
+        "extraPerDay": [
+          140,
+          280,
+          420
+        ]
+      }
+    },
+    "P_DEU_SCHLESWIG_HOLSTEIN": {
+      "oil": {
+        "base": 0.297,
+        "max": 0.858,
+        "extraPerDay": [
+          9.35,
+          18.7,
+          28.05
+        ]
+      }
+    },
+    "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": {
+      "oil": {
+        "base": 0.297,
+        "max": 0.858,
+        "extraPerDay": [
+          9.35,
+          18.7,
+          28.05
+        ]
+      }
+    },
+    "P_DEU_THUERINGEN": {
+      "iron_ore": {
+        "base": 2.223,
+        "max": 6.423,
+        "extraPerDay": [
+          140,
+          280,
+          420
+        ]
+      }
+    },
+    "P_DEU_WESTFALEN_SUED": {
+      "coal": {
+        "base": 4.146,
+        "max": 7.049,
+        "extraPerDay": [
+          120.958,
+          241.917,
+          362.875
+        ]
+      }
+    },
+    "P_ECU_SANTA_ELENA": {
+      "oil": {
+        "base": 0.349,
+        "max": 1.009,
+        "extraPerDay": [
+          11,
+          22,
+          33
+        ]
+      }
+    },
+    "P_EGY_AL_BAHR_AL_AHMAR": {
+      "oil": {
+        "base": 0.175,
+        "max": 0.504,
+        "extraPerDay": [
+          5.483,
+          10.967,
+          16.45
+        ]
+      }
+    },
+    "P_EGY_AS_SUWAYS": {
+      "oil": {
+        "base": 0.175,
+        "max": 0.504,
+        "extraPerDay": [
+          5.483,
+          10.967,
+          16.45
+        ]
+      }
+    },
+    "P_ESP_ALMERIA": {
+      "sulphur": {
+        "base": 0.471,
+        "max": 1.362,
+        "extraPerDay": [
+          0.594,
+          1.188,
+          1.782
+        ]
+      }
+    },
+    "P_ESP_ASTURIAS": {
+      "iron_ore": {
+        "base": 0.769,
+        "max": 2.223,
+        "extraPerDay": [
+          48.467,
+          96.933,
+          145.4
+        ]
+      }
+    },
+    "P_ESP_CORDOBA": {
+      "sulphur": {
+        "base": 0.471,
+        "max": 1.362,
+        "extraPerDay": [
+          0.594,
+          1.188,
+          1.782
+        ]
+      }
+    },
+    "P_ESP_GRANADA": {
+      "sulphur": {
+        "base": 0.471,
+        "max": 1.362,
+        "extraPerDay": [
+          0.594,
+          1.188,
+          1.782
+        ]
+      }
+    },
+    "P_ESP_HUELVA": {
+      "sulphur": {
+        "base": 0.471,
+        "max": 1.362,
+        "extraPerDay": [
+          0.594,
+          1.188,
+          1.782
+        ]
+      }
+    },
+    "P_ESP_JAEN": {
+      "sulphur": {
+        "base": 0.471,
+        "max": 1.362,
+        "extraPerDay": [
+          0.594,
+          1.188,
+          1.782
+        ]
+      }
+    },
+    "P_ESP_MURCIA": {
+      "sulphur": {
+        "base": 0.471,
+        "max": 1.362,
+        "extraPerDay": [
+          0.594,
+          1.188,
+          1.782
+        ]
+      }
+    },
+    "P_ESP_SANTANDER": {
+      "iron_ore": {
+        "base": 0.769,
+        "max": 2.223,
+        "extraPerDay": [
+          48.467,
+          96.933,
+          145.4
+        ]
+      }
+    },
+    "P_ESP_SEVILLA": {
+      "sulphur": {
+        "base": 0.471,
+        "max": 1.362,
+        "extraPerDay": [
+          0.594,
+          1.188,
+          1.782
+        ]
+      }
+    },
+    "P_ESP_VIZCAYA": {
+      "iron_ore": {
+        "base": 0.769,
+        "max": 2.223,
+        "extraPerDay": [
+          48.467,
+          96.933,
+          145.4
+        ]
+      }
+    },
+    "P_FRA_ARIEGE": {
+      "bauxite": {
+        "base": 8.526,
+        "max": 14.493,
+        "extraPerDay": [
+          119.34,
+          238.68,
+          358.02
+        ]
+      }
+    },
+    "P_FRA_BOUCHES_DU_RHONE": {
+      "bauxite": {
+        "base": 8.526,
+        "max": 14.493,
+        "extraPerDay": [
+          119.34,
+          238.68,
+          358.02
+        ]
+      }
+    },
+    "P_FRA_MEURTHE_ET_MOSELLE": {
+      "coal": {
+        "base": 2.152,
+        "max": 6.22,
+        "extraPerDay": [
+          169.5,
+          339,
+          508.5
+        ]
+      },
+      "iron_ore": {
+        "base": 5.668,
+        "max": 9.635,
+        "extraPerDay": [
+          132.233,
+          264.467,
+          396.7
+        ]
+      }
+    },
+    "P_FRA_MOSELLE": {
+      "coal": {
+        "base": 2.152,
+        "max": 6.22,
+        "extraPerDay": [
+          169.5,
+          339,
+          508.5
+        ]
+      },
+      "iron_ore": {
+        "base": 5.668,
+        "max": 9.635,
+        "extraPerDay": [
+          132.233,
+          264.467,
+          396.7
+        ]
+      }
+    },
+    "P_FRA_NORD": {
+      "coal": {
+        "base": 2.152,
+        "max": 6.22,
+        "extraPerDay": [
+          169.5,
+          339,
+          508.5
+        ]
+      }
+    },
+    "P_FRA_PAS_DE_CALAIS": {
+      "coal": {
+        "base": 2.152,
+        "max": 6.22,
+        "extraPerDay": [
+          169.5,
+          339,
+          508.5
+        ]
+      }
+    },
+    "P_FRA_VAR": {
+      "bauxite": {
+        "base": 8.526,
+        "max": 14.493,
+        "extraPerDay": [
+          119.34,
+          238.68,
+          358.02
+        ]
+      }
+    },
+    "P_GBR_CARMARTHENSHIRE": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_EAST_AYRSHIRE": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_FIFE": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_GLAMORGAN": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_MIDLOTHIAN": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_MONMOUTHSHIRE": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_NORTHAMPTONSHIRE": {
+      "iron_ore": {
+        "base": 5.668,
+        "max": 9.635,
+        "extraPerDay": [
+          132.233,
+          264.467,
+          396.7
+        ]
+      }
+    },
+    "P_GBR_NORTH_LANARKSHIRE": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_SOUTH_LANARKSHIRE": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_WEST_LOTHIAN": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      }
+    },
+    "P_GBR_YORKSHIRE": {
+      "coal": {
+        "base": 1.244,
+        "max": 2.115,
+        "extraPerDay": [
+          36.292,
+          72.583,
+          108.875
+        ]
+      },
+      "iron_ore": {
+        "base": 5.668,
+        "max": 9.635,
+        "extraPerDay": [
+          132.233,
+          264.467,
+          396.7
+        ]
+      }
+    },
+    "P_GRC_ATTIKI": {
+      "bauxite": {
+        "base": 1.531,
+        "max": 4.425,
+        "extraPerDay": [
+          57.88,
+          115.76,
+          173.64
+        ]
+      },
+      "iron_ore": {
+        "base": 0.157,
+        "max": 0.452,
+        "extraPerDay": [
+          9.833,
+          19.667,
+          29.5
+        ]
+      }
+    },
+    "P_GRC_NOTIO_AIGAIO": {
+      "iron_ore": {
+        "base": 0.157,
+        "max": 0.452,
+        "extraPerDay": [
+          9.833,
+          19.667,
+          29.5
+        ]
+      }
+    },
+    "P_GRC_STEREA_ELLADA": {
+      "bauxite": {
+        "base": 1.531,
+        "max": 4.425,
+        "extraPerDay": [
+          57.88,
+          115.76,
+          173.64
+        ]
+      },
+      "iron_ore": {
+        "base": 0.157,
+        "max": 0.452,
+        "extraPerDay": [
+          9.833,
+          19.667,
+          29.5
+        ]
+      }
+    },
+    "P_HUN_BORSOD_ABAUJ_ZEMPLEN": {
+      "iron_ore": {
+        "base": 0.47,
+        "max": 1.357,
+        "extraPerDay": [
+          29.567,
+          59.133,
+          88.7
+        ]
+      }
+    },
+    "P_HUN_FEJER": {
+      "bauxite": {
+        "base": 5.015,
+        "max": 14.493,
+        "extraPerDay": [
+          189.56,
+          379.12,
+          568.68
+        ]
+      }
+    },
+    "P_HUN_KOMAROM_ESZTERGOM": {
+      "bauxite": {
+        "base": 5.015,
+        "max": 14.493,
+        "extraPerDay": [
+          189.56,
+          379.12,
+          568.68
+        ]
+      }
+    },
+    "P_HUN_VESZPREM": {
+      "bauxite": {
+        "base": 5.015,
+        "max": 14.493,
+        "extraPerDay": [
+          189.56,
+          379.12,
+          568.68
+        ]
+      }
+    },
+    "P_IND_ASSAM": {
+      "oil": {
+        "base": 0.504,
+        "max": 1.459,
+        "extraPerDay": [
+          15.917,
+          31.833,
+          47.75
+        ]
+      }
+    },
+    "P_IND_BIHAR": {
+      "bauxite": {
+        "base": 0.312,
+        "max": 0.901,
+        "extraPerDay": [
+          11.78,
+          23.56,
+          35.34
+        ]
+      }
+    },
+    "P_IND_JHARKHAND": {
+      "bauxite": {
+        "base": 0.312,
+        "max": 0.901,
+        "extraPerDay": [
+          11.78,
+          23.56,
+          35.34
+        ]
+      },
+      "coal": {
+        "base": 2.152,
+        "max": 6.22,
+        "extraPerDay": [
+          169.5,
+          339,
+          508.5
+        ]
+      }
+    },
+    "P_IND_WEST_BENGAL": {
+      "coal": {
+        "base": 2.152,
+        "max": 6.22,
+        "extraPerDay": [
+          169.5,
+          339,
+          508.5
+        ]
+      }
+    },
+    "P_IRN_KHUZESTAN": {
+      "oil": {
+        "base": 8.431,
+        "max": 24.366,
+        "extraPerDay": [
+          265.583,
+          531.167,
+          796.75
+        ]
+      }
+    },
+    "P_IRQ_KIRKUK": {
+      "oil": {
+        "base": 4.96,
+        "max": 14.333,
+        "extraPerDay": [
+          156.217,
+          312.433,
+          468.65
+        ]
+      }
+    },
+    "P_ITA_AGRIGENTO": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      },
+      "sulphur": {
+        "base": 3.178,
+        "max": 9.183,
+        "extraPerDay": [
+          4.003,
+          8.007,
+          12.01
+        ]
+      }
+    },
+    "P_ITA_BARI": {
+      "bauxite": {
+        "base": 0.868,
+        "max": 2.508,
+        "extraPerDay": [
+          32.8,
+          65.6,
+          98.4
+        ]
+      }
+    },
+    "P_ITA_CAGLIARI": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      }
+    },
+    "P_ITA_CALTANISSETTA": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      },
+      "sulphur": {
+        "base": 3.178,
+        "max": 9.183,
+        "extraPerDay": [
+          4.003,
+          8.007,
+          12.01
+        ]
+      }
+    },
+    "P_ITA_ENNA": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      },
+      "sulphur": {
+        "base": 3.178,
+        "max": 9.183,
+        "extraPerDay": [
+          4.003,
+          8.007,
+          12.01
+        ]
+      }
+    },
+    "P_ITA_FIRENZE": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      }
+    },
+    "P_ITA_FOGGIA": {
+      "bauxite": {
+        "base": 0.868,
+        "max": 2.508,
+        "extraPerDay": [
+          32.8,
+          65.6,
+          98.4
+        ]
+      }
+    },
+    "P_ITA_GORIZIA": {
+      "bauxite": {
+        "base": 0.868,
+        "max": 2.508,
+        "extraPerDay": [
+          32.8,
+          65.6,
+          98.4
+        ]
+      }
+    },
+    "P_ITA_LECCE": {
+      "bauxite": {
+        "base": 0.868,
+        "max": 2.508,
+        "extraPerDay": [
+          32.8,
+          65.6,
+          98.4
+        ]
+      }
+    },
+    "P_ITA_NUORO": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      }
+    },
+    "P_ITA_PISA": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      }
+    },
+    "P_ITA_POLA": {
+      "bauxite": {
+        "base": 0.868,
+        "max": 2.508,
+        "extraPerDay": [
+          32.8,
+          65.6,
+          98.4
+        ]
+      }
+    },
+    "P_ITA_SASSARI": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      }
+    },
+    "P_ITA_SIENA": {
+      "coal": {
+        "base": 0.034,
+        "max": 0.097,
+        "extraPerDay": [
+          2.625,
+          5.25,
+          7.875
+        ]
+      }
+    },
+    "P_ITA_TRIESTE": {
+      "bauxite": {
+        "base": 0.868,
+        "max": 2.508,
+        "extraPerDay": [
+          32.8,
+          65.6,
+          98.4
+        ]
+      }
+    },
+    "P_JPN_AKITA_PREFECTURE": {
+      "oil": {
+        "base": 0.198,
+        "max": 0.572,
+        "extraPerDay": [
+          6.233,
+          12.467,
+          18.7
+        ]
+      }
+    },
+    "P_JPN_AOMORI_PREFECTURE": {
+      "sulphur": {
+        "base": 1.869,
+        "max": 5.402,
+        "extraPerDay": [
+          2.355,
+          4.711,
+          7.066
+        ]
+      }
+    },
+    "P_JPN_FUKUOKA_PREFECTURE": {
+      "coal": {
+        "base": 0.633,
+        "max": 1.829,
+        "extraPerDay": [
+          49.833,
+          99.667,
+          149.5
+        ]
+      }
+    },
+    "P_JPN_HOKKAIDO": {
+      "coal": {
+        "base": 0.633,
+        "max": 1.829,
+        "extraPerDay": [
+          49.833,
+          99.667,
+          149.5
+        ]
+      },
+      "oil": {
+        "base": 0.198,
+        "max": 0.572,
+        "extraPerDay": [
+          6.233,
+          12.467,
+          18.7
+        ]
+      },
+      "sulphur": {
+        "base": 1.869,
+        "max": 5.402,
+        "extraPerDay": [
+          2.355,
+          4.711,
+          7.066
+        ]
+      }
+    },
+    "P_JPN_IWATE_PREFECTURE": {
+      "sulphur": {
+        "base": 1.869,
+        "max": 5.402,
+        "extraPerDay": [
+          2.355,
+          4.711,
+          7.066
+        ]
+      }
+    },
+    "P_JPN_NAGASAKI_PREFECTURE": {
+      "coal": {
+        "base": 0.633,
+        "max": 1.829,
+        "extraPerDay": [
+          49.833,
+          99.667,
+          149.5
+        ]
+      }
+    },
+    "P_JPN_NIIGATA_PREFECTURE": {
+      "oil": {
+        "base": 0.198,
+        "max": 0.572,
+        "extraPerDay": [
+          6.233,
+          12.467,
+          18.7
+        ]
+      }
+    },
+    "P_JPN_SAGA_PREFECTURE": {
+      "coal": {
+        "base": 0.633,
+        "max": 1.829,
+        "extraPerDay": [
+          49.833,
+          99.667,
+          149.5
+        ]
+      }
+    },
+    "P_MAL_JOHOR": {
+      "rubber": {
+        "base": 20.988,
+        "max": 20.988,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_MAL_PERAK": {
+      "rubber": {
+        "base": 20.988,
+        "max": 20.988,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_MAL_SELANGOR": {
+      "rubber": {
+        "base": 20.988,
+        "max": 20.988,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_MAN_LIAONING": {
+      "coal": {
+        "base": 4.304,
+        "max": 12.439,
+        "extraPerDay": [
+          338.958,
+          677.917,
+          1016.875
+        ]
+      }
+    },
+    "P_MEX_COAHUILA": {
+      "coal": {
+        "base": 0.438,
+        "max": 1.266,
+        "extraPerDay": [
+          34.5,
+          69,
+          103.5
+        ]
+      },
+      "sulphur": {
+        "base": 0.97,
+        "max": 2.804,
+        "extraPerDay": [
+          1.223,
+          2.445,
+          3.668
+        ]
+      }
+    },
+    "P_MEX_COLIMA": {
+      "iron_ore": {
+        "base": 0.769,
+        "max": 2.223,
+        "extraPerDay": [
+          48.467,
+          96.933,
+          145.4
+        ]
+      }
+    },
+    "P_MEX_DURANGO": {
+      "iron_ore": {
+        "base": 0.769,
+        "max": 2.223,
+        "extraPerDay": [
+          48.467,
+          96.933,
+          145.4
+        ]
+      }
+    },
+    "P_MEX_MICHOACAN": {
+      "iron_ore": {
+        "base": 0.769,
+        "max": 2.223,
+        "extraPerDay": [
+          48.467,
+          96.933,
+          145.4
+        ]
+      }
+    },
+    "P_MEX_NUEVO_LEON": {
+      "coal": {
+        "base": 0.438,
+        "max": 1.266,
+        "extraPerDay": [
+          34.5,
+          69,
+          103.5
+        ]
+      }
+    },
+    "P_MEX_SAN_LUIS_POTOSI": {
+      "sulphur": {
+        "base": 0.97,
+        "max": 2.804,
+        "extraPerDay": [
+          1.223,
+          2.445,
+          3.668
+        ]
+      }
+    },
+    "P_MEX_TABASCO": {
+      "oil": {
+        "base": 0.972,
+        "max": 2.81,
+        "extraPerDay": [
+          30.633,
+          61.267,
+          91.9
+        ]
+      }
+    },
+    "P_MEX_TAMAULIPAS": {
+      "oil": {
+        "base": 0.972,
+        "max": 2.81,
+        "extraPerDay": [
+          30.633,
+          61.267,
+          91.9
+        ]
+      }
+    },
+    "P_MEX_VERACRUZ": {
+      "oil": {
+        "base": 0.972,
+        "max": 2.81,
+        "extraPerDay": [
+          30.633,
+          61.267,
+          91.9
+        ]
+      }
+    },
+    "P_NFL_NEWFOUNDLAND_AND_LABRADOR": {
+      "iron_ore": {
+        "base": 2.307,
+        "max": 6.668,
+        "extraPerDay": [
+          145.367,
+          290.733,
+          436.1
+        ]
+      }
+    },
+    "P_NLD_EI_CENTRAL_JAVA": {
+      "bauxite": {
+        "base": 1.302,
+        "max": 3.761,
+        "extraPerDay": [
+          49.18,
+          98.36,
+          147.54
+        ]
+      },
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_EAST_JAVA": {
+      "bauxite": {
+        "base": 1.302,
+        "max": 3.761,
+        "extraPerDay": [
+          49.18,
+          98.36,
+          147.54
+        ]
+      },
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_EAST_KALIMANTAN": {
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_JAMBI": {
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_NORTH_SUMATRA": {
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_RIAU": {
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_RIAU_ISLANDS": {
+      "bauxite": {
+        "base": 1.302,
+        "max": 3.761,
+        "extraPerDay": [
+          49.18,
+          98.36,
+          147.54
+        ]
+      }
+    },
+    "P_NLD_EI_SOUTH_KALIMANTAN": {
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_SOUTH_SUMATRA": {
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_WEST_JAVA": {
+      "bauxite": {
+        "base": 1.302,
+        "max": 3.761,
+        "extraPerDay": [
+          49.18,
+          98.36,
+          147.54
+        ]
+      },
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_EI_WEST_KALIMANTAN": {
+      "oil": {
+        "base": 0.843,
+        "max": 2.437,
+        "extraPerDay": [
+          26.567,
+          53.133,
+          79.7
+        ]
+      },
+      "rubber": {
+        "base": 3.704,
+        "max": 6.296,
+        "extraPerDay": [
+          8.64,
+          17.28,
+          25.92
+        ]
+      }
+    },
+    "P_NLD_LIMBURG": {
+      "coal": {
+        "base": 2.532,
+        "max": 7.317,
+        "extraPerDay": [
+          199.375,
+          398.75,
+          598.125
+        ]
+      }
+    },
+    "P_NOR_FINNMARK": {
+      "iron_ore": {
+        "base": 0.339,
+        "max": 0.981,
+        "extraPerDay": [
+          21.4,
+          42.8,
+          64.2
+        ]
+      }
+    },
+    "P_NOR_NORDLAND": {
+      "iron_ore": {
+        "base": 0.339,
+        "max": 0.981,
+        "extraPerDay": [
+          21.4,
+          42.8,
+          64.2
+        ]
+      }
+    },
+    "P_NOR_NORD_TRONDELAG": {
+      "iron_ore": {
+        "base": 0.339,
+        "max": 0.981,
+        "extraPerDay": [
+          21.4,
+          42.8,
+          64.2
+        ]
+      }
+    },
+    "P_NOR_SOR_TRONDELAG": {
+      "iron_ore": {
+        "base": 0.339,
+        "max": 0.981,
+        "extraPerDay": [
+          21.4,
+          42.8,
+          64.2
+        ]
+      }
+    },
+    "P_PER_LORETO": {
+      "oil": {
+        "base": 0.504,
+        "max": 1.459,
+        "extraPerDay": [
+          15.917,
+          31.833,
+          47.75
+        ]
+      }
+    },
+    "P_PER_PIURA": {
+      "oil": {
+        "base": 0.504,
+        "max": 1.459,
+        "extraPerDay": [
+          15.917,
+          31.833,
+          47.75
+        ]
+      }
+    },
+    "P_POL_KIELCE_VOIVODESHIP": {
+      "coal": {
+        "base": 2.439,
+        "max": 7.049,
+        "extraPerDay": [
+          192.083,
+          384.167,
+          576.25
+        ]
+      },
+      "iron_ore": {
+        "base": 0.798,
+        "max": 2.307,
+        "extraPerDay": [
+          50.3,
+          100.6,
+          150.9
+        ]
+      }
+    },
+    "P_POL_KRAKOW_VOIVODESHIP": {
+      "coal": {
+        "base": 2.439,
+        "max": 7.049,
+        "extraPerDay": [
+          192.083,
+          384.167,
+          576.25
+        ]
+      }
+    },
+    "P_POL_SILESIAN_VOIVODESHIP": {
+      "coal": {
+        "base": 2.439,
+        "max": 7.049,
+        "extraPerDay": [
+          192.083,
+          384.167,
+          576.25
+        ]
+      }
+    },
+    "P_ROM_BIHOR": {
+      "bauxite": {
+        "base": 0.623,
+        "max": 1.801,
+        "extraPerDay": [
+          23.56,
+          47.12,
+          70.68
+        ]
+      }
+    },
+    "P_ROM_BUZAU": {
+      "oil": {
+        "base": 2.81,
+        "max": 8.122,
+        "extraPerDay": [
+          88.533,
+          177.067,
+          265.6
+        ]
+      }
+    },
+    "P_ROM_CARAS_SEVERIN": {
+      "iron_ore": {
+        "base": 0.092,
+        "max": 0.266,
+        "extraPerDay": [
+          5.8,
+          11.6,
+          17.4
+        ]
+      }
+    },
+    "P_ROM_DAMBOVITA": {
+      "oil": {
+        "base": 2.81,
+        "max": 8.122,
+        "extraPerDay": [
+          88.533,
+          177.067,
+          265.6
+        ]
+      }
+    },
+    "P_ROM_HUNEDOARA": {
+      "iron_ore": {
+        "base": 0.092,
+        "max": 0.266,
+        "extraPerDay": [
+          5.8,
+          11.6,
+          17.4
+        ]
+      }
+    },
+    "P_ROM_PRAHOVA": {
+      "oil": {
+        "base": 2.81,
+        "max": 8.122,
+        "extraPerDay": [
+          88.533,
+          177.067,
+          265.6
+        ]
+      }
+    },
+    "P_ROM_TIMIS": {
+      "iron_ore": {
+        "base": 0.092,
+        "max": 0.266,
+        "extraPerDay": [
+          5.8,
+          11.6,
+          17.4
+        ]
+      }
+    },
+    "P_SAU_EASTERN": {
+      "oil": {
+        "base": 1.009,
+        "max": 2.917,
+        "extraPerDay": [
+          31.8,
+          63.6,
+          95.4
+        ]
+      }
+    },
+    "P_SLE_NORTHERN": {
+      "iron_ore": {
+        "base": 0.162,
+        "max": 0.47,
+        "extraPerDay": [
+          10.267,
+          20.533,
+          30.8
+        ]
+      }
+    },
+    "P_SUR_MAROWIJNE": {
+      "bauxite": {
+        "base": 4.425,
+        "max": 12.789,
+        "extraPerDay": [
+          167.28,
+          334.56,
+          501.84
+        ]
+      }
+    },
+    "P_SUR_PARA": {
+      "bauxite": {
+        "base": 4.425,
+        "max": 12.789,
+        "extraPerDay": [
+          167.28,
+          334.56,
+          501.84
+        ]
+      }
+    },
+    "P_SWE_NORRBOTTEN": {
+      "iron_ore": {
+        "base": 11.335,
+        "max": 19.27,
+        "extraPerDay": [
+          264.5,
+          529,
+          793.5
+        ]
+      }
+    },
+    "P_TUR_ZINGULDAK": {
+      "coal": {
+        "base": 0.876,
+        "max": 2.532,
+        "extraPerDay": [
+          69,
+          138,
+          207
+        ]
+      }
+    },
+    "P_USA_ALABAMA": {
+      "bauxite": {
+        "base": 2.95,
+        "max": 8.526,
+        "extraPerDay": [
+          111.52,
+          223.04,
+          334.56
+        ]
+      }
+    },
+    "P_USA_ARKANSAS": {
+      "bauxite": {
+        "base": 2.95,
+        "max": 8.526,
+        "extraPerDay": [
+          111.52,
+          223.04,
+          334.56
+        ]
+      }
+    },
+    "P_USA_CALIFORNIA": {
+      "oil": {
+        "base": 8.122,
+        "max": 8.122,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USA_GEORGIA": {
+      "bauxite": {
+        "base": 2.95,
+        "max": 8.526,
+        "extraPerDay": [
+          111.52,
+          223.04,
+          334.56
+        ]
+      }
+    },
+    "P_USA_ILLINOIS": {
+      "coal": {
+        "base": 7.049,
+        "max": 7.049,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USA_LOUISIANA": {
+      "sulphur": {
+        "base": 39.81,
+        "max": 39.81,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USA_MINNESOTA": {
+      "iron_ore": {
+        "base": 19.27,
+        "max": 19.27,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USA_OKLAHOMA": {
+      "oil": {
+        "base": 8.122,
+        "max": 8.122,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USA_PENNSYLVANIA": {
+      "coal": {
+        "base": 7.049,
+        "max": 7.049,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USA_TEXAS": {
+      "oil": {
+        "base": 8.122,
+        "max": 8.122,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      },
+      "sulphur": {
+        "base": 39.81,
+        "max": 39.81,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USA_WEST_VIRGINIA": {
+      "coal": {
+        "base": 7.049,
+        "max": 7.049,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USSR_ABSHERON": {
+      "oil": {
+        "base": 1.792,
+        "max": 3.046,
+        "extraPerDay": [
+          20.9,
+          41.8,
+          62.7
+        ]
+      }
+    },
+    "P_USSR_BASHKORTOSTAN": {
+      "oil": {
+        "base": 1.792,
+        "max": 3.046,
+        "extraPerDay": [
+          20.9,
+          41.8,
+          62.7
+        ]
+      }
+    },
+    "P_USSR_CHECHNYA": {
+      "oil": {
+        "base": 1.792,
+        "max": 3.046,
+        "extraPerDay": [
+          20.9,
+          41.8,
+          62.7
+        ]
+      }
+    },
+    "P_USSR_CHELYABINSK": {
+      "iron_ore": {
+        "base": 9.635,
+        "max": 9.635,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USSR_DNIPROPETROVSK": {
+      "bauxite": {
+        "base": 0.51,
+        "max": 1.475,
+        "extraPerDay": [
+          19.3,
+          38.6,
+          57.9
+        ]
+      },
+      "iron_ore": {
+        "base": 9.635,
+        "max": 9.635,
+        "extraPerDay": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "P_USSR_DONETSK": {
+      "bauxite": {
+        "base": 0.51,
+        "max": 1.475,
+        "extraPerDay": [
+          19.3,
+          38.6,
+          57.9
+        ]
+      },
+      "coal": {
+        "base": 6.22,
+        "max": 10.573,
+        "extraPerDay": [
+          181.375,
+          362.75,
+          544.125
+        ]
+      }
+    },
+    "P_USSR_INGUSH": {
+      "oil": {
+        "base": 1.792,
+        "max": 3.046,
+        "extraPerDay": [
+          20.9,
+          41.8,
+          62.7
+        ]
+      }
+    },
+    "P_USSR_KARELIA": {
+      "bauxite": {
+        "base": 0.51,
+        "max": 1.475,
+        "extraPerDay": [
+          19.3,
+          38.6,
+          57.9
+        ]
+      }
+    },
+    "P_USSR_KEMEROVO": {
+      "coal": {
+        "base": 2.532,
+        "max": 7.317,
+        "extraPerDay": [
+          199.375,
+          398.75,
+          598.125
+        ]
+      }
+    },
+    "P_USSR_LUHANSK": {
+      "coal": {
+        "base": 6.22,
+        "max": 10.573,
+        "extraPerDay": [
+          181.375,
+          362.75,
+          544.125
+        ]
+      }
+    },
+    "P_USSR_ORENBURG": {
+      "oil": {
+        "base": 1.792,
+        "max": 3.046,
+        "extraPerDay": [
+          20.9,
+          41.8,
+          62.7
+        ]
+      }
+    },
+    "P_USSR_PERM": {
+      "oil": {
+        "base": 1.792,
+        "max": 3.046,
+        "extraPerDay": [
+          20.9,
+          41.8,
+          62.7
+        ]
+      }
+    },
+    "P_USSR_POLTAVA": {
+      "bauxite": {
+        "base": 0.51,
+        "max": 1.475,
+        "extraPerDay": [
+          19.3,
+          38.6,
+          57.9
+        ]
+      }
+    },
+    "P_USSR_SAKHALIN": {
+      "oil": {
+        "base": 0.594,
+        "max": 1.716,
+        "extraPerDay": [
+          18.7,
+          37.4,
+          56.1
+        ]
+      }
+    },
+    "P_USSR_SAMARA": {
+      "oil": {
+        "base": 1.792,
+        "max": 3.046,
+        "extraPerDay": [
+          20.9,
+          41.8,
+          62.7
+        ]
+      }
+    },
+    "P_USSR_SVERDLOVSK": {
+      "bauxite": {
+        "base": 0.51,
+        "max": 1.475,
+        "extraPerDay": [
+          19.3,
+          38.6,
+          57.9
+        ]
+      }
+    },
+    "P_USSR_TATARSTAN": {
+      "oil": {
+        "base": 1.792,
+        "max": 3.046,
+        "extraPerDay": [
+          20.9,
+          41.8,
+          62.7
+        ]
+      }
+    },
+    "P_USSR_ZAPORIZHZHYA": {
+      "bauxite": {
+        "base": 0.51,
+        "max": 1.475,
+        "extraPerDay": [
+          19.3,
+          38.6,
+          57.9
+        ]
+      }
+    },
+    "P_VEN_ZULIA": {
+      "oil": {
+        "base": 14.333,
+        "max": 24.366,
+        "extraPerDay": [
+          167.217,
+          334.433,
+          501.65
+        ]
+      }
+    },
+    "P_YUG_BANJA_LUKA": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    },
+    "P_YUG_BIHAC": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    },
+    "P_YUG_CETINJE": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    },
+    "P_YUG_DUBROVNIK": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    },
+    "P_YUG_MOSTAR": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    },
+    "P_YUG_SARAJEVO": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    },
+    "P_YUG_SPLIT": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    },
+    "P_YUG_TRAVNIK": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    },
+    "P_YUG_TUZLA": {
+      "bauxite": {
+        "base": 0.983,
+        "max": 2.842,
+        "extraPerDay": [
+          37.18,
+          74.36,
+          111.54
+        ]
+      }
+    }
+  }
+}

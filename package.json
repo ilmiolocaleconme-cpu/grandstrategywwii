@@ -24,6 +24,7 @@
     "build:industry": "node scripts/build-initial-industry.js",
     "build:stocks": "node scripts/build-initial-stocks.js",
     "build:cash": "node scripts/build-initial-cash.js",
+    "build:mine-sites": "node scripts/build-mine-sites.js",
     "build:extraction": "node scripts/build-extraction-baseline.js",
     "build:resource-points": "node scripts/build-resource-points.js",
     "build:transport": "node scripts/build-transport.js",

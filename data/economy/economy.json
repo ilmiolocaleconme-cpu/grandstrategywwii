@@ -100,5 +100,10 @@
         "workers": 400
       }
     ]
+  },
+  "construction": {
+    "steelPerEcv": 2.5,
+    "rationale": "Acciaio per costruire una fabbrica = costo in ECV del Pack × 2,5 (stesso rapporto della miniera di livello 1: 60 ECV, 150 t). Il Pack non indica l'acciaio. Decisione del 28/10/2026: solo acciaio, niente cemento (il cemento resta compreso negli ECV). Una fabbrica occupa 1 slot di provincia; i lavoratori sono quelli del Pack e restano occupati dall'impianto finito. Tecnologie richieste: MISSING_DATA, non ancora controllate.",
+    "slotsPerFactory": 1
   }
 }

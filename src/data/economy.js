@@ -50,7 +50,17 @@ export function validateEconomy(file, { resources, recipes }) {
     for (const k of ['ecv', 'days', 'steel', 'workers']) if (!(l[k] > 0)) errors.push(`economia: miniera L${l.level} con ${k} non valido`);
     if (i > 0 && !(l.ecv >= ml[i - 1].ecv)) errors.push(`economia: miniera L${l.level} costa meno del livello precedente`);
   });
+  const c = file.construction;
+  if (!c || !(c.steelPerEcv > 0) || !(c.slotsPerFactory >= 1)) errors.push('economia: sezione construction mancante o non valida (steelPerEcv, slotsPerFactory)');
   return errors;
+}
+
+/** Costo di costruire una fabbrica (riga di factories.csv) con la difficoltà data: { ecv, days, steel, workers }. I lavoratori non dipendono dalla difficoltà; l'energia si legge dalla ricetta. */
+export function factoryBuildCost(file, factory, difficultyId) {
+  const d = difficulty(file, difficultyId);
+  const k = file.construction?.steelPerEcv;
+  if (!d || !(k > 0) || !factory) return null;
+  return { ecv: round(factory.construction_ecv * d.costMul), days: Math.ceil(factory.construction_days * d.timeMul), steel: round(factory.construction_ecv * k * d.costMul), workers: factory.workers };
 }
 
 /** Moltiplicatori della difficoltà scelta. Id sconosciuto = null (mai un valore a caso). */

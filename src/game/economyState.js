@@ -80,6 +80,8 @@ export function validateNations(nations, { player } = {}) {
       if (typeof f.type !== 'string' || typeof f.recipeId !== 'string') errors.push(`stato: ${f.id}, tipo o ricetta mancanti`);
     }
     if (!Array.isArray(n.mines)) errors.push(`stato: ${id}, miniere mancanti`);
+    for (const m of n.mines ?? []) if (!Number.isInteger(m.level) || m.level < 1 || m.level > 3) errors.push(`stato: ${id}, miniera ${m.id} con livello ${m.level}`);
+    for (const c of n.construction ?? []) if (!Number.isInteger(c.daysLeft) || c.daysLeft < 1 || !(c.workers >= 0)) errors.push(`stato: ${id}, costruzione ${c.id} non valida`);
     const fo = n.forces;
     if (!fo || !Array.isArray(fo.land) || !Array.isArray(fo.naval) || !Array.isArray(fo.air)) errors.push(`stato: ${id}, forze armate non valide`);
   }
