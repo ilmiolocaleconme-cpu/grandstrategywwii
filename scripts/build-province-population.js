@@ -5,6 +5,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { parseCsv } from '../src/data/csv.js';
 import { AREA_POWER, DEFAULT_DENSITY, MAPPING_NOTES, POPULATION_YEAR, TERRAIN_DENSITY, URBAN_POWER, URBAN_WEIGHT, buildProvincePopulation, habitableFactor } from '../src/data/population.js';
 import { featureAreaKm2 } from '../src/map/geo.js';
+import { buildProvinceIndex } from '../src/data/geometry.js';
 import { loadProvinces } from './load-provinces.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
@@ -19,9 +20,18 @@ export async function populationBuilt() {
     id: f.properties.id, owner: f.properties.owner, mother: f.properties.parentProvince ?? f.properties.id,
     habitableKm2: (f.properties.areaKm2 ?? featureAreaKm2(f)) * habitableFactor(terrain.province[f.properties.parentProvince ?? f.properties.id]?.frazioni),
   }));
-  // i nodi di links.json puntano ai pezzi per indice (stesso ordine: la somma di controllo di links.json lo garantisce)
+  // Popolazione moderna dei luoghi abitati per pezzo: somma di POP_MIN di TUTTI i luoghi Natural Earth 10m (data/sources/ne_places_pop.json)
+  // che cadono nel pezzo (POP_MAX è l'area metropolitana e conterebbe due volte i sobborghi). Dove non cade nessun luogo si ricade sul
+  // valore dei nodi di links.json (stessa indicazione NE, per indice del pezzo: la somma di controllo di links.json garantisce l'ordine).
+  const index = buildProvinceIndex(provinces);
+  const pieceIndex = new Map(provinces.features.map((f, i) => [f, i]));
+  const places = JSON.parse(await readFile(dataUrl('sources/ne_places_pop.json'), 'utf8')).places;
   const piecePop = new Array(pieces.length).fill(0);
-  for (const n of links.nodes) if (n.pop > 0 && n.p in piecePop) piecePop[n.p] += n.pop;
+  for (const [lon, lat, , popMin] of places) {
+    const hit = index.provincesAt(lon, lat)[0];
+    if (hit && popMin > 0) piecePop[pieceIndex.get(hit)] += popMin;
+  }
+  for (const n of links.nodes) if (n.pop > 0 && n.p in piecePop && piecePop[n.p] === 0) piecePop[n.p] = n.pop;
   return buildProvincePopulation({ rows, pieces, piecePop });
 }
 
@@ -29,7 +39,7 @@ export function populationFile(built) {
   return {
     schema: 'province-population-v1',
     quality: 'DESIGN_DEFAULT',
-    note: `Totali nazionali ${POPULATION_YEAR} forniti dall'utente (data/population/nazioni_1936.csv, Gapminder v7 / Our World in Data; solo il valore dell'Italia è un censimento, ISTAT 21 aprile 1936) DISTRIBUITI sulle province madri: la ripartizione è una scelta di design, non un dato storico. Peso = ${1 - URBAN_WEIGHT} × quota del territorio abitabile (area × densità relativa del terreno di data/terrain.json, elevata a ${AREA_POWER}) + ${URBAN_WEIGHT} × quota della popolazione moderna del luogo abitato principale (Natural Earth, nodi di data/links.json, elevata a ${URBAN_POWER}); i valori sono in method. Il totale di ogni nazione è esatto, i singoli valori NO: senza una densità per provincia possono essere lontani dal vero di un fattore 5-10 (province enormi e semivuote come Xinjiang o Alaska sovrastimate, idem province con una megalopoli moderna come Shanghai). Le nazioni non presenti nel CSV restano senza dato. Rigenerare con npm run build:population; non modificare a mano.`,
+    note: `Totali nazionali ${POPULATION_YEAR} forniti dall'utente (data/population/nazioni_1936.csv, Gapminder v7 / Our World in Data; solo il valore dell'Italia è un censimento, ISTAT 21 aprile 1936) DISTRIBUITI sulle province madri: la ripartizione è una scelta di design, non un dato storico. Peso = ${1 - URBAN_WEIGHT} × quota del territorio abitabile (area × densità relativa del terreno di data/terrain.json, elevata a ${AREA_POWER}) + ${URBAN_WEIGHT} × quota della popolazione moderna dei luoghi abitati (somma di POP_MIN di tutti i luoghi Natural Earth 10m della provincia, data/sources/ne_places_pop.json; dove manca, nodi di data/links.json; elevata a ${URBAN_POWER}); i valori sono in method. Il totale di ogni nazione è esatto, i singoli valori NO: senza una densità per provincia possono essere lontani dal vero di un fattore 5-10 (province enormi e semivuote come Xinjiang o Alaska sovrastimate, idem province con una megalopoli moderna come Shanghai). Le nazioni non presenti nel CSV restano senza dato. Rigenerare con npm run build:population; non modificare a mano.`,
     method: { urbanWeight: URBAN_WEIGHT, urbanPower: URBAN_POWER, areaPower: AREA_POWER, terrainDensity: TERRAIN_DENSITY, defaultDensity: DEFAULT_DENSITY, rounding: 'resto maggiore (somma esatta)', year: POPULATION_YEAR },
     nationalTotals: built.totals,
     mappingNotes: MAPPING_NOTES,
