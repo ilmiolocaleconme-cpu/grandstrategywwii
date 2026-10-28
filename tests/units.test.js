@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 import { parseCsv } from '../src/data/csv.js';
 import { unitsBuilt } from '../scripts/build-units.js';
 import {
-  validateUnits, classifyUnit, buildUnits, isActiveAt, unitsActiveAt, countActive, NATION_IDS, UNIT_CATEGORIES, validateOobEstimates,
+  validateUnits, classifyUnit, buildUnits, isActiveAt, unitsActiveAt, countActive, NATION_IDS, UNIT_CATEGORIES, validateOobEstimates, normalizeUnitName, parseOob1936Csv, mergeOob1936,
 } from '../src/data/units.js';
 
 const json = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
@@ -17,7 +17,9 @@ const byId = new Map(doc.units.map((u) => [u.id, u]));
 test('units.json: valido e allineato al CSV e alle revisioni (nessun file stantio)', async () => {
   assert.deepEqual(validateUnits(doc, { nationIds }), []);
   assert.deepEqual(doc, JSON.parse(JSON.stringify(await unitsBuilt())), 'rigenerare con npm run build:units');
-  assert.equal(doc.units.length, 364);
+  assert.equal(doc.units.length, 364 + 20, '364 dal CSV + 20 dal file francese 1936');
+  assert.equal(doc.source1936.repairedRows, 32, 'virgola in più delle righe terrestri del file francese');
+  assert.deepEqual(doc.source1936.notImported.map((x) => x.type).sort(), ['Aviazione navale', 'Divisione aerea', 'Divisione aerea', 'Divisione aerea', 'Raggruppamento coloniale', 'Sommergibili', 'Squadra navale', 'Squadra navale']);
   const csv = readFileSync(new URL('../data/units/source/unita_cronologia_1935_1945.csv', import.meta.url));
   assert.equal(doc.source.sha256, createHash('sha256').update(csv).digest('hex'));
 });
@@ -73,12 +75,33 @@ test('attivazione al 1/1/1936 (politica strict): Germania storica, unità dubbie
   assert.equal(deu.length, 33); assert.equal(deu.filter((u) => u.category === 'armored').length, 3);
 });
 
-test('conteggio 1936: documenta i limiti del CSV (Francia senza unità, solo 4 divisioni alpine italiane)', () => {
+test('conteggio 1936: Francia dal file utente, Italia e USA ancora scarse', () => {
   const n = countActive(doc.units, '1936-01-01');
   assert.deepEqual(n.DEU, { infantry: 30, armored: 3 });
-  assert.equal(n.FRA, undefined, 'tutte le divisioni francesi del CSV sono del 1937 o successive');
+  assert.deepEqual(n.FRA, { infantry: 20, cavalry: 4, mechanized: 1 }, 'le DIC e la 5ª cavalleria restano inattive (data dubbia)');
   assert.deepEqual(n.ITA, { mountain: 4 }, 'manca la Pusteria (5ª alpina) citata in UNITA_E_PRODUZIONE.md');
-  assert.equal(countActive(doc.units, '1939-09-01').FRA.infantry > 0, true);
+});
+
+test('Francia: le divisioni che diventano motorizzate non si contano due volte', () => {
+  const at = (d) => countActive(doc.units, d).FRA;
+  assert.equal(at('1938-12-31').infantry, 20);
+  const d3 = doc.units.find((u) => u.name === "3e Division d'infanterie");
+  assert.equal(d3.supersededBy, 'U00048'); assert.equal(d3.endYear, 1938);
+  assert.equal(at('1939-09-01').motorized, 5);
+  assert.ok(doc.units.find((u) => u.id === 'U00035').review.basis === 'user_file', 'data anticipata dal file utente, non certa');
+});
+
+test('mergeOob1936 e parseOob1936Csv: riparazione ammessa solo per la virgola in più', () => {
+  assert.equal(normalizeUnitName("1re Division d'infanterie"), normalizeUnitName("1re Division d'Infanterie"));
+  assert.equal(normalizeUnitName('1ère Division'), normalizeUnitName('1re Division'));
+  const head = 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,data_riferimento,note';
+  const ok = `${head}\nx,x,x,x,x,x,x,,,,,,,n,,,1936-01-01,nota`;
+  assert.equal(parseOob1936Csv(ok).repaired, 1);
+  assert.equal(parseOob1936Csv(ok).rows[0].data_riferimento, '1936-01-01');
+  assert.throws(() => parseOob1936Csv(`${head}\nx,x`), /colonne/);
+  const row = { unita: 'Nuova Division d\'infanterie', tipo_unita: 'Divisione fanteria', provincia_stazione: 'p', corpo_assegnazione: 'c', armata_assegnazione: 'a', data_riferimento: '1936-01-01', note_fonte: '' };
+  const m = mergeOob1936([row, { ...row, unita: 'Flotte', tipo_unita: 'Squadra navale' }], [], { nation: 'FRA' });
+  assert.equal(m.units.length, 1); assert.equal(m.units[0].id, 'S36-FRA-001'); assert.equal(m.skipped.length, 1);
 });
 
 test('validazione: errori su id, nazione, categoria, date, nomi doppi e revisioni', () => {

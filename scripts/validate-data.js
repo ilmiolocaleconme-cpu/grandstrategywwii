@@ -155,6 +155,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       errors.push(...validateOobEstimates(parseCsv(await text('units/oob_1936_stime.csv'), { name: 'oob_1936_stime' }), { nationIds: new Set(catalog.political.map((p) => p.id)) }));
       const ub = await unitsBuilt();
       if (createHash('sha256').update(await readFile(new URL('../data/units/source/unita_cronologia_1935_1945.csv', import.meta.url))).digest('hex') !== unitsDoc.source.sha256) errors.push('unità: CSV sorgente diverso da quello registrato in units.json (sha256)');
+      if (createHash('sha256').update(await readFile(new URL('../data/units/source/francia_1936_oob.csv', import.meta.url))).digest('hex') !== unitsDoc.source1936?.sha256) errors.push('unità: file francese 1936 diverso da quello registrato in units.json (sha256)');
       if (JSON.stringify(unitsDoc) !== JSON.stringify(ub)) errors.push('unità: units.json non allineato a CSV e revisioni, rigenerare con npm run build:units');
     }
     // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate

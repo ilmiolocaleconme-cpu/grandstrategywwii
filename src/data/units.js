@@ -1,3 +1,4 @@
+import { parseCsvRows } from './csv.js';
 // Catalogo cronologico delle unità (data/units/units.json), generato dal CSV dell'utente (data/units/source/) più le revisioni
 // manuali (data/units/unit_reviews.json). Funzioni PURE senza I/O. Qualità: DA_VERIFICARE, NON è un ordine di battaglia 1936.
 //
@@ -71,7 +72,7 @@ export function validateUnits(doc, { nationIds } = {}) {
   if (units.length === 0) errors.push('unità: catalogo vuoto');
   const ids = new Set(); const byName = new Map();
   for (const u of units) {
-    if (!/^U\d{5}$/.test(u.id ?? '')) errors.push(`unità: id non valido (${u.id})`);
+    if (!/^(U\d{5}|S36-[A-Z]+-\d{3})$/.test(u.id ?? '')) errors.push(`unità: id non valido (${u.id})`);
     if (ids.has(u.id)) errors.push(`unità: id duplicato ${u.id}`);
     ids.add(u.id);
     if (!String(u.name ?? '').trim()) errors.push(`unità ${u.id}: senza nome`);
@@ -90,7 +91,7 @@ export function validateUnits(doc, { nationIds } = {}) {
       if (!REVIEW_STATUSES.includes(u.review.status)) errors.push(`unità ${u.id}: stato di revisione ${u.review.status} non valido`);
       if (!String(u.review.reason ?? '').trim()) errors.push(`unità ${u.id}: revisione senza motivo`);
       if (!REVIEW_CONFIDENCE.includes(u.review.confidence)) errors.push(`unità ${u.id}: revisione senza livello di certezza`);
-      if (u.review.startYearOverride !== undefined && u.review.confidence !== 'certo') errors.push(`unità ${u.id}: una data corretta richiede certezza "certo"`);
+      if (u.review.startYearOverride !== undefined && u.review.confidence !== 'certo' && u.review.basis !== 'user_file') errors.push(`unità ${u.id}: una data corretta richiede certezza "certo"`);
       if (u.review.startYearOverride !== undefined && u.startYear !== u.review.startYearOverride) errors.push(`unità ${u.id}: anno effettivo diverso dalla correzione`);
       if (u.review.status === 'corrected' && u.review.startYearOverride === undefined) errors.push(`unità ${u.id}: "corrected" senza startYearOverride`);
     } else if (u.startYear !== u.sourceStartYear) errors.push(`unità ${u.id}: data modificata senza revisione`);
@@ -139,4 +140,69 @@ export function validateOobEstimates(rows, { nationIds } = {}) {
     if (!String(r.source ?? '').trim()) errors.push(`${at}: senza fonte`);
   });
   return errors;
+}
+
+// --- File dell'utente con l'ordine di battaglia al 1/1/1936 (per ora solo Francia) ---
+const NATION_1936_TYPES = {
+  'Divisione fanteria': ['infantry', null], 'Divisione cavalleria': ['cavalry', null],
+  'Divisione leggera meccanizzata': ['mechanized', 'light'], 'Divisione fanteria coloniale': ['infantry', 'colonial'],
+};
+/** Nome normalizzato per confrontare "1re Division d'infanterie" con "1re Division d'Infanterie" (maiuscole, accenti, ordinali). */
+export function normalizeUnitName(name) {
+  return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[\s'’\-]/g, '').replace(/^(\d+)(ere|re|er|e)/, '$1');
+}
+/**
+ * Unisce le righe del file utente "ordine di battaglia 1936" al catalogo: un'unità già presente (stesso nome) viene anticipata
+ * al 1936 con revisione basis "user_file" (certezza "probabile": è un dato fornito dall'utente, da verificare), una assente viene aggiunta
+ * con id S36-<nazione>-nnn. Le unità in `doubts` (nome normalizzato → motivo) restano inattive (date_doubt).
+ * Restituisce { units, skipped }: skipped = righe non importate (marina, aviazione, raggruppamenti: fuori dal catalogo terrestre).
+ */
+export function mergeOob1936(rows, units, { nation, doubts = {} }) {
+  const out = units.map((u) => ({ ...u }));
+  const skipped = []; let n = 0;
+  for (const row of rows) {
+    const mapped = NATION_1936_TYPES[row.tipo_unita];
+    if (!mapped) { skipped.push({ name: row.unita, type: row.tipo_unita }); continue; }
+    const key = normalizeUnitName(row.unita);
+    const doubt = doubts[key];
+    const match = out.find((u) => u.nation === nation && normalizeUnitName(u.name) === key);
+    const extra = { station: row.provincia_stazione, corps: row.corpo_assegnazione, army: row.armata_assegnazione, note: row.note_fonte };
+    if (match) {
+      Object.assign(match, { station: extra.station, corps: extra.corps, army: extra.army });
+      if (doubt) match.review ??= { status: 'date_doubt', confidence: 'probabile', basis: 'user_file', reason: doubt };
+      else if (match.startYear > 1936) {
+        match.review = { status: 'corrected', confidence: 'probabile', basis: 'user_file', startYearOverride: 1936, reason: `Il file dell'utente (${row.data_riferimento}) la dà già presente; il CSV riporta ${match.sourceStartYear}. Da verificare (SHD).` };
+        match.startYear = 1936;
+      }
+      continue;
+    }
+    // Stessa linea di una divisione già presente solo in versione motorizzata (es. 3e DI → 3e DI Motorisée): la versione 1936 termina l'anno prima.
+    const successor = out.find((u) => u.nation === nation && normalizeUnitName(u.name) === `${key}motorisee`);
+    n += 1;
+    const [category, variant] = mapped;
+    out.push({
+      id: `S36-${nation}-${String(n).padStart(3, '0')}`, nation, branch: 'esercito', echelon: 'division', category, variant, name: row.unita, rawType: row.tipo_unita,
+      startYear: 1936, sourceStartYear: 1936, startPrecision: 'year', dating: 'year', endYear: successor ? successor.startYear - 1 : null, ...(successor ? { supersededBy: successor.id } : {}), source: 'File utente: ordine di battaglia 1/1/1936', verification: 'DA_VERIFICARE',
+      review: doubt ? { status: 'date_doubt', confidence: 'probabile', basis: 'user_file', reason: doubt } : null, ...extra,
+    });
+  }
+  return { units: out, skipped };
+}
+
+/**
+ * Legge il CSV dell'ordine di battaglia 1936. Le righe terrestri del file ricevuto hanno una virgola in più (18 campi invece di 17,
+ * un campo vuoto prima di data_riferimento): la riparazione è ammessa SOLO in quel caso e viene contata; ogni altra anomalia lancia un Error.
+ */
+export function parseOob1936Csv(text, { name = 'oob 1936' } = {}) {
+  const [head, ...body] = parseCsvRows(text);
+  const header = head.map((h) => h.trim());
+  let repaired = 0;
+  const rows = body.map((r, i) => {
+    let f = r;
+    // virgola in più: un campo vuoto al posto di "aeroporto_provincia" + uno extra, subito prima di data_riferimento
+    if (r.length === header.length + 1 && r[header.length - 2] === '' && /^\d{4}-\d{2}-\d{2}$/.test(r[header.length - 1])) { f = [...r.slice(0, header.length - 2), ...r.slice(header.length - 1)]; repaired += 1; }
+    if (f.length !== header.length) throw new Error(`${name}: riga ${i + 2} con ${f.length} colonne invece di ${header.length}`);
+    return Object.fromEntries(header.map((h, k) => [h, f[k]]));
+  });
+  return { rows, repaired };
 }
