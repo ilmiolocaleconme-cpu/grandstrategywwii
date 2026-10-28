@@ -1,0 +1,6 @@
+{
+  "schema": "province-agriculture-v1",
+  "quality": "MISSING_DATA",
+  "note": "Nessun potenziale agricolo per provincia nel repository (il frumento in province_resources.json è solo un marcatore di luogo). File volutamente vuoto. Chiave = id della provincia MADRE; campi: potential (0-10), wheatShare (0-1). Le produzioni effettive si calcolano a runtime da potenziale, terreno, popolazione e modificatori.",
+  "byProvince": {}
+}

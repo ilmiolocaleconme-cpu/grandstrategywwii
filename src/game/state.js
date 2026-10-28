@@ -3,6 +3,7 @@
 // controllo dei territori: `control` mappa ogni id di `political_1936.json` al suo controllore.
 
 import { START_DATE, addDays, daysBetween, isValidDate } from './calendar.js';
+import { validateProvinceStates } from './provinceState.js';
 
 export const STATE_SCHEMA = 1;
 
@@ -64,6 +65,7 @@ export function validateState(state) {
     for (const [k, v] of Object.entries(c)) if (typeof v !== 'string' || v === '') errors.push(`stato: control["${k}"] non valido`);
     if (typeof state.player === 'string' && !(state.player in c)) errors.push('stato: player assente da control');
   }
+  errors.push(...validateProvinceStates(state.provinces)); // opzionale: assente = tutte le province al default
   return errors;
 }
 

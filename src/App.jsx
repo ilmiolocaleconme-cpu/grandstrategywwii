@@ -10,6 +10,7 @@ import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
 import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.js';
 import ProvincePanel from './map/ProvincePanel.jsx';
+import { provinceLinkStats } from './rules/provinceView.js';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
 import { withTerrain } from './data/terrain.js';
@@ -94,6 +95,24 @@ function useProvinceResources(enabled) {
     if (!enabled || data) return undefined;
     let alive = true;
     import('../data/resources/province_resources.json').then((m) => alive && setData(m.default.byProvince)).catch(() => {});
+    return () => { alive = false; };
+  }, [enabled, data]);
+  return data;
+}
+
+// Dati per provincia (popolazione, agricoltura, presenza militare) e centrali idroelettriche: file piccoli, si scaricano solo
+// quando si apre il pannello di una provincia; nel precache per l'offline. Un file che non arriva = «n/d» nel pannello.
+function useProvinceData(enabled) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    if (!enabled || data) return undefined;
+    let alive = true;
+    Promise.all([
+      import('../data/population/province_population.json'),
+      import('../data/agriculture/province_agriculture.json'),
+      import('../data/military/province_presence.json'),
+      import('../data/resources/hydro_plants.json'),
+    ]).then(([pop, agr, mil, hyd]) => alive && setData({ population: pop.default, agriculture: agr.default, military: mil.default, hydro: hyd.default })).catch(() => {});
     return () => { alive = false; };
   }, [enabled, data]);
   return data;
@@ -210,6 +229,8 @@ export default function App() {
   // Il pannello dei dati è nascosto: toccando una provincia, città o zona di mare compare solo il pulsante «i»;
   // il pannello si apre toccandolo. Se è già aperto, toccare un'altra voce ne aggiorna il contenuto; toccare il vuoto lo chiude.
   const [infoOpen, setInfoOpen] = useState(false);
+  const provinceData = useProvinceData(infoOpen); // scaricati solo quando si apre il pannello
+  const linkStats = useMemo(() => (infoOpen && links && provinces ? provinceLinkStats(links, provinces.features.map((f) => f.properties)) : null), [infoOpen, links, provinces]);
   const selectProvince = (id) => { setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false); };
   const selectSea = (id) => { setSeaId(id); setProvinceId(null); if (id == null) setInfoOpen(false); };
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
@@ -408,7 +429,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} onClose={() => setInfoOpen(false)} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>

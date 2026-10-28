@@ -1,8 +1,11 @@
+import { useMemo } from 'react';
 import { QUALITY_COLORS } from './geo.js';
-import { TERRAIN_COLORS, TERRAIN_LABEL } from '../data/terrain.js';
+import { TERRAIN_LABEL } from '../data/terrain.js';
 import { RESOURCE_META } from '../data/provinceResources.js';
+import { provinceEntry } from '../data/provinceData.js';
+import { installedMegawatts } from '../data/hydro.js';
+import { buildProvinceView } from '../rules/provinceView.js';
 
-const QUALITY_LABEL = { verified: 'verificato', approximate: 'approssimato', hypothesis: 'ipotesi' };
 const ISSUE_LABEL = {
   includes_sea: 'il poligono include tratti di mare',
   divisione_ipotetica_in_3_province: 'provincia ipotetica: la regione è stata divisa in 3 unendo province attuali',
@@ -26,35 +29,93 @@ const ISSUE_LABEL = {
   capoluogo_fuori_dal_contorno_costiero: 'il capoluogo cade fuori dal contorno costiero',
 };
 
-export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, onClose }) {
-  if (!item) return null; // il pannello esiste solo su richiesta (pulsante «i» nell'angolo della mappa)
-  const p = item.props;
+const TONE_ICON = { good: '🟢', ok: '🟢', warn: '🟡', bad: '🔴', na: '⚪' };
+
+function Card({ card, quality }) {
   return (
-    <aside className="panel" aria-live="polite">
-      <div className="panel-head">
-        <h2>{p.name}</h2>
-        <button type="button" className="close" aria-label="Chiudi" onClick={onClose}>×</button>
+    <details className={`pv-card pv-${card.level.toLowerCase()}`} open={card.open}>
+      <summary>
+        <span className="pv-title">{card.title}</span>
+        <span className={`pv-chip tone-${card.status.tone}`}>{TONE_ICON[card.status.tone]} {card.status.label}</span>
+        {card.main && <span className="pv-main"><span className="muted small">{card.main.label}</span> <b>{card.main.value}</b></span>}
+      </summary>
+      <div className="pv-body">
+        {card.lines?.map((l) => <p key={l} className="pv-line">{l}</p>)}
+        {card.metrics.length > 0 && (
+          <dl className="pv-metrics">
+            {card.metrics.map((m) => <div key={m.label}><dt>{m.label}</dt><dd>{m.value}</dd></div>)}
+          </dl>
+        )}
+        {card.modifiers.length > 0 && <ul className="pv-mods">{card.modifiers.map((m) => <li key={m}>{m}</li>)}</ul>}
+        {card.details.length > 0 && (
+          <dl className="pv-details">
+            {card.details.map((d) => <div key={d.label}><dt>{d.label}</dt><dd>{d.value}</dd></div>)}
+          </dl>
+        )}
+        {card.id === 'data' && (
+          <>
+            {quality && <p className="small"><i className="dot" style={{ background: QUALITY_COLORS[quality] }} />Qualità dei confini: {card.status.label}</p>}
+            {card.knownIssues?.length > 0 && (
+              <>
+                <h3>Limiti noti</h3>
+                <ul>{card.knownIssues.map((k) => <li key={k}>{ISSUE_LABEL[k] ?? k}</li>)}</ul>
+              </>
+            )}
+            {card.notes && <p className="muted small">{card.notes}</p>}
+          </>
+        )}
       </div>
-      {p.nameLocal && p.nameLocal !== p.name && <p className="muted">{p.nameLocal}</p>}
-      <dl>
-        <dt>Territorio</dt><dd>{nationNames[p.owner] ?? p.owner}</dd>
-        {nationControl?.[p.owner] && nationControl[p.owner] !== p.owner && <><dt>Controllato da</dt><dd>{nationNames[nationControl[p.owner]] ?? nationControl[p.owner]}</dd></>}
-        <dt>Area approssimata</dt><dd>{Math.round(item.areaKm2).toLocaleString('it-IT')} km²</dd>
-        {p.terreno && <><dt>Terreno</dt><dd><i className="dot" style={{ background: TERRAIN_COLORS[p.terreno] }} />{TERRAIN_LABEL[p.terreno] ?? p.terreno}{p.terrenoSecondario ? ` (anche ${(TERRAIN_LABEL[p.terrenoSecondario] ?? p.terrenoSecondario).toLowerCase()})` : ''}{p.kind !== 'citta' ? ' · stima da raster' : ''}</dd></>}
-        {(provinceResources?.[p.id] ?? provinceResources?.[p.parentProvince]) && <><dt>Risorse</dt><dd>{(provinceResources[p.id] ?? provinceResources[p.parentProvince]).map((r) => <span key={r} style={{ display: 'inline-block', marginRight: 10 }}><i className="dot" style={{ background: RESOURCE_META[r]?.color }} />{RESOURCE_META[r]?.label ?? r}</span>)}<br /><span className="muted small">posizione di riferimento, approssimata</span></dd></>}
-        <dt>Qualità dei confini</dt>
-        <dd><i className="dot" style={{ background: QUALITY_COLORS[p.borderQuality] }} />{QUALITY_LABEL[p.borderQuality] ?? p.borderQuality}</dd>
-        <dt>Validità</dt><dd>{p.validFrom} → {p.validTo === '9999-12-31' ? 'oggi' : p.validTo}{p.dateBasis === 'assumed' ? ' (assunta)' : ''}</dd>
-        <dt>Fonte</dt><dd>{p.source}</dd>
-        <dt>Licenza</dt><dd>{p.license}</dd>
-      </dl>
-      {p.knownIssues?.length > 0 && (
-        <>
-          <h3>Limiti noti</h3>
-          <ul>{p.knownIssues.map((k) => <li key={k}>{ISSUE_LABEL[k] ?? k}</li>)}</ul>
-        </>
-      )}
-      {p.notes && <p className="muted small">{p.notes}</p>}
+    </details>
+  );
+}
+
+function ProvinceBody({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose }) {
+  const p = item.props;
+  const motherId = p.parentProvince ?? p.id;
+  const resourceIds = provinceResources?.[p.id] ?? provinceResources?.[p.parentProvince] ?? [];
+  const date = game?.date ?? '1936-01-01';
+  const view = useMemo(() => buildProvinceView({
+    props: p,
+    areaKm2: item.areaKm2,
+    nationNames,
+    nationControl,
+    state: game ?? null,
+    terrainLabel: p.terreno ? (TERRAIN_LABEL[p.terreno] ?? p.terreno) : null,
+    resourceLabels: resourceIds.map((r) => RESOURCE_META[r]?.label ?? r),
+    population: provinceEntry(provinceData?.population, p),
+    agriculture: provinceEntry(provinceData?.agriculture, p),
+    military: provinceEntry(provinceData?.military, p),
+    linkStats: linkStats?.get(motherId) ?? (linkStats ? { links: 0, rail: 0, road: 0 } : null),
+    hydroMw: hydro ? installedMegawatts(hydro, date, { provinceId: motherId }) : null,
+  }), [item, p, nationNames, nationControl, game, resourceIds, provinceData, linkStats, hydro, date, motherId]);
+  const { header, alert, cards } = view;
+  return (
+    <aside className="panel pv" aria-live="polite">
+      <header className="pv-head">
+        <div className="panel-head">
+          <h2>{header.name}</h2>
+          <button type="button" className="close" aria-label="Chiudi" onClick={onClose}>×</button>
+        </div>
+        {header.nameLocal && <p className="muted">{header.nameLocal}</p>}
+        <p className="pv-owner">{header.ownerName}</p>
+        <p className="pv-control">Controllo: <b>{header.controllerName}</b> · <span className={`tone-${header.status.tone}`}>Stato: {header.status.label}</span></p>
+        <ul className="pv-ind">
+          {header.indicators.map((i) => (
+            <li key={i.id} className={`tone-${i.tone}`}><span className="muted small">{i.label}</span><b>{i.value}</b></li>
+          ))}
+        </ul>
+      </header>
+      {alert && <div className={`pv-alert tone-${alert.tone}`} role="alert">⚠ {alert.label}</div>}
+      {cards.map((c) => <Card key={c.id} card={c} quality={c.id === 'data' ? p.borderQuality : null} />)}
     </aside>
   );
+}
+
+/**
+ * Pannello della provincia: intestazione sempre visibile, Panoramica, schede espandibili ordinate per priorità
+ * (docs/DESIGN_PANNELLO_PROVINCIA.md). Il pannello esiste solo su richiesta (pulsante «i» nell'angolo della mappa).
+ */
+export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose }) {
+  if (!item) return null;
+  return <ProvinceBody item={item} nationNames={nationNames} nationControl={nationControl} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={hydro} game={game} onClose={onClose} />;
 }

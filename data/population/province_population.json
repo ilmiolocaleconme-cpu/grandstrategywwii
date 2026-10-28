@@ -1,0 +1,6 @@
+{
+  "schema": "province-population-v1",
+  "quality": "MISSING_DATA",
+  "note": "Nessun dato di popolazione per provincia nel repository (verificato il 28/10/2026). File volutamente vuoto: il contratto è pronto, i valori vanno inseriti da una fonte dichiarata (USER_ESTIMATE) oppure come stima di design (DESIGN_DEFAULT). Chiave = id della provincia MADRE; campi: population, workforce, growthPerYear.",
+  "byProvince": {}
+}
