@@ -272,3 +272,8 @@ Economia di base (26/10/2026): implementato e testato sui dati e sulle funzioni 
 
 
 - **Popolazione provinciale, aggiornamento (28/10/2026):** il peso urbano ora somma `POP_MIN` di tutti i 7.332 luoghi Natural Earth 10m v5.1.2 (sottoinsieme `data/sources/ne_places_pop.json`, estratto con `scripts/extract-ne-places-pop.js`) per provincia, con ricaduta sui nodi di `links.json` dove non cade nessun luogo. Effetto misurato: modesto (Xinjiang 33,3M → 31,6M, Alaska 3,9M → 4,1M, Shanghai 21,5M → 16,6M, Tokyo 5,5M → 3,2M). Il limite resta: i valori sono ancora stime di design (DESIGN_DEFAULT), serve una densità 1936 per regione per correggerli.
+
+## Catalogo unità (28/10/2026)
+- Implementato e testato (9 test in `tests/units.test.js`, `validate-data` OK): importazione del CSV, classificazione, revisioni, attivazione per data. Dettagli in `docs/DATI_UNITA.md`.
+- Mancante: ordine di battaglia 1936, produzione/reclutamento, movimento, combattimento, interfaccia, ufficiali.
+- Non eseguiti in questa fase: suite completa `node --test`, build Vite, verifica offline.
