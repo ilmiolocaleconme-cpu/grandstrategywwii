@@ -1,0 +1,143 @@
+// Catalogo ufficiali e regola dei comandanti: automatico, ma il giocatore sceglie sempre (corpo d'armata e armata).
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { officersBuilt } from '../scripts/build-officers.js';
+import {
+  validateOfficers, officerLevels, officerBranchType, parseSemicolonCsv, buildOfficers, isOfficerAvailable,
+} from '../src/data/officers.js';
+import {
+  createCommanderState, managedCommands, eligibleOfficers, autoAssign, assignCommander, releaseCommander, validateCommanderState,
+} from '../src/rules/commanders.js';
+
+const json = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
+const doc = json('officers/officers.json');
+const units = json('units/units.json').units;
+const nationIds = new Set(json('political_1936.json').map((e) => e.id));
+const byName = (n, from) => doc.officers.find((o) => o.name === n && (!from || o.availableFrom === from));
+
+test('officers.json: valido, allineato al CSV e alle revisioni, copie protette da sha256', async () => {
+  assert.deepEqual(validateOfficers(doc, { nationIds }), []);
+  assert.deepEqual(doc, JSON.parse(JSON.stringify(await officersBuilt())), 'rigenerare con npm run build:officers');
+  assert.equal(doc.officers.length, 185);
+  const sha = (f) => createHash('sha256').update(readFileSync(new URL(`../data/officers/${f}`, import.meta.url))).digest('hex');
+  assert.equal(doc.source.sha256, sha(doc.source.file));
+  assert.equal(doc.cardTemplate.sha256, sha(doc.cardTemplate.file));
+  assert.deepEqual({ land: 111, air: 34, navy: 40 }, doc.officers.reduce((a, o) => ({ ...a, [o.branchType]: (a[o.branchType] ?? 0) + 1 }), {}));
+});
+
+test('livelli di comando e tipo di forza armata', () => {
+  assert.deepEqual(officerLevels('Army/Army Group'), ['army_group', 'army']);
+  assert.deepEqual(officerLevels('Corps/Panzer Corps'), ['corps']);
+  assert.deepEqual(officerLevels('Division/Corps'), ['corps', 'division']);
+  assert.deepEqual(officerLevels('Front/Army'), ['army_group', 'army']);
+  assert.throws(() => officerLevels('Flotta misteriosa'), /non riconosciuto/);
+  assert.equal(officerBranchType('IJA Air Service'), 'air'); assert.equal(officerBranchType('IJA'), 'land');
+  assert.equal(officerBranchType('Marine Nationale / FNFL'), 'navy');
+  assert.throws(() => officerBranchType('Guardia Svizzera'), /non riconosciuta/);
+});
+
+test('parseSemicolonCsv: campi, virgolette e righe malformate', () => {
+  assert.deepEqual(parseSemicolonCsv('a;b\n1;2\n'), [{ a: '1', b: '2' }]);
+  assert.throws(() => parseSemicolonCsv('a;b\n1;2;3'), /riga 2/);
+  assert.throws(() => parseSemicolonCsv('a;b\n"1";2'), /virgolette/);
+  assert.throws(() => buildOfficers([{ officer_id: 'OFF-0001', nazione: 'Atlantide' }]), /senza id/);
+});
+
+test('revisioni: Tovey duplicato, Rommel/Stumme/Guderian/Gariboldi dubbi; disponibilità con estremi inclusi', () => {
+  assert.equal(doc.officers.find((o) => o.id === 'OFF-0111').review.status, 'duplicate');
+  for (const id of ['OFF-0022', 'OFF-0025', 'OFF-0015', 'OFF-0047']) assert.equal(doc.officers.find((o) => o.id === id).review.status, 'date_doubt');
+  const rommelDiv = doc.officers.find((o) => o.id === 'OFF-0025');
+  assert.equal(isOfficerAvailable(rommelDiv, '1936-01-01'), false, 'strict: dubbio = non disponibile');
+  assert.equal(isOfficerAvailable(rommelDiv, '1936-01-01', { policy: 'all' }), true);
+  const w = byName('Erwin von Witzleben');
+  assert.equal(isOfficerAvailable(w, '1935-01-01'), true); assert.equal(isOfficerAvailable(w, '1940-01-01'), true); assert.equal(isOfficerAvailable(w, '1940-01-02'), false);
+  assert.throws(() => isOfficerAvailable(w, '1936-1-1'), /data non valida/);
+});
+
+test('validazione: duplicati senza revisione, livelli, date', () => {
+  const o = doc.officers.find((x) => x.id === 'OFF-0026');
+  const errs = (list) => validateOfficers({ ...doc, officers: list }, { nationIds });
+  assert.ok(errs([o, { ...o, id: 'OFF-9999' }]).some((e) => /identici senza revisione/.test(e)));
+  assert.ok(errs([{ ...o, availableTo: '1900-01-01' }]).some((e) => /precedente/.test(e)));
+  assert.ok(errs([{ ...o, levels: [] }]).some((e) => /nessun livello/.test(e)));
+  assert.ok(errs([{ ...o, nation: 'ZZZ' }]).some((e) => /inesistente/.test(e)));
+  assert.ok(errs([{ ...o, id: 'X' }]).some((e) => /id non valido/.test(e)));
+});
+
+// --- Regola dei comandanti ---
+const cmd = (id, name, level, nation = 'DEU') => ({ id, name, nation, category: 'command', echelon: 'command', commandLevel: level, startYear: 1935, endYear: null, review: null });
+const off = (id, name, over = {}) => ({ id, name, nation: 'DEU', branchType: 'land', levels: ['corps'], levelRaw: 'Corps', exampleFormation: '', availableFrom: '1935-01-01', availableTo: '1945-12-31', review: null, ...over });
+const U = [cmd('C1', 'III. Armeekorps', 'corps'), cmd('C2', 'IV. Armeekorps', 'corps'), cmd('A1', 'Armata X', 'army'), cmd('D1', 'Wehrkreis I', 'district')];
+const O = [off('O1', 'Uno', { exampleFormation: 'IV. Armeekorps' }), off('O2', 'Due'), off('O3', 'Tre', { levels: ['army'], levelRaw: 'Army' }),
+  off('O4', 'Quattro', { nation: 'FRA' }), off('O5', 'Cinque', { branchType: 'air', levels: [] }), off('O6', 'Sei SS', { levelRaw: 'SS Division/Corps' })];
+const D = '1936-06-01';
+
+test('automatico: stesso livello e nazione, preferisce la stessa formazione, ignora distretti, SS e altre armi', () => {
+  assert.deepEqual(managedCommands(U, D).map((c) => c.id), ['A1', 'C1', 'C2']);
+  const { state, events } = autoAssign(createCommanderState(), { units: U, officers: O, date: D });
+  assert.equal(state.assignments.C2.officerId, 'O1', 'IV. Armeekorps → ufficiale con quella formazione');
+  assert.equal(state.assignments.C1.officerId, 'O2');
+  assert.equal(state.assignments.A1.officerId, 'O3');
+  assert.ok(!('D1' in state.assignments), 'i distretti non sono gestiti');
+  assert.ok(Object.values(state.assignments).every((a) => a.source === 'auto' && !['O4', 'O5', 'O6'].includes(a.officerId)));
+  assert.equal(events.length, 3);
+  assert.deepEqual(validateCommanderState(state, { units: U, officers: O }), []);
+  assert.deepEqual(autoAssign(state, { units: U, officers: O, date: D }).events, [], 'idempotente');
+  assert.equal(eligibleOfficers({ command: U[0], officers: O, date: D, taken: new Set(['O1', 'O2']) }).length, 0);
+});
+
+test('il giocatore sceglie sempre: sovrascrive l\'automatico, non viene mai toccato dall\'automatico', () => {
+  let { state } = autoAssign(createCommanderState(), { units: U, officers: O, date: D });
+  const r = assignCommander(state, { commandId: 'C1', officerId: 'O1', units: U, officers: O, date: D });
+  assert.equal(r.state.assignments.C1.source, 'player');
+  assert.ok(!('C2' in r.state.assignments), 'O1 lascia C2 (un ufficiale, un comando)');
+  assert.deepEqual(r.events.map((e) => e.type), ['vacated', 'replaced', 'player_assign']);
+  assert.ok(r.warnings.some((w) => /lascia il comando di C2/.test(w)));
+  state = r.state;
+  // l'automatico riempie C2 con un altro, ma non tocca C1 del giocatore nemmeno se l'ufficiale diventa indisponibile
+  const later = autoAssign(state, { units: U, officers: O, date: '1950-01-01' });
+  assert.equal(later.state.assignments.C1.officerId, 'O1', 'scelta del giocatore intoccabile');
+  assert.ok(!('C2' in later.state.assignments) || later.state.assignments.C2.source === 'auto');
+});
+
+test('scelta del giocatore: avvisi non bloccanti (data, dubbi, livello) e blocchi (nazione, arma, livello gestito, id)', () => {
+  const st = createCommanderState();
+  const early = off('E1', 'Presto', { availableFrom: '1940-01-01', review: { status: 'date_doubt', reason: 'dubbio' }, levels: ['division'] });
+  const w = assignCommander(st, { commandId: 'C1', officerId: 'E1', units: U, officers: [...O, early], date: D }).warnings;
+  assert.ok(w.some((x) => /non ancora disponibile/.test(x)) && w.some((x) => /dubbi/.test(x)) && w.some((x) => /fuori dal profilo/.test(x)));
+  const a = (commandId, officerId) => () => assignCommander(st, { commandId, officerId, units: U, officers: O, date: D });
+  assert.throws(a('C1', 'O4'), /FRA/); assert.throws(a('C1', 'O5'), /non è un ufficiale di terra/);
+  assert.throws(a('D1', 'O1'), /non gestito/); assert.throws(a('C9', 'O1'), /comando inesistente/); assert.throws(a('C1', 'O9'), /ufficiale inesistente/);
+});
+
+test('rilascio: il comando torna libero e l\'automatico lo riassegna; automatico sostituito alla scadenza', () => {
+  const p = assignCommander(createCommanderState(), { commandId: 'C1', officerId: 'O2', units: U, officers: O, date: D });
+  const rel = releaseCommander(p.state, 'C1');
+  assert.deepEqual(rel.state.assignments, {});
+  assert.throws(() => releaseCommander(rel.state, 'C1'), /nessun comandante/);
+  const timed = [off('T1', 'Breve', { availableTo: '1937-01-01' }), off('T2', 'Dopo', { availableFrom: '1937-01-02' })];
+  const s1 = autoAssign(createCommanderState(), { units: [U[0]], officers: timed, date: '1936-06-01' });
+  assert.equal(s1.state.assignments.C1.officerId, 'T1');
+  const s2 = autoAssign(s1.state, { units: [U[0]], officers: timed, date: '1937-06-01' });
+  assert.equal(s2.state.assignments.C1.officerId, 'T2');
+  assert.deepEqual(s2.events.map((e) => e.type), ['auto_release', 'auto_assign']);
+});
+
+test('validateCommanderState: errori su id, nazione, livello, doppio incarico, origine', () => {
+  const bad = { schema: 'commanders-v1', assignments: { C9: { officerId: 'O1', source: 'auto' }, C1: { officerId: 'O4', source: 'boh' }, D1: { officerId: 'O2', source: 'auto' }, A1: { officerId: 'O2', source: 'auto' } } };
+  const e = validateCommanderState(bad, { units: U, officers: O });
+  for (const re of [/comando C9 inesistente/, /FRA/, /origine boh/, /livello district/, /comanda sia/]) assert.ok(e.some((x) => re.test(x)), String(re));
+  assert.deepEqual(validateCommanderState({ schema: 'x' }, { units: U, officers: O }).length, 1);
+});
+
+test('dati reali al 1/1/1936: solo 2 comandi trovano un ufficiale compatibile; il resto resta libero', () => {
+  const real = autoAssign(createCommanderState(), { units, officers: doc.officers, date: '1936-01-01' });
+  const names = Object.entries(real.state.assignments).map(([c, a]) => [units.find((u) => u.id === c).name, doc.officers.find((o) => o.id === a.officerId).name]);
+  assert.deepEqual(names.sort(), [['I. Armeekorps', 'Erwin von Witzleben'], ['Kwantung Army', 'Jiro Minami']], 'il CSV non ha altri ufficiali di corpo/armata disponibili nel 1936');
+  assert.deepEqual(validateCommanderState(real.state, { units, officers: doc.officers }), []);
+  assert.equal(managedCommands(units, '1936-01-01').length, 13, '12 Armeekorps tedeschi + Armata del Kwantung (i corpi sovietici sono inattivi per dubbio)');
+  const player = assignCommander(real.state, { commandId: units.find((u) => u.name === 'II. Armeekorps').id, officerId: byName('Heinz Guderian').id, units, officers: doc.officers, date: '1936-01-01' });
+  assert.ok(player.warnings.some((w) => /non ancora disponibile \(dal 1939-01-01\)/.test(w)), 'Guderian nel 1936: scelta permessa con avviso');
+});

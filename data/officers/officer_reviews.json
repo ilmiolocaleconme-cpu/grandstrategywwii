@@ -1,0 +1,11 @@
+{
+  "schema": "officer-reviews-v1",
+  "note": "Revisioni manuali del CSV degli ufficiali. Tutto il catalogo resta DA_VERIFICARE. Un ufficiale con revisione date_doubt/duplicate è inattivo nella politica strict (non viene schierato in automatico; il giocatore può comunque sceglierlo, con avviso).",
+  "reviews": {
+    "OFF-0111": { "status": "duplicate", "confidence": "certo", "duplicateOf": "OFF-0110", "reason": "Riga identica a OFF-0110 (John Tovey, Home Fleet)." },
+    "OFF-0022": { "status": "date_doubt", "confidence": "probabile", "reason": "Georg Stumme: l'incarico 'Afrika-Korps' non coincide con la storia (comandò un corpo corazzato e, ad interim, l'armata corazzata in Africa nel 1942). Incarico e date da verificare." },
+    "OFF-0025": { "status": "date_doubt", "confidence": "probabile", "reason": "Rommel alla 7. Panzer-Division: il CSV riporta inizio 1935; probabilmente comandò la divisione solo dal febbraio 1940." },
+    "OFF-0015": { "status": "date_doubt", "confidence": "probabile", "reason": "Guderian al XIX. Armeekorps: la fine del ruolo (1941-03-01) non coincide con la sua carriera (poi Panzergruppe 2). Date da verificare." },
+    "OFF-0047": { "status": "date_doubt", "confidence": "probabile", "reason": "Gariboldi alla 10ª Armata: probabile errore (guidò l'8ª Armata/ARMIR e il comando in Libia). Incarico da verificare." }
+  }
+}

@@ -26,6 +26,8 @@ import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.j
 import { validateAmmoConsumption } from '../src/data/ammo.js';
 import { validateUnits, validateOobEstimates } from '../src/data/units.js';
 import { unitsBuilt } from './build-units.js';
+import { validateOfficers } from '../src/data/officers.js';
+import { officersBuilt } from './build-officers.js';
 import { validateEconomy } from '../src/data/economy.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
 import { validateInitialStocks } from '../src/data/initialStocks.js';
@@ -157,6 +159,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       if (createHash('sha256').update(await readFile(new URL('../data/units/source/unita_cronologia_1935_1945.csv', import.meta.url))).digest('hex') !== unitsDoc.source.sha256) errors.push('unità: CSV sorgente diverso da quello registrato in units.json (sha256)');
       for (const src of unitsDoc.sources1936 ?? []) if (createHash('sha256').update(await readFile(new URL(`../data/units/${src.file}`, import.meta.url))).digest('hex') !== src.sha256) errors.push(`unità: ${src.file} diverso da quello registrato in units.json (sha256)`);
       if (JSON.stringify(unitsDoc) !== JSON.stringify(ub)) errors.push('unità: units.json non allineato a CSV e revisioni, rigenerare con npm run build:units');
+    }
+    // Ufficiali (CSV dell'utente): copie non modificate, file generato allineato, revisioni coerenti
+    {
+      const officersDoc = JSON.parse(await text('officers/officers.json'));
+      errors.push(...validateOfficers(officersDoc, { nationIds: new Set(catalog.political.map((p) => p.id)) }));
+      for (const f of [officersDoc.source, officersDoc.cardTemplate]) if (createHash('sha256').update(await readFile(new URL(`../data/officers/${f.file}`, import.meta.url))).digest('hex') !== f.sha256) errors.push(`ufficiali: ${f.file} diverso da quello registrato in officers.json (sha256)`);
+      if (JSON.stringify(officersDoc) !== JSON.stringify(await officersBuilt())) errors.push('ufficiali: officers.json non allineato a CSV e revisioni, rigenerare con npm run build:officers');
     }
     // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate
     for (const sh of JSON.parse(await text('resources/SOURCE_IDRO.json')).files) {

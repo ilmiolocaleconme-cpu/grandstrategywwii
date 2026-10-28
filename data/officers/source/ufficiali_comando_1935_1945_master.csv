@@ -1,0 +1,186 @@
+﻿officer_id;nazione;forza_armata;livello_comando;ruolo;nome_ufficiale;grado_periodo;data_inizio_disponibilita;data_fine_disponibilita;formazione_esempio;comando_precedente;note;fonte_riferimento;modalita_storica;modalita_alternativa;stato_verifica
+OFF-0001;Germania;Heer;Army Group;Comandante;Wilhelm von Leeb;Generalfeldmarschall;1938-01-01;1942-01-15;Heeresgruppe Nord;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0002;Germania;Heer;Army Group;Comandante;Gerd von Rundstedt;Generalfeldmarschall;1938-01-01;1945-05-08;Heeresgruppe Süd/West;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0003;Germania;Heer;Army Group;Comandante;Fedor von Bock;Generalfeldmarschall;1938-01-01;1942-07-13;Heeresgruppe B;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0004;Germania;Heer;Army Group;Comandante;Günther von Kluge;Generalfeldmarschall;1939-01-01;1944-08-17;Heeresgruppe Mitte/B;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0005;Germania;Heer;Army/Army Group;Comandante;Erich von Manstein;Generalfeldmarschall;1939-01-01;1944-03-30;11. Armee / Heeresgruppe Süd;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0006;Germania;Heer;Army/Army Group;Comandante;Walter Model;Generalfeldmarschall;1941-01-01;1945-04-21;Heeresgruppe Mitte/B;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0007;Germania;Heer;Army/Army Group;Comandante;Erwin Rommel;Generalfeldmarschall;1939-01-01;1944-10-14;Panzergruppe Afrika / Heeresgruppe B;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0008;Germania;Heer;Army;Comandante;Friedrich Paulus;Generalfeldmarschall;1939-01-01;1943-01-31;6. Armee;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0009;Germania;Heer;Army;Comandante;Hermann Hoth;Generaloberst;1939-01-01;1943-12-01;4. Panzerarmee;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0010;Germania;Heer;Army/Army Group;Comandante;Georg von Küchler;Generalfeldmarschall;1939-01-01;1944-01-31;18. Armee / Heeresgruppe Nord;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0011;Germania;Heer;Army/Army Group;Comandante;Wilhelm List;Generalfeldmarschall;1939-01-01;1943-01-01;14. Armee / Heeresgruppe A;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0012;Germania;Heer;Army Group;Comandante;Maximilian von Weichs;Generalfeldmarschall;1939-01-01;1945-05-08;Heeresgruppe B/F;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0013;Germania;Heer;Army;Comandante;Georg Lindemann;Generaloberst;1939-01-01;1945-05-08;18. Armee;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0014;Germania;Heer;Army/Army Group;Comandante;Ernst Busch;Generalfeldmarschall;1939-01-01;1945-05-08;16. Armee / Heeresgruppe Mitte;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0015;Germania;Heer;Corps/Panzer Corps;Comandante di corpo;Heinz Guderian;Generaloberst;1939-01-01;1941-03-01;XIX. Armeekorps (mot.);;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0016;Germania;Heer;SS Panzer Corps;Comandante di corpo;Paul Hausser;SS-Oberstgruppenführer;1942-01-01;1945-05-08;II. SS-Panzerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0017;Germania;Heer;Panzer Corps;Comandante di corpo;Hermann Balck;General der Panzertruppe;1942-01-01;1945-05-08;XLVIII. Panzerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0018;Germania;Heer;Panzer Corps/Army;Comandante di corpo;Josef Harpe;Generaloberst;1942-01-01;1945-01-01;XLI. Panzerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0019;Germania;Heer;Panzer Corps/Army;Comandante di corpo;Hans-Valentin Hube;Generaloberst;1941-01-01;1944-04-20;XIV. Panzerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0020;Germania;Heer;Panzer Corps/Army Group;Comandante di corpo;Georg-Hans Reinhardt;Generaloberst;1939-01-01;1945-05-08;XLI. Panzerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0021;Germania;Heer;Panzer Corps;Comandante di corpo;Eberhard von Mackensen;General der Panzertruppe;1941-01-01;1943-01-01;III. Panzerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0022;Germania;Heer;Panzer Corps;Comandante di corpo;Georg Stumme;General der Panzertruppe;1941-01-01;1942-10-24;Afrika-Korps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0023;Germania;Heer;Panzer Corps;Comandante di corpo;Traugott Herr;General der Panzertruppe;1941-01-01;1945-05-08;LXXVI. Panzerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0024;Germania;Heer;Corps/Army;Comandante di corpo;Eugen Ritter von Schobert;Generaloberst;1939-01-01;1941-09-12;XI. Armeekorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0025;Germania;Heer/Waffen-SS;Division;Comandante di divisione;Erwin Rommel;Generalleutnant;1935-01-01;1940-02-15;7. Panzer-Division;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0026;Germania;Heer/Waffen-SS;Division/Corps;Comandante di divisione;Erwin von Witzleben;General der Infanterie;1935-01-01;1940-01-01;1. Division;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0027;Germania;Heer/Waffen-SS;Division/Panzer Division;Comandante di divisione;Hasso von Manteuffel;General der Panzertruppe;1940-01-01;1945-05-08;7. Panzer-Division / Panzer-Divisionen;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0028;Germania;Heer/Waffen-SS;Division/Corps;Comandante di divisione;Friedrich Kirchner;General der Panzertruppe;1939-01-01;1944-04-01;1. Panzer-Division;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0029;Germania;Heer/Waffen-SS;Division/Corps;Comandante di divisione;Hans-Valentin Hube;Generalmajor/Generalleutnant;1939-01-01;1941-01-01;16. Infanterie-Division;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0030;Germania;Heer/Waffen-SS;SS Division;Comandante di divisione;Theodor Eicke;SS-Obergruppenführer;1942-01-01;1943-02-26;SS-Totenkopf-Division;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0031;Germania;Heer/Waffen-SS;SS Division/Corps;Comandante di divisione;Josef Dietrich;SS-Oberstgruppenführer;1935-01-01;1944-08-01;1. SS-Panzer-Division;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0032;Germania;Luftwaffe;Air Force High Command;Comandante aeronautico;Hermann Göring;Reichsmarschall;1935-01-01;1945-05-08;Luftwaffe;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0033;Germania;Luftwaffe;Air Fleet/Air Theater;Comandante aeronautico;Albert Kesselring;Generalfeldmarschall;1936-01-01;1944-11-01;Luftflotte 2 / Luftflotte 3;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0034;Germania;Luftwaffe;Air Fleet/Corps;Comandante aeronautico;Wolfram von Richthofen;Generalfeldmarschall;1936-01-01;1945-05-08;Luftflotte 4 / Fliegerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0035;Germania;Luftwaffe;Air Fleet;Comandante aeronautico;Robert Ritter von Greim;Generalfeldmarschall;1935-01-01;1945-05-08;Luftflotte 6;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0036;Germania;Luftwaffe;Air Corps/Airborne Command;Comandante aeronautico;Kurt Student;Generaloberst;1938-01-01;1945-05-08;XI. Fliegerkorps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0037;Germania;Luftwaffe;Fighter Force;Comandante aeronautico;Adolf Galland;Generalleutnant;1939-01-01;1945-05-08;Jagdwaffe;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0038;Germania;Luftwaffe;Air Fleet;Comandante aeronautico;Hugo Sperrle;Generalfeldmarschall;1939-01-01;1944-08-01;Luftflotte 3;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0039;Germania;Kriegsmarine;Navy High Command;Comandante navale;Erich Raeder;Großadmiral;1935-01-01;1943-01-30;Kriegsmarine;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0040;Germania;Kriegsmarine;Submarine Force/Navy High Command;Comandante navale;Karl Dönitz;Großadmiral;1935-01-01;1945-05-23;U-Bootwaffe / Kriegsmarine;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0041;Germania;Kriegsmarine;Fleet/Task Force;Comandante navale;Wilhelm Marschall;Admiral;1939-01-01;1943-01-01;Flottenverband;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0042;Germania;Kriegsmarine;Fleet/Task Force;Comandante navale;Günther Lütjens;Admiral;1939-01-01;1941-05-27;Bismarck/Rheinübung;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0043;Germania;Kriegsmarine;Fleet/Area Command;Comandante navale;Hermann Boehm;Admiral;1935-01-01;1943-01-01;Marinegruppenkommando;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0044;Germania;Kriegsmarine;Fleet/Task Force;Comandante navale;Otto Ciliax;Admiral;1940-01-01;1943-01-01;Channel Dash force;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0045;Italia;Regio Esercito;Army/General Command;Comandante;Pietro Badoglio;Maresciallo d'Italia;1935-01-01;1943-09-08;Regio Esercito;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0046;Italia;Regio Esercito;Army Group/Army;Comandante;Rodolfo Graziani;Maresciallo d'Italia;1935-01-01;1943-09-08;Libia / Gruppo d'Armate;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0047;Italia;Regio Esercito;Army/Army Group;Comandante;Italo Gariboldi;Maresciallo d'Italia;1935-01-01;1943-01-01;10ª Armata;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0048;Italia;Regio Esercito;Army/Army Group;Comandante;Giovanni Messe;Generale d'Armata;1935-01-01;1945-04-01;Corpo d'Armata / ARMIR;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0049;Italia;Regio Esercito;Army/Army Group;Comandante;Ettore Bastico;Maresciallo d'Italia;1937-01-01;1943-01-01;Comando Superiore FF.AA. Africa Settentrionale;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0050;Italia;Regio Esercito;General Staff/Army;Comandante;Ugo Cavallero;Maresciallo d'Italia;1939-01-01;1943-01-01;Comando Supremo;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0051;Italia;Regio Esercito;Army/General Command;Comandante;Alfredo Guzzoni;Generale d'Armata;1935-01-01;1943-09-08;Comando Supremo;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0052;Italia;Regio Esercito;Army/Army Group;Comandante;Mario Roatta;Generale d'Armata;1935-01-01;1943-09-08;2ª Armata;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0053;Italia;Regio Esercito;Corps;Comandante di corpo;Alfredo Guzzoni;Generale di Corpo d'Armata;1935-01-01;1940-01-01;Corpo d'Armata;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0054;Italia;Regio Esercito;Corps/Army;Comandante di corpo;Emanuele Filiberto di Savoia-Aosta;Generale d'Armata;1935-01-01;1942-01-01;3ª Armata;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0055;Italia;Regio Esercito;Corps;Comandante di corpo;Ettore Bastico;Generale di Corpo d'Armata;1935-01-01;1937-01-01;Corpo d'Armata;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0056;Italia;Regio Esercito;Army;Comandante di corpo;Mario Berti;Generale d'Armata;1935-01-01;1940-01-01;10ª Armata;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0057;Italia;Regio Esercito;General Staff/Corps;Comandante di corpo;Alberto Pariani;Generale di Corpo d'Armata;1935-01-01;1939-01-01;Stato Maggiore Regio Esercito;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0058;Italia;Regia Aeronautica;Air Force High Command;Comandante aeronautico;Italo Balbo;Maresciallo dell'Aria;1935-01-01;1940-06-28;Regia Aeronautica;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0059;Italia;Regia Aeronautica;Air Force High Command;Comandante aeronautico;Francesco Pricolo;Generale d'Armata Aerea;1939-01-01;1941-11-01;Regia Aeronautica;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0060;Italia;Regia Aeronautica;Air Force Command;Comandante aeronautico;Rino Corso Fougier;Generale d'Armata Aerea;1941-01-01;1943-09-08;Regia Aeronautica;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0061;Italia;Regia Aeronautica;Air Transport/Command;Comandante aeronautico;Enrico Pezzi;Generale di Brigata Aerea;1935-01-01;1942-12-29;Regia Aeronautica;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0062;Italia;Regia Aeronautica;Air Command/Doctrine;Comandante aeronautico;Amedeo Mecozzi;Generale di Brigata Aerea;1935-01-01;1943-01-01;Regia Aeronautica;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0063;Italia;Regia Marina;Navy High Command;Comandante navale;Paolo Thaon di Revel;Ammiraglio;1935-01-01;1940-01-01;Regia Marina;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0064;Italia;Regia Marina;Navy High Command;Comandante navale;Domenico Cavagnari;Ammiraglio d'Armata;1935-01-01;1940-12-10;Regia Marina;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0065;Italia;Regia Marina;Navy High Command;Comandante navale;Arturo Riccardi;Ammiraglio d'Armata;1940-01-01;1943-07-25;Regia Marina;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0066;Italia;Regia Marina;Fleet/Task Force;Comandante navale;Angelo Iachino;Ammiraglio d'Armata;1940-01-01;1943-04-01;Forze Navali da Battaglia;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0067;Italia;Regia Marina;Fleet;Comandante navale;Inigo Campioni;Ammiraglio d'Armata;1939-01-01;1943-09-24;Forze Navali;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0068;Italia;Regia Marina;Fleet;Comandante navale;Carlo Bergamini;Ammiraglio d'Armata;1943-01-01;1943-09-09;Forze Navali da Battaglia;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0069;Giappone;IJA;Army High Command;Comandante;Hajime Sugiyama;Field Marshal;1935-01-01;1945-09-01;Imperial Japanese Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0070;Giappone;IJA;Army/General Staff;Comandante;Hideki Tojo;General;1935-01-01;1944-07-18;IJA / Prime Minister;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0071;Giappone;IJA;Army/Area Army;Comandante;Shunroku Hata;Field Marshal;1935-01-01;1945-09-01;China Expeditionary Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0072;Giappone;IJA;Army/Army Group;Comandante;Tomoyuki Yamashita;General;1935-01-01;1945-09-02;25th Army / 14th Area Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0073;Giappone;IJA;Army/Army;Comandante;Masaharu Homma;Lieutenant General;1935-01-01;1945-09-01;14th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0074;Giappone;IJA;Army/Area Army;Comandante;Hitoshi Imamura;General;1935-01-01;1945-09-01;8th Area Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0075;Giappone;IJA;Army/Staff;Comandante;Akira Mutō;Lieutenant General;1935-01-01;1945-09-01;IJA;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0076;Giappone;IJA;Army;Comandante;Renya Mutaguchi;Lieutenant General;1935-01-01;1945-09-01;15th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0077;Giappone;IJA;Army/Corps-equivalent;Comandante di grande unità;Masaharu Homma;Lieutenant General;1937-01-01;1942-01-01;14th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0078;Giappone;IJA;Army/Corps-equivalent;Comandante di grande unità;Hitoshi Imamura;Lieutenant General;1937-01-01;1942-01-01;16th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0079;Giappone;IJA;Army/Corps-equivalent;Comandante di grande unità;Isamu Yokoyama;Lieutenant General;1937-01-01;1945-09-01;11th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0080;Giappone;IJA;Army Command;Comandante di grande unità;Jiro Minami;General;1935-01-01;1936-01-01;Kwantung Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0081;Giappone;IJA Air Service;Air Army;Comandante aeronautico;Toshio Kobayashi;Lieutenant General;1935-01-01;1945-09-01;IJA Air Service;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0082;Giappone;IJA Air Service;Air Army;Comandante aeronautico;Kyoji Tominaga;Lieutenant General;1935-01-01;1945-09-01;4th Air Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0083;Giappone;IJA Air Service;Air Command/Staff;Comandante aeronautico;Tetsujiro Kimura;Lieutenant General;1935-01-01;1945-09-01;IJA Air Service;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0084;Giappone;IJN;Combined Fleet;Comandante navale;Isoroku Yamamoto;Admiral;1935-01-01;1943-04-18;Combined Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0085;Giappone;IJN;Fleet/Task Force;Comandante navale;Chūichi Nagumo;Admiral;1935-01-01;1944-02-01;1st Air Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0086;Giappone;IJN;Fleet/Task Force;Comandante navale;Jisaburō Ozawa;Admiral;1935-01-01;1945-09-01;3rd Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0087;Giappone;IJN;Fleet/Task Force;Comandante navale;Takeo Kurita;Vice Admiral/Admiral;1935-01-01;1945-09-01;2nd Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0088;Giappone;IJN;Fleet;Comandante navale;Nobutake Kondō;Admiral;1935-01-01;1943-01-01;2nd Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0089;Giappone;IJN;Fleet/Area;Comandante navale;Shigeyoshi Inoue;Admiral;1935-01-01;1944-01-01;4th Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0090;Giappone;IJN;Fleet/Task Force;Comandante navale;Gunichi Mikawa;Admiral;1935-01-01;1945-09-01;8th Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0091;Regno Unito;British Army;Army High Command;Comandante;Alan Brooke;Field Marshal;1935-01-01;1945-01-01;Chief of the Imperial General Staff;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0092;Regno Unito;British Army;Army/Army Group;Comandante;Bernard Montgomery;Field Marshal;1939-01-01;1945-05-08;8th Army / 21st Army Group;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0093;Regno Unito;British Army;Army Group;Comandante;Harold Alexander;Field Marshal;1939-01-01;1945-05-08;18th Army Group / 15th Army Group;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0094;Regno Unito;British Army;Army/Army Group;Comandante;Claude Auchinleck;Field Marshal;1935-01-01;1945-01-01;Middle East Command / 8th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0095;Regno Unito;British Army;Army/Army Group;Comandante;Archibald Wavell;Field Marshal;1935-01-01;1943-01-01;Middle East Command;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0096;Regno Unito;British Army;Army/Army Group;Comandante;William Slim;Field Marshal;1939-01-01;1945-05-08;14th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0097;Regno Unito;British Army;Army/Corps;Comandante;Richard O'Connor;General;1935-01-01;1944-01-01;Western Desert Force / VIII Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0098;Regno Unito;British Army;Army;Comandante;Miles Dempsey;General;1935-01-01;1945-05-08;2nd Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0099;Regno Unito;British Army;Corps;Comandante di corpo;Brian Horrocks;Lieutenant General;1939-01-01;1945-05-08;XXX Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0100;Regno Unito;British Army;Corps;Comandante di corpo;John Crocker;Lieutenant General;1939-01-01;1945-05-08;I Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0101;Regno Unito;British Army;Corps;Comandante di corpo;Gerald Bucknall;Lieutenant General;1939-01-01;1945-01-01;XXX Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0102;Regno Unito;British Army;Corps/Army;Comandante di corpo;Neil Ritchie;General;1939-01-01;1945-01-01;XIII Corps / 8th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0103;Regno Unito;British Army;Corps/Planning;Comandante di corpo;Frederick Morgan;Lieutenant General;1939-01-01;1944-01-01;COSSAC;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0104;Regno Unito;Royal Air Force;Fighter Command;Comandante aeronautico;Hugh Dowding;Air Chief Marshal;1935-01-01;1940-11-25;RAF Fighter Command;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0105;Regno Unito;Royal Air Force;RAF High Command;Comandante aeronautico;Cyril Newall;Air Chief Marshal;1935-01-01;1940-10-25;Chief of Air Staff;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0106;Regno Unito;Royal Air Force;RAF High Command;Comandante aeronautico;Charles Portal;Air Chief Marshal;1937-01-01;1945-01-01;Chief of Air Staff;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0107;Regno Unito;Royal Air Force;Bomber Command;Comandante aeronautico;Arthur Harris;Air Chief Marshal;1939-01-01;1945-01-01;RAF Bomber Command;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0108;Regno Unito;Royal Air Force;Air Group/Fighter Command;Comandante aeronautico;Keith Park;Air Chief Marshal;1939-01-01;1945-01-01;11 Group;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0109;Regno Unito;Royal Air Force;Air Group;Comandante aeronautico;Trafford Leigh-Mallory;Air Chief Marshal;1939-01-01;1945-11-14;11/84 Group;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0110;Regno Unito;Royal Navy;Fleet;Comandante navale;John Tovey;Admiral;1935-01-01;1945-01-01;Home Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0111;Regno Unito;Royal Navy;Fleet;Comandante navale;John Tovey;Admiral;1935-01-01;1945-01-01;Home Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0112;Regno Unito;Royal Navy;Fleet/Combined Command;Comandante navale;Andrew Cunningham;Admiral of the Fleet;1935-01-01;1945-01-01;Mediterranean Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0113;Regno Unito;Royal Navy;Naval Command/Task Force;Comandante navale;Bertram Ramsay;Admiral;1935-01-01;1945-01-01;Naval Forces, Europe;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0114;Regno Unito;Royal Navy;Fleet;Comandante navale;James Somerville;Admiral;1935-01-01;1945-01-01;Force H / Eastern Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0115;Regno Unito;Royal Navy;Fleet;Comandante navale;Bruce Fraser;Admiral of the Fleet;1935-01-01;1945-01-01;British Pacific Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0116;Francia;Armée de Terre;Army High Command;Comandante;Maurice Gamelin;General;1935-01-01;1940-05-19;French General Headquarters;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0117;Francia;Armée de Terre;Army High Command;Comandante;Maxime Weygand;General;1935-01-01;1945-01-01;French General Headquarters;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0118;Francia;Armée de Terre;Army/Division;Comandante;Philippe Leclerc;Général de division;1940-01-01;1945-05-08;2e Division Blindée;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0119;Francia;Armée de Terre;Army/Corps;Comandante;Alphonse Juin;Général de corps d'armée;1935-01-01;1945-05-08;Corps Expéditionnaire Français;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0120;Francia;Armée de Terre;Army/Army Group;Comandante;Jean de Lattre de Tassigny;Général d'armée;1935-01-01;1952-01-01;French First Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0121;Francia;Armée de Terre;Army/Corps;Comandante;Charles Huntziger;Général d'armée;1935-01-01;1940-11-12;2e Armée;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0122;Francia;Armée de Terre;Corps;Comandante di corpo;Georges Blanchard;Général de corps d'armée;1935-01-01;1940-06-01;I Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0123;Francia;Armée de Terre;Corps/Cavalry;Comandante di corpo;René Prioux;Général de corps d'armée;1935-01-01;1940-06-01;Corps de Cavalerie;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0124;Francia;Armée de Terre;Corps/Army;Comandante di corpo;Henri Giraud;Général de corps d'armée;1935-01-01;1944-01-01;VII Armée / French North Africa;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0125;Francia;Armée de l'Air;Air Force High Command;Comandante aeronautico;Joseph Vuillemin;Général d'armée aérienne;1935-01-01;1940-01-01;Armée de l'Air;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0126;Francia;Armée de l'Air;Air Command;Comandante aeronautico;Robert Odic;Général de division aérienne;1935-01-01;1940-01-01;Armée de l'Air;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0127;Francia;Armée de l'Air;Fighter Command;Comandante aeronautico;Jean Accart;Général de brigade aérienne;1935-01-01;1940-01-01;Armée de l'Air;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0128;Francia;Marine Nationale / FNFL;Navy High Command;Comandante navale;François Darlan;Amiral de la flotte;1935-01-01;1942-11-01;Marine Nationale;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0129;Francia;Marine Nationale / FNFL;Fleet/Forces;Comandante navale;Jean de Laborde;Amiral;1935-01-01;1942-01-01;Forces de haute mer;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0130;Francia;Marine Nationale / FNFL;Free French Navy;Comandante navale;Émile Muselier;Vice-amiral;1940-01-01;1945-01-01;Forces navales françaises libres;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0131;URSS;Armata Rossa;Front/Army;Comandante;Georgy Zhukov;Marshal of the Soviet Union;1935-01-01;1945-06-24;1st Belorussian Front;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0132;URSS;Armata Rossa;Front/Army;Comandante;Ivan Konev;Marshal of the Soviet Union;1935-01-01;1945-05-11;1st Ukrainian Front;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0133;URSS;Armata Rossa;Front/Army;Comandante;Konstantin Rokossovsky;Marshal of the Soviet Union;1935-01-01;1945-06-24;2nd Belorussian Front;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0134;URSS;Armata Rossa;General Staff/Front;Comandante;Aleksandr Vasilevsky;Marshal of the Soviet Union;1935-01-01;1945-09-01;General Staff;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0135;URSS;Armata Rossa;Front/Army;Comandante;Semyon Timoshenko;Marshal of the Soviet Union;1935-01-01;1945-01-01;Southwestern Front;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0136;URSS;Armata Rossa;Front/Army;Comandante;Ivan Bagramyan;Marshal of the Soviet Union;1935-01-01;1955-01-01;1st Baltic Front;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0137;URSS;Armata Rossa;Front/Army;Comandante;Rodion Malinovsky;Marshal of the Soviet Union;1935-01-01;1945-09-01;2nd Ukrainian Front;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0138;URSS;Armata Rossa;Front/Army;Comandante;Fedor Tolbukhin;Marshal of the Soviet Union;1935-01-01;1945-10-01;3rd Ukrainian Front;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0139;URSS;Armata Rossa;Army/Corps;Comandante di grande unità;Vasily Chuikov;Colonel General;1935-01-01;1945-05-08;62nd Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0140;URSS;Armata Rossa;Tank Corps/Army;Comandante di grande unità;Mikhail Katukov;Marshal of Armoured Troops;1935-01-01;1945-05-08;1st Guards Tank Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0141;URSS;Armata Rossa;Tank Army;Comandante di grande unità;Pavel Rybalko;Marshal of Armoured Troops;1935-01-01;1945-05-08;3rd Guards Tank Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0142;URSS;Armata Rossa;Tank Army;Comandante di grande unità;Semyon Bogdanov;Marshal of Armoured Troops;1935-01-01;1945-05-08;2nd Guards Tank Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0143;URSS;Armata Rossa;Army/Corps;Comandante di grande unità;Kirill Moskalenko;Marshal of Artillery;1935-01-01;1945-05-08;38th Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0144;URSS;Voenno-Vozdushnye Sily;Air Force High Command;Comandante aeronautico;Alexander Novikov;Marshal of Aviation;1935-01-01;1946-01-01;Soviet Air Force;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0145;URSS;Voenno-Vozdushnye Sily;Air Army;Comandante aeronautico;Sergey Khudyakov;Marshal of Aviation;1935-01-01;1945-04-01;Air Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0146;URSS;Voenno-Vozdushnye Sily;Air Army;Comandante aeronautico;Konstantin Vershinin;Marshal of Aviation;1935-01-01;1945-09-01;Air Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0147;URSS;Voenno-Morskoj Flot;Navy High Command;Comandante navale;Nikolai Kuznetsov;Admiral of the Fleet;1935-01-01;1945-09-01;Soviet Navy;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0148;URSS;Voenno-Morskoj Flot;Fleet;Comandante navale;Vladimir Tributs;Admiral;1935-01-01;1945-09-01;Baltic Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0149;URSS;Voenno-Morskoj Flot;Fleet;Comandante navale;Filipp Oktyabrsky;Admiral;1935-01-01;1945-09-01;Black Sea Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0150;URSS;Voenno-Morskoj Flot;Fleet/Flotilla;Comandante navale;Sergey Gorshkov;Admiral;1935-01-01;1945-09-01;Soviet Navy;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0151;USA;US Army;Army High Command;Comandante;George C. Marshall;General of the Army;1935-01-01;1945-11-01;US Army Chief of Staff;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0152;USA;US Army;Army Group/Supreme Command;Comandante;Dwight D. Eisenhower;General of the Army;1935-01-01;1945-05-08;SHAEF / 1st Army Group;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0153;USA;US Army;Army/Army Group;Comandante;Omar Bradley;General of the Army;1935-01-01;1945-05-08;12th Army Group;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0154;USA;US Army;Army/Corps;Comandante;George S. Patton;General;1935-01-01;1945-12-21;3rd Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0155;USA;US Army;Army/Army Group;Comandante;Mark W. Clark;General;1935-01-01;1945-05-08;5th Army / 15th Army Group;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0156;USA;US Army;Theater/Army;Comandante;Douglas MacArthur;General of the Army;1935-01-01;1945-09-02;Southwest Pacific Area;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0157;USA;US Army;Airborne Corps/Army;Comandante;Matthew Ridgway;General;1939-01-01;1945-05-08;XVIII Airborne Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0158;USA;US Army;Corps;Comandante di corpo;Omar N. Bradley;General;1939-01-01;1944-01-01;XIX Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0159;USA;US Army;Corps;Comandante di corpo;Leonard T. Gerow;Lieutenant General;1939-01-01;1945-05-08;V Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0160;USA;US Army;Corps;Comandante di corpo;Charles H. Corlett;Lieutenant General;1939-01-01;1945-05-08;VI Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0161;USA;US Army;Corps;Comandante di corpo;Troy H. Middleton;Lieutenant General;1939-01-01;1945-05-08;VIII Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0162;USA;US Army;Corps/Army;Comandante di corpo;Walton H. Walker;Lieutenant General;1939-01-01;1945-05-08;XX Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0163;USA;USAAF;Army Air Forces High Command;Comandante aeronautico;Henry H. Arnold;General of the Army;1935-01-01;1946-01-01;USAAF;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0164;USA;USAAF;Air Force/Strategic Command;Comandante aeronautico;Carl Spaatz;General;1935-01-01;1946-01-01;US Strategic Air Forces in Europe;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0165;USA;USAAF;Air Force/Group;Comandante aeronautico;Jimmy Doolittle;General;1935-01-01;1945-05-08;8th Air Force;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0166;USA;USAAF;Air Force;Comandante aeronautico;Ira C. Eaker;Lieutenant General;1935-01-01;1945-01-01;8th Air Force;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0167;USA;USAAF;Air Force/Theater;Comandante aeronautico;George C. Kenney;General;1935-01-01;1945-09-01;Fifth Air Force / Allied Air Forces SWPA;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0168;USA;US Navy;Navy High Command;Comandante navale;Ernest J. King;Fleet Admiral;1935-01-01;1945-12-15;US Navy;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0169;USA;US Navy;Fleet/Theater;Comandante navale;Chester W. Nimitz;Fleet Admiral;1935-01-01;1945-09-02;US Pacific Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0170;USA;US Navy;Fleet/Task Force;Comandante navale;William Halsey Jr.;Fleet Admiral;1935-01-01;1945-09-02;3rd Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0171;USA;US Navy;Fleet/Task Force;Comandante navale;Raymond A. Spruance;Admiral;1935-01-01;1945-09-02;5th Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0172;USA;US Navy;Carrier Task Force;Comandante navale;Marc Mitscher;Vice Admiral;1935-01-01;1945-09-02;Fast Carrier Task Force;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0173;USA;US Navy;Fleet;Comandante navale;Thomas Kinkaid;Admiral;1935-01-01;1945-09-02;7th Fleet;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0174;USA;US Navy;Fleet/Task Force;Comandante navale;Frank Jack Fletcher;Admiral;1935-01-01;1945-01-01;Task Force 11/17;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0175;Cina;National Revolutionary Army;National Command;Comandante;Chiang Kai-shek;Generalissimo;1935-01-01;1945-09-01;National Revolutionary Army;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0176;Cina;National Revolutionary Army;Army High Command;Comandante;He Yingqin;General;1935-01-01;1945-09-01;National Military Council;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0177;Cina;National Revolutionary Army;Army/Army Group;Comandante;Bai Chongxi;General;1935-01-01;1945-09-01;Nationalist forces;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0178;Cina;National Revolutionary Army;Army/Army Group;Comandante;Li Zongren;General;1935-01-01;1945-09-01;Nationalist forces;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0179;Cina;National Revolutionary Army;Army/Division;Comandante;Sun Li-jen;Lieutenant General;1935-01-01;1945-09-01;New 38th Division / Chinese Expeditionary Force;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0180;Cina;National Revolutionary Army;Army Group;Comandante;Xue Yue;General;1935-01-01;1945-09-01;9th War Area;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0181;Cina;National Revolutionary Army;Army/Corps;Comandante;Du Yuming;General;1935-01-01;1945-09-01;Chinese Expeditionary Force;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0182;Cina;National Revolutionary Army;Army/Army Group;Comandante;Zhang Zizhong;General;1935-01-01;1940-05-16;59th Corps;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0183;Cina;Chinese Air Force;Air Command;Comandante aeronautico;Claire Lee Chennault;Major General;1937-01-01;1945-01-01;Chinese Air Force / CATF;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0184;Cina;Chinese Air Force;Air Force;Comandante aeronautico;Xu Huansheng;Lieutenant General;1935-01-01;1945-01-01;Chinese Air Force;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE
+OFF-0185;Cina;Republic of China Navy;Navy High Command;Comandante navale;Chen Shaokuan;Admiral;1935-01-01;1945-01-01;Republic of China Navy;;;Wikipedia/archivi e repertori storici;SI;SI;DA_VERIFICARE

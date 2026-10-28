@@ -20,6 +20,19 @@ export const NATION_IDS = {
 };
 
 const COMMAND_TYPES = new Set(["gruppo d'armate", 'armata', 'teatro', 'comando superiore', 'fronte/comando']);
+/** Livello di comando dei comandi del CSV (tipo → livello). I comandi del file 1936 hanno già commandLevel (district/corps). */
+const COMMAND_LEVEL_BY_TYPE = { "gruppo d'armate": 'army_group', armata: 'army', teatro: 'theater', 'fronte/comando': 'army_group' };
+/** Il CSV chiama quasi tutto "comando superiore": per questi il livello si ricava dal nome (armata, gruppo d'armate, teatro); il resto resta comando superiore. */
+function commandLevelOf(row) {
+  if (/Fleet|Navy|Squadra|Marine|Kriegsmarine|Luftwaffe|Air/.test(row.nome_formazione) && !/Army Group/.test(row.nome_formazione)) return 'high_command';
+  const byType = COMMAND_LEVEL_BY_TYPE[row.tipo];
+  if (byType) return byType;
+  const n = row.nome_formazione;
+  if (/Group|Gruppe|Groupe d'Arm|Heeresgruppe/.test(n) && !/Air/.test(n)) return 'army_group';
+  if (/Theater|Ocean Areas|Pacific Area/.test(n)) return 'theater';
+  if (/(Arm[ée]e|Army|Armata)/.test(n) && !/Air|Navy/.test(n)) return 'army';
+  return 'high_command';
+}
 const BY_TYPE = {
   fanteria: ['infantry', null], motorizzata: ['motorized', null], meccanizzata: ['mechanized', null], corazzata: ['armored', null],
   alpina: ['mountain', null], montagna: ['mountain', null], coloniale: ['infantry', 'colonial'], paracadutisti: ['airborne', null],
@@ -58,6 +71,7 @@ export function buildUnits(rows, reviews = {}) {
       id: row.unit_id, nation, branch: row.forza_armata, echelon, category, variant, name: row.nome_formazione, rawType: row.tipo,
       startYear, sourceStartYear, startPrecision: 'year', dating: sourceStartYear === WINDOW_START_YEAR ? 'window_start' : 'year',
       endYear: row.data_fine === '' ? null : Number(row.data_fine), source: row.fonte_riferimento, verification: row.stato_cronologia,
+      ...(category === 'command' ? { commandLevel: commandLevelOf(row) } : {}),
       review,
     };
   });
