@@ -17,7 +17,7 @@ export const PRODUCT_META = Object.freeze({
 });
 
 /** Ordine di visualizzazione (e di priorità se in una provincia non entrano tutte le icone). */
-export const RESOURCE_ORDER = Object.freeze(['oil', 'coal', 'iron_ore', 'bauxite', 'rubber', 'wheat', 'tungsten', 'tin', 'manganese', 'chromium', 'nickel', 'cobalt', 'molybdenum', 'vanadium', 'antimony', 'mercury', 'sulphur', 'uranium']);
+export const RESOURCE_ORDER = Object.freeze(['oil', 'coal', 'iron_ore', 'bauxite', 'copper', 'rubber', 'wheat', 'tungsten', 'tin', 'manganese', 'chromium', 'nickel', 'cobalt', 'molybdenum', 'vanadium', 'antimony', 'mercury', 'sulphur', 'uranium']);
 
 /**
  * Metadati di presentazione: etichetta, simbolo chimico (dove ha senso), famiglia d'icona e colore del distintivo.
@@ -31,6 +31,7 @@ export const RESOURCE_META = Object.freeze({
   coal: { label: 'Carbone', icon: 'picks', color: '#5b4636' },
   iron_ore: { label: 'Minerale di ferro', icon: 'symbol', symbol: 'Fe', color: '#a0482a' },
   bauxite: { label: 'Bauxite', icon: 'symbol', symbol: 'Bx', color: '#d2812c' },
+  copper: { label: 'Rame', icon: 'symbol', symbol: 'Cu', color: '#d6409f' }, // rosa: il bruno-arancio tipico del rame sarebbe confuso con carbone, ferro, bauxite e vanadio
   rubber: { label: 'Gomma naturale', icon: 'drop', color: '#2e8b57' },
   wheat: { label: 'Frumento', icon: 'wheat', color: '#c8960c' },
   tungsten: { label: 'Tungsteno', icon: 'symbol', symbol: 'W', color: '#4b4f9e' },
@@ -66,19 +67,31 @@ export function resourceFillColor(id) {
 const rank = (id) => { const i = RESOURCE_ORDER.indexOf(id); return i < 0 ? RESOURCE_ORDER.length : i; };
 
 /**
- * locations: righe di resource_locations.csv; links: righe di location_provinces.csv.
+ * Risorse le cui posizioni aggiuntive approvate (data/resources/resource_locations_extra.json) entrano anche nella mappa Risorse.
+ * Il rame non ha giacimenti nel CSV (e quindi nemmeno punti): le sue province vengono solo da lì. Ferro, carbone, gomma e zolfo
+ * le hanno per i territori con produzione storica ma senza punti: dal 28/10/2026 (scelta in chat) sono sulla mappa anche loro.
+ * Una risorsa con posizioni aggiuntive ma fuori da questo elenco resta fuori mappa: aggiungerla qui è una scelta di design.
+ */
+export const EXTRA_ON_MAP = Object.freeze(['copper', 'iron_ore', 'coal', 'rubber', 'sulphur']);
+
+/**
+ * locations: righe di resource_locations.csv; links: righe di location_provinces.csv; extra (facoltativo): resource_locations_extra.json.
  * Restituisce { schema, byProvince: { provinceId: [resourceId, ...] } } con id unici, in RESOURCE_ORDER, province in ordine alfabetico.
  */
-export function buildProvinceResources(locations, links) {
+export function buildProvinceResources(locations, links, extra = null) {
   const deposit = new Map();
   for (const l of locations) if (l.kind === 'deposit' && !PRODUCT_IDS.includes(l.resource_id)) deposit.set(l.location_id, l.resource_id); // i prodotti non sono risorse naturali
   const acc = new Map();
+  const add = (province, resource) => {
+    if (!acc.has(province)) acc.set(province, new Set());
+    acc.get(province).add(resource);
+  };
   for (const k of links) {
     const resource = deposit.get(k.location_id);
     if (!resource) continue; // collegamento di una riga non-giacimento
-    if (!acc.has(k.province_id)) acc.set(k.province_id, new Set());
-    acc.get(k.province_id).add(resource);
+    add(k.province_id, resource);
   }
+  for (const r of extra?.rows ?? []) if (EXTRA_ON_MAP.includes(r.resource)) for (const id of r.provinces) add(id, r.resource);
   const byProvince = {};
   for (const id of [...acc.keys()].sort()) byProvince[id] = [...acc.get(id)].sort((a, b) => rank(a) - rank(b) || (a < b ? -1 : 1));
   return { schema: PROVINCE_RESOURCES_SCHEMA, quality: 'reference', byProvince };

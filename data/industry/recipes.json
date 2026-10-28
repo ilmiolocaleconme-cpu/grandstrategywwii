@@ -190,6 +190,14 @@
         {
           "resource": "chemicals",
           "perUnit": 0.4
+        },
+        {
+          "resource": "copper",
+          "perUnit": 0.33
+        },
+        {
+          "resource": "sulphur",
+          "perUnit": 0.05
         }
       ],
       "output": {
@@ -197,7 +205,7 @@
         "perUnit": 1
       },
       "quality": "DESIGN_DEFAULT",
-      "rationale": "Involucri in acciaio e carica chimica. Approvata dall'utente il 26/10/2026."
+      "rationale": "Involucri in acciaio e carica chimica (approvata dall'utente il 26/10/2026). Il 28/10/2026 l'utente ha aggiunto il rame: 1 t di rame = 120.000 colpi; con l'ipotesi di progetto di 40.000 colpi per tonnellata di munizioni (circa 25 g a colpo, scelta in chat) fanno 0,33 t di rame per tonnellata. Aggiunto anche lo zolfo diretto (0,05 t per t, scelta in chat), in più di quello già dentro i prodotti chimici. Valori da tarare con le fasce B e C."
     },
     {
       "id": "REC-ELECTRIC-COAL-001",

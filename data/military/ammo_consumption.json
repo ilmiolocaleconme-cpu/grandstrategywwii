@@ -1,0 +1,19 @@
+{
+  "schema": "ammo-consumption-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Consumo di munizioni per CATEGORIA di unità, in tonnellate del prodotto `munitions` al giorno per un'unità standard (divisione, stormo, nave, gruppo antiaereo), per fase: attacco o difesa. Segnaposto di bilanciamento proposto il 28/10/2026, NON dato storico, da approvare e da riscalare quando verrà importato il catalogo delle unità. Taratura: una fabbrica di munizioni (100 t/giorno) regge circa 12 divisioni di fanteria in attacco continuo; le 20 fabbriche iniziali (2000 t/giorno) reggono circa 250 divisioni in attacco continuo, quindi la capacità iniziale copre più o meno tutti gli eserciti in combattimento insieme. Per una nazione sola il rapporto è più stretto: la Germania (2 fabbriche, 200 t/giorno) regge circa 25 divisioni in attacco continuo.",
+  "roundsPerTonne": 40000,
+  "roundsNote": "Un «colpo» è l'unità di conto della ricetta del 28/10/2026: 1 t di munizioni = 40.000 colpi, cioè circa 25 g a colpo (1 t di rame = 120.000 colpi). Per artiglieria, bombe e proiettili navali è una massa equivalente, non una cartuccia singola.",
+  "idleFactor": 0,
+  "idleNote": "Un'unità che non combatte (ferma, in marcia, in missione senza fuoco) non consuma munizioni.",
+  "categories": [
+    { "id": "infantry_foot", "name_it": "Fanteria a piedi", "attack": 8, "defense": 5 },
+    { "id": "infantry_motorized", "name_it": "Fanteria motorizzata", "attack": 9, "defense": 5.5 },
+    { "id": "armor", "name_it": "Corazzati", "attack": 10, "defense": 6 },
+    { "id": "artillery", "name_it": "Artiglieria (divisionale)", "attack": 20, "defense": 14 },
+    { "id": "anti_air", "name_it": "Difesa aerea (gruppo)", "attack": null, "defense": 6 },
+    { "id": "air_wing", "name_it": "Aerei (stormo in missione)", "attack": 12, "defense": 4 },
+    { "id": "ship_small", "name_it": "Navi piccole", "attack": 5, "defense": 3 },
+    { "id": "ship_large", "name_it": "Navi grandi", "attack": 20, "defense": 8 }
+  ]
+}

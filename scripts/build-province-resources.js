@@ -1,4 +1,5 @@
-// Genera data/resources/province_resources.json (provincia → risorse presenti) da resource_locations.csv e location_provinces.csv.
+// Genera data/resources/province_resources.json (provincia → risorse presenti) da resource_locations.csv e location_provinces.csv,
+// più le posizioni aggiuntive approvate (resource_locations_extra.json) delle sole risorse in EXTRA_ON_MAP (rame, ferro, carbone, gomma, zolfo).
 // Piccolo file pronto per il browser: il livello Risorse della mappa non legge i CSV. Dato di riferimento, non storico.
 //   node scripts/build-province-resources.js
 import { readFile, writeFile } from 'node:fs/promises';
@@ -12,7 +13,8 @@ const text = (name) => readFile(dataUrl(name), 'utf8');
 export async function provinceResourcesFile() {
   const locations = parseCsv(await text('resources/resource_locations.csv'), { name: 'resource_locations.csv' });
   const links = parseCsv(await text('resources/location_provinces.csv'), { name: 'location_provinces.csv' });
-  return buildProvinceResources(locations, links);
+  const extra = JSON.parse(await text('resources/resource_locations_extra.json'));
+  return buildProvinceResources(locations, links, extra);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
