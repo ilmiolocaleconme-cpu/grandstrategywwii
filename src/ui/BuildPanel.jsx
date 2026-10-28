@@ -6,7 +6,9 @@ const costText = (c) => `${fmt(c.ecv)} ECV · ${fmt(c.steel)} t acciaio · ${fmt
 /** Elenco di ciò che si può costruire in una provincia (opzioni da provinceBuildOptions). onOrder(order) → testo di esito. */
 export function ProvinceBuild({ options, onOrder }) {
   const [msg, setMsg] = useState(null);
-  if (!options || (options.mines.length === 0 && options.factories.length === 0)) return null;
+  if (!options) return null;
+  if (options.reason === 'not_controlled') return <section aria-label="Costruzioni"><h3>Costruzioni</h3><p className="muted small">Puoi costruire solo nelle province che controlli.</p></section>;
+  if (options.mines.length === 0 && options.factories.length === 0) return null;
   const row = (o) => (
     <li key={JSON.stringify(o.order)} className="build-row">
       <div>
@@ -22,7 +24,7 @@ export function ProvinceBuild({ options, onOrder }) {
       <h3>Costruzioni</h3>
       {msg ? <p className={msg.ok ? 'muted' : 'warn'} role="status">{msg.text}</p> : null}
       {options.mines.length > 0 ? <><h4>Miniere</h4><ul className="build-list">{options.mines.map(row)}</ul></> : null}
-      <details><summary>Fabbriche ({options.factories.length})</summary><ul className="build-list">{options.factories.map(row)}</ul></details>
+      <details open><summary>Fabbriche ({options.factories.length})</summary><ul className="build-list">{options.factories.map(row)}</ul></details>
     </section>
   );
 }

@@ -35,7 +35,7 @@ test('opzioni in una provincia italiana con carbone: miniera L1 con guadagno e c
 
 test('opzioni vuote se la provincia non è tua; nessuna miniera inutile; i rifiuti hanno una frase in italiano', () => {
   const foreign = Object.keys(sites.byProvince).find((p) => p.startsWith('P_FRA_'));
-  assert.deepEqual(provinceBuildOptions(state, 'ITA', foreign, ctx), { mines: [], factories: [] });
+  assert.deepEqual(provinceBuildOptions(state, 'ITA', foreign, ctx), { mines: [], factories: [], reason: 'not_controlled' });
   const flat = Object.entries(sites.byProvince).find(([p, r]) => p.startsWith('P_USA_') && r.coal && r.coal.extraPerDay[0] === 0)[0];
   assert.ok(!provinceBuildOptions(state, 'USA', flat, ctx).mines.some((m) => m.order.resource === 'coal'));
   const r = build.start({ ...state, nations: { ...state.nations, ITA: { ...state.nations.ITA, balance: 1 } } }, 'ITA', { kind: 'factory', factoryId: 'FCT-STEEL', recipeId: 'REC-STEEL-001', provinceId: coalProv });

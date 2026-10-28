@@ -30,7 +30,8 @@ export function describeBuildFailure(r) {
 export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id }) {
   const nation = state.nations?.[nationId];
   const out = { mines: [], factories: [] };
-  if (!nation || state.control[String(provinceId).split('_')[1]] !== nationId) return out;
+  if (!nation) return out;
+  if (state.control[String(provinceId).split('_')[1]] !== nationId) return { ...out, reason: 'not_controlled' };
   for (const [resource, site] of Object.entries(sites.byProvince[provinceId] ?? {})) {
     const current = nation.mines.find((m) => m.provinceId === provinceId && m.resource === resource)?.level ?? 0;
     const level = current + 1;
