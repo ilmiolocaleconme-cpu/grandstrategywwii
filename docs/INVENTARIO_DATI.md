@@ -21,7 +21,7 @@ Conta ciò che è nei file di `data/`; non dice se i dati sono storicamente corr
 | Collegamenti urbani | `data/city_links.json` | 2546 |
 | Terreno (province madri con voce propria) | `data/terrain.json` | 2601 |
 | Regioni | `data/regions.json` | 39 |
-| Unità (catalogo da CSV) | `data/units/units.json` | 364 |
+| Unità (catalogo da CSV) | `data/units/units.json` | 512 |
 | Edifici | `data/buildings.json` | 14 |
 
 ## Qualità dei confini delle province
