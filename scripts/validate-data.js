@@ -167,7 +167,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // risorse per provincia (livello Risorse della mappa): file generato dai due CSV, id noti e province esistenti
     const pr = JSON.parse(await text('resources/province_resources.json'));
     errors.push(...validateProvinceResources(pr, { resourceIds: new Set(catalog.resources.map((r) => r.id)), provinceIds: motherIds }));
-    if (JSON.stringify(pr) !== JSON.stringify(buildProvinceResources(onDisk, linksOnDisk))) errors.push('risorse: province_resources.json non allineato ai CSV, rigenerare con npm run build:province-resources');
+    const locationsExtra = JSON.parse(await text('resources/resource_locations_extra.json'));
+    if (JSON.stringify(pr) !== JSON.stringify(buildProvinceResources(onDisk, linksOnDisk, locationsExtra))) errors.push('risorse: province_resources.json non allineato ai CSV e alle posizioni aggiuntive, rigenerare con npm run build:province-resources');
     // punteggi di output 1-10 e tiratura a punti: CSV ricevuto non alterato, punteggi validi, file generato allineato
     const sp = JSON.parse(await text('resources/SOURCE_PUNTEGGI.json'));
     const spActual = createHash('sha256').update(await readFileTerrain(new URL(`../data/${sp.file.replace(/^data\//, '')}`, import.meta.url))).digest('hex');

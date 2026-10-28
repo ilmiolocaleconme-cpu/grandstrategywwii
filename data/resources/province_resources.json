@@ -83,12 +83,14 @@
    "wheat"
   ],
   "P_CAN_MANITOBA": [
+   "copper",
    "wheat"
   ],
   "P_CAN_NORTHWEST_TERRITORIES": [
    "uranium"
   ],
   "P_CAN_ONTARIO": [
+   "copper",
    "nickel",
    "cobalt"
   ],
@@ -96,12 +98,14 @@
    "wheat"
   ],
   "P_CHL_ANTOFAGASTA": [
+   "copper",
    "molybdenum"
   ],
   "P_CHL_COQUIMBO": [
    "iron_ore"
   ],
   "P_CHL_O_HIGGINS": [
+   "copper",
    "molybdenum"
   ],
   "P_CHN_GUANGDONG": [
@@ -132,6 +136,7 @@
    "oil"
   ],
   "P_COD_KATANGA": [
+   "copper",
    "cobalt",
    "uranium"
   ],
@@ -472,6 +477,9 @@
   "P_JPN_AOMORI_PREFECTURE": [
    "sulphur"
   ],
+  "P_JPN_EHIME_PREFECTURE": [
+   "copper"
+  ],
   "P_JPN_FUKUOKA_PREFECTURE": [
    "coal"
   ],
@@ -491,6 +499,9 @@
   ],
   "P_JPN_SAGA_PREFECTURE": [
    "coal"
+  ],
+  "P_JPN_TOCHIGI_PREFECTURE": [
+   "copper"
   ],
   "P_KOR_GANGWON": [
    "tungsten"
@@ -704,6 +715,9 @@
   "P_USA_ALABAMA": [
    "bauxite"
   ],
+  "P_USA_ARIZONA": [
+   "copper"
+  ],
   "P_USA_ARKANSAS": [
    "bauxite"
   ],
@@ -734,6 +748,7 @@
    "iron_ore"
   ],
   "P_USA_MONTANA": [
+   "copper",
    "wheat",
    "tungsten"
   ],
@@ -760,6 +775,7 @@
    "sulphur"
   ],
   "P_USA_UTAH": [
+   "copper",
    "vanadium",
    "uranium"
   ],
@@ -828,7 +844,8 @@
    "wheat"
   ],
   "P_USSR_SVERDLOVSK": [
-   "bauxite"
+   "bauxite",
+   "copper"
   ],
   "P_USSR_TATARSTAN": [
    "oil"
@@ -900,6 +917,9 @@
   "P_ZAF_NORTH_WEST": [
    "chromium",
    "vanadium"
+  ],
+  "P_ZAM_COPPERBELT": [
+   "copper"
   ],
   "P_ZIM_MASHONALAND_WEST": [
    "chromium"

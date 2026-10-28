@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { parseCsv } from '../src/data/csv.js';
-import { buildProvinceResources, validateProvinceResources, resolveResourceAnchors, resolveResourceFills, resourceFillColor, mixHex, RESOURCE_NEUTRAL, RESOURCE_META, RESOURCE_ORDER } from '../src/data/provinceResources.js';
+import { buildProvinceResources, validateProvinceResources, resolveResourceAnchors, resolveResourceFills, resourceFillColor, mixHex, RESOURCE_NEUTRAL, RESOURCE_META, RESOURCE_ORDER, EXTRA_ON_MAP } from '../src/data/provinceResources.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 
 const url = (p) => new URL(`../data/${p}`, import.meta.url);
@@ -23,8 +23,32 @@ test('solo i giacimenti entrano nella mappa: aggregati, totali e flussi no', () 
   assert.deepEqual(out.byProvince, { P1: ['oil', 'coal'] }); // unici, in ordine di priorità
 });
 
+test('posizioni aggiuntive: solo le risorse in EXTRA_ON_MAP entrano nella mappa (oggi il rame), senza duplicati', () => {
+  assert.deepEqual([...EXTRA_ON_MAP], ['copper']);
+  const extra = { rows: [
+    { resource: 'copper', territory: 'X', provinces: ['P1', 'P2'] },
+    { resource: 'coal', territory: 'Y', provinces: ['P2', 'P3'] },
+  ] };
+  const locations = [{ location_id: 'A', resource_id: 'oil', kind: 'deposit' }, { location_id: 'B', resource_id: 'copper', kind: 'deposit' }];
+  const links = [{ location_id: 'A', province_id: 'P1' }, { location_id: 'B', province_id: 'P2' }];
+  const out = buildProvinceResources(locations, links, extra);
+  assert.deepEqual(out.byProvince, { P1: ['oil', 'copper'], P2: ['copper'] }); // il carbone extra non entra; P2 non ha il rame due volte
+  assert.deepEqual(buildProvinceResources(locations, links).byProvince, { P1: ['oil'], P2: ['copper'] }); // senza extra: come prima
+});
+
+test('il rame è in legenda e ogni sua posizione approvata è sulla mappa', () => {
+  assert.equal(RESOURCE_META.copper.label, 'Rame');
+  assert.equal(RESOURCE_META.copper.symbol, 'Cu');
+  const extra = JSON.parse(readFileSync(url('resources/resource_locations_extra.json'), 'utf8'));
+  const file = JSON.parse(readFileSync(url('resources/province_resources.json'), 'utf8'));
+  const copperRows = extra.rows.filter((r) => r.resource === 'copper');
+  assert.ok(copperRows.length > 0);
+  for (const r of copperRows) for (const id of r.provinces) assert.ok(file.byProvince[id]?.includes('copper'), `${r.territory}: ${id} senza rame sulla mappa`);
+});
+
 test('il file su disco è quello che producono i CSV (rigenerare con npm run build:province-resources)', () => {
-  const built = buildProvinceResources(csv('resources/resource_locations.csv'), csv('resources/location_provinces.csv'));
+  const extra = JSON.parse(readFileSync(url('resources/resource_locations_extra.json'), 'utf8'));
+  const built = buildProvinceResources(csv('resources/resource_locations.csv'), csv('resources/location_provinces.csv'), extra);
   const onDisk = JSON.parse(readFileSync(url('resources/province_resources.json'), 'utf8'));
   assert.deepEqual(onDisk, built);
   assert.ok(Object.keys(built.byProvince).length > 100);
