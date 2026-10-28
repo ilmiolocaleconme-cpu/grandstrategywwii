@@ -68,7 +68,7 @@ test('validazione: duplicati senza revisione, livelli, date', () => {
 
 // --- Regola dei comandanti ---
 const cmd = (id, name, level, nation = 'DEU') => ({ id, name, nation, category: 'command', echelon: 'command', commandLevel: level, startYear: 1935, endYear: null, review: null });
-const off = (id, name, over = {}) => ({ id, name, nation: 'DEU', branchType: 'land', levels: ['corps'], levelRaw: 'Corps', exampleFormation: '', availableFrom: '1935-01-01', availableTo: '1945-12-31', review: null, ...over });
+const off = (id, name, over = {}) => ({ id, name, nation: 'DEU', branchType: 'land', dating: 'date', levels: ['corps'], levelRaw: 'Corps', exampleFormation: '', availableFrom: '1935-01-01', availableTo: '1945-12-31', review: null, ...over });
 const U = [cmd('C1', 'III. Armeekorps', 'corps'), cmd('C2', 'IV. Armeekorps', 'corps'), cmd('A1', 'Armata X', 'army'), cmd('D1', 'Wehrkreis I', 'district')];
 const O = [off('O1', 'Uno', { exampleFormation: 'IV. Armeekorps' }), off('O2', 'Due'), off('O3', 'Tre', { levels: ['army'], levelRaw: 'Army' }),
   off('O4', 'Quattro', { nation: 'FRA' }), off('O5', 'Cinque', { branchType: 'air', levels: [] }), off('O6', 'Sei SS', { levelRaw: 'SS Division/Corps' })];
@@ -132,12 +132,78 @@ test('validateCommanderState: errori su id, nazione, livello, doppio incarico, o
   assert.deepEqual(validateCommanderState({ schema: 'x' }, { units: U, officers: O }).length, 1);
 });
 
-test('dati reali al 1/1/1936: solo 2 comandi trovano un ufficiale compatibile; il resto resta libero', () => {
+test('dati reali al 1/1/1936: solo 1 comando trova un ufficiale con la stessa formazione; senza data vera il resto resta libero', () => {
   const real = autoAssign(createCommanderState(), { units, officers: doc.officers, date: '1936-01-01' });
   const names = Object.entries(real.state.assignments).map(([c, a]) => [units.find((u) => u.id === c).name, doc.officers.find((o) => o.id === a.officerId).name]);
-  assert.deepEqual(names.sort(), [['I. Armeekorps', 'Erwin von Witzleben'], ['Kwantung Army', 'Jiro Minami']], 'il CSV non ha altri ufficiali di corpo/armata disponibili nel 1936');
+  assert.deepEqual(names, [['Kwantung Army', 'Jiro Minami']], 'Minami ha la formazione "Kwantung Army"; gli altri ufficiali hanno date di comodo (1935-01-01) e nessuna formazione corrispondente');
+  const lenient = autoAssign(createCommanderState(), { units, officers: doc.officers, date: '1936-01-01', fallback: 'any' });
+  assert.equal(Object.keys(lenient.state.assignments).length, 2, 'fallback any: schiera anche Witzleben al I. Armeekorps (scelta non storica)');
   assert.deepEqual(validateCommanderState(real.state, { units, officers: doc.officers }), []);
   assert.equal(managedCommands(units, '1936-01-01').length, 13, '12 Armeekorps tedeschi + Armata del Kwantung (i corpi sovietici sono inattivi per dubbio)');
   const player = assignCommander(real.state, { commandId: units.find((u) => u.name === 'II. Armeekorps').id, officerId: byName('Heinz Guderian').id, units, officers: doc.officers, date: '1936-01-01' });
   assert.ok(player.warnings.some((w) => /non ancora disponibile \(dal 1939-01-01\)/.test(w)), 'Guderian nel 1936: scelta permessa con avviso');
+});
+
+// --- Comandanti nello stato di gioco (schema 4) ---
+import { newGame, validateState, STATE_SCHEMA } from '../src/game/state.js';
+import { parseSave, serializeSave, SAVE_FORMAT, MIGRATIONS } from '../src/game/save.js';
+import { migrateV3toV4, validateCommandersShape, commandersSystem, playerAssignCommander, playerReleaseCommander } from '../src/game/commandersState.js';
+import { advanceDays } from '../src/game/engine.js';
+
+const political = json('political_1936.json');
+const nationList = json('nations.json').map((n) => n.id);
+const newState = (nation = 'DEU') => newGame({ nation, political, ownersWithProvinces: nationList }).state;
+const corpsId = (n) => units.find((u) => u.name === n).id;
+
+test('schema 4: nuova partita con comandanti vuoti, migrazione 3→4 senza perdere nulla, validazione di forma', () => {
+  assert.equal(STATE_SCHEMA, 4);
+  const s = newState();
+  assert.deepEqual(s.commanders, { schema: 'commanders-v1', assignments: {} });
+  assert.deepEqual(validateState(s), []);
+  const { commanders: _c, ...rest } = s;
+  const v3 = { ...rest, schema: 3 };
+  const r = parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 3, savedAt: null, label: 'v3', state: v3 }));
+  assert.equal(r.ok, true); assert.equal(r.migratedFrom, 3); assert.deepEqual(r.state, s);
+  assert.deepEqual(migrateV3toV4(v3), s);
+  assert.equal(typeof MIGRATIONS[3], 'function');
+  for (const [bad, re] of [[{ schema: 'x', assignments: {} }, /schema/], [{ schema: 'commanders-v1', assignments: [] }, /assignments/], [null, /oggetto/],
+    [{ schema: 'commanders-v1', assignments: { C1: { officerId: 'O1', source: 'boh', since: '1936-01-01' } } }, /origine/],
+    [{ schema: 'commanders-v1', assignments: { C1: { officerId: 'O1', source: 'auto', since: 'x' }, C2: { officerId: 'O1', source: 'auto', since: 'x' } } }, /comanda sia/]]) {
+    assert.ok(validateCommandersShape(bad).some((e) => re.test(e)), String(re));
+  }
+  assert.ok(validateState({ ...s, commanders: undefined }).some((e) => /comandanti/.test(e)), 'uno stato senza commanders non è valido');
+});
+
+test('sistema giornaliero: schiera in automatico, è deterministico e riproducibile dal salvataggio', () => {
+  const system = commandersSystem({ units, officers: doc.officers, fallback: 'any' });
+  const strict = commandersSystem({ units, officers: doc.officers });
+  const s0 = newState('DEU');
+  assert.deepEqual(advanceDays(s0, 1, [strict]).commanders.assignments, {}, 'default: il 2/1/1936 Minami non è più disponibile e nessun altro ha una data vera');
+  const s1 = advanceDays(s0, 1, [system]);
+  assert.equal(Object.keys(s1.commanders.assignments).length, 2, 'con fallback any: I. Armeekorps (Witzleben) e Kwantung (un ufficiale giapponese qualsiasi)');
+  assert.equal(s1.commanders.assignments[corpsId('I. Armeekorps')].officerId, byName('Erwin von Witzleben').id);
+  assert.equal(advanceDays(s1, 0, [system]), s1);
+  const again = advanceDays(s0, 1, [system]);
+  assert.deepEqual(again, s1, 'stesso stato, stesso risultato');
+  assert.deepEqual(parseSave(serializeSave(s1)).state, s1, 'andata e ritorno del salvataggio');
+  const s2 = advanceDays(s1, 365, [system]);
+  assert.deepEqual(validateCommanderState(s2.commanders, { units, officers: doc.officers }), []);
+  assert.deepEqual(validateState(s2), []);
+});
+
+test('scelta del giocatore sullo stato: solo la propria nazione, con avvisi, e resta nel tempo', () => {
+  const system = commandersSystem({ units, officers: doc.officers, fallback: 'any' });
+  const s = advanceDays(newState('DEU'), 1, [system]);
+  const second = corpsId('II. Armeekorps'); const guderian = byName('Heinz Guderian').id;
+  const r = playerAssignCommander(s, { commandId: second, officerId: guderian, units, officers: doc.officers });
+  assert.equal(r.state.commanders.assignments[second].source, 'player');
+  assert.ok(r.warnings.some((w) => /non ancora disponibile/.test(w)));
+  assert.deepEqual(validateState(r.state), []);
+  assert.throws(() => playerAssignCommander(s, { commandId: corpsId('Kwantung Army'), officerId: byName('Jiro Minami').id, units, officers: doc.officers }), /JPN/);
+  const later = advanceDays(r.state, 800, [system]);
+  assert.equal(later.commanders.assignments[second].officerId, guderian, 'dopo anni la scelta del giocatore è ancora lì (Guderian ora disponibile)');
+  assert.equal(later.commanders.assignments[second].source, 'player');
+  const released = playerReleaseCommander(later, second, { units });
+  assert.ok(!(second in released.state.commanders.assignments));
+  assert.throws(() => playerReleaseCommander(s, corpsId('Kwantung Army'), { units }), /JPN/);
 });

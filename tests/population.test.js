@@ -49,7 +49,7 @@ test('riserva di lavoratori allo 0,5% (scelta dell\'utente): USA, Germania, Ital
 
 test('schema 3: nuova partita con popolazione e coda vuota; stato valido', () => {
   const g = newGame({ nation: 'ITA', political, ownersWithProvinces: nationIds, start });
-  assert.equal(g.state.schema, 3); assert.deepEqual(validateState(g.state), []);
+  assert.equal(g.state.schema, 4); assert.deepEqual(validateState(g.state), []);
   assert.equal(g.state.nations.ITA.population, 42993602);
   assert.deepEqual(g.state.nations.ITA.construction, []);
 });
@@ -60,7 +60,7 @@ test('migrazione 2→3: un salvataggio dello schema 2 si apre, la popolazione si
   const v2nations = Object.fromEntries(Object.entries(g.nations).map(([id, n]) => { const { population: _p, construction: _c, ...rest } = n; return [id, { ...rest, balance: n.balance + 1 }]; }));
   const v2 = { ...g, schema: 2, nations: v2nations };
   const r = parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 2, savedAt: null, label: 'v2', state: v2 }));
-  assert.equal(r.ok, true); assert.equal(r.migratedFrom, 2); assert.equal(r.state.schema, 3);
+  assert.equal(r.ok, true); assert.equal(r.migratedFrom, 2); assert.equal(r.state.schema, 4);
   assert.equal(r.state.nations.ITA.population, null, 'prima dell\'inizializzazione');
   assert.deepEqual(validateNations(r.state.nations), []);
   const filled = initEconomy(r.state, { political, start });
@@ -71,7 +71,7 @@ test('migrazione 2→3: un salvataggio dello schema 2 si apre, la popolazione si
   assert.equal(migrateV2toV3({ ...v2, nations: null }).nations, null);
 });
 
-test('salvataggio di una versione futura (schema 4) rifiutato senza perdere nulla', () => {
+test('salvataggio di una versione futura (schema 5) rifiutato senza perdere nulla', () => {
   const g = newGame({ nation: 'ITA', political, ownersWithProvinces: nationIds, start }).state;
-  assert.equal(parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 4, savedAt: null, label: '', state: g })).reason, 'newer_version');
+  assert.equal(parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 5, savedAt: null, label: '', state: g })).reason, 'newer_version');
 });

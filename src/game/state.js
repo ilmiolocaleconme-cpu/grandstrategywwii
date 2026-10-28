@@ -6,8 +6,10 @@ import { START_DATE, addDays, daysBetween, isValidDate } from './calendar.js';
 import { DIFFICULTIES, DEFAULT_DIFFICULTY, buildNations, validateNations } from './economyState.js';
 import { populationOf } from '../data/nationPopulation.js';
 import { validateProvinceStates } from './provinceState.js';
+import { createCommanderState } from '../rules/commanders.js';
+import { validateCommandersShape } from './commandersState.js';
 
-export const STATE_SCHEMA = 3; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni. Migrazioni in economyState.js
+export const STATE_SCHEMA = 4; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni; 4: comandanti. Migrazioni in economyState.js e commandersState.js
 
 /**
  * Nazioni scegliibili: `playable` nel dataset politico E almeno una provincia sulla mappa.
@@ -48,6 +50,7 @@ export function newGame({ nation, political, ownersWithProvinces, startDate = ST
       control: initialControl(political),
       difficulty,
       nations: start ? buildNations({ political, ...start, difficulty }) : null,
+      commanders: createCommanderState(),
     },
   };
 }
@@ -74,6 +77,7 @@ export function validateState(state) {
   if (!DIFFICULTIES.includes(state.difficulty)) errors.push(`stato: difficoltà ${JSON.stringify(state.difficulty)} non valida`);
   if (!('nations' in state)) errors.push('stato: manca nations');
   else errors.push(...validateNations(state.nations, { player: state.nations === null ? undefined : state.player }));
+  errors.push(...validateCommandersShape(state.commanders));
   errors.push(...validateProvinceStates(state.provinces)); // opzionale: assente = tutte le province al default
   return errors;
 }

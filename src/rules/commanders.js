@@ -4,7 +4,9 @@
 // Regole:
 // - Livelli gestiti: corpo (`corps`) e armata (`army`) del catalogo unità (campo commandLevel).
 // - Automatico: assegna un ufficiale disponibile alla data, della stessa nazione, di terra, con quel livello tra i suoi (preferendo chi ha
-//   la stessa formazione nel CSV; gli ufficiali SS solo su comandi SS); non tocca mai una scelta del giocatore; sostituisce un automatico non più disponibile.
+//   la stessa formazione nel CSV; gli ufficiali SS solo su comandi SS); senza corrispondenza di formazione usa solo ufficiali con una data di
+//   disponibilità vera (non l'inizio finestra 1935-01-01), altrimenti il comando resta libero: meglio vuoto che anacronistico
+//   (fallback: 'any' disattiva la cautela); non tocca mai una scelta del giocatore; sostituisce un automatico non più disponibile.
 // - Giocatore: può scegliere qualsiasi ufficiale di terra della propria nazione, anche fuori data o livello, con AVVISI (non blocchi).
 //   Blocchi: comando o ufficiale inesistente, livello non gestito, nazione diversa, ufficiale non di terra.
 // - Un ufficiale comanda una formazione sola: sceglierlo altrove lo toglie da quella precedente (evento "vacated").
@@ -41,8 +43,8 @@ function bestOfficer(command, candidates) {
   return [...candidates].sort((a, b) => score(a) - score(b) || a.levels.length - b.levels.length || (a.id < b.id ? -1 : 1))[0] ?? null;
 }
 
-/** Schiera in automatico i comandi senza comandante (e sostituisce gli automatici non più disponibili). Ritorna { state, events }. */
-export function autoAssign(state, { units, officers, date }) {
+/** Schiera in automatico i comandi senza comandante (e sostituisce gli automatici non più disponibili). fallback: 'dated' (default) | 'any'. Ritorna { state, events }. */
+export function autoAssign(state, { units, officers, date, fallback = 'dated' }) {
   const assignments = { ...state.assignments }; const events = []; const byOfficer = indexById(officers);
   const managed = managedCommands(units, date);
   // un automatico non più valido (ufficiale non disponibile o comando non più attivo) torna libero
@@ -60,7 +62,8 @@ export function autoAssign(state, { units, officers, date }) {
     for (const command of free) {
       if (assignments[command.id]) continue;
       const candidates = eligibleOfficers({ command, officers, date, taken });
-      const pick = bestOfficer(command, pass === 1 ? candidates.filter((o) => nameMatches(command, o)) : candidates);
+      const pool = pass === 1 ? candidates.filter((o) => nameMatches(command, o)) : candidates.filter((o) => fallback === 'any' || o.dating === 'date');
+      const pick = bestOfficer(command, pool);
       if (!pick) continue;
       assignments[command.id] = { officerId: pick.id, source: 'auto', since: date };
       taken.add(pick.id);

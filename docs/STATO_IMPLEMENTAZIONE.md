@@ -279,3 +279,9 @@ Economia di base (26/10/2026): implementato e testato sui dati e sulle funzioni 
 - Implementato e testato (9 test in `tests/units.test.js`, `validate-data` OK): importazione del CSV, classificazione, revisioni, attivazione per data. Dettagli in `docs/DATI_UNITA.md`.
 - Mancante: ordine di battaglia 1936, produzione/reclutamento, movimento, combattimento, interfaccia, ufficiali.
 - Non eseguiti in questa fase: suite completa `node --test`, build Vite, verifica offline.
+
+## Comandanti nel salvataggio (29/10/2026)
+- **Implementato e testato (test mirati, 14 in `tests/officers.test.js`, passati):** schema di salvataggio 4 con `commanders`, migrazione 3→4, sistema giornaliero `commandersSystem`, scelte del giocatore (`playerAssignCommander`/`playerReleaseCommander`), riproducibilità dal salvataggio.
+- **Non collegato:** il sistema non è in `GAME_SYSTEMS` e non c'è interfaccia.
+- **Non eseguiti:** suite completa (~11 min), build, funzionamento offline.
+- Dettagli: `docs/DATI_UFFICIALI.md`.
