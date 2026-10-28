@@ -23,6 +23,7 @@ import { validateScores } from '../src/data/resourcePoints.js';
 import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { validateHydro } from '../src/data/hydro.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
+import { validateAmmoConsumption } from '../src/data/ammo.js';
 import { validateEconomy } from '../src/data/economy.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
 import { validateInitialStocks } from '../src/data/initialStocks.js';
@@ -108,6 +109,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateRecipes(recipesDoc, { factoriesById: industry.byId, resources: catalog.resources }));
     errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
     errors.push(...validateFuelConsumption(JSON.parse(await text('military/fuel_consumption.json')), { resources: catalog.resources }));
+    errors.push(...validateAmmoConsumption(JSON.parse(await text('military/ammo_consumption.json')), { resources: catalog.resources }));
     errors.push(...validateFuelStorage(JSON.parse(await text('military/fuel_storage.json')), { structureIds: industry.structures, buildingIds: new Set(catalog.buildings.buildings.map((b) => b.id)) }));
     errors.push(...validateEconomy(JSON.parse(await text('economy/economy.json')), { resources: catalog.resources, recipes: JSON.parse(await text('industry/recipes.json')) }));
     errors.push(...validateInitialIndustry(JSON.parse(await text('industry/initial_industry.json')), { factoriesById: industry.byId, recipes: recipesDoc, entityIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), nationIds: JSON.parse(await text('nations.json')).map((n) => n.id) }));

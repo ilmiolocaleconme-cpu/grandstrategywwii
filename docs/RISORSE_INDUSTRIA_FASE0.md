@@ -134,3 +134,21 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 - **Regola** (decisa in chat): cassa = 30 giorni di entrata giornaliera + 200 ECV uguali per tutte. Entrata a difficoltà Media: valore aggiunto (miniere nazionali + impianti a pieno regime − ingressi) + quota province + capitale. Le città grandi non sono contate. Esempi: USA circa 7.400 ECV (241 ECV/giorno), Germania circa 2.100, mediana della fascia C 332.
 - **Difficoltà** (lacuna corretta): `stockMul` di `economy.json` (facile 1,5 · media 1 · reale 0,7) ora si applica anche a scorte iniziali e cassa; prima non veniva applicato.
 - Stato: implementato e testato; la cassa non cresce ancora (il ciclo giornaliero entrate/spese non è in `SYSTEMS`).
+
+## Munizioni: prezzo e consumi (28/10/2026, DESIGN_DEFAULT)
+- **Prezzo:** `economy.json` munizioni 0,05 → **0,055 ECV/t** (scelta in chat). Con rame e zolfo gli ingressi costano 0,041 ECV per tonnellata di prodotto (0,6 acciaio, 0,4 chimici, 0,33 rame, 0,05 zolfo): una fabbrica (100 t/giorno, 100 ECV di costruzione) guadagna 1,4 ECV al giorno e si ripaga in circa 71 giorni, come acciaio (73) e macchinari (71). A 0,05 sarebbe 111 giorni.
+- **Acquisto e vendita:** nel repository non esiste ancora un mercato (nessun sistema di commercio, solo prezzi per l'entrata a valore aggiunto). Il prezzo vale come valore di una tonnellata prodotta; uno scarto fra prezzo di acquisto e di vendita va deciso insieme alle rotte commerciali.
+- **Consumi:** `data/military/ammo_consumption.json` (schema `ammo-consumption-v1`), `src/data/ammo.js`, `tests/ammo.test.js` (5 test). Tonnellate di `munitions` al giorno per unità standard e per fase; 1 t = 40.000 colpi, quindi un «colpo» è una massa equivalente di circa 25 g. Un'unità che non combatte consuma 0.
+
+| Categoria | Attacco t/giorno | Difesa t/giorno | Colpi/giorno in attacco |
+|---|---|---|---|
+| Fanteria a piedi | 8 | 5 | 320.000 |
+| Fanteria motorizzata | 9 | 5,5 | 360.000 |
+| Corazzati | 10 | 6 | 400.000 |
+| Artiglieria (divisionale) | 20 | 14 | 800.000 |
+| Difesa aerea (gruppo) | — | 6 | — |
+| Aerei (stormo in missione) | 12 | 4 | 480.000 |
+| Navi piccole | 5 | 3 | 200.000 |
+| Navi grandi | 20 | 8 | 800.000 |
+
+- **Taratura:** una fabbrica (100 t/giorno) regge 12 divisioni di fanteria in attacco continuo; le 20 fabbriche iniziali ne reggono 250; la Germania (2 fabbriche) 25. Per le divisioni di una nazione sola il rapporto è stretto, perché in genere solo una parte combatte. È un segnaposto da riscalare con il catalogo delle unità (G3b).
