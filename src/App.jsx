@@ -107,6 +107,18 @@ function useLabelData(start) {
   return labels;
 }
 
+// Terra di base (data/land_base.json, ~350 kB): precaricata all'apertura con gli altri dati della mappa, così la mappa si disegna una volta sola
+function useLandBase(enabled) {
+  const [land, setLand] = useState(null);
+  useEffect(() => {
+    if (!enabled) return undefined;
+    let alive = true;
+    withRetry(() => import('../data/land_base.json')).then((m) => alive && setLand(m.default)).catch(() => {});
+    return () => { alive = false; };
+  }, [enabled]);
+  return land;
+}
+
 // Risorse per provincia (data/resources/province_resources.json, piccolo): si scaricano solo aprendo il livello Risorse
 function useProvinceResources(enabled) {
   const [data, setData] = useState(null);
@@ -228,6 +240,7 @@ export default function App() {
   const [showTransport, setShowTransport] = useState(false);
   const transport = showTransport ? links : null;
   const labelData = useLabelData(true);
+  const land = useLandBase(USE_CANVAS);
   const [layer, setLayer] = useState('political');
   const [toolsHost, setToolsHost] = useState(null); // contenitore in barra dove la mappa mette livelli e zoom (una sola barra in alto)
   const citiesRaw = useCities(USE_CANVAS);
@@ -241,10 +254,11 @@ export default function App() {
     { label: 'Mari e rotte', done: seaStatus !== 'loading' },
     { label: 'Città', done: citiesRaw !== null },
     { label: 'Nomi', done: labelData !== null },
+    { label: 'Terra di base', done: land !== null },
     { label: 'Terreno', done: terrain !== null },
     { label: 'Risorse', done: provinceResources !== null },
     { label: 'Collegamenti', done: links !== null },
-  ] : []), [waterStatus, seaStatus, citiesRaw, labelData, terrain, provinceResources, links]);
+  ] : []), [waterStatus, seaStatus, citiesRaw, labelData, land, terrain, provinceResources, links]);
   const [preloadGaveUp, setPreloadGaveUp] = useState(false);
   useEffect(() => {
     if (provincesStatus !== 'ready' || preloadGaveUp) return undefined;
@@ -262,7 +276,7 @@ export default function App() {
   // Il pannello dei dati è nascosto: toccando una provincia, città o zona di mare compare solo il pulsante «i»;
   // il pannello si apre toccandolo. Se è già aperto, toccare un'altra voce ne aggiorna il contenuto; toccare il vuoto lo chiude.
   const [infoOpen, setInfoOpen] = useState(false);
-  const provinceData = useProvinceData(infoOpen); // scaricati solo quando si apre il pannello
+  const provinceData = useProvinceData(game !== null || infoOpen); // scaricati all'avvio della partita (o alla prima apertura del pannello), non a ogni selezione
   const linkStats = useMemo(() => (infoOpen && links && provinces ? provinceLinkStats(links, provinces.features.map((f) => f.properties)) : null), [infoOpen, links, provinces]);
   const selectProvince = (id) => { setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false); };
   const selectSea = (id) => { setSeaId(id); setProvinceId(null); if (id == null) setInfoOpen(false); };
@@ -286,7 +300,7 @@ export default function App() {
   }, [game, selectedItem]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const layerReady = (layer !== 'terrain' || terrain !== null) && (layer !== 'resources' || provinceResources !== null); // dati del livello scelto arrivati
-  const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && layerReady;
+  const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && land !== null && layerReady;
   // cambio di livello (Politico / Terreno / Risorse): la mappa si ridisegna e va mostrata solo a disegno finito, come all'avvio
   const changeLayer = (next) => {
     if (next === layer) return;
@@ -458,12 +472,13 @@ export default function App() {
                 { label: 'Mari e rotte', done: seaStatus !== 'loading' },
                 { label: 'Città', done: citiesRaw !== null },
                 { label: 'Nomi sulla mappa', done: labelData !== null },
+                { label: 'Terra di base', done: land !== null },
                 { label: 'Disegno della mappa', done: mapReady },
               ],
             }} />
           </div>
         ) : null}
-        <MapScreen focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
+        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
         {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />

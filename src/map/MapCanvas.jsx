@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { focusView } from './focus.js';
-import { withRetry } from '../data/retry.js';
 import { HOME_BOUNDS, LAYERS, MAX_K, MAX_LAT, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, nearestSmallProvinceAt, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
@@ -37,14 +36,10 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, focus, dataReady, readyKey, onReady }) {
+export default function MapCanvas({ land, provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, focus, dataReady, readyKey, onReady }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
-  const [land, setLand] = useState(null); // terra di base (~350 kB), caricata dopo la mappa: un errore non blocca nulla
-  useEffect(() => {
-    let alive = true;
-    withRetry(() => import('../../data/land_base.json')).then((m) => alive && setLand(m.default)).catch(() => {});
-    return () => { alive = false; };
-  }, []);
+  // `land` (terra di base, data/land_base.json) arriva dall'App, precaricata all'apertura con gli altri dati: caricarla qui,
+  // dopo il montaggio, faceva disegnare la mappa due volte (prima senza terra, poi con) e si vedeva uno sfarfallio.
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
     () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, riverTier) : EMPTY_WATER),
