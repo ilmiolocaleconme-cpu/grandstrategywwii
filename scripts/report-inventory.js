@@ -75,6 +75,7 @@ lines.push(`| Nodi urbani | \`data/city_links.json\` | ${count('data/city_links.
 lines.push(`| Collegamenti urbani | \`data/city_links.json\` | ${count('data/city_links.json', (j) => j.links.length)} |`);
 lines.push(`| Terreno (province madri con voce propria) | \`data/terrain.json\` | ${terrainIds.size} |`);
 lines.push(`| Regioni | \`data/regions.json\` | ${count('data/regions.json', (j) => j.regions.length)} |`);
+lines.push(`| Unità (catalogo da CSV) | \`data/units/units.json\` | ${count('data/units/units.json', (j) => j.units.length)} |`);
 lines.push(`| Edifici | \`data/buildings.json\` | ${count('data/buildings.json', (j) => j.buildings.length)} |`);
 lines.push('');
 lines.push('## Qualità dei confini delle province');
