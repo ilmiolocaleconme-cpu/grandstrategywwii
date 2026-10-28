@@ -20,6 +20,19 @@ import { validateRegions } from '../src/data/regions.js';
 import { buildResourceLocations, validateResourceLocations } from '../src/data/resourceLocations.js';
 import { buildProvinceResources, validateProvinceResources } from '../src/data/provinceResources.js';
 import { validateScores } from '../src/data/resourcePoints.js';
+import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
+import { validateHydro } from '../src/data/hydro.js';
+import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
+import { validateEconomy } from '../src/data/economy.js';
+import { validateInitialIndustry } from '../src/data/initialIndustry.js';
+import { validateInitialStocks } from '../src/data/initialStocks.js';
+import { validateInitialCash } from '../src/data/initialCash.js';
+import { validatePopulation } from '../src/data/population.js';
+import { buildNations } from '../src/game/economyState.js';
+import { validateProduction } from '../src/data/production.js';
+import { validateExtractionFactors, validateLocationsExtra } from '../src/data/extraction.js';
+import { productionBuilt, productionFile } from './build-production.js';
+import { hydroBuilt } from './build-hydro.js';
 import { resourcePointsFile } from './build-resource-points.js';
 import { validateFlags, validateDescriptions } from '../src/data/flags.js';
 import { playableNations } from '../src/game/state.js';
@@ -91,6 +104,38 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const text = (p) => readFileTerrain(new URL(`../data/${p}`, import.meta.url), 'utf8');
     const industry = loadIndustryCatalog({ factoriesCsv: await text('industry/factories.csv'), structuresCsv: await text('infrastructure/structures.csv'), categoriesCsv: await text('industry/production_categories.csv') });
     errors.push(...validateIndustryCatalog(industry));
+    // Ricette e scala di estrazione (Fase 0 Risorse + Industria): riferimenti a fabbriche e risorse esistenti
+    const recipesDoc = JSON.parse(await text('industry/recipes.json'));
+    errors.push(...validateRecipes(recipesDoc, { factoriesById: industry.byId, resources: catalog.resources }));
+    errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
+    errors.push(...validateFuelConsumption(JSON.parse(await text('military/fuel_consumption.json')), { resources: catalog.resources }));
+    errors.push(...validateFuelStorage(JSON.parse(await text('military/fuel_storage.json')), { structureIds: industry.structures, buildingIds: new Set(catalog.buildings.buildings.map((b) => b.id)) }));
+    errors.push(...validateEconomy(JSON.parse(await text('economy/economy.json')), { resources: catalog.resources, recipes: JSON.parse(await text('industry/recipes.json')) }));
+    errors.push(...validateInitialIndustry(JSON.parse(await text('industry/initial_industry.json')), { factoriesById: industry.byId, recipes: recipesDoc, entityIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), nationIds: JSON.parse(await text('nations.json')).map((n) => n.id) }));
+    errors.push(...validateInitialStocks(JSON.parse(await text('industry/initial_stocks.json')), { resourceIds: new Set(catalog.resources.map((r) => r.id)), industry: JSON.parse(await text('industry/initial_industry.json')) }));
+    {
+      const [pol, nat, ind, stk] = [JSON.parse(await text('political_1936.json')), JSON.parse(await text('nations.json')), JSON.parse(await text('industry/initial_industry.json')), JSON.parse(await text('industry/initial_stocks.json'))];
+      const owners = new Set(Object.keys(buildNations({ political: pol, nationIds: nat.map((n) => n.id), industry: ind, stocks: stk })));
+      errors.push(...validateInitialCash(JSON.parse(await text('industry/initial_cash.json')), { ownerIds: owners }));
+      errors.push(...validatePopulation(JSON.parse(await text('population/population.json')), { ownerIds: owners }));
+    }
+    // Produzione 1936 (CSV dell'utente): copie non modificate e file generato allineato
+    for (const sh of JSON.parse(await text('resources/SOURCE_PRODUZIONE.json')).files) {
+      if (createHash('sha256').update(await readFile(new URL(`../data/resources/${sh.file}`, import.meta.url))).digest('hex') !== sh.sha256) errors.push(`produzione: ${sh.file} diverso dalla copia ricevuta (sha256)`);
+    }
+    const prodDoc = JSON.parse(await text('resources/production_1936.json'));
+    errors.push(...validateProduction(prodDoc, { resources: catalog.resources, provinceIds: new Set(catalog.provinces.features.map((f) => f.properties.id)) }));
+    if (JSON.stringify(prodDoc) !== JSON.stringify(productionFile(await productionBuilt()))) errors.push('produzione: production_1936.json non allineato ai CSV, rigenerare con npm run build:production');
+    errors.push(...validateExtractionFactors(JSON.parse(await text('resources/extraction_factors.json')), { resources: catalog.resources, production: prodDoc }));
+    errors.push(...validateLocationsExtra(JSON.parse(await text('resources/resource_locations_extra.json')), { resources: catalog.resources, production: prodDoc, provinceIds: new Set(catalog.provinces.features.map((f) => f.properties.id)), pointsByProvince: JSON.parse(await text('resources/resource_points.json')).byProvince }));
+    // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate
+    for (const sh of JSON.parse(await text('resources/SOURCE_IDRO.json')).files) {
+      if (createHash('sha256').update(await readFile(new URL(`../data/resources/${sh.file}`, import.meta.url))).digest('hex') !== sh.sha256) errors.push(`idro: ${sh.file} diverso dalla copia ricevuta (sha256)`);
+    }
+    const hydroDoc = JSON.parse(await text('resources/hydro_plants.json'));
+    const hb = await hydroBuilt();
+    errors.push(...validateHydro(hydroDoc, { motherIds: new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id)), builtUnmapped: hb.unmapped, builtAmbiguous: hb.ambiguous }));
+    if (JSON.stringify(hydroDoc.plants) !== JSON.stringify(hb.plants)) errors.push('idro: hydro_plants.json non allineato al CSV e alle province, rigenerare con npm run build:hydro');
     const source = JSON.parse(await text('PACK_SOURCE.json'));
     for (const [file, sha] of Object.entries(source.files)) {
       const actual = createHash('sha256').update(await readFileTerrain(new URL(`../data/${file.replace(/^data\//, '')}`, import.meta.url))).digest('hex');

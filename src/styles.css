@@ -224,3 +224,15 @@ h2 {
 .wheel-play:disabled { background: var(--panel); color: var(--muted); border-color: #4a553f; }
 @media (max-height: 460px) { .wheel { height: 236px; } .wheel-card { top: 22px; height: 176px; } }
 @media (prefers-reduced-motion: reduce) { .wheel-card { transition: none; } }
+
+/* Caricamento della partita: la mappa si disegna sotto, nascosta da questa copertura con la bandiera della nazione scelta */
+.map-cover { position: absolute; inset: 0; z-index: 60; display: flex; background: #101f15; }
+.map-cover .loading-screen { flex: 1; }
+.loading-flag { display: block; border-radius: 4px; background: #2a3324; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); margin-bottom: 8px; }
+.nation-loading .loading-title { margin: 4px 0 0; }
+.build-list { list-style: none; padding: 0; margin: 4px 0; }
+.build-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid #3a4430; font-size: 14px; }
+.build-row .nation-btn { min-height: 40px; flex: none; }
+.panel h4 { font-size: 13px; margin: 8px 0 2px; color: var(--muted); }
+.eco-dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14px; }
+.eco-dl dt { color: var(--muted); } .eco-dl dd { margin: 0; }

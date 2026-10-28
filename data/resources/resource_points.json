@@ -37,7 +37,9 @@
      "punteggioMax": 3,
      "punti": 0.59,
      "puntiMax": 1.706,
-     "province": []
+     "province": [
+      "P_BUR_SHAN_STATE"
+     ]
     },
     {
      "id": "antimony|Bolivia|potosi",
@@ -49,7 +51,10 @@
      "punteggioMax": 9,
      "punti": 14.245,
      "puntiMax": 41.167,
-     "province": [],
+     "province": [
+      "P_BOL_ORURO",
+      "P_BOL_POTOSI"
+     ],
      "baseDopo1938": true
     },
     {
@@ -76,7 +81,11 @@
      "punteggioMax": 10,
      "punti": 69.984,
      "puntiMax": 69.984,
-     "province": [],
+     "province": [
+      "P_CHN_GUANGXI",
+      "P_CHN_GUIZHOU",
+      "P_CHN_HUNAN"
+     ],
      "baseDopo1938": true
     },
     {
@@ -109,7 +118,11 @@
      "punteggioMax": 8,
      "punti": 8.379,
      "puntiMax": 24.216,
-     "province": [],
+     "province": [
+      "P_MEX_HIDALGO",
+      "P_MEX_SAN_LUIS_POTOSI",
+      "P_MEX_ZACATECAS"
+     ],
      "baseDopo1938": true
     }
    ],
@@ -210,7 +223,10 @@
      "punteggioMax": 9,
      "punti": 8.85,
      "puntiMax": 25.577,
-     "province": []
+     "province": [
+      "P_SUR_MAROWIJNE",
+      "P_SUR_PARA"
+     ]
     },
     {
      "id": "bauxite|India britannica|bihar",
@@ -222,7 +238,10 @@
      "punteggioMax": 4,
      "punti": 0.623,
      "puntiMax": 1.801,
-     "province": []
+     "province": [
+      "P_IND_BIHAR",
+      "P_IND_JHARKHAND"
+     ]
     },
     {
      "id": "bauxite|Indie orientali olandesi|bintan",
@@ -234,7 +253,12 @@
      "punteggioMax": 8,
      "punti": 5.206,
      "puntiMax": 15.045,
-     "province": []
+     "province": [
+      "P_NLD_EI_CENTRAL_JAVA",
+      "P_NLD_EI_EAST_JAVA",
+      "P_NLD_EI_RIAU_ISLANDS",
+      "P_NLD_EI_WEST_JAVA"
+     ]
     },
     {
      "id": "bauxite|Italia|istria",
@@ -301,7 +325,11 @@
      "punteggioMax": 9,
      "punti": 8.85,
      "puntiMax": 25.577,
-     "province": []
+     "province": [
+      "P_USA_ALABAMA",
+      "P_USA_ARKANSAS",
+      "P_USA_GEORGIA"
+     ]
     },
     {
      "id": "bauxite|URSS|urali",
@@ -405,7 +433,9 @@
      "punteggioMax": 6,
      "punti": 4.234,
      "puntiMax": 12.237,
-     "province": []
+     "province": [
+      "P_PHL_CENTRAL_LUZON_REGION_III"
+     ]
     },
     {
      "id": "chromium|Nuova Caledonia|massiccio",
@@ -429,7 +459,10 @@
      "punteggioMax": 9,
      "punti": 20.803,
      "puntiMax": 60.12,
-     "province": []
+     "province": [
+      "P_ZIM_MASHONALAND_WEST",
+      "P_ZIM_MIDLANDS"
+     ]
     },
     {
      "id": "chromium|Sudafrica|transvaal",
@@ -441,7 +474,12 @@
      "punteggioMax": 10,
      "punti": 35.364,
      "puntiMax": 102.203,
-     "province": []
+     "province": [
+      "P_ZAF_GAUTENG",
+      "P_ZAF_LIMPOPO",
+      "P_ZAF_MPUMALANGA",
+      "P_ZAF_NORTH_WEST"
+     ]
     },
     {
      "id": "chromium|Turchia|guleman",
@@ -515,7 +553,10 @@
      "punteggioMax": 5,
      "punti": 0.515,
      "puntiMax": 1.489,
-     "province": []
+     "province": [
+      "P_BRA_RIO_GRANDE_DO_SUL",
+      "P_BRA_SANTA_CATARINA"
+     ]
     },
     {
      "id": "coal|Francia|lorena",
@@ -573,7 +614,12 @@
      "punteggioMax": 8,
      "punti": 2.532,
      "puntiMax": 7.317,
-     "province": []
+     "province": [
+      "P_JPN_FUKUOKA_PREFECTURE",
+      "P_JPN_HOKKAIDO",
+      "P_JPN_NAGASAKI_PREFECTURE",
+      "P_JPN_SAGA_PREFECTURE"
+     ]
     },
     {
      "id": "coal|India britannica|jharia",
@@ -585,7 +631,10 @@
      "punteggioMax": 9,
      "punti": 4.304,
      "puntiMax": 12.439,
-     "province": []
+     "province": [
+      "P_IND_JHARKHAND",
+      "P_IND_WEST_BENGAL"
+     ]
     },
     {
      "id": "coal|Italia|valdarno",
@@ -619,7 +668,9 @@
      "punteggioMax": 9,
      "punti": 4.304,
      "puntiMax": 12.439,
-     "province": []
+     "province": [
+      "P_MAN_LIAONING"
+     ]
     },
     {
      "id": "coal|Messico|coahuila",
@@ -631,7 +682,10 @@
      "punteggioMax": 6,
      "punti": 0.876,
      "puntiMax": 2.532,
-     "province": []
+     "province": [
+      "P_MEX_COAHUILA",
+      "P_MEX_NUEVO_LEON"
+     ]
     },
     {
      "id": "coal|Paesi Bassi|limburgo",
@@ -710,7 +764,11 @@
      "punteggioMax": 10,
      "punti": 21.146,
      "puntiMax": 21.146,
-     "province": []
+     "province": [
+      "P_USA_ILLINOIS",
+      "P_USA_PENNSYLVANIA",
+      "P_USA_WEST_VIRGINIA"
+     ]
     },
     {
      "id": "coal|Turchia|zonguldak",
@@ -834,7 +892,9 @@
      "punteggioMax": 9,
      "punti": 16.576,
      "puntiMax": 47.905,
-     "province": []
+     "province": [
+      "P_CAN_ONTARIO"
+     ]
     },
     {
      "id": "cobalt|Congo belga|katanga",
@@ -846,7 +906,9 @@
      "punteggioMax": 10,
      "punti": 81.439,
      "puntiMax": 81.439,
-     "province": []
+     "province": [
+      "P_COD_KATANGA"
+     ]
     },
     {
      "id": "cobalt|Marocco francese|bou",
@@ -915,7 +977,10 @@
      "punteggioMax": 4,
      "punti": 0.276,
      "puntiMax": 0.798,
-     "province": []
+     "province": [
+      "P_BRA_AMAPA",
+      "P_BRA_MINAS_GERAIS"
+     ]
     },
     {
      "id": "iron_ore|Bulgaria|kremikovtsi",
@@ -956,7 +1021,9 @@
      "punteggioMax": 8,
      "punti": 2.307,
      "puntiMax": 6.668,
-     "province": []
+     "province": [
+      "P_CHL_COQUIMBO"
+     ]
     },
     {
      "id": "iron_ore|Cuba|mayari",
@@ -968,7 +1035,11 @@
      "punteggioMax": 7,
      "punti": 1.357,
      "puntiMax": 3.922,
-     "province": []
+     "province": [
+      "P_CUB_GUANTANAMO",
+      "P_CUB_HOLGUIN",
+      "P_CUB_SANTIAGO_DE_CUBA"
+     ]
     },
     {
      "id": "iron_ore|Francia|lorena",
@@ -1027,7 +1098,11 @@
      "punteggioMax": 8,
      "punti": 2.307,
      "puntiMax": 6.668,
-     "province": []
+     "province": [
+      "P_MEX_COLIMA",
+      "P_MEX_DURANGO",
+      "P_MEX_MICHOACAN"
+     ]
     },
     {
      "id": "iron_ore|Norvegia|trondelag",
@@ -1101,7 +1176,9 @@
      "punteggioMax": 3,
      "punti": 0.162,
      "puntiMax": 0.47,
-     "province": []
+     "province": [
+      "P_SLE_NORTHERN"
+     ]
     },
     {
      "id": "iron_ore|Spagna|vizcaya",
@@ -1129,7 +1206,9 @@
      "punteggioMax": 10,
      "punti": 19.27,
      "puntiMax": 19.27,
-     "province": []
+     "province": [
+      "P_USA_MINNESOTA"
+     ]
     },
     {
      "id": "iron_ore|Svezia|kiruna",
@@ -1155,7 +1234,9 @@
      "punteggioMax": 8,
      "punti": 2.307,
      "puntiMax": 6.668,
-     "province": []
+     "province": [
+      "P_NFL_NEWFOUNDLAND_AND_LABRADOR"
+     ]
     },
     {
      "id": "iron_ore|URSS|krivoj",
@@ -1285,7 +1366,10 @@
      "punteggioMax": 8,
      "punti": 7.474,
      "puntiMax": 21.6,
-     "province": []
+     "province": [
+      "P_BRA_AMAPA",
+      "P_BRA_MINAS_GERAIS"
+     ]
     },
     {
      "id": "manganese|Costa d'Oro britannica|nsuta",
@@ -1297,7 +1381,9 @@
      "punteggioMax": 7,
      "punti": 4.396,
      "puntiMax": 12.706,
-     "province": []
+     "province": [
+      "P_GHA_WESTERN"
+     ]
     },
     {
      "id": "manganese|Germania|turingia",
@@ -1324,7 +1410,11 @@
      "punteggioMax": 10,
      "punti": 21.6,
      "puntiMax": 62.423,
-     "province": []
+     "province": [
+      "P_IND_GOA",
+      "P_IND_MADHYA_PRADESH",
+      "P_IND_MAHARASHTRA"
+     ]
     },
     {
      "id": "manganese|Italia|liguria",
@@ -1425,7 +1515,10 @@
      "punteggioMax": 4,
      "punti": 1.157,
      "puntiMax": 3.342,
-     "province": []
+     "province": [
+      "P_CHN_GUIZHOU",
+      "P_CHN_HUNAN"
+     ]
     },
     {
      "id": "mercury|Germania|renania",
@@ -1529,7 +1622,10 @@
      "punteggioMax": 8,
      "punti": 10.247,
      "puntiMax": 29.613,
-     "province": []
+     "province": [
+      "P_CHL_ANTOFAGASTA",
+      "P_CHL_O_HIGGINS"
+     ]
     },
     {
      "id": "molybdenum|Norvegia|knaben",
@@ -1555,7 +1651,10 @@
      "punteggioMax": 5,
      "punti": 2.086,
      "puntiMax": 6.028,
-     "province": []
+     "province": [
+      "P_PER_JUNIN",
+      "P_PER_PASCO"
+     ]
     },
     {
      "id": "molybdenum|Stati Uniti|climax",
@@ -1567,7 +1666,9 @@
      "punteggioMax": 10,
      "punti": 85.582,
      "puntiMax": 85.582,
-     "province": []
+     "province": [
+      "P_USA_COLORADO"
+     ]
     }
    ],
    "byControl": {
@@ -1612,7 +1713,9 @@
      "punteggioMax": 10,
      "punti": 89.939,
      "puntiMax": 89.939,
-     "province": []
+     "province": [
+      "P_CAN_ONTARIO"
+     ]
     },
     {
      "id": "nickel|Cuba|moa",
@@ -1624,7 +1727,11 @@
      "punteggioMax": 6,
      "punti": 3.726,
      "puntiMax": 10.768,
-     "province": []
+     "province": [
+      "P_CUB_GUANTANAMO",
+      "P_CUB_HOLGUIN",
+      "P_CUB_SANTIAGO_DE_CUBA"
+     ]
     },
     {
      "id": "nickel|Nuova Caledonia|thio",
@@ -1677,7 +1784,9 @@
      "punteggioMax": 6,
      "punti": 1.009,
      "puntiMax": 2.917,
-     "province": [],
+     "province": [
+      "P_SAU_EASTERN"
+     ],
      "baseDopo1938": true
     },
     {
@@ -1690,7 +1799,12 @@
      "punteggioMax": 6,
      "punti": 1.009,
      "puntiMax": 2.917,
-     "province": []
+     "province": [
+      "P_ARG_CHUBUT",
+      "P_ARG_MENDOZA",
+      "P_ARG_NEUQUEN",
+      "P_ARG_SALTA"
+     ]
     },
     {
      "id": "oil|Bahrain|awali",
@@ -1714,7 +1828,9 @@
      "punteggioMax": 5,
      "punti": 0.594,
      "puntiMax": 1.716,
-     "province": []
+     "province": [
+      "P_CAN_ALBERTA"
+     ]
     },
     {
      "id": "oil|Cina|yanchang",
@@ -1726,7 +1842,11 @@
      "punteggioMax": 4,
      "punti": 0.349,
      "puntiMax": 1.009,
-     "province": []
+     "province": [
+      "P_CHN_SHAANXI",
+      "P_CHN_SICHUAN",
+      "P_CHN_XINJIANG"
+     ]
     },
     {
      "id": "oil|Colombia|barrancabermeja",
@@ -1738,7 +1858,10 @@
      "punteggioMax": 7,
      "punti": 1.716,
      "puntiMax": 4.96,
-     "province": []
+     "province": [
+      "P_COL_ANTIOQUIA",
+      "P_COL_SANTANDER"
+     ]
     },
     {
      "id": "oil|Ecuador|santa",
@@ -1750,7 +1873,9 @@
      "punteggioMax": 4,
      "punti": 0.349,
      "puntiMax": 1.009,
-     "province": []
+     "province": [
+      "P_ECU_SANTA_ELENA"
+     ]
     },
     {
      "id": "oil|Egitto|gemsa",
@@ -1792,7 +1917,11 @@
      "punteggioMax": 5,
      "punti": 0.594,
      "puntiMax": 1.716,
-     "province": []
+     "province": [
+      "P_JPN_AKITA_PREFECTURE",
+      "P_JPN_HOKKAIDO",
+      "P_JPN_NIIGATA_PREFECTURE"
+     ]
     },
     {
      "id": "oil|India britannica e Birmania|digboi",
@@ -1804,7 +1933,10 @@
      "punteggioMax": 6,
      "punti": 1.009,
      "puntiMax": 2.917,
-     "province": []
+     "province": [
+      "P_BUR_MAGWAY",
+      "P_IND_ASSAM"
+     ]
     },
     {
      "id": "oil|Indie orientali olandesi|sumatra",
@@ -1816,7 +1948,18 @@
      "punteggioMax": 10,
      "punti": 8.431,
      "puntiMax": 24.366,
-     "province": []
+     "province": [
+      "P_NLD_EI_CENTRAL_JAVA",
+      "P_NLD_EI_EAST_JAVA",
+      "P_NLD_EI_EAST_KALIMANTAN",
+      "P_NLD_EI_JAMBI",
+      "P_NLD_EI_NORTH_SUMATRA",
+      "P_NLD_EI_RIAU",
+      "P_NLD_EI_SOUTH_KALIMANTAN",
+      "P_NLD_EI_SOUTH_SUMATRA",
+      "P_NLD_EI_WEST_JAVA",
+      "P_NLD_EI_WEST_KALIMANTAN"
+     ]
     },
     {
      "id": "oil|Iran|khuzestan",
@@ -1828,7 +1971,9 @@
      "punteggioMax": 10,
      "punti": 8.431,
      "puntiMax": 24.366,
-     "province": []
+     "province": [
+      "P_IRN_KHUZESTAN"
+     ]
     },
     {
      "id": "oil|Iraq|kirkuk",
@@ -1840,7 +1985,9 @@
      "punteggioMax": 9,
      "punti": 4.96,
      "puntiMax": 14.333,
-     "province": []
+     "province": [
+      "P_IRQ_KIRKUK"
+     ]
     },
     {
      "id": "oil|Kuwait|burgan",
@@ -1864,7 +2011,11 @@
      "punteggioMax": 8,
      "punti": 2.917,
      "puntiMax": 8.431,
-     "province": []
+     "province": [
+      "P_MEX_TABASCO",
+      "P_MEX_TAMAULIPAS",
+      "P_MEX_VERACRUZ"
+     ]
     },
     {
      "id": "oil|Peru|talara",
@@ -1876,7 +2027,10 @@
      "punteggioMax": 6,
      "punti": 1.009,
      "puntiMax": 2.917,
-     "province": []
+     "province": [
+      "P_PER_LORETO",
+      "P_PER_PIURA"
+     ]
     },
     {
      "id": "oil|Romania|ploiesti",
@@ -1916,7 +2070,11 @@
      "punteggioMax": 10,
      "punti": 24.366,
      "puntiMax": 24.366,
-     "province": []
+     "province": [
+      "P_USA_CALIFORNIA",
+      "P_USA_OKLAHOMA",
+      "P_USA_TEXAS"
+     ]
     },
     {
      "id": "oil|Trinidad|forest",
@@ -1975,7 +2133,9 @@
      "punteggioMax": 10,
      "punti": 14.333,
      "puntiMax": 24.366,
-     "province": []
+     "province": [
+      "P_VEN_ZULIA"
+     ]
     }
    ],
    "byControl": {
@@ -2084,7 +2244,18 @@
      "punteggioMax": 10,
      "punti": 37.037,
      "puntiMax": 62.963,
-     "province": []
+     "province": [
+      "P_NLD_EI_CENTRAL_JAVA",
+      "P_NLD_EI_EAST_JAVA",
+      "P_NLD_EI_EAST_KALIMANTAN",
+      "P_NLD_EI_JAMBI",
+      "P_NLD_EI_NORTH_SUMATRA",
+      "P_NLD_EI_RIAU",
+      "P_NLD_EI_SOUTH_KALIMANTAN",
+      "P_NLD_EI_SOUTH_SUMATRA",
+      "P_NLD_EI_WEST_JAVA",
+      "P_NLD_EI_WEST_KALIMANTAN"
+     ]
     },
     {
      "id": "rubber|Malaya|perak",
@@ -2096,7 +2267,11 @@
      "punteggioMax": 10,
      "punti": 62.963,
      "puntiMax": 62.963,
-     "province": [],
+     "province": [
+      "P_MAL_JOHOR",
+      "P_MAL_PERAK",
+      "P_MAL_SELANGOR"
+     ],
      "baseDopo1938": true
     }
    ],
@@ -2134,7 +2309,11 @@
      "punteggioMax": 7,
      "punti": 5.608,
      "puntiMax": 16.206,
-     "province": []
+     "province": [
+      "P_JPN_AOMORI_PREFECTURE",
+      "P_JPN_HOKKAIDO",
+      "P_JPN_IWATE_PREFECTURE"
+     ]
     },
     {
      "id": "sulphur|Italia|sicilia",
@@ -2162,7 +2341,10 @@
      "punteggioMax": 5,
      "punti": 1.94,
      "puntiMax": 5.608,
-     "province": []
+     "province": [
+      "P_MEX_COAHUILA",
+      "P_MEX_SAN_LUIS_POTOSI"
+     ]
     },
     {
      "id": "sulphur|Spagna|andalusia",
@@ -2194,7 +2376,10 @@
      "punteggioMax": 10,
      "punti": 79.62,
      "puntiMax": 79.62,
-     "province": []
+     "province": [
+      "P_USA_LOUISIANA",
+      "P_USA_TEXAS"
+     ]
     }
    ],
    "byControl": {
@@ -2243,7 +2428,10 @@
      "punteggioMax": 9,
      "punti": 10.809,
      "puntiMax": 31.238,
-     "province": []
+     "province": [
+      "P_BOL_ORURO",
+      "P_BOL_POTOSI"
+     ]
     },
     {
      "id": "tin|Germania|sassonia",
@@ -2270,7 +2458,13 @@
      "punteggioMax": 10,
      "punti": 31.238,
      "puntiMax": 53.105,
-     "province": [],
+     "province": [
+      "P_NLD_EI_BANGKA_BELITUNG_ISLANDS",
+      "P_NLD_EI_JAMBI",
+      "P_NLD_EI_NORTH_SUMATRA",
+      "P_NLD_EI_RIAU",
+      "P_NLD_EI_SOUTH_SUMATRA"
+     ],
      "baseDopo1938": true
     },
     {
@@ -2283,7 +2477,10 @@
      "punteggioMax": 10,
      "punti": 53.105,
      "puntiMax": 53.105,
-     "province": []
+     "province": [
+      "P_MAL_PERAK",
+      "P_MAL_SELANGOR"
+     ]
     },
     {
      "id": "tin|Nigeria britannica|plateau",
@@ -2295,7 +2492,9 @@
      "punteggioMax": 6,
      "punti": 2.2,
      "puntiMax": 6.358,
-     "province": []
+     "province": [
+      "P_NGA_PLATEAU_STATE"
+     ]
     },
     {
      "id": "tin|Siam / Thailandia|phuket",
@@ -2307,7 +2506,9 @@
      "punteggioMax": 6,
      "punti": 2.2,
      "puntiMax": 6.358,
-     "province": []
+     "province": [
+      "P_SIA_SOUTHERN"
+     ]
     }
    ],
    "byControl": {
@@ -2356,7 +2557,10 @@
      "punteggioMax": 5,
      "punti": 1.593,
      "puntiMax": 4.603,
-     "province": []
+     "province": [
+      "P_BUR_KAYAH_STATE",
+      "P_BUR_SHAN_STATE"
+     ]
     },
     {
      "id": "tungsten|Bolivia|llallagua",
@@ -2368,7 +2572,10 @@
      "punteggioMax": 8,
      "punti": 7.826,
      "puntiMax": 22.617,
-     "province": []
+     "province": [
+      "P_BOL_ORURO",
+      "P_BOL_POTOSI"
+     ]
     },
     {
      "id": "tungsten|Cina|jiangxi",
@@ -2380,7 +2587,11 @@
      "punteggioMax": 10,
      "punti": 65.362,
      "puntiMax": 65.362,
-     "province": []
+     "province": [
+      "P_CHN_GUANGDONG",
+      "P_CHN_HUNAN",
+      "P_CHN_JIANGXI"
+     ]
     },
     {
      "id": "tungsten|Corea|sangdong",
@@ -2392,7 +2603,9 @@
      "punteggioMax": 7,
      "punti": 4.603,
      "puntiMax": 13.304,
-     "province": []
+     "province": [
+      "P_KOR_GANGWON"
+     ]
     },
     {
      "id": "tungsten|Portogallo|panasqueira",
@@ -2438,7 +2651,11 @@
      "punteggioMax": 7,
      "punti": 4.603,
      "puntiMax": 13.304,
-     "province": [],
+     "province": [
+      "P_USA_IDAHO",
+      "P_USA_MONTANA",
+      "P_USA_NEVADA"
+     ],
      "baseDopo1938": true
     }
    ],
@@ -2511,7 +2728,9 @@
      "punteggioMax": 8,
      "punti": 9.896,
      "puntiMax": 28.599,
-     "province": []
+     "province": [
+      "P_CAN_NORTHWEST_TERRITORIES"
+     ]
     },
     {
      "id": "uranium|Cecoslovacchia|jachymov",
@@ -2537,7 +2756,9 @@
      "punteggioMax": 10,
      "punti": 82.651,
      "puntiMax": 82.651,
-     "province": []
+     "province": [
+      "P_COD_KATANGA"
+     ]
     },
     {
      "id": "uranium|Stati Uniti|colorado",
@@ -2549,7 +2770,10 @@
      "punteggioMax": 5,
      "punti": 2.014,
      "puntiMax": 5.821,
-     "province": []
+     "province": [
+      "P_USA_COLORADO",
+      "P_USA_UTAH"
+     ]
     }
    ],
    "byControl": {
@@ -2594,7 +2818,9 @@
      "punteggioMax": 9,
      "punti": 33.625,
      "puntiMax": 97.176,
-     "province": []
+     "province": [
+      "P_PER_PASCO"
+     ]
     },
     {
      "id": "vanadium|Spagna|sierra",
@@ -2625,7 +2851,10 @@
      "punteggioMax": 10,
      "punti": 57.163,
      "puntiMax": 165.2,
-     "province": []
+     "province": [
+      "P_USA_COLORADO",
+      "P_USA_UTAH"
+     ]
     },
     {
      "id": "vanadium|Sudafrica|transvaal",
@@ -2637,7 +2866,12 @@
      "punteggioMax": 6,
      "punti": 6.844,
      "puntiMax": 19.779,
-     "province": []
+     "province": [
+      "P_ZAF_GAUTENG",
+      "P_ZAF_LIMPOPO",
+      "P_ZAF_MPUMALANGA",
+      "P_ZAF_NORTH_WEST"
+     ]
     }
    ],
    "byControl": {
@@ -2682,7 +2916,11 @@
      "punteggioMax": 9,
      "punti": 12.693,
      "puntiMax": 36.683,
-     "province": []
+     "province": [
+      "P_ARG_BUENOS_AIRES",
+      "P_ARG_CORDOBA",
+      "P_ARG_SANTA_FE"
+     ]
     },
     {
      "id": "wheat|Canada|saskatchewan",
@@ -2694,7 +2932,11 @@
      "punteggioMax": 10,
      "punti": 21.578,
      "puntiMax": 62.362,
-     "province": []
+     "province": [
+      "P_CAN_ALBERTA",
+      "P_CAN_MANITOBA",
+      "P_CAN_SASKATCHEWAN"
+     ]
     },
     {
      "id": "wheat|India britannica|punjab",
@@ -2706,7 +2948,11 @@
      "punteggioMax": 8,
      "punti": 7.467,
      "puntiMax": 21.578,
-     "province": []
+     "province": [
+      "P_IND_PUNJAB",
+      "P_IND_PUNJAB_PB",
+      "P_IND_UTTAR_PRADESH"
+     ]
     },
     {
      "id": "wheat|Stati Uniti|grandi",
@@ -2718,7 +2964,13 @@
      "punteggioMax": 10,
      "punti": 36.683,
      "puntiMax": 62.362,
-     "province": []
+     "province": [
+      "P_USA_KANSAS",
+      "P_USA_MONTANA",
+      "P_USA_NEBRASKA",
+      "P_USA_NORTH_DAKOTA",
+      "P_USA_SOUTH_DAKOTA"
+     ]
     },
     {
      "id": "wheat|URSS|ucraina",
@@ -2787,7 +3039,9 @@
      "punteggioMax": 10,
      "punti": 8.052,
      "puntiMax": 39.559,
-     "province": []
+     "province": [
+      "P_CAN_QUEBEC"
+     ]
     },
     {
      "id": "aluminium|Francia|maurienne",
@@ -2831,7 +3085,13 @@
      "punteggioMax": 7,
      "punti": 0.964,
      "puntiMax": 8.052,
-     "province": []
+     "province": [
+      "P_JPN_FUKUI_PREFECTURE",
+      "P_JPN_ISHIKAWA_PREFECTURE",
+      "P_JPN_NIIGATA_PREFECTURE",
+      "P_JPN_TOYAMA_PREFECTURE",
+      "P_MAN_LIAONING"
+     ]
     },
     {
      "id": "aluminium|India britannica|alwaye",
@@ -2843,7 +3103,9 @@
      "punteggioMax": 3,
      "punti": 0.334,
      "puntiMax": 0.964,
-     "province": [],
+     "province": [
+      "P_IND_KERALA"
+     ],
      "baseDopo1938": true
     },
     {
@@ -2908,7 +3170,11 @@
      "punteggioMax": 10,
      "punti": 23.27,
      "puntiMax": 39.559,
-     "province": []
+     "province": [
+      "P_USA_PENNSYLVANIA",
+      "P_USA_TENNESSEE",
+      "P_USA_WASHINGTON"
+     ]
     },
     {
      "id": "aluminium|Svezia|trollhattan",
@@ -3024,6 +3290,48 @@
     "max": 1.45
    }
   },
+  "P_ARG_BUENOS_AIRES": {
+   "wheat": {
+    "base": 4.231,
+    "max": 12.228
+   }
+  },
+  "P_ARG_CHUBUT": {
+   "oil": {
+    "base": 0.252,
+    "max": 0.729
+   }
+  },
+  "P_ARG_CORDOBA": {
+   "wheat": {
+    "base": 4.231,
+    "max": 12.228
+   }
+  },
+  "P_ARG_MENDOZA": {
+   "oil": {
+    "base": 0.252,
+    "max": 0.729
+   }
+  },
+  "P_ARG_NEUQUEN": {
+   "oil": {
+    "base": 0.252,
+    "max": 0.729
+   }
+  },
+  "P_ARG_SALTA": {
+   "oil": {
+    "base": 0.252,
+    "max": 0.729
+   }
+  },
+  "P_ARG_SANTA_FE": {
+   "wheat": {
+    "base": 4.231,
+    "max": 12.228
+   }
+  },
   "P_AUT_STYRIA": {
    "iron_ore": {
     "base": 6.145,
@@ -3052,6 +3360,256 @@
    "iron_ore": {
     "base": 0.162,
     "max": 0.47
+   }
+  },
+  "P_BOL_ORURO": {
+   "antimony": {
+    "base": 7.123,
+    "max": 20.584
+   },
+   "tin": {
+    "base": 5.405,
+    "max": 15.619
+   },
+   "tungsten": {
+    "base": 3.913,
+    "max": 11.309
+   }
+  },
+  "P_BOL_POTOSI": {
+   "antimony": {
+    "base": 7.123,
+    "max": 20.584
+   },
+   "tin": {
+    "base": 5.405,
+    "max": 15.619
+   },
+   "tungsten": {
+    "base": 3.913,
+    "max": 11.309
+   }
+  },
+  "P_BRA_AMAPA": {
+   "iron_ore": {
+    "base": 0.138,
+    "max": 0.399
+   },
+   "manganese": {
+    "base": 3.737,
+    "max": 10.8
+   }
+  },
+  "P_BRA_MINAS_GERAIS": {
+   "iron_ore": {
+    "base": 0.138,
+    "max": 0.399
+   },
+   "manganese": {
+    "base": 3.737,
+    "max": 10.8
+   }
+  },
+  "P_BRA_RIO_GRANDE_DO_SUL": {
+   "coal": {
+    "base": 0.258,
+    "max": 0.745
+   }
+  },
+  "P_BRA_SANTA_CATARINA": {
+   "coal": {
+    "base": 0.258,
+    "max": 0.745
+   }
+  },
+  "P_BUR_KAYAH_STATE": {
+   "tungsten": {
+    "base": 0.797,
+    "max": 2.302
+   }
+  },
+  "P_BUR_MAGWAY": {
+   "oil": {
+    "base": 0.504,
+    "max": 1.459
+   }
+  },
+  "P_BUR_SHAN_STATE": {
+   "antimony": {
+    "base": 0.59,
+    "max": 1.706
+   },
+   "tungsten": {
+    "base": 0.797,
+    "max": 2.302
+   }
+  },
+  "P_CAN_ALBERTA": {
+   "oil": {
+    "base": 0.594,
+    "max": 1.716
+   },
+   "wheat": {
+    "base": 7.193,
+    "max": 20.787
+   }
+  },
+  "P_CAN_MANITOBA": {
+   "wheat": {
+    "base": 7.193,
+    "max": 20.787
+   }
+  },
+  "P_CAN_NORTHWEST_TERRITORIES": {
+   "uranium": {
+    "base": 9.896,
+    "max": 28.599
+   }
+  },
+  "P_CAN_ONTARIO": {
+   "cobalt": {
+    "base": 16.576,
+    "max": 47.905
+   },
+   "nickel": {
+    "base": 89.939,
+    "max": 89.939
+   }
+  },
+  "P_CAN_SASKATCHEWAN": {
+   "wheat": {
+    "base": 7.193,
+    "max": 20.787
+   }
+  },
+  "P_CHL_ANTOFAGASTA": {
+   "molybdenum": {
+    "base": 5.124,
+    "max": 14.807
+   }
+  },
+  "P_CHL_COQUIMBO": {
+   "iron_ore": {
+    "base": 2.307,
+    "max": 6.668
+   }
+  },
+  "P_CHL_O_HIGGINS": {
+   "molybdenum": {
+    "base": 5.124,
+    "max": 14.807
+   }
+  },
+  "P_CHN_GUANGDONG": {
+   "tungsten": {
+    "base": 21.787,
+    "max": 21.787
+   }
+  },
+  "P_CHN_GUANGXI": {
+   "antimony": {
+    "base": 23.328,
+    "max": 23.328
+   }
+  },
+  "P_CHN_GUIZHOU": {
+   "antimony": {
+    "base": 23.328,
+    "max": 23.328
+   },
+   "mercury": {
+    "base": 0.579,
+    "max": 1.671
+   }
+  },
+  "P_CHN_HUNAN": {
+   "antimony": {
+    "base": 23.328,
+    "max": 23.328
+   },
+   "mercury": {
+    "base": 0.579,
+    "max": 1.671
+   },
+   "tungsten": {
+    "base": 21.787,
+    "max": 21.787
+   }
+  },
+  "P_CHN_JIANGXI": {
+   "tungsten": {
+    "base": 21.787,
+    "max": 21.787
+   }
+  },
+  "P_CHN_SHAANXI": {
+   "oil": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_CHN_SICHUAN": {
+   "oil": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_CHN_XINJIANG": {
+   "oil": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_COD_KATANGA": {
+   "cobalt": {
+    "base": 81.439,
+    "max": 81.439
+   },
+   "uranium": {
+    "base": 82.651,
+    "max": 82.651
+   }
+  },
+  "P_COL_ANTIOQUIA": {
+   "oil": {
+    "base": 0.858,
+    "max": 2.48
+   }
+  },
+  "P_COL_SANTANDER": {
+   "oil": {
+    "base": 0.858,
+    "max": 2.48
+   }
+  },
+  "P_CUB_GUANTANAMO": {
+   "iron_ore": {
+    "base": 0.452,
+    "max": 1.307
+   },
+   "nickel": {
+    "base": 1.242,
+    "max": 3.589
+   }
+  },
+  "P_CUB_HOLGUIN": {
+   "iron_ore": {
+    "base": 0.452,
+    "max": 1.307
+   },
+   "nickel": {
+    "base": 1.242,
+    "max": 3.589
+   }
+  },
+  "P_CUB_SANTIAGO_DE_CUBA": {
+   "iron_ore": {
+    "base": 0.452,
+    "max": 1.307
+   },
+   "nickel": {
+    "base": 1.242,
+    "max": 3.589
    }
   },
   "P_CZE_BOHEMIA": {
@@ -3190,6 +3748,12 @@
    "coal": {
     "base": 4.146,
     "max": 7.049
+   }
+  },
+  "P_ECU_SANTA_ELENA": {
+   "oil": {
+    "base": 0.349,
+    "max": 1.009
    }
   },
   "P_EGY_AL_BAHR_AL_AHMAR": {
@@ -3448,6 +4012,12 @@
     "max": 9.635
    }
   },
+  "P_GHA_WESTERN": {
+   "manganese": {
+    "base": 4.396,
+    "max": 12.706
+   }
+  },
   "P_GRC_ATTIKI": {
    "bauxite": {
     "base": 1.531,
@@ -3496,6 +4066,82 @@
    "bauxite": {
     "base": 5.015,
     "max": 14.493
+   }
+  },
+  "P_IND_ASSAM": {
+   "oil": {
+    "base": 0.504,
+    "max": 1.459
+   }
+  },
+  "P_IND_BIHAR": {
+   "bauxite": {
+    "base": 0.312,
+    "max": 0.901
+   }
+  },
+  "P_IND_GOA": {
+   "manganese": {
+    "base": 7.2,
+    "max": 20.808
+   }
+  },
+  "P_IND_JHARKHAND": {
+   "bauxite": {
+    "base": 0.312,
+    "max": 0.901
+   },
+   "coal": {
+    "base": 2.152,
+    "max": 6.22
+   }
+  },
+  "P_IND_MADHYA_PRADESH": {
+   "manganese": {
+    "base": 7.2,
+    "max": 20.808
+   }
+  },
+  "P_IND_MAHARASHTRA": {
+   "manganese": {
+    "base": 7.2,
+    "max": 20.808
+   }
+  },
+  "P_IND_PUNJAB": {
+   "wheat": {
+    "base": 2.489,
+    "max": 7.193
+   }
+  },
+  "P_IND_PUNJAB_PB": {
+   "wheat": {
+    "base": 2.489,
+    "max": 7.193
+   }
+  },
+  "P_IND_UTTAR_PRADESH": {
+   "wheat": {
+    "base": 2.489,
+    "max": 7.193
+   }
+  },
+  "P_IND_WEST_BENGAL": {
+   "coal": {
+    "base": 2.152,
+    "max": 6.22
+   }
+  },
+  "P_IRN_KHUZESTAN": {
+   "oil": {
+    "base": 8.431,
+    "max": 24.366
+   }
+  },
+  "P_IRQ_KIRKUK": {
+   "oil": {
+    "base": 4.96,
+    "max": 14.333
    }
   },
   "P_ITA_AGRIGENTO": {
@@ -3666,10 +4312,330 @@
     "max": 13.446
    }
   },
+  "P_JPN_AKITA_PREFECTURE": {
+   "oil": {
+    "base": 0.198,
+    "max": 0.572
+   }
+  },
+  "P_JPN_AOMORI_PREFECTURE": {
+   "sulphur": {
+    "base": 1.869,
+    "max": 5.402
+   }
+  },
+  "P_JPN_FUKUOKA_PREFECTURE": {
+   "coal": {
+    "base": 0.633,
+    "max": 1.829
+   }
+  },
+  "P_JPN_HOKKAIDO": {
+   "coal": {
+    "base": 0.633,
+    "max": 1.829
+   },
+   "oil": {
+    "base": 0.198,
+    "max": 0.572
+   },
+   "sulphur": {
+    "base": 1.869,
+    "max": 5.402
+   }
+  },
+  "P_JPN_IWATE_PREFECTURE": {
+   "sulphur": {
+    "base": 1.869,
+    "max": 5.402
+   }
+  },
+  "P_JPN_NAGASAKI_PREFECTURE": {
+   "coal": {
+    "base": 0.633,
+    "max": 1.829
+   }
+  },
+  "P_JPN_NIIGATA_PREFECTURE": {
+   "oil": {
+    "base": 0.198,
+    "max": 0.572
+   }
+  },
+  "P_JPN_SAGA_PREFECTURE": {
+   "coal": {
+    "base": 0.633,
+    "max": 1.829
+   }
+  },
+  "P_KOR_GANGWON": {
+   "tungsten": {
+    "base": 4.603,
+    "max": 13.304
+   }
+  },
+  "P_MAL_JOHOR": {
+   "rubber": {
+    "base": 20.988,
+    "max": 20.988
+   }
+  },
+  "P_MAL_PERAK": {
+   "rubber": {
+    "base": 20.988,
+    "max": 20.988
+   },
+   "tin": {
+    "base": 26.553,
+    "max": 26.553
+   }
+  },
+  "P_MAL_SELANGOR": {
+   "rubber": {
+    "base": 20.988,
+    "max": 20.988
+   },
+   "tin": {
+    "base": 26.553,
+    "max": 26.553
+   }
+  },
+  "P_MAN_LIAONING": {
+   "coal": {
+    "base": 4.304,
+    "max": 12.439
+   }
+  },
   "P_MAR_SOUSS___MASSA___DRAA": {
    "cobalt": {
     "base": 1.985,
     "max": 5.736
+   }
+  },
+  "P_MEX_COAHUILA": {
+   "coal": {
+    "base": 0.438,
+    "max": 1.266
+   },
+   "sulphur": {
+    "base": 0.97,
+    "max": 2.804
+   }
+  },
+  "P_MEX_COLIMA": {
+   "iron_ore": {
+    "base": 0.769,
+    "max": 2.223
+   }
+  },
+  "P_MEX_DURANGO": {
+   "iron_ore": {
+    "base": 0.769,
+    "max": 2.223
+   }
+  },
+  "P_MEX_HIDALGO": {
+   "antimony": {
+    "base": 2.793,
+    "max": 8.072
+   }
+  },
+  "P_MEX_MICHOACAN": {
+   "iron_ore": {
+    "base": 0.769,
+    "max": 2.223
+   }
+  },
+  "P_MEX_NUEVO_LEON": {
+   "coal": {
+    "base": 0.438,
+    "max": 1.266
+   }
+  },
+  "P_MEX_SAN_LUIS_POTOSI": {
+   "antimony": {
+    "base": 2.793,
+    "max": 8.072
+   },
+   "sulphur": {
+    "base": 0.97,
+    "max": 2.804
+   }
+  },
+  "P_MEX_TABASCO": {
+   "oil": {
+    "base": 0.972,
+    "max": 2.81
+   }
+  },
+  "P_MEX_TAMAULIPAS": {
+   "oil": {
+    "base": 0.972,
+    "max": 2.81
+   }
+  },
+  "P_MEX_VERACRUZ": {
+   "oil": {
+    "base": 0.972,
+    "max": 2.81
+   }
+  },
+  "P_MEX_ZACATECAS": {
+   "antimony": {
+    "base": 2.793,
+    "max": 8.072
+   }
+  },
+  "P_NFL_NEWFOUNDLAND_AND_LABRADOR": {
+   "iron_ore": {
+    "base": 2.307,
+    "max": 6.668
+   }
+  },
+  "P_NGA_PLATEAU_STATE": {
+   "tin": {
+    "base": 2.2,
+    "max": 6.358
+   }
+  },
+  "P_NLD_EI_BANGKA_BELITUNG_ISLANDS": {
+   "tin": {
+    "base": 6.248,
+    "max": 10.621
+   }
+  },
+  "P_NLD_EI_CENTRAL_JAVA": {
+   "bauxite": {
+    "base": 1.302,
+    "max": 3.761
+   },
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   }
+  },
+  "P_NLD_EI_EAST_JAVA": {
+   "bauxite": {
+    "base": 1.302,
+    "max": 3.761
+   },
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   }
+  },
+  "P_NLD_EI_EAST_KALIMANTAN": {
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   }
+  },
+  "P_NLD_EI_JAMBI": {
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   },
+   "tin": {
+    "base": 6.248,
+    "max": 10.621
+   }
+  },
+  "P_NLD_EI_NORTH_SUMATRA": {
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   },
+   "tin": {
+    "base": 6.248,
+    "max": 10.621
+   }
+  },
+  "P_NLD_EI_RIAU": {
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   },
+   "tin": {
+    "base": 6.248,
+    "max": 10.621
+   }
+  },
+  "P_NLD_EI_RIAU_ISLANDS": {
+   "bauxite": {
+    "base": 1.302,
+    "max": 3.761
+   }
+  },
+  "P_NLD_EI_SOUTH_KALIMANTAN": {
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   }
+  },
+  "P_NLD_EI_SOUTH_SUMATRA": {
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   },
+   "tin": {
+    "base": 6.248,
+    "max": 10.621
+   }
+  },
+  "P_NLD_EI_WEST_JAVA": {
+   "bauxite": {
+    "base": 1.302,
+    "max": 3.761
+   },
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
+   }
+  },
+  "P_NLD_EI_WEST_KALIMANTAN": {
+   "oil": {
+    "base": 0.843,
+    "max": 2.437
+   },
+   "rubber": {
+    "base": 3.704,
+    "max": 6.296
    }
   },
   "P_NLD_LIMBURG": {
@@ -3706,6 +4672,40 @@
    "molybdenum": {
     "base": 2.086,
     "max": 6.028
+   }
+  },
+  "P_PER_JUNIN": {
+   "molybdenum": {
+    "base": 1.043,
+    "max": 3.014
+   }
+  },
+  "P_PER_LORETO": {
+   "oil": {
+    "base": 0.504,
+    "max": 1.459
+   }
+  },
+  "P_PER_PASCO": {
+   "molybdenum": {
+    "base": 1.043,
+    "max": 3.014
+   },
+   "vanadium": {
+    "base": 33.625,
+    "max": 97.176
+   }
+  },
+  "P_PER_PIURA": {
+   "oil": {
+    "base": 0.504,
+    "max": 1.459
+   }
+  },
+  "P_PHL_CENTRAL_LUZON_REGION_III": {
+   "chromium": {
+    "base": 4.234,
+    "max": 12.237
    }
   },
   "P_POL_KIELCE_VOIVODESHIP": {
@@ -3784,6 +4784,36 @@
     "max": 0.266
    }
   },
+  "P_SAU_EASTERN": {
+   "oil": {
+    "base": 1.009,
+    "max": 2.917
+   }
+  },
+  "P_SIA_SOUTHERN": {
+   "tin": {
+    "base": 2.2,
+    "max": 6.358
+   }
+  },
+  "P_SLE_NORTHERN": {
+   "iron_ore": {
+    "base": 0.162,
+    "max": 0.47
+   }
+  },
+  "P_SUR_MAROWIJNE": {
+   "bauxite": {
+    "base": 4.425,
+    "max": 12.789
+   }
+  },
+  "P_SUR_PARA": {
+   "bauxite": {
+    "base": 4.425,
+    "max": 12.789
+   }
+  },
   "P_SWE_NORRBOTTEN": {
    "iron_ore": {
     "base": 11.335,
@@ -3800,6 +4830,146 @@
    "coal": {
     "base": 0.876,
     "max": 2.532
+   }
+  },
+  "P_USA_ALABAMA": {
+   "bauxite": {
+    "base": 2.95,
+    "max": 8.526
+   }
+  },
+  "P_USA_ARKANSAS": {
+   "bauxite": {
+    "base": 2.95,
+    "max": 8.526
+   }
+  },
+  "P_USA_CALIFORNIA": {
+   "oil": {
+    "base": 8.122,
+    "max": 8.122
+   }
+  },
+  "P_USA_COLORADO": {
+   "molybdenum": {
+    "base": 85.582,
+    "max": 85.582
+   },
+   "uranium": {
+    "base": 1.007,
+    "max": 2.911
+   },
+   "vanadium": {
+    "base": 28.582,
+    "max": 82.6
+   }
+  },
+  "P_USA_GEORGIA": {
+   "bauxite": {
+    "base": 2.95,
+    "max": 8.526
+   }
+  },
+  "P_USA_IDAHO": {
+   "tungsten": {
+    "base": 1.534,
+    "max": 4.435
+   }
+  },
+  "P_USA_ILLINOIS": {
+   "coal": {
+    "base": 7.049,
+    "max": 7.049
+   }
+  },
+  "P_USA_KANSAS": {
+   "wheat": {
+    "base": 7.337,
+    "max": 12.472
+   }
+  },
+  "P_USA_LOUISIANA": {
+   "sulphur": {
+    "base": 39.81,
+    "max": 39.81
+   }
+  },
+  "P_USA_MINNESOTA": {
+   "iron_ore": {
+    "base": 19.27,
+    "max": 19.27
+   }
+  },
+  "P_USA_MONTANA": {
+   "tungsten": {
+    "base": 1.534,
+    "max": 4.435
+   },
+   "wheat": {
+    "base": 7.337,
+    "max": 12.472
+   }
+  },
+  "P_USA_NEBRASKA": {
+   "wheat": {
+    "base": 7.337,
+    "max": 12.472
+   }
+  },
+  "P_USA_NEVADA": {
+   "tungsten": {
+    "base": 1.534,
+    "max": 4.435
+   }
+  },
+  "P_USA_NORTH_DAKOTA": {
+   "wheat": {
+    "base": 7.337,
+    "max": 12.472
+   }
+  },
+  "P_USA_OKLAHOMA": {
+   "oil": {
+    "base": 8.122,
+    "max": 8.122
+   }
+  },
+  "P_USA_PENNSYLVANIA": {
+   "coal": {
+    "base": 7.049,
+    "max": 7.049
+   }
+  },
+  "P_USA_SOUTH_DAKOTA": {
+   "wheat": {
+    "base": 7.337,
+    "max": 12.472
+   }
+  },
+  "P_USA_TEXAS": {
+   "oil": {
+    "base": 8.122,
+    "max": 8.122
+   },
+   "sulphur": {
+    "base": 39.81,
+    "max": 39.81
+   }
+  },
+  "P_USA_UTAH": {
+   "uranium": {
+    "base": 1.007,
+    "max": 2.911
+   },
+   "vanadium": {
+    "base": 28.582,
+    "max": 82.6
+   }
+  },
+  "P_USA_WEST_VIRGINIA": {
+   "coal": {
+    "base": 7.049,
+    "max": 7.049
    }
   },
   "P_USSR_ABSHERON": {
@@ -3976,6 +5146,12 @@
     "max": 6.929
    }
   },
+  "P_VEN_ZULIA": {
+   "oil": {
+    "base": 14.333,
+    "max": 24.366
+   }
+  },
   "P_YUG_BANJA_LUKA": {
    "antimony": {
     "base": 0.414,
@@ -4061,9 +5237,67 @@
     "base": 0.414,
     "max": 1.197
    }
+  },
+  "P_ZAF_GAUTENG": {
+   "chromium": {
+    "base": 8.841,
+    "max": 25.551
+   },
+   "vanadium": {
+    "base": 1.711,
+    "max": 4.945
+   }
+  },
+  "P_ZAF_LIMPOPO": {
+   "chromium": {
+    "base": 8.841,
+    "max": 25.551
+   },
+   "vanadium": {
+    "base": 1.711,
+    "max": 4.945
+   }
+  },
+  "P_ZAF_MPUMALANGA": {
+   "chromium": {
+    "base": 8.841,
+    "max": 25.551
+   },
+   "vanadium": {
+    "base": 1.711,
+    "max": 4.945
+   }
+  },
+  "P_ZAF_NORTH_WEST": {
+   "chromium": {
+    "base": 8.841,
+    "max": 25.551
+   },
+   "vanadium": {
+    "base": 1.711,
+    "max": 4.945
+   }
+  },
+  "P_ZIM_MASHONALAND_WEST": {
+   "chromium": {
+    "base": 10.402,
+    "max": 30.06
+   }
+  },
+  "P_ZIM_MIDLANDS": {
+   "chromium": {
+    "base": 10.402,
+    "max": 30.06
+   }
   }
  },
  "byProvinceProducts": {
+  "P_CAN_QUEBEC": {
+   "aluminium": {
+    "base": 8.052,
+    "max": 39.559
+   }
+  },
   "P_CHE_AARGAU": {
    "aluminium": {
     "base": 2.368,
@@ -4116,6 +5350,12 @@
    "aluminium": {
     "base": 8.052,
     "max": 23.27
+   }
+  },
+  "P_IND_KERALA": {
+   "aluminium": {
+    "base": 0.334,
+    "max": 0.964
    }
   },
   "P_ITA_BOLZANO_EST": {
@@ -4172,6 +5412,36 @@
     "max": 0.31
    }
   },
+  "P_JPN_FUKUI_PREFECTURE": {
+   "aluminium": {
+    "base": 0.193,
+    "max": 1.61
+   }
+  },
+  "P_JPN_ISHIKAWA_PREFECTURE": {
+   "aluminium": {
+    "base": 0.193,
+    "max": 1.61
+   }
+  },
+  "P_JPN_NIIGATA_PREFECTURE": {
+   "aluminium": {
+    "base": 0.193,
+    "max": 1.61
+   }
+  },
+  "P_JPN_TOYAMA_PREFECTURE": {
+   "aluminium": {
+    "base": 0.193,
+    "max": 1.61
+   }
+  },
+  "P_MAN_LIAONING": {
+   "aluminium": {
+    "base": 0.193,
+    "max": 1.61
+   }
+  },
   "P_NOR_HORDALAND": {
    "aluminium": {
     "base": 2.684,
@@ -4194,6 +5464,24 @@
    "aluminium": {
     "base": 0.567,
     "max": 1.639
+   }
+  },
+  "P_USA_PENNSYLVANIA": {
+   "aluminium": {
+    "base": 7.757,
+    "max": 13.186
+   }
+  },
+  "P_USA_TENNESSEE": {
+   "aluminium": {
+    "base": 7.757,
+    "max": 13.186
+   }
+  },
+  "P_USA_WASHINGTON": {
+   "aluminium": {
+    "base": 7.757,
+    "max": 13.186
    }
   },
   "P_USSR_LENINGRAD": {

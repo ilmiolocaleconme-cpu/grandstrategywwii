@@ -26,12 +26,14 @@ export const COLORS = {
   labelHalo: 'rgba(14, 18, 10, 0.28)',
   lakeLabel: 'rgba(221, 227, 232, 0.72)',
   lakeLabelHalo: 'rgba(10, 36, 60, 0.28)',
+  landBase: '#4a5140', // terra senza provincia: neutra, scura
   seaFill: 'rgba(120, 190, 235, 0.07)',
   cityGrey: '#7d8288', // città (centro urbano)
   cityLabel: 'rgba(252, 240, 200, 0.95)',
   cityLabelHalo: 'rgba(14, 18, 10, 0.6)',
   seaStroke: 'rgba(170, 215, 245, 0.45)',
   straitFill: 'rgba(255, 214, 120, 0.16)',
+  approachFill: 'rgba(120, 190, 235, 0.10)', // zone d'avvicinamento: azzurre e molto tenui, non grigie
   straitStroke: 'rgba(255, 214, 120, 0.7)',
   seaSelFill: 'rgba(255, 214, 120, 0.28)',
   seaSelStroke: '#ffd678',
@@ -46,6 +48,23 @@ const LABEL_STYLE = {
   lake: { font: 'italic 400', fill: COLORS.lakeLabel, halo: COLORS.lakeLabelHalo },
   sea: { font: 'italic 400', fill: COLORS.seaLabel, halo: COLORS.seaLabelHalo },
 };
+
+// Larghezza dei testi in cache: measureText a ogni fotogramma del gesto costava più del resto della sovrapposizione.
+// Si misura una volta a corpo 100 e si scala (la larghezza è proporzionale al corpo).
+const WIDTHS = new Map();
+function textWidth(ctx, style, text, px) {
+  const key = `${style}|${text}`;
+  let w = WIDTHS.get(key);
+  if (w === undefined) {
+    const prev = ctx.font;
+    ctx.font = `${style} 100px ${FONT_FAMILY}`.trim();
+    w = ctx.measureText(text).width;
+    ctx.font = prev;
+    if (WIDTHS.size > 20000) WIDTHS.clear();
+    WIDTHS.set(key, w);
+  }
+  return (w * px) / 100;
+}
 const CITY_NAME_PX = 11;
 const FONT_FAMILY = "'Palatino Linotype', Palatino, 'Book Antiqua', 'Hoefler Text', Georgia, 'Times New Roman', serif";
 
@@ -93,29 +112,56 @@ export function seamStrokePath(model, item) {
   return p;
 }
 
-// Bordi nazionali a gruppi di percorsi (ognuno con al massimo ~BORDER_CHUNK_PTS punti): si disegnano in passi separati, così nessun
-// passo occupa il thread principale a lungo. Il risultato è identico a un unico tracciato (polilinee aperte, tutte dello stesso colore).
-const BORDER_CHUNK_PTS = 6000;
+// Gruppi di percorsi ordinati nello spazio (curva di Morton sul centro del riquadro): ogni gruppo ha il proprio riquadro, così chi
+// disegna una porzione di mappa (una piastrella) salta i gruppi che stanno altrove invece di far elaborare al motore grafico
+// tutto il mondo. Ognuno ha al massimo ~CHUNK_PTS punti: si disegnano in passi separati e nessun passo occupa il thread a lungo.
+const CHUNK_PTS = 6000;
+const MORTON_X0 = -180 * COS0;
+const MORTON_SPAN_X = 360 * COS0;
+function morton(cx, cy) {
+  const qx = Math.max(0, Math.min(1023, Math.floor(((cx - MORTON_X0) / MORTON_SPAN_X) * 1024)));
+  const qy = Math.max(0, Math.min(1023, Math.floor(((cy + 90) / 180) * 1024)));
+  let m = 0;
+  for (let i = 0; i < 10; i += 1) m += (((qx >> i) & 1) << (2 * i)) + (((qy >> i) & 1) << (2 * i + 1));
+  return m;
+}
+/** runs: [{ x0, y0, x1, y1, pts, add(path) }] → [{ path, bbox }] ordinati nello spazio. */
+export function spatialChunks(runs, maxPts = CHUNK_PTS) {
+  const order = runs.map((r, i) => ({ i, m: morton((r.x0 + r.x1) / 2, (r.y0 + r.y1) / 2) })).sort((u, v) => u.m - v.m);
+  const out = [];
+  let path = new Path2D();
+  let n = 0;
+  let bb = null;
+  for (const { i } of order) {
+    const r = runs[i];
+    r.add(path);
+    n += r.pts;
+    bb = bb ? { x0: Math.min(bb.x0, r.x0), y0: Math.min(bb.y0, r.y0), x1: Math.max(bb.x1, r.x1), y1: Math.max(bb.y1, r.y1) } : { x0: r.x0, y0: r.y0, x1: r.x1, y1: r.y1 };
+    if (n >= maxPts) { out.push({ path, bbox: bb }); path = new Path2D(); n = 0; bb = null; }
+  }
+  if (n > 0) out.push({ path, bbox: bb });
+  return out;
+}
+
 function borderChunks(borders, level) {
   const cache = borders.chunks ?? (borders.chunks = [null, null, null, null]);
   const lv = level < 3 && borders.levels?.[level] ? level : 3;
   if (cache[lv]) return cache[lv];
   const src = lv === 3 ? borders : borders.levels[lv];
-  const chunks = [];
-  let p = new Path2D();
-  let n = 0;
+  const runs = [];
   for (let k = 0; k + 1 < src.runStarts.length; k += 1) {
     const s = src.runStarts[k];
     const e = src.runStarts[k + 1];
     if (e - s < 2) continue;
-    p.moveTo(src.points[2 * s], src.points[2 * s + 1]);
-    for (let i = s + 1; i < e; i += 1) p.lineTo(src.points[2 * i], src.points[2 * i + 1]);
-    n += e - s;
-    if (n >= BORDER_CHUNK_PTS) { chunks.push(p); p = new Path2D(); n = 0; }
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (let i = s; i < e; i += 1) {
+      const x = src.points[2 * i], y = src.points[2 * i + 1];
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+    }
+    runs.push({ x0, y0, x1, y1, pts: e - s, add: (p) => { p.moveTo(src.points[2 * s], src.points[2 * s + 1]); for (let i = s + 1; i < e; i += 1) p.lineTo(src.points[2 * i], src.points[2 * i + 1]); } });
   }
-  if (n > 0) chunks.push(p);
-  cache[lv] = chunks;
-  return chunks;
+  cache[lv] = spatialChunks(runs);
+  return cache[lv];
 }
 
 function featurePath(feature) {
@@ -143,29 +189,98 @@ function zonePath(z) {
   return p;
 }
 
-function seaGroups(seas) {
-  if (seas.groups) return seas.groups;
-  const open = new Path2D();
-  const strait = new Path2D();
-  for (const z of seas.zones) (z.kind === 'strait' || z.kind === 'approach' ? strait : open).addPath(zonePath(z));
-  seas.groups = { open, strait };
-  return seas.groups;
+// Riquadro (unità di mappa) di una zona, in cache: serve a scartare le zone fuori dalla regione disegnata.
+function zoneBox(z) {
+  if (z.box) return z.box;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const ring of z.rings) for (const [lon, lat] of ring) {
+    const x = lon * COS0, y = -lat;
+    if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+  }
+  z.box = { x0, y0, x1, y1 };
+  return z.box;
 }
 
-function drawSeas(ctx, seas, selectedSeaId, sx) {
-  const g = seaGroups(seas);
+// Solo le zone che toccano la regione: con le zone di tutto il mondo il tratteggio dell'intero contorno (decine di migliaia di
+// punti, a zoom alto milioni di trattini) costava molto anche per ciò che sta fuori schermo.
+/**
+ * Contorno di una zona senza i lati lungo l'antimeridiano (lon = ±180): il calcolo taglia le zone alla cucitura del mondo,
+ * ma lì non c'è nessun confine, quindi la riga non si deve vedere (il riempimento resta invariato).
+ */
+function zoneLinePath(z) {
+  if (z.line) return z.line;
+  const p = new Path2D();
+  const onSeam = (pt) => Math.abs(Math.abs(pt[0]) - 180) < 0.08;
+  for (const ring of z.rings) {
+    const n = ring.length;
+    p.moveTo(ring[0][0] * COS0, -ring[0][1]);
+    for (let i = 1; i <= n; i += 1) {
+      const a = ring[i - 1], b = ring[i % n];
+      if (onSeam(a) && onSeam(b) && Math.sign(a[0]) === Math.sign(b[0])) p.moveTo(b[0] * COS0, -b[1]);
+      else p.lineTo(b[0] * COS0, -b[1]);
+    }
+  }
+  z.line = p;
+  return p;
+}
+
+function seaGroups(seas, cull) {
+  const g = { open: new Path2D(), strait: new Path2D(), approach: new Path2D(), openLine: new Path2D(), straitLine: new Path2D() };
+  for (const z of seas.zones) {
+    const b = zoneBox(z);
+    if (cull && (b.x0 > cull.x1 || b.x1 < cull.x0 || b.y0 > cull.y1 || b.y1 < cull.y0)) continue;
+    const strait = z.kind === 'strait' || z.kind === 'approach';
+    g[z.kind === 'approach' ? 'approach' : strait ? 'strait' : 'open'].addPath(zonePath(z));
+    g[strait ? 'straitLine' : 'openLine'].addPath(zoneLinePath(z));
+  }
+  return g;
+}
+
+function drawSeas(ctx, seas, selectedSeaId, sx, cull) {
+  const g = seaGroups(seas, cull);
   ctx.setLineDash([4 / sx, 3 / sx]);
   ctx.lineWidth = 0.8 / sx;
   ctx.fillStyle = COLORS.seaFill; ctx.strokeStyle = COLORS.seaStroke;
-  ctx.fill(g.open, 'evenodd'); ctx.stroke(g.open);
-  ctx.fillStyle = COLORS.straitFill; ctx.strokeStyle = COLORS.straitStroke;
-  ctx.fill(g.strait, 'evenodd'); ctx.stroke(g.strait);
+  ctx.fill(g.open, 'evenodd'); ctx.stroke(g.openLine);
+  // Riempimenti sfumati: il tracciato si disegna lontano fuori dal canvas e la sua ombra sfocata rientra (shadowOffset non risente
+  // della trasformazione), così resta solo il contorno morbido senza il bordo netto che sembrava un taglio nella mappa.
+  featherFill(ctx, g.approach, COLORS.approachFill);
+  featherFill(ctx, g.strait, COLORS.straitFill);
+  ctx.strokeStyle = COLORS.straitStroke;
+  ctx.stroke(g.straitLine);
   ctx.setLineDash([]);
-  const sel = selectedSeaId ? seas.zones.find((z) => z.id === selectedSeaId) : null;
-  if (sel) {
-    ctx.fillStyle = COLORS.seaSelFill; ctx.strokeStyle = COLORS.seaSelStroke; ctx.lineWidth = 2 / sx;
-    ctx.fill(zonePath(sel), 'evenodd'); ctx.stroke(zonePath(sel));
+}
+
+// Terra neutra sotto le province (data/land_base.json): dove le province non arrivano si vede terra, non mare.
+function landPath(land) {
+  if (land.path) return land.path;
+  const p = new Path2D();
+  for (const rings of land.polygons) for (const ring of rings) {
+    p.moveTo(ring[0][0] * COS0, -ring[0][1]);
+    for (let i = 1; i < ring.length; i += 1) p.lineTo(ring[i][0] * COS0, -ring[i][1]);
+    p.closePath();
   }
+  land.path = p;
+  return p;
+}
+function drawLandBase(ctx, land) {
+  ctx.fillStyle = COLORS.landBase;
+  ctx.fill(landPath(land), 'evenodd');
+}
+
+const FEATHER_PX = 14;
+const FEATHER_OFF = 100000;
+function featherFill(ctx, path, color) {
+  const k = ctx.getTransform().a; // pixel del canvas per unità: lo spostamento dell'ombra è in pixel del canvas
+  ctx.save();
+  ctx.shadowColor = color;
+  ctx.shadowBlur = FEATHER_PX;
+  ctx.shadowOffsetX = FEATHER_OFF;
+  ctx.shadowOffsetY = 0;
+  ctx.fillStyle = '#000';
+  ctx.translate(-FEATHER_OFF / k, 0);
+  ctx.fill(path, 'evenodd');
+  ctx.restore();
 }
 
 // Percorso di un lago (in cache sull'elemento): i laghi si disegnano uno per uno, così quelli fuori dalla regione si saltano.
@@ -173,20 +288,21 @@ function lakePath(lake) {
   return lake.path ?? (lake.path = featurePath(lake.feature));
 }
 
-// Fiumi raggruppati per spessore (i grandi sopra ai piccoli) per ciascuna soglia di densità; i tratti dentro i laghi si escludono.
+// Fiumi raggruppati per spessore (i grandi sopra ai piccoli) per ciascuna soglia di densità, a blocchi spaziali; i tratti dentro i laghi si escludono.
 function riverGroups(water, rankLimit) {
   water.groups ??= new Map();
   if (water.groups.has(rankLimit)) return water.groups.get(rankLimit);
   const byWidth = new Map();
   for (const l of water.lines) {
     if (l.rank > rankLimit || l.inLake) continue;
-    if (!byWidth.has(l.width)) byWidth.set(l.width, new Path2D());
-    const p = byWidth.get(l.width);
+    if (!byWidth.has(l.width)) byWidth.set(l.width, []);
     const c = l.coords;
-    p.moveTo(c[0], c[1]);
-    for (let i = 2; i < c.length; i += 2) p.lineTo(c[i], c[i + 1]);
+    byWidth.get(l.width).push({
+      x0: l.bbox.x, y0: l.bbox.y, x1: l.bbox.x + l.bbox.w, y1: l.bbox.y + l.bbox.h, pts: c.length / 2,
+      add: (p) => { p.moveTo(c[0], c[1]); for (let i = 2; i < c.length; i += 2) p.lineTo(c[i], c[i + 1]); },
+    });
   }
-  const groups = [...byWidth.entries()].sort((a, b) => a[0] - b[0]);
+  const groups = [...byWidth.entries()].sort((a, b) => a[0] - b[0]).map(([w, runs]) => [w, spatialChunks(runs, 4000)]);
   water.groups.set(rankLimit, groups);
   return groups;
 }
@@ -219,18 +335,22 @@ const LAKE_CHUNK = 60; // laghi per passo
  * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
 export function* renderBaseSteps(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, transport, resourceFills } = p;
-  const a = affineOf(view, vb, lay);
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, transport, resourceFills, land } = p;
+  // piastrella: trasformazione e riquadro di ritaglio già calcolati dal chiamante (sx = pixel CSS per unità a quel livello, tx/ty = origine
+  // in pixel CSS rispetto alla tela, cull = riquadro in unità di mappa); view.k serve solo alle soglie di fiumi e simili
+  const a = p.tile ? { sx: p.tile.sx, tx: p.tile.tx, ty: p.tile.ty } : affineOf(view, vb, lay);
   const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
-  const cull = regionToUnits(view, vb, lay, region);
+  const cull = p.tile ? p.tile.cull : regionToUnits(view, vb, lay, region);
   const pad = 2 / a.sx;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.setLineDash([]);
   ctx.globalAlpha = 1;
   ctx.fillStyle = COLORS.sea;
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
+  // spigoli smussati e estremi netti: sulle linee sottili (0,6-3 px) non si vede la differenza dai tondi, ma la rasterizzazione costa circa
+  // un quarto in meno per piastrella (misurato: 77 -> 58 ms a piastrella; le linee sono l'85 % del costo, i riempimenti il 10 %)
+  ctx.lineJoin = 'bevel';
+  ctx.lineCap = 'butt';
   for (const off of copies) {
     const place = () => ctx.setTransform(dpr * a.sx, 0, 0, dpr * a.sx, dpr * (a.tx - region.x + a.sx * off), dpr * (a.ty - region.y));
     place();
@@ -238,10 +358,12 @@ export function* renderBaseSteps(ctx, p) {
     const x1 = cull.x1 - off + pad;
     const y0 = cull.y0 - pad;
     const y1 = cull.y1 + pad;
+    const hits = (b) => !(b.x0 > x1 || b.x1 < x0 || b.y0 > y1 || b.y1 < y0);
     if (seas) {
       // sotto le province: la terra copre i bordi imprecisi. Un errore qui non deve mai bloccare la mappa.
-      try { drawSeas(ctx, seas, selectedSeaId, a.sx); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
+      try { drawSeas(ctx, seas, selectedSeaId, a.sx, { x0, x1, y0, y1 }); } catch (e) { ctx.setLineDash([]); if (!seas.failed) { seas.failed = true; console.error('zone marittime non disegnate', e); } }
     }
+    if (land) drawLandBase(ctx, land);
     const groups = new Map();
     const singles = []; // percorsi riempiti uno per uno (evenodd annulla le sovrapposizioni dello stesso colore)
     const visible = [];
@@ -286,9 +408,10 @@ export function* renderBaseSteps(ctx, p) {
     trace?.('stroke', ctx);
     if (borders) {
       for (const chunk of borderChunks(borders, level)) {
+        if (!hits(chunk.bbox)) continue;
         ctx.lineWidth = 1.2 / a.sx;
         ctx.strokeStyle = COLORS.border;
-        ctx.stroke(chunk);
+        ctx.stroke(chunk.path);
         yield 'borders';
       }
       trace?.('borders', ctx);
@@ -312,11 +435,14 @@ export function* renderBaseSteps(ctx, p) {
       trace?.('lakes', ctx);
       ctx.strokeStyle = COLORS.river;
       ctx.globalAlpha = riverOpacity(view.k);
-      for (const [width, path] of riverGroups(water, riverRankLimit(view.k))) {
+      for (const [width, chunks] of riverGroups(water, riverRankLimit(view.k))) {
         ctx.strokeStyle = COLORS.river;
         ctx.lineWidth = (width * riverWidthScale(view.k)) / a.sx;
-        ctx.stroke(path);
-        yield 'rivers';
+        for (const chunk of chunks) {
+          if (!hits(chunk.bbox)) continue;
+          ctx.stroke(chunk.path);
+          yield 'rivers';
+        }
       }
       ctx.globalAlpha = 1;
       trace?.('rivers', ctx);
@@ -337,10 +463,23 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, seas, selectedSeaId } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  // zona di mare selezionata (nella sovrapposizione: cambiare selezione non rifà la scena)
+  const selSea = seas && selectedSeaId ? seas.zones.find((z) => z.id === selectedSeaId) : null;
+  if (selSea) {
+    ctx.lineJoin = 'round';
+    ctx.fillStyle = COLORS.seaSelFill;
+    ctx.strokeStyle = COLORS.seaSelStroke;
+    ctx.lineWidth = 2 / a.sx;
+    for (const off of copies) {
+      ctx.setTransform(dpr * a.sx, 0, 0, dpr * a.sx, dpr * (a.tx + a.sx * off), dpr * a.ty);
+      ctx.fill(zonePath(selSea), 'evenodd');
+      ctx.stroke(zoneLinePath(selSea));
+    }
+  }
   const sel = selectedId ? model.byId.get(selectedId) : null;
   if (sel) {
     const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
@@ -376,7 +515,7 @@ export function drawOverlay(ctx, p) {
     for (const it of ordine) {
       const b = it.bbox;
       const testo = cityText(it.props);
-      const w = ctx.measureText(testo).width + 4;
+      const w = textWidth(ctx, '', testo, CITY_NAME_PX) + 4;
       const h = CITY_NAME_PX + 2;
       for (const off of copies) {
         const px = a.sx * (b.x + b.w / 2 + off) + a.tx;
@@ -417,7 +556,7 @@ export function drawOverlay(ctx, p) {
     for (let i = 0; i < lines.length; i += 1) {
       const text = lines[i];
       const dy = (i - (lines.length - 1) / 2) * pitch;
-      const w = ctx.measureText(text).width;
+      const w = textWidth(ctx, st.font, text, fontPx);
       const target = (l.lineLengths ? l.lineLengths[i] : l.length) * a.sx; // larghezza imposta (come textLength in SVG)
       ctx.save();
       ctx.translate(0, dy);

@@ -14,16 +14,37 @@ import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
 import { withTerrain } from './data/terrain.js';
 import { buildCanvasModel } from './map/canvasModel.js';
-import { newGame, playableNations } from './game/state.js';
+import initialIndustry from '../data/industry/initial_industry.json';
+import initialStocks from '../data/industry/initial_stocks.json';
+import initialCash from '../data/industry/initial_cash.json';
+import economyData from '../data/economy/economy.json';
+import populationData from '../data/population/population.json';
+import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
+import { createEconomySystem } from './game/economySystem.js';
+import { createConstruction } from './game/construction.js';
+import mineSites from '../data/resources/mine_sites.json';
+import { loadIndustryCatalog } from './data/industry.js';
+import recipesFile from '../data/industry/recipes.json';
+import extractionBaseline from '../data/resources/extraction_baseline.json';
+import hydroPlants from '../data/resources/hydro_plants.json';
+import factoriesCsv from '../data/industry/factories.csv?raw';
+import structuresCsv from '../data/infrastructure/structures.csv?raw';
+import categoriesCsv from '../data/industry/production_categories.csv?raw';
 import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar from './ui/GameBar.jsx';
+import { ProvinceBuild, EconomyPanel } from './ui/BuildPanel.jsx';
+import { provinceBuildOptions, economySummary, describeBuildFailure } from './ui/buildOptions.js';
+import { RESOURCE_META } from './data/provinceResources.js';
 import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
 import LoadingScreen from './ui/LoadingScreen.jsx';
+import { PRELOAD_GIVE_UP_MS, layerNeedsCover, preloadComplete, preloadProgress } from './ui/preload.js';
 import { LegendList } from './map/MapView.jsx';
 import TransportLegend from './map/TransportLegend.jsx';
 import FullscreenButton from './ui/FullscreenButton.jsx';
+import flagsFile from '../data/flags.json';
+import { nationBounds } from './map/focus.js';
 import { fullscreenSupport } from './ui/fullscreen.js';
 
 // La mappa Canvas 2D è quella predefinita; la mappa SVG resta come ripiego con ?map=svg
@@ -137,6 +158,20 @@ function useProvinces() {
   return { ...state, progress };
 }
 
+// Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
+const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData };
+
+// Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
+const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId };
+// Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
+export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
+const GAME_SYSTEMS = [
+  GAME_BUILD.constructionDay,
+  createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites }),
+];
+
+const BUILD_CTX = { build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, resourceLabel: (id) => RESOURCE_META[id]?.label ?? id };
+
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
 // chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico
 const NATION_CONTROL = Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
@@ -158,26 +193,45 @@ export default function App() {
   gameRef.current = game;
   const { provinces, status: provincesStatus, error: provincesError, progress: provincesProgress } = useProvinces();
   // SVG: fiumi e laghi si caricano subito (come prima). Canvas (prototipo): dopo la comparsa delle province, per non rallentare la prima schermata
-  const [mapShown, setMapShown] = useState(false);
-  useEffect(() => {
-    if (provincesStatus !== 'ready') return undefined;
-    const id = requestAnimationFrame(() => requestAnimationFrame(() => setMapShown(true)));
-    return () => cancelAnimationFrame(id);
-  }, [provincesStatus]);
-  const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(!USE_CANVAS || mapShown);
-  const { file: seaFile } = useSeaData(!USE_CANVAS || mapShown);
-  const links = useLinks(USE_CANVAS && mapShown);
+  // Sulla schermata di scelta della nazione non si carica e non si costruisce nulla della mappa (modello di ~770 mila vertici,
+  // fiumi, mari, collegamenti): il telefono resta libero per la ruota. Il lavoro parte quando c'è una partita o si apre la mappa.
+  const mapWanted = game !== null || tab === 'map';
+  const [mapReady, setMapReady] = useState(true); // false da quando parte una partita fino a mappa disegnata: copertura con la bandiera
+  const [coverGiveUp, setCoverGiveUp] = useState(false);
+  const [readyKey, setReadyKey] = useState(0); // cresce a ogni richiesta di copertura (avvio partita, cambio livello): la mappa ricomincia a controllare se è pronta
+  // Precaricamento (deciso in chat 27/10/2026): all'apertura si scaricano i dati di TUTTE le mappe, così a partita iniziata il cambio livello
+  // non rimostra la bandiera. Si scarica e si legge soltanto: il modello pesante della mappa si costruisce dopo la scelta della nazione.
+  const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(true);
+  const { file: seaFile, status: seaStatus } = useSeaData(true);
+  const links = useLinks(USE_CANVAS);
   const [showTransport, setShowTransport] = useState(false);
   const transport = showTransport ? links : null;
-  const labelData = useLabelData(!USE_CANVAS || mapShown);
+  const labelData = useLabelData(true);
   const [layer, setLayer] = useState('political');
   const [toolsHost, setToolsHost] = useState(null); // contenitore in barra dove la mappa mette livelli e zoom (una sola barra in alto)
-  const citiesRaw = useCities(USE_CANVAS && mapShown);
+  const citiesRaw = useCities(USE_CANVAS);
   // le città sono province a parte: entrano nello stesso modello e sono cliccabili come le altre
   const cities = useMemo(() => (citiesRaw ? markCapitals(citiesRaw, nations) : null), [citiesRaw]);
-  // il terreno si scarica solo quando si apre il livello Terreno: il modello della mappa non si ricostruisce una volta in più all'avvio
-  const terrain = useTerrain(USE_CANVAS && mapShown && layer === 'terrain');
-  const provinceResources = useProvinceResources(mapShown && layer === 'resources');
+  // terreno e risorse arrivano già all'apertura: il modello della mappa si costruisce una volta sola, dopo la scelta della nazione
+  const terrain = useTerrain(USE_CANVAS);
+  const provinceResources = useProvinceResources(true);
+  const preloadItems = useMemo(() => (USE_CANVAS ? [
+    { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
+    { label: 'Mari e rotte', done: seaStatus !== 'loading' },
+    { label: 'Città', done: citiesRaw !== null },
+    { label: 'Nomi', done: labelData !== null },
+    { label: 'Terreno', done: terrain !== null },
+    { label: 'Risorse', done: provinceResources !== null },
+    { label: 'Collegamenti', done: links !== null },
+  ] : []), [waterStatus, seaStatus, citiesRaw, labelData, terrain, provinceResources, links]);
+  const [preloadGaveUp, setPreloadGaveUp] = useState(false);
+  useEffect(() => {
+    if (provincesStatus !== 'ready' || preloadGaveUp) return undefined;
+    const id = setTimeout(() => setPreloadGaveUp(true), PRELOAD_GIVE_UP_MS); // un file che non arriva non deve bloccare l'apertura
+    return () => clearTimeout(id);
+  }, [provincesStatus, preloadGaveUp]);
+  const appReady = preloadComplete({ provincesReady: provincesStatus === 'ready', items: preloadItems, gaveUp: preloadGaveUp });
+  const openProgress = preloadProgress(provincesProgress, preloadItems);
   const provincesWithCities = useMemo(() => withTerrain(withCities(provinces && markCapitalsInCollection(provinces, nations), cities), terrain), [provinces, cities, terrain]);
   const seaById = useSeaIndex(seaFile);
   const [showSeas, setShowSeas] = useState(true);
@@ -192,8 +246,36 @@ export default function App() {
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
 
-  const mapItems = useMemo(() => (provincesWithCities ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces]);
+  const mapItems = useMemo(() => (provincesWithCities && mapWanted ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces, mapWanted]);
+  // nome leggibile di una provincia (anche madre) per code e liste; se manca, l'id
+  const provinceName = useMemo(() => { const m = new Map(); for (const f of provinces?.features ?? []) { const pr = f.properties; if (pr?.name) { m.set(f.id ?? pr.id, pr.name); if (pr.parentProvince && !m.has(pr.parentProvince)) m.set(pr.parentProvince, pr.name); } } return (id) => m.get(id) ?? id; }, [provinces]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
+  // ordini di costruzione del giocatore: le regole sono in GAME_BUILD, qui si applica solo il risultato e si riferisce l'esito
+  const placeOrder = (order) => {
+    const r = GAME_BUILD.start(game, game.player, order);
+    if (!r.ok) return { ok: false, text: describeBuildFailure(r) };
+    setGame(r.state);
+    return { ok: true, text: 'Ordine avviato: costi pagati, il cantiere è in corso.' };
+  };
+  const buildOptions = useMemo(() => {
+    const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
+    return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
+  }, [game, selectedItem]);
+  const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
+  const layerReady = (layer !== 'terrain' || terrain !== null) && (layer !== 'resources' || provinceResources !== null); // dati del livello scelto arrivati
+  const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && layerReady;
+  // cambio di livello (Politico / Terreno / Risorse): la mappa si ridisegna e va mostrata solo a disegno finito, come all'avvio
+  const changeLayer = (next) => {
+    if (next === layer) return;
+    setLayer(next);
+    // dati già in memoria (precaricati all'apertura): niente bandiera; la copertura resta solo come ripiego se il livello non è arrivato
+    if (game && layerNeedsCover(next, { terrain, resources: provinceResources })) { setMapReady(false); setCoverGiveUp(false); setReadyKey((k) => k + 1); }
+  };
+  useEffect(() => {
+    if (mapReady) return undefined;
+    const id = setTimeout(() => setCoverGiveUp(true), 45000); // un file che non arriva non deve tenere la bandiera per sempre
+    return () => clearTimeout(id);
+  }, [mapReady]);
   const control = game ? game.control : NATION_CONTROL;
   const choosable = useMemo(
     () => (provinces ? playableNations(political, provinces.features.map((f) => f.properties.owner)) : []),
@@ -211,14 +293,14 @@ export default function App() {
 
   const startGame = (nation) => {
     if (!provinces) return;
-    const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner) });
+    const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner), start: START_ECONOMY });
     if (!r.ok) { setNotice({ kind: 'error', text: `Partita non creata: ${r.reason}` }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map');
+    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const loadGame = (slot) => {
     const r = store?.read(slot);
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map');
+    setGame(initEconomy(r.state, { political, start: START_ECONOMY })); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
@@ -228,7 +310,7 @@ export default function App() {
   useEffect(() => {
     if (!running) return undefined;
     const ms = msPerDay(speed);
-    const id = setInterval(() => setGame((g) => (g ? advanceDay(g) : g)), ms);
+    const id = setInterval(() => setGame((g) => (g ? advanceDay(g, GAME_SYSTEMS) : g)), ms);
     return () => clearInterval(id);
   }, [running, speed]);
   useEffect(() => {
@@ -245,9 +327,11 @@ export default function App() {
   );
 
   useEffect(() => {
-    const update = initPwa({
+    let update = null;
+    update = initPwa({
       onOfflineReady: () => setPwa((s) => ({ ...s, offlineReady: true })),
-      onUpdateAvailable: () => setPwa((s) => ({ ...s, updateAvailable: true })),
+      // senza una partita in corso l'aggiornamento si applica subito (niente rischio di perdere nulla); con una partita resta il pulsante
+      onUpdateAvailable: () => { if (gameRef.current === null && update) update(); else setPwa((s) => ({ ...s, updateAvailable: true })); },
       onError: (error) => setPwa((s) => ({ ...s, error })),
     });
     setApplyUpdate(() => update);
@@ -262,7 +346,7 @@ export default function App() {
         <div className="nav-tools-host" ref={setToolsHost} />
         {game && tab === 'map' ? (
           <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed}
-            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g))} />
+            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g, GAME_SYSTEMS))} />
         ) : null}
         <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
         <FullscreenButton />
@@ -307,8 +391,8 @@ export default function App() {
     return (
       <div className="shell">
         {tabs}
-        {provincesStatus !== 'ready' ? (
-          <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
+        {!appReady ? (
+          <LoadingScreen done={openProgress.done} total={openProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
         ) : game ? (
           <main className="app">
             <header><h1>Partita in corso</h1><p className="muted">{NATION_NAMES[game.player]} · {game.date}. Il tempo si governa con i pulsanti nella barra in alto, sulla mappa.</p></header>
@@ -316,6 +400,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
+            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName })} />
             {infoSection}
             {statusSection}
           </main>
@@ -333,16 +418,32 @@ export default function App() {
   return (
     <div className="shell">
       {tabs}
-      {provincesStatus !== 'ready' ? (
-        <LoadingScreen done={provincesProgress.done} total={provincesProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
+      {!appReady ? (
+        <LoadingScreen done={openProgress.done} total={openProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
       ) : (
       <div className="map-layout">
-        <MapScreen provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={setLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
+        {USE_CANVAS && !mapReady && !coverGiveUp && game ? (
+          <div className="map-cover">
+            <LoadingScreen nation={{
+              name: NATION_NAMES[game.player] ?? game.player,
+              flag: flagsFile.flags[game.player],
+              steps: [
+                ...(layer === 'political' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
+                { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
+                { label: 'Mari e rotte', done: seaStatus !== 'loading' },
+                { label: 'Città', done: citiesRaw !== null },
+                { label: 'Nomi sulla mappa', done: labelData !== null },
+                { label: 'Disegno della mappa', done: mapReady },
+              ],
+            }} />
+          </div>
+        ) : null}
+        <MapScreen focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
         {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} onClose={() => setInfoOpen(false)} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} /> : null} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>

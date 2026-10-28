@@ -51,14 +51,14 @@ test('calendario: date non valide rifiutate, formato italiano', () => {
 });
 
 // ---------- nuova partita ----------
-test('nazioni scegliibili: solo giocabili con province; il Giappone oggi no', () => {
+test('nazioni scegliibili: solo giocabili con province (senza le sue province una nazione giocabile viene scartata)', () => {
   const list = playableNations(political, owners).map((e) => e.id);
   assert.ok(list.includes('DEU') && list.includes('ITA'));
-  assert.ok(!list.includes('JPN'), 'JPN non ha province: non deve essere scegliibile');
+  assert.ok(list.includes('JPN') && list.includes('USA') && list.includes('CHN'), 'ora anche Giappone, USA e Cina hanno province');
   for (const id of list) assert.ok(owners.has(id));
-  // il dataset politico dichiara JPN giocabile: lo scarto è esplicito, non un bug silenzioso
-  const jpn = political.find((e) => e.id === 'JPN');
-  assert.ok(jpn && jpn.playable === true && !owners.has('JPN'));
+  // il dataset politico dichiara JPN giocabile: se le sue province mancassero, lo scarto sarebbe esplicito, non un bug silenzioso
+  const senzaJpn = playableNations(political, [...owners].filter((o) => o !== 'JPN')).map((e) => e.id);
+  assert.ok(!senzaJpn.includes('JPN') && political.find((e) => e.id === 'JPN').playable === true);
 });
 
 test('nuova partita: stato iniziale coerente', () => {
@@ -75,7 +75,7 @@ test('nuova partita: stato iniziale coerente', () => {
 test('nuova partita: rifiuti con motivo', () => {
   const g = (nation, extra = {}) => newGame({ nation, political, ownersWithProvinces: owners, ...extra });
   assert.equal(g('XXX').reason, 'unknown_nation');
-  assert.equal(g('JPN').reason, 'no_provinces');
+  assert.equal(g('JPN', { ownersWithProvinces: [...owners].filter((o) => o !== 'JPN') }).reason, 'no_provinces'); // JPN ha province: lo scarto si prova togliendole
   assert.equal(g('LBA').reason, 'not_playable'); // territorio, non nazione
   assert.equal(g('').reason, 'invalid_nation');
   assert.equal(g(undefined).reason, 'invalid_nation');
@@ -156,12 +156,14 @@ test('salvataggio: catena di migrazioni (schema sintetico) e migrazione mancante
   const migrations = {
     1: (st) => ({ ...st, a: 1 }),
     2: (st) => ({ ...st, b: st.a + 1 }),
+    3: (st) => st,
   };
-  const ok = parseSave(doc(1, { x: 1 }), { migrations, currentSchema: 3 });
+  // schema sintetico 4 (diverso da quello reale): le migrazioni reali 1→2→3 non c'entrano, la validazione dello stato reale non scatta
+  const ok = parseSave(doc(1, { x: 1 }), { migrations, currentSchema: 4 });
   assert.equal(ok.ok, true);
   assert.deepEqual(ok.state, { x: 1, a: 1, b: 2 });
   assert.equal(ok.migratedFrom, 1);
-  const missing = parseSave(doc(1, { x: 1 }), { migrations: { 2: (s) => s }, currentSchema: 3 });
+  const missing = parseSave(doc(1, { x: 1 }), { migrations: { 2: (s) => s }, currentSchema: 4 });
   assert.equal(missing.reason, 'missing_migration');
   const boom = parseSave(doc(1, {}), { migrations: { 1: () => { throw new Error('rotto'); } }, currentSchema: 2 });
   assert.equal(boom.reason, 'invalid_state');

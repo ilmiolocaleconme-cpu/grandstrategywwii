@@ -30,3 +30,10 @@ test('mare in mappa: i nomi lunghi si dividono in al massimo 3 righe senza perde
     if (z.name.length <= 16) assert.equal(lines.length, 1, `${z.id}: nome corto spezzato`);
   }
 });
+
+test('seaZoneAt: zona a cavallo dell\'antimeridiano (longitudini oltre 180) trovata da entrambi i lati', () => {
+  const z = { id: 'SZ_X', rings: [[[170, 0], [190, 0], [190, 10], [170, 10], [170, 0]]] };
+  assert.equal(seaZoneAt([z], 175, 5)?.id, 'SZ_X');
+  assert.equal(seaZoneAt([z], -175, 5)?.id, 'SZ_X'); // -175 = 185
+  assert.equal(seaZoneAt([z], -150, 5), null);
+});

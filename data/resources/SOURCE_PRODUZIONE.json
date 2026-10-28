@@ -1,0 +1,17 @@
+{
+  "receivedOn": "2026-10-26",
+  "origin": "CSV forniti dall'utente in chat (stime 1936 della produzione per risorsa e nazione)",
+  "use": "Base di data/resources/production_1936.json (scripts/build-production.js). Copie byte per byte, da non modificare a mano.",
+  "files": [
+    {
+      "file": "produzione_risorse_mondiale_1936.csv",
+      "sha256": "f2dfb05f6b4cc1f10f80538c658a3cf2e733d7dc3683d5c36568d6007c22ec2d",
+      "description": "primo file (t, colonna Produzione_Tonnellate)"
+    },
+    {
+      "file": "produzione_risorse_mondiale_completo_1936.csv",
+      "sha256": "2ef827298765a2f0761a788be897240559b519d5a94e905b6e66627bd6f2c215",
+      "description": "file completo (Mt, colonna Produzione_1936_Mt): prevale dove si sovrappone al primo"
+    }
+  ]
+}

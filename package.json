@@ -21,9 +21,16 @@
     "build:province-industry": "node scripts/build-province-industry.js",
     "build:resource-locations": "node scripts/build-resource-locations.js",
     "build:province-resources": "node scripts/build-province-resources.js",
+    "build:industry": "node scripts/build-initial-industry.js",
+    "build:stocks": "node scripts/build-initial-stocks.js",
+    "build:cash": "node scripts/build-initial-cash.js",
+    "build:mine-sites": "node scripts/build-mine-sites.js",
+    "build:extraction": "node scripts/build-extraction-baseline.js",
     "build:resource-points": "node scripts/build-resource-points.js",
     "build:transport": "node scripts/build-transport.js",
-    "build:terrain": "python3 -I scripts/terrain/build_terrain.py"
+    "build:hydro": "node scripts/build-hydro.js",
+    "build:terrain": "python3 -I scripts/terrain/build_terrain.py",
+    "build:production": "node scripts/build-production.js"
   },
   "dependencies": {
     "react": "^19.3.0",

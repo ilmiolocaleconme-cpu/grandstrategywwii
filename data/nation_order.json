@@ -4,9 +4,11 @@
  "start": "DEU",
  "order": [
   "USSR",
+  "CHN",
   "JPN",
   "FRA",
   "GBR",
+  "CAN",
   "USA",
   "DEU",
   "ITA",
@@ -28,6 +30,15 @@
   "NLD",
   "BEL",
   "PRT",
-  "EGY"
+  "EGY",
+  "ETH",
+  "SIA",
+  "MEX",
+  "BRA",
+  "ARG",
+  "CHL",
+  "AUS",
+  "NZL",
+  "ZAF"
  ]
 }

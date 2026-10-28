@@ -351,6 +351,47 @@ export function pickProvinceAt(model, x, y) {
   return null;
 }
 
+/** Distanza (unità di mappa) dal punto al contorno più vicino della provincia; Infinity se non ha anelli. */
+function distanceToItem(model, item, x, y) {
+  const { coords, ringOffsets } = model;
+  let best = Infinity;
+  for (let r = item.ringStart; r < item.ringEnd; r += 1) {
+    const s = ringOffsets[r];
+    const e = ringOffsets[r + 1];
+    for (let i = s, j = e - 1; i < e; j = i, i += 1) {
+      const ax = coords[2 * j];
+      const ay = coords[2 * j + 1];
+      const dx = coords[2 * i] - ax;
+      const dy = coords[2 * i + 1] - ay;
+      const len2 = dx * dx + dy * dy;
+      const t = len2 > 0 ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / len2)) : 0;
+      const d = Math.hypot(x - (ax + t * dx), y - (ay + t * dy));
+      if (d < best) best = d;
+    }
+  }
+  return best;
+}
+
+/**
+ * Isola piccola più vicina al punto, entro `tol` (unità di mappa). Si usa solo quando il tocco non cade dentro nessuna provincia:
+ * un'isola o un atollo si prendono anche un po' fuori dal contorno, e vincono sulla zona di mare che li circonda.
+ * "Piccola" = riquadro non più largo/alto di `maxSize` (unità di mappa); le città-zona sono escluse.
+ */
+export function nearestSmallProvinceAt(model, x, y, tol, maxSize) {
+  if (!(tol > 0)) return null;
+  let best = null;
+  let bestD = tol;
+  for (const it of model.items) {
+    if (it.props.kind === 'citta') continue;
+    const b = it.bbox;
+    if (b.w > maxSize || b.h > maxSize) continue;
+    if (x < b.x - tol || x > b.x + b.w + tol || y < b.y - tol || y > b.y + b.h + tol) continue;
+    const d = distanceToItem(model, it, x, y);
+    if (d < bestD) { bestD = d; best = it; }
+  }
+  return best;
+}
+
 // --- fiumi e laghi -------------------------------------------------------------------------------------------
 /** Fiumi (coordinate proiettate in array tipizzati) e laghi (stessi campi di buildWaterModel, senza stringhe SVG). */
 export function buildCanvasWater(rivers, riversGeo, lakes, widthOf = () => 1, rankOf = () => 99) {

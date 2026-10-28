@@ -43,6 +43,27 @@ export function coversScreen(rect, W, H, slack = 0.5) {
   return rect.x <= slack && rect.y <= slack && rect.x + rect.w >= W - slack && rect.y + rect.h >= H - slack;
 }
 
+/**
+ * Il mondo si ripete in orizzontale: se l'immagine disegnata è larga almeno un giro del mondo (`period` = larghezza di un giro in
+ * pixel allo zoom attuale), contiene ogni longitudine e basta ripeterla per riempire lo schermo, senza bordi vuoti né ridisegni.
+ * Ritorna gli spostamenti orizzontali (pixel) con cui disegnarla: [0] se non basta un giro.
+ */
+export function tileOffsets(rect, period, W) {
+  if (!(period > 0) || rect.w < period - 0.5) return [0];
+  const out = [];
+  for (let n = -8; n <= 8; n += 1) {
+    const x = rect.x + n * period;
+    if (x < W && x + rect.w > 0) out.push(n * period);
+  }
+  return out.length ? out : [0];
+}
+
+/** Come coversScreen, ma con l'immagine ripetibile in orizzontale (vedi tileOffsets): basta coprire lo schermo in verticale. */
+export function coversScreenWrap(rect, W, H, period, slack = 0.5) {
+  if (period > 0 && rect.w >= period - 0.5) return rect.y <= slack && rect.y + rect.h >= H - slack;
+  return coversScreen(rect, W, H, slack);
+}
+
 // Ridisegni durante il gesto. Un ridisegno della scena è sincrono e può costare da centinaia di ms a secondi sul telefono:
 // se parte a ogni fotogramma il thread principale non si libera più e il gesto si ferma. Regole: si ridisegna solo se
 // l'immagine non copre lo schermo o è troppo ingrandita/rimpicciolita, mai più spesso di MOVING_MIN_GAP_MS e mai prima che

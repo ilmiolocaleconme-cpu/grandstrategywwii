@@ -61,8 +61,9 @@ test('segnalazioni di revisione e righe aggiunte da Claude', () => {
 
 test('i paesi senza province restano senza collegamenti, senza errori', () => {
   const { locations, links } = built();
-  const usa = locations.filter((l) => l.country_text === 'Stati Uniti');
-  assert.ok(usa.length > 0);
-  for (const l of usa) assert.equal(links.filter((k) => k.location_id === l.location_id).length, 0);
+  // senza entità politica (Guyana britannica, Nuova Caledonia, Bahrain, Sarawak, Trinidad, Kuwait...) il giacimento non ha provincia
+  const senza = locations.filter((l) => l.kind === 'deposit' && l.country_id === '');
+  assert.ok(senza.length > 0);
+  for (const l of senza) assert.equal(links.filter((k) => k.location_id === l.location_id).length, 0);
   assert.equal(locations.filter((l) => l.kind === 'aggregate').length, 8);
 });

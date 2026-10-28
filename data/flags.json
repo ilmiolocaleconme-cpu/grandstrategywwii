@@ -1352,6 +1352,576 @@
     }
    ],
    "note": "Hinomaru (bandiera nazionale); non la bandiera di guerra con i raggi"
+  },
+  "CAN": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 20,
+     "fill": "#c8102e"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 15,
+     "h": 10,
+     "fill": "#012169"
+    },
+    {
+     "t": "path",
+     "d": "M0 0L15 10M15 0L0 10",
+     "stroke": "#ffffff",
+     "strokeWidth": 2
+    },
+    {
+     "t": "path",
+     "d": "M0 0L15 10M15 0L0 10",
+     "stroke": "#c8102e",
+     "strokeWidth": 0.7
+    },
+    {
+     "t": "rect",
+     "x": 6,
+     "y": 0,
+     "w": 3,
+     "h": 10,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 3.5,
+     "w": 15,
+     "h": 3,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 6.6,
+     "y": 0,
+     "w": 1.8,
+     "h": 10,
+     "fill": "#c8102e"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 4.1,
+     "w": 15,
+     "h": 1.8,
+     "fill": "#c8102e"
+    },
+    {
+     "t": "circle",
+     "cx": 22.5,
+     "cy": 10,
+     "r": 3.2,
+     "fill": "#ffffff"
+    }
+   ],
+   "note": "Canadian Red Ensign (bandiera civile e de facto nel 1936) semplificata: stemma sostituito da un disco bianco"
+  },
+  "CHN": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 20,
+     "fill": "#de2910"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 15,
+     "h": 10,
+     "fill": "#1d4e9e"
+    },
+    {
+     "t": "circle",
+     "cx": 7.5,
+     "cy": 5,
+     "r": 2.6,
+     "fill": "#ffffff"
+    }
+   ],
+   "note": "Repubblica di Cina (Cielo azzurro, sole bianco, terra rossa), semplificata: il sole non ha i 12 raggi"
+  },
+  "SIA": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 20,
+     "fill": "#a51931"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 3.333,
+     "w": 30,
+     "h": 3.333,
+     "fill": "#f4f5f8"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 6.667,
+     "w": 30,
+     "h": 6.667,
+     "fill": "#2d2a4a"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 13.333,
+     "w": 30,
+     "h": 3.333,
+     "fill": "#f4f5f8"
+    }
+   ],
+   "note": "Bandiera del Siam (5 strisce: rosso, bianco, blu, bianco, rosso)"
+  },
+  "ETH": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 6.667,
+     "fill": "#078930"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 6.667,
+     "w": 30,
+     "h": 6.667,
+     "fill": "#fcdd09"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 13.333,
+     "w": 30,
+     "h": 6.667,
+     "fill": "#da121a"
+    }
+   ],
+   "note": "Tricolore etiopico senza stemma (leone di Giuda omesso)"
+  },
+  "ARG": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 20,
+     "fill": "#74acdf"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 6.667,
+     "w": 30,
+     "h": 6.667,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 15,
+     "cy": 10,
+     "r": 2.2,
+     "fill": "#f6b40e"
+    }
+   ],
+   "note": "Argentina con Sol de Mayo ridotto a disco"
+  },
+  "BRA": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 20,
+     "fill": "#009c3b"
+    },
+    {
+     "t": "polygon",
+     "points": "15,2 28,10 15,18 2,10",
+     "fill": "#ffdf00"
+    },
+    {
+     "t": "circle",
+     "cx": 15,
+     "cy": 10,
+     "r": 4.2,
+     "fill": "#002776"
+    }
+   ],
+   "note": "Bandiera della Repubblica (1889-1960) semplificata: stelle e fascia omesse"
+  },
+  "CHL": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 20,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 10,
+     "w": 30,
+     "h": 10,
+     "fill": "#d52b1e"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 10,
+     "h": 10,
+     "fill": "#0039a6"
+    },
+    {
+     "t": "circle",
+     "cx": 5,
+     "cy": 5,
+     "r": 2,
+     "fill": "#ffffff"
+    }
+   ],
+   "note": "Cile con stella ridotta a disco"
+  },
+  "MEX": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 10,
+     "h": 20,
+     "fill": "#006847"
+    },
+    {
+     "t": "rect",
+     "x": 10,
+     "y": 0,
+     "w": 10,
+     "h": 20,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 20,
+     "y": 0,
+     "w": 10,
+     "h": 20,
+     "fill": "#ce1126"
+    },
+    {
+     "t": "circle",
+     "cx": 15,
+     "cy": 10,
+     "r": 2.6,
+     "fill": "#8c6d31"
+    }
+   ],
+   "note": "Messico con stemma ridotto a disco"
+  },
+  "AUS": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 15,
+     "h": 10,
+     "fill": "#012169"
+    },
+    {
+     "t": "path",
+     "d": "M0 0L15 10M15 0L0 10",
+     "stroke": "#ffffff",
+     "strokeWidth": 2
+    },
+    {
+     "t": "path",
+     "d": "M0 0L15 10M15 0L0 10",
+     "stroke": "#c8102e",
+     "strokeWidth": 0.7
+    },
+    {
+     "t": "rect",
+     "x": 6,
+     "y": 0,
+     "w": 3,
+     "h": 10,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 3.5,
+     "w": 15,
+     "h": 3,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 6.6,
+     "y": 0,
+     "w": 1.8,
+     "h": 10,
+     "fill": "#c8102e"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 4.1,
+     "w": 15,
+     "h": 1.8,
+     "fill": "#c8102e"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 10,
+     "w": 30,
+     "h": 10,
+     "fill": "#012169"
+    },
+    {
+     "t": "rect",
+     "x": 15,
+     "y": 0,
+     "w": 15,
+     "h": 10,
+     "fill": "#012169"
+    },
+    {
+     "t": "circle",
+     "cx": 7.5,
+     "cy": 15,
+     "r": 2.2,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 22,
+     "cy": 3.5,
+     "r": 0.9,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 25.5,
+     "cy": 7,
+     "r": 0.9,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 22,
+     "cy": 12,
+     "r": 0.9,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "circle",
+     "cx": 19,
+     "cy": 7.5,
+     "r": 0.9,
+     "fill": "#ffffff"
+    }
+   ],
+   "note": "Blue Ensign australiana (1903-1954) semplificata: stelle come dischi"
+  },
+  "NZL": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 15,
+     "h": 10,
+     "fill": "#012169"
+    },
+    {
+     "t": "path",
+     "d": "M0 0L15 10M15 0L0 10",
+     "stroke": "#ffffff",
+     "strokeWidth": 2
+    },
+    {
+     "t": "path",
+     "d": "M0 0L15 10M15 0L0 10",
+     "stroke": "#c8102e",
+     "strokeWidth": 0.7
+    },
+    {
+     "t": "rect",
+     "x": 6,
+     "y": 0,
+     "w": 3,
+     "h": 10,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 3.5,
+     "w": 15,
+     "h": 3,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 6.6,
+     "y": 0,
+     "w": 1.8,
+     "h": 10,
+     "fill": "#c8102e"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 4.1,
+     "w": 15,
+     "h": 1.8,
+     "fill": "#c8102e"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 10,
+     "w": 30,
+     "h": 10,
+     "fill": "#012169"
+    },
+    {
+     "t": "rect",
+     "x": 15,
+     "y": 0,
+     "w": 15,
+     "h": 10,
+     "fill": "#012169"
+    },
+    {
+     "t": "circle",
+     "cx": 22,
+     "cy": 3.5,
+     "r": 1.1,
+     "fill": "#cc142b"
+    },
+    {
+     "t": "circle",
+     "cx": 25.5,
+     "cy": 7,
+     "r": 1.1,
+     "fill": "#cc142b"
+    },
+    {
+     "t": "circle",
+     "cx": 22,
+     "cy": 12,
+     "r": 1.1,
+     "fill": "#cc142b"
+    },
+    {
+     "t": "circle",
+     "cx": 19,
+     "cy": 7.5,
+     "r": 1.1,
+     "fill": "#cc142b"
+    }
+   ],
+   "note": "Blue Ensign neozelandese con stelle rosse come dischi"
+  },
+  "ZAF": {
+   "quality": "simplified",
+   "w": 30,
+   "h": 20,
+   "shapes": [
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 0,
+     "w": 30,
+     "h": 6.667,
+     "fill": "#e07a1f"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 6.667,
+     "w": 30,
+     "h": 6.667,
+     "fill": "#ffffff"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "y": 13.333,
+     "w": 30,
+     "h": 6.667,
+     "fill": "#002395"
+    },
+    {
+     "t": "rect",
+     "x": 12,
+     "y": 7.5,
+     "w": 6,
+     "h": 5,
+     "fill": "#cccccc"
+    }
+   ],
+   "note": "Bandiera sudafricana 1928-1994: le bandiere piccole al centro sono ridotte a un rettangolo grigio"
   }
  }
 }

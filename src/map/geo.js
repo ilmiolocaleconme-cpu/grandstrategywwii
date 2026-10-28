@@ -63,6 +63,15 @@ export function wrapView(view, vb, worldW = WORLD_W, maxLat = MAX_LAT) {
   return { k, x, y: vb.y - newTop * k };
 }
 
+/**
+ * Zoom minimo per uno schermo W x H (pixel) con `s` pixel per unità di vista a zoom 1 (layoutOf): sotto questo valore il mondo
+ * sarebbe più stretto dello schermo (la mappa si ripeterebbe in orizzontale) o più basso (bande vuote sopra e sotto).
+ */
+export function minZoomToFit(W, H, s, worldW = WORLD_W, maxLat = MAX_LAT) {
+  if (!(W > 0) || !(H > 0) || !(s > 0)) return 0.3;
+  return Math.max(W / (s * worldW), H / (s * 2 * maxLat));
+}
+
 /** Spostamenti orizzontali (multipli di worldW) delle copie della mappa che toccano la vista; di norma [0]. */
 export function visibleCopies(view, vb, bounds, worldW = WORLD_W) {
   const x0 = (vb.x - view.x) / view.k;

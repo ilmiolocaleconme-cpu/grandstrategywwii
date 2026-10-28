@@ -1,12 +1,13 @@
 {
  "schema": "sea-zones-design-v1",
- "note": "Progetto delle zone marittime (design, non dato storico). L'area d'interesse è Europa e Mediterraneo. Le coste vengono dalle province (data/provinces/): l'acqua è ciò che resta dentro l'area d'interesse, esclusi i territori non coperti (holes). I semi (seeds) decidono come l'acqua si divide in zone: ogni cella d'acqua va al seme più vicino per via d'acqua; con radiusKm il seme non oltrepassa quel raggio (zone piccole per i passaggi strategici). Tutto è `hypothesis`: posizioni e confini tra zone sono scelte di gioco. Estensione a Irlanda, Africa atlantica, Capo, Oceano Indiano occidentale e Mar Rosso (maschera di terra Natural Earth 50m nei rettangoli landRegions).",
+ "note": "Progetto delle zone marittime (design, non dato storico). L'area d'interesse è Europa e Mediterraneo. Le coste vengono dalle province (data/provinces/): l'acqua è ciò che resta dentro l'area d'interesse, esclusi i territori non coperti (holes). I semi (seeds) decidono come l'acqua si divide in zone: ogni cella d'acqua va al seme più vicino per via d'acqua; con radiusKm il seme non oltrepassa quel raggio (zone piccole per i passaggi strategici). Tutto è `hypothesis`: posizioni e confini tra zone sono scelte di gioco. Estensione a Irlanda, Africa atlantica, Capo, Oceano Indiano occidentale e Mar Rosso (maschera di terra Natural Earth 50m nei rettangoli landRegions). Estensione a tutto il mondo (griglia di 360°, da 60°S a 85°N, con bordo est e ovest collegati): Atlantico, Caraibi, Pacifico, Artico, Asia orientale, Oceano Indiano e Oceania; maschera di terra Natural Earth 50m mondiale (sources/ne_land_50m_world.json) fuori dal vecchio riquadro.",
  "grid": {
-  "lon0": -32,
-  "lat0": -37,
-  "lon1": 60,
-  "lat1": 73,
-  "step": 0.05
+  "lon0": -180,
+  "lat0": -60,
+  "lon1": 180,
+  "lat1": 85,
+  "step": 0.05,
+  "wrap": true
  },
  "simplifyTolDeg": 0.06,
  "holes": [
@@ -212,6 +213,35 @@
     [
      32.25,
      31.28
+    ]
+   ]
+  },
+  {
+   "name": "Canale di Panama (più stretto della griglia)",
+   "ring": [
+    [
+     -79.95,
+     9.4
+    ],
+    [
+     -79.82,
+     9.4
+    ],
+    [
+     -79.45,
+     8.92
+    ],
+    [
+     -79.62,
+     8.88
+    ],
+    [
+     -79.95,
+     9.28
+    ],
+    [
+     -79.95,
+     9.4
     ]
    ]
   }
@@ -1161,9 +1191,923 @@
    "lon": 58,
    "lat": 15,
    "radiusKm": 850
+  },
+  {
+   "id": "SZ_ATL_CENTRO_NORD",
+   "name": "Atlantico — centro-nord",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -45,
+   "lat": 42,
+   "strategic": true
+  },
+  {
+   "id": "SZ_ATL_NORD_OVEST",
+   "name": "Atlantico — Nord-Ovest",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -40,
+   "lat": 56
+  },
+  {
+   "id": "SZ_ISLANDA",
+   "name": "Islanda e Stretto di Danimarca",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -26.5,
+   "lat": 65.5,
+   "radiusKm": 420,
+   "strategic": true
+  },
+  {
+   "id": "SZ_MARE_GROENLANDIA",
+   "name": "Mare di Groenlandia",
+   "kind": "sea",
+   "region": "artico",
+   "lon": -5,
+   "lat": 75
+  },
+  {
+   "id": "SZ_LABRADOR",
+   "name": "Mare del Labrador",
+   "kind": "sea",
+   "region": "atlantico",
+   "lon": -55,
+   "lat": 58,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_BAFFIN",
+   "name": "Baia di Baffin e Stretto di Davis",
+   "kind": "sea",
+   "region": "artico",
+   "lon": -62,
+   "lat": 70
+  },
+  {
+   "id": "SZ_HUDSON",
+   "name": "Baia di Hudson",
+   "kind": "gulf",
+   "region": "artico",
+   "lon": -85,
+   "lat": 60
+  },
+  {
+   "id": "SZ_TERRANOVA",
+   "name": "Terranova e Grand Banks",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -52,
+   "lat": 46.5,
+   "radiusKm": 480,
+   "strategic": true
+  },
+  {
+   "id": "SZ_SAN_LORENZO",
+   "name": "Golfo di San Lorenzo",
+   "kind": "gulf",
+   "region": "atlantico",
+   "lon": -62,
+   "lat": 48.2,
+   "radiusKm": 280
+  },
+  {
+   "id": "SZ_NOVA_SCOZIA",
+   "name": "Nuova Scozia e Golfo del Maine",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -65.5,
+   "lat": 42.8,
+   "radiusKm": 420
+  },
+  {
+   "id": "SZ_USA_NORD",
+   "name": "Costa orientale USA — nord",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -72.5,
+   "lat": 39.3,
+   "radiusKm": 480,
+   "strategic": true
+  },
+  {
+   "id": "SZ_USA_SUD",
+   "name": "Costa orientale USA — sud",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -77.5,
+   "lat": 32,
+   "radiusKm": 480
+  },
+  {
+   "id": "SZ_FLORIDA",
+   "name": "Stretto della Florida",
+   "kind": "strait",
+   "region": "caraibi",
+   "lon": -80,
+   "lat": 25,
+   "radiusKm": 160,
+   "strategic": true
+  },
+  {
+   "id": "SZ_BAHAMAS",
+   "name": "Bahamas",
+   "kind": "approach",
+   "region": "caraibi",
+   "lon": -76.5,
+   "lat": 24,
+   "radiusKm": 300
+  },
+  {
+   "id": "SZ_GOLFO_MESSICO",
+   "name": "Golfo del Messico",
+   "kind": "gulf",
+   "region": "caraibi",
+   "lon": -90,
+   "lat": 25.5,
+   "strategic": true
+  },
+  {
+   "id": "SZ_CARAIBI_OVEST",
+   "name": "Mar dei Caraibi — occidentale",
+   "kind": "sea",
+   "region": "caraibi",
+   "lon": -82,
+   "lat": 16
+  },
+  {
+   "id": "SZ_CARAIBI_EST",
+   "name": "Mar dei Caraibi — Antille",
+   "kind": "sea",
+   "region": "caraibi",
+   "lon": -67,
+   "lat": 14.5
+  },
+  {
+   "id": "SZ_PANAMA",
+   "name": "Canale di Panama",
+   "kind": "strait",
+   "region": "caraibi",
+   "lon": -79.72,
+   "lat": 9.12,
+   "radiusKm": 110,
+   "strategic": true
+  },
+  {
+   "id": "SZ_GUIANE",
+   "name": "Coste delle Guiane e Venezuela",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -52,
+   "lat": 7.5,
+   "radiusKm": 520
+  },
+  {
+   "id": "SZ_BRASILE_NORD",
+   "name": "Brasile settentrionale — foce delle Amazzoni",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -44,
+   "lat": -2,
+   "radiusKm": 520
+  },
+  {
+   "id": "SZ_BRASILE_EST",
+   "name": "Brasile nord-orientale",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -34,
+   "lat": -9,
+   "radiusKm": 520
+  },
+  {
+   "id": "SZ_BRASILE_SUD",
+   "name": "Brasile meridionale",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -45,
+   "lat": -25,
+   "radiusKm": 560
+  },
+  {
+   "id": "SZ_RIO_PLATA",
+   "name": "Rio della Plata",
+   "kind": "gulf",
+   "region": "atlantico",
+   "lon": -56,
+   "lat": -35.3,
+   "radiusKm": 320,
+   "strategic": true
+  },
+  {
+   "id": "SZ_PATAGONIA",
+   "name": "Coste della Patagonia",
+   "kind": "approach",
+   "region": "atlantico",
+   "lon": -63,
+   "lat": -44,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_ATL_SUD_OVEST",
+   "name": "Atlantico meridionale — ovest",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -32,
+   "lat": -32
+  },
+  {
+   "id": "SZ_ATL_AUSTRALE",
+   "name": "Atlantico australe",
+   "kind": "ocean",
+   "region": "atlantico",
+   "lon": -20,
+   "lat": -52
+  },
+  {
+   "id": "SZ_CAPO_HORN",
+   "name": "Capo Horn e Passaggio di Drake",
+   "kind": "sea",
+   "region": "pacifico",
+   "lon": -68,
+   "lat": -57,
+   "radiusKm": 550,
+   "strategic": true
+  },
+  {
+   "id": "SZ_CILE_SUD",
+   "name": "Cile meridionale",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -76,
+   "lat": -44,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_CILE_CENTRO",
+   "name": "Cile centrale",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -73.5,
+   "lat": -32,
+   "radiusKm": 550
+  },
+  {
+   "id": "SZ_CILE_NORD",
+   "name": "Cile settentrionale e Perù meridionale",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -72,
+   "lat": -19,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_PERU",
+   "name": "Perù e Ecuador",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -81.5,
+   "lat": -6,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_COLOMBIA_PAC",
+   "name": "Pacifico colombiano e Panama",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -80,
+   "lat": 4,
+   "radiusKm": 450
+  },
+  {
+   "id": "SZ_AMERICA_CENTRALE_PAC",
+   "name": "Pacifico dell'America centrale",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -90,
+   "lat": 11.5,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_MESSICO_PAC",
+   "name": "Pacifico messicano",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -107,
+   "lat": 19.5,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_GOLFO_CALIFORNIA",
+   "name": "Golfo di California",
+   "kind": "gulf",
+   "region": "pacifico",
+   "lon": -111,
+   "lat": 26.5,
+   "radiusKm": 380
+  },
+  {
+   "id": "SZ_CALIFORNIA",
+   "name": "California e Baja",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -120,
+   "lat": 33,
+   "radiusKm": 520,
+   "strategic": true
+  },
+  {
+   "id": "SZ_OREGON",
+   "name": "Oregon, Washington e Columbia Britannica",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": -128.5,
+   "lat": 47,
+   "radiusKm": 520
+  },
+  {
+   "id": "SZ_ALASKA_SUD",
+   "name": "Golfo dell'Alaska",
+   "kind": "sea",
+   "region": "pacifico",
+   "lon": -145,
+   "lat": 57.5
+  },
+  {
+   "id": "SZ_PAC_NORD_EST",
+   "name": "Pacifico settentrionale — est",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": -140,
+   "lat": 38
+  },
+  {
+   "id": "SZ_PAC_HAWAII",
+   "name": "Pacifico — Hawaii",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": -155,
+   "lat": 20,
+   "strategic": true
+  },
+  {
+   "id": "SZ_PAC_EQUATORIALE_EST",
+   "name": "Pacifico equatoriale — est",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": -125,
+   "lat": -3
+  },
+  {
+   "id": "SZ_PAC_SUD_EST",
+   "name": "Pacifico meridionale — est",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": -110,
+   "lat": -30
+  },
+  {
+   "id": "SZ_PAC_POLINESIA",
+   "name": "Pacifico — Polinesia",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": -160,
+   "lat": -18
+  },
+  {
+   "id": "SZ_PAC_AUSTRALE",
+   "name": "Pacifico australe",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": -130,
+   "lat": -52
+  },
+  {
+   "id": "SZ_BERING",
+   "name": "Mare di Bering",
+   "kind": "sea",
+   "region": "pacifico",
+   "lon": -178,
+   "lat": 59
+  },
+  {
+   "id": "SZ_STRETTO_BERING",
+   "name": "Stretto di Bering",
+   "kind": "strait",
+   "region": "artico",
+   "lon": -169,
+   "lat": 65.8,
+   "radiusKm": 130,
+   "strategic": true
+  },
+  {
+   "id": "SZ_KAMCIATKA",
+   "name": "Kamčatka e Isole Curili",
+   "kind": "approach",
+   "region": "pacifico",
+   "lon": 161,
+   "lat": 52,
+   "radiusKm": 500
+  },
+  {
+   "id": "SZ_OKHOTSK",
+   "name": "Mare di Okhotsk",
+   "kind": "sea",
+   "region": "pacifico",
+   "lon": 147,
+   "lat": 55
+  },
+  {
+   "id": "SZ_PAC_NORD_OVEST",
+   "name": "Pacifico settentrionale — ovest",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": 170,
+   "lat": 42
+  },
+  {
+   "id": "SZ_PAC_CENTRO_OVEST",
+   "name": "Pacifico — Micronesia e Marianne",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": 150,
+   "lat": 15,
+   "strategic": true
+  },
+  {
+   "id": "SZ_PAC_EQUATORIALE_OVEST",
+   "name": "Pacifico equatoriale — ovest",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": 170,
+   "lat": -2
+  },
+  {
+   "id": "SZ_PAC_SUD_OVEST",
+   "name": "Pacifico meridionale — ovest",
+   "kind": "ocean",
+   "region": "pacifico",
+   "lon": 178,
+   "lat": -25
+  },
+  {
+   "id": "SZ_MARE_BEAUFORT",
+   "name": "Mare di Beaufort e Chukchi",
+   "kind": "sea",
+   "region": "artico",
+   "lon": -150,
+   "lat": 72
+  },
+  {
+   "id": "SZ_ARTICO_CANADESE",
+   "name": "Arcipelago artico canadese",
+   "kind": "sea",
+   "region": "artico",
+   "lon": -100,
+   "lat": 75.5
+  },
+  {
+   "id": "SZ_ARTICO_CENTRALE",
+   "name": "Oceano Artico",
+   "kind": "ocean",
+   "region": "artico",
+   "lon": 0,
+   "lat": 84
+  },
+  {
+   "id": "SZ_KARA",
+   "name": "Mare di Kara",
+   "kind": "sea",
+   "region": "artico",
+   "lon": 72,
+   "lat": 75
+  },
+  {
+   "id": "SZ_LAPTEV",
+   "name": "Mare di Laptev",
+   "kind": "sea",
+   "region": "artico",
+   "lon": 125,
+   "lat": 76
+  },
+  {
+   "id": "SZ_SIBERIA_ORIENTALE",
+   "name": "Mare della Siberia orientale",
+   "kind": "sea",
+   "region": "artico",
+   "lon": 165,
+   "lat": 72
+  },
+  {
+   "id": "SZ_MAR_BIANCO",
+   "name": "Mar Bianco",
+   "kind": "sea",
+   "region": "artico",
+   "lon": 38.5,
+   "lat": 65.8,
+   "radiusKm": 260
+  },
+  {
+   "id": "SZ_GIAPPONE_PAC",
+   "name": "Pacifico giapponese",
+   "kind": "approach",
+   "region": "asia_orientale",
+   "lon": 143.5,
+   "lat": 36,
+   "radiusKm": 520,
+   "strategic": true
+  },
+  {
+   "id": "SZ_MARE_GIAPPONE",
+   "name": "Mare del Giappone",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 135,
+   "lat": 40,
+   "strategic": true
+  },
+  {
+   "id": "SZ_MARE_GIAPPONE_NORD",
+   "name": "Mare del Giappone settentrionale",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 138.5,
+   "lat": 44.3,
+   "radiusKm": 480,
+   "strategic": true
+  },
+  {
+   "id": "SZ_STRETTO_TATARI",
+   "name": "Stretto dei Tatari",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 140.8,
+   "lat": 50.2,
+   "radiusKm": 330,
+   "strategic": true
+  },
+  {
+   "id": "SZ_STRETTO_LA_PEROUSE",
+   "name": "Stretto di La Pérouse",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 142,
+   "lat": 45.8,
+   "radiusKm": 110,
+   "strategic": true
+  },
+  {
+   "id": "SZ_STRETTO_TSUGARU",
+   "name": "Stretto di Tsugaru",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 140.6,
+   "lat": 41.6,
+   "radiusKm": 110,
+   "strategic": true
+  },
+  {
+   "id": "SZ_TOHOKU_PAC",
+   "name": "Pacifico di Tōhoku e Hokkaidō",
+   "kind": "approach",
+   "region": "asia_orientale",
+   "lon": 144.3,
+   "lat": 41.6,
+   "radiusKm": 420,
+   "strategic": false
+  },
+  {
+   "id": "SZ_STRETTO_TSUSHIMA",
+   "name": "Stretto di Corea e di Tsushima",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 129.5,
+   "lat": 34.4,
+   "radiusKm": 120,
+   "strategic": true
+  },
+  {
+   "id": "SZ_MARE_INTERNO",
+   "name": "Mare interno del Giappone",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 133,
+   "lat": 34,
+   "radiusKm": 170
+  },
+  {
+   "id": "SZ_MAR_GIALLO",
+   "name": "Mar Giallo",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 123,
+   "lat": 36,
+   "strategic": true
+  },
+  {
+   "id": "SZ_BOHAI",
+   "name": "Golfo di Bohai",
+   "kind": "gulf",
+   "region": "asia_orientale",
+   "lon": 119,
+   "lat": 39,
+   "radiusKm": 220
+  },
+  {
+   "id": "SZ_CINA_EST",
+   "name": "Mar Cinese Orientale",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 125,
+   "lat": 29.5,
+   "strategic": true
+  },
+  {
+   "id": "SZ_STRETTO_TAIWAN",
+   "name": "Stretto di Taiwan",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 119.5,
+   "lat": 24.5,
+   "radiusKm": 160,
+   "strategic": true
+  },
+  {
+   "id": "SZ_CINA_SUD",
+   "name": "Mar Cinese Meridionale",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 114,
+   "lat": 15,
+   "strategic": true
+  },
+  {
+   "id": "SZ_TONCHINO",
+   "name": "Golfo del Tonchino",
+   "kind": "gulf",
+   "region": "asia_orientale",
+   "lon": 107.5,
+   "lat": 19.5,
+   "radiusKm": 280
+  },
+  {
+   "id": "SZ_GOLFO_SIAM",
+   "name": "Golfo del Siam",
+   "kind": "gulf",
+   "region": "asia_orientale",
+   "lon": 101,
+   "lat": 9.5,
+   "radiusKm": 360
+  },
+  {
+   "id": "SZ_FILIPPINE",
+   "name": "Mare delle Filippine",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 132,
+   "lat": 20,
+   "strategic": true
+  },
+  {
+   "id": "SZ_SULU_CELEBES",
+   "name": "Mari di Sulu e di Celebes",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 121.5,
+   "lat": 6
+  },
+  {
+   "id": "SZ_GIAVA",
+   "name": "Mare di Giava",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 111,
+   "lat": -5
+  },
+  {
+   "id": "SZ_BANDA",
+   "name": "Mare di Banda e delle Molucche",
+   "kind": "sea",
+   "region": "asia_orientale",
+   "lon": 128,
+   "lat": -4
+  },
+  {
+   "id": "SZ_TIMOR_ARAFURA",
+   "name": "Mari di Timor e di Arafura",
+   "kind": "sea",
+   "region": "oceano_indiano",
+   "lon": 130,
+   "lat": -10
+  },
+  {
+   "id": "SZ_MALACCA",
+   "name": "Stretto di Malacca",
+   "kind": "strait",
+   "region": "oceano_indiano",
+   "lon": 99.5,
+   "lat": 4,
+   "radiusKm": 330,
+   "strategic": true
+  },
+  {
+   "id": "SZ_SINGAPORE",
+   "name": "Stretto di Singapore",
+   "kind": "strait",
+   "region": "asia_orientale",
+   "lon": 104,
+   "lat": 1.2,
+   "radiusKm": 90,
+   "strategic": true
+  },
+  {
+   "id": "SZ_SONDA",
+   "name": "Stretto della Sonda",
+   "kind": "strait",
+   "region": "oceano_indiano",
+   "lon": 105.8,
+   "lat": -6,
+   "radiusKm": 100,
+   "strategic": true
+  },
+  {
+   "id": "SZ_ANDAMANE",
+   "name": "Mare delle Andamane",
+   "kind": "sea",
+   "region": "oceano_indiano",
+   "lon": 96,
+   "lat": 10
+  },
+  {
+   "id": "SZ_GOLFO_BENGALA",
+   "name": "Golfo del Bengala",
+   "kind": "gulf",
+   "region": "oceano_indiano",
+   "lon": 88,
+   "lat": 14,
+   "strategic": true
+  },
+  {
+   "id": "SZ_CEYLON",
+   "name": "Ceylon e Stretto di Palk",
+   "kind": "approach",
+   "region": "oceano_indiano",
+   "lon": 78.7,
+   "lat": 8.0,
+   "radiusKm": 420,
+   "strategic": true
+  },
+  {
+   "id": "SZ_INDIA_OCCIDENTALE",
+   "name": "Mare Arabico orientale — coste indiane",
+   "kind": "sea",
+   "region": "oceano_indiano",
+   "lon": 68,
+   "lat": 16,
+   "strategic": true
+  },
+  {
+   "id": "SZ_GOLFO_OMAN",
+   "name": "Golfo di Oman",
+   "kind": "gulf",
+   "region": "oceano_indiano",
+   "lon": 58.5,
+   "lat": 24.5,
+   "radiusKm": 260
+  },
+  {
+   "id": "SZ_HORMUZ",
+   "name": "Stretto di Hormuz",
+   "kind": "strait",
+   "region": "oceano_indiano",
+   "lon": 56.5,
+   "lat": 26.5,
+   "radiusKm": 90,
+   "strategic": true
+  },
+  {
+   "id": "SZ_GOLFO_PERSICO",
+   "name": "Golfo Persico",
+   "kind": "gulf",
+   "region": "oceano_indiano",
+   "lon": 51.5,
+   "lat": 27,
+   "strategic": true
+  },
+  {
+   "id": "SZ_IND_CENTRO",
+   "name": "Oceano Indiano centrale",
+   "kind": "ocean",
+   "region": "oceano_indiano",
+   "lon": 75,
+   "lat": -8
+  },
+  {
+   "id": "SZ_IND_EST",
+   "name": "Oceano Indiano orientale",
+   "kind": "ocean",
+   "region": "oceano_indiano",
+   "lon": 95,
+   "lat": -20
+  },
+  {
+   "id": "SZ_IND_AUSTRALE",
+   "name": "Oceano Indiano australe",
+   "kind": "ocean",
+   "region": "oceano_indiano",
+   "lon": 85,
+   "lat": -46
+  },
+  {
+   "id": "SZ_AUS_OVEST",
+   "name": "Australia occidentale",
+   "kind": "approach",
+   "region": "oceania",
+   "lon": 112.5,
+   "lat": -27,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_AUS_NORD",
+   "name": "Australia settentrionale",
+   "kind": "approach",
+   "region": "oceania",
+   "lon": 129,
+   "lat": -13,
+   "radiusKm": 500
+  },
+  {
+   "id": "SZ_AUS_SUD",
+   "name": "Grande Baia Australiana",
+   "kind": "sea",
+   "region": "oceania",
+   "lon": 132,
+   "lat": -36
+  },
+  {
+   "id": "SZ_BASS",
+   "name": "Stretto di Bass",
+   "kind": "strait",
+   "region": "oceania",
+   "lon": 146.5,
+   "lat": -39.8,
+   "radiusKm": 170,
+   "strategic": true
+  },
+  {
+   "id": "SZ_AUS_SUD_EST",
+   "name": "Australia sud-orientale",
+   "kind": "approach",
+   "region": "oceania",
+   "lon": 151,
+   "lat": -37,
+   "radiusKm": 450
+  },
+  {
+   "id": "SZ_AUS_EST",
+   "name": "Australia orientale",
+   "kind": "approach",
+   "region": "oceania",
+   "lon": 154,
+   "lat": -28,
+   "radiusKm": 550
+  },
+  {
+   "id": "SZ_CORALLI",
+   "name": "Mare dei Coralli",
+   "kind": "sea",
+   "region": "oceania",
+   "lon": 152,
+   "lat": -16,
+   "strategic": true
+  },
+  {
+   "id": "SZ_TASMANIA",
+   "name": "Mare di Tasmania",
+   "kind": "sea",
+   "region": "oceania",
+   "lon": 160,
+   "lat": -38
+  },
+  {
+   "id": "SZ_NUOVA_ZELANDA",
+   "name": "Nuova Zelanda",
+   "kind": "approach",
+   "region": "oceania",
+   "lon": 172,
+   "lat": -42,
+   "radiusKm": 600
+  },
+  {
+   "id": "SZ_NUOVA_GUINEA_NORD",
+   "name": "Mare di Bismarck e Nuova Guinea settentrionale",
+   "kind": "sea",
+   "region": "oceania",
+   "lon": 147,
+   "lat": -3
   }
  ],
- "landFile": "sources/ne_land_50m_region.json",
+ "landFile": "sources/ne_land_50m_world.json",
  "landRegions": [
   [
    -11,
@@ -1176,6 +2120,30 @@
    60,
    -37,
    31.4
+  ],
+  [
+   -180,
+   -32,
+   -60,
+   85
+  ],
+  [
+   60,
+   180,
+   -60,
+   85
+  ],
+  [
+   -32,
+   60,
+   73,
+   85
+  ],
+  [
+   -32,
+   60,
+   -60,
+   -37
   ]
  ]
 }

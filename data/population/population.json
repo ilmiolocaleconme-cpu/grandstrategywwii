@@ -1,0 +1,483 @@
+{
+  "schema": "population-v1",
+  "quality": "APPROXIMATE",
+  "referenceYear": "1936 per le voci del file dell'utente, 1939 per le altre (campo year)",
+  "note": "Popolazione della metropoli, stime c. 1939 da https://en.wikipedia.org/wiki/List_of_countries_by_population_in_1939 (a sua volta da U.S. Census Bureau, M. Harrison \"The Economics of WWII\" 1998, populstat.info, uffici statistici nazionali). Per il 1936 i valori sono circa il 2-4% più alti per quasi tutte le nazioni. Le voci con source \"stima\" sono mie, da verificare. Le colonie (India, Indocina, Indie Olandesi...) NON sono comprese: il loro contributo ai pool del proprietario è una decisione da prendere. Il file dell'utente (population_1936_utente.csv, copia non modificata) ha la precedenza dove presente (anno 1936); la sua colonna \"fonte\" ripete per errore la nota ISTAT su tutte le righe: le righe diverse dall'Italia vengono da Gapminder v7 / Our World in Data.",
+  "workersShare": {
+    "value": 0.005,
+    "quality": "USER_ESTIMATE",
+    "note": "Riserva di lavoratori di gioco = 0,5% della popolazione (scelta dell'utente il 28/10/2026; l'assistente suggeriva 0,1-0,2% perché con 0,5% il vincolo pesa poco)."
+  },
+  "recruitment": {
+    "quality": "MISSING_DATA",
+    "note": "Riserva di reclutamento: rimandata ai cataloghi militari (Fase 5)."
+  },
+  "nations": {
+    "AFG": {
+      "population": 6970000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "ALB": {
+      "population": 1073000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "AND": {
+      "population": 6000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "ARG": {
+      "population": 13000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "AUS": {
+      "population": 6800000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "AUT": {
+      "population": 6704952,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "BEL": {
+      "population": 8300000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "BGR": {
+      "population": 6300000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "BOL": {
+      "population": 2659000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "BRA": {
+      "population": 39000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "CAN": {
+      "population": 11000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "CHE": {
+      "population": 4100000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "CHL": {
+      "population": 4914000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "CHN": {
+      "population": 509000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "COL": {
+      "population": 8896000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "CRI": {
+      "population": 623400,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "CUB": {
+      "population": 4235000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "CZE": {
+      "population": 15200000,
+      "source": "stima",
+      "quality": "APPROXIMATE",
+      "note": "Non in lista (occupata nel 1939). Censimento 1930 14,7 M; stima 1937 circa 15,2 M, da verificare.",
+      "year": 1939
+    },
+    "DEU": {
+      "population": 68500000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "DNK": {
+      "population": 3700000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "DOM": {
+      "population": 1634000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "ECU": {
+      "population": 2412000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "EGY": {
+      "population": 16000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "ESP": {
+      "population": 24000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "EST": {
+      "population": 1134000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "ETH": {
+      "population": 10000000,
+      "source": "stima",
+      "quality": "APPROXIMATE",
+      "note": "Nessuna fonte: le stime per il 1936 vanno da 8 a 15 M.",
+      "year": 1939
+    },
+    "FIN": {
+      "population": 3600000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "FRA": {
+      "population": 41900000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "GBR": {
+      "population": 47500000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "GRC": {
+      "population": 7300000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "GTM": {
+      "population": 2150000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "HND": {
+      "population": 1096950,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "HTI": {
+      "population": 2707000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "HUN": {
+      "population": 9100000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "IRL": {
+      "population": 2960000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "IRN": {
+      "population": 14340000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "ISL": {
+      "population": 118900,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "ITA": {
+      "population": 42993602,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "JPN": {
+      "population": 70400000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "LBR": {
+      "population": 780000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "LIE": {
+      "population": 13000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "LTU": {
+      "population": 2575000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "LUX": {
+      "population": 295000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "LVA": {
+      "population": 1994500,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "MAN": {
+      "population": 50000000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "MCO": {
+      "population": 24000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "MENG": {
+      "population": null,
+      "source": "MISSING_DATA",
+      "quality": "MISSING_DATA",
+      "note": "Nessun dato separato (nella voce è compreso nei 200 M della \"Cina occupata di recente\"). Nasce per evento.",
+      "year": 1939
+    },
+    "MEX": {
+      "population": 18000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "MNG": {
+      "population": 819000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "NIC": {
+      "population": 806000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "NLD": {
+      "population": 8600000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "NOR": {
+      "population": 2900000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "NZL": {
+      "population": 1707200,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "PAN": {
+      "population": 605000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "PER": {
+      "population": 6572000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "POL": {
+      "population": 32000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "PRT": {
+      "population": 7700000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "PRY": {
+      "population": 931800,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "ROM": {
+      "population": 19000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "SAU": {
+      "population": 2670000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "SIA": {
+      "population": 14000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "SLV": {
+      "population": 1459600,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "SMR": {
+      "population": 14500,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "SWE": {
+      "population": 6100000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "TUR": {
+      "population": 17000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "URY": {
+      "population": 1953000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "USA": {
+      "population": 128100000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "USSR": {
+      "population": 181000000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    },
+    "VAT": {
+      "population": 1000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "VEN": {
+      "population": 3628000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "YEM": {
+      "population": 2775000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "YUG": {
+      "population": 15490000,
+      "source": "wikipedia_1939",
+      "quality": "APPROXIMATE",
+      "year": 1939
+    },
+    "ZAF": {
+      "population": 9900000,
+      "year": 1936,
+      "source": "file dell'utente population_1936_utente.csv (Gapminder v7 / Our World in Data)",
+      "quality": "APPROXIMATE"
+    }
+  },
+  "colonies": {
+    "note": "Dal file dell'utente (1936). NON applicate ai pool: il contributo delle colonie al proprietario è una decisione da prendere.",
+    "entries": {
+      "India": {
+        "population": 388000000,
+        "year": 1936,
+        "territory": "IND"
+      },
+      "Indonesia": {
+        "population": 66000000,
+        "year": 1936,
+        "territory": "NLD_EI"
+      },
+      "Filippine": {
+        "population": 17000000,
+        "year": 1936,
+        "territory": "PHL"
+      },
+      "Vietnam": {
+        "population": 18000000,
+        "year": 1936,
+        "territory": "INDO"
+      }
+    }
+  }
+}

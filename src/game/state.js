@@ -3,8 +3,10 @@
 // controllo dei territori: `control` mappa ogni id di `political_1936.json` al suo controllore.
 
 import { START_DATE, addDays, daysBetween, isValidDate } from './calendar.js';
+import { DIFFICULTIES, DEFAULT_DIFFICULTY, buildNations, validateNations } from './economyState.js';
+import { populationOf } from '../data/population.js';
 
-export const STATE_SCHEMA = 1;
+export const STATE_SCHEMA = 3; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni. Migrazioni in economyState.js
 
 /**
  * Nazioni scegliibili: `playable` nel dataset politico E almeno una provincia sulla mappa.
@@ -23,11 +25,13 @@ export function initialControl(political) {
 
 /**
  * Nuova partita. Ritorna { ok: true, state } oppure { ok: false, reason } con reason in
- * `invalid_nation`, `unknown_nation`, `not_playable`, `no_provinces`, `invalid_date`.
+ * `invalid_nation`, `unknown_nation`, `not_playable`, `no_provinces`, `invalid_date`, `invalid_difficulty`.
+ * `start` ({ nationIds, industry, stocks, cash, economy, population }, i dati iniziali) è opzionale: senza, `nations` è null e si inizializza al caricamento (initEconomy).
  */
-export function newGame({ nation, political, ownersWithProvinces, startDate = START_DATE }) {
+export function newGame({ nation, political, ownersWithProvinces, startDate = START_DATE, difficulty = DEFAULT_DIFFICULTY, start = null }) {
   if (typeof nation !== 'string' || nation === '') return { ok: false, reason: 'invalid_nation' };
   if (!isValidDate(startDate)) return { ok: false, reason: 'invalid_date' };
+  if (!DIFFICULTIES.includes(difficulty)) return { ok: false, reason: 'invalid_difficulty' };
   const entry = political.find((e) => e.id === nation);
   if (!entry) return { ok: false, reason: 'unknown_nation' };
   if (entry.playable !== true || entry.type !== 'country') return { ok: false, reason: 'not_playable' };
@@ -41,6 +45,8 @@ export function newGame({ nation, political, ownersWithProvinces, startDate = ST
       day: 0,
       player: nation,
       control: initialControl(political),
+      difficulty,
+      nations: start ? buildNations({ political, ...start, difficulty }) : null,
     },
   };
 }
@@ -64,7 +70,20 @@ export function validateState(state) {
     for (const [k, v] of Object.entries(c)) if (typeof v !== 'string' || v === '') errors.push(`stato: control["${k}"] non valido`);
     if (typeof state.player === 'string' && !(state.player in c)) errors.push('stato: player assente da control');
   }
+  if (!DIFFICULTIES.includes(state.difficulty)) errors.push(`stato: difficoltà ${JSON.stringify(state.difficulty)} non valida`);
+  if (!('nations' in state)) errors.push('stato: manca nations');
+  else errors.push(...validateNations(state.nations, { player: state.nations === null ? undefined : state.player }));
   return errors;
+}
+
+/** Inizializza `nations` dai dati iniziali se è null (partita nuova senza dati o salvataggio migrato dallo schema 1). Per lo schema 1 è esatto: l'economia non è mai evolsa. */
+export function initEconomy(state, { political, start }) {
+  if (state.nations === null) return { ...state, nations: buildNations({ political, ...start, difficulty: state.difficulty }) };
+  // salvataggio dello schema 2 migrato: popolazione ancora null, si riempie dai dati (il resto dello stato resta com'è)
+  if (!Object.values(state.nations).some((n) => n.population === null)) return state;
+  const nations = {};
+  for (const [id, n] of Object.entries(state.nations)) nations[id] = n.population === null ? { ...n, population: start.population ? populationOf(start.population, id) : 0 } : n;
+  return { ...state, nations };
 }
 
 /** Stato avanzato di un giorno, senza altri effetti (le regole sono in engine.js). */

@@ -6,9 +6,9 @@ Stato: **dati reali ma approssimati** (Natural Earth, corso moderno). Le regole 
 
 | File | Contenuto | Fonte e licenza |
 |---|---|---|
-| `data/rivers.json` | Catalogo: 540 fiumi (211 nuovi dell'URSS inclusi) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
-| `data/rivers_geo.json` | 2044 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
-| `data/lakes.json` | 896 laghi (435 dell'URSS inclusi; area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
+| `data/rivers.json` | Catalogo: 1200 fiumi (540 dell'Europa e dell'URSS, 660 del resto del mondo) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
+| `data/rivers_geo.json` | 4444 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
+| `data/lakes.json` | 2484 laghi (895 di Europa e URSS, 1589 del resto del mondo; per l'Europa e l'URSS area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
 | `data/crossings.json` | **Pilota Reno/Mosa**: 9 attraversamenti (8 sul Reno, 1 sulla Mosa), tutti `approximate`, nessuno `verified`, senza coordinate (vedi «Attraversamenti» sotto) | Wikipedia (fatti: anno, tipo, località) e inventario cantonale argoviese; licenza da accertare per quest'ultimo |
 
 La mappa e le regole leggono gli stessi file (`src/map/geo.js`, `src/data/rivers.js`): nessuna discrepanza tra grafica e simulazione.
@@ -56,6 +56,17 @@ Natural Earth 10m `lakes` + `lakes_europe` (5.2.0-pre, commit ca96624). Stessa s
 - **Esclusi:** il Mar Caspio e le sue lagune (sono mare sulla mappa) e i laghi effimeri e le saline della bassa del Caspio settentrionale (49-59° E, 43-48,5° N), non attendibili come laghi permanenti.
 - **Limiti:** aree del poligono Natural Earth, non misure (Balkhash 17.551 contro 16.400-18.200 km² a seconda della fonte); il lago d'Aral è mostrato ai livelli moderni (molto ridotto rispetto al 1936); i tratti di fiume `inLake` ora attraversano laghi disegnati, ma non sono stati ricontrollati uno per uno.
 - Test: `tests/laghi_urss.test.js` (4).
+
+### Fiumi e laghi del resto del mondo (26/10/2026)
+
+Script riproducibile e idempotente: `node scripts/build-water-world.js <cartella geojson di Natural Earth>` (rilancia tutto da zero, riconosce le voci già prodotte dal suffisso `, world` nel campo `source`). Test: `tests/acqua_mondo.test.js`.
+
+- **Fiumi (+660, 12 fiumi esistenti estesi):** Natural Earth 10m `rivers_lake_centerlines_scale_rank` + `rivers_north_america` + `rivers_australia` (5.2.0-pre, commit ca96624), solo con nome, `scalerank` ≤ 8, niente canali. Ritaglio sul territorio di **tutte** le province (margine 0,04°); i vertici a meno di 0,015° da linee già nel catalogo sono scartati (nessun doppione con Europa, Nord Africa, URSS). Gruppi per Wikidata, altrimenti nome e `rivernum`. Lunghezza minima 25 km. Semplificazione Douglas-Peucker **0,004°** (il doppio del resto, per il peso dei file sul telefono).
+- **Confluenze:** estremo libero entro 0,04° dalla linea di un fiume strettamente più importante (ordine per `scalerank`, lunghezza, id): nessun ciclo per costruzione (verificato nei test). Classi come sopra. Non sono verificate: un fiume la cui foce cade fuori dalle province resta `main`.
+- **Navigabilità:** elenco curato **non verificato** di 60 fiumi (`curated_unverified`), tutto il resto `unknown_assumed_false`. Larghezza: solo la classe stimata dal `scalerank` (≤ 5 large, ≤ 8 medium).
+- **Laghi (+1589):** `lakes` + `lakes_north_america` + `lakes_australia`, area ≥ 100 km² **senza nome** o ≥ 40 km² con nome (soglia più alta di Europa/URSS: sul mondo 25/8 km² davano 2000+ laghi e 7 MB di dati). Playa e Caspio esclusi; doppioni con i laghi esistenti scartati per Wikidata e per punto contenuto. Isole interne ≥ 10 km² come buchi. I bacini artificiali (`Reservoir` o con diga) portano `reservoir_may_postdate_1936`.
+- **Limiti noti:** corso moderno (non 1936); i fiumi sono tagliati dove finiscono le province (lo Yangtze risulta di 2.457 km, meno del reale, per una causa non verificata, probabilmente tratti sotto altri nomi nella fonte); nomi di Natural Earth non sempre coerenti (`Paraná` e `Paraná River` come due fiumi, uno affluente dell'altro); nomi omonimi di piccoli fiumi nordamericani possono unire tratti non collegati. **Nessuna regola di gioco usa ancora questi fiumi** oltre ai ponti generati da `build-links`.
+- **Peso:** `rivers_geo.json` 1,6 → 3,5 MB, `lakes.json` 1,0 → 3,0 MB, `rivers.json` 0,3 → 0,7 MB. I file si caricano in modo differito (`import()` in `App.jsx`); l'effetto sulla memoria del telefono **non è stato misurato**.
 
 ### Fiumi dentro i laghi
 

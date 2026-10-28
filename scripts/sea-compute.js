@@ -74,6 +74,7 @@ function simplifyClosed(ring, tol) {
 export function computeSeaZones(collection, design, { debug = false, land = [] } = {}) {
   const g = makeGrid(design.grid);
   const { nx, ny, step } = g;
+  const wrap = design.grid.wrap === true; // griglia di 360°: il bordo est confina con il bordo ovest (antimeridiano)
   const total = nx * ny;
   const prov = rasterizeProvinces(g, collection);
 
@@ -108,6 +109,7 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
   const vKm = step * KM_LAT;
 
   // semi: si spostano sulla cella d'acqua più vicina (entro 0,4°) se cadono su terra
+  const noWater = [];
   const seeds = design.seeds.map((s, k) => {
     const ix0 = Math.floor((s.lon - g.lon0) / step), iy0 = Math.floor((s.lat - g.lat0) / step);
     const maxR = Math.ceil(0.4 / step);
@@ -118,9 +120,10 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
       const d = dx * dx + dy * dy;
       if (d < bestD) { bestD = d; bestCell = iy * nx + ix; }
     }
-    if (bestCell < 0) throw new Error(`seme ${s.id}: nessuna cella d'acqua entro 0,4° da (${s.lon}, ${s.lat})`);
+    if (bestCell < 0) { noWater.push(`${s.id} (${s.lon}, ${s.lat})`); return { ...s, k, cell: 0, shiftDeg: 0 }; }
     return { ...s, k, cell: bestCell, shiftDeg: Math.sqrt(bestD) * step };
   });
+  if (noWater.length > 0) throw new Error(`semi senza acqua entro 0,4°: ${noWater.join('; ')}`);
 
   const owner = new Int16Array(total).fill(-1);
   const best = new Float64Array(total).fill(Infinity);
@@ -134,7 +137,7 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
     const cap = seeds[k].radiusKm ?? Infinity;
     const ix = cell % nx, iy = (cell - ix) / nx;
     for (const [dx, dy] of NB) {
-      const jx = ix + dx, jy = iy + dy;
+      const jx = wrap ? (ix + dx + nx) % nx : ix + dx, jy = iy + dy;
       if (jx < 0 || jy < 0 || jx >= nx || jy >= ny) continue;
       const nc = jy * nx + jx;
       if (!water[nc] || owner[nc] !== -1) continue;
@@ -163,7 +166,7 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
       const cell = comp[qi];
       const ix = cell % nx, iy = (cell - ix) / nx;
       for (const [dx, dy] of NB.slice(0, 4)) {
-        const jx = ix + dx, jy = iy + dy;
+        const jx = wrap ? (ix + dx + nx) % nx : ix + dx, jy = iy + dy;
         if (jx < 0 || jy < 0 || jx >= nx || jy >= ny) continue;
         const nc = jy * nx + jx;
         if (!water[nc]) continue;
@@ -182,7 +185,9 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
   // contorni, confini tra zone e coste
   const edgesByZone = seeds.map(() => new Map());
   const addEdge = (z, a, b) => { const m = edgesByZone[z]; const l = m.get(a); if (l) l.push(b); else m.set(a, [b]); };
-  const V = (ix, iy) => iy * (nx + 1) + ix;
+  // con la griglia di 360° il vertice sul bordo est coincide con quello sul bordo ovest: i contorni delle zone a cavallo
+  // dell'antimeridiano si chiudono attraverso la cucitura (un solo anello, con longitudini oltre ±180)
+  const V = (ix, iy) => iy * (nx + 1) + (wrap && ix === nx ? 0 : ix);
   const area = new Float64Array(seeds.length);
   const seaKm = new Map();
   const coastKm = seeds.map(() => new Map());
@@ -200,11 +205,12 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
         [ix, iy + 1, V(ix + 1, iy + 1), V(ix, iy + 1), hKm[iy]],
         [ix - 1, iy, V(ix, iy + 1), V(ix, iy), vKm],
       ];
-      for (const [jx, jy, va, vb, km] of sides) {
+      for (const [jx0, jy, va, vb, km] of sides) {
+        const jx = wrap ? (jx0 + nx) % nx : jx0;
         const o = nbr(jx, jy);
         if (o === z) continue;
         addEdge(z, va, vb);
-        if (o >= 0) { if (z < o) bump(seaKm, `${z}|${o}`, km); } else if (o === -1) {
+        if (o >= 0) { if (o !== z && z < o) bump(seaKm, `${z}|${o}`, km); } else if (o === -1) {
           const p = prov[jy * nx + jx];
           if (p) bump(coastKm[z], p - 1, km);
         }
@@ -216,9 +222,10 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
   const latOf = (v) => g.lat0 + Math.floor(v / (nx + 1)) * step;
   const tol = design.simplifyTolDeg ?? 0.06;
   const round3 = (x) => Math.round(x * 1000) / 1000;
-  const zones = seeds.map((s, z) => {
-    const m = edgesByZone[z];
-    const rings = [];
+
+  // anelli di vertici di una zona (consuma la mappa dei lati)
+  const loopsOf = (m) => {
+    const loops = [];
     for (const [startV] of m) {
       while (m.get(startV)?.length > 0) {
         const loop = [startV];
@@ -232,13 +239,85 @@ export function computeSeaZones(collection, design, { debug = false, land = [] }
           v = nextV;
           if (!m.has(v)) break; // non dovrebbe succedere: anello aperto
         }
-        // toglie i punti allineati (scalini), poi semplifica
-        const pts = loop.map((vv) => [lonOf(vv), latOf(vv)]);
-        const compact = pts.filter((p, i) => { const a = pts[(i + pts.length - 1) % pts.length], b = pts[(i + 1) % pts.length]; return !((a[0] === p[0] && p[0] === b[0]) || (a[1] === p[1] && p[1] === b[1])); });
-        const simple = simplifyClosed(compact.length >= 4 ? compact : pts, tol);
-        if (simple.length >= 3) rings.push(simple.map(([x, y]) => [round3(x), round3(y)]));
+        loops.push(loop);
       }
     }
+    return loops;
+  };
+  // Longitudini "svolte": un anello che attraversa la cucitura continua oltre ±180 (170, 180, 190...) invece di saltare.
+  // Restituisce i punti e se l'anello gira attorno al mondo (non chiude da solo: la zona va tagliata alla cucitura).
+  const unwrapLoop = (loop) => {
+    const pts = [];
+    let off = 0;
+    let prev = null;
+    for (const vv of loop) {
+      let x = lonOf(vv);
+      if (wrap && prev !== null) {
+        const d = x + off - prev;
+        if (d > 180) off -= 360; else if (d < -180) off += 360;
+      }
+      x += off;
+      pts.push([x, latOf(vv)]);
+      prev = x;
+    }
+    const closing = pts.length > 1 ? pts[0][0] - pts[pts.length - 1][0] : 0;
+    return { pts, winds: wrap && Math.abs(closing) > 180 };
+  };
+  const finishRing = (pts) => {
+    const compact = pts.filter((p, i) => { const a = pts[(i + pts.length - 1) % pts.length], b = pts[(i + 1) % pts.length]; return !((a[0] === p[0] && p[0] === b[0]) || (a[1] === p[1] && p[1] === b[1])); });
+    const simple = simplifyClosed(compact.length >= 4 ? compact : pts, tol);
+    return simple.length >= 3 ? simple.map(([x, y]) => [round3(x), round3(y)]) : null;
+  };
+
+  // 1) tutte le zone con i vertici della cucitura uniti; 2) quelle con un anello che gira attorno al mondo si rifanno tagliate
+  const ringsByZone = seeds.map(() => []);
+  const cutZones = new Set();
+  seeds.forEach((s, z) => {
+    const found = [];
+    for (const loop of loopsOf(edgesByZone[z])) {
+      const { pts, winds } = unwrapLoop(loop);
+      if (winds) { cutZones.add(z); break; }
+      found.push({ pts, mean: pts.reduce((a, p) => a + p[0], 0) / pts.length });
+    }
+    if (cutZones.has(z) || found.length === 0) return;
+    // l'anello più grande fa da riferimento (centro tra -180 e 180); gli altri (isole, parti staccate) si portano alla sua
+    // altezza, in multipli di 360°, così i buchi restano dentro il loro anello
+    const ref = found.reduce((a, b) => (b.pts.length > a.pts.length ? b : a));
+    const refShift = -360 * Math.floor((ref.mean + 180) / 360);
+    for (const f of found) {
+      const shift = f === ref ? refShift : 360 * Math.round((ref.mean + refShift - f.mean) / 360);
+      const ring = finishRing(shift === 0 ? f.pts : f.pts.map(([x, y]) => [x + shift, y]));
+      if (ring) ringsByZone[z].push(ring);
+    }
+  });
+  if (cutZones.size > 0) {
+    const cutEdges = new Map([...cutZones].map((z) => [z, new Map()]));
+    const Vc = (ix, iy) => iy * (nx + 1) + ix;
+    const addCut = (z, a, b) => { const m = cutEdges.get(z); const l = m.get(a); if (l) l.push(b); else m.set(a, [b]); };
+    for (let iy = 0; iy < ny; iy += 1) {
+      for (let ix = 0; ix < nx; ix += 1) {
+        const z = owner[iy * nx + ix];
+        if (z < 0 || !cutEdges.has(z)) continue;
+        const sides = [[ix, iy - 1, Vc(ix, iy), Vc(ix + 1, iy)], [ix + 1, iy, Vc(ix + 1, iy), Vc(ix + 1, iy + 1)], [ix, iy + 1, Vc(ix + 1, iy + 1), Vc(ix, iy + 1)], [ix - 1, iy, Vc(ix, iy + 1), Vc(ix, iy)]];
+        for (const [jx0, jy, va, vb] of sides) {
+          const jx = (jx0 + nx) % nx;
+          const seam = jx !== jx0;
+          const o = jy < 0 || jy >= ny ? -2 : owner[jy * nx + jx];
+          if (o === z && !seam) continue;
+          addCut(z, va, vb);
+        }
+      }
+    }
+    for (const z of cutZones) {
+      ringsByZone[z] = [];
+      for (const loop of loopsOf(cutEdges.get(z))) {
+        const ring = finishRing(loop.map((vv) => [lonOf(vv), latOf(vv)]));
+        if (ring) ringsByZone[z].push(ring);
+      }
+    }
+  }
+  const zones = seeds.map((s, z) => {
+    const rings = ringsByZone[z];
     rings.sort((a, b) => b.length - a.length);
     return { s, rings };
   });

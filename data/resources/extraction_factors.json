@@ -1,0 +1,43 @@
+{
+  "schema": "extraction-factors-v1",
+  "quality": "DESIGN_DEFAULT",
+  "unit": "t reali per 1 t di gioco",
+  "note": "Un fattore per risorsa (deciso in chat 26/10/2026): le quote fra nazioni vengono dai dati reali di production_1936.json, la scala dai consumatori del gioco. Solo il ferro è tarato; gli altri sono PROVVISORI.",
+  "factors": {
+    "iron_ore": {
+      "realPerGame": 43.8,
+      "status": "DESIGN_DEFAULT",
+      "rationale": "1 acciaieria (100 t/giorno) = circa 1,6 Mt/anno di acciaio reale. Con questo fattore il ferro mondiale copre circa l'89% di 80 acciaierie."
+    },
+    "coal": {
+      "realPerGame": 243.1,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (11,862); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+    },
+    "oil": {
+      "realPerGame": 149.1,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (4,194); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+    },
+    "bauxite": {
+      "realPerGame": 1.3,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio: scelto perché i territori con produzione storica mantengano il totale t/giorno che avevano con i punti (3,995); cambia solo la ripartizione fra nazioni. Da tarare quando i consumatori saranno definiti (fasce B e C)."
+    },
+    "rubber": {
+      "realPerGame": 1.37,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio, alzato il 27/10/2026 su richiesta dell'utente: la gomma naturale mondiale copre circa il 100% delle gommerie a pieno regime (prima 76%). Il resto del fabbisogno ha anche la via sintetica (REC-RUBBER-SYN-001). Da tarare con le fasce B e C."
+    },
+    "sulphur": {
+      "realPerGame": 13.1,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio, alzato il 27/10/2026 su richiesta dell'utente: lo zolfo mondiale copre circa il 100% degli impianti chimici a pieno regime (prima 36%). Da tarare con le fasce B e C."
+    },
+    "copper": {
+      "realPerGame": 1000.0,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio e senza effetto: nessuna provincia ha punti per questa risorsa, quindi nessuna estrazione è ancora ripartibile (MISSING_DATA)."
+    }
+  }
+}

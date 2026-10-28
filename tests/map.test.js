@@ -94,9 +94,9 @@ test('modello della mappa: stesse province dei dati e delle regole, tutte disegn
   assert.deepEqual(index.provincesAt(12.5, 41.9).map((f) => madreId(f.properties.id)), ['P_ITA_ROMA']);
   assert.ok(ids.has('P_ITA_ROMA'));
   const { bounds } = model;
-  // h < 70: dall'Artico sovietico (~82° N, Terra di Francesco Giuseppe) all'Algeria meridionale (19° N) l'altezza e ~63 unita;
+  // h < 150: dall'Artico (~83° N, Groenlandia e Terra di Francesco Giuseppe) alla Terra del Fuoco (~55° S) l'altezza e ~139 unita;
   // oltre sarebbe un'anomalia. La larghezza copre tutto il giro (-180..180) per via della Ciukotka.
-  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 70, JSON.stringify(bounds));
+  assert.ok(bounds.w > 15 && bounds.h > 15 && bounds.h < 150, JSON.stringify(bounds));
 });
 
 test('ogni nazione disegnata ha un nome nel catalogo politico (legenda e pannello)', () => {
@@ -164,10 +164,10 @@ test('livelli semplificati: molti meno punti, nessuna provincia svuotata, bordi 
   assert.equal(lodLevel(5), 1);
   assert.equal(lodLevel(20), 2);
   // livello alto (zoom forte): le province gia semplificate a 0,005 gradi (URSS) non perdono altri punti, per costruzione;
-  // le altre scendono sotto il 60%. Il totale non cresce mai.
+  // le altre scendono sotto il 65% (le province del resto del mondo sono già agganciate a una griglia di 0,02°, quindi perdono meno). Il totale non cresce mai.
   const other = full.items.filter((i) => !i.id.startsWith('P_USSR_'));
   const otherFull = other.reduce((a, i) => a + count(i.d), 0);
-  assert.ok(other.reduce((a, i) => a + count(lod.items.get(i.id)[2]), 0) < otherFull * 0.6);
+  assert.ok(other.reduce((a, i) => a + count(lod.items.get(i.id)[2]), 0) < otherFull * 0.65);
   assert.ok(pts((i) => lod.items.get(i.id)[2]) <= fullPts);
 });
 
@@ -301,4 +301,29 @@ test('colore politico: le colonie prendono il colore di chi le controlla nel 193
     const c = controllerOf(f.properties.owner, control);
     assert.ok(ids.has(c), `${f.properties.id}: controllore ${c} inesistente`);
   }
+});
+
+test('zoom minimo: il mondo riempie lo schermo in larghezza e in altezza, senza copie affiancate', async () => {
+  const { minZoomToFit, WORLD_W, MAX_LAT } = await import('../src/map/geo.js');
+  const s = 2; // pixel per unità
+  const k = minZoomToFit(844, 390, s);
+  // larghezza visibile (unità) non oltre un giro del mondo, altezza non oltre i poli
+  assert.ok(844 / (s * k) <= WORLD_W + 1e-9);
+  assert.ok(390 / (s * k) <= 2 * MAX_LAT + 1e-9);
+  // schermo molto alto: vince l'altezza
+  assert.ok(minZoomToFit(300, 900, s) > minZoomToFit(300, 300, s));
+  assert.ok(minZoomToFit(0, 0, 0) > 0);
+});
+
+test('immagine ripetibile: con un giro del mondo intero si copre lo schermo senza bordi vuoti', async () => {
+  const { tileOffsets, coversScreenWrap } = await import('../src/map/canvasView.js');
+  // immagine più stretta di un giro: nessuna ripetizione
+  assert.deepEqual(tileOffsets({ x: -50, y: 0, w: 500, h: 300 }, 800, 400), [0]);
+  // larga almeno un giro (800): le copie spostate di ±800 riempiono lo schermo
+  const offs = tileOffsets({ x: 300, y: 0, w: 1000, h: 300 }, 800, 1200);
+  assert.ok(offs.includes(0) && offs.includes(-800)); // x=300 e x=-500: coprono 0..1200 senza buchi
+  // schermo coperto in orizzontale grazie alla ripetizione, in verticale serve comunque l'immagine
+  assert.equal(coversScreenWrap({ x: 900, y: 0, w: 1000, h: 300 }, 400, 300, 800), true);
+  assert.equal(coversScreenWrap({ x: 900, y: 10, w: 1000, h: 300 }, 400, 300, 800), false);
+  assert.equal(coversScreenWrap({ x: 900, y: 0, w: 500, h: 300 }, 400, 300, 800), false);
 });

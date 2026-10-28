@@ -88,3 +88,14 @@ Per rendere la mappa leggibile (soprattutto su telefono) i confini **interni** t
 - Stessa procedura di Francia e Svizzera (raster a etichette 0,0025°, archi condivisi, aggancio ai vicini): priorità ai vicini già presenti (AUT, CZE, POL, YUG, ITA), fessure tra Stati diversi colmate fino a ~3 km (~740 km²), buchi interni fino a 2.500 km² colmati con la contea più vicina (città-contea ungheresi; ~4.300 km² in tutto).
 - Misura su raster 0,001° lungo i confini con i vicini: sovrapposizioni 2–8 km², fessure 2–4 km² per tratto (test d'allineamento in `tests/provinces.test.js`, soglie circa il doppio del misurato).
 - **Limiti:** suddivisioni moderne (non 1936); il confine Ungheria-Slovacchia ha fessure fino a ~16–21 km² perché la Slovacchia è derivata dal contorno OHM; l'URSS non è sulla mappa (Dniester e Prut esterni senza vicino); Turchia non presente; città costiere (Costanza, Salonicco?) possono cadere appena fuori dal poligono; il confine tra Baranja e Vojvodina dipende dalle regioni iugoslave ipotetiche già presenti; lo script non è nel repository.
+
+### Scansione dei buchi (26/10/2026)
+
+Una scansione raster a 0,05° (terra Natural Earth 50m contro le province) ha trovato i buchi più grandi. Corretti:
+
+- **Sud Sudan** (631.000 km²): il codice Natural Earth è `SDS`, non `SSD`; ora 10 province in `SUD`.
+- **Fusione delle province (`dissolve`)**: sbagliava nei punti dove due territori si toccano in un vertice e con lati orientati duplicati (poligoni sovrapposti dopo l'aggancio alla griglia). Ora usa la svolta più a destra e conta la molteplicità dei lati. Recuperati Taiwan centrale (prima mancava, e le 3 regioni diventavano 1 sola provincia) e il Bắc Trung Bộ vietnamita (Hà Tĩnh).
+- **Sahara spagnolo (`ESH`)**: due province, Río de Oro e Saguia el-Hamra con Tarfaya, Ifni e Guelmim (regioni marocchine meridionali).
+- **31 entità nuove** con province da Natural Earth: Oman, Guyana britannica e francese, Honduras britannico, Giamaica, Trinidad, Bahamas, Antille britanniche e francesi, Riunione, Comore e Mayotte, Falkland, Figi, Salomone, Nuova Caledonia, Polinesia francese, Kuwait, Qatar, Bahrein, Stati della Tregua, Somaliland britannico, Borneo britannico (Sabah, Sarawak, Labuan, Brunei), Porto Rico, Svalbard, Far Oer, Maldive, Guam, Hong Kong, Antille olandesi, Mandato giapponese del Pacifico (Marianne, Palau, Caroline, Marshall), Karafuto (Sakhalin a sud del 50° parallelo con le Curili: ritaglio per latitudine, approssimazione).
+
+Restano senza province: Goa, Aden (dentro lo Yemen), Ifni (dentro `ESH`), Kwantung (dentro Manciukuo), Dodecaneso, Macao, Camerun e Togo britannici, micro-Stati; isole sotto le soglie (Terra del Fuoco minore, fiordi cileni, Tiwi australiane, Curili centrali); le Aleutine occidentali. Nessuna sovrapposizione rilevata tra le entità aggiunte e le altre (campionamento a 0,1°).

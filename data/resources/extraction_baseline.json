@@ -1,0 +1,190 @@
+{
+  "schema": "extraction-baseline-v1",
+  "quality": "PROVISIONAL",
+  "unit": "t di gioco al giorno",
+  "note": "Derivato da production_1936.json + extraction_factors.json (fattori provvisori) + resource_points.json. Rigenerare con npm run build:extraction. Non include le miniere costruite dal giocatore.",
+  "byTerritory": {
+    "ALG": {
+      "iron_ore": 137.6
+    },
+    "ARG": {
+      "oil": 50.4
+    },
+    "AUT": {
+      "iron_ore": 614.5
+    },
+    "BEL": {
+      "coal": 304.2
+    },
+    "BGR": {
+      "iron_ore": 16.2
+    },
+    "BRA": {
+      "iron_ore": 27.6,
+      "coal": 64.6,
+      "rubber": 30
+    },
+    "BUR": {
+      "oil": 25.2
+    },
+    "CAN": {
+      "coal": 135.2,
+      "oil": 29.7
+    },
+    "CEY": {
+      "rubber": 134
+    },
+    "CHL": {
+      "iron_ore": 230.7,
+      "sulphur": 5.2
+    },
+    "CHN": {
+      "iron_ore": 21.9,
+      "coal": 270.4,
+      "oil": 17.4
+    },
+    "COL": {
+      "oil": 85.8
+    },
+    "CUB": {
+      "iron_ore": 135.6
+    },
+    "CZE": {
+      "iron_ore": 230.8
+    },
+    "DEU": {
+      "iron_ore": 406.6,
+      "coal": 1780.8,
+      "oil": 29.8
+    },
+    "ECU": {
+      "oil": 17.5
+    },
+    "EGY": {
+      "oil": 17.6
+    },
+    "ESP": {
+      "iron_ore": 230.7,
+      "sulphur": 6.3
+    },
+    "FRA": {
+      "iron_ore": 2064.2,
+      "coal": 518.4,
+      "bauxite": 1369.8
+    },
+    "GBR": {
+      "iron_ore": 813.2,
+      "coal": 2513
+    },
+    "GRC": {
+      "iron_ore": 47.1,
+      "bauxite": 183.8
+    },
+    "HUN": {
+      "iron_ore": 47,
+      "bauxite": 695.4
+    },
+    "IND": {
+      "iron_ore": 156.4,
+      "coal": 259.2,
+      "oil": 25.2,
+      "bauxite": 37.4
+    },
+    "INDO": {
+      "rubber": 84
+    },
+    "IRN": {
+      "oil": 147
+    },
+    "IRQ": {
+      "oil": 73.5
+    },
+    "ITA": {
+      "coal": 38.7,
+      "bauxite": 312.6,
+      "sulphur": 71.1
+    },
+    "JPN": {
+      "coal": 450.8,
+      "oil": 29.7,
+      "sulphur": 36.6
+    },
+    "LBR": {
+      "rubber": 24
+    },
+    "MAL": {
+      "rubber": 729.9
+    },
+    "MAN": {
+      "iron_ore": 81.3,
+      "coal": 140.9
+    },
+    "MEX": {
+      "iron_ore": 230.7,
+      "coal": 109.6,
+      "oil": 145.8,
+      "sulphur": 3.8
+    },
+    "NFL": {
+      "iron_ore": 50
+    },
+    "NLD": {
+      "coal": 316.5,
+      "oil": 132,
+      "bauxite": 284.4,
+      "rubber": 620
+    },
+    "NOR": {
+      "iron_ore": 135.6
+    },
+    "PER": {
+      "oil": 50.4
+    },
+    "POL": {
+      "iron_ore": 79.8,
+      "coal": 338.1
+    },
+    "ROM": {
+      "iron_ore": 27.6,
+      "oil": 159.9,
+      "bauxite": 37.4
+    },
+    "SAU": {
+      "oil": 50.4
+    },
+    "SLE": {
+      "iron_ore": 16.2
+    },
+    "SUR": {
+      "bauxite": 505.8
+    },
+    "SWE": {
+      "iron_ore": 688.1
+    },
+    "TUR": {
+      "coal": 109.5
+    },
+    "USA": {
+      "iron_ore": 3127.5,
+      "coal": 4260,
+      "oil": 2756.4,
+      "bauxite": 779.7,
+      "sulphur": 418.2
+    },
+    "USSR": {
+      "iron_ore": 1720.2,
+      "coal": 1296,
+      "oil": 503.2,
+      "bauxite": 421.2
+    },
+    "VEN": {
+      "oil": 422.6
+    },
+    "YUG": {
+      "bauxite": 531
+    },
+    "ZAF": {
+      "coal": 169
+    }
+  }
+}

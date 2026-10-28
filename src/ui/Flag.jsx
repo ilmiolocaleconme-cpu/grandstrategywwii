@@ -1,8 +1,8 @@
 // Bandiera disegnata dai dati di data/flags.json (forme semplici). Decorativa: il nome della nazione sta accanto.
-export default function Flag({ flag, className = 'flag' }) {
-  if (!flag) return <div className={`${className} flag-missing`} aria-hidden="true" />;
+export default function Flag({ flag, className = 'flag', style }) {
+  if (!flag) return <div className={`${className} flag-missing`} style={style} aria-hidden="true" />;
   return (
-    <svg className={className} viewBox={`0 0 ${flag.w} ${flag.h}`} preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+    <svg className={className} style={style} viewBox={`0 0 ${flag.w} ${flag.h}`} preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
       {flag.shapes.map((s, i) => {
         if (s.t === 'rect') return <rect key={i} x={s.x} y={s.y} width={s.w} height={s.h} fill={s.fill} />;
         if (s.t === 'circle') return <circle key={i} cx={s.cx} cy={s.cy} r={s.r} fill={s.fill} />;

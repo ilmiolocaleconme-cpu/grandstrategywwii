@@ -8,6 +8,27 @@
   "P_ALG_CONSTANTINE": [
    "antimony"
   ],
+  "P_ARG_BUENOS_AIRES": [
+   "wheat"
+  ],
+  "P_ARG_CHUBUT": [
+   "oil"
+  ],
+  "P_ARG_CORDOBA": [
+   "wheat"
+  ],
+  "P_ARG_MENDOZA": [
+   "oil"
+  ],
+  "P_ARG_NEUQUEN": [
+   "oil"
+  ],
+  "P_ARG_SALTA": [
+   "oil"
+  ],
+  "P_ARG_SANTA_FE": [
+   "wheat"
+  ],
   "P_AUT_STYRIA": [
    "iron_ore"
   ],
@@ -22,6 +43,115 @@
   ],
   "P_BGR_SOFIA": [
    "iron_ore"
+  ],
+  "P_BOL_ORURO": [
+   "tungsten",
+   "tin",
+   "antimony"
+  ],
+  "P_BOL_POTOSI": [
+   "tungsten",
+   "tin",
+   "antimony"
+  ],
+  "P_BRA_AMAPA": [
+   "iron_ore",
+   "manganese"
+  ],
+  "P_BRA_MINAS_GERAIS": [
+   "iron_ore",
+   "manganese"
+  ],
+  "P_BRA_RIO_GRANDE_DO_SUL": [
+   "coal"
+  ],
+  "P_BRA_SANTA_CATARINA": [
+   "coal"
+  ],
+  "P_BUR_KAYAH_STATE": [
+   "tungsten"
+  ],
+  "P_BUR_MAGWAY": [
+   "oil"
+  ],
+  "P_BUR_SHAN_STATE": [
+   "tungsten",
+   "antimony"
+  ],
+  "P_CAN_ALBERTA": [
+   "oil",
+   "wheat"
+  ],
+  "P_CAN_MANITOBA": [
+   "wheat"
+  ],
+  "P_CAN_NORTHWEST_TERRITORIES": [
+   "uranium"
+  ],
+  "P_CAN_ONTARIO": [
+   "nickel",
+   "cobalt"
+  ],
+  "P_CAN_SASKATCHEWAN": [
+   "wheat"
+  ],
+  "P_CHL_ANTOFAGASTA": [
+   "molybdenum"
+  ],
+  "P_CHL_COQUIMBO": [
+   "iron_ore"
+  ],
+  "P_CHL_O_HIGGINS": [
+   "molybdenum"
+  ],
+  "P_CHN_GUANGDONG": [
+   "tungsten"
+  ],
+  "P_CHN_GUANGXI": [
+   "antimony"
+  ],
+  "P_CHN_GUIZHOU": [
+   "antimony",
+   "mercury"
+  ],
+  "P_CHN_HUNAN": [
+   "tungsten",
+   "antimony",
+   "mercury"
+  ],
+  "P_CHN_JIANGXI": [
+   "tungsten"
+  ],
+  "P_CHN_SHAANXI": [
+   "oil"
+  ],
+  "P_CHN_SICHUAN": [
+   "oil"
+  ],
+  "P_CHN_XINJIANG": [
+   "oil"
+  ],
+  "P_COD_KATANGA": [
+   "cobalt",
+   "uranium"
+  ],
+  "P_COL_ANTIOQUIA": [
+   "oil"
+  ],
+  "P_COL_SANTANDER": [
+   "oil"
+  ],
+  "P_CUB_GUANTANAMO": [
+   "iron_ore",
+   "nickel"
+  ],
+  "P_CUB_HOLGUIN": [
+   "iron_ore",
+   "nickel"
+  ],
+  "P_CUB_SANTIAGO_DE_CUBA": [
+   "iron_ore",
+   "nickel"
   ],
   "P_CZE_BOHEMIA": [
    "iron_ore",
@@ -82,6 +212,9 @@
   ],
   "P_DEU_WESTFALEN_SUED": [
    "coal"
+  ],
+  "P_ECU_SANTA_ELENA": [
+   "oil"
   ],
   "P_EGY_AL_BAHR_AL_AHMAR": [
    "oil"
@@ -201,6 +334,9 @@
    "coal",
    "iron_ore"
   ],
+  "P_GHA_WESTERN": [
+   "manganese"
+  ],
   "P_GRC_ATTIKI": [
    "iron_ore",
    "bauxite"
@@ -223,6 +359,43 @@
   ],
   "P_HUN_VESZPREM": [
    "bauxite"
+  ],
+  "P_IND_ASSAM": [
+   "oil"
+  ],
+  "P_IND_BIHAR": [
+   "bauxite"
+  ],
+  "P_IND_GOA": [
+   "manganese"
+  ],
+  "P_IND_JHARKHAND": [
+   "coal",
+   "bauxite"
+  ],
+  "P_IND_MADHYA_PRADESH": [
+   "manganese"
+  ],
+  "P_IND_MAHARASHTRA": [
+   "manganese"
+  ],
+  "P_IND_PUNJAB": [
+   "wheat"
+  ],
+  "P_IND_PUNJAB_PB": [
+   "wheat"
+  ],
+  "P_IND_UTTAR_PRADESH": [
+   "wheat"
+  ],
+  "P_IND_WEST_BENGAL": [
+   "coal"
+  ],
+  "P_IRN_KHUZESTAN": [
+   "oil"
+  ],
+  "P_IRQ_KIRKUK": [
+   "oil"
   ],
   "P_ITA_AGRIGENTO": [
    "coal",
@@ -293,8 +466,145 @@
    "bauxite",
    "mercury"
   ],
+  "P_JPN_AKITA_PREFECTURE": [
+   "oil"
+  ],
+  "P_JPN_AOMORI_PREFECTURE": [
+   "sulphur"
+  ],
+  "P_JPN_FUKUOKA_PREFECTURE": [
+   "coal"
+  ],
+  "P_JPN_HOKKAIDO": [
+   "oil",
+   "coal",
+   "sulphur"
+  ],
+  "P_JPN_IWATE_PREFECTURE": [
+   "sulphur"
+  ],
+  "P_JPN_NAGASAKI_PREFECTURE": [
+   "coal"
+  ],
+  "P_JPN_NIIGATA_PREFECTURE": [
+   "oil"
+  ],
+  "P_JPN_SAGA_PREFECTURE": [
+   "coal"
+  ],
+  "P_KOR_GANGWON": [
+   "tungsten"
+  ],
+  "P_MAL_JOHOR": [
+   "rubber"
+  ],
+  "P_MAL_PERAK": [
+   "rubber",
+   "tin"
+  ],
+  "P_MAL_SELANGOR": [
+   "rubber",
+   "tin"
+  ],
+  "P_MAN_LIAONING": [
+   "coal"
+  ],
   "P_MAR_SOUSS___MASSA___DRAA": [
    "cobalt"
+  ],
+  "P_MEX_COAHUILA": [
+   "coal",
+   "sulphur"
+  ],
+  "P_MEX_COLIMA": [
+   "iron_ore"
+  ],
+  "P_MEX_DURANGO": [
+   "iron_ore"
+  ],
+  "P_MEX_HIDALGO": [
+   "antimony"
+  ],
+  "P_MEX_MICHOACAN": [
+   "iron_ore"
+  ],
+  "P_MEX_NUEVO_LEON": [
+   "coal"
+  ],
+  "P_MEX_SAN_LUIS_POTOSI": [
+   "antimony",
+   "sulphur"
+  ],
+  "P_MEX_TABASCO": [
+   "oil"
+  ],
+  "P_MEX_TAMAULIPAS": [
+   "oil"
+  ],
+  "P_MEX_VERACRUZ": [
+   "oil"
+  ],
+  "P_MEX_ZACATECAS": [
+   "antimony"
+  ],
+  "P_NFL_NEWFOUNDLAND_AND_LABRADOR": [
+   "iron_ore"
+  ],
+  "P_NGA_PLATEAU_STATE": [
+   "tin"
+  ],
+  "P_NLD_EI_BANGKA_BELITUNG_ISLANDS": [
+   "tin"
+  ],
+  "P_NLD_EI_CENTRAL_JAVA": [
+   "oil",
+   "bauxite",
+   "rubber"
+  ],
+  "P_NLD_EI_EAST_JAVA": [
+   "oil",
+   "bauxite",
+   "rubber"
+  ],
+  "P_NLD_EI_EAST_KALIMANTAN": [
+   "oil",
+   "rubber"
+  ],
+  "P_NLD_EI_JAMBI": [
+   "oil",
+   "rubber",
+   "tin"
+  ],
+  "P_NLD_EI_NORTH_SUMATRA": [
+   "oil",
+   "rubber",
+   "tin"
+  ],
+  "P_NLD_EI_RIAU": [
+   "oil",
+   "rubber",
+   "tin"
+  ],
+  "P_NLD_EI_RIAU_ISLANDS": [
+   "bauxite"
+  ],
+  "P_NLD_EI_SOUTH_KALIMANTAN": [
+   "oil",
+   "rubber"
+  ],
+  "P_NLD_EI_SOUTH_SUMATRA": [
+   "oil",
+   "rubber",
+   "tin"
+  ],
+  "P_NLD_EI_WEST_JAVA": [
+   "oil",
+   "bauxite",
+   "rubber"
+  ],
+  "P_NLD_EI_WEST_KALIMANTAN": [
+   "oil",
+   "rubber"
   ],
   "P_NLD_LIMBURG": [
    "coal"
@@ -313,6 +623,22 @@
   ],
   "P_NOR_VEST_AGDER": [
    "molybdenum"
+  ],
+  "P_PER_JUNIN": [
+   "molybdenum"
+  ],
+  "P_PER_LORETO": [
+   "oil"
+  ],
+  "P_PER_PASCO": [
+   "molybdenum",
+   "vanadium"
+  ],
+  "P_PER_PIURA": [
+   "oil"
+  ],
+  "P_PHL_CENTRAL_LUZON_REGION_III": [
+   "chromium"
   ],
   "P_POL_KIELCE_VOIVODESHIP": [
    "coal",
@@ -351,6 +677,21 @@
   "P_ROM_TIMIS": [
    "iron_ore"
   ],
+  "P_SAU_EASTERN": [
+   "oil"
+  ],
+  "P_SIA_SOUTHERN": [
+   "tin"
+  ],
+  "P_SLE_NORTHERN": [
+   "iron_ore"
+  ],
+  "P_SUR_MAROWIJNE": [
+   "bauxite"
+  ],
+  "P_SUR_PARA": [
+   "bauxite"
+  ],
   "P_SWE_NORRBOTTEN": [
    "iron_ore"
   ],
@@ -358,6 +699,71 @@
    "chromium"
   ],
   "P_TUR_ZINGULDAK": [
+   "coal"
+  ],
+  "P_USA_ALABAMA": [
+   "bauxite"
+  ],
+  "P_USA_ARKANSAS": [
+   "bauxite"
+  ],
+  "P_USA_CALIFORNIA": [
+   "oil"
+  ],
+  "P_USA_COLORADO": [
+   "molybdenum",
+   "vanadium",
+   "uranium"
+  ],
+  "P_USA_GEORGIA": [
+   "bauxite"
+  ],
+  "P_USA_IDAHO": [
+   "tungsten"
+  ],
+  "P_USA_ILLINOIS": [
+   "coal"
+  ],
+  "P_USA_KANSAS": [
+   "wheat"
+  ],
+  "P_USA_LOUISIANA": [
+   "sulphur"
+  ],
+  "P_USA_MINNESOTA": [
+   "iron_ore"
+  ],
+  "P_USA_MONTANA": [
+   "wheat",
+   "tungsten"
+  ],
+  "P_USA_NEBRASKA": [
+   "wheat"
+  ],
+  "P_USA_NEVADA": [
+   "tungsten"
+  ],
+  "P_USA_NORTH_DAKOTA": [
+   "wheat"
+  ],
+  "P_USA_OKLAHOMA": [
+   "oil"
+  ],
+  "P_USA_PENNSYLVANIA": [
+   "coal"
+  ],
+  "P_USA_SOUTH_DAKOTA": [
+   "wheat"
+  ],
+  "P_USA_TEXAS": [
+   "oil",
+   "sulphur"
+  ],
+  "P_USA_UTAH": [
+   "vanadium",
+   "uranium"
+  ],
+  "P_USA_WEST_VIRGINIA": [
    "coal"
   ],
   "P_USSR_ABSHERON": [
@@ -438,6 +844,9 @@
    "wheat",
    "manganese"
   ],
+  "P_VEN_ZULIA": [
+   "oil"
+  ],
   "P_YUG_BANJA_LUKA": [
    "bauxite",
    "antimony"
@@ -475,6 +884,28 @@
   ],
   "P_YUG_VALJEVO": [
    "antimony"
+  ],
+  "P_ZAF_GAUTENG": [
+   "chromium",
+   "vanadium"
+  ],
+  "P_ZAF_LIMPOPO": [
+   "chromium",
+   "vanadium"
+  ],
+  "P_ZAF_MPUMALANGA": [
+   "chromium",
+   "vanadium"
+  ],
+  "P_ZAF_NORTH_WEST": [
+   "chromium",
+   "vanadium"
+  ],
+  "P_ZIM_MASHONALAND_WEST": [
+   "chromium"
+  ],
+  "P_ZIM_MIDLANDS": [
+   "chromium"
   ]
  }
 }
