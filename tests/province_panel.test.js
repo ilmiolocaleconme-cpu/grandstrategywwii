@@ -7,6 +7,8 @@ import { newGame, validateState } from '../src/game/state.js';
 import { buildProvinceView, logisticsStatus, provinceLinkStats } from '../src/rules/provinceView.js';
 import { loadProvinces } from '../scripts/load-provinces.js';
 import { loadIndustryCatalog } from '../src/data/industry.js';
+import { NATION_TO_OWNER, TERRAIN_DENSITY, buildProvincePopulation, distribute, habitableFactor, nationalTotals } from '../src/data/population.js';
+import { populationBuilt, populationFile } from '../scripts/build-province-population.js';
 
 // Fixture sintetiche SOLO per i test: non sono dati storici.
 const MOTHERS = new Set(['P_AAA_1', 'P_AAA_2']);
@@ -44,7 +46,8 @@ test('dataset per provincia: id inesistenti, campi sconosciuti, valori fuori lim
 
 test('provinceEntry: una sponda legge la voce della madre', () => {
   const f = file('population', { P_AAA_1: { population: 10 } });
-  assert.deepEqual(provinceEntry(f, { id: 'P_AAA_1_SP1', parentProvince: 'P_AAA_1' }), { population: 10 });
+  assert.deepEqual(provinceEntry(f, { id: 'P_AAA_1_SP1', parentProvince: 'P_AAA_1' }), { population: 10, quality: 'DESIGN_DEFAULT' }, 'la qualità del file vale per la voce');
+  assert.equal(provinceEntry(file('population', { P_AAA_1: { population: 1, quality: 'USER_ESTIMATE' } }), { id: 'P_AAA_1' }).quality, 'USER_ESTIMATE', 'quella della voce prevale');
   assert.equal(provinceEntry(f, { id: 'P_AAA_2' }), null);
   assert.equal(provinceEntry(null, { id: 'P_AAA_1' }), null);
 });
@@ -57,10 +60,11 @@ test('dati reali: i tre file validano contro le province madri e il Pack, e ness
     structuresCsv: readFileSync(new URL('../data/infrastructure/structures.csv', import.meta.url), 'utf8'),
     categoriesCsv: readFileSync(new URL('../data/industry/production_categories.csv', import.meta.url), 'utf8'),
   });
+  const ownerOf = new Map(provinces.features.map((f) => [f.properties.parentProvince ?? f.properties.id, f.properties.owner]));
   const files = { population: 'population/province_population.json', agriculture: 'agriculture/province_agriculture.json', military: 'military/province_presence.json' };
   for (const [kind, path] of Object.entries(files)) {
     const doc = JSON.parse(readFileSync(new URL(`../data/${path}`, import.meta.url), 'utf8'));
-    assert.deepEqual(validateProvinceDataset(kind, doc, { motherIds, structureIds: industry.structures }), [], path);
+    assert.deepEqual(validateProvinceDataset(kind, doc, { motherIds, structureIds: industry.structures, ownerOf }), [], path);
   }
 });
 
@@ -172,4 +176,67 @@ test('vista: pura — non modifica gli ingressi e dà lo stesso risultato a pari
   const copy = JSON.parse(JSON.stringify(input));
   assert.deepEqual(buildProvinceView(input), buildProvinceView(input));
   assert.deepEqual(input, copy);
+});
+
+test('distribuzione: somma esatta, resto maggiore deterministico, pesi non validi rifiutati', () => {
+  assert.deepEqual(distribute(10, [1, 1, 1]), [4, 3, 3], 'a parità di resto vince l\'indice più basso');
+  assert.equal(distribute(42993602, [3, 7, 11, 0.5]).reduce((a, b) => a + b, 0), 42993602);
+  assert.deepEqual(distribute(0, [1, 2]), [0, 0]);
+  assert.throws(() => distribute(10, [1, 0]), RangeError);
+  assert.throws(() => distribute(10, []), RangeError);
+  assert.throws(() => distribute(1.5, [1]), RangeError);
+});
+
+test('terreno: densità media dalle frazioni, deserto e tundra pesano poco, dati mancanti = default', () => {
+  assert.equal(habitableFactor({ pianura: 1 }), TERRAIN_DENSITY.pianura);
+  assert.ok(habitableFactor({ deserto: 0.9, pianura: 0.1 }) < 0.2);
+  assert.equal(habitableFactor(null), 0.5);
+  assert.equal(habitableFactor({ boh: 1 }), 0.5);
+});
+
+test('totali nazionali: paesi sconosciuti, anno e valori non validi, doppioni', () => {
+  const ok = { nazione: 'Italia', anno: '1936', popolazione_stimata: '42993602', fonte: 'x' };
+  assert.deepEqual(nationalTotals([ok]), { totals: { ITA: 42993602 }, errors: [] });
+  assert.match(nationalTotals([{ ...ok, nazione: 'Atlantide' }]).errors.join('|'), /senza corrispondenza/);
+  assert.match(nationalTotals([{ ...ok, anno: '1940' }]).errors.join('|'), /anno 1940/);
+  assert.match(nationalTotals([{ ...ok, popolazione_stimata: '-3' }]).errors.join('|'), /totale non valido/);
+  assert.match(nationalTotals([ok, ok]).errors.join('|'), /due volte/);
+});
+
+test('popolazione: ogni nazione somma al suo totale, sponde contano come una provincia, nazioni senza province segnalate', () => {
+  const pieces = [
+    { id: 'P_ITA_A', owner: 'ITA', mother: 'P_ITA_A', habitableKm2: 100 },
+    { id: 'P_ITA_B_SP1', owner: 'ITA', mother: 'P_ITA_B', habitableKm2: 50 },
+    { id: 'P_ITA_B_SP2', owner: 'ITA', mother: 'P_ITA_B', habitableKm2: 50 },
+  ];
+  const rows = [{ nazione: 'Italia', anno: '1936', popolazione_stimata: '1000', fonte: '' }, { nazione: 'Francia', anno: '1936', popolazione_stimata: '500', fonte: '' }];
+  const r = buildProvincePopulation({ rows, pieces, piecePop: [0, 10, 10] });
+  assert.deepEqual(Object.keys(r.byProvince).sort(), ['P_ITA_A', 'P_ITA_B']);
+  assert.equal(r.byProvince.P_ITA_A.population + r.byProvince.P_ITA_B.population, 1000);
+  assert.deepEqual(r.noProvinces, ['FRA']);
+});
+
+test('popolazione reale: il file su disco è quello che genera lo script, i totali tornano e i paesi del CSV sono tutti mappati', async () => {
+  const built = await populationBuilt();
+  assert.deepEqual(built.errors, []);
+  assert.deepEqual(built.noProvinces, []);
+  const doc = JSON.parse(readFileSync(new URL('../data/population/province_population.json', import.meta.url), 'utf8'));
+  assert.deepEqual(doc, JSON.parse(JSON.stringify(populationFile(built))), 'file non allineato: npm run build:population');
+  const csvCountries = readFileSync(new URL('../data/population/nazioni_1936.csv', import.meta.url), 'utf8').trim().split('\n').slice(1).map((l) => l.split(',')[0]);
+  assert.equal(csvCountries.length, 36);
+  for (const c of csvCountries) assert.ok(NATION_TO_OWNER[c], `${c} senza corrispondenza`);
+  assert.equal(Object.keys(doc.nationalTotals).length, 36);
+  assert.equal(doc.nationalTotals.ITA, 42993602, 'censimento ISTAT 1936');
+  assert.ok(Object.values(doc.byProvince).every((e) => Number.isInteger(e.population) && e.population >= 0));
+});
+
+test('vista: popolazione di design mostrata con «~», dato dell\'utente senza', () => {
+  const approx = view({ population: { population: 1234567, quality: 'DESIGN_DEFAULT' } });
+  assert.match(approx.header.indicators.find((i) => i.id === 'population').value, /^~/);
+  const card = approx.cards.find((c) => c.id === 'population');
+  assert.equal(card.status.label, 'Stima di design');
+  assert.ok(card.details.some((d) => d.label === 'Nota'));
+  const exact = view({ population: { population: 1234567, quality: 'USER_ESTIMATE' } });
+  assert.doesNotMatch(exact.header.indicators.find((i) => i.id === 'population').value, /~/);
+  assert.equal(exact.cards.find((c) => c.id === 'population').status.label, 'Dato presente');
 });

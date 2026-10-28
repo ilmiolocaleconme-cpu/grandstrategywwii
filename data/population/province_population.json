@@ -1,6 +1,3892 @@
 {
   "schema": "province-population-v1",
-  "quality": "MISSING_DATA",
-  "note": "Nessun dato di popolazione per provincia nel repository (verificato il 28/10/2026). File volutamente vuoto: il contratto è pronto, i valori vanno inseriti da una fonte dichiarata (USER_ESTIMATE) oppure come stima di design (DESIGN_DEFAULT). Chiave = id della provincia MADRE; campi: population, workforce, growthPerYear.",
-  "byProvince": {}
+  "quality": "DESIGN_DEFAULT",
+  "note": "Totali nazionali 1936 forniti dall'utente (data/population/nazioni_1936.csv, Gapminder v7 / Our World in Data; solo il valore dell'Italia è un censimento, ISTAT 21 aprile 1936) DISTRIBUITI sulle province madri: la ripartizione è una scelta di design, non un dato storico. Peso = 0.5 × quota del territorio abitabile (area × densità relativa del terreno di data/terrain.json, elevata a 0.5) + 0.5 × quota della popolazione moderna del luogo abitato principale (Natural Earth, nodi di data/links.json, elevata a 0.5); i valori sono in method. Il totale di ogni nazione è esatto, i singoli valori NO: senza una densità per provincia possono essere lontani dal vero di un fattore 5-10 (province enormi e semivuote come Xinjiang o Alaska sovrastimate, idem province con una megalopoli moderna come Shanghai). Le nazioni non presenti nel CSV restano senza dato. Rigenerare con npm run build:population; non modificare a mano.",
+  "method": {
+    "urbanWeight": 0.5,
+    "urbanPower": 0.5,
+    "areaPower": 0.5,
+    "terrainDensity": {
+      "pianura": 1,
+      "collina": 0.7,
+      "foresta": 0.4,
+      "palude": 0.3,
+      "montagna": 0.25,
+      "deserto": 0.03,
+      "tundra": 0.03
+    },
+    "defaultDensity": 0.5,
+    "rounding": "resto maggiore (somma esatta)",
+    "year": 1936
+  },
+  "nationalTotals": {
+    "ITA": 42993602,
+    "USA": 128100000,
+    "GBR": 47500000,
+    "FRA": 41900000,
+    "DEU": 68500000,
+    "USSR": 181000000,
+    "JPN": 70400000,
+    "CHN": 509000000,
+    "IND": 388000000,
+    "POL": 32000000,
+    "ESP": 24000000,
+    "BRA": 39000000,
+    "MEX": 18000000,
+    "ARG": 13000000,
+    "CAN": 11000000,
+    "AUS": 6800000,
+    "NLD": 8600000,
+    "BEL": 8300000,
+    "CHE": 4100000,
+    "SWE": 6100000,
+    "NOR": 2900000,
+    "DNK": 3700000,
+    "FIN": 3600000,
+    "AUT": 6704952,
+    "HUN": 9100000,
+    "ROM": 19000000,
+    "BGR": 6300000,
+    "GRC": 7300000,
+    "PRT": 7700000,
+    "TUR": 17000000,
+    "EGY": 16000000,
+    "ZAF": 9900000,
+    "NLD_EI": 66000000,
+    "PHL": 17000000,
+    "INDO": 18000000,
+    "SIA": 14000000
+  },
+  "mappingNotes": {
+    "INDO": "il CSV dà il Vietnam, ma nel repository INDO è Vietnam + Laos + Cambogia: totale probabilmente sottostimato per l'entità",
+    "CHN": "il Manciukuo (MAN) e il Tibet (TIB) non hanno dato; se il totale del CSV li include, CHN è sovrastimata",
+    "JPN": "solo il Giappone metropolitano; Corea (KOR) e Taiwan (TWN) senza dato",
+    "ITA": "totale metropolitano (censimento 1936); Libia e Somalia italiane senza dato",
+    "NLD_EI": "Indonesia del CSV = Indie orientali olandesi",
+    "SIA": "Thailandia del CSV = Siam"
+  },
+  "byProvince": {
+    "P_ARG_BUENOS_AIRES": {
+      "population": 1891834
+    },
+    "P_ARG_CATAMARCA": {
+      "population": 369003
+    },
+    "P_ARG_CHACO": {
+      "population": 557937
+    },
+    "P_ARG_CHUBUT": {
+      "population": 540445
+    },
+    "P_ARG_CORDOBA": {
+      "population": 861931
+    },
+    "P_ARG_CORRIENTES": {
+      "population": 526366
+    },
+    "P_ARG_ENTRE_RIOS": {
+      "population": 479305
+    },
+    "P_ARG_FORMOSA": {
+      "population": 458596
+    },
+    "P_ARG_JUJUY": {
+      "population": 369085
+    },
+    "P_ARG_LA_PAMPA": {
+      "population": 498723
+    },
+    "P_ARG_LA_RIOJA": {
+      "population": 383468
+    },
+    "P_ARG_MENDOZA": {
+      "population": 677672
+    },
+    "P_ARG_MISIONES": {
+      "population": 383600
+    },
+    "P_ARG_NEUQUEN": {
+      "population": 410548
+    },
+    "P_ARG_RIO_NEGRO": {
+      "population": 516265
+    },
+    "P_ARG_SALTA": {
+      "population": 592235
+    },
+    "P_ARG_SANTA_CRUZ": {
+      "population": 538892
+    },
+    "P_ARG_SANTA_FE": {
+      "population": 791531
+    },
+    "P_ARG_SANTIAGO_DEL_ESTERO": {
+      "population": 595233
+    },
+    "P_ARG_SAN_JUAN": {
+      "population": 454865
+    },
+    "P_ARG_SAN_LUIS": {
+      "population": 512155
+    },
+    "P_ARG_TIERRA_DEL_FUEGO": {
+      "population": 111666
+    },
+    "P_ARG_TUCUMAN": {
+      "population": 478645
+    },
+    "P_AUS_AUSTRALIAN_CAPITAL_TERRITORY": {
+      "population": 243137
+    },
+    "P_AUS_MACQUARIE": {
+      "population": 1113
+    },
+    "P_AUS_NEW_SOUTH_WALES": {
+      "population": 1302659
+    },
+    "P_AUS_NORFOLK": {
+      "population": 3687
+    },
+    "P_AUS_NORTHERN_TERRITORY": {
+      "population": 712345
+    },
+    "P_AUS_QUEENSLAND": {
+      "population": 1241014
+    },
+    "P_AUS_SOUTH_AUSTRALIA": {
+      "population": 926226
+    },
+    "P_AUS_TASMANIA": {
+      "population": 98792
+    },
+    "P_AUS_VICTORIA": {
+      "population": 1040357
+    },
+    "P_AUS_WESTERN_AUSTRALIA": {
+      "population": 1230670
+    },
+    "P_AUT_BURGENLAND": {
+      "population": 470904
+    },
+    "P_AUT_CARINTHIA": {
+      "population": 586045
+    },
+    "P_AUT_LOWER_AUSTRIA": {
+      "population": 2014023
+    },
+    "P_AUT_SALZBURG": {
+      "population": 660016
+    },
+    "P_AUT_STYRIA": {
+      "population": 950754
+    },
+    "P_AUT_TIROL": {
+      "population": 692188
+    },
+    "P_AUT_UPPER_AUSTRIA": {
+      "population": 1012811
+    },
+    "P_AUT_VORARLBERG": {
+      "population": 318211
+    },
+    "P_BEL_ANTWERP": {
+      "population": 1185352
+    },
+    "P_BEL_BRABANT": {
+      "population": 1487867
+    },
+    "P_BEL_EAST_FLANDERS": {
+      "population": 990364
+    },
+    "P_BEL_HAINAUT": {
+      "population": 952234
+    },
+    "P_BEL_LIEGE": {
+      "population": 1083386
+    },
+    "P_BEL_LIMBURG": {
+      "population": 605256
+    },
+    "P_BEL_LUXEMBOURG": {
+      "population": 537547
+    },
+    "P_BEL_NAMUR": {
+      "population": 657068
+    },
+    "P_BEL_WEST_FLANDERS": {
+      "population": 800926
+    },
+    "P_BGR_BLAGOEVGRAD": {
+      "population": 114149
+    },
+    "P_BGR_BURGAS": {
+      "population": 407181
+    },
+    "P_BGR_GABROVO": {
+      "population": 88209
+    },
+    "P_BGR_HASKOVO": {
+      "population": 282577
+    },
+    "P_BGR_KARDZHALI": {
+      "population": 123956
+    },
+    "P_BGR_KYUSTENDIL": {
+      "population": 199508
+    },
+    "P_BGR_LOVECH": {
+      "population": 228119
+    },
+    "P_BGR_MONTANA": {
+      "population": 238989
+    },
+    "P_BGR_PAZARDZHIK": {
+      "population": 110879
+    },
+    "P_BGR_PERNIK": {
+      "population": 233398
+    },
+    "P_BGR_PLEVEN": {
+      "population": 320270
+    },
+    "P_BGR_PLOVDIV": {
+      "population": 433447
+    },
+    "P_BGR_RAZGRAD": {
+      "population": 218590
+    },
+    "P_BGR_RUSE": {
+      "population": 335798
+    },
+    "P_BGR_SHUMEN": {
+      "population": 269552
+    },
+    "P_BGR_SLIVEN": {
+      "population": 266778
+    },
+    "P_BGR_SMOLYAN": {
+      "population": 82333
+    },
+    "P_BGR_SOFIA": {
+      "population": 692996
+    },
+    "P_BGR_STARA_ZAGORA": {
+      "population": 324435
+    },
+    "P_BGR_TARGOVISHTE": {
+      "population": 107152
+    },
+    "P_BGR_VARNA": {
+      "population": 411437
+    },
+    "P_BGR_VELIKO_TARNOVO": {
+      "population": 260064
+    },
+    "P_BGR_VIDIN": {
+      "population": 119544
+    },
+    "P_BGR_VRATSA": {
+      "population": 277828
+    },
+    "P_BGR_YAMBOL": {
+      "population": 152811
+    },
+    "P_BRA_ACRE": {
+      "population": 752603
+    },
+    "P_BRA_ALAGOAS": {
+      "population": 816790
+    },
+    "P_BRA_AMAPA": {
+      "population": 1071279
+    },
+    "P_BRA_AMAZONAS": {
+      "population": 2250892
+    },
+    "P_BRA_BAHIA": {
+      "population": 2267552
+    },
+    "P_BRA_CEARA": {
+      "population": 1129032
+    },
+    "P_BRA_ESPIRITO_SANTO": {
+      "population": 966718
+    },
+    "P_BRA_FEDERAL": {
+      "population": 1090726
+    },
+    "P_BRA_FERNANDO_DE_NORONHA": {
+      "population": 14122
+    },
+    "P_BRA_GOIAS": {
+      "population": 1782574
+    },
+    "P_BRA_MARANHAO": {
+      "population": 1447419
+    },
+    "P_BRA_MATO_GROSSO": {
+      "population": 2094581
+    },
+    "P_BRA_MATO_GROSSO_DO_SUL": {
+      "population": 1611416
+    },
+    "P_BRA_MINAS_GERAIS": {
+      "population": 2505952
+    },
+    "P_BRA_PARA": {
+      "population": 2241524
+    },
+    "P_BRA_PARAIBA": {
+      "population": 665039
+    },
+    "P_BRA_PARANA": {
+      "population": 1618682
+    },
+    "P_BRA_PERNAMBUCO": {
+      "population": 1232513
+    },
+    "P_BRA_PIAUI": {
+      "population": 1072746
+    },
+    "P_BRA_RIO_DE_JANEIRO": {
+      "population": 1975237
+    },
+    "P_BRA_RIO_GRANDE_DO_NORTE": {
+      "population": 620983
+    },
+    "P_BRA_RIO_GRANDE_DO_SUL": {
+      "population": 1973227
+    },
+    "P_BRA_RONDONIA": {
+      "population": 965525
+    },
+    "P_BRA_RORAIMA": {
+      "population": 889523
+    },
+    "P_BRA_SANTA_CATARINA": {
+      "population": 916105
+    },
+    "P_BRA_SAO_PAULO": {
+      "population": 3078876
+    },
+    "P_BRA_SERGIPE": {
+      "population": 700520
+    },
+    "P_BRA_TOCANTINS": {
+      "population": 1247844
+    },
+    "P_CAN_ALBERTA": {
+      "population": 1130093
+    },
+    "P_CAN_BRITISH_COLUMBIA": {
+      "population": 1375810
+    },
+    "P_CAN_MANITOBA": {
+      "population": 1015273
+    },
+    "P_CAN_NEW_BRUNSWICK": {
+      "population": 325339
+    },
+    "P_CAN_NORTHWEST_TERRITORIES": {
+      "population": 684448
+    },
+    "P_CAN_NOVA_SCOTIA": {
+      "population": 487046
+    },
+    "P_CAN_NUNAVUT": {
+      "population": 693130
+    },
+    "P_CAN_ONTARIO": {
+      "population": 1977788
+    },
+    "P_CAN_PRINCE_EDWARD_ISLAND": {
+      "population": 42485
+    },
+    "P_CAN_QUEBEC": {
+      "population": 2026938
+    },
+    "P_CAN_SASKATCHEWAN": {
+      "population": 821135
+    },
+    "P_CAN_YUKON": {
+      "population": 420515
+    },
+    "P_CHE_AARGAU": {
+      "population": 148158
+    },
+    "P_CHE_APPENZELL_AUSSERRHODEN": {
+      "population": 77064
+    },
+    "P_CHE_APPENZELL_INNERRHODEN": {
+      "population": 49075
+    },
+    "P_CHE_BASEL_LANDSCHAFT": {
+      "population": 97837
+    },
+    "P_CHE_BASEL_STADT": {
+      "population": 272671
+    },
+    "P_CHE_BERN": {
+      "population": 345812
+    },
+    "P_CHE_FRIBOURG": {
+      "population": 158872
+    },
+    "P_CHE_GENEVE": {
+      "population": 345403
+    },
+    "P_CHE_GLARUS": {
+      "population": 69652
+    },
+    "P_CHE_GRAUBUNDEN": {
+      "population": 212972
+    },
+    "P_CHE_LUCERNE": {
+      "population": 239091
+    },
+    "P_CHE_NEUCHATEL": {
+      "population": 107672
+    },
+    "P_CHE_NIDWALDEN": {
+      "population": 55589
+    },
+    "P_CHE_OBWALDEN": {
+      "population": 68777
+    },
+    "P_CHE_SANKT_GALLEN": {
+      "population": 179580
+    },
+    "P_CHE_SCHAFFHAUSEN": {
+      "population": 99083
+    },
+    "P_CHE_SCHWYZ": {
+      "population": 100567
+    },
+    "P_CHE_SOLOTHURN": {
+      "population": 98287
+    },
+    "P_CHE_THURGAU": {
+      "population": 141390
+    },
+    "P_CHE_TICINO": {
+      "population": 190831
+    },
+    "P_CHE_URI": {
+      "population": 87151
+    },
+    "P_CHE_VALAIS": {
+      "population": 183742
+    },
+    "P_CHE_VAUD": {
+      "population": 272397
+    },
+    "P_CHE_ZUG": {
+      "population": 82087
+    },
+    "P_CHE_ZURICH": {
+      "population": 416240
+    },
+    "P_CHN_ANHUI": {
+      "population": 17082600
+    },
+    "P_CHN_BEIJING": {
+      "population": 19418804
+    },
+    "P_CHN_CHONGQING": {
+      "population": 17915886
+    },
+    "P_CHN_FUJIAN": {
+      "population": 16112188
+    },
+    "P_CHN_GANSU": {
+      "population": 18403946
+    },
+    "P_CHN_GUANGDONG": {
+      "population": 23361890
+    },
+    "P_CHN_GUANGXI": {
+      "population": 19879672
+    },
+    "P_CHN_GUIZHOU": {
+      "population": 17500203
+    },
+    "P_CHN_HAINAN": {
+      "population": 4242019
+    },
+    "P_CHN_HEBEI": {
+      "population": 18354163
+    },
+    "P_CHN_HENAN": {
+      "population": 18857844
+    },
+    "P_CHN_HUBEI": {
+      "population": 23515842
+    },
+    "P_CHN_HUNAN": {
+      "population": 18375456
+    },
+    "P_CHN_INNER_MONGOLIA": {
+      "population": 26457823
+    },
+    "P_CHN_JIANGSU": {
+      "population": 18650193
+    },
+    "P_CHN_JIANGXI": {
+      "population": 17141811
+    },
+    "P_CHN_NINGXIA": {
+      "population": 9100361
+    },
+    "P_CHN_QINGHAI": {
+      "population": 22197786
+    },
+    "P_CHN_SHAANXI": {
+      "population": 18724703
+    },
+    "P_CHN_SHANDONG": {
+      "population": 19713801
+    },
+    "P_CHN_SHANGHAI": {
+      "population": 21532329
+    },
+    "P_CHN_SHANXI": {
+      "population": 16456113
+    },
+    "P_CHN_SICHUAN": {
+      "population": 22935942
+    },
+    "P_CHN_TIANJIN": {
+      "population": 16338901
+    },
+    "P_CHN_XINJIANG": {
+      "population": 33256371
+    },
+    "P_CHN_YUNNAN": {
+      "population": 18138815
+    },
+    "P_CHN_ZHEJIANG": {
+      "population": 15334538
+    },
+    "P_DEU_BADEN": {
+      "population": 3086371
+    },
+    "P_DEU_BAYERISCHE_OSTMARK": {
+      "population": 2199609
+    },
+    "P_DEU_BERLIN": {
+      "population": 2647991
+    },
+    "P_DEU_DUESSELDORF": {
+      "population": 1951868
+    },
+    "P_DEU_ESSEN": {
+      "population": 2270302
+    },
+    "P_DEU_FRANKEN": {
+      "population": 1985492
+    },
+    "P_DEU_HALLE_MERSEBURG": {
+      "population": 1030542
+    },
+    "P_DEU_HAMBURG": {
+      "population": 2043542
+    },
+    "P_DEU_HESSEN_NASSAU": {
+      "population": 3375345
+    },
+    "P_DEU_KOBLENZ_TRIER": {
+      "population": 1585305
+    },
+    "P_DEU_KOELN_AACHEN": {
+      "population": 2018371
+    },
+    "P_DEU_KURHESSEN": {
+      "population": 1497374
+    },
+    "P_DEU_KURMARK": {
+      "population": 2376238
+    },
+    "P_DEU_MAGDEBURG_ANHALT": {
+      "population": 1844049
+    },
+    "P_DEU_MAINFRANKEN": {
+      "population": 1359109
+    },
+    "P_DEU_MECKLENBURG_LUEBECK": {
+      "population": 1810964
+    },
+    "P_DEU_MUENCHEN_OBERBAYERN": {
+      "population": 2585638
+    },
+    "P_DEU_NIEDERSCHLESIEN": {
+      "population": 2512790
+    },
+    "P_DEU_OBERSCHLESIEN": {
+      "population": 1900287
+    },
+    "P_DEU_OSTPREUSSEN": {
+      "population": 2393234
+    },
+    "P_DEU_OST_HANNOVER": {
+      "population": 1899914
+    },
+    "P_DEU_POMMERN": {
+      "population": 2263236
+    },
+    "P_DEU_SAARPFALZ": {
+      "population": 1895714
+    },
+    "P_DEU_SACHSEN": {
+      "population": 2201204
+    },
+    "P_DEU_SCHLESWIG_HOLSTEIN": {
+      "population": 2149061
+    },
+    "P_DEU_SCHWABEN": {
+      "population": 1728842
+    },
+    "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": {
+      "population": 2294454
+    },
+    "P_DEU_THUERINGEN": {
+      "population": 1739730
+    },
+    "P_DEU_WESER_EMS": {
+      "population": 2542925
+    },
+    "P_DEU_WESTFALEN_NORD": {
+      "population": 1979034
+    },
+    "P_DEU_WESTFALEN_SUED": {
+      "population": 1759873
+    },
+    "P_DEU_WUERTTEMBERG_HOHENZOLLERN": {
+      "population": 3571592
+    },
+    "P_DNK_HOVEDSTADEN": {
+      "population": 930987
+    },
+    "P_DNK_MIDTJYLLAND": {
+      "population": 831727
+    },
+    "P_DNK_NORDJYLLAND": {
+      "population": 639385
+    },
+    "P_DNK_SJAELLAND": {
+      "population": 497722
+    },
+    "P_DNK_SYDDANMARK": {
+      "population": 800179
+    },
+    "P_EGY_AD_DAQAHLIYAH": {
+      "population": 734426
+    },
+    "P_EGY_AL_BAHR_AL_AHMAR": {
+      "population": 760127
+    },
+    "P_EGY_AL_BUHAYRAH": {
+      "population": 842054
+    },
+    "P_EGY_AL_FAYYUM": {
+      "population": 313663
+    },
+    "P_EGY_AL_GHARBIYAH": {
+      "population": 563061
+    },
+    "P_EGY_AL_ISKANDARIYAH": {
+      "population": 1045710
+    },
+    "P_EGY_AL_ISMA_ILIYAH": {
+      "population": 607482
+    },
+    "P_EGY_AL_JIZAH": {
+      "population": 909508
+    },
+    "P_EGY_AL_MINUFIYAH": {
+      "population": 440553
+    },
+    "P_EGY_AL_MINYA": {
+      "population": 446760
+    },
+    "P_EGY_AL_QAHIRAH": {
+      "population": 1395500
+    },
+    "P_EGY_AL_QALYUBIYAH": {
+      "population": 366717
+    },
+    "P_EGY_AL_WADI_AT_JADID": {
+      "population": 932443
+    },
+    "P_EGY_ASH_SHARQIYAH": {
+      "population": 666715
+    },
+    "P_EGY_ASWAN": {
+      "population": 381404
+    },
+    "P_EGY_ASYUT": {
+      "population": 313339
+    },
+    "P_EGY_AS_SUWAYS": {
+      "population": 478784
+    },
+    "P_EGY_BANI_SUWAYF": {
+      "population": 355895
+    },
+    "P_EGY_BUR_SA_ID": {
+      "population": 442284
+    },
+    "P_EGY_DUMYAT": {
+      "population": 398192
+    },
+    "P_EGY_JANUB_SINA": {
+      "population": 769364
+    },
+    "P_EGY_KAFR_ASH_SHAYKH": {
+      "population": 598493
+    },
+    "P_EGY_LUXOR": {
+      "population": 304330
+    },
+    "P_EGY_MATRUH": {
+      "population": 624779
+    },
+    "P_EGY_QINA": {
+      "population": 321741
+    },
+    "P_EGY_SHAMAL_SINA": {
+      "population": 619773
+    },
+    "P_EGY_SUHAJ": {
+      "population": 366903
+    },
+    "P_ESP_ALAVA": {
+      "population": 393810
+    },
+    "P_ESP_ALBACETE": {
+      "population": 536639
+    },
+    "P_ESP_ALICANTE": {
+      "population": 501563
+    },
+    "P_ESP_ALMERIA": {
+      "population": 421379
+    },
+    "P_ESP_ASTURIAS": {
+      "population": 532763
+    },
+    "P_ESP_AVILA": {
+      "population": 180051
+    },
+    "P_ESP_BADAJOZ": {
+      "population": 647808
+    },
+    "P_ESP_BALEARES": {
+      "population": 189964
+    },
+    "P_ESP_BARCELONA": {
+      "population": 1443386
+    },
+    "P_ESP_BURGOS": {
+      "population": 529153
+    },
+    "P_ESP_CACERES": {
+      "population": 386626
+    },
+    "P_ESP_CADIZ": {
+      "population": 537208
+    },
+    "P_ESP_CASTELLON": {
+      "population": 438533
+    },
+    "P_ESP_CIUDAD_REAL": {
+      "population": 390608
+    },
+    "P_ESP_CORDOBA": {
+      "population": 638850
+    },
+    "P_ESP_CORUNA": {
+      "population": 524131
+    },
+    "P_ESP_CUENCA": {
+      "population": 339535
+    },
+    "P_ESP_GERONA": {
+      "population": 179050
+    },
+    "P_ESP_GRANADA": {
+      "population": 571109
+    },
+    "P_ESP_GUADALAJARA": {
+      "population": 422427
+    },
+    "P_ESP_GUIPUZCOA": {
+      "population": 428684
+    },
+    "P_ESP_HUELVA": {
+      "population": 500563
+    },
+    "P_ESP_HUESCA": {
+      "population": 295882
+    },
+    "P_ESP_JAEN": {
+      "population": 458997
+    },
+    "P_ESP_LAS_PALMAS": {
+      "population": 140240
+    },
+    "P_ESP_LEON": {
+      "population": 479192
+    },
+    "P_ESP_LERIDA": {
+      "population": 242721
+    },
+    "P_ESP_LOGRONO": {
+      "population": 376307
+    },
+    "P_ESP_LUGO": {
+      "population": 217230
+    },
+    "P_ESP_MADRID": {
+      "population": 1538237
+    },
+    "P_ESP_MALAGA": {
+      "population": 599118
+    },
+    "P_ESP_MURCIA": {
+      "population": 606368
+    },
+    "P_ESP_NAVARRA": {
+      "population": 541916
+    },
+    "P_ESP_ORENSE": {
+      "population": 372417
+    },
+    "P_ESP_PALENCIA": {
+      "population": 226155
+    },
+    "P_ESP_PONTEVEDRA": {
+      "population": 480199
+    },
+    "P_ESP_SALAMANCA": {
+      "population": 520274
+    },
+    "P_ESP_SANTANDER": {
+      "population": 420372
+    },
+    "P_ESP_SANTA_CRUZ_DE_TENERIFE": {
+      "population": 94826
+    },
+    "P_ESP_SEGOVIA": {
+      "population": 205150
+    },
+    "P_ESP_SEVILLA": {
+      "population": 958571
+    },
+    "P_ESP_SORIA": {
+      "population": 246683
+    },
+    "P_ESP_TARRAGONA": {
+      "population": 388737
+    },
+    "P_ESP_TERUEL": {
+      "population": 284744
+    },
+    "P_ESP_TOLEDO": {
+      "population": 504511
+    },
+    "P_ESP_VALENCIA": {
+      "population": 767668
+    },
+    "P_ESP_VALLADOLID": {
+      "population": 573371
+    },
+    "P_ESP_VIZCAYA": {
+      "population": 628229
+    },
+    "P_ESP_ZAMORA": {
+      "population": 289485
+    },
+    "P_ESP_ZARAGOZA": {
+      "population": 808560
+    },
+    "P_FIN_ALAND": {
+      "population": 26569
+    },
+    "P_FIN_CENTRAL_FINLAND": {
+      "population": 219489
+    },
+    "P_FIN_CENTRAL_OSTROBOTHNIA": {
+      "population": 132707
+    },
+    "P_FIN_FINLAND_PROPER": {
+      "population": 224993
+    },
+    "P_FIN_KAINUU": {
+      "population": 127695
+    },
+    "P_FIN_KYMENLAAKSO": {
+      "population": 120193
+    },
+    "P_FIN_LAPLAND": {
+      "population": 278822
+    },
+    "P_FIN_NORTHERN_OSTROBOTHNIA": {
+      "population": 285310
+    },
+    "P_FIN_NORTHERN_SAVONIA": {
+      "population": 217625
+    },
+    "P_FIN_NORTH_KARELIA": {
+      "population": 197233
+    },
+    "P_FIN_OSTROBOTHNIA": {
+      "population": 151204
+    },
+    "P_FIN_PAIJAT_HAME": {
+      "population": 169787
+    },
+    "P_FIN_PIRKANMAA": {
+      "population": 272671
+    },
+    "P_FIN_SATAKUNTA": {
+      "population": 168911
+    },
+    "P_FIN_SOUTHERN_OSTROBOTHNIA": {
+      "population": 95740
+    },
+    "P_FIN_SOUTHERN_SAVONIA": {
+      "population": 185548
+    },
+    "P_FIN_SOUTH_KARELIA": {
+      "population": 152342
+    },
+    "P_FIN_TAVASTIA_PROPER": {
+      "population": 136062
+    },
+    "P_FIN_UUSIMAA": {
+      "population": 437099
+    },
+    "P_FRA_AIN": {
+      "population": 205031
+    },
+    "P_FRA_AISNE": {
+      "population": 291675
+    },
+    "P_FRA_ALLIER": {
+      "population": 425655
+    },
+    "P_FRA_ALPES_DE_HAUTE_PROVENCE": {
+      "population": 180147
+    },
+    "P_FRA_ALPES_MARITIMES": {
+      "population": 872337
+    },
+    "P_FRA_ARDECHE": {
+      "population": 193828
+    },
+    "P_FRA_ARDENNES": {
+      "population": 222088
+    },
+    "P_FRA_ARIEGE": {
+      "population": 176327
+    },
+    "P_FRA_AUBE": {
+      "population": 443516
+    },
+    "P_FRA_AUDE": {
+      "population": 233255
+    },
+    "P_FRA_AVEYRON": {
+      "population": 273966
+    },
+    "P_FRA_BAS_RHIN": {
+      "population": 721998
+    },
+    "P_FRA_BOUCHES_DU_RHONE": {
+      "population": 1153726
+    },
+    "P_FRA_CALVADOS": {
+      "population": 597055
+    },
+    "P_FRA_CANTAL": {
+      "population": 199026
+    },
+    "P_FRA_CHARENTE": {
+      "population": 266365
+    },
+    "P_FRA_CHARENTE_MARITIME": {
+      "population": 478817
+    },
+    "P_FRA_CHER": {
+      "population": 481081
+    },
+    "P_FRA_CORREZE": {
+      "population": 368020
+    },
+    "P_FRA_CORSE": {
+      "population": 194458
+    },
+    "P_FRA_COTES_D_ARMOR": {
+      "population": 473526
+    },
+    "P_FRA_COTE_D_OR": {
+      "population": 579866
+    },
+    "P_FRA_CREUSE": {
+      "population": 232865
+    },
+    "P_FRA_DEUX_SEVRES": {
+      "population": 272582
+    },
+    "P_FRA_DORDOGNE": {
+      "population": 292783
+    },
+    "P_FRA_DOUBS": {
+      "population": 494398
+    },
+    "P_FRA_DROME": {
+      "population": 205520
+    },
+    "P_FRA_EURE": {
+      "population": 255508
+    },
+    "P_FRA_EURE_ET_LOIR": {
+      "population": 263412
+    },
+    "P_FRA_FINISTERE": {
+      "population": 582256
+    },
+    "P_FRA_GARD": {
+      "population": 560583
+    },
+    "P_FRA_GERS": {
+      "population": 271629
+    },
+    "P_FRA_GIRONDE": {
+      "population": 1026504
+    },
+    "P_FRA_HAUTES_ALPES": {
+      "population": 135906
+    },
+    "P_FRA_HAUTES_PYRENEES": {
+      "population": 353025
+    },
+    "P_FRA_HAUTE_GARONNE": {
+      "population": 979896
+    },
+    "P_FRA_HAUTE_LOIRE": {
+      "population": 185151
+    },
+    "P_FRA_HAUTE_MARNE": {
+      "population": 242747
+    },
+    "P_FRA_HAUTE_SAONE": {
+      "population": 212458
+    },
+    "P_FRA_HAUTE_SAVOIE": {
+      "population": 400004
+    },
+    "P_FRA_HAUTE_VIENNE": {
+      "population": 531004
+    },
+    "P_FRA_HAUT_RHIN": {
+      "population": 532426
+    },
+    "P_FRA_HERAULT": {
+      "population": 683421
+    },
+    "P_FRA_ILLE_ET_VILAINE": {
+      "population": 641461
+    },
+    "P_FRA_INDRE": {
+      "population": 282697
+    },
+    "P_FRA_INDRE_ET_LOIRE": {
+      "population": 620335
+    },
+    "P_FRA_ISERE": {
+      "population": 694274
+    },
+    "P_FRA_JURA": {
+      "population": 196896
+    },
+    "P_FRA_KERGUELEN": {
+      "population": 52290
+    },
+    "P_FRA_LANDES": {
+      "population": 307584
+    },
+    "P_FRA_LOIRE": {
+      "population": 645368
+    },
+    "P_FRA_LOIRET": {
+      "population": 618638
+    },
+    "P_FRA_LOIRE_ATLANTIQUE": {
+      "population": 800738
+    },
+    "P_FRA_LOIR_ET_CHER": {
+      "population": 241449
+    },
+    "P_FRA_LOT": {
+      "population": 218974
+    },
+    "P_FRA_LOT_ET_GARONNE": {
+      "population": 439123
+    },
+    "P_FRA_LOZERE": {
+      "population": 172648
+    },
+    "P_FRA_MAINE_ET_LOIRE": {
+      "population": 624612
+    },
+    "P_FRA_MANCHE": {
+      "population": 461400
+    },
+    "P_FRA_MARNE": {
+      "population": 639693
+    },
+    "P_FRA_MAYENNE": {
+      "population": 249500
+    },
+    "P_FRA_MEURTHE_ET_MOSELLE": {
+      "population": 638967
+    },
+    "P_FRA_MEUSE": {
+      "population": 254530
+    },
+    "P_FRA_MORBIHAN": {
+      "population": 513030
+    },
+    "P_FRA_MOSELLE": {
+      "population": 746987
+    },
+    "P_FRA_NIEVRE": {
+      "population": 382405
+    },
+    "P_FRA_NORD": {
+      "population": 1060433
+    },
+    "P_FRA_OISE": {
+      "population": 259551
+    },
+    "P_FRA_ORNE": {
+      "population": 261640
+    },
+    "P_FRA_PAS_DE_CALAIS": {
+      "population": 526666
+    },
+    "P_FRA_PUY_DE_DOME": {
+      "population": 604533
+    },
+    "P_FRA_PYRENEES_ATLANTIQUES": {
+      "population": 556301
+    },
+    "P_FRA_PYRENEES_ORIENTALES": {
+      "population": 447278
+    },
+    "P_FRA_RHONE": {
+      "population": 1089972
+    },
+    "P_FRA_SAONE_ET_LOIRE": {
+      "population": 239014
+    },
+    "P_FRA_SARTHE": {
+      "population": 562440
+    },
+    "P_FRA_SAVOIE": {
+      "population": 142404
+    },
+    "P_FRA_SEINE": {
+      "population": 2553380
+    },
+    "P_FRA_SEINE_ET_MARNE": {
+      "population": 636544
+    },
+    "P_FRA_SEINE_ET_OISE": {
+      "population": 466597
+    },
+    "P_FRA_SEINE_MARITIME": {
+      "population": 953698
+    },
+    "P_FRA_SOMME": {
+      "population": 574241
+    },
+    "P_FRA_TARN": {
+      "population": 232153
+    },
+    "P_FRA_TARN_ET_GARONNE": {
+      "population": 203102
+    },
+    "P_FRA_TERRITOIRE_DE_BELFORT": {
+      "population": 73665
+    },
+    "P_FRA_VAR": {
+      "population": 690234
+    },
+    "P_FRA_VAUCLUSE": {
+      "population": 160928
+    },
+    "P_FRA_VENDEE": {
+      "population": 277389
+    },
+    "P_FRA_VIENNE": {
+      "population": 513663
+    },
+    "P_FRA_VOSGES": {
+      "population": 217660
+    },
+    "P_FRA_YONNE": {
+      "population": 407074
+    },
+    "P_GBR_ABERDEEN": {
+      "population": 520586
+    },
+    "P_GBR_ABERDEENSHIRE": {
+      "population": 431673
+    },
+    "P_GBR_ANGLESEY": {
+      "population": 162170
+    },
+    "P_GBR_ANGUS": {
+      "population": 244671
+    },
+    "P_GBR_ANTRIM": {
+      "population": 978576
+    },
+    "P_GBR_ARGYLL_AND_BUTE": {
+      "population": 422034
+    },
+    "P_GBR_ARMAGH": {
+      "population": 189951
+    },
+    "P_GBR_BEDFORDSHIRE": {
+      "population": 694131
+    },
+    "P_GBR_BERKSHIRE": {
+      "population": 207841
+    },
+    "P_GBR_BERMUDA": {
+      "population": 49739
+    },
+    "P_GBR_BUCKINGHAMSHIRE": {
+      "population": 263497
+    },
+    "P_GBR_CAERNARVONSHIRE_E_MERIONETHSHIRE": {
+      "population": 303303
+    },
+    "P_GBR_CAMBRIDGESHIRE": {
+      "population": 691968
+    },
+    "P_GBR_CARDIGANSHIRE": {
+      "population": 228884
+    },
+    "P_GBR_CARMARTHENSHIRE": {
+      "population": 262730
+    },
+    "P_GBR_CHESHIRE": {
+      "population": 594124
+    },
+    "P_GBR_CLACKMANNANSHIRE": {
+      "population": 54875
+    },
+    "P_GBR_CORNWALL": {
+      "population": 490860
+    },
+    "P_GBR_CUMBERLAND_E_WESTMORLAND": {
+      "population": 709339
+    },
+    "P_GBR_DENBIGHSHIRE": {
+      "population": 205908
+    },
+    "P_GBR_DERBYSHIRE": {
+      "population": 301434
+    },
+    "P_GBR_DEVON": {
+      "population": 960406
+    },
+    "P_GBR_DORSET": {
+      "population": 302795
+    },
+    "P_GBR_DOWN": {
+      "population": 290594
+    },
+    "P_GBR_DUMFRIES_AND_GALLOWAY": {
+      "population": 624831
+    },
+    "P_GBR_DUNDEE": {
+      "population": 435292
+    },
+    "P_GBR_DURHAM": {
+      "population": 983640
+    },
+    "P_GBR_EAST_AYRSHIRE": {
+      "population": 200270
+    },
+    "P_GBR_EAST_DUNBARTONSHIRE": {
+      "population": 75052
+    },
+    "P_GBR_EAST_LOTHIAN": {
+      "population": 145053
+    },
+    "P_GBR_EAST_RENFREWSHIRE": {
+      "population": 71078
+    },
+    "P_GBR_EAST_SUSSEX": {
+      "population": 949870
+    },
+    "P_GBR_EDIMBURGO": {
+      "population": 789167
+    },
+    "P_GBR_EILEAN_SIAR_EBRIDI_ESTERNE": {
+      "population": 308456
+    },
+    "P_GBR_ESSEX": {
+      "population": 1155213
+    },
+    "P_GBR_FALKIRK": {
+      "population": 88668
+    },
+    "P_GBR_FERMANAGH": {
+      "population": 240899
+    },
+    "P_GBR_FIFE": {
+      "population": 205171
+    },
+    "P_GBR_FLINTSHIRE": {
+      "population": 114163
+    },
+    "P_GBR_GILBERT_ELLICE": {
+      "population": 117143
+    },
+    "P_GBR_GLAMORGAN": {
+      "population": 1185666
+    },
+    "P_GBR_GLASGOW": {
+      "population": 1130196
+    },
+    "P_GBR_GLOUCESTERSHIRE": {
+      "population": 1062984
+    },
+    "P_GBR_HAMPSHIRE": {
+      "population": 1019039
+    },
+    "P_GBR_HEARD": {
+      "population": 61705
+    },
+    "P_GBR_HEREFORDSHIRE": {
+      "population": 264210
+    },
+    "P_GBR_HERTFORDSHIRE": {
+      "population": 245791
+    },
+    "P_GBR_HIGHLAND": {
+      "population": 999510
+    },
+    "P_GBR_INVERCLYDE": {
+      "population": 332782
+    },
+    "P_GBR_ISOLA_DI_WIGHT": {
+      "population": 126170
+    },
+    "P_GBR_KENT": {
+      "population": 565722
+    },
+    "P_GBR_LANCASHIRE": {
+      "population": 1875987
+    },
+    "P_GBR_LEICESTERSHIRE": {
+      "population": 949056
+    },
+    "P_GBR_LINCOLNSHIRE": {
+      "population": 513831
+    },
+    "P_GBR_LINE_FENICE": {
+      "population": 159605
+    },
+    "P_GBR_LONDONDERRY": {
+      "population": 532937
+    },
+    "P_GBR_LONDRA": {
+      "population": 2987530
+    },
+    "P_GBR_MIDDLESEX": {
+      "population": 149999
+    },
+    "P_GBR_MIDLOTHIAN": {
+      "population": 99673
+    },
+    "P_GBR_MONMOUTHSHIRE": {
+      "population": 188785
+    },
+    "P_GBR_MONTGOMERYSHIRE_RADNORSHIRE_E_BRECKNOCKSHIRE": {
+      "population": 369953
+    },
+    "P_GBR_MORAY": {
+      "population": 246980
+    },
+    "P_GBR_NORFOLK": {
+      "population": 879527
+    },
+    "P_GBR_NORTHAMPTONSHIRE": {
+      "population": 683895
+    },
+    "P_GBR_NORTHUMBERLAND": {
+      "population": 1336825
+    },
+    "P_GBR_NORTH_AYRSHIRE": {
+      "population": 116548
+    },
+    "P_GBR_NORTH_LANARKSHIRE": {
+      "population": 129989
+    },
+    "P_GBR_NOTTINGHAMSHIRE": {
+      "population": 1177168
+    },
+    "P_GBR_ORKNEY": {
+      "population": 175691
+    },
+    "P_GBR_OXFORDSHIRE": {
+      "population": 909691
+    },
+    "P_GBR_PEMBROKESHIRE": {
+      "population": 231506
+    },
+    "P_GBR_PERTH_E_KINROSS": {
+      "population": 552363
+    },
+    "P_GBR_PITCAIRN": {
+      "population": 33711
+    },
+    "P_GBR_RENFREWSHIRE": {
+      "population": 86081
+    },
+    "P_GBR_RUTLAND": {
+      "population": 125270
+    },
+    "P_GBR_SANT_ELENA": {
+      "population": 99788
+    },
+    "P_GBR_SCOTTISH_BORDERS": {
+      "population": 370767
+    },
+    "P_GBR_SHETLAND_ISLANDS": {
+      "population": 212210
+    },
+    "P_GBR_SHROPSHIRE": {
+      "population": 337517
+    },
+    "P_GBR_SOMERSET": {
+      "population": 674114
+    },
+    "P_GBR_SOUTH_AYRSHIRE": {
+      "population": 451585
+    },
+    "P_GBR_SOUTH_LANARKSHIRE": {
+      "population": 237860
+    },
+    "P_GBR_STAFFORDSHIRE": {
+      "population": 941941
+    },
+    "P_GBR_STIRLING": {
+      "population": 228638
+    },
+    "P_GBR_SUFFOLK": {
+      "population": 750925
+    },
+    "P_GBR_SURREY": {
+      "population": 247404
+    },
+    "P_GBR_TYRONE": {
+      "population": 478220
+    },
+    "P_GBR_WARWICKSHIRE": {
+      "population": 1795847
+    },
+    "P_GBR_WEST_DUNBARTONSHIRE": {
+      "population": 72329
+    },
+    "P_GBR_WEST_LOTHIAN": {
+      "population": 114662
+    },
+    "P_GBR_WEST_SUSSEX": {
+      "population": 263169
+    },
+    "P_GBR_WILTSHIRE": {
+      "population": 358286
+    },
+    "P_GBR_WORCESTERSHIRE": {
+      "population": 258872
+    },
+    "P_GBR_YORKSHIRE": {
+      "population": 2033435
+    },
+    "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI": {
+      "population": 547365
+    },
+    "P_GRC_ATTIKI": {
+      "population": 1578883
+    },
+    "P_GRC_AYION_OROS": {
+      "population": 56793
+    },
+    "P_GRC_DYTIKI_ELLADA": {
+      "population": 692480
+    },
+    "P_GRC_DYTIKI_MAKEDONIA": {
+      "population": 273515
+    },
+    "P_GRC_IONIOI_NISOI": {
+      "population": 144474
+    },
+    "P_GRC_IPEIROS": {
+      "population": 472005
+    },
+    "P_GRC_KENTRIKI_MAKEDONIA": {
+      "population": 1168476
+    },
+    "P_GRC_KRITI": {
+      "population": 231940
+    },
+    "P_GRC_NOTIO_AIGAIO": {
+      "population": 164387
+    },
+    "P_GRC_PELOPONNISOS": {
+      "population": 553154
+    },
+    "P_GRC_STEREA_ELLADA": {
+      "population": 599004
+    },
+    "P_GRC_THESSALIA": {
+      "population": 633446
+    },
+    "P_GRC_VOREIO_AIGAIO": {
+      "population": 184078
+    },
+    "P_HUN_BACS_KISKUN": {
+      "population": 530510
+    },
+    "P_HUN_BARANYA": {
+      "population": 495854
+    },
+    "P_HUN_BEKES": {
+      "population": 423446
+    },
+    "P_HUN_BORSOD_ABAUJ_ZEMPLEN": {
+      "population": 572181
+    },
+    "P_HUN_BUDAPEST": {
+      "population": 867347
+    },
+    "P_HUN_CSONGRAD": {
+      "population": 499385
+    },
+    "P_HUN_FEJER": {
+      "population": 460309
+    },
+    "P_HUN_GYOR_MOSON_SOPRON": {
+      "population": 451611
+    },
+    "P_HUN_HAJDU_BIHAR": {
+      "population": 574074
+    },
+    "P_HUN_HEVES": {
+      "population": 335868
+    },
+    "P_HUN_JASZ_NAGYKUN_SZOLNOK": {
+      "population": 464594
+    },
+    "P_HUN_KOMAROM_ESZTERGOM": {
+      "population": 317712
+    },
+    "P_HUN_NOGRAD": {
+      "population": 275393
+    },
+    "P_HUN_PEST": {
+      "population": 389970
+    },
+    "P_HUN_SOMOGY": {
+      "population": 472214
+    },
+    "P_HUN_SZABOLCS_SZATMAR_BEREG": {
+      "population": 523392
+    },
+    "P_HUN_TOLNA": {
+      "population": 324063
+    },
+    "P_HUN_VAS": {
+      "population": 400347
+    },
+    "P_HUN_VESZPREM": {
+      "population": 378646
+    },
+    "P_HUN_ZALA": {
+      "population": 343084
+    },
+    "P_INDO_ATTAPEU": {
+      "population": 169547
+    },
+    "P_INDO_BAC_TRUNG_BO": {
+      "population": 816983
+    },
+    "P_INDO_BANTEAY_MEANCHEY": {
+      "population": 223113
+    },
+    "P_INDO_BATTAMBANG": {
+      "population": 348508
+    },
+    "P_INDO_BOKEO": {
+      "population": 164558
+    },
+    "P_INDO_BOLIKHAMSAI": {
+      "population": 202814
+    },
+    "P_INDO_CAN_THO": {
+      "population": 63046
+    },
+    "P_INDO_CHAMPASAK": {
+      "population": 364975
+    },
+    "P_INDO_DONG_BAC": {
+      "population": 1352121
+    },
+    "P_INDO_DONG_BANG_SONG_CUU_LONG": {
+      "population": 561566
+    },
+    "P_INDO_DONG_BANG_SONG_HONG": {
+      "population": 803077
+    },
+    "P_INDO_DONG_NAM_BO": {
+      "population": 1297416
+    },
+    "P_INDO_DONG_NAM_BO_VN_39": {
+      "population": 483546
+    },
+    "P_INDO_HAU_GIANG": {
+      "population": 550210
+    },
+    "P_INDO_HOUAPHANH": {
+      "population": 268278
+    },
+    "P_INDO_KAM": {
+      "population": 205347
+    },
+    "P_INDO_KAMPONG_CHAM": {
+      "population": 280422
+    },
+    "P_INDO_KAMPONG_CHHNANG": {
+      "population": 234621
+    },
+    "P_INDO_KAMPONG_THOM": {
+      "population": 242901
+    },
+    "P_INDO_KAMPOT": {
+      "population": 206026
+    },
+    "P_INDO_KANDAL": {
+      "population": 648833
+    },
+    "P_INDO_KHAMMOUANE": {
+      "population": 338880
+    },
+    "P_INDO_KOH_KONG": {
+      "population": 248153
+    },
+    "P_INDO_KRATIE": {
+      "population": 238008
+    },
+    "P_INDO_LUANG_NAMTHA": {
+      "population": 181349
+    },
+    "P_INDO_LUANG_PRABANG": {
+      "population": 352816
+    },
+    "P_INDO_MONDULKIRI": {
+      "population": 230451
+    },
+    "P_INDO_NAM_TRUNG_BO": {
+      "population": 766098
+    },
+    "P_INDO_NORTHEAST_VIETNAM": {
+      "population": 191232
+    },
+    "P_INDO_ODDAR_MEANCHEY": {
+      "population": 93770
+    },
+    "P_INDO_ONG_B_C": {
+      "population": 441445
+    },
+    "P_INDO_OUDOMXAY": {
+      "population": 161156
+    },
+    "P_INDO_PAILIN": {
+      "population": 52247
+    },
+    "P_INDO_PHONGSALY": {
+      "population": 211747
+    },
+    "P_INDO_PREAH_VIHEAR": {
+      "population": 259676
+    },
+    "P_INDO_PREY_VENG": {
+      "population": 230531
+    },
+    "P_INDO_PURSAT": {
+      "population": 271392
+    },
+    "P_INDO_QUANG_NAM": {
+      "population": 141012
+    },
+    "P_INDO_RATANAKIRI": {
+      "population": 231620
+    },
+    "P_INDO_RED_RIVER_DELTA": {
+      "population": 49954
+    },
+    "P_INDO_SAINYABULI": {
+      "population": 256105
+    },
+    "P_INDO_SALAVAN": {
+      "population": 192553
+    },
+    "P_INDO_SAVANNAKHET": {
+      "population": 399129
+    },
+    "P_INDO_SEKONG": {
+      "population": 126223
+    },
+    "P_INDO_SIEM_REAP": {
+      "population": 334241
+    },
+    "P_INDO_SIHANOUKVILLE": {
+      "population": 53828
+    },
+    "P_INDO_STUNG_TRENG": {
+      "population": 262815
+    },
+    "P_INDO_SVAY_RIENG": {
+      "population": 151145
+    },
+    "P_INDO_TAKEO": {
+      "population": 145756
+    },
+    "P_INDO_TAY_BAC": {
+      "population": 407253
+    },
+    "P_INDO_TAY_NGUYEN": {
+      "population": 527626
+    },
+    "P_INDO_VIENTIANE": {
+      "population": 215095
+    },
+    "P_INDO_VIENTIANE_PREFECTURE": {
+      "population": 509033
+    },
+    "P_INDO_XIANGKHOUANG": {
+      "population": 239753
+    },
+    "P_IND_ANDAMAN_AND_NICOBAR_ISLANDS": {
+      "population": 1044289
+    },
+    "P_IND_ANDHRA_PRADESH": {
+      "population": 14569235
+    },
+    "P_IND_ARUNACHAL_PRADESH": {
+      "population": 3764456
+    },
+    "P_IND_ASSAM": {
+      "population": 6764571
+    },
+    "P_IND_AZAD_KASHMIR": {
+      "population": 1382344
+    },
+    "P_IND_BALOCHISTAN": {
+      "population": 10847364
+    },
+    "P_IND_BARISAL": {
+      "population": 2651512
+    },
+    "P_IND_BIHAR": {
+      "population": 10863503
+    },
+    "P_IND_CHATTOGRAM": {
+      "population": 8766538
+    },
+    "P_IND_CHHATTISGARH": {
+      "population": 10460609
+    },
+    "P_IND_DADRA_AND_NAGAR_HAVELI_AND_DAMAN_AND_DIU": {
+      "population": 952379
+    },
+    "P_IND_DELHI": {
+      "population": 12907777
+    },
+    "P_IND_DHAKA": {
+      "population": 13231995
+    },
+    "P_IND_FEDERALLY_ADMINISTERED_TRIBAL_AREAS": {
+      "population": 2829361
+    },
+    "P_IND_GILGIT_BALTISTAN": {
+      "population": 4146174
+    },
+    "P_IND_GOA": {
+      "population": 1544650
+    },
+    "P_IND_GUJARAT": {
+      "population": 15357698
+    },
+    "P_IND_HARYANA": {
+      "population": 7360798
+    },
+    "P_IND_HIMACHAL_PRADESH": {
+      "population": 4372224
+    },
+    "P_IND_ISLAMABAD_CAPITAL_TERRITORY": {
+      "population": 3203947
+    },
+    "P_IND_JAMMU_AND_KASHMIR": {
+      "population": 5618668
+    },
+    "P_IND_JHARKHAND": {
+      "population": 9022406
+    },
+    "P_IND_KARNATAKA": {
+      "population": 16433119
+    },
+    "P_IND_KERALA": {
+      "population": 6248412
+    },
+    "P_IND_KHULNA": {
+      "population": 6255140
+    },
+    "P_IND_KHYBER_PAKHTUNKHWA": {
+      "population": 7959088
+    },
+    "P_IND_LADAKH": {
+      "population": 3249190
+    },
+    "P_IND_MADHYA_PRADESH": {
+      "population": 15690544
+    },
+    "P_IND_MAHARASHTRA": {
+      "population": 24327461
+    },
+    "P_IND_MANIPUR": {
+      "population": 3272484
+    },
+    "P_IND_MEGHALAYA": {
+      "population": 3907776
+    },
+    "P_IND_MIZORAM": {
+      "population": 3394098
+    },
+    "P_IND_NAGALAND": {
+      "population": 2504631
+    },
+    "P_IND_ODISHA": {
+      "population": 10103840
+    },
+    "P_IND_PUNJAB": {
+      "population": 13424986
+    },
+    "P_IND_PUNJAB_PB": {
+      "population": 5503308
+    },
+    "P_IND_RAJASTHAN": {
+      "population": 14190948
+    },
+    "P_IND_RAJSHAHI": {
+      "population": 4981041
+    },
+    "P_IND_RANGPUR": {
+      "population": 3324656
+    },
+    "P_IND_SIKKIM": {
+      "population": 1729830
+    },
+    "P_IND_SINDH": {
+      "population": 16019413
+    },
+    "P_IND_SYLHET": {
+      "population": 2941247
+    },
+    "P_IND_TAMIL_NADU": {
+      "population": 14884958
+    },
+    "P_IND_TELANGANA": {
+      "population": 14653890
+    },
+    "P_IND_TRIPURA": {
+      "population": 2760227
+    },
+    "P_IND_UTTARAKHAND": {
+      "population": 5457286
+    },
+    "P_IND_UTTAR_PRADESH": {
+      "population": 15752013
+    },
+    "P_IND_WEST_BENGAL": {
+      "population": 17367916
+    },
+    "P_ITA_AGRIGENTO": {
+      "population": 282507
+    },
+    "P_ITA_ANCONA": {
+      "population": 662707
+    },
+    "P_ITA_ASCOLI_PICENO": {
+      "population": 242322
+    },
+    "P_ITA_ASTI": {
+      "population": 806058
+    },
+    "P_ITA_BARI": {
+      "population": 1186926
+    },
+    "P_ITA_BOLOGNA": {
+      "population": 1141456
+    },
+    "P_ITA_BOLZANO_EST": {
+      "population": 469842
+    },
+    "P_ITA_BOLZANO_OVEST": {
+      "population": 192940
+    },
+    "P_ITA_BRESCIA": {
+      "population": 374501
+    },
+    "P_ITA_CAGLIARI": {
+      "population": 1025226
+    },
+    "P_ITA_CALTANISSETTA": {
+      "population": 248747
+    },
+    "P_ITA_CAMPOBASSO": {
+      "population": 487836
+    },
+    "P_ITA_CASERTA": {
+      "population": 765945
+    },
+    "P_ITA_CATANIA": {
+      "population": 996105
+    },
+    "P_ITA_CATANZARO": {
+      "population": 591409
+    },
+    "P_ITA_COMO": {
+      "population": 810860
+    },
+    "P_ITA_COSENZA": {
+      "population": 328263
+    },
+    "P_ITA_DODECANESO": {
+      "population": 262396
+    },
+    "P_ITA_ENNA": {
+      "population": 267080
+    },
+    "P_ITA_FIRENZE": {
+      "population": 1469654
+    },
+    "P_ITA_FOGGIA": {
+      "population": 815944
+    },
+    "P_ITA_FROSINONE": {
+      "population": 344898
+    },
+    "P_ITA_GENOVA": {
+      "population": 902057
+    },
+    "P_ITA_GORIZIA": {
+      "population": 249660
+    },
+    "P_ITA_LA_SPEZIA": {
+      "population": 172439
+    },
+    "P_ITA_LECCE": {
+      "population": 833479
+    },
+    "P_ITA_L_AQUILA": {
+      "population": 463347
+    },
+    "P_ITA_MACERATA": {
+      "population": 273425
+    },
+    "P_ITA_MATERA": {
+      "population": 330519
+    },
+    "P_ITA_MESSINA": {
+      "population": 652720
+    },
+    "P_ITA_MILANO": {
+      "population": 2092650
+    },
+    "P_ITA_NAPOLI": {
+      "population": 1610000
+    },
+    "P_ITA_NOVARA": {
+      "population": 712287
+    },
+    "P_ITA_NUORO": {
+      "population": 431483
+    },
+    "P_ITA_PALERMO": {
+      "population": 1104927
+    },
+    "P_ITA_PARMA": {
+      "population": 813246
+    },
+    "P_ITA_PERUGIA_NORD": {
+      "population": 643064
+    },
+    "P_ITA_PERUGIA_SUD": {
+      "population": 248043
+    },
+    "P_ITA_PESCARA": {
+      "population": 850361
+    },
+    "P_ITA_PISA": {
+      "population": 860816
+    },
+    "P_ITA_POLA": {
+      "population": 785024
+    },
+    "P_ITA_POTENZA_NORD": {
+      "population": 483512
+    },
+    "P_ITA_POTENZA_SUD": {
+      "population": 243344
+    },
+    "P_ITA_RAGUSA": {
+      "population": 444775
+    },
+    "P_ITA_RAVENNA": {
+      "population": 978658
+    },
+    "P_ITA_REGGIO_CALABRIA": {
+      "population": 602755
+    },
+    "P_ITA_ROMA": {
+      "population": 2008831
+    },
+    "P_ITA_SALERNO": {
+      "population": 1151487
+    },
+    "P_ITA_SASSARI": {
+      "population": 809423
+    },
+    "P_ITA_SAVONA": {
+      "population": 237647
+    },
+    "P_ITA_SIENA": {
+      "population": 709130
+    },
+    "P_ITA_SIRACUSA": {
+      "population": 561536
+    },
+    "P_ITA_TERNI": {
+      "population": 219852
+    },
+    "P_ITA_TORINO": {
+      "population": 1470100
+    },
+    "P_ITA_TRAPANI": {
+      "population": 523660
+    },
+    "P_ITA_TRENTO": {
+      "population": 541670
+    },
+    "P_ITA_TRIESTE": {
+      "population": 661226
+    },
+    "P_ITA_UDINE": {
+      "population": 741828
+    },
+    "P_ITA_VENEZIA": {
+      "population": 985809
+    },
+    "P_ITA_VERONA": {
+      "population": 1122896
+    },
+    "P_ITA_VITERBO": {
+      "population": 407072
+    },
+    "P_ITA_ZARA": {
+      "population": 285222
+    },
+    "P_JPN_AICHI_PREFECTURE": {
+      "population": 2177067
+    },
+    "P_JPN_AKITA_PREFECTURE": {
+      "population": 1550155
+    },
+    "P_JPN_AOMORI_PREFECTURE": {
+      "population": 1460738
+    },
+    "P_JPN_CHIBA_PREFECTURE": {
+      "population": 682333
+    },
+    "P_JPN_EHIME_PREFECTURE": {
+      "population": 1257366
+    },
+    "P_JPN_FUKUI_PREFECTURE": {
+      "population": 1041684
+    },
+    "P_JPN_FUKUOKA_PREFECTURE": {
+      "population": 2167973
+    },
+    "P_JPN_FUKUSHIMA_PREFECTURE": {
+      "population": 1644235
+    },
+    "P_JPN_GIFU_PREFECTURE": {
+      "population": 1416728
+    },
+    "P_JPN_GUNMA_PREFECTURE": {
+      "population": 1129760
+    },
+    "P_JPN_HIROSHIMA_PREFECTURE": {
+      "population": 2100662
+    },
+    "P_JPN_HOKKAIDO": {
+      "population": 2571960
+    },
+    "P_JPN_HYOGO_PREFECTURE": {
+      "population": 1901606
+    },
+    "P_JPN_IBARAKI_PREFECTURE": {
+      "population": 1251486
+    },
+    "P_JPN_ISHIKAWA_PREFECTURE": {
+      "population": 1288142
+    },
+    "P_JPN_IWATE_PREFECTURE": {
+      "population": 1578666
+    },
+    "P_JPN_KAGAWA_PREFECTURE": {
+      "population": 888672
+    },
+    "P_JPN_KAGOSHIMA_PREFECTURE": {
+      "population": 1012684
+    },
+    "P_JPN_KANAGAWA_PREFECTURE": {
+      "population": 2062345
+    },
+    "P_JPN_KOCHI_PREFECTURE": {
+      "population": 1282549
+    },
+    "P_JPN_KUMAMOTO_PREFECTURE": {
+      "population": 1484821
+    },
+    "P_JPN_KYOTO_PREFECTURE": {
+      "population": 1791413
+    },
+    "P_JPN_MIE_PREFECTURE": {
+      "population": 1250362
+    },
+    "P_JPN_MIYAGI_PREFECTURE": {
+      "population": 2199454
+    },
+    "P_JPN_MIYAZAKI_PREFECTURE": {
+      "population": 1290805
+    },
+    "P_JPN_NAGANO_PREFECTURE": {
+      "population": 1551636
+    },
+    "P_JPN_NAGASAKI_PREFECTURE": {
+      "population": 1180204
+    },
+    "P_JPN_NARA_PREFECTURE": {
+      "population": 523796
+    },
+    "P_JPN_NIIGATA_PREFECTURE": {
+      "population": 1614785
+    },
+    "P_JPN_OGASAWARA": {
+      "population": 143910
+    },
+    "P_JPN_OITA_PREFECTURE": {
+      "population": 1313332
+    },
+    "P_JPN_OKAYAMA_PREFECTURE": {
+      "population": 1618043
+    },
+    "P_JPN_OKINAWA_PREFECTURE": {
+      "population": 485555
+    },
+    "P_JPN_OSAKA_PREFECTURE": {
+      "population": 3269223
+    },
+    "P_JPN_SAGA_PREFECTURE": {
+      "population": 481619
+    },
+    "P_JPN_SAITAMA_PREFECTURE": {
+      "population": 1026290
+    },
+    "P_JPN_SHIGA_PREFECTURE": {
+      "population": 1203283
+    },
+    "P_JPN_SHIMANE_PREFECTURE": {
+      "population": 1215208
+    },
+    "P_JPN_SHIZUOKA_PREFECTURE": {
+      "population": 1586284
+    },
+    "P_JPN_TOCHIGI_PREFECTURE": {
+      "population": 1395604
+    },
+    "P_JPN_TOKUSHIMA_PREFECTURE": {
+      "population": 1118618
+    },
+    "P_JPN_TOKYO": {
+      "population": 5505205
+    },
+    "P_JPN_TOTTORI_PREFECTURE": {
+      "population": 963505
+    },
+    "P_JPN_TOYAMA_PREFECTURE": {
+      "population": 1098646
+    },
+    "P_JPN_WAKAYAMA_PREFECTURE": {
+      "population": 1190763
+    },
+    "P_JPN_YAMAGATA_PREFECTURE": {
+      "population": 1303927
+    },
+    "P_JPN_YAMAGUCHI_PREFECTURE": {
+      "population": 1255894
+    },
+    "P_JPN_YAMANASHI_PREFECTURE": {
+      "population": 871004
+    },
+    "P_MEX_AGUASCALIENTES": {
+      "population": 342844
+    },
+    "P_MEX_BAJA_CALIFORNIA": {
+      "population": 688379
+    },
+    "P_MEX_BAJA_CALIFORNIA_SUR": {
+      "population": 531003
+    },
+    "P_MEX_CAMPECHE": {
+      "population": 508906
+    },
+    "P_MEX_CHIAPAS": {
+      "population": 504272
+    },
+    "P_MEX_CHIHUAHUA": {
+      "population": 724926
+    },
+    "P_MEX_COAHUILA": {
+      "population": 722991
+    },
+    "P_MEX_COLIMA": {
+      "population": 229967
+    },
+    "P_MEX_DURANGO": {
+      "population": 533223
+    },
+    "P_MEX_GUANAJUATO": {
+      "population": 538011
+    },
+    "P_MEX_GUERRERO": {
+      "population": 512503
+    },
+    "P_MEX_HIDALGO": {
+      "population": 315274
+    },
+    "P_MEX_JALISCO": {
+      "population": 891340
+    },
+    "P_MEX_MEXICO": {
+      "population": 1241506
+    },
+    "P_MEX_MICHOACAN": {
+      "population": 499638
+    },
+    "P_MEX_MORELOS": {
+      "population": 334553
+    },
+    "P_MEX_NAYARIT": {
+      "population": 364111
+    },
+    "P_MEX_NUEVO_LEON": {
+      "population": 919046
+    },
+    "P_MEX_OAXACA": {
+      "population": 526880
+    },
+    "P_MEX_PUEBLA": {
+      "population": 617925
+    },
+    "P_MEX_QUERETARO": {
+      "population": 391424
+    },
+    "P_MEX_QUINTANA_ROO": {
+      "population": 544311
+    },
+    "P_MEX_REVILLAGIGEDO": {
+      "population": 13793
+    },
+    "P_MEX_SAN_LUIS_POTOSI": {
+      "population": 609826
+    },
+    "P_MEX_SINALOA": {
+      "population": 629942
+    },
+    "P_MEX_SONORA": {
+      "population": 625704
+    },
+    "P_MEX_STATE_OF_MEXICO": {
+      "population": 501105
+    },
+    "P_MEX_TABASCO": {
+      "population": 367857
+    },
+    "P_MEX_TAMAULIPAS": {
+      "population": 744576
+    },
+    "P_MEX_TLAXCALA": {
+      "population": 263917
+    },
+    "P_MEX_VERACRUZ": {
+      "population": 632559
+    },
+    "P_MEX_YUCATAN": {
+      "population": 643358
+    },
+    "P_MEX_ZACATECAS": {
+      "population": 484330
+    },
+    "P_NLD_DRENTHE": {
+      "population": 535246
+    },
+    "P_NLD_EI_ACEH": {
+      "population": 2058358
+    },
+    "P_NLD_EI_BALI": {
+      "population": 335229
+    },
+    "P_NLD_EI_BANGKA_BELITUNG_ISLANDS": {
+      "population": 641584
+    },
+    "P_NLD_EI_BANTEN": {
+      "population": 1036282
+    },
+    "P_NLD_EI_BENGKULU": {
+      "population": 1595388
+    },
+    "P_NLD_EI_CENTRAL_JAVA": {
+      "population": 2516436
+    },
+    "P_NLD_EI_CENTRAL_KALIMANTAN": {
+      "population": 2442370
+    },
+    "P_NLD_EI_CENTRAL_SULAWESI": {
+      "population": 2135886
+    },
+    "P_NLD_EI_EAST_JAVA": {
+      "population": 3370736
+    },
+    "P_NLD_EI_EAST_KALIMANTAN": {
+      "population": 3154066
+    },
+    "P_NLD_EI_EAST_NUSA_TENGGARA": {
+      "population": 1815367
+    },
+    "P_NLD_EI_GORONTALO": {
+      "population": 1313135
+    },
+    "P_NLD_EI_JAKARTA": {
+      "population": 4354379
+    },
+    "P_NLD_EI_JAMBI": {
+      "population": 2041680
+    },
+    "P_NLD_EI_LAMPUNG": {
+      "population": 2179588
+    },
+    "P_NLD_EI_MALUKU": {
+      "population": 1000747
+    },
+    "P_NLD_EI_NORTH_MALUKU": {
+      "population": 818452
+    },
+    "P_NLD_EI_NORTH_SULAWESI": {
+      "population": 546905
+    },
+    "P_NLD_EI_NORTH_SUMATRA": {
+      "population": 3315186
+    },
+    "P_NLD_EI_PAPUA": {
+      "population": 3468964
+    },
+    "P_NLD_EI_RIAU": {
+      "population": 2721643
+    },
+    "P_NLD_EI_RIAU_ISLANDS": {
+      "population": 352426
+    },
+    "P_NLD_EI_SOUTHEAST_SULAWESI": {
+      "population": 1421999
+    },
+    "P_NLD_EI_SOUTH_KALIMANTAN": {
+      "population": 2031718
+    },
+    "P_NLD_EI_SOUTH_SULAWESI": {
+      "population": 2559206
+    },
+    "P_NLD_EI_SOUTH_SUMATRA": {
+      "population": 3269872
+    },
+    "P_NLD_EI_WEST_JAVA": {
+      "population": 3053235
+    },
+    "P_NLD_EI_WEST_KALIMANTAN": {
+      "population": 2945977
+    },
+    "P_NLD_EI_WEST_NUSA_TENGGARA": {
+      "population": 633107
+    },
+    "P_NLD_EI_WEST_PAPUA": {
+      "population": 1964377
+    },
+    "P_NLD_EI_WEST_SULAWESI": {
+      "population": 1294639
+    },
+    "P_NLD_EI_WEST_SUMATRA": {
+      "population": 2228150
+    },
+    "P_NLD_EI_YOGYAKARTA": {
+      "population": 1382913
+    },
+    "P_NLD_FRIESLAND": {
+      "population": 703410
+    },
+    "P_NLD_GELDERLAND": {
+      "population": 764221
+    },
+    "P_NLD_GRONINGEN": {
+      "population": 693122
+    },
+    "P_NLD_LIMBURG": {
+      "population": 577337
+    },
+    "P_NLD_NOORD_BRABANT": {
+      "population": 957903
+    },
+    "P_NLD_NOORD_HOLLAND": {
+      "population": 1154248
+    },
+    "P_NLD_OVERIJSSEL": {
+      "population": 652726
+    },
+    "P_NLD_UTRECHT": {
+      "population": 833986
+    },
+    "P_NLD_ZEELAND": {
+      "population": 468400
+    },
+    "P_NLD_ZUID_HOLLAND": {
+      "population": 1259401
+    },
+    "P_NOR_AKERSHUS": {
+      "population": 140169
+    },
+    "P_NOR_AUST_AGDER": {
+      "population": 118450
+    },
+    "P_NOR_BUSKERUD": {
+      "population": 169343
+    },
+    "P_NOR_FINNMARK": {
+      "population": 106947
+    },
+    "P_NOR_HEDMARK": {
+      "population": 176129
+    },
+    "P_NOR_HORDALAND": {
+      "population": 205145
+    },
+    "P_NOR_JAN_MAYEN": {
+      "population": 4214
+    },
+    "P_NOR_MORE_OG_ROMSDAL": {
+      "population": 136399
+    },
+    "P_NOR_NORDLAND": {
+      "population": 155776
+    },
+    "P_NOR_NORD_TRONDELAG": {
+      "population": 152183
+    },
+    "P_NOR_OPPLAND": {
+      "population": 147955
+    },
+    "P_NOR_OSLO": {
+      "population": 273040
+    },
+    "P_NOR_OSTFOLD": {
+      "population": 98063
+    },
+    "P_NOR_ROGALAND": {
+      "population": 182438
+    },
+    "P_NOR_SOGN_OG_FJORDANE": {
+      "population": 90828
+    },
+    "P_NOR_SOR_TRONDELAG": {
+      "population": 215385
+    },
+    "P_NOR_TELEMARK": {
+      "population": 161970
+    },
+    "P_NOR_TROMS": {
+      "population": 142730
+    },
+    "P_NOR_VESTFOLD": {
+      "population": 86895
+    },
+    "P_NOR_VEST_AGDER": {
+      "population": 135941
+    },
+    "P_PHL_AUTONOMOUS_REGION_IN_MUSLIM_MINDANAO_ARMM": {
+      "population": 731935
+    },
+    "P_PHL_BICOL_REGION_V": {
+      "population": 1046047
+    },
+    "P_PHL_CAGAYAN_VALLEY_REGION_II": {
+      "population": 788678
+    },
+    "P_PHL_CALABARZON_REGION_IV_A": {
+      "population": 898993
+    },
+    "P_PHL_CENTRAL_LUZON_REGION_III": {
+      "population": 1006880
+    },
+    "P_PHL_CENTRAL_VISAYAS_REGION_VII": {
+      "population": 1017839
+    },
+    "P_PHL_CORDILLERA_ADMINISTRATIVE_REGION_CAR": {
+      "population": 871078
+    },
+    "P_PHL_DAVAO_REGION_XI": {
+      "population": 1218306
+    },
+    "P_PHL_DINAGAT_ISLANDS_REGION_XIII": {
+      "population": 774357
+    },
+    "P_PHL_EASTERN_VISAYAS_REGION_VIII": {
+      "population": 543794
+    },
+    "P_PHL_ILOCOS_REGION_I": {
+      "population": 752907
+    },
+    "P_PHL_MIMAROPA_REGION_IV_B": {
+      "population": 622307
+    },
+    "P_PHL_NATIONAL_CAPITAL_REGION": {
+      "population": 2211847
+    },
+    "P_PHL_NORTHERN_MINDANAO_REGION_X": {
+      "population": 1166961
+    },
+    "P_PHL_SOCCSKSARGEN_REGION_XII": {
+      "population": 1096024
+    },
+    "P_PHL_WESTERN_VISAYAS_REGION_VI": {
+      "population": 1235560
+    },
+    "P_PHL_ZAMBOANGA_PENINSULA_REGION_IX": {
+      "population": 1016487
+    },
+    "P_POL_BIAYSTOK_VOIVODESHIP": {
+      "population": 1928239
+    },
+    "P_POL_KIELCE_VOIVODESHIP": {
+      "population": 1754471
+    },
+    "P_POL_KRAKOW_VOIVODESHIP": {
+      "population": 2064991
+    },
+    "P_POL_LUBLIN_VOIVODESHIP": {
+      "population": 1987820
+    },
+    "P_POL_LWOW_VOIVODESHIP": {
+      "population": 2455228
+    },
+    "P_POL_NOWOGRODEK_VOIVODESHIP": {
+      "population": 1570335
+    },
+    "P_POL_ODZ_VOIVODESHIP": {
+      "population": 1950141
+    },
+    "P_POL_POLESIE_VOIVODESHIP": {
+      "population": 1772014
+    },
+    "P_POL_POMERANIAN_VOIVODESHIP": {
+      "population": 1637002
+    },
+    "P_POL_POZNAN_VOIVODESHIP": {
+      "population": 2012309
+    },
+    "P_POL_SILESIAN_VOIVODESHIP": {
+      "population": 2636491
+    },
+    "P_POL_STANISAWOW_VOIVODESHIP": {
+      "population": 1557645
+    },
+    "P_POL_TARNOPOL_VOIVODESHIP": {
+      "population": 1764952
+    },
+    "P_POL_VOLHYNIAN_VOIVODESHIP": {
+      "population": 2071171
+    },
+    "P_POL_WARSAW_VOIVODESHIP": {
+      "population": 2752384
+    },
+    "P_POL_WILNO_VOIVODESHIP": {
+      "population": 2084807
+    },
+    "P_PRT_ANGRA_DO_HEROISMO": {
+      "population": 73129
+    },
+    "P_PRT_AVEIRO": {
+      "population": 276143
+    },
+    "P_PRT_BEJA": {
+      "population": 451868
+    },
+    "P_PRT_BRAGA": {
+      "population": 643625
+    },
+    "P_PRT_BRAGANCA": {
+      "population": 323180
+    },
+    "P_PRT_CASTELO_BRANCO": {
+      "population": 330267
+    },
+    "P_PRT_COIMBRA": {
+      "population": 365656
+    },
+    "P_PRT_EVORA": {
+      "population": 426510
+    },
+    "P_PRT_FARO": {
+      "population": 362717
+    },
+    "P_PRT_FUNCHAL": {
+      "population": 53561
+    },
+    "P_PRT_GUARDA": {
+      "population": 307427
+    },
+    "P_PRT_HORTA": {
+      "population": 55984
+    },
+    "P_PRT_LEIRIA": {
+      "population": 307110
+    },
+    "P_PRT_LISBOA": {
+      "population": 1133042
+    },
+    "P_PRT_PONTA_DELGADA": {
+      "population": 67971
+    },
+    "P_PRT_PORTALEGRE": {
+      "population": 331332
+    },
+    "P_PRT_PORTO": {
+      "population": 790776
+    },
+    "P_PRT_SANTAREM": {
+      "population": 367170
+    },
+    "P_PRT_SETUBAL": {
+      "population": 437728
+    },
+    "P_PRT_VIANA_DO_CASTELO": {
+      "population": 92724
+    },
+    "P_PRT_VILA_REAL": {
+      "population": 221557
+    },
+    "P_PRT_VISEU": {
+      "population": 280523
+    },
+    "P_ROM_ALBA": {
+      "population": 322222
+    },
+    "P_ROM_ARAD": {
+      "population": 469393
+    },
+    "P_ROM_ARGES": {
+      "population": 427798
+    },
+    "P_ROM_BACAU": {
+      "population": 436657
+    },
+    "P_ROM_BASARABIA": {
+      "population": 1130049
+    },
+    "P_ROM_BIHOR": {
+      "population": 489797
+    },
+    "P_ROM_BISTRITA_NASAUD": {
+      "population": 330738
+    },
+    "P_ROM_BOTOSANI": {
+      "population": 407871
+    },
+    "P_ROM_BRAILA": {
+      "population": 465180
+    },
+    "P_ROM_BRASOV": {
+      "population": 467930
+    },
+    "P_ROM_BUCOVINA_DE_NORD": {
+      "population": 546014
+    },
+    "P_ROM_BUCURESTI": {
+      "population": 796872
+    },
+    "P_ROM_BUZAU": {
+      "population": 403514
+    },
+    "P_ROM_CADRILATER": {
+      "population": 439015
+    },
+    "P_ROM_CALARASI": {
+      "population": 362240
+    },
+    "P_ROM_CARAS_SEVERIN": {
+      "population": 358091
+    },
+    "P_ROM_CLUJ": {
+      "population": 514661
+    },
+    "P_ROM_CONSTANTA": {
+      "population": 561901
+    },
+    "P_ROM_COVASNA": {
+      "population": 269706
+    },
+    "P_ROM_DAMBOVITA": {
+      "population": 336618
+    },
+    "P_ROM_DOLJ": {
+      "population": 560255
+    },
+    "P_ROM_GALATI": {
+      "population": 498270
+    },
+    "P_ROM_GIURGIU": {
+      "population": 322115
+    },
+    "P_ROM_GORJ": {
+      "population": 345575
+    },
+    "P_ROM_HARGHITA": {
+      "population": 282215
+    },
+    "P_ROM_HUNEDOARA": {
+      "population": 323420
+    },
+    "P_ROM_IALOMITA": {
+      "population": 335861
+    },
+    "P_ROM_IASI": {
+      "population": 524151
+    },
+    "P_ROM_ILFOV": {
+      "population": 121572
+    },
+    "P_ROM_MARAMURES": {
+      "population": 376513
+    },
+    "P_ROM_MEHEDINTI": {
+      "population": 363919
+    },
+    "P_ROM_MURES": {
+      "population": 423251
+    },
+    "P_ROM_NEAMT": {
+      "population": 346725
+    },
+    "P_ROM_OLT": {
+      "population": 377238
+    },
+    "P_ROM_PRAHOVA": {
+      "population": 435294
+    },
+    "P_ROM_SALAJ": {
+      "population": 302291
+    },
+    "P_ROM_SATU_MARE": {
+      "population": 378828
+    },
+    "P_ROM_SIBIU": {
+      "population": 397800
+    },
+    "P_ROM_SUCEAVA": {
+      "population": 379556
+    },
+    "P_ROM_TELEORMAN": {
+      "population": 360155
+    },
+    "P_ROM_TIMIS": {
+      "population": 587081
+    },
+    "P_ROM_TULCEA": {
+      "population": 369628
+    },
+    "P_ROM_VALCEA": {
+      "population": 353363
+    },
+    "P_ROM_VASLUI": {
+      "population": 344828
+    },
+    "P_ROM_VRANCEA": {
+      "population": 353829
+    },
+    "P_SIA_CENTRAL": {
+      "population": 4920127
+    },
+    "P_SIA_EASTERN": {
+      "population": 1314445
+    },
+    "P_SIA_NORTHEASTERN": {
+      "population": 2793197
+    },
+    "P_SIA_NORTHERN": {
+      "population": 2025461
+    },
+    "P_SIA_SOUTHERN": {
+      "population": 1681909
+    },
+    "P_SIA_WESTERN": {
+      "population": 1264861
+    },
+    "P_SWE_BLEKINGE": {
+      "population": 145481
+    },
+    "P_SWE_DALARNA": {
+      "population": 293447
+    },
+    "P_SWE_GAVLEBORG": {
+      "population": 271345
+    },
+    "P_SWE_GOTLAND": {
+      "population": 71772
+    },
+    "P_SWE_HALLAND": {
+      "population": 202008
+    },
+    "P_SWE_JAMTLAND": {
+      "population": 385591
+    },
+    "P_SWE_JONKOPING": {
+      "population": 252189
+    },
+    "P_SWE_KALMAR": {
+      "population": 204117
+    },
+    "P_SWE_KRONOBERG": {
+      "population": 215969
+    },
+    "P_SWE_NORRBOTTEN": {
+      "population": 392813
+    },
+    "P_SWE_OREBRO": {
+      "population": 249993
+    },
+    "P_SWE_OSTERGOTLAND": {
+      "population": 260145
+    },
+    "P_SWE_SKANE": {
+      "population": 367024
+    },
+    "P_SWE_SODERMANLAND": {
+      "population": 167152
+    },
+    "P_SWE_STOCKHOLM": {
+      "population": 596378
+    },
+    "P_SWE_UPPSALA": {
+      "population": 257585
+    },
+    "P_SWE_VARMLAND": {
+      "population": 286240
+    },
+    "P_SWE_VASTERBOTTEN": {
+      "population": 427290
+    },
+    "P_SWE_VASTERNORRLAND": {
+      "population": 288229
+    },
+    "P_SWE_VASTMANLAND": {
+      "population": 239176
+    },
+    "P_SWE_VASTRA_GOTALAND": {
+      "population": 526056
+    },
+    "P_TUR_ADANA": {
+      "population": 409782
+    },
+    "P_TUR_ADIYAMAN": {
+      "population": 206792
+    },
+    "P_TUR_AFYONKARAHISAR": {
+      "population": 216373
+    },
+    "P_TUR_AGRI": {
+      "population": 165389
+    },
+    "P_TUR_AKSARAY": {
+      "population": 93991
+    },
+    "P_TUR_AMASYA": {
+      "population": 144726
+    },
+    "P_TUR_ANKARA": {
+      "population": 598175
+    },
+    "P_TUR_ANTALYA": {
+      "population": 346775
+    },
+    "P_TUR_ARDAHAN": {
+      "population": 65523
+    },
+    "P_TUR_ARTVIN": {
+      "population": 120059
+    },
+    "P_TUR_AYDIN": {
+      "population": 193539
+    },
+    "P_TUR_BALIKESIR": {
+      "population": 271611
+    },
+    "P_TUR_BARTIN": {
+      "population": 53466
+    },
+    "P_TUR_BATMAN": {
+      "population": 194984
+    },
+    "P_TUR_BAYBURT": {
+      "population": 58296
+    },
+    "P_TUR_BILECIK": {
+      "population": 133313
+    },
+    "P_TUR_BINGOL": {
+      "population": 144554
+    },
+    "P_TUR_BITLIS": {
+      "population": 152436
+    },
+    "P_TUR_BOLU": {
+      "population": 156259
+    },
+    "P_TUR_BURDUR": {
+      "population": 136879
+    },
+    "P_TUR_BURSA": {
+      "population": 402598
+    },
+    "P_TUR_CANAKKALE": {
+      "population": 202248
+    },
+    "P_TUR_CANKIRI": {
+      "population": 152472
+    },
+    "P_TUR_CORUM": {
+      "population": 220077
+    },
+    "P_TUR_DENIZLI": {
+      "population": 251839
+    },
+    "P_TUR_DIYARBAKIR": {
+      "population": 333383
+    },
+    "P_TUR_DUZCE": {
+      "population": 60882
+    },
+    "P_TUR_EDIRNE": {
+      "population": 200543
+    },
+    "P_TUR_ELAZIG": {
+      "population": 208755
+    },
+    "P_TUR_ERZINCAN": {
+      "population": 175911
+    },
+    "P_TUR_ERZURUM": {
+      "population": 280076
+    },
+    "P_TUR_ESKISEHIR": {
+      "population": 302142
+    },
+    "P_TUR_GAZIANTEP": {
+      "population": 342851
+    },
+    "P_TUR_GIRESUN": {
+      "population": 152883
+    },
+    "P_TUR_GUMUSHANE": {
+      "population": 111845
+    },
+    "P_TUR_HAKKARI": {
+      "population": 137286
+    },
+    "P_TUR_IGDIR": {
+      "population": 68055
+    },
+    "P_TUR_ISPARTA": {
+      "population": 176551
+    },
+    "P_TUR_ISTANBUL": {
+      "population": 810055
+    },
+    "P_TUR_IZMIR": {
+      "population": 489184
+    },
+    "P_TUR_KARABUK": {
+      "population": 144221
+    },
+    "P_TUR_KARAMAN": {
+      "population": 188439
+    },
+    "P_TUR_KARS": {
+      "population": 159571
+    },
+    "P_TUR_KASTAMONU": {
+      "population": 181916
+    },
+    "P_TUR_KAYSERI": {
+      "population": 306868
+    },
+    "P_TUR_KILIS": {
+      "population": 114041
+    },
+    "P_TUR_KINKKALE": {
+      "population": 179805
+    },
+    "P_TUR_KIRKLARELI": {
+      "population": 204130
+    },
+    "P_TUR_KIRSEHIR": {
+      "population": 162271
+    },
+    "P_TUR_KOCAELI": {
+      "population": 239894
+    },
+    "P_TUR_KONYA": {
+      "population": 458633
+    },
+    "P_TUR_KUTAHYA": {
+      "population": 222210
+    },
+    "P_TUR_K_MARAS": {
+      "population": 253036
+    },
+    "P_TUR_MALATYA": {
+      "population": 257123
+    },
+    "P_TUR_MANISA": {
+      "population": 247293
+    },
+    "P_TUR_MARDIN": {
+      "population": 219251
+    },
+    "P_TUR_MERSIN": {
+      "population": 345174
+    },
+    "P_TUR_MUGLA": {
+      "population": 172753
+    },
+    "P_TUR_MUS": {
+      "population": 153149
+    },
+    "P_TUR_NEVSEHIR": {
+      "population": 138575
+    },
+    "P_TUR_NIGDE": {
+      "population": 155468
+    },
+    "P_TUR_ORDU": {
+      "population": 174429
+    },
+    "P_TUR_OSMANIYE": {
+      "population": 69247
+    },
+    "P_TUR_RIZE": {
+      "population": 186809
+    },
+    "P_TUR_SAKARYA": {
+      "population": 199469
+    },
+    "P_TUR_SAMSUN": {
+      "population": 302379
+    },
+    "P_TUR_SANLIURFA": {
+      "population": 356577
+    },
+    "P_TUR_SIIRT": {
+      "population": 154210
+    },
+    "P_TUR_SINOP": {
+      "population": 132349
+    },
+    "P_TUR_SIRNAK": {
+      "population": 83023
+    },
+    "P_TUR_SIVAS": {
+      "population": 280289
+    },
+    "P_TUR_TEKIRDAG": {
+      "population": 212090
+    },
+    "P_TUR_TOKAT": {
+      "population": 175976
+    },
+    "P_TUR_TRABZON": {
+      "population": 260276
+    },
+    "P_TUR_TUNCELI": {
+      "population": 119093
+    },
+    "P_TUR_USAK": {
+      "population": 179226
+    },
+    "P_TUR_VAN": {
+      "population": 270709
+    },
+    "P_TUR_YALOVA": {
+      "population": 29113
+    },
+    "P_TUR_YOZGAT": {
+      "population": 211077
+    },
+    "P_TUR_ZINGULDAK": {
+      "population": 157280
+    },
+    "P_USA_ALABAMA": {
+      "population": 2400116
+    },
+    "P_USA_ALASKA": {
+      "population": 3937587
+    },
+    "P_USA_ALEUTINE_OCCIDENTALI": {
+      "population": 22882
+    },
+    "P_USA_ARIZONA": {
+      "population": 3422763
+    },
+    "P_USA_ARKANSAS": {
+      "population": 1949430
+    },
+    "P_USA_CALIFORNIA": {
+      "population": 5862987
+    },
+    "P_USA_COLORADO": {
+      "population": 3293061
+    },
+    "P_USA_CONNECTICUT": {
+      "population": 1461417
+    },
+    "P_USA_DELAWARE": {
+      "population": 652291
+    },
+    "P_USA_FLORIDA": {
+      "population": 3804304
+    },
+    "P_USA_GEORGIA": {
+      "population": 3502488
+    },
+    "P_USA_HAWAII": {
+      "population": 348809
+    },
+    "P_USA_IDAHO": {
+      "population": 1950910
+    },
+    "P_USA_ILLINOIS": {
+      "population": 4943062
+    },
+    "P_USA_INDIANA": {
+      "population": 2390158
+    },
+    "P_USA_IOWA": {
+      "population": 2352222
+    },
+    "P_USA_ISOLE_MINORI_PACIFICO": {
+      "population": 9936
+    },
+    "P_USA_KANSAS": {
+      "population": 2720680
+    },
+    "P_USA_KENTUCKY": {
+      "population": 2204191
+    },
+    "P_USA_LOUISIANA": {
+      "population": 2120885
+    },
+    "P_USA_MAINE": {
+      "population": 1224643
+    },
+    "P_USA_MARYLAND": {
+      "population": 2855733
+    },
+    "P_USA_MASSACHUSETTS": {
+      "population": 2780896
+    },
+    "P_USA_MICHIGAN": {
+      "population": 3713469
+    },
+    "P_USA_MINNESOTA": {
+      "population": 3608160
+    },
+    "P_USA_MISSISSIPPI": {
+      "population": 1677410
+    },
+    "P_USA_MISSOURI": {
+      "population": 3373691
+    },
+    "P_USA_MONTANA": {
+      "population": 2374290
+    },
+    "P_USA_NEBRASKA": {
+      "population": 2842198
+    },
+    "P_USA_NEVADA": {
+      "population": 2830743
+    },
+    "P_USA_NEW_HAMPSHIRE": {
+      "population": 937604
+    },
+    "P_USA_NEW_JERSEY": {
+      "population": 1154108
+    },
+    "P_USA_NEW_MEXICO": {
+      "population": 2658815
+    },
+    "P_USA_NEW_YORK": {
+      "population": 2254215
+    },
+    "P_USA_NORTH_CAROLINA": {
+      "population": 2236636
+    },
+    "P_USA_NORTH_DAKOTA": {
+      "population": 2300236
+    },
+    "P_USA_OHIO": {
+      "population": 2760618
+    },
+    "P_USA_OKLAHOMA": {
+      "population": 2914041
+    },
+    "P_USA_OREGON": {
+      "population": 3037034
+    },
+    "P_USA_PENNSYLVANIA": {
+      "population": 3695310
+    },
+    "P_USA_RHODE_ISLAND": {
+      "population": 1415384
+    },
+    "P_USA_SOUTH_CAROLINA": {
+      "population": 1535472
+    },
+    "P_USA_SOUTH_DAKOTA": {
+      "population": 2294739
+    },
+    "P_USA_TENNESSEE": {
+      "population": 2258053
+    },
+    "P_USA_TEXAS": {
+      "population": 5626386
+    },
+    "P_USA_UTAH": {
+      "population": 2303864
+    },
+    "P_USA_VERMONT": {
+      "population": 792852
+    },
+    "P_USA_VIRGINIA": {
+      "population": 2334340
+    },
+    "P_USA_WAKE": {
+      "population": 8887
+    },
+    "P_USA_WASHINGTON": {
+      "population": 3263163
+    },
+    "P_USA_WEST_VIRGINIA": {
+      "population": 1194335
+    },
+    "P_USA_WISCONSIN": {
+      "population": 2566600
+    },
+    "P_USA_WYOMING": {
+      "population": 1925896
+    },
+    "P_USSR_ABKHAZIA": {
+      "population": 402606
+    },
+    "P_USSR_ABSHERON": {
+      "population": 1412115
+    },
+    "P_USSR_ADYGEY": {
+      "population": 538612
+    },
+    "P_USSR_AHAL": {
+      "population": 992665
+    },
+    "P_USSR_AJARIA": {
+      "population": 408570
+    },
+    "P_USSR_ALMATY": {
+      "population": 2011640
+    },
+    "P_USSR_ALTAY": {
+      "population": 1829494
+    },
+    "P_USSR_AMUR": {
+      "population": 1699705
+    },
+    "P_USSR_ANDIJON": {
+      "population": 837364
+    },
+    "P_USSR_AQMOLA": {
+      "population": 1515438
+    },
+    "P_USSR_AQTOBE": {
+      "population": 1883997
+    },
+    "P_USSR_ARAGATSOTN": {
+      "population": 199576
+    },
+    "P_USSR_ARAN": {
+      "population": 609559
+    },
+    "P_USSR_ARARAT": {
+      "population": 196561
+    },
+    "P_USSR_ARKHANGELSK": {
+      "population": 1551901
+    },
+    "P_USSR_ARMAVIR": {
+      "population": 76889
+    },
+    "P_USSR_ASTRAKHAN": {
+      "population": 1166842
+    },
+    "P_USSR_ATYRAU": {
+      "population": 1295022
+    },
+    "P_USSR_BALKAN": {
+      "population": 877930
+    },
+    "P_USSR_BASHKORTOSTAN": {
+      "population": 1770997
+    },
+    "P_USSR_BATKEN": {
+      "population": 188783
+    },
+    "P_USSR_BELGOROD": {
+      "population": 940029
+    },
+    "P_USSR_BRYANSK": {
+      "population": 1038990
+    },
+    "P_USSR_BUKHORO": {
+      "population": 568906
+    },
+    "P_USSR_BURYAT": {
+      "population": 1558679
+    },
+    "P_USSR_CHARDZHOU": {
+      "population": 647915
+    },
+    "P_USSR_CHECHNYA": {
+      "population": 691577
+    },
+    "P_USSR_CHELYABINSK": {
+      "population": 1618975
+    },
+    "P_USSR_CHERKASY": {
+      "population": 849897
+    },
+    "P_USSR_CHERNIHIV": {
+      "population": 939505
+    },
+    "P_USSR_CHITA": {
+      "population": 1764447
+    },
+    "P_USSR_CHUKCHI_AUTONOMOUS_OKRUG": {
+      "population": 1700647
+    },
+    "P_USSR_CHUVASH": {
+      "population": 916847
+    },
+    "P_USSR_CHUY": {
+      "population": 1005870
+    },
+    "P_USSR_CRIMEA": {
+      "population": 935070
+    },
+    "P_USSR_DAGESTAN": {
+      "population": 1104217
+    },
+    "P_USSR_DAGHLIG_SHIRVAN": {
+      "population": 160167
+    },
+    "P_USSR_DNIPROPETROVSK": {
+      "population": 1340363
+    },
+    "P_USSR_DONETSK": {
+      "population": 1259312
+    },
+    "P_USSR_EAST_KAZAKHSTAN": {
+      "population": 1693543
+    },
+    "P_USSR_FERGHANA": {
+      "population": 924917
+    },
+    "P_USSR_GANJA_GAZAKH": {
+      "population": 693062
+    },
+    "P_USSR_GEGHARKUNIK": {
+      "population": 238777
+    },
+    "P_USSR_GOMEL": {
+      "population": 1026550
+    },
+    "P_USSR_GORNO_ALTAY": {
+      "population": 669244
+    },
+    "P_USSR_GORNO_BADAKHSHAN": {
+      "population": 501684
+    },
+    "P_USSR_GUBA_KHACHMAZ": {
+      "population": 164329
+    },
+    "P_USSR_GURIA": {
+      "population": 88428
+    },
+    "P_USSR_IMERETI": {
+      "population": 510543
+    },
+    "P_USSR_INGUSH": {
+      "population": 373292
+    },
+    "P_USSR_IRKUTSK": {
+      "population": 2230845
+    },
+    "P_USSR_IVANOVO": {
+      "population": 856340
+    },
+    "P_USSR_JALAL_ABAD": {
+      "population": 688347
+    },
+    "P_USSR_JIZZAKH": {
+      "population": 574423
+    },
+    "P_USSR_KABARDIN_BALKAR": {
+      "population": 691385
+    },
+    "P_USSR_KAKHETI": {
+      "population": 203236
+    },
+    "P_USSR_KALBAJAR_LACHIN": {
+      "population": 290164
+    },
+    "P_USSR_KALMYK": {
+      "population": 1001265
+    },
+    "P_USSR_KALUGA": {
+      "population": 936548
+    },
+    "P_USSR_KAMCHATKA": {
+      "population": 1820456
+    },
+    "P_USSR_KARACHAY_CHERKESS": {
+      "population": 481969
+    },
+    "P_USSR_KARAKALPAKSTAN": {
+      "population": 778055
+    },
+    "P_USSR_KARELIA": {
+      "population": 1154613
+    },
+    "P_USSR_KASHKADARYA": {
+      "population": 742934
+    },
+    "P_USSR_KEMEROVO": {
+      "population": 1299722
+    },
+    "P_USSR_KHABAROVSK": {
+      "population": 2285090
+    },
+    "P_USSR_KHAKASS": {
+      "population": 700280
+    },
+    "P_USSR_KHANTY_MANSIY": {
+      "population": 1852535
+    },
+    "P_USSR_KHARKIV": {
+      "population": 1492112
+    },
+    "P_USSR_KHATLON": {
+      "population": 739139
+    },
+    "P_USSR_KHERSON": {
+      "population": 910022
+    },
+    "P_USSR_KHMELNYTSKYY": {
+      "population": 913796
+    },
+    "P_USSR_KHOREZM": {
+      "population": 365308
+    },
+    "P_USSR_KIEV": {
+      "population": 1838904
+    },
+    "P_USSR_KIROV": {
+      "population": 1173580
+    },
+    "P_USSR_KIROVOHRAD": {
+      "population": 839682
+    },
+    "P_USSR_KOMI": {
+      "population": 1461975
+    },
+    "P_USSR_KOSTROMA": {
+      "population": 868067
+    },
+    "P_USSR_KOTAYK": {
+      "population": 955621
+    },
+    "P_USSR_KRASNODAR": {
+      "population": 1534370
+    },
+    "P_USSR_KRASNOYARSK": {
+      "population": 2783291
+    },
+    "P_USSR_KURGAN": {
+      "population": 1209969
+    },
+    "P_USSR_KURSK": {
+      "population": 1003432
+    },
+    "P_USSR_KVEMO_KARTLI": {
+      "population": 1028513
+    },
+    "P_USSR_LANKARAN": {
+      "population": 368328
+    },
+    "P_USSR_LENINABAD": {
+      "population": 943891
+    },
+    "P_USSR_LENINGRAD": {
+      "population": 2289661
+    },
+    "P_USSR_LIPETSK": {
+      "population": 1086422
+    },
+    "P_USSR_LORI": {
+      "population": 352479
+    },
+    "P_USSR_LUHANSK": {
+      "population": 993229
+    },
+    "P_USSR_MAGA_BURYATDAN": {
+      "population": 1656211
+    },
+    "P_USSR_MANGGHYSTAU": {
+      "population": 1121689
+    },
+    "P_USSR_MARIY_EL": {
+      "population": 788093
+    },
+    "P_USSR_MARY": {
+      "population": 691826
+    },
+    "P_USSR_MINSK": {
+      "population": 1451735
+    },
+    "P_USSR_MOGILEV": {
+      "population": 1005855
+    },
+    "P_USSR_MOLDAVIAN_ASSR": {
+      "population": 244125
+    },
+    "P_USSR_MORDOVIA": {
+      "population": 892109
+    },
+    "P_USSR_MOSKOVSKAYA": {
+      "population": 3248086
+    },
+    "P_USSR_MTSKHETA_MTIANETI": {
+      "population": 121197
+    },
+    "P_USSR_MURMANSK": {
+      "population": 931688
+    },
+    "P_USSR_MYKOLAYIV": {
+      "population": 1012691
+    },
+    "P_USSR_NAKHCHIVAN": {
+      "population": 373479
+    },
+    "P_USSR_NAMANGAN": {
+      "population": 921565
+    },
+    "P_USSR_NARYN": {
+      "population": 524268
+    },
+    "P_USSR_NAVOI": {
+      "population": 549739
+    },
+    "P_USSR_NENETS": {
+      "population": 454334
+    },
+    "P_USSR_NIZHEGOROD": {
+      "population": 1588506
+    },
+    "P_USSR_NORTH_KAZAKHSTAN": {
+      "population": 1238665
+    },
+    "P_USSR_NORTH_OSSETIA": {
+      "population": 714982
+    },
+    "P_USSR_NOVGOROD": {
+      "population": 794155
+    },
+    "P_USSR_NOVOSIBIRSK": {
+      "population": 2081479
+    },
+    "P_USSR_ODESSA": {
+      "population": 1222934
+    },
+    "P_USSR_OMSK": {
+      "population": 1838971
+    },
+    "P_USSR_OREL": {
+      "population": 908108
+    },
+    "P_USSR_ORENBURG": {
+      "population": 1579932
+    },
+    "P_USSR_OSH": {
+      "population": 794255
+    },
+    "P_USSR_PAVLODAR": {
+      "population": 1509366
+    },
+    "P_USSR_PENZA": {
+      "population": 1157990
+    },
+    "P_USSR_PERM": {
+      "population": 1556254
+    },
+    "P_USSR_POLTAVA": {
+      "population": 925890
+    },
+    "P_USSR_PRIMORYE": {
+      "population": 1391194
+    },
+    "P_USSR_PSKOV": {
+      "population": 804494
+    },
+    "P_USSR_QARAGHANDY": {
+      "population": 2221744
+    },
+    "P_USSR_QOSTANAY": {
+      "population": 1655303
+    },
+    "P_USSR_QYZYLORDA": {
+      "population": 936553
+    },
+    "P_USSR_RACHA_LECHKHUMI_KVEMO_SVANETI": {
+      "population": 96402
+    },
+    "P_USSR_ROSTOV": {
+      "population": 1701550
+    },
+    "P_USSR_RYAZAN": {
+      "population": 1139745
+    },
+    "P_USSR_SAKHALIN": {
+      "population": 502326
+    },
+    "P_USSR_SAKHA_YAKUTIA": {
+      "population": 2784436
+    },
+    "P_USSR_SAMARA": {
+      "population": 1504375
+    },
+    "P_USSR_SAMARKAND": {
+      "population": 803259
+    },
+    "P_USSR_SAMEGRELO_ZEMO_SVANETI": {
+      "population": 350800
+    },
+    "P_USSR_SAMTSKHE_JAVAKHETI": {
+      "population": 116308
+    },
+    "P_USSR_SARATOV": {
+      "population": 1620756
+    },
+    "P_USSR_SHAKI_ZAQATALA": {
+      "population": 397952
+    },
+    "P_USSR_SHIDA_KARTLI": {
+      "population": 292277
+    },
+    "P_USSR_SHIRAK": {
+      "population": 411427
+    },
+    "P_USSR_SIRDARYO": {
+      "population": 414115
+    },
+    "P_USSR_SMOLENSK": {
+      "population": 988585
+    },
+    "P_USSR_SOUTH_KAZAKHSTAN": {
+      "population": 987637
+    },
+    "P_USSR_STAVROPOL": {
+      "population": 1176637
+    },
+    "P_USSR_SUMY": {
+      "population": 866539
+    },
+    "P_USSR_SURKHANDARYA": {
+      "population": 654226
+    },
+    "P_USSR_SVERDLOVSK": {
+      "population": 1769627
+    },
+    "P_USSR_SYUNIK": {
+      "population": 90700
+    },
+    "P_USSR_TADZHIKISTAN_TERRITORIES": {
+      "population": 1109585
+    },
+    "P_USSR_TALAS": {
+      "population": 325378
+    },
+    "P_USSR_TAMBOV": {
+      "population": 959289
+    },
+    "P_USSR_TASHAUZ": {
+      "population": 503425
+    },
+    "P_USSR_TASHKENT": {
+      "population": 1465639
+    },
+    "P_USSR_TATARSTAN": {
+      "population": 1567545
+    },
+    "P_USSR_TAVUSH": {
+      "population": 175893
+    },
+    "P_USSR_TOMSK": {
+      "population": 1636719
+    },
+    "P_USSR_TULA": {
+      "population": 1016579
+    },
+    "P_USSR_TUVA": {
+      "population": 926594
+    },
+    "P_USSR_TVER": {
+      "population": 1057327
+    },
+    "P_USSR_TYUMEN": {
+      "population": 1478230
+    },
+    "P_USSR_UDMURT": {
+      "population": 1087475
+    },
+    "P_USSR_ULYANOVSK": {
+      "population": 1181911
+    },
+    "P_USSR_VAYOTS_DZOR": {
+      "population": 142332
+    },
+    "P_USSR_VINNYTSYA": {
+      "population": 936914
+    },
+    "P_USSR_VITEBSK": {
+      "population": 912839
+    },
+    "P_USSR_VLADIMIR": {
+      "population": 869477
+    },
+    "P_USSR_VOLGOGRAD": {
+      "population": 1731966
+    },
+    "P_USSR_VOLOGDA": {
+      "population": 1116389
+    },
+    "P_USSR_VORONEZH": {
+      "population": 1383769
+    },
+    "P_USSR_WEST_KAZAKHSTAN": {
+      "population": 1467308
+    },
+    "P_USSR_YAMAL_NENETS": {
+      "population": 1561364
+    },
+    "P_USSR_YAROSLAVL": {
+      "population": 997553
+    },
+    "P_USSR_YEVREY": {
+      "population": 608690
+    },
+    "P_USSR_YSYK_KOL": {
+      "population": 556590
+    },
+    "P_USSR_YUKHARI_GARABAKH": {
+      "population": 381152
+    },
+    "P_USSR_ZAPORIZHZHYA": {
+      "population": 1181714
+    },
+    "P_USSR_ZHAMBYL": {
+      "population": 1054957
+    },
+    "P_USSR_ZHYTOMYR": {
+      "population": 894207
+    },
+    "P_ZAF_EASTERN_CAPE": {
+      "population": 1213392
+    },
+    "P_ZAF_FREE_STATE": {
+      "population": 967361
+    },
+    "P_ZAF_GAUTENG": {
+      "population": 1259399
+    },
+    "P_ZAF_KWAZULU_NATAL": {
+      "population": 1403198
+    },
+    "P_ZAF_LIMPOPO": {
+      "population": 906098
+    },
+    "P_ZAF_MPUMALANGA": {
+      "population": 792243
+    },
+    "P_ZAF_NORTHERN_CAPE": {
+      "population": 1093209
+    },
+    "P_ZAF_NORTH_WEST": {
+      "population": 669816
+    },
+    "P_ZAF_WESTERN_CAPE": {
+      "population": 1595284
+    }
+  }
 }

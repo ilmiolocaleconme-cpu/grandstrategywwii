@@ -1,0 +1,17 @@
+{
+  "receivedOn": "2026-10-28",
+  "origin": "CSV fornito dall'utente in chat (stima della popolazione 1936 per nazione)",
+  "use": "Base di data/population/province_population.json (scripts/build-province-population.js). Copia byte per byte, da non modificare a mano.",
+  "files": [
+    {
+      "file": "nazioni_1936.csv",
+      "sha256": "a734ff18778e9c2768ff8a08702feefc685259a002191c8133243e8ece2df9bb",
+      "description": "36 paesi, colonne nazione, anno, popolazione_stimata, fonte"
+    }
+  ],
+  "caveats": [
+    "la colonna «fonte» ripete su ogni riga «Italia: censimento ISTAT 21 aprile 1936»: probabile copia-incolla, solo l'Italia (42.993.602) è un censimento",
+    "India 388 milioni e URSS 181 milioni sembrano alti per il 1936 (valori più vicini al 1941 e al 1937-39): da ricontrollare",
+    "Vietnam: il repository ha l'Indocina francese (Vietnam + Laos + Cambogia) come un'unica entità, vedi MAPPING_NOTES in src/data/population.js"
+  ]
+}

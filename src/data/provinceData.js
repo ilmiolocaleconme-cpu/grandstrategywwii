@@ -36,9 +36,10 @@ const isObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v)
 /**
  * Errori di un file per provincia (lista vuota = valido).
  * kind: 'population' | 'agriculture' | 'military'. ctx: { motherIds: Set|array, structureIds?: Set } — structureIds, se dato,
- * controlla `installations` della presenza militare contro i `structure_id` del Pack.
+ * controlla `installations` della presenza militare contro i `structure_id` del Pack; ownerOf: Map(idMadre → proprietario), serve a
+ * verificare che la somma delle province di ogni nazione di `nationalTotals` (solo popolazione) sia ESATTAMENTE il totale dichiarato.
  */
-export function validateProvinceDataset(kind, file, { motherIds, structureIds = null } = {}) {
+export function validateProvinceDataset(kind, file, { motherIds, structureIds = null, ownerOf = null } = {}) {
   const spec = PROVINCE_DATASETS[kind];
   if (!spec) return [`province: dataset sconosciuto "${kind}"`];
   const tag = `province/${spec.label}`;
@@ -66,11 +67,23 @@ export function validateProvinceDataset(kind, file, { motherIds, structureIds = 
       for (const s of entry.installations) if (!structureIds.has(s)) errors.push(`${tag}: ${id} cita l'installazione ${s}, che non esiste nel Pack`);
     }
   }
+  if (kind === 'population' && file.nationalTotals !== undefined) {
+    if (!isObject(file.nationalTotals)) errors.push(`${tag}: nationalTotals deve essere un oggetto`);
+    else if (ownerOf) {
+      const sums = {};
+      for (const [id, entry] of Object.entries(file.byProvince)) if (Number.isInteger(entry?.population) && ownerOf.has(id)) sums[ownerOf.get(id)] = (sums[ownerOf.get(id)] ?? 0) + entry.population;
+      for (const [owner, total] of Object.entries(file.nationalTotals)) {
+        if (!Number.isInteger(total) || total <= 0) errors.push(`${tag}: totale di ${owner} non valido`);
+        else if ((sums[owner] ?? 0) !== total) errors.push(`${tag}: la somma delle province di ${owner} è ${sums[owner] ?? 0}, il totale dichiarato è ${total}`);
+      }
+    }
+  }
   return errors;
 }
 
 /** Voce di una provincia (o di una sua sponda, tramite la madre); null se il file non la conosce. */
 export function provinceEntry(file, props) {
   const id = props.parentProvince ?? props.id;
-  return file?.byProvince?.[id] ?? null;
+  const entry = file?.byProvince?.[id];
+  return entry ? { ...entry, quality: entry.quality ?? file.quality } : null; // la qualità del file vale per le voci che non ne hanno una
 }

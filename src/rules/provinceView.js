@@ -84,6 +84,8 @@ export function buildProvinceView(input) {
   const logi = logisticsStatus(linkStats, st);
   const logiInfo = LOGISTICS_STATUS[logi];
   const bombed = st.damage >= 0.3 || st.bombing > 0;
+  const popApprox = population?.quality === 'DESIGN_DEFAULT'; // stima di design: il valore si mostra con «~»
+  const popText = has(population?.population) ? `${popApprox ? '~' : ''}${fmt(population.population)}` : ND;
 
   // ---- stato sintetico dell'intestazione ----
   let status = { id: 'stable', label: 'Stabile', tone: 'good' };
@@ -100,7 +102,7 @@ export function buildProvinceView(input) {
     controller, controllerName: nameOf(controller),
     status,
     indicators: [
-      { id: 'population', label: 'Popolazione', value: has(population?.population) ? fmt(population.population) : ND, tone: has(population?.population) ? 'ok' : 'na' },
+      { id: 'population', label: 'Popolazione', value: popText, tone: has(population?.population) ? 'ok' : 'na' },
       { id: 'industry', label: 'Industria', value: `${slots} slot`, tone: 'ok' },
       { id: 'energy', label: 'Energia', value: has(hydroMw) && hydroMw > 0 ? `${fmt(Math.round(hydroMw))} MW` : ND, tone: st.powerShortage ? 'bad' : has(hydroMw) && hydroMw > 0 ? 'ok' : 'na' },
       { id: 'resources', label: 'Risorse', value: String(resourceLabels.length), tone: resourceLabels.length ? 'ok' : 'na' },
@@ -126,7 +128,7 @@ export function buildProvinceView(input) {
         has(population?.population) || has(military?.garrison) ? null : 'Popolazione e presenza militare: dato mancante',
       ].filter(Boolean),
       metrics: [
-        { label: 'Popolazione', value: has(population?.population) ? fmt(population.population) : ND },
+        { label: 'Popolazione', value: popText },
         { label: 'Industria', value: `${slots} slot` },
         { label: 'Energia', value: has(hydroMw) && hydroMw > 0 ? `${fmt(Math.round(hydroMw))} MW` : ND },
         { label: 'Logistica', value: logiInfo.label },
@@ -184,14 +186,17 @@ export function buildProvinceView(input) {
     },
     population: {
       id: 'population', level: 'C', title: 'Popolazione',
-      status: has(population?.population) ? { label: 'Dato presente', tone: 'ok' } : { label: 'Dato mancante', tone: 'na' },
-      main: { label: 'Abitanti', value: has(population?.population) ? fmt(population.population) : ND },
+      status: has(population?.population) ? (popApprox ? { label: 'Stima di design', tone: 'na' } : { label: 'Dato presente', tone: 'ok' }) : { label: 'Dato mancante', tone: 'na' },
+      main: { label: 'Abitanti', value: popText },
       metrics: [
         { label: 'Forza lavoro', value: has(population?.workforce) ? fmt(population.workforce) : ND },
         { label: 'Crescita annua', value: has(population?.growthPerYear) ? pct(population.growthPerYear) : ND },
       ],
       modifiers: modifiers([st.workforceShortage, 'Carenza di manodopera']),
-      details: population?.quality ? [{ label: 'Qualità del dato', value: population.quality }] : [],
+      details: [
+        ...(population?.quality ? [{ label: 'Qualità del dato', value: population.quality }] : []),
+        ...(popApprox ? [{ label: 'Nota', value: 'Totale nazionale 1936 distribuito sulle province per territorio abitabile e luoghi abitati: il valore della singola provincia può essere molto lontano dal vero.' }] : []),
+      ],
     },
     occupation: {
       id: 'occupation', level: 'C', title: 'Occupazione',

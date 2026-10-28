@@ -25,6 +25,7 @@ import { validateHydro } from '../src/data/hydro.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
 import { validateEconomy } from '../src/data/economy.js';
 import { validateProvinceDataset } from '../src/data/provinceData.js';
+import { populationBuilt, populationFile } from './build-province-population.js';
 import { validateProduction } from '../src/data/production.js';
 import { validateExtractionFactors, validateLocationsExtra } from '../src/data/extraction.js';
 import { productionBuilt, productionFile } from './build-production.js';
@@ -109,9 +110,18 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateEconomy(JSON.parse(await text('economy/economy.json')), { resources: catalog.resources, recipes: JSON.parse(await text('industry/recipes.json')) }));
     // Dataset per provincia (popolazione, agricoltura, presenza militare): riferimenti a province madri e al Pack, valori nei limiti
     const motherIdsAll = new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id));
-    for (const [kind, file] of [['population', 'population/province_population.json'], ['agriculture', 'agriculture/province_agriculture.json'], ['military', 'military/province_presence.json']]) {
-      errors.push(...validateProvinceDataset(kind, JSON.parse(await text(file)), { motherIds: motherIdsAll, structureIds: industry.structures }));
+    const ownerOfMother = new Map(catalog.provinces.features.map((f) => [f.properties.parentProvince ?? f.properties.id, f.properties.owner]));
+    const popDoc = JSON.parse(await text('population/province_population.json'));
+    for (const [kind, file, doc] of [['population', '', popDoc], ['agriculture', 'agriculture/province_agriculture.json'], ['military', 'military/province_presence.json']]) {
+      errors.push(...validateProvinceDataset(kind, doc ?? JSON.parse(await text(file)), { motherIds: motherIdsAll, structureIds: industry.structures, ownerOf: ownerOfMother }));
     }
+    // Popolazione: CSV dell'utente non modificato e file generato allineato (totali nazionali distribuiti sulle province)
+    for (const sh of JSON.parse(await text('population/SOURCE.json')).files) {
+      if (createHash('sha256').update(await readFile(new URL(`../data/population/${sh.file}`, import.meta.url))).digest('hex') !== sh.sha256) errors.push(`popolazione: ${sh.file} diverso dalla copia ricevuta (sha256)`);
+    }
+    const popBuilt = await populationBuilt();
+    errors.push(...popBuilt.errors, ...popBuilt.noProvinces.map((o) => `popolazione: nessuna provincia per ${o}`));
+    if (JSON.stringify(popDoc) !== JSON.stringify(populationFile(popBuilt))) errors.push('popolazione: province_population.json non allineato al CSV e alle province, rigenerare con npm run build:population');
     // Produzione 1936 (CSV dell'utente): copie non modificate e file generato allineato
     for (const sh of JSON.parse(await text('resources/SOURCE_PRODUZIONE.json')).files) {
       if (createHash('sha256').update(await readFile(new URL(`../data/resources/${sh.file}`, import.meta.url))).digest('hex') !== sh.sha256) errors.push(`produzione: ${sh.file} diverso dalla copia ricevuta (sha256)`);

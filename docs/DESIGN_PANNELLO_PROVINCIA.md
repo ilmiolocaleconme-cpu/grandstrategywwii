@@ -12,12 +12,21 @@ dove il dato manca scrive «n/d», non un valore inventato.
 | Stato di partita (nuovo) | `state.provinces` (`src/game/provinceState.js`) | mappa **sparsa**: solo i campi diversi dal default; assente = default |
 | Vista (nuovo) | `src/rules/provinceView.js` | funzione pura che assembla i tre livelli per il pannello |
 
-I tre file per provincia sono **volutamente vuoti** (`quality: MISSING_DATA`): nel repository non esiste una popolazione, un potenziale
-agricolo o una presenza militare per provincia. Il contratto è pronto e validato (`npm run validate:data`); i valori si aggiungono con una
-fonte dichiarata (`USER_ESTIMATE`) o come stima di design (`DESIGN_DEFAULT`). Le produzioni (cibo, frumento) **non si salvano**: si calcoleranno.
+**Popolazione (28/10/2026)**: `data/population/nazioni_1936.csv` (36 paesi, forniti dall'utente, copia con sha256 in `SOURCE.json`) è un
+totale NAZIONALE. `scripts/build-province-population.js` (`npm run build:population`) lo distribuisce sulle province madri: peso = 50 % territorio
+abitabile (area × densità del terreno, esponente 0,5) + 50 % popolazione moderna del luogo abitato principale (Natural Earth, esponente 0,5).
+La somma di ogni nazione è **esatta** (resto maggiore) e `validate:data` la verifica; i valori delle singole province sono una stima di design
+(`DESIGN_DEFAULT`, mostrati con «~» nel pannello) e possono essere lontani dal vero di un fattore 5–10: province enormi e semivuote (Xinjiang,
+Alaska) e province con una megalopoli moderna (Shanghai) sono sovrastimate, perché il repository non ha una densità per provincia. 1274 province
+su 36 nazioni; le altre restano «n/d». Corrispondenze non ovvie (Vietnam → Indocina francese, Indonesia → Indie orientali olandesi, Cina senza
+Manciukuo, Giappone senza Corea e Taiwan): `MAPPING_NOTES` in `src/data/population.js`.
+
+Agricoltura e presenza militare restano **volutamente vuoti** (`quality: MISSING_DATA`): nel repository non esiste un potenziale agricolo né una
+presenza militare per provincia. Il contratto è pronto e validato; i valori si aggiungono con una fonte dichiarata (`USER_ESTIMATE`) o come stima
+di design (`DESIGN_DEFAULT`). Le produzioni (cibo, frumento) **non si salvano**: si calcoleranno.
 
 ## Campi dei file per provincia
-- **Popolazione**: `population`, `workforce` (≤ population), `growthPerYear` (−0,1…0,1).
+- **Popolazione**: `population`, `workforce` (≤ population), `growthPerYear` (−0,1…0,1). Il file può dichiarare `nationalTotals`: la somma delle province di ogni nazione deve coincidere.
 - **Agricoltura**: `potential` (0–10), `wheatShare` (0–1). Il frumento non è esclusivo di alcune province: ogni provincia può avere un potenziale.
 - **Presenza militare**: `garrison`, `hq`, `fortifications`, `antiAir`, `radar` (0–3), `installations` (id `structure_id` del Pack). Solo PRESENZA: le unità restano nel sistema esercito.
 - Ogni voce può avere `quality` (`USER_ESTIMATE`, `DESIGN_DEFAULT`, `reference`, `MISSING_DATA`). Campi sconosciuti o fuori limite = errore.
