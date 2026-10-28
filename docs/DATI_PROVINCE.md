@@ -15,7 +15,7 @@ Feature GeoJSON (coordinate `[lon, lat]`), un file per nazione. Stato: **dati re
 - Ogni feature riporta `ohmRelation` e `wikidata` per risalire alla relazione originale. I file grezzi OHM **non** sono nel repository.
 - Natural Earth admin-1 5.1.1 (dominio pubblico) è stato scartato come fonte generale (confini moderni, granularità disomogenea) ed è usato **solo per i Paesi Bassi, la Sicilia e la Calabria**, perché OHM ha per il 1936 soltanto Frisia, Limburgo e Utrecht su 11 province olandesi, e non ha Sicilia (solo fino al 1923) né Calabria (solo dal 1947).
 
-## Copertura (370 province)
+## Copertura iniziale (370 province; il totale attuale è in `docs/INVENTARIO_DATI.md`)
 | owner | contenuto |
 |---|---|
 | DEU | 32 Gaue NSDAP (ipotesi, vedi `docs/GAUE.md`); le 30 province/Länder originali sono in `data/archive/provinces_deu_1936_lander.json`, non caricate |
