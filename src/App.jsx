@@ -20,6 +20,14 @@ import initialCash from '../data/industry/initial_cash.json';
 import economyData from '../data/economy/economy.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
+import { createEconomySystem } from './game/economySystem.js';
+import { loadIndustryCatalog } from './data/industry.js';
+import recipesFile from '../data/industry/recipes.json';
+import extractionBaseline from '../data/resources/extraction_baseline.json';
+import hydroPlants from '../data/resources/hydro_plants.json';
+import factoriesCsv from '../data/industry/factories.csv?raw';
+import structuresCsv from '../data/infrastructure/structures.csv?raw';
+import categoriesCsv from '../data/industry/production_categories.csv?raw';
 import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar from './ui/GameBar.jsx';
 import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
@@ -147,6 +155,12 @@ function useProvinces() {
 // Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData };
 
+// Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
+const GAME_SYSTEMS = [createEconomySystem({
+  catalog: { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId },
+  economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash,
+})];
+
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
 // chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico
 const NATION_CONTROL = Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
@@ -272,7 +286,7 @@ export default function App() {
   useEffect(() => {
     if (!running) return undefined;
     const ms = msPerDay(speed);
-    const id = setInterval(() => setGame((g) => (g ? advanceDay(g) : g)), ms);
+    const id = setInterval(() => setGame((g) => (g ? advanceDay(g, GAME_SYSTEMS) : g)), ms);
     return () => clearInterval(id);
   }, [running, speed]);
   useEffect(() => {
