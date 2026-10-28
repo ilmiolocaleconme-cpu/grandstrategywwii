@@ -8,18 +8,25 @@ The project is designed around a shared simulation framework for Germany, Italy 
 
 Project Status
 
-Phase: Infrastructure prototype. No game mechanics are implemented yet.
+Phase: data and map prototype. Some mechanics exist as tested pure logic; the game is not playable end to end yet.
 
-What exists today: a React + Vite app with an installable PWA (offline caching), a validated data catalog (nations, resources, empty river and crossing tables) and automated tests. The offline behaviour was checked by hand on one phone; it is not covered by automated tests.
+What exists today (checked on 28/10/2026 on branch "test"):
+- A React + Vite app with a Canvas 2D strategy map, installable PWA configuration and a new-game flow.
+- A validated data catalog: 72 nations, 190 political entities (1936), 3088 provinces in 178 files, 1200 rivers, 2484 lakes, 202 sea zones, road and rail data, terrain and resources. Most province borders are hypotheses, not verified history. Details in "docs/INVENTARIO_DATI.md" (generated).
+- Game core logic (calendar, state, engine, save) and rules for production and river crossings, covered by automated tests but not yet fully connected to the interface.
+- Offline behaviour was checked by hand on one phone; it is not covered by automated tests.
 
-The game systems described in the documentation are design goals. They must not be considered implemented until the corresponding code and tests are available. See "docs/STATO_IMPLEMENTAZIONE.md" for the detailed, up-to-date status.
+Not implemented yet: units and movement, combat, trade, research, diplomacy, contingent loans and AI.
+
+The design documents describe goals. A feature counts as implemented only when its code and tests exist. See "docs/STATO_IMPLEMENTAZIONE.md" for the detailed status.
 
 Commands (Node ^20.19 or >=22.12):
 
 - "npm run dev" — development server.
 - "npm run build" and "npm run preview" — production build and local preview.
-- "npm test" — automated tests.
+- "npm test" — automated tests (the full suite takes several minutes).
 - "npm run validate:data" — validate the files in "data/".
+- "node scripts/report-inventory.js" — regenerate "docs/INVENTARIO_DATI.md".
 
 Core Features
 
@@ -57,15 +64,15 @@ grandstrategywwii/
 └── package.json
 
 - "docs/" — Game design, architecture, technical specifications and implementation status.
-- "data/" — Structured game data (currently nations, resources, rivers and crossings).
+- "data/" — Structured game data (nations, provinces, rivers, lakes, sea zones, transport, terrain, resources and industry).
 - "public/" — Static assets, including placeholder PWA icons.
 - "scripts/" — Command-line tools, such as data validation.
-- "src/" — Application code: React interface, PWA registration and the data validator.
+- "src/" — Application code: React interface, map, game core, rules, data loaders and the data validator.
 - "tests/" — Automated tests.
 - "index.html", "vite.config.js" — Vite entry point and build and PWA configuration.
 - "package.json" — Project configuration and scripts.
 
-Units, technologies, events, the map and the game rules are not present yet.
+Units, technologies and events are not present yet; the map and part of the rules are.
 
 Technical Direction
 

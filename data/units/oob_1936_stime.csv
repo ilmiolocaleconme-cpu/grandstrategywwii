@@ -1,0 +1,12 @@
+nation,category,echelon,count_min,count_max,confidence,source,note
+FRA,infantry,division,20,25,probabile,"Tournès, testo del 1936 riportato su empires-and-revolution.blogspot.com (2018/11)","Il testo cita sia 20 sia 25 divisioni di fanteria, 7 già motorizzate: fonte interna incoerente, intervallo conservato"
+FRA,cavalry,division,4,4,probabile,"Tournès, 1936 (stesso testo)","Una delle quattro in trasformazione sperimentale"
+FRA,mechanized,division,1,1,ipotesi,"Tournès, 1936 (stesso testo)","Il testo parla di una sola divisione meccanizzata sperimentale; il CSV ha le DLM 1937 (date dubbie, probabile 1935)"
+GBR,infantry,division,5,5,ipotesi,"Conoscenza generale, nessuna fonte verificata in questa sessione","Divisioni regolari 1ª-5ª in tempo di pace, non tutte a organico; coerente con le 5 del CSV"
+GBR,infantry,division,12,12,ipotesi,"Conoscenza generale, nessuna fonte verificata in questa sessione","Territorial Army (riserva): numero da verificare; non è una forza pronta"
+ITA,infantry,division,0,0,ipotesi,"Nessuna fonte verificata","Il 1936 italiano è falsato dalla guerra d'Etiopia (unità mobilitate in AOI): non stimo il numero di divisioni di fanteria"
+ITA,mountain,division,4,5,ipotesi,"CSV utente (4 alpine); Pusteria assente dal CSV","La 5ª alpina Pusteria va aggiunta con data da verificare"
+USA,infantry,division,3,3,ipotesi,"CSV utente (1ª-3ª); conoscenza generale","Altre divisioni esistevano solo sulla carta; numero da verificare"
+USSR,cavalry,division,32,36,probabile,"Wikipedia, Cavalry division (Soviet Union): 36 nel 1936","Il dettaglio della fonte somma a 32 (20+4+3+5): incoerente, intervallo conservato"
+USSR,mechanized,corps,4,4,probabile,"Wikipedia, Mechanised corps (Soviet Union): quattro corpi all'inizio del 1936","Solo 11º (Leningrado) e 45º (Ucraina) nominati dalla fonte"
+USSR,infantry,division,0,0,ipotesi,"Nessuna fonte verificata","Il CSV ne ha 15; il totale reale del 1936 (territoriali e di quadri) non è stato verificato"

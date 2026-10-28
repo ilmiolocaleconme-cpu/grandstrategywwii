@@ -31,14 +31,15 @@ Da passare a chi continua il lavoro. Riassumono come sono stati inseriti finora 
 1. Aggiornare i conteggi attesi in `tests/province_files.test.js` (per nazione e totale) e nei test di area (`tests/*.test.js`).
 2. Aggiungere un test per la nazione: numero di unità, aree plausibili (soglie larghe), città note dentro l'unità giusta (città costiere: punto subito all'interno), nessuna sovrapposizione col campionamento a 0,02° con i vicini.
 3. Eseguire `node --test tests/*.test.js` (tutto verde) e, quando il registro npm è raggiungibile, `npm run validate:data` e `npm run build`.
-4. Aggiornare `docs/DATI_PROVINCE.md`, `docs/STATO_IMPLEMENTAZIONE.md` e `_meta.json`.
+4. Aggiornare `docs/DATI_PROVINCE.md`, `docs/STATO_IMPLEMENTAZIONE.md` e `_meta.json`, poi rigenerare `docs/INVENTARIO_DATI.md` con `node scripts/report-inventory.js`.
 5. Controllo visivo a 360×640 px (telefono): colori, etichette, legenda, nessuna sovrapposizione.
 6. Commit sul branch `test` con messaggio chiaro, push senza force.
 
 ## 6. Cosa dichiarare nel resoconto
 Distinguere sempre: **implementato e testato** / implementato ma non testato / parziale / prototipo / simulato / mancante. Non dichiarare verificati `vite build`, precache o offline se non eseguiti. Segnalare ogni approssimazione (confini attuali al posto di quelli 1936, unità accorpate, licenza non verificata).
 
-## 7. Stato dei dati (16/10/2026, branch `test`)
-1020 province in 45 file (ALG: 19 regioni strategiche accorpate da 48 wilaya attuali). Presenti: Europa centrale e occidentale, Baltici (Estonia, Lettonia, Lituania con Memel), Danimarca, Norvegia, Svezia, Finlandia, URSS (177 unità moderne, ipotesi), Balcani, Spagna, Portogallo, Marocco (francese e spagnolo), Regno Unito (Inghilterra 40, Galles 10, Scozia 32, Irlanda del Nord 6), Stato Libero d'Irlanda (5 province storiche), Islanda (1), Algeria, Tunisia, Libia (5 unità storiche 1934-43), Egitto, Palestina, Transgiordania, Siria, Libano, Turchia, Cipro, Malta, Gibilterra.
-Mancanti, tra gli altri: Iran, Iraq, Iran, Africa a sud del Sahara, Asia, Americhe. Da fare: evento storico della guerra civile spagnola (luglio 1936), spezzare le geometrie a ±180° per Figi e Aleutine (la Ciukotka è già spezzata, con vertici di cucitura accoppiati), usare `lonDelta` nelle rotte; sostituire le unità sovietiche moderne con quelle del 1936 e correggere Petsamo, Carelia, Petseri, Abrene e Tuva.
-Cautela: le province di molti paesi sono **confini attuali**, non quelli del 1936 (Libia è l'eccezione storica; Inghilterra ricomposta in contee 1936; Scozia a council area attuali).
+## 7. Stato dei dati (28/10/2026, branch `test`)
+3088 province in 178 file. Conteggio per file, qualità dei confini e lacune misurate sono in `docs/INVENTARIO_DATI.md`, generato da `node scripts/report-inventory.js`: non copiare i numeri qui, rigenerare il file.
+Senza file di province: AND, MCO, SMR, VAT (più altre entità politiche, vedi inventario).
+Da fare (voci del documento precedente, non riverificate il 28/10): evento storico della guerra civile spagnola (luglio 1936); spezzare le geometrie a ±180° per Figi e Aleutine; usare `lonDelta` nelle rotte; sostituire le unità sovietiche moderne con quelle del 1936 e correggere Petsamo, Carelia, Petseri, Abrene e Tuva.
+Cautela: le province di molti paesi sono **confini attuali**, non quelli del 1936 (Libia è l'eccezione storica; Inghilterra ricomposta in contee 1936; Scozia a council area attuali). Nessuna provincia ha `borderQuality: verified`.

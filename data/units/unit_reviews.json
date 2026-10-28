@@ -1,0 +1,17 @@
+{
+  "schema": "unit-reviews-v1",
+  "note": "Revisioni manuali del CSV delle unità. Si corregge una data SOLO con confidence \"certo\" (startYearOverride). Negli altri casi l'unità resta com'è nel CSV ma viene segnata come dubbia e NON è attiva nella politica strict finché non è verificata. Nessuna fonte è ancora verificata: tutto il catalogo resta DA_VERIFICARE.",
+  "reviews": {
+    "U00089": { "status": "corrected", "confidence": "certo", "startYearOverride": 1938, "reason": "4. Panzer-Division costituita nel novembre 1938; il CSV riporta 1935 (inizio finestra)." },
+    "U00091": { "status": "corrected", "confidence": "certo", "startYearOverride": 1938, "reason": "5. Panzer-Division costituita nel novembre 1938; il CSV riporta 1935 (inizio finestra)." },
+    "U00264": { "status": "corrected", "confidence": "certo", "startYearOverride": 1941, "reason": "Il Fronte di Leningrado nasce nell'estate 1941 (prima esisteva il distretto militare di Leningrado); il CSV riporta 1935." },
+    "U00059": { "status": "excluded", "confidence": "certo", "reason": "Nel 1935 esisteva solo una brigata di fanteria di montagna, la divisione è del 1938. Esclusa per decisione dell'utente (28/10/2026) in attesa del tema Gebirgsjäger." },
+    "U00061": { "status": "date_doubt", "confidence": "probabile", "reason": "1. Kavallerie-Division: la divisione nasce dopo il 1935 (probabile 1939, da una brigata di cavalleria); il CSV riporta 1935." },
+    "U00020": { "status": "date_doubt", "confidence": "probabile", "reason": "1re Division Légère Mécanique: probabile costituzione nel 1935 (non 1937 come nel CSV); data da verificare." },
+    "U00021": { "status": "date_doubt", "confidence": "probabile", "reason": "2e Division Légère Mécanique: probabile costituzione nel 1935 (non 1937 come nel CSV); data da verificare." },
+    "U00124": { "status": "duplicate", "confidence": "certo", "duplicateOf": "U00125", "reason": "Kantō e Kwantung sono due traslitterazioni dello stesso comando (Armata del Kwantung)." },
+    "U00218": { "status": "duplicate", "confidence": "certo", "duplicateOf": "U00209", "reason": "32ª e 132ª Divisione corazzata 'Ariete' sono la stessa unità (numerazione cambiata); da verificare quale denominazione e quale data tenere." },
+    "U00012": { "status": "faction_doubt", "confidence": "certo", "reason": "L'8th Route Army è una forza comunista, non dell'Esercito Nazionale Rivoluzionario nazionalista; il catalogo ha una sola nazione CHN." },
+    "U00015": { "status": "faction_doubt", "confidence": "certo", "reason": "La Nuova 4ª Armata è una forza comunista, non dell'Esercito Nazionale Rivoluzionario nazionalista; il catalogo ha una sola nazione CHN." }
+  }
+}
