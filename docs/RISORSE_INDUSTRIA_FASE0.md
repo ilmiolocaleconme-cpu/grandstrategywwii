@@ -117,3 +117,13 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 - `data/industry/initial_stocks.json` (schema `initial-stocks-v1`, DESIGN_DEFAULT), generato da `npm run build:stocks`; logica in `src/data/initialStocks.js`; test `tests/initial_stocks.test.js` (ricalcolo dalla regola).
 - **Regola** (richiesta dell'utente: "una nazione deve almeno resistere 5 mesi senza commercio"): 150 giorni con l'industria iniziale a pieno regime (scelta tra 80% e 100%: 100%). Stock = giorni × (consumo − produzione nazionale), solo dove manca. 24 entità, 62 voci. Le nazioni che si bastano (es. Paesi Bassi) e la fascia C non hanno stock.
 - Limiti: copre l'industria, non l'esercito (Fase 5); i deficit di carbone delle nazioni piccole dipendono da dati di produzione 1936 mancanti (MISSING_DATA); gli stock non sono sottratti a nessuno. Non ancora istanziati nelle partite.
+
+## Stato di gioco schema 2 (28/10/2026)
+
+- `STATE_SCHEMA` = 2. Nuovi campi: `difficulty` (facile / media / reale) e `nations`: per ogni proprietario `{ balance, stocks, facilities, mines, baseGridMw, forces: { land, naval, air } }` (`src/game/economyState.js`). Oltre alle 72 nazioni c'è l'Iran (non giocabile, con una raffineria).
+- Gli impianti hanno la forma letta da `produceDay` (`id, type, recipeId, damage, priority, active`) più `territory`: gli impianti e le scorte delle colonie (Ceylon, Malesia, Suriname) vanno al proprietario, il luogo resta tracciato.
+- **Forze armate: campi vuoti** (MISSING_DATA): non esistono cataloghi né ordini di battaglia 1936 di divisioni, navi e aerei. **Cassa iniziale = 0**: MISSING_DATA, da decidere. **Miniere costruite**: elenco vuoto (le costruisce il giocatore).
+- Migrazione 1→2 (`migrateV1toV2`): `nations` resta `null` e `initEconomy` lo inizializza dai dati iniziali al caricamento; è esatto perché in un salvataggio dello schema 1 l'economia non è mai evoluta (nessun sistema in `SYSTEMS`).
+- App: `startGame` passa i dati iniziali a `newGame`; `loadGame` chiama `initEconomy`. I due JSON iniziali sono nel bundle (pochi kB, funzionano offline).
+- **Scoperta del test di integrazione:** le scorte iniziali coprono solo il deficit, quindi il giorno 1 la Germania non produce acciaio se l'estrazione non è nel ciclo giornaliero. Serve un passo giornaliero "estrazione → scorta" prima di `produceDay`, ancora da inserire in `SYSTEMS`.
+- Stato: implementato e testato (`tests/economy_state.test.js`); `SYSTEMS` ancora vuoto; l'app non è stata provata in browser né compilata (npm non raggiungibile).
