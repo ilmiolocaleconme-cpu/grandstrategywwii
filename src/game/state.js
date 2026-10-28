@@ -25,7 +25,7 @@ export function initialControl(political) {
 /**
  * Nuova partita. Ritorna { ok: true, state } oppure { ok: false, reason } con reason in
  * `invalid_nation`, `unknown_nation`, `not_playable`, `no_provinces`, `invalid_date`, `invalid_difficulty`.
- * `start` ({ nationIds, industry, stocks }, i dati iniziali) è opzionale: senza, `nations` è null e si inizializza al caricamento (initEconomy).
+ * `start` ({ nationIds, industry, stocks, cash, economy }, i dati iniziali) è opzionale: senza, `nations` è null e si inizializza al caricamento (initEconomy).
  */
 export function newGame({ nation, political, ownersWithProvinces, startDate = START_DATE, difficulty = DEFAULT_DIFFICULTY, start = null }) {
   if (typeof nation !== 'string' || nation === '') return { ok: false, reason: 'invalid_nation' };
@@ -45,7 +45,7 @@ export function newGame({ nation, political, ownersWithProvinces, startDate = ST
       player: nation,
       control: initialControl(political),
       difficulty,
-      nations: start ? buildNations({ political, ...start }) : null,
+      nations: start ? buildNations({ political, ...start, difficulty }) : null,
     },
   };
 }
@@ -78,7 +78,7 @@ export function validateState(state) {
 /** Inizializza `nations` dai dati iniziali se è null (partita nuova senza dati o salvataggio migrato dallo schema 1). Per lo schema 1 è esatto: l'economia non è mai evolsa. */
 export function initEconomy(state, { political, start }) {
   if (state.nations !== null) return state;
-  return { ...state, nations: buildNations({ political, ...start }) };
+  return { ...state, nations: buildNations({ political, ...start, difficulty: state.difficulty }) };
 }
 
 /** Stato avanzato di un giorno, senza altri effetti (le regole sono in engine.js). */

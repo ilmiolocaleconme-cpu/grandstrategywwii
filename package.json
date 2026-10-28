@@ -23,6 +23,7 @@
     "build:province-resources": "node scripts/build-province-resources.js",
     "build:industry": "node scripts/build-initial-industry.js",
     "build:stocks": "node scripts/build-initial-stocks.js",
+    "build:cash": "node scripts/build-initial-cash.js",
     "build:resource-points": "node scripts/build-resource-points.js",
     "build:transport": "node scripts/build-transport.js",
     "build:hydro": "node scripts/build-hydro.js",

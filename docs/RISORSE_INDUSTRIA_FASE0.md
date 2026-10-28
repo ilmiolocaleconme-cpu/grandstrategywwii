@@ -122,8 +122,15 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 
 - `STATE_SCHEMA` = 2. Nuovi campi: `difficulty` (facile / media / reale) e `nations`: per ogni proprietario `{ balance, stocks, facilities, mines, baseGridMw, forces: { land, naval, air } }` (`src/game/economyState.js`). Oltre alle 72 nazioni c'è l'Iran (non giocabile, con una raffineria).
 - Gli impianti hanno la forma letta da `produceDay` (`id, type, recipeId, damage, priority, active`) più `territory`: gli impianti e le scorte delle colonie (Ceylon, Malesia, Suriname) vanno al proprietario, il luogo resta tracciato.
-- **Forze armate: campi vuoti** (MISSING_DATA): non esistono cataloghi né ordini di battaglia 1936 di divisioni, navi e aerei. **Cassa iniziale = 0**: MISSING_DATA, da decidere. **Miniere costruite**: elenco vuoto (le costruisce il giocatore).
+- **Forze armate: campi vuoti** (MISSING_DATA): non esistono cataloghi né ordini di battaglia 1936 di divisioni, navi e aerei. **Cassa iniziale**: vedi sezione sotto (30 giorni di entrata + 200 ECV). **Miniere costruite**: elenco vuoto (le costruisce il giocatore).
 - Migrazione 1→2 (`migrateV1toV2`): `nations` resta `null` e `initEconomy` lo inizializza dai dati iniziali al caricamento; è esatto perché in un salvataggio dello schema 1 l'economia non è mai evoluta (nessun sistema in `SYSTEMS`).
 - App: `startGame` passa i dati iniziali a `newGame`; `loadGame` chiama `initEconomy`. I due JSON iniziali sono nel bundle (pochi kB, funzionano offline).
 - **Scoperta del test di integrazione:** le scorte iniziali coprono solo il deficit, quindi il giorno 1 la Germania non produce acciaio se l'estrazione non è nel ciclo giornaliero. Serve un passo giornaliero "estrazione → scorta" prima di `produceDay`, ancora da inserire in `SYSTEMS`.
 - Stato: implementato e testato (`tests/economy_state.test.js`); `SYSTEMS` ancora vuoto; l'app non è stata provata in browser né compilata (npm non raggiungibile).
+
+## Cassa iniziale e difficoltà sulle scorte (28/10/2026)
+
+- `data/industry/initial_cash.json` (schema `initial-cash-v1`, DESIGN_DEFAULT), generato da `npm run build:cash`; test `tests/initial_cash.test.js`.
+- **Regola** (decisa in chat): cassa = 30 giorni di entrata giornaliera + 200 ECV uguali per tutte. Entrata a difficoltà Media: valore aggiunto (miniere nazionali + impianti a pieno regime − ingressi) + quota province + capitale. Le città grandi non sono contate. Esempi: USA circa 7.400 ECV (241 ECV/giorno), Germania circa 2.100, mediana della fascia C 332.
+- **Difficoltà** (lacuna corretta): `stockMul` di `economy.json` (facile 1,5 · media 1 · reale 0,7) ora si applica anche a scorte iniziali e cassa; prima non veniva applicato.
+- Stato: implementato e testato; la cassa non cresce ancora (il ciclo giornaliero entrate/spese non è in `SYSTEMS`).

@@ -3,6 +3,8 @@
 // dove sorgono: una colonia lavora per il proprietario, ma il luogo resta tracciato per controllo e danni).
 // Forze armate (terrestri, navali, aeree): campi VUOTI di proposito. Non esistono ancora cataloghi né ordini di battaglia 1936 (MISSING_DATA):
 // il salvataggio non cambia forma quando arriveranno.
+import { difficulty } from '../data/economy.js';
+import { cashFor } from '../data/initialCash.js';
 
 export const DIFFICULTIES = ['facile', 'media', 'reale'];
 export const DEFAULT_DIFFICULTY = 'media';
@@ -15,9 +17,11 @@ const emptyNation = () => ({ balance: 0, stocks: {}, facilities: [], mines: [], 
  * ctx: { political (array), nationIds (array), industry (initial_industry.json), stocks (initial_stocks.json) }
  * - gli impianti e le scorte di una colonia vanno al proprietario (`owner`); ogni impianto ricorda il `territory`;
  * - la fascia C (industry.tierC) riceve la rete di base; le altre nazioni 0;
- * - `balance` parte da 0: la cassa iniziale non è ancora definita (MISSING_DATA, decisione da prendere).
+ * - `balance` = cassa iniziale di initial_cash.json (30 giorni di entrata + 200 ECV, 28/10/2026); con `cash: null` (solo per i calcoli dei dati) resta 0;
+ * - la difficoltà moltiplica scorte e cassa per `stockMul` (facile 1,5 · media 1 · reale 0,7), come definito in economy.json.
  */
-export function buildNations({ political, nationIds, industry, stocks }) {
+export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
+  const stockMul = economy ? difficulty(economy, difficultyId).stockMul : 1;
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
   // `nations` contiene le nazioni scegliibili e ogni altra entità che possiede industria (es. Iran, non giocabile)
   const nations = {};
@@ -39,6 +43,11 @@ export function buildNations({ political, nationIds, industry, stocks }) {
     if (!owner) throw new Error(`stato economico: scorte di ${territory}, che non è un'entità politica`);
     if (!nations[owner]) nations[owner] = emptyNation();
     for (const [res, t] of Object.entries(stocks.stocks[territory])) nations[owner].stocks[res] = (nations[owner].stocks[res] ?? 0) + t;
+  }
+  for (const n of Object.values(nations)) for (const res of Object.keys(n.stocks)) n.stocks[res] = Math.ceil(n.stocks[res] * stockMul - 1e-9);
+  if (cash) for (const [id, n] of Object.entries(nations)) {
+    if (!cash.nations[id]) throw new Error(`stato economico: manca la cassa iniziale di ${id}`);
+    n.balance = cashFor(cash.nations[id].cash, stockMul);
   }
   return nations;
 }

@@ -16,6 +16,8 @@ import { withTerrain } from './data/terrain.js';
 import { buildCanvasModel } from './map/canvasModel.js';
 import initialIndustry from '../data/industry/initial_industry.json';
 import initialStocks from '../data/industry/initial_stocks.json';
+import initialCash from '../data/industry/initial_cash.json';
+import economyData from '../data/economy/economy.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { browserStorage, createSaveStore } from './game/save.js';
@@ -143,7 +145,7 @@ function useProvinces() {
 }
 
 // Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
-const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks };
+const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData };
 
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
 // chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico

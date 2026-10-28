@@ -25,7 +25,7 @@ test('schema 2: ogni nazione ha cassa, scorte, impianti, miniere, rete e forze (
   for (const n of Object.values(nations)) {
     assert.deepEqual(Object.keys(n).sort(), ['balance', 'baseGridMw', 'facilities', 'forces', 'mines', 'stocks']);
     assert.deepEqual(n.forces, { land: [], naval: [], air: [] }, 'forze: MISSING_DATA, nessun catalogo');
-    assert.equal(n.balance, 0, 'cassa iniziale: MISSING_DATA');
+    assert.equal(n.balance, 0, 'senza il file della cassa nello start la cassa è 0 (con i dati: vedi initial_cash.test.js)');
     assert.deepEqual(n.mines, []);
   }
   assert.deepEqual(validateNations(nations), []);
