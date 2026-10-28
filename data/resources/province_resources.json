@@ -8,6 +8,9 @@
   "P_ALG_CONSTANTINE": [
    "antimony"
   ],
+  "P_ALG_TEBESSA": [
+   "iron_ore"
+  ],
   "P_ARG_BUENOS_AIRES": [
    "wheat"
   ],
@@ -58,9 +61,15 @@
    "iron_ore",
    "manganese"
   ],
+  "P_BRA_AMAZONAS": [
+   "rubber"
+  ],
   "P_BRA_MINAS_GERAIS": [
    "iron_ore",
    "manganese"
+  ],
+  "P_BRA_PARA": [
+   "rubber"
   ],
   "P_BRA_RIO_GRANDE_DO_SUL": [
    "coal"
@@ -80,6 +89,7 @@
   ],
   "P_CAN_ALBERTA": [
    "oil",
+   "coal",
    "wheat"
   ],
   "P_CAN_MANITOBA": [
@@ -89,6 +99,9 @@
   "P_CAN_NORTHWEST_TERRITORIES": [
    "uranium"
   ],
+  "P_CAN_NOVA_SCOTIA": [
+   "coal"
+  ],
   "P_CAN_ONTARIO": [
    "copper",
    "nickel",
@@ -97,9 +110,16 @@
   "P_CAN_SASKATCHEWAN": [
    "wheat"
   ],
+  "P_CEY_BASNAHIRA_PALATA": [
+   "rubber"
+  ],
+  "P_CEY_SABARAGAMUVA_PALATA": [
+   "rubber"
+  ],
   "P_CHL_ANTOFAGASTA": [
    "copper",
-   "molybdenum"
+   "molybdenum",
+   "sulphur"
   ],
   "P_CHL_COQUIMBO": [
    "iron_ore"
@@ -118,6 +138,12 @@
    "antimony",
    "mercury"
   ],
+  "P_CHN_HEBEI": [
+   "coal"
+  ],
+  "P_CHN_HUBEI": [
+   "iron_ore"
+  ],
   "P_CHN_HUNAN": [
    "tungsten",
    "antimony",
@@ -128,6 +154,9 @@
   ],
   "P_CHN_SHAANXI": [
    "oil"
+  ],
+  "P_CHN_SHANXI": [
+   "coal"
   ],
   "P_CHN_SICHUAN": [
    "oil"
@@ -365,6 +394,12 @@
   "P_HUN_VESZPREM": [
    "bauxite"
   ],
+  "P_INDO_DONG_NAM_BO": [
+   "rubber"
+  ],
+  "P_INDO_KAMPONG_CHAM": [
+   "rubber"
+  ],
   "P_IND_ASSAM": [
    "oil"
   ],
@@ -376,6 +411,7 @@
   ],
   "P_IND_JHARKHAND": [
    "coal",
+   "iron_ore",
    "bauxite"
   ],
   "P_IND_MADHYA_PRADESH": [
@@ -383,6 +419,9 @@
   ],
   "P_IND_MAHARASHTRA": [
    "manganese"
+  ],
+  "P_IND_ODISHA": [
+   "iron_ore"
   ],
   "P_IND_PUNJAB": [
    "wheat"
@@ -506,6 +545,9 @@
   "P_KOR_GANGWON": [
    "tungsten"
   ],
+  "P_LBR_MONTSERRADO": [
+   "rubber"
+  ],
   "P_MAL_JOHOR": [
    "rubber"
   ],
@@ -518,7 +560,8 @@
    "tin"
   ],
   "P_MAN_LIAONING": [
-   "coal"
+   "coal",
+   "iron_ore"
   ],
   "P_MAR_SOUSS___MASSA___DRAA": [
    "cobalt"
@@ -903,8 +946,12 @@
    "antimony"
   ],
   "P_ZAF_GAUTENG": [
+   "coal",
    "chromium",
    "vanadium"
+  ],
+  "P_ZAF_KWAZULU_NATAL": [
+   "coal"
   ],
   "P_ZAF_LIMPOPO": [
    "chromium",

@@ -1,5 +1,5 @@
 // Genera data/resources/province_resources.json (provincia → risorse presenti) da resource_locations.csv e location_provinces.csv,
-// più le posizioni aggiuntive approvate (resource_locations_extra.json) delle sole risorse in EXTRA_ON_MAP (oggi il rame).
+// più le posizioni aggiuntive approvate (resource_locations_extra.json) delle sole risorse in EXTRA_ON_MAP (rame, ferro, carbone, gomma, zolfo).
 // Piccolo file pronto per il browser: il livello Risorse della mappa non legge i CSV. Dato di riferimento, non storico.
 //   node scripts/build-province-resources.js
 import { readFile, writeFile } from 'node:fs/promises';

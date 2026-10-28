@@ -68,10 +68,11 @@ const rank = (id) => { const i = RESOURCE_ORDER.indexOf(id); return i < 0 ? RESO
 
 /**
  * Risorse le cui posizioni aggiuntive approvate (data/resources/resource_locations_extra.json) entrano anche nella mappa Risorse.
- * Il rame non ha giacimenti nel CSV (e quindi nemmeno punti): le sue province vengono solo da lì. Le altre risorse con posizioni
- * aggiuntive (ferro, carbone, gomma, zolfo) NON sono ancora sulla mappa: aggiungerle qui è una scelta di design, non automatica.
+ * Il rame non ha giacimenti nel CSV (e quindi nemmeno punti): le sue province vengono solo da lì. Ferro, carbone, gomma e zolfo
+ * le hanno per i territori con produzione storica ma senza punti: dal 28/10/2026 (scelta in chat) sono sulla mappa anche loro.
+ * Una risorsa con posizioni aggiuntive ma fuori da questo elenco resta fuori mappa: aggiungerla qui è una scelta di design.
  */
-export const EXTRA_ON_MAP = Object.freeze(['copper']);
+export const EXTRA_ON_MAP = Object.freeze(['copper', 'iron_ore', 'coal', 'rubber', 'sulphur']);
 
 /**
  * locations: righe di resource_locations.csv; links: righe di location_provinces.csv; extra (facoltativo): resource_locations_extra.json.

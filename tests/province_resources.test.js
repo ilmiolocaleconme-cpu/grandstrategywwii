@@ -23,17 +23,25 @@ test('solo i giacimenti entrano nella mappa: aggregati, totali e flussi no', () 
   assert.deepEqual(out.byProvince, { P1: ['oil', 'coal'] }); // unici, in ordine di priorità
 });
 
-test('posizioni aggiuntive: solo le risorse in EXTRA_ON_MAP entrano nella mappa (oggi il rame), senza duplicati', () => {
-  assert.deepEqual([...EXTRA_ON_MAP], ['copper']);
+test('posizioni aggiuntive: solo le risorse in EXTRA_ON_MAP entrano nella mappa, senza duplicati', () => {
+  assert.deepEqual([...EXTRA_ON_MAP].sort(), ['coal', 'copper', 'iron_ore', 'rubber', 'sulphur']);
   const extra = { rows: [
     { resource: 'copper', territory: 'X', provinces: ['P1', 'P2'] },
-    { resource: 'coal', territory: 'Y', provinces: ['P2', 'P3'] },
+    { resource: 'wheat', territory: 'Y', provinces: ['P2', 'P3'] }, // non in EXTRA_ON_MAP: resta fuori
   ] };
   const locations = [{ location_id: 'A', resource_id: 'oil', kind: 'deposit' }, { location_id: 'B', resource_id: 'copper', kind: 'deposit' }];
   const links = [{ location_id: 'A', province_id: 'P1' }, { location_id: 'B', province_id: 'P2' }];
   const out = buildProvinceResources(locations, links, extra);
-  assert.deepEqual(out.byProvince, { P1: ['oil', 'copper'], P2: ['copper'] }); // il carbone extra non entra; P2 non ha il rame due volte
+  assert.deepEqual(out.byProvince, { P1: ['oil', 'copper'], P2: ['copper'] }); // il frumento extra non entra; P2 non ha il rame due volte
   assert.deepEqual(buildProvinceResources(locations, links).byProvince, { P1: ['oil'], P2: ['copper'] }); // senza extra: come prima
+});
+
+test('ogni posizione extra approvata di una risorsa in EXTRA_ON_MAP è sulla mappa', () => {
+  const extra = JSON.parse(readFileSync(url('resources/resource_locations_extra.json'), 'utf8'));
+  const file = JSON.parse(readFileSync(url('resources/province_resources.json'), 'utf8'));
+  const rows = extra.rows.filter((r) => EXTRA_ON_MAP.includes(r.resource));
+  assert.ok(rows.length >= 19, 'rame (7), ferro (4), carbone (3), gomma (4) e zolfo (1) hanno posizioni extra');
+  for (const r of rows) for (const id of r.provinces) assert.ok(file.byProvince[id]?.includes(r.resource), `${r.resource} ${r.territory}: ${id} senza risorsa sulla mappa`);
 });
 
 test('il rame è in legenda e ogni sua posizione approvata è sulla mappa', () => {
