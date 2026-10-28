@@ -1,0 +1,6 @@
+{
+  "schema": "province-military-v1",
+  "quality": "MISSING_DATA",
+  "note": "Nessuna presenza militare per provincia nel repository. File volutamente vuoto: rappresenta PRESENZA (guarnigione, quartier generale, fortificazioni, antiaerea, radar, installazioni), non le unità, che resteranno nel sistema esercito. Chiave = id della provincia MADRE; livelli 0-3.",
+  "byProvince": {}
+}

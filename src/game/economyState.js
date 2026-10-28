@@ -5,7 +5,7 @@
 // il salvataggio non cambia forma quando arriveranno.
 import { difficulty } from '../data/economy.js';
 import { cashFor } from '../data/initialCash.js';
-import { populationOf } from '../data/population.js';
+import { populationOf } from '../data/nationPopulation.js';
 
 export const DIFFICULTIES = ['facile', 'media', 'reale'];
 export const DEFAULT_DIFFICULTY = 'media';

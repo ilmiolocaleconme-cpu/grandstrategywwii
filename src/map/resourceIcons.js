@@ -3,6 +3,7 @@
 // Posizione: centro del riquadro della provincia (approssimazione: nessuna coordinata di giacimento nei dati, solo la provincia).
 // L'icona della fabbrica non è usata qui: resta libera per le industrie.
 import { RESOURCE_META } from '../data/provinceResources.js';
+import { anchorOf } from './canvasModel.js';
 
 const ICON_PX = 24; // diametro del distintivo in pixel CSS
 const GAP = 3;
@@ -92,7 +93,7 @@ export function drawResourceIcon(ctx, id, cx, cy, px = ICON_PX) {
  * Un riquadro che toccherebbe uno già disegnato si salta (a zoom maggiore compare); priorità alle province più grandi.
  * `boxes`: riquadri già occupati (pixel CSS), aggiornato con quelli nuovi. ctx: trasformazione (dpr, 0, 0, dpr, 0, 0).
  */
-export function drawProvinceResources(ctx, { items, byProvince, a, dpr, copies, boxes }) {
+export function drawProvinceResources(ctx, { items, byProvince, a, dpr, copies, boxes, model }) {
   if (!byProvince) return;
   const W = ctx.canvas.width / dpr;
   const H = ctx.canvas.height / dpr;
@@ -103,14 +104,14 @@ export function drawProvinceResources(ctx, { items, byProvince, a, dpr, copies, 
   }
   cand.sort((x, y) => (y[0].areaKm2 ?? 0) - (x[0].areaKm2 ?? 0));
   for (const [it, list] of cand) {
-    const b = it.bbox;
+    const pt = model ? anchorOf(model, it) : { x: it.bbox.x + it.bbox.w / 2, y: it.bbox.y + it.bbox.h / 2 }; // sulla terra, non al centro del riquadro
     const shown = list.slice(0, MAX_ICONS);
     const extra = list.length - shown.length;
     const n = shown.length + (extra > 0 ? 1 : 0);
     const w = n * ICON_PX + (n - 1) * GAP;
     for (const off of copies) {
-      const px = a.sx * (b.x + b.w / 2 + off) + a.tx;
-      const py = a.sx * (b.y + b.h / 2) + a.ty;
+      const px = a.sx * (pt.x + off) + a.tx;
+      const py = a.sx * pt.y + a.ty;
       if (px < -w || py < -ICON_PX || px > W + w || py > H + ICON_PX) continue;
       const box = [px - w / 2, py - ICON_PX / 2, px + w / 2, py + ICON_PX / 2];
       if (boxes.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) continue;

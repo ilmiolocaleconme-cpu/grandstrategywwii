@@ -10,6 +10,7 @@ import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
 import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.js';
 import ProvincePanel from './map/ProvincePanel.jsx';
+import { provinceLinkStats } from './rules/provinceView.js';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
 import { buildMapModel } from './map/geo.js';
 import { withTerrain } from './data/terrain.js';
@@ -117,6 +118,24 @@ function useProvinceResources(enabled) {
   return data;
 }
 
+// Dati per provincia (popolazione, agricoltura, presenza militare) e centrali idroelettriche: file piccoli, si scaricano solo
+// quando si apre il pannello di una provincia; nel precache per l'offline. Un file che non arriva = «n/d» nel pannello.
+function useProvinceData(enabled) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    if (!enabled || data) return undefined;
+    let alive = true;
+    Promise.all([
+      import('../data/population/province_population.json'),
+      import('../data/agriculture/province_agriculture.json'),
+      import('../data/military/province_presence.json'),
+      import('../data/resources/hydro_plants.json'),
+    ]).then(([pop, agr, mil, hyd]) => alive && setData({ population: pop.default, agriculture: agr.default, military: mil.default, hydro: hyd.default })).catch(() => {});
+    return () => { alive = false; };
+  }, [enabled, data]);
+  return data;
+}
+
 // Terreno (data/terrain.json, ~200 kB): blocco a parte, dopo la prima schermata; nel precache per l'offline
 function useTerrain(enabled) {
   const [terrain, setTerrain] = useState(null);
@@ -198,6 +217,7 @@ export default function App() {
   const mapWanted = game !== null || tab === 'map';
   const [mapReady, setMapReady] = useState(true); // false da quando parte una partita fino a mappa disegnata: copertura con la bandiera
   const [coverGiveUp, setCoverGiveUp] = useState(false);
+  const [lightCover, setLightCover] = useState(false); // copertura leggera al cambio livello a dati già in memoria: niente bandiera, ma la mappa non si mostra a metà disegno
   const [readyKey, setReadyKey] = useState(0); // cresce a ogni richiesta di copertura (avvio partita, cambio livello): la mappa ricomincia a controllare se è pronta
   // Precaricamento (deciso in chat 27/10/2026): all'apertura si scaricano i dati di TUTTE le mappe, così a partita iniziata il cambio livello
   // non rimostra la bandiera. Si scarica e si legge soltanto: il modello pesante della mappa si costruisce dopo la scelta della nazione.
@@ -241,6 +261,8 @@ export default function App() {
   // Il pannello dei dati è nascosto: toccando una provincia, città o zona di mare compare solo il pulsante «i»;
   // il pannello si apre toccandolo. Se è già aperto, toccare un'altra voce ne aggiorna il contenuto; toccare il vuoto lo chiude.
   const [infoOpen, setInfoOpen] = useState(false);
+  const provinceData = useProvinceData(infoOpen); // scaricati solo quando si apre il pannello
+  const linkStats = useMemo(() => (infoOpen && links && provinces ? provinceLinkStats(links, provinces.features.map((f) => f.properties)) : null), [infoOpen, links, provinces]);
   const selectProvince = (id) => { setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false); };
   const selectSea = (id) => { setSeaId(id); setProvinceId(null); if (id == null) setInfoOpen(false); };
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
@@ -269,7 +291,9 @@ export default function App() {
     if (next === layer) return;
     setLayer(next);
     // dati già in memoria (precaricati all'apertura): niente bandiera; la copertura resta solo come ripiego se il livello non è arrivato
-    if (game && layerNeedsCover(next, { terrain, resources: provinceResources })) { setMapReady(false); setCoverGiveUp(false); setReadyKey((k) => k + 1); }
+    if (!game) return;
+    setLightCover(!layerNeedsCover(next, { terrain, resources: provinceResources })); // dati mancanti: bandiera piena; già presenti: solo un velo mentre si ridisegna
+    setMapReady(false); setCoverGiveUp(false); setReadyKey((k) => k + 1);
   };
   useEffect(() => {
     if (mapReady) return undefined;
@@ -295,12 +319,12 @@ export default function App() {
     if (!provinces) return;
     const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner), start: START_ECONOMY });
     if (!r.ok) { setNotice({ kind: 'error', text: `Partita non creata: ${r.reason}` }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false); setLightCover(false);
   };
   const loadGame = (slot) => {
     const r = store?.read(slot);
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
-    setGame(initEconomy(r.state, { political, start: START_ECONOMY })); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(initEconomy(r.state, { political, start: START_ECONOMY })); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false); setLightCover(false);
   };
   const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
@@ -422,7 +446,15 @@ export default function App() {
         <LoadingScreen done={openProgress.done} total={openProgress.total} error={provincesStatus === 'error' ? (provincesError ?? new Error('errore sconosciuto')) : null} />
       ) : (
       <div className="map-layout">
-        {USE_CANVAS && !mapReady && !coverGiveUp && game ? (
+        {USE_CANVAS && !mapReady && !coverGiveUp && game && lightCover ? (
+          <div className="map-cover map-cover-light" role="status" aria-live="polite">
+            <div className="map-cover-pill">
+              <span>Disegno del livello {layer === 'terrain' ? 'Terreno' : layer === 'resources' ? 'Risorse' : 'Politico'}…</span>
+              <div className="loading-bar" aria-hidden="true"><span style={{ width: '100%' }} /></div>
+            </div>
+          </div>
+        ) : null}
+        {USE_CANVAS && !mapReady && !coverGiveUp && game && !lightCover ? (
           <div className="map-cover">
             <LoadingScreen nation={{
               name: NATION_NAMES[game.player] ?? game.player,
@@ -443,7 +475,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} /> : null} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} /> : null} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>

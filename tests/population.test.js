@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { loadIndustryCatalog } from '../src/data/industry.js';
-import { validatePopulation, populationOf, workersPoolTotal } from '../src/data/population.js';
+import { validatePopulation, populationOf, workersPoolTotal } from '../src/data/nationPopulation.js';
 import { workersState } from '../src/rules/workers.js';
 import { buildNations, migrateV2toV3, validateNations } from '../src/game/economyState.js';
 import { newGame, validateState, initEconomy } from '../src/game/state.js';

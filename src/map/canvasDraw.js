@@ -497,7 +497,7 @@ export function drawOverlay(ctx, p) {
   // livello Risorse: le icone vengono prima dei nomi, che le evitano (come per i nomi delle città)
   if (layer === 'resources' && provinceResources) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    drawProvinceResources(ctx, { items: model.items, byProvince: provinceResources, a, dpr, copies, boxes: cityBoxes });
+    drawProvinceResources(ctx, { items: model.items, byProvince: provinceResources, a, dpr, copies, boxes: cityBoxes, model });
   }
   const nomi = cityNamesAt(model.items, view.k);
   if (nomi.length) {

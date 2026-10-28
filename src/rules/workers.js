@@ -1,6 +1,6 @@
 // Riserva di lavoratori di una nazione: totale (quota della popolazione) meno gli occupati negli impianti e quelli impegnati nelle costruzioni.
 // Funzione PURA. Gli impianti occupano lavoratori in modo permanente (campo `workers` del Pack, anche se danneggiati); le costruzioni li occupano finché durano.
-import { workersPoolTotal } from '../data/population.js';
+import { workersPoolTotal } from '../data/nationPopulation.js';
 
 /**
  * nation: { population, facilities: [{type}], construction?: [{workers}] }; factoriesById: Map(factory_id → { workers }); share: quota della popolazione.

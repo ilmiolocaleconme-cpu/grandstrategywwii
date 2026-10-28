@@ -30,7 +30,8 @@
     "build:transport": "node scripts/build-transport.js",
     "build:hydro": "node scripts/build-hydro.js",
     "build:terrain": "python3 -I scripts/terrain/build_terrain.py",
-    "build:production": "node scripts/build-production.js"
+    "build:production": "node scripts/build-production.js",
+    "build:population": "node scripts/build-province-population.js"
   },
   "dependencies": {
     "react": "^19.3.0",
