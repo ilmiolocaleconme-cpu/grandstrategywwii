@@ -58,3 +58,9 @@ test('riepilogo economico: cassa, lavoratori, energia, scorte ordinate, impianti
   assert.deepEqual(e.queue.map((q) => [q.label, q.daysLeft, q.totalDays]), [['Acciaieria', 45, 45]]);
   assert.equal(economySummary(s, 'XXX', { build, catalog, workersShare: share }), null);
 });
+
+test('la coda mostra il nome della provincia, non l\'id tecnico', () => {
+  const o = build.start(state, 'ITA', { kind: 'factory', factoryId: 'FCT-STEEL', recipeId: 'REC-STEEL-001', provinceId: coalProv });
+  const e = economySummary(o.state, 'ITA', { build, catalog, workersShare: share, provinceName: (id) => (id === coalProv ? 'Sulcis' : id) });
+  assert.equal(e.queue[0].where, 'Sulcis');
+});

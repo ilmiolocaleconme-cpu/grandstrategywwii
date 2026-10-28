@@ -54,8 +54,8 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
   return out;
 }
 
-/** Riepilogo economico di una nazione per la schermata Economia. ctx: { build, catalog, workersShare, resourceLabel(id) } */
-export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id }) {
+/** Riepilogo economico di una nazione per la schermata Economia. ctx: { build, catalog, workersShare, resourceLabel(id), provinceName(id) } */
+export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id }) {
   const n = state.nations?.[nationId];
   if (!n) return null;
   const counts = new Map();
@@ -68,7 +68,7 @@ export function economySummary(state, nationId, { build, catalog, workersShare, 
     power: build.powerBalance(state, n, nationId),
     stocks: Object.entries(n.stocks).filter(([, t]) => t > 0).map(([id, t]) => ({ id, label: resourceLabel(id), tons: Math.round(t) })).sort((a, b) => b.tons - a.tons),
     plants: [...counts].map(([type, count]) => ({ type, name: catalog.factories.get(type)?.name_it ?? type, count })).sort((a, b) => b.count - a.count),
-    queue: n.construction.map((c) => ({ id: c.id, label: label(c.kind, c), daysLeft: c.daysLeft, totalDays: c.totalDays, where: c.provinceId })),
-    mines: n.mines.map((m) => ({ id: m.id, label: `${resourceLabel(m.resource)} L${m.level}`, where: m.provinceId })),
+    queue: n.construction.map((c) => ({ id: c.id, label: label(c.kind, c), daysLeft: c.daysLeft, totalDays: c.totalDays, where: provinceName(c.provinceId) })),
+    mines: n.mines.map((m) => ({ id: m.id, label: `${resourceLabel(m.resource)} L${m.level}`, where: provinceName(m.provinceId) })),
   };
 }

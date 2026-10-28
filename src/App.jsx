@@ -247,6 +247,8 @@ export default function App() {
   const [applyUpdate, setApplyUpdate] = useState(null);
 
   const mapItems = useMemo(() => (provincesWithCities && mapWanted ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces, mapWanted]);
+  // nome leggibile di una provincia (anche madre) per code e liste; se manca, l'id
+  const provinceName = useMemo(() => { const m = new Map(); for (const f of provinces?.features ?? []) { const pr = f.properties; if (pr?.name) { m.set(f.id ?? pr.id, pr.name); if (pr.parentProvince && !m.has(pr.parentProvince)) m.set(pr.parentProvince, pr.name); } } return (id) => m.get(id) ?? id; }, [provinces]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
   // ordini di costruzione del giocatore: le regole sono in GAME_BUILD, qui si applica solo il risultato e si riferisce l'esito
   const placeOrder = (order) => {
@@ -398,7 +400,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
-            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel })} />
+            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName })} />
             {infoSection}
             {statusSection}
           </main>
