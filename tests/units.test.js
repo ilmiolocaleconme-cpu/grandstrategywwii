@@ -174,3 +174,24 @@ test('segnaposto fucilieri URSS: 46 divisioni anonime inattive, 2 per corpo, tem
   assert.deepEqual(two.map((u) => u.corps), ['a', 'a', 'a', 'b', 'b', 'b']);
   assert.equal(two[5].id, 'S36-USSR-F-006');
 });
+
+test('riferimenti template divisioni: ogni valore ha anno e fonte, nessun dato 1936 non verificato spacciato per certo', () => {
+  const ref = json('units/templates/divisioni_1936_riferimenti.json');
+  assert.equal(ref.status, 'DA_VERIFICARE');
+  const leaves = [];
+  const walk = (o, path) => {
+    if (o && typeof o === 'object' && 'referenceYear' in o) { leaves.push([path, o]); return; }
+    if (o && typeof o === 'object' && !Array.isArray(o)) for (const [k, v] of Object.entries(o)) walk(v, `${path}.${k}`);
+  };
+  walk(ref.nations, 'nations');
+  assert.ok(leaves.length > 30);
+  for (const [path, l] of leaves) {
+    assert.ok(String(l.source ?? '').trim(), `${path}: senza fonte`);
+    assert.ok(['verificato', 'non_verificato'].includes(l.appliesTo1936), path);
+    if (l.value === null) assert.equal(l.referenceYear, null, `${path}: valore nullo con anno`);
+    else assert.ok(Number.isInteger(l.referenceYear), `${path}: manca l'anno di riferimento`);
+    if (l.appliesTo1936 === 'verificato') assert.ok(l.referenceYear <= 1939, `${path}: verificato per il 1936 ma anno ${l.referenceYear}`);
+  }
+  assert.equal(ref.nations.USA.formation.value, 'square');
+  assert.equal(ref.nations.DEU.artillery.totalGuns.value, 48);
+});
