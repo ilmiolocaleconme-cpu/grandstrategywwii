@@ -27,7 +27,7 @@ Stato: **implementato e testato (dati, validazione, regole di attivazione)**; **
 Sono intervalli per nazione, categoria e livello, **non unità nominate**: non entrano nel catalogo e non creano unità in gioco. Ogni riga ha fonte e certezza (certo/probabile/ipotesi). Fonti realmente consultate in questa sessione: il testo di Tournès del 1936 sull'esercito francese (blog, interno incoerente: 20 o 25 divisioni) e Wikipedia per la cavalleria sovietica (36, ma il dettaglio somma 32) e i corpi meccanizzati (4 a inizio 1936). Le righe di UK, Italia, USA e la fanteria URSS sono ipotesi non verificate; per l'Italia non stimo le divisioni di fanteria perché il 1936 è falsato dalla guerra d'Etiopia.
 
 ## Francia 1936 dal file dell'utente (28/10/2026)
-`data/units/source/francia_1936_oob.csv` (copia non modificata, sha256 in `units.json`). Integrato in `units.json` da `mergeOob1936`:
+`data/units/source/francia_1936_oob.csv` (copia non modificata, sha256 in `units.json`). Integrato in `units.json` da `mergeOob1936` (stesso meccanismo per Germania e URSS, sotto):
 - 6 divisioni già presenti nel CSV (1re DLM, 1re/2e/10e/14e/19e DI) sono anticipate al 1936 con revisione `corrected`, certezza **probabile**, `basis: user_file` (dato fornito dall'utente, da verificare su SHD). Le altre 14 di fanteria e 4 di cavalleria sono nuove (`S36-FRA-nnn`).
 - Al 1/1/1936: 20 divisioni di fanteria, 4 di cavalleria, 1 meccanizzata leggera (coerente con il limite basso del testo di Tournès: 20–25).
 - Inattive per dubbio: 5ª divisione di cavalleria (il testo di Tournès ne conta 4) e le 4 divisioni coloniali (data di costituzione non verificata; il CSV dice 1939).
@@ -36,3 +36,10 @@ Sono intervalli per nazione, categoria e livello, **non unità nominate**: non e
 - Non importati (fuori dal catalogo terrestre, 8 righe): 2 squadre navali, flotta sottomarina, aviazione navale, 3 divisioni aeree, Raggruppamento indocinese-malgascio. Servono sistemi navale/aereo che il repository non ha ancora.
 - Gli ufficiali sono "Da verificare" quasi ovunque; la colonna non è stata importata.
 - Le righe francesi di `oob_1936_stime.csv` restano come controllo indipendente (intervallo 20–25), ma ora il catalogo ha i nomi.
+
+## Germania e URSS 1936 dai file dell'utente (28/10/2026)
+`germania_1936_oob.csv` e `urss_1936_oob.csv` in `data/units/source/` (copie non modificate). Le righe terrestri hanno la stessa virgola in più del file francese (riparata e contata). Le righe di marina e aviazione hanno campi spostati (DEU 2 righe, URSS 5) e **non vengono lette**: sono elencate in `malformedRows`.
+
+**Germania** (+33 unità): conteggio invariato al 1/1/1936 (30 fanteria + 3 corazzate), come deciso. Aggiunti 13 Wehrkreis e 12 Armeekorps come comandi (`commandLevel`: `district`/`corps`; le divisioni assegnate ai corpi sono nella nota, non ancora come relazioni). Inattive per dubbio: 31ª–36ª Infanterie-Division (il CSV si ferma alla 30ª; formazione non verificata) e 2ª/3ª Kavallerie-Division (la 1ª era già dubbia). Non importate: 5 unità SS (non Heer), 3 incrociatori tascabili, 2 navi da battaglia (varate dopo il 1/1/1936), 9 Geschwader, 6 Luftkreis.
+
+**URSS** (+49 unità): 12 distretti militari (attivi), 3 brigate aviotrasportate (attive, certezza probabile). Inattivi per dubbio: 23 corpi fucilieri e 7 di cavalleria (numerazione 1°–N° probabilmente generica; i corpi reali non erano numerati in sequenza) e 4 corpi meccanizzati (il file li numera 1°–4°; Wikipedia nomina l'11º e il 45º). **Il file non contiene divisioni di fucilieri**: restano le 15 del CSV, quindi il totale di divisioni 1936 dell'URSS è sconosciuto. Note dubbie del file: la Flotta del Nord "elevata a flotta nel 1935" (la data corretta è probabilmente il 1937, non verificata); marina e armate aeree non importate.

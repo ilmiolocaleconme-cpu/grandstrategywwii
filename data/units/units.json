@@ -7,47 +7,230 @@
   "sha256": "986830b1f079a1e214f185188ab19c97e055f28a4edfb464339293107809d9c3",
   "rows": 364
  },
- "source1936": {
-  "file": "source/francia_1936_oob.csv",
-  "sha256": "45aec5264299ef8090e6cfb165c78a11a7edfd65e0b6f982a29505cdb359560e",
-  "rows": 38,
-  "repairedRows": 32,
-  "nation": "FRA",
-  "notImported": [
-   {
-    "name": "Groupement français d'unités indo-chinoises et malgaches",
-    "type": "Raggruppamento coloniale"
-   },
-   {
-    "name": "2e Escadre",
-    "type": "Squadra navale"
-   },
-   {
-    "name": "Escadre de la Méditerranée",
-    "type": "Squadra navale"
-   },
-   {
-    "name": "Flotte sottomarina",
-    "type": "Sommergibili"
-   },
-   {
-    "name": "1re Division aérienne",
-    "type": "Divisione aerea"
-   },
-   {
-    "name": "2e Division aérienne",
-    "type": "Divisione aerea"
-   },
-   {
-    "name": "3e Division aérienne",
-    "type": "Divisione aerea"
-   },
-   {
-    "name": "Aéronautique navale",
-    "type": "Aviazione navale"
-   }
-  ]
- },
+ "sources1936": [
+  {
+   "nation": "FRA",
+   "file": "source/francia_1936_oob.csv",
+   "sha256": "45aec5264299ef8090e6cfb165c78a11a7edfd65e0b6f982a29505cdb359560e",
+   "rows": 38,
+   "repairedRows": 32,
+   "malformedRows": [],
+   "notImported": [
+    {
+     "name": "Groupement français d'unités indo-chinoises et malgaches",
+     "type": "Raggruppamento coloniale"
+    },
+    {
+     "name": "2e Escadre",
+     "type": "Squadra navale"
+    },
+    {
+     "name": "Escadre de la Méditerranée",
+     "type": "Squadra navale"
+    },
+    {
+     "name": "Flotte sottomarina",
+     "type": "Sommergibili"
+    },
+    {
+     "name": "1re Division aérienne",
+     "type": "Divisione aerea"
+    },
+    {
+     "name": "2e Division aérienne",
+     "type": "Divisione aerea"
+    },
+    {
+     "name": "3e Division aérienne",
+     "type": "Divisione aerea"
+    },
+    {
+     "name": "Aéronautique navale",
+     "type": "Aviazione navale"
+    }
+   ]
+  },
+  {
+   "nation": "DEU",
+   "file": "source/germania_1936_oob.csv",
+   "sha256": "303da8ae91dd06dbabbdce246ec853556f4f95b6926dd54d42218b44c421c5bb",
+   "rows": 94,
+   "repairedRows": 86,
+   "malformedRows": [
+    {
+     "line": 74,
+     "name": "Flotte del Mare del Nord",
+     "type": "Flotta navale",
+     "fields": 16
+    },
+    {
+     "line": 75,
+     "name": "Flotta del Baltico",
+     "type": "Flotta navale",
+     "fields": 16
+    }
+   ],
+   "notImported": [
+    {
+     "name": "SS-Standarte 'Deutschland'",
+     "type": "Unità SS"
+    },
+    {
+     "name": "SS-Standarte 'Germania'",
+     "type": "Unità SS"
+    },
+    {
+     "name": "SS-Standarte 'Der Führer'",
+     "type": "Unità SS"
+    },
+    {
+     "name": "SS-Verfügungstruppe - comando",
+     "type": "Unità SS"
+    },
+    {
+     "name": "SS-Totenkopfverbände - comando",
+     "type": "Unità SS"
+    },
+    {
+     "name": "Panzerkreuzer Deutschland",
+     "type": "Incrociatore pesante tipo tasca"
+    },
+    {
+     "name": "Panzerkreuzer Admiral Scheer",
+     "type": "Incrociatore pesante tipo tasca"
+    },
+    {
+     "name": "Panzerkreuzer Admiral Graf Spee",
+     "type": "Incrociatore pesante tipo tasca"
+    },
+    {
+     "name": "Schlachtschiff Scharnhorst",
+     "type": "Nave da battaglia / incrociatore da battaglia"
+    },
+    {
+     "name": "Schlachtschiff Gneisenau",
+     "type": "Nave da battaglia / incrociatore da battaglia"
+    },
+    {
+     "name": "Luftkreis I",
+     "type": "Comando aereo territoriale"
+    },
+    {
+     "name": "Luftkreis II",
+     "type": "Comando aereo territoriale"
+    },
+    {
+     "name": "Luftkreis III",
+     "type": "Comando aereo territoriale"
+    },
+    {
+     "name": "Luftkreis IV",
+     "type": "Comando aereo territoriale"
+    },
+    {
+     "name": "Luftkreis V",
+     "type": "Comando aereo territoriale"
+    },
+    {
+     "name": "Luftkreis VI",
+     "type": "Comando aereo territoriale"
+    },
+    {
+     "name": "Kampfgeschwader 152 'Hindenburg'",
+     "type": "Geschwader aereo"
+    },
+    {
+     "name": "Kampfgeschwader 153",
+     "type": "Geschwader aereo"
+    },
+    {
+     "name": "Kampfgeschwader 154 'Boelcke'",
+     "type": "Geschwader aereo"
+    },
+    {
+     "name": "Kampfgeschwader 155",
+     "type": "Geschwader aereo"
+    },
+    {
+     "name": "Kampfgeschwader 253",
+     "type": "Geschwader aereo"
+    },
+    {
+     "name": "Kampfgeschwader 255",
+     "type": "Geschwader aereo"
+    },
+    {
+     "name": "Jagdgeschwader 132 'Richthofen'",
+     "type": "Geschwader aereo"
+    },
+    {
+     "name": "Jagdgeschwader 134 'Horst Wessel'",
+     "type": "Geschwader aereo"
+    },
+    {
+     "name": "Sturzkampfgeschwader 162 'Immelmann'",
+     "type": "Geschwader aereo"
+    }
+   ]
+  },
+  {
+   "nation": "USSR",
+   "file": "source/urss_1936_oob.csv",
+   "sha256": "7a16ea2cf6fc3c3b73a99407689b0dee822b124e7ed2656c4e29842f2c654ffb",
+   "rows": 58,
+   "repairedRows": 53,
+   "malformedRows": [
+    {
+     "line": 55,
+     "name": "Flotta del Baltico",
+     "type": "Flotta navale",
+     "fields": 14
+    },
+    {
+     "line": 56,
+     "name": "Flotta del Mar Nero",
+     "type": "Flotta navale",
+     "fields": 14
+    },
+    {
+     "line": 57,
+     "name": "Flotta del Pacifico",
+     "type": "Flotta navale",
+     "fields": 14
+    },
+    {
+     "line": 58,
+     "name": "Flotta del Nord",
+     "type": "Flotta navale",
+     "fields": 14
+    },
+    {
+     "line": 59,
+     "name": "Flottiglia del Caspio",
+     "type": "Flottiglia navale",
+     "fields": 14
+    }
+   ],
+   "notImported": [
+    {
+     "name": "1ª Armata aerea di scopo particolare",
+     "type": "Armata aerea strategica"
+    },
+    {
+     "name": "Aviazione a lungo raggio - comando Mosca",
+     "type": "Aviazione strategica"
+    },
+    {
+     "name": "Aviazione a lungo raggio - comando Voronezh",
+     "type": "Aviazione strategica"
+    },
+    {
+     "name": "Aviazione a lungo raggio - comando Rostov-on-Don",
+     "type": "Aviazione strategica"
+    }
+   ]
+  }
+ ],
  "units": [
   {
    "id": "U00001",
@@ -423,8 +606,7 @@
     "reason": "Il file dell'utente (1936-01-01) la dà già presente; il CSV riporta 1937. Da verificare (SHD)."
    },
    "station": "Marne / Reims",
-   "corps": "Cavalerie mécanisée",
-   "army": "Da verificare (piano di mobilitazione)"
+   "corps": "Cavalerie mécanisée"
   },
   {
    "id": "U00021",
@@ -616,8 +798,7 @@
     "reason": "Il file dell'utente (1936-01-01) la dà già presente; il CSV riporta 1939. Da verificare (SHD)."
    },
    "station": "Ille-et-Vilaine / Rennes",
-   "corps": "10e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)"
+   "corps": "10e Région militaire"
   },
   {
    "id": "U00031",
@@ -643,8 +824,7 @@
     "reason": "Il file dell'utente (1936-01-01) la dà già presente; il CSV riporta 1939. Da verificare (SHD)."
    },
    "station": "Rhône / Lyon",
-   "corps": "14e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)"
+   "corps": "14e Région militaire"
   },
   {
    "id": "U00032",
@@ -733,8 +913,7 @@
     "reason": "Il file dell'utente (1936-01-01) la dà già presente; il CSV riporta 1939. Da verificare (SHD)."
    },
    "station": "Nord / Lille",
-   "corps": "1re Région militaire",
-   "army": "Da verificare (piano di mobilitazione)"
+   "corps": "1re Région militaire"
   },
   {
    "id": "U00036",
@@ -756,7 +935,7 @@
     "status": "date_doubt",
     "confidence": "probabile",
     "basis": "user_file",
-    "reason": "Il file utente la dà presente al 1/1/1936, ma la data di costituzione della 1re/e Divisione di fanteria coloniale non è verificata (il CSV riporta 1939). Da verificare."
+    "reason": "Il file utente la dà presente al 1/1/1936, ma la data di costituzione della 1ª Divisione di fanteria coloniale non è verificata (il CSV riporta 1939). Da verificare."
    },
    "station": "Francia / impero coloniale",
    "corps": "Troupes coloniales",
@@ -912,8 +1091,7 @@
     "reason": "Il file dell'utente (1936-01-01) la dà già presente; il CSV riporta 1939. Da verificare (SHD)."
    },
    "station": "Somme / Amiens",
-   "corps": "2e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)"
+   "corps": "2e Région militaire"
   },
   {
    "id": "U00045",
@@ -935,7 +1113,7 @@
     "status": "date_doubt",
     "confidence": "probabile",
     "basis": "user_file",
-    "reason": "Il file utente la dà presente al 1/1/1936, ma la data di costituzione della 2re/e Divisione di fanteria coloniale non è verificata (il CSV riporta 1939). Da verificare."
+    "reason": "Il file utente la dà presente al 1/1/1936, ma la data di costituzione della 2ª Divisione di fanteria coloniale non è verificata (il CSV riporta 1939). Da verificare."
    },
    "station": "Francia / impero coloniale",
    "corps": "Troupes coloniales",
@@ -979,7 +1157,7 @@
     "status": "date_doubt",
     "confidence": "probabile",
     "basis": "user_file",
-    "reason": "Il file utente la dà presente al 1/1/1936, ma la data di costituzione della 3re/e Divisione di fanteria coloniale non è verificata (il CSV riporta 1939). Da verificare."
+    "reason": "Il file utente la dà presente al 1/1/1936, ma la data di costituzione della 3ª Divisione di fanteria coloniale non è verificata (il CSV riporta 1939). Da verificare."
    },
    "station": "Francia / impero coloniale",
    "corps": "Troupes coloniales",
@@ -1023,7 +1201,7 @@
     "status": "date_doubt",
     "confidence": "probabile",
     "basis": "user_file",
-    "reason": "Il file utente la dà presente al 1/1/1936, ma la data di costituzione della 4re/e Divisione di fanteria coloniale non è verificata (il CSV riporta 1939). Da verificare."
+    "reason": "Il file utente la dà presente al 1/1/1936, ma la data di costituzione della 4ª Divisione di fanteria coloniale non è verificata (il CSV riporta 1939). Da verificare."
    },
    "station": "Francia / impero coloniale",
    "corps": "Troupes coloniales",
@@ -1229,7 +1407,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00061",
@@ -1251,7 +1430,8 @@
     "status": "date_doubt",
     "confidence": "probabile",
     "reason": "1. Kavallerie-Division: la divisione nasce dopo il 1935 (probabile 1939, da una brigata di cavalleria); il CSV riporta 1935."
-   }
+   },
+   "corps": "Heer"
   },
   {
    "id": "U00062",
@@ -1269,7 +1449,10 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "station": "Berlino / Wünsdorf",
+   "corps": "Heer",
+   "army": "Riserva mobile / corpo d'armata"
   },
   {
    "id": "U00063",
@@ -1287,7 +1470,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00064",
@@ -1305,7 +1489,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00065",
@@ -1323,7 +1508,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00066",
@@ -1341,7 +1527,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00067",
@@ -1359,7 +1546,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00068",
@@ -1377,7 +1565,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00069",
@@ -1395,7 +1584,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00070",
@@ -1413,7 +1603,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00071",
@@ -1431,7 +1622,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00072",
@@ -1449,7 +1641,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00073",
@@ -1467,7 +1660,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00074",
@@ -1485,7 +1679,10 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "station": "Würzburg",
+   "corps": "Heer",
+   "army": "Riserva mobile / corpo d'armata"
   },
   {
    "id": "U00075",
@@ -1503,7 +1700,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00076",
@@ -1521,7 +1719,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00077",
@@ -1539,7 +1738,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00078",
@@ -1557,7 +1757,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00079",
@@ -1575,7 +1776,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00080",
@@ -1593,7 +1795,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00081",
@@ -1611,7 +1814,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00082",
@@ -1629,7 +1833,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00083",
@@ -1647,7 +1852,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00084",
@@ -1665,7 +1871,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00085",
@@ -1683,7 +1890,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00086",
@@ -1701,7 +1909,10 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "station": "Berlino",
+   "corps": "Heer",
+   "army": "Riserva mobile / corpo d'armata"
   },
   {
    "id": "U00087",
@@ -1719,7 +1930,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00088",
@@ -1737,7 +1949,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00089",
@@ -1778,7 +1991,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00091",
@@ -1819,7 +2033,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00093",
@@ -1837,7 +2052,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00094",
@@ -1855,7 +2071,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00095",
@@ -1873,7 +2090,8 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
-   "review": null
+   "review": null,
+   "corps": "Heer"
   },
   {
    "id": "U00096",
@@ -6747,12 +6965,11 @@
    "dating": "year",
    "endYear": 1938,
    "supersededBy": "U00048",
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Seine-Maritime / Rouen",
    "corps": "3e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6769,12 +6986,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Sarthe / Le Mans",
    "corps": "4e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6792,12 +7008,11 @@
    "dating": "year",
    "endYear": 1938,
    "supersededBy": "U00050",
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Loiret / Orléans",
    "corps": "5e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6814,12 +7029,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Marne / Châlons-sur-Marne",
    "corps": "6e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6836,12 +7050,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Doubs / Besançon",
    "corps": "7e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6858,12 +7071,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Côte-d'Or / Dijon",
    "corps": "8e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6881,12 +7093,11 @@
    "dating": "year",
    "endYear": 1938,
    "supersededBy": "U00051",
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Indre-et-Loire / Tours",
    "corps": "9e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6903,12 +7114,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Loire-Atlantique / Nantes",
    "corps": "11e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6925,12 +7135,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Haute-Vienne / Limoges",
    "corps": "12e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6947,12 +7156,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Puy-de-Dôme / Clermont-Ferrand",
    "corps": "13e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6970,12 +7178,11 @@
    "dating": "year",
    "endYear": 1938,
    "supersededBy": "U00032",
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Bouches-du-Rhône / Marsiglia",
    "corps": "15e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -6992,12 +7199,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Hérault / Montpellier",
    "corps": "16e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -7014,12 +7220,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Haute-Garonne / Tolosa",
    "corps": "17e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -7036,12 +7241,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Gironde / Bordeaux",
    "corps": "18e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -7058,12 +7262,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Meurthe-et-Moselle / Nancy",
    "corps": "20e Région militaire",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Una divisione per regione militare"
   },
   {
@@ -7080,12 +7283,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Francia orientale",
    "corps": "Cavalerie",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Cavalleria a cavallo"
   },
   {
@@ -7102,12 +7304,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Francia orientale",
    "corps": "Cavalerie",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Cavalleria a cavallo"
   },
   {
@@ -7124,12 +7325,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Francia orientale",
    "corps": "Cavalerie",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Cavalleria a cavallo"
   },
   {
@@ -7146,12 +7346,11 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": null,
    "station": "Francia orientale",
    "corps": "Cavalerie",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Cavalleria a cavallo"
   },
   {
@@ -7168,7 +7367,7 @@
    "startPrecision": "year",
    "dating": "year",
    "endYear": null,
-   "source": "File utente: ordine di battaglia 1/1/1936",
+   "source": "File utente: ordine di battaglia 1/1/1936 (FRA)",
    "verification": "DA_VERIFICARE",
    "review": {
     "status": "date_doubt",
@@ -7178,8 +7377,2012 @@
    },
    "station": "Francia orientale",
    "corps": "Cavalerie",
-   "army": "Da verificare (piano di mobilitazione)",
    "note": "Cavalleria a cavallo"
+  },
+  {
+   "id": "S36-DEU-001",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis I",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Prussia orientale / Königsberg",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Prussia orientale / Königsberg"
+  },
+  {
+   "id": "S36-DEU-002",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis II",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Pomerania / Stettino",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Pomerania / Stettino"
+  },
+  {
+   "id": "S36-DEU-003",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis III",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Brandeburgo / Berlino",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Brandeburgo / Berlino"
+  },
+  {
+   "id": "S36-DEU-004",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis IV",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Sassonia / Dresda",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Sassonia / Dresda"
+  },
+  {
+   "id": "S36-DEU-005",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis V",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Baden-Württemberg / Stoccarda",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Baden-Württemberg / Stoccarda"
+  },
+  {
+   "id": "S36-DEU-006",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis VI",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Renania / Münster",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Renania / Münster"
+  },
+  {
+   "id": "S36-DEU-007",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis VII",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Baviera / Monaco",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Baviera / Monaco"
+  },
+  {
+   "id": "S36-DEU-008",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis VIII",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Slesia / Breslavia",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Slesia / Breslavia"
+  },
+  {
+   "id": "S36-DEU-009",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis IX",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Assia / Kassel",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Assia / Kassel"
+  },
+  {
+   "id": "S36-DEU-010",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis X",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Schleswig-Holstein / Amburgo",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Schleswig-Holstein / Amburgo"
+  },
+  {
+   "id": "S36-DEU-011",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis XI",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Sassonia-Anhalt / Hannover",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Sassonia-Anhalt / Hannover"
+  },
+  {
+   "id": "S36-DEU-012",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis XII",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Renania-Palatinato / Wiesbaden",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Renania-Palatinato / Wiesbaden"
+  },
+  {
+   "id": "S36-DEU-013",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Wehrkreis XIII",
+   "rawType": "Distretto militare",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Franconia / Norimberga",
+   "corps": "Heer",
+   "army": "Comando territoriale",
+   "note": "Quartier generale: Franconia / Norimberga"
+  },
+  {
+   "id": "S36-DEU-014",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "I. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Königsberg",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 1.; 11.; 21. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-015",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "II. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Stettino",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 2.; 12.; 32. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-016",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "III. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Berlino",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 3. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-017",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "IV. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Dresda",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 4.; 14.; 24. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-018",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "V. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Stoccarda",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 5.; 25.; 35. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-019",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "VI. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Münster",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 6.; 16.; 26. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-020",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "VII. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Monaco",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 7.; 10.; 17.; 27. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-021",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "VIII. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Breslavia",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 8.; 18.; 28. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-022",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "IX. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Kassel",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 9.; 15.; 29. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-023",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "X. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Amburgo",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 20.; 22.; 30. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-024",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "XI. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Hannover",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 13.; 19.; 31. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-025",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "XII. Armeekorps",
+   "rawType": "Corpo d'armata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Wiesbaden",
+   "corps": "Heer",
+   "army": "Heeresgruppe / comando operativo",
+   "note": "Divisioni assegnate secondo l'ordine di battaglia indicativo del 1936: 33.; 34.; 36. Infanterie-Division"
+  },
+  {
+   "id": "S36-DEU-026",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "division",
+   "category": "infantry",
+   "variant": null,
+   "name": "31. Infanterie-Division",
+   "rawType": "Divisione fanteria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file utente la elenca al 1/1/1936 (struttura a 36 divisioni su 12 corpi), ma il CSV si ferma alla 30ª e la data di formazione della 31ª non è verificata. Da verificare."
+   },
+   "corps": "Heer",
+   "note": "Divisione di fanteria dell'esercito del Reich"
+  },
+  {
+   "id": "S36-DEU-027",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "division",
+   "category": "infantry",
+   "variant": null,
+   "name": "32. Infanterie-Division",
+   "rawType": "Divisione fanteria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file utente la elenca al 1/1/1936 (struttura a 36 divisioni su 12 corpi), ma il CSV si ferma alla 30ª e la data di formazione della 32ª non è verificata. Da verificare."
+   },
+   "corps": "Heer",
+   "note": "Divisione di fanteria dell'esercito del Reich"
+  },
+  {
+   "id": "S36-DEU-028",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "division",
+   "category": "infantry",
+   "variant": null,
+   "name": "33. Infanterie-Division",
+   "rawType": "Divisione fanteria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file utente la elenca al 1/1/1936 (struttura a 36 divisioni su 12 corpi), ma il CSV si ferma alla 30ª e la data di formazione della 33ª non è verificata. Da verificare."
+   },
+   "corps": "Heer",
+   "note": "Divisione di fanteria dell'esercito del Reich"
+  },
+  {
+   "id": "S36-DEU-029",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "division",
+   "category": "infantry",
+   "variant": null,
+   "name": "34. Infanterie-Division",
+   "rawType": "Divisione fanteria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file utente la elenca al 1/1/1936 (struttura a 36 divisioni su 12 corpi), ma il CSV si ferma alla 30ª e la data di formazione della 34ª non è verificata. Da verificare."
+   },
+   "corps": "Heer",
+   "note": "Divisione di fanteria dell'esercito del Reich"
+  },
+  {
+   "id": "S36-DEU-030",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "division",
+   "category": "infantry",
+   "variant": null,
+   "name": "35. Infanterie-Division",
+   "rawType": "Divisione fanteria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file utente la elenca al 1/1/1936 (struttura a 36 divisioni su 12 corpi), ma il CSV si ferma alla 30ª e la data di formazione della 35ª non è verificata. Da verificare."
+   },
+   "corps": "Heer",
+   "note": "Divisione di fanteria dell'esercito del Reich"
+  },
+  {
+   "id": "S36-DEU-031",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "division",
+   "category": "infantry",
+   "variant": null,
+   "name": "36. Infanterie-Division",
+   "rawType": "Divisione fanteria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file utente la elenca al 1/1/1936 (struttura a 36 divisioni su 12 corpi), ma il CSV si ferma alla 30ª e la data di formazione della 36ª non è verificata. Da verificare."
+   },
+   "corps": "Heer",
+   "note": "Divisione di fanteria dell'esercito del Reich"
+  },
+  {
+   "id": "S36-DEU-032",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "division",
+   "category": "cavalry",
+   "variant": null,
+   "name": "2. Kavallerie-Division",
+   "rawType": "Divisione di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file utente elenca divisioni di cavalleria al 1/1/1936; storicamente la cavalleria tedesca era in riorganizzazione (la 1ª Kavallerie-Division nasce dopo, da una brigata). Da verificare."
+   },
+   "corps": "Heer",
+   "note": "Cavalleria a cavallo"
+  },
+  {
+   "id": "S36-DEU-033",
+   "nation": "DEU",
+   "branch": "esercito",
+   "echelon": "division",
+   "category": "cavalry",
+   "variant": null,
+   "name": "3. Kavallerie-Division",
+   "rawType": "Divisione di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (DEU)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file utente elenca divisioni di cavalleria al 1/1/1936; storicamente la cavalleria tedesca era in riorganizzazione (la 1ª Kavallerie-Division nasce dopo, da una brigata). Da verificare."
+   },
+   "corps": "Heer",
+   "note": "Cavalleria a cavallo"
+  },
+  {
+   "id": "S36-USSR-001",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare di Leningrado",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Leningrado",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-002",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare bielorusso",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "bielorusso",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-003",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare di Kiev",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Kiev",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-004",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare di Mosca",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Mosca",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-005",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare del Volga",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "del Volga",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-006",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare degli Urali",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "degli Urali",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-007",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare del Caucaso Settentrionale",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "del Caucaso Settentrionale",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-008",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare transcaucasico",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "transcaucasico",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-009",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare dell'Asia Centrale",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "dell'Asia Centrale",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-010",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare siberiano",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "siberiano",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-011",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Distretto militare transbaikalico",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "transbaikalico",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-012",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "district",
+   "name": "Armata speciale del Distretto dell'Estremo Oriente",
+   "rawType": "Distretto militare / comando territoriale",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Estremo Oriente",
+   "corps": "RKKA",
+   "army": "Comando territoriale",
+   "note": "Comando territoriale dell'Armata Rossa nel 1936"
+  },
+  {
+   "id": "S36-USSR-013",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "1° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-014",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "2° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-015",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "3° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-016",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "4° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-017",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "5° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-018",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "6° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-019",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "7° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-020",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "8° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-021",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "9° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-022",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "10° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-023",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "11° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-024",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "12° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-025",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "13° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-026",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "14° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-027",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "15° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-028",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "16° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-029",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "17° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-030",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "18° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-031",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "19° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-032",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "20° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-033",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "21° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-034",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "22° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-035",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "23° Corpo fucilieri",
+   "rawType": "Corpo fucilieri",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 23 corpi fucilieri con numerazione 1°–23°; il numero totale è citato come dato storico ma la numerazione sembra generica, non verificata. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 l'Armata Rossa contava 23 corpi fucilieri; ciascuno comprendeva tipicamente 2-3 divisioni fucilieri"
+  },
+  {
+   "id": "S36-USSR-036",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "1° Corpo di cavalleria",
+   "rawType": "Corpo di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 7 corpi di cavalleria numerati 1°–7°; numero e numerazione non verificati. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 esistevano 7 corpi di cavalleria; ognuno comprendeva tipicamente 3 divisioni di cavalleria"
+  },
+  {
+   "id": "S36-USSR-037",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "2° Corpo di cavalleria",
+   "rawType": "Corpo di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 7 corpi di cavalleria numerati 1°–7°; numero e numerazione non verificati. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 esistevano 7 corpi di cavalleria; ognuno comprendeva tipicamente 3 divisioni di cavalleria"
+  },
+  {
+   "id": "S36-USSR-038",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "3° Corpo di cavalleria",
+   "rawType": "Corpo di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 7 corpi di cavalleria numerati 1°–7°; numero e numerazione non verificati. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 esistevano 7 corpi di cavalleria; ognuno comprendeva tipicamente 3 divisioni di cavalleria"
+  },
+  {
+   "id": "S36-USSR-039",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "4° Corpo di cavalleria",
+   "rawType": "Corpo di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 7 corpi di cavalleria numerati 1°–7°; numero e numerazione non verificati. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 esistevano 7 corpi di cavalleria; ognuno comprendeva tipicamente 3 divisioni di cavalleria"
+  },
+  {
+   "id": "S36-USSR-040",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "5° Corpo di cavalleria",
+   "rawType": "Corpo di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 7 corpi di cavalleria numerati 1°–7°; numero e numerazione non verificati. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 esistevano 7 corpi di cavalleria; ognuno comprendeva tipicamente 3 divisioni di cavalleria"
+  },
+  {
+   "id": "S36-USSR-041",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "6° Corpo di cavalleria",
+   "rawType": "Corpo di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 7 corpi di cavalleria numerati 1°–7°; numero e numerazione non verificati. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 esistevano 7 corpi di cavalleria; ognuno comprendeva tipicamente 3 divisioni di cavalleria"
+  },
+  {
+   "id": "S36-USSR-042",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "7° Corpo di cavalleria",
+   "rawType": "Corpo di cavalleria",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Il file dà 7 corpi di cavalleria numerati 1°–7°; numero e numerazione non verificati. Da verificare."
+   },
+   "corps": "RKKA",
+   "note": "Nel 1936 esistevano 7 corpi di cavalleria; ognuno comprendeva tipicamente 3 divisioni di cavalleria"
+  },
+  {
+   "id": "S36-USSR-043",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "1° Corpo meccanizzato",
+   "rawType": "Corpo meccanizzato",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Wikipedia (Mechanised corps) indica 4 corpi meccanizzati a inizio 1936 e nomina l'11º (Leningrado) e il 45º (Ucraina): la numerazione 1°–4° del file non coincide. Da verificare."
+   },
+   "corps": "RKKA",
+   "army": "Riserva operativa Stavka / distretto",
+   "note": "All'inizio del 1936 esistevano 4 corpi meccanizzati, 6 brigate meccanizzate separate e 6 reggimenti carri separati"
+  },
+  {
+   "id": "S36-USSR-044",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "2° Corpo meccanizzato",
+   "rawType": "Corpo meccanizzato",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Wikipedia (Mechanised corps) indica 4 corpi meccanizzati a inizio 1936 e nomina l'11º (Leningrado) e il 45º (Ucraina): la numerazione 1°–4° del file non coincide. Da verificare."
+   },
+   "corps": "RKKA",
+   "army": "Riserva operativa Stavka / distretto",
+   "note": "All'inizio del 1936 esistevano 4 corpi meccanizzati, 6 brigate meccanizzate separate e 6 reggimenti carri separati"
+  },
+  {
+   "id": "S36-USSR-045",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "3° Corpo meccanizzato",
+   "rawType": "Corpo meccanizzato",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Wikipedia (Mechanised corps) indica 4 corpi meccanizzati a inizio 1936 e nomina l'11º (Leningrado) e il 45º (Ucraina): la numerazione 1°–4° del file non coincide. Da verificare."
+   },
+   "corps": "RKKA",
+   "army": "Riserva operativa Stavka / distretto",
+   "note": "All'inizio del 1936 esistevano 4 corpi meccanizzati, 6 brigate meccanizzate separate e 6 reggimenti carri separati"
+  },
+  {
+   "id": "S36-USSR-046",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "command",
+   "category": "command",
+   "variant": null,
+   "commandLevel": "corps",
+   "name": "4° Corpo meccanizzato",
+   "rawType": "Corpo meccanizzato",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": {
+    "status": "date_doubt",
+    "confidence": "probabile",
+    "basis": "user_file",
+    "reason": "Wikipedia (Mechanised corps) indica 4 corpi meccanizzati a inizio 1936 e nomina l'11º (Leningrado) e il 45º (Ucraina): la numerazione 1°–4° del file non coincide. Da verificare."
+   },
+   "corps": "RKKA",
+   "army": "Riserva operativa Stavka / distretto",
+   "note": "All'inizio del 1936 esistevano 4 corpi meccanizzati, 6 brigate meccanizzate separate e 6 reggimenti carri separati"
+  },
+  {
+   "id": "S36-USSR-047",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "brigade",
+   "category": "airborne",
+   "variant": null,
+   "name": "1ª Brigata aviotrasportata",
+   "rawType": "Brigata aviotrasportata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Distretto militare di Leningrado",
+   "corps": "RKKA",
+   "army": "Distretto militare di Leningrado",
+   "note": "Prima brigata aviotrasportata, costituita nel 1932"
+  },
+  {
+   "id": "S36-USSR-048",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "brigade",
+   "category": "airborne",
+   "variant": null,
+   "name": "2ª Brigata aviotrasportata",
+   "rawType": "Brigata aviotrasportata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Distretto militare bielorusso",
+   "corps": "RKKA",
+   "army": "Distretto militare bielorusso",
+   "note": "Nel 1936 le brigate aviotrasportate divennero tre"
+  },
+  {
+   "id": "S36-USSR-049",
+   "nation": "USSR",
+   "branch": "esercito",
+   "echelon": "brigade",
+   "category": "airborne",
+   "variant": null,
+   "name": "3ª Brigata aviotrasportata",
+   "rawType": "Brigata aviotrasportata",
+   "startYear": 1936,
+   "sourceStartYear": 1936,
+   "startPrecision": "year",
+   "dating": "year",
+   "endYear": null,
+   "source": "File utente: ordine di battaglia 1/1/1936 (USSR)",
+   "verification": "DA_VERIFICARE",
+   "review": null,
+   "station": "Distretto militare di Kiev",
+   "corps": "RKKA",
+   "army": "Distretto militare di Kiev",
+   "note": "Nel 1936 le brigate aviotrasportate divennero tre"
   }
  ]
 }

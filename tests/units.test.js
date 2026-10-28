@@ -17,9 +17,14 @@ const byId = new Map(doc.units.map((u) => [u.id, u]));
 test('units.json: valido e allineato al CSV e alle revisioni (nessun file stantio)', async () => {
   assert.deepEqual(validateUnits(doc, { nationIds }), []);
   assert.deepEqual(doc, JSON.parse(JSON.stringify(await unitsBuilt())), 'rigenerare con npm run build:units');
-  assert.equal(doc.units.length, 364 + 20, '364 dal CSV + 20 dal file francese 1936');
-  assert.equal(doc.source1936.repairedRows, 32, 'virgola in più delle righe terrestri del file francese');
-  assert.deepEqual(doc.source1936.notImported.map((x) => x.type).sort(), ['Aviazione navale', 'Divisione aerea', 'Divisione aerea', 'Divisione aerea', 'Raggruppamento coloniale', 'Sommergibili', 'Squadra navale', 'Squadra navale']);
+  assert.equal(doc.units.length, 364 + 20 + 33 + 49, '364 dal CSV + Francia 20 + Germania 33 + URSS 49 dai file 1936');
+  const src = Object.fromEntries(doc.sources1936.map((x) => [x.nation, x]));
+  assert.deepEqual(Object.keys(src).sort(), ['DEU', 'FRA', 'USSR']);
+  assert.equal(src.FRA.repairedRows, 32, 'virgola in più delle righe terrestri del file francese');
+  assert.deepEqual(src.FRA.notImported.map((x) => x.type).sort(), ['Aviazione navale', 'Divisione aerea', 'Divisione aerea', 'Divisione aerea', 'Raggruppamento coloniale', 'Sommergibili', 'Squadra navale', 'Squadra navale']);
+  assert.deepEqual(src.DEU.malformedRows.map((x) => x.name), ['Flotte del Mare del Nord', 'Flotta del Baltico'], 'righe navali con campi spostati: non lette');
+  assert.equal(src.USSR.malformedRows.length, 5, 'le 5 righe navali sovietiche hanno 14 campi: non lette');
+  for (const x of doc.sources1936) assert.equal(x.sha256, createHash('sha256').update(readFileSync(new URL(`../data/units/${x.file}`, import.meta.url))).digest('hex'));
   const csv = readFileSync(new URL('../data/units/source/unita_cronologia_1935_1945.csv', import.meta.url));
   assert.equal(doc.source.sha256, createHash('sha256').update(csv).digest('hex'));
 });
@@ -98,7 +103,9 @@ test('mergeOob1936 e parseOob1936Csv: riparazione ammessa solo per la virgola in
   const ok = `${head}\nx,x,x,x,x,x,x,,,,,,,n,,,1936-01-01,nota`;
   assert.equal(parseOob1936Csv(ok).repaired, 1);
   assert.equal(parseOob1936Csv(ok).rows[0].data_riferimento, '1936-01-01');
-  assert.throws(() => parseOob1936Csv(`${head}\nx,x`), /colonne/);
+  const odd = parseOob1936Csv(`${head}\nx,x,x,x,x,x,x,x,x,x,x,x,x,n,,1936-01-01,nota\ny,z`);
+  assert.equal(odd.rows.length, 1); assert.deepEqual(odd.malformed, [{ line: 3, name: 'y', type: 'z', fields: 2 }]);
+  assert.throws(() => parseOob1936Csv(`${head}\ny,z`), /nessuna riga valida/);
   const row = { unita: 'Nuova Division d\'infanterie', tipo_unita: 'Divisione fanteria', provincia_stazione: 'p', corpo_assegnazione: 'c', armata_assegnazione: 'a', data_riferimento: '1936-01-01', note_fonte: '' };
   const m = mergeOob1936([row, { ...row, unita: 'Flotte', tipo_unita: 'Squadra navale' }], [], { nation: 'FRA' });
   assert.equal(m.units.length, 1); assert.equal(m.units[0].id, 'S36-FRA-001'); assert.equal(m.skipped.length, 1);
@@ -134,4 +141,20 @@ test('stime aggregate 1936: nazioni esistenti, intervalli validi, fonte e certez
   const bad = { nation: 'ZZZ', category: 'ufo', echelon: 'x', count_min: '5', count_max: '3', confidence: 'forse', source: '' };
   assert.equal(validateOobEstimates([bad], { nationIds }).length, 6);
   assert.ok(validateOobEstimates([], { nationIds }).some((e) => /vuoto/.test(e)));
+});
+
+test('Germania e URSS 1936: Germania invariata, divisioni dubbie e corpi non verificati inattivi', () => {
+  const at = (id, d = '1936-01-01') => isActiveAt(byId.get(id), d);
+  const named = (n) => doc.units.find((u) => u.name === n);
+  const act = (n) => isActiveAt(named(n), '1936-01-01');
+  assert.deepEqual(countActive(doc.units, '1936-01-01').DEU, { infantry: 30, armored: 3 }, 'invariata: 31ª–36ª e cavalleria restano dubbie');
+  assert.equal(act('36. Infanterie-Division'), false); assert.equal(act('2. Kavallerie-Division'), false);
+  assert.equal(act('Wehrkreis I'), true, 'i distretti sono comandi attivi');
+  assert.equal(named('Wehrkreis I').commandLevel, 'district'); assert.equal(named('XII. Armeekorps').commandLevel, 'corps');
+  assert.equal(at('U00061'), false);
+  const ussr = countActive(doc.units, '1936-01-01', { includeCommands: true }).USSR;
+  assert.equal(ussr.command, 13, '12 distretti + Black Sea Fleet (1935)');
+  assert.equal(ussr.airborne, 3);
+  assert.equal(act('1° Corpo meccanizzato'), false, 'numerazione in conflitto con Wikipedia (11º e 45º)');
+  assert.equal(act('7° Corpo di cavalleria'), false); assert.equal(act('23° Corpo fucilieri'), false);
 });

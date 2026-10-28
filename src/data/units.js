@@ -143,9 +143,16 @@ export function validateOobEstimates(rows, { nationIds } = {}) {
 }
 
 // --- File dell'utente con l'ordine di battaglia al 1/1/1936 (per ora solo Francia) ---
-const NATION_1936_TYPES = {
-  'Divisione fanteria': ['infantry', null], 'Divisione cavalleria': ['cavalry', null],
-  'Divisione leggera meccanizzata': ['mechanized', 'light'], 'Divisione fanteria coloniale': ['infantry', 'colonial'],
+const D = (category, variant = null) => ({ category, echelon: 'division', variant });
+const C = (commandLevel) => ({ category: 'command', echelon: 'command', variant: null, commandLevel });
+/** Tipo del file utente → classificazione, per nazione. I tipi non elencati (marina, aviazione, SS, raggruppamenti) non entrano nel catalogo terrestre. */
+export const OOB1936_TYPES = {
+  FRA: { 'Divisione fanteria': D('infantry'), 'Divisione cavalleria': D('cavalry'), 'Divisione leggera meccanizzata': D('mechanized', 'light'), 'Divisione fanteria coloniale': D('infantry', 'colonial') },
+  DEU: { 'Divisione fanteria': D('infantry'), 'Divisione corazzata': D('armored'), 'Divisione di cavalleria': D('cavalry'), "Corpo d'armata": C('corps'), 'Distretto militare': C('district') },
+  USSR: {
+    'Distretto militare / comando territoriale': C('district'), 'Corpo fucilieri': C('corps'), 'Corpo di cavalleria': C('corps'), 'Corpo meccanizzato': C('corps'),
+    'Brigata aviotrasportata': { category: 'airborne', echelon: 'brigade', variant: null },
+  },
 };
 /** Nome normalizzato per confrontare "1re Division d'infanterie" con "1re Division d'Infanterie" (maiuscole, accenti, ordinali). */
 export function normalizeUnitName(name) {
@@ -161,14 +168,16 @@ export function mergeOob1936(rows, units, { nation, doubts = {} }) {
   const out = units.map((u) => ({ ...u }));
   const skipped = []; let n = 0;
   for (const row of rows) {
-    const mapped = NATION_1936_TYPES[row.tipo_unita];
+    const mapped = OOB1936_TYPES[nation]?.[row.tipo_unita];
     if (!mapped) { skipped.push({ name: row.unita, type: row.tipo_unita }); continue; }
     const key = normalizeUnitName(row.unita);
     const doubt = doubts[key];
     const match = out.find((u) => u.nation === nation && normalizeUnitName(u.name) === key);
-    const extra = { station: row.provincia_stazione, corps: row.corpo_assegnazione, army: row.armata_assegnazione, note: row.note_fonte };
+    const known = (v) => (v && !/^Da verificare/.test(v) ? v : undefined);
+    const extra = Object.fromEntries(Object.entries({ station: known(row.provincia_stazione), corps: known(row.corpo_assegnazione), army: known(row.armata_assegnazione), note: row.note_fonte || undefined }).filter(([, v]) => v !== undefined));
     if (match) {
       Object.assign(match, { station: extra.station, corps: extra.corps, army: extra.army });
+      for (const k of ['station', 'corps', 'army']) if (match[k] === undefined) delete match[k];
       if (doubt) match.review ??= { status: 'date_doubt', confidence: 'probabile', basis: 'user_file', reason: doubt };
       else if (match.startYear > 1936) {
         match.review = { status: 'corrected', confidence: 'probabile', basis: 'user_file', startYearOverride: 1936, reason: `Il file dell'utente (${row.data_riferimento}) la dà già presente; il CSV riporta ${match.sourceStartYear}. Da verificare (SHD).` };
@@ -179,10 +188,9 @@ export function mergeOob1936(rows, units, { nation, doubts = {} }) {
     // Stessa linea di una divisione già presente solo in versione motorizzata (es. 3e DI → 3e DI Motorisée): la versione 1936 termina l'anno prima.
     const successor = out.find((u) => u.nation === nation && normalizeUnitName(u.name) === `${key}motorisee`);
     n += 1;
-    const [category, variant] = mapped;
     out.push({
-      id: `S36-${nation}-${String(n).padStart(3, '0')}`, nation, branch: 'esercito', echelon: 'division', category, variant, name: row.unita, rawType: row.tipo_unita,
-      startYear: 1936, sourceStartYear: 1936, startPrecision: 'year', dating: 'year', endYear: successor ? successor.startYear - 1 : null, ...(successor ? { supersededBy: successor.id } : {}), source: 'File utente: ordine di battaglia 1/1/1936', verification: 'DA_VERIFICARE',
+      id: `S36-${nation}-${String(n).padStart(3, '0')}`, nation, branch: 'esercito', echelon: mapped.echelon, category: mapped.category, variant: mapped.variant, ...(mapped.commandLevel ? { commandLevel: mapped.commandLevel } : {}), name: row.unita, rawType: row.tipo_unita,
+      startYear: 1936, sourceStartYear: 1936, startPrecision: 'year', dating: 'year', endYear: successor ? successor.startYear - 1 : null, ...(successor ? { supersededBy: successor.id } : {}), source: `File utente: ordine di battaglia 1/1/1936 (${nation})`, verification: 'DA_VERIFICARE',
       review: doubt ? { status: 'date_doubt', confidence: 'probabile', basis: 'user_file', reason: doubt } : null, ...extra,
     });
   }
@@ -190,19 +198,22 @@ export function mergeOob1936(rows, units, { nation, doubts = {} }) {
 }
 
 /**
- * Legge il CSV dell'ordine di battaglia 1936. Le righe terrestri del file ricevuto hanno una virgola in più (18 campi invece di 17,
- * un campo vuoto prima di data_riferimento): la riparazione è ammessa SOLO in quel caso e viene contata; ogni altra anomalia lancia un Error.
+ * Legge il CSV dell'ordine di battaglia 1936. Le righe terrestri dei file ricevuti hanno una virgola in più (18 campi invece di 17,
+ * un campo vuoto prima di data_riferimento): la riparazione è ammessa SOLO in quel caso e viene contata. Le righe con altro numero di colonne
+ * (nei file ricevuti: marina e aviazione, campi spostati) NON vengono lette e sono elencate in `malformed`: mai un'ipotesi sulle colonne.
  */
 export function parseOob1936Csv(text, { name = 'oob 1936' } = {}) {
   const [head, ...body] = parseCsvRows(text);
   const header = head.map((h) => h.trim());
   let repaired = 0;
-  const rows = body.map((r, i) => {
+  const rows = []; const malformed = [];
+  body.forEach((r, i) => {
     let f = r;
     // virgola in più: un campo vuoto al posto di "aeroporto_provincia" + uno extra, subito prima di data_riferimento
     if (r.length === header.length + 1 && r[header.length - 2] === '' && /^\d{4}-\d{2}-\d{2}$/.test(r[header.length - 1])) { f = [...r.slice(0, header.length - 2), ...r.slice(header.length - 1)]; repaired += 1; }
-    if (f.length !== header.length) throw new Error(`${name}: riga ${i + 2} con ${f.length} colonne invece di ${header.length}`);
-    return Object.fromEntries(header.map((h, k) => [h, f[k]]));
+    if (f.length !== header.length) { malformed.push({ line: i + 2, name: f[0], type: f[1], fields: f.length }); return; }
+    rows.push(Object.fromEntries(header.map((h, k) => [h, f[k]])));
   });
-  return { rows, repaired };
+  if (rows.length === 0) throw new Error(`${name}: nessuna riga valida`);
+  return { rows, repaired, malformed };
 }
