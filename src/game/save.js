@@ -5,7 +5,7 @@
 //  - se la scrittura fallisce (quota piena, modalità privata) il salvataggio precedente resta intatto.
 
 import { STATE_SCHEMA, validateState } from './state.js';
-import { migrateV1toV2 } from './economyState.js';
+import { migrateV1toV2, migrateV2toV3 } from './economyState.js';
 
 export const SAVE_FORMAT = 'gswwii-save';
 export const SAVE_SCHEMA = STATE_SCHEMA;
@@ -15,9 +15,10 @@ export const SLOTS = ['auto', 'manual'];
 /**
  * Migrazioni: MIGRATIONS[n] porta uno stato dallo schema n allo schema n+1.
  * Schema 1 → 2 (27/10/2026): aggiunge difficoltà ed economia per nazione (`nations: null`, da inizializzare dai dati iniziali).
+ * Schema 2 → 3 (28/10/2026): popolazione per nazione (null, riempita dai dati al caricamento) e coda delle costruzioni.
  * Quando cambia la forma dello stato si incrementa STATE_SCHEMA e si aggiunge qui la funzione, con un test.
  */
-export const MIGRATIONS = { 1: migrateV1toV2 };
+export const MIGRATIONS = { 1: migrateV1toV2, 2: migrateV2toV3 };
 
 export function serializeSave(state, { savedAt, label = '' } = {}) {
   return JSON.stringify({ format: SAVE_FORMAT, schema: state.schema, savedAt: savedAt ?? null, label, state });

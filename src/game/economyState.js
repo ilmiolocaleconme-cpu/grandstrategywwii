@@ -5,22 +5,25 @@
 // il salvataggio non cambia forma quando arriveranno.
 import { difficulty } from '../data/economy.js';
 import { cashFor } from '../data/initialCash.js';
+import { populationOf } from '../data/population.js';
 
 export const DIFFICULTIES = ['facile', 'media', 'reale'];
 export const DEFAULT_DIFFICULTY = 'media';
 
 const emptyForces = () => ({ land: [], naval: [], air: [] });
-const emptyNation = () => ({ balance: 0, stocks: {}, facilities: [], mines: [], baseGridMw: 0, forces: emptyForces() });
+const emptyNation = () => ({ balance: 0, population: 0, stocks: {}, facilities: [], mines: [], construction: [], baseGridMw: 0, forces: emptyForces() });
 
 /**
- * Stato iniziale delle nazioni dai dati: { [idProprietario]: { balance, stocks, facilities, mines, baseGridMw, forces } }.
+ * Stato iniziale delle nazioni dai dati: { [idProprietario]: { balance, population, stocks, facilities, mines, construction, baseGridMw, forces } }.
  * ctx: { political (array), nationIds (array), industry (initial_industry.json), stocks (initial_stocks.json) }
  * - gli impianti e le scorte di una colonia vanno al proprietario (`owner`); ogni impianto ricorda il `territory`;
  * - la fascia C (industry.tierC) riceve la rete di base; le altre nazioni 0;
  * - `balance` = cassa iniziale di initial_cash.json (30 giorni di entrata + 200 ECV, 28/10/2026); con `cash: null` (solo per i calcoli dei dati) resta 0;
+ * - `population` (file population.json, opzionale): popolazione di gioco; la riserva di lavoratori si deriva (rules/workers.js);
+ * - `construction` è la coda delle costruzioni in corso (vuota all'inizio);
  * - la difficoltà moltiplica scorte e cassa per `stockMul` (facile 1,5 · media 1 · reale 0,7), come definito in economy.json.
  */
-export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
+export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, population = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
   const stockMul = economy ? difficulty(economy, difficultyId).stockMul : 1;
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
   // `nations` contiene le nazioni scegliibili e ogni altra entità che possiede industria (es. Iran, non giocabile)
@@ -45,6 +48,7 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
     for (const [res, t] of Object.entries(stocks.stocks[territory])) nations[owner].stocks[res] = (nations[owner].stocks[res] ?? 0) + t;
   }
   for (const n of Object.values(nations)) for (const res of Object.keys(n.stocks)) n.stocks[res] = Math.ceil(n.stocks[res] * stockMul - 1e-9);
+  if (population) for (const [id, n] of Object.entries(nations)) n.population = populationOf(population, id); // MISSING_DATA = 0
   if (cash) for (const [id, n] of Object.entries(nations)) {
     if (!cash.nations[id]) throw new Error(`stato economico: manca la cassa iniziale di ${id}`);
     n.balance = cashFor(cash.nations[id].cash, stockMul);
@@ -62,6 +66,8 @@ export function validateNations(nations, { player } = {}) {
   for (const [id, n] of Object.entries(nations)) {
     if (n === null || typeof n !== 'object') { errors.push(`stato: nations["${id}"] non valido`); continue; }
     if (!num(n.balance)) errors.push(`stato: ${id}, cassa non valida`);
+    if (n.population !== null && !num(n.population)) errors.push(`stato: ${id}, popolazione non valida`); // null = salvataggio migrato, da inizializzare
+    if (!Array.isArray(n.construction)) errors.push(`stato: ${id}, coda costruzioni mancante`);
     if (!num(n.baseGridMw)) errors.push(`stato: ${id}, rete di base non valida`);
     for (const [r, v] of Object.entries(n.stocks ?? {})) if (!num(v)) errors.push(`stato: ${id}, scorta di ${r} non valida`);
     if (!n.stocks || typeof n.stocks !== 'object') errors.push(`stato: ${id}, scorte mancanti`);
@@ -84,4 +90,12 @@ export function validateNations(nations, { player } = {}) {
 /** Migrazione schema 1 → 2. Un salvataggio dello schema 1 non ha mai avuto economia (nessun sistema attivo): `nations` resta null e si inizializza dai dati iniziali al caricamento. */
 export function migrateV1toV2(state) {
   return { ...state, schema: 2, difficulty: DEFAULT_DIFFICULTY, nations: null };
+}
+
+/** Migrazione schema 2 → 3: popolazione (null, da inizializzare dai dati al caricamento) e coda delle costruzioni (vuota: nello schema 2 non si poteva costruire). */
+export function migrateV2toV3(state) {
+  if (state.nations === null) return { ...state, schema: 3 };
+  const nations = {};
+  for (const [id, n] of Object.entries(state.nations)) nations[id] = { ...n, population: null, construction: [] };
+  return { ...state, schema: 3, nations };
 }

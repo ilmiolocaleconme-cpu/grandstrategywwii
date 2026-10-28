@@ -27,6 +27,7 @@ import { validateEconomy } from '../src/data/economy.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
 import { validateInitialStocks } from '../src/data/initialStocks.js';
 import { validateInitialCash } from '../src/data/initialCash.js';
+import { validatePopulation } from '../src/data/population.js';
 import { buildNations } from '../src/game/economyState.js';
 import { validateProduction } from '../src/data/production.js';
 import { validateExtractionFactors, validateLocationsExtra } from '../src/data/extraction.js';
@@ -116,6 +117,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       const [pol, nat, ind, stk] = [JSON.parse(await text('political_1936.json')), JSON.parse(await text('nations.json')), JSON.parse(await text('industry/initial_industry.json')), JSON.parse(await text('industry/initial_stocks.json'))];
       const owners = new Set(Object.keys(buildNations({ political: pol, nationIds: nat.map((n) => n.id), industry: ind, stocks: stk })));
       errors.push(...validateInitialCash(JSON.parse(await text('industry/initial_cash.json')), { ownerIds: owners }));
+      errors.push(...validatePopulation(JSON.parse(await text('population/population.json')), { ownerIds: owners }));
     }
     // Produzione 1936 (CSV dell'utente): copie non modificate e file generato allineato
     for (const sh of JSON.parse(await text('resources/SOURCE_PRODUZIONE.json')).files) {

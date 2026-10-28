@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { loadIndustryCatalog } from '../src/data/industry.js';
-import { buildNations, validateNations, migrateV1toV2 } from '../src/game/economyState.js';
+import { buildNations, validateNations, migrateV1toV2, migrateV2toV3 } from '../src/game/economyState.js';
 import { newGame, validateState, initEconomy, STATE_SCHEMA } from '../src/game/state.js';
 import { parseSave, serializeSave, SAVE_FORMAT } from '../src/game/save.js';
 import { produceDay } from '../src/rules/production.js';
@@ -20,10 +20,10 @@ const nations = buildNations({ political, ...start });
 const game = (extra = {}) => newGame({ nation: 'ITA', political, ownersWithProvinces: nationIds, start, ...extra });
 
 test('schema 2: ogni nazione ha cassa, scorte, impianti, miniere, rete e forze (vuote)', () => {
-  assert.equal(STATE_SCHEMA, 2);
+  assert.equal(STATE_SCHEMA, 3);
   assert.deepEqual(Object.keys(nations).sort(), [...nationIds, 'IRN'].sort(), 'le 72 nazioni più l\'Iran, non giocabile ma con industria');
   for (const n of Object.values(nations)) {
-    assert.deepEqual(Object.keys(n).sort(), ['balance', 'baseGridMw', 'facilities', 'forces', 'mines', 'stocks']);
+    assert.deepEqual(Object.keys(n).sort(), ['balance', 'baseGridMw', 'construction', 'facilities', 'forces', 'mines', 'population', 'stocks']);
     assert.deepEqual(n.forces, { land: [], naval: [], air: [] }, 'forze: MISSING_DATA, nessun catalogo');
     assert.equal(n.balance, 0, 'senza il file della cassa nello start la cassa è 0 (con i dati: vedi initial_cash.test.js)');
     assert.deepEqual(n.mines, []);
@@ -62,8 +62,8 @@ test('migrazione 1→2: un salvataggio dello schema 1 si apre, nations è null e
   const v1 = { schema: 1, startDate: '1936-01-01', date: '1936-01-01', day: 0, player: 'ITA', control: Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id])) };
   const doc = JSON.stringify({ format: SAVE_FORMAT, schema: 1, savedAt: null, label: 'vecchio', state: v1 });
   const r = parseSave(doc);
-  assert.equal(r.ok, true); assert.equal(r.migratedFrom, 1);
-  assert.equal(r.state.schema, 2); assert.equal(r.state.nations, null); assert.equal(r.state.difficulty, 'media');
+  assert.equal(r.ok, true); assert.equal(r.migratedFrom, 1, 'catena 1→2→3');
+  assert.equal(r.state.schema, 3); assert.equal(r.state.nations, null); assert.equal(r.state.difficulty, 'media');
   assert.deepEqual(r.state.control, v1.control);
   assert.deepEqual(initEconomy(r.state, { political, start }), game().state);
   const done = game().state;
@@ -71,11 +71,11 @@ test('migrazione 1→2: un salvataggio dello schema 1 si apre, nations è null e
   assert.deepEqual(migrateV1toV2(v1), { ...v1, schema: 2, difficulty: 'media', nations: null });
 });
 
-test('salvataggio schema 2: andata e ritorno identica; schema più recente rifiutato senza perdere nulla', () => {
+test('salvataggio schema 3: andata e ritorno identica; schema più recente rifiutato senza perdere nulla', () => {
   const s = game().state;
   const r = parseSave(serializeSave(s));
   assert.equal(r.ok, true); assert.deepEqual(r.state, s); assert.equal(r.migratedFrom, undefined);
-  const future = JSON.stringify({ format: SAVE_FORMAT, schema: 3, savedAt: null, label: '', state: s });
+  const future = JSON.stringify({ format: SAVE_FORMAT, schema: 4, savedAt: null, label: '', state: s });
   assert.equal(parseSave(future).reason, 'newer_version');
 });
 
