@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { focusView } from './focus.js';
+import { withRetry } from '../data/retry.js';
 import { HOME_BOUNDS, LAYERS, MAX_K, MAX_LAT, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, nearestSmallProvinceAt, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
@@ -41,7 +42,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const [land, setLand] = useState(null); // terra di base (~350 kB), caricata dopo la mappa: un errore non blocca nulla
   useEffect(() => {
     let alive = true;
-    import('../../data/land_base.json').then((m) => alive && setLand(m.default)).catch(() => {});
+    withRetry(() => import('../../data/land_base.json')).then((m) => alive && setLand(m.default)).catch(() => {});
     return () => { alive = false; };
   }, []);
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati

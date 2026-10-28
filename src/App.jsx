@@ -6,6 +6,7 @@ import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { loadProvinces, unwatchProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
+import { withRetry } from './data/retry.js';
 import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
 import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.js';
@@ -59,7 +60,7 @@ function useWaterData(start) {
   useEffect(() => {
     if (!start) return undefined;
     let alive = true;
-    Promise.all([import('../data/rivers.json'), import('../data/rivers_geo.json'), import('../data/lakes.json')])
+    Promise.all([withRetry(() => import('../data/rivers.json')), withRetry(() => import('../data/rivers_geo.json')), withRetry(() => import('../data/lakes.json'))])
       .then(([r, g, l]) => alive && setWater({ status: 'ready', rivers: r.default, riversGeo: g.default, lakes: l.default }))
       .catch(() => alive && setWater({ status: 'error', rivers: null, riversGeo: null, lakes: null }));
     return () => { alive = false; };
@@ -74,7 +75,7 @@ function useLinks(start) {
   useEffect(() => {
     if (!start || file) return undefined;
     let alive = true;
-    import('../data/links.json').then((m) => alive && setFile(m.default)).catch(() => {});
+    withRetry(() => import('../data/links.json')).then((m) => alive && setFile(m.default)).catch(() => {});
     return () => { alive = false; };
   }, [start, file]);
   return file;
@@ -86,7 +87,7 @@ function useSeaData(start) {
   useEffect(() => {
     if (!start) return undefined;
     let alive = true;
-    import('../data/sea_zones.json')
+    withRetry(() => import('../data/sea_zones.json'))
       .then((m) => alive && setSea({ status: 'ready', file: m.default }))
       .catch(() => alive && setSea({ status: 'error', file: null }));
     return () => { alive = false; };
@@ -100,7 +101,7 @@ function useLabelData(start) {
   useEffect(() => {
     if (!start) return undefined;
     let alive = true;
-    import('../data/labels.json').then((m) => alive && setLabels(m.default)).catch(() => {});
+    withRetry(() => import('../data/labels.json')).then((m) => alive && setLabels(m.default)).catch(() => {});
     return () => { alive = false; };
   }, [start]);
   return labels;
@@ -112,7 +113,7 @@ function useProvinceResources(enabled) {
   useEffect(() => {
     if (!enabled || data) return undefined;
     let alive = true;
-    import('../data/resources/province_resources.json').then((m) => alive && setData(m.default.byProvince)).catch(() => {});
+    withRetry(() => import('../data/resources/province_resources.json')).then((m) => alive && setData(m.default.byProvince)).catch(() => {});
     return () => { alive = false; };
   }, [enabled, data]);
   return data;
@@ -126,10 +127,10 @@ function useProvinceData(enabled) {
     if (!enabled || data) return undefined;
     let alive = true;
     Promise.all([
-      import('../data/population/province_population.json'),
-      import('../data/agriculture/province_agriculture.json'),
-      import('../data/military/province_presence.json'),
-      import('../data/resources/hydro_plants.json'),
+      withRetry(() => import('../data/population/province_population.json')),
+      withRetry(() => import('../data/agriculture/province_agriculture.json')),
+      withRetry(() => import('../data/military/province_presence.json')),
+      withRetry(() => import('../data/resources/hydro_plants.json')),
     ]).then(([pop, agr, mil, hyd]) => alive && setData({ population: pop.default, agriculture: agr.default, military: mil.default, hydro: hyd.default })).catch(() => {});
     return () => { alive = false; };
   }, [enabled, data]);
@@ -142,7 +143,7 @@ function useTerrain(enabled) {
   useEffect(() => {
     if (!enabled) return undefined;
     let alive = true;
-    import('../data/terrain.json').then((m) => alive && setTerrain(m.default)).catch(() => {});
+    withRetry(() => import('../data/terrain.json')).then((m) => alive && setTerrain(m.default)).catch(() => {});
     return () => { alive = false; };
   }, [enabled]);
   return terrain;
@@ -154,7 +155,7 @@ function useCities(enabled) {
   useEffect(() => {
     if (!enabled) return undefined;
     let alive = true;
-    import('../data/citta_grandi.json').then((m) => alive && setCities(m.default.features)).catch(() => {});
+    withRetry(() => import('../data/citta_grandi.json')).then((m) => alive && setCities(m.default.features)).catch(() => {});
     return () => { alive = false; };
   }, [enabled]);
   return cities;
