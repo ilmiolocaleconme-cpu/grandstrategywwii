@@ -228,10 +228,6 @@ h2 {
 /* Caricamento della partita: la mappa si disegna sotto, nascosta da questa copertura con la bandiera della nazione scelta */
 .map-cover { position: absolute; inset: 0; z-index: 60; display: flex; background: #101f15; }
 .map-cover .loading-screen { flex: 1; }
-.map-cover-light { background: rgba(16, 31, 21, 0.82); align-items: center; justify-content: center; }
-.map-cover-pill { display: grid; gap: 10px; min-width: 220px; padding: 14px 18px; border-radius: 12px; background: #1b2e22; border: 1px solid #3b5440; color: #e9e3cf; text-align: center; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45); }
-.map-cover-pill .loading-bar { margin: 0; width: 100%; }
-.map-cover-pill .loading-bar span { animation: coverPulse 1.1s ease-in-out infinite alternate; }
 @keyframes coverPulse { from { opacity: 0.35; } to { opacity: 1; } }
 .loading-flag { display: block; border-radius: 4px; background: #2a3324; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); margin-bottom: 8px; }
 .nation-loading .loading-title { margin: 4px 0 0; }
