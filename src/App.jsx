@@ -33,6 +33,9 @@ import structuresCsv from '../data/infrastructure/structures.csv?raw';
 import categoriesCsv from '../data/industry/production_categories.csv?raw';
 import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar from './ui/GameBar.jsx';
+import { ProvinceBuild, EconomyPanel } from './ui/BuildPanel.jsx';
+import { provinceBuildOptions, economySummary, describeBuildFailure } from './ui/buildOptions.js';
+import { RESOURCE_META } from './data/provinceResources.js';
 import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
 import LoadingScreen from './ui/LoadingScreen.jsx';
@@ -160,12 +163,14 @@ const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIn
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
 const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId };
-// Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; la UI per ordinarle non c'è ancora (solo regole e test)
+// Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
 const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites }),
 ];
+
+const BUILD_CTX = { build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, resourceLabel: (id) => RESOURCE_META[id]?.label ?? id };
 
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
 // chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico
@@ -243,6 +248,17 @@ export default function App() {
 
   const mapItems = useMemo(() => (provincesWithCities && mapWanted ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces, mapWanted]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
+  // ordini di costruzione del giocatore: le regole sono in GAME_BUILD, qui si applica solo il risultato e si riferisce l'esito
+  const placeOrder = (order) => {
+    const r = GAME_BUILD.start(game, game.player, order);
+    if (!r.ok) return { ok: false, text: describeBuildFailure(r) };
+    setGame(r.state);
+    return { ok: true, text: 'Ordine avviato: costi pagati, il cantiere è in corso.' };
+  };
+  const buildOptions = useMemo(() => {
+    const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
+    return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
+  }, [game, selectedItem]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const layerReady = (layer !== 'terrain' || terrain !== null) && (layer !== 'resources' || provinceResources !== null); // dati del livello scelto arrivati
   const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && layerReady;
@@ -328,7 +344,7 @@ export default function App() {
         <div className="nav-tools-host" ref={setToolsHost} />
         {game && tab === 'map' ? (
           <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed}
-            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g))} />
+            onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g, GAME_SYSTEMS))} />
         ) : null}
         <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
         <FullscreenButton />
@@ -382,6 +398,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
+            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel })} />
             {infoSection}
             {statusSection}
           </main>
@@ -424,7 +441,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} onClose={() => setInfoOpen(false)} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} /> : null} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>

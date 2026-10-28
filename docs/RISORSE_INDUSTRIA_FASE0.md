@@ -159,3 +159,10 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 - **Miniere:** livello n = n/3 della distanza fra base e max (`data/resources/mine_sites.json`, generato da `npm run build:mine-sites`, 216 siti in 187 province); il livello raggiunto aumenta l'estrazione giornaliera nel ciclo economico. I siti con base = max sono rifiutati (`no_gain`). Le località aggiuntive di `resource_locations_extra.json` non hanno punti e non sono edificabili. La scala dei punti è quella precedente ai fattori fisici (da riallineare).
 - **Non presente / MISSING_DATA:** tecnologie richieste (`requires` sempre null), annullamento e rimborso, slot delle città, slot occupati dagli impianti iniziali (non hanno provincia), consumo di energia del pompaggio del petrolio, **interfaccia per ordinare** (esiste `GAME_BUILD.start` in `App.jsx`, nessun pannello).
 - Stato: regole implementate e testate; collegato al tick (`GAME_SYSTEMS`); non usabile dal giocatore finché manca l'interfaccia; app non compilata né provata in browser.
+
+## Pannello costruzioni (28/10/2026)
+
+- `src/ui/buildOptions.js` (funzioni pure, **implementate e testate**, `tests/build_ui.test.js`): `provinceBuildOptions` (miniere e fabbriche ordinabili in una provincia, con costo e prova a secco dell'ordine), `economySummary` (cassa, lavoratori, energia, scorte, impianti, coda), `describeBuildFailure` (motivo del rifiuto in italiano, con ciò che manca).
+- `src/ui/BuildPanel.jsx` + collegamento in `App.jsx`: scheda «Economia» in Partita; sezione «Costruzioni» nel pannello della provincia selezionata (pulsante «i»). **Implementato ma NON verificato nel browser**: sintassi controllata solo con il parser TypeScript; `vite build` non eseguibile (npm non raggiungibile).
+- Il pulsante «+1 g» ora usa gli stessi sistemi del tempo automatico (prima avanzava solo la data).
+- Limiti: nessuna cancellazione/rimborso di un cantiere; gli impianti iniziali non occupano slot; la colonna «dove» della coda mostra l'id tecnico della provincia.

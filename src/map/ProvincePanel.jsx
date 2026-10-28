@@ -26,7 +26,7 @@ const ISSUE_LABEL = {
   capoluogo_fuori_dal_contorno_costiero: 'il capoluogo cade fuori dal contorno costiero',
 };
 
-export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, onClose }) {
+export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, onClose, build = null }) {
   if (!item) return null; // il pannello esiste solo su richiesta (pulsante «i» nell'angolo della mappa)
   const p = item.props;
   return (
@@ -48,6 +48,7 @@ export default function ProvincePanel({ item, nationNames, nationControl, provin
         <dt>Fonte</dt><dd>{p.source}</dd>
         <dt>Licenza</dt><dd>{p.license}</dd>
       </dl>
+      {build}
       {p.knownIssues?.length > 0 && (
         <>
           <h3>Limiti noti</h3>
