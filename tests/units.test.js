@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 import { parseCsv } from '../src/data/csv.js';
 import { unitsBuilt } from '../scripts/build-units.js';
 import {
-  validateUnits, classifyUnit, buildUnits, isActiveAt, unitsActiveAt, countActive, NATION_IDS, UNIT_CATEGORIES,
+  validateUnits, classifyUnit, buildUnits, isActiveAt, unitsActiveAt, countActive, NATION_IDS, UNIT_CATEGORIES, validateOobEstimates,
 } from '../src/data/units.js';
 
 const json = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
@@ -103,4 +103,12 @@ test('il CSV sorgente ha 364 righe, id unici e le due copie ricevute erano ident
   const rows = parseCsv(readFileSync(new URL('../data/units/source/unita_cronologia_1935_1945.csv', import.meta.url), 'utf8'), { name: 'unita' });
   assert.equal(rows.length, 364);
   assert.equal(new Set(rows.map((r) => r.unit_id)).size, 364);
+});
+
+test('stime aggregate 1936: nazioni esistenti, intervalli validi, fonte e certezza dichiarate', () => {
+  const rows = parseCsv(readFileSync(new URL('../data/units/oob_1936_stime.csv', import.meta.url), 'utf8'), { name: 'oob_1936_stime' });
+  assert.deepEqual(validateOobEstimates(rows, { nationIds }), []);
+  const bad = { nation: 'ZZZ', category: 'ufo', echelon: 'x', count_min: '5', count_max: '3', confidence: 'forse', source: '' };
+  assert.equal(validateOobEstimates([bad], { nationIds }).length, 6);
+  assert.ok(validateOobEstimates([], { nationIds }).some((e) => /vuoto/.test(e)));
 });

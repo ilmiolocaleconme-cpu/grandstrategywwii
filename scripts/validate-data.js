@@ -24,7 +24,7 @@ import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js
 import { validateHydro } from '../src/data/hydro.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
 import { validateAmmoConsumption } from '../src/data/ammo.js';
-import { validateUnits } from '../src/data/units.js';
+import { validateUnits, validateOobEstimates } from '../src/data/units.js';
 import { unitsBuilt } from './build-units.js';
 import { validateEconomy } from '../src/data/economy.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
@@ -152,6 +152,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     {
       const unitsDoc = JSON.parse(await text('units/units.json'));
       errors.push(...validateUnits(unitsDoc, { nationIds: new Set(catalog.political.map((p) => p.id)) }));
+      errors.push(...validateOobEstimates(parseCsv(await text('units/oob_1936_stime.csv'), { name: 'oob_1936_stime' }), { nationIds: new Set(catalog.political.map((p) => p.id)) }));
       const ub = await unitsBuilt();
       if (createHash('sha256').update(await readFile(new URL('../data/units/source/unita_cronologia_1935_1945.csv', import.meta.url))).digest('hex') !== unitsDoc.source.sha256) errors.push('unità: CSV sorgente diverso da quello registrato in units.json (sha256)');
       if (JSON.stringify(unitsDoc) !== JSON.stringify(ub)) errors.push('unità: units.json non allineato a CSV e revisioni, rigenerare con npm run build:units');

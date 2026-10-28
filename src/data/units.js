@@ -122,3 +122,21 @@ export function countActive(units, isoDate, { policy = 'strict', includeCommands
   }
   return out;
 }
+
+export const OOB_CONFIDENCE = ['certo', 'probabile', 'ipotesi'];
+/** Errori delle stime aggregate dell'ordine di battaglia 1936 (righe CSV già parse). Sono intervalli, non unità. */
+export function validateOobEstimates(rows, { nationIds } = {}) {
+  const errors = [];
+  if (rows.length === 0) errors.push('stime ordine di battaglia: file vuoto');
+  rows.forEach((r, i) => {
+    const at = `stime ordine di battaglia riga ${i + 2}`;
+    if (nationIds && !nationIds.has(r.nation)) errors.push(`${at}: nazione ${r.nation} inesistente`);
+    if (!UNIT_CATEGORIES.includes(r.category)) errors.push(`${at}: categoria ${r.category} non valida`);
+    if (!['division', 'brigade', 'corps'].includes(r.echelon)) errors.push(`${at}: livello ${r.echelon} non valido`);
+    const lo = Number(r.count_min); const hi = Number(r.count_max);
+    if (!Number.isInteger(lo) || !Number.isInteger(hi) || lo < 0 || hi < lo) errors.push(`${at}: intervallo ${r.count_min}-${r.count_max} non valido`);
+    if (!OOB_CONFIDENCE.includes(r.confidence)) errors.push(`${at}: certezza ${r.confidence} non valida`);
+    if (!String(r.source ?? '').trim()) errors.push(`${at}: senza fonte`);
+  });
+  return errors;
+}
