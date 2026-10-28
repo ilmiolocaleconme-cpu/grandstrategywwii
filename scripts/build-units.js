@@ -4,7 +4,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { parseCsv } from '../src/data/csv.js';
-import { buildUnits, mergeOob1936, parseOob1936Csv, UNITS_SCHEMA } from '../src/data/units.js';
+import { buildUnits, mergeOob1936, makeDivisionPlaceholders, parseOob1936Csv, UNITS_SCHEMA } from '../src/data/units.js';
 
 const dir = new URL('../data/units/', import.meta.url);
 export const SOURCE_FILE = 'source/unita_cronologia_1935_1945.csv';
@@ -48,6 +48,12 @@ export async function unitsBuilt() {
     units = merged.units;
     sources1936.push({ nation: src.nation, file: src.file, sha256: createHash('sha256').update(buffer).digest('hex'), rows: oobRows.length + malformed.length, repairedRows: repaired, malformedRows: malformed, notImported: merged.skipped });
   }
+  // Template da rivedere: il file URSS non contiene divisioni di fucilieri, solo 23 corpi con "tipicamente 2-3 divisioni": 2 per corpo (limite basso del file) = 46 segnaposto inattivi.
+  const rifleCorps = units.filter((u) => u.nation === 'USSR' && /Corpo fucilieri$/.test(u.name)).map((u) => u.name);
+  units = [...units, ...makeDivisionPlaceholders({
+    nation: 'USSR', idPrefix: 'S36-USSR-F', namePrefix: 'Divisione fucilieri 1936 (segnaposto)', category: 'infantry', variant: 'rifle', corps: rifleCorps, perCorps: 2, startYear: 1936,
+    reason: 'Segnaposto: il file utente cita 23 corpi fucilieri con 2-3 divisioni ciascuno ma non elenca le divisioni; 2 per corpo = limite basso. Numeri, nomi e distretti reali da inserire.',
+  })];
   for (const id of Object.keys(reviews)) if (!units.some((u) => u.id === id)) throw new Error(`revisione ${id}: unità inesistente nel CSV`);
   return {
     schema: UNITS_SCHEMA,

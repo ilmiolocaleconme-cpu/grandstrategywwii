@@ -1,0 +1,18 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-USSR-RIFLE-1936",
+  "status": "DA_DEFINIRE",
+  "note": "Template da rivedere con l'utente. Nessun valore numerico è stato inventato: null = da definire. Segue la guida di sistema (organico, equipaggiamento per categorie, mobilità trainata).",
+  "nation": "USSR",
+  "category": "infantry",
+  "variant": "rifle",
+  "echelon": "division",
+  "mobility": "trainata",
+  "regimentsInfantry": null,
+  "manpowerPeace": null,
+  "manpowerWar": null,
+  "equipmentCategories": { "armiLeggere": null, "mitragliatrici": null, "artiglieria": null, "veicoli": null, "radio": null, "sanita": null },
+  "organicSupport": { "aa": null, "at": null, "genio": null, "ricognizione": null, "trasmissioni": null, "sanita": true },
+  "typeOfFormation": "territoriale o di quadri: da verificare",
+  "usedBy": "S36-USSR-F-nnn (segnaposto)"
+}

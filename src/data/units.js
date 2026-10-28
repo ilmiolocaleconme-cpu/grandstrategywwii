@@ -8,9 +8,9 @@ export const UNITS_SCHEMA = 'units-v1';
 export const UNIT_CATEGORIES = ['infantry', 'mountain', 'cavalry', 'motorized', 'mechanized', 'armored', 'airborne', 'command'];
 export const UNIT_ECHELONS = ['division', 'brigade', 'command'];
 export const UNIT_VARIANTS = ['colonial', 'rifle', 'guards', 'ss', 'light'];
-export const REVIEW_STATUSES = ['ok', 'corrected', 'date_doubt', 'duplicate', 'excluded', 'faction_doubt'];
+export const REVIEW_STATUSES = ['ok', 'corrected', 'date_doubt', 'duplicate', 'excluded', 'faction_doubt', 'placeholder'];
 /** Stati di revisione che tengono l'unità INATTIVA finché non viene verificata. */
-export const INACTIVE_REVIEW_STATUSES = ['date_doubt', 'duplicate', 'excluded', 'faction_doubt'];
+export const INACTIVE_REVIEW_STATUSES = ['date_doubt', 'duplicate', 'excluded', 'faction_doubt', 'placeholder'];
 export const REVIEW_CONFIDENCE = ['certo', 'probabile'];
 export const WINDOW_START_YEAR = 1935; // il CSV usa 1935 come inizio della finestra, non come data di costituzione
 
@@ -72,7 +72,7 @@ export function validateUnits(doc, { nationIds } = {}) {
   if (units.length === 0) errors.push('unità: catalogo vuoto');
   const ids = new Set(); const byName = new Map();
   for (const u of units) {
-    if (!/^(U\d{5}|S36-[A-Z]+-\d{3})$/.test(u.id ?? '')) errors.push(`unità: id non valido (${u.id})`);
+    if (!/^(U\d{5}|S36-[A-Z]+(-F)?-\d{3})$/.test(u.id ?? '')) errors.push(`unità: id non valido (${u.id})`);
     if (ids.has(u.id)) errors.push(`unità: id duplicato ${u.id}`);
     ids.add(u.id);
     if (!String(u.name ?? '').trim()) errors.push(`unità ${u.id}: senza nome`);
@@ -216,4 +216,24 @@ export function parseOob1936Csv(text, { name = 'oob 1936' } = {}) {
   });
   if (rows.length === 0) throw new Error(`${name}: nessuna riga valida`);
   return { rows, repaired, malformed };
+}
+
+/**
+ * Segnaposto di divisioni (template da rivedere): `count` divisioni anonime assegnate in ordine ai comandi `corps` (nomi dei corpi).
+ * Sono INATTIVE (revisione "placeholder"): non sono unità storiche, non hanno nome né numero reali. Ogni corpo riceve `perCorps` divisioni.
+ */
+export function makeDivisionPlaceholders({ nation, idPrefix, namePrefix, category, variant, corps, perCorps, startYear, reason }) {
+  const out = [];
+  corps.forEach((corpsName, c) => {
+    for (let k = 0; k < perCorps; k += 1) {
+      const n = c * perCorps + k + 1;
+      out.push({
+        id: `${idPrefix}-${String(n).padStart(3, '0')}`, nation, branch: 'esercito', echelon: 'division', category, variant, name: `${namePrefix} #${String(n).padStart(2, '0')}`,
+        rawType: 'segnaposto', startYear, sourceStartYear: startYear, startPrecision: 'year', dating: 'year', endYear: null, source: 'Segnaposto generato: template da rivedere',
+        verification: 'DA_VERIFICARE', placeholder: true, corps: corpsName,
+        review: { status: 'placeholder', confidence: 'probabile', basis: 'user_file', reason },
+      });
+    }
+  });
+  return out;
 }

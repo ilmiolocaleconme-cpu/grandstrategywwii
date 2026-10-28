@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 import { parseCsv } from '../src/data/csv.js';
 import { unitsBuilt } from '../scripts/build-units.js';
 import {
-  validateUnits, classifyUnit, buildUnits, isActiveAt, unitsActiveAt, countActive, NATION_IDS, UNIT_CATEGORIES, validateOobEstimates, normalizeUnitName, parseOob1936Csv, mergeOob1936,
+  validateUnits, classifyUnit, buildUnits, isActiveAt, unitsActiveAt, countActive, NATION_IDS, UNIT_CATEGORIES, validateOobEstimates, normalizeUnitName, parseOob1936Csv, mergeOob1936, makeDivisionPlaceholders,
 } from '../src/data/units.js';
 
 const json = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
@@ -17,7 +17,7 @@ const byId = new Map(doc.units.map((u) => [u.id, u]));
 test('units.json: valido e allineato al CSV e alle revisioni (nessun file stantio)', async () => {
   assert.deepEqual(validateUnits(doc, { nationIds }), []);
   assert.deepEqual(doc, JSON.parse(JSON.stringify(await unitsBuilt())), 'rigenerare con npm run build:units');
-  assert.equal(doc.units.length, 364 + 20 + 33 + 49, '364 dal CSV + Francia 20 + Germania 33 + URSS 49 dai file 1936');
+  assert.equal(doc.units.length, 364 + 20 + 33 + 49 + 46, '364 CSV + Francia 20 + Germania 33 + URSS 49 + 46 segnaposto fucilieri');
   const src = Object.fromEntries(doc.sources1936.map((x) => [x.nation, x]));
   assert.deepEqual(Object.keys(src).sort(), ['DEU', 'FRA', 'USSR']);
   assert.equal(src.FRA.repairedRows, 32, 'virgola in più delle righe terrestri del file francese');
@@ -157,4 +157,20 @@ test('Germania e URSS 1936: Germania invariata, divisioni dubbie e corpi non ver
   assert.equal(ussr.airborne, 3);
   assert.equal(act('1° Corpo meccanizzato'), false, 'numerazione in conflitto con Wikipedia (11º e 45º)');
   assert.equal(act('7° Corpo di cavalleria'), false); assert.equal(act('23° Corpo fucilieri'), false);
+});
+
+test('segnaposto fucilieri URSS: 46 divisioni anonime inattive, 2 per corpo, template senza numeri inventati', () => {
+  const ph = doc.units.filter((u) => u.placeholder);
+  assert.equal(ph.length, 46);
+  assert.ok(ph.every((u) => u.nation === 'USSR' && u.category === 'infantry' && u.variant === 'rifle' && u.review.status === 'placeholder' && !isActiveAt(u, '1936-01-01')));
+  assert.ok(ph.every((u) => isActiveAt(u, '1936-01-01', { policy: 'all' })), 'solo la politica strict li esclude');
+  assert.equal(ph.filter((u) => u.corps === '1° Corpo fucilieri').length, 2);
+  assert.equal(new Set(ph.map((u) => u.corps)).size, 23);
+  assert.equal(countActive(doc.units, '1936-01-01').USSR.infantry, 15, 'i segnaposto non entrano nel conteggio');
+  const tpl = json('units/templates/divisione_fucilieri_urss_1936.json');
+  assert.equal(tpl.status, 'DA_DEFINIRE');
+  assert.ok([tpl.manpowerPeace, tpl.manpowerWar, tpl.regimentsInfantry, ...Object.values(tpl.equipmentCategories)].every((v) => v === null), 'nessun valore inventato');
+  const two = makeDivisionPlaceholders({ nation: 'USSR', idPrefix: 'S36-USSR-F', namePrefix: 'X', category: 'infantry', variant: 'rifle', corps: ['a', 'b'], perCorps: 3, startYear: 1936, reason: 'r' });
+  assert.deepEqual(two.map((u) => u.corps), ['a', 'a', 'a', 'b', 'b', 'b']);
+  assert.equal(two[5].id, 'S36-USSR-F-006');
 });
