@@ -114,7 +114,7 @@ test('ricette militari intermedie: macchinari, componenti, motori, munizioni (ap
   assert.deepEqual(flows('REC-MACHINERY-001'), { outputPerDay: 70, outputUnit: 't/day', inputsPerDay: { steel: 84 }, energyMw: cat.byId.get('FCT-MACHINERY').energy_consumption });
   assert.deepEqual(flows('REC-COMPONENTS-001').inputsPerDay, { steel: 48, aluminium: 16, processed_rubber: 8 });
   assert.deepEqual(flows('REC-ENGINES-001').inputsPerDay, { steel: 48, aluminium: 18 });
-  assert.deepEqual(flows('REC-MUNITIONS-001').inputsPerDay, { steel: 60, chemicals: 40, copper: 33, sulphur: 5 }); // rame e zolfo aggiunti il 28/10/2026
+  assert.deepEqual(flows('REC-MUNITIONS-001').inputsPerDay, { steel: 60, chemicals: 40, copper: 33, sulphur: 5, tin: 2 }); // rame e zolfo aggiunti il 28/10/2026; stagno il 29/10/2026 (0,02 t per t: ipotesi, da confermare)
   assert.equal(flows('REC-COMPONENTS-001').outputPerDay, 80);
   assert.equal(flows('REC-ENGINES-001').outputPerDay, 60);
   assert.equal(flows('REC-MUNITIONS-001').outputPerDay, 100);
