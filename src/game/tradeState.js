@@ -27,14 +27,14 @@ export function cancelTradeContract(state, id) {
 }
 
 /**
- * Sistema giornaliero (per GAME_SYSTEMS): consegne e partenze. Ogni `recheckEvery` giorni ricontrolla i percorsi, se la rete è caricata (getNet() → rete o null).
+ * Sistema giornaliero (per GAME_SYSTEMS): consegne e partenze. Ogni `recheckEvery` giorni ricontrolla i percorsi, se la rete è caricata (getNet(stato) → rete o null).
  * ctx: { resources, getNet?, recheckEvery = 10 }.
  */
 export function createTradeSystem({ resources, getNet = () => null, recheckEvery = 10 }) {
   return (state) => {
     if (!state.trade || !state.nations || state.trade.contracts.length === 0) return state;
     let trade = state.trade;
-    const net = getNet();
+    const net = getNet(state);
     if (net && state.day % recheckEvery === 0) trade = revalidateRoutes(trade, { net, ownerOf: (m) => net.owner(m) });
     const r = tradeDay(trade, state.nations, { day: state.day, resources });
     return { ...state, trade: r.trade, nations: r.nations };

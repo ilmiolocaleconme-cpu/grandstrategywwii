@@ -36,7 +36,7 @@ export function provinceLinkStats(file, pieces) {
     if (t === 4) s.rail += 1; else s.road += 1;
     out.set(id, s);
   };
-  const nodeMother = (i) => mother[file.nodes[i]?.p];
+  const nodeMother = (i) => mother[i]; // a e b sono indici di PROVINCIA (non di nodo): i nodi del grafo sono meno delle province
   for (const l of file?.links ?? []) {
     const a = nodeMother(l.a);
     const b = nodeMother(l.b);

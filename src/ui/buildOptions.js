@@ -6,6 +6,7 @@ import { levelDef, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js
 
 const num = (v) => Math.round(v * 10) / 10;
 export const techNameOf = (catalog) => { const m = new Map((catalog.technologies?.technologies ?? []).map((t) => [t.id, t.name_it])); return (id) => m.get(id) ?? id; };
+const levelName2 = (config, level) => config.levels.find((l) => l.level === level)?.name_it ?? `L${level}`;
 const levelName = (catalog, level) => levelDef(catalog.levels, level)?.name_it ?? `L${level}`;
 const WHAT = { ecv: 'Denaro', steel: 'Acciaio', workers: 'Lavoratori', energyMw: 'Energia (MW)', tech: 'Tecnologia' };
 
@@ -21,6 +22,7 @@ export function describeBuildFailure(r, techName = (id) => id) {
     case 'already_building': return 'C\'è già una miniera in costruzione qui';
     case 'max_level': return 'Già al livello massimo';
     case 'no_facility': return 'Impianto non trovato';
+    case 'no_edge': case 'no_infrastructure_data': return 'Collegamento non disponibile';
     case 'not_upgradable': return 'Questo impianto non si può migliorare';
     case 'unknown_province': case 'invalid_province': return 'Provincia non valida';
     case 'unknown_nation': return 'Nazione sconosciuta';
@@ -61,13 +63,14 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
   return out;
 }
 
-/** Riepilogo economico di una nazione per la schermata Economia. ctx: { build, catalog, workersShare, resourceLabel(id), provinceName(id) } */
-export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id }) {
+/** Riepilogo economico di una nazione per la schermata Economia. ctx: { build, catalog, workersShare, resourceLabel(id), provinceName(id), infra? (infrastructure.json: nomi dei livelli) } */
+export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id, infra = null }) {
   const n = state.nations?.[nationId];
   if (!n) return null;
   const counts = new Map();
   for (const f of n.facilities) { const k = `${f.type}|${f.level ?? 1}`; counts.set(k, (counts.get(k) ?? 0) + 1); }
   const label = (kind, c) => (kind === 'mine' ? `Miniera ${resourceLabel(c.resource)} L${c.level}`
+    : kind === 'infra' ? `${infra ? levelName2(infra, c.level) : `Livello ${c.level}`} (collegamento)`
     : kind === 'upgrade' ? `${catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId} → ${levelName(catalog, c.level)}`
       : (catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId));
   return {
@@ -77,7 +80,7 @@ export function economySummary(state, nationId, { build, catalog, workersShare, 
     power: build.powerBalance(state, n, nationId),
     stocks: Object.entries(n.stocks).filter(([, t]) => t > 0).map(([id, t]) => ({ id, label: resourceLabel(id), tons: Math.round(t) })).sort((a, b) => b.tons - a.tons),
     plants: [...counts].map(([k, count]) => { const [type, lv] = k.split('|'); const level = Number(lv); const base = catalog.factories.get(type)?.name_it ?? type; return { type, level, name: level > 1 ? `${base} (${levelName(catalog, level)})` : base, count }; }).sort((a, b) => b.count - a.count),
-    queue: n.construction.map((c) => ({ id: c.id, label: label(c.kind, c), daysLeft: c.daysLeft, totalDays: c.totalDays, where: provinceName(c.provinceId) })),
+    queue: n.construction.map((c) => ({ id: c.id, label: label(c.kind, c), daysLeft: c.daysLeft, totalDays: c.totalDays, where: c.kind === 'infra' ? c.edgeId.split('~').map(provinceName).join(' – ') : provinceName(c.provinceId) })),
     mines: n.mines.map((m) => ({ id: m.id, label: `${resourceLabel(m.resource)} L${m.level}`, where: provinceName(m.provinceId) })),
   };
 }

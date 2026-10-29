@@ -26,6 +26,7 @@ import { validateHydro } from '../src/data/hydro.js';
 import { validateFactoryLevels } from '../src/data/factoryLevels.js';
 import { validateTechnologies, consumersOf } from '../src/data/technologies.js';
 import { validateSecurityConfig } from '../src/rules/security.js';
+import { validateInfrastructureConfig, validateLinkEdges, buildLinkEdges } from '../src/data/infrastructure.js';
 import { validateFertilizerEffect, validateHorseBreeding } from '../src/data/livestock.js';
 import { validateHospitalCare } from '../src/data/hospitals.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
@@ -137,6 +138,14 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc }) }));
     for (const l of levelsDoc.levels) if (l.requires && !techIds.has(l.requires)) errors.push(`livelli fabbriche: L${l.level} richiede ${l.requires}, che non esiste`);
     errors.push(...validateSecurityConfig(securityDoc, { techIds }));
+    // Strade e ferrovie in partita (29/10/2026): parametri, collegamenti tra province madri e coerenza con il grafo dei collegamenti (nessuna deriva)
+    const infraCfg = JSON.parse(await text('infrastructure/infrastructure.json'));
+    const edgesDoc = JSON.parse(await text('infrastructure/link_edges.json'));
+    errors.push(...validateInfrastructureConfig(infraCfg));
+    errors.push(...validateLinkEdges(edgesDoc, { provinceIds: new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id)) }));
+    const linksDoc = JSON.parse(await text('links.json'));
+    const rebuilt = buildLinkEdges({ links: linksDoc, config: infraCfg, provinces: catalog.provinces.features.map((f) => f.properties) });
+    if (JSON.stringify(rebuilt) !== JSON.stringify(edgesDoc)) errors.push('collegamenti: link_edges.json non coincide con data/links.json e infrastructure.json: rigenerare con node scripts/build-infrastructure.js');
     const rivalsDoc = JSON.parse(await text('security/ai_rivals_1936.json'));
     const knownNations = new Set(catalog.nations.map((n) => n.id));
     for (const pair of rivalsDoc.pairs ?? []) for (const n of pair) if (!knownNations.has(n)) errors.push(`rivali IA: nazione sconosciuta ${n}`);

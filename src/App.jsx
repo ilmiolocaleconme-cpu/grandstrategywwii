@@ -51,6 +51,8 @@ import technologiesFile from '../data/research/technologies.json';
 import securityFile from '../data/security/security.json';
 import aiRivalsFile from '../data/security/ai_rivals_1936.json';
 import presenceFile from '../data/military/province_presence.json';
+import infraConfig from '../data/infrastructure/infrastructure.json';
+import linkEdgesFile from '../data/infrastructure/link_edges.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
 import hydroPlants from '../data/resources/hydro_plants.json';
 import factoriesCsv from '../data/industry/factories.csv?raw';
@@ -64,6 +66,10 @@ import { ProvinceBuild, EconomyPanel } from './ui/BuildPanel.jsx';
 import { ResearchPanel, SecurityPanel } from './ui/SecurityPanel.jsx';
 import { securitySummary, sabotageRows, describeOrderFailure } from './ui/securityView.js';
 import { createResearch } from './game/research.js';
+import { createInfraIndex, infraNet, applyLinkLevels } from './data/infrastructure.js';
+import { idsChecksum } from './data/adjacency.js';
+import { entityOfProvinceId } from './data/provinceOwner.js';
+import { provinceLinkRows, infraSummary } from './ui/infraView.js';
 import { createSecurity } from './game/security.js';
 import { createAiSecurity } from './game/aiSecurity.js';
 import { provinceBuildOptions, economySummary, describeBuildFailure, upgradeOptions } from './ui/buildOptions.js';
@@ -225,8 +231,13 @@ const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIn
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
 const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
+// Strade e ferrovie in partita (data/infrastructure.js): collegamenti tra province madri, livello di partenza e massimo; i miglioramenti sono ordini di costruzione 'infra'.
+const GAME_INFRA = { config: infraConfig, index: createInfraIndex(linkEdgesFile) };
+const ENTITY_IDS = political.map((e) => e.id);
+const entityOfProvince = (id) => entityOfProvinceId(id, ENTITY_IDS);
+const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.index, infraConfig, state) : null); // rete con la velocità delle strade del momento
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
-export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
+export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I rivali dell'IA sono PROVVISORI (hypothesis), vedi data/security/ai_rivals_1936.json.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFile });
@@ -242,10 +253,10 @@ const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
 const GAME_SYSTEMS = [
   commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
   createConditionSystem(conditionConfig),
-  (state) => (MOVE_NET.net ? createMovementSystem(MOVE_NET.net)(state) : state),
+  (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
-  createTradeSystem({ resources, getNet: () => MOVE_NET.net }), // commercio v1: contratti via terra (consegne e partenze); nessuna interfaccia ancora
+  createTradeSystem({ resources, getNet: gameNet }), // commercio v1: contratti via terra (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   GAME_SECURITY.securityDay,
   GAME_AI.aiDay,
@@ -285,8 +296,16 @@ export default function App() {
   // non rimostra la bandiera. Si scarica e si legge soltanto: il modello pesante della mappa si costruisce dopo la scelta della nazione.
   const { rivers, riversGeo, lakes, status: waterStatus } = useWaterData(true);
   const { file: seaFile, status: seaStatus } = useSeaData(true);
-  const links = useLinks(USE_CANVAS);
+  const linksRaw = useLinks(USE_CANVAS);
   const [showTransport, setShowTransport] = useState(false);
+  // collegamenti con i gradini della PARTITA (livello di partenza o migliorato): la mappa e le regole usano lo stesso dato. Se le province non corrispondono al grafo non si applica nulla.
+  const links = useMemo(() => {
+    if (!linksRaw || !provinces) return linksRaw;
+    const ids = provinces.features.map((f) => f.properties.id);
+    if (idsChecksum(ids) !== linksRaw.checksum) return linksRaw;
+    const mother = new Map(provinces.features.map((f) => [f.properties.id, f.properties.parentProvince ?? f.properties.id]));
+    return applyLinkLevels(linksRaw, { provinceIds: ids, motherOf: (id) => mother.get(id), index: GAME_INFRA.index, state: game });
+  }, [linksRaw, provinces, game?.infrastructure]); // eslint-disable-line react-hooks/exhaustive-deps
   const transport = showTransport ? links : null;
   const labelData = useLabelData(true);
   const land = useLandBase(USE_CANVAS);
@@ -337,7 +356,7 @@ export default function App() {
       const item = mapItems.find((i) => i.id === id);
       const to = item ? (item.props.parentProvince ?? item.props.id) : id;
       const movers = [...armyChecked].map((uid) => UNITS_BY_ID.get(uid)).filter(Boolean).map((u) => ({ id: u.id, category: u.category }));
-      const r = orderMove(game, { units: movers, to, nation: game.player, deploymentDoc: deploymentFile, net: moveNet });
+      const r = orderMove(game, { units: movers, to, nation: game.player, deploymentDoc: deploymentFile, net: infraNet(moveNet, GAME_INFRA.index, infraConfig, game) });
       if (r.moved.length) setGame(r.state);
       const slowest = r.moved.reduce((m, x) => Math.max(m, x.days), 0);
       const why = { no_route: 'nessun percorso su territorio tuo', same_province: 'già lì', unknown_position: 'posizione sconosciuta' };
@@ -391,6 +410,11 @@ export default function App() {
     const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
     return game && id ? upgradeOptions(game, game.player, { ...BUILD_CTX, provinceId: id }) : null;
   }, [game, selectedItem]);
+  const provinceLinks = useMemo(() => {
+    const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
+    return game && id ? provinceLinkRows(game, id, { infra: GAME_INFRA, build: GAME_BUILD, provinceName, nationId: game.player }) : null;
+  }, [game, selectedItem, provinceName]);
+  const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -546,7 +570,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
-            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName })} upgrades={nationUpgrades} onOrder={placeOrder} />
+            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} />
             <ResearchPanel rows={researchRows} onStart={startResearch} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
@@ -596,7 +620,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} /> : null} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} /> : null} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>

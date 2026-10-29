@@ -11,6 +11,7 @@ import { SLOT_CAPACITY } from '../rules/slots.js';
 import { factoryBuildCost, mineCost } from '../data/economy.js';
 import { fullCapacityFlows } from '../data/recipes.js';
 import { techsOf } from './research.js';
+import { levelOf, upgradeEdgeCost } from '../data/infrastructure.js';
 import { levelDef, levelMult, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
 import { hydroMwByOwner } from './economySystem.js';
 import { entityOfProvinceId } from '../data/provinceOwner.js';
@@ -19,9 +20,10 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
 
 /**
  * ctx: { catalog: { recipes: Map, factories: Map, levels?: factory_levels.json }, economy, sites (mine_sites.json), hydro (hydro_plants.json), political,
- *        workersShare (quota della popolazione), provinceExists?: (id) => boolean }
+ *        workersShare (quota della popolazione), provinceExists?: (id) => boolean,
+ *        infra?: { index (createInfraIndex), config (infrastructure.json) }: senza, gli ordini 'infra' sono rifiutati }
  */
-export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null }) {
+export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, infra = null }) {
   const entityIds = political.map((e) => e.id);
   const entityOf = (provinceId) => entityOfProvinceId(provinceId, entityIds); // anche MAR_ES, NLD_EI, JPN_MANDATE
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
@@ -54,7 +56,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     if (!nation) return fail('unknown_nation');
     const { provinceId } = order;
     let entity = null;
-    if (order.kind !== 'upgrade') {
+    if (order.kind !== 'upgrade' && order.kind !== 'infra') {
       if (typeof provinceId !== 'string') return fail('invalid_province');
       if (provinceExists && !provinceExists(provinceId)) return fail('unknown_province');
       entity = entityOf(provinceId);
@@ -76,6 +78,18 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       requires = levelDef(catalog.levels, level + 1)?.requires ?? null;
       requiredEnergy = r3(fullCapacityFlows(catalog.recipes.get(f.recipeId), factory).energyMw * up.energyFactor);
       entry = { kind: 'upgrade', facilityId: f.id, factoryId: f.type, recipeId: f.recipeId, provinceId: f.provinceId ?? null, territory: f.territory, fromLevel: level, level: level + 1, energyMw: requiredEnergy };
+    } else if (order.kind === 'infra') {
+      // miglioramento di strada o ferrovia tra due province: serve il controllo di ENTRAMBE, un solo lavoro per collegamento
+      if (!infra) return fail('no_infrastructure_data');
+      const edge = infra.index.byId.get(order.edgeId);
+      if (!edge) return fail('no_edge');
+      if (state.control[entityOf(edge.a)] !== nationId || state.control[entityOf(edge.b)] !== nationId) return fail('not_controlled');
+      if (nation.construction.some((c) => c.kind === 'infra' && c.edgeId === edge.id)) return fail('already_building');
+      const level = levelOf(state, edge);
+      if (level >= edge.ceiling) return fail('max_level');
+      cost = upgradeEdgeCost(infra.config, economy, edge, level, state.difficulty);
+      if (!cost) return fail('max_level');
+      entry = { kind: 'infra', edgeId: edge.id, provinceId: edge.a, territory: entityOf(edge.a), fromLevel: level, level: level + 1, km: edge.km };
     } else if (order.kind === 'factory') {
       const q = quoteFactory(state, order.factoryId, order.recipeId);
       if (!q.ok) return fail(q.reason);
@@ -103,7 +117,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     const check = canStartBuild({ cost: { ecv: cost.ecv, steel: cost.steel, workers: cost.workers, energyMw: requiredEnergy }, requires }, have);
     if (!check.ok) return fail('missing', { missing: check.missing });
 
-    const id = `${nationId}:${state.day}:${nation.construction.length}:${entry.kind}:${provinceId}`;
+    const id = `${nationId}:${state.day}:${nation.construction.length}:${entry.kind}:${order.edgeId ?? provinceId}`;
     const full = { id, ...entry, daysLeft: cost.days, totalDays: cost.days, workers: cost.workers, paid: { ecv: cost.ecv, steel: cost.steel }, startedOn: state.date };
     const stocks = { ...nation.stocks, steel: r3((nation.stocks.steel ?? 0) - cost.steel) };
     const next = { ...nation, balance: r3(nation.balance - cost.ecv), stocks, construction: [...nation.construction, full] };
@@ -114,6 +128,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
   function constructionDay(state) {
     if (!state.nations) return state;
     let nations = null;
+    const infraDone = {};
     for (const id of Object.keys(state.nations).sort()) {
       const n = state.nations[id];
       if (n.construction.length === 0) continue;
@@ -121,7 +136,9 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       for (const c of n.construction) {
         const left = c.daysLeft - 1;
         if (left > 0) { queue.push({ ...c, daysLeft: left }); continue; }
-        if (c.kind === 'upgrade') {
+        if (c.kind === 'infra') {
+          infraDone[c.edgeId] = c.level;
+        } else if (c.kind === 'upgrade') {
           const i = facilities.findIndex((f) => f.id === c.facilityId);
           if (i >= 0) facilities[i] = { ...facilities[i], level: c.level };
         } else if (c.kind === 'factory') {
@@ -136,7 +153,9 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       nations ??= { ...state.nations };
       nations[id] = { ...n, construction: queue, facilities, mines };
     }
-    return nations ? { ...state, nations } : state;
+    if (!nations) return state;
+    const done = Object.keys(infraDone).length > 0;
+    return { ...state, nations, ...(done ? { infrastructure: { ...state.infrastructure, levels: { ...state.infrastructure?.levels, ...infraDone } } } : {}) };
   }
 
   return { start, constructionDay, quoteFactory, powerBalance };

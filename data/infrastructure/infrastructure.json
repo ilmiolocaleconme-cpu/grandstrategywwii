@@ -1,0 +1,23 @@
+{
+  "schema": "infrastructure-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Livelli di strade e ferrovie in partita e loro miglioramento (decisione dell'utente 29/10/2026: il giocatore può migliorare le infrastrutture sotto il livello massimo; a inizio partita poche devono essere al massimo). Scala di 4 gradini come data/links.json (1 sterrata, 2 strada, 3 strada principale, 4 ferrovia). Il LIVELLO MASSIMO di un collegamento tra due province è quello del grafo dei dati (rete moderna Natural Earth, hypothesis): non si costruisce dove non c'è un tracciato. Il LIVELLO DI PARTENZA è più basso per la maggior parte dei collegamenti: in ogni nazione, tra i collegamenti con massimo ≥ 2 restano al massimo solo i più importanti (somma della popolazione delle due sedi), gli altri partono un gradino sotto. Frazioni, costi, tempi, lavoratori e velocità sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici. Costi in ECV e acciaio con lo stesso rapporto delle altre costruzioni (steelPerEcv). `speedFactor` divide i chilometri percorsi da marcia e commercio (1 = nessun effetto, valore del livello 'strada').",
+  "levels": [
+    { "level": 1, "id": "dirt", "name_it": "Strada sterrata", "speedFactor": 0.8 },
+    { "level": 2, "id": "road", "name_it": "Strada", "speedFactor": 1 },
+    { "level": 3, "id": "main-road", "name_it": "Strada principale", "speedFactor": 1.15 },
+    { "level": 4, "id": "rail", "name_it": "Ferrovia", "speedFactor": 1.5 }
+  ],
+  "upgrade": {
+    "minDays": 5,
+    "toLevel": {
+      "2": { "ecvPerKm": 0.04, "kmPerDay": 8, "workersPerKm": 15 },
+      "3": { "ecvPerKm": 0.12, "kmPerDay": 4, "workersPerKm": 30 },
+      "4": { "ecvPerKm": 0.5, "kmPerDay": 1.5, "workersPerKm": 80 }
+    }
+  },
+  "start": {
+    "keepAtCeiling": { "2": 0.5, "3": 0.5, "4": 0.35 },
+    "rank": "somma della popolazione delle sedi delle due province (data/links.json nodes.pop); a parità, id del collegamento"
+  }
+}
