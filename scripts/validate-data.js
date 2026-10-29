@@ -20,6 +20,7 @@ import { validateRegions } from '../src/data/regions.js';
 import { buildResourceLocations, validateResourceLocations } from '../src/data/resourceLocations.js';
 import { buildProvinceResources, validateProvinceResources } from '../src/data/provinceResources.js';
 import { validateScores } from '../src/data/resourcePoints.js';
+import { validateTradeProfiles } from '../src/data/tradeProfiles.js';
 import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { validateHydro } from '../src/data/hydro.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
@@ -119,6 +120,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateAmmoConsumption(JSON.parse(await text('military/ammo_consumption.json')), { resources: catalog.resources }));
     errors.push(...validateFuelStorage(JSON.parse(await text('military/fuel_storage.json')), { structureIds: industry.structures, buildingIds: new Set(catalog.buildings.buildings.map((b) => b.id)) }));
     errors.push(...validateEconomy(JSON.parse(await text('economy/economy.json')), { resources: catalog.resources, recipes: JSON.parse(await text('industry/recipes.json')) }));
+    // Scambi 1930 (ipotesi qualitativa): nazioni e prodotti esistenti, copia del testo ricevuto invariata (sha256)
+    errors.push(...validateTradeProfiles(JSON.parse(await text('trade/trade_profiles_1930.json')), { nationIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), productIds: new Set(catalog.resources.map((r) => r.id)) }));
+    {
+      const src = JSON.parse(await text('trade/SOURCE.json'));
+      if (createHash('sha256').update(await readFile(new URL(`../${src.file}`, import.meta.url))).digest('hex') !== src.sha256) errors.push('scambi: il testo ricevuto è diverso dalla copia registrata (sha256)');
+    }
     errors.push(...validateInitialIndustry(JSON.parse(await text('industry/initial_industry.json')), { factoriesById: industry.byId, recipes: recipesDoc, entityIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), nationIds: JSON.parse(await text('nations.json')).map((n) => n.id) }));
     errors.push(...validateInitialStocks(JSON.parse(await text('industry/initial_stocks.json')), { resourceIds: new Set(catalog.resources.map((r) => r.id)), industry: JSON.parse(await text('industry/initial_industry.json')) }));
     {

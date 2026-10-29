@@ -80,7 +80,7 @@ export const EXTRA_ON_MAP = Object.freeze(['copper', 'iron_ore', 'coal', 'rubber
  */
 export function buildProvinceResources(locations, links, extra = null) {
   const deposit = new Map();
-  for (const l of locations) if (l.kind === 'deposit' && !PRODUCT_IDS.includes(l.resource_id)) deposit.set(l.location_id, l.resource_id); // i prodotti non sono risorse naturali
+  for (const l of locations) if (l.kind === 'deposit') deposit.set(l.location_id, l.resource_id); // i prodotti (kind `plant`) non sono giacimenti
   const acc = new Map();
   const add = (province, resource) => {
     if (!acc.has(province)) acc.set(province, new Set());

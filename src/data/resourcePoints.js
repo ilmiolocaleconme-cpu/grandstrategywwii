@@ -69,7 +69,7 @@ export function buildCenters(locations, links, scores) {
   const groups = new Map();
   for (const l of locations) {
     const s = score.get(l.location_id);
-    if (l.kind !== 'deposit' || !s || s.model_use !== 'yes') continue;
+    if ((l.kind !== 'deposit' && l.kind !== 'plant') || !s || s.model_use !== 'yes') continue;
     const key = `${l.resource_id}|${l.country_text}|${placeKey(l.place_text)}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push({ l, s, year: startYear(l.period) ?? 9999 });

@@ -69,7 +69,7 @@
         "perUnit": 1
       },
       "quality": "DESIGN_DEFAULT",
-      "rationale": "Carbone liquefatto (tipo Bergius, usato dalla Germania): stesso prodotto del petrolio, molto più costoso in ingressi. Un solo carburante, nessuna distinzione di processo (deciso in chat)."
+      "rationale": "Dal carbone, attraverso il processo chimico industriale dell'impianto (tipo Bergius, usato dalla Germania), si ottiene il carburante: stesso prodotto del petrolio, molto più costoso in ingressi. L'ingresso è solo carbone: il processo chimico è l'impianto FCT-SYNFUEL, non un secondo ingresso `chemicals` (deciso in chat, 29/10/2026; la colonna inputs di FAC-005 nel Pack elenca ancora «prodotti chimici», copia da non modificare). Un solo carburante, nessuna distinzione di processo (deciso in chat)."
     },
     {
       "id": "REC-RUBBER-001",

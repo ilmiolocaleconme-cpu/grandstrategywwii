@@ -4,10 +4,12 @@
 // estrazione e massimi arriveranno col sistema economico. Funzioni PURE: ricevono il testo dei CSV, non leggono file.
 import { parseCsv } from './csv.js';
 
-export const LOCATION_HEADER = Object.freeze(['location_id', 'resource_id', 'country_id', 'country_text', 'place_text', 'period', 'quantity_value', 'quantity_min', 'quantity_max', 'quantity_text', 'unit', 'precision', 'kind', 'control_text', 'status_text', 'quality', 'source', 'review_flags', 'source_note', 'review_note']);
+export const LOCATION_HEADER = Object.freeze(['location_id', 'resource_id', 'country_id', 'country_text', 'place_text', 'period', 'quantity_value', 'quantity_min', 'quantity_max', 'quantity_text', 'unit', 'quantity_t', 'quantity_t_min', 'quantity_t_max', 'unit_factor', 'precision', 'kind', 'control_text', 'status_text', 'quality', 'source', 'review_flags', 'source_note', 'review_note']);
 export const LINK_HEADER = Object.freeze(['location_id', 'province_id', 'basis']);
 export const PRECISIONS = Object.freeze(['exact', 'approximate', 'range', 'approximate_range', 'series', 'qualitative']);
-export const KINDS = Object.freeze(['deposit', 'national_total', 'aggregate', 'trade_flow']);
+export const KINDS = Object.freeze(['deposit', 'plant', 'national_total', 'aggregate', 'trade_flow']);
+/** Prodotti industriali (non risorse naturali): le loro righe sono siti di impianto (`plant`), mai giacimenti (`deposit`). Deciso in chat, 29/10/2026. */
+export const PLANT_RESOURCE_IDS = Object.freeze(['aluminium']);
 export const SOURCES = Object.freeze(['user_csv', 'claude_note']);
 export const QUALITY_REFERENCE = 'reference';
 export const LINK_BASIS = 'place_name_approximate';
@@ -32,6 +34,28 @@ export const COUNTRY_IDS = Object.freeze({
 const AGGREGATE_COUNTRIES = new Set(['Mondo', 'Germania e territori occupati']);
 const NATIONAL_TOTAL_PLACES = new Set(['Impianti del Reich', 'Produzione nazionale']);
 
+/**
+ * Unità del CSV → tonnellate metriche (deciso in chat, 29/10/2026: tutto in tonnellate metriche, conversione esplicita).
+ * `factor` = tonnellate metriche per unità (barili/giorno: per barile al giorno, annualizzato con 365 giorni). `quality`: `exact` per
+ * definizione, `approximate` se dipende da una densità o da un prodotto. Unità non elencata = nessuna conversione (la quantità resta senza t).
+ */
+export const UNIT_TO_TONNES = Object.freeze({
+  't metriche': { factor: 1, quality: 'exact', note: 'già in tonnellate metriche' },
+  't metriche/anno': { factor: 1, quality: 'exact', note: 'già in tonnellate metriche annue' },
+  'long ton': { factor: 1.016047, quality: 'exact', note: '1 long ton = 1016,0469 kg' },
+  bushel: { factor: 0.0272155, quality: 'approximate', note: 'bushel USA di frumento = 60 lb = 27,2155 kg' },
+  'barili/giorno': { factor: 0.136 * 365, quality: 'approximate', note: 'greggio ≈ 0,136 t per barile (densità media, varia 0,13-0,14); ×365 giorni per l\'anno' },
+});
+
+/** Quantità in tonnellate metriche per un valore e un'unità: null se l'unità è vuota o sconosciuta o il valore manca (mai un numero inventato). */
+const tonnesCell = (value, unit) => toTonnes(value, unit) ?? '';
+
+export function toTonnes(value, unit) {
+  const u = UNIT_TO_TONNES[unit];
+  if (!u || value === null || value === undefined || value === '' || !Number.isFinite(Number(value))) return null;
+  return Math.round(Number(value) * u.factor * 1000) / 1000;
+}
+
 /** Quantità del CSV → { precision, value, min, max }. Testo non numerico = `qualitative`; nessun numero inventato. */
 export function classifyQuantity(text) {
   const t = String(text ?? '').trim();
@@ -53,7 +77,7 @@ function kindOf(row) {
   if (AGGREGATE_COUNTRIES.has(row.nazione_o_territorio)) return 'aggregate';
   if (/^(Export|Quote)/.test(row.provincia_o_giacimento)) return 'trade_flow';
   if (NATIONAL_TOTAL_PLACES.has(row.provincia_o_giacimento)) return 'national_total';
-  return 'deposit';
+  return PLANT_RESOURCE_IDS.includes(RESOURCE_IDS[row.risorsa]) ? 'plant' : 'deposit';
 }
 
 const matches = (rule, v) => rule === '*' || rule === v;
@@ -75,14 +99,16 @@ export function buildResourceLocations({ rawCsv, addedCsv, notesCsv, placesCsv }
     const kind = kindOf(r);
     const country_id = COUNTRY_IDS[r.nazione_o_territorio] ?? '';
     const q = classifyQuantity(r.produzione_o_capacita);
+    const unit = r.unita === '-' ? '' : r.unita;
     const hit = notes.filter((n) => matches(n.resource, r.risorsa) && matches(n.country_text, r.nazione_o_territorio) && matches(n.period, r.periodo));
     locations.push({
       location_id: id, resource_id, country_id, country_text: r.nazione_o_territorio, place_text: r.provincia_o_giacimento, period: r.periodo,
-      quantity_value: q.value ?? '', quantity_min: q.min ?? '', quantity_max: q.max ?? '', quantity_text: r.produzione_o_capacita, unit: r.unita === '-' ? '' : r.unita,
+      quantity_value: q.value ?? '', quantity_min: q.min ?? '', quantity_max: q.max ?? '', quantity_text: r.produzione_o_capacita, unit,
+      quantity_t: tonnesCell(q.value, unit), quantity_t_min: tonnesCell(q.min, unit), quantity_t_max: tonnesCell(q.max, unit), unit_factor: UNIT_TO_TONNES[unit]?.factor ?? '',
       precision: q.precision, kind, control_text: r.sovranita_o_controllo, status_text: r.stato_1935_45, quality: QUALITY_REFERENCE, source,
       review_flags: [...new Set(hit.map((n) => n.flag))].join(';'), source_note: r.note, review_note: hit.map((n) => n.note).join(' | '),
     });
-    if (kind !== 'deposit' || !country_id) return;
+    if ((kind !== 'deposit' && kind !== 'plant') || !country_id) return;
     const seen = new Set();
     for (const place of splitPlaces(r.provincia_o_giacimento)) {
       const ids = places.get(`${country_id}|${place}`);
@@ -104,8 +130,15 @@ export function validateResourceLocations({ locations, links }, { resourceIds, c
     if (l.country_id && !countryIds.has(l.country_id)) errors.push(`risorse: ${l.location_id} con paese inesistente ${l.country_id}`);
     if (!PRECISIONS.includes(l.precision)) errors.push(`risorse: ${l.location_id} con precisione sconosciuta "${l.precision}"`);
     if (!KINDS.includes(l.kind)) errors.push(`risorse: ${l.location_id} con tipo sconosciuto "${l.kind}"`);
+    if (l.kind === 'deposit' && PLANT_RESOURCE_IDS.includes(l.resource_id)) errors.push(`risorse: ${l.location_id} è un prodotto industriale (${l.resource_id}) classificato come giacimento`);
+    if (l.kind === 'plant' && !PLANT_RESOURCE_IDS.includes(l.resource_id)) errors.push(`risorse: ${l.location_id} è un impianto ma ${l.resource_id} non è un prodotto industriale`);
     if (!SOURCES.includes(l.source)) errors.push(`risorse: ${l.location_id} con fonte sconosciuta "${l.source}"`);
     if (l.quality !== QUALITY_REFERENCE) errors.push(`risorse: ${l.location_id} con qualità "${l.quality}" (atteso ${QUALITY_REFERENCE})`);
+    if (l.unit !== '' && !UNIT_TO_TONNES[l.unit]) errors.push(`risorse: ${l.location_id} con unità senza conversione in tonnellate "${l.unit}"`);
+    for (const [col, src] of [['quantity_t', 'quantity_value'], ['quantity_t_min', 'quantity_min'], ['quantity_t_max', 'quantity_max']]) {
+      const expected = toTonnes(l[src] === '' ? null : l[src], l.unit);
+      if (String(l[col]) !== String(expected ?? '')) errors.push(`risorse: ${l.location_id} ${col} "${l[col]}" non coincide con la conversione di ${src} (${expected ?? 'nessuna'})`);
+    }
     if (l.quantity_value !== '' && !Number.isFinite(Number(l.quantity_value))) errors.push(`risorse: ${l.location_id} con quantità non numerica`);
   }
   const pairs = new Set(); const withLink = new Set();
@@ -117,6 +150,6 @@ export function validateResourceLocations({ locations, links }, { resourceIds, c
     pairs.add(key);
     withLink.add(k.location_id);
   }
-  for (const l of locations) if (l.kind === 'deposit' && l.country_id && !withLink.has(l.location_id)) errors.push(`risorse: ${l.location_id} (${l.place_text}) senza alcuna provincia`);
+  for (const l of locations) if ((l.kind === 'deposit' || l.kind === 'plant') && l.country_id && !withLink.has(l.location_id)) errors.push(`risorse: ${l.location_id} (${l.place_text}) senza alcuna provincia`);
   return errors;
 }
