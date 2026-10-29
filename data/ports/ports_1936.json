@@ -1,0 +1,721 @@
+{
+ "schema": "ports-v1",
+ "quality": "hypothesis",
+ "note": "Elenco ridotto dei porti principali al 1/1/1936, scelto dalla conoscenza generale e NON verificato su un dataset (una ricerca sul traffico dei porti nel 1936 non ha trovato una fonte utilizzabile). Livelli come la scala delle strutture INF-013/14/15: 3 = grande porto, 2 = porto regionale. Nessuna capacità in tonnellate: non è stata inventata. Le città costiere non elencate partono senza porto (livello 0): lo costruisce il giocatore. Nomi come in data/citta_grandi.json.",
+ "ports": {
+  "P_USA_NEW_YORK_CITTA": {
+   "name": "New York",
+   "owner": "USA",
+   "level": 3,
+   "parentProvince": "P_USA_NEW_YORK"
+  },
+  "P_USA_FILADELFIA_CITTA": {
+   "name": "Filadelfia",
+   "owner": "USA",
+   "level": 3,
+   "parentProvince": "P_USA_PENNSYLVANIA"
+  },
+  "P_USA_BALTIMORA_CITTA": {
+   "name": "Baltimora",
+   "owner": "USA",
+   "level": 3,
+   "parentProvince": "P_USA_MARYLAND"
+  },
+  "P_USA_BOSTON_CITTA": {
+   "name": "Boston",
+   "owner": "USA",
+   "level": 3,
+   "parentProvince": "P_USA_MASSACHUSETTS"
+  },
+  "P_USA_NEW_ORLEANS_CITTA": {
+   "name": "New Orleans",
+   "owner": "USA",
+   "level": 3,
+   "parentProvince": "P_USA_LOUISIANA"
+  },
+  "P_USA_LOS_ANGELES_CITTA": {
+   "name": "Los Angeles",
+   "owner": "USA",
+   "level": 3,
+   "parentProvince": "P_USA_CALIFORNIA"
+  },
+  "P_USA_SAN_FRANCISCO_CITTA": {
+   "name": "San Francisco",
+   "owner": "USA",
+   "level": 3,
+   "parentProvince": "P_USA_CALIFORNIA"
+  },
+  "P_USA_SEATTLE_CITTA": {
+   "name": "Seattle",
+   "owner": "USA",
+   "level": 3,
+   "parentProvince": "P_USA_WASHINGTON"
+  },
+  "P_GBR_LONDRA_CITTA": {
+   "name": "Londra",
+   "owner": "GBR",
+   "level": 3,
+   "parentProvince": "P_GBR_LONDRA"
+  },
+  "P_GBR_LIVERPOOL_CITTA": {
+   "name": "Liverpool",
+   "owner": "GBR",
+   "level": 3,
+   "parentProvince": "P_GBR_LANCASHIRE"
+  },
+  "P_GBR_SOUTHAMPTON_CITTA": {
+   "name": "Southampton",
+   "owner": "GBR",
+   "level": 3,
+   "parentProvince": "P_GBR_HAMPSHIRE"
+  },
+  "P_GBR_GLASGOW_CITTA": {
+   "name": "Glasgow",
+   "owner": "GBR",
+   "level": 3,
+   "parentProvince": "P_GBR_GLASGOW"
+  },
+  "P_DEU_AMBURGO_CITTA": {
+   "name": "Amburgo",
+   "owner": "DEU",
+   "level": 3,
+   "parentProvince": "P_DEU_HAMBURG"
+  },
+  "P_DEU_BREMA_CITTA": {
+   "name": "Brema",
+   "owner": "DEU",
+   "level": 3,
+   "parentProvince": "P_DEU_WESER_EMS"
+  },
+  "P_DEU_STETTINO_CITTA": {
+   "name": "Stettino",
+   "owner": "DEU",
+   "level": 3,
+   "parentProvince": "P_DEU_POMMERN"
+  },
+  "P_NLD_ROTTERDAM_CITTA": {
+   "name": "Rotterdam",
+   "owner": "NLD",
+   "level": 3,
+   "parentProvince": "P_NLD_ZUID_HOLLAND"
+  },
+  "P_NLD_AMSTERDAM_CITTA": {
+   "name": "Amsterdam",
+   "owner": "NLD",
+   "level": 3,
+   "parentProvince": "P_NLD_NOORD_HOLLAND"
+  },
+  "P_BEL_ANVERSA_CITTA": {
+   "name": "Anversa",
+   "owner": "BEL",
+   "level": 3,
+   "parentProvince": "P_BEL_ANTWERP"
+  },
+  "P_FRA_MARSIGLIA_CITTA": {
+   "name": "Marsiglia",
+   "owner": "FRA",
+   "level": 3,
+   "parentProvince": "P_FRA_BOUCHES_DU_RHONE"
+  },
+  "P_FRA_LE_HAVRE_CITTA": {
+   "name": "Le Havre",
+   "owner": "FRA",
+   "level": 3,
+   "parentProvince": "P_FRA_SEINE_MARITIME"
+  },
+  "P_ITA_GENOVA_CITTA": {
+   "name": "Genova",
+   "owner": "ITA",
+   "level": 3,
+   "parentProvince": "P_ITA_GENOVA"
+  },
+  "P_ITA_NAPOLI_CITTA": {
+   "name": "Napoli",
+   "owner": "ITA",
+   "level": 3,
+   "parentProvince": "P_ITA_NAPOLI"
+  },
+  "P_ITA_TRIESTE_CITTA": {
+   "name": "Trieste",
+   "owner": "ITA",
+   "level": 3,
+   "parentProvince": "P_ITA_TRIESTE"
+  },
+  "P_ESP_BARCELLONA_CITTA": {
+   "name": "Barcellona",
+   "owner": "ESP",
+   "level": 3,
+   "parentProvince": "P_ESP_BARCELONA"
+  },
+  "P_USSR_LENINGRADO_CITTA": {
+   "name": "Leningrado",
+   "owner": "USSR",
+   "level": 3,
+   "parentProvince": "P_USSR_LENINGRAD"
+  },
+  "P_USSR_ODESSA_CITTA": {
+   "name": "Odessa",
+   "owner": "USSR",
+   "level": 3,
+   "parentProvince": "P_USSR_ODESSA"
+  },
+  "P_USSR_VLADIVOSTOK_CITTA": {
+   "name": "Vladivostok",
+   "owner": "USSR",
+   "level": 3,
+   "parentProvince": "P_USSR_PRIMORYE"
+  },
+  "P_TUR_ISTANBUL_CITTA": {
+   "name": "Istanbul",
+   "owner": "TUR",
+   "level": 3,
+   "parentProvince": "P_TUR_ISTANBUL"
+  },
+  "P_CHN_SHANGHAI_CITTA": {
+   "name": "Shanghai",
+   "owner": "CHN",
+   "level": 3,
+   "parentProvince": "P_CHN_SHANGHAI"
+  },
+  "P_CHN_TIENTSIN_CITTA": {
+   "name": "Tientsin",
+   "owner": "CHN",
+   "level": 3,
+   "parentProvince": "P_CHN_TIANJIN"
+  },
+  "P_CHN_CANTON_CITTA": {
+   "name": "Canton",
+   "owner": "CHN",
+   "level": 3,
+   "parentProvince": "P_CHN_GUANGDONG"
+  },
+  "P_JPN_KOBE_CITTA": {
+   "name": "Kōbe",
+   "owner": "JPN",
+   "level": 3,
+   "parentProvince": "P_JPN_HYOGO_PREFECTURE"
+  },
+  "P_JPN_YOKOHAMA_CITTA": {
+   "name": "Yokohama",
+   "owner": "JPN",
+   "level": 3,
+   "parentProvince": "P_JPN_KANAGAWA_PREFECTURE"
+  },
+  "P_JPN_OSAKA_CITTA": {
+   "name": "Osaka",
+   "owner": "JPN",
+   "level": 3,
+   "parentProvince": "P_JPN_OSAKA_PREFECTURE"
+  },
+  "P_BRA_RIO_DE_JANEIRO_CITTA": {
+   "name": "Rio de Janeiro",
+   "owner": "BRA",
+   "level": 3,
+   "parentProvince": "P_BRA_RIO_DE_JANEIRO"
+  },
+  "P_BRA_SANTOS_CITTA": {
+   "name": "Santos",
+   "owner": "BRA",
+   "level": 3,
+   "parentProvince": "P_BRA_SAO_PAULO"
+  },
+  "P_ARG_BUENOS_AIRES_CITTA": {
+   "name": "Buenos Aires",
+   "owner": "ARG",
+   "level": 3,
+   "parentProvince": "P_ARG_BUENOS_AIRES"
+  },
+  "P_POL_GDYNIA_CITTA": {
+   "name": "Gdynia",
+   "owner": "POL",
+   "level": 3,
+   "parentProvince": "P_POL_POMERANIAN_VOIVODESHIP"
+  },
+  "P_USA_NORFOLK_CITTA": {
+   "name": "Norfolk",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_VIRGINIA"
+  },
+  "P_USA_HOUSTON_CITTA": {
+   "name": "Houston",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_TEXAS"
+  },
+  "P_USA_TAMPA_CITTA": {
+   "name": "Tampa",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_FLORIDA"
+  },
+  "P_USA_JACKSONVILLE_CITTA": {
+   "name": "Jacksonville",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_FLORIDA"
+  },
+  "P_USA_CHARLESTON_CITTA": {
+   "name": "Charleston",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_SOUTH_CAROLINA"
+  },
+  "P_USA_PORTLAND_CITTA": {
+   "name": "Portland",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_OREGON"
+  },
+  "P_USA_TACOMA_CITTA": {
+   "name": "Tacoma",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_WASHINGTON"
+  },
+  "P_USA_OAKLAND_CITTA": {
+   "name": "Oakland",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_CALIFORNIA"
+  },
+  "P_USA_SAN_DIEGO_CITTA": {
+   "name": "San Diego",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_CALIFORNIA"
+  },
+  "P_USA_LONG_BEACH_CITTA": {
+   "name": "Long Beach",
+   "owner": "USA",
+   "level": 2,
+   "parentProvince": "P_USA_CALIFORNIA"
+  },
+  "P_GBR_CARDIFF_CITTA": {
+   "name": "Cardiff",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_GLAMORGAN"
+  },
+  "P_GBR_NEWCASTLE_UPON_TYNE_CITTA": {
+   "name": "Newcastle upon Tyne",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_NORTHUMBERLAND"
+  },
+  "P_GBR_KINGSTON_UPON_HULL_CITTA": {
+   "name": "Kingston upon Hull",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_YORKSHIRE"
+  },
+  "P_GBR_BRISTOL_CITTA": {
+   "name": "Bristol",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_GLOUCESTERSHIRE"
+  },
+  "P_GBR_PLYMOUTH_CITTA": {
+   "name": "Plymouth",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_DEVON"
+  },
+  "P_GBR_PORTSMOUTH_CITTA": {
+   "name": "Portsmouth",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_HAMPSHIRE"
+  },
+  "P_GBR_BELFAST_CITTA": {
+   "name": "Belfast",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_ANTRIM"
+  },
+  "P_GBR_SWANSEA_CITTA": {
+   "name": "Swansea",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_GLAMORGAN"
+  },
+  "P_GBR_MIDDLESBROUGH_CITTA": {
+   "name": "Middlesbrough",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_DURHAM"
+  },
+  "P_GBR_SUNDERLAND_CITTA": {
+   "name": "Sunderland",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_DURHAM"
+  },
+  "P_GBR_EDIMBURGO_CITTA": {
+   "name": "Edimburgo",
+   "owner": "GBR",
+   "level": 2,
+   "parentProvince": "P_GBR_EDIMBURGO"
+  },
+  "P_DEU_KIEL_CITTA": {
+   "name": "Kiel",
+   "owner": "DEU",
+   "level": 2,
+   "parentProvince": "P_DEU_SCHLESWIG_HOLSTEIN"
+  },
+  "P_DEU_LUBECCA_CITTA": {
+   "name": "Lubecca",
+   "owner": "DEU",
+   "level": 2,
+   "parentProvince": "P_DEU_MECKLENBURG_LUEBECK"
+  },
+  "P_DEU_ROSTOCK_CITTA": {
+   "name": "Rostock",
+   "owner": "DEU",
+   "level": 2,
+   "parentProvince": "P_DEU_MECKLENBURG_LUEBECK"
+  },
+  "P_DEU_KONIGSBERG_CITTA": {
+   "name": "Königsberg",
+   "owner": "DEU",
+   "level": 2,
+   "parentProvince": "P_DEU_OSTPREUSSEN"
+  },
+  "P_FRA_BORDEAUX_CITTA": {
+   "name": "Bordeaux",
+   "owner": "FRA",
+   "level": 2,
+   "parentProvince": "P_FRA_GIRONDE"
+  },
+  "P_FRA_NANTES_CITTA": {
+   "name": "Nantes",
+   "owner": "FRA",
+   "level": 2,
+   "parentProvince": "P_FRA_LOIRE_ATLANTIQUE"
+  },
+  "P_FRA_ROUEN_CITTA": {
+   "name": "Rouen",
+   "owner": "FRA",
+   "level": 2,
+   "parentProvince": "P_FRA_SEINE_MARITIME"
+  },
+  "P_FRA_TOLONE_CITTA": {
+   "name": "Tolone",
+   "owner": "FRA",
+   "level": 2,
+   "parentProvince": "P_FRA_VAR"
+  },
+  "P_ITA_BARI_CITTA": {
+   "name": "Bari",
+   "owner": "ITA",
+   "level": 2,
+   "parentProvince": "P_ITA_BARI"
+  },
+  "P_ITA_VENEZIA_CITTA": {
+   "name": "Venezia",
+   "owner": "ITA",
+   "level": 2,
+   "parentProvince": "P_ITA_VENEZIA"
+  },
+  "P_ITA_TARANTO_CITTA": {
+   "name": "Taranto",
+   "owner": "ITA",
+   "level": 2,
+   "parentProvince": "P_ITA_BARI"
+  },
+  "P_ITA_PALERMO_CITTA": {
+   "name": "Palermo",
+   "owner": "ITA",
+   "level": 2,
+   "parentProvince": "P_ITA_PALERMO"
+  },
+  "P_ITA_CAGLIARI_CITTA": {
+   "name": "Cagliari",
+   "owner": "ITA",
+   "level": 2,
+   "parentProvince": "P_ITA_CAGLIARI"
+  },
+  "P_ITA_CATANIA_CITTA": {
+   "name": "Catania",
+   "owner": "ITA",
+   "level": 2,
+   "parentProvince": "P_ITA_CATANIA"
+  },
+  "P_ITA_MESSINA_CITTA": {
+   "name": "Messina",
+   "owner": "ITA",
+   "level": 2,
+   "parentProvince": "P_ITA_MESSINA"
+  },
+  "P_ESP_BILBAO_CITTA": {
+   "name": "Bilbao",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_VIZCAYA"
+  },
+  "P_ESP_VALENCIA_CITTA": {
+   "name": "Valencia",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_VALENCIA"
+  },
+  "P_ESP_CARTAGENA_CITTA": {
+   "name": "Cartagena",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_MURCIA"
+  },
+  "P_ESP_CADICE_CITTA": {
+   "name": "Cadice",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_CADIZ"
+  },
+  "P_ESP_VIGO_CITTA": {
+   "name": "Vigo",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_PONTEVEDRA"
+  },
+  "P_ESP_GIJON_CITTA": {
+   "name": "Gijón",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_ASTURIAS"
+  },
+  "P_ESP_MALAGA_CITTA": {
+   "name": "Malaga",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_MALAGA"
+  },
+  "P_ESP_SIVIGLIA_CITTA": {
+   "name": "Siviglia",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_SEVILLA"
+  },
+  "P_ESP_SANTANDER_CITTA": {
+   "name": "Santander",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_SANTANDER"
+  },
+  "P_ESP_LA_CORUNA_CITTA": {
+   "name": "La Coruña",
+   "owner": "ESP",
+   "level": 2,
+   "parentProvince": "P_ESP_CORUNA"
+  },
+  "P_BEL_GAND_CITTA": {
+   "name": "Gand",
+   "owner": "BEL",
+   "level": 2,
+   "parentProvince": "P_BEL_EAST_FLANDERS"
+  },
+  "P_USSR_MURMANSK_CITTA": {
+   "name": "Murmansk",
+   "owner": "USSR",
+   "level": 2,
+   "parentProvince": "P_USSR_MURMANSK"
+  },
+  "P_USSR_ARCANGELO_CITTA": {
+   "name": "Arcangelo",
+   "owner": "USSR",
+   "level": 2,
+   "parentProvince": "P_USSR_ARKHANGELSK"
+  },
+  "P_USSR_MYKOLAIV_CITTA": {
+   "name": "Nikolaev",
+   "owner": "USSR",
+   "level": 2,
+   "parentProvince": "P_USSR_MYKOLAYIV"
+  },
+  "P_USSR_SEBASTOPOLI_CITTA": {
+   "name": "Sebastopoli",
+   "owner": "USSR",
+   "level": 2,
+   "parentProvince": "P_USSR_CRIMEA"
+  },
+  "P_USSR_NOVOROSSIJSK_CITTA": {
+   "name": "Novorossijsk",
+   "owner": "USSR",
+   "level": 2,
+   "parentProvince": "P_USSR_KRASNODAR"
+  },
+  "P_USSR_BAKU_CITTA": {
+   "name": "Baku",
+   "owner": "USSR",
+   "level": 2,
+   "parentProvince": "P_USSR_ABSHERON"
+  },
+  "P_USSR_CHERSON_CITTA": {
+   "name": "Cherson",
+   "owner": "USSR",
+   "level": 2,
+   "parentProvince": "P_USSR_KHERSON"
+  },
+  "P_SWE_STOCCOLMA_CITTA": {
+   "name": "Stoccolma",
+   "owner": "SWE",
+   "level": 2,
+   "parentProvince": "P_SWE_STOCKHOLM"
+  },
+  "P_SWE_GOTEBORG_CITTA": {
+   "name": "Göteborg",
+   "owner": "SWE",
+   "level": 2,
+   "parentProvince": "P_SWE_VASTRA_GOTALAND"
+  },
+  "P_SWE_MALMO_CITTA": {
+   "name": "Malmö",
+   "owner": "SWE",
+   "level": 2,
+   "parentProvince": "P_SWE_SKANE"
+  },
+  "P_NOR_OSLO_CITTA": {
+   "name": "Oslo",
+   "owner": "NOR",
+   "level": 2,
+   "parentProvince": "P_NOR_OSLO"
+  },
+  "P_NOR_BERGEN_CITTA": {
+   "name": "Bergen",
+   "owner": "NOR",
+   "level": 2,
+   "parentProvince": "P_NOR_HORDALAND"
+  },
+  "P_DNK_AARHUS_CITTA": {
+   "name": "Aarhus",
+   "owner": "DNK",
+   "level": 2,
+   "parentProvince": "P_DNK_MIDTJYLLAND"
+  },
+  "P_GRC_ATENE_CITTA": {
+   "name": "Atene",
+   "owner": "GRC",
+   "level": 2,
+   "parentProvince": "P_GRC_ATTIKI"
+  },
+  "P_GRC_SALONICCO_CITTA": {
+   "name": "Salonicco",
+   "owner": "GRC",
+   "level": 2,
+   "parentProvince": "P_GRC_KENTRIKI_MAKEDONIA"
+  },
+  "P_TUR_SMIRNE_CITTA": {
+   "name": "Smirne",
+   "owner": "TUR",
+   "level": 2,
+   "parentProvince": "P_TUR_IZMIR"
+  },
+  "P_TUR_SAMSUN_CITTA": {
+   "name": "Samsun",
+   "owner": "TUR",
+   "level": 2,
+   "parentProvince": "P_TUR_SAMSUN"
+  },
+  "P_TUR_TREBISONDA_CITTA": {
+   "name": "Trebisonda",
+   "owner": "TUR",
+   "level": 2,
+   "parentProvince": "P_TUR_TRABZON"
+  },
+  "P_CHN_TSINGTAO_CITTA": {
+   "name": "Tsingtao",
+   "owner": "CHN",
+   "level": 2,
+   "parentProvince": "P_CHN_SHANDONG"
+  },
+  "P_CHN_XIAMEN_CITTA": {
+   "name": "Xiamen",
+   "owner": "CHN",
+   "level": 2,
+   "parentProvince": "P_CHN_FUJIAN"
+  },
+  "P_CHN_FUZHOU_CITTA": {
+   "name": "Fuzhou",
+   "owner": "CHN",
+   "level": 2,
+   "parentProvince": "P_CHN_FUJIAN"
+  },
+  "P_CHN_NINGBO_CITTA": {
+   "name": "Ningbo",
+   "owner": "CHN",
+   "level": 2,
+   "parentProvince": "P_CHN_ZHEJIANG"
+  },
+  "P_CHN_SHANTOU_CITTA": {
+   "name": "Shantou",
+   "owner": "CHN",
+   "level": 2,
+   "parentProvince": "P_CHN_GUANGDONG"
+  },
+  "P_CHN_QINHUANGDAO_CITTA": {
+   "name": "Qinhuangdao",
+   "owner": "CHN",
+   "level": 2,
+   "parentProvince": "P_CHN_HEBEI"
+  },
+  "P_JPN_NAGOYA_CITTA": {
+   "name": "Nagoya",
+   "owner": "JPN",
+   "level": 2,
+   "parentProvince": "P_JPN_AICHI_PREFECTURE"
+  },
+  "P_JPN_NAGASAKI_CITTA": {
+   "name": "Nagasaki",
+   "owner": "JPN",
+   "level": 2,
+   "parentProvince": "P_JPN_NAGASAKI_PREFECTURE"
+  },
+  "P_JPN_KAWASAKI_CITTA": {
+   "name": "Kawasaki",
+   "owner": "JPN",
+   "level": 2,
+   "parentProvince": "P_JPN_KANAGAWA_PREFECTURE"
+  },
+  "P_JPN_KITAKYUSHU_CITTA": {
+   "name": "Kitakyūshū",
+   "owner": "JPN",
+   "level": 2,
+   "parentProvince": "P_JPN_FUKUOKA_PREFECTURE"
+  },
+  "P_BRA_SALVADOR_CITTA": {
+   "name": "Salvador",
+   "owner": "BRA",
+   "level": 2,
+   "parentProvince": "P_BRA_BAHIA"
+  },
+  "P_BRA_RECIFE_CITTA": {
+   "name": "Recife",
+   "owner": "BRA",
+   "level": 2,
+   "parentProvince": "P_BRA_PERNAMBUCO"
+  },
+  "P_BRA_BELEM_CITTA": {
+   "name": "Belém",
+   "owner": "BRA",
+   "level": 2,
+   "parentProvince": "P_BRA_PARA"
+  },
+  "P_BRA_PORTO_ALEGRE_CITTA": {
+   "name": "Porto Alegre",
+   "owner": "BRA",
+   "level": 2,
+   "parentProvince": "P_BRA_RIO_GRANDE_DO_SUL"
+  },
+  "P_BRA_FORTALEZA_CITTA": {
+   "name": "Fortaleza",
+   "owner": "BRA",
+   "level": 2,
+   "parentProvince": "P_BRA_CEARA"
+  },
+  "P_ARG_LA_PLATA_CITTA": {
+   "name": "La Plata",
+   "owner": "ARG",
+   "level": 2,
+   "parentProvince": "P_ARG_BUENOS_AIRES"
+  }
+ }
+}

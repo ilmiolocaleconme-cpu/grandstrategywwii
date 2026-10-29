@@ -27,6 +27,7 @@ import { validateHydro } from '../src/data/hydro.js';
 import { validateFactoryLevels } from '../src/data/factoryLevels.js';
 import { validateTechnologies, consumersOf } from '../src/data/technologies.js';
 import { validateSecurityConfig } from '../src/rules/security.js';
+import { validatePortsList, validatePorts, buildPorts } from '../src/data/ports.js';
 import { validateGarrisonEstimate, buildGarrisonEstimate } from '../src/data/garrison.js';
 import { validateInfrastructureConfig, validateLinkEdges, buildLinkEdges } from '../src/data/infrastructure.js';
 import { validateFertilizerEffect, validateHorseBreeding } from '../src/data/livestock.js';
@@ -142,6 +143,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc }) }));
     for (const l of levelsDoc.levels) if (l.requires && !techIds.has(l.requires)) errors.push(`livelli fabbriche: L${l.level} richiede ${l.requires}, che non esiste`);
     errors.push(...validateSecurityConfig(securityDoc, { techIds }));
+    // Porti 1936 (ipotesi): elenco valido, ogni porto è una città costiera, file derivato coerente
+    const portsList = JSON.parse(await text('ports/ports_list.json')); const portsDoc = JSON.parse(await text('ports/ports_1936.json'));
+    const portCities = JSON.parse(await text('citta_grandi.json')).features.map((f) => f.properties);
+    errors.push(...validatePortsList(portsList, { cities: portCities }), ...validatePorts(portsDoc));
+    if (JSON.stringify(buildPorts({ list: portsList, cities: portCities }).file) !== JSON.stringify(portsDoc)) errors.push('porti: ports_1936.json non coincide con l\'elenco, rigenerare con node scripts/build-ports.js');
     // Stima delle guarnigioni 1936: il file deve coincidere con quello rigenerabile dai dati (nessuna deriva)
     const garDoc = JSON.parse(await text('military/garrison_estimate_1936.json'));
     errors.push(...validateGarrisonEstimate(garDoc));

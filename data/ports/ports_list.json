@@ -1,0 +1,602 @@
+{
+ "schema": "ports-list-v1",
+ "quality": "hypothesis",
+ "note": "Elenco ridotto dei porti principali al 1/1/1936, scelto dalla conoscenza generale e NON verificato su un dataset (una ricerca sul traffico dei porti nel 1936 non ha trovato una fonte utilizzabile). Livelli come la scala delle strutture INF-013/14/15: 3 = grande porto, 2 = porto regionale. Nessuna capacità in tonnellate: non è stata inventata. Le città costiere non elencate partono senza porto (livello 0): lo costruisce il giocatore. Nomi come in data/citta_grandi.json.",
+ "ports": [
+  {
+   "name": "New York",
+   "owner": "USA",
+   "level": 3
+  },
+  {
+   "name": "Filadelfia",
+   "owner": "USA",
+   "level": 3
+  },
+  {
+   "name": "Baltimora",
+   "owner": "USA",
+   "level": 3
+  },
+  {
+   "name": "Boston",
+   "owner": "USA",
+   "level": 3
+  },
+  {
+   "name": "New Orleans",
+   "owner": "USA",
+   "level": 3
+  },
+  {
+   "name": "Los Angeles",
+   "owner": "USA",
+   "level": 3
+  },
+  {
+   "name": "San Francisco",
+   "owner": "USA",
+   "level": 3
+  },
+  {
+   "name": "Seattle",
+   "owner": "USA",
+   "level": 3
+  },
+  {
+   "name": "Londra",
+   "owner": "GBR",
+   "level": 3
+  },
+  {
+   "name": "Liverpool",
+   "owner": "GBR",
+   "level": 3
+  },
+  {
+   "name": "Southampton",
+   "owner": "GBR",
+   "level": 3
+  },
+  {
+   "name": "Glasgow",
+   "owner": "GBR",
+   "level": 3
+  },
+  {
+   "name": "Amburgo",
+   "owner": "DEU",
+   "level": 3
+  },
+  {
+   "name": "Brema",
+   "owner": "DEU",
+   "level": 3
+  },
+  {
+   "name": "Stettino",
+   "owner": "DEU",
+   "level": 3
+  },
+  {
+   "name": "Rotterdam",
+   "owner": "NLD",
+   "level": 3
+  },
+  {
+   "name": "Amsterdam",
+   "owner": "NLD",
+   "level": 3
+  },
+  {
+   "name": "Anversa",
+   "owner": "BEL",
+   "level": 3
+  },
+  {
+   "name": "Marsiglia",
+   "owner": "FRA",
+   "level": 3
+  },
+  {
+   "name": "Le Havre",
+   "owner": "FRA",
+   "level": 3
+  },
+  {
+   "name": "Genova",
+   "owner": "ITA",
+   "level": 3
+  },
+  {
+   "name": "Napoli",
+   "owner": "ITA",
+   "level": 3
+  },
+  {
+   "name": "Trieste",
+   "owner": "ITA",
+   "level": 3
+  },
+  {
+   "name": "Barcellona",
+   "owner": "ESP",
+   "level": 3
+  },
+  {
+   "name": "Leningrado",
+   "owner": "USSR",
+   "level": 3
+  },
+  {
+   "name": "Odessa",
+   "owner": "USSR",
+   "level": 3
+  },
+  {
+   "name": "Vladivostok",
+   "owner": "USSR",
+   "level": 3
+  },
+  {
+   "name": "Istanbul",
+   "owner": "TUR",
+   "level": 3
+  },
+  {
+   "name": "Shanghai",
+   "owner": "CHN",
+   "level": 3
+  },
+  {
+   "name": "Tientsin",
+   "owner": "CHN",
+   "level": 3
+  },
+  {
+   "name": "Canton",
+   "owner": "CHN",
+   "level": 3
+  },
+  {
+   "name": "Kōbe",
+   "owner": "JPN",
+   "level": 3
+  },
+  {
+   "name": "Yokohama",
+   "owner": "JPN",
+   "level": 3
+  },
+  {
+   "name": "Osaka",
+   "owner": "JPN",
+   "level": 3
+  },
+  {
+   "name": "Rio de Janeiro",
+   "owner": "BRA",
+   "level": 3
+  },
+  {
+   "name": "Santos",
+   "owner": "BRA",
+   "level": 3
+  },
+  {
+   "name": "Buenos Aires",
+   "owner": "ARG",
+   "level": 3
+  },
+  {
+   "name": "Gdynia",
+   "owner": "POL",
+   "level": 3
+  },
+  {
+   "name": "Norfolk",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Houston",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Tampa",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Jacksonville",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Charleston",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Portland",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Tacoma",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Oakland",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "San Diego",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Long Beach",
+   "owner": "USA",
+   "level": 2
+  },
+  {
+   "name": "Cardiff",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Newcastle upon Tyne",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Kingston upon Hull",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Bristol",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Plymouth",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Portsmouth",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Belfast",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Swansea",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Middlesbrough",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Sunderland",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Edimburgo",
+   "owner": "GBR",
+   "level": 2
+  },
+  {
+   "name": "Kiel",
+   "owner": "DEU",
+   "level": 2
+  },
+  {
+   "name": "Lubecca",
+   "owner": "DEU",
+   "level": 2
+  },
+  {
+   "name": "Rostock",
+   "owner": "DEU",
+   "level": 2
+  },
+  {
+   "name": "Königsberg",
+   "owner": "DEU",
+   "level": 2
+  },
+  {
+   "name": "Bordeaux",
+   "owner": "FRA",
+   "level": 2
+  },
+  {
+   "name": "Nantes",
+   "owner": "FRA",
+   "level": 2
+  },
+  {
+   "name": "Rouen",
+   "owner": "FRA",
+   "level": 2
+  },
+  {
+   "name": "Tolone",
+   "owner": "FRA",
+   "level": 2
+  },
+  {
+   "name": "Bari",
+   "owner": "ITA",
+   "level": 2
+  },
+  {
+   "name": "Venezia",
+   "owner": "ITA",
+   "level": 2
+  },
+  {
+   "name": "Taranto",
+   "owner": "ITA",
+   "level": 2
+  },
+  {
+   "name": "Palermo",
+   "owner": "ITA",
+   "level": 2
+  },
+  {
+   "name": "Cagliari",
+   "owner": "ITA",
+   "level": 2
+  },
+  {
+   "name": "Catania",
+   "owner": "ITA",
+   "level": 2
+  },
+  {
+   "name": "Messina",
+   "owner": "ITA",
+   "level": 2
+  },
+  {
+   "name": "Bilbao",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Valencia",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Cartagena",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Cadice",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Vigo",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Gijón",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Malaga",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Siviglia",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Santander",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "La Coruña",
+   "owner": "ESP",
+   "level": 2
+  },
+  {
+   "name": "Gand",
+   "owner": "BEL",
+   "level": 2
+  },
+  {
+   "name": "Murmansk",
+   "owner": "USSR",
+   "level": 2
+  },
+  {
+   "name": "Arcangelo",
+   "owner": "USSR",
+   "level": 2
+  },
+  {
+   "name": "Nikolaev",
+   "owner": "USSR",
+   "level": 2
+  },
+  {
+   "name": "Sebastopoli",
+   "owner": "USSR",
+   "level": 2
+  },
+  {
+   "name": "Novorossijsk",
+   "owner": "USSR",
+   "level": 2
+  },
+  {
+   "name": "Baku",
+   "owner": "USSR",
+   "level": 2
+  },
+  {
+   "name": "Cherson",
+   "owner": "USSR",
+   "level": 2
+  },
+  {
+   "name": "Stoccolma",
+   "owner": "SWE",
+   "level": 2
+  },
+  {
+   "name": "Göteborg",
+   "owner": "SWE",
+   "level": 2
+  },
+  {
+   "name": "Malmö",
+   "owner": "SWE",
+   "level": 2
+  },
+  {
+   "name": "Oslo",
+   "owner": "NOR",
+   "level": 2
+  },
+  {
+   "name": "Bergen",
+   "owner": "NOR",
+   "level": 2
+  },
+  {
+   "name": "Aarhus",
+   "owner": "DNK",
+   "level": 2
+  },
+  {
+   "name": "Atene",
+   "owner": "GRC",
+   "level": 2
+  },
+  {
+   "name": "Salonicco",
+   "owner": "GRC",
+   "level": 2
+  },
+  {
+   "name": "Smirne",
+   "owner": "TUR",
+   "level": 2
+  },
+  {
+   "name": "Samsun",
+   "owner": "TUR",
+   "level": 2
+  },
+  {
+   "name": "Trebisonda",
+   "owner": "TUR",
+   "level": 2
+  },
+  {
+   "name": "Tsingtao",
+   "owner": "CHN",
+   "level": 2
+  },
+  {
+   "name": "Xiamen",
+   "owner": "CHN",
+   "level": 2
+  },
+  {
+   "name": "Fuzhou",
+   "owner": "CHN",
+   "level": 2
+  },
+  {
+   "name": "Ningbo",
+   "owner": "CHN",
+   "level": 2
+  },
+  {
+   "name": "Shantou",
+   "owner": "CHN",
+   "level": 2
+  },
+  {
+   "name": "Qinhuangdao",
+   "owner": "CHN",
+   "level": 2
+  },
+  {
+   "name": "Nagoya",
+   "owner": "JPN",
+   "level": 2
+  },
+  {
+   "name": "Nagasaki",
+   "owner": "JPN",
+   "level": 2
+  },
+  {
+   "name": "Kawasaki",
+   "owner": "JPN",
+   "level": 2
+  },
+  {
+   "name": "Kitakyūshū",
+   "owner": "JPN",
+   "level": 2
+  },
+  {
+   "name": "Salvador",
+   "owner": "BRA",
+   "level": 2
+  },
+  {
+   "name": "Recife",
+   "owner": "BRA",
+   "level": 2
+  },
+  {
+   "name": "Belém",
+   "owner": "BRA",
+   "level": 2
+  },
+  {
+   "name": "Porto Alegre",
+   "owner": "BRA",
+   "level": 2
+  },
+  {
+   "name": "Fortaleza",
+   "owner": "BRA",
+   "level": 2
+  },
+  {
+   "name": "La Plata",
+   "owner": "ARG",
+   "level": 2
+  }
+ ]
+}
