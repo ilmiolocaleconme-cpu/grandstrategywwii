@@ -24,6 +24,7 @@ import { validateTradeProfiles } from '../src/data/tradeProfiles.js';
 import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { validateHydro } from '../src/data/hydro.js';
 import { validateFertilizerEffect, validateHorseBreeding } from '../src/data/livestock.js';
+import { validateHospitalCare } from '../src/data/hospitals.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
 import { validateAmmoConsumption } from '../src/data/ammo.js';
 import { validateUnits, validateOobEstimates } from '../src/data/units.js';
@@ -126,6 +127,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
     errors.push(...validateFertilizerEffect(JSON.parse(await text('agriculture/fertilizer_effect.json')), { resources: catalog.resources }));
     errors.push(...validateHorseBreeding(JSON.parse(await text('agriculture/horse_breeding.json')), { resources: catalog.resources, recipes: recipesDoc, entityIds: new Set(catalog.political.map((e) => e.id)) }));
+    errors.push(...validateHospitalCare(JSON.parse(await text('medical/hospital_care.json')), { resources: catalog.resources, buildings: catalog.buildings.buildings }));
     errors.push(...validateFuelConsumption(JSON.parse(await text('military/fuel_consumption.json')), { resources: catalog.resources }));
     errors.push(...validateAmmoConsumption(JSON.parse(await text('military/ammo_consumption.json')), { resources: catalog.resources }));
     errors.push(...validateFuelStorage(JSON.parse(await text('military/fuel_storage.json')), { structureIds: industry.structures, buildingIds: new Set(catalog.buildings.buildings.map((b) => b.id)) }));

@@ -1,0 +1,25 @@
+{
+  "schema": "hospital-care-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Cura dei soldati feriti negli ospedali e negli ospedali da campo (richiesta dell'utente, 29/10/2026: la medicina serve agli ospedali). La medicina (`medicine`, FCT-PHARMA) si consuma per paziente ricoverato al giorno. Valori di PROGETTO, non storici. NON collegato al ciclo di partita: oggi non esistono combattimenti né perdite (nessuna fonte di feriti) e le costruzioni di provincia non stanno nello stato delle nazioni; le regole (src/rules/hospitals.js) ricevono feriti, medicina e numero di ospedali come ingressi.",
+  "medicine": "medicine",
+  "medicinePerPatientPerDay": 0.002,
+  "unsuppliedRecoveryFactor": 0.5,
+  "deathPerDayWaiting": 0.01,
+  "deathPerDayTreatedUnsupplied": 0.004,
+  "kinds": {
+    "field_hospital": {
+      "name": "Ospedale da campo",
+      "buildingId": "field_hospital",
+      "capacityPatients": 100,
+      "recoveryPerDay": 0.04
+    },
+    "hospital": {
+      "name": "Ospedale",
+      "buildingId": null,
+      "capacityPatients": 1000,
+      "recoveryPerDay": 0.06
+    }
+  },
+  "rationale": "2 kg di medicinali di gioco per paziente al giorno: un ospedale da campo da 100 posti ne usa 0,2 t/giorno, una fabbrica farmaceutica (10 t/giorno) ne serve circa 50. Con tutta la medicina un ricoverato guarisce ogni giorno al 4% (ospedale da campo, circa 25 giorni) o al 6% (ospedale fisso, circa 17 giorni); senza medicina guarisce la metà più lentamente (unsuppliedRecoveryFactor) e muore lo 0,4% al giorno; il ferito che non trova posto muore all'1% al giorno. Chi guarisce torna al pool di uomini della nazione. L'ospedale fisso non ha ancora una struttura nel catalogo edifici (buildingId null): va definita con l'utente. Non modellati: epidemie, evacuazione, medici, ambulanze, differenza fra feriti e malati."
+}
