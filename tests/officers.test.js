@@ -156,7 +156,7 @@ const newState = (nation = 'DEU') => newGame({ nation, political, ownersWithProv
 const corpsId = (n) => units.find((u) => u.name === n).id;
 
 test('schema 4: nuova partita con comandanti vuoti, migrazione 3→4 senza perdere nulla, validazione di forma', () => {
-  assert.equal(STATE_SCHEMA, 6);
+  assert.equal(STATE_SCHEMA, 7);
   const s = newState();
   assert.deepEqual(s.commanders, { schema: 'commanders-v1', assignments: {} });
   assert.deepEqual(validateState(s), []);

@@ -22,11 +22,12 @@ test('schema 6: nuova partita con forze vuote e non inizializzate, migrazione 5â
   const s = newState();
   assert.deepEqual(s.forces, { schema: 'forces-v1', initialized: false, divisions: {} });
   assert.deepEqual(validateState(s), []);
-  const { forces: _f, ...rest } = s;
+  const { forces: _f, trade: _t, ...rest } = s;
   const v5 = { ...rest, schema: 5 };
   const r = parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 5, savedAt: null, label: 'v5', state: v5 }));
   assert.equal(r.ok, true); assert.equal(r.migratedFrom, 5); assert.deepEqual(r.state, s);
-  assert.deepEqual(migrateV5toV6(v5), s);
+  const { trade: _tr, ...s6 } = s;
+  assert.deepEqual(migrateV5toV6(v5), { ...s6, schema: 6 });
   assert.equal(typeof MIGRATIONS[5], 'function');
   const item = (over) => ({ templateId: 'T', since: '1936-01-01', items: { 'horses': { planned: 10, effective: 5, source: 'ratio', ...over } } });
   for (const [bad, re] of [[null, /oggetto/], [{ schema: 'x', initialized: false, divisions: {} }, /schema/], [{ schema: 'forces-v1', initialized: 'si', divisions: {} }, /booleano/],

@@ -116,7 +116,7 @@ test('ordine reale: una divisione tedesca va da Berlino a una provincia tedesca 
 test('sistema giornaliero: la divisione arriva, la dislocazione corrente la mostra nella nuova provincia, lo stato resta valido', () => {
   const berlin = unitsByProvince(units, deployment, '1936-01-01').P_DEU_BERLIN[0].units.find((u) => u.echelon === 'division');
   const target = net.neighbors('P_DEU_BERLIN').find((n) => net.owner(n) === 'DEU');
-  const base = { schema: 6, startDate: '1936-01-01', date: '1936-01-01', day: 0, player: 'DEU', control, difficulty: 'media', nations: null, commanders: { schema: 'commanders-v1', assignments: {} }, orbat: { schema: 'orbat-v1', links: {} }, forces: { schema: 'forces-v1', initialized: false, divisions: {} } };
+  const base = { schema: 7, startDate: '1936-01-01', date: '1936-01-01', day: 0, player: 'DEU', control, difficulty: 'media', nations: null, commanders: { schema: 'commanders-v1', assignments: {} }, orbat: { schema: 'orbat-v1', links: {} }, forces: { schema: 'forces-v1', initialized: false, divisions: {} }, trade: { schema: 'trade-v1', nextId: 1, contracts: [] } };
   const o = orderMove(base, { units: [{ id: berlin.id, category: berlin.category }], to: target, nation: 'DEU', deploymentDoc: deployment, net });
   let s = o.state;
   const sys = createMovementSystem(net);

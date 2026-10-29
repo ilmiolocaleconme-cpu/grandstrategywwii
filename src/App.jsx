@@ -26,6 +26,7 @@ import horseBreeding from '../data/agriculture/horse_breeding.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { initForcesState } from './game/forcesState.js';
+import { createTradeSystem } from './game/tradeState.js';
 import unitsFile from '../data/units/units.json';
 import deploymentFile from '../data/units/deployment_1936.json';
 import { unitsByProvince } from './data/deployment.js';
@@ -228,6 +229,7 @@ const GAME_SYSTEMS = [
   (state) => (MOVE_NET.net ? createMovementSystem(MOVE_NET.net)(state) : state),
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
+  createTradeSystem({ resources, getNet: () => MOVE_NET.net }), // commercio v1: contratti via terra (consegne e partenze); nessuna interfaccia ancora
 ];
 
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)

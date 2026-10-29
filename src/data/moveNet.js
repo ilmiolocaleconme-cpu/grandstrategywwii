@@ -49,6 +49,7 @@ export function buildMoveNet(collection, adjacencyFile) {
   const centre = (m) => { const b = box.get(m); return [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]; };
   return {
     has: (m) => box.has(m),
+    provinces: () => [...box.keys()].sort(),
     neighbors: (m) => [...(nb.get(m) ?? [])].sort(),
     km: (a, b) => haversine(centre(a), centre(b)),
     owner: (m) => owner.get(m) ?? null,
