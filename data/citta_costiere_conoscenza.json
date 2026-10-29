@@ -1,0 +1,377 @@
+{
+ "_nota": "Correzioni al flag costiera dove la geometria sbaglia: porti di estuario/canale (costiera=true) e città interne vicine a un estuario (costiera=false). Fonte: conoscenza geografica generale, non verificata su dataset; criterio: porto di mare = accesso diretto a mare/oceano o a estuario/canale percorribile da navi oceaniche; porti solo lacustri o fluviali interni esclusi.",
+ "correzioni": [
+  {
+   "cittaId": "P_USSR_ARCANGELO_CITTA",
+   "nome": "Arcangelo",
+   "costiera": true,
+   "motivo": "porto sul Mar Bianco, delta della Dvina"
+  },
+  {
+   "cittaId": "P_DEU_KIEL_CITTA",
+   "nome": "Kiel",
+   "costiera": true,
+   "motivo": "porto sul Baltico, base navale e cantieri"
+  },
+  {
+   "cittaId": "P_DEU_LUBECCA_CITTA",
+   "nome": "Lubecca",
+   "costiera": true,
+   "motivo": "porto sul Baltico (Trave)"
+  },
+  {
+   "cittaId": "P_USSR_MURMANSK_CITTA",
+   "nome": "Murmansk",
+   "costiera": true,
+   "motivo": "porto sul fiordo di Kola"
+  },
+  {
+   "cittaId": "P_USSR_CHERSON_CITTA",
+   "nome": "Cherson",
+   "costiera": true,
+   "motivo": "porto sul Dnepr vicino al Mar Nero, cantieri navali"
+  },
+  {
+   "cittaId": "P_NLD_ROTTERDAM_CITTA",
+   "nome": "Rotterdam",
+   "costiera": true,
+   "motivo": "porto di mare sulla Nieuwe Maas"
+  },
+  {
+   "cittaId": "P_BEL_ANVERSA_CITTA",
+   "nome": "Anversa",
+   "costiera": true,
+   "motivo": "porto di mare sulla Schelda"
+  },
+  {
+   "cittaId": "P_NLD_AMSTERDAM_CITTA",
+   "nome": "Amsterdam",
+   "costiera": true,
+   "motivo": "porto di mare (canale del Mare del Nord)"
+  },
+  {
+   "cittaId": "P_GBR_GLASGOW_CITTA",
+   "nome": "Glasgow",
+   "costiera": true,
+   "motivo": "porto e cantieri navali sul Clyde"
+  },
+  {
+   "cittaId": "P_FRA_NANTES_CITTA",
+   "nome": "Nantes",
+   "costiera": true,
+   "motivo": "porto sulla Loira (estuario), cantieri navali"
+  },
+  {
+   "cittaId": "P_BEL_GAND_CITTA",
+   "nome": "Gand",
+   "costiera": true,
+   "motivo": "porto con canale di mare (Gand-Terneuzen)"
+  },
+  {
+   "cittaId": "P_DEU_KONIGSBERG_CITTA",
+   "nome": "Königsberg",
+   "costiera": true,
+   "motivo": "porto baltico sul Pregel, canale di mare"
+  },
+  {
+   "cittaId": "P_NOR_OSLO_CITTA",
+   "nome": "Oslo",
+   "costiera": true,
+   "motivo": "porto in fondo al fiordo di Oslo"
+  },
+  {
+   "cittaId": "P_USA_HOUSTON_CITTA",
+   "nome": "Houston",
+   "costiera": true,
+   "motivo": "porto di mare (Houston Ship Channel)"
+  },
+  {
+   "cittaId": "P_USA_NEW_ORLEANS_CITTA",
+   "nome": "New Orleans",
+   "costiera": true,
+   "motivo": "porto di mare sul Mississippi"
+  },
+  {
+   "cittaId": "P_USA_JACKSONVILLE_CITTA",
+   "nome": "Jacksonville",
+   "costiera": true,
+   "motivo": "porto sul fiume St. Johns presso l'Atlantico"
+  },
+  {
+   "cittaId": "P_DOM_SANTO_DOMINGO_CITTA",
+   "nome": "Santo Domingo",
+   "costiera": true,
+   "motivo": "porto sulla costa caraibica (foce dell'Ozama)"
+  },
+  {
+   "cittaId": "P_SIA_BANGKOK_CITTA",
+   "nome": "Bangkok",
+   "costiera": true,
+   "motivo": "porto sul Chao Phraya, golfo del Siam"
+  },
+  {
+   "cittaId": "P_NGA_PORT_HARCOURT_CITTA",
+   "nome": "Port Harcourt",
+   "costiera": true,
+   "motivo": "porto sul Bonny, delta del Niger"
+  },
+  {
+   "cittaId": "P_NGA_WARRI_CITTA",
+   "nome": "Warri",
+   "costiera": true,
+   "motivo": "porto nel delta del Niger"
+  },
+  {
+   "cittaId": "P_INDO_HO_CHI_MINH_CITTA",
+   "nome": "Ho Chi Minh",
+   "costiera": true,
+   "motivo": "porto di mare di Saigon sul fiume Saigon"
+  },
+  {
+   "cittaId": "P_BUR_YANGON_CITTA",
+   "nome": "Yangon",
+   "costiera": true,
+   "motivo": "porto di mare di Rangoon"
+  },
+  {
+   "cittaId": "P_CHN_TIENTSIN_CITTA",
+   "nome": "Tientsin",
+   "costiera": true,
+   "motivo": "porto di Tientsin (Taku) sul golfo di Bohai"
+  },
+  {
+   "cittaId": "P_BNB_KUCHING_CITTA",
+   "nome": "Kuching",
+   "costiera": true,
+   "motivo": "porto sul fiume Sarawak"
+  },
+  {
+   "cittaId": "P_MOZ_MATOLA_CITTA",
+   "nome": "Matola",
+   "costiera": true,
+   "motivo": "baia di Maputo"
+  },
+  {
+   "cittaId": "P_SUR_PARAMARIBO_CITTA",
+   "nome": "Paramaribo",
+   "costiera": true,
+   "motivo": "porto sul fiume Suriname presso la costa"
+  },
+  {
+   "cittaId": "P_NLD_EI_BANDAR_LAMPUNG_CITTA",
+   "nome": "Bandar Lampung",
+   "costiera": true,
+   "motivo": "porto di Teluk Betung, stretto della Sonda"
+  },
+  {
+   "cittaId": "P_NLD_EI_BANDAR_LAMPUNG_CITTA_1159149817",
+   "nome": "Bandar Lampung",
+   "costiera": true,
+   "motivo": "porto di Teluk Betung, stretto della Sonda"
+  },
+  {
+   "cittaId": "P_GBR_MANCHESTER_CITTA",
+   "nome": "Manchester",
+   "costiera": true,
+   "motivo": "porto di mare via Manchester Ship Canal"
+  },
+  {
+   "cittaId": "P_USSR_ROSTOV_SUL_DON_CITTA",
+   "nome": "Rostov sul Don",
+   "costiera": true,
+   "motivo": "porto sul Don, mare d'Azov"
+  },
+  {
+   "cittaId": "P_USA_STOCKTON_CITTA",
+   "nome": "Stockton",
+   "costiera": true,
+   "motivo": "porto di mare in California (canale San Joaquin)"
+  },
+  {
+   "cittaId": "P_USA_PORTLAND_CITTA",
+   "nome": "Portland",
+   "costiera": true,
+   "motivo": "porto di mare sul Columbia/Willamette, cantieri navali"
+  },
+  {
+   "cittaId": "P_DEU_AMBURGO_CITTA",
+   "nome": "Amburgo",
+   "costiera": true,
+   "motivo": "porto di mare sull'Elba, cantieri navali"
+  },
+  {
+   "cittaId": "P_DEU_BREMA_CITTA",
+   "nome": "Brema",
+   "costiera": true,
+   "motivo": "porto sul Weser (con Bremerhaven), cantieri navali"
+  },
+  {
+   "cittaId": "P_DEU_STETTINO_CITTA",
+   "nome": "Stettino",
+   "costiera": true,
+   "motivo": "porto baltico sull'Oder"
+  },
+  {
+   "cittaId": "P_GBR_LONDRA_CITTA",
+   "nome": "Londra",
+   "costiera": true,
+   "motivo": "porto di mare sul Tamigi"
+  },
+  {
+   "cittaId": "P_ESP_SIVIGLIA_CITTA",
+   "nome": "Siviglia",
+   "costiera": true,
+   "motivo": "porto di mare sul Guadalquivir"
+  },
+  {
+   "cittaId": "P_FRA_ROUEN_CITTA",
+   "nome": "Rouen",
+   "costiera": true,
+   "motivo": "porto di mare sulla Senna"
+  },
+  {
+   "cittaId": "P_ROM_BRAILA_CITTA",
+   "nome": "Braila",
+   "costiera": true,
+   "motivo": "porto marittimo sul Danubio"
+  },
+  {
+   "cittaId": "P_ROM_GALATI_CITTA",
+   "nome": "Galatz",
+   "costiera": true,
+   "motivo": "porto marittimo sul Danubio"
+  },
+  {
+   "cittaId": "P_IND_CALCUTTA_CITTA",
+   "nome": "Calcutta",
+   "costiera": true,
+   "motivo": "porto di mare sull'Hooghly"
+  },
+  {
+   "cittaId": "P_IND_HOWRAH_CITTA",
+   "nome": "Howrah",
+   "costiera": true,
+   "motivo": "porto di mare sull'Hooghly (di fronte a Calcutta)"
+  },
+  {
+   "cittaId": "P_IRQ_BASSORA_CITTA",
+   "nome": "Bassora",
+   "costiera": true,
+   "motivo": "porto sullo Shatt al-Arab"
+  },
+  {
+   "cittaId": "P_IRN_ABADAN_CITTA",
+   "nome": "Abadan",
+   "costiera": true,
+   "motivo": "porto petrolifero sullo Shatt al-Arab"
+  },
+  {
+   "cittaId": "P_USSR_ASTRACHAN_CITTA",
+   "nome": "Astrachan",
+   "costiera": true,
+   "motivo": "porto sul Mar Caspio, delta del Volga"
+  },
+  {
+   "cittaId": "P_EGY_ISMAILIA_CITTA",
+   "nome": "Ismailia",
+   "costiera": true,
+   "motivo": "canale di Suez"
+  },
+  {
+   "cittaId": "P_IND_DACCA_CITTA",
+   "nome": "Dacca",
+   "costiera": false,
+   "motivo": "città fluviale nell'interno (non porto di mare)"
+  },
+  {
+   "cittaId": "P_CHN_HANGZHOU_CITTA",
+   "nome": "Hangzhou",
+   "costiera": false,
+   "motivo": "sull'estuario del Qiantang ma non porto di mare (il porto è Ningbo)"
+  },
+  {
+   "cittaId": "P_KOR_SUWON_CITTA",
+   "nome": "Suwon",
+   "costiera": false,
+   "motivo": "nell'interno"
+  },
+  {
+   "cittaId": "P_KOR_GOYANG_CITTA",
+   "nome": "Goyang",
+   "costiera": false,
+   "motivo": "nell'interno, sul fiume Han"
+  },
+  {
+   "cittaId": "P_TWN_PINGTUNG_CITTA",
+   "nome": "Pingtung",
+   "costiera": false,
+   "motivo": "nell'interno"
+  },
+  {
+   "cittaId": "P_USA_WASHINGTON_CITTA",
+   "nome": "Washington",
+   "costiera": false,
+   "motivo": "sul Potomac, non è un porto di mare"
+  },
+  {
+   "cittaId": "P_IRN_RASHT_CITTA",
+   "nome": "Rasht",
+   "costiera": false,
+   "motivo": "nell'interno (il porto è Bandar Anzali)"
+  },
+  {
+   "cittaId": "P_PHL_NAGA_CITTA",
+   "nome": "Naga",
+   "costiera": false,
+   "motivo": "nell'interno"
+  },
+  {
+   "cittaId": "P_INDO_CAN_THO_CITTA",
+   "nome": "Cần Thơ",
+   "costiera": false,
+   "motivo": "porto fluviale del Mekong, non di mare"
+  },
+  {
+   "cittaId": "P_INDO_HUE_CITTA",
+   "nome": "Huế",
+   "costiera": false,
+   "motivo": "nell'interno (il porto è Thuan An)"
+  },
+  {
+   "cittaId": "P_INDO_VINH_CITTA",
+   "nome": "Vinh",
+   "costiera": false,
+   "motivo": "nell'interno (il porto è Cua Lo)"
+  },
+  {
+   "cittaId": "P_TWN_TAIPEI_CITTA",
+   "nome": "Taipei",
+   "costiera": false,
+   "motivo": "nell'interno (il porto è Keelung)"
+  },
+  {
+   "cittaId": "P_BEN_PORTO_NOVO_CITTA",
+   "nome": "Porto-Novo",
+   "costiera": false,
+   "motivo": "sulla laguna, senza accesso diretto al mare (il porto è Cotonou)"
+  },
+  {
+   "cittaId": "P_CHN_CHANGZHOU_CITTA",
+   "nome": "Changzhou",
+   "costiera": false,
+   "motivo": "nell'interno"
+  },
+  {
+   "cittaId": "P_TUR_BURSA_CITTA",
+   "nome": "Bursa",
+   "costiera": false,
+   "motivo": "nell'interno (il porto è Mudanya)"
+  },
+  {
+   "cittaId": "P_FRA_MONTPELLIER_CITTA",
+   "nome": "Montpellier",
+   "costiera": false,
+   "motivo": "nell'interno (il porto è Sète)"
+  }
+ ]
+}

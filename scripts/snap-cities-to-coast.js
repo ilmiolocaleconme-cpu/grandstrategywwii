@@ -173,8 +173,22 @@ export function addCoastFields(data, coll) {
     for (const poly of (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates)) for (const [x, y] of poly[0]) { const d = dist(x, y); if (d < best) best = d; }
     f.properties.distanzaCostaKm = best <= MAX_DIST_KM ? Math.round(best * 100) / 100 : null;
     f.properties.costiera = best <= COSTIERA_KM;
+    f.properties.costieraFonte = 'geometria';
   }
   return data;
+}
+
+/** Applica le correzioni da conoscenza geografica (data/citta_costiere_conoscenza.json): sovrascrivono `costiera` e marcano `costieraFonte`. Idempotente. */
+export function applyCoastKnowledge(data, correzioni) {
+  const m = new Map(correzioni.map((c) => [c.cittaId, c.costiera]));
+  let n = 0;
+  for (const f of data.features) {
+    if (!m.has(f.properties.cittaId)) continue;
+    f.properties.costiera = m.get(f.properties.cittaId);
+    f.properties.costieraFonte = 'conoscenza';
+    n++;
+  }
+  return n;
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
@@ -183,6 +197,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   console.log(`zone avvicinate: ${report.length}`);
   for (const k of skipped) console.log('NON allineata (area cambierebbe del', `${Math.round(k.variazioneArea * 100)}%):`, k.id, 'min km', k.prima);
   addCoastFields(data, coll);
+  const know = JSON.parse(await readFile(new URL('../data/citta_costiere_conoscenza.json', import.meta.url), 'utf8'));
+  console.log(`correzioni da conoscenza applicate a ${applyCoastKnowledge(data, know.correzioni)} zone`);
   const near = data.features.filter((f) => f.properties.costiera);
   console.log(`zone costiere (≤ ${COSTIERA_KM} km): ${near.length} su ${data.features.length}; tra 0,15 e ${SNAP_KM} km ancora non a contatto: ${data.features.filter((f) => f.properties.distanzaCostaKm > 0.15 && f.properties.distanzaCostaKm <= SNAP_KM).length}`);
   if (process.argv.includes('--write')) await writeFile(file, `${JSON.stringify(data)}\n`);

@@ -11,15 +11,17 @@ test('ogni zona ha distanzaCostaKm (numero ≥ 0 o null oltre i 30 km) e costier
   for (const f of cities) {
     const { distanzaCostaKm: d, costiera, id } = f.properties;
     assert.ok(d === null || (typeof d === 'number' && d >= 0 && d <= MAX_DIST_KM), `${id}: distanza ${d}`);
-    assert.equal(costiera, d !== null && d <= COSTIERA_KM, `${id}: flag incoerente con la distanza ${d}`);
+    const fonte = f.properties.costieraFonte;
+    assert.ok(fonte === 'geometria' || fonte === 'conoscenza', `${id}: fonte ${fonte}`);
+    if (fonte === 'geometria') assert.equal(costiera, d !== null && d <= COSTIERA_KM, `${id}: flag incoerente con la distanza ${d}`);
   }
 });
 
 test('porti noti: costiere; città interne note: no', () => {
-  for (const id of ['P_ITA_GENOVA_CITTA', 'P_ITA_NAPOLI_CITTA', 'P_ITA_TARANTO_CITTA', 'P_ITA_SALERNO_CITTA', 'P_POL_GDYNIA_CITTA', 'P_ITA_VENEZIA_CITTA']) {
+  for (const id of ['P_ITA_GENOVA_CITTA', 'P_ITA_NAPOLI_CITTA', 'P_ITA_TARANTO_CITTA', 'P_ITA_SALERNO_CITTA', 'P_POL_GDYNIA_CITTA', 'P_ITA_VENEZIA_CITTA', 'P_DEU_AMBURGO_CITTA', 'P_GBR_LONDRA_CITTA', 'P_NLD_ROTTERDAM_CITTA', 'P_DEU_KIEL_CITTA', 'P_USSR_MURMANSK_CITTA']) {
     assert.ok(zones(id).some((f) => f.properties.costiera), `${id} dovrebbe essere costiera`);
   }
-  for (const id of ['P_CHE_ZURIGO_CITTA', 'P_ITA_ROMA_CITTA']) assert.ok(zones(id).every((f) => !f.properties.costiera), `${id} non è sul mare`);
+  for (const id of ['P_CHE_ZURIGO_CITTA', 'P_ITA_ROMA_CITTA', 'P_USA_WASHINGTON_CITTA', 'P_TUR_BURSA_CITTA']) assert.ok(zones(id).every((f) => !f.properties.costiera), `${id} non è sul mare`);
 });
 
 test('le zone che il confine non tocca per 0,15–4 km sono poche (quelle a forma falsata restano ferme di proposito)', () => {

@@ -322,3 +322,7 @@ Economia di base (26/10/2026): implementato e testato sui dati e sulle funzioni 
 
 ## 29/10/2026 — ferrovie posteriori al 1936
 - **Declassate 8 ferrovie moderne** (`data/rail_overrides_1936.json`, `src/data/railOverrides.js`, `scripts/apply-rail-overrides.js`): implementato e testato (`tests/rail_overrides.test.js`); l'elenco è **ipotesi dalla memoria, non verificata**. Aggiunta la tavola `data/infrastructure/rail_length_1936.json` (km in esercizio 1936 da OCR del Jahrbuch, da controllare) e un test che i km del modello non la superino. Dettagli in `docs/STRADE_FERROVIE.md`.
+
+### Correzione «costiera» da conoscenza geografica (29/10/2026)
+- La geometria sbaglia sui porti d'estuario/canale (Amburgo, Londra, Rotterdam, Kiel, Murmansk…) e segna «costiere» alcune città interne vicine a un estuario. `data/citta_costiere_conoscenza.json` (62 città, 92 zone) sovrascrive il flag.
+- Ogni zona ha `costieraFonte`: `geometria` (calcolata) o `conoscenza` (correzione manuale). Stato: implementato e testato (`tests/city_coast.test.js`); l'elenco è **conoscenza generale non verificata su dataset**, da rivedere. Nessuna regola di porti/cantieri usa ancora il flag.
