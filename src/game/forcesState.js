@@ -2,6 +2,7 @@
 // La logica è in src/rules/forces.js; qui: forma dello stato, migrazione 5→6, inizializzazione e pool di uomini della nazione.
 import { FORCES_SCHEMA, createForcesState, initForces, enlistedManpower } from '../rules/forces.js';
 import { manpowerPoolState } from '../rules/manpowerPool.js';
+import { validateReinforcementFields } from '../rules/reinforcements.js';
 
 /** Errori di forma (non conosce il catalogo: per quello validateForcesState di rules/forces.js). */
 export function validateForcesShape(f) {
@@ -11,6 +12,7 @@ export function validateForcesShape(f) {
   if (typeof f.initialized !== 'boolean') errors.push('forze: initialized non è booleano');
   const d = f.divisions;
   if (d === null || typeof d !== 'object' || Array.isArray(d)) return [...errors, 'forze: divisions non è un oggetto'];
+  errors.push(...validateReinforcementFields(f));
   for (const [id, v] of Object.entries(d)) {
     if (v === null || typeof v !== 'object') { errors.push(`forze: ${id} non valido`); continue; }
     if (typeof v.templateId !== 'string' || v.templateId === '') errors.push(`forze: ${id} senza templateId`);
