@@ -156,15 +156,16 @@ const newState = (nation = 'DEU') => newGame({ nation, political, ownersWithProv
 const corpsId = (n) => units.find((u) => u.name === n).id;
 
 test('schema 4: nuova partita con comandanti vuoti, migrazione 3→4 senza perdere nulla, validazione di forma', () => {
-  assert.equal(STATE_SCHEMA, 4);
+  assert.equal(STATE_SCHEMA, 5);
   const s = newState();
   assert.deepEqual(s.commanders, { schema: 'commanders-v1', assignments: {} });
   assert.deepEqual(validateState(s), []);
-  const { commanders: _c, ...rest } = s;
+  const { commanders: _c, orbat: _o, ...rest } = s;
   const v3 = { ...rest, schema: 3 };
   const r = parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 3, savedAt: null, label: 'v3', state: v3 }));
   assert.equal(r.ok, true); assert.equal(r.migratedFrom, 3); assert.deepEqual(r.state, s);
-  assert.deepEqual(migrateV3toV4(v3), s);
+  const { orbat: _skip, ...s4 } = s;
+  assert.deepEqual(migrateV3toV4(v3), { ...s4, schema: 4 });
   assert.equal(typeof MIGRATIONS[3], 'function');
   for (const [bad, re] of [[{ schema: 'x', assignments: {} }, /schema/], [{ schema: 'commanders-v1', assignments: [] }, /assignments/], [null, /oggetto/],
     [{ schema: 'commanders-v1', assignments: { C1: { officerId: 'O1', source: 'boh', since: '1936-01-01' } } }, /origine/],
@@ -206,4 +207,83 @@ test('scelta del giocatore sullo stato: solo la propria nazione, con avvisi, e r
   const released = playerReleaseCommander(later, second, { units });
   assert.ok(!(second in released.state.commanders.assignments));
   assert.throws(() => playerReleaseCommander(s, corpsId('Kwantung Army'), { units }), /JPN/);
+});
+
+// --- Inquadramento (schema 5): teatro → armata → corpo → divisione → supporto ---
+import {
+  ORBAT_SCHEMA, orbatLevel, createOrbatState, canAttach, attach, detach, childrenOf, chainOf, unassigned, validateOrbatState,
+} from '../src/rules/orbat.js';
+import { migrateV4toV5, validateOrbatShape, playerAttach, playerDetach } from '../src/game/orbatState.js';
+
+const unitU = (id, name, over = {}) => ({ id, name, nation: 'DEU', branch: 'Heer', category: 'infantry', echelon: 'division', startYear: 1936, endYear: null, commandLevel: null, review: null, ...over });
+const cmdU = (id, name, level, over = {}) => unitU(id, name, { category: 'command', echelon: 'command', commandLevel: level, ...over });
+const TU = [cmdU('TU', 'Teatro', 'theater'), cmdU('A', 'Armata', 'army'), cmdU('C1', 'Corpo 1', 'corps'), cmdU('C2', 'Corpo 2', 'corps'),
+  unitU('D1', 'Div 1'), unitU('D2', 'Div 2'), unitU('B1', 'Brig 1', { category: 'armored', echelon: 'brigade' }), unitU('S1', 'Art 1', { category: 'artillery', echelon: 'regiment' }),
+  cmdU('W1', 'Wehrkreis', 'district'), cmdU('H', 'OKW', 'high_command'), unitU('F1', 'Divisione francese', { nation: 'FRA' }), unitU('L1', 'Divisione futura', { startYear: 1940 })];
+const DAY = '1936-01-01';
+
+test('orbat: livelli (comandi, divisioni, brigate, supporto) e unità fuori catena', () => {
+  assert.deepEqual(['TU', 'A', 'C1', 'D1', 'B1', 'S1', 'W1', 'H'].map((id) => orbatLevel(TU.find((x) => x.id === id))), ['theater', 'army', 'corps', 'division', 'division', 'support', null, null]);
+  assert.equal(orbatLevel(unitU('X', 'Aereo', { category: 'fighter', echelon: 'wing' })), null);
+});
+
+test('orbat: attach, spostamento, cicli, nazioni, livelli e date', () => {
+  let o = createOrbatState();
+  assert.equal(o.schema, ORBAT_SCHEMA);
+  for (const [c, p] of [['A', 'TU'], ['C1', 'A'], ['C2', 'TU'], ['D1', 'C1'], ['B1', 'C1'], ['S1', 'D1']]) o = attach(o, { childId: c, parentId: p, units: TU, date: DAY }).state;
+  assert.deepEqual(chainOf(o, 'S1'), ['D1', 'C1', 'A', 'TU']);
+  assert.deepEqual(childrenOf(o, 'C1'), ['B1', 'D1']);
+  const moved = attach(o, { childId: 'D1', parentId: 'C2', units: TU, date: DAY });
+  assert.deepEqual(moved.events, [{ type: 'moved', unitId: 'D1', from: 'C1', to: 'C2', date: DAY }]);
+  assert.deepEqual(childrenOf(moved.state, 'C1'), ['B1'], 'un figlio ha un solo padre');
+  assert.equal(attach(o, { childId: 'D1', parentId: 'C1', units: TU, date: DAY }).state, o, 'stesso padre: nessun cambiamento');
+  const bad = (c, p, re) => assert.throws(() => attach(o, { childId: c, parentId: p, units: TU, date: DAY }), re, `${c}→${p}`);
+  bad('TU', 'A', /livello più alto/); bad('D1', 'D2', /livello più alto/); bad('C1', 'C1', /sé stessa/); bad('F1', 'C1', /FRA/);
+  bad('D2', 'S1', /non può comandare/); bad('D2', 'W1', /non può comandare/); bad('W1', 'TU', /non è inquadrabile/); bad('D2', 'H', /non può comandare/);
+  bad('L1', 'C1', /non è attiva/); bad('Z', 'C1', /inesistente/); bad('D2', 'Z', /inesistente/);
+  assert.equal(canAttach(o, { childId: 'D2', parentId: 'C1', units: TU, date: DAY }).ok, true);
+  assert.deepEqual(chainOf({ links: { X: { parent: 'Y' }, Y: { parent: 'X' } } }, 'X'), ['Y'], 'catena con ciclo: termina senza girare a vuoto');
+  assert.deepEqual(validateOrbatState(o, TU), []);
+  assert.ok(validateOrbatState({ ...o, links: { ...o.links, D2: { parent: 'D1', source: 'player', since: DAY } } }, TU).some((e) => /livello|division/.test(e)));
+  assert.ok(validateOrbatState({ ...o, links: { D2: { parent: 'Z', source: 'player', since: DAY } } }, TU).some((e) => /non esiste/.test(e)));
+});
+
+test('orbat: detach e unità non assegnate', () => {
+  let o = attach(createOrbatState(), { childId: 'D1', parentId: 'C1', units: TU, date: DAY }).state;
+  assert.deepEqual(unassigned(o, TU, DAY, { nation: 'DEU' }).map((x) => x.id), ['A', 'B1', 'C1', 'C2', 'D2', 'S1'], 'solo unità inquadrabili e attive, teatri esclusi');
+  const d = detach(o, 'D1', { date: DAY });
+  assert.deepEqual(d.events, [{ type: 'detached', unitId: 'D1', from: 'C1', to: null, date: DAY }]);
+  assert.deepEqual(d.state.links, {});
+  assert.equal(detach(d.state, 'D1').state, d.state);
+});
+
+test('schema 5: nuova partita con inquadramento vuoto, migrazione 4→5, salvataggio, validazione di forma', () => {
+  const s = newState();
+  assert.deepEqual(s.orbat, { schema: 'orbat-v1', links: {} });
+  const { orbat: _o, ...rest } = s;
+  const v4 = { ...rest, schema: 4 };
+  const r = parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 4, savedAt: null, label: 'v4', state: v4 }));
+  assert.equal(r.ok, true); assert.equal(r.migratedFrom, 4); assert.deepEqual(r.state, s);
+  assert.deepEqual(migrateV4toV5(v4), s);
+  assert.equal(typeof MIGRATIONS[4], 'function');
+  for (const [bad, re] of [[{ schema: 'x', links: {} }, /schema/], [{ schema: 'orbat-v1', links: [] }, /links/], [null, /oggetto/],
+    [{ schema: 'orbat-v1', links: { A: { parent: 'A', source: 'player', since: DAY } } }, /sé stessa/],
+    [{ schema: 'orbat-v1', links: { A: { parent: 'B', source: 'boh', since: DAY } } }, /origine/]]) assert.ok(validateOrbatShape(bad).some((e) => re.test(e)), String(re));
+  assert.ok(validateState({ ...s, orbat: undefined }).some((e) => /orbat/.test(e)));
+});
+
+test('orbat sullo stato: il giocatore inquadra solo la propria nazione; dati reali (Wehrkreis fuori catena, nessun collegamento storico)', () => {
+  const s = newState('DEU');
+  const id = (n) => units.find((x) => x.name === n).id;
+  const corps = id('I. Armeekorps'); const div = id('1. Infanterie-Division'); const wk = id('Wehrkreis I');
+  assert.equal(orbatLevel(units.find((x) => x.id === wk)), null);
+  assert.equal(orbatLevel(units.find((x) => x.id === corps)), 'corps');
+  const r = playerAttach(s, { unitId: div, parentId: corps, units });
+  assert.deepEqual(r.state.orbat.links[div], { parent: corps, source: 'player', since: '1936-01-01' });
+  assert.deepEqual(validateState(r.state), []);
+  assert.deepEqual(validateOrbatState(r.state.orbat, units), []);
+  assert.deepEqual(parseSave(serializeSave(r.state)).state, r.state);
+  assert.throws(() => playerAttach(s, { unitId: units.find((x) => x.nation === 'FRA' && x.category === 'infantry').id, parentId: corps, units }), /FRA|giocatore/);
+  assert.equal(playerDetach(r.state, div, { units }).state.orbat.links[div], undefined);
+  assert.equal(unassigned(s.orbat, units, '1936-01-01', { nation: 'DEU' }).length > 0, true, 'nessun inquadramento storico dato per scontato');
 });

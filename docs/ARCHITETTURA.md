@@ -66,7 +66,9 @@ Il giocatore mantiene il controllo sulle decisioni produttive. Il sistema può s
 
 L'organizzazione militare segue la gerarchia:
 
-Teatri operativi → Corpi d'armata → Divisioni.
+Teatri operativi → Armate (e gruppi d'armate) → Corpi d'armata → Divisioni → Unità di supporto (indicazione dell'utente, 29/10/2026).
+
+Armate, corpi e teatri potranno ricevere comandi e missioni (non ancora implementato). Dettagli e stato: `docs/STATO_IMPLEMENTAZIONE.md`, sezione «Inquadramento».
 
 Le categorie comprendono:
 

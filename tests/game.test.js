@@ -158,13 +158,14 @@ test('salvataggio: catena di migrazioni (schema sintetico) e migrazione mancante
     2: (st) => ({ ...st, b: st.a + 1 }),
     3: (st) => st,
     4: (st) => st,
+    5: (st) => st,
   };
-  // schema sintetico 5 (diverso da quello reale): le migrazioni reali 1→2→3→4 non c'entrano, la validazione dello stato reale non scatta
-  const ok = parseSave(doc(1, { x: 1 }), { migrations, currentSchema: 5 });
+  // schema sintetico 6 (diverso da quello reale): le migrazioni reali 1→2→3→4→5 non c'entrano, la validazione dello stato reale non scatta
+  const ok = parseSave(doc(1, { x: 1 }), { migrations, currentSchema: 6 });
   assert.equal(ok.ok, true);
   assert.deepEqual(ok.state, { x: 1, a: 1, b: 2 });
   assert.equal(ok.migratedFrom, 1);
-  const missing = parseSave(doc(1, { x: 1 }), { migrations: { 2: (s) => s }, currentSchema: 5 });
+  const missing = parseSave(doc(1, { x: 1 }), { migrations: { 2: (s) => s }, currentSchema: 6 });
   assert.equal(missing.reason, 'missing_migration');
   const boom = parseSave(doc(1, {}), { migrations: { 1: () => { throw new Error('rotto'); } }, currentSchema: 2 });
   assert.equal(boom.reason, 'invalid_state');

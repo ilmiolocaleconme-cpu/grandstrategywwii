@@ -286,3 +286,12 @@ Economia di base (26/10/2026): implementato e testato sui dati e sulle funzioni 
 - **Non collegato:** il sistema non è in `GAME_SYSTEMS` e non c'è interfaccia.
 - **Non eseguiti:** suite completa (~11 min), build, funzionamento offline.
 - Dettagli: `docs/DATI_UFFICIALI.md`.
+
+## Inquadramento delle forze di terra (29/10/2026)
+- **Implementato e testato (test mirati, 5 test nuovi in `tests/officers.test.js`):** `src/rules/orbat.js` (livelli teatro > gruppo d'armate > armata > corpo > divisione/brigata > supporto; un solo padre; figlio di livello più basso, salti permessi; stessa nazione; entrambi attivi alla data; niente cicli; `attach`, `detach`, `childrenOf`, `chainOf`, `unassigned`, `validateOrbatState`), `src/game/orbatState.js` (forma dello stato, migrazione 4→5, `playerAttach`/`playerDetach` sulle sole unità della propria nazione), schema di salvataggio 5 (`state.orbat = { schema: 'orbat-v1', links: { figlio: { parent, source, since } } }`).
+- **Fuori dalla catena:** Wehrkreis e regioni militari (comandi distrettuali), alto comando, unità aeree e navali.
+- **Dati 1936: nessun collegamento.** I CSV di Germania, Francia e URSS non dicono a quale corpo o armata appartiene ogni divisione ("Da verificare") e non ho trovato una fonte storica verificata per il 1936: le divisioni partono non assegnate e le inquadra il giocatore. Il raggruppamento di Hearts of Iron 3 è una fonte di gioco e non è stato usato. Wehrkreis (13) e Armeekorps (12) esistono come unità; i collegamenti storici si aggiungeranno con una fonte.
+- **Da verificare:** XI e XII Armeekorps (e XIII) potrebbero essere nati dopo il 1/1/1936 (indicazione non confermata da una fonte solida), ma il file dell'utente li data al 1/1/1936.
+- **Mancante:** unità di supporto nel catalogo (le categorie in `SUPPORT_CATEGORIES` sono previste, nessuna unità le usa); comandi e missioni di armate/corpi/teatri; interfaccia; collegamento a `GAME_SYSTEMS`; template di divisione, caserme, addestramento, produzione di unità.
+- **Non eseguiti dopo il cambio di schema:** build e funzionamento offline.
+
