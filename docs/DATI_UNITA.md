@@ -93,3 +93,9 @@ Decisione dell'utente: dove i dati sono dubbi (divisioni che nel 1936 esistevano
 - Al 1/1/1936: 33 istanze (Germania: 30 fanterie + 3 Panzer). Le **altre 67 divisioni attive non hanno istanza** (nessun template: Francia, Giappone, URSS, Regno Unito, Italia, USA, e in Germania gebirgs e cavalleria). Le fanterie hanno 15.796 uomini effettivi (17.263 × 0,915); le Panzer non hanno organico (null nel template): niente invenzioni.
 - Pool della Germania: capacità 3.425.000 − arruolati 473.880 = 2.951.120 disponibili (stesso calcolo di `manpowerPool`, ora dallo stato).
 - **Non collegato** a `App.jsx` (nessuna chiamata a `initForcesState` all'avvio), nessuna interfaccia; nessuna regola applica perdite o rinforzi alle istanze. Test: `tests/forces.test.js` (5 test).
+
+## Catalogo dei carri tedeschi 1934–1945 (29/10/2026)
+- File: `data/units/models/carri_tedeschi_1934_1945.json` (`tank-models-v1`, `DA_VERIFICARE`), codice `src/data/tankModels.js` (`validateTankModels`, `modelsAvailableAt`), test `tests/tank_models.test.js` (3), controllo in `validate-data`.
+- Dati: tabella incollata dall'utente (Panzer I, II, III, IV, Panther, Tiger I, Tiger II) con designazione, Sd.Kfz., anni di produzione, esemplari e ruolo. **Non verificata da me.** Nessuna statistica di combattimento (corazza, cannone) è stata inventata.
+- Anni interi, inizio dal 1° gennaio: al 1/1/1936 risultano disponibili Panzer I, II e **IV** (inizio 1936 nella tabella). Il Panzer IV potrebbe non essere disponibile in quella data (prime consegne più tarde): **da decidere**.
+- **Non collegato** al template della corazzata (`carri` resta un numero unico) né al tech tree: i modelli diventeranno sblocchi della ricerca.

@@ -310,3 +310,7 @@ Economia di base (26/10/2026): implementato e testato sui dati e sulle funzioni 
 - **Non collegato:** `App.jsx` non inizializza le forze; nessuna interfaccia; perdite, rinforzi, reclutamento e addestramento mancanti.
 - **Non eseguiti dopo il cambio di schema:** suite completa, build, funzionamento offline.
 
+## Catalogo carri tedeschi (29/10/2026)
+- **Implementato e testato (test mirati):** catalogo di 7 modelli dalla tabella dell'utente, validazione, disponibilità per data. Dati non verificati; nessuna statistica di combattimento. Dettagli: `docs/DATI_UNITA.md`.
+- **Non collegato:** template della corazzata, tech tree, produzione.
+
