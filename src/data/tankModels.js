@@ -20,6 +20,21 @@ export function validateTankModels(doc) {
     if (!String(m.source ?? '').trim()) errors.push(`${p}: senza fonte`);
     if (!['utente', 'ipotesi'].includes(m.basis)) errors.push(`${p}: basis ${JSON.stringify(m.basis)}`);
   }
+  const evIds = new Set();
+  for (const m of doc.eventModels ?? []) {
+    const p = `modelli (evento): ${m.id ?? '?'}`;
+    if (!/^MDL-[A-Z]+-[A-Z0-9-]+$/.test(m.id ?? '')) errors.push(`${p}: id non valido`);
+    if (ids.has(m.id) || evIds.has(m.id)) errors.push(`${p}: id duplicato`);
+    evIds.add(m.id);
+    if (names.has(m.designation)) errors.push(`${p}: designazione duplicata ${m.designation}`);
+    if (m.nation !== doc.nation) errors.push(`${p}: nazione ${m.nation} diversa da ${doc.nation}`);
+    if (!CLASSES.includes(m.class)) errors.push(`${p}: classe ${JSON.stringify(m.class)}`);
+    if (!/^[A-Z]{3}$/.test(m.originNation ?? '')) errors.push(`${p}: nazione d'origine mancante`);
+    if (m.availability?.type !== 'event' || !/^EVT-[A-Z0-9-]+$/.test(m.availability?.eventId ?? '')) errors.push(`${p}: disponibilità non legata a un evento`);
+    if (m.availability?.date !== null && !/^\d{4}-\d{2}-\d{2}$/.test(m.availability?.date ?? '')) errors.push(`${p}: data dell'evento non valida`);
+    if ('productionStart' in m || 'productionEnd' in m) errors.push(`${p}: un modello a evento non ha anni di produzione`);
+    if (!String(m.source ?? '').trim()) errors.push(`${p}: senza fonte`);
+  }
   return errors;
 }
 

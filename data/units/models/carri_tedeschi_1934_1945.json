@@ -2,7 +2,7 @@
   "schema": "tank-models-v1",
   "nation": "DEU",
   "status": "DA_VERIFICARE",
-  "note": "Catalogo dei carri tedeschi 1934-1945 dalla tabella dell'utente. Anni di produzione e quantità NON verificati da me. Gli anni sono interi (inizio assunto al 1° gennaio come per le unità): un modello con inizio 1936 risulterebbe disponibile dal 1/1/1936 anche se le prime consegne reali furono più tarde (da decidere per il Pz.Kpfw. IV). Nessuna statistica di combattimento è inventata.",
+  "note": "Catalogo dei carri tedeschi 1934-1945 dalla tabella dell'utente. Anni di produzione e quantità NON verificati da me. Gli anni sono interi (inizio assunto al 1° gennaio come per le unità): un modello con inizio 1936 risulterebbe disponibile dal 1/1/1936 anche se le prime consegne reali furono più tarde (da decidere per il Pz.Kpfw. IV). Nessuna statistica di combattimento è inventata. eventModels: modelli che entrano in gioco SOLO con un evento (mai per data): oggi nessun sistema di eventi esiste nel codice.",
   "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me.",
   "models": [
     {
@@ -111,6 +111,44 @@
       "class": "heavy",
       "basis": "utente",
       "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me."
+    }
+  ],
+  "eventModels": [
+    {
+      "id": "MDL-DEU-PZ35T",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. 35(t)",
+      "name": "Panzer 35(t)",
+      "originNation": "CZE",
+      "originalDesignation": "LT vz. 35",
+      "class": "light",
+      "availability": {
+        "type": "event",
+        "eventId": "EVT-CSK-CARRI",
+        "date": null,
+        "dateBasis": "da_verificare"
+      },
+      "role": "Carro leggero cecoslovacco con cannone da 37 mm e trasmissione pneumatica innovativa (seppur complessa); requisito dalla Germania e integrato nella Wehrmacht.",
+      "basis": "utente",
+      "source": "Testo incollato dall'utente il 29/10/2026 (industria bellica cecoslovacca anni '30). Non verificato da me."
+    },
+    {
+      "id": "MDL-DEU-PZ38T",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. 38(t)",
+      "name": "Panzer 38(t)",
+      "originNation": "CZE",
+      "originalDesignation": "LT vz. 38",
+      "class": "light",
+      "availability": {
+        "type": "event",
+        "eventId": "EVT-CSK-CARRI",
+        "date": null,
+        "dateBasis": "da_verificare"
+      },
+      "role": "Carro leggero, considerato il miglior carro leggero al mondo all'inizio del conflitto per affidabilità meccanica e velocità; lo scafo fu poi riutilizzato fino a fine guerra per il cacciacarri Hetzer.",
+      "basis": "utente",
+      "source": "Testo incollato dall'utente il 29/10/2026 (industria bellica cecoslovacca anni '30). Non verificato da me."
     }
   ]
 }
