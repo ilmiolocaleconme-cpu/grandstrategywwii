@@ -27,7 +27,9 @@ import hospitalCare from '../data/medical/hospital_care.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { initForcesState, nationManpowerPool } from './game/forcesState.js';
-import { createTradeSystem } from './game/tradeState.js';
+import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';
+import { TradePanel } from './ui/TradePanel.jsx';
+import { tradeGoods, tradeRows, previewTrade, describeTradeFailure } from './ui/tradeView.js';
 import { createGameSea } from './game/seaState.js';
 import seaRoutesParams from '../data/sea_routes_params.json';
 import unitsFile from '../data/units/units.json';
@@ -428,6 +430,20 @@ export default function App() {
   };
   const researchRows = useMemo(() => (game ? GAME_RESEARCH.listFor(game, game.player) : null), [game]);
   const securityView = useMemo(() => (game ? securitySummary(game, game.player, { ...secCtx, state: game }) : null), [game, secCtx]);
+  // commercio: il giocatore è una delle due parti; il percorso usa la rete di movimento e le rotte marittime con i porti reali (se già caricate)
+  const tradeGoodList = useMemo(() => tradeGoods(economyData, resources), []);
+  const tradeCtx = () => ({ economy: economyData, resources, net: gameNet(game), sea: GAME_SEA.sea ? GAME_SEA.sea.at(game) : null });
+  const orderOf = (o) => (o.direction === 'sell' ? { seller: game.player, buyer: o.partner } : { seller: o.partner, buyer: game.player });
+  const previewTradeOrder = useCallback((o) => previewTrade(game, { ...orderOf(o), good: o.good, perDay: o.perDay, days: o.days, mode: o.mode }, tradeCtx()), [game, moveNet, seaFile]); // eslint-disable-line react-hooks/exhaustive-deps
+  const openTrade = (o) => {
+    const r = openTradeContract(game, { ...orderOf(o), good: o.good, perDay: o.perDay, days: o.days, mode: o.mode }, tradeCtx());
+    if (!r.ok) return { ok: false, text: describeTradeFailure(r.reason) };
+    setGame(r.state);
+    return { ok: true, text: `Contratto ${r.contract.id} aperto: parte domani.` };
+  };
+  const cancelTrade = (id) => { const r = cancelTradeContract(game, id); if (!r.ok) return { ok: false, text: describeTradeFailure(r.reason) }; setGame(r.state); return { ok: true, text: `Contratto ${id} annullato.` }; };
+  const tradePartners = useMemo(() => (game ? Object.keys(game.nations).filter((id) => id !== game.player).map((id) => ({ id, name: NATION_NAMES[id] ?? id })).sort((a, b) => a.name.localeCompare(b.name, 'it')) : []), [game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
+  const tradeList = useMemo(() => (game ? tradeRows(game, game.player, { nationName: (id) => NATION_NAMES[id] ?? id, goods: tradeGoodList }) : []), [game?.trade, game?.day, game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
   const startResearch = (techId) => applyOrder(GAME_RESEARCH.start(game, game.player, techId), 'Ricerca avviata: costo pagato.');
   const trainAgent = (role) => applyOrder(GAME_SECURITY.train(game, game.player, role), 'Addestramento avviato: costo pagato.');
   const trainPolice = (place) => applyOrder(GAME_SECURITY.trainMilitaryPolice(game, game.player, place), 'Reparto di polizia militare in addestramento.');
@@ -639,6 +655,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} />
+            <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
             <ResearchPanel rows={researchRows} onStart={startResearch} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
