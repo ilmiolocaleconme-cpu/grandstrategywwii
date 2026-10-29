@@ -13,7 +13,7 @@ import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.
 import ProvincePanel from './map/ProvincePanel.jsx';
 import { provinceLinkStats } from './rules/provinceView.js';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
-import { buildMapModel } from './map/geo.js';
+import { buildMapModel, ownerColor } from './map/geo.js';
 import { withTerrain } from './data/terrain.js';
 import { buildCanvasModel } from './map/canvasModel.js';
 import initialIndustry from '../data/industry/initial_industry.json';
@@ -36,6 +36,12 @@ import { commandersSystem } from './game/commandersState.js';
 import { buildMoveNet } from './data/moveNet.js';
 import { orderMove, cancelOrders, createMovementSystem, currentDeployment, initialPositions } from './game/movementState.js';
 import ArmyPanel from './ui/ArmyPanel.jsx';
+import TheaterPanel from './ui/TheaterPanel.jsx';
+import { theaterMarks, describeAssignment } from './ui/theaterView.js';
+import { createTheaterSystem, playerAssign, playerCancelAssignment, playerDeclareWar, provinceController, isFighter } from './game/theaterState.js';
+import { enemiesOf } from './rules/war.js';
+import { activeAssignments } from './rules/theater.js';
+import { positionOf } from './rules/movement.js';
 import conditionConfig from '../data/units/condition_config.json';
 import { createConditionSystem, playerSetPolicy } from './game/conditionState.js';
 import readiness from '../data/units/readiness.json';
@@ -264,6 +270,7 @@ const GAME_SYSTEMS = [
   commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
   createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
+  createTheaterSystem({ getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS }), // guerra, incarichi di teatro, battaglie e conquista
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
   createTradeSystem({ resources, getNet: gameNet }), // commercio v1: contratti via terra (consegne e partenze); nessuna interfaccia ancora
@@ -275,6 +282,7 @@ const GAME_SYSTEMS = [
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)
 const BUILD_CTX = { build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
 
+const NATIONS_WITH_UNITS = new Set(unitsFile.units.map((u) => u.nation)); // nazioni con unità nel catalogo: i possibili avversari
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
 // chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico
 const NATION_CONTROL = Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
@@ -360,8 +368,15 @@ export default function App() {
   const [armyChecked, setArmyChecked] = useState(() => new Set());
   const [armyNotice, setArmyNotice] = useState(null);
   const [moveNet, setMoveNet] = useState(null);
+  const [theater, setTheater] = useState(null); // { draft: null | { kind, provinces: [], units: [] }, notice } quando il pannello Teatro è aperto
   // destinazione di un ordine: con un segnalino proprio aperto e unità spuntate, il tocco su una provincia è un ordine di marcia
   const selectProvince = (id) => {
+    if (id != null && theater?.draft && moveNet) {
+      const item = mapItems.find((i) => i.id === id);
+      const mother = item ? (item.props.parentProvince ?? item.props.id) : id;
+      setTheater((t) => { const ps = t.draft.provinces; return { ...t, notice: null, draft: { ...t.draft, provinces: ps.includes(mother) ? ps.filter((x) => x !== mother) : [...ps, mother] } }; });
+      return;
+    }
     if (id != null && armySel && layer === 'army' && game && armySel.nation === game.player && armyChecked.size > 0 && moveNet) {
       const item = mapItems.find((i) => i.id === id);
       const to = item ? (item.props.parentProvince ?? item.props.id) : id;
@@ -375,7 +390,7 @@ export default function App() {
     }
     setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false);
   };
-  const selectUnits = (g) => { setArmySel(g); setArmyChecked(new Set()); setArmyNotice(null); setProvinceId(null); setSeaId(null); setInfoOpen(false); };
+  const selectUnits = (g) => { if (theater?.draft) return; setArmySel(g); setArmyChecked(new Set()); setArmyNotice(null); setProvinceId(null); setSeaId(null); setInfoOpen(false); };
   const toggleArmy = (uid) => setArmyChecked((s) => { const n = new Set(s); if (n.has(uid)) n.delete(uid); else n.add(uid); return n; });
   const selectSea = (id) => { setSeaId(id); setProvinceId(null); if (id == null) setInfoOpen(false); };
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
@@ -434,6 +449,28 @@ export default function App() {
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
   const armyGroup = armySel ? (provinceUnits[armySel.province] ?? []).find((x) => x.nation === armySel.nation) ?? null : null;
+  // Teatro: incarichi (attacco/difesa) con province scelte sulla mappa, guerra e registro delle battaglie
+  const theaterCtx = { getNet: gameNet, unitsById: UNITS_BY_ID };
+  const startAssign = () => {
+    if (!game || !armyGroup) return;
+    const ids = (armyChecked.size ? [...armyChecked] : armyGroup.units.map((u) => u.id)).filter((uid) => { const u = UNITS_BY_ID.get(uid); return u && u.nation === game.player && isFighter(game, u); });
+    setTheater({ draft: { kind: 'attack', provinces: [], units: ids }, notice: ids.length ? null : 'Nessuna di queste unità può combattere (serve una divisione con dotazione).' });
+    setArmySel(null);
+  };
+  const confirmAssign = () => {
+    try {
+      const d = theater.draft;
+      const r = playerAssign(game, { kind: d.kind, provinces: d.provinces, units: d.units, ctx: theaterCtx });
+      setGame(r.state);
+      setTheater({ draft: null, notice: `Incarico ${r.id} dato: le unità si mettono in marcia.` });
+    } catch (e) { setTheater((t) => ({ ...t, notice: e.message })); }
+  };
+  const theaterCards = useMemo(() => (theater && game && moveNet && game.theaters
+    ? activeAssignments(game.theaters).filter((a) => a.nation === game.player).map((a) => describeAssignment(a, {
+      net: moveNet, positionOf: (u) => positionOf(game.movement, INITIAL_POSITIONS, u), controllerOf: (p) => provinceController(game, moveNet, p),
+      unitName: (u) => UNITS_BY_ID.get(u)?.name ?? u, effectiveOf: (u) => game.forces?.divisions?.[u]?.items?.['manpower.war']?.effective ?? null,
+    })) : []), [theater, game, moveNet]);
+  const theaterMarkSet = useMemo(() => (game && moveNet ? theaterMarks({ state: game, pick: theater?.draft?.provinces ?? [], colorOf: (n) => ownerColor(n) }) : null), [game?.provinces, game?.theaters, game?.player, theater?.draft?.provinces, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
   // rete di movimento: si carica (e si costruisce) quando c'è una partita; l'adiacenza è un file a parte, non nel pacchetto principale
   useEffect(() => {
     if (!game || moveNet || !provinces) return undefined;
@@ -533,6 +570,7 @@ export default function App() {
           <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed}
             onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g, GAME_SYSTEMS))} />
         ) : null}
+        {game && tab === 'map' ? <button type="button" className={theater ? 'on' : ''} aria-pressed={Boolean(theater)} onClick={() => setTheater((t) => (t ? null : { draft: null, notice: null }))}>Teatro</button> : null}
         <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
         <FullscreenButton />
       </nav>
@@ -626,11 +664,21 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} />
-        {armyGroup && layer === 'army' && game ? (
+        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} />
+        {theater && game ? (
+          <TheaterPanel draft={theater.draft} unitCount={theater.draft?.units.length ?? 0} cards={theaterCards} enemies={enemiesOf(game.war, game.player).map((n) => NATION_NAMES[n] ?? n)}
+            candidates={[...NATIONS_WITH_UNITS].filter((n) => n !== game.player && !enemiesOf(game.war, game.player).includes(n)).map((n) => ({ id: n, name: NATION_NAMES[n] ?? n })).sort((a, b) => a.name.localeCompare(b.name, 'it'))}
+            log={(game.combat?.log ?? []).slice(-8).reverse()} nameOf={(p) => moveNet?.name(p) ?? p} notice={theater.notice}
+            onKind={(kind) => setTheater((t) => ({ ...t, notice: null, draft: { ...t.draft, kind, provinces: [] } }))}
+            onRemove={(p) => setTheater((t) => ({ ...t, draft: { ...t.draft, provinces: t.draft.provinces.filter((x) => x !== p) } }))}
+            onConfirm={confirmAssign} onCancelDraft={() => setTheater({ draft: null, notice: null })}
+            onCancelAssignment={(id) => { try { setGame((g) => playerCancelAssignment(g, id)); setTheater((t) => ({ ...t, notice: `Incarico ${id} annullato.` })); } catch (e) { setTheater((t) => ({ ...t, notice: e.message })); } }}
+            onDeclareWar={(n) => { try { setGame((g) => playerDeclareWar(g, n)); setTheater((t) => ({ ...t, notice: `Guerra dichiarata a ${NATION_NAMES[n] ?? n}.` })); } catch (e) { setTheater((t) => ({ ...t, notice: e.message })); } }}
+            onClose={() => setTheater(null)} />
+        ) : armyGroup && layer === 'army' && game ? (
           <ArmyPanel group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={UNITS_BY_ID} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
             provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, UNITS_BY_ID.get(uid)?.nation))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
-            onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
+            onAssign={armySel.nation === game.player && moveNet ? startAssign : undefined} onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
         ) : !(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />

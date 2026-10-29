@@ -315,3 +315,26 @@ h2 {
 .army-panel .unit-info dd button.on, .army-panel .unit-info dd button[aria-pressed='true'] { background: var(--accent); color: #1d2418; border-color: var(--accent); }
 @media (orientation: portrait) { .army-panel { max-height: 58%; } }
 @media (orientation: landscape) and (max-height: 600px) { .ap-title h2 { font-size: 16px; } .ap-card { min-height: 46px; } .ap-i { min-height: 46px; } }
+
+/* Pannello Teatro (incarichi, guerra, battaglie) */
+.th-panel .th-draft, .th-panel .th-body { padding: 0 12px 12px; overflow-y: auto; min-height: 0; flex: 1 1 auto; display: flex; flex-direction: column; gap: 8px; }
+.th-panel h3 { margin: 10px 0 2px; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.th-seg { display: flex; gap: 6px; }
+.th-seg button { flex: 1; min-height: 40px; background: transparent; color: var(--ink); border: 1px solid #4a553f; border-radius: 8px; font: inherit; }
+.th-seg button.on { background: var(--accent); color: #1d2418; border-color: var(--accent); font-weight: 600; }
+.th-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.th-chips button { min-height: 34px; padding: 0 10px; border-radius: 17px; border: 1px solid #f2c14e; background: rgba(242,193,78,.14); color: var(--ink); font: inherit; font-size: 13px; }
+.th-list, .th-obj, .th-units, .th-log { list-style: none; margin: 0; padding: 0; }
+.th-list { display: flex; flex-direction: column; gap: 10px; }
+.th-card { padding: 10px; border: 1px solid #4a553f; border-left-width: 4px; border-radius: 10px; background: rgba(255,255,255,.03); display: flex; flex-direction: column; gap: 6px; }
+.th-card.attack { border-left-color: #e0483b; }
+.th-card.defend { border-left-color: #3d8bdc; }
+.th-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.th-obj li.done { color: #7fd48a; }
+.th-units li, .th-log li, .th-obj li { font-size: 13px; line-height: 1.35; }
+.th-war { display: flex; gap: 8px; flex-wrap: wrap; }
+.th-war select { flex: 1 1 140px; min-height: 40px; background: #1d2418; color: var(--ink); border: 1px solid #4a553f; border-radius: 8px; padding: 0 8px; font: inherit; }
+.th-war button, .th-card button.danger { min-height: 40px; padding: 0 12px; background: transparent; color: #ff8d83; border: 1px solid #b3261e; border-radius: 8px; font: inherit; }
+.th-war button:disabled { opacity: .45; }
+.ap-actions button.go { background: var(--accent); color: #1d2418; border-color: var(--accent); font-weight: 600; }
+.th-panel .ap-title { display: flex; flex-direction: column; gap: 2px; min-width: 0; }

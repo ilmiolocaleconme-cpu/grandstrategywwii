@@ -464,7 +464,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, unitHits, seas, selectedSeaId } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, unitHits, seas, selectedSeaId, marks } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -480,6 +480,26 @@ export function drawOverlay(ctx, p) {
       ctx.fill(zonePath(selSea), 'evenodd');
       ctx.stroke(zoneLinePath(selSea));
     }
+  }
+  // segni degli incarichi di teatro e delle province occupate: { [id provincia madre]: { color, fill, width, dash } }
+  if (marks && Object.keys(marks).length) {
+    const level = lodLevelForScale(a.sx, CANVAS_LOD_TOLS);
+    ctx.lineJoin = 'round';
+    for (const item of model.items) {
+      const m = marks[item.props.parentProvince ?? item.props.id];
+      if (!m) continue;
+      const path = itemPath(model, lod, item, level);
+      ctx.strokeStyle = m.color;
+      ctx.fillStyle = m.fill;
+      ctx.lineWidth = m.width / a.sx;
+      ctx.setLineDash(m.dash ? m.dash.map((d) => d / a.sx) : []);
+      for (const off of copies) {
+        ctx.setTransform(dpr * a.sx, 0, 0, dpr * a.sx, dpr * (a.tx + a.sx * off), dpr * a.ty);
+        if (m.fill) ctx.fill(path, 'evenodd');
+        ctx.stroke(path);
+      }
+    }
+    ctx.setLineDash([]);
   }
   const sel = selectedId ? model.byId.get(selectedId) : null;
   if (sel) {

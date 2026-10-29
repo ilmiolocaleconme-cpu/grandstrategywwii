@@ -3,6 +3,8 @@
 // ordine del giocatore e sistema giornaliero.
 import { createMovementState, issueMove, cancelMove, tickMovement, positionOf, validateMovement } from '../rules/movement.js';
 import { controllerOf } from '../map/geo.js';
+import { atWar } from '../rules/war.js';
+import { provinceStateOf } from './provinceState.js';
 
 export function validateMovementShape(state) {
   return state.movement === undefined ? [] : validateMovement(state.movement);
@@ -20,9 +22,13 @@ export function currentDeployment(deploymentDoc, state) {
   return { ...deploymentDoc, entries: deploymentDoc.entries.map((e) => (mv.positions[e.unit] ? { ...e, province: mv.positions[e.unit] } : e)) };
 }
 
-/** Può entrare nella provincia `m`? SCELTA PROVVISORIA: solo province controllate dalla propria nazione (niente guerra né accessi). */
+/** Può entrare nella provincia `m`? Province proprie (controllo effettivo, anche per occupazione) e di nazioni in guerra con la propria (nessun accesso/diplomazia modellati). */
 export function canEnterFor(state, net, nation) {
-  return (m) => net.has(m) && controllerOf(net.owner(m), state.control) === nation;
+  return (m) => {
+    if (!net.has(m)) return false;
+    const c = provinceStateOf(state, m).controller ?? controllerOf(net.owner(m), state.control);
+    return c === nation || atWar(state.war, c, nation);
+  };
 }
 
 /**

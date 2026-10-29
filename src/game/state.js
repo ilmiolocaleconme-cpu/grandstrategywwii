@@ -17,6 +17,7 @@ import { validateInfrastructureShape } from './infrastructureState.js';
 import { validatePortsShape } from './portsState.js';
 import { validateConditionShape } from './conditionState.js';
 import { validateCommandersShape } from './commandersState.js';
+import { validateWar, validateTheaters, validateCombat } from './theaterState.js';
 
 export const STATE_SCHEMA = 7; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni; 4: comandanti; 5: inquadramento; 6: forze (istanze di divisione); 7: commercio (contratti). Migrazioni in economyState.js, commandersState.js, orbatState.js e forcesState.js
 
@@ -96,6 +97,7 @@ export function validateState(state) {
   errors.push(...validateConditionShape(state)); // opzionale: assente = condizioni iniziali
   errors.push(...validateInfrastructureShape(state.infrastructure)); // opzionale: assente = tutti i collegamenti al livello di partenza
   errors.push(...validatePortsShape(state.ports)); // opzionale: assente = porti del 1936
+  errors.push(...validateWar(state.war), ...validateTheaters(state.theaters), ...validateCombat(state.combat)); // opzionali: guerra, incarichi di teatro, registro battaglie
   errors.push(...validateMovementShape(state)); // opzionale: assente = unità alla dislocazione iniziale
   errors.push(...validateProvinceStates(state.provinces)); // opzionale: assente = tutte le province al default
   return errors;
