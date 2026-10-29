@@ -2,7 +2,7 @@
   "schema": "unit-template-v1",
   "id": "TPL-DEU-PZ-1936",
   "status": "BOZZA_DA_CONFERMARE",
-  "note": "Template della divisione corazzata tedesca al 1/1/1936: MODELLO TEORICO 1935-37 fornito dall'utente. Non indica i mezzi realmente disponibili: le prime divisioni corazzate non erano pienamente operative fino alle grandi manovre del 1937. Solo la struttura ha una fonte; uomini, cavalli, armi e veicoli sono da definire (null, non inventati).",
+  "note": "Template della divisione corazzata tedesca al 1/1/1936: MODELLO TEORICO 1935-37 fornito dall'utente. Non indica i mezzi realmente disponibili: le prime divisioni corazzate non erano pienamente operative fino alle grandi manovre del 1937. Solo la struttura ha una fonte; uomini, cavalli, armi e veicoli sono da definire (null, non inventati). Mobilità per componente indicata dall'utente (fanteria, ricognizione e artiglieria motorizzate). Dotazione effettiva: ogni voce numerica ha 'effective' (null finché non c'è un dato con data e fonte).",
   "appliesTo": {
     "nation": "DEU",
     "category": "armored",
@@ -17,10 +17,24 @@
     "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me."
   },
   "mobility": {
-    "value": "motorizzata",
-    "basis": "ipotesi",
-    "referenceYear": null,
-    "source": "Ipotesi: divisione corazzata con reparti motorizzati; la fonte non indica un valore"
+    "fanteria": {
+      "value": "motorizzata",
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Indicazione dell'utente del 29/10/2026: fanteria, ricognizione e artiglieria della divisione corazzata sono motorizzate."
+    },
+    "ricognizione": {
+      "value": "motorizzata",
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Indicazione dell'utente del 29/10/2026: fanteria, ricognizione e artiglieria della divisione corazzata sono motorizzate."
+    },
+    "artiglieria": {
+      "value": "motorizzata",
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Indicazione dell'utente del 29/10/2026: fanteria, ricognizione e artiglieria della divisione corazzata sono motorizzate."
+    }
   },
   "structure": {
     "reggimentiCarri": {
@@ -75,12 +89,18 @@
     "source": null
   },
   "equipment": {
-    "carriTeorici": {
+    "carri": {
       "value": 416,
       "basis": "utente",
       "referenceYear": "1935-1937",
       "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me.",
-      "note": "Organico teorico del modello: NON è la disponibilità effettiva nel 1936."
+      "note": "Previsto: organico teorico del modello, NON la disponibilità effettiva nel 1936 (da registrare in 'effective').",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
     },
     "armiLeggere": {
       "value": null,

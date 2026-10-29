@@ -29,6 +29,8 @@ import { validateUnits, validateOobEstimates } from '../src/data/units.js';
 import { unitsBuilt } from './build-units.js';
 import { validateOfficers } from '../src/data/officers.js';
 import { officersBuilt } from './build-officers.js';
+import { validateTemplate } from '../src/data/templates.js';
+import { readdir } from 'node:fs/promises';
 import { validateEconomy } from '../src/data/economy.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
 import { validateInitialStocks } from '../src/data/initialStocks.js';
@@ -173,6 +175,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       errors.push(...validateOfficers(officersDoc, { nationIds: new Set(catalog.political.map((p) => p.id)) }));
       for (const f of [officersDoc.source, officersDoc.cardTemplate]) if (createHash('sha256').update(await readFile(new URL(`../data/officers/${f.file}`, import.meta.url))).digest('hex') !== f.sha256) errors.push(`ufficiali: ${f.file} diverso da quello registrato in officers.json (sha256)`);
       if (JSON.stringify(officersDoc) !== JSON.stringify(await officersBuilt())) errors.push('ufficiali: officers.json non allineato a CSV e revisioni, rigenerare con npm run build:officers');
+    }
+    // Template di divisione (previsto/effettivo, basi e fonti)
+    for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {
+      errors.push(...validateTemplate(JSON.parse(await text(`units/templates/${f}`))).map((e) => `template ${f}: ${e}`));
     }
     // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate
     for (const sh of JSON.parse(await text('resources/SOURCE_IDRO.json')).files) {

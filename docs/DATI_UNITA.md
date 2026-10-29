@@ -65,3 +65,10 @@ Su richiesta dell'utente: 46 divisioni anonime (`S36-USSR-F-nnn`, revisione `pla
 - Modello **teorico 1935–37** fornito dall'utente (simile alla 1. Panzer-Division del 15/10/1935), fonte secondaria **non verificata da me**. Struttura: 2 reggimenti carri da 2 battaglioni (4 in tutto), 1 brigata di fanteria, 1 battaglione motociclisti, 1 reggimento di artiglieria, reparti controcarro, ricognizione, genio e trasmissioni; antiaerea e ricognizione aerea aggregate (non organiche certe).
 - **416 carri = organico teorico, non disponibilità del 1936**: le prime divisioni corazzate non erano pienamente operative fino alle manovre del 1937.
 - Da definire (null): uomini, cavalli, armi, artiglieria, veicoli, radio, dotazione effettiva, costi, tempi. Non collegato a produzione o stato di gioco.
+
+## Previsto ed effettivo, mobilità per componente (29/10/2026)
+- Decisione dell'utente: ogni voce numerica di un template ha un valore **previsto** (`value`) e uno **effettivo** (`effective`: valore, data `asOf`, fonte). Esempio dell'utente (non dati storici): cavalli previsti 5000, effettivi 4780; carri previsti 500, effettivi 437. Gli esempi sono usati solo nei test come casi sintetici.
+- `src/data/templates.js`: `validateTemplate` (base `utente|ipotesi|da_definire`; valore non nullo con fonte; effettivo intero, non superiore al previsto, con data e fonte), `leaves`, `fillRatio` (rapporto effettivo/previsto, `null` se manca un dato). Controllato anche da `scripts/validate-data.js`.
+- Nei due template tedeschi tutti gli `effective` sono `null`: nessun dato effettivo del 1936 è stato inventato. Nella corazzata il campo dei carri si chiama `carri` (previsto 416, effettivo da definire).
+- Mobilità della divisione corazzata per componente, indicata dall'utente: fanteria, ricognizione e artiglieria **motorizzate** (basis `utente`).
+- Mancante: regola che usa `fillRatio` (efficienza, rinforzi, produzione); nessuna regola legge ancora i template.
