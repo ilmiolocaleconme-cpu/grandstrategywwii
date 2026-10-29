@@ -14,7 +14,7 @@ const j = (p) => JSON.parse(t(p));
 const cat = loadIndustryCatalog({ factoriesCsv: t('industry/factories.csv'), structuresCsv: t('infrastructure/structures.csv'), categoriesCsv: t('industry/production_categories.csv') });
 const ctx = { production: j('resources/production_1936.json'), factors: j('resources/extraction_factors.json'), scaleFile: j('resources/extraction_scale.json'), pointsByProvince: j('resources/resource_points.json').byProvince, extra: j('resources/resource_locations_extra.json') };
 const industry = j('industry/initial_industry.json');
-const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper', 'tin'];
+const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper', 'wheat', 'tin'];
 const ext = Object.fromEntries(RAW.map((r) => [r, resourceExtraction(r, ctx)]));
 const supply = {};
 for (const id of Object.keys(industry.nations)) supply[id] = Object.fromEntries(RAW.map((r) => [r, totalByPrefix(ext[r], id)]));
