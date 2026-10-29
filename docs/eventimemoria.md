@@ -22,6 +22,18 @@ Contesto ESP (nessun effetto di gioco): le due fazioni sono Repubblica (Seconda 
 
 Contesto SAU (nessun effetto di gioco): concessione alla SOCAL nel 1933, prospezioni a Dhahran dal 1935, nel 1936 joint venture Caltex con Texaco (indicazioni dell'utente, 29/10/2026).
 
+## EVT-ESP-GC: decisioni dell'utente (29/10/2026)
+- **Enclave: sì.** Le enclave si modellano per zona-città, senza spezzare la provincia.
+- **Le città dentro le province vanno attribuite alle fazioni** per la Spagna: ogni città (zona con id proprio) ha la sua fazione, anche quando la provincia è dell'altro campo.
+- **I ribelli compaiono come divisioni ribelli** al momento dell'evento: nascono come unità, non sono presenti prima del 17/07/1936.
+- **Scelta del giocatore nel momento in cui scatta l'evento:** chi gioca la Spagna può scegliere se continuare con i repubblicani o passare a un'altra fazione spagnola (le parole dell'utente: «altra fazione spagnola»; quali fazioni siano giocabili oltre ai nazionalisti non è stato detto).
+- Prima dell'evento la Spagna è una nazione sola (`ESP`, giocabile nella ruota delle nazioni, `playable: true`).
+
+Lacune verificate il 29/10/2026 (nessun dato inventato):
+- Nel repository non esistono unità spagnole (`data/units`: nessuna riga `ESP` negli ordini di battaglia): le divisioni ribelli e quelle repubblicane non hanno ancora dati.
+- Non esiste un'entità politica per i ribelli/nazionalisti: va definita (id, nome, tipo, controllore) con l'evento, come per `MENG`.
+- Manca la tabella città per città (la bozza sotto è a livello di province).
+
 ## EVT-ESP-GC: bozza di assegnazione per fazione (29/10/2026, da una mappa fornita dall'utente)
 **Stato: IPOTESI, lettura di una mappa schematica, non un dato.** La mappa mostra la Spagna all'inizio della guerra civile (fine luglio 1936), con due colori e quadratini nelle città; **non ha una legenda**: lettura per convenzione (beige = nazionalisti, rosa = repubblicani), da confermare. L'immagine non è stata copiata nel repository (licenza non nota). `docs/DATI_PROVINCE.md` annota che diverse province erano divise fra i due campi: per questo la tabella ha tre stati e non si assegna un valore secco a ogni sponda dei dati (le «sponde» del repository sono tagli lungo i fiumi, non fronti).
 
@@ -29,11 +41,11 @@ Contesto SAU (nessun effetto di gioco): concessione alla SOCAL nel 1933, prospez
 |---|---|
 | Nazionalista | La Coruña, Lugo, Orense, Pontevedra, León, Zamora, Salamanca, Valladolid, Palencia, Burgos, Soria, Segovia, Ávila, Álava, Navarra, Logroño, Zaragoza, Huesca, Cáceres, Cádiz, Baleares (Maiorca e Ibiza; **Minorca repubblicana**), Canarie (La Palma repubblicana), protettorato del Marocco spagnolo |
 | Repubblicano | Madrid, Guadalajara, Cuenca, Ciudad Real, Albacete, Jaén, Almería, Málaga, Murcia, Alicante, Valencia, Castellón, Tarragona, Barcelona, Gerona, Lérida, Badajoz, Huelva, Vizcaya, Guipúzcoa, Santander, Asturias, Minorca |
-| Diviso o con enclave | Sevilla (città e zona nazionaliste), Córdoba (la città è un'enclave nazionalista in provincia repubblicana), Granada (città nazionalista in provincia repubblicana), Teruel (città nazionalista, provincia contesa), Toledo (Alcázar assediato), Asturias (Oviedo nazionalista in provincia repubblicana), Gijón e El Ferrol come punti sulla mappa |
+| Diviso o con enclave (decisione 29/10: sì, per città) | Sevilla (città e zona nazionaliste), Córdoba (la città è un'enclave nazionalista in provincia repubblicana), Granada (città nazionalista in provincia repubblicana), Teruel (città nazionalista, provincia contesa), Toledo (Alcázar assediato), Asturias (Oviedo nazionalista in provincia repubblicana), Gijón e El Ferrol come punti sulla mappa |
 
 Da verificare e da decidere con l'utente:
 - Badajoz e Huelva: la lettura dell'immagine li dà repubblicani; la loro caduta nelle settimane successive è un evento successivo, non iniziale.
-- Le enclave sono mostrate sulla mappa come quadratini sulle città: le città del repository sono zone a sé (id proprio), quindi le enclave si possono modellare per zona senza spezzare la provincia.
+- Le enclave sono mostrate sulla mappa come quadratini sulle città: le città del repository sono zone a sé (id proprio), quindi le enclave si modellano per zona senza spezzare la provincia (confermato dall'utente il 29/10/2026).
 - Il sistema di eventi non esiste: nessun dato di gioco è stato modificato.
 
 ## Candidati da verificare (non sono eventi decisi)
