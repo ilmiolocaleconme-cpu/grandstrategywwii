@@ -2,6 +2,7 @@
 // La logica è in src/rules/forces.js; qui: forma dello stato, migrazione 5→6, inizializzazione e pool di uomini della nazione.
 import { FORCES_SCHEMA, createForcesState, initForces, enlistedManpower } from '../rules/forces.js';
 import { manpowerPoolState } from '../rules/manpowerPool.js';
+import { hospitalStaff } from '../rules/hospitals.js';
 import { validateReinforcementFields } from '../rules/reinforcements.js';
 
 /** Errori di forma (non conosce il catalogo: per quello validateForcesState di rules/forces.js). */
@@ -42,5 +43,6 @@ export function initForcesState(state, { units, templates, ratio }) {
 
 /** Pool di uomini di una nazione dello stato. ctx: { units, population, baseShare, modifiers? }. */
 export function nationManpowerPool(state, nation, { units, population, baseShare, modifiers = [] }) {
-  return manpowerPoolState({ population, baseShare, modifiers, enlisted: enlistedManpower(state.forces, units, nation) });
+  // il personale degli ospedali (costruiti e in costruzione) è fuori dal pool: conta come arruolato
+  return manpowerPoolState({ population, baseShare, modifiers, enlisted: enlistedManpower(state.forces, units, nation) + hospitalStaff(state.nations?.[nation]) });
 }

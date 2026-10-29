@@ -13,10 +13,10 @@ export const DIFFICULTIES = ['facile', 'media', 'reale'];
 export const DEFAULT_DIFFICULTY = 'media';
 
 const emptyForces = () => ({ land: [], naval: [], air: [] });
-const emptyNation = () => ({ balance: 0, population: 0, stocks: {}, facilities: [], mines: [], construction: [], baseGridMw: 0, forces: emptyForces() });
+const emptyNation = () => ({ balance: 0, population: 0, stocks: {}, facilities: [], mines: [], hospitals: [], construction: [], baseGridMw: 0, forces: emptyForces() });
 
 /**
- * Stato iniziale delle nazioni dai dati: { [idProprietario]: { balance, population, stocks, facilities, mines, construction, baseGridMw, forces } }.
+ * Stato iniziale delle nazioni dai dati: { [idProprietario]: { balance, population, stocks, facilities, mines, hospitals, construction, baseGridMw, forces } }.
  * ctx: { political (array), nationIds (array), industry (initial_industry.json), stocks (initial_stocks.json) }
  * - gli impianti e le scorte di una colonia vanno al proprietario (`owner`); ogni impianto ricorda il `territory`;
  * - la fascia C (industry.tierC) riceve la rete di base; le altre nazioni 0;
@@ -94,6 +94,10 @@ export function validateNations(nations, { player } = {}) {
     if (!num(n.balance)) errors.push(`stato: ${id}, cassa non valida`);
     if (n.population !== null && !num(n.population)) errors.push(`stato: ${id}, popolazione non valida`); // null = salvataggio migrato, da inizializzare
     if (!Array.isArray(n.construction)) errors.push(`stato: ${id}, coda costruzioni mancante`);
+    if (n.hospitals !== undefined) { // assente nei salvataggi precedenti agli ospedali (29/10/2026): si tratta come vuoto
+      if (!Array.isArray(n.hospitals)) errors.push(`stato: ${id}, ospedali non validi`);
+      else for (const h of n.hospitals) if (typeof h.id !== 'string' || typeof h.kind !== 'string' || typeof h.provinceId !== 'string' || !Number.isInteger(h.staff) || h.staff < 0) errors.push(`stato: ${id}, ospedale ${h?.id} non valido`);
+    }
     if (!num(n.baseGridMw)) errors.push(`stato: ${id}, rete di base non valida`);
     for (const [r, v] of Object.entries(n.stocks ?? {})) if (!num(v)) errors.push(`stato: ${id}, scorta di ${r} non valida`);
     if (!n.stocks || typeof n.stocks !== 'object') errors.push(`stato: ${id}, scorte mancanti`);

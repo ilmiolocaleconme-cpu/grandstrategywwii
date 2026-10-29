@@ -8,7 +8,7 @@ const num = (v) => Math.round(v * 10) / 10;
 export const techNameOf = (catalog) => { const m = new Map((catalog.technologies?.technologies ?? []).map((t) => [t.id, t.name_it])); return (id) => m.get(id) ?? id; };
 const levelName2 = (config, level) => config.levels.find((l) => l.level === level)?.name_it ?? `L${level}`;
 const levelName = (catalog, level) => levelDef(catalog.levels, level)?.name_it ?? `L${level}`;
-const WHAT = { ecv: 'Denaro', steel: 'Acciaio', workers: 'Lavoratori', energyMw: 'Energia (MW)', tech: 'Tecnologia' };
+const WHAT = { ecv: 'Denaro', steel: 'Acciaio', workers: 'Lavoratori', energyMw: 'Energia (MW)', manpower: 'Uomini del pool reclutabile', tech: 'Tecnologia' };
 
 /** Frase in italiano per un ordine rifiutato (risultato di build.start con ok:false). */
 export function describeBuildFailure(r, techName = (id) => id) {
@@ -26,6 +26,9 @@ export function describeBuildFailure(r, techName = (id) => id) {
     case 'not_upgradable': return 'Questo impianto non si può migliorare';
     case 'unknown_province': case 'invalid_province': return 'Provincia non valida';
     case 'unknown_nation': return 'Nazione sconosciuta';
+    case 'hospital_exists': return 'C\'è già un ospedale in questa provincia';
+    case 'not_rear': return 'Un ospedale da campo va nelle retrovie: qui confina una provincia nemica';
+    case 'no_hospital_data': case 'unknown_hospital': return 'Ospedale non disponibile';
     case 'unknown_factory': case 'recipe_mismatch': case 'unknown_kind': return 'Ordine non valido';
     default: return `Ordine rifiutato (${r.reason})`;
   }
@@ -35,9 +38,9 @@ export function describeBuildFailure(r, techName = (id) => id) {
  * Cosa può costruire `nationId` in una provincia madre. ctx: { build (createConstruction), catalog, sites, economy, resourceLabel(id) }.
  * Ogni voce: { order, label, cost, ok, message } — `ok` dice se l'ordine sarebbe accettato ORA (prova a secco, lo stato non cambia).
  */
-export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id }) {
+export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id, hospitals = null }) {
   const nation = state.nations?.[nationId];
-  const out = { mines: [], factories: [] };
+  const out = { mines: [], factories: [], hospitals: [] };
   if (!nation) return out;
   if (state.control[entityOfProvinceId(provinceId, Object.keys(state.control))] !== nationId) return { ...out, reason: 'not_controlled' };
   for (const [resource, site] of Object.entries(sites.byProvince[provinceId] ?? {})) {
@@ -60,17 +63,23 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
     const r = build.start(state, nationId, order);
     out.factories.push({ order, label: `${factory.name_it}`, detail: recipe.id, cost: factoryBuildCost(economy, factory, state.difficulty), ok: r.ok, message: describeBuildFailure(r) });
   }
+  for (const [kind, def] of Object.entries(hospitals?.kinds ?? {})) { // ospedali: provincia (ospedale) o retrovie (campo); costo in ECV, acciaio, giorni e personale dal pool
+    const order = { kind: 'hospital', hospitalKind: kind, provinceId };
+    const r = build.start(state, nationId, order);
+    out.hospitals.push({ order, label: def.name, detail: def.placement === 'rear' ? 'nelle retrovie' : 'copre la provincia', cost: { ...def.build }, ok: r.ok, message: describeBuildFailure(r) });
+  }
   return out;
 }
 
 /** Riepilogo economico di una nazione per la schermata Economia. ctx: { build, catalog, workersShare, resourceLabel(id), provinceName(id), infra? (infrastructure.json: nomi dei livelli) } */
-export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id, infra = null }) {
+export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id, infra = null, hospitalKinds = {} }) {
   const n = state.nations?.[nationId];
   if (!n) return null;
   const counts = new Map();
   for (const f of n.facilities) { const k = `${f.type}|${f.level ?? 1}`; counts.set(k, (counts.get(k) ?? 0) + 1); }
   const label = (kind, c) => (kind === 'mine' ? `Miniera ${resourceLabel(c.resource)} L${c.level}`
     : kind === 'infra' ? `${infra ? levelName2(infra, c.level) : `Livello ${c.level}`} (collegamento)`
+    : kind === 'hospital' ? (hospitalKinds[c.hospitalKind]?.name ?? 'Ospedale')
     : kind === 'upgrade' ? `${catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId} → ${levelName(catalog, c.level)}`
       : (catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId));
   return {

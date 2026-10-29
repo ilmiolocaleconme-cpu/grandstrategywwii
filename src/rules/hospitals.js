@@ -41,3 +41,37 @@ export function hospitalDay({ wounded, medicine, counts }, params) {
   const died = Math.min(wounded - recovered, diedTreated + diedWaiting);
   return { treated: r3(treated), waiting: r3(waiting), medicineNeed: r3(need), medicineUsed: r3(used), coverage: r3(coverage), recovered: r3(recovered), died: r3(died), wounded: r3(wounded - recovered - died) };
 }
+
+/** Uomini del pool reclutabile occupati dal personale degli ospedali di una nazione: costruiti più quelli in costruzione (prenotati all'ordine). */
+export function hospitalStaff(nation) {
+  const built = (nation?.hospitals ?? []).reduce((s, h) => s + (h.staff ?? 0), 0);
+  const building = (nation?.construction ?? []).filter((c) => c.kind === 'hospital').reduce((s, c) => s + (c.staff ?? 0), 0);
+  return built + building;
+}
+
+/** Costo di costruzione di un tipo: { ecv, steel, days, staff } (copia). Lancia un RangeError per un tipo sconosciuto. */
+export function hospitalBuildCost(kind, params) {
+  const def = params.kinds[kind];
+  if (!def) throw new RangeError(`tipo di ospedale sconosciuto: ${kind}`);
+  return { ...def.build };
+}
+
+/**
+ * Province coperte da un ospedale: la propria più, con raggio 1, le confinanti. neighbors(id) → elenco di id di province confinanti.
+ * Raggio 0 (ospedale): solo la provincia. Raggio 1 (ospedale da campo): provincia e confinanti. Altri raggi: non definiti.
+ */
+export function coveredProvinces(kind, provinceId, neighbors, params) {
+  const def = params.kinds[kind];
+  if (!def) throw new RangeError(`tipo di ospedale sconosciuto: ${kind}`);
+  if (def.coverageRadius === 0) return [provinceId];
+  if (def.coverageRadius === 1) return [provinceId, ...[...new Set(neighbors(provinceId))].filter((id) => id !== provinceId).sort()];
+  throw new RangeError(`raggio di copertura non supportato: ${def.coverageRadius}`);
+}
+
+/**
+ * Retrovie: una provincia è nelle retrovie se nessuna confinante è controllata da un nemico. controllerOf(id) → nazione che la controlla;
+ * isHostile(nazione) → true se è nemica. Il gioco non ha ancora lo stato di guerra: la regola esiste ma non è applicata alle costruzioni.
+ */
+export function isRear(provinceId, { neighbors, controllerOf, isHostile }) {
+  return neighbors(provinceId).every((id) => !isHostile(controllerOf(id)));
+}

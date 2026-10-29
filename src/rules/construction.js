@@ -3,8 +3,8 @@
 const round = (v) => Math.round(v * 1000) / 1000;
 
 /**
- * cost: { ecv, steel?, workers?, energyMw? }  requires: id tecnologia o null
- * have: { balance, steel, workers, powerSurplusMw, techs: Set|Array }
+ * cost: { ecv, steel?, workers?, energyMw?, manpower? }  requires: id tecnologia o null
+ * have: { balance, steel, workers, powerSurplusMw, manpower?, techs: Set|Array }
  * Ritorna { ok, missing: [{ what, need, have }] } — `missing` elenca TUTTI i vincoli non soddisfatti (per mostrarli nella UI).
  */
 export function canStartBuild({ cost, requires = null }, have) {
@@ -14,6 +14,7 @@ export function canStartBuild({ cost, requires = null }, have) {
   check('steel', cost.steel, have.steel);
   check('workers', cost.workers, have.workers);
   check('energyMw', cost.energyMw, have.powerSurplusMw);
+  check('manpower', cost.manpower, have.manpower); // personale degli ospedali: uomini del pool reclutabile
   if (requires) {
     const techs = have.techs instanceof Set ? have.techs : new Set(have.techs ?? []);
     if (!techs.has(requires)) missing.push({ what: 'tech', need: requires, have: null });

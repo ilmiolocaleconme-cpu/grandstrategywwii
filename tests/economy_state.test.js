@@ -24,7 +24,7 @@ test('schema 2: ogni nazione ha cassa, scorte, impianti, miniere, rete e forze (
   assert.equal(STATE_SCHEMA, 7);
   assert.deepEqual(Object.keys(nations).sort(), [...nationIds, 'IRN'].sort(), 'le 72 nazioni più l\'Iran, non giocabile ma con industria');
   for (const n of Object.values(nations)) {
-    assert.deepEqual(Object.keys(n).sort(), ['balance', 'baseGridMw', 'construction', 'facilities', 'forces', 'mines', 'population', 'stocks']);
+    assert.deepEqual(Object.keys(n).sort(), ['balance', 'baseGridMw', 'construction', 'facilities', 'forces', 'hospitals', 'mines', 'population', 'stocks']);
     assert.deepEqual(n.forces, { land: [], naval: [], air: [] }, 'forze: MISSING_DATA, nessun catalogo');
     assert.equal(n.balance, 0, 'senza il file della cassa nello start la cassa è 0 (con i dati: vedi initial_cash.test.js)');
     assert.deepEqual(n.mines, []);

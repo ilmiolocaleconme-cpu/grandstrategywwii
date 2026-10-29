@@ -4,6 +4,8 @@ const fmt = (v) => Math.round(v).toLocaleString('it-IT');
 const f1 = (v) => (Math.round(v * 10) / 10).toLocaleString('it-IT');
 const costText = (c) => `${fmt(c.ecv)} ECV · ${fmt(c.steel)} t acciaio · ${fmt(c.workers)} lavoratori · ${c.days} giorni`;
 
+const hospitalCostText = (c) => `${fmt(c.ecv)} ECV${c.steel > 0 ? ` · ${fmt(c.steel)} t acciaio` : ''} · ${fmt(c.staff)} uomini dal pool · ${c.days} giorni`;
+
 const upCostText = (c) => `${fmt(c.ecv)} ECV · ${fmt(c.steel)} t acciaio · +${fmt(c.workers)} lavoratori · ${c.days} giorni`;
 
 /** Righe di miglioramento (da upgradeOptions): un bottone per riga. onOrder(order) → { ok, text }. */
@@ -61,7 +63,7 @@ export function ProvinceBuild({ options, onOrder, upgrades = null, links = null 
   const [msg, setMsg] = useState(null);
   if (!options) return null;
   if (options.reason === 'not_controlled') return <section aria-label="Costruzioni"><h3>Costruzioni</h3><p className="muted small">Puoi costruire solo nelle province che controlli.</p></section>;
-  if (options.mines.length === 0 && options.factories.length === 0) return null;
+  if (options.mines.length === 0 && options.factories.length === 0 && !(options.hospitals?.length > 0)) return null;
   const row = (o) => (
     <li key={JSON.stringify(o.order)} className="build-row">
       <div>
@@ -77,6 +79,11 @@ export function ProvinceBuild({ options, onOrder, upgrades = null, links = null 
       <h3>Costruzioni</h3>
       {msg ? <p className={msg.ok ? 'muted' : 'warn'} role="status">{msg.text}</p> : null}
       {options.mines.length > 0 ? <><h4>Miniere</h4><ul className="build-list">{options.mines.map(row)}</ul></> : null}
+      {options.hospitals?.length > 0 ? <><h4>Ospedali</h4><ul className="build-list">{options.hospitals.map((o) => (
+        <li key={JSON.stringify(o.order)} className="build-row">
+          <div><strong>{o.label}</strong> · {o.detail}<div className="muted small">{hospitalCostText(o.cost)}</div>{!o.ok ? <div className="warn small">{o.message}</div> : null}</div>
+          <button type="button" className="nation-btn" disabled={!o.ok} onClick={() => setMsg(onOrder(o.order))}>Costruisci</button>
+        </li>))}</ul></> : null}
       <UpgradeList upgrades={upgrades} onOrder={onOrder} title="Miglioramenti qui" />
       <LinkList data={links} onOrder={onOrder} />
       <details open><summary>Fabbriche ({options.factories.length})</summary><ul className="build-list">{options.factories.map(row)}</ul></details>

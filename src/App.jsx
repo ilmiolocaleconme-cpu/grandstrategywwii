@@ -23,9 +23,10 @@ import economyData from '../data/economy/economy.json';
 import populationData from '../data/population/population.json';
 import fertilizerData from '../data/agriculture/fertilizer_effect.json';
 import horseBreeding from '../data/agriculture/horse_breeding.json';
+import hospitalCare from '../data/medical/hospital_care.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
-import { initForcesState } from './game/forcesState.js';
+import { initForcesState, nationManpowerPool } from './game/forcesState.js';
 import { createTradeSystem } from './game/tradeState.js';
 import unitsFile from '../data/units/units.json';
 import deploymentFile from '../data/units/deployment_1936.json';
@@ -239,7 +240,9 @@ const ENTITY_IDS = political.map((e) => e.id);
 const entityOfProvince = (id) => entityOfProvinceId(id, ENTITY_IDS);
 const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.index, infraConfig, state) : null); // rete con la velocità delle strade del momento
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
-export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA });
+// Ospedali (data/medical/hospital_care.json): il personale esce dal pool reclutabile; la regola delle retrovie (rules/hospitals.js isRear) non è applicata finché non esiste lo stato di guerra.
+const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsFile.units, population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available;
+export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower } });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I rivali dell'IA sono PROVVISORI (hypothesis), vedi data/security/ai_rivals_1936.json.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
@@ -265,7 +268,7 @@ const GAME_SYSTEMS = [
 ];
 
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)
-const BUILD_CTX = { build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
+const BUILD_CTX = { build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
 
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
 // chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico
@@ -572,7 +575,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
-            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} />
+            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} />
             <ResearchPanel rows={researchRows} onStart={startResearch} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}

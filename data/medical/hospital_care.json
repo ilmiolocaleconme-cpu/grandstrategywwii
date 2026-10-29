@@ -1,7 +1,7 @@
 {
   "schema": "hospital-care-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Cura dei soldati feriti negli ospedali e negli ospedali da campo (richiesta dell'utente, 29/10/2026: la medicina serve agli ospedali). La medicina (`medicine`, FCT-PHARMA) si consuma per paziente ricoverato al giorno. Valori di PROGETTO, non storici. NON collegato al ciclo di partita: oggi non esistono combattimenti né perdite (nessuna fonte di feriti) e le costruzioni di provincia non stanno nello stato delle nazioni; le regole (src/rules/hospitals.js) ricevono feriti, medicina e numero di ospedali come ingressi.",
+  "note": "Cura dei soldati feriti negli ospedali e negli ospedali da campo (richiesta dell'utente, 29/10/2026: la medicina serve agli ospedali). La medicina (`medicine`, FCT-PHARMA) si consuma per paziente ricoverato al giorno. Valori di PROGETTO, non storici. Costruzione e personale SONO collegati (ordine `hospital` in src/game/construction.js, uomini dal pool reclutabile); la cura giornaliera NON lo è: oggi non esistono combattimenti né feriti, le regole (src/rules/hospitals.js) ricevono feriti, medicina e numero di ospedali come ingressi.",
   "medicine": "medicine",
   "medicinePerPatientPerDay": 0.002,
   "unsuppliedRecoveryFactor": 0.5,
@@ -12,14 +12,32 @@
       "name": "Ospedale da campo",
       "buildingId": "field_hospital",
       "capacityPatients": 100,
-      "recoveryPerDay": 0.04
+      "recoveryPerDay": 0.04,
+      "placement": "rear",
+      "coverageRadius": 1,
+      "maxPerProvince": null,
+      "build": {
+        "ecv": 2,
+        "steel": 0,
+        "days": 7,
+        "staff": 100
+      }
     },
     "hospital": {
       "name": "Ospedale",
       "buildingId": null,
       "capacityPatients": 1000,
-      "recoveryPerDay": 0.06
+      "recoveryPerDay": 0.06,
+      "placement": "anywhere",
+      "coverageRadius": 0,
+      "maxPerProvince": 1,
+      "build": {
+        "ecv": 30,
+        "steel": 20,
+        "days": 45,
+        "staff": 300
+      }
     }
   },
-  "rationale": "2 kg di medicinali di gioco per paziente al giorno: un ospedale da campo da 100 posti ne usa 0,2 t/giorno, una fabbrica farmaceutica (10 t/giorno) ne serve circa 50. Con tutta la medicina un ricoverato guarisce ogni giorno al 4% (ospedale da campo, circa 25 giorni) o al 6% (ospedale fisso, circa 17 giorni); senza medicina guarisce la metà più lentamente (unsuppliedRecoveryFactor) e muore lo 0,4% al giorno; il ferito che non trova posto muore all'1% al giorno. Chi guarisce torna al pool di uomini della nazione. L'ospedale fisso non ha ancora una struttura nel catalogo edifici (buildingId null): va definita con l'utente. Non modellati: epidemie, evacuazione, medici, ambulanze, differenza fra feriti e malati."
+  "rationale": "2 kg di medicinali di gioco per paziente al giorno: un ospedale da campo da 100 posti ne usa 0,2 t/giorno, una fabbrica farmaceutica (10 t/giorno) ne serve circa 50. Con tutta la medicina un ricoverato guarisce ogni giorno al 4% (ospedale da campo, circa 25 giorni) o al 6% (ospedale fisso, circa 17 giorni); senza medicina guarisce la metà più lentamente (unsuppliedRecoveryFactor) e muore lo 0,4% al giorno; il ferito che non trova posto muore all'1% al giorno. Chi guarisce torna al pool di uomini della nazione. L'ospedale fisso non ha ancora una struttura nel catalogo edifici (buildingId null): va definita con l'utente. Non modellati: epidemie, evacuazione, medici, ambulanze, differenza fra feriti e malati. Costruzione (richiesta dell'utente 29/10/2026): l'ospedale copre la provincia in cui sorge (raggio 0, uno per provincia) e costa 30 ECV, 20 t di acciaio, 45 giorni, 300 uomini di personale. L'ospedale da campo sta nelle retrovie (una provincia senza province nemiche confinanti), costa pochissimo (2 ECV, niente acciaio, 7 giorni) e richiede 100 uomini del pool reclutabile; raccoglie i feriti della propria provincia e delle confinanti (raggio 1: i feriti dal fronte vengono evacuati alle retrovie). Il raggio 1 e il personale dell'ospedale fisso (300) sono scelte di Claude, da confermare. Il personale esce dal pool di uomini finché l'ospedale esiste. La regola delle retrovie è pronta (isRear) ma non applicata: manca lo stato di guerra."
 }

@@ -15,15 +15,17 @@ import { levelOf, upgradeEdgeCost } from '../data/infrastructure.js';
 import { levelDef, levelMult, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
 import { hydroMwByOwner } from './economySystem.js';
 import { entityOfProvinceId } from '../data/provinceOwner.js';
+import { hospitalBuildCost } from '../rules/hospitals.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
 /**
  * ctx: { catalog: { recipes: Map, factories: Map, levels?: factory_levels.json }, economy, sites (mine_sites.json), hydro (hydro_plants.json), political,
  *        workersShare (quota della popolazione), provinceExists?: (id) => boolean,
- *        infra?: { index (createInfraIndex), config (infrastructure.json) }: senza, gli ordini 'infra' sono rifiutati }
+ *        infra?: { index (createInfraIndex), config (infrastructure.json) }: senza, gli ordini 'infra' sono rifiutati,
+ *        hospitals?: { params (hospital_care.json), manpowerAvailable(state, nationId) → uomini liberi del pool reclutabile, isRear?(state, nationId, provinceId) }: senza, gli ordini 'hospital' sono rifiutati }
  */
-export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, infra = null }) {
+export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, infra = null, hospitals = null }) {
   const entityIds = political.map((e) => e.id);
   const entityOf = (provinceId) => entityOfProvinceId(provinceId, entityIds); // anche MAR_ES, NLD_EI, JPN_MANDATE
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
@@ -90,6 +92,20 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       cost = upgradeEdgeCost(infra.config, economy, edge, level, state.difficulty);
       if (!cost) return fail('max_level');
       entry = { kind: 'infra', edgeId: edge.id, provinceId: edge.a, territory: entityOf(edge.a), fromLevel: level, level: level + 1, km: edge.km };
+    } else if (order.kind === 'hospital') {
+      // ospedale (copre la provincia) o ospedale da campo (retrovie): costo, personale dal pool reclutabile, nessuno slot (pool 'support')
+      if (!hospitals) return fail('no_hospital_data');
+      const def = hospitals.params.kinds[order.hospitalKind];
+      if (!def) return fail('unknown_hospital');
+      if (def.maxPerProvince !== null) {
+        const here = nation.hospitals?.filter((h) => h.kind === order.hospitalKind && h.provinceId === provinceId).length ?? 0;
+        const queued = nation.construction.filter((c) => c.kind === 'hospital' && c.hospitalKind === order.hospitalKind && c.provinceId === provinceId).length;
+        if (here + queued >= def.maxPerProvince) return fail('hospital_exists');
+      }
+      if (def.placement === 'rear' && hospitals.isRear && !hospitals.isRear(state, nationId, provinceId)) return fail('not_rear');
+      const b = hospitalBuildCost(order.hospitalKind, hospitals.params);
+      cost = { ecv: b.ecv, steel: b.steel, workers: 0, manpower: b.staff, days: b.days };
+      entry = { kind: 'hospital', hospitalKind: order.hospitalKind, provinceId, territory: entity, staff: b.staff };
     } else if (order.kind === 'factory') {
       const q = quoteFactory(state, order.factoryId, order.recipeId);
       if (!q.ok) return fail(q.reason);
@@ -113,8 +129,8 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     } else return fail('unknown_kind');
 
     const w = workersState(nation, { factoriesById: catalog.factories, share: workersShare, levels: catalog.levels ?? null });
-    const have = { balance: nation.balance, steel: nation.stocks.steel ?? 0, workers: w.free, techs: techsOf(nation), powerSurplusMw: powerBalance(state, nation, nationId).surplus };
-    const check = canStartBuild({ cost: { ecv: cost.ecv, steel: cost.steel, workers: cost.workers, energyMw: requiredEnergy }, requires }, have);
+    const have = { balance: nation.balance, steel: nation.stocks.steel ?? 0, workers: w.free, techs: techsOf(nation), powerSurplusMw: powerBalance(state, nation, nationId).surplus, manpower: entry.kind === 'hospital' ? hospitals.manpowerAvailable(state, nationId) : 0 };
+    const check = canStartBuild({ cost: { ecv: cost.ecv, steel: cost.steel, workers: cost.workers, energyMw: requiredEnergy, manpower: cost.manpower }, requires }, have);
     if (!check.ok) return fail('missing', { missing: check.missing });
 
     const id = `${nationId}:${state.day}:${nation.construction.length}:${entry.kind}:${order.edgeId ?? provinceId}`;
@@ -132,12 +148,14 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     for (const id of Object.keys(state.nations).sort()) {
       const n = state.nations[id];
       if (n.construction.length === 0) continue;
-      const queue = []; const facilities = [...n.facilities]; const mines = [...n.mines];
+      const queue = []; const facilities = [...n.facilities]; const mines = [...n.mines]; const hospitalList = [...(n.hospitals ?? [])];
       for (const c of n.construction) {
         const left = c.daysLeft - 1;
         if (left > 0) { queue.push({ ...c, daysLeft: left }); continue; }
         if (c.kind === 'infra') {
           infraDone[c.edgeId] = c.level;
+        } else if (c.kind === 'hospital') {
+          hospitalList.push({ id: `${id}:${c.provinceId}:${c.hospitalKind}:d${state.day}:${hospitalList.length}`, kind: c.hospitalKind, provinceId: c.provinceId, territory: c.territory, staff: c.staff, builtOn: state.date });
         } else if (c.kind === 'upgrade') {
           const i = facilities.findIndex((f) => f.id === c.facilityId);
           if (i >= 0) facilities[i] = { ...facilities[i], level: c.level };
@@ -151,7 +169,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
         }
       }
       nations ??= { ...state.nations };
-      nations[id] = { ...n, construction: queue, facilities, mines };
+      nations[id] = { ...n, construction: queue, facilities, mines, hospitals: hospitalList };
     }
     if (!nations) return state;
     const done = Object.keys(infraDone).length > 0;
