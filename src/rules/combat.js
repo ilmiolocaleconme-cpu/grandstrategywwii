@@ -16,9 +16,9 @@ export const RETREAT_RATIO = 3;
 
 export const categoryPower = (category) => CATEGORY_POWER[category] ?? 0;
 
-/** Potenza di una divisione: { category, effective }. Le categorie che non combattono (comandi) valgono 0. */
-export function divisionPower({ category, effective }) {
-  return Math.max(0, effective) * categoryPower(category);
+/** Potenza di una divisione: { category, effective, bonus? }. `bonus` (>= 0, es. trinceramento) moltiplica per (1 + bonus). I comandi valgono 0. */
+export function divisionPower({ category, effective, bonus = 0 }) {
+  return Math.max(0, effective) * categoryPower(category) * (1 + Math.max(0, bonus));
 }
 
 /**

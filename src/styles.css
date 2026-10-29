@@ -343,3 +343,8 @@ h2 {
 .th-alert.gathering { background: rgba(255,255,255,.05); border: 1px solid #4a553f; color: var(--muted); }
 .th-force { min-height: 40px; padding: 0 12px; background: transparent; color: #ffd08a; border: 1px solid #ff9f1c; border-radius: 8px; font: inherit; }
 .th-force.on { background: rgba(255,159,28,.2); }
+
+.ap-dig { align-self: flex-start; margin-top: 4px; padding: 2px 7px; border-radius: 999px; font-size: 11px; background: rgba(214, 170, 90, 0.18); border: 1px solid rgba(214, 170, 90, 0.5); color: #e6c98a; white-space: nowrap; }
+.ap-dig.max { background: rgba(123, 211, 137, 0.2); border-color: rgba(123, 211, 137, 0.6); color: #a9e5b3; }
+.ap-subs { list-style: none; margin: 2px 0 6px 28px; padding: 0 0 0 10px; border-left: 2px solid rgba(255, 255, 255, 0.18); display: grid; gap: 2px; font-size: 12px; }
+.ap-subs small { opacity: 0.7; margin-left: 6px; }

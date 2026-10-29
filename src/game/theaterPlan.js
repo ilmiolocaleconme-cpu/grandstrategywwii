@@ -14,6 +14,7 @@
 import { divisionPower } from '../rules/combat.js';
 import { atWar } from '../rules/war.js';
 import { positionOf, findPath } from '../rules/movement.js';
+import { entrenchBonus, DEFAULT_ENTRENCH } from '../rules/entrench.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
 
 export const ATTACK_RATIO = 1.5;
@@ -26,14 +27,21 @@ export function powerOfUnit(state, unit) {
   return m ? divisionPower({ category: unit.category, effective: m.effective }) : 0;
 }
 
-/** Potenza nemica per provincia (Map): le divisioni in grado di combattere delle nazioni in guerra con `nation`. */
-export function enemyPowerMap(state, ctx, nation) {
+/** Potenza IN DIFESA: come powerOfUnit ma col bonus di trinceramento attuale dell'unità (src/rules/entrench.js). */
+export function defensivePowerOf(state, unit, cfg = DEFAULT_ENTRENCH) {
+  const m = effectiveOf(state, unit.id);
+  const dug = state.entrench?.dig?.[unit.id] === true;
+  return m ? divisionPower({ category: unit.category, effective: m.effective, bonus: dug ? entrenchBonus(state.entrench.days?.[unit.id] ?? 0, cfg) : 0 }) : 0;
+}
+
+/** Potenza nemica per provincia (Map): le divisioni in grado di combattere delle nazioni in guerra con `nation`. `defending`: con il loro trinceramento (serve a calcolare quanti ne servono per attaccarle). */
+export function enemyPowerMap(state, ctx, nation, { defending = false } = {}) {
   const map = new Map();
   for (const e of ctx.deploymentDoc.entries) {
     const u = ctx.unitsById.get(e.unit);
     if (!u || u.nation === nation || !atWar(state.war, u.nation, nation) || !isFighter(state, u)) continue;
     const pos = positionOf(state.movement, ctx.initial, u.id);
-    if (pos) map.set(pos, (map.get(pos) ?? 0) + powerOfUnit(state, u));
+    if (pos) map.set(pos, (map.get(pos) ?? 0) + (defending ? defensivePowerOf(state, u, ctx.entrenchCfg) : powerOfUnit(state, u)));
   }
   return map;
 }
@@ -53,7 +61,7 @@ export function defensePosts(state, net, a) {
 
 const cmpId = (x, y) => (x < y ? -1 : x > y ? 1 : 0);
 
-function fightersOf(state, ctx, a) {
+function fightersOf(state, ctx, a, { defending = false } = {}) {
   const out = [];
   for (const id of a.units) {
     const u = ctx.unitsById.get(id);
@@ -61,7 +69,7 @@ function fightersOf(state, ctx, a) {
     const pos = positionOf(state.movement, ctx.initial, id);
     if (!pos) continue;
     const order = state.movement?.orders?.[id];
-    out.push({ id, u, pos, power: powerOfUnit(state, u), moving: Boolean(order), dest: order ? order.path[order.path.length - 1] : null });
+    out.push({ id, u, pos, power: defending ? defensivePowerOf(state, u, ctx.entrenchCfg) : powerOfUnit(state, u), moving: Boolean(order), dest: order ? order.path[order.path.length - 1] : null });
   }
   return out.sort((x, y) => cmpId(x.id, y.id));
 }
@@ -74,7 +82,7 @@ const alertOf = (a, province, name, need, have, arriving) => {
 function planDefense(state, ctx, net, a) {
   const posts = defensePosts(state, net, a);
   const enemy = enemyPowerMap(state, ctx, a.nation);
-  const fighters = fightersOf(state, ctx, a);
+  const fighters = fightersOf(state, ctx, a, { defending: true });
   const info = posts.map((p) => {
     const facesWar = (enemy.get(p) ?? 0) > 0 || net.neighbors(p).some((n) => atWar(state.war, provinceController(state, net, n), a.nation));
     const threat = (enemy.get(p) ?? 0) + net.neighbors(p).reduce((t, n) => t + (enemy.get(n) ?? 0), 0);
@@ -110,7 +118,7 @@ function planDefense(state, ctx, net, a) {
 function planAttack(state, ctx, net, a) {
   const pending = a.provinces.filter((p) => provinceController(state, net, p) !== a.nation);
   if (pending.length === 0) return { orders: [], alerts: [] };
-  const enemy = enemyPowerMap(state, ctx, a.nation);
+  const enemy = enemyPowerMap(state, ctx, a.nation, { defending: true });
   const needOf = (q) => ((enemy.get(q) ?? 0) > 0 ? ATTACK_RATIO * enemy.get(q) : 0);
   const focus = [...pending].sort((x, y) => needOf(x) - needOf(y) || cmpId(x, y))[0];
   const need = needOf(focus);

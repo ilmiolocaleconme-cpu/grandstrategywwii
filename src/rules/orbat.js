@@ -35,6 +35,21 @@ export function childrenOf(orbat, parentId) {
   return Object.keys(orbat.links).filter((c) => orbat.links[c].parent === parentId).sort();
 }
 
+/** Tutti i discendenti di un comando (figli, nipoti...), in ordine di id, senza doppioni. */
+export function descendantsOf(orbat, parentId) {
+  const out = []; const seen = new Set([parentId]);
+  const queue = [parentId];
+  for (let i = 0; i < queue.length; i += 1) {
+    for (const c of childrenOf(orbat, queue[i])) if (!seen.has(c)) { seen.add(c); out.push(c); queue.push(c); }
+  }
+  return out.sort();
+}
+
+/** Le divisioni (e brigate) agli ordini di un comando, a qualsiasi livello: sono quelle che si schierano, si muovono e combattono. */
+export function divisionsUnder(orbat, parentId, unitsById) {
+  return descendantsOf(orbat, parentId).filter((id) => orbatLevel(unitsById.get(id) ?? {}) === 'division');
+}
+
 /** Catena dei padri dal più vicino al più alto. */
 export function chainOf(orbat, unitId) {
   const out = []; const seen = new Set([unitId]);

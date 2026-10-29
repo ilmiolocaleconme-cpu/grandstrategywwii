@@ -1,0 +1,9 @@
+{
+  "schema": "entrenchment-v1",
+  "maxBonus": 0.5,
+  "rampDays": 7,
+  "curve": "linear",
+  "basis": "hypothesis",
+  "asOf": "2026-10-30",
+  "rationale": "Giorni (7) dati dall'utente il 29/10/2026. Bonus massimo +50% della potenza difensiva: IPOTESI di Claude. Calcolo: la regola pratica dei manuali per attaccare una difesa preparata è circa 3:1; nel gioco l'attacco parte con 1,5:1 contro una difesa non preparata (ATTACK_RATIO). Con un bonus 1,5 la superiorità richiesta contro una difesa completamente trincerata in terreno aperto diventa 1,5 × 1,5 = 2,25:1, lasciando il margine fino a circa 3:1 ai bonus di terreno e fortificazioni (non ancora modellati, ≈ ×1,33). Crescita lineare: +0,5/7 ≈ +7,14% per ogni giorno intero trincerato senza battaglia; dal 7° giorno resta al massimo."
+}

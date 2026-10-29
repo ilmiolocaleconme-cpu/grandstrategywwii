@@ -92,7 +92,7 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, notice, flag, nationName }) {
+export default function ArmyPanel({ group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
     () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig })])),
@@ -134,9 +134,23 @@ export default function ArmyPanel({ group, game, unitsById, officersById, initia
                     {ratio !== null && <span className="ap-bar" title={`Uomini ${Math.round(ratio * 100)}%`}><i style={{ width: `${Math.max(2, Math.min(100, Math.round(ratio * 100)))}%` }} /></span>}
                   </span>
                   <span className={`ap-state ${st.tone}`}>{st.text}</span>
+                  {(() => {
+                    const en = entrenchOf?.(u.id);
+                    if (!en || !en.digging) return null;
+                    const max = en.bonus >= 0.4999;
+                    return <span className={`ap-dig${max ? ' max' : ''}`} title="Bonus difensivo: cresce ogni giorno fermo e senza battaglia">⛏ +{Math.round(en.bonus * 100)}%{max ? ' max' : ` · giorno ${en.days}`}</span>;
+                  })()}
                 </button>
                 <button type="button" className="ap-i" aria-label={`Scheda di ${u.name}`} aria-expanded={openId === u.id} onClick={() => setOpenId(u.id === openId ? null : u.id)}>i</button>
               </div>
+              {unit.category === 'command' && subordinates ? (() => {
+                const subs = subordinates(u.id);
+                return subs.length ? (
+                  <ul className="ap-subs" aria-label={`Agli ordini di ${u.name}`}>
+                    {subs.map((d) => <li key={d.id}><b>{d.name}</b> <small>{d.province ?? '—'}</small></li>)}
+                  </ul>
+                ) : null;
+              })() : null}
               {openId === u.id && <Info info={info} canSetPolicy={canMove && info.nation === game.player && info.condition !== null} onPolicy={onPolicy} />}
             </li>
           );
@@ -147,6 +161,8 @@ export default function ArmyPanel({ group, game, unitsById, officersById, initia
           <button type="button" onClick={() => onSelectAll(group.units.map((u) => u.id))} disabled={n === group.units.length}>Tutte</button>
           <button type="button" onClick={onClear} disabled={n === 0}>Nessuna</button>
           <button type="button" className="danger" onClick={onCancel} disabled={n === 0}>Annulla ordini</button>
+          {onEntrench ? <button type="button" onClick={() => onEntrench(true)} disabled={n === 0} title="Le divisioni ferme guadagnano un bonus difensivo ogni giorno senza battaglia">Trincera</button> : null}
+          {onEntrench ? <button type="button" onClick={() => onEntrench(false)} disabled={n === 0}>Smetti</button> : null}
           {onAssign ? <button type="button" className="go" onClick={onAssign}>Incarico{n ? ` (${n})` : ''}</button> : null}
         </footer>
       )}

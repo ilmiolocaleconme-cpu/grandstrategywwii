@@ -34,6 +34,9 @@ import { createGameSea } from './game/seaState.js';
 import seaRoutesParams from '../data/sea_routes_params.json';
 import unitsFile from '../data/units/units.json';
 import deploymentFile from '../data/units/deployment_1936.json';
+import entrenchFile from '../data/units/entrenchment.json';
+import { validateEntrenchConfig } from './rules/entrench.js';
+import { divisionsUnder } from './rules/orbat.js';
 import { unitsByProvince } from './data/deployment.js';
 import officersFile from '../data/officers/officers.json';
 import { commandersSystem } from './game/commandersState.js';
@@ -43,7 +46,7 @@ import ArmyPanel from './ui/ArmyPanel.jsx';
 import TheaterPanel from './ui/TheaterPanel.jsx';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
-import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, playerDeclareWar, provinceController, isFighter } from './game/theaterState.js';
+import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, playerDeclareWar, provinceController, isFighter, playerToggleEntrench, entrenchOf } from './game/theaterState.js';
 import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
 import { positionOf } from './rules/movement.js';
@@ -272,7 +275,9 @@ const GAME_SEA = { sea: null }; // rotte marittime con i porti reali (game/seaSt
 const INITIAL_POSITIONS = initialPositions(deploymentFile);
 const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
-const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS };
+const ENTRENCH_ERRORS = validateEntrenchConfig(entrenchFile);
+if (ENTRENCH_ERRORS.length) console.error('Trinceramento: configurazione non valida, uso i valori predefiniti.', ENTRENCH_ERRORS);
+const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
   createConditionSystem(conditionConfig),
@@ -711,7 +716,7 @@ export default function App() {
         ) : armyGroup && layer === 'army' && game ? (
           <ArmyPanel group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={UNITS_BY_ID} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
             provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, UNITS_BY_ID.get(uid)?.nation))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
-            onAssign={armySel.nation === game.player && moveNet ? startAssign : undefined} onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
+            onAssign={armySel.nation === game.player && moveNet ? startAssign : undefined} entrenchOf={(id) => entrenchOf(game, id, THEATER_CTX.entrenchCfg)} onEntrench={armySel.nation === game.player && moveNet ? (on) => { try { setGame((g) => playerToggleEntrench(g, { unitIds: [...armyChecked], on, ctx: THEATER_CTX })); setArmyNotice(on ? 'Le unità scelte si trincerano: il bonus cresce ogni giorno fermo.' : 'Le unità scelte smettono di trincerarsi.'); } catch (e) { setArmyNotice(e.message); } } : undefined} subordinates={(id) => divisionsUnder(game.orbat ?? { links: {} }, id, UNITS_BY_ID).map((d) => ({ id: d, name: UNITS_BY_ID.get(d).name, province: provinceName(positionOf(game.movement, INITIAL_POSITIONS, d)) }))} onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
         ) : !(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />

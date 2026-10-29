@@ -18,10 +18,12 @@ import { provinceStateOf, patchProvinceState } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
 import { planAssignment } from './theaterPlan.js';
+import { createEntrench, entrenchBonus, setDig, tickEntrench, validateEntrench, DEFAULT_ENTRENCH } from '../rules/entrench.js';
 export { provinceController, canEnterWar, isFighter };
 
 export { validateWar } from '../rules/war.js';
 export { validateTheaters } from '../rules/theater.js';
+export { validateEntrench };
 export const COMBAT_SCHEMA = 'combat-v1';
 export const LOG_LIMIT = 100;
 
@@ -77,6 +79,7 @@ export function playerCancelAssignment(state, id) {
 // ---- sistema giornaliero ---------------------------------------------------------------------------------------------------------------
 
 function combatantsByProvince(state, ctx) {
+  const s0 = state;
   const map = new Map();
   for (const e of ctx.deploymentDoc.entries) {
     const u = ctx.unitsById.get(e.unit);
@@ -85,7 +88,7 @@ function combatantsByProvince(state, ctx) {
     if (!pos) continue;
     const m = effectiveOf(state, u.id);
     if (!map.has(pos)) map.set(pos, []);
-    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned });
+    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) });
   }
   return map;
 }
@@ -134,7 +137,7 @@ function battlePhase(state, ctx, net) {
     const defenders = units.filter((u) => u.nation === c);
     const attackers = units.filter((u) => u.nation !== c && atWar(s.war, u.nation, c));
     if (defenders.length === 0 || attackers.length === 0) continue;
-    const r = resolveBattleDay({ attackers, defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
+    const r = resolveBattleDay({ attackers: attackers.map((u) => ({ ...u, bonus: 0 })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
     for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l);
     for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l);
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));
@@ -177,6 +180,43 @@ function capturePhase(state, ctx, net) {
     s = logBattle(s, { day: s.day, date: s.date, province: p, controller: c, attackers: units.filter((u) => u.nation === taker).map((u) => u.id), defenders: [], attackerLoss: 0, defenderLoss: 0, outcome: `conquistata da ${taker}` });
   }
   return s;
+}
+
+function entrenchPhase(state, ctx) {
+  const cfg = ctx.entrenchCfg ?? DEFAULT_ENTRENCH;
+  const base = state.entrench ?? createEntrench();
+  const defendUnits = new Set(activeAssignments(state.theaters ?? createTheaters()).filter((a) => a.kind === 'defend').flatMap((a) => a.units));
+  const ids = new Set([...Object.keys(base.dig), ...defendUnits]);
+  if (ids.size === 0) return state;
+  const fought = new Set((state.combat?.log ?? []).filter((e) => e.day === state.day).flatMap((e) => [...e.attackers, ...e.defenders]));
+  const candidates = [];
+  for (const id of ids) {
+    const pos = positionOf(state.movement, ctx.initial, id);
+    if (!pos) continue;
+    candidates.push({ id, pos, hasOrder: Boolean(state.movement?.orders?.[id]), fought: fought.has(id), manual: base.dig[id] === true && !defendUnits.has(id) });
+  }
+  return { ...state, entrench: tickEntrench(base, candidates, cfg) };
+}
+
+/** Trinceramento di una unità: { digging, days, bonus } (bonus 0 se non si sta trincerando). */
+export function entrenchOf(state, unitId, cfg = DEFAULT_ENTRENCH) {
+  const days = state.entrench?.days?.[unitId] ?? 0;
+  const digging = state.entrench?.dig?.[unitId] === true;
+  return { digging, days, bonus: digging ? entrenchBonus(days, cfg) : 0 };
+}
+
+/** Il giocatore ordina a divisioni PROPRIE di trincerarsi (o smettere). Ritorna il nuovo stato; lancia un Error su unità non tue o che non combattono. */
+export function playerToggleEntrench(state, { unitIds, on, ctx }) {
+  const positions = {};
+  for (const id of unitIds) {
+    const u = ctx.unitsById.get(id);
+    if (!u) throw new Error(`unità inesistente: ${id}`);
+    if (u.nation !== state.player) throw new Error(`${u.name} non è tua`);
+    if (on && !isFighter(state, u)) throw new Error(`${u.name} non può trincerarsi (nessuna dotazione o uomini a zero)`);
+    positions[id] = positionOf(state.movement, ctx.initial, id);
+    if (on && !positions[id]) throw new Error(`${u.name}: posizione sconosciuta`);
+  }
+  return { ...state, entrench: setDig(state.entrench ?? createEntrench(), { unitIds, on, positions }) };
 }
 
 function nearestTarget(state, net, from, targets, canEnter) {
@@ -234,12 +274,14 @@ export function createTheaterSystem(ctx) {
   return (state) => {
     const hasWar = state.war && Object.keys(state.war.pairs).length > 0;
     const hasAssign = state.theaters && activeAssignments(state.theaters).length > 0;
-    if (!hasWar && !hasAssign) return state;
+    const hasDig = state.entrench && Object.keys(state.entrench.dig).length > 0;
+    if (!hasWar && !hasAssign && !hasDig) return state;
     const net = ctx.getNet(state);
     if (!net) return state;
     let s = state;
     if (hasWar) { s = battlePhase(s, ctx, net); s = capturePhase(s, ctx, net); }
     if (hasAssign) s = assignmentPhase(s, ctx, net);
+    s = entrenchPhase(s, ctx); // dopo gli ordini del giorno: chi parte non guadagna un giorno
     return s;
   };
 }
