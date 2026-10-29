@@ -251,3 +251,26 @@ test('validateTemplate / fillRatio: previsto contro effettivo (esempi sintetici,
   bad({ ...base, formation: leaf('triangular', { value: 1, asOf: '1936-01-01', basis: 'utente', source: 'x' }) }, /non numerica/);
   assert.equal(fillRatio({ value: 5000, effective: { value: null } }), null);
 });
+
+import { validateReadiness, initialEffective } from '../src/rules/readiness.js';
+
+test('dotazione effettiva iniziale: frazione di esempio 0,915 (media degli esempi dell\'utente), il dato reale ha la precedenza, nessun dato storico inventato', () => {
+  const r = json('units/readiness.json');
+  assert.deepEqual(validateReadiness(r), []);
+  assert.ok(Math.abs(r.initialFillRatio.value - (4780 / 5000 + 437 / 500) / 2) < 0.001, '0,915 = media di 0,956 e 0,874');
+  assert.equal(r.initialFillRatio.basis, 'USER_EXAMPLE');
+  const tpl = json('units/templates/divisione_corazzata_germania_1936.json');
+  const e = initialEffective(tpl, r.initialFillRatio.value);
+  assert.deepEqual(e['equipment.carri'], { planned: 416, effective: Math.round(416 * 0.915), source: 'ratio' });
+  assert.equal(e['equipment.carri'].effective, 381);
+  assert.equal(Object.keys(e).some((k) => k.startsWith('structure')), false, 'la struttura (reggimenti) non è una dotazione: nessun effettivo');
+  assert.ok(Object.values(e).every((v) => v.effective <= v.planned));
+  const inf = json('units/templates/divisione_fanteria_germania_1936.json');
+  assert.equal(initialEffective(inf, 0.915)['horses'].effective, Math.round(4465 * 0.915));
+  const real = structuredClone(inf); real.horses.effective = { value: 4000, asOf: '1936-01-01', basis: 'utente', source: 'prova' };
+  assert.deepEqual(validateTemplate(real), []);
+  assert.deepEqual(initialEffective(real, 0.915)['horses'], { planned: 4465, effective: 4000, source: 'template' }, 'il dato reale batte la frazione');
+  assert.deepEqual(inf.horses.effective.value, null, 'il template su disco non è stato modificato');
+  for (const bad of [0, 1.1, -1, NaN]) assert.throws(() => initialEffective(inf, bad), RangeError);
+  assert.ok(validateReadiness({ schema: 'readiness-v1', initialFillRatio: { value: 1.5, basis: 'USER_EXAMPLE', source: 'x' } }).some((x) => /intervallo/.test(x)));
+});

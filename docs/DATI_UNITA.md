@@ -72,3 +72,8 @@ Su richiesta dell'utente: 46 divisioni anonime (`S36-USSR-F-nnn`, revisione `pla
 - Nei due template tedeschi tutti gli `effective` sono `null`: nessun dato effettivo del 1936 è stato inventato. Nella corazzata il campo dei carri si chiama `carri` (previsto 416, effettivo da definire).
 - Mobilità della divisione corazzata per componente, indicata dall'utente: fanteria, ricognizione e artiglieria **motorizzate** (basis `utente`).
 - Mancante: regola che usa `fillRatio` (efficienza, rinforzi, produzione); nessuna regola legge ancora i template.
+
+## Dotazione effettiva iniziale e pool nazionale di uomini (29/10/2026)
+- `data/units/readiness.json` (`readiness-v1`) e `src/rules/readiness.js`: all'avvio l'effettivo di ogni voce numerica dei template = previsto × **0,915** (media dei due esempi dell'utente: 0,956 e 0,874), `USER_EXAMPLE`, **non un dato storico**. Un dato reale nel campo `effective` del template ha sempre la precedenza. I template su disco restano con `effective` null. Test: `tests/units.test.js`.
+- Non esistono ancora istanze di divisione nello stato di gioco (forza e dotazione per divisione): `initialEffective` è calcolato ma nessuno lo salva.
+- **Pool nazionale di uomini (decisione dell'utente):** rimpiazza le perdite con regole **da stabilire**; reclutamento e addestramento con costi e tempi **da stabilire**. Nel progetto (`docs/RISORSE_INDUSTRIA_FASE0.md`, «Modello a tre pool») il reclutamento è MISSING_DATA, rimandato ai cataloghi militari; non ho trovato nei documenti del progetto regole su addestramento, costi o tempi. Stato: **mancante**.
