@@ -12,8 +12,10 @@
 | ID | Evento | Data | Effetto previsto | Dati coinvolti | Stato |
 |---|---|---|---|---|---|
 | EVT-MENG | Nascita di Mengjiang | 12/05/1936 | Crea l'entità `MENG` (fantoccio, controllore `JPN`) e le assegna il territorio ora cinese (Chahar e Suiyuan) | `nations.json` (`appearsLater: true`), `political_1936.json` (non presente), `docs/DESIGN_CONTROLLO_TERRITORIO.md` | da-fare; la data è nella nota di design (fonte indicata lì), le condizioni di innesco e le province no |
-| EVT-ESP-GC | Inizio della guerra civile spagnola | luglio 1936 | Divide il controllo del territorio spagnolo (non è nei dati del 1/1/1936) | `data/provinces/ESP.json`, `docs/DATI_PROVINCE.md` (colori dell'immagine spagnola) | da-fare; giorno e regole di divisione da definire |
+| EVT-ESP-GC | Inizio della guerra civile spagnola | **17/07/1936** (rivolta delle guarnigioni del Marocco spagnolo, Franco e Mola), esteso alla penisola il **18/07/1936**; innesco: assassinio di José Calvo Sotelo il 13/07/1936 | Divide il controllo del territorio spagnolo tra Repubblica e nazionalisti (non è nei dati del 1/1/1936) | `data/provinces/ESP.json`, `data/provinces/MAR_ES.json`, `docs/DATI_PROVINCE.md` (colori dell'immagine spagnola) | da-fare; date indicate dall'utente il 29/10/2026 (schermata di un riassunto con fonti Wikipedia e altre, non una fonte primaria); regole di divisione e province per fazione da definire |
 | EVT-SAU-OIL | Primo pozzo petrolifero produttivo in Arabia Saudita (Dammam n. 7) | inizio 1938 | Il giacimento saudita parte con produzione 0 al 1936 e si attiva con l'evento | `data/resources/resource_locations.csv` (RL-0040, riferimento 1939), `location_notes.csv`; il paese non ha ancora province nel repository | da-fare; data dall'utente (29/10/2026), il valore «21000 barili/giorno» non è verificato |
+
+Contesto ESP (nessun effetto di gioco): le due fazioni sono Repubblica (Seconda Repubblica Spagnola) e nazionalisti guidati da Franco; sostegno militare esterno indicato nella schermata: Italia, Germania e Portogallo ai nazionalisti. La schermata è troncata: il resto (aiuti alla Repubblica) non è stato letto.
 
 Contesto SAU (nessun effetto di gioco): concessione alla SOCAL nel 1933, prospezioni a Dhahran dal 1935, nel 1936 joint venture Caltex con Texaco (indicazioni dell'utente, 29/10/2026).
 
