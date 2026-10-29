@@ -10,6 +10,15 @@ export const COUNTER_H = 26;
 const GAP = 3;
 const MAX_COUNTERS = 2; // oltre, un «+N»
 
+/** Segnalino toccato in (x, y) pixel CSS, oppure null. I più recenti (sopra) vincono. */
+export function hitAt(hits, x, y) {
+  for (let i = (hits?.length ?? 0) - 1; i >= 0; i -= 1) {
+    const h = hits[i];
+    if (x >= h.x0 && x <= h.x1 && y >= h.y0 && y <= h.y1) return h;
+  }
+  return null;
+}
+
 const LEVEL_RANK = { district: 1, corps: 2, army: 3, army_group: 4, theater: 5, high_command: 5 };
 const LEVEL_MARK = { division: 'XX', corps: 'XXX', district: 'XXX', army: 'XXXX', army_group: 'XXXXX', theater: 'XXXXXX', high_command: 'XXXXXX' };
 
@@ -94,7 +103,7 @@ function drawCounter(ctx, spec, x, y) {
  * Disegna i segnalini sulle province visibili. `byProvince`: { idElemento: [gruppi] } (già ancorato a una sotto-provincia).
  * Un riquadro che toccherebbe uno già disegnato si salta; priorità alle province più grandi. ctx: (dpr, 0, 0, dpr, 0, 0).
  */
-export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxes, model }) {
+export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxes, model, hits }) {
   if (!byProvince) return;
   const W = ctx.canvas.width / dpr;
   const H = ctx.canvas.height / dpr;
@@ -116,7 +125,12 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
       const box = [px - w / 2, py - COUNTER_H / 2, px + w / 2, py + COUNTER_H / 2];
       if (boxes.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) continue;
       boxes.push(box);
-      shown.forEach((spec, i) => drawCounter(ctx, spec, box[0] + COUNTER_W / 2 + i * (COUNTER_W + GAP), py));
+      shown.forEach((spec, i) => {
+        const cx = box[0] + COUNTER_W / 2 + i * (COUNTER_W + GAP);
+        drawCounter(ctx, spec, cx, py);
+        // area toccabile del segnalino (pixel CSS), con provincia madre e nazione: lo legge il tocco della mappa
+        hits?.push({ x0: cx - COUNTER_W / 2 - 2, y0: py - COUNTER_H / 2 - 10, x1: cx + COUNTER_W / 2 + 2, y1: py + COUNTER_H / 2 + 2, province: it.props.parentProvince ?? it.props.id, nation: spec.nation });
+      });
       if (extra > 0) {
         ctx.save();
         ctx.font = 'bold 12px sans-serif';

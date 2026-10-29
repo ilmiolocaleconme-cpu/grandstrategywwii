@@ -7,6 +7,7 @@ import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, c
 import { affineOf, layoutOf, lodLevelForScale, screenToUnit, screenToView } from './canvasView.js';
 import { MAX_LEVEL, TILE_BLEED, TILE_CSS, TileStore, ancestorOf, childrenOf, columns, levelFor, levelScale, tileKey, tileOrigin, tileRect, visibleTiles } from './tiles.js';
 import { COLORS, drawOverlay, renderBaseSteps } from './canvasDraw.js';
+import { hitAt } from './unitIcons.js';
 import { resolveResourceAnchors, resolveResourceFills } from '../data/provinceResources.js';
 import { buildLinksModel } from './transportView.js';
 import { seaZoneAt } from './seaView.js';
@@ -36,7 +37,7 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ land, provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, provinceUnits, focus, dataReady, readyKey, onReady }) {
+export default function MapCanvas({ land, provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, provinceUnits, onSelectUnits, focus, dataReady, readyKey, onReady }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   // `land` (terra di base, data/land_base.json) arriva dall'App, precaricata all'apertura con gli altri dati: caricarla qui,
   // dopo il montaggio, faceva disegnare la mappa due volte (prima senza terra, poi con) e si vedeva uno sfarfallio.
@@ -57,10 +58,10 @@ export default function MapCanvas({ land, provinces, rivers, riversGeo, lakes, n
   const [labelPass, setLabelPass] = useState(0);
 
   // stato mutabile del disegno: fuori da React, così il gesto non provoca ridisegni dell'interfaccia
-  const st = useRef({ view: IDENTITY, tiles: new TileStore(TILE_LIMIT), gen: 0, job: null, pumpTimer: 0, tileDev: TILE_CSS, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, scratch: null, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
+  const st = useRef({ view: IDENTITY, tiles: new TileStore(TILE_LIMIT), gen: 0, job: null, pumpTimer: 0, tileDev: TILE_CSS, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, scratch: null, labelTimer: 0, unitHits: [], labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { dataReady, onReady, land, model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, provinceUnits: anchoredUnits, resourceFills };
+  props.current = { dataReady, onReady, land, model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, provinceUnits: anchoredUnits, onSelectUnits, resourceFills };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
   // zoom minimo: tutto il mondo e non più (niente copie affiancate della mappa)
@@ -218,7 +219,7 @@ export default function MapCanvas({ land, provinces, rivers, riversGeo, lakes, n
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, labels: s.labels, copies, layer: p.layer, provinceResources: p.provinceResources, provinceUnits: p.provinceUnits });
+    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, labels: s.labels, copies, layer: p.layer, provinceResources: p.provinceResources, provinceUnits: p.provinceUnits, unitHits: s.unitHits });
   };
 
   // porta alla vista corrente le piastrelle in cache (trascinamento e zoom costano solo questo)
@@ -550,6 +551,10 @@ export default function MapCanvas({ land, provinces, rivers, riversGeo, lakes, n
     const view = s.view;
     const [ux, uy] = screenToUnit(view, VB, l, px, py);
     const copies = visibleCopies(view, VB, p.model.bounds);
+    if (p.layer === 'army' && p.onSelectUnits) {
+      const hit = hitAt(s.unitHits, px, py); // i segnalini hanno la precedenza su città e province
+      if (hit) { p.onSelectUnits({ province: hit.province, nation: hit.nation }); return; }
+    }
     const tolCitta = citySnapTolerance(view.k, l.s); // le città piccole si toccano anche un po' fuori dal contorno, ma solo da vicino (vedi citta.js)
     for (const off of copies) {
       const c = nearestCityAt(p.model.items, ux - off, uy, tolCitta);

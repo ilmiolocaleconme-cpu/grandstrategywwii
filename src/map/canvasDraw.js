@@ -464,7 +464,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, seas, selectedSeaId } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, unitHits, seas, selectedSeaId } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -501,9 +501,10 @@ export function drawOverlay(ctx, p) {
     drawProvinceResources(ctx, { items: model.items, byProvince: provinceResources, a, dpr, copies, boxes: cityBoxes, model });
   }
   // livello Esercito: segnalini delle unità (dislocazione derivata), prima dei nomi come le risorse
+  if (unitHits) unitHits.length = 0;
   if (layer === 'army' && provinceUnits) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    drawProvinceUnits(ctx, { items: model.items, byProvince: provinceUnits, a, dpr, copies, boxes: cityBoxes, model });
+    drawProvinceUnits(ctx, { items: model.items, byProvince: provinceUnits, a, dpr, copies, boxes: cityBoxes, model, hits: unitHits });
   }
   const nomi = cityNamesAt(model.items, view.k);
   if (nomi.length) {

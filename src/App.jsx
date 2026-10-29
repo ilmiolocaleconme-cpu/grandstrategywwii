@@ -29,6 +29,11 @@ import { initForcesState } from './game/forcesState.js';
 import unitsFile from '../data/units/units.json';
 import deploymentFile from '../data/units/deployment_1936.json';
 import { unitsByProvince } from './data/deployment.js';
+import officersFile from '../data/officers/officers.json';
+import { commandersSystem } from './game/commandersState.js';
+import { buildMoveNet } from './data/moveNet.js';
+import { orderMove, cancelOrders, createMovementSystem, currentDeployment, initialPositions } from './game/movementState.js';
+import ArmyPanel from './ui/ArmyPanel.jsx';
 import readiness from '../data/units/readiness.json';
 import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
 import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
@@ -212,7 +217,14 @@ export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: e
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
 const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry], ratio: readiness.initialFillRatio.value };
 const withForces = (state) => initForcesState(state, FORCES_CTX).state;
+// Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
+const MOVE_NET = { net: null };
+const INITIAL_POSITIONS = initialPositions(deploymentFile);
+const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
+const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
 const GAME_SYSTEMS = [
+  commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
+  (state) => (MOVE_NET.net ? createMovementSystem(MOVE_NET.net)(state) : state),
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
 ];
@@ -293,7 +305,27 @@ export default function App() {
   const [infoOpen, setInfoOpen] = useState(false);
   const provinceData = useProvinceData(game !== null || infoOpen); // scaricati all'avvio della partita (o alla prima apertura del pannello), non a ogni selezione
   const linkStats = useMemo(() => (infoOpen && links && provinces ? provinceLinkStats(links, provinces.features.map((f) => f.properties)) : null), [infoOpen, links, provinces]);
-  const selectProvince = (id) => { setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false); };
+  const [armySel, setArmySel] = useState(null); // { province, nation } del segnalino toccato
+  const [armyChecked, setArmyChecked] = useState(() => new Set());
+  const [armyNotice, setArmyNotice] = useState(null);
+  const [moveNet, setMoveNet] = useState(null);
+  // destinazione di un ordine: con un segnalino proprio aperto e unità spuntate, il tocco su una provincia è un ordine di marcia
+  const selectProvince = (id) => {
+    if (id != null && armySel && layer === 'army' && game && armySel.nation === game.player && armyChecked.size > 0 && moveNet) {
+      const item = mapItems.find((i) => i.id === id);
+      const to = item ? (item.props.parentProvince ?? item.props.id) : id;
+      const movers = [...armyChecked].map((uid) => UNITS_BY_ID.get(uid)).filter(Boolean).map((u) => ({ id: u.id, category: u.category }));
+      const r = orderMove(game, { units: movers, to, nation: game.player, deploymentDoc: deploymentFile, net: moveNet });
+      if (r.moved.length) setGame(r.state);
+      const slowest = r.moved.reduce((m, x) => Math.max(m, x.days), 0);
+      const why = { no_route: 'nessun percorso su territorio tuo', same_province: 'già lì', unknown_position: 'posizione sconosciuta' };
+      setArmyNotice(`${r.moved.length ? `${r.moved.length} unità in marcia verso ${moveNet.name(to)} (fino a ${slowest} giorni). ` : ''}${r.failed.length ? `${r.failed.length} non partite: ${[...new Set(r.failed.map((f) => why[f.reason] ?? f.reason))].join(', ')}.` : ''}`);
+      return;
+    }
+    setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false);
+  };
+  const selectUnits = (g) => { setArmySel(g); setArmyChecked(new Set()); setArmyNotice(null); setProvinceId(null); setSeaId(null); setInfoOpen(false); };
+  const toggleArmy = (uid) => setArmyChecked((s) => { const n = new Set(s); if (n.has(uid)) n.delete(uid); else n.add(uid); return n; });
   const selectSea = (id) => { setSeaId(id); setProvinceId(null); if (id == null) setInfoOpen(false); };
   const [pwa, setPwa] = useState({ offlineReady: false, updateAvailable: false, error: null });
   const [applyUpdate, setApplyUpdate] = useState(null);
@@ -314,13 +346,25 @@ export default function App() {
     return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
   }, [game, selectedItem]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
-  const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, deploymentFile, game?.date ?? '1936-01-01'), [game?.date]);
+  const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
+  const armyGroup = armySel ? (provinceUnits[armySel.province] ?? []).find((x) => x.nation === armySel.nation) ?? null : null;
+  // rete di movimento: si carica (e si costruisce) quando c'è una partita; l'adiacenza è un file a parte, non nel pacchetto principale
+  useEffect(() => {
+    if (!game || moveNet || !provinces) return undefined;
+    let alive = true;
+    import('../data/adjacency.json').then((m) => {
+      if (!alive) return;
+      try { const net = buildMoveNet(provinces, m.default); MOVE_NET.net = net; setMoveNet(net); } catch (e) { setArmyNotice(`Movimento non disponibile: ${e.message}`); }
+    }).catch(() => { if (alive) setArmyNotice('Movimento non disponibile: file di adiacenza non caricato.'); });
+    return () => { alive = false; };
+  }, [!!game, !!provinces, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
   const layerReady = (layer !== 'terrain' || terrain !== null) && (layer !== 'resources' || provinceResources !== null); // dati del livello scelto arrivati
   const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && land !== null && layerReady;
   // cambio di livello (Politico / Terreno / Risorse): la mappa si ridisegna e va mostrata solo a disegno finito, come all'avvio
   const changeLayer = (next) => {
     if (next === layer) return;
     setLayer(next);
+    if (next !== 'army') setArmySel(null);
     // i dati di tutti i livelli sono caricati prima della partita (precaricamento all'apertura): il cambio livello non mostra nessuna copertura.
     // La bandiera resta solo come ripiego se i dati del livello non sono arrivati (file lento o mancante).
     if (!game || !layerNeedsCover(next, { terrain, resources: provinceResources })) return;
@@ -494,8 +538,12 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} />
-        {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
+        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} />
+        {armyGroup && layer === 'army' && game ? (
+          <ArmyPanel group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={UNITS_BY_ID} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
+            provinceName={provinceName} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy}
+            onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
+        ) : !(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (

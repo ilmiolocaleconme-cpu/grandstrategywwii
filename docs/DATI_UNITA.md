@@ -142,3 +142,14 @@ Regola dell'utente: i rinforzi passano dal pool; se ci sono abbastanza risorse v
 - **Stato: mancante.** Non esiste ancora nulla di tutto questo nel codice. Requisiti che ne derivano: accordo commerciale/diplomatico fra venditore e acquirente; costo (denaro o merci) e tempi di consegna; acquisto di pezzi finiti = trasferimento dal pool del venditore a quello dell'acquirente senza duplicazione; licenza = nuova ricetta per l'acquirente (con condizioni: durata, royalty o limiti, da stabilire); vincolo di tecnologia (il modello deve essere sbloccato dal venditore e, per la licenza, l'acquirente deve avere la fabbrica adatta); rotte di consegna reali (porti, ferrovie), possibili blocchi.
 - **Da definire con l'utente:** quali nazioni sono «minori» (ipotesi di Claude: la fascia C di `initial_industry.json`, 51 nazioni senza industria iniziale), cosa contiene il template unico di artiglieria, prezzi e condizioni delle licenze.
 
+
+
+## Unità sulla mappa, movimento e scheda unità (29/10/2026)
+
+Stato: **implementato e testato** per dati e regole (`tests/deployment.test.js`, `tests/movement.test.js`, `tests/unit_info.test.js`); **interfaccia implementata ma non verificata** (nessun `vite build`, nessuna prova in browser o su telefono; solo controllo di sintassi e dei collegamenti con esbuild).
+
+- **Dislocazione 1/1/1936** (`data/units/deployment_1936.json`, generata da `scripts/build-deployment.js`): base *ipotesi*, derivata da stazione → città → provincia madre e dal corpo d'armata. 85 unità collocate, 25 no (elenco in `unplaced`).
+- **Livello «Esercito»**: segnalini NATO (APP-6 semplificato) per nazione; si toccano per aprire il pannello (`src/map/unitIcons.js`, `src/ui/ArmyPanel.jsx`).
+- **Movimento** (`src/rules/movement.js`, `src/data/moveNet.js`, `src/game/movementState.js`): campo opzionale `state.movement` (nessuna migrazione). Percorso con meno passi lungo l'adiacenza; ogni passo dura ⌈km tra i centri / velocità⌉ giorni. **Velocità per categoria = valori di partenza provvisori (ipotesi di bilanciamento), non dati storici.** Si entra solo in province controllate dalla propria nazione.
+- **Non modellati nel movimento**: fiumi e attraversamenti, terreno, stagione, rifornimenti, mare, ferrovia, guerra/diplomazia/accessi, combattimento. Un nuovo ordine sostituisce il precedente; durante il passo l'unità resta nella provincia di partenza.
+- **Scheda unità** (`src/rules/unitInfo.js`): comandante (solo corpi e armate; il sistema di assegnazione automatica `commandersSystem` ora gira nella partita), inquadramento e forze assegnate (ORBAT dello stato), consistenza (uomini effettivi/previsti, quadro, rinforzi), posizione e ordine di marcia. **Fatica, morale, organizzazione, esperienza e rifornimenti non esistono nel progetto**: la scheda li dichiara «non modellati».
