@@ -33,6 +33,7 @@ export function validateTankModels(doc) {
     if (m.availability?.type !== 'event' || !/^EVT-[A-Z0-9-]+$/.test(m.availability?.eventId ?? '')) errors.push(`${p}: disponibilità non legata a un evento`);
     if (m.availability?.date !== null && !/^\d{4}-\d{2}-\d{2}$/.test(m.availability?.date ?? '')) errors.push(`${p}: data dell'evento non valida`);
     if ('productionStart' in m || 'productionEnd' in m) errors.push(`${p}: un modello a evento non ha anni di produzione`);
+    if (m.transfer && (m.transfer.fromNation !== m.originNation || m.transfer.toNation !== m.nation)) errors.push(`${p}: il trasferimento deve andare da ${m.originNation} a ${m.nation}`);
     if (!String(m.source ?? '').trim()) errors.push(`${p}: senza fonte`);
   }
   return errors;

@@ -50,10 +50,13 @@ test('carri cecoslovacchi (Panzer 35(t) e 38(t)): entrano solo con un evento, ma
   for (const d of ['1936-01-01', '1939-06-01', '1943-01-01', '1945-12-31']) {
     assert.ok(modelsAvailableAt(doc, d).every((m) => !/\(t\)/.test(m.name)), `${d}: i modelli a evento non compaiono per data`);
   }
+  assert.ok(doc.eventModels.every((m) => m.transfer.fromNation === 'CZE' && m.transfer.toNation === 'DEU' && /nessuna duplicazione/.test(m.transfer.rule)), 'il pool passa da CZE a DEU');
+  assert.ok(doc.eventModels.every((m) => !/\d/.test(m.transfer.quantity.replace(/\(.*\)/, ''))), 'nessuna quantità inventata');
   const bad = (mut, re) => { const d = structuredClone(doc); mut(d); assert.ok(validateTankModels(d).some((e) => re.test(e)), String(re)); };
   bad((d) => { d.eventModels[0].availability = { type: 'year', year: 1939 }; }, /non legata a un evento/);
   bad((d) => { d.eventModels[0].productionStart = 1938; }, /non ha anni di produzione/);
   bad((d) => { d.eventModels[0].originNation = ''; }, /nazione d'origine/);
+  bad((d) => { d.eventModels[0].transfer.toNation = 'FRA'; }, /trasferimento/);
   bad((d) => { d.eventModels[1].id = d.eventModels[0].id; }, /duplicato/);
   bad((d) => { d.eventModels[0].availability.date = '1939'; }, /data dell'evento/);
 });

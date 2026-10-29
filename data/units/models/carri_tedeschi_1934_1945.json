@@ -130,7 +130,16 @@
       },
       "role": "Carro leggero cecoslovacco con cannone da 37 mm e trasmissione pneumatica innovativa (seppur complessa); requisito dalla Germania e integrato nella Wehrmacht.",
       "basis": "utente",
-      "source": "Testo incollato dall'utente il 29/10/2026 (industria bellica cecoslovacca anni '30). Non verificato da me."
+      "source": "Testo incollato dall'utente il 29/10/2026 (industria bellica cecoslovacca anni '30). Non verificato da me.",
+      "transfer": {
+        "fromNation": "CZE",
+        "toNation": "DEU",
+        "what": "pool di carri",
+        "quantity": "quelli posseduti da CZE alla data dell'evento (non definiti: la Cecoslovacchia non ha ancora forze nei dati)",
+        "rule": "i carri passano da CZE a DEU: escono dal pool cecoslovacco ed entrano in quello tedesco, nessuna duplicazione",
+        "basis": "utente",
+        "source": "Indicazione dell'utente del 29/10/2026: il pool di carri cecoslovacchi passerà con evento alla Germania."
+      }
     },
     {
       "id": "MDL-DEU-PZ38T",
@@ -148,7 +157,16 @@
       },
       "role": "Carro leggero, considerato il miglior carro leggero al mondo all'inizio del conflitto per affidabilità meccanica e velocità; lo scafo fu poi riutilizzato fino a fine guerra per il cacciacarri Hetzer.",
       "basis": "utente",
-      "source": "Testo incollato dall'utente il 29/10/2026 (industria bellica cecoslovacca anni '30). Non verificato da me."
+      "source": "Testo incollato dall'utente il 29/10/2026 (industria bellica cecoslovacca anni '30). Non verificato da me.",
+      "transfer": {
+        "fromNation": "CZE",
+        "toNation": "DEU",
+        "what": "pool di carri",
+        "quantity": "quelli posseduti da CZE alla data dell'evento (non definiti: la Cecoslovacchia non ha ancora forze nei dati)",
+        "rule": "i carri passano da CZE a DEU: escono dal pool cecoslovacco ed entrano in quello tedesco, nessuna duplicazione",
+        "basis": "utente",
+        "source": "Indicazione dell'utente del 29/10/2026: il pool di carri cecoslovacchi passerà con evento alla Germania."
+      }
     }
   ]
 }
