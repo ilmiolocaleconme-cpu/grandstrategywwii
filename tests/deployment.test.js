@@ -74,12 +74,16 @@ test('resolveStation, corpsDivisions e validateDeployment: casi di prova', () =>
 });
 
 test('segnalini della mappa: contatore, colore e limite di nazioni per provincia (parte pura)', async () => {
-  const { counterSpec, countersFor, COUNTER_W } = await import('../src/map/unitIcons.js');
-  const g = (nation, divisions, commands) => ({ nation, divisions, commands, units: Array.from({ length: divisions + commands }, (_, i) => ({ id: `${nation}${i}` })) });
-  assert.deepEqual([counterSpec(g('DEU', 3, 2)).main, counterSpec(g('DEU', 3, 2)).sub], ['3', '+2c']);
-  assert.deepEqual([counterSpec(g('DEU', 0, 1)).main, counterSpec(g('DEU', 0, 1)).sub], ['1c', '']);
+  const { counterSpec, countersFor, symbolOf, COUNTER_W } = await import('../src/map/unitIcons.js');
+  const g = (nation, divisions, commands, category = 'infantry') => ({ nation, divisions, commands, units: [...Array.from({ length: divisions }, (_, i) => ({ id: `${nation}d${i}`, echelon: 'division', category })), ...Array.from({ length: commands }, (_, i) => ({ id: `${nation}c${i}`, echelon: 'command', category: 'command', commandLevel: i === 0 ? 'corps' : 'army' }))] });
+  assert.deepEqual([counterSpec(g('DEU', 3, 2)).main, counterSpec(g('DEU', 3, 2)).sub], ['3', '+2']);
+  assert.deepEqual([counterSpec(g('DEU', 0, 1)).main, counterSpec(g('DEU', 0, 1)).sub], ['1', '']);
   const r = countersFor([g('FRA', 1, 0), g('DEU', 4, 1), g('GBR', 2, 0), g('USSR', 1, 1)]);
   assert.deepEqual(r.shown.map((s) => s.nation), ['DEU', 'GBR']);
   assert.equal(r.extra, 2);
   assert.ok(COUNTER_W > 0);
+  assert.deepEqual(symbolOf(g('DEU', 2, 1, 'armored')), { category: 'armored', mark: 'XX' });
+  assert.deepEqual(symbolOf(g('DEU', 0, 2)), { category: 'command', mark: 'XXXX' }); // corpo + armata: vale il grado più alto
+  const mixed = { nation: 'DEU', divisions: 3, commands: 0, units: [{ echelon: 'division', category: 'infantry' }, { echelon: 'division', category: 'armored' }, { echelon: 'division', category: 'armored' }] };
+  assert.equal(symbolOf(mixed).category, 'armored');
 });

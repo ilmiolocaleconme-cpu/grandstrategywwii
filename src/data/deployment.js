@@ -121,7 +121,7 @@ export function unitsByProvince(units, doc, date, { policy = 'strict' } = {}) {
     let g = groups.find((x) => x.nation === u.nation);
     if (!g) { g = { nation: u.nation, divisions: 0, commands: 0, units: [] }; groups.push(g); }
     if (u.echelon === 'division') g.divisions += 1; else g.commands += 1;
-    g.units.push({ id: u.id, name: u.name, echelon: u.echelon });
+    g.units.push({ id: u.id, name: u.name, echelon: u.echelon, category: u.category, commandLevel: u.commandLevel ?? null });
   }
   for (const groups of Object.values(out)) groups.sort((a, b) => (a.nation < b.nation ? -1 : 1));
   return out;
