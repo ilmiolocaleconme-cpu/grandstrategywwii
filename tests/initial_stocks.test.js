@@ -13,7 +13,7 @@ const file = json('industry/initial_stocks.json');
 const industry = json('industry/initial_industry.json');
 const recipes = json('industry/recipes.json');
 const ctx = { production: json('resources/production_1936.json'), factors: json('resources/extraction_factors.json'), scaleFile: json('resources/extraction_scale.json'), pointsByProvince: json('resources/resource_points.json').byProvince, extra: json('resources/resource_locations_extra.json') };
-const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur'];
+const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper'];
 const ext = Object.fromEntries(RAW.map((r) => [r, resourceExtraction(r, ctx)]));
 const supply = Object.fromEntries(Object.keys(industry.nations).map((id) => [id, Object.fromEntries(RAW.map((r) => [r, totalByPrefix(ext[r], id)]))]));
 const resourceIds = new Set(json('resources.json').map((r) => r.id));

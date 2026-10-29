@@ -29,19 +29,24 @@
     },
     "CAN": {
       "coal": 135.2,
-      "oil": 29.7
+      "oil": 29.7,
+      "copper": 88.2
     },
     "CEY": {
       "rubber": 134
     },
     "CHL": {
       "iron_ore": 230.7,
-      "sulphur": 5.2
+      "sulphur": 5.2,
+      "copper": 120.8
     },
     "CHN": {
       "iron_ore": 21.9,
       "coal": 270.4,
       "oil": 17.4
+    },
+    "COD": {
+      "copper": 46.4
     },
     "COL": {
       "oil": 85.8
@@ -107,7 +112,8 @@
     "JPN": {
       "coal": 450.8,
       "oil": 29.7,
-      "sulphur": 36.6
+      "sulphur": 36.6,
+      "copper": 36.2
     },
     "LBR": {
       "rubber": 24
@@ -169,13 +175,15 @@
       "coal": 4260,
       "oil": 2756.4,
       "bauxite": 779.7,
-      "sulphur": 418.2
+      "sulphur": 418.2,
+      "copper": 255.3
     },
     "USSR": {
       "iron_ore": 1720.2,
       "coal": 1296,
       "oil": 503.2,
-      "bauxite": 421.2
+      "bauxite": 421.2,
+      "copper": 37.1
     },
     "VEN": {
       "oil": 422.6
@@ -185,6 +193,9 @@
     },
     "ZAF": {
       "coal": 169
+    },
+    "ZAM": {
+      "copper": 69.7
     }
   }
 }

@@ -7,7 +7,7 @@ import { resourceExtraction, totalByPrefix } from '../src/data/extraction.js';
 
 const j = (p) => JSON.parse(fs.readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
 const ctx = { production: j('resources/production_1936.json'), factors: j('resources/extraction_factors.json'), scaleFile: j('resources/extraction_scale.json'), pointsByProvince: j('resources/resource_points.json').byProvince, extra: j('resources/resource_locations_extra.json') };
-const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur'];
+const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper'];
 const ext = Object.fromEntries(RAW.map((r) => [r, resourceExtraction(r, ctx)]));
 const territories = new Set();
 for (const r of RAW) for (const id of ext[r].byProvince.keys()) territories.add(id.split('_')[1]);
