@@ -1,7 +1,7 @@
 {
  "schema": "ports-list-v1",
  "quality": "hypothesis",
- "note": "Elenco ridotto dei porti principali al 1/1/1936, scelto dalla conoscenza generale e NON verificato su un dataset (una ricerca sul traffico dei porti nel 1936 non ha trovato una fonte utilizzabile). Livelli come la scala delle strutture INF-013/14/15: 3 = grande porto, 2 = porto regionale. Nessuna capacità in tonnellate: non è stata inventata. Le città costiere non elencate partono senza porto (livello 0): lo costruisce il giocatore. Nomi come in data/citta_grandi.json.",
+ "note": "Elenco ridotto dei porti principali al 1/1/1936, scelto dalla conoscenza generale e NON verificato su un dataset (una ricerca sul traffico dei porti nel 1936 non ha trovato una fonte utilizzabile). Livelli come la scala delle strutture INF-013/14/15: 3 = grande porto, 2 = porto regionale. Nessuna capacità in tonnellate: non è stata inventata. Le città costiere non elencate partono senza porto (livello 0): lo costruisce il giocatore; fa eccezione la regola `minimumPerNation`. Nomi come in data/citta_grandi.json.",
  "ports": [
   {
    "name": "New York",
@@ -597,6 +597,75 @@
    "name": "La Plata",
    "owner": "ARG",
    "level": 2
+  },
+  {
+   "name": "Mumbai",
+   "owner": "IND",
+   "level": 2
+  },
+  {
+   "name": "Melbourne",
+   "owner": "AUS",
+   "level": 2
+  },
+  {
+   "name": "Vancouver",
+   "owner": "CAN",
+   "level": 2
+  },
+  {
+   "name": "Durban",
+   "owner": "ZAF",
+   "level": 2
+  },
+  {
+   "name": "Giacarta",
+   "owner": "NLD_EI",
+   "level": 2
+  },
+  {
+   "name": "L'Avana",
+   "owner": "CUB",
+   "level": 2
+  },
+  {
+   "name": "Montevideo",
+   "owner": "URY",
+   "level": 2
+  },
+  {
+   "name": "Casablanca",
+   "owner": "MAR",
+   "level": 2
+  },
+  {
+   "name": "Algeri",
+   "owner": "ALG",
+   "level": 2
+  },
+  {
+   "name": "Dublino",
+   "owner": "IRL",
+   "level": 2
+  },
+  {
+   "name": "Helsinki",
+   "owner": "FIN",
+   "level": 2
+  },
+  {
+   "name": "Singapore",
+   "owner": "MAL",
+   "level": 3
+  },
+  {
+   "name": "Hong Kong",
+   "owner": "HKG",
+   "level": 3
   }
- ]
+ ],
+ "minimumPerNation": {
+  "level": 1,
+  "rule": "Ogni entità con almeno una città costiera nel catalogo e nessun porto in elenco riceve un Porto locale (livello 1) nella sua città costiera di maggiore superficie (areaKm2, a parità id minore). REGOLA DI PROGETTO (DESIGN_DEFAULT), non un dato storico: serve perché il commercio via mare richiede un porto e una nazione costiera non deve esserne esclusa per le lacune del catalogo città."
+ }
 }

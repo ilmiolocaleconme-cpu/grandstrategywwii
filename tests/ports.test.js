@@ -11,7 +11,7 @@ const cities = json('citta_grandi.json').features.map((f) => f.properties);
 test('elenco: valido, senza doppioni, ogni porto è una città costiera del catalogo; qualità ipotesi', () => {
   assert.equal(list.quality, 'hypothesis');
   assert.deepEqual(validatePortsList(list, { cities }), []);
-  assert.equal(list.ports.length, 119);
+  assert.equal(list.ports.length, 132);
 });
 
 test('file derivato: coincide con la rigenerazione; Amburgo (2 parti) è un solo porto di livello 3', () => {
@@ -34,6 +34,13 @@ test('difetti segnalati: livello 1, doppione, città non costiera o inesistente'
 test('distribuzione: pochi grandi porti, più regionali; nessuna nazione senza costa nell\'elenco', () => {
   const lv = (n) => Object.values(file.ports).filter((p) => p.level === n).length;
   assert.ok(lv(3) > 20 && lv(3) < lv(2));
+  // regola minima: ogni entità con una città costiera ha almeno un porto, quelli della regola sono livello 1 e in basis 'minimum'
+  const owners = new Set(cities.filter((c) => c.costiera && c.kind === 'citta').map((c) => c.owner));
+  const withPort = new Set(Object.values(file.ports).map((p) => p.owner));
+  assert.deepEqual([...owners].filter((o) => !withPort.has(o)), []);
+  const mins = Object.values(file.ports).filter((p) => p.basis === 'minimum');
+  assert.ok(mins.length > 50 && mins.every((p) => p.level === 1));
+  assert.equal(Object.values(file.ports).filter((p) => p.owner === 'PRT').length, 1, 'una sola città per entità, la più grande');
   const coastalOwners = new Set(cities.filter((c) => c.costiera).map((c) => c.owner));
   for (const p of Object.values(file.ports)) assert.ok(coastalOwners.has(p.owner));
 });

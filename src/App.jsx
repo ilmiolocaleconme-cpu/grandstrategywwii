@@ -28,6 +28,8 @@ import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { initForcesState, nationManpowerPool } from './game/forcesState.js';
 import { createTradeSystem } from './game/tradeState.js';
+import { createGameSea } from './game/seaState.js';
+import seaRoutesParams from '../data/sea_routes_params.json';
 import unitsFile from '../data/units/units.json';
 import deploymentFile from '../data/units/deployment_1936.json';
 import { unitsByProvince } from './data/deployment.js';
@@ -263,6 +265,7 @@ const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuA
 const withForces = (state) => initForcesState(state, FORCES_CTX).state;
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };
+const GAME_SEA = { sea: null }; // rotte marittime con i porti reali (game/seaState.js): si crea quando arrivano le zone di mare e le province
 const INITIAL_POSITIONS = initialPositions(deploymentFile);
 const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
@@ -273,7 +276,7 @@ const GAME_SYSTEMS = [
   createTheaterSystem({ getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS }), // guerra, incarichi di teatro, battaglie e conquista
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
-  createTradeSystem({ resources, getNet: gameNet }), // commercio v1: contratti via terra (consegne e partenze); nessuna interfaccia ancora
+  createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   GAME_SECURITY.securityDay,
   GAME_AI.aiDay,
@@ -481,6 +484,15 @@ export default function App() {
     }).catch(() => { if (alive) setArmyNotice('Movimento non disponibile: file di adiacenza non caricato.'); });
     return () => { alive = false; };
   }, [!!game, !!provinces, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
+  // rotte marittime: servono le zone di mare e le province (stesso ordine di data/sea_zones.json); i porti vengono da data/ports e da state.ports
+  useEffect(() => {
+    if (!game || GAME_SEA.sea || !seaFile || !provinces) return;
+    try {
+      const props = provinces.features.map((f) => f.properties);
+      const mother = new Map(props.map((p) => [p.id, p.parentProvince ?? p.id]));
+      GAME_SEA.sea = createGameSea({ seaFile, params: seaRoutesParams, provinceIds: props.map((p) => p.id), motherOf: (id) => mother.get(id) ?? id, entityOf: entityOfProvince, ports: GAME_PORTS });
+    } catch (e) { setArmyNotice(`Rotte marittime non disponibili: ${e.message}`); }
+  }, [!!game, !!seaFile, !!provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const layerReady = (layer !== 'terrain' || terrain !== null) && (layer !== 'resources' || provinceResources !== null); // dati del livello scelto arrivati
   const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && land !== null && layerReady;
   // cambio di livello (Politico / Terreno / Risorse): la mappa si ridisegna e va mostrata solo a disegno finito, come all'avvio
