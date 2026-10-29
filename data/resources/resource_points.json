@@ -2426,11 +2426,25 @@
      "punteggio": 7,
      "periodoBase": "1935-45",
      "punteggioMax": 9,
-     "punti": 10.809,
-     "puntiMax": 31.238,
+     "punti": 10.576,
+     "puntiMax": 30.566,
      "province": [
       "P_BOL_ORURO",
       "P_BOL_POTOSI"
+     ]
+    },
+    {
+     "id": "tin|Cina|gejiu",
+     "controllo": "Cina",
+     "paese": "Cina",
+     "luogo": "Gejiu, Yunnan",
+     "punteggio": 4,
+     "periodoBase": "1936",
+     "punteggioMax": 6,
+     "punti": 2.153,
+     "puntiMax": 6.221,
+     "province": [
+      "P_CHN_YUNNAN"
      ]
     },
     {
@@ -2441,8 +2455,8 @@
      "punteggio": 1,
      "periodoBase": "1935-45",
      "punteggioMax": 3,
-     "punti": 0.448,
-     "puntiMax": 1.294,
+     "punti": 0.438,
+     "puntiMax": 1.266,
      "province": [
       "P_CZE_BOHEMIA",
       "P_DEU_SACHSEN"
@@ -2456,8 +2470,8 @@
      "punteggio": 9,
      "periodoBase": "1939",
      "punteggioMax": 10,
-     "punti": 31.238,
-     "puntiMax": 53.105,
+     "punti": 30.566,
+     "puntiMax": 51.962,
      "province": [
       "P_NLD_EI_BANGKA_BELITUNG_ISLANDS",
       "P_NLD_EI_JAMBI",
@@ -2475,8 +2489,8 @@
      "punteggio": 10,
      "periodoBase": "1935-45",
      "punteggioMax": 10,
-     "punti": 53.105,
-     "puntiMax": 53.105,
+     "punti": 51.962,
+     "puntiMax": 51.962,
      "province": [
       "P_MAL_PERAK",
       "P_MAL_SELANGOR"
@@ -2490,8 +2504,8 @@
      "punteggio": 4,
      "periodoBase": "1935-45",
      "punteggioMax": 6,
-     "punti": 2.2,
-     "puntiMax": 6.358,
+     "punti": 2.153,
+     "puntiMax": 6.221,
      "province": [
       "P_NGA_PLATEAU_STATE"
      ]
@@ -2504,8 +2518,8 @@
      "punteggio": 4,
      "periodoBase": "1935-45",
      "punteggioMax": 6,
-     "punti": 2.2,
-     "puntiMax": 6.358,
+     "punti": 2.153,
+     "puntiMax": 6.221,
      "province": [
       "P_SIA_SOUTHERN"
      ]
@@ -2513,36 +2527,40 @@
    ],
    "byControl": {
     "Regno Unito": {
-     "base": 55.305,
-     "max": 59.463
+     "base": 54.115,
+     "max": 58.183
     },
     "Paesi Bassi": {
-     "base": 31.238,
-     "max": 53.105
+     "base": 30.566,
+     "max": 51.962
     },
     "Bolivia": {
-     "base": 10.809,
-     "max": 31.238
+     "base": 10.576,
+     "max": 30.566
+    },
+    "Cina": {
+     "base": 2.153,
+     "max": 6.221
     },
     "Siam / Thailandia": {
-     "base": 2.2,
-     "max": 6.358
+     "base": 2.153,
+     "max": 6.221
     },
     "Germania": {
-     "base": 0.448,
-     "max": 1.294
+     "base": 0.438,
+     "max": 1.266
     }
    },
    "totale": {
-    "base": 100,
-    "max": 151.458,
-    "potenziale": 1.51
+    "base": 100.001,
+    "max": 154.419,
+    "potenziale": 1.54
    },
    "balance": {
     "topControl": "Regno Unito",
-    "topControlShare": 0.553,
-    "effectiveProducers": 2.41,
-    "controls": 5
+    "topControlShare": 0.541,
+    "effectiveProducers": 2.51,
+    "controls": 6
    }
   },
   "tungsten": {
@@ -3368,8 +3386,8 @@
     "max": 20.584
    },
    "tin": {
-    "base": 5.405,
-    "max": 15.619
+    "base": 5.288,
+    "max": 15.283
    },
    "tungsten": {
     "base": 3.913,
@@ -3382,8 +3400,8 @@
     "max": 20.584
    },
    "tin": {
-    "base": 5.405,
-    "max": 15.619
+    "base": 5.288,
+    "max": 15.283
    },
    "tungsten": {
     "base": 3.913,
@@ -3560,6 +3578,12 @@
     "max": 0.336
    }
   },
+  "P_CHN_YUNNAN": {
+   "tin": {
+    "base": 2.153,
+    "max": 6.221
+   }
+  },
   "P_COD_KATANGA": {
    "cobalt": {
     "base": 81.439,
@@ -3626,8 +3650,8 @@
     "max": 5.682
    },
    "tin": {
-    "base": 0.224,
-    "max": 0.647
+    "base": 0.219,
+    "max": 0.633
    },
    "uranium": {
     "base": 2.014,
@@ -3712,8 +3736,8 @@
     "max": 0.631
    },
    "tin": {
-    "base": 0.224,
-    "max": 0.647
+    "base": 0.219,
+    "max": 0.633
    }
   },
   "P_DEU_SCHLESWIG_HOLSTEIN": {
@@ -4386,8 +4410,8 @@
     "max": 20.988
    },
    "tin": {
-    "base": 26.553,
-    "max": 26.553
+    "base": 25.981,
+    "max": 25.981
    }
   },
   "P_MAL_SELANGOR": {
@@ -4396,8 +4420,8 @@
     "max": 20.988
    },
    "tin": {
-    "base": 26.553,
-    "max": 26.553
+    "base": 25.981,
+    "max": 25.981
    }
   },
   "P_MAN_LIAONING": {
@@ -4494,14 +4518,14 @@
   },
   "P_NGA_PLATEAU_STATE": {
    "tin": {
-    "base": 2.2,
-    "max": 6.358
+    "base": 2.153,
+    "max": 6.221
    }
   },
   "P_NLD_EI_BANGKA_BELITUNG_ISLANDS": {
    "tin": {
-    "base": 6.248,
-    "max": 10.621
+    "base": 6.113,
+    "max": 10.392
    }
   },
   "P_NLD_EI_CENTRAL_JAVA": {
@@ -4552,8 +4576,8 @@
     "max": 6.296
    },
    "tin": {
-    "base": 6.248,
-    "max": 10.621
+    "base": 6.113,
+    "max": 10.392
    }
   },
   "P_NLD_EI_NORTH_SUMATRA": {
@@ -4566,8 +4590,8 @@
     "max": 6.296
    },
    "tin": {
-    "base": 6.248,
-    "max": 10.621
+    "base": 6.113,
+    "max": 10.392
    }
   },
   "P_NLD_EI_RIAU": {
@@ -4580,8 +4604,8 @@
     "max": 6.296
    },
    "tin": {
-    "base": 6.248,
-    "max": 10.621
+    "base": 6.113,
+    "max": 10.392
    }
   },
   "P_NLD_EI_RIAU_ISLANDS": {
@@ -4610,8 +4634,8 @@
     "max": 6.296
    },
    "tin": {
-    "base": 6.248,
-    "max": 10.621
+    "base": 6.113,
+    "max": 10.392
    }
   },
   "P_NLD_EI_WEST_JAVA": {
@@ -4792,8 +4816,8 @@
   },
   "P_SIA_SOUTHERN": {
    "tin": {
-    "base": 2.2,
-    "max": 6.358
+    "base": 2.153,
+    "max": 6.221
    }
   },
   "P_SLE_NORTHERN": {

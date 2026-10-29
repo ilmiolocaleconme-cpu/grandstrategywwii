@@ -20,7 +20,7 @@ Parametri: step 1.7, 100 punti di output base mondiale per risorsa (quindi perce
 | Petrolio | 24 | Stati Uniti 24%, URSS 15%, Venezuela 14% | 7.73 | ×2,09 | 16% / 24% / 32% / 46% | no |
 | Gomma naturale | 2 | Regno Unito 63%, Paesi Bassi 37% | 1.87 | ×1,26 | 58% / 63% / 67% / 74% | sì (Regno Unito) |
 | Zolfo | 5 | Stati Uniti 80%, Italia 10%, Giappone 6% | 1.54 | ×1,39 | 60% / 80% / 90% / 98% | sì (Stati Uniti) |
-| Stagno | 6 | Regno Unito 55%, Paesi Bassi 31%, Bolivia 11% | 2.41 | ×1,51 | 47% / 55% / 61% / 71% | sì (Regno Unito) |
+| Stagno | 7 | Regno Unito 54%, Paesi Bassi 31%, Bolivia 11% | 2.51 | ×1,54 | 45% / 54% / 61% / 71% | sì (Regno Unito) |
 | Tungsteno | 7 | Cina 65%, Portogallo 13%, Bolivia 8% | 2.19 | ×1,65 | 45% / 65% / 79% / 93% | sì (Cina) |
 | Uranio | 5 | Belgio 86%, Regno Unito 10%, Cecoslovacchia 2% | 1.33 | ×1,33 | 72% / 86% / 93% / 98% | sì (Belgio) |
 | Vanadio | 4 | Stati Uniti 57%, Peru 34%, Regno Unito 7% | 2.25 | ×2,89 | 48% / 57% / 63% / 73% | sì (Stati Uniti) |

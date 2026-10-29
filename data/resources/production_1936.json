@@ -537,6 +537,15 @@
     },
     {
       "resource": "tin",
+      "territory": "Cina (Nazionalista)",
+      "prefix": "CHN",
+      "region": "Gejiu, Yunnan",
+      "mt": 0.010835,
+      "context": "Produttore medio (circa 6%). Stessa fonte (ITRDC 1937 via Nature). Tonnellate lunghe. Quasi tutto dallo Yunnan [Probabile].",
+      "source": "ricerca"
+    },
+    {
+      "resource": "tin",
       "territory": "Nigeria Britannica",
       "prefix": "NGA",
       "region": "Plateau, Jos",

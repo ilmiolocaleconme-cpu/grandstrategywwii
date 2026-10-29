@@ -49,13 +49,13 @@ test('segnalazioni di revisione e righe aggiunte da Claude', () => {
   assert.equal(flagged('duplicate_value').length, 3);
   assert.ok(flagged('value_suspect').length >= 10);
   const added = locations.filter((l) => l.source === 'claude_note');
-  assert.equal(added.length, 7, 'petrolio tedesco + 4 alluminio + 2 ferro');
+  assert.equal(added.length, 8, 'petrolio tedesco + 4 alluminio + 2 ferro + stagno cinese');
   const de = added.filter((l) => l.resource_id === 'oil');
   assert.equal(de.length, 1);
   assert.equal(de[0].country_id, 'DEU');
   assert.equal(de[0].precision, 'qualitative');
   assert.equal(de[0].quantity_value, '');
-  assert.deepEqual(added.filter((l) => l.resource_id !== 'oil').map((l) => `${l.resource_id}:${l.country_text}`).sort(), ['aluminium:Francia', 'aluminium:Regno Unito', 'aluminium:Stati Uniti', 'aluminium:URSS', 'iron_ore:Regno Unito', 'iron_ore:URSS']);
+  assert.deepEqual(added.filter((l) => l.resource_id !== 'oil').map((l) => `${l.resource_id}:${l.country_text}`).sort(), ['aluminium:Francia', 'aluminium:Regno Unito', 'aluminium:Stati Uniti', 'aluminium:URSS', 'iron_ore:Regno Unito', 'iron_ore:URSS', 'tin:Cina']);
   assert.ok(locations.filter((l) => l.source === 'user_csv').length === 196);
 });
 

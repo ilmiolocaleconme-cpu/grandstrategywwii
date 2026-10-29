@@ -24,15 +24,15 @@ test('produzione: il file generato coincide con la fusione dei tre CSV', () => {
   assert.deepEqual(doc.rows, rows);
 });
 
-test('stagno 1936 (ricerca del 29/10/2026, ITRDC 1937 via Nature, tonnellate lunghe): 5 territori, totale circa 144.600 long ton, Malesia prima', () => {
+test('stagno 1936 (ricerca del 29/10/2026, ITRDC 1937 via Nature, tonnellate lunghe): 6 territori, totale circa 155.300 long ton, Malesia prima', () => {
   const rows = doc.rows.filter((r) => r.resource === 'tin');
-  assert.equal(rows.length, 5);
+  assert.equal(rows.length, 6);
   assert.ok(rows.every((r) => r.source === 'ricerca'));
-  assert.deepEqual(rows.map((r) => r.territory), ['Malesia Britannica', 'Indie Orientali Olandesi', 'Bolivia', 'Siam', 'Nigeria Britannica']);
+  assert.deepEqual(rows.map((r) => r.territory), ['Malesia Britannica', 'Indie Orientali Olandesi', 'Bolivia', 'Siam', 'Cina (Nazionalista)', 'Nigeria Britannica']);
   assert.equal(get('tin', 'Malesia Britannica').mt, 0.067878); // 66.806 long ton × 1,016047
   assert.equal(get('tin', 'Indie Orientali Olandesi').scope, 'P_NLD_EI_');
   const totalLongTons = rows.reduce((s, r) => s + r.mt, 0) / 1.016047e-6;
-  assert.ok(Math.abs(totalLongTons - 144633) < 2, `totale ${totalLongTons}`); // 66.806+31.546+24.074+12.678+9.529; il mondo era 179.600 (altri paesi senza dati)
+  assert.ok(Math.abs(totalLongTons - 155297) < 2, `totale ${totalLongTons}`); // 66.806+31.546+24.074+12.678+10.664+9.529; il mondo era 179.600 (altri paesi senza dati)
 });
 
 test('produzione: il completo prevale e le righe mancanti arrivano dal primo', () => {
