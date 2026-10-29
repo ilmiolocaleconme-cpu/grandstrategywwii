@@ -8,6 +8,7 @@ import { STATE_SCHEMA, validateState } from './state.js';
 import { migrateV1toV2, migrateV2toV3 } from './economyState.js';
 import { migrateV3toV4 } from './commandersState.js';
 import { migrateV4toV5 } from './orbatState.js';
+import { migrateV5toV6 } from './forcesState.js';
 
 export const SAVE_FORMAT = 'gswwii-save';
 export const SAVE_SCHEMA = STATE_SCHEMA;
@@ -21,7 +22,7 @@ export const SLOTS = ['auto', 'manual'];
  * Schema 3 → 4 (29/10/2026): comandanti di corpo e armata (nessuna assegnazione).
  * Quando cambia la forma dello stato si incrementa STATE_SCHEMA e si aggiunge qui la funzione, con un test.
  */
-export const MIGRATIONS = { 1: migrateV1toV2, 2: migrateV2toV3, 3: migrateV3toV4, 4: migrateV4toV5 };
+export const MIGRATIONS = { 1: migrateV1toV2, 2: migrateV2toV3, 3: migrateV3toV4, 4: migrateV4toV5, 5: migrateV5toV6 };
 
 export function serializeSave(state, { savedAt, label = '' } = {}) {
   return JSON.stringify({ format: SAVE_FORMAT, schema: state.schema, savedAt: savedAt ?? null, label, state });

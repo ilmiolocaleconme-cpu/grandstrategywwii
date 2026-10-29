@@ -156,15 +156,15 @@ const newState = (nation = 'DEU') => newGame({ nation, political, ownersWithProv
 const corpsId = (n) => units.find((u) => u.name === n).id;
 
 test('schema 4: nuova partita con comandanti vuoti, migrazione 3→4 senza perdere nulla, validazione di forma', () => {
-  assert.equal(STATE_SCHEMA, 5);
+  assert.equal(STATE_SCHEMA, 6);
   const s = newState();
   assert.deepEqual(s.commanders, { schema: 'commanders-v1', assignments: {} });
   assert.deepEqual(validateState(s), []);
-  const { commanders: _c, orbat: _o, ...rest } = s;
+  const { commanders: _c, orbat: _o, forces: _f, ...rest } = s;
   const v3 = { ...rest, schema: 3 };
   const r = parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 3, savedAt: null, label: 'v3', state: v3 }));
   assert.equal(r.ok, true); assert.equal(r.migratedFrom, 3); assert.deepEqual(r.state, s);
-  const { orbat: _skip, ...s4 } = s;
+  const { orbat: _skip, forces: _skip2, ...s4 } = s;
   assert.deepEqual(migrateV3toV4(v3), { ...s4, schema: 4 });
   assert.equal(typeof MIGRATIONS[3], 'function');
   for (const [bad, re] of [[{ schema: 'x', assignments: {} }, /schema/], [{ schema: 'commanders-v1', assignments: [] }, /assignments/], [null, /oggetto/],
@@ -260,11 +260,12 @@ test('orbat: detach e unità non assegnate', () => {
 test('schema 5: nuova partita con inquadramento vuoto, migrazione 4→5, salvataggio, validazione di forma', () => {
   const s = newState();
   assert.deepEqual(s.orbat, { schema: 'orbat-v1', links: {} });
-  const { orbat: _o, ...rest } = s;
+  const { orbat: _o, forces: _f, ...rest } = s;
   const v4 = { ...rest, schema: 4 };
   const r = parseSave(JSON.stringify({ format: SAVE_FORMAT, schema: 4, savedAt: null, label: 'v4', state: v4 }));
   assert.equal(r.ok, true); assert.equal(r.migratedFrom, 4); assert.deepEqual(r.state, s);
-  assert.deepEqual(migrateV4toV5(v4), s);
+  const { forces: _skip3, ...s5 } = s;
+  assert.deepEqual(migrateV4toV5(v4), { ...s5, schema: 5 });
   assert.equal(typeof MIGRATIONS[4], 'function');
   for (const [bad, re] of [[{ schema: 'x', links: {} }, /schema/], [{ schema: 'orbat-v1', links: [] }, /links/], [null, /oggetto/],
     [{ schema: 'orbat-v1', links: { A: { parent: 'A', source: 'player', since: DAY } } }, /sé stessa/],

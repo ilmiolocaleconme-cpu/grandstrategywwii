@@ -303,3 +303,10 @@ Economia di base (26/10/2026): implementato e testato sui dati e sulle funzioni 
 - **Carburante sintetico:** `REC-FUEL-COAL-001` usa solo carbone; il processo chimico industriale è l'impianto `FCT-SYNFUEL`, non un secondo ingresso `chemicals`. La colonna inputs di FAC-005 in `structures.csv` (copia del Pack, sha256) elenca ancora «prodotti chimici»: non modificata.
 - **Scambi 1930 (ipotesi qualitativa):** `data/trade/trade_profiles_1930.json` (16 nazioni; cosa producono e cosa importano, classi di merci, partner solo se nominati e presenti fra le entità politiche), `src/data/tradeProfiles.js`, copia del testo ricevuto in `data/trade/source/` (sha256 in `SOURCE.json`), `tests/trade_profiles.test.js` (5 test). Nessuna quantità. Errori del testo corretti e segnalati: gomma britannica «da Regno Unito/Malesia», «carbone raffinato» svizzero, riga unica Belgio+Paesi Bassi, riga di gruppo Spagna/Portogallo/Balcani, percentuale sovietica non verificata. Periodo 1930, non 1936. **Non collegato** al ciclo di partita né al commercio.
 - **Revisione 29/10/2026 (decisione in chat «si modifica dove opportuno»):** (1) `location_notes.csv`: nota `value_suspect` sull'Arabia Saudita 1939 («circa 21000 barili/giorno», da verificare; il CSV di riferimento resta invariato e il valore non è stato corretto perché non c'è una fonte); (2) scambi: due voci probabilmente cambiate fra 1930 e 1936 (benzina sintetica tedesca, importazione sovietica di fabbriche) marcate `period_mismatch`; le altre non sono state riviste per il 1936. Test: `tests/trade_profiles.test.js` (6).
+
+## Istanze di divisione (29/10/2026)
+- **Implementato e testato (test mirati):** schema di salvataggio 6 con `forces`, migrazione 5→6, `initForcesState`, dotazione previsto/effettivo dai template, pool di uomini dallo stato. Dettagli: `docs/DATI_UNITA.md`.
+- **Parziale:** solo 33 divisioni su 100 attive al 1/1/1936 hanno un template (Germania).
+- **Non collegato:** `App.jsx` non inizializza le forze; nessuna interfaccia; perdite, rinforzi, reclutamento e addestramento mancanti.
+- **Non eseguiti dopo il cambio di schema:** suite completa, build, funzionamento offline.
+

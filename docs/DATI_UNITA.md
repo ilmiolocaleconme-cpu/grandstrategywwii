@@ -86,3 +86,10 @@ Decisione dell'utente: dove i dati sono dubbi (divisioni che nel 1936 esistevano
 - `mobilization`: `combatReady` sempre `false` (il quadro non combatte), `law` = `null` (nessuna legge di mobilitazione ancora modellata), `expandsTo` = template di divisione completa. Esiste solo per DEU (`TPL-DEU-INF-1936`) e URSS (`TPL-USSR-RIFLE-1936`); per le altre nazioni è `null` finché non c'è un template di divisione.
 - Regola: nessuna divisione nasce gratis; la differenza tra quadro e divisione completa si paga con riservisti e dotazione (scorte o produzione).
 - **Non ancora collegato**: le unità dubbie di `units.json` (31ª–36ª Infanterie-Division, Territorial Army, divisioni coloniali francesi, segnaposto fucilieri URSS) non puntano ancora a un quadro; nessuna regola di gioco legge i quadri; manca il sistema di mobilitazione.
+
+## Istanze di divisione nello stato (schema 6, 29/10/2026)
+- `state.forces = { schema: 'forces-v1', initialized, divisions: { idUnità: { templateId, since, items: { 'manpower.war': { planned, effective, source }, ... } } } }`. `source`: `template` (dato reale) o `ratio` (frazione di esempio 0,915).
+- `src/rules/forces.js` (`initForces`, `templateFor`, `enlistedManpower`, `validateForcesState`) e `src/game/forcesState.js` (`initForcesState`, `migrateV5toV6`, `validateForcesShape`, `nationManpowerPool`). Migrazione 5→6 con stato vuoto; `initForcesState` crea le istanze una sola volta, in modo deterministico.
+- Al 1/1/1936: 33 istanze (Germania: 30 fanterie + 3 Panzer). Le **altre 67 divisioni attive non hanno istanza** (nessun template: Francia, Giappone, URSS, Regno Unito, Italia, USA, e in Germania gebirgs e cavalleria). Le fanterie hanno 15.796 uomini effettivi (17.263 × 0,915); le Panzer non hanno organico (null nel template): niente invenzioni.
+- Pool della Germania: capacità 3.425.000 − arruolati 473.880 = 2.951.120 disponibili (stesso calcolo di `manpowerPool`, ora dallo stato).
+- **Non collegato** a `App.jsx` (nessuna chiamata a `initForcesState` all'avvio), nessuna interfaccia; nessuna regola applica perdite o rinforzi alle istanze. Test: `tests/forces.test.js` (5 test).

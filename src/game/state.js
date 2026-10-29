@@ -9,9 +9,11 @@ import { validateProvinceStates } from './provinceState.js';
 import { createCommanderState } from '../rules/commanders.js';
 import { createOrbatState } from '../rules/orbat.js';
 import { validateOrbatShape } from './orbatState.js';
+import { createForcesState } from '../rules/forces.js';
+import { validateForcesShape } from './forcesState.js';
 import { validateCommandersShape } from './commandersState.js';
 
-export const STATE_SCHEMA = 5; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni; 4: comandanti; 5: inquadramento. Migrazioni in economyState.js, commandersState.js e orbatState.js
+export const STATE_SCHEMA = 6; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni; 4: comandanti; 5: inquadramento; 6: forze (istanze di divisione). Migrazioni in economyState.js, commandersState.js, orbatState.js e forcesState.js
 
 /**
  * Nazioni scegliibili: `playable` nel dataset politico E almeno una provincia sulla mappa.
@@ -54,6 +56,7 @@ export function newGame({ nation, political, ownersWithProvinces, startDate = ST
       nations: start ? buildNations({ political, ...start, difficulty }) : null,
       commanders: createCommanderState(),
       orbat: createOrbatState(),
+      forces: createForcesState(),
     },
   };
 }
@@ -82,6 +85,7 @@ export function validateState(state) {
   else errors.push(...validateNations(state.nations, { player: state.nations === null ? undefined : state.player }));
   errors.push(...validateCommandersShape(state.commanders));
   errors.push(...validateOrbatShape(state.orbat));
+  errors.push(...validateForcesShape(state.forces));
   errors.push(...validateProvinceStates(state.provinces)); // opzionale: assente = tutte le province al default
   return errors;
 }
