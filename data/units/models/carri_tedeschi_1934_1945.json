@@ -45,7 +45,16 @@
       "role": "Carro medio concepito per il combattimento contro altri carri (cannoni da 37/50 mm).",
       "class": "medium",
       "basis": "utente",
-      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me."
+      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me.",
+      "checks": [
+        {
+          "date": "2026-10-29",
+          "source": "https://www.corazzati.it/scheda_pzkpfw3.htm (indicata dall'utente)",
+          "confirmed": "Fine produzione: agosto 1943 (coerente con productionEnd 1943).",
+          "notDocumented": "La pagina non dà l'anno di inizio produzione né le quantità per versione; dà un totale di 15.000 scafi comprendendo i cannoni d'assalto (la tabella dell'utente indica circa 5.700 carri: non confrontabile). Non cita il 1936-37 né la disponibilità nelle Panzer-Division.",
+          "other": "Adozione ufficiale e avvio della produzione in serie: settembre 1939; Ausf. A, B, C prodotte in piccole quantità; Ausf. F in produzione dal 1940. Il 1937 di inizio resta quindi non confermato (può riferirsi alle sole versioni di preserie)."
+        }
+      ]
     },
     {
       "id": "MDL-DEU-PZ-IV",

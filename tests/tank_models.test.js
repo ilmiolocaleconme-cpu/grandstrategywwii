@@ -13,6 +13,11 @@ test('catalogo carri: 7 modelli validi, dati dell\'utente non verificati, nessun
   assert.deepEqual(doc.models.map((m) => m.name), ['Panzer I', 'Panzer II', 'Panzer III', 'Panzer IV', 'Panther', 'Tiger I', 'Tiger II (King Tiger)']);
   assert.ok(doc.models.every((m) => m.basis === 'utente' && !('armor' in m) && !('gun' in m)));
   assert.equal(doc.models.reduce((s, m) => s + m.producedApprox, 0), 26190);
+  const p3 = doc.models.find((m) => m.name === 'Panzer III');
+  assert.equal(p3.checks.length, 1, 'Panzer III: un controllo su fonte indicata dall\'utente');
+  assert.match(p3.checks[0].confirmed, /agosto 1943/);
+  assert.match(p3.checks[0].notDocumented, /non dà l'anno di inizio/);
+  assert.equal(p3.productionStart, 1937, 'l\'anno della tabella non è stato cambiato: non confermato né smentito');
 });
 
 test('disponibilità per data (anno intero, inizio dal 1° gennaio): al 1/1/1936 Panzer I, II e IV (da decidere); nel 1943 Panther e Tiger', () => {
