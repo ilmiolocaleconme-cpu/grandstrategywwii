@@ -59,3 +59,9 @@ Su richiesta dell'utente: 46 divisioni anonime (`S36-USSR-F-nnn`, revisione `pla
 - Da definire (null): organico di pace, veicoli, radio, costi, tempi, manutenzione.
 - Il CSV `divisioni_tedesche_estratto_v11_1.csv` (54 righe) coincide con il catalogo già importato (0 differenze su id, nome e anno): nessun dato nuovo.
 - Non collegato a produzione, caserme o stato di gioco: oggi nessuna regola legge i template.
+
+## Template di divisione: corazzata tedesca 1936 (29/10/2026)
+- File: `data/units/templates/divisione_corazzata_germania_1936.json` (`TPL-DEU-PZ-1936`, `BOZZA_DA_CONFERMARE`). Test: `tests/units.test.js`.
+- Modello **teorico 1935–37** fornito dall'utente (simile alla 1. Panzer-Division del 15/10/1935), fonte secondaria **non verificata da me**. Struttura: 2 reggimenti carri da 2 battaglioni (4 in tutto), 1 brigata di fanteria, 1 battaglione motociclisti, 1 reggimento di artiglieria, reparti controcarro, ricognizione, genio e trasmissioni; antiaerea e ricognizione aerea aggregate (non organiche certe).
+- **416 carri = organico teorico, non disponibilità del 1936**: le prime divisioni corazzate non erano pienamente operative fino alle manovre del 1937.
+- Da definire (null): uomini, cavalli, armi, artiglieria, veicoli, radio, dotazione effettiva, costi, tempi. Non collegato a produzione o stato di gioco.

@@ -1,0 +1,140 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-DEU-PZ-1936",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Template della divisione corazzata tedesca al 1/1/1936: MODELLO TEORICO 1935-37 fornito dall'utente. Non indica i mezzi realmente disponibili: le prime divisioni corazzate non erano pienamente operative fino alle grandi manovre del 1937. Solo la struttura ha una fonte; uomini, cavalli, armi e veicoli sono da definire (null, non inventati).",
+  "appliesTo": {
+    "nation": "DEU",
+    "category": "armored",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "formation": {
+    "value": "divisione corazzata con brigata corazzata e brigata di fanteria",
+    "basis": "utente",
+    "referenceYear": "1935-1937",
+    "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me."
+  },
+  "mobility": {
+    "value": "motorizzata",
+    "basis": "ipotesi",
+    "referenceYear": null,
+    "source": "Ipotesi: divisione corazzata con reparti motorizzati; la fonte non indica un valore"
+  },
+  "structure": {
+    "reggimentiCarri": {
+      "value": 2,
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me."
+    },
+    "battaglioniPerReggimentoCarri": {
+      "value": 2,
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me."
+    },
+    "brigateFanteria": {
+      "value": 1,
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me."
+    },
+    "battaglioniMotociclisti": {
+      "value": 1,
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me."
+    },
+    "reggimentiArtiglieria": {
+      "value": 1,
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me."
+    }
+  },
+  "manpower": {
+    "war": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": null,
+    "basis": "da_definire",
+    "referenceYear": null,
+    "source": null
+  },
+  "equipment": {
+    "carriTeorici": {
+      "value": 416,
+      "basis": "utente",
+      "referenceYear": "1935-1937",
+      "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me.",
+      "note": "Organico teorico del modello: NON è la disponibilità effettiva nel 1936."
+    },
+    "armiLeggere": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "mitragliatrici": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "artiglieria": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "veicoli": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "radio": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "organicSupport": {
+    "value": [
+      "reparti motorizzati controcarro",
+      "ricognizione",
+      "genio",
+      "trasmissioni",
+      "antiaerea e ricognizione aerea aggregate (non organiche certe)"
+    ],
+    "basis": "utente",
+    "referenceYear": "1935-1937",
+    "source": "Testo allegato dall'utente il 29/10/2026: modello teorico di divisione corazzata, simile alla struttura della 1. Panzer-Division al 15/10/1935 (via dokumen.pub). Fonte secondaria, non verificata da me."
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data (carri realmente consegnati, carenze): non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'utente quando si passa a caserme e produzione."
+  }
+}

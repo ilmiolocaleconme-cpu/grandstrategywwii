@@ -226,3 +226,25 @@ test('template fanteria tedesca 1936: organico di guerra, ogni valore ha base e 
   const ref = json('units/templates/divisioni_1936_riferimenti.json').nations.DEU;
   assert.equal(ref.artillery.totalGuns.value, 48, 'il riferimento 1943 dà lo stesso totale di pezzi');
 });
+
+test('template corazzata tedesca 1936: modello teorico 1935-37, 416 carri non spacciati per disponibilità, resto non inventato', () => {
+  const t = json('units/templates/divisione_corazzata_germania_1936.json');
+  assert.equal(t.status, 'BOZZA_DA_CONFERMARE');
+  const leaves = [];
+  const walk = (o, path) => {
+    if (o && typeof o === 'object' && 'basis' in o) { leaves.push([path, o]); return; }
+    if (o && typeof o === 'object' && !Array.isArray(o)) for (const [k, v] of Object.entries(o)) walk(v, `${path}.${k}`);
+  };
+  walk(t.structure, 'structure'); walk(t.equipment, 'equipment'); walk(t.manpower, 'manpower');
+  for (const k of ['formation', 'mobility', 'horses', 'organicSupport']) leaves.push([k, t[k]]);
+  for (const [path, l] of leaves) {
+    assert.ok(['utente', 'ipotesi', 'da_definire'].includes(l.basis), `${path}: basis ${l.basis}`);
+    if (l.value !== null) assert.ok(String(l.source ?? '').trim(), `${path}: valore senza fonte`);
+    if (l.basis === 'utente') assert.equal(l.referenceYear, '1935-1937', path);
+  }
+  assert.equal(t.structure.reggimentiCarri.value * t.structure.battaglioniPerReggimentoCarri.value, 4, '4 battaglioni carri');
+  assert.equal(t.equipment.carriTeorici.value, 416);
+  assert.match(t.equipment.carriTeorici.note, /NON è la disponibilità effettiva/);
+  assert.equal(t.manpower.war.value, null); assert.equal(t.equipment.artiglieria.value, null); assert.equal(t.effectiveSupply.value, null);
+  assert.equal(t.costs.resources, null);
+});
