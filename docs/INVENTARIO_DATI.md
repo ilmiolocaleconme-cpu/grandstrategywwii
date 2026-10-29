@@ -10,7 +10,7 @@ Conta ciò che è nei file di `data/`; non dice se i dati sono storicamente corr
 | Nazioni | `data/nations.json` | 72 |
 | Entità politiche 1/1/1936 | `data/political_1936.json` | 190 |
 | Province | `data/provinces/*.json` | 3088 in 178 file |
-| Risorse | `data/resources.json` | 32 |
+| Risorse | `data/resources.json` | 34 |
 | Fiumi | `data/rivers.json` | 1200 |
 | Laghi | `data/lakes.json` | 2484 |
 | Attraversamenti (ponti, guadi, traghetti) | `data/crossings.json` | 9 |
