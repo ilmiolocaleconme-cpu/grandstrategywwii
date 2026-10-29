@@ -49,3 +49,10 @@ Su richiesta dell'utente: 46 divisioni anonime (`S36-USSR-F-nnn`, revisione `pla
 
 ## Riferimenti per template di divisione e artiglieria (28/10/2026)
 `data/units/templates/divisioni_1936_riferimenti.json`: forma della divisione (triangolare/quadrata) e artiglieria divisionale per nazione, ogni valore con anno di riferimento e fonte. **Quasi nessun valore è del 1936**: le fonti trovate sono del 1938–1943 (Germania 1943: 3 reggimenti, 36×105 mm + 12×150 mm, ~17.000 uomini; Francia 1939–40: 3 RI, 36×75 mm + 24×155 mm; Italia: triangolare fino al 1938, poi binaria). Verificato per il periodo prebellico solo: USA e Giappone con divisione quadrata, Italia triangolare prima del 1938. Non trovate: Regno Unito, organico di Giappone/USA/URSS, fucilieri sovietici 1936 (territoriali o di quadri). `null` = nessuna fonte, non inventato.
+
+## Template di divisione: fanteria tedesca 1936 (29/10/2026)
+- File: `data/units/templates/divisione_fanteria_germania_1936.json` (`TPL-DEU-INF-1936`, stato `BOZZA_DA_CONFERMARE`). Test: `tests/units.test.js`.
+- Scelta dell'utente: la divisione rappresenta l'organico di **guerra** (non di pace).
+- Valori (3 reggimenti da 3 battaglioni, 17.000 uomini, 48 pezzi: 3 battaglioni leggeri da 12 pezzi da 105 mm + 1 medio da 12 pezzi da 150 mm, supporti organici) vengono da una fonte del **1943** e sono segnati `stima_1943`: **non sono dati del 1936**. La mobilità "trainata" è un'ipotesi senza fonte.
+- Da definire (null): organico di pace, armi leggere, mitragliatrici, veicoli, radio, sanità, costi, tempi, manutenzione.
+- Non collegato a produzione, caserme o stato di gioco: oggi nessuna regola legge i template.

@@ -1,0 +1,123 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-DEU-INF-1936",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Template della fanteria tedesca al 1/1/1936. Scelta dell'utente (29/10/2026): la divisione rappresenta l'organico di GUERRA. I valori vengono dalla fonte del 1943 (Tactical and Technical Trends n. 34) e sono segnati 'stima_1943': NON sono dati del 1936. null = da definire, non inventato. Equipaggiamento diverso dall'artiglieria, costi e tempi: non ancora definiti.",
+  "appliesTo": {
+    "nation": "DEU",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "formation": {
+    "value": "triangular",
+    "basis": "stima_1943",
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html): 3 reggimenti di fanteria"
+  },
+  "mobility": {
+    "value": "trainata",
+    "basis": "ipotesi",
+    "referenceYear": null,
+    "source": "Ipotesi non verificata (fanteria a piedi con traino ippotrainato); nessuna fonte trovata per il 1936"
+  },
+  "regimentsInfantry": {
+    "value": 3,
+    "basis": "stima_1943",
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+  },
+  "battalionsPerRegiment": {
+    "value": 3,
+    "basis": "stima_1943",
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+  },
+  "manpower": {
+    "war": {
+      "value": 17000,
+      "basis": "stima_1943",
+      "referenceYear": 1943,
+      "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "equipment": {
+    "artiglieriaLeggera": {
+      "battaglioni": {
+        "value": 3,
+        "basis": "stima_1943",
+        "referenceYear": 1943,
+        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+      },
+      "pezziPerBattaglione": {
+        "value": 12,
+        "basis": "stima_1943",
+        "referenceYear": 1943,
+        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+      },
+      "calibroMm": {
+        "value": 105,
+        "basis": "stima_1943",
+        "referenceYear": 1943,
+        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+      }
+    },
+    "artiglieriaMedia": {
+      "battaglioni": {
+        "value": 1,
+        "basis": "stima_1943",
+        "referenceYear": 1943,
+        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+      },
+      "pezzi": {
+        "value": 12,
+        "basis": "stima_1943",
+        "referenceYear": 1943,
+        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+      },
+      "calibroMm": {
+        "value": 150,
+        "basis": "stima_1943",
+        "referenceYear": 1943,
+        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+      }
+    },
+    "pezziTotali": {
+      "value": 48,
+      "basis": "stima_1943",
+      "referenceYear": 1943,
+      "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html) (derivato: 36+12)"
+    },
+    "armiLeggere": null,
+    "mitragliatrici": null,
+    "veicoli": null,
+    "radio": null,
+    "sanita": null
+  },
+  "organicSupport": {
+    "value": [
+      "battaglione anticarro",
+      "battaglione ricognizione",
+      "battaglione genio",
+      "battaglione trasmissioni",
+      "servizi divisionali"
+    ],
+    "basis": "stima_1943",
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'utente quando si passa a caserme e produzione."
+  }
+}
