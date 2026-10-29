@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { validateConditionConfig, experienceLevel, conditionOf, createConditionState, markNew, trainUntil, setPolicy, readinessOf, operationalState, validateConditionState, clamp } from '../src/rules/divisionCondition.js';
+import { validateConditionConfig, experienceLevel, conditionOf, createConditionState, markNew, trainUntil, setPolicy, materialStrength, valueBand, operationalState, validateConditionState, clamp } from '../src/rules/divisionCondition.js';
 import { createConditionSystem, playerSetPolicy } from '../src/game/conditionState.js';
 import { unitInfo } from '../src/rules/unitInfo.js';
 import { parseSave, serializeSave } from '../src/game/save.js';
@@ -13,8 +13,22 @@ test('configurazione valida; valori decisi dall\'utente: iniziale 45, unità nuo
   assert.deepEqual(validateConditionConfig(cfg), []);
   assert.deepEqual([cfg.initial.existing1936.experience, cfg.initial.existing1936.morale], [45, 45]);
   assert.deepEqual([cfg.initial.newUnit.experience, cfg.initial.newUnit.morale], [10, 45]);
+  assert.equal(cfg.initial.existing1936.readiness, 80, 'decisione dell\'utente: pace, organizzazione intatta');
+  assert.equal(cfg.initial.newUnit.readiness, 45);
   assert.deepEqual([cfg.training.newUnitCap, cfg.training.perMonth], [39, 1]);
   assert.deepEqual(validateConditionConfig({ ...cfg, levels: cfg.levels.slice(1) }).length > 0, true);
+});
+
+test('fasce descrittive di morale/prontezza: soglie 90/70/50/30 e mai fuori scala', () => {
+  const b = (v) => valueBand(v, cfg).name;
+  assert.deepEqual([100, 90, 89, 70, 69, 50, 49, 30, 29, 0].map(b), ['Eccellente', 'Eccellente', 'Buono', 'Buono', 'Mediocre', 'Mediocre', 'Critico', 'Critico', 'Collasso', 'Collasso']);
+  assert.equal(b(250), 'Eccellente');
+});
+
+test('prontezza (organizzazione) e forza materiale sono distinte: una divisione al completo con prontezza bassa è limitata dalla prontezza; una organizzata ma senza mezzi, dalla dotazione', () => {
+  assert.deepEqual([st({ readiness: 15 }).id, st({ readiness: 15 }).cause], ['not_operational', 'prontezza 15']);
+  const s = operationalState({ ...full, equipmentWorstRatio: 0.3, readiness: 95, morale: 95 }, cfg);
+  assert.deepEqual([s.id, s.cause], ['inefficient', 'equipaggiamento 30']);
 });
 
 test('livelli di esperienza: soglie esatte della tabella e valori fuori scala ricondotti nell\'intervallo', () => {
@@ -28,7 +42,7 @@ test('livelli di esperienza: soglie esatte della tabella e valori fuori scala ri
 
 test('condizione di base: le divisioni del 1936 partono a 45/45 senza voci memorizzate; la politica predefinita è «normale»', () => {
   const c = conditionOf(undefined, 'U1', cfg);
-  assert.deepEqual([c.experience, c.morale, c.policy, c.isNew], [45, 45, 'normal', false]);
+  assert.deepEqual([c.experience, c.morale, c.readiness, c.policy, c.isNew], [45, 45, 80, 'normal', false]);
 });
 
 test('addestramento: solo le unità nuove, +1 al mese fino al tetto 39, mai oltre; le unità del 1936 restano a 45', () => {
@@ -60,15 +74,15 @@ test('tick idempotenti e deterministici: stessa data due volte = stesso stato; i
 test('politica d\'impiego: viene memorizzata e NON cambia esperienza né morale; valori non validi rifiutati', () => {
   const s = playerSetPolicy({ date: '1936-01-01' }, 'U1', 'aggressive', cfg);
   const c = conditionOf(s.conditions, 'U1', cfg);
-  assert.deepEqual([c.policy, c.experience, c.morale], ['aggressive', 45, 45]);
+  assert.deepEqual([c.policy, c.experience, c.morale, c.readiness], ['aggressive', 45, 45, 80]);
   assert.throws(() => setPolicy(createConditionState(), 'U1', 'folle', cfg), RangeError);
 });
 
-test('prontezza = il più basso tra uomini e dotazione, con la causa', () => {
-  assert.deepEqual(readinessOf({ manpowerRatio: 0.9, equipment: [{ item: 'carri', ratio: 0.4 }, { item: 'cannoni', ratio: 0.8 }] }), { value: 40, cause: 'carri' });
-  assert.deepEqual(readinessOf({ manpowerRatio: 0.3, equipment: [{ item: 'carri', ratio: 0.9 }] }), { value: 30, cause: 'uomini' });
-  assert.deepEqual(readinessOf({ manpowerRatio: null, equipment: [] }), { value: null, cause: null });
-  assert.equal(readinessOf({ manpowerRatio: 1.5, equipment: [] }).value, 100, 'mai oltre 100');
+test('forza materiale (componente dello stato operativo, NON la prontezza) = il più basso tra uomini e dotazione, con la causa', () => {
+  assert.deepEqual(materialStrength({ manpowerRatio: 0.9, equipment: [{ item: 'carri', ratio: 0.4 }, { item: 'cannoni', ratio: 0.8 }] }), { value: 40, cause: 'carri' });
+  assert.deepEqual(materialStrength({ manpowerRatio: 0.3, equipment: [{ item: 'carri', ratio: 0.9 }] }), { value: 30, cause: 'uomini' });
+  assert.deepEqual(materialStrength({ manpowerRatio: null, equipment: [] }), { value: null, cause: null });
+  assert.equal(materialStrength({ manpowerRatio: 1.5, equipment: [] }).value, 100, 'mai oltre 100');
 });
 
 // --- scenari della specifica (6.11) verificabili oggi -------------------------------------------------------------
@@ -132,7 +146,8 @@ test('scheda unità: esperienza con livello, morale, prontezza con causa e stato
   };
   const info = unitInfo(state, units[0], { unitsById: new Map(units.map((u) => [u.id, u])), officersById: new Map(), initial: new Map([['D1', 'P_A']]), conditionConfig: cfg });
   assert.deepEqual([info.condition.experience, info.condition.experienceLevel.name, info.condition.morale], [45, 'Esperta', 45]);
-  assert.deepEqual(info.condition.readiness, { value: 40, cause: 'carri' });
+  assert.deepEqual(info.condition.material, { value: 40, cause: 'carri' });
+  assert.deepEqual([info.condition.readiness, info.condition.readinessBand, info.condition.moraleBand], [80, 'Buono', 'Critico']);
   assert.deepEqual([info.condition.operational.id, info.condition.operational.cause], ['inefficient', 'equipaggiamento 40']);
   assert.equal(info.condition.policy, 'normal');
 });

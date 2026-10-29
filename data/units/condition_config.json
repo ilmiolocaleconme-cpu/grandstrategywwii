@@ -1,39 +1,163 @@
 {
   "schema": "condition-v1",
   "note": "Esperienza, morale e prontezza delle divisioni (specifica 'Morale, esperienza, prontezza e stato operativo'). Valori e regole DECISI DALL'UTENTE il 29/10/2026 dove indicato (basis USER_DECISION); le soglie dello stato operativo sono di PROGETTO (DESIGN_DEFAULT) e DA APPROVARE. Nessun effetto numerico su combattimento o altro: il combattimento non esiste ancora.",
-  "range": { "min": 0, "max": 100 },
+  "range": {
+    "min": 0,
+    "max": 100
+  },
   "levels": [
-    { "level": 1, "name": "Recluta", "from": 0, "to": 19 },
-    { "level": 2, "name": "Addestrata", "from": 20, "to": 39 },
-    { "level": 3, "name": "Esperta", "from": 40, "to": 59 },
-    { "level": 4, "name": "Veterana", "from": 60, "to": 79 },
-    { "level": 5, "name": "Élite", "from": 80, "to": 100 }
+    {
+      "level": 1,
+      "name": "Recluta",
+      "from": 0,
+      "to": 19
+    },
+    {
+      "level": 2,
+      "name": "Addestrata",
+      "from": 20,
+      "to": 39
+    },
+    {
+      "level": 3,
+      "name": "Esperta",
+      "from": 40,
+      "to": 59
+    },
+    {
+      "level": 4,
+      "name": "Veterana",
+      "from": 60,
+      "to": 79
+    },
+    {
+      "level": 5,
+      "name": "Élite",
+      "from": 80,
+      "to": 100
+    }
   ],
   "levelsBasis": "USER_DECISION",
   "initial": {
-    "existing1936": { "experience": 45, "morale": 45, "basis": "USER_DECISION", "source": "Risposte dell'utente del 29/10/2026" },
-    "newUnit": { "experience": 10, "morale": 45, "basis": "USER_DECISION", "source": "Risposta dell'utente del 29/10/2026" }
+    "existing1936": {
+      "experience": 45,
+      "morale": 45,
+      "basis": "USER_DECISION",
+      "source": "Risposte dell'utente del 29/10/2026",
+      "readiness": 80
+    },
+    "newUnit": {
+      "experience": 10,
+      "morale": 45,
+      "basis": "USER_DECISION",
+      "source": "Risposta dell'utente del 29/10/2026",
+      "readiness": 45,
+      "readinessBasis": "DESIGN_DEFAULT (stesso valore delle altre; da confermare: la mobilitazione frettolosa dovrebbe abbassarla)"
+    }
   },
-  "training": { "newUnitCap": 39, "perMonth": 1, "appliesTo": "unità nuove (quadri mobilitati, nuove leve); le divisioni del 1936 non si addestrano oltre 45, crescono solo sul campo (non modellato)", "basis": "USER_DECISION", "source": "Risposte dell'utente del 29/10/2026" },
-  "morale": { "rule": "fermo al valore iniziale finché non esistono combattimento, rifornimenti e fronti", "basis": "USER_DECISION", "source": "Risposta dell'utente del 29/10/2026" },
-  "readiness": { "rule": "minimo tra organico (uomini) e rapporti effettivo/previsto delle voci di equipaggiamento, in centesimi; munizioni, carburante, rifornimenti, riparazioni e riposo non modellati", "basis": "USER_DECISION", "source": "Risposta dell'utente del 29/10/2026" },
-  "policy": { "values": ["conservative", "normal", "aggressive"], "default": "normal", "effects": "nessuno: solo memorizzata finché non esistono combattimento e fronti", "basis": "USER_DECISION", "source": "Risposta dell'utente del 29/10/2026" },
+  "training": {
+    "newUnitCap": 39,
+    "perMonth": 1,
+    "appliesTo": "unità nuove (quadri mobilitati, nuove leve); le divisioni del 1936 non si addestrano oltre 45, crescono solo sul campo (non modellato)",
+    "basis": "USER_DECISION",
+    "source": "Risposte dell'utente del 29/10/2026"
+  },
+  "morale": {
+    "rule": "fermo al valore iniziale finché non esistono combattimento, rifornimenti e fronti",
+    "basis": "USER_DECISION",
+    "source": "Risposta dell'utente del 29/10/2026"
+  },
+  "readiness": {
+    "rule": "PRONTEZZA = organizzazione e preparazione (addestramento, personale completo, ufficiali assegnati, tempo per organizzarsi, riposo, riorganizzazione), valore memorizzato 0-100. NON è la forza materiale: uomini, dotazione, munizioni, carburante, rifornimenti stanno nello stato operativo derivato. Fusione scelta dall'utente il 29/10/2026 tra la specifica tecnica e la proposta allegata (12c56c54).",
+    "basis": "USER_DECISION",
+    "source": "Risposte dell'utente del 29/10/2026"
+  },
+  "policy": {
+    "values": [
+      "conservative",
+      "normal",
+      "aggressive"
+    ],
+    "default": "normal",
+    "effects": "nessuno: solo memorizzata finché non esistono combattimento e fronti",
+    "basis": "USER_DECISION",
+    "source": "Risposta dell'utente del 29/10/2026"
+  },
   "operationalStates": {
     "labels": [
-      { "id": "ready", "name": "Pronta" },
-      { "id": "reduced", "name": "Ridotta" },
-      { "id": "inefficient", "name": "Inefficiente" },
-      { "id": "not_operational", "name": "Non operativa" }
+      {
+        "id": "ready",
+        "name": "Pronta"
+      },
+      {
+        "id": "reduced",
+        "name": "Ridotta"
+      },
+      {
+        "id": "inefficient",
+        "name": "Inefficiente"
+      },
+      {
+        "id": "not_operational",
+        "name": "Non operativa"
+      }
     ],
     "labelsBasis": "USER_DECISION",
     "bands": {
       "note": "Soglie minime (incluse) per ogni componente: Pronta >= ready, Ridotta >= reduced, Inefficiente >= inefficient, altrimenti Non operativa. Lo stato è il PEGGIORE tra le componenti e la causa è la componente che lo determina. Valori uguali per tutte le componenti = DESIGN_DEFAULT DA APPROVARE.",
-      "manpower": { "ready": 80, "reduced": 50, "inefficient": 20 },
-      "equipment": { "ready": 80, "reduced": 50, "inefficient": 20 },
-      "morale": { "ready": 80, "reduced": 50, "inefficient": 20 },
-      "readiness": { "ready": 80, "reduced": 50, "inefficient": 20 },
+      "manpower": {
+        "ready": 80,
+        "reduced": 50,
+        "inefficient": 20
+      },
+      "equipment": {
+        "ready": 80,
+        "reduced": 50,
+        "inefficient": 20
+      },
+      "morale": {
+        "ready": 80,
+        "reduced": 50,
+        "inefficient": 20
+      },
+      "readiness": {
+        "ready": 80,
+        "reduced": 50,
+        "inefficient": 20
+      },
       "basis": "DESIGN_DEFAULT"
     },
     "cadreIsNotOperational": true
+  },
+  "valueBands": {
+    "note": "Fasce descrittive per morale e prontezza (proposta allegata dall'utente, 'soglie iniziali di progettazione, non valori storici').",
+    "bands": [
+      {
+        "from": 90,
+        "to": 100,
+        "name": "Eccellente"
+      },
+      {
+        "from": 70,
+        "to": 89,
+        "name": "Buono"
+      },
+      {
+        "from": 50,
+        "to": 69,
+        "name": "Mediocre"
+      },
+      {
+        "from": 30,
+        "to": 49,
+        "name": "Critico"
+      },
+      {
+        "from": 0,
+        "to": 29,
+        "name": "Collasso"
+      }
+    ],
+    "basis": "USER_DOC"
   }
 }

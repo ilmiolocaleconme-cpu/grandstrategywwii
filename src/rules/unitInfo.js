@@ -4,7 +4,7 @@
 import { chainOf, childrenOf, orbatLevel } from './orbat.js';
 import { MANAGED_LEVELS } from './commanders.js';
 import { positionOf } from './movement.js';
-import { conditionOf, experienceLevel, readinessOf, operationalState } from './divisionCondition.js';
+import { conditionOf, experienceLevel, materialStrength, valueBand, operationalState } from './divisionCondition.js';
 
 // (esperienza, morale, prontezza e stato operativo ora esistono: vedi divisionCondition.js; qui restano i sistemi ancora senza modello)
 // Sistemi descritti nei documenti guida dell'utente (06 Esperienza, morale, prontezza; 05 Logistica; 04 Sanità) ma ANCORA SENZA modello né
@@ -48,9 +48,9 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
   let condition = null;
   if (inst && conditionConfig) {
     const c = conditionOf(state.conditions, unit.id, conditionConfig);
-    const ready = readinessOf({ manpowerRatio: strength.manpower?.ratio ?? null, equipment });
-    const op = operationalState({ manpowerRatio: strength.manpower?.ratio ?? null, equipmentWorstRatio: equipment[0]?.ratio ?? null, morale: c.morale, readiness: ready.value, cadre: strength.cadre }, conditionConfig);
-    condition = { experience: c.experience, experienceLevel: experienceLevel(c.experience, conditionConfig), morale: c.morale, readiness: ready, policy: c.policy, isNew: c.isNew, operational: op };
+    const material = materialStrength({ manpowerRatio: strength.manpower?.ratio ?? null, equipment });
+    const op = operationalState({ manpowerRatio: strength.manpower?.ratio ?? null, equipmentWorstRatio: equipment[0]?.ratio ?? null, morale: c.morale, readiness: c.readiness, cadre: strength.cadre }, conditionConfig);
+    condition = { experience: c.experience, experienceLevel: experienceLevel(c.experience, conditionConfig), morale: c.morale, moraleBand: valueBand(c.morale, conditionConfig).name, readiness: c.readiness, readinessBand: valueBand(c.readiness, conditionConfig).name, material, policy: c.policy, isNew: c.isNew, operational: op };
   }
   // posizione e ordine di marcia
   const here = positionOf(state.movement, initial, unit.id);

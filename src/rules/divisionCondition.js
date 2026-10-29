@@ -1,9 +1,10 @@
 // Condizione delle divisioni: esperienza, morale e prontezza (valori DISTINTI, 0–100) e stato operativo DERIVATO.
 // Funzioni PURE e deterministiche. Parametri in data/units/condition_config.json (decisioni dell'utente del 29/10/2026).
-// REGOLE ATTIVE: esperienza iniziale e morale iniziale; addestramento delle sole unità nuove (+perMonth al mese fino al tetto);
-// prontezza = il più basso tra organico e dotazione; stato operativo = il peggiore tra le componenti, con la causa.
-// NON MODELLATI (mancano combattimento, rifornimenti, fronti, sanità collegata): esperienza sul campo, variazioni del morale,
-// munizioni/carburante/rifornimenti/riposo nella prontezza, effetti della politica d'impiego, rimpiazzi che abbassano l'esperienza.
+// MODELLO (fusione scelta dall'utente il 29/10/2026): esperienza, morale e PRONTEZZA (= organizzazione/preparazione) sono valori memorizzati
+// 0–100; la forza materiale (uomini, dotazione) NON è prontezza ma componente dello STATO OPERATIVO, derivato come il peggiore tra le componenti.
+// REGOLE ATTIVE: valori iniziali; addestramento delle sole unità nuove (+perMonth al mese fino al tetto).
+// NON MODELLATI (mancano combattimento, rifornimenti, fronti, prestigio, sanità collegata): esperienza sul campo, variazioni di morale e
+// prontezza (riposo, vittorie, perdite, ufficiali catturati o uccisi), munizioni/carburante/rifornimenti nello stato operativo, effetti della politica d'impiego, rimpiazzi che abbassano l'esperienza.
 
 export const CONDITION_SCHEMA = 'conditions-v1'; // campo state.conditions
 export const CONDITION_CONFIG_SCHEMA = 'condition-v1'; // data/units/condition_config.json
@@ -27,7 +28,7 @@ export function validateConditionConfig(cfg) {
   }
   if (lv.length && expect !== (cfg.range?.max ?? 100) + 1) errors.push('condizione: i livelli non coprono tutto l\'intervallo');
   for (const k of ['existing1936', 'newUnit']) {
-    for (const f of ['experience', 'morale']) {
+    for (const f of ['experience', 'morale', 'readiness']) {
       const v = cfg?.initial?.[k]?.[f];
       if (!(v >= 0 && v <= 100)) errors.push(`condizione: iniziale ${k}.${f} fuori da 0–100`);
     }
@@ -54,7 +55,7 @@ export function conditionOf(conditions, unitId, cfg) {
   const e = conditions?.byUnit?.[unitId];
   const base = e?.isNew ? cfg.initial.newUnit : cfg.initial.existing1936;
   return {
-    experience: clamp(e?.experience ?? base.experience), morale: clamp(e?.morale ?? base.morale),
+    experience: clamp(e?.experience ?? base.experience), morale: clamp(e?.morale ?? base.morale), readiness: clamp(e?.readiness ?? base.readiness),
     policy: e?.policy ?? cfg.policy.default, isNew: e?.isNew === true, trainedThrough: e?.trainedThrough ?? null, stored: e !== undefined,
   };
 }
@@ -62,14 +63,14 @@ export function conditionOf(conditions, unitId, cfg) {
 /** Segna unità come NUOVE (da usare alla mobilitazione/creazione): partono dai valori delle unità nuove. */
 export function markNew(conditions, unitIds, cfg, date) {
   const byUnit = { ...conditions.byUnit };
-  for (const id of unitIds) byUnit[id] = { experience: cfg.initial.newUnit.experience, morale: cfg.initial.newUnit.morale, policy: byUnit[id]?.policy ?? cfg.policy.default, isNew: true, trainedThrough: date.slice(0, 7) };
+  for (const id of unitIds) byUnit[id] = { experience: cfg.initial.newUnit.experience, morale: cfg.initial.newUnit.morale, readiness: cfg.initial.newUnit.readiness, policy: byUnit[id]?.policy ?? cfg.policy.default, isNew: true, trainedThrough: date.slice(0, 7) };
   return { ...conditions, byUnit };
 }
 
 export function setPolicy(conditions, unitId, policy, cfg) {
   if (!POLICIES.includes(policy)) throw new RangeError(`politica non valida: ${policy}`);
   const cur = conditionOf(conditions, unitId, cfg);
-  return { ...conditions, byUnit: { ...conditions.byUnit, [unitId]: { experience: cur.experience, morale: cur.morale, policy, isNew: cur.isNew, trainedThrough: cur.trainedThrough } } };
+  return { ...conditions, byUnit: { ...conditions.byUnit, [unitId]: { experience: cur.experience, morale: cur.morale, readiness: cur.readiness, policy, isNew: cur.isNew, trainedThrough: cur.trainedThrough } } };
 }
 
 const monthIndex = (ym) => Number(ym.slice(0, 4)) * 12 + Number(ym.slice(5, 7));
@@ -93,14 +94,20 @@ export function trainUntil(conditions, date, cfg) {
   return changed ? { ...conditions, byUnit } : conditions;
 }
 
-/** Prontezza 0–100: il rapporto più basso tra organico e voci di equipaggiamento. strength: { manpower:{ratio}, } ; equipment: [{ item, ratio }]. */
-export function readinessOf({ manpowerRatio, equipment }) {
+/** Forza materiale 0–100: il rapporto più basso tra uomini e voci di dotazione, con la causa. NON è la prontezza: è una componente dello stato operativo. */
+export function materialStrength({ manpowerRatio, equipment }) {
   const parts = [];
   if (manpowerRatio !== null && manpowerRatio !== undefined) parts.push({ cause: 'uomini', ratio: manpowerRatio });
   for (const e of equipment ?? []) parts.push({ cause: e.item, ratio: e.ratio });
   if (!parts.length) return { value: null, cause: null };
   const worst = [...parts].sort((a, b) => (a.ratio - b.ratio) || (a.cause < b.cause ? -1 : 1))[0];
   return { value: Math.round(clamp(worst.ratio * 100)), cause: worst.cause };
+}
+
+/** Fascia descrittiva (Eccellente…Collasso) di un valore di morale o prontezza. */
+export function valueBand(value, cfg) {
+  const v = Math.round(clamp(value));
+  return cfg.valueBands.bands.find((b) => v >= b.from && v <= b.to);
 }
 
 function bandOf(value, band) {
@@ -141,7 +148,7 @@ export function validateConditionState(c) {
   if (c.schema !== CONDITION_SCHEMA) errors.push(`condizione: schema ${JSON.stringify(c.schema)}`);
   if (c.byUnit === null || typeof c.byUnit !== 'object') return [...errors, 'condizione: byUnit mancante'];
   for (const [id, e] of Object.entries(c.byUnit)) {
-    for (const f of ['experience', 'morale']) if (!(e?.[f] >= 0 && e[f] <= 100)) errors.push(`condizione: ${id} ${f} fuori da 0–100`);
+    for (const f of ['experience', 'morale', 'readiness']) if (!(e?.[f] >= 0 && e[f] <= 100)) errors.push(`condizione: ${id} ${f} fuori da 0–100`);
     if (!POLICIES.includes(e?.policy)) errors.push(`condizione: ${id} politica non valida`);
     if (typeof e?.isNew !== 'boolean') errors.push(`condizione: ${id} isNew non booleano`);
   }

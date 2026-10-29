@@ -36,9 +36,11 @@ function Info({ info, canSetPolicy, onPolicy }) {
             <dt>Esperienza</dt>
             <dd>{Math.round(k.experience)} · livello {k.experienceLevel.level} {k.experienceLevel.name}{k.isNew ? ' (unità nuova, si addestra fino al tetto)' : ''}</dd>
             <dt>Morale</dt>
-            <dd>{Math.round(k.morale)} (fermo finché non esistono combattimento e rifornimenti)</dd>
+            <dd>{Math.round(k.morale)} · {k.moraleBand} (volontà di combattere; fermo finché non esistono combattimento e rifornimenti)</dd>
             <dt>Prontezza</dt>
-            <dd>{k.readiness.value === null ? 'dato assente' : `${k.readiness.value}${k.readiness.cause ? ` — limitata da: ${k.readiness.cause}` : ''}`} (solo uomini e dotazione; munizioni, carburante, rifornimenti, riposo non modellati)</dd>
+            <dd>{Math.round(k.readiness)} · {k.readinessBand} (organizzazione e preparazione; non varia finché non esistono riposo, battaglie e riorganizzazioni)</dd>
+            <dt>Forza materiale</dt>
+            <dd>{k.material.value === null ? 'dato assente' : `${k.material.value}${k.material.cause ? ` — limitata da: ${k.material.cause}` : ''}`} (uomini e dotazione; munizioni, carburante, rifornimenti non modellati)</dd>
             <dt>Politica d’impiego</dt>
             <dd>
               {canSetPolicy ? ['conservative', 'normal', 'aggressive'].map((p) => (
