@@ -111,3 +111,10 @@ Regola dell'utente: i rinforzi passano dal pool; se ci sono abbastanza risorse v
 - **Assunzioni da confermare**: (1) i rinforzi già partiti arrivano anche se il giocatore sospende dopo l'invio; (2) l'eccedenza oltre il previsto torna al pool/scorte; (3) "fanno richiesta" = priorità nell'ordine, non crea risorse.
 - **Non definito**: giorni di trasferimento (`transitDays` è obbligatorio e va derivato da logistica/movimento, non esistono ancora), costi, addestramento delle reclute, rinforzo delle divisioni senza template (67 al 1/1/1936).
 - **Non collegato**: nessuna chiamata da `App.jsx` o dal motore di partita, nessuna interfaccia per sospendere i rinforzi, nessun consumo effettivo dal pool a ogni giorno.
+
+## Carri cecoslovacchi (30/10/2026) e stato dell'industria carri
+
+- `data/units/models/carri_cecoslovacchi_1935_1938.json`: LT vz. 35 (1936-1938) e LT vz. 38 (1938), nazione CZE. Nomi e descrizioni dall'utente; **anni, quantità (434 per LT vz. 35) e produttori (Škoda, ČKD) sono ricordi di Claude, basis `ipotesi`, da verificare**. `producedApprox` è ora facoltativo (LT vz. 38: quantità non indicata). Dal 1939 la CZE non produce più: i carri passano alla Germania con EVT-CSK-CARRI. Implementato e testato (validazione + disponibilità per data).
+- **Cosa la Cecoslovacchia ha già** (dati esistenti): fascia A con 7 impianti (acciaieria, chimico, macchinari, componenti, motori, munizioni, centrale a carbone), scorte iniziali, cassa iniziale, popolazione, profilo commerciale 1930 (armi e veicoli Škoda/Tatra; importa carburanti e tessili, partner non nominati).
+- **Cosa manca, per TUTTE le nazioni, non solo per la CZE**: `FCT-TANKS` esiste in `factories.csv` ma nessuna ricetta lo usa e non esiste il prodotto «carri» in `resources.json`; la produzione (`produceDay`) non è collegata alle unità né a SYSTEMS. La CZE non ha una fabbrica di carri nell'industria iniziale, nessuna unità/divisione e nessun template. Stato: **mancante**.
+

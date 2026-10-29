@@ -179,7 +179,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       for (const f of [officersDoc.source, officersDoc.cardTemplate]) if (createHash('sha256').update(await readFile(new URL(`../data/officers/${f.file}`, import.meta.url))).digest('hex') !== f.sha256) errors.push(`ufficiali: ${f.file} diverso da quello registrato in officers.json (sha256)`);
       if (JSON.stringify(officersDoc) !== JSON.stringify(await officersBuilt())) errors.push('ufficiali: officers.json non allineato a CSV e revisioni, rigenerare con npm run build:officers');
     }
-    errors.push(...validateTankModels(JSON.parse(await text('units/models/carri_tedeschi_1934_1945.json'))));
+    for (const f of ['carri_tedeschi_1934_1945.json', 'carri_cecoslovacchi_1935_1938.json']) errors.push(...validateTankModels(JSON.parse(await text(`units/models/${f}`))));
     errors.push(...validateReadiness(JSON.parse(await text('units/readiness.json'))));
     // Template di divisione (previsto/effettivo, basi e fonti)
     for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {

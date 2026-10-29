@@ -60,3 +60,19 @@ test('carri cecoslovacchi (Panzer 35(t) e 38(t)): entrano solo con un evento, ma
   bad((d) => { d.eventModels[1].id = d.eventModels[0].id; }, /duplicato/);
   bad((d) => { d.eventModels[0].availability.date = '1939'; }, /data dell'evento/);
 });
+
+test('carri cecoslovacchi prodotti da CZE: LT vz. 35 e LT vz. 38 con anni solo ipotesi, mai dopo il 1938', async () => {
+  const cze = JSON.parse(readFileSync(new URL('../data/units/models/carri_cecoslovacchi_1935_1938.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validateTankModels(cze), []);
+  assert.deepEqual(cze.models.map((m) => m.designation), ['LT vz. 35', 'LT vz. 38']);
+  assert.ok(cze.models.every((m) => m.basis === 'ipotesi' && m.productionEnd <= 1938 && !('armor' in m)));
+  // stessi modelli della catalogo tedesco (evento): la designazione originale coincide
+  assert.deepEqual(doc.eventModels.map((m) => m.originalDesignation), cze.models.map((m) => m.designation));
+  const at = (d) => modelsAvailableAt(cze, d).map((m) => m.name);
+  assert.deepEqual(at('1935-06-01'), []);
+  assert.deepEqual(at('1937-06-01'), ['LT vz. 35']);
+  assert.deepEqual(at('1938-06-01'), ['LT vz. 35', 'LT vz. 38']);
+  assert.deepEqual(at('1939-03-15'), [], 'dal 1939 la Cecoslovacchia non produce più: passano alla Germania con l\'evento');
+  const bad = structuredClone(cze); bad.models[0].producedApprox = 0;
+  assert.ok(validateTankModels(bad).some((e) => /quantità/.test(e)));
+});

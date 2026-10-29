@@ -16,7 +16,7 @@ export function validateTankModels(doc) {
     if (m.nation !== doc.nation) errors.push(`${p}: nazione ${m.nation} diversa da ${doc.nation}`);
     if (!CLASSES.includes(m.class)) errors.push(`${p}: classe ${JSON.stringify(m.class)}`);
     if (!Number.isInteger(m.productionStart) || !Number.isInteger(m.productionEnd) || m.productionStart > m.productionEnd) errors.push(`${p}: anni di produzione non validi`);
-    if (!Number.isInteger(m.producedApprox) || m.producedApprox <= 0) errors.push(`${p}: quantità non valida`);
+    if ('producedApprox' in m && (!Number.isInteger(m.producedApprox) || m.producedApprox <= 0)) errors.push(`${p}: quantità non valida`);
     if (!String(m.source ?? '').trim()) errors.push(`${p}: senza fonte`);
     if (!['utente', 'ipotesi'].includes(m.basis)) errors.push(`${p}: basis ${JSON.stringify(m.basis)}`);
   }
