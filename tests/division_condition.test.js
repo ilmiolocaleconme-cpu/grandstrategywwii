@@ -11,7 +11,8 @@ const cfg = JSON.parse(readFileSync(new URL('../data/units/condition_config.json
 
 test('configurazione valida; valori decisi dall\'utente: iniziale 45, unità nuove 10/45, tetto 39 a +1 al mese', () => {
   assert.deepEqual(validateConditionConfig(cfg), []);
-  assert.deepEqual([cfg.initial.existing1936.experience, cfg.initial.existing1936.morale], [45, 45]);
+  assert.deepEqual([cfg.initial.existing1936.experience, cfg.initial.existing1936.morale], [45, 95]);
+  assert.deepEqual([cfg.training.morale.from, cfg.training.morale.cap, cfg.training.morale.perMonth], [45, 85, null], 'velocità del morale in reclutamento ancora da decidere');
   assert.deepEqual([cfg.initial.newUnit.experience, cfg.initial.newUnit.morale], [10, 45]);
   assert.equal(cfg.initial.existing1936.readiness, 80, 'decisione dell\'utente: pace, organizzazione intatta');
   assert.equal(cfg.initial.newUnit.readiness, 45);
@@ -42,7 +43,7 @@ test('livelli di esperienza: soglie esatte della tabella e valori fuori scala ri
 
 test('condizione di base: le divisioni del 1936 partono a 45/45 senza voci memorizzate; la politica predefinita è «normale»', () => {
   const c = conditionOf(undefined, 'U1', cfg);
-  assert.deepEqual([c.experience, c.morale, c.readiness, c.policy, c.isNew], [45, 45, 80, 'normal', false]);
+  assert.deepEqual([c.experience, c.morale, c.readiness, c.policy, c.isNew], [45, 95, 80, 'normal', false]);
 });
 
 test('addestramento: solo le unità nuove, +1 al mese fino al tetto 39, mai oltre; le unità del 1936 restano a 45', () => {
@@ -74,7 +75,7 @@ test('tick idempotenti e deterministici: stessa data due volte = stesso stato; i
 test('politica d\'impiego: viene memorizzata e NON cambia esperienza né morale; valori non validi rifiutati', () => {
   const s = playerSetPolicy({ date: '1936-01-01' }, 'U1', 'aggressive', cfg);
   const c = conditionOf(s.conditions, 'U1', cfg);
-  assert.deepEqual([c.policy, c.experience, c.morale, c.readiness], ['aggressive', 45, 45, 80]);
+  assert.deepEqual([c.policy, c.experience, c.morale, c.readiness], ['aggressive', 45, 95, 80]);
   assert.throws(() => setPolicy(createConditionState(), 'U1', 'folle', cfg), RangeError);
 });
 
@@ -135,6 +136,12 @@ test('salvataggio: lo stato con conditions viaggia identico; forma errata segnal
   assert.deepEqual(validateConditionState(conditions), []);
   assert.deepEqual(JSON.parse(JSON.stringify(conditions)), conditions);
   assert.match(validateConditionState({ schema: 'conditions-v1', byUnit: { X: { experience: 130, morale: 50, policy: 'x', isNew: 1 } } }).join('|'), /fuori da 0–100.*politica non valida.*non booleano/);
+  const stateNew = markNew(createConditionState(), ['N1'], cfg, '1936-01-01');
+  assert.equal(stateNew.byUnit.N1.morale, 45, 'unità nuova: morale 45');
+  assert.equal(trainUntil(stateNew, '1938-01-01', cfg).byUnit.N1.morale, 45, 'senza velocità decisa il morale non si muove');
+  const fast = structuredClone(cfg); fast.training.morale.perMonth = 2;
+  assert.equal(trainUntil(stateNew, '1936-06-01', fast).byUnit.N1.morale, 55, '5 mesi a +2');
+  assert.equal(trainUntil(stateNew, '1940-01-01', fast).byUnit.N1.morale, 85, 'tetto del reclutamento 85');
   assert.equal(typeof parseSave, 'function'); assert.equal(typeof serializeSave, 'function');
 });
 
@@ -145,9 +152,9 @@ test('scheda unità: esperienza con livello, morale, prontezza con causa e stato
     forces: { divisions: { D1: { templateId: 'T', items: { 'manpower.war': { planned: 1000, effective: 900 }, 'equipment.carri': { planned: 100, effective: 40 } } } } },
   };
   const info = unitInfo(state, units[0], { unitsById: new Map(units.map((u) => [u.id, u])), officersById: new Map(), initial: new Map([['D1', 'P_A']]), conditionConfig: cfg });
-  assert.deepEqual([info.condition.experience, info.condition.experienceLevel.name, info.condition.morale], [45, 'Esperta', 45]);
+  assert.deepEqual([info.condition.experience, info.condition.experienceLevel.name, info.condition.morale], [45, 'Esperta', 95]);
   assert.deepEqual(info.condition.material, { value: 40, cause: 'carri' });
-  assert.deepEqual([info.condition.readiness, info.condition.readinessBand, info.condition.moraleBand], [80, 'Buono', 'Critico']);
+  assert.deepEqual([info.condition.readiness, info.condition.readinessBand, info.condition.moraleBand], [80, 'Buono', 'Eccellente']);
   assert.deepEqual([info.condition.operational.id, info.condition.operational.cause], ['inefficient', 'equipaggiamento 40']);
   assert.equal(info.condition.policy, 'normal');
 });

@@ -41,10 +41,11 @@
   "initial": {
     "existing1936": {
       "experience": 45,
-      "morale": 45,
+      "morale": 95,
       "basis": "USER_DECISION",
       "source": "Risposte dell'utente del 29/10/2026",
-      "readiness": 80
+      "readiness": 80,
+      "moraleNote": "Morale iniziale delle truppe 95 per le divisioni del 1936 (decisione dell'utente 29/10/2026: 'altissimo, specialmente per Germania e Italia'). Un valore unico per tutte le nazioni finché non si definisce la differenza per nazione (leggi, propaganda): da fare."
     },
     "newUnit": {
       "experience": 10,
@@ -60,10 +61,17 @@
     "perMonth": 1,
     "appliesTo": "unità nuove (quadri mobilitati, nuove leve); le divisioni del 1936 non si addestrano oltre 45, crescono solo sul campo (non modellato)",
     "basis": "USER_DECISION",
-    "source": "Risposte dell'utente del 29/10/2026"
+    "source": "Risposte dell'utente del 29/10/2026",
+    "morale": {
+      "from": 45,
+      "cap": 85,
+      "perMonth": null,
+      "note": "Le unità nuove partono da morale 45 e salgono durante il reclutamento fino a 85 (decisione dell'utente 29/10/2026). Velocità mensile NON ancora decisa (perMonth nullo = il morale non si muove).",
+      "basis": "USER_DECISION"
+    }
   },
   "morale": {
-    "rule": "fermo al valore iniziale finché non esistono combattimento, rifornimenti e fronti",
+    "rule": "divisioni del 1936: 95 e ferme finché non esistono combattimento, rifornimenti e fronti; unità nuove: 45 che sale fino a 85 nel reclutamento (velocità da decidere)",
     "basis": "USER_DECISION",
     "source": "Risposta dell'utente del 29/10/2026"
   },
