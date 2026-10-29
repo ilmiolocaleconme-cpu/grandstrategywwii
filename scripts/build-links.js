@@ -11,6 +11,7 @@ import { buildProvinceIndex, bboxOf, polygonsOf } from '../src/data/geometry.js'
 import { polylineKm, routeLink } from '../src/data/linkroute.js';
 import { idsChecksum } from '../src/data/adjacency.js';
 import { CELL, buildRiverSegmentGrid, segmentIntersection } from '../src/data/transport.js';
+import { applyRailOverrides } from '../src/data/railOverrides.js';
 import { BRIDGE_HALF_KM, LADDER, LINKS_SCHEMA, MODES, pathStep, buildNetwork, crossingsAlong, cumulativeKm, heading, kmBetween, markerLevelOfStep, shortestPath, sliceByDistance } from '../src/data/links.js';
 
 const dataUrl = (name) => new URL(`../data/${name}`, import.meta.url);
@@ -195,7 +196,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const src = process.argv[2] ?? process.env.NE_DIR;
   if (!src) { console.error('uso: node scripts/build-links.js <cartella con ne_10m_populated_places_simple.geojson>'); process.exit(2); }
   const t0 = Date.now();
-  const { file, stats } = await buildLinksFile(src);
+  const built = await buildLinksFile(src);
+  const { stats } = built;
+  // declassamento delle ferrovie posteriori al 1936 (data/rail_overrides_1936.json): va riapplicato a ogni rigenerazione
+  const { file, applied } = applyRailOverrides(built.file, JSON.parse(await readFile(dataUrl('rail_overrides_1936.json'), 'utf8')));
+  console.log(`ferrovie posteriori al 1936 declassate: ${applied.length}`);
   const text = JSON.stringify(file);
   await writeFile(dataUrl('links.json'), `${text}\n`);
   console.log(JSON.stringify(stats));

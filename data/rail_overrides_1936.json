@@ -1,0 +1,15 @@
+{
+  "schema": "rail-overrides-v1",
+  "quality": "hypothesis",
+  "note": "Collegamenti che nella rete moderna di Natural Earth sono ferrovia (gradino 4) ma la cui linea è stata costruita dopo il 1/1/1936. Passano a strada sterrata (gradino 1). Anni e giudizi dalla memoria dell'autore, NON verificati su una fonte: ogni voce va confermata. Elenco volutamente corto: solo i casi con una buona ragione storica; i dubbi restano fuori finché non c'è una fonte (vedi claude/filo/2026-10-29_infrastrutture-ferrovie.md).",
+  "entries": [
+    { "link": "LK_1420_1514", "name": "Syktyvkar–Noyabrsk", "to": 1, "basis": "memory_unverified", "reason": "La ferrovia per Noyabrsk (Surgut–Noyabrsk e il tratto settentrionale) è degli anni 1980-90; nel 1936 non c'era una linea Syktyvkar–Noyabrsk." },
+    { "link": "LK_1505_1514", "name": "Surgut–Noyabrsk", "to": 1, "basis": "memory_unverified", "reason": "Linea costruita negli anni 1980-90 per i giacimenti della Siberia occidentale." },
+    { "link": "LK_1253_1254", "name": "Nukus–Mangyshlak", "to": 1, "basis": "memory_unverified", "reason": "Le ferrovie del Karakalpakstan e di Mangyshlak (Beyneu–Aktau) sono posteriori alla guerra; Nukus non aveva ferrovia nel 1936." },
+    { "link": "LK_1253_1532", "name": "Nukus–Daşoguz", "to": 1, "basis": "memory_unverified", "reason": "Nukus è raggiunta dalla ferrovia solo negli anni 1950; il tratto verso Daşoguz è posteriore." },
+    { "link": "LK_975_977", "name": "Tatvan–Van", "to": 1, "basis": "memory_unverified", "reason": "Il collegamento ferroviario con Van (via traghetto sul lago) è degli anni 1960-70." },
+    { "link": "LK_975_981", "name": "Tatvan–Muş", "to": 1, "basis": "memory_unverified", "reason": "La linea Elâzığ–Muş–Tatvan fu costruita negli anni 1960-70." },
+    { "link": "LK_981_1033", "name": "Muş–Bingöl", "to": 1, "basis": "memory_unverified", "reason": "Stessa linea Elâzığ–Muş–Tatvan, anni 1960-70." },
+    { "link": "LK_1032_1033", "name": "Elâzığ–Bingöl", "to": 1, "basis": "memory_unverified", "reason": "Stessa linea Elâzığ–Muş–Tatvan, anni 1960-70." }
+  ]
+}

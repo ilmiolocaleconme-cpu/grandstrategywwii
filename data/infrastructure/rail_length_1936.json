@@ -1,0 +1,41 @@
+{
+  "schema": "rail-length-v1",
+  "quality": "hypothesis",
+  "source": "Statistisches Jahrbuch für das Deutsche Reich 1938 e 1939, «Internationale Übersichten, C. Verkehr, 1. Eisenbahnen», colonna «Betriebslänge km» (lunghezza in esercizio a fine anno). PDF per pagina della Biblioteca dell'Università di Mannheim.",
+  "pages": {
+    "1938_0808": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1938/pdf/514401303_0808.pdf",
+    "1938_0809": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1938/pdf/514401303_0809.pdf",
+    "1939_0814": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1939/pdf/514401303_0814.pdf",
+    "1939_0815": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1939/pdf/514401303_0815.pdf"
+  },
+  "note": "Cifre lette da testo OCR disordinato, NON controllate sull'immagine: vanno verificate prima di usarle come dato storico. `comparable: false` = valore discordante, parziale o di attribuzione incerta; il test di controllo lo salta. Gli id sono quelli dei proprietari in data/political_1936.json.",
+  "entries": [
+    { "nation": "DEU", "km": 54191, "year": 1936, "series": "Reichsbahn", "page": "1938_0808", "comparable": true },
+    { "nation": "FRA", "km": 42471, "year": 1936, "series": "7 grandi reti (l'altra pagina dà 42.493)", "page": "1938_0808", "comparable": true },
+    { "nation": "GBR", "km": 32381, "year": 1936, "series": "Gran Bretagna", "page": "1938_0808", "comparable": true },
+    { "nation": "ITA", "km": 16890, "year": 1936, "series": "solo Ferrovie dello Stato (senza linee private)", "page": "1938_0808", "comparable": true },
+    { "nation": "POL", "km": 17895, "year": 1936, "series": "ferrovie di Stato a scartamento normale (altra serie «ex Polonia»: 20.181)", "page": "1938_0809", "comparable": true },
+    { "nation": "USSR", "km": 85200, "year": 1936, "series": "Unione Sovietica", "page": "1939_0815", "comparable": true },
+    { "nation": "CZE", "km": 13506, "year": 1936, "series": "ferrovie di Stato", "page": "1939_0815", "comparable": true },
+    { "nation": "ROM", "km": 11241, "year": 1936, "series": "ferrovie di Stato", "page": "1939_0814", "comparable": true },
+    { "nation": "YUG", "km": 9422, "year": 1936, "series": "ferrovie di Stato (altra pagina: 9.375)", "page": "1938_0808", "comparable": true },
+    { "nation": "HUN", "km": 7823, "year": 1936, "series": "ferrovie di Stato, anno non stampato (attribuzione presunta)", "page": "1939_0815", "comparable": true },
+    { "nation": "SWE", "km": 16783, "year": 1937, "series": "ferrovie di interesse generale", "page": "1939_0815", "comparable": true },
+    { "nation": "AUT", "km": 5801, "year": 1936, "series": "ferrovie federali", "page": "1938_0808", "comparable": true },
+    { "nation": "FIN", "km": 5757, "year": 1936, "series": "Finlandia", "page": "1938_0808", "comparable": true },
+    { "nation": "BEL", "km": 4849, "year": 1936, "series": "Belgio", "page": "1938_0808", "comparable": true },
+    { "nation": "NOR", "km": 3646, "year": 1936, "series": "esercizio 1936/37", "page": "1939_0814", "comparable": true },
+    { "nation": "PRT", "km": 3491, "year": 1936, "series": "Portogallo", "page": "1939_0814", "comparable": true },
+    { "nation": "NLD", "km": 3421, "year": 1936, "series": "Paesi Bassi", "page": "1938_0808", "comparable": true },
+    { "nation": "LVA", "km": 3075, "year": 1936, "series": "ferrovie di Stato", "page": "1938_0808", "comparable": true },
+    { "nation": "LTU", "km": 1634, "year": 1936, "series": "ferrovie di Stato", "page": "1938_0808", "comparable": true },
+    { "nation": "EST", "km": 1434, "year": 1936, "series": "ferrovie di Stato", "page": "1938_0808", "comparable": true },
+    { "nation": "GRC", "km": 1330, "year": 1936, "series": "ferrovie di Stato", "page": "1938_0808", "comparable": true },
+    { "nation": "TUR", "km": 6081, "year": 1936, "series": "ferrovie di Stato, esercizio 1936/37", "page": "1939_0815", "comparable": true },
+    { "nation": "IRL", "km": 4678, "year": 1936, "series": "Eire; due pagine discordi (4.678 e 4.635)", "page": "1938_0808", "comparable": false },
+    { "nation": "CHE", "km": 2982, "year": 1938, "series": "ferrovie federali, attribuzione incerta", "page": "1939_0815", "comparable": false },
+    { "nation": "DNK", "km": 2398, "year": 1936, "series": "ferrovie di Stato, valore incerto", "page": "1938_0808", "comparable": false },
+    { "nation": "BGR", "km": 2850, "year": 1936, "series": "discordante tra le pagine (3.220 o 2.850)", "page": "1939_0814", "comparable": false },
+    { "nation": "ESP", "km": 9117, "year": null, "series": "SOLO le 4 reti principali, non la rete nazionale", "page": "1939_0815", "comparable": false }
+  ]
+}
