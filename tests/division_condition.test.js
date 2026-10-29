@@ -12,7 +12,7 @@ const cfg = JSON.parse(readFileSync(new URL('../data/units/condition_config.json
 test('configurazione valida; valori decisi dall\'utente: iniziale 45, unità nuove 10/45, tetto 39 a +1 al mese', () => {
   assert.deepEqual(validateConditionConfig(cfg), []);
   assert.deepEqual([cfg.initial.existing1936.experience, cfg.initial.existing1936.morale], [45, 95]);
-  assert.deepEqual([cfg.training.morale.from, cfg.training.morale.cap, cfg.training.morale.perMonth], [45, 85, null], 'velocità del morale in reclutamento ancora da decidere');
+  assert.deepEqual([cfg.training.morale.from, cfg.training.morale.cap, cfg.training.morale.months], [45, 85, 3], 'reclutamento: 3 mesi da 45 a 85');
   assert.deepEqual([cfg.initial.newUnit.experience, cfg.initial.newUnit.morale], [10, 45]);
   assert.equal(cfg.initial.existing1936.readiness, 80, 'decisione dell\'utente: pace, organizzazione intatta');
   assert.equal(cfg.initial.newUnit.readiness, 45);
@@ -138,10 +138,10 @@ test('salvataggio: lo stato con conditions viaggia identico; forma errata segnal
   assert.match(validateConditionState({ schema: 'conditions-v1', byUnit: { X: { experience: 130, morale: 50, policy: 'x', isNew: 1 } } }).join('|'), /fuori da 0–100.*politica non valida.*non booleano/);
   const stateNew = markNew(createConditionState(), ['N1'], cfg, '1936-01-01');
   assert.equal(stateNew.byUnit.N1.morale, 45, 'unità nuova: morale 45');
-  assert.equal(trainUntil(stateNew, '1938-01-01', cfg).byUnit.N1.morale, 45, 'senza velocità decisa il morale non si muove');
-  const fast = structuredClone(cfg); fast.training.morale.perMonth = 2;
-  assert.equal(trainUntil(stateNew, '1936-06-01', fast).byUnit.N1.morale, 55, '5 mesi a +2');
-  assert.equal(trainUntil(stateNew, '1940-01-01', fast).byUnit.N1.morale, 85, 'tetto del reclutamento 85');
+  assert.equal(trainUntil(stateNew, '1936-01-31', cfg).byUnit.N1.morale, 45, 'stesso mese: fermo');
+  assert.equal(trainUntil(stateNew, '1936-02-01', cfg).byUnit.N1.morale, 58.33, 'dopo 1 mese +13,33');
+  assert.equal(trainUntil(stateNew, '1936-04-01', cfg).byUnit.N1.morale, 85, 'dopo 3 mesi: 85');
+  assert.equal(trainUntil(stateNew, '1940-01-01', cfg).byUnit.N1.morale, 85, 'mai oltre 85');
   assert.equal(typeof parseSave, 'function'); assert.equal(typeof serializeSave, 'function');
 });
 

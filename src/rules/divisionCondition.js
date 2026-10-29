@@ -36,7 +36,7 @@ export function validateConditionConfig(cfg) {
   if (!(cfg?.training?.perMonth > 0) || !(cfg?.training?.newUnitCap >= 0 && cfg.training.newUnitCap <= 100)) errors.push('condizione: addestramento non valido');
   if (cfg?.initial?.newUnit?.experience > cfg?.training?.newUnitCap) errors.push('condizione: le unità nuove partono sopra il tetto di addestramento');
   const mt = cfg?.training?.morale;
-  if (mt && (mt.from > mt.cap || !(mt.cap <= 100) || (mt.perMonth !== null && !(mt.perMonth > 0)))) errors.push('condizione: morale del reclutamento non valido');
+  if (mt && (mt.from > mt.cap || !(mt.cap <= 100) || !(mt.months > 0))) errors.push('condizione: morale del reclutamento non valido');
   const b = cfg?.operationalStates?.bands ?? {};
   for (const c of ['manpower', 'equipment', 'morale', 'readiness']) {
     const x = b[c];
@@ -90,9 +90,10 @@ export function trainUntil(conditions, date, cfg) {
     const months = monthIndex(now) - monthIndex(e.trainedThrough);
     const cap = cfg.training.newUnitCap;
     const experience = e.experience >= cap ? e.experience : clamp(Math.min(cap, e.experience + months * cfg.training.perMonth));
-    // morale del reclutamento: sale fino al tetto solo se la velocità è stata decisa (perMonth nullo = fermo)
+    // morale del reclutamento: sale in modo lineare da `from` a `cap` in `months` mesi (poi si ferma)
     const mt = cfg.training.morale;
-    const morale = mt && mt.perMonth > 0 && e.morale < mt.cap ? clamp(Math.min(mt.cap, e.morale + months * mt.perMonth)) : e.morale;
+    const step = mt && mt.months > 0 ? (mt.cap - mt.from) / mt.months : 0;
+    const morale = step > 0 && e.morale < mt.cap ? Math.round(clamp(Math.min(mt.cap, e.morale + months * step)) * 100) / 100 : e.morale;
     byUnit[id] = { ...e, experience, morale, trainedThrough: now };
     changed = true;
   }

@@ -65,13 +65,13 @@
     "morale": {
       "from": 45,
       "cap": 85,
-      "perMonth": null,
-      "note": "Le unità nuove partono da morale 45 e salgono durante il reclutamento fino a 85 (decisione dell'utente 29/10/2026). Velocità mensile NON ancora decisa (perMonth nullo = il morale non si muove).",
+      "months": 3,
+      "note": "Il reclutamento dura 3 mesi: il morale delle unità nuove sale in modo lineare da 45 a 85 (circa +13,3 al mese) (decisione dell'utente 29/10/2026: 'reclutamento dura 3 mesi, unità addestrata'; lettura: dura 3 mesi anche se l'unità è addestrata; DA CONFERMARE).",
       "basis": "USER_DECISION"
     }
   },
   "morale": {
-    "rule": "divisioni del 1936: 95 e ferme finché non esistono combattimento, rifornimenti e fronti; unità nuove: 45 che sale fino a 85 nel reclutamento (velocità da decidere)",
+    "rule": "divisioni del 1936: 95 e ferme finché non esistono combattimento, rifornimenti e fronti; unità nuove: 45 che sale linearmente a 85 in 3 mesi di reclutamento",
     "basis": "USER_DECISION",
     "source": "Risposta dell'utente del 29/10/2026"
   },
