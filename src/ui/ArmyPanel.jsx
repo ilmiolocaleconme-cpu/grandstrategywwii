@@ -24,8 +24,12 @@ function Info({ info }) {
         <dd>{info.children.length ? info.children.map((x) => x.name).join(', ') : 'nessuna'}</dd>
         <dt>Consistenza</dt>
         <dd>{s ? (s.cadre ? 'quadro (non pronto al combattimento) · ' : '') + (s.manpower ? `uomini ${s.manpower.effective} / ${s.manpower.planned} (${Math.round(s.manpower.ratio * 100)}%)` : 'uomini: dato assente') + (s.reinforce ? '' : ' · rinforzi sospesi') : 'nessuna dotazione per questa unità (modello non ancora definito)'}</dd>
-        <dt>Non modellati</dt>
-        <dd>{info.notModeled.join(', ')}: nel progetto non esiste ancora un modello, quindi non li mostro</dd>
+        <dt>Dotazione</dt>
+        <dd>{info.equipment.length ? info.equipment.slice(0, 3).map((e) => `${e.item} ${e.effective}/${e.planned} (${Math.round(e.ratio * 100)}%)`).join(' · ') + (info.equipment.length > 3 ? ` · altre ${info.equipment.length - 3} voci` : '') : 'nessun dato'}</dd>
+        <dt>Prontezza</dt>
+        <dd>solo uomini e dotazione sono noti; munizioni, carburante, rifornimenti, riparazioni e riposo non sono modellati, quindi non calcolo un valore unico</dd>
+        <dt>Non ancora modellati</dt>
+        <dd>{info.notModeled.map((n) => n.id).join(', ')} (descritti nei documenti guida, senza valori né regole di aggiornamento); la fatica non è prevista in nessun documento</dd>
       </dl>
     </div>
   );

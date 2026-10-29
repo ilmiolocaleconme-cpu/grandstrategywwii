@@ -14,7 +14,7 @@ const ctx = { unitsById, officersById, initial, provinceName: (x) => `nome ${x}`
 const state = {
   commanders: { assignments: { C1: { officerId: 'O1', source: 'auto', since: '1936-01-01' } } },
   orbat: { links: { D1: { parent: 'C1' }, D2: { parent: 'C1' } } },
-  forces: { divisions: { D1: { templateId: 'T', items: { 'manpower.war': { planned: 1000, effective: 300 } }, cadre: true, reinforce: false } } },
+  forces: { divisions: { D1: { templateId: 'T', items: { 'manpower.war': { planned: 1000, effective: 300 }, 'equipment.carri': { planned: 100, effective: 20 }, 'equipment.cannoni': { planned: 50, effective: 40 } }, cadre: true, reinforce: false } } },
   movement: { positions: {}, orders: { D1: { path: ['P_A', 'P_B', 'P_C'], leg: 0, daysLeft: 3, totalDays: 8, category: 'infantry' } } },
 };
 
@@ -34,6 +34,7 @@ test('scheda della divisione: quadro al 30%, rinforzi sospesi, inquadrata nel co
   assert.equal(i.strength.cadre, true);
   assert.equal(i.strength.reinforce, false);
   assert.equal(i.strength.manpower.ratio, 0.3);
+  assert.deepEqual(i.equipment.map((e) => [e.item, e.ratio]), [['carri', 0.2], ['cannoni', 0.8]], 'dotazione in ordine di carenza');
   assert.deepEqual([i.movement.order.toName, i.movement.order.nextName, i.movement.order.daysLeft, i.movement.order.totalDays], ['nome P_C', 'nome P_B', 3, 8]);
 });
 
@@ -41,6 +42,8 @@ test('comando senza ufficiale: vacante; senza dotazione: strength nulla; fatica 
   const i = unitInfo({ ...state, commanders: { assignments: {} } }, units[0], ctx);
   assert.equal(i.commander.status, 'vacante');
   assert.equal(unitInfo(state, units[2], ctx).strength, null);
-  assert.ok(NOT_MODELED.includes('fatica') && NOT_MODELED.includes('morale'));
+  assert.ok(NOT_MODELED.some((n) => n.id === 'morale') && NOT_MODELED.some((n) => n.id === 'esperienza'));
+  assert.ok(!NOT_MODELED.some((n) => n.id === 'fatica'), 'la fatica non è in nessun documento guida');
+  assert.ok(NOT_MODELED.every((n) => n.rule.length > 10));
   assert.deepEqual(i.notModeled, NOT_MODELED);
 });
