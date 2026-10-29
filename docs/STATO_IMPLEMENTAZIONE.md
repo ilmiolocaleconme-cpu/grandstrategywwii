@@ -321,4 +321,4 @@ Economia di base (26/10/2026): implementato e testato sui dati e sulle funzioni 
 - **Non collegato:** template della corazzata, tech tree, produzione.
 
 ## 29/10/2026 — ferrovie posteriori al 1936
-- **Declassate 8 ferrovie moderne** (`data/rail_overrides_1936.json`, `src/data/railOverrides.js`, `scripts/apply-rail-overrides.js`): implementato e testato (`tests/rail_overrides.test.js`); l'elenco è **ipotesi dalla memoria, non verificata**. Aggiunta la tavola `data/infrastructure/rail_length_1936.json` (km in esercizio 1936 da OCR del Jahrbuch, da controllare) e un test che i km del modello non la superino. Dettagli in `docs/STRADE_FERROVIE.md`.
+- **Declassate 8 ferrovie moderne** (`data/rail_overrides_1936.json`, `src/data/railOverrides.js`, `scripts/apply-rail-overrides.js`): implementato e testato (`tests/rail_overrides.test.js`); l'elenco è **ipotesi dalla memoria, non verificata**. Aggiunta la tavola `data/infrastructure/rail_length_1936.json` (km in esercizio 1936 dallo Jahrbuch, controllati sulle immagini delle pagine tranne la 1939_0814) e un test che i km del modello non la superino. Dettagli in `docs/STRADE_FERROVIE.md`.
