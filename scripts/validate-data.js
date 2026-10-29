@@ -30,6 +30,7 @@ import { unitsBuilt } from './build-units.js';
 import { validateOfficers } from '../src/data/officers.js';
 import { officersBuilt } from './build-officers.js';
 import { validateTemplate } from '../src/data/templates.js';
+import { validateCadreTemplates } from '../src/data/cadres.js';
 import { validateReadiness } from '../src/rules/readiness.js';
 import { readdir } from 'node:fs/promises';
 import { validateEconomy } from '../src/data/economy.js';
@@ -181,6 +182,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // Template di divisione (previsto/effettivo, basi e fonti)
     for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {
       errors.push(...validateTemplate(JSON.parse(await text(`units/templates/${f}`))).map((e) => `template ${f}: ${e}`));
+    }
+    // Quadri di divisione (template per nazione, espansione in divisione tramite mobilitazione)
+    {
+      const divisionIds = new Set();
+      for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n))) divisionIds.add(JSON.parse(await text(`units/templates/${f}`)).id);
+      errors.push(...validateCadreTemplates(JSON.parse(await text('units/templates/quadri_1936.json')), { nationIds: new Set(catalog.political.map((p) => p.id)), templateIds: divisionIds }).map((e) => `quadri: ${e}`));
     }
     // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate
     for (const sh of JSON.parse(await text('resources/SOURCE_IDRO.json')).files) {
