@@ -1,6 +1,7 @@
 // Opzioni di costruzione e riepilogo economico per l'interfaccia. Funzioni PURE (nessun React): testabili da sole.
 import { mineCost, factoryBuildCost } from '../data/economy.js';
 import { workersState } from '../rules/workers.js';
+import { entityOfProvinceId } from '../data/provinceOwner.js';
 
 const num = (v) => Math.round(v * 10) / 10;
 const WHAT = { ecv: 'Denaro', steel: 'Acciaio', workers: 'Lavoratori', energyMw: 'Energia (MW)', tech: 'Tecnologia' };
@@ -31,7 +32,7 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
   const nation = state.nations?.[nationId];
   const out = { mines: [], factories: [] };
   if (!nation) return out;
-  if (state.control[String(provinceId).split('_')[1]] !== nationId) return { ...out, reason: 'not_controlled' };
+  if (state.control[entityOfProvinceId(provinceId, Object.keys(state.control))] !== nationId) return { ...out, reason: 'not_controlled' };
   for (const [resource, site] of Object.entries(sites.byProvince[provinceId] ?? {})) {
     const current = nation.mines.find((m) => m.provinceId === provinceId && m.resource === resource)?.level ?? 0;
     const level = current + 1;

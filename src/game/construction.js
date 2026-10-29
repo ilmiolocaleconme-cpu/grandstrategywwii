@@ -9,15 +9,17 @@ import { SLOT_CAPACITY } from '../rules/slots.js';
 import { factoryBuildCost, mineCost } from '../data/economy.js';
 import { fullCapacityFlows } from '../data/recipes.js';
 import { hydroMwByOwner } from './economySystem.js';
+import { entityOfProvinceId } from '../data/provinceOwner.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
-const entityOf = (provinceId) => String(provinceId).split('_')[1];
 
 /**
  * ctx: { catalog: { recipes: Map, factories: Map }, economy, sites (mine_sites.json), hydro (hydro_plants.json), political,
  *        workersShare (quota della popolazione), provinceExists?: (id) => boolean }
  */
 export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null }) {
+  const entityIds = political.map((e) => e.id);
+  const entityOf = (provinceId) => entityOfProvinceId(provinceId, entityIds); // anche MAR_ES, NLD_EI, JPN_MANDATE
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
 
   /** Potenza (MW) disponibile e impegnata di una nazione alla data: centrali + idro + rete di base contro fabbriche attive e in costruzione. */
