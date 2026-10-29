@@ -28,6 +28,7 @@ import unitsFile from '../data/units/units.json';
 import readiness from '../data/units/readiness.json';
 import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
 import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
+import tplGbrInfantry from '../data/units/templates/divisione_fanteria_gran_bretagna_1936.json';
 import { createEconomySystem } from './game/economySystem.js';
 import { createConstruction } from './game/construction.js';
 import mineSites from '../data/resources/mine_sites.json';
@@ -202,8 +203,8 @@ const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIn
 const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId };
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
-// Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Solo la Germania ha template (29/10/2026).
-const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored], ratio: readiness.initialFillRatio.value };
+// Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
+const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry], ratio: readiness.initialFillRatio.value };
 const withForces = (state) => initForcesState(state, FORCES_CTX).state;
 const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,

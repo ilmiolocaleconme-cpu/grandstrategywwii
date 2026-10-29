@@ -120,8 +120,11 @@ Regola dell'utente: i rinforzi passano dal pool; se ci sono abbastanza risorse v
 
 
 ## Template: fanteria britannica 1936 (29/10/2026)
-- File: `data/units/templates/divisione_fanteria_gran_bretagna_1936.json` (`TPL-GBR-INF-1936`, `BOZZA_DA_CONFERMARE`). Test: `tests/template_gbr.test.js`. `leaves` legge ora anche `referenceFigures`.
-- Scelta dell'utente: struttura + cifre 1939-40 come **ipotesi**. Struttura: 3 brigate da 3 battaglioni. Cifre in `referenceFigures` (13.863 uomini, ~780 a battaglione, 72 cannoni da 25 libbre, 48 controcarro da 2 libbre, 27 antiaerei da 20 mm), **non sono il previsto**: fonti web deboli, l'anno delle cifre è incerto (documento con intestazione 1944-45 e titolo 1939-40).
-- **Previsto di pace 1936: non trovato online** (Hansard 9/3/1936 dà solo totali nazionali: 208.630 regolari, 175.094 Territorial Army). `manpower.war`, `manpower.peace`, cavalli e armi sono `null`: il gioco non crea istanze di questa divisione e non inventa numeri.
-- 1936 secondo le fonti web: 5 divisioni regolari e **14** Territorial Army; il file dell'utente ne elenca 12 (stima del repo: 12): da verificare.
-- Per renderlo giocabile servono i valori di pace 1936 (li può fornire l'utente) e la scelta di mobilità.
+- File: `data/units/templates/divisione_fanteria_gran_bretagna_1936.json` (`TPL-GBR-INF-1936`, `BOZZA_DA_CONFERMARE`). Test: `tests/template_gbr.test.js`. Collegato in `src/App.jsx` (`FORCES_CTX`).
+- **Previsto provvisorio** = cifre 1939-40 (13.863 uomini, 72 cannoni da 25 libbre, 48 controcarro da 2 libbre, 27 antiaerei da 20 mm), basis `ipotesi`: fonti web deboli, anno incerto (documento con intestazione 1944-45 e titolo 1939-40). Struttura: 3 brigate × 3 battaglioni. Le stesse cifre restano in `referenceFigures` con la fonte (il test le tiene allineate).
+- **Parte come quadro al 30%** (esempio dell'utente, `initialFillRatio` 0,3 `USER_EXAMPLE`, `startsAsCadre`): al 1/1/1936 le 5 divisioni regolari hanno 4.159 uomini su 13.863. Il template può avere una propria frazione iniziale: `buildDivision` la usa al posto di quella globale (0,915) e segna l'istanza `cadre: true`.
+- **Mobilitazione**: `mobilize(forces, id)` (in `src/rules/reinforcements.js`) toglie il flag di quadro; da quel momento i rinforzi (pool + scorte, con tempo di trasferimento) portano la divisione al 100% **solo se ci sono le risorse**, mai oltre il previsto. Il quadro non riceve rinforzi (`skipped.reason = 'cadre'`). Non crea uomini né mezzi. Manca la legge di mobilitazione (condizioni, costi, durata): oggi `mobilize` è un comando manuale.
+- **Organico di pace 1936: non trovato online** (Hansard 9/3/1936: solo totali nazionali, 208.630 regolari e 175.094 Territorial Army). Cavalli, armi leggere, mortai, veicoli e radio: `null`.
+- 1936 secondo le fonti web: 5 divisioni regolari e **14** Territorial Army; il file dell'utente ne elenca 12 (stima del repo: 12): da verificare. Le Territorial Army del catalogo restano al 1939 (inattive nel 1936).
+- Il quadro `TPL-GBR-CADRE-1936` (quadri_1936.json) ora si espande in `TPL-GBR-INF-1936`.
+- **Verificato**: 37 test sui moduli toccati e `validate-data`. **Non verificato**: `vite build` (npm non raggiungibile) e la resa in gioco.

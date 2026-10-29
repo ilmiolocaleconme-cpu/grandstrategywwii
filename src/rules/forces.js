@@ -18,7 +18,9 @@ export function templateFor(unit, templates) {
 
 /** Istanza di una divisione: { templateId, since, items: { 'manpower.war': { planned, effective, source }, ... } } (solo voci numeriche note). */
 export function buildDivision(template, ratio, date) {
-  return { templateId: template.id, since: date, items: initialEffective(template, ratio) };
+  // Un template può avere una propria frazione iniziale (initialFillRatio) e partire come quadro (startsAsCadre): il quadro non riceve rinforzi finché non viene mobilitato.
+  const r = template.initialFillRatio?.value ?? ratio;
+  return { templateId: template.id, since: date, items: initialEffective(template, r), ...(template.startsAsCadre ? { cadre: true } : {}) };
 }
 
 /** Crea le istanze mancanti per le divisioni attive alla data. Ritorna { state, created, withoutTemplate: [id] }. Idempotente: non tocca le istanze esistenti. */

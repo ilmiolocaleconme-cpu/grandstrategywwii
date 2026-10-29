@@ -11,6 +11,7 @@ import { addDays } from '../game/calendar.js';
 export const MANPOWER_ITEM = 'manpower.war';
 
 const isEnabled = (d) => d.reinforce !== false;
+const isCadre = (d) => d.cadre === true;
 const transfersOf = (forces) => forces.transfers ?? [];
 
 /** Imposta (o toglie) il rinforzo di una divisione. Lancia un Error se la divisione non ha un'istanza. */
@@ -56,6 +57,7 @@ export function planReinforcements(forces, { units, nation, date, poolAvailable,
   for (const id of order) for (const item of itemsOf(id)) if (netDeficit(forces, id, item) > 0) queue.push([id, item]);
   queue.sort((x, y) => (Boolean(requests[y[0]]) - Boolean(requests[x[0]])) || (fill(x[0], x[1]) - fill(y[0], y[1])) || (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : x[1] < y[1] ? -1 : 1));
   for (const [id, item] of queue) {
+    if (isCadre(forces.divisions[id])) { skipped.push({ divisionId: id, item, reason: 'cadre' }); continue; }
     if (!isEnabled(forces.divisions[id])) { skipped.push({ divisionId: id, item, reason: 'disabled' }); continue; }
     const need = netDeficit(forces, id, item);
     const available = item === MANPOWER_ITEM ? pool : (left[item] ?? 0);
@@ -67,6 +69,14 @@ export function planReinforcements(forces, { units, nation, date, poolAvailable,
     transfers.push({ id: `${id}|${item}|${date}`, divisionId: id, item, qty, from: item === MANPOWER_ITEM ? 'pool' : 'stock', sentOn: date, arrivesOn: addDays(date, days) });
   }
   return { transfers, remaining: { pool, stocks: left }, skipped };
+}
+
+/** Mobilitazione: il quadro diventa una divisione che riceve rinforzi fino al previsto (100%), se ci sono le risorse. Non crea uomini né mezzi. Lancia un Error se non è un quadro. */
+export function mobilize(forces, divisionId) {
+  const d = forces.divisions[divisionId];
+  if (!d) throw new Error(`divisione senza istanza: ${divisionId}`);
+  if (!isCadre(d)) throw new Error(`${divisionId} non è un quadro`);
+  return { ...forces, divisions: { ...forces.divisions, [divisionId]: { ...d, cadre: false } } };
 }
 
 /** Registra i trasferimenti nello stato (non duplica: un id già presente è un errore). */
@@ -99,6 +109,7 @@ export function applyArrivals(forces, date) {
 export function validateReinforcementFields(forces) {
   const errors = [];
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'reinforce' in d && typeof d.reinforce !== 'boolean') errors.push(`forze: ${id} reinforce non booleano`);
+  for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'cadre' in d && typeof d.cadre !== 'boolean') errors.push(`forze: ${id} cadre non booleano`);
   if (forces.transfers !== undefined) {
     if (!Array.isArray(forces.transfers)) return [...errors, 'forze: transfers non è un array'];
     const seen = new Set();

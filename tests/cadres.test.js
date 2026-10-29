@@ -25,11 +25,12 @@ test('quadri 1936: nessun valore numerico inventato, nessuna legge di mobilitazi
   }
 });
 
-test('quadri 1936: expandsTo punta solo a template di divisione esistenti (DEU fanteria, URSS fucilieri); gli altri sono null', () => {
+test('quadri 1936: expandsTo punta solo a template di divisione esistenti (DEU e GBR fanteria, URSS fucilieri); gli altri sono null', () => {
   const exp = Object.fromEntries(doc.templates.map((t) => [t.nation, t.mobilization.expandsTo]));
   assert.equal(exp.DEU, 'TPL-DEU-INF-1936');
   assert.equal(exp.USSR, 'TPL-USSR-RIFLE-1936');
-  for (const n of ['CHN', 'FRA', 'GBR', 'ITA', 'JPN', 'USA']) assert.equal(exp[n], null);
+  assert.equal(exp.GBR, 'TPL-GBR-INF-1936');
+  for (const n of ['CHN', 'FRA', 'ITA', 'JPN', 'USA']) assert.equal(exp[n], null);
 });
 
 test('validateCadreTemplates: rifiuta quadro pronto al combattimento, expandsTo inesistente, id incoerente, valore su voce da_definire, duplicati', () => {

@@ -24,6 +24,12 @@ export function validateTemplate(t) {
   const errors = [];
   if (t.schema !== 'unit-template-v1') errors.push(`schema ${JSON.stringify(t.schema)}`);
   if (!/^TPL-[A-Z]+-[A-Z]+-\d{4}$/.test(t.id ?? '')) errors.push(`id non valido: ${t.id}`);
+  if (t.initialFillRatio !== undefined) {
+    const f = t.initialFillRatio;
+    if (typeof f.value !== 'number' || !(f.value > 0 && f.value <= 1)) errors.push('initialFillRatio.value deve essere nell\'intervallo (0, 1]');
+    if (!String(f.source ?? '').trim()) errors.push('initialFillRatio senza fonte');
+  }
+  if (t.startsAsCadre !== undefined && typeof t.startsAsCadre !== 'boolean') errors.push('startsAsCadre non booleano');
   for (const [path, l] of leaves(t)) {
     if (!BASES.includes(l.basis)) errors.push(`${path}: basis ${JSON.stringify(l.basis)}`);
     if (l.value !== null && l.value !== undefined && !String(l.source ?? '').trim()) errors.push(`${path}: valore senza fonte`);

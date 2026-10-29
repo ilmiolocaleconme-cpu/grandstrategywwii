@@ -129,7 +129,7 @@
         "echelon": "division",
         "activeFrom": "1936-01-01"
       },
-      "note": "Quadro di divisione per Regno Unito. Nessun template di divisione completa definito per questa nazione: expandsTo = null.",
+      "note": "Quadro di divisione per Regno Unito. Si espande nel template di divisione TPL-GBR-INF-1936, che parte come quadro al 30% (esempio dell'utente).",
       "formation": {
         "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
         "basis": "ipotesi",
@@ -150,7 +150,7 @@
       "mobilization": {
         "law": null,
         "status": "non_modellata",
-        "expandsTo": null,
+        "expandsTo": "TPL-GBR-INF-1936",
         "combatReady": false,
         "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
       }
