@@ -6,6 +6,10 @@
   "utilisation": 1,
   "unit": "t",
   "note": "Regola approvata in chat il 27/10/2026: ogni nazione con industria iniziale resiste 150 giorni senza commercio con l'industria a pieno regime. Stock = giorni × (consumo − produzione nazionale), solo dove manca. Copre l'industria, non l'esercito (consumatori militari: Fase 5). I deficit di carbone delle nazioni piccole dipendono da dati di produzione 1936 mancanti (MISSING_DATA). Gli stock non sono sottratti a nessuno.",
+  "floor": {
+    "steel": 500
+  },
+  "floorNote": "Riserva minima uguale per tutte le nazioni (decisione del 29/10/2026): 200 ECV di cassa minima × 2.5 t di acciaio per ECV = 500 t. Si applica come massimo (chi ha già più acciaio non cambia) e scala con la difficoltà come gli altri stock. Stima di progetto, non un dato storico.",
   "stocks": {
     "AUT": {
       "coal": 21000
