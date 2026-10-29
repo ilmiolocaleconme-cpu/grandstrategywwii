@@ -25,6 +25,8 @@ import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { initForcesState } from './game/forcesState.js';
 import unitsFile from '../data/units/units.json';
+import deploymentFile from '../data/units/deployment_1936.json';
+import { unitsByProvince } from './data/deployment.js';
 import readiness from '../data/units/readiness.json';
 import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
 import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
@@ -308,6 +310,7 @@ export default function App() {
     return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
   }, [game, selectedItem]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
+  const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, deploymentFile, game?.date ?? '1936-01-01'), [game?.date]);
   const layerReady = (layer !== 'terrain' || terrain !== null) && (layer !== 'resources' || provinceResources !== null); // dati del livello scelto arrivati
   const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && land !== null && layerReady;
   // cambio di livello (Politico / Terreno / Risorse): la mappa si ridisegna e va mostrata solo a disegno finito, come all'avvio
@@ -476,7 +479,7 @@ export default function App() {
               name: NATION_NAMES[game.player] ?? game.player,
               flag: flagsFile.flags[game.player],
               steps: [
-                ...(layer === 'political' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
+                ...(layer === 'political' || layer === 'army' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
                 { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
                 { label: 'Mari e rotte', done: seaStatus !== 'loading' },
                 { label: 'Città', done: citiesRaw !== null },
@@ -487,7 +490,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
+        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} />
         {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />

@@ -9,6 +9,7 @@ import { LINE_STEP } from './labelfit.js';
 import { drawTransport } from './transportView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 import { drawProvinceResources } from './resourceIcons.js';
+import { drawProvinceUnits } from './unitIcons.js';
 import { RESOURCE_NEUTRAL } from '../data/provinceResources.js';
 
 const COS0 = WORLD_W / 360;
@@ -463,7 +464,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, seas, selectedSeaId } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, seas, selectedSeaId } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -498,6 +499,11 @@ export function drawOverlay(ctx, p) {
   if (layer === 'resources' && provinceResources) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawProvinceResources(ctx, { items: model.items, byProvince: provinceResources, a, dpr, copies, boxes: cityBoxes, model });
+  }
+  // livello Esercito: segnalini delle unità (dislocazione derivata), prima dei nomi come le risorse
+  if (layer === 'army' && provinceUnits) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawProvinceUnits(ctx, { items: model.items, byProvince: provinceUnits, a, dpr, copies, boxes: cityBoxes, model });
   }
   const nomi = cityNamesAt(model.items, view.k);
   if (nomi.length) {
