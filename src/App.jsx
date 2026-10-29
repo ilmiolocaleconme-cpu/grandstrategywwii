@@ -43,6 +43,7 @@ import { createConstruction } from './game/construction.js';
 import mineSites from '../data/resources/mine_sites.json';
 import { loadIndustryCatalog } from './data/industry.js';
 import recipesFile from '../data/industry/recipes.json';
+import factoryLevelsFile from '../data/industry/factory_levels.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
 import hydroPlants from '../data/resources/hydro_plants.json';
 import factoriesCsv from '../data/industry/factories.csv?raw';
@@ -53,7 +54,7 @@ import extraStructuresCsv from '../data/infrastructure/structures_extra.csv?raw'
 import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar from './ui/GameBar.jsx';
 import { ProvinceBuild, EconomyPanel } from './ui/BuildPanel.jsx';
-import { provinceBuildOptions, economySummary, describeBuildFailure } from './ui/buildOptions.js';
+import { provinceBuildOptions, economySummary, describeBuildFailure, upgradeOptions } from './ui/buildOptions.js';
 import { RESOURCE_META } from './data/provinceResources.js';
 import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
 import NewGame, { describeSaveError } from './ui/NewGame.jsx';
@@ -211,7 +212,7 @@ function useProvinces() {
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
+const GAME_CATALOG = { levels: factoryLevelsFile, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
@@ -345,6 +346,11 @@ export default function App() {
     const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
     return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
   }, [game, selectedItem]);
+  const provinceUpgrades = useMemo(() => {
+    const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
+    return game && id ? upgradeOptions(game, game.player, { ...BUILD_CTX, provinceId: id }) : null;
+  }, [game, selectedItem]);
+  const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
   const armyGroup = armySel ? (provinceUnits[armySel.province] ?? []).find((x) => x.nation === armySel.nation) ?? null : null;
@@ -499,7 +505,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
-            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName })} />
+            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName })} upgrades={nationUpgrades} onOrder={placeOrder} />
             {infoSection}
             {statusSection}
           </main>
@@ -547,7 +553,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} /> : null} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} /> : null} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>

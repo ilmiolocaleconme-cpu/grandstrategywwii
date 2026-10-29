@@ -1,6 +1,8 @@
 // Costruzioni (fabbriche, centrali, miniere): ordine, pagamento, coda, completamento. Funzioni PURE su `state`.
 // Vincoli all'avvio (decisi in chat 26/10/2026): denaro, acciaio, lavoratori liberi, energia disponibile (solo per le fabbriche) — via canStartBuild.
 // Si paga TUTTO all'ordine (cassa e acciaio); i lavoratori sono occupati finché dura la costruzione e poi passano all'impianto finito.
+// Miglioramento di una fabbrica (ordine kind 'upgrade', 29/10/2026): fabbrica → complesso industriale → grande complesso industriale (catalog.levels = factory_levels.json).
+// Non occupa slot; paga tutto all'ordine; l'impianto continua a produrre al livello vecchio finché i lavori non finiscono, poi passa al nuovo (campo `level`).
 // NON ancora: tecnologie richieste (MISSING_DATA: non esistono tecnologie iniziali, `requires` è sempre null), annullamento e rimborso, slot delle città,
 // slot occupati dagli impianti iniziali (non hanno provincia: MISSING_DATA), consumo di energia del pompaggio del petrolio per le miniere.
 import { canStartBuild } from '../rules/construction.js';
@@ -8,13 +10,14 @@ import { workersState } from '../rules/workers.js';
 import { SLOT_CAPACITY } from '../rules/slots.js';
 import { factoryBuildCost, mineCost } from '../data/economy.js';
 import { fullCapacityFlows } from '../data/recipes.js';
+import { levelMult, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
 import { hydroMwByOwner } from './economySystem.js';
 import { entityOfProvinceId } from '../data/provinceOwner.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
 /**
- * ctx: { catalog: { recipes: Map, factories: Map }, economy, sites (mine_sites.json), hydro (hydro_plants.json), political,
+ * ctx: { catalog: { recipes: Map, factories: Map, levels?: factory_levels.json }, economy, sites (mine_sites.json), hydro (hydro_plants.json), political,
  *        workersShare (quota della popolazione), provinceExists?: (id) => boolean }
  */
 export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null }) {
@@ -28,10 +31,10 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     let demand = 0;
     for (const f of nation.facilities) {
       const recipe = catalog.recipes.get(f.recipeId); const factory = catalog.factories.get(f.type);
-      const flows = fullCapacityFlows(recipe, factory);
+      const flows = fullCapacityFlows(recipe, factory, levelMult(catalog.levels, f.level));
       if (flows.outputUnit === 'MW') supply += flows.outputPerDay * (1 - (f.damage ?? 0)); else demand += flows.energyMw * (f.throttle ?? 1);
     }
-    for (const c of nation.construction) if (c.kind === 'factory') demand += c.energyMw;
+    for (const c of nation.construction) if (c.kind === 'factory' || c.kind === 'upgrade') demand += c.energyMw;
     return { supply: r3(supply), demand: r3(demand), surplus: r3(supply - demand) };
   }
 
@@ -49,12 +52,29 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     const nation = state.nations?.[nationId];
     if (!nation) return fail('unknown_nation');
     const { provinceId } = order;
-    if (typeof provinceId !== 'string') return fail('invalid_province');
-    if (provinceExists && !provinceExists(provinceId)) return fail('unknown_province');
-    const entity = entityOf(provinceId);
-    if (state.control[entity] !== nationId) return fail('not_controlled');
+    let entity = null;
+    if (order.kind !== 'upgrade') {
+      if (typeof provinceId !== 'string') return fail('invalid_province');
+      if (provinceExists && !provinceExists(provinceId)) return fail('unknown_province');
+      entity = entityOf(provinceId);
+      if (state.control[entity] !== nationId) return fail('not_controlled');
+    }
     let cost; let entry; let requiredEnergy = 0;
-    if (order.kind === 'factory') {
+    if (order.kind === 'upgrade') {
+      const f = nation.facilities.find((x) => x.id === order.facilityId);
+      if (!f) return fail('no_facility');
+      const factory = catalog.factories.get(f.type);
+      if (!factory || factory.factory_class !== 'industry' || !catalog.levels) return fail('not_upgradable');
+      if (state.control[f.territory] !== nationId) return fail('not_controlled');
+      if (nation.construction.some((c) => c.kind === 'upgrade' && c.facilityId === f.id)) return fail('already_building');
+      const level = f.level ?? 1;
+      if (level >= maxFactoryLevel(catalog.levels)) return fail('max_level');
+      const up = upgradeCost(economy, factory, level, catalog.levels, state.difficulty);
+      if (!up) return fail('not_upgradable');
+      cost = up;
+      requiredEnergy = r3(fullCapacityFlows(catalog.recipes.get(f.recipeId), factory).energyMw * up.energyFactor);
+      entry = { kind: 'upgrade', facilityId: f.id, factoryId: f.type, recipeId: f.recipeId, provinceId: f.provinceId ?? null, territory: f.territory, fromLevel: level, level: level + 1, energyMw: requiredEnergy };
+    } else if (order.kind === 'factory') {
       const q = quoteFactory(state, order.factoryId, order.recipeId);
       if (!q.ok) return fail(q.reason);
       cost = q.cost; requiredEnergy = cost.energyMw;
@@ -76,7 +96,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       entry = { kind: 'mine', provinceId, territory: entity, resource: order.resource, level };
     } else return fail('unknown_kind');
 
-    const w = workersState(nation, { factoriesById: catalog.factories, share: workersShare });
+    const w = workersState(nation, { factoriesById: catalog.factories, share: workersShare, levels: catalog.levels ?? null });
     const have = { balance: nation.balance, steel: nation.stocks.steel ?? 0, workers: w.free, powerSurplusMw: powerBalance(state, nation, nationId).surplus };
     const check = canStartBuild({ cost: { ecv: cost.ecv, steel: cost.steel, workers: cost.workers, energyMw: requiredEnergy }, requires: null }, have);
     if (!check.ok) return fail('missing', { missing: check.missing });
@@ -99,7 +119,10 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       for (const c of n.construction) {
         const left = c.daysLeft - 1;
         if (left > 0) { queue.push({ ...c, daysLeft: left }); continue; }
-        if (c.kind === 'factory') {
+        if (c.kind === 'upgrade') {
+          const i = facilities.findIndex((f) => f.id === c.facilityId);
+          if (i >= 0) facilities[i] = { ...facilities[i], level: c.level };
+        } else if (c.kind === 'factory') {
           const priority = facilities.reduce((m, f) => Math.max(m, f.priority ?? 0), 0) + 1;
           facilities.push({ id: `${id}:${c.provinceId}:${c.factoryId}:${c.recipeId}:d${state.day}:${facilities.length}`, type: c.factoryId, recipeId: c.recipeId, territory: c.territory, provinceId: c.provinceId, damage: 0, priority, active: true });
         } else {

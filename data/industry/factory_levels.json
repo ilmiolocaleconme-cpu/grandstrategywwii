@@ -1,0 +1,10 @@
+{
+  "schema": "factory-levels-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Livelli delle fabbriche industriali (classe 'industry', quelle che occupano uno slot): fabbrica → complesso industriale → grande complesso industriale (decisione dell'utente 29/10/2026). Il miglioramento NON occupa slot in più: dà più capacità nello stesso slot. VALORI DI BILANCIAMENTO (DESIGN_DEFAULT), non storici: capacità = produzione e consumo di materie al giorno; energia = MW assorbiti; lavoratori = occupati dall'impianto (cresce meno della capacità: economia di scala); costMul e timeMul si applicano al costo di costruzione della fabbrica (ECV, acciaio, giorni) per passare AL livello indicato. Tecnologia richiesta: MISSING_DATA (non esiste ancora un albero), `requires` è null. Le centrali non si migliorano qui.",
+  "levels": [
+    { "level": 1, "id": "factory", "name_it": "Fabbrica", "capacity": 1, "energy": 1, "workers": 1, "costMul": null, "timeMul": null, "requires": null },
+    { "level": 2, "id": "complex", "name_it": "Complesso industriale", "capacity": 2, "energy": 2, "workers": 1.8, "costMul": 1.5, "timeMul": 1.5, "requires": null },
+    { "level": 3, "id": "large_complex", "name_it": "Grande complesso industriale", "capacity": 4, "energy": 4, "workers": 3.4, "costMul": 3, "timeMul": 2, "requires": null }
+  ]
+}

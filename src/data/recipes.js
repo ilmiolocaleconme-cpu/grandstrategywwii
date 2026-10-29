@@ -98,12 +98,13 @@ export function validateRecipes(file, { factoriesById, resources }) {
  * Per un prodotto `outputPerDay` è in t al giorno (in pezzi al giorno se la ricetta ha outputUnit "pieces/day": capacità / massTonnes, ingressi in t per pezzo); per la centrale (outputUnit = MW) è la potenza in MW e gli ingressi sono t/giorno per MW in funzione.
  * `energyMw` = MW assorbiti dalla fabbrica (energy_consumption del Pack letto come MW).
  */
-export function fullCapacityFlows(recipe, factory) {
+export function fullCapacityFlows(recipe, factory, mult = null) {
   const pieceRecipe = recipe.outputUnit === 'pieces/day';
-  const outputPerDay = pieceRecipe ? round(factory.base_capacity_per_day / recipe.massTonnes) : (recipe.nominalOutputMw ?? factory.base_capacity_per_day);
+  const cap = mult?.capacity ?? 1; // livello della fabbrica (data/industry/factory_levels.json): moltiplica produzione, materie ed energia
+  const outputPerDay = round((pieceRecipe ? factory.base_capacity_per_day / recipe.massTonnes : (recipe.nominalOutputMw ?? factory.base_capacity_per_day)) * cap);
   const inputsPerDay = Object.fromEntries(recipe.inputs.map((i) => [i.resource, round(i.perUnit * outputPerDay / recipe.output.perUnit)]));
   // noSelfConsumption: la centrale non consuma energia propria (il Pack le assegna un consumo che qui si ignora)
-  return { outputPerDay, outputUnit: recipe.outputUnit ?? 't/day', inputsPerDay, energyMw: recipe.noSelfConsumption ? 0 : factory.energy_consumption };
+  return { outputPerDay, outputUnit: recipe.outputUnit ?? 't/day', inputsPerDay, energyMw: recipe.noSelfConsumption ? 0 : factory.energy_consumption * (mult?.energy ?? 1) };
 }
 
 const round = (v) => Math.round(v * 1000) / 1000;

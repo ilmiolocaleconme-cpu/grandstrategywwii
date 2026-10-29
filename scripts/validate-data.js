@@ -23,6 +23,7 @@ import { validateScores } from '../src/data/resourcePoints.js';
 import { validateTradeProfiles } from '../src/data/tradeProfiles.js';
 import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { validateHydro } from '../src/data/hydro.js';
+import { validateFactoryLevels } from '../src/data/factoryLevels.js';
 import { validateFertilizerEffect, validateHorseBreeding } from '../src/data/livestock.js';
 import { validateHospitalCare } from '../src/data/hospitals.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
@@ -124,6 +125,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // Ricette e scala di estrazione (Fase 0 Risorse + Industria): riferimenti a fabbriche e risorse esistenti
     const recipesDoc = JSON.parse(await text('industry/recipes.json'));
     errors.push(...validateRecipes(recipesDoc, { factoriesById: industry.byId, resources: catalog.resources }));
+    errors.push(...validateFactoryLevels(JSON.parse(await text('industry/factory_levels.json'))));
     errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
     errors.push(...validateFertilizerEffect(JSON.parse(await text('agriculture/fertilizer_effect.json')), { resources: catalog.resources }));
     errors.push(...validateHorseBreeding(JSON.parse(await text('agriculture/horse_breeding.json')), { resources: catalog.resources, recipes: recipesDoc, entityIds: new Set(catalog.political.map((e) => e.id)) }));

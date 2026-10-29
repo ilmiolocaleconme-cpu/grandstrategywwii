@@ -101,6 +101,7 @@ export function validateNations(nations, { player } = {}) {
       else if (seen.has(f.id)) errors.push(`stato: impianto duplicato ${f.id}`);
       else seen.add(f.id);
       if (!(f.damage >= 0 && f.damage <= 1)) errors.push(`stato: ${f.id}, danno fuori da 0-1`);
+      if (f.level !== undefined && (!Number.isInteger(f.level) || f.level < 1 || f.level > 3)) errors.push(`stato: ${f.id}, livello ${f.level} non valido`);
       if (typeof f.type !== 'string' || typeof f.recipeId !== 'string') errors.push(`stato: ${f.id}, tipo o ricetta mancanti`);
     }
     if (!Array.isArray(n.mines)) errors.push(`stato: ${id}, miniere mancanti`);

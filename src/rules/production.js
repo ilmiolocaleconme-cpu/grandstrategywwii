@@ -8,13 +8,14 @@
 //  5. Efficienza effettiva = min(rapporti ingressi, rapporto energia) × (1 − danno). Consumo e produzione sono proporzionali all'efficienza.
 //  6. Bilancio: iniziale + prodotto − consumato = finale (nessuna risorsa dal nulla). Tutto in tonnellate; elettricità in MW (flusso, mai in scorta).
 import { fullCapacityFlows } from '../data/recipes.js';
+import { levelMult } from '../data/factoryLevels.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
 /**
  * facilities: [{ id, type (factory_id, es. 'FCT-STEEL'), recipeId, damage (0..1), priority (default 100), active (default true) }]
  * stock: { risorsa: tonnellate }; hydroMw: potenza idroelettrica disponibile (MW)
- * catalog: { recipes: Map(id → ricetta), factories: Map(factory_id → fabbrica) }
+ * catalog: { recipes: Map(id → ricetta), factories: Map(factory_id → fabbrica), levels?: factory_levels.json (livelli delle fabbriche: campo `level` dell'impianto, 1-3, assente = 1) }
  * Ritorna { stock, powerMw: { supply, demand, ratio }, facilities: [{ id, efficiency, bottleneck, inputRatios, energyRatio, produced, consumed, state }], balance }
  */
 export function produceDay({ facilities, stock, hydroMw = 0 }, catalog) {
@@ -33,7 +34,9 @@ export function produceDay({ facilities, stock, hydroMw = 0 }, catalog) {
     if (!(damage >= 0 && damage <= 1)) throw new RangeError(`produzione: ${f.id} con danno ${damage} fuori da 0-1`);
     const throttle = f.throttle ?? 1; // quota di capacità voluta (0..1): produzione minima, non un guasto
     if (!(throttle >= 0 && throttle <= 1)) throw new RangeError(`produzione: ${f.id} con limitazione ${throttle} fuori da 0-1`);
-    return { recipe, factory, flows: fullCapacityFlows(recipe, factory), damage, throttle };
+    const mult = levelMult(catalog.levels, f.level);
+    if (mult.capacity !== 1 && factory.factory_class !== 'industry') throw new Error(`produzione: ${f.id}, solo le fabbriche industriali hanno livelli (${f.type})`);
+    return { recipe, factory, flows: fullCapacityFlows(recipe, factory, mult), damage, throttle };
   };
   const ratioFor = (flows) => {
     let ratio = 1; let bottleneck = null; const inputRatios = {};

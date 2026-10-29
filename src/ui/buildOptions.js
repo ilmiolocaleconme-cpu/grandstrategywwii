@@ -2,8 +2,10 @@
 import { mineCost, factoryBuildCost } from '../data/economy.js';
 import { workersState } from '../rules/workers.js';
 import { entityOfProvinceId } from '../data/provinceOwner.js';
+import { levelDef, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
 
 const num = (v) => Math.round(v * 10) / 10;
+const levelName = (catalog, level) => levelDef(catalog.levels, level)?.name_it ?? `L${level}`;
 const WHAT = { ecv: 'Denaro', steel: 'Acciaio', workers: 'Lavoratori', energyMw: 'Energia (MW)', tech: 'Tecnologia' };
 
 /** Frase in italiano per un ordine rifiutato (risultato di build.start con ok:false). */
@@ -16,7 +18,9 @@ export function describeBuildFailure(r) {
     case 'no_site': return 'Qui non c\'è un giacimento di questa risorsa';
     case 'no_gain': return 'Qui la miniera non produrrebbe di più (base uguale al massimo)';
     case 'already_building': return 'C\'è già una miniera in costruzione qui';
-    case 'max_level': return 'Miniera al livello massimo';
+    case 'max_level': return 'Già al livello massimo';
+    case 'no_facility': return 'Impianto non trovato';
+    case 'not_upgradable': return 'Questo impianto non si può migliorare';
     case 'unknown_province': case 'invalid_province': return 'Provincia non valida';
     case 'unknown_nation': return 'Nazione sconosciuta';
     case 'unknown_factory': case 'recipe_mismatch': case 'unknown_kind': return 'Ordine non valido';
@@ -61,16 +65,54 @@ export function economySummary(state, nationId, { build, catalog, workersShare, 
   const n = state.nations?.[nationId];
   if (!n) return null;
   const counts = new Map();
-  for (const f of n.facilities) counts.set(f.type, (counts.get(f.type) ?? 0) + 1);
-  const label = (kind, c) => (kind === 'mine' ? `Miniera ${resourceLabel(c.resource)} L${c.level}` : (catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId));
+  for (const f of n.facilities) { const k = `${f.type}|${f.level ?? 1}`; counts.set(k, (counts.get(k) ?? 0) + 1); }
+  const label = (kind, c) => (kind === 'mine' ? `Miniera ${resourceLabel(c.resource)} L${c.level}`
+    : kind === 'upgrade' ? `${catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId} → ${levelName(catalog, c.level)}`
+      : (catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId));
   return {
     balance: n.balance,
     population: n.population,
-    workers: workersState(n, { factoriesById: catalog.factories, share: workersShare }),
+    workers: workersState(n, { factoriesById: catalog.factories, share: workersShare, levels: catalog.levels ?? null }),
     power: build.powerBalance(state, n, nationId),
     stocks: Object.entries(n.stocks).filter(([, t]) => t > 0).map(([id, t]) => ({ id, label: resourceLabel(id), tons: Math.round(t) })).sort((a, b) => b.tons - a.tons),
-    plants: [...counts].map(([type, count]) => ({ type, name: catalog.factories.get(type)?.name_it ?? type, count })).sort((a, b) => b.count - a.count),
+    plants: [...counts].map(([k, count]) => { const [type, lv] = k.split('|'); const level = Number(lv); const base = catalog.factories.get(type)?.name_it ?? type; return { type, level, name: level > 1 ? `${base} (${levelName(catalog, level)})` : base, count }; }).sort((a, b) => b.count - a.count),
     queue: n.construction.map((c) => ({ id: c.id, label: label(c.kind, c), daysLeft: c.daysLeft, totalDays: c.totalDays, where: provinceName(c.provinceId) })),
     mines: n.mines.map((m) => ({ id: m.id, label: `${resourceLabel(m.resource)} L${m.level}`, where: provinceName(m.provinceId) })),
   };
+}
+
+/**
+ * Miglioramenti possibili degli impianti industriali di `nationId` (fabbrica → complesso industriale → grande complesso industriale).
+ * Gli impianti uguali (tipo, ricetta, livello) sono UNA riga con il loro numero: l'ordine riguarda il primo non già in lavori.
+ * Con `provinceId` solo gli impianti costruiti in quella provincia (quelli iniziali non hanno provincia). Prova a secco: lo stato non cambia.
+ * Ogni voce: { order, label, detail, count, cost, ok, message }.
+ */
+export function upgradeOptions(state, nationId, { build, catalog, economy, provinceId = null }) {
+  const nation = state.nations?.[nationId];
+  if (!nation || !catalog.levels) return [];
+  const max = maxFactoryLevel(catalog.levels);
+  const queued = new Set(nation.construction.filter((c) => c.kind === 'upgrade').map((c) => c.facilityId));
+  const groups = new Map();
+  for (const f of nation.facilities) {
+    const factory = catalog.factories.get(f.type);
+    if (!factory || factory.factory_class !== 'industry') continue;
+    if (provinceId !== null && f.provinceId !== provinceId) continue;
+    const level = f.level ?? 1;
+    if (level >= max) continue;
+    const key = `${f.type}|${f.recipeId}|${level}`;
+    const g = groups.get(key) ?? { factory, level, count: 0, first: null };
+    g.count += 1;
+    if (!g.first && !queued.has(f.id)) g.first = f;
+    groups.set(key, g);
+  }
+  const out = [];
+  for (const g of groups.values()) {
+    const base = { label: `${g.factory.name_it}: ${levelName(catalog, g.level)} → ${levelName(catalog, g.level + 1)}`, detail: `${g.count} ${g.count === 1 ? 'impianto' : 'impianti'} a questo livello`, count: g.count };
+    const cost = upgradeCost(economy, g.factory, g.level, catalog.levels, state.difficulty);
+    if (!g.first) { out.push({ ...base, order: null, cost, ok: false, message: 'Tutti questi impianti sono già in lavori' }); continue; }
+    const order = { kind: 'upgrade', facilityId: g.first.id };
+    const r = build.start(state, nationId, order);
+    out.push({ ...base, order, cost, ok: r.ok, message: describeBuildFailure(r) });
+  }
+  return out.sort((a, b) => (a.label < b.label ? -1 : 1));
 }
