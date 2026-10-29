@@ -35,3 +35,7 @@ Controllo del 29/10/2026 sui luoghi delle risorse. 93 gruppi di giacimenti hanno
 - Cambiare il controllo di un territorio senza cambiarne la proprietà (guerra civile).
 - Attivare un giacimento o un impianto a una data (petrolio saudita).
 - Date certe nei dati, condizioni di innesco esplicite, nessun effetto casuale non riproducibile (il motore è deterministico: stesso stato, stesso risultato).
+- Trasferire un pool di mezzi tra nazioni senza duplicarlo (carri cecoslovacchi → Germania, EVT-CSK-CARRI): i mezzi escono da una nazione ed entrano nell'altra.
+- Rendere disponibile un modello (`eventModels` in `data/units/models/`) solo con un evento, mai per data.
+- Attivare unità e leve successive al 1/1/1936 (indicazione dell'utente: per la Germania le nuove leve arrivano con eventi) e modificare la quota del pool di uomini (`src/rules/manpowerPool.js`: leggi, diplomazia, mobilitazione totale, età di leva): gli eventi sono la fonte dei modificatori; nessun evento reale è ancora definito.
+
