@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { validateCatalog } from '../src/data/validate.js';
 import { validateAdjacency } from '../src/data/adjacency.js';
 import { validateSea } from '../src/data/sea.js';
+import { validateSeaRoutesParams } from '../src/data/seaRoutes.js';
 import { validateLabels } from '../src/data/labels.js';
 import { validateAutostrade, validateTransport } from '../src/data/transport.js';
 import { validateLinks } from '../src/data/links.js';
@@ -76,6 +77,7 @@ export async function loadCatalog(baseUrl = dataDir) {
     lakes: await read('lakes.json'),
     adjacency: await read('adjacency.json'),
     sea: await read('sea_zones.json'),
+    seaRoutes: await read('sea_routes_params.json'),
     labels: await read('labels.json'),
     transport: await read('transport.json'),
     links: await read('links.json'),
@@ -99,6 +101,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { ok: catalogOk, errors, warnings } = validateCatalog(catalog);
   const provinceIds = catalog.provinces.features.map((f) => f.properties.id);
   errors.push(...validateAdjacency(catalog.adjacency, provinceIds), ...validateSea(catalog.sea, provinceIds), ...validateLabels(catalog.labels, provinceIds, catalog.sea.zones.map((z) => z.id), [...new Set(catalog.provinces.features.map((f) => f.properties.owner))]));
+  errors.push(...validateSeaRoutesParams(catalog.seaRoutes, catalog.sea, catalog.political.map((e) => e.id)));
   errors.push(...validateAutostrade(catalog.autostrade), ...validateTransport(catalog.transport));
   errors.push(...validateLinks(catalog.links, { provinceIds, riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
   errors.push(...validateBuildings(catalog.buildings));

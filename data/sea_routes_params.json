@@ -1,0 +1,46 @@
+{
+  "schema": "sea-routes-v1",
+  "quality": "hypothesis",
+  "note": "Parametri di GIOCO (DESIGN_DEFAULT), non dati storici, per le rotte marittime costruite sul grafo di data/sea_zones.json. Velocità: ordine di grandezza di un mercantile a circa 9 nodi (circa 400 km al giorno in mare aperto), rallentata negli stretti e negli approdi; nessuna fonte verificata. Controllo degli stretti: scelta di progetto al 1/1/1936, da rivedere con il sistema diplomatico e degli eventi (per esempio il regime del Bosforo cambia con Montreux, luglio 1936). I porti iniziali non sono dati storici: ogni provincia costiera con almeno minCoastKm di costa su una zona di mare è considerata un possibile porto finché non esisteranno i porti reali del 1936. Ghiaccio: non modellato; i passaggi artici di transito (Oceano Artico, Arcipelago canadese, Beaufort, Bering, Siberia orientale, Laptev) sono chiusi al commercio in ogni stagione, scelta prudente per il 1936. Senza questa chiusura il percorso più breve tra Germania e Giappone passava dal Polo.",
+  "speedKmPerDay": {
+    "ocean": 400,
+    "sea": 400,
+    "gulf": 300,
+    "strait": 250,
+    "approach": 200
+  },
+  "portHandlingDays": 1,
+  "minCoastKm": 10,
+  "closedZones": [
+    "SZ_ARTICO_CENTRALE",
+    "SZ_ARTICO_CANADESE",
+    "SZ_MARE_BEAUFORT",
+    "SZ_STRETTO_BERING",
+    "SZ_SIBERIA_ORIENTALE",
+    "SZ_LAPTEV"
+  ],
+  "straitControl": {
+    "SZ_GIBILTERRA": [
+      "GBR"
+    ],
+    "SZ_SUEZ": [
+      "EGY"
+    ],
+    "SZ_DARDANELLI": [
+      "TUR"
+    ],
+    "SZ_BOSFORO": [
+      "TUR"
+    ],
+    "SZ_PANAMA": [
+      "USA"
+    ],
+    "SZ_ORESUND": [
+      "DNK",
+      "SWE"
+    ],
+    "SZ_GRANDE_BELT": [
+      "DNK"
+    ]
+  }
+}

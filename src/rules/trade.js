@@ -1,9 +1,10 @@
-// Commercio v1 (29/10/2026): contratti di fornitura fra due nazioni, solo via TERRA. Funzioni PURE e deterministiche (nessun Date.now, nessun Math.random).
+// Commercio v1 (29/10/2026, rotte marittime 30/10/2026): contratti di fornitura fra due nazioni, via TERRA o via MARE. Funzioni PURE e deterministiche (nessun Date.now, nessun Math.random).
 // Cosa fa: un contratto vende `perDay` unità di una merce al giorno dal venditore al compratore, al prezzo di economy.json, per un numero di giorni;
 // la merce parte dalla scorta del venditore, il compratore paga alla partenza, la merce arriva dopo `transitDays` (ritardo di trasporto).
 // Percorso: dalle province del venditore a quelle del compratore sulla rete delle province madri (moveNet), attraversando solo province di venditore,
 // compratore o terzi non bloccati. Se il percorso sparisce (province cambiano mano, nazione bloccata) il contratto si SOSPENDE; riprende se torna.
-// NON implementato (limiti dichiarati): rotte marittime, porti, ferrovie/fiumi come capacità, blocchi e rischi, accordi diplomatici e relazioni,
+// Via mare: il percorso arriva da src/data/seaRoutes.js (route.kind = 'sea', con `days` già calcolati); qui si accetta e si ricontrolla.
+// NON implementato (limiti dichiarati): capacità dei porti, ferrovie/fiumi come capacità, rischi e perdite in mare, accordi diplomatici e relazioni,
 // spread fra prezzo di acquisto e di vendita, capacità massima della rotta, limite dei magazzini. Il ritardo usa una velocità di progetto (ipotesi).
 export const TRADE_SCHEMA = 'trade-v1';
 /** Velocità di trasporto via terra per il ritardo di consegna: IPOTESI di progetto (km al giorno), non un dato storico. */
@@ -20,6 +21,13 @@ export function createTradeState() {
 export function tradableGoods(economy) {
   return Object.entries(economy?.prices ?? {}).filter(([id, p]) => p > 0 && id !== 'electricity').map(([id]) => id).sort();
 }
+
+/** Percorso come si salva nel contratto: via terra { kind, km, via }; via mare in più le zone e i porti. */
+function routeRecord(route) {
+  if (route.kind === 'sea') return { kind: 'sea', km: route.km, via: route.via, zones: route.zones, ports: route.ports };
+  return { kind: 'land', km: route.km, via: route.via };
+}
+const transitDaysOf = (route) => (route.kind === 'sea' ? Math.max(1, route.days) : Math.max(1, Math.ceil(route.km / TRANSIT_KM_PER_DAY)));
 
 const isPieces = (resources, good) => resources?.find?.((r) => r.id === good)?.unit === 'pezzi';
 
@@ -70,7 +78,7 @@ export function openContract(trade, order, { economy, resources, nations, route,
   const id = `TR-${String(trade.nextId).padStart(4, '0')}`;
   const contract = {
     id, seller, buyer, good, perDay, unitPrice: economy.prices[good], startDay: day, endDay: day + days - 1, startDate: date,
-    status: 'active', route: { kind: 'land', km: route.km, via: route.via }, transitDays: Math.max(1, Math.ceil(route.km / TRANSIT_KM_PER_DAY)),
+    status: 'active', route: routeRecord(route), transitDays: transitDaysOf(route),
     delivered: 0, paid: 0, shortfallDays: 0, inTransit: [],
   };
   return { ok: true, state: { ...trade, nextId: trade.nextId + 1, contracts: [...trade.contracts, contract] }, contract };
@@ -83,16 +91,22 @@ export function cancelContract(trade, id) {
   return { ok: true, state: { ...trade, contracts: trade.contracts.map((x) => (x.id === id ? { ...x, status: 'cancelled' } : x)) } };
 }
 
-/** Sospende i contratti il cui percorso non esiste più e riattiva quelli sospesi che lo ritrovano. net/ownerOf/provinces come in findLandRoute. */
-export function revalidateRoutes(trade, { net, ownerOf, provinces, blocked = new Set() }) {
+/**
+ * Sospende i contratti il cui percorso non esiste più e riattiva quelli sospesi che lo ritrovano. net/ownerOf/provinces come in findLandRoute.
+ * Per i contratti via mare serve `seaRouteOf(contratto)` → risultato di findSeaRoute; senza, restano come sono.
+ */
+export function revalidateRoutes(trade, { net, ownerOf, provinces, blocked = new Set(), seaRouteOf = null }) {
   let changed = false;
   const contracts = trade.contracts.map((c) => {
     if (c.status !== 'active' && c.status !== 'suspended') return c;
-    const r = findLandRoute(net, ownerOf, c.seller, c.buyer, { blocked, provinces });
+    const isSea = c.route?.kind === 'sea';
+    if (isSea && !seaRouteOf) return c;
+    if (!isSea && !net) return c;
+    const r = isSea ? seaRouteOf(c) : findLandRoute(net, ownerOf, c.seller, c.buyer, { blocked, provinces });
     const status = r.ok ? 'active' : 'suspended';
-    if (status === c.status && (!r.ok || r.km === c.route.km)) return c;
+    if (status === c.status && (!r.ok || (r.km === c.route.km && (!isSea || (r.days === c.transitDays && r.zones.join() === (c.route.zones ?? []).join()))))) return c;
     changed = true;
-    return r.ok ? { ...c, status, route: { kind: 'land', km: r.km, via: r.via }, transitDays: Math.max(1, Math.ceil(r.km / TRANSIT_KM_PER_DAY)) } : { ...c, status };
+    return r.ok ? { ...c, status, route: routeRecord(r), transitDays: transitDaysOf(r) } : { ...c, status };
   });
   return changed ? { ...trade, contracts } : trade;
 }
@@ -157,6 +171,10 @@ export function validateTradeState(trade) {
     if (!Number.isInteger(c.startDay) || !Number.isInteger(c.endDay) || c.endDay < c.startDay) errors.push(`${p}: durata non valida`);
     if (!STATUSES.includes(c.status)) errors.push(`${p}: stato ${JSON.stringify(c.status)}`);
     if (!Number.isInteger(c.transitDays) || c.transitDays < 1) errors.push(`${p}: ritardo di trasporto non valido`);
+    if (c.route !== undefined) {
+      if (!['land', 'sea'].includes(c.route?.kind)) errors.push(`${p}: tipo di percorso ${JSON.stringify(c.route?.kind)} non valido`);
+      else if (c.route.kind === 'sea' && (!Array.isArray(c.route.zones) || c.route.zones.length === 0)) errors.push(`${p}: percorso via mare senza zone`);
+    }
     for (const k of ['delivered', 'paid', 'shortfallDays']) if (!(c[k] >= 0)) errors.push(`${p}: ${k} non valido`);
     if (!Array.isArray(c.inTransit) || c.inTransit.some((s) => !Number.isInteger(s.arrive) || !(s.qty > 0))) errors.push(`${p}: merce in viaggio non valida`);
   }
