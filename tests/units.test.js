@@ -196,28 +196,33 @@ test('riferimenti template divisioni: ogni valore ha anno e fonte, nessun dato 1
   assert.equal(ref.nations.DEU.artillery.totalGuns.value, 48);
 });
 
-test('template fanteria tedesca 1936: organico di guerra, ogni valore ha base e fonte, nessun valore del 1943 spacciato per 1936', () => {
+test('template fanteria tedesca 1936: organico di guerra, ogni valore ha base e fonte, nessun dato 1937-38 spacciato per 1936', () => {
   const t = json('units/templates/divisione_fanteria_germania_1936.json');
   assert.equal(t.status, 'BOZZA_DA_CONFERMARE');
   assert.equal(t.orgLevel, 'war');
   const leaves = [];
   const walk = (o, path) => {
     if (o && typeof o === 'object' && 'basis' in o) { leaves.push([path, o]); return; }
-    if (o && typeof o === 'object' && !Array.isArray(o)) for (const [k, v] of Object.entries(o)) walk(v, `${path}.${k}`);
+    if (o && typeof o === 'object' && !Array.isArray(o)) for (const [k, v] of Object.entries(o)) walk(v, `t.${path}.${k}`.replace('t..', 't.'));
   };
-  walk({ ...t, equipment: t.equipment, manpower: t.manpower }, 't');
-  assert.ok(leaves.length >= 12);
+  walk(t.equipment, 'equipment'); walk(t.manpower, 'manpower');
+  for (const k of ['formation', 'mobility', 'regimentsInfantry', 'battalionsPerRegiment', 'horses', 'organicSupport']) leaves.push([k, t[k]]);
+  assert.ok(leaves.length >= 20);
   for (const [path, l] of leaves) {
-    assert.ok(['stima_1943', 'ipotesi', 'da_definire', 'utente'].includes(l.basis), `${path}: basis ${l.basis}`);
+    assert.ok(['utente', 'ipotesi', 'da_definire'].includes(l.basis), `${path}: basis ${l.basis}`);
     if (l.value !== null) assert.ok(String(l.source ?? '').trim(), `${path}: valore senza fonte`);
-    if (l.basis === 'stima_1943') assert.equal(l.referenceYear, 1943, path);
+    if (l.basis === 'utente') assert.equal(l.referenceYear, '1937-1938', `${path}: ricostruzione 1937-38, non 1936`);
   }
-  assert.equal(t.manpower.war.value, 17000);
-  assert.equal(t.regimentsInfantry.value, 3);
-  assert.equal(t.equipment.pezziTotali.value, t.equipment.artiglieriaLeggera.battaglioni.value * t.equipment.artiglieriaLeggera.pezziPerBattaglione.value + t.equipment.artiglieriaMedia.pezzi.value, 'pezzi coerenti con i battaglioni');
+  assert.equal(t.manpower.war.value, 17263);
+  assert.equal(t.horses.value, 4465);
+  assert.equal(t.regimentsInfantry.value * t.battalionsPerRegiment.value, 9);
+  const e = t.equipment;
+  assert.equal(e.obiciLeggeri105mm.value + e.obiciPesanti150mm.value + e.cannoni105mm.value, 48, 'artiglieria divisionale = 48 pezzi (come il riferimento 1943)');
+  assert.equal(e.antiaerei20mm.aggregated, 'Luftwaffe', 'antiaerea aggregata, non organica certa');
   assert.equal(t.manpower.peace.value, null);
-  assert.equal(t.equipment.armiLeggere, null, 'nessun valore inventato per ciò che non ha fonte');
+  assert.equal(e.veicoli.value, null, 'nessun valore inventato per ciò che non ha fonte');
+  assert.equal(t.effectiveSupply.value, null);
   assert.equal(t.costs.resources, null);
   const ref = json('units/templates/divisioni_1936_riferimenti.json').nations.DEU;
-  assert.equal(t.manpower.war.value, ref.manpowerMax.value, 'allineato ai riferimenti');
+  assert.equal(ref.artillery.totalGuns.value, 48, 'il riferimento 1943 dà lo stesso totale di pezzi');
 });

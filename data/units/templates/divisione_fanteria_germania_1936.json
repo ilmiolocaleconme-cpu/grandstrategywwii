@@ -2,7 +2,7 @@
   "schema": "unit-template-v1",
   "id": "TPL-DEU-INF-1936",
   "status": "BOZZA_DA_CONFERMARE",
-  "note": "Template della fanteria tedesca al 1/1/1936. Scelta dell'utente (29/10/2026): la divisione rappresenta l'organico di GUERRA. I valori vengono dalla fonte del 1943 (Tactical and Technical Trends n. 34) e sono segnati 'stima_1943': NON sono dati del 1936. null = da definire, non inventato. Equipaggiamento diverso dall'artiglieria, costi e tempi: non ancora definiti.",
+  "note": "Template della fanteria tedesca al 1/1/1936. Scelta dell'utente (29/10/2026): organico di GUERRA. I valori sono la ricostruzione 1937-38 fornita dall'utente (basis 'utente'): NON sono un organico documentato del 1/1/1936 (la ricostruzione dell'esercito era in corso). Sono l'organico PREVISTO, non la dotazione effettiva di ogni divisione. null = da definire, non inventato.",
   "appliesTo": {
     "nation": "DEU",
     "category": "infantry",
@@ -12,34 +12,34 @@
   "orgLevel": "war",
   "formation": {
     "value": "triangular",
-    "basis": "stima_1943",
-    "referenceYear": 1943,
-    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html): 3 reggimenti di fanteria"
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata). Dedotta dai 3 reggimenti di fanteria."
   },
   "mobility": {
     "value": "trainata",
     "basis": "ipotesi",
     "referenceYear": null,
-    "source": "Ipotesi non verificata (fanteria a piedi con traino ippotrainato); nessuna fonte trovata per il 1936"
+    "source": "Ipotesi coerente con i 4.465 cavalli, non dichiarata dalla fonte"
   },
   "regimentsInfantry": {
     "value": 3,
-    "basis": "stima_1943",
-    "referenceYear": 1943,
-    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
   },
   "battalionsPerRegiment": {
     "value": 3,
-    "basis": "stima_1943",
-    "referenceYear": 1943,
-    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
   },
   "manpower": {
     "war": {
-      "value": 17000,
-      "basis": "stima_1943",
-      "referenceYear": 1943,
-      "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+      "value": 17263,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
     },
     "peace": {
       "value": null,
@@ -48,70 +48,124 @@
       "source": null
     }
   },
+  "horses": {
+    "value": 4465,
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+  },
   "equipment": {
-    "artiglieriaLeggera": {
-      "battaglioni": {
-        "value": 3,
-        "basis": "stima_1943",
-        "referenceYear": 1943,
-        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
-      },
-      "pezziPerBattaglione": {
-        "value": 12,
-        "basis": "stima_1943",
-        "referenceYear": 1943,
-        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
-      },
-      "calibroMm": {
-        "value": 105,
-        "basis": "stima_1943",
-        "referenceYear": 1943,
-        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
-      }
+    "fucili": {
+      "value": 13500,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
     },
-    "artiglieriaMedia": {
-      "battaglioni": {
-        "value": 1,
-        "basis": "stima_1943",
-        "referenceYear": 1943,
-        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
-      },
-      "pezzi": {
-        "value": 12,
-        "basis": "stima_1943",
-        "referenceYear": 1943,
-        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
-      },
-      "calibroMm": {
-        "value": 150,
-        "basis": "stima_1943",
-        "referenceYear": 1943,
-        "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
-      }
+    "pistole": {
+      "value": 3000,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
     },
-    "pezziTotali": {
-      "value": 48,
-      "basis": "stima_1943",
-      "referenceYear": 1943,
-      "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html) (derivato: 36+12)"
+    "mitragliatriciLeggere": {
+      "value": 355,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
     },
-    "armiLeggere": null,
-    "mitragliatrici": null,
-    "veicoli": null,
-    "radio": null,
-    "sanita": null
+    "mitragliatriciPesanti": {
+      "value": 133,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "mortaiLeggeri50mm": {
+      "value": 37,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "mortaiPesanti81mm": {
+      "value": 54,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "cannoniFanteria75mm": {
+      "value": 20,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "cannoniFanteriaPesanti150mm": {
+      "value": 6,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "controcarro37mm": {
+      "value": 75,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "obiciLeggeri105mm": {
+      "value": 36,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "obiciPesanti150mm": {
+      "value": 8,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "cannoni105mm": {
+      "value": 4,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+    },
+    "antiaerei20mm": {
+      "value": 16,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "aggregated": "Luftwaffe",
+      "note": "La fonte indica che il reparto antiaereo poteva essere aggregato dalla Luftwaffe: non conta come dotazione organica certa."
+    },
+    "veicoli": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "radio": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
   },
   "organicSupport": {
     "value": [
-      "battaglione anticarro",
-      "battaglione ricognizione",
+      "quartier generale e staff",
+      "artiglieria campale e componente pesante",
+      "battaglione esplorante",
+      "battaglione controcarro",
       "battaglione genio",
       "battaglione trasmissioni",
-      "servizi divisionali"
+      "servizi: logistica, sanità, veterinaria, trasporti, manutenzione"
     ],
-    "basis": "stima_1943",
-    "referenceYear": 1943,
-    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)"
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva (carenze, mezzi da consegnare) per data: non definita. La produzione dovrà colmare la differenza fra organico previsto e dotazione reale."
   },
   "costs": {
     "resources": null,

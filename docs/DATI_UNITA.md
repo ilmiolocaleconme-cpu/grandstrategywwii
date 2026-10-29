@@ -52,7 +52,10 @@ Su richiesta dell'utente: 46 divisioni anonime (`S36-USSR-F-nnn`, revisione `pla
 
 ## Template di divisione: fanteria tedesca 1936 (29/10/2026)
 - File: `data/units/templates/divisione_fanteria_germania_1936.json` (`TPL-DEU-INF-1936`, stato `BOZZA_DA_CONFERMARE`). Test: `tests/units.test.js`.
-- Scelta dell'utente: la divisione rappresenta l'organico di **guerra** (non di pace).
-- Valori (3 reggimenti da 3 battaglioni, 17.000 uomini, 48 pezzi: 3 battaglioni leggeri da 12 pezzi da 105 mm + 1 medio da 12 pezzi da 150 mm, supporti organici) vengono da una fonte del **1943** e sono segnati `stima_1943`: **non sono dati del 1936**. La mobilità "trainata" è un'ipotesi senza fonte.
-- Da definire (null): organico di pace, armi leggere, mitragliatrici, veicoli, radio, sanità, costi, tempi, manutenzione.
+- Scelta dell'utente: organico di **guerra**. Valori forniti dall'utente (basis `utente`): ricostruzione **1937–38** dal rapporto di A. C. Wedemeyer (via dokumen.pub), fonte secondaria **non verificata da me**: non sono un organico documentato del 1/1/1936.
+- Contenuto: 3 reggimenti da 3 battaglioni, 17.263 uomini, 4.465 cavalli; fucili 13.500, pistole 3.000, mitragliatrici leggere 355 e pesanti 133, mortai 50 mm 37 e 81 mm 54, cannoni di fanteria 75 mm 20 e 150 mm 6, controcarro 37 mm 75, obici 105 mm 36, obici 150 mm 8, cannoni 105 mm 4 (artiglieria divisionale = 48 pezzi, come nel riferimento 1943), antiaerei 20 mm 16 (**aggregati dalla Luftwaffe**, non organici certi).
+- Mobilità "trainata": ipotesi coerente con i cavalli, non dichiarata dalla fonte.
+- Distinzione prevista: **organico previsto** (questo file) e **dotazione effettiva** (`effectiveSupply`, non definita): la produzione dovrà colmare la differenza.
+- Da definire (null): organico di pace, veicoli, radio, costi, tempi, manutenzione.
+- Il CSV `divisioni_tedesche_estratto_v11_1.csv` (54 righe) coincide con il catalogo già importato (0 differenze su id, nome e anno): nessun dato nuovo.
 - Non collegato a produzione, caserme o stato di gioco: oggi nessuna regola legge i template.
