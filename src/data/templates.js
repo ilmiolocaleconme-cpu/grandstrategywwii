@@ -14,7 +14,7 @@ export function leaves(template) {
     if (isLeaf(o)) { out.push([path, o]); return; }
     if (o !== null && typeof o === 'object' && !Array.isArray(o)) for (const [k, v] of Object.entries(o)) walk(v, path ? `${path}.${k}` : k);
   };
-  for (const key of ['formation', 'mobility', 'structure', 'regimentsInfantry', 'battalionsPerRegiment', 'manpower', 'horses', 'equipment', 'organicSupport']) {
+  for (const key of ['formation', 'mobility', 'structure', 'regimentsInfantry', 'battalionsPerRegiment', 'manpower', 'horses', 'equipment', 'organicSupport', 'referenceFigures']) {
     if (key in template) walk(template[key], key);
   }
   return out;

@@ -118,3 +118,10 @@ Regola dell'utente: i rinforzi passano dal pool; se ci sono abbastanza risorse v
 - **Cosa la Cecoslovacchia ha già** (dati esistenti): fascia A con 7 impianti (acciaieria, chimico, macchinari, componenti, motori, munizioni, centrale a carbone), scorte iniziali, cassa iniziale, popolazione, profilo commerciale 1930 (armi e veicoli Škoda/Tatra; importa carburanti e tessili, partner non nominati).
 - **Cosa manca, per TUTTE le nazioni, non solo per la CZE**: `FCT-TANKS` esiste in `factories.csv` ma nessuna ricetta lo usa e non esiste il prodotto «carri» in `resources.json`; la produzione (`produceDay`) non è collegata alle unità né a SYSTEMS. La CZE non ha una fabbrica di carri nell'industria iniziale, nessuna unità/divisione e nessun template. Stato: **mancante**.
 
+
+## Template: fanteria britannica 1936 (29/10/2026)
+- File: `data/units/templates/divisione_fanteria_gran_bretagna_1936.json` (`TPL-GBR-INF-1936`, `BOZZA_DA_CONFERMARE`). Test: `tests/template_gbr.test.js`. `leaves` legge ora anche `referenceFigures`.
+- Scelta dell'utente: struttura + cifre 1939-40 come **ipotesi**. Struttura: 3 brigate da 3 battaglioni. Cifre in `referenceFigures` (13.863 uomini, ~780 a battaglione, 72 cannoni da 25 libbre, 48 controcarro da 2 libbre, 27 antiaerei da 20 mm), **non sono il previsto**: fonti web deboli, l'anno delle cifre è incerto (documento con intestazione 1944-45 e titolo 1939-40).
+- **Previsto di pace 1936: non trovato online** (Hansard 9/3/1936 dà solo totali nazionali: 208.630 regolari, 175.094 Territorial Army). `manpower.war`, `manpower.peace`, cavalli e armi sono `null`: il gioco non crea istanze di questa divisione e non inventa numeri.
+- 1936 secondo le fonti web: 5 divisioni regolari e **14** Territorial Army; il file dell'utente ne elenca 12 (stima del repo: 12): da verificare.
+- Per renderlo giocabile servono i valori di pace 1936 (li può fornire l'utente) e la scelta di mobilità.
