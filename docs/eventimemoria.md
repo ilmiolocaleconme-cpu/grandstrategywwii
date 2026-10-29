@@ -60,6 +60,20 @@ Da verificare e da decidere con l'utente:
 - Le enclave sono mostrate sulla mappa come quadratini sulle città: le città del repository sono zone a sé (id proprio), quindi le enclave si modellano per zona senza spezzare la provincia (confermato dall'utente il 29/10/2026).
 - Il sistema di eventi non esiste: nessun dato di gioco è stato modificato.
 
+### EVT-ESP-GC: città per città (29/10/2026, «per la mappa sì»)
+**Stato: IPOTESI** letta dalla mappa dell'utente e dalla storia delle prime settimane (fine luglio 1936). Sono tutte le 34 zone-città della Spagna oggi in `data/citta_grandi.json` (id verificati sui dati). Sulla mappa i quadratini blu cadono sulle città nazionaliste (Oviedo, Pamplona, Vitoria, Valladolid, Siviglia, Cadice, Granada, El Ferrol) e quelli rossi su Madrid, Barcellona, Valencia, Bilbao, Málaga, Cartagena: lettura coerente con le assegnazioni qui sotto, ma **la mappa non ha legenda** e i quadratini neri non sono interpretati.
+
+| Fazione | Zone-città (id dei dati) |
+|---|---|
+| Nazionalisti | `P_ESP_LA_CORUNA_CITTA`, `P_ESP_VIGO_CITTA`, `P_ESP_VALLADOLID_CITTA_P1`, `_P2`, `_P3`, `P_ESP_VITORIA_CITTA`, `P_ESP_PAMPLONA_CITTA`, `P_ESP_SARAGOZZA_CITTA_P1`, `_P2`, `P_ESP_SIVIGLIA_CITTA_P1`, `_P2`, `P_ESP_CADICE_CITTA`, `P_ESP_CORDOVA_CITTA_P1`, `_P2`, `P_ESP_GRANADA_CITTA`, `P_ESP_OVIEDO_CITTA`, `P_ESP_PALMA_DI_MAIORCA_CITTA`, `P_ESP_LAS_PALMAS_DE_GRAN_CANARIA_CITTA`, `P_ESP_SANTA_CRUZ_DE_TENERIFE_CITTA` |
+| Repubblicani | `P_ESP_MADRID_CITTA_P1`, `_P2`, `P_ESP_BARCELLONA_CITTA_P1`, `_P2`, `P_ESP_VALENCIA_CITTA_P1`, `_P2`, `P_ESP_BILBAO_CITTA`, `P_ESP_SAN_SEBASTIAN_CITTA`, `P_ESP_SANTANDER_CITTA`, `P_ESP_MALAGA_CITTA`, `P_ESP_MURCIA_CITTA_P1`, `_P2`, `P_ESP_CARTAGENA_CITTA`, `P_ESP_ALICANTE_CITTA`, `P_ESP_GIJON_CITTA` |
+
+Enclave in provincia dell'altro campo (decise per zona-città): **Córdoba, Granada, Oviedo** (nazionalisti in provincia repubblicana). **Gijón**: repubblicana ma con la guarnigione ribelle che ha resistito nelle caserme per settimane (da modellare come enclave interna alla zona o ignorare: da decidere). Le parti di una stessa città (P1, P2, P3) hanno la stessa fazione, salvo decisione contraria.
+
+Lacune:
+- Toledo (Alcázar), Teruel, Burgos, León, Salamanca, Badajoz e le altre città della mappa **non sono zone-città** nei dati: finché non esistono, le loro enclave non si possono modellare per zona.
+- Il tempo conta: Siviglia e altre passano ai nazionalisti il 18-19 luglio, Badajoz e Huelva cadono dopo; le date esatte vanno fissate quando si scrive l'evento.
+
 ## Candidati da verificare (non sono eventi decisi)
 Controllo del 29/10/2026 sui luoghi delle risorse. 93 gruppi di giacimenti hanno la prima riga di dati dopo il 1936, ma di solito è solo l'anno di riferimento della fonte (1937, 1938), non l'inizio del giacimento: **non vanno trattati come eventi**. Restano da verificare questi casi, dove l'avvio potrebbe essere davvero successivo al 1936:
 
