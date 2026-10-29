@@ -41,7 +41,7 @@ test('impianti e scorte seguono i dati: USA 30 acciaierie, colonie al proprietar
   assert.ok(nations.GBR.facilities.some((f) => f.territory === 'GBR'));
   assert.equal(nations.DEU.stocks.iron_ore, 227010);
   assert.equal(nations.GBR.stocks.coal, stocks.stocks.CEY.coal + stocks.stocks.MAL.coal, 'le scorte delle colonie vanno al proprietario');
-  for (const id of industry.tierC) { assert.equal(nations[id].baseGridMw, 40); assert.equal(nations[id].facilities.length, 0); assert.deepEqual(nations[id].stocks, { steel: stocks.floor.steel }, 'solo la riserva minima di acciaio'); }
+  for (const id of industry.tierC) { assert.equal(nations[id].baseGridMw, 40); assert.equal(nations[id].facilities.length, 1, 'solo la fabbrica minima di artiglieria'); assert.deepEqual(nations[id].stocks, { steel: stocks.floor.steel, components: 40 }, 'riserva minima di acciaio e scorta iniziale di componenti'); }
   assert.equal(nations.USA.baseGridMw, 0);
   const ids = Object.values(nations).flatMap((n) => n.facilities.map((f) => f.id));
   assert.equal(new Set(ids).size, ids.length, 'id impianto unici');

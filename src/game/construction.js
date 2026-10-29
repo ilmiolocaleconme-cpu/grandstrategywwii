@@ -29,7 +29,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     for (const f of nation.facilities) {
       const recipe = catalog.recipes.get(f.recipeId); const factory = catalog.factories.get(f.type);
       const flows = fullCapacityFlows(recipe, factory);
-      if (flows.outputUnit === 'MW') supply += flows.outputPerDay * (1 - (f.damage ?? 0)); else demand += flows.energyMw;
+      if (flows.outputUnit === 'MW') supply += flows.outputPerDay * (1 - (f.damage ?? 0)); else demand += flows.energyMw * (f.throttle ?? 1);
     }
     for (const c of nation.construction) if (c.kind === 'factory') demand += c.energyMw;
     return { supply: r3(supply), demand: r3(demand), surplus: r3(supply - demand) };

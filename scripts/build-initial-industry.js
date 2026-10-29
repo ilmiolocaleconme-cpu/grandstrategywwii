@@ -53,6 +53,11 @@ const doc = {
   counts: 'numero di impianti identici, ciascuno con la capacità del Pack (nessuna modifica ai file del Pack)',
   nations,
   tierC: nationIds.filter((id) => !nations[id]),
+  minorArtillery: {
+    appliesTo: 'tierC', factory: 'FCT-ARTILLERY', recipeId: 'REC-ARTILLERY-001', count: 1, throttle: 0.05, startStock: { components: 40 },
+    quality: 'DESIGN_DEFAULT',
+    rationale: "Regola dell'utente del 29/10/2026: i paesi minori (fascia C) hanno un solo template di artiglieria e un minimo di produzione; scorta iniziale scelta dall'utente (opzione «scorta»). Numeri PROPOSTI da Claude, non approvati: una fabbrica limitata al 5% della capacità (circa 1,2 pezzi al giorno con il pezzo di riferimento da 3 t) e 40 t di componenti iniziali; l'acciaio viene dalla riserva minima comune di 500 t (consuma circa 4 t al giorno: attenzione, la riserva serve anche alle costruzioni). Il pezzo di riferimento è un segnaposto (REC-ARTILLERY-001, MISSING_DATA).",
+  },
   baseGrid: { megawatts: 40, quality: 'MISSING_DATA', appliesTo: 'tierC', rationale: 'Rete di base per le nazioni senza industria (approvata in chat il 27/10/2026): basta per le prime miniere e impianti piccoli e per mantenere qualche divisione. Valore di progetto, non storico: da sostituire con dati reali. Il mantenimento militare è previsto ma non attivo (Fase 5).' },
 };
 fs.writeFileSync(new URL('../data/industry/initial_industry.json', import.meta.url), JSON.stringify(doc, null, 2) + '\n');

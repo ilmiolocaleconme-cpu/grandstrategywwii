@@ -31,7 +31,9 @@ export function produceDay({ facilities, stock, hydroMw = 0 }, catalog) {
     if (recipe.factory !== f.type) throw new Error(`produzione: ${f.id} usa la ricetta ${f.recipeId} di ${recipe.factory}, non di ${f.type}`);
     const damage = f.damage ?? 0;
     if (!(damage >= 0 && damage <= 1)) throw new RangeError(`produzione: ${f.id} con danno ${damage} fuori da 0-1`);
-    return { recipe, factory, flows: fullCapacityFlows(recipe, factory), damage };
+    const throttle = f.throttle ?? 1; // quota di capacità voluta (0..1): produzione minima, non un guasto
+    if (!(throttle >= 0 && throttle <= 1)) throw new RangeError(`produzione: ${f.id} con limitazione ${throttle} fuori da 0-1`);
+    return { recipe, factory, flows: fullCapacityFlows(recipe, factory), damage, throttle };
   };
   const ratioFor = (flows) => {
     let ratio = 1; let bottleneck = null; const inputRatios = {};
@@ -64,30 +66,30 @@ export function produceDay({ facilities, stock, hydroMw = 0 }, catalog) {
     report.push({ id: f.id, kind: 'power', efficiency: r3(eff), bottleneck: ratio < 1 ? bottleneck : null, inputRatios, energyRatio: 1, produced: { electricity_mw: mw }, consumed: {}, state: stateOf(eff, damage) });
   }
   // 2) domanda di energia: MW a pieno regime di tutte le fabbriche attive, ripartita in proporzione
-  const demand = r3(factories.reduce((t, f) => t + info(f).flows.energyMw, 0));
+  const demand = r3(factories.reduce((t, f) => t + info(f).flows.energyMw * info(f).throttle, 0));
   const energyRatio = demand > 0 ? Math.min(1, supply / demand) : 1;
   // 3) fabbriche in ordine di priorità
   for (const f of factories) {
-    const { recipe, flows, damage } = info(f);
+    const { recipe, flows, damage, throttle } = info(f);
     const { ratio, bottleneck, inputRatios } = ratioFor(flows);
     const limitedBy = ratio <= energyRatio ? bottleneck : 'energy';
-    const base = Math.min(ratio, energyRatio);
+    const base = Math.min(ratio, energyRatio, throttle);
     const eff = base * (1 - damage);
     const fConsumed = {}; for (const [res, need] of Object.entries(flows.inputsPerDay)) fConsumed[res] = r3(need * eff);
     consume(flows, eff);
     const out = r3(flows.outputPerDay * eff * recipe.output.perUnit);
     next[recipe.output.product] = r3((next[recipe.output.product] ?? 0) + out);
     add(produced, recipe.output.product, out);
-    report.push({ id: f.id, kind: 'factory', efficiency: r3(eff), bottleneck: base < 1 ? limitedBy : null, inputRatios, energyRatio: r3(energyRatio), produced: { [recipe.output.product]: out }, consumed: fConsumed, state: stateOf(eff, damage) });
+    report.push({ id: f.id, kind: 'factory', efficiency: r3(eff), bottleneck: base < throttle ? limitedBy : null, inputRatios, energyRatio: r3(energyRatio), produced: { [recipe.output.product]: out }, consumed: fConsumed, state: stateOf(eff, damage, throttle) });
   }
   return { stock: next, powerMw: { supply, demand, ratio: r3(energyRatio) }, facilities: report, balance: { initial, produced, consumed, final: next } };
 }
 
 /** Stato leggibile: operativo / ridotta capacità / danneggiato / fermo. Il danno e gli ingressi si distinguono nella UI dal collo di bottiglia. */
-function stateOf(eff, damage) {
+function stateOf(eff, damage, throttle = 1) {
   if (eff <= 0) return 'fermo';
   if (damage > 0 && damage >= 0.5) return 'danneggiato';
-  if (eff < 1) return 'ridotta capacità';
+  if (eff < throttle) return 'ridotta capacità';
   return 'operativo';
 }
 

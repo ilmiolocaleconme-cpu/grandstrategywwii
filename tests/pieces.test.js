@@ -64,3 +64,49 @@ test('la Cecoslovacchia parte con una fabbrica di carri e una di artiglieria; le
   const models = json('units/models/carri_cecoslovacchi_1935_1938.json').models;
   assert.ok(models.every((m) => rec(`REC-TANK-CZE-${m.id.split('-').pop()}`)), 'una ricetta per ogni modello cecoslovacco');
 });
+
+// ---- paesi minori (fascia C): minimo di produzione di artiglieria, con scorta iniziale (29/10/2026) ----
+import { buildNations } from '../src/game/economyState.js';
+import { validateInitialIndustry } from '../src/data/initialIndustry.js';
+
+test('fascia C: una fabbrica di artiglieria limitata al 5% con 40 t di componenti; le altre fasce non cambiano', () => {
+  const industry = json('industry/initial_industry.json');
+  const nationIds = json('nations.json').map((n) => n.id);
+  const political = json('political_1936.json');
+  const n = buildNations({ political, nationIds, industry, stocks: json('industry/initial_stocks.json') });
+  const c = industry.tierC[0];
+  assert.equal(n[c].facilities.length, 1);
+  assert.equal(n[c].facilities[0].type, 'FCT-ARTILLERY');
+  assert.equal(n[c].facilities[0].throttle, 0.05);
+  assert.equal(n[c].stocks.components, 40);
+  assert.equal(n[c].stocks.steel, 500, 'l\'acciaio viene dalla riserva minima comune');
+  assert.equal(n.DEU.facilities.filter((f) => f.type === 'FCT-ARTILLERY').length, 0);
+  assert.ok(industry.tierC.every((id) => n[id].facilities.length === 1), 'tutte e 51');
+  // un giorno di produzione: 5% di 23,33 pezzi = 1,167 pezzi, 4,2 t di acciaio, 0,35 t di componenti
+  const r = produceDay({ facilities: n[c].facilities, stock: n[c].stocks, hydroMw: n[c].baseGridMw }, catalog);
+  assert.ok(Math.abs(r.stock.artillery - 1.167) < 0.01);
+  assert.ok(Math.abs(n[c].stocks.steel - r.stock.steel - 4.2) < 0.05);
+  assert.deepEqual(checkBalance(r.balance), []);
+});
+
+test('limitazione della produzione: valore fuori da 0-1 rifiutato; 0 = fermo; la domanda di energia scala', () => {
+  const f = { id: 'A1', type: 'FCT-ARTILLERY', recipeId: 'REC-ARTILLERY-001' };
+  const stock = { steel: 500, components: 40 };
+  assert.throws(() => produceDay({ facilities: [{ ...f, throttle: 1.5 }], stock }, catalog), /limitazione/);
+  const off = produceDay({ facilities: [{ ...f, throttle: 0 }], stock }, catalog);
+  assert.equal(off.facilities[0].state, 'fermo');
+  assert.equal(off.stock.artillery ?? 0, 0);
+  const t = produceDay({ facilities: [{ ...f, throttle: 0.05 }], stock, hydroMw: 40 }, catalog);
+  assert.ok(Math.abs(t.powerMw.demand - 0.75) < 0.01, 'domanda energetica = 15 MW × 5%');
+  assert.equal(t.facilities[0].state, 'operativo');
+});
+
+test('validazione di minorArtillery: ricetta di un\'altra fabbrica, limitazione non valida', () => {
+  const industry = json('industry/initial_industry.json');
+  const vctx = { factoriesById: cat.byId, recipes: recipesFile, entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((x) => x.id) };
+  assert.deepEqual(validateInitialIndustry(industry, vctx), []);
+  const bad = (mut, re) => { const d = structuredClone(industry); mut(d.minorArtillery); assert.ok(validateInitialIndustry(d, vctx).some((e) => re.test(e)), String(re)); };
+  bad((m) => { m.recipeId = 'REC-STEEL-001'; }, /non è di FCT-ARTILLERY/);
+  bad((m) => { m.throttle = 0; }, /limitazione/);
+  bad((m) => { m.startStock = { components: -1 }; }, /scorta non valida/);
+});

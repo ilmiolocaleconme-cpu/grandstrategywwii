@@ -84,7 +84,7 @@ test('energia: con 40 MW di rete di base si costruiscono 3 acciaierie (12 MW cia
   for (let i = 0; i < 3; i += 1) { const r = api.start(s, 'ALB', steelOrder(prov)); assert.equal(r.ok, true, `ordine ${i + 1}`); s = r.state; }
   const r4 = api.start(s, 'ALB', steelOrder(prov));
   assert.equal(r4.ok, false);
-  assert.ok(r4.missing.some((m) => m.what === 'energyMw' && m.need === 12 && m.have === 4));
+  assert.ok(r4.missing.some((m) => m.what === 'energyMw' && m.need === 12 && m.have === 3.25), 'la fabbrica di artiglieria minima (15 MW al 5%) assorbe 0,75 MW');
 });
 
 test('lavoratori: la riserva limita le costruzioni; slot: 14 per provincia, il 15° è rifiutato', () => {

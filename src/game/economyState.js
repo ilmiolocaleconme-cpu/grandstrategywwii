@@ -43,6 +43,16 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
       }
     }
   }
+  // paesi minori (fascia C): un minimo di produzione di artiglieria, limitato, con scorta iniziale (regola dell'utente 29/10/2026)
+  const minor = industry.minorArtillery;
+  if (minor) for (const id of industry.tierC ?? []) {
+    if (!nations[id]) continue;
+    for (let k = 1; k <= minor.count; k += 1) {
+      const list = nations[id].facilities;
+      list.push({ id: `${id}:${id}:${minor.factory}:${minor.recipeId}:${k}`, type: minor.factory, recipeId: minor.recipeId, territory: id, damage: 0, throttle: minor.throttle, priority: list.length + 1, active: true });
+    }
+    for (const [res, t] of Object.entries(minor.startStock ?? {})) nations[id].stocks[res] = (nations[id].stocks[res] ?? 0) + t;
+  }
   for (const territory of Object.keys(stocks.stocks).sort()) {
     const owner = ownerOf.get(territory);
     if (!owner) throw new Error(`stato economico: scorte di ${territory}, che non è un'entità politica`);

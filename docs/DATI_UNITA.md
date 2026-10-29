@@ -153,3 +153,11 @@ Stato: **implementato e testato** per dati e regole (`tests/deployment.test.js`,
 - **Movimento** (`src/rules/movement.js`, `src/data/moveNet.js`, `src/game/movementState.js`): campo opzionale `state.movement` (nessuna migrazione). Percorso con meno passi lungo l'adiacenza; ogni passo dura ⌈km tra i centri / velocità⌉ giorni. **Velocità per categoria = valori di partenza provvisori (ipotesi di bilanciamento), non dati storici.** Si entra solo in province controllate dalla propria nazione.
 - **Non modellati nel movimento**: fiumi e attraversamenti, terreno, stagione, rifornimenti, mare, ferrovia, guerra/diplomazia/accessi, combattimento. Un nuovo ordine sostituisce il precedente; durante il passo l'unità resta nella provincia di partenza.
 - **Scheda unità** (`src/rules/unitInfo.js`): comandante (solo corpi e armate; il sistema di assegnazione automatica `commandersSystem` ora gira nella partita), inquadramento e forze assegnate (ORBAT dello stato), consistenza (uomini effettivi/previsti, quadro, rinforzi), posizione e ordine di marcia. **Fatica, morale, organizzazione, esperienza e rifornimenti non esistono nel progetto**: la scheda li dichiara «non modellati».
+
+### Paesi minori: minimo di produzione di artiglieria (29/10/2026)
+- Fascia C = «paesi minori» (conferma dell'utente); scelta «scorta»: ogni nazione di fascia C (51) parte con **1 fabbrica di artiglieria** (`minorArtillery` in `initial_industry.json`, ricetta segnaposto `REC-ARTILLERY-001`) e **40 t di componenti**.
+- Nuovo campo di impianto `throttle` (0-1, default 1) in `produceDay`: quota di capacità voluta, diversa dal danno. Fascia C: 5% → circa 1,17 pezzi al giorno, 4,2 t di acciaio e 0,35 t di componenti al giorno; energia 15 MW × 5% (dentro la rete di base da 40 MW).
+- **Numeri proposti da Claude, non approvati** (5%, 40 t). **Rischio noto:** l'acciaio viene dalla riserva minima comune di 500 t, la stessa che serve alle costruzioni: a 4,2 t al giorno si esaurisce in circa 119 giorni. La cassa iniziale non conta il valore di questa produzione.
+- Rigenerati industria, scorte e cassa; la cassa cambia anche per aggiornamenti di altre chat non rigenerati nel repository.
+- Testato in `tests/pieces.test.js` (8 test). Acquisto di licenze e prodotti pronti: sempre **mancante**.
+

@@ -28,6 +28,18 @@ export function validateInitialIndustry(file, { factoriesById, recipes, entityId
   const g = file.baseGrid;
   if (!(g?.megawatts > 0)) errors.push('industria iniziale: rete di base mancante o non valida');
   else if (g.quality !== 'MISSING_DATA') errors.push('industria iniziale: la rete di base deve essere MISSING_DATA finché non ci sono dati storici');
+  const m = file.minorArtillery;
+  if (m) {
+    const r = recipeById.get(m.recipeId);
+    if (m.appliesTo !== 'tierC') errors.push('industria iniziale: minorArtillery deve valere per la fascia C');
+    if (!factoriesById.has(m.factory)) errors.push(`industria iniziale: minorArtillery usa la fabbrica inesistente ${m.factory}`);
+    if (!r) errors.push(`industria iniziale: minorArtillery usa la ricetta inesistente ${m.recipeId}`);
+    else if (r.factory !== m.factory) errors.push(`industria iniziale: minorArtillery, la ricetta ${m.recipeId} non è di ${m.factory}`);
+    if (!Number.isInteger(m.count) || m.count < 1) errors.push('industria iniziale: minorArtillery con numero di impianti non valido');
+    if (!(m.throttle > 0 && m.throttle <= 1)) errors.push('industria iniziale: minorArtillery con limitazione non valida (0-1)');
+    for (const [res, q] of Object.entries(m.startStock ?? {})) if (!(q > 0)) errors.push(`industria iniziale: minorArtillery con scorta non valida per ${res}`);
+    if (m.quality !== 'DESIGN_DEFAULT') errors.push('industria iniziale: minorArtillery deve essere DESIGN_DEFAULT');
+  }
   const nationSet = new Set(nationIds);
   for (const id of file.tierC ?? []) {
     if (!nationSet.has(id)) errors.push(`industria iniziale: ${id} in fascia C non è una nazione`);
