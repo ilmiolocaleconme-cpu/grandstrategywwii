@@ -40,6 +40,7 @@ import { orderMove, cancelOrders, createMovementSystem, currentDeployment, initi
 import ArmyPanel from './ui/ArmyPanel.jsx';
 import TheaterPanel from './ui/TheaterPanel.jsx';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
+import { createAiWarSystem } from './game/aiWarSystem.js';
 import { createTheaterSystem, playerAssign, playerCancelAssignment, playerDeclareWar, provinceController, isFighter } from './game/theaterState.js';
 import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
@@ -269,11 +270,13 @@ const GAME_SEA = { sea: null }; // rotte marittime con i porti reali (game/seaSt
 const INITIAL_POSITIONS = initialPositions(deploymentFile);
 const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
+const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS };
 const GAME_SYSTEMS = [
   commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
   createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
-  createTheaterSystem({ getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS }), // guerra, incarichi di teatro, battaglie e conquista
+  createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
+  createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
