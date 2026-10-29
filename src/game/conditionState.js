@@ -5,8 +5,8 @@ import { validateConditionState, createConditionState, trainUntil, setPolicy } f
 export const validateConditionShape = (state) => validateConditionState(state.conditions);
 
 /** Il giocatore sceglie la politica d'impiego di una sua divisione (solo memorizzata). */
-export function playerSetPolicy(state, unitId, policy, cfg) {
-  return { ...state, conditions: setPolicy(state.conditions ?? createConditionState(), unitId, policy, cfg) };
+export function playerSetPolicy(state, unitId, policy, cfg, nation = null) {
+  return { ...state, conditions: setPolicy(state.conditions ?? createConditionState(), unitId, policy, cfg, nation) };
 }
 
 /** Sistema giornaliero: addestramento mensile delle unità nuove (idempotente per mese). */

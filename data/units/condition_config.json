@@ -41,11 +41,16 @@
   "initial": {
     "existing1936": {
       "experience": 45,
-      "morale": 95,
+      "morale": 70,
       "basis": "USER_DECISION",
       "source": "Risposte dell'utente del 29/10/2026",
       "readiness": 80,
-      "moraleNote": "Morale iniziale delle truppe 95 per le divisioni del 1936 (decisione dell'utente 29/10/2026: 'altissimo, specialmente per Germania e Italia'). Un valore unico per tutte le nazioni finché non si definisce la differenza per nazione (leggi, propaganda): da fare."
+      "moraleNote": "Morale iniziale delle truppe nel 1936 (decisione dell'utente 29/10/2026): 95 per Germania, Italia e Giappone (propaganda), 'intorno a 70' per tutte le altre nazioni (letto come 70 esatto; DA CONFERMARE: nessuna differenza fra le altre nazioni).",
+      "moraleByNation": {
+        "DEU": 95,
+        "ITA": 95,
+        "JPN": 95
+      }
     },
     "newUnit": {
       "experience": 10,

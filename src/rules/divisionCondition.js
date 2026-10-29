@@ -52,10 +52,10 @@ export function experienceLevel(value, cfg) {
   return cfg.levels.find((l) => v >= l.from && v <= l.to);
 }
 
-/** Condizione di un'unità: valori memorizzati, altrimenti iniziali. Ritorna { experience, morale, policy, isNew, stored }. */
-export function conditionOf(conditions, unitId, cfg) {
+/** Condizione di un'unità: valori memorizzati, altrimenti iniziali (il morale iniziale del 1936 dipende dalla nazione `nation`). Ritorna { experience, morale, policy, isNew, stored }. */
+export function conditionOf(conditions, unitId, cfg, nation = null) {
   const e = conditions?.byUnit?.[unitId];
-  const base = e?.isNew ? cfg.initial.newUnit : cfg.initial.existing1936;
+  const base = e?.isNew ? cfg.initial.newUnit : { ...cfg.initial.existing1936, morale: cfg.initial.existing1936.moraleByNation?.[nation] ?? cfg.initial.existing1936.morale };
   return {
     experience: clamp(e?.experience ?? base.experience), morale: clamp(e?.morale ?? base.morale), readiness: clamp(e?.readiness ?? base.readiness),
     policy: e?.policy ?? cfg.policy.default, isNew: e?.isNew === true, trainedThrough: e?.trainedThrough ?? null, stored: e !== undefined,
@@ -69,9 +69,9 @@ export function markNew(conditions, unitIds, cfg, date) {
   return { ...conditions, byUnit };
 }
 
-export function setPolicy(conditions, unitId, policy, cfg) {
+export function setPolicy(conditions, unitId, policy, cfg, nation = null) {
   if (!POLICIES.includes(policy)) throw new RangeError(`politica non valida: ${policy}`);
-  const cur = conditionOf(conditions, unitId, cfg);
+  const cur = conditionOf(conditions, unitId, cfg, nation);
   return { ...conditions, byUnit: { ...conditions.byUnit, [unitId]: { experience: cur.experience, morale: cur.morale, readiness: cur.readiness, policy, isNew: cur.isNew, trainedThrough: cur.trainedThrough } } };
 }
 

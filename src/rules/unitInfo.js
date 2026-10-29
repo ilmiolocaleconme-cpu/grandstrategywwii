@@ -47,7 +47,7 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
   // condizione (solo divisioni con dotazione): esperienza, morale, prontezza e stato operativo derivato, ciascuno con la sua causa
   let condition = null;
   if (inst && conditionConfig) {
-    const c = conditionOf(state.conditions, unit.id, conditionConfig);
+    const c = conditionOf(state.conditions, unit.id, conditionConfig, unit.nation);
     const material = materialStrength({ manpowerRatio: strength.manpower?.ratio ?? null, equipment });
     const op = operationalState({ manpowerRatio: strength.manpower?.ratio ?? null, equipmentWorstRatio: equipment[0]?.ratio ?? null, morale: c.morale, readiness: c.readiness, cadre: strength.cadre }, conditionConfig);
     condition = { experience: c.experience, experienceLevel: experienceLevel(c.experience, conditionConfig), morale: c.morale, moraleBand: valueBand(c.morale, conditionConfig).name, readiness: c.readiness, readinessBand: valueBand(c.readiness, conditionConfig).name, material, policy: c.policy, isNew: c.isNew, operational: op };

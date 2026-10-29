@@ -6,7 +6,7 @@ Elenco di tutto ciò che è rimasto in sospeso. Stato: **tutto qui è mancante o
 1. **Soglie dello stato operativo** (Pronta / Ridotta / Inefficiente / Non operativa): ora 80/50/20 per ogni componente, `DESIGN_DEFAULT` in `data/units/condition_config.json`. Da approvare o cambiare per componente.
 2. **Esperienza sul campo**: quanto e come cresce con combattimenti e operazioni prolungate (le divisioni del 1936 oggi restano a 45 per sempre).
 3. **Rimpiazzi ed esperienza**: quanto la abbassano rimpiazzi inesperti/esperti e perdite di personale esperto.
-4. **Morale**: variazione per ciascuna causa (perdite, sconfitte, accerchiamento, fame, isolamento, bombardamenti, vittorie, riposo, rotazione, comandanti efficaci, eventi) e velocità di recupero. Oggi fermo a 45.
+4. **Morale**: variazione per ciascuna causa (perdite, sconfitte, accerchiamento, fame, isolamento, bombardamenti, vittorie, riposo, rotazione, comandanti efficaci, eventi) e velocità di recupero. Oggi fermo al valore iniziale: 95 (Germania, Italia, Giappone, propaganda) o 70 (altre nazioni, «intorno a 70» letto come 70 esatto: DA CONFERMARE se serve una differenza fra le altre nazioni); unità nuove 45→85 in 3 mesi.
 5. **Prontezza**: pesi di munizioni, carburante, rifornimenti, riparazioni, riposo; regola di recupero in area sicura (richiede definire «area sicura»).
 6. **Politica d'impiego** (conservativa/normale/aggressiva): oggi solo memorizzata; su cosa deve agire quando esisteranno combattimento e fronti.
 7. **Fatica**: non compare in nessun documento guida. Decidere se esiste come valore distinto o è compresa in morale/prontezza.

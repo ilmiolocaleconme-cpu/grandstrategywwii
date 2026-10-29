@@ -11,7 +11,8 @@ const cfg = JSON.parse(readFileSync(new URL('../data/units/condition_config.json
 
 test('configurazione valida; valori decisi dall\'utente: iniziale 45, unità nuove 10/45, tetto 39 a +1 al mese', () => {
   assert.deepEqual(validateConditionConfig(cfg), []);
-  assert.deepEqual([cfg.initial.existing1936.experience, cfg.initial.existing1936.morale], [45, 95]);
+  assert.deepEqual([cfg.initial.existing1936.experience, cfg.initial.existing1936.morale], [45, 70], 'morale base 70; Germania, Italia e Giappone 95');
+  assert.deepEqual(cfg.initial.existing1936.moraleByNation, { DEU: 95, ITA: 95, JPN: 95 });
   assert.deepEqual([cfg.training.morale.from, cfg.training.morale.cap, cfg.training.morale.months], [45, 85, 3], 'reclutamento: 3 mesi da 45 a 85');
   assert.deepEqual([cfg.initial.newUnit.experience, cfg.initial.newUnit.morale], [10, 45]);
   assert.equal(cfg.initial.existing1936.readiness, 80, 'decisione dell\'utente: pace, organizzazione intatta');
@@ -41,9 +42,11 @@ test('livelli di esperienza: soglie esatte della tabella e valori fuori scala ri
   assert.equal(clamp(120), 100);
 });
 
-test('condizione di base: le divisioni del 1936 partono a 45/45 senza voci memorizzate; la politica predefinita è «normale»', () => {
-  const c = conditionOf(undefined, 'U1', cfg);
-  assert.deepEqual([c.experience, c.morale, c.readiness, c.policy, c.isNew], [45, 95, 80, 'normal', false]);
+test('condizione di base: esperienza 45, prontezza 80, morale 95 per Germania/Italia/Giappone (propaganda) e 70 per le altre; politica «normale»', () => {
+  const c = conditionOf(undefined, 'U1', cfg, 'FRA');
+  assert.deepEqual([c.experience, c.morale, c.readiness, c.policy, c.isNew], [45, 70, 80, 'normal', false]);
+  assert.deepEqual(['DEU', 'ITA', 'JPN', 'USSR', 'GBR', 'USA', 'FRA', null].map((n) => conditionOf(undefined, 'U', cfg, n).morale), [95, 95, 95, 70, 70, 70, 70, 70]);
+  assert.equal(conditionOf(markNew(createConditionState(), ['N'], cfg, '1936-01-01'), 'N', cfg, 'DEU').morale, 45, 'le unità nuove partono da 45 in ogni nazione');
 });
 
 test('addestramento: solo le unità nuove, +1 al mese fino al tetto 39, mai oltre; le unità del 1936 restano a 45', () => {
@@ -73,9 +76,9 @@ test('tick idempotenti e deterministici: stessa data due volte = stesso stato; i
 });
 
 test('politica d\'impiego: viene memorizzata e NON cambia esperienza né morale; valori non validi rifiutati', () => {
-  const s = playerSetPolicy({ date: '1936-01-01' }, 'U1', 'aggressive', cfg);
-  const c = conditionOf(s.conditions, 'U1', cfg);
-  assert.deepEqual([c.policy, c.experience, c.morale, c.readiness], ['aggressive', 45, 95, 80]);
+  const s = playerSetPolicy({ date: '1936-01-01' }, 'U1', 'aggressive', cfg, 'DEU');
+  const c = conditionOf(s.conditions, 'U1', cfg, 'DEU');
+  assert.deepEqual([c.policy, c.experience, c.morale, c.readiness], ['aggressive', 45, 95, 80], 'scegliere la politica non cambia il morale nazionale');
   assert.throws(() => setPolicy(createConditionState(), 'U1', 'folle', cfg), RangeError);
 });
 
