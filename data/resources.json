@@ -29,6 +29,8 @@
   { "id": "components", "name": "Componenti", "status": "bozza-di-design", "tipo": "prodotto" },
   { "id": "engines", "name": "Motori", "status": "bozza-di-design", "tipo": "prodotto" },
   { "id": "munitions", "name": "Munizioni", "status": "bozza-di-design", "tipo": "prodotto" },
+  { "id": "tanks", "name": "Carri armati", "status": "bozza-di-design", "tipo": "prodotto", "unit": "pezzi" },
+  { "id": "artillery", "name": "Pezzi di artiglieria", "status": "bozza-di-design", "tipo": "prodotto", "unit": "pezzi" },
   { "id": "copper", "name": "Rame", "status": "bozza-di-design" },
   { "id": "hydro", "name": "Idroelettrica", "status": "bozza-di-design", "tipo": "fonte-energia" }
 ]

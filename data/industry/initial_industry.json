@@ -165,9 +165,19 @@
           "count": 1
         },
         {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TANK-CZE-LT35",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ARTILLERY-001",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 1
+          "count": 2
         }
       ]
     },
