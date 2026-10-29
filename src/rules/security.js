@@ -49,6 +49,8 @@ export function validateSecurityConfig(file, { techIds = null } = {}) {
   pos(m.cost_ecv, 'costo polizia militare'); pos(m.days, 'giorni polizia militare'); pos(m.defense, 'difesa polizia militare'); pos(m.maxPerPlace, 'massimo per luogo');
   if (!(m.ciMultiplier >= 1)) errors.push('sicurezza: ciMultiplier deve essere ≥ 1');
   pos(file.localPolice?.defense, 'polizia locale'); pos(file.garrison?.defensePerLevel, 'guarnigione');
+  const g = file.garrison?.estimate;
+  if (g && !(Array.isArray(g.echelons) && g.echelons.length && Number.isInteger(g.provinceMax) && g.provinceMax >= 1 && g.provinceMax <= 3 && Array.isArray(g.entityThresholds) && g.entityThresholds.length <= 3 && g.entityThresholds.every((v, i, a) => v >= 1 && (i === 0 || v > a[i - 1])))) errors.push('sicurezza: stima della guarnigione non valida');
   const s = file.sabotage ?? {};
   pos(s.cost_ecv, 'costo sabotaggio'); pos(s.days, 'giorni sabotaggio');
   if (!(s.damage > 0 && s.damage <= 1)) errors.push('sicurezza: danno del sabotaggio fuori da (0, 1]');

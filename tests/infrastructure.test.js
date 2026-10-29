@@ -44,7 +44,7 @@ test('partenza: pochi collegamenti al massimo (ferrovie sotto il 40%), mai sopra
   const rail = index.edges.filter((e) => e.ceiling === 4);
   const railAtStart = rail.filter((e) => e.start === 4);
   assert.ok(rail.length > 500 && railAtStart.length / rail.length < 0.4, `${railAtStart.length} su ${rail.length}`);
-  assert.ok(index.edges.every((e) => e.start >= 1 && e.start <= e.ceiling && (e.ceiling === 1 ? e.start === 1 : e.start >= e.ceiling - 1)));
+  assert.ok(index.edges.every((e) => e.start >= 1 && e.start <= e.ceiling && (e.ceiling === 1 ? e.start === 1 : e.ceiling === 4 ? [1, 3, 4].includes(e.start) : e.start >= e.ceiling - 1)));
   const perNation = new Map();
   for (const e of index.edges) if (e.ceiling >= 2) { const k = `${nat(e.a)}|${e.ceiling}`; const g = perNation.get(k) ?? { n: 0, kept: 0 }; g.n += 1; if (e.start === e.ceiling) g.kept += 1; perNation.set(k, g); }
   for (const [k, g] of perNation) assert.ok(g.kept <= Math.ceil(config.start.keepAtCeiling[k.split('|')[1]] * g.n) + 0, k);
@@ -53,6 +53,9 @@ test('partenza: pochi collegamenti al massimo (ferrovie sotto il 40%), mai sopra
   const ita4 = index.edges.filter((e) => nat(e.a) === 'ITA' && e.ceiling === 4);
   const minKept = Math.min(...ita4.filter((e) => e.start === 4).map(imp)); const maxDrop = Math.max(...ita4.filter((e) => e.start === 3).map(imp));
   assert.ok(minKept >= maxDrop, `${minKept} < ${maxDrop}`);
+  const minMain = Math.min(...ita4.filter((e) => e.start === 3).map(imp)); const maxDirt = Math.max(...ita4.filter((e) => e.start === 1).map(imp));
+  assert.ok(minMain >= maxDirt, 'le ferrovie declassate più importanti vanno a strada principale, le altre a sterrata');
+  assert.ok(rail.some((e) => e.start === 1) && rail.some((e) => e.start === 3), 'si vedono entrambi i declassamenti');
   const table = json('infrastructure/rail_length_1936.json').entries.filter((x) => x.comparable);
   for (const t of table) {
     const km = index.edges.filter((e) => e.start === 4 && nat(e.a) === t.nation).reduce((s, e) => s + e.km, 0);

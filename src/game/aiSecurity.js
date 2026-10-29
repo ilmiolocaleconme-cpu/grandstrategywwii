@@ -45,7 +45,9 @@ export function createAiSecurity({ research, security, rivals, options = {} }) {
 
     // 3. attacco: spie → sabotatori → sabotaggio, contro ogni rivale con impianti
     if (!security.canAgents(my())) return s;
+    // Finché non c'è la diplomazia l'IA non sabota il giocatore (scelta dell'utente): colpisce solo altre IA.
     for (const t of enemies) {
+      if (t === s.player) continue;
       if (!s.nations[t].facilities.length) continue;
       let sec = securityOf(my());
       const queuedRole = (role) => sec.queue.filter((q) => q.kind === 'train' && q.role === role).length;

@@ -18,6 +18,8 @@
   },
   "start": {
     "keepAtCeiling": { "2": 0.5, "3": 0.5, "4": 0.35 },
+    "railDropToMainRoad": 0.6,
+    "railDropNote": "DESIGN_DEFAULT: la ferrovia è già il massimo; le ferrovie non tenute in partenza scendono a strada principale (livello 3, quota railDropToMainRoad dei declassati, i più importanti) o a strada sterrata (livello 1, il resto). Per i livelli 2 e 3 resta -1.",
     "rank": "somma della popolazione delle sedi delle due province (data/links.json nodes.pop); a parità, id del collegamento"
   }
 }

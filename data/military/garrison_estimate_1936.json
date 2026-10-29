@@ -1,0 +1,141 @@
+{
+ "schema": "garrison-estimate-v1",
+ "quality": "DESIGN_DEFAULT",
+ "note": "DESIGN_DEFAULT: stima della guarnigione al 1/1/1936 dalle divisioni e brigate schierate (data/units/deployment_1936.json, che è a sua volta una derivazione). Provincia: livello = numero di unità, massimo 3. Entità politica (gli impianti iniziali sono legati all'entità): 1 da 1 unità, 2 da 6 unità, massimo 2 per non rendere intoccabili le grandi potenze. I comandi non contano.",
+ "byProvince": {
+  "P_DEU_BERLIN": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_HAMBURG": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_HESSEN_NASSAU": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_KURHESSEN": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_MAINFRANKEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_DEU_MUENCHEN_OBERBAYERN": {
+   "units": 4,
+   "garrison": 3
+  },
+  "P_DEU_NIEDERSCHLESIEN": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_OSTPREUSSEN": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_POMMERN": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_SACHSEN": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_WESTFALEN_NORD": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DEU_WUERTTEMBERG_HOHENZOLLERN": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_FRA_BOUCHES_DU_RHONE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_COTE_D_OR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_DOUBS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_GIRONDE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_HAUTE_GARONNE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_HAUTE_VIENNE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_HERAULT": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_ILLE_ET_VILAINE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_INDRE_ET_LOIRE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_LOIRET": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_LOIRE_ATLANTIQUE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_MARNE": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_FRA_MEURTHE_ET_MOSELLE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_PUY_DE_DOME": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_SARTHE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FRA_SEINE_MARITIME": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_GBR_HAMPSHIRE": {
+   "units": 2,
+   "garrison": 2
+  }
+ },
+ "byEntity": {
+  "DEU": {
+   "units": 38,
+   "garrison": 2
+  },
+  "FRA": {
+   "units": 17,
+   "garrison": 2
+  },
+  "GBR": {
+   "units": 2,
+   "garrison": 1
+  }
+ }
+}

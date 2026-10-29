@@ -26,6 +26,7 @@ export function validateInfrastructureConfig(cfg) {
     if (!(keep > 0 && keep <= 1)) errors.push(`infrastrutture: frazione di partenza del livello ${t} non valida`);
     if (t > 2 && u && cfg.upgrade.toLevel[t - 1] && !(u.ecvPerKm >= cfg.upgrade.toLevel[t - 1].ecvPerKm)) errors.push(`infrastrutture: il livello ${t} costa meno del precedente`);
   }
+  if (cfg.start?.railDropToMainRoad !== undefined && !(cfg.start.railDropToMainRoad >= 0 && cfg.start.railDropToMainRoad <= 1)) errors.push('infrastrutture: railDropToMainRoad non valido');
   if (!(cfg.upgrade?.minDays >= 1)) errors.push('infrastrutture: minDays non valido');
   return errors;
 }
@@ -60,7 +61,9 @@ export function buildLinkEdges({ links, config, provinces }) {
     const ceiling = Number(k.split('|')[1]);
     list.sort((p, q) => q.importance - p.importance || (p.id < q.id ? -1 : 1));
     const keep = Math.ceil(config.start.keepAtCeiling[ceiling] * list.length);
-    list.forEach((e, i) => { if (i >= keep) e.start = ceiling - 1; });
+    const dropped = list.slice(keep);
+    if (ceiling === 4) { const toMain = Math.ceil((config.start.railDropToMainRoad ?? 1) * dropped.length); dropped.forEach((e, i) => { e.start = i < toMain ? 3 : 1; }); }
+    else dropped.forEach((e) => { e.start = ceiling - 1; });
   }
   edges.sort((p, q) => (p.id < q.id ? -1 : 1));
   const byCeiling = {}; const startAtCeiling = {}; const kmStart = {};

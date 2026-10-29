@@ -26,6 +26,7 @@ import { validateHydro } from '../src/data/hydro.js';
 import { validateFactoryLevels } from '../src/data/factoryLevels.js';
 import { validateTechnologies, consumersOf } from '../src/data/technologies.js';
 import { validateSecurityConfig } from '../src/rules/security.js';
+import { validateGarrisonEstimate, buildGarrisonEstimate } from '../src/data/garrison.js';
 import { validateInfrastructureConfig, validateLinkEdges, buildLinkEdges } from '../src/data/infrastructure.js';
 import { validateFertilizerEffect, validateHorseBreeding } from '../src/data/livestock.js';
 import { validateHospitalCare } from '../src/data/hospitals.js';
@@ -138,6 +139,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc }) }));
     for (const l of levelsDoc.levels) if (l.requires && !techIds.has(l.requires)) errors.push(`livelli fabbriche: L${l.level} richiede ${l.requires}, che non esiste`);
     errors.push(...validateSecurityConfig(securityDoc, { techIds }));
+    // Stima delle guarnigioni 1936: il file deve coincidere con quello rigenerabile dai dati (nessuna deriva)
+    const garDoc = JSON.parse(await text('military/garrison_estimate_1936.json'));
+    errors.push(...validateGarrisonEstimate(garDoc));
+    const garFresh = buildGarrisonEstimate({ deployment: JSON.parse(await text('units/deployment_1936.json')), units: JSON.parse(await text('units/units.json')).units, config: securityDoc, entityIds: JSON.parse(await text('political_1936.json')).map((e) => e.id) });
+    if (JSON.stringify(garFresh) !== JSON.stringify(garDoc)) errors.push('guarnigioni: garrison_estimate_1936.json non coincide con i dati, rigenerare con node scripts/build-garrison.js');
     // Strade e ferrovie in partita (29/10/2026): parametri, collegamenti tra province madri e coerenza con il grafo dei collegamenti (nessuna deriva)
     const infraCfg = JSON.parse(await text('infrastructure/infrastructure.json'));
     const edgesDoc = JSON.parse(await text('infrastructure/link_edges.json'));

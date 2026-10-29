@@ -57,9 +57,11 @@ test('l\'IA non comanda il giocatore e non lo colpisce se non è un rivale; stes
   assert.ok(a.nations.ITA.facilities.every((f) => (f.damage ?? 0) === 0));
 });
 
-test('se il giocatore è un rivale, l\'IA lo colpisce davvero', () => {
+test('se il giocatore è un rivale, l\'IA non lo sabota (spento finché manca la diplomazia) ma sabota le altre IA', () => {
   const g = newGame({ nation: 'FRA', political, ownersWithProvinces: nationIds, start }).state;
   const s = run(withNation(g, 'DEU', { balance: 500 }), 600);
-  assert.ok(securityOf(s.nations.DEU).log.some((l) => l.kind === 'sabotage' && l.targetNation === 'FRA'));
-  assert.ok(securityOf(s.nations.FRA).incidents.some((i) => i.kind === 'sabotage' || i.kind === 'spy_caught'));
+  const log = securityOf(s.nations.DEU).log;
+  assert.ok(!log.some((l) => l.targetNation === 'FRA'), 'nessuna azione contro il giocatore');
+  assert.ok(log.some((l) => l.kind === 'sabotage' && l.targetNation === 'USSR'), 'colpisce comunque l\'altro rivale IA');
+  assert.ok((s.nations.FRA.facilities).every((f) => (f.damage ?? 0) === 0));
 });

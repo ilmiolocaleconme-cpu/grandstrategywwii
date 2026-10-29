@@ -51,6 +51,8 @@ import technologiesFile from '../data/research/technologies.json';
 import securityFile from '../data/security/security.json';
 import aiRivalsFile from '../data/security/ai_rivals_1936.json';
 import presenceFile from '../data/military/province_presence.json';
+import garrisonEstimateFile from '../data/military/garrison_estimate_1936.json';
+import { presenceFromEstimate } from './data/garrison.js';
 import infraConfig from '../data/infrastructure/infrastructure.json';
 import linkEdgesFile from '../data/infrastructure/link_edges.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
@@ -240,7 +242,7 @@ const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.ind
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I rivali dell'IA sono PROVVISORI (hypothesis), vedi data/security/ai_rivals_1936.json.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
-const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFile });
+const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
 const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, rivals: aiRivalsFile });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
 const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry], ratio: readiness.initialFillRatio.value };

@@ -9,7 +9,15 @@
   },
   "militaryPolice": { "name_it": "Reparto di polizia militare", "cost_ecv": 4, "days": 20, "defense": 2, "ciMultiplier": 1.5, "maxPerPlace": 5 },
   "localPolice": { "defense": 1 },
-  "garrison": { "defensePerLevel": 1.5 },
+  "garrison": {
+    "defensePerLevel": 1.5,
+    "estimate": {
+      "note": "DESIGN_DEFAULT: stima della guarnigione al 1/1/1936 dalle divisioni e brigate schierate (data/units/deployment_1936.json, che è a sua volta una derivazione). Provincia: livello = numero di unità, massimo 3. Entità politica (gli impianti iniziali sono legati all'entità): 1 da 1 unità, 2 da 6 unità, massimo 2 per non rendere intoccabili le grandi potenze. I comandi non contano.",
+      "echelons": ["division", "brigade"],
+      "provinceMax": 3,
+      "entityThresholds": [1, 6]
+    }
+  },
   "sabotage": {
     "cost_ecv": 10, "days": 10, "damage": 0.3,
     "baseChance": 0.6, "chancePerDefense": 0.07, "spyBonus": 0.08, "maxSpyBonus": 3, "minChance": 0.1, "maxChance": 0.9,
