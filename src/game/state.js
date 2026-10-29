@@ -13,6 +13,7 @@ import { createForcesState } from '../rules/forces.js';
 import { validateForcesShape } from './forcesState.js';
 import { createTradeState, validateTradeShape } from './tradeState.js';
 import { validateMovementShape } from './movementState.js';
+import { validateConditionShape } from './conditionState.js';
 import { validateCommandersShape } from './commandersState.js';
 
 export const STATE_SCHEMA = 7; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni; 4: comandanti; 5: inquadramento; 6: forze (istanze di divisione); 7: commercio (contratti). Migrazioni in economyState.js, commandersState.js, orbatState.js e forcesState.js
@@ -90,6 +91,7 @@ export function validateState(state) {
   errors.push(...validateOrbatShape(state.orbat));
   errors.push(...validateForcesShape(state.forces));
   errors.push(...validateTradeShape(state.trade));
+  errors.push(...validateConditionShape(state)); // opzionale: assente = condizioni iniziali
   errors.push(...validateMovementShape(state)); // opzionale: assente = unità alla dislocazione iniziale
   errors.push(...validateProvinceStates(state.provinces)); // opzionale: assente = tutte le province al default
   return errors;

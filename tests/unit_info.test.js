@@ -42,7 +42,8 @@ test('comando senza ufficiale: vacante; senza dotazione: strength nulla; fatica 
   const i = unitInfo({ ...state, commanders: { assignments: {} } }, units[0], ctx);
   assert.equal(i.commander.status, 'vacante');
   assert.equal(unitInfo(state, units[2], ctx).strength, null);
-  assert.ok(NOT_MODELED.some((n) => n.id === 'morale') && NOT_MODELED.some((n) => n.id === 'esperienza'));
+  assert.ok(NOT_MODELED.some((n) => n.id === 'rifornimento') && NOT_MODELED.some((n) => n.id === 'sanità'));
+  assert.ok(!NOT_MODELED.some((n) => ['morale', 'esperienza', 'stato operativo'].includes(n.id)), 'ora modellati in divisionCondition.js');
   assert.ok(!NOT_MODELED.some((n) => n.id === 'fatica'), 'la fatica non è in nessun documento guida');
   assert.ok(NOT_MODELED.every((n) => n.rule.length > 10));
   assert.deepEqual(i.notModeled, NOT_MODELED);

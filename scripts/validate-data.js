@@ -35,6 +35,7 @@ import { officersBuilt } from './build-officers.js';
 import { validateTemplate } from '../src/data/templates.js';
 import { validateCadreTemplates } from '../src/data/cadres.js';
 import { validateDeployment } from '../src/data/deployment.js';
+import { validateConditionConfig } from '../src/rules/divisionCondition.js';
 import { deploymentBuilt } from './build-deployment.js';
 import { validateReadiness } from '../src/rules/readiness.js';
 import { validateTankModels } from '../src/data/tankModels.js';
@@ -174,6 +175,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // Catalogo unità (CSV dell'utente): copia non modificata, file generato allineato, revisioni coerenti
     {
       const unitsDoc = JSON.parse(await text('units/units.json'));
+      errors.push(...validateConditionConfig(JSON.parse(await text('units/condition_config.json'))));
       const deployDoc = JSON.parse(await text('units/deployment_1936.json'));
       errors.push(...validateDeployment(deployDoc, { unitIds: new Set(unitsDoc.units.map((u) => u.id)), motherIds: new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id)) }).map((e) => `dislocazione: ${e}`));
       if (JSON.stringify(deployDoc) !== JSON.stringify(await deploymentBuilt())) errors.push('dislocazione: deployment_1936.json non allineato, rigenerare con node scripts/build-deployment.js');

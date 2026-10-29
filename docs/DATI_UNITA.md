@@ -161,3 +161,12 @@ Stato: **implementato e testato** per dati e regole (`tests/deployment.test.js`,
 - Rigenerati industria, scorte e cassa; la cassa cambia anche per aggiornamenti di altre chat non rigenerati nel repository.
 - Testato in `tests/pieces.test.js` (8 test). Acquisto di licenze e prodotti pronti: sempre **mancante**.
 - **Magazzini e commercio: mancanti.** Richiesta dell'utente (29/10/2026): aggiungere magazzini ai paesi minori, che poi dovranno fare commercio. Oggi esistono solo i depositi di carburante (`fuel_storage.json`: L1 1.500 t, L2 5.000 t, L3 15.000 t, solo carburante) e **non ci sono magazzini con capacità per le merci generiche né strutture piazzate nello stato di gioco**; il commercio non è nel codice. Non ho aggiunto magazzini finti: servono (1) capacità di magazzino per risorsa e le strutture `depot` come istanze nello stato, (2) il sistema di commercio. Finché mancano, la scorta iniziale non ha limiti di capacità.
+
+## Condizione delle divisioni: esperienza, morale, prontezza, stato operativo (29/10/2026)
+
+Stato: **regole e dati implementati e testati** (`tests/division_condition.test.js`); **interfaccia implementata ma non verificata** (nessun build né prova in browser). Voci mancanti e decisioni aperte: `docs/DA_FARE.md`.
+
+- File: `data/units/condition_config.json` (parametri), `src/rules/divisionCondition.js` (regole pure), `src/game/conditionState.js` (stato e sistema giornaliero), scheda in `src/rules/unitInfo.js` e `src/ui/ArmyPanel.jsx`. Campo opzionale `state.conditions` (nessuna migrazione). **Non** è `src/rules/readiness.js`, che resta la frazione iniziale di dotazione.
+- **Decisioni dell'utente (29/10/2026)**: esperienza e morale iniziali 45 per le divisioni del 1936; unità nuove 10/45, addestramento +1 al mese fino al tetto 39 (le divisioni del 1936 non si addestrano oltre 45: crescono solo sul campo, non modellato); morale fermo finché non esistono combattimento, rifornimenti e fronti; prontezza = il più basso tra uomini e dotazione; politica d'impiego solo memorizzata; stato operativo in 4 etichette (Pronta, Ridotta, Inefficiente, Non operativa).
+- **Di progetto, DA APPROVARE**: soglie 80/50/20 dello stato operativo, uguali per ogni componente ma configurabili per componente. Lo stato è il peggiore tra organico, equipaggiamento, morale e prontezza, con la causa; un quadro è sempre «Non operativa». Non viene salvato: si deriva.
+- Livelli di esperienza (tabella dell'utente): Recluta 0–19, Addestrata 20–39, Esperta 40–59, Veterana 60–79, Élite 80–100.

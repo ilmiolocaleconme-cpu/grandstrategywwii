@@ -35,6 +35,8 @@ import { commandersSystem } from './game/commandersState.js';
 import { buildMoveNet } from './data/moveNet.js';
 import { orderMove, cancelOrders, createMovementSystem, currentDeployment, initialPositions } from './game/movementState.js';
 import ArmyPanel from './ui/ArmyPanel.jsx';
+import conditionConfig from '../data/units/condition_config.json';
+import { createConditionSystem, playerSetPolicy } from './game/conditionState.js';
 import readiness from '../data/units/readiness.json';
 import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
 import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
@@ -226,6 +228,7 @@ const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
 const GAME_SYSTEMS = [
   commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
+  createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(MOVE_NET.net)(state) : state),
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
@@ -549,7 +552,7 @@ export default function App() {
         <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} />
         {armyGroup && layer === 'army' && game ? (
           <ArmyPanel group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={UNITS_BY_ID} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
-            provinceName={provinceName} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy}
+            provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy}
             onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
         ) : !(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
