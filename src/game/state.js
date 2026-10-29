@@ -14,6 +14,7 @@ import { validateForcesShape } from './forcesState.js';
 import { createTradeState, validateTradeShape } from './tradeState.js';
 import { validateMovementShape } from './movementState.js';
 import { validateInfrastructureShape } from './infrastructureState.js';
+import { validatePortsShape } from './portsState.js';
 import { validateConditionShape } from './conditionState.js';
 import { validateCommandersShape } from './commandersState.js';
 
@@ -94,6 +95,7 @@ export function validateState(state) {
   errors.push(...validateTradeShape(state.trade));
   errors.push(...validateConditionShape(state)); // opzionale: assente = condizioni iniziali
   errors.push(...validateInfrastructureShape(state.infrastructure)); // opzionale: assente = tutti i collegamenti al livello di partenza
+  errors.push(...validatePortsShape(state.ports)); // opzionale: assente = porti del 1936
   errors.push(...validateMovementShape(state)); // opzionale: assente = unità alla dislocazione iniziale
   errors.push(...validateProvinceStates(state.provinces)); // opzionale: assente = tutte le province al default
   return errors;

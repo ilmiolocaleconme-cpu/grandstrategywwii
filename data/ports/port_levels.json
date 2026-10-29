@@ -1,0 +1,34 @@
+{
+ "schema": "port-levels-v1",
+ "quality": "DESIGN_DEFAULT",
+ "note": "Livelli dei porti (città costiere): Porto locale → Porto regionale → Grande porto, come le strutture INF-013/14/15 di data/infrastructure/structures.csv (CSV protetto, senza costi). VALORI DI BILANCIAMENTO (DESIGN_DEFAULT), non storici: `ecv`, `days`, `workers` sono il costo per RAGGIUNGERE il livello dalla situazione precedente (livello 0 = nessun porto); l'acciaio è ecv × economy.construction.steelPerEcv come per le fabbriche; la difficoltà scala costo e tempo. I lavoratori sono occupati solo durante i lavori (come le strade). Il livello 3 richiede la tecnologia `requires`. Effetti dei livelli sui traffici (capacità in tonnellate): MISSING_DATA, non ancora definiti: oggi il livello conta solo come presenza del porto e come elenco.",
+ "levels": [
+  {
+   "level": 1,
+   "id": "local",
+   "name_it": "Porto locale",
+   "ecv": 40,
+   "days": 40,
+   "workers": 150,
+   "requires": null
+  },
+  {
+   "level": 2,
+   "id": "regional",
+   "name_it": "Porto regionale",
+   "ecv": 100,
+   "days": 90,
+   "workers": 300,
+   "requires": null
+  },
+  {
+   "level": 3,
+   "id": "major",
+   "name_it": "Grande porto",
+   "ecv": 220,
+   "days": 150,
+   "workers": 600,
+   "requires": "TECH-LOG-HARBOUR"
+  }
+ ]
+}

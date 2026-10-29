@@ -23,6 +23,8 @@ export function describeBuildFailure(r, techName = (id) => id) {
     case 'max_level': return 'Già al livello massimo';
     case 'no_facility': return 'Impianto non trovato';
     case 'no_edge': case 'no_infrastructure_data': return 'Collegamento non disponibile';
+    case 'not_coastal': return 'Questa città non è sulla costa';
+    case 'no_port_data': return 'Dati dei porti non disponibili';
     case 'not_upgradable': return 'Questo impianto non si può migliorare';
     case 'unknown_province': case 'invalid_province': return 'Provincia non valida';
     case 'unknown_nation': return 'Nazione sconosciuta';
@@ -72,7 +74,7 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
 }
 
 /** Riepilogo economico di una nazione per la schermata Economia. ctx: { build, catalog, workersShare, resourceLabel(id), provinceName(id), infra? (infrastructure.json: nomi dei livelli) } */
-export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id, infra = null, hospitalKinds = {} }) {
+export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id, infra = null, hospitalKinds = {}, portLevels = null }) {
   const n = state.nations?.[nationId];
   if (!n) return null;
   const counts = new Map();
@@ -80,6 +82,7 @@ export function economySummary(state, nationId, { build, catalog, workersShare, 
   const label = (kind, c) => (kind === 'mine' ? `Miniera ${resourceLabel(c.resource)} L${c.level}`
     : kind === 'infra' ? `${infra ? levelName2(infra, c.level) : `Livello ${c.level}`} (collegamento)`
     : kind === 'hospital' ? (hospitalKinds[c.hospitalKind]?.name ?? 'Ospedale')
+    : kind === 'port' ? `${portLevels?.levels?.find((l) => l.level === c.level)?.name_it ?? `Porto livello ${c.level}`} (porto)`
     : kind === 'upgrade' ? `${catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId} → ${levelName(catalog, c.level)}`
       : (catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId));
   return {

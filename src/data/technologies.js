@@ -24,7 +24,7 @@ export function validateTechnologies(file, { consumers = null } = {}) {
     if (!Array.isArray(t.prerequisites)) errors.push(`tecnologie: ${t.id} senza elenco prerequisiti`);
     if (!Array.isArray(t.unlocks) || t.unlocks.length === 0) errors.push(`tecnologie: ${t.id} non sblocca nulla`);
     for (const u of t.unlocks ?? []) {
-      if (u.kind === 'factory_level' ? !Number.isInteger(u.level) : u.kind === 'security' ? typeof u.capability !== 'string' : true) errors.push(`tecnologie: ${t.id} con sblocco non valido`);
+      if (u.kind === 'factory_level' ? !Number.isInteger(u.level) : u.kind === 'security' ? typeof u.capability !== 'string' : u.kind === 'port_level' ? !Number.isInteger(u.level) : true) errors.push(`tecnologie: ${t.id} con sblocco non valido`);
     }
   }
   for (const t of byId.values()) for (const p of t.prerequisites ?? []) if (!byId.has(p)) errors.push(`tecnologie: ${t.id} richiede ${p}, che non esiste`);
@@ -45,10 +45,11 @@ export function validateTechnologies(file, { consumers = null } = {}) {
 export const techIndex = (file) => new Map((file?.technologies ?? []).map((t) => [t.id, t]));
 
 /** Id richiesti dalle regole: livelli fabbrica (`requires`) e capacità di sicurezza (`requires` per capacità in security.json). */
-export function consumersOf({ levels = null, security = null } = {}) {
+export function consumersOf({ levels = null, security = null, ports = null } = {}) {
   const s = new Set();
   for (const l of levels?.levels ?? []) if (l.requires) s.add(l.requires);
   for (const r of Object.values(security?.capabilities ?? {})) if (r) s.add(r);
+  for (const l of ports?.levels ?? []) if (l.requires) s.add(l.requires);
   return s;
 }
 

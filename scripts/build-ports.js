@@ -11,8 +11,10 @@ export async function buildFile() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const { file, unresolved } = await buildFile();
+  const { file, coastal, unresolved } = await buildFile();
   if (unresolved.length) { console.error(`porti non trovati: ${unresolved.join(', ')}`); process.exitCode = 1; }
   await writeFile(new URL('../data/ports/ports_1936.json', import.meta.url), `${JSON.stringify(file, null, 1)}\n`);
+  await writeFile(new URL('../data/ports/coastal_cities.json', import.meta.url), `${JSON.stringify(coastal)}\n`);
+  console.log(`coastal_cities.json: ${Object.keys(coastal.cities).length} città costiere`);
   console.log(`ports_1936.json: ${Object.keys(file.ports).length} porti`);
 }

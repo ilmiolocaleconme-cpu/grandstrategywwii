@@ -58,12 +58,36 @@ export function LinkList({ data, onOrder }) {
 }
 const Msg2 = ({ msg }) => (msg ? <p className={msg.ok ? 'muted' : 'warn'} role="status">{msg.text}</p> : null);
 
+/** Porti delle città costiere della provincia (provincePortRows): livello attuale, prossimo livello, costo. onOrder(order) → { ok, text }. */
+export function PortList({ rows, onOrder }) {
+  const [msg, setMsg] = useState(null);
+  if (!rows || rows.length === 0) return null;
+  return (
+    <section aria-label="Porti">
+      <h3>Porti</h3>
+      <Msg2 msg={msg} />
+      <ul className="build-list">
+        {rows.map((r) => (
+          <li key={r.cittaId} className="build-row">
+            <div>
+              <strong>{r.name}</strong> · {r.levelName}{r.atMax ? ' (massimo)' : ` → ${r.nextName}`}
+              {!r.atMax && r.cost ? <div className="muted small">{`${fmt(r.cost.ecv)} ECV · ${fmt(r.cost.steel)} t acciaio · ${fmt(r.cost.workers)} lavoratori · ${r.cost.days} giorni`}</div> : null}
+              {!r.atMax && !r.ok ? <div className="warn small">{r.message}</div> : null}
+            </div>
+            {!r.atMax ? <button type="button" className="nation-btn" disabled={!r.ok} onClick={() => setMsg(onOrder(r.order))}>{r.level === 0 ? 'Costruisci' : 'Migliora'}</button> : null}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 /** Elenco di ciò che si può costruire in una provincia (opzioni da provinceBuildOptions). onOrder(order) → testo di esito. `upgrades`: miglioramenti degli impianti costruiti qui (upgradeOptions). */
-export function ProvinceBuild({ options, onOrder, upgrades = null, links = null }) {
+export function ProvinceBuild({ options, onOrder, upgrades = null, links = null, ports = null }) {
   const [msg, setMsg] = useState(null);
   if (!options) return null;
   if (options.reason === 'not_controlled') return <section aria-label="Costruzioni"><h3>Costruzioni</h3><p className="muted small">Puoi costruire solo nelle province che controlli.</p></section>;
-  if (options.mines.length === 0 && options.factories.length === 0 && !(options.hospitals?.length > 0)) return null;
+  if (options.mines.length === 0 && options.factories.length === 0 && !(options.hospitals?.length > 0) && !(ports && ports.length > 0)) return null;
   const row = (o) => (
     <li key={JSON.stringify(o.order)} className="build-row">
       <div>
@@ -86,13 +110,14 @@ export function ProvinceBuild({ options, onOrder, upgrades = null, links = null 
         </li>))}</ul></> : null}
       <UpgradeList upgrades={upgrades} onOrder={onOrder} title="Miglioramenti qui" />
       <LinkList data={links} onOrder={onOrder} />
+      <PortList rows={ports} onOrder={onOrder} />
       <details open><summary>Fabbriche ({options.factories.length})</summary><ul className="build-list">{options.factories.map(row)}</ul></details>
     </section>
   );
 }
 
 /** Riepilogo economico della nazione del giocatore (economySummary). */
-export function EconomyPanel({ summary, upgrades = null, onOrder = null, network = null }) {
+export function EconomyPanel({ summary, upgrades = null, onOrder = null, network = null, harbours = null }) {
   if (!summary) return null;
   const { balance, population, workers, power, stocks, plants, queue, mines } = summary;
   return (
@@ -110,6 +135,7 @@ export function EconomyPanel({ summary, upgrades = null, onOrder = null, network
       )}
       {upgrades && onOrder ? <UpgradeList upgrades={upgrades} onOrder={onOrder} title="Migliora gli impianti" /> : null}
       {network ? <p className="small">Rete (km): {[4, 3, 2, 1].map((l) => `${network.names[l]} ${fmt(network.km[l])}`).join(' · ')} · {network.upgradable} collegamenti migliorabili</p> : null}
+      {harbours ? <p className="small">Porti: {[3, 2, 1].map((l) => `${harbours.names[l]} ${harbours.count[l]}`).join(' · ')}</p> : null}
       <h3>Scorte (t)</h3>
       <p className="small">{stocks.map((s) => `${s.label} ${fmt(s.tons)}`).join(' · ') || 'vuote'}</p>
       <details><summary>Impianti ({plants.reduce((a, p) => a + p.count, 0)}) e miniere ({mines.length})</summary>

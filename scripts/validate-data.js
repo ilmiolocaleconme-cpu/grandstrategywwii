@@ -28,6 +28,7 @@ import { validateFactoryLevels } from '../src/data/factoryLevels.js';
 import { validateTechnologies, consumersOf } from '../src/data/technologies.js';
 import { validateSecurityConfig } from '../src/rules/security.js';
 import { validatePortsList, validatePorts, buildPorts } from '../src/data/ports.js';
+import { validatePortLevels } from '../src/data/portLevels.js';
 import { validateGarrisonEstimate, buildGarrisonEstimate } from '../src/data/garrison.js';
 import { validateInfrastructureConfig, validateLinkEdges, buildLinkEdges } from '../src/data/infrastructure.js';
 import { validateFertilizerEffect, validateHorseBreeding } from '../src/data/livestock.js';
@@ -140,13 +141,16 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const techDoc = JSON.parse(await text('research/technologies.json'));
     const securityDoc = JSON.parse(await text('security/security.json'));
     const techIds = new Set(techDoc.technologies.map((t) => t.id));
-    errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc }) }));
+    errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc, ports: JSON.parse(await text('ports/port_levels.json')) }) }));
     for (const l of levelsDoc.levels) if (l.requires && !techIds.has(l.requires)) errors.push(`livelli fabbriche: L${l.level} richiede ${l.requires}, che non esiste`);
     errors.push(...validateSecurityConfig(securityDoc, { techIds }));
     // Porti 1936 (ipotesi): elenco valido, ogni porto è una città costiera, file derivato coerente
     const portsList = JSON.parse(await text('ports/ports_list.json')); const portsDoc = JSON.parse(await text('ports/ports_1936.json'));
     const portCities = JSON.parse(await text('citta_grandi.json')).features.map((f) => f.properties);
-    errors.push(...validatePortsList(portsList, { cities: portCities }), ...validatePorts(portsDoc));
+    errors.push(...validatePortsList(portsList, { cities: portCities }), ...validatePorts(portsDoc), ...validatePortLevels(JSON.parse(await text('ports/port_levels.json')), { techIds }));
+    const coastalDoc = JSON.parse(await text('ports/coastal_cities.json'));
+    if (JSON.stringify(buildPorts({ list: portsList, cities: portCities }).coastal) !== JSON.stringify(coastalDoc)) errors.push('porti: coastal_cities.json non coincide con il catalogo città, rigenerare con node scripts/build-ports.js');
+    for (const id of Object.keys(portsDoc.ports)) if (!coastalDoc.cities[id]) errors.push(`porti: ${id} non è nell'indice delle città costiere`);
     if (JSON.stringify(buildPorts({ list: portsList, cities: portCities }).file) !== JSON.stringify(portsDoc)) errors.push('porti: ports_1936.json non coincide con l\'elenco, rigenerare con node scripts/build-ports.js');
     // Stima delle guarnigioni 1936: il file deve coincidere con quello rigenerabile dai dati (nessuna deriva)
     const garDoc = JSON.parse(await text('military/garrison_estimate_1936.json'));

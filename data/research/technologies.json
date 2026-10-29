@@ -1,15 +1,17 @@
 {
   "schema": "technologies-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Quattro tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE.",
+  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE.",
   "branches": [
     { "id": "industry", "name_it": "Industria" },
-    { "id": "security", "name_it": "Sicurezza e informazioni" }
+    { "id": "security", "name_it": "Sicurezza e informazioni" },
+    { "id": "logistics", "name_it": "Logistica" }
   ],
   "technologies": [
     { "id": "TECH-IND-SERIES", "branch": "industry", "name_it": "Produzione in serie", "description": "Linee di montaggio e organizzazione di fabbrica: permette di portare una fabbrica a complesso industriale.", "prerequisites": [], "cost_ecv": 60, "days": 90, "unlocks": [{ "kind": "factory_level", "level": 2 }] },
     { "id": "TECH-IND-MASS", "branch": "industry", "name_it": "Organizzazione industriale di massa", "description": "Pianificazione di grandi stabilimenti integrati: permette il grande complesso industriale.", "prerequisites": ["TECH-IND-SERIES"], "cost_ecv": 150, "days": 180, "unlocks": [{ "kind": "factory_level", "level": 3 }] },
     { "id": "TECH-SEC-INTEL", "branch": "security", "name_it": "Servizi informazioni e sabotaggio", "description": "Reclutamento e addestramento di spie e sabotatori; operazioni segrete contro impianti stranieri.", "prerequisites": [], "cost_ecv": 40, "days": 60, "unlocks": [{ "kind": "security", "capability": "agents" }] },
-    { "id": "TECH-SEC-CI", "branch": "security", "name_it": "Controspionaggio", "description": "Caccia alle spie straniere e coordinamento con la polizia militare: le spie ostili vengono scoperte e la polizia militare difende meglio.", "prerequisites": ["TECH-SEC-INTEL"], "cost_ecv": 80, "days": 120, "unlocks": [{ "kind": "security", "capability": "counterintelligence" }] }
+    { "id": "TECH-SEC-CI", "branch": "security", "name_it": "Controspionaggio", "description": "Caccia alle spie straniere e coordinamento con la polizia militare: le spie ostili vengono scoperte e la polizia militare difende meglio.", "prerequisites": ["TECH-SEC-INTEL"], "cost_ecv": 80, "days": 120, "unlocks": [{ "kind": "security", "capability": "counterintelligence" }] },
+    { "id": "TECH-LOG-HARBOUR", "branch": "logistics", "name_it": "Ingegneria portuale", "description": "Banchine profonde, gru e magazzini: permette di portare un porto regionale a grande porto.", "prerequisites": [], "cost_ecv": 80, "days": 120, "unlocks": [{ "kind": "port_level", "level": 3 }] }
   ]
 }

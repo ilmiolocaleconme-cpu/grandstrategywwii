@@ -12,6 +12,8 @@ import { factoryBuildCost, mineCost } from '../data/economy.js';
 import { fullCapacityFlows } from '../data/recipes.js';
 import { techsOf } from './research.js';
 import { levelOf, upgradeEdgeCost } from '../data/infrastructure.js';
+import { portCost, portLevelDef, maxPortLevel } from '../data/portLevels.js';
+import { portLevelIn } from './portsState.js';
 import { levelDef, levelMult, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
 import { hydroMwByOwner } from './economySystem.js';
 import { entityOfProvinceId } from '../data/provinceOwner.js';
@@ -23,9 +25,10 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
  * ctx: { catalog: { recipes: Map, factories: Map, levels?: factory_levels.json }, economy, sites (mine_sites.json), hydro (hydro_plants.json), political,
  *        workersShare (quota della popolazione), provinceExists?: (id) => boolean,
  *        infra?: { index (createInfraIndex), config (infrastructure.json) }: senza, gli ordini 'infra' sono rifiutati,
- *        hospitals?: { params (hospital_care.json), manpowerAvailable(state, nationId) → uomini liberi del pool reclutabile, isRear?(state, nationId, provinceId) }: senza, gli ordini 'hospital' sono rifiutati }
+ *        hospitals?: { params (hospital_care.json), manpowerAvailable(state, nationId) → uomini liberi del pool reclutabile, isRear?(state, nationId, provinceId) }: senza, gli ordini 'hospital' sono rifiutati
+ *        ports?: { levels (port_levels.json), coastal (coastal_cities.json → cities), base (ports_1936.json) }: senza, gli ordini 'port' sono rifiutati }
  */
-export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, infra = null, hospitals = null }) {
+export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, infra = null, hospitals = null, ports = null }) {
   const entityIds = political.map((e) => e.id);
   const entityOf = (provinceId) => entityOfProvinceId(provinceId, entityIds); // anche MAR_ES, NLD_EI, JPN_MANDATE
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
@@ -58,7 +61,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     if (!nation) return fail('unknown_nation');
     const { provinceId } = order;
     let entity = null;
-    if (order.kind !== 'upgrade' && order.kind !== 'infra') {
+    if (order.kind !== 'upgrade' && order.kind !== 'infra' && order.kind !== 'port') {
       if (typeof provinceId !== 'string') return fail('invalid_province');
       if (provinceExists && !provinceExists(provinceId)) return fail('unknown_province');
       entity = entityOf(provinceId);
@@ -106,6 +109,19 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       const b = hospitalBuildCost(order.hospitalKind, hospitals.params);
       cost = { ecv: b.ecv, steel: b.steel, workers: 0, manpower: b.staff, days: b.days };
       entry = { kind: 'hospital', hospitalKind: order.hospitalKind, provinceId, territory: entity, staff: b.staff };
+    } else if (order.kind === 'port') {
+      // porto in una città costiera: costruzione (0 → 1) o miglioramento; serve il controllo della provincia madre della città, un lavoro per città
+      if (!ports) return fail('no_port_data');
+      const city = ports.coastal?.[order.cittaId];
+      if (!city) return fail('not_coastal');
+      if (state.control[entityOf(city.parentProvince)] !== nationId) return fail('not_controlled');
+      if (nation.construction.some((c) => c.kind === 'port' && c.cittaId === order.cittaId)) return fail('already_building');
+      const level = portLevelIn(state, ports.base, order.cittaId);
+      if (level >= maxPortLevel(ports.levels)) return fail('max_level');
+      cost = portCost(ports.levels, economy, level, state.difficulty);
+      if (!cost) return fail('max_level');
+      requires = portLevelDef(ports.levels, level + 1)?.requires ?? null;
+      entry = { kind: 'port', cittaId: order.cittaId, provinceId: city.parentProvince, territory: entityOf(city.parentProvince), fromLevel: level, level: level + 1 };
     } else if (order.kind === 'factory') {
       const q = quoteFactory(state, order.factoryId, order.recipeId);
       if (!q.ok) return fail(q.reason);
@@ -133,7 +149,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     const check = canStartBuild({ cost: { ecv: cost.ecv, steel: cost.steel, workers: cost.workers, energyMw: requiredEnergy, manpower: cost.manpower }, requires }, have);
     if (!check.ok) return fail('missing', { missing: check.missing });
 
-    const id = `${nationId}:${state.day}:${nation.construction.length}:${entry.kind}:${order.edgeId ?? provinceId}`;
+    const id = `${nationId}:${state.day}:${nation.construction.length}:${entry.kind}:${order.edgeId ?? order.cittaId ?? provinceId}`;
     const full = { id, ...entry, daysLeft: cost.days, totalDays: cost.days, workers: cost.workers, paid: { ecv: cost.ecv, steel: cost.steel }, startedOn: state.date };
     const stocks = { ...nation.stocks, steel: r3((nation.stocks.steel ?? 0) - cost.steel) };
     const next = { ...nation, balance: r3(nation.balance - cost.ecv), stocks, construction: [...nation.construction, full] };
@@ -144,7 +160,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
   function constructionDay(state) {
     if (!state.nations) return state;
     let nations = null;
-    const infraDone = {};
+    const infraDone = {}; const portDone = {};
     for (const id of Object.keys(state.nations).sort()) {
       const n = state.nations[id];
       if (n.construction.length === 0) continue;
@@ -156,6 +172,8 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
           infraDone[c.edgeId] = c.level;
         } else if (c.kind === 'hospital') {
           hospitalList.push({ id: `${id}:${c.provinceId}:${c.hospitalKind}:d${state.day}:${hospitalList.length}`, kind: c.hospitalKind, provinceId: c.provinceId, territory: c.territory, staff: c.staff, builtOn: state.date });
+        } else if (c.kind === 'port') {
+          portDone[c.cittaId] = c.level;
         } else if (c.kind === 'upgrade') {
           const i = facilities.findIndex((f) => f.id === c.facilityId);
           if (i >= 0) facilities[i] = { ...facilities[i], level: c.level };
@@ -172,8 +190,8 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       nations[id] = { ...n, construction: queue, facilities, mines, hospitals: hospitalList };
     }
     if (!nations) return state;
-    const done = Object.keys(infraDone).length > 0;
-    return { ...state, nations, ...(done ? { infrastructure: { ...state.infrastructure, levels: { ...state.infrastructure?.levels, ...infraDone } } } : {}) };
+    const done = Object.keys(infraDone).length > 0; const portsDone = Object.keys(portDone).length > 0;
+    return { ...state, nations, ...(done ? { infrastructure: { ...state.infrastructure, levels: { ...state.infrastructure?.levels, ...infraDone } } } : {}), ...(portsDone ? { ports: { ...state.ports, levels: { ...state.ports?.levels, ...portDone } } } : {}) };
   }
 
   return { start, constructionDay, quoteFactory, powerBalance };
