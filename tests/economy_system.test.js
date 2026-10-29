@@ -46,10 +46,10 @@ test('un giorno: la Germania produce acciaio e consuma minerale, la cassa sale; 
 
 test('fascia C: nessuna industria, la cassa cresce solo con la quota dei territori, nessuna scorta oltre la riserva minima', () => {
   const s = sim(60);
-  // dal 29/10/2026 la fascia C ha una fabbrica di artiglieria al 5%: in 60 giorni ~70 pezzi, ~252 t di acciaio dalla riserva comune (rischio noto)
+  // dal 29/10/2026 la fascia C ha una fabbrica di artiglieria al 5%: in 60 giorni ~70 pezzi, ~252 t di acciaio dalla scorta iniziale (in aggiunta alla riserva delle costruzioni)
   assert.ok(Math.abs(s.nations.ALB.stocks.artillery - 70.02) < 0.5, 'circa 1,17 pezzi al giorno');
-  assert.ok(Math.abs(s.nations.ALB.stocks.steel - (500 - 252)) < 2, 'consuma acciaio dalla riserva minima');
-  assert.ok(Math.abs(s.nations.ALB.stocks.components - (40 - 21)) < 1);
+  assert.ok(Math.abs(s.nations.ALB.stocks.steel - (1260 - 252)) < 2, 'consuma la scorta dell\'artiglieria, non la riserva delle costruzioni (500 t)');
+  assert.ok(Math.abs(s.nations.ALB.stocks.components - (65 - 21)) < 1);
   assert.ok(s.nations.ALB.balance > fresh().nations.ALB.balance);
 });
 

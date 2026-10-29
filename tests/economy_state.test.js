@@ -41,7 +41,7 @@ test('impianti e scorte seguono i dati: USA 30 acciaierie, colonie al proprietar
   assert.ok(nations.GBR.facilities.some((f) => f.territory === 'GBR'));
   assert.equal(nations.DEU.stocks.iron_ore, 227010);
   assert.equal(nations.GBR.stocks.coal, stocks.stocks.CEY.coal + stocks.stocks.MAL.coal, 'le scorte delle colonie vanno al proprietario');
-  for (const id of industry.tierC) { assert.equal(nations[id].baseGridMw, 40); assert.equal(nations[id].facilities.length, 1, 'solo la fabbrica minima di artiglieria'); assert.deepEqual(nations[id].stocks, { steel: stocks.floor.steel, components: 40 }, 'riserva minima di acciaio e scorta iniziale di componenti'); }
+  for (const id of industry.tierC) { assert.equal(nations[id].baseGridMw, 40); assert.equal(nations[id].facilities.length, 1, 'solo la fabbrica minima di artiglieria'); assert.deepEqual(nations[id].stocks, { steel: stocks.floor.steel + 760, components: 65 }, 'riserva minima di acciaio + scorta iniziale dell\'artiglieria'); }
   assert.equal(nations.USA.baseGridMw, 0);
   const ids = Object.values(nations).flatMap((n) => n.facilities.map((f) => f.id));
   assert.equal(new Set(ids).size, ids.length, 'id impianto unici');
@@ -112,13 +112,13 @@ test('riserva minima di acciaio (29/10/2026): ogni nazione parte con almeno 500 
   assert.equal(nations.ITA.stocks.steel, 21000, 'Italia: lo stock calcolato resta');
   assert.equal(nations.BEL.stocks.steel, 6000);
   assert.equal(nations.FRA.stocks.steel, 500, 'Francia: nessun deficit di acciaio, riceve solo la riserva');
-  assert.equal(nations.BRA.stocks.steel, 500, 'Brasile: senza industria nei dati, riceve la riserva');
+  assert.equal(nations.BRA.stocks.steel, 500 + 760, 'Brasile (fascia C): riserva 500 t + scorta dell\'artiglieria minima 760 t');
 });
 
 test('riserva minima: scala con la difficoltà e basta all\'ordine più economico in ognuna', () => {
   const economy = json('economy/economy.json');
   const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
-  const expected = { facile: 750, media: 500, reale: 350 };
+  const expected = { facile: 1890, media: 1260, reale: 882 }; // (500 riserva + 760 scorta artiglieria della fascia C) × moltiplicatore di difficoltà
   for (const d of ['facile', 'media', 'reale']) {
     const n = buildNations({ political, ...start, economy, difficulty: d });
     assert.equal(n.BRA.stocks.steel, expected[d], `${d}: riserva scalata`);

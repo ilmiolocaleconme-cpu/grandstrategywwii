@@ -69,7 +69,7 @@ test('la Cecoslovacchia parte con una fabbrica di carri e una di artiglieria; le
 import { buildNations } from '../src/game/economyState.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
 
-test('fascia C: una fabbrica di artiglieria limitata al 5% con 40 t di componenti; le altre fasce non cambiano', () => {
+test('fascia C: una fabbrica di artiglieria limitata al 5% con 760 t di acciaio e 65 t di componenti in più della riserva; le altre fasce non cambiano', () => {
   const industry = json('industry/initial_industry.json');
   const nationIds = json('nations.json').map((n) => n.id);
   const political = json('political_1936.json');
@@ -78,8 +78,8 @@ test('fascia C: una fabbrica di artiglieria limitata al 5% con 40 t di component
   assert.equal(n[c].facilities.length, 1);
   assert.equal(n[c].facilities[0].type, 'FCT-ARTILLERY');
   assert.equal(n[c].facilities[0].throttle, 0.05);
-  assert.equal(n[c].stocks.components, 40);
-  assert.equal(n[c].stocks.steel, 500, 'l\'acciaio viene dalla riserva minima comune');
+  assert.equal(n[c].stocks.components, 65);
+  assert.equal(n[c].stocks.steel, 1260, 'riserva minima di costruzione 500 t + scorta dell\'artiglieria 760 t, in aggiunta');
   assert.equal(n.DEU.facilities.filter((f) => f.type === 'FCT-ARTILLERY').length, 0);
   assert.ok(industry.tierC.every((id) => n[id].facilities.length === 1), 'tutte e 51');
   // un giorno di produzione: 5% di 23,33 pezzi = 1,167 pezzi, 4,2 t di acciaio, 0,35 t di componenti

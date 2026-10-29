@@ -51,7 +51,6 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
       const list = nations[id].facilities;
       list.push({ id: `${id}:${id}:${minor.factory}:${minor.recipeId}:${k}`, type: minor.factory, recipeId: minor.recipeId, territory: id, damage: 0, throttle: minor.throttle, priority: list.length + 1, active: true });
     }
-    for (const [res, t] of Object.entries(minor.startStock ?? {})) nations[id].stocks[res] = (nations[id].stocks[res] ?? 0) + t;
   }
   for (const territory of Object.keys(stocks.stocks).sort()) {
     const owner = ownerOf.get(territory);
@@ -67,6 +66,11 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
   }
   // riserva minima uguale per tutte (stocks.floor, es. 500 t di acciaio): è un massimo, chi ha già di più non cambia; scala con la difficoltà come gli stock
   for (const n of Object.values(nations)) for (const [res, t] of Object.entries(stocks.floor ?? {})) n.stocks[res] = Math.max(n.stocks[res] ?? 0, t);
+  // scorta iniziale dei paesi minori, IN AGGIUNTA alla riserva minima (così la fabbrica di artiglieria non consuma la riserva delle costruzioni)
+  if (minor) for (const id of industry.tierC ?? []) {
+    if (!nations[id]) continue;
+    for (const [res, t] of Object.entries(minor.startStock ?? {})) nations[id].stocks[res] = (nations[id].stocks[res] ?? 0) + t;
+  }
   for (const n of Object.values(nations)) for (const res of Object.keys(n.stocks)) n.stocks[res] = Math.ceil(n.stocks[res] * stockMul - 1e-9);
   if (population) for (const [id, n] of Object.entries(nations)) n.population = populationOf(population, id); // MISSING_DATA = 0
   if (cash) for (const [id, n] of Object.entries(nations)) {
