@@ -24,7 +24,7 @@ Parametri: step 1.7, 100 punti di output base mondiale per risorsa (quindi perce
 | Tungsteno | 7 | Cina 65%, Portogallo 13%, Bolivia 8% | 2.19 | ×1,65 | 45% / 65% / 79% / 93% | sì (Cina) |
 | Uranio | 5 | Belgio 86%, Regno Unito 10%, Cecoslovacchia 2% | 1.33 | ×1,33 | 72% / 86% / 93% / 98% | sì (Belgio) |
 | Vanadio | 4 | Stati Uniti 57%, Peru 34%, Regno Unito 7% | 2.25 | ×2,89 | 48% / 57% / 63% / 73% | sì (Stati Uniti) |
-| Frumento | 5 | Stati Uniti 37%, Regno Unito 29%, URSS 22% | 3.55 | ×2,45 | 33% / 37% / 42% / 53% | no |
+| Frumento | 41 | Regno Unito 18%, Stati Uniti 14%, Francia 11% | 10.88 | ×2,72 | 16% / 19% / 20% / 28% | no |
 
 ## Prodotti (capacità industriale: fonderie e fabbriche, non giacimenti)
 

@@ -2,14 +2,46 @@
  "schema": "province-resources-v1",
  "quality": "reference",
  "byProvince": {
+  "P_ALG_ALGER": [
+   "wheat"
+  ],
   "P_ALG_AURES": [
    "antimony"
   ],
+  "P_ALG_BONE": [
+   "wheat"
+  ],
+  "P_ALG_CHELIFF": [
+   "wheat"
+  ],
   "P_ALG_CONSTANTINE": [
+   "wheat",
    "antimony"
   ],
+  "P_ALG_HODNA": [
+   "wheat"
+  ],
+  "P_ALG_MOSTAGANEM": [
+   "wheat"
+  ],
+  "P_ALG_ORAN": [
+   "wheat"
+  ],
+  "P_ALG_SETIF": [
+   "wheat"
+  ],
   "P_ALG_TEBESSA": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_ALG_TIARET": [
+   "wheat"
+  ],
+  "P_ALG_TITTERI": [
+   "wheat"
+  ],
+  "P_ALG_TLEMCEN": [
+   "wheat"
   ],
   "P_ARG_BUENOS_AIRES": [
    "wheat"
@@ -32,20 +64,134 @@
   "P_ARG_SANTA_FE": [
    "wheat"
   ],
+  "P_AUS_NEW_SOUTH_WALES": [
+   "wheat"
+  ],
+  "P_AUS_NORFOLK": [
+   "wheat"
+  ],
+  "P_AUS_NORTHERN_TERRITORY": [
+   "wheat"
+  ],
+  "P_AUS_QUEENSLAND": [
+   "wheat"
+  ],
+  "P_AUS_SOUTH_AUSTRALIA": [
+   "wheat"
+  ],
+  "P_AUS_TASMANIA": [
+   "wheat"
+  ],
+  "P_AUS_VICTORIA": [
+   "wheat"
+  ],
+  "P_AUS_WESTERN_AUSTRALIA": [
+   "wheat"
+  ],
+  "P_AUT_BURGENLAND": [
+   "wheat"
+  ],
+  "P_AUT_LOWER_AUSTRIA": [
+   "wheat"
+  ],
   "P_AUT_STYRIA": [
    "iron_ore"
   ],
+  "P_AUT_UPPER_AUSTRIA": [
+   "wheat"
+  ],
   "P_BEL_ANTWERP": [
+   "wheat",
    "uranium"
   ],
+  "P_BEL_BRABANT": [
+   "wheat"
+  ],
+  "P_BEL_EAST_FLANDERS": [
+   "wheat"
+  ],
   "P_BEL_HAINAUT": [
-   "coal"
+   "coal",
+   "wheat"
   ],
   "P_BEL_LIEGE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_BEL_LIMBURG": [
+   "wheat"
+  ],
+  "P_BEL_LUXEMBOURG": [
+   "wheat"
+  ],
+  "P_BEL_NAMUR": [
+   "wheat"
+  ],
+  "P_BEL_WEST_FLANDERS": [
+   "wheat"
+  ],
+  "P_BGR_BURGAS": [
+   "wheat"
+  ],
+  "P_BGR_GABROVO": [
+   "wheat"
+  ],
+  "P_BGR_HASKOVO": [
+   "wheat"
+  ],
+  "P_BGR_KARDZHALI": [
+   "wheat"
+  ],
+  "P_BGR_LOVECH": [
+   "wheat"
+  ],
+  "P_BGR_MONTANA": [
+   "wheat"
+  ],
+  "P_BGR_PERNIK": [
+   "wheat"
+  ],
+  "P_BGR_PLEVEN": [
+   "wheat"
+  ],
+  "P_BGR_PLOVDIV": [
+   "wheat"
+  ],
+  "P_BGR_RAZGRAD": [
+   "wheat"
+  ],
+  "P_BGR_RUSE": [
+   "wheat"
+  ],
+  "P_BGR_SHUMEN": [
+   "wheat"
+  ],
+  "P_BGR_SLIVEN": [
+   "wheat"
   ],
   "P_BGR_SOFIA": [
    "iron_ore"
+  ],
+  "P_BGR_STARA_ZAGORA": [
+   "wheat"
+  ],
+  "P_BGR_TARGOVISHTE": [
+   "wheat"
+  ],
+  "P_BGR_VARNA": [
+   "wheat"
+  ],
+  "P_BGR_VELIKO_TARNOVO": [
+   "wheat"
+  ],
+  "P_BGR_VIDIN": [
+   "wheat"
+  ],
+  "P_BGR_VRATSA": [
+   "wheat"
+  ],
+  "P_BGR_YAMBOL": [
+   "wheat"
   ],
   "P_BOL_ORURO": [
    "tungsten",
@@ -115,6 +261,36 @@
   ],
   "P_CEY_SABARAGAMUVA_PALATA": [
    "rubber"
+  ],
+  "P_CHE_AARGAU": [
+   "wheat"
+  ],
+  "P_CHE_APPENZELL_AUSSERRHODEN": [
+   "wheat"
+  ],
+  "P_CHE_BASEL_LANDSCHAFT": [
+   "wheat"
+  ],
+  "P_CHE_BASEL_STADT": [
+   "wheat"
+  ],
+  "P_CHE_FRIBOURG": [
+   "wheat"
+  ],
+  "P_CHE_LUCERNE": [
+   "wheat"
+  ],
+  "P_CHE_SCHAFFHAUSEN": [
+   "wheat"
+  ],
+  "P_CHE_THURGAU": [
+   "wheat"
+  ],
+  "P_CHE_ZUG": [
+   "wheat"
+  ],
+  "P_CHE_ZURICH": [
+   "wheat"
   ],
   "P_CHL_ANTOFAGASTA": [
    "copper",
@@ -192,72 +368,200 @@
   ],
   "P_CZE_BOHEMIA": [
    "iron_ore",
+   "wheat",
    "tin",
    "antimony",
    "mercury",
    "uranium"
   ],
   "P_CZE_MORAVIAN_SILESIAN_COUNTRY": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_CZE_SLOVAKIA": [
+   "wheat"
+  ],
+  "P_CZE_SUBCARPATHIAN_RUS": [
+   "wheat"
+  ],
+  "P_DEU_BADEN": [
+   "wheat"
   ],
   "P_DEU_BAYERISCHE_OSTMARK": [
+   "wheat",
    "mercury"
+  ],
+  "P_DEU_BERLIN": [
+   "wheat"
   ],
   "P_DEU_DUESSELDORF": [
    "coal",
+   "wheat",
    "mercury"
   ],
   "P_DEU_ESSEN": [
-   "coal"
+   "coal",
+   "wheat"
   ],
   "P_DEU_FRANKEN": [
+   "wheat",
    "mercury"
   ],
+  "P_DEU_HALLE_MERSEBURG": [
+   "wheat"
+  ],
+  "P_DEU_HAMBURG": [
+   "wheat"
+  ],
+  "P_DEU_HESSEN_NASSAU": [
+   "wheat"
+  ],
   "P_DEU_KOBLENZ_TRIER": [
+   "wheat",
    "mercury"
   ],
   "P_DEU_KOELN_AACHEN": [
+   "wheat",
    "mercury"
+  ],
+  "P_DEU_KURHESSEN": [
+   "wheat"
+  ],
+  "P_DEU_KURMARK": [
+   "wheat"
+  ],
+  "P_DEU_MAGDEBURG_ANHALT": [
+   "wheat"
   ],
   "P_DEU_MAINFRANKEN": [
+   "wheat",
    "mercury"
+  ],
+  "P_DEU_MECKLENBURG_LUEBECK": [
+   "wheat"
   ],
   "P_DEU_MUENCHEN_OBERBAYERN": [
+   "wheat",
    "mercury"
   ],
+  "P_DEU_NIEDERSCHLESIEN": [
+   "wheat"
+  ],
+  "P_DEU_OBERSCHLESIEN": [
+   "wheat"
+  ],
+  "P_DEU_OSTPREUSSEN": [
+   "wheat"
+  ],
+  "P_DEU_OST_HANNOVER": [
+   "wheat"
+  ],
+  "P_DEU_POMMERN": [
+   "wheat"
+  ],
   "P_DEU_SAARPFALZ": [
-   "coal"
+   "coal",
+   "wheat"
   ],
   "P_DEU_SACHSEN": [
    "iron_ore",
+   "wheat",
    "tin",
    "manganese",
    "mercury"
   ],
   "P_DEU_SCHLESWIG_HOLSTEIN": [
-   "oil"
+   "oil",
+   "wheat"
   ],
   "P_DEU_SCHWABEN": [
+   "wheat",
    "mercury"
   ],
   "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": [
-   "oil"
+   "oil",
+   "wheat"
   ],
   "P_DEU_THUERINGEN": [
    "iron_ore",
+   "wheat",
    "manganese"
   ],
+  "P_DEU_WESER_EMS": [
+   "wheat"
+  ],
+  "P_DEU_WESTFALEN_NORD": [
+   "wheat"
+  ],
   "P_DEU_WESTFALEN_SUED": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_DEU_WUERTTEMBERG_HOHENZOLLERN": [
+   "wheat"
+  ],
+  "P_DNK_HOVEDSTADEN": [
+   "wheat"
+  ],
+  "P_DNK_MIDTJYLLAND": [
+   "wheat"
+  ],
+  "P_DNK_NORDJYLLAND": [
+   "wheat"
+  ],
+  "P_DNK_SJAELLAND": [
+   "wheat"
+  ],
+  "P_DNK_SYDDANMARK": [
+   "wheat"
   ],
   "P_ECU_SANTA_ELENA": [
    "oil"
   ],
+  "P_EGY_AD_DAQAHLIYAH": [
+   "wheat"
+  ],
   "P_EGY_AL_BAHR_AL_AHMAR": [
    "oil"
   ],
+  "P_EGY_AL_BUHAYRAH": [
+   "wheat"
+  ],
+  "P_EGY_AL_GHARBIYAH": [
+   "wheat"
+  ],
+  "P_EGY_AL_ISKANDARIYAH": [
+   "wheat"
+  ],
+  "P_EGY_AL_MINUFIYAH": [
+   "wheat"
+  ],
+  "P_EGY_AL_QALYUBIYAH": [
+   "wheat"
+  ],
+  "P_EGY_ASH_SHARQIYAH": [
+   "wheat"
+  ],
   "P_EGY_AS_SUWAYS": [
    "oil"
+  ],
+  "P_EGY_BUR_SA_ID": [
+   "wheat"
+  ],
+  "P_EGY_DUMYAT": [
+   "wheat"
+  ],
+  "P_EGY_KAFR_ASH_SHAYKH": [
+   "wheat"
+  ],
+  "P_ESP_ALAVA": [
+   "wheat"
+  ],
+  "P_ESP_ALBACETE": [
+   "wheat"
+  ],
+  "P_ESP_ALICANTE": [
+   "wheat"
   ],
   "P_ESP_ALMERIA": [
    "vanadium",
@@ -267,135 +571,866 @@
    "iron_ore",
    "tungsten"
   ],
+  "P_ESP_BADAJOZ": [
+   "wheat"
+  ],
+  "P_ESP_BALEARES": [
+   "wheat"
+  ],
+  "P_ESP_BARCELONA": [
+   "wheat"
+  ],
+  "P_ESP_BURGOS": [
+   "wheat"
+  ],
+  "P_ESP_CACERES": [
+   "wheat"
+  ],
+  "P_ESP_CADIZ": [
+   "wheat"
+  ],
+  "P_ESP_CASTELLON": [
+   "wheat"
+  ],
   "P_ESP_CIUDAD_REAL": [
+   "wheat",
    "mercury"
   ],
   "P_ESP_CORDOBA": [
+   "wheat",
    "vanadium",
    "sulphur"
   ],
   "P_ESP_CORUNA": [
+   "wheat",
    "tungsten"
+  ],
+  "P_ESP_CUENCA": [
+   "wheat"
+  ],
+  "P_ESP_GERONA": [
+   "wheat"
   ],
   "P_ESP_GRANADA": [
    "vanadium",
    "sulphur"
   ],
+  "P_ESP_GUADALAJARA": [
+   "wheat"
+  ],
+  "P_ESP_GUIPUZCOA": [
+   "wheat"
+  ],
   "P_ESP_HUELVA": [
+   "wheat",
    "vanadium",
    "sulphur"
   ],
+  "P_ESP_HUESCA": [
+   "wheat"
+  ],
   "P_ESP_JAEN": [
+   "wheat",
    "vanadium",
    "sulphur"
+  ],
+  "P_ESP_LAS_PALMAS": [
+   "wheat"
   ],
   "P_ESP_LEON": [
    "tungsten"
   ],
+  "P_ESP_LOGRONO": [
+   "wheat"
+  ],
   "P_ESP_LUGO": [
+   "wheat",
    "tungsten"
+  ],
+  "P_ESP_MADRID": [
+   "wheat"
   ],
   "P_ESP_MURCIA": [
+   "wheat",
    "sulphur"
   ],
+  "P_ESP_NAVARRA": [
+   "wheat"
+  ],
   "P_ESP_ORENSE": [
+   "wheat",
    "tungsten"
+  ],
+  "P_ESP_PALENCIA": [
+   "wheat"
   ],
   "P_ESP_PONTEVEDRA": [
+   "wheat",
    "tungsten"
   ],
+  "P_ESP_SALAMANCA": [
+   "wheat"
+  ],
   "P_ESP_SANTANDER": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_ESP_SEGOVIA": [
+   "wheat"
   ],
   "P_ESP_SEVILLA": [
+   "wheat",
    "vanadium",
    "sulphur"
   ],
+  "P_ESP_SORIA": [
+   "wheat"
+  ],
+  "P_ESP_TARRAGONA": [
+   "wheat"
+  ],
+  "P_ESP_TERUEL": [
+   "wheat"
+  ],
+  "P_ESP_TOLEDO": [
+   "wheat"
+  ],
+  "P_ESP_VALENCIA": [
+   "wheat"
+  ],
+  "P_ESP_VALLADOLID": [
+   "wheat"
+  ],
   "P_ESP_VIZCAYA": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_ESP_ZAMORA": [
+   "wheat"
+  ],
+  "P_ESP_ZARAGOZA": [
+   "wheat"
+  ],
+  "P_EST_HARJU": [
+   "wheat"
+  ],
+  "P_EST_JARVA": [
+   "wheat"
+  ],
+  "P_EST_LAANE": [
+   "wheat"
+  ],
+  "P_EST_PARNU": [
+   "wheat"
+  ],
+  "P_EST_SAARE": [
+   "wheat"
+  ],
+  "P_EST_TARTU": [
+   "wheat"
+  ],
+  "P_EST_VALGA": [
+   "wheat"
+  ],
+  "P_EST_VILJANDI": [
+   "wheat"
+  ],
+  "P_EST_VIRU": [
+   "wheat"
+  ],
+  "P_EST_VORU": [
+   "wheat"
+  ],
+  "P_FIN_ALAND": [
+   "wheat"
+  ],
+  "P_FIN_CENTRAL_FINLAND": [
+   "wheat"
+  ],
+  "P_FIN_CENTRAL_OSTROBOTHNIA": [
+   "wheat"
+  ],
+  "P_FIN_FINLAND_PROPER": [
+   "wheat"
+  ],
+  "P_FIN_KAINUU": [
+   "wheat"
+  ],
+  "P_FIN_KYMENLAAKSO": [
+   "wheat"
+  ],
+  "P_FIN_LAPLAND": [
+   "wheat"
+  ],
+  "P_FIN_NORTHERN_OSTROBOTHNIA": [
+   "wheat"
+  ],
+  "P_FIN_NORTHERN_SAVONIA": [
+   "wheat"
+  ],
+  "P_FIN_NORTH_KARELIA": [
+   "wheat"
+  ],
+  "P_FIN_OSTROBOTHNIA": [
+   "wheat"
+  ],
+  "P_FIN_PAIJAT_HAME": [
+   "wheat"
+  ],
+  "P_FIN_PIRKANMAA": [
+   "wheat"
+  ],
+  "P_FIN_SATAKUNTA": [
+   "wheat"
+  ],
+  "P_FIN_SOUTHERN_OSTROBOTHNIA": [
+   "wheat"
+  ],
+  "P_FIN_SOUTHERN_SAVONIA": [
+   "wheat"
+  ],
+  "P_FIN_SOUTH_KARELIA": [
+   "wheat"
+  ],
+  "P_FIN_TAVASTIA_PROPER": [
+   "wheat"
+  ],
+  "P_FIN_UUSIMAA": [
+   "wheat"
+  ],
+  "P_FRA_AIN": [
+   "wheat"
+  ],
+  "P_FRA_AISNE": [
+   "wheat"
+  ],
+  "P_FRA_ALLIER": [
+   "wheat"
+  ],
+  "P_FRA_ARDECHE": [
+   "wheat"
+  ],
+  "P_FRA_ARDENNES": [
+   "wheat"
   ],
   "P_FRA_ARIEGE": [
    "bauxite"
   ],
+  "P_FRA_AUBE": [
+   "wheat"
+  ],
+  "P_FRA_AUDE": [
+   "wheat"
+  ],
+  "P_FRA_AVEYRON": [
+   "wheat"
+  ],
+  "P_FRA_BAS_RHIN": [
+   "wheat"
+  ],
   "P_FRA_BOUCHES_DU_RHONE": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_FRA_CALVADOS": [
+   "wheat"
+  ],
+  "P_FRA_CANTAL": [
+   "wheat"
+  ],
+  "P_FRA_CHARENTE": [
+   "wheat"
+  ],
+  "P_FRA_CHARENTE_MARITIME": [
+   "wheat"
+  ],
+  "P_FRA_CHER": [
+   "wheat"
+  ],
+  "P_FRA_CORREZE": [
+   "wheat"
+  ],
+  "P_FRA_COTES_D_ARMOR": [
+   "wheat"
+  ],
+  "P_FRA_COTE_D_OR": [
+   "wheat"
+  ],
+  "P_FRA_CREUSE": [
+   "wheat"
+  ],
+  "P_FRA_DEUX_SEVRES": [
+   "wheat"
+  ],
+  "P_FRA_DORDOGNE": [
+   "wheat"
+  ],
+  "P_FRA_DOUBS": [
+   "wheat"
+  ],
+  "P_FRA_DROME": [
+   "wheat"
+  ],
+  "P_FRA_EURE": [
+   "wheat"
+  ],
+  "P_FRA_EURE_ET_LOIR": [
+   "wheat"
+  ],
+  "P_FRA_FINISTERE": [
+   "wheat"
+  ],
+  "P_FRA_GARD": [
+   "wheat"
+  ],
+  "P_FRA_GERS": [
+   "wheat"
+  ],
+  "P_FRA_GIRONDE": [
+   "wheat"
+  ],
+  "P_FRA_HAUTE_GARONNE": [
+   "wheat"
+  ],
+  "P_FRA_HAUTE_LOIRE": [
+   "wheat"
+  ],
+  "P_FRA_HAUTE_MARNE": [
+   "wheat"
+  ],
+  "P_FRA_HAUTE_SAONE": [
+   "wheat"
+  ],
+  "P_FRA_HAUTE_VIENNE": [
+   "wheat"
+  ],
+  "P_FRA_HAUT_RHIN": [
+   "wheat"
+  ],
+  "P_FRA_HERAULT": [
+   "wheat"
+  ],
+  "P_FRA_ILLE_ET_VILAINE": [
+   "wheat"
+  ],
+  "P_FRA_INDRE": [
+   "wheat"
+  ],
+  "P_FRA_INDRE_ET_LOIRE": [
+   "wheat"
+  ],
+  "P_FRA_JURA": [
+   "wheat"
+  ],
+  "P_FRA_LANDES": [
+   "wheat"
+  ],
+  "P_FRA_LOIRE": [
+   "wheat"
+  ],
+  "P_FRA_LOIRET": [
+   "wheat"
+  ],
+  "P_FRA_LOIRE_ATLANTIQUE": [
+   "wheat"
+  ],
+  "P_FRA_LOIR_ET_CHER": [
+   "wheat"
+  ],
+  "P_FRA_LOT": [
+   "wheat"
+  ],
+  "P_FRA_LOT_ET_GARONNE": [
+   "wheat"
+  ],
+  "P_FRA_LOZERE": [
+   "wheat"
+  ],
+  "P_FRA_MAINE_ET_LOIRE": [
+   "wheat"
+  ],
+  "P_FRA_MANCHE": [
+   "wheat"
+  ],
+  "P_FRA_MARNE": [
+   "wheat"
+  ],
+  "P_FRA_MAYENNE": [
+   "wheat"
   ],
   "P_FRA_MEURTHE_ET_MOSELLE": [
    "coal",
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_FRA_MEUSE": [
+   "wheat"
+  ],
+  "P_FRA_MORBIHAN": [
+   "wheat"
   ],
   "P_FRA_MOSELLE": [
    "coal",
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_FRA_NIEVRE": [
+   "wheat"
   ],
   "P_FRA_NORD": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_FRA_OISE": [
+   "wheat"
+  ],
+  "P_FRA_ORNE": [
+   "wheat"
   ],
   "P_FRA_PAS_DE_CALAIS": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_FRA_PUY_DE_DOME": [
+   "wheat"
+  ],
+  "P_FRA_PYRENEES_ATLANTIQUES": [
+   "wheat"
+  ],
+  "P_FRA_RHONE": [
+   "wheat"
+  ],
+  "P_FRA_SAONE_ET_LOIRE": [
+   "wheat"
+  ],
+  "P_FRA_SARTHE": [
+   "wheat"
+  ],
+  "P_FRA_SEINE": [
+   "wheat"
+  ],
+  "P_FRA_SEINE_ET_MARNE": [
+   "wheat"
+  ],
+  "P_FRA_SEINE_ET_OISE": [
+   "wheat"
+  ],
+  "P_FRA_SEINE_MARITIME": [
+   "wheat"
+  ],
+  "P_FRA_SOMME": [
+   "wheat"
+  ],
+  "P_FRA_TARN": [
+   "wheat"
+  ],
+  "P_FRA_TARN_ET_GARONNE": [
+   "wheat"
+  ],
+  "P_FRA_TERRITOIRE_DE_BELFORT": [
+   "wheat"
   ],
   "P_FRA_VAR": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_FRA_VAUCLUSE": [
+   "wheat"
+  ],
+  "P_FRA_VENDEE": [
+   "wheat"
+  ],
+  "P_FRA_VIENNE": [
+   "wheat"
+  ],
+  "P_FRA_VOSGES": [
+   "wheat"
+  ],
+  "P_FRA_YONNE": [
+   "wheat"
+  ],
+  "P_GBR_ABERDEEN": [
+   "wheat"
+  ],
+  "P_GBR_ABERDEENSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_ANGLESEY": [
+   "wheat"
+  ],
+  "P_GBR_ANGUS": [
+   "wheat"
+  ],
+  "P_GBR_ANTRIM": [
+   "wheat"
+  ],
+  "P_GBR_ARGYLL_AND_BUTE": [
+   "wheat"
+  ],
+  "P_GBR_ARMAGH": [
+   "wheat"
+  ],
+  "P_GBR_BEDFORDSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_BERKSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_BERMUDA": [
+   "wheat"
+  ],
+  "P_GBR_BUCKINGHAMSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_CAERNARVONSHIRE_E_MERIONETHSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_CAMBRIDGESHIRE": [
+   "wheat"
+  ],
+  "P_GBR_CARDIGANSHIRE": [
+   "wheat"
   ],
   "P_GBR_CARMARTHENSHIRE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_GBR_CHESHIRE": [
+   "wheat"
+  ],
+  "P_GBR_CLACKMANNANSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_CORNWALL": [
+   "wheat"
+  ],
+  "P_GBR_CUMBERLAND_E_WESTMORLAND": [
+   "wheat"
+  ],
+  "P_GBR_DENBIGHSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_DERBYSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_DEVON": [
+   "wheat"
+  ],
+  "P_GBR_DORSET": [
+   "wheat"
+  ],
+  "P_GBR_DOWN": [
+   "wheat"
+  ],
+  "P_GBR_DUMFRIES_AND_GALLOWAY": [
+   "wheat"
+  ],
+  "P_GBR_DUNDEE": [
+   "wheat"
+  ],
+  "P_GBR_DURHAM": [
+   "wheat"
   ],
   "P_GBR_EAST_AYRSHIRE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_GBR_EAST_DUNBARTONSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_EAST_LOTHIAN": [
+   "wheat"
+  ],
+  "P_GBR_EAST_RENFREWSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_EAST_SUSSEX": [
+   "wheat"
+  ],
+  "P_GBR_EDIMBURGO": [
+   "wheat"
+  ],
+  "P_GBR_EILEAN_SIAR_EBRIDI_ESTERNE": [
+   "wheat"
+  ],
+  "P_GBR_ESSEX": [
+   "wheat"
+  ],
+  "P_GBR_FALKIRK": [
+   "wheat"
+  ],
+  "P_GBR_FERMANAGH": [
+   "wheat"
   ],
   "P_GBR_FIFE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_GBR_FLINTSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_GILBERT_ELLICE": [
+   "wheat"
   ],
   "P_GBR_GLAMORGAN": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_GBR_GLASGOW": [
+   "wheat"
+  ],
+  "P_GBR_GLOUCESTERSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_HAMPSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_HEREFORDSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_HERTFORDSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_HIGHLAND": [
+   "wheat"
+  ],
+  "P_GBR_INVERCLYDE": [
+   "wheat"
+  ],
+  "P_GBR_ISOLA_DI_WIGHT": [
+   "wheat"
+  ],
+  "P_GBR_KENT": [
+   "wheat"
+  ],
+  "P_GBR_LANCASHIRE": [
+   "wheat"
+  ],
+  "P_GBR_LEICESTERSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_LINCOLNSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_LINE_FENICE": [
+   "wheat"
+  ],
+  "P_GBR_LONDONDERRY": [
+   "wheat"
+  ],
+  "P_GBR_LONDRA": [
+   "wheat"
+  ],
+  "P_GBR_MIDDLESEX": [
+   "wheat"
   ],
   "P_GBR_MIDLOTHIAN": [
-   "coal"
+   "coal",
+   "wheat"
   ],
   "P_GBR_MONMOUTHSHIRE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_GBR_MONTGOMERYSHIRE_RADNORSHIRE_E_BRECKNOCKSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_MORAY": [
+   "wheat"
+  ],
+  "P_GBR_NORFOLK": [
+   "wheat"
   ],
   "P_GBR_NORTHAMPTONSHIRE": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_GBR_NORTHUMBERLAND": [
+   "wheat"
+  ],
+  "P_GBR_NORTH_AYRSHIRE": [
+   "wheat"
   ],
   "P_GBR_NORTH_LANARKSHIRE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_GBR_NOTTINGHAMSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_ORKNEY": [
+   "wheat"
+  ],
+  "P_GBR_OXFORDSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_PEMBROKESHIRE": [
+   "wheat"
+  ],
+  "P_GBR_PERTH_E_KINROSS": [
+   "wheat"
+  ],
+  "P_GBR_PITCAIRN": [
+   "wheat"
+  ],
+  "P_GBR_RENFREWSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_RUTLAND": [
+   "wheat"
+  ],
+  "P_GBR_SANT_ELENA": [
+   "wheat"
+  ],
+  "P_GBR_SCOTTISH_BORDERS": [
+   "wheat"
+  ],
+  "P_GBR_SHETLAND_ISLANDS": [
+   "wheat"
+  ],
+  "P_GBR_SHROPSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_SOMERSET": [
+   "wheat"
+  ],
+  "P_GBR_SOUTH_AYRSHIRE": [
+   "wheat"
   ],
   "P_GBR_SOUTH_LANARKSHIRE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_GBR_STAFFORDSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_STIRLING": [
+   "wheat"
+  ],
+  "P_GBR_SUFFOLK": [
+   "wheat"
+  ],
+  "P_GBR_SURREY": [
+   "wheat"
+  ],
+  "P_GBR_TYRONE": [
+   "wheat"
+  ],
+  "P_GBR_WARWICKSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_WEST_DUNBARTONSHIRE": [
+   "wheat"
   ],
   "P_GBR_WEST_LOTHIAN": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_GBR_WEST_SUSSEX": [
+   "wheat"
+  ],
+  "P_GBR_WILTSHIRE": [
+   "wheat"
+  ],
+  "P_GBR_WORCESTERSHIRE": [
+   "wheat"
   ],
   "P_GBR_YORKSHIRE": [
    "coal",
-   "iron_ore"
+   "iron_ore",
+   "wheat"
   ],
   "P_GHA_WESTERN": [
    "manganese"
   ],
+  "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI": [
+   "wheat"
+  ],
   "P_GRC_ATTIKI": [
    "iron_ore",
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_GRC_AYION_OROS": [
+   "wheat"
+  ],
+  "P_GRC_IONIOI_NISOI": [
+   "wheat"
+  ],
+  "P_GRC_KENTRIKI_MAKEDONIA": [
+   "wheat"
   ],
   "P_GRC_NOTIO_AIGAIO": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
   ],
   "P_GRC_STEREA_ELLADA": [
    "iron_ore",
    "bauxite"
   ],
+  "P_HUN_BACS_KISKUN": [
+   "wheat"
+  ],
+  "P_HUN_BARANYA": [
+   "wheat"
+  ],
+  "P_HUN_BEKES": [
+   "wheat"
+  ],
   "P_HUN_BORSOD_ABAUJ_ZEMPLEN": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_HUN_BUDAPEST": [
+   "wheat"
+  ],
+  "P_HUN_CSONGRAD": [
+   "wheat"
   ],
   "P_HUN_FEJER": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_HUN_GYOR_MOSON_SOPRON": [
+   "wheat"
+  ],
+  "P_HUN_HAJDU_BIHAR": [
+   "wheat"
+  ],
+  "P_HUN_HEVES": [
+   "wheat"
+  ],
+  "P_HUN_JASZ_NAGYKUN_SZOLNOK": [
+   "wheat"
   ],
   "P_HUN_KOMAROM_ESZTERGOM": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_HUN_NOGRAD": [
+   "wheat"
+  ],
+  "P_HUN_PEST": [
+   "wheat"
+  ],
+  "P_HUN_SOMOGY": [
+   "wheat"
+  ],
+  "P_HUN_SZABOLCS_SZATMAR_BEREG": [
+   "wheat"
+  ],
+  "P_HUN_TOLNA": [
+   "wheat"
+  ],
+  "P_HUN_VAS": [
+   "wheat"
   ],
   "P_HUN_VESZPREM": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_HUN_ZALA": [
+   "wheat"
   ],
   "P_INDO_DONG_NAM_BO": [
    "rubber"
@@ -438,6 +1473,21 @@
   "P_IND_WEST_BENGAL": [
    "coal"
   ],
+  "P_IRL_CONNACHT": [
+   "wheat"
+  ],
+  "P_IRL_DUBLINO": [
+   "wheat"
+  ],
+  "P_IRL_LEINSTER": [
+   "wheat"
+  ],
+  "P_IRL_MUNSTER": [
+   "wheat"
+  ],
+  "P_IRL_ULSTER": [
+   "wheat"
+  ],
   "P_IRN_KHUZESTAN": [
    "oil"
   ],
@@ -446,30 +1496,58 @@
   ],
   "P_ITA_AGRIGENTO": [
    "coal",
+   "wheat",
    "sulphur"
   ],
+  "P_ITA_ANCONA": [
+   "wheat"
+  ],
+  "P_ITA_ASCOLI_PICENO": [
+   "wheat"
+  ],
+  "P_ITA_ASTI": [
+   "wheat"
+  ],
   "P_ITA_BARI": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_ITA_BOLOGNA": [
+   "wheat"
   ],
   "P_ITA_CAGLIARI": [
    "coal",
+   "wheat",
    "manganese"
   ],
   "P_ITA_CALTANISSETTA": [
    "coal",
+   "wheat",
    "sulphur"
+  ],
+  "P_ITA_CASERTA": [
+   "wheat"
+  ],
+  "P_ITA_CATANIA": [
+   "wheat"
+  ],
+  "P_ITA_DODECANESO": [
+   "wheat"
   ],
   "P_ITA_ENNA": [
    "coal",
+   "wheat",
    "sulphur"
   ],
   "P_ITA_FIRENZE": [
    "coal",
+   "wheat",
    "manganese",
    "mercury"
   ],
   "P_ITA_FOGGIA": [
-   "bauxite"
+   "bauxite",
+   "wheat"
   ],
   "P_ITA_GENOVA": [
    "manganese"
@@ -479,26 +1557,65 @@
    "mercury"
   ],
   "P_ITA_LA_SPEZIA": [
+   "wheat",
    "manganese"
   ],
   "P_ITA_LECCE": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_ITA_MACERATA": [
+   "wheat"
+  ],
+  "P_ITA_MATERA": [
+   "wheat"
+  ],
+  "P_ITA_MILANO": [
+   "wheat"
+  ],
+  "P_ITA_NAPOLI": [
+   "wheat"
   ],
   "P_ITA_NUORO": [
    "coal",
+   "wheat",
    "manganese"
+  ],
+  "P_ITA_PARMA": [
+   "wheat"
+  ],
+  "P_ITA_PERUGIA_NORD": [
+   "wheat"
+  ],
+  "P_ITA_PESCARA": [
+   "wheat"
   ],
   "P_ITA_PISA": [
    "coal",
+   "wheat",
    "manganese",
    "mercury"
   ],
   "P_ITA_POLA": [
    "bauxite",
+   "wheat",
    "mercury"
+  ],
+  "P_ITA_POTENZA_NORD": [
+   "wheat"
+  ],
+  "P_ITA_RAGUSA": [
+   "wheat"
+  ],
+  "P_ITA_RAVENNA": [
+   "wheat"
+  ],
+  "P_ITA_ROMA": [
+   "wheat"
   ],
   "P_ITA_SASSARI": [
    "coal",
+   "wheat",
    "manganese"
   ],
   "P_ITA_SAVONA": [
@@ -506,50 +1623,284 @@
   ],
   "P_ITA_SIENA": [
    "coal",
+   "wheat",
    "manganese",
    "mercury"
   ],
+  "P_ITA_SIRACUSA": [
+   "wheat"
+  ],
+  "P_ITA_TERNI": [
+   "wheat"
+  ],
+  "P_ITA_TRAPANI": [
+   "wheat"
+  ],
   "P_ITA_TRIESTE": [
    "bauxite",
+   "wheat",
    "mercury"
   ],
+  "P_ITA_VENEZIA": [
+   "wheat"
+  ],
+  "P_ITA_VERONA": [
+   "wheat"
+  ],
+  "P_ITA_VITERBO": [
+   "wheat"
+  ],
+  "P_ITA_ZARA": [
+   "wheat"
+  ],
+  "P_JPN_AICHI_PREFECTURE": [
+   "wheat"
+  ],
   "P_JPN_AKITA_PREFECTURE": [
-   "oil"
+   "oil",
+   "wheat"
   ],
   "P_JPN_AOMORI_PREFECTURE": [
+   "wheat",
    "sulphur"
+  ],
+  "P_JPN_CHIBA_PREFECTURE": [
+   "wheat"
   ],
   "P_JPN_EHIME_PREFECTURE": [
    "copper"
   ],
+  "P_JPN_FUKUI_PREFECTURE": [
+   "wheat"
+  ],
   "P_JPN_FUKUOKA_PREFECTURE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_JPN_FUKUSHIMA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_HIROSHIMA_PREFECTURE": [
+   "wheat"
   ],
   "P_JPN_HOKKAIDO": [
    "oil",
    "coal",
+   "wheat",
    "sulphur"
+  ],
+  "P_JPN_HYOGO_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_IBARAKI_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_ISHIKAWA_PREFECTURE": [
+   "wheat"
   ],
   "P_JPN_IWATE_PREFECTURE": [
+   "wheat",
    "sulphur"
   ],
+  "P_JPN_KAGAWA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_KAGOSHIMA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_KANAGAWA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_KOCHI_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_KUMAMOTO_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_KYOTO_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_MIE_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_MIYAGI_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_MIYAZAKI_PREFECTURE": [
+   "wheat"
+  ],
   "P_JPN_NAGASAKI_PREFECTURE": [
-   "coal"
+   "coal",
+   "wheat"
   ],
   "P_JPN_NIIGATA_PREFECTURE": [
-   "oil"
+   "oil",
+   "wheat"
+  ],
+  "P_JPN_OGASAWARA": [
+   "wheat"
+  ],
+  "P_JPN_OITA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_OKAYAMA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_OKINAWA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_OSAKA_PREFECTURE": [
+   "wheat"
   ],
   "P_JPN_SAGA_PREFECTURE": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_JPN_SAITAMA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_SHIGA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_SHIMANE_PREFECTURE": [
+   "wheat"
   ],
   "P_JPN_TOCHIGI_PREFECTURE": [
-   "copper"
+   "copper",
+   "wheat"
+  ],
+  "P_JPN_TOKYO": [
+   "wheat"
+  ],
+  "P_JPN_TOTTORI_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_TOYAMA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_WAKAYAMA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_YAMAGATA_PREFECTURE": [
+   "wheat"
+  ],
+  "P_JPN_YAMAGUCHI_PREFECTURE": [
+   "wheat"
+  ],
+  "P_KOR_DAEGU": [
+   "wheat"
   ],
   "P_KOR_GANGWON": [
+   "wheat",
    "tungsten"
+  ],
+  "P_KOR_GYEONGGI": [
+   "wheat"
+  ],
+  "P_KOR_KANGWON": [
+   "wheat"
+  ],
+  "P_KOR_NORTH_CHUNGCHEONG": [
+   "wheat"
+  ],
+  "P_KOR_NORTH_GYEONGSANG": [
+   "wheat"
+  ],
+  "P_KOR_NORTH_HAMGYONG": [
+   "wheat"
+  ],
+  "P_KOR_NORTH_HWANGHAE": [
+   "wheat"
+  ],
+  "P_KOR_NORTH_JEOLLA": [
+   "wheat"
+  ],
+  "P_KOR_NORTH_PYONGAN": [
+   "wheat"
+  ],
+  "P_KOR_PYONGYANG": [
+   "wheat"
+  ],
+  "P_KOR_RASON": [
+   "wheat"
+  ],
+  "P_KOR_SEJONG": [
+   "wheat"
+  ],
+  "P_KOR_SEOUL": [
+   "wheat"
+  ],
+  "P_KOR_SOUTH_CHUNGCHEONG": [
+   "wheat"
+  ],
+  "P_KOR_SOUTH_GYEONGSANG": [
+   "wheat"
+  ],
+  "P_KOR_SOUTH_HWANGHAE": [
+   "wheat"
+  ],
+  "P_KOR_SOUTH_JEOLLA": [
+   "wheat"
+  ],
+  "P_KOR_SOUTH_PYONGAN": [
+   "wheat"
+  ],
+  "P_KOR_ULSAN": [
+   "wheat"
   ],
   "P_LBR_MONTSERRADO": [
    "rubber"
+  ],
+  "P_LTU_ALYTUS": [
+   "wheat"
+  ],
+  "P_LTU_KAUNAS": [
+   "wheat"
+  ],
+  "P_LTU_KRETINGA": [
+   "wheat"
+  ],
+  "P_LTU_MARIJAMPOLE": [
+   "wheat"
+  ],
+  "P_LTU_MEMEL": [
+   "wheat"
+  ],
+  "P_LTU_PANEVEZYS": [
+   "wheat"
+  ],
+  "P_LTU_SIAULIAI": [
+   "wheat"
+  ],
+  "P_LTU_TAURAGE": [
+   "wheat"
+  ],
+  "P_LTU_TELSIAI": [
+   "wheat"
+  ],
+  "P_LTU_UTENA": [
+   "wheat"
+  ],
+  "P_LTU_VILNIUS": [
+   "wheat"
+  ],
+  "P_LVA_KURZEME": [
+   "wheat"
+  ],
+  "P_LVA_LATGALE": [
+   "wheat"
+  ],
+  "P_LVA_PIERIGA": [
+   "wheat"
+  ],
+  "P_LVA_RIGA": [
+   "wheat"
+  ],
+  "P_LVA_VIDZEME": [
+   "wheat"
+  ],
+  "P_LVA_ZEMGALE": [
+   "wheat"
   ],
   "P_MAL_JOHOR": [
    "rubber"
@@ -566,8 +1917,44 @@
    "coal",
    "iron_ore"
   ],
+  "P_MAR_CHAOUIA___OUARDIGHA": [
+   "wheat"
+  ],
+  "P_MAR_DOUKKALA___ABDA": [
+   "wheat"
+  ],
+  "P_MAR_GHARB___CHRARDA___BENI_HSSEN": [
+   "wheat"
+  ],
+  "P_MAR_GRAND_CASABLANCA": [
+   "wheat"
+  ],
+  "P_MAR_MARRAKECH___TENSIFT___AL_HAOUZ": [
+   "wheat"
+  ],
+  "P_MAR_ORIENTAL": [
+   "wheat"
+  ],
+  "P_MAR_RABAT___SALE___ZEMMOUR___ZAER": [
+   "wheat"
+  ],
   "P_MAR_SOUSS___MASSA___DRAA": [
    "cobalt"
+  ],
+  "P_MAR_TAZA___AL_HOCEIMA___TAOUNATE": [
+   "wheat"
+  ],
+  "P_MEX_BAJA_CALIFORNIA": [
+   "wheat"
+  ],
+  "P_MEX_BAJA_CALIFORNIA_SUR": [
+   "wheat"
+  ],
+  "P_MEX_CAMPECHE": [
+   "wheat"
+  ],
+  "P_MEX_CHIAPAS": [
+   "wheat"
   ],
   "P_MEX_COAHUILA": [
    "coal",
@@ -586,20 +1973,33 @@
    "iron_ore"
   ],
   "P_MEX_NUEVO_LEON": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_MEX_QUINTANA_ROO": [
+   "wheat"
   ],
   "P_MEX_SAN_LUIS_POTOSI": [
    "antimony",
    "sulphur"
   ],
+  "P_MEX_SINALOA": [
+   "wheat"
+  ],
   "P_MEX_TABASCO": [
-   "oil"
+   "oil",
+   "wheat"
   ],
   "P_MEX_TAMAULIPAS": [
-   "oil"
+   "oil",
+   "wheat"
   ],
   "P_MEX_VERACRUZ": [
-   "oil"
+   "oil",
+   "wheat"
+  ],
+  "P_MEX_YUCATAN": [
+   "wheat"
   ],
   "P_MEX_ZACATECAS": [
    "antimony"
@@ -609,6 +2009,9 @@
   ],
   "P_NGA_PLATEAU_STATE": [
    "tin"
+  ],
+  "P_NLD_DRENTHE": [
+   "wheat"
   ],
   "P_NLD_EI_BANGKA_BELITUNG_ISLANDS": [
    "tin"
@@ -663,8 +2066,36 @@
    "oil",
    "rubber"
   ],
+  "P_NLD_FRIESLAND": [
+   "wheat"
+  ],
+  "P_NLD_GELDERLAND": [
+   "wheat"
+  ],
+  "P_NLD_GRONINGEN": [
+   "wheat"
+  ],
   "P_NLD_LIMBURG": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_NLD_NOORD_BRABANT": [
+   "wheat"
+  ],
+  "P_NLD_NOORD_HOLLAND": [
+   "wheat"
+  ],
+  "P_NLD_OVERIJSSEL": [
+   "wheat"
+  ],
+  "P_NLD_UTRECHT": [
+   "wheat"
+  ],
+  "P_NLD_ZEELAND": [
+   "wheat"
+  ],
+  "P_NLD_ZUID_HOLLAND": [
+   "wheat"
   ],
   "P_NOR_FINNMARK": [
    "iron_ore"
@@ -680,6 +2111,18 @@
   ],
   "P_NOR_VEST_AGDER": [
    "molybdenum"
+  ],
+  "P_PAL_HAIFA": [
+   "wheat"
+  ],
+  "P_PAL_HAZAFON": [
+   "wheat"
+  ],
+  "P_PAL_TEL_AVIV": [
+   "wheat"
+  ],
+  "P_PAL_WEST_BANK": [
+   "wheat"
   ],
   "P_PER_JUNIN": [
    "molybdenum"
@@ -697,42 +2140,254 @@
   "P_PHL_CENTRAL_LUZON_REGION_III": [
    "chromium"
   ],
+  "P_POL_BIAYSTOK_VOIVODESHIP": [
+   "wheat"
+  ],
   "P_POL_KIELCE_VOIVODESHIP": [
    "coal",
-   "iron_ore"
+   "iron_ore",
+   "wheat"
   ],
   "P_POL_KRAKOW_VOIVODESHIP": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_POL_LUBLIN_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_LWOW_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_NOWOGRODEK_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_ODZ_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_POLESIE_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_POMERANIAN_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_POZNAN_VOIVODESHIP": [
+   "wheat"
   ],
   "P_POL_SILESIAN_VOIVODESHIP": [
-   "coal"
+   "coal",
+   "wheat"
+  ],
+  "P_POL_STANISAWOW_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_TARNOPOL_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_VOLHYNIAN_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_WARSAW_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_POL_WILNO_VOIVODESHIP": [
+   "wheat"
+  ],
+  "P_PRT_ANGRA_DO_HEROISMO": [
+   "wheat"
+  ],
+  "P_PRT_AVEIRO": [
+   "wheat"
+  ],
+  "P_PRT_BEJA": [
+   "wheat"
+  ],
+  "P_PRT_BRAGA": [
+   "wheat"
+  ],
+  "P_PRT_BRAGANCA": [
+   "wheat"
   ],
   "P_PRT_CASTELO_BRANCO": [
+   "wheat",
    "tungsten"
+  ],
+  "P_PRT_COIMBRA": [
+   "wheat"
+  ],
+  "P_PRT_EVORA": [
+   "wheat"
+  ],
+  "P_PRT_FARO": [
+   "wheat"
+  ],
+  "P_PRT_GUARDA": [
+   "wheat"
+  ],
+  "P_PRT_LEIRIA": [
+   "wheat"
+  ],
+  "P_PRT_LISBOA": [
+   "wheat"
+  ],
+  "P_PRT_PORTALEGRE": [
+   "wheat"
+  ],
+  "P_PRT_PORTO": [
+   "wheat"
+  ],
+  "P_PRT_SANTAREM": [
+   "wheat"
+  ],
+  "P_PRT_SETUBAL": [
+   "wheat"
   ],
   "P_PRT_VILA_REAL": [
    "tungsten"
   ],
+  "P_PRT_VISEU": [
+   "wheat"
+  ],
+  "P_ROM_ALBA": [
+   "wheat"
+  ],
+  "P_ROM_ARAD": [
+   "wheat"
+  ],
+  "P_ROM_ARGES": [
+   "wheat"
+  ],
+  "P_ROM_BACAU": [
+   "wheat"
+  ],
+  "P_ROM_BASARABIA": [
+   "wheat"
+  ],
   "P_ROM_BIHOR": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_ROM_BISTRITA_NASAUD": [
+   "wheat"
+  ],
+  "P_ROM_BOTOSANI": [
+   "wheat"
+  ],
+  "P_ROM_BRAILA": [
+   "wheat"
+  ],
+  "P_ROM_BRASOV": [
+   "wheat"
+  ],
+  "P_ROM_BUCOVINA_DE_NORD": [
+   "wheat"
+  ],
+  "P_ROM_BUCURESTI": [
+   "wheat"
   ],
   "P_ROM_BUZAU": [
-   "oil"
+   "oil",
+   "wheat"
+  ],
+  "P_ROM_CADRILATER": [
+   "wheat"
+  ],
+  "P_ROM_CALARASI": [
+   "wheat"
   ],
   "P_ROM_CARAS_SEVERIN": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_ROM_CLUJ": [
+   "wheat"
+  ],
+  "P_ROM_CONSTANTA": [
+   "wheat"
+  ],
+  "P_ROM_COVASNA": [
+   "wheat"
   ],
   "P_ROM_DAMBOVITA": [
-   "oil"
+   "oil",
+   "wheat"
+  ],
+  "P_ROM_DOLJ": [
+   "wheat"
+  ],
+  "P_ROM_GALATI": [
+   "wheat"
+  ],
+  "P_ROM_GIURGIU": [
+   "wheat"
+  ],
+  "P_ROM_GORJ": [
+   "wheat"
+  ],
+  "P_ROM_HARGHITA": [
+   "wheat"
   ],
   "P_ROM_HUNEDOARA": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_ROM_IALOMITA": [
+   "wheat"
+  ],
+  "P_ROM_IASI": [
+   "wheat"
+  ],
+  "P_ROM_ILFOV": [
+   "wheat"
+  ],
+  "P_ROM_MARAMURES": [
+   "wheat"
+  ],
+  "P_ROM_MEHEDINTI": [
+   "wheat"
+  ],
+  "P_ROM_MURES": [
+   "wheat"
+  ],
+  "P_ROM_NEAMT": [
+   "wheat"
+  ],
+  "P_ROM_OLT": [
+   "wheat"
   ],
   "P_ROM_PRAHOVA": [
-   "oil"
+   "oil",
+   "wheat"
+  ],
+  "P_ROM_SALAJ": [
+   "wheat"
+  ],
+  "P_ROM_SATU_MARE": [
+   "wheat"
+  ],
+  "P_ROM_SIBIU": [
+   "wheat"
+  ],
+  "P_ROM_SUCEAVA": [
+   "wheat"
+  ],
+  "P_ROM_TELEORMAN": [
+   "wheat"
   ],
   "P_ROM_TIMIS": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_ROM_TULCEA": [
+   "wheat"
+  ],
+  "P_ROM_VALCEA": [
+   "wheat"
+  ],
+  "P_ROM_VASLUI": [
+   "wheat"
+  ],
+  "P_ROM_VRANCEA": [
+   "wheat"
   ],
   "P_SAU_EASTERN": [
    "oil"
@@ -749,14 +2404,220 @@
   "P_SUR_PARA": [
    "bauxite"
   ],
+  "P_SWE_BLEKINGE": [
+   "wheat"
+  ],
+  "P_SWE_DALARNA": [
+   "wheat"
+  ],
+  "P_SWE_GAVLEBORG": [
+   "wheat"
+  ],
+  "P_SWE_GOTLAND": [
+   "wheat"
+  ],
+  "P_SWE_HALLAND": [
+   "wheat"
+  ],
+  "P_SWE_JAMTLAND": [
+   "wheat"
+  ],
+  "P_SWE_JONKOPING": [
+   "wheat"
+  ],
+  "P_SWE_KALMAR": [
+   "wheat"
+  ],
+  "P_SWE_KRONOBERG": [
+   "wheat"
+  ],
   "P_SWE_NORRBOTTEN": [
-   "iron_ore"
+   "iron_ore",
+   "wheat"
+  ],
+  "P_SWE_OREBRO": [
+   "wheat"
+  ],
+  "P_SWE_OSTERGOTLAND": [
+   "wheat"
+  ],
+  "P_SWE_SKANE": [
+   "wheat"
+  ],
+  "P_SWE_SODERMANLAND": [
+   "wheat"
+  ],
+  "P_SWE_STOCKHOLM": [
+   "wheat"
+  ],
+  "P_SWE_UPPSALA": [
+   "wheat"
+  ],
+  "P_SWE_VARMLAND": [
+   "wheat"
+  ],
+  "P_SWE_VASTERBOTTEN": [
+   "wheat"
+  ],
+  "P_SWE_VASTERNORRLAND": [
+   "wheat"
+  ],
+  "P_SWE_VASTMANLAND": [
+   "wheat"
+  ],
+  "P_SWE_VASTRA_GOTALAND": [
+   "wheat"
+  ],
+  "P_SYR_ALEPPO": [
+   "wheat"
+  ],
+  "P_SYR_AR_RAQQAH": [
+   "wheat"
+  ],
+  "P_SYR_DAMASCUS": [
+   "wheat"
+  ],
+  "P_SYR_DAR_A": [
+   "wheat"
+  ],
+  "P_SYR_DAYR_AZ_ZAWR": [
+   "wheat"
+  ],
+  "P_SYR_HASAKA_AL_HAKSA": [
+   "wheat"
+  ],
+  "P_SYR_IDLIB": [
+   "wheat"
+  ],
+  "P_SYR_LATTAKIA": [
+   "wheat"
+  ],
+  "P_SYR_QUNEITRA": [
+   "wheat"
+  ],
+  "P_SYR_TARTUS": [
+   "wheat"
+  ],
+  "P_TUN_BEJA": [
+   "wheat"
+  ],
+  "P_TUN_BEN_AROUS_TUNIS_SUD": [
+   "wheat"
+  ],
+  "P_TUN_BIZERTE": [
+   "wheat"
+  ],
+  "P_TUN_JENDOUBA": [
+   "wheat"
+  ],
+  "P_TUN_KAIROUAN": [
+   "wheat"
+  ],
+  "P_TUN_KASSERINE": [
+   "wheat"
+  ],
+  "P_TUN_LE_KEF": [
+   "wheat"
+  ],
+  "P_TUN_MAHDIA": [
+   "wheat"
+  ],
+  "P_TUN_MANUBAH": [
+   "wheat"
+  ],
+  "P_TUN_MONASTIR": [
+   "wheat"
+  ],
+  "P_TUN_NABEUL": [
+   "wheat"
+  ],
+  "P_TUN_SFAX": [
+   "wheat"
+  ],
+  "P_TUN_SIDI_BOU_ZID": [
+   "wheat"
+  ],
+  "P_TUN_SILIANA": [
+   "wheat"
+  ],
+  "P_TUN_SOUSSE": [
+   "wheat"
+  ],
+  "P_TUN_TUNIS": [
+   "wheat"
+  ],
+  "P_TUN_ZAGHOUAN": [
+   "wheat"
+  ],
+  "P_TUR_BALIKESIR": [
+   "wheat"
+  ],
+  "P_TUR_BILECIK": [
+   "wheat"
+  ],
+  "P_TUR_BURSA": [
+   "wheat"
+  ],
+  "P_TUR_CANAKKALE": [
+   "wheat"
+  ],
+  "P_TUR_DIYARBAKIR": [
+   "wheat"
+  ],
+  "P_TUR_EDIRNE": [
+   "wheat"
   ],
   "P_TUR_ELAZIG": [
    "chromium"
   ],
+  "P_TUR_ESKISEHIR": [
+   "wheat"
+  ],
+  "P_TUR_GAZIANTEP": [
+   "wheat"
+  ],
+  "P_TUR_ISTANBUL": [
+   "wheat"
+  ],
+  "P_TUR_KILIS": [
+   "wheat"
+  ],
+  "P_TUR_KIRKLARELI": [
+   "wheat"
+  ],
+  "P_TUR_KIRSEHIR": [
+   "wheat"
+  ],
+  "P_TUR_KOCAELI": [
+   "wheat"
+  ],
+  "P_TUR_KONYA": [
+   "wheat"
+  ],
+  "P_TUR_MARDIN": [
+   "wheat"
+  ],
+  "P_TUR_OSMANIYE": [
+   "wheat"
+  ],
+  "P_TUR_SAMSUN": [
+   "wheat"
+  ],
+  "P_TUR_SANLIURFA": [
+   "wheat"
+  ],
+  "P_TUR_TEKIRDAG": [
+   "wheat"
+  ],
+  "P_TUR_USAK": [
+   "wheat"
+  ],
+  "P_TUR_YOZGAT": [
+   "wheat"
+  ],
   "P_TUR_ZINGULDAK": [
-   "coal"
+   "coal",
+   "wheat"
   ],
   "P_USA_ALABAMA": [
    "bauxite"
@@ -912,30 +2773,74 @@
   ],
   "P_YUG_BANJA_LUKA": [
    "bauxite",
+   "wheat",
    "antimony"
+  ],
+  "P_YUG_BEOGRAD": [
+   "wheat"
   ],
   "P_YUG_BIHAC": [
    "bauxite",
+   "wheat",
    "antimony"
   ],
   "P_YUG_CETINJE": [
    "bauxite"
   ],
+  "P_YUG_CUPRIJA": [
+   "wheat"
+  ],
   "P_YUG_DUBROVNIK": [
-   "bauxite"
+   "bauxite",
+   "wheat"
+  ],
+  "P_YUG_KARLOVAC": [
+   "wheat"
+  ],
+  "P_YUG_KRAGUJEVAC": [
+   "wheat"
+  ],
+  "P_YUG_KRUSEVAC": [
+   "wheat"
+  ],
+  "P_YUG_LJUBLJANA": [
+   "wheat"
+  ],
+  "P_YUG_MARIBOR": [
+   "wheat"
   ],
   "P_YUG_MOSTAR": [
    "bauxite"
   ],
+  "P_YUG_NIS": [
+   "wheat"
+  ],
+  "P_YUG_NOVI_SAD": [
+   "wheat"
+  ],
+  "P_YUG_OSIJEK": [
+   "wheat"
+  ],
+  "P_YUG_POZAREVAC": [
+   "wheat"
+  ],
+  "P_YUG_PRISTINA": [
+   "wheat"
+  ],
   "P_YUG_SABAC": [
+   "wheat",
    "antimony"
   ],
   "P_YUG_SARAJEVO": [
    "bauxite",
    "antimony"
   ],
+  "P_YUG_SMEDEREVO": [
+   "wheat"
+  ],
   "P_YUG_SPLIT": [
-   "bauxite"
+   "bauxite",
+   "wheat"
   ],
   "P_YUG_TRAVNIK": [
    "bauxite",
@@ -943,30 +2848,58 @@
   ],
   "P_YUG_TUZLA": [
    "bauxite",
+   "wheat",
    "antimony"
   ],
   "P_YUG_VALJEVO": [
+   "wheat",
    "antimony"
+  ],
+  "P_YUG_VUKOVAR": [
+   "wheat"
+  ],
+  "P_YUG_ZAGREB": [
+   "wheat"
+  ],
+  "P_YUG_ZAJECAR": [
+   "wheat"
+  ],
+  "P_ZAF_EASTERN_CAPE": [
+   "wheat"
+  ],
+  "P_ZAF_FREE_STATE": [
+   "wheat"
   ],
   "P_ZAF_GAUTENG": [
    "coal",
+   "wheat",
    "chromium",
    "vanadium"
   ],
   "P_ZAF_KWAZULU_NATAL": [
-   "coal"
+   "coal",
+   "wheat"
   ],
   "P_ZAF_LIMPOPO": [
+   "wheat",
    "chromium",
    "vanadium"
   ],
   "P_ZAF_MPUMALANGA": [
+   "wheat",
    "chromium",
    "vanadium"
   ],
+  "P_ZAF_NORTHERN_CAPE": [
+   "wheat"
+  ],
   "P_ZAF_NORTH_WEST": [
+   "wheat",
    "chromium",
    "vanadium"
+  ],
+  "P_ZAF_WESTERN_CAPE": [
+   "wheat"
   ],
   "P_ZAM_COPPERBELT": [
    "copper"

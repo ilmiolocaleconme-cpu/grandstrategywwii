@@ -134,12 +134,13 @@ test('ciclo giornaliero: il fertilizzante dà più frumento, i cavalli mangiano 
   const s0 = fresh();
   const setUsa = (stocks) => ({ ...s0, nations: { ...s0.nations, USA: { ...s0.nations.USA, facilities: [], stocks } } });
   const wheat = baseline.byTerritory.USA.wheat;
-  assert.equal(wheat, 917);
+  assert.equal(wheat, 353, 'USA: 9 punti-punteggio su 100 punti mondiali × 25 t/giorno (USDA 1933-36)');
   const plain = advanceDay(setUsa({}), [withLivestock]).nations.USA.stocks;
-  assert.equal(plain.wheat, 917);
+  assert.equal(plain.wheat, wheat);
   const fed = advanceDay(setUsa({ fertilizer: 100 }), [withLivestock]);
-  assert.equal(fed.nations.USA.stocks.wheat, 917 + 917 * 0.25, 'copertura piena: +25%');
-  assert.equal(fed.nations.USA.stocks.fertilizer, Math.round((100 - 917 * 0.06) * 1000) / 1000);
+  const r3 = (v) => Math.round(v * 1000) / 1000;
+  assert.equal(fed.nations.USA.stocks.wheat, r3(wheat + r3(wheat * 0.25)), 'copertura piena: +25%');
+  assert.equal(fed.nations.USA.stocks.fertilizer, r3(100 - r3(wheat * 0.06)));
   assert.ok(fed.nations.USA.balance > advanceDay(setUsa({}), [withLivestock]).nations.USA.balance, 'più raccolto, più entrata');
   const hungry = advanceDay(setUsa({ horses: 1000 }), [withLivestock]).nations.USA.stocks;
   assert.equal(hungry.horses, 990);
@@ -147,12 +148,13 @@ test('ciclo giornaliero: il fertilizzante dà più frumento, i cavalli mangiano 
   assert.equal(nourished.horses, 1000); assert.equal(nourished.feed, 4.1);
 });
 
-test('baseline del frumento: solo USA, URSS, Canada, Argentina e India', () => {
-  const owners = Object.entries(baseline.byTerritory).filter(([, r]) => r.wheat > 0).map(([t]) => t).sort();
-  assert.ok(owners.length > 0);
-  assert.equal(baseline.byTerritory.USA.wheat, 917);
-  assert.equal(baseline.byTerritory.USSR.wheat, 540);
-  assert.equal(baseline.byTerritory.CAN.wheat, 539.4);
+test('baseline del frumento: dai territori produttori (USDA 1933-36), non più solo 5; il totale è 100 punti × 25 t/giorno', () => {
+  const rows = Object.entries(baseline.byTerritory).filter(([, r]) => r.wheat > 0);
+  assert.ok(rows.length >= 40, `territori con frumento: ${rows.length}`);
+  for (const t of ['USA', 'USSR', 'CAN', 'ARG', 'IND', 'FRA', 'ITA', 'DEU', 'ESP', 'ROM', 'POL', 'JPN', 'AUS', 'TUR']) assert.ok(baseline.byTerritory[t]?.wheat > 0, `${t} senza frumento`);
+  const total = rows.reduce((s, [, r]) => s + r.wheat, 0);
+  assert.ok(Math.abs(total - 100 * 25) < 25, `totale ${total}`);
+  assert.ok(baseline.byTerritory.USA.wheat > baseline.byTerritory.FRA.wheat && baseline.byTerritory.FRA.wheat > baseline.byTerritory.POL.wheat, 'ordine per punteggio: USA 9, Francia 8, Polonia 5');
 });
 
 test('validatori: dati reali validi, errori espliciti sui casi sbagliati', () => {

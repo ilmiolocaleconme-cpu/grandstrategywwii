@@ -2925,6 +2925,31 @@
   "wheat": {
    "centers": [
     {
+     "id": "wheat|Algeria francese|pianure",
+     "controllo": "Francia",
+     "paese": "Algeria francese",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 4,
+     "periodoBase": "1933-35",
+     "punteggioMax": 6,
+     "punti": 0.994,
+     "puntiMax": 2.872,
+     "province": [
+      "P_ALG_ALGER",
+      "P_ALG_BONE",
+      "P_ALG_CHELIFF",
+      "P_ALG_CONSTANTINE",
+      "P_ALG_HODNA",
+      "P_ALG_MOSTAGANEM",
+      "P_ALG_ORAN",
+      "P_ALG_SETIF",
+      "P_ALG_TEBESSA",
+      "P_ALG_TIARET",
+      "P_ALG_TITTERI",
+      "P_ALG_TLEMCEN"
+     ]
+    },
+    {
      "id": "wheat|Argentina|pampa",
      "controllo": "Argentina",
      "paese": "Argentina",
@@ -2932,12 +2957,104 @@
      "punteggio": 7,
      "periodoBase": "1935-45",
      "punteggioMax": 9,
-     "punti": 12.693,
-     "puntiMax": 36.683,
+     "punti": 4.882,
+     "puntiMax": 14.108,
      "province": [
       "P_ARG_BUENOS_AIRES",
       "P_ARG_CORDOBA",
       "P_ARG_SANTA_FE"
+     ]
+    },
+    {
+     "id": "wheat|Australia|pianure",
+     "controllo": "Australia",
+     "paese": "Australia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 7,
+     "periodoBase": "1933-35",
+     "punteggioMax": 9,
+     "punti": 4.882,
+     "puntiMax": 14.108,
+     "province": [
+      "P_AUS_NEW_SOUTH_WALES",
+      "P_AUS_NORFOLK",
+      "P_AUS_NORTHERN_TERRITORY",
+      "P_AUS_QUEENSLAND",
+      "P_AUS_SOUTH_AUSTRALIA",
+      "P_AUS_TASMANIA",
+      "P_AUS_VICTORIA",
+      "P_AUS_WESTERN_AUSTRALIA"
+     ]
+    },
+    {
+     "id": "wheat|Austria|pianure",
+     "controllo": "Austria",
+     "paese": "Austria",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 2,
+     "periodoBase": "1933-35",
+     "punteggioMax": 4,
+     "punti": 0.344,
+     "puntiMax": 0.994,
+     "province": [
+      "P_AUT_BURGENLAND",
+      "P_AUT_LOWER_AUSTRIA",
+      "P_AUT_UPPER_AUSTRIA"
+     ]
+    },
+    {
+     "id": "wheat|Belgio|pianure",
+     "controllo": "Belgio",
+     "paese": "Belgio",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 2,
+     "periodoBase": "1933-35",
+     "punteggioMax": 4,
+     "punti": 0.344,
+     "puntiMax": 0.994,
+     "province": [
+      "P_BEL_ANTWERP",
+      "P_BEL_BRABANT",
+      "P_BEL_EAST_FLANDERS",
+      "P_BEL_HAINAUT",
+      "P_BEL_LIEGE",
+      "P_BEL_LIMBURG",
+      "P_BEL_LUXEMBOURG",
+      "P_BEL_NAMUR",
+      "P_BEL_WEST_FLANDERS"
+     ]
+    },
+    {
+     "id": "wheat|Bulgaria|pianure",
+     "controllo": "Bulgaria",
+     "paese": "Bulgaria",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 4,
+     "periodoBase": "1933-35",
+     "punteggioMax": 6,
+     "punti": 0.994,
+     "puntiMax": 2.872,
+     "province": [
+      "P_BGR_BURGAS",
+      "P_BGR_GABROVO",
+      "P_BGR_HASKOVO",
+      "P_BGR_KARDZHALI",
+      "P_BGR_LOVECH",
+      "P_BGR_MONTANA",
+      "P_BGR_PERNIK",
+      "P_BGR_PLEVEN",
+      "P_BGR_PLOVDIV",
+      "P_BGR_RAZGRAD",
+      "P_BGR_RUSE",
+      "P_BGR_SHUMEN",
+      "P_BGR_SLIVEN",
+      "P_BGR_STARA_ZAGORA",
+      "P_BGR_TARGOVISHTE",
+      "P_BGR_VARNA",
+      "P_BGR_VELIKO_TARNOVO",
+      "P_BGR_VIDIN",
+      "P_BGR_VRATSA",
+      "P_BGR_YAMBOL"
      ]
     },
     {
@@ -2948,8 +3065,8 @@
      "punteggio": 8,
      "periodoBase": "1935-45",
      "punteggioMax": 10,
-     "punti": 21.578,
-     "puntiMax": 62.362,
+     "punti": 8.299,
+     "puntiMax": 23.984,
      "province": [
       "P_CAN_ALBERTA",
       "P_CAN_MANITOBA",
@@ -2957,19 +3074,912 @@
      ]
     },
     {
+     "id": "wheat|Cecoslovacchia|pianure",
+     "controllo": "Cecoslovacchia",
+     "paese": "Cecoslovacchia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 5,
+     "periodoBase": "1933-35",
+     "punteggioMax": 7,
+     "punti": 1.689,
+     "puntiMax": 4.882,
+     "province": [
+      "P_CZE_BOHEMIA",
+      "P_CZE_MORAVIAN_SILESIAN_COUNTRY",
+      "P_CZE_SLOVAKIA",
+      "P_CZE_SUBCARPATHIAN_RUS"
+     ]
+    },
+    {
+     "id": "wheat|Corea|pianure",
+     "controllo": "Giappone",
+     "paese": "Corea",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 1,
+     "periodoBase": "1933-35",
+     "punteggioMax": 3,
+     "punti": 0.202,
+     "puntiMax": 0.584,
+     "province": [
+      "P_KOR_DAEGU",
+      "P_KOR_GANGWON",
+      "P_KOR_GYEONGGI",
+      "P_KOR_KANGWON",
+      "P_KOR_NORTH_CHUNGCHEONG",
+      "P_KOR_NORTH_GYEONGSANG",
+      "P_KOR_NORTH_HAMGYONG",
+      "P_KOR_NORTH_HWANGHAE",
+      "P_KOR_NORTH_JEOLLA",
+      "P_KOR_NORTH_PYONGAN",
+      "P_KOR_PYONGYANG",
+      "P_KOR_RASON",
+      "P_KOR_SEJONG",
+      "P_KOR_SEOUL",
+      "P_KOR_SOUTH_CHUNGCHEONG",
+      "P_KOR_SOUTH_GYEONGSANG",
+      "P_KOR_SOUTH_HWANGHAE",
+      "P_KOR_SOUTH_JEOLLA",
+      "P_KOR_SOUTH_PYONGAN",
+      "P_KOR_ULSAN"
+     ]
+    },
+    {
+     "id": "wheat|Danimarca|pianure",
+     "controllo": "Danimarca",
+     "paese": "Danimarca",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 2,
+     "periodoBase": "1933-35",
+     "punteggioMax": 4,
+     "punti": 0.344,
+     "puntiMax": 0.994,
+     "province": [
+      "P_DNK_HOVEDSTADEN",
+      "P_DNK_MIDTJYLLAND",
+      "P_DNK_NORDJYLLAND",
+      "P_DNK_SJAELLAND",
+      "P_DNK_SYDDANMARK"
+     ]
+    },
+    {
+     "id": "wheat|Egitto|pianure",
+     "controllo": "Egitto",
+     "paese": "Egitto",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 4,
+     "periodoBase": "1933-35",
+     "punteggioMax": 6,
+     "punti": 0.994,
+     "puntiMax": 2.872,
+     "province": [
+      "P_EGY_AD_DAQAHLIYAH",
+      "P_EGY_AL_BUHAYRAH",
+      "P_EGY_AL_GHARBIYAH",
+      "P_EGY_AL_ISKANDARIYAH",
+      "P_EGY_AL_MINUFIYAH",
+      "P_EGY_AL_QALYUBIYAH",
+      "P_EGY_ASH_SHARQIYAH",
+      "P_EGY_BUR_SA_ID",
+      "P_EGY_DUMYAT",
+      "P_EGY_KAFR_ASH_SHAYKH"
+     ]
+    },
+    {
+     "id": "wheat|Estonia|pianure",
+     "controllo": "Estonia",
+     "paese": "Estonia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 1,
+     "periodoBase": "1933-35",
+     "punteggioMax": 3,
+     "punti": 0.202,
+     "puntiMax": 0.584,
+     "province": [
+      "P_EST_HARJU",
+      "P_EST_JARVA",
+      "P_EST_LAANE",
+      "P_EST_PARNU",
+      "P_EST_SAARE",
+      "P_EST_TARTU",
+      "P_EST_VALGA",
+      "P_EST_VILJANDI",
+      "P_EST_VIRU",
+      "P_EST_VORU"
+     ]
+    },
+    {
+     "id": "wheat|Finlandia|pianure",
+     "controllo": "Finlandia",
+     "paese": "Finlandia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 1,
+     "periodoBase": "1933-35",
+     "punteggioMax": 3,
+     "punti": 0.202,
+     "puntiMax": 0.584,
+     "province": [
+      "P_FIN_ALAND",
+      "P_FIN_CENTRAL_FINLAND",
+      "P_FIN_CENTRAL_OSTROBOTHNIA",
+      "P_FIN_FINLAND_PROPER",
+      "P_FIN_KAINUU",
+      "P_FIN_KYMENLAAKSO",
+      "P_FIN_LAPLAND",
+      "P_FIN_NORTHERN_OSTROBOTHNIA",
+      "P_FIN_NORTHERN_SAVONIA",
+      "P_FIN_NORTH_KARELIA",
+      "P_FIN_OSTROBOTHNIA",
+      "P_FIN_PAIJAT_HAME",
+      "P_FIN_PIRKANMAA",
+      "P_FIN_SATAKUNTA",
+      "P_FIN_SOUTHERN_OSTROBOTHNIA",
+      "P_FIN_SOUTHERN_SAVONIA",
+      "P_FIN_SOUTH_KARELIA",
+      "P_FIN_TAVASTIA_PROPER",
+      "P_FIN_UUSIMAA"
+     ]
+    },
+    {
+     "id": "wheat|Francia|pianure",
+     "controllo": "Francia",
+     "paese": "Francia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 8,
+     "periodoBase": "1933-35",
+     "punteggioMax": 10,
+     "punti": 8.299,
+     "puntiMax": 23.984,
+     "province": [
+      "P_FRA_AIN",
+      "P_FRA_AISNE",
+      "P_FRA_ALLIER",
+      "P_FRA_ARDECHE",
+      "P_FRA_ARDENNES",
+      "P_FRA_AUBE",
+      "P_FRA_AUDE",
+      "P_FRA_AVEYRON",
+      "P_FRA_BAS_RHIN",
+      "P_FRA_BOUCHES_DU_RHONE",
+      "P_FRA_CALVADOS",
+      "P_FRA_CANTAL",
+      "P_FRA_CHARENTE",
+      "P_FRA_CHARENTE_MARITIME",
+      "P_FRA_CHER",
+      "P_FRA_CORREZE",
+      "P_FRA_COTES_D_ARMOR",
+      "P_FRA_COTE_D_OR",
+      "P_FRA_CREUSE",
+      "P_FRA_DEUX_SEVRES",
+      "P_FRA_DORDOGNE",
+      "P_FRA_DOUBS",
+      "P_FRA_DROME",
+      "P_FRA_EURE",
+      "P_FRA_EURE_ET_LOIR",
+      "P_FRA_FINISTERE",
+      "P_FRA_GARD",
+      "P_FRA_GERS",
+      "P_FRA_GIRONDE",
+      "P_FRA_HAUTE_GARONNE",
+      "P_FRA_HAUTE_LOIRE",
+      "P_FRA_HAUTE_MARNE",
+      "P_FRA_HAUTE_SAONE",
+      "P_FRA_HAUTE_VIENNE",
+      "P_FRA_HAUT_RHIN",
+      "P_FRA_HERAULT",
+      "P_FRA_ILLE_ET_VILAINE",
+      "P_FRA_INDRE",
+      "P_FRA_INDRE_ET_LOIRE",
+      "P_FRA_JURA",
+      "P_FRA_LANDES",
+      "P_FRA_LOIRE",
+      "P_FRA_LOIRET",
+      "P_FRA_LOIRE_ATLANTIQUE",
+      "P_FRA_LOIR_ET_CHER",
+      "P_FRA_LOT",
+      "P_FRA_LOT_ET_GARONNE",
+      "P_FRA_LOZERE",
+      "P_FRA_MAINE_ET_LOIRE",
+      "P_FRA_MANCHE",
+      "P_FRA_MARNE",
+      "P_FRA_MAYENNE",
+      "P_FRA_MEURTHE_ET_MOSELLE",
+      "P_FRA_MEUSE",
+      "P_FRA_MORBIHAN",
+      "P_FRA_MOSELLE",
+      "P_FRA_NIEVRE",
+      "P_FRA_NORD",
+      "P_FRA_OISE",
+      "P_FRA_ORNE",
+      "P_FRA_PAS_DE_CALAIS",
+      "P_FRA_PUY_DE_DOME",
+      "P_FRA_PYRENEES_ATLANTIQUES",
+      "P_FRA_RHONE",
+      "P_FRA_SAONE_ET_LOIRE",
+      "P_FRA_SARTHE",
+      "P_FRA_SEINE",
+      "P_FRA_SEINE_ET_MARNE",
+      "P_FRA_SEINE_ET_OISE",
+      "P_FRA_SEINE_MARITIME",
+      "P_FRA_SOMME",
+      "P_FRA_TARN",
+      "P_FRA_TARN_ET_GARONNE",
+      "P_FRA_TERRITOIRE_DE_BELFORT",
+      "P_FRA_VAR",
+      "P_FRA_VAUCLUSE",
+      "P_FRA_VENDEE",
+      "P_FRA_VIENNE",
+      "P_FRA_VOSGES",
+      "P_FRA_YONNE"
+     ]
+    },
+    {
+     "id": "wheat|Germania|pianure",
+     "controllo": "Germania",
+     "paese": "Germania",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 7,
+     "periodoBase": "1933-35",
+     "punteggioMax": 9,
+     "punti": 4.882,
+     "puntiMax": 14.108,
+     "province": [
+      "P_DEU_BADEN",
+      "P_DEU_BAYERISCHE_OSTMARK",
+      "P_DEU_BERLIN",
+      "P_DEU_DUESSELDORF",
+      "P_DEU_ESSEN",
+      "P_DEU_FRANKEN",
+      "P_DEU_HALLE_MERSEBURG",
+      "P_DEU_HAMBURG",
+      "P_DEU_HESSEN_NASSAU",
+      "P_DEU_KOBLENZ_TRIER",
+      "P_DEU_KOELN_AACHEN",
+      "P_DEU_KURHESSEN",
+      "P_DEU_KURMARK",
+      "P_DEU_MAGDEBURG_ANHALT",
+      "P_DEU_MAINFRANKEN",
+      "P_DEU_MECKLENBURG_LUEBECK",
+      "P_DEU_MUENCHEN_OBERBAYERN",
+      "P_DEU_NIEDERSCHLESIEN",
+      "P_DEU_OBERSCHLESIEN",
+      "P_DEU_OSTPREUSSEN",
+      "P_DEU_OST_HANNOVER",
+      "P_DEU_POMMERN",
+      "P_DEU_SAARPFALZ",
+      "P_DEU_SACHSEN",
+      "P_DEU_SCHLESWIG_HOLSTEIN",
+      "P_DEU_SCHWABEN",
+      "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+      "P_DEU_THUERINGEN",
+      "P_DEU_WESER_EMS",
+      "P_DEU_WESTFALEN_NORD",
+      "P_DEU_WESTFALEN_SUED",
+      "P_DEU_WUERTTEMBERG_HOHENZOLLERN"
+     ]
+    },
+    {
+     "id": "wheat|Giappone|pianure",
+     "controllo": "Giappone",
+     "paese": "Giappone",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 4,
+     "periodoBase": "1933-35",
+     "punteggioMax": 6,
+     "punti": 0.994,
+     "puntiMax": 2.872,
+     "province": [
+      "P_JPN_AICHI_PREFECTURE",
+      "P_JPN_AKITA_PREFECTURE",
+      "P_JPN_AOMORI_PREFECTURE",
+      "P_JPN_CHIBA_PREFECTURE",
+      "P_JPN_FUKUI_PREFECTURE",
+      "P_JPN_FUKUOKA_PREFECTURE",
+      "P_JPN_FUKUSHIMA_PREFECTURE",
+      "P_JPN_HIROSHIMA_PREFECTURE",
+      "P_JPN_HOKKAIDO",
+      "P_JPN_HYOGO_PREFECTURE",
+      "P_JPN_IBARAKI_PREFECTURE",
+      "P_JPN_ISHIKAWA_PREFECTURE",
+      "P_JPN_IWATE_PREFECTURE",
+      "P_JPN_KAGAWA_PREFECTURE",
+      "P_JPN_KAGOSHIMA_PREFECTURE",
+      "P_JPN_KANAGAWA_PREFECTURE",
+      "P_JPN_KOCHI_PREFECTURE",
+      "P_JPN_KUMAMOTO_PREFECTURE",
+      "P_JPN_KYOTO_PREFECTURE",
+      "P_JPN_MIE_PREFECTURE",
+      "P_JPN_MIYAGI_PREFECTURE",
+      "P_JPN_MIYAZAKI_PREFECTURE",
+      "P_JPN_NAGASAKI_PREFECTURE",
+      "P_JPN_NIIGATA_PREFECTURE",
+      "P_JPN_OGASAWARA",
+      "P_JPN_OITA_PREFECTURE",
+      "P_JPN_OKAYAMA_PREFECTURE",
+      "P_JPN_OKINAWA_PREFECTURE",
+      "P_JPN_OSAKA_PREFECTURE",
+      "P_JPN_SAGA_PREFECTURE",
+      "P_JPN_SAITAMA_PREFECTURE",
+      "P_JPN_SHIGA_PREFECTURE",
+      "P_JPN_SHIMANE_PREFECTURE",
+      "P_JPN_TOCHIGI_PREFECTURE",
+      "P_JPN_TOKYO",
+      "P_JPN_TOTTORI_PREFECTURE",
+      "P_JPN_TOYAMA_PREFECTURE",
+      "P_JPN_WAKAYAMA_PREFECTURE",
+      "P_JPN_YAMAGATA_PREFECTURE",
+      "P_JPN_YAMAGUCHI_PREFECTURE"
+     ]
+    },
+    {
+     "id": "wheat|Grecia|pianure",
+     "controllo": "Grecia",
+     "paese": "Grecia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 3,
+     "periodoBase": "1933-35",
+     "punteggioMax": 5,
+     "punti": 0.584,
+     "puntiMax": 1.689,
+     "province": [
+      "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI",
+      "P_GRC_ATTIKI",
+      "P_GRC_AYION_OROS",
+      "P_GRC_IONIOI_NISOI",
+      "P_GRC_KENTRIKI_MAKEDONIA",
+      "P_GRC_NOTIO_AIGAIO"
+     ]
+    },
+    {
      "id": "wheat|India britannica|punjab",
      "controllo": "Regno Unito",
      "paese": "India britannica",
      "luogo": "Punjab, Uttar Pradesh",
-     "punteggio": 6,
+     "punteggio": 8,
      "periodoBase": "1935-45",
-     "punteggioMax": 8,
-     "punti": 7.467,
-     "puntiMax": 21.578,
+     "punteggioMax": 10,
+     "punti": 8.299,
+     "puntiMax": 23.984,
      "province": [
       "P_IND_PUNJAB",
       "P_IND_PUNJAB_PB",
       "P_IND_UTTAR_PRADESH"
+     ]
+    },
+    {
+     "id": "wheat|Irlanda|pianure",
+     "controllo": "Irlanda",
+     "paese": "Irlanda",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 1,
+     "periodoBase": "1933-35",
+     "punteggioMax": 3,
+     "punti": 0.202,
+     "puntiMax": 0.584,
+     "province": [
+      "P_IRL_CONNACHT",
+      "P_IRL_DUBLINO",
+      "P_IRL_LEINSTER",
+      "P_IRL_MUNSTER",
+      "P_IRL_ULSTER"
+     ]
+    },
+    {
+     "id": "wheat|Italia|pianure",
+     "controllo": "Italia",
+     "paese": "Italia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 8,
+     "periodoBase": "1933-35",
+     "punteggioMax": 10,
+     "punti": 8.299,
+     "puntiMax": 23.984,
+     "province": [
+      "P_ITA_AGRIGENTO",
+      "P_ITA_ANCONA",
+      "P_ITA_ASCOLI_PICENO",
+      "P_ITA_ASTI",
+      "P_ITA_BARI",
+      "P_ITA_BOLOGNA",
+      "P_ITA_CAGLIARI",
+      "P_ITA_CALTANISSETTA",
+      "P_ITA_CASERTA",
+      "P_ITA_CATANIA",
+      "P_ITA_DODECANESO",
+      "P_ITA_ENNA",
+      "P_ITA_FIRENZE",
+      "P_ITA_FOGGIA",
+      "P_ITA_LA_SPEZIA",
+      "P_ITA_LECCE",
+      "P_ITA_MACERATA",
+      "P_ITA_MATERA",
+      "P_ITA_MILANO",
+      "P_ITA_NAPOLI",
+      "P_ITA_NUORO",
+      "P_ITA_PARMA",
+      "P_ITA_PERUGIA_NORD",
+      "P_ITA_PESCARA",
+      "P_ITA_PISA",
+      "P_ITA_POLA",
+      "P_ITA_POTENZA_NORD",
+      "P_ITA_RAGUSA",
+      "P_ITA_RAVENNA",
+      "P_ITA_ROMA",
+      "P_ITA_SASSARI",
+      "P_ITA_SIENA",
+      "P_ITA_SIRACUSA",
+      "P_ITA_TERNI",
+      "P_ITA_TRAPANI",
+      "P_ITA_TRIESTE",
+      "P_ITA_VENEZIA",
+      "P_ITA_VERONA",
+      "P_ITA_VITERBO",
+      "P_ITA_ZARA"
+     ]
+    },
+    {
+     "id": "wheat|Jugoslavia|pianure",
+     "controllo": "Jugoslavia",
+     "paese": "Jugoslavia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 5,
+     "periodoBase": "1933-35",
+     "punteggioMax": 7,
+     "punti": 1.689,
+     "puntiMax": 4.882,
+     "province": [
+      "P_YUG_BANJA_LUKA",
+      "P_YUG_BEOGRAD",
+      "P_YUG_BIHAC",
+      "P_YUG_CUPRIJA",
+      "P_YUG_DUBROVNIK",
+      "P_YUG_KARLOVAC",
+      "P_YUG_KRAGUJEVAC",
+      "P_YUG_KRUSEVAC",
+      "P_YUG_LJUBLJANA",
+      "P_YUG_MARIBOR",
+      "P_YUG_NIS",
+      "P_YUG_NOVI_SAD",
+      "P_YUG_OSIJEK",
+      "P_YUG_POZAREVAC",
+      "P_YUG_PRISTINA",
+      "P_YUG_SABAC",
+      "P_YUG_SMEDEREVO",
+      "P_YUG_SPLIT",
+      "P_YUG_TUZLA",
+      "P_YUG_VALJEVO",
+      "P_YUG_VUKOVAR",
+      "P_YUG_ZAGREB",
+      "P_YUG_ZAJECAR"
+     ]
+    },
+    {
+     "id": "wheat|Lettonia|pianure",
+     "controllo": "Lettonia",
+     "paese": "Lettonia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 1,
+     "periodoBase": "1933-35",
+     "punteggioMax": 3,
+     "punti": 0.202,
+     "puntiMax": 0.584,
+     "province": [
+      "P_LVA_KURZEME",
+      "P_LVA_LATGALE",
+      "P_LVA_PIERIGA",
+      "P_LVA_RIGA",
+      "P_LVA_VIDZEME",
+      "P_LVA_ZEMGALE"
+     ]
+    },
+    {
+     "id": "wheat|Lituania|pianure",
+     "controllo": "Lituania",
+     "paese": "Lituania",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 1,
+     "periodoBase": "1933-35",
+     "punteggioMax": 3,
+     "punti": 0.202,
+     "puntiMax": 0.584,
+     "province": [
+      "P_LTU_ALYTUS",
+      "P_LTU_KAUNAS",
+      "P_LTU_KRETINGA",
+      "P_LTU_MARIJAMPOLE",
+      "P_LTU_MEMEL",
+      "P_LTU_PANEVEZYS",
+      "P_LTU_SIAULIAI",
+      "P_LTU_TAURAGE",
+      "P_LTU_TELSIAI",
+      "P_LTU_UTENA",
+      "P_LTU_VILNIUS"
+     ]
+    },
+    {
+     "id": "wheat|Marocco francese|pianure",
+     "controllo": "Francia",
+     "paese": "Marocco francese",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 3,
+     "periodoBase": "1933-35",
+     "punteggioMax": 5,
+     "punti": 0.584,
+     "puntiMax": 1.689,
+     "province": [
+      "P_MAR_CHAOUIA___OUARDIGHA",
+      "P_MAR_DOUKKALA___ABDA",
+      "P_MAR_GHARB___CHRARDA___BENI_HSSEN",
+      "P_MAR_GRAND_CASABLANCA",
+      "P_MAR_MARRAKECH___TENSIFT___AL_HAOUZ",
+      "P_MAR_ORIENTAL",
+      "P_MAR_RABAT___SALE___ZEMMOUR___ZAER",
+      "P_MAR_TAZA___AL_HOCEIMA___TAOUNATE"
+     ]
+    },
+    {
+     "id": "wheat|Messico|pianure",
+     "controllo": "Messico",
+     "paese": "Messico",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 2,
+     "periodoBase": "1933-35",
+     "punteggioMax": 4,
+     "punti": 0.344,
+     "puntiMax": 0.994,
+     "province": [
+      "P_MEX_BAJA_CALIFORNIA",
+      "P_MEX_BAJA_CALIFORNIA_SUR",
+      "P_MEX_CAMPECHE",
+      "P_MEX_CHIAPAS",
+      "P_MEX_NUEVO_LEON",
+      "P_MEX_QUINTANA_ROO",
+      "P_MEX_SINALOA",
+      "P_MEX_TABASCO",
+      "P_MEX_TAMAULIPAS",
+      "P_MEX_VERACRUZ",
+      "P_MEX_YUCATAN"
+     ]
+    },
+    {
+     "id": "wheat|Paesi Bassi|pianure",
+     "controllo": "Paesi Bassi",
+     "paese": "Paesi Bassi",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 2,
+     "periodoBase": "1933-35",
+     "punteggioMax": 4,
+     "punti": 0.344,
+     "puntiMax": 0.994,
+     "province": [
+      "P_NLD_DRENTHE",
+      "P_NLD_FRIESLAND",
+      "P_NLD_GELDERLAND",
+      "P_NLD_GRONINGEN",
+      "P_NLD_LIMBURG",
+      "P_NLD_NOORD_BRABANT",
+      "P_NLD_NOORD_HOLLAND",
+      "P_NLD_OVERIJSSEL",
+      "P_NLD_UTRECHT",
+      "P_NLD_ZEELAND",
+      "P_NLD_ZUID_HOLLAND"
+     ]
+    },
+    {
+     "id": "wheat|Palestina|pianure",
+     "controllo": "Regno Unito",
+     "paese": "Palestina",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 1,
+     "periodoBase": "1933-35",
+     "punteggioMax": 3,
+     "punti": 0.202,
+     "puntiMax": 0.584,
+     "province": [
+      "P_PAL_HAIFA",
+      "P_PAL_HAZAFON",
+      "P_PAL_TEL_AVIV",
+      "P_PAL_WEST_BANK"
+     ]
+    },
+    {
+     "id": "wheat|Polonia|pianure",
+     "controllo": "Polonia",
+     "paese": "Polonia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 5,
+     "periodoBase": "1933-35",
+     "punteggioMax": 7,
+     "punti": 1.689,
+     "puntiMax": 4.882,
+     "province": [
+      "P_POL_BIAYSTOK_VOIVODESHIP",
+      "P_POL_KIELCE_VOIVODESHIP",
+      "P_POL_KRAKOW_VOIVODESHIP",
+      "P_POL_LUBLIN_VOIVODESHIP",
+      "P_POL_LWOW_VOIVODESHIP",
+      "P_POL_NOWOGRODEK_VOIVODESHIP",
+      "P_POL_ODZ_VOIVODESHIP",
+      "P_POL_POLESIE_VOIVODESHIP",
+      "P_POL_POMERANIAN_VOIVODESHIP",
+      "P_POL_POZNAN_VOIVODESHIP",
+      "P_POL_SILESIAN_VOIVODESHIP",
+      "P_POL_STANISAWOW_VOIVODESHIP",
+      "P_POL_TARNOPOL_VOIVODESHIP",
+      "P_POL_VOLHYNIAN_VOIVODESHIP",
+      "P_POL_WARSAW_VOIVODESHIP",
+      "P_POL_WILNO_VOIVODESHIP"
+     ]
+    },
+    {
+     "id": "wheat|Portogallo|pianure",
+     "controllo": "Portogallo",
+     "paese": "Portogallo",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 3,
+     "periodoBase": "1933-35",
+     "punteggioMax": 5,
+     "punti": 0.584,
+     "puntiMax": 1.689,
+     "province": [
+      "P_PRT_ANGRA_DO_HEROISMO",
+      "P_PRT_AVEIRO",
+      "P_PRT_BEJA",
+      "P_PRT_BRAGA",
+      "P_PRT_BRAGANCA",
+      "P_PRT_CASTELO_BRANCO",
+      "P_PRT_COIMBRA",
+      "P_PRT_EVORA",
+      "P_PRT_FARO",
+      "P_PRT_GUARDA",
+      "P_PRT_LEIRIA",
+      "P_PRT_LISBOA",
+      "P_PRT_PORTALEGRE",
+      "P_PRT_PORTO",
+      "P_PRT_SANTAREM",
+      "P_PRT_SETUBAL",
+      "P_PRT_VISEU"
+     ]
+    },
+    {
+     "id": "wheat|Regno Unito|pianure",
+     "controllo": "Regno Unito",
+     "paese": "Regno Unito",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 5,
+     "periodoBase": "1933-35",
+     "punteggioMax": 7,
+     "punti": 1.689,
+     "puntiMax": 4.882,
+     "province": [
+      "P_GBR_ABERDEEN",
+      "P_GBR_ABERDEENSHIRE",
+      "P_GBR_ANGLESEY",
+      "P_GBR_ANGUS",
+      "P_GBR_ANTRIM",
+      "P_GBR_ARGYLL_AND_BUTE",
+      "P_GBR_ARMAGH",
+      "P_GBR_BEDFORDSHIRE",
+      "P_GBR_BERKSHIRE",
+      "P_GBR_BERMUDA",
+      "P_GBR_BUCKINGHAMSHIRE",
+      "P_GBR_CAERNARVONSHIRE_E_MERIONETHSHIRE",
+      "P_GBR_CAMBRIDGESHIRE",
+      "P_GBR_CARDIGANSHIRE",
+      "P_GBR_CARMARTHENSHIRE",
+      "P_GBR_CHESHIRE",
+      "P_GBR_CLACKMANNANSHIRE",
+      "P_GBR_CORNWALL",
+      "P_GBR_CUMBERLAND_E_WESTMORLAND",
+      "P_GBR_DENBIGHSHIRE",
+      "P_GBR_DERBYSHIRE",
+      "P_GBR_DEVON",
+      "P_GBR_DORSET",
+      "P_GBR_DOWN",
+      "P_GBR_DUMFRIES_AND_GALLOWAY",
+      "P_GBR_DUNDEE",
+      "P_GBR_DURHAM",
+      "P_GBR_EAST_AYRSHIRE",
+      "P_GBR_EAST_DUNBARTONSHIRE",
+      "P_GBR_EAST_LOTHIAN",
+      "P_GBR_EAST_RENFREWSHIRE",
+      "P_GBR_EAST_SUSSEX",
+      "P_GBR_EDIMBURGO",
+      "P_GBR_EILEAN_SIAR_EBRIDI_ESTERNE",
+      "P_GBR_ESSEX",
+      "P_GBR_FALKIRK",
+      "P_GBR_FERMANAGH",
+      "P_GBR_FIFE",
+      "P_GBR_FLINTSHIRE",
+      "P_GBR_GILBERT_ELLICE",
+      "P_GBR_GLAMORGAN",
+      "P_GBR_GLASGOW",
+      "P_GBR_GLOUCESTERSHIRE",
+      "P_GBR_HAMPSHIRE",
+      "P_GBR_HEREFORDSHIRE",
+      "P_GBR_HERTFORDSHIRE",
+      "P_GBR_HIGHLAND",
+      "P_GBR_INVERCLYDE",
+      "P_GBR_ISOLA_DI_WIGHT",
+      "P_GBR_KENT",
+      "P_GBR_LANCASHIRE",
+      "P_GBR_LEICESTERSHIRE",
+      "P_GBR_LINCOLNSHIRE",
+      "P_GBR_LINE_FENICE",
+      "P_GBR_LONDONDERRY",
+      "P_GBR_LONDRA",
+      "P_GBR_MIDDLESEX",
+      "P_GBR_MIDLOTHIAN",
+      "P_GBR_MONMOUTHSHIRE",
+      "P_GBR_MONTGOMERYSHIRE_RADNORSHIRE_E_BRECKNOCKSHIRE",
+      "P_GBR_MORAY",
+      "P_GBR_NORFOLK",
+      "P_GBR_NORTHAMPTONSHIRE",
+      "P_GBR_NORTHUMBERLAND",
+      "P_GBR_NORTH_AYRSHIRE",
+      "P_GBR_NORTH_LANARKSHIRE",
+      "P_GBR_NOTTINGHAMSHIRE",
+      "P_GBR_ORKNEY",
+      "P_GBR_OXFORDSHIRE",
+      "P_GBR_PEMBROKESHIRE",
+      "P_GBR_PERTH_E_KINROSS",
+      "P_GBR_PITCAIRN",
+      "P_GBR_RENFREWSHIRE",
+      "P_GBR_RUTLAND",
+      "P_GBR_SANT_ELENA",
+      "P_GBR_SCOTTISH_BORDERS",
+      "P_GBR_SHETLAND_ISLANDS",
+      "P_GBR_SHROPSHIRE",
+      "P_GBR_SOMERSET",
+      "P_GBR_SOUTH_AYRSHIRE",
+      "P_GBR_SOUTH_LANARKSHIRE",
+      "P_GBR_STAFFORDSHIRE",
+      "P_GBR_STIRLING",
+      "P_GBR_SUFFOLK",
+      "P_GBR_SURREY",
+      "P_GBR_TYRONE",
+      "P_GBR_WARWICKSHIRE",
+      "P_GBR_WEST_DUNBARTONSHIRE",
+      "P_GBR_WEST_LOTHIAN",
+      "P_GBR_WEST_SUSSEX",
+      "P_GBR_WILTSHIRE",
+      "P_GBR_WORCESTERSHIRE",
+      "P_GBR_YORKSHIRE"
+     ]
+    },
+    {
+     "id": "wheat|Romania|pianure",
+     "controllo": "Romania",
+     "paese": "Romania",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 6,
+     "periodoBase": "1933-35",
+     "punteggioMax": 8,
+     "punti": 2.872,
+     "puntiMax": 8.299,
+     "province": [
+      "P_ROM_ALBA",
+      "P_ROM_ARAD",
+      "P_ROM_ARGES",
+      "P_ROM_BACAU",
+      "P_ROM_BASARABIA",
+      "P_ROM_BIHOR",
+      "P_ROM_BISTRITA_NASAUD",
+      "P_ROM_BOTOSANI",
+      "P_ROM_BRAILA",
+      "P_ROM_BRASOV",
+      "P_ROM_BUCOVINA_DE_NORD",
+      "P_ROM_BUCURESTI",
+      "P_ROM_BUZAU",
+      "P_ROM_CADRILATER",
+      "P_ROM_CALARASI",
+      "P_ROM_CARAS_SEVERIN",
+      "P_ROM_CLUJ",
+      "P_ROM_CONSTANTA",
+      "P_ROM_COVASNA",
+      "P_ROM_DAMBOVITA",
+      "P_ROM_DOLJ",
+      "P_ROM_GALATI",
+      "P_ROM_GIURGIU",
+      "P_ROM_GORJ",
+      "P_ROM_HARGHITA",
+      "P_ROM_HUNEDOARA",
+      "P_ROM_IALOMITA",
+      "P_ROM_IASI",
+      "P_ROM_ILFOV",
+      "P_ROM_MARAMURES",
+      "P_ROM_MEHEDINTI",
+      "P_ROM_MURES",
+      "P_ROM_NEAMT",
+      "P_ROM_OLT",
+      "P_ROM_PRAHOVA",
+      "P_ROM_SALAJ",
+      "P_ROM_SATU_MARE",
+      "P_ROM_SIBIU",
+      "P_ROM_SUCEAVA",
+      "P_ROM_TELEORMAN",
+      "P_ROM_TIMIS",
+      "P_ROM_TULCEA",
+      "P_ROM_VALCEA",
+      "P_ROM_VASLUI",
+      "P_ROM_VRANCEA"
+     ]
+    },
+    {
+     "id": "wheat|Siria|pianure",
+     "controllo": "Francia",
+     "paese": "Siria",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 2,
+     "periodoBase": "1933-35",
+     "punteggioMax": 4,
+     "punti": 0.344,
+     "puntiMax": 0.994,
+     "province": [
+      "P_SYR_ALEPPO",
+      "P_SYR_AR_RAQQAH",
+      "P_SYR_DAMASCUS",
+      "P_SYR_DAR_A",
+      "P_SYR_DAYR_AZ_ZAWR",
+      "P_SYR_HASAKA_AL_HAKSA",
+      "P_SYR_IDLIB",
+      "P_SYR_LATTAKIA",
+      "P_SYR_QUNEITRA",
+      "P_SYR_TARTUS"
+     ]
+    },
+    {
+     "id": "wheat|Spagna|pianure",
+     "controllo": "Spagna",
+     "paese": "Spagna",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 7,
+     "periodoBase": "1933-35",
+     "punteggioMax": 9,
+     "punti": 4.882,
+     "puntiMax": 14.108,
+     "province": [
+      "P_ESP_ALAVA",
+      "P_ESP_ALBACETE",
+      "P_ESP_ALICANTE",
+      "P_ESP_BADAJOZ",
+      "P_ESP_BALEARES",
+      "P_ESP_BARCELONA",
+      "P_ESP_BURGOS",
+      "P_ESP_CACERES",
+      "P_ESP_CADIZ",
+      "P_ESP_CASTELLON",
+      "P_ESP_CIUDAD_REAL",
+      "P_ESP_CORDOBA",
+      "P_ESP_CORUNA",
+      "P_ESP_CUENCA",
+      "P_ESP_GERONA",
+      "P_ESP_GUADALAJARA",
+      "P_ESP_GUIPUZCOA",
+      "P_ESP_HUELVA",
+      "P_ESP_HUESCA",
+      "P_ESP_JAEN",
+      "P_ESP_LAS_PALMAS",
+      "P_ESP_LOGRONO",
+      "P_ESP_LUGO",
+      "P_ESP_MADRID",
+      "P_ESP_MURCIA",
+      "P_ESP_NAVARRA",
+      "P_ESP_ORENSE",
+      "P_ESP_PALENCIA",
+      "P_ESP_PONTEVEDRA",
+      "P_ESP_SALAMANCA",
+      "P_ESP_SANTANDER",
+      "P_ESP_SEGOVIA",
+      "P_ESP_SEVILLA",
+      "P_ESP_SORIA",
+      "P_ESP_TARRAGONA",
+      "P_ESP_TERUEL",
+      "P_ESP_TOLEDO",
+      "P_ESP_VALENCIA",
+      "P_ESP_VALLADOLID",
+      "P_ESP_VIZCAYA",
+      "P_ESP_ZAMORA",
+      "P_ESP_ZARAGOZA"
      ]
     },
     {
@@ -2980,14 +3990,158 @@
      "punteggio": 9,
      "periodoBase": "1935-45",
      "punteggioMax": 10,
-     "punti": 36.683,
-     "puntiMax": 62.362,
+     "punti": 14.108,
+     "puntiMax": 23.984,
      "province": [
       "P_USA_KANSAS",
       "P_USA_MONTANA",
       "P_USA_NEBRASKA",
       "P_USA_NORTH_DAKOTA",
       "P_USA_SOUTH_DAKOTA"
+     ]
+    },
+    {
+     "id": "wheat|Sudafrica|pianure",
+     "controllo": "Sudafrica",
+     "paese": "Sudafrica",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 2,
+     "periodoBase": "1933-35",
+     "punteggioMax": 4,
+     "punti": 0.344,
+     "puntiMax": 0.994,
+     "province": [
+      "P_ZAF_EASTERN_CAPE",
+      "P_ZAF_FREE_STATE",
+      "P_ZAF_GAUTENG",
+      "P_ZAF_KWAZULU_NATAL",
+      "P_ZAF_LIMPOPO",
+      "P_ZAF_MPUMALANGA",
+      "P_ZAF_NORTHERN_CAPE",
+      "P_ZAF_NORTH_WEST",
+      "P_ZAF_WESTERN_CAPE"
+     ]
+    },
+    {
+     "id": "wheat|Svezia|pianure",
+     "controllo": "Svezia",
+     "paese": "Svezia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 3,
+     "periodoBase": "1933-35",
+     "punteggioMax": 5,
+     "punti": 0.584,
+     "puntiMax": 1.689,
+     "province": [
+      "P_SWE_BLEKINGE",
+      "P_SWE_DALARNA",
+      "P_SWE_GAVLEBORG",
+      "P_SWE_GOTLAND",
+      "P_SWE_HALLAND",
+      "P_SWE_JAMTLAND",
+      "P_SWE_JONKOPING",
+      "P_SWE_KALMAR",
+      "P_SWE_KRONOBERG",
+      "P_SWE_NORRBOTTEN",
+      "P_SWE_OREBRO",
+      "P_SWE_OSTERGOTLAND",
+      "P_SWE_SKANE",
+      "P_SWE_SODERMANLAND",
+      "P_SWE_STOCKHOLM",
+      "P_SWE_UPPSALA",
+      "P_SWE_VARMLAND",
+      "P_SWE_VASTERBOTTEN",
+      "P_SWE_VASTERNORRLAND",
+      "P_SWE_VASTMANLAND",
+      "P_SWE_VASTRA_GOTALAND"
+     ]
+    },
+    {
+     "id": "wheat|Svizzera|pianure",
+     "controllo": "Svizzera",
+     "paese": "Svizzera",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 1,
+     "periodoBase": "1933-35",
+     "punteggioMax": 3,
+     "punti": 0.202,
+     "puntiMax": 0.584,
+     "province": [
+      "P_CHE_AARGAU",
+      "P_CHE_APPENZELL_AUSSERRHODEN",
+      "P_CHE_BASEL_LANDSCHAFT",
+      "P_CHE_BASEL_STADT",
+      "P_CHE_FRIBOURG",
+      "P_CHE_LUCERNE",
+      "P_CHE_SCHAFFHAUSEN",
+      "P_CHE_THURGAU",
+      "P_CHE_ZUG",
+      "P_CHE_ZURICH"
+     ]
+    },
+    {
+     "id": "wheat|Tunisia francese|pianure",
+     "controllo": "Francia",
+     "paese": "Tunisia francese",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 2,
+     "periodoBase": "1933-35",
+     "punteggioMax": 4,
+     "punti": 0.344,
+     "puntiMax": 0.994,
+     "province": [
+      "P_TUN_BEJA",
+      "P_TUN_BEN_AROUS_TUNIS_SUD",
+      "P_TUN_BIZERTE",
+      "P_TUN_JENDOUBA",
+      "P_TUN_KAIROUAN",
+      "P_TUN_KASSERINE",
+      "P_TUN_LE_KEF",
+      "P_TUN_MAHDIA",
+      "P_TUN_MANUBAH",
+      "P_TUN_MONASTIR",
+      "P_TUN_NABEUL",
+      "P_TUN_SFAX",
+      "P_TUN_SIDI_BOU_ZID",
+      "P_TUN_SILIANA",
+      "P_TUN_SOUSSE",
+      "P_TUN_TUNIS",
+      "P_TUN_ZAGHOUAN"
+     ]
+    },
+    {
+     "id": "wheat|Turchia|pianure",
+     "controllo": "Turchia",
+     "paese": "Turchia",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 6,
+     "periodoBase": "1933-35",
+     "punteggioMax": 8,
+     "punti": 2.872,
+     "puntiMax": 8.299,
+     "province": [
+      "P_TUR_BALIKESIR",
+      "P_TUR_BILECIK",
+      "P_TUR_BURSA",
+      "P_TUR_CANAKKALE",
+      "P_TUR_DIYARBAKIR",
+      "P_TUR_EDIRNE",
+      "P_TUR_ESKISEHIR",
+      "P_TUR_GAZIANTEP",
+      "P_TUR_ISTANBUL",
+      "P_TUR_KILIS",
+      "P_TUR_KIRKLARELI",
+      "P_TUR_KIRSEHIR",
+      "P_TUR_KOCAELI",
+      "P_TUR_KONYA",
+      "P_TUR_MARDIN",
+      "P_TUR_OSMANIYE",
+      "P_TUR_SAMSUN",
+      "P_TUR_SANLIURFA",
+      "P_TUR_TEKIRDAG",
+      "P_TUR_USAK",
+      "P_TUR_YOZGAT",
+      "P_TUR_ZINGULDAK"
      ]
     },
     {
@@ -2998,8 +4152,8 @@
      "punteggio": 8,
      "periodoBase": "1935-45",
      "punteggioMax": 10,
-     "punti": 21.578,
-     "puntiMax": 62.362,
+     "punti": 8.299,
+     "puntiMax": 23.984,
      "province": [
       "P_USSR_DNIPROPETROVSK",
       "P_USSR_DONETSK",
@@ -3011,36 +4165,185 @@
       "P_USSR_VOLGOGRAD",
       "P_USSR_ZAPORIZHZHYA"
      ]
+    },
+    {
+     "id": "wheat|Ungheria|pianure",
+     "controllo": "Ungheria",
+     "paese": "Ungheria",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 5,
+     "periodoBase": "1933-35",
+     "punteggioMax": 7,
+     "punti": 1.689,
+     "puntiMax": 4.882,
+     "province": [
+      "P_HUN_BACS_KISKUN",
+      "P_HUN_BARANYA",
+      "P_HUN_BEKES",
+      "P_HUN_BORSOD_ABAUJ_ZEMPLEN",
+      "P_HUN_BUDAPEST",
+      "P_HUN_CSONGRAD",
+      "P_HUN_FEJER",
+      "P_HUN_GYOR_MOSON_SOPRON",
+      "P_HUN_HAJDU_BIHAR",
+      "P_HUN_HEVES",
+      "P_HUN_JASZ_NAGYKUN_SZOLNOK",
+      "P_HUN_KOMAROM_ESZTERGOM",
+      "P_HUN_NOGRAD",
+      "P_HUN_PEST",
+      "P_HUN_SOMOGY",
+      "P_HUN_SZABOLCS_SZATMAR_BEREG",
+      "P_HUN_TOLNA",
+      "P_HUN_VAS",
+      "P_HUN_VESZPREM",
+      "P_HUN_ZALA"
+     ]
     }
    ],
    "byControl": {
-    "Stati Uniti": {
-     "base": 36.683,
-     "max": 62.362
-    },
     "Regno Unito": {
-     "base": 29.045,
-     "max": 83.94
+     "base": 18.489,
+     "max": 53.434
+    },
+    "Stati Uniti": {
+     "base": 14.108,
+     "max": 23.984
+    },
+    "Francia": {
+     "base": 10.565,
+     "max": 30.533
+    },
+    "Italia": {
+     "base": 8.299,
+     "max": 23.984
     },
     "URSS": {
-     "base": 21.578,
-     "max": 62.362
+     "base": 8.299,
+     "max": 23.984
     },
     "Argentina": {
-     "base": 12.693,
-     "max": 36.683
+     "base": 4.882,
+     "max": 14.108
+    },
+    "Australia": {
+     "base": 4.882,
+     "max": 14.108
+    },
+    "Germania": {
+     "base": 4.882,
+     "max": 14.108
+    },
+    "Spagna": {
+     "base": 4.882,
+     "max": 14.108
+    },
+    "Romania": {
+     "base": 2.872,
+     "max": 8.299
+    },
+    "Turchia": {
+     "base": 2.872,
+     "max": 8.299
+    },
+    "Cecoslovacchia": {
+     "base": 1.689,
+     "max": 4.882
+    },
+    "Jugoslavia": {
+     "base": 1.689,
+     "max": 4.882
+    },
+    "Polonia": {
+     "base": 1.689,
+     "max": 4.882
+    },
+    "Ungheria": {
+     "base": 1.689,
+     "max": 4.882
+    },
+    "Giappone": {
+     "base": 1.196,
+     "max": 3.456
+    },
+    "Bulgaria": {
+     "base": 0.994,
+     "max": 2.872
+    },
+    "Egitto": {
+     "base": 0.994,
+     "max": 2.872
+    },
+    "Grecia": {
+     "base": 0.584,
+     "max": 1.689
+    },
+    "Portogallo": {
+     "base": 0.584,
+     "max": 1.689
+    },
+    "Svezia": {
+     "base": 0.584,
+     "max": 1.689
+    },
+    "Austria": {
+     "base": 0.344,
+     "max": 0.994
+    },
+    "Belgio": {
+     "base": 0.344,
+     "max": 0.994
+    },
+    "Danimarca": {
+     "base": 0.344,
+     "max": 0.994
+    },
+    "Messico": {
+     "base": 0.344,
+     "max": 0.994
+    },
+    "Paesi Bassi": {
+     "base": 0.344,
+     "max": 0.994
+    },
+    "Sudafrica": {
+     "base": 0.344,
+     "max": 0.994
+    },
+    "Estonia": {
+     "base": 0.202,
+     "max": 0.584
+    },
+    "Finlandia": {
+     "base": 0.202,
+     "max": 0.584
+    },
+    "Irlanda": {
+     "base": 0.202,
+     "max": 0.584
+    },
+    "Lettonia": {
+     "base": 0.202,
+     "max": 0.584
+    },
+    "Lituania": {
+     "base": 0.202,
+     "max": 0.584
+    },
+    "Svizzera": {
+     "base": 0.202,
+     "max": 0.584
     }
    },
    "totale": {
-    "base": 99.999,
-    "max": 245.347,
-    "potenziale": 2.45
+    "base": 100,
+    "max": 272.212,
+    "potenziale": 2.72
    },
    "balance": {
-    "topControl": "Stati Uniti",
-    "topControlShare": 0.367,
-    "effectiveProducers": 3.55,
-    "controls": 4
+    "topControl": "Regno Unito",
+    "topControlShare": 0.185,
+    "effectiveProducers": 10.88,
+    "controls": 33
    }
   }
  },
@@ -3296,22 +4599,92 @@
   }
  },
  "byProvince": {
+  "P_ALG_ALGER": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
   "P_ALG_AURES": {
    "antimony": {
     "base": 0.501,
     "max": 1.45
    }
   },
+  "P_ALG_BONE": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_CHELIFF": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
   "P_ALG_CONSTANTINE": {
    "antimony": {
     "base": 0.501,
     "max": 1.45
+   },
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_HODNA": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_MOSTAGANEM": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_ORAN": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_SETIF": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_TEBESSA": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_TIARET": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_TITTERI": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
+   }
+  },
+  "P_ALG_TLEMCEN": {
+   "wheat": {
+    "base": 0.083,
+    "max": 0.239
    }
   },
   "P_ARG_BUENOS_AIRES": {
    "wheat": {
-    "base": 4.231,
-    "max": 12.228
+    "base": 1.627,
+    "max": 4.703
    }
   },
   "P_ARG_CHUBUT": {
@@ -3322,8 +4695,8 @@
   },
   "P_ARG_CORDOBA": {
    "wheat": {
-    "base": 4.231,
-    "max": 12.228
+    "base": 1.627,
+    "max": 4.703
    }
   },
   "P_ARG_MENDOZA": {
@@ -3346,8 +4719,68 @@
   },
   "P_ARG_SANTA_FE": {
    "wheat": {
-    "base": 4.231,
-    "max": 12.228
+    "base": 1.627,
+    "max": 4.703
+   }
+  },
+  "P_AUS_NEW_SOUTH_WALES": {
+   "wheat": {
+    "base": 0.61,
+    "max": 1.764
+   }
+  },
+  "P_AUS_NORFOLK": {
+   "wheat": {
+    "base": 0.61,
+    "max": 1.764
+   }
+  },
+  "P_AUS_NORTHERN_TERRITORY": {
+   "wheat": {
+    "base": 0.61,
+    "max": 1.764
+   }
+  },
+  "P_AUS_QUEENSLAND": {
+   "wheat": {
+    "base": 0.61,
+    "max": 1.764
+   }
+  },
+  "P_AUS_SOUTH_AUSTRALIA": {
+   "wheat": {
+    "base": 0.61,
+    "max": 1.764
+   }
+  },
+  "P_AUS_TASMANIA": {
+   "wheat": {
+    "base": 0.61,
+    "max": 1.764
+   }
+  },
+  "P_AUS_VICTORIA": {
+   "wheat": {
+    "base": 0.61,
+    "max": 1.764
+   }
+  },
+  "P_AUS_WESTERN_AUSTRALIA": {
+   "wheat": {
+    "base": 0.61,
+    "max": 1.764
+   }
+  },
+  "P_AUT_BURGENLAND": {
+   "wheat": {
+    "base": 0.115,
+    "max": 0.331
+   }
+  },
+  "P_AUT_LOWER_AUSTRIA": {
+   "wheat": {
+    "base": 0.115,
+    "max": 0.331
    }
   },
   "P_AUT_STYRIA": {
@@ -3356,28 +4789,202 @@
     "max": 17.758
    }
   },
+  "P_AUT_UPPER_AUSTRIA": {
+   "wheat": {
+    "base": 0.115,
+    "max": 0.331
+   }
+  },
   "P_BEL_ANTWERP": {
    "uranium": {
     "base": 3.424,
     "max": 9.896
+   },
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_BEL_BRABANT": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_BEL_EAST_FLANDERS": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
    }
   },
   "P_BEL_HAINAUT": {
    "coal": {
     "base": 2.152,
     "max": 6.22
+   },
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
    }
   },
   "P_BEL_LIEGE": {
    "coal": {
     "base": 2.152,
     "max": 6.22
+   },
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_BEL_LIMBURG": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_BEL_LUXEMBOURG": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_BEL_NAMUR": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_BEL_WEST_FLANDERS": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_BGR_BURGAS": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_GABROVO": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_HASKOVO": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_KARDZHALI": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_LOVECH": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_MONTANA": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_PERNIK": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_PLEVEN": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_PLOVDIV": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_RAZGRAD": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_RUSE": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_SHUMEN": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_SLIVEN": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
    }
   },
   "P_BGR_SOFIA": {
    "iron_ore": {
     "base": 0.162,
     "max": 0.47
+   }
+  },
+  "P_BGR_STARA_ZAGORA": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_TARGOVISHTE": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_VARNA": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_VELIKO_TARNOVO": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_VIDIN": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_VRATSA": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
+   }
+  },
+  "P_BGR_YAMBOL": {
+   "wheat": {
+    "base": 0.05,
+    "max": 0.144
    }
   },
   "P_BOL_ORURO": {
@@ -3468,14 +5075,14 @@
     "max": 1.716
    },
    "wheat": {
-    "base": 7.193,
-    "max": 20.787
+    "base": 2.766,
+    "max": 7.995
    }
   },
   "P_CAN_MANITOBA": {
    "wheat": {
-    "base": 7.193,
-    "max": 20.787
+    "base": 2.766,
+    "max": 7.995
    }
   },
   "P_CAN_NORTHWEST_TERRITORIES": {
@@ -3496,8 +5103,68 @@
   },
   "P_CAN_SASKATCHEWAN": {
    "wheat": {
-    "base": 7.193,
-    "max": 20.787
+    "base": 2.766,
+    "max": 7.995
+   }
+  },
+  "P_CHE_AARGAU": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_APPENZELL_AUSSERRHODEN": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_BASEL_LANDSCHAFT": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_BASEL_STADT": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_FRIBOURG": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_LUCERNE": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_SCHAFFHAUSEN": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_THURGAU": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_ZUG": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_CHE_ZURICH": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
    }
   },
   "P_CHL_ANTOFAGASTA": {
@@ -3656,18 +5323,54 @@
    "uranium": {
     "base": 2.014,
     "max": 5.821
+   },
+   "wheat": {
+    "base": 0.422,
+    "max": 1.221
    }
   },
   "P_CZE_MORAVIAN_SILESIAN_COUNTRY": {
    "iron_ore": {
     "base": 1.154,
     "max": 3.334
+   },
+   "wheat": {
+    "base": 0.422,
+    "max": 1.221
+   }
+  },
+  "P_CZE_SLOVAKIA": {
+   "wheat": {
+    "base": 0.422,
+    "max": 1.221
+   }
+  },
+  "P_CZE_SUBCARPATHIAN_RUS": {
+   "wheat": {
+    "base": 0.422,
+    "max": 1.221
+   }
+  },
+  "P_DEU_BADEN": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_BAYERISCHE_OSTMARK": {
    "mercury": {
     "base": 0.218,
     "max": 0.631
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_BERLIN": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_DUESSELDORF": {
@@ -3678,48 +5381,152 @@
    "mercury": {
     "base": 0.218,
     "max": 0.631
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_ESSEN": {
    "coal": {
     "base": 4.146,
     "max": 7.049
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_FRANKEN": {
    "mercury": {
     "base": 0.218,
     "max": 0.631
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_HALLE_MERSEBURG": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_HAMBURG": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_HESSEN_NASSAU": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_KOBLENZ_TRIER": {
    "mercury": {
     "base": 0.218,
     "max": 0.631
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_KOELN_AACHEN": {
    "mercury": {
     "base": 0.218,
     "max": 0.631
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_KURHESSEN": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_KURMARK": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_MAGDEBURG_ANHALT": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_MAINFRANKEN": {
    "mercury": {
     "base": 0.218,
     "max": 0.631
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_MECKLENBURG_LUEBECK": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_MUENCHEN_OBERBAYERN": {
    "mercury": {
     "base": 0.218,
     "max": 0.631
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_NIEDERSCHLESIEN": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_OBERSCHLESIEN": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_OSTPREUSSEN": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_OST_HANNOVER": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_POMMERN": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_SAARPFALZ": {
    "coal": {
     "base": 2.532,
     "max": 7.317
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_SACHSEN": {
@@ -3738,24 +5545,40 @@
    "tin": {
     "base": 0.219,
     "max": 0.633
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_SCHLESWIG_HOLSTEIN": {
    "oil": {
     "base": 0.297,
     "max": 0.858
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_SCHWABEN": {
    "mercury": {
     "base": 0.218,
     "max": 0.631
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": {
    "oil": {
     "base": 0.297,
     "max": 0.858
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_THUERINGEN": {
@@ -3766,12 +5589,68 @@
    "manganese": {
     "base": 0.761,
     "max": 2.198
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_WESER_EMS": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_WESTFALEN_NORD": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
    }
   },
   "P_DEU_WESTFALEN_SUED": {
    "coal": {
     "base": 4.146,
     "max": 7.049
+   },
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DEU_WUERTTEMBERG_HOHENZOLLERN": {
+   "wheat": {
+    "base": 0.153,
+    "max": 0.441
+   }
+  },
+  "P_DNK_HOVEDSTADEN": {
+   "wheat": {
+    "base": 0.069,
+    "max": 0.199
+   }
+  },
+  "P_DNK_MIDTJYLLAND": {
+   "wheat": {
+    "base": 0.069,
+    "max": 0.199
+   }
+  },
+  "P_DNK_NORDJYLLAND": {
+   "wheat": {
+    "base": 0.069,
+    "max": 0.199
+   }
+  },
+  "P_DNK_SJAELLAND": {
+   "wheat": {
+    "base": 0.069,
+    "max": 0.199
+   }
+  },
+  "P_DNK_SYDDANMARK": {
+   "wheat": {
+    "base": 0.069,
+    "max": 0.199
    }
   },
   "P_ECU_SANTA_ELENA": {
@@ -3780,16 +5659,94 @@
     "max": 1.009
    }
   },
+  "P_EGY_AD_DAQAHLIYAH": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
   "P_EGY_AL_BAHR_AL_AHMAR": {
    "oil": {
     "base": 0.175,
     "max": 0.504
    }
   },
+  "P_EGY_AL_BUHAYRAH": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
+  "P_EGY_AL_GHARBIYAH": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
+  "P_EGY_AL_ISKANDARIYAH": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
+  "P_EGY_AL_MINUFIYAH": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
+  "P_EGY_AL_QALYUBIYAH": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
+  "P_EGY_ASH_SHARQIYAH": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
   "P_EGY_AS_SUWAYS": {
    "oil": {
     "base": 0.175,
     "max": 0.504
+   }
+  },
+  "P_EGY_BUR_SA_ID": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
+  "P_EGY_DUMYAT": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
+  "P_EGY_KAFR_ASH_SHAYKH": {
+   "wheat": {
+    "base": 0.099,
+    "max": 0.287
+   }
+  },
+  "P_ESP_ALAVA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_ALBACETE": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_ALICANTE": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_ALMERIA": {
@@ -3812,10 +5769,56 @@
     "max": 1.304
    }
   },
+  "P_ESP_BADAJOZ": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_BALEARES": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_BARCELONA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_BURGOS": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_CACERES": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_CADIZ": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_CASTELLON": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
   "P_ESP_CIUDAD_REAL": {
    "mercury": {
     "base": 47.456,
     "max": 80.675
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_CORDOBA": {
@@ -3826,12 +5829,32 @@
    "vanadium": {
     "base": 0.395,
     "max": 1.141
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_CORUNA": {
    "tungsten": {
     "base": 0.451,
     "max": 1.304
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_CUENCA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_GERONA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_GRANADA": {
@@ -3844,6 +5867,18 @@
     "max": 1.141
    }
   },
+  "P_ESP_GUADALAJARA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_GUIPUZCOA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
   "P_ESP_HUELVA": {
    "sulphur": {
     "base": 0.471,
@@ -3852,6 +5887,16 @@
    "vanadium": {
     "base": 0.395,
     "max": 1.141
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_HUESCA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_JAEN": {
@@ -3862,6 +5907,16 @@
    "vanadium": {
     "base": 0.395,
     "max": 1.141
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_LAS_PALMAS": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_LEON": {
@@ -3870,34 +5925,90 @@
     "max": 1.304
    }
   },
+  "P_ESP_LOGRONO": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
   "P_ESP_LUGO": {
    "tungsten": {
     "base": 0.451,
     "max": 1.304
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_MADRID": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_MURCIA": {
    "sulphur": {
     "base": 0.471,
     "max": 1.362
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_NAVARRA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_ORENSE": {
    "tungsten": {
     "base": 0.451,
     "max": 1.304
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_PALENCIA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_PONTEVEDRA": {
    "tungsten": {
     "base": 0.451,
     "max": 1.304
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_SALAMANCA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_SANTANDER": {
    "iron_ore": {
     "base": 0.769,
     "max": 2.223
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_SEGOVIA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_SEVILLA": {
@@ -3908,12 +6019,272 @@
    "vanadium": {
     "base": 0.395,
     "max": 1.141
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_SORIA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_TARRAGONA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_TERUEL": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_TOLEDO": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_VALENCIA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_VALLADOLID": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
    }
   },
   "P_ESP_VIZCAYA": {
    "iron_ore": {
     "base": 0.769,
     "max": 2.223
+   },
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_ZAMORA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_ESP_ZARAGOZA": {
+   "wheat": {
+    "base": 0.116,
+    "max": 0.336
+   }
+  },
+  "P_EST_HARJU": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_JARVA": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_LAANE": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_PARNU": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_SAARE": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_TARTU": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_VALGA": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_VILJANDI": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_VIRU": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_EST_VORU": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_FIN_ALAND": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_CENTRAL_FINLAND": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_CENTRAL_OSTROBOTHNIA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_FINLAND_PROPER": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_KAINUU": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_KYMENLAAKSO": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_LAPLAND": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_NORTHERN_OSTROBOTHNIA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_NORTHERN_SAVONIA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_NORTH_KARELIA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_OSTROBOTHNIA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_PAIJAT_HAME": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_PIRKANMAA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_SATAKUNTA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_SOUTHERN_OSTROBOTHNIA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_SOUTHERN_SAVONIA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_SOUTH_KARELIA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_TAVASTIA_PROPER": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FIN_UUSIMAA": {
+   "wheat": {
+    "base": 0.011,
+    "max": 0.031
+   }
+  },
+  "P_FRA_AIN": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_AISNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_ALLIER": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_ARDECHE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_ARDENNES": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
    }
   },
   "P_FRA_ARIEGE": {
@@ -3922,10 +6293,290 @@
     "max": 14.493
    }
   },
+  "P_FRA_AUBE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_AUDE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_AVEYRON": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_BAS_RHIN": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
   "P_FRA_BOUCHES_DU_RHONE": {
    "bauxite": {
     "base": 8.526,
     "max": 14.493
+   },
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_CALVADOS": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_CANTAL": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_CHARENTE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_CHARENTE_MARITIME": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_CHER": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_CORREZE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_COTES_D_ARMOR": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_COTE_D_OR": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_CREUSE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_DEUX_SEVRES": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_DORDOGNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_DOUBS": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_DROME": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_EURE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_EURE_ET_LOIR": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_FINISTERE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_GARD": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_GERS": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_GIRONDE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_HAUTE_GARONNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_HAUTE_LOIRE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_HAUTE_MARNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_HAUTE_SAONE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_HAUTE_VIENNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_HAUT_RHIN": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_HERAULT": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_ILLE_ET_VILAINE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_INDRE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_INDRE_ET_LOIRE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_JURA": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_LANDES": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_LOIRE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_LOIRET": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_LOIRE_ATLANTIQUE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_LOIR_ET_CHER": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_LOT": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_LOT_ET_GARONNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_LOZERE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_MAINE_ET_LOIRE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_MANCHE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_MARNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_MAYENNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
    }
   },
   "P_FRA_MEURTHE_ET_MOSELLE": {
@@ -3936,6 +6587,22 @@
    "iron_ore": {
     "base": 5.668,
     "max": 9.635
+   },
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_MEUSE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_MORBIHAN": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
    }
   },
   "P_FRA_MOSELLE": {
@@ -3946,84 +6613,758 @@
    "iron_ore": {
     "base": 5.668,
     "max": 9.635
+   },
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_NIEVRE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
    }
   },
   "P_FRA_NORD": {
    "coal": {
     "base": 2.152,
     "max": 6.22
+   },
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_OISE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_ORNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
    }
   },
   "P_FRA_PAS_DE_CALAIS": {
    "coal": {
     "base": 2.152,
     "max": 6.22
+   },
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_PUY_DE_DOME": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_PYRENEES_ATLANTIQUES": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_RHONE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_SAONE_ET_LOIRE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_SARTHE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_SEINE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_SEINE_ET_MARNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_SEINE_ET_OISE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_SEINE_MARITIME": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_SOMME": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_TARN": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_TARN_ET_GARONNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_TERRITOIRE_DE_BELFORT": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
    }
   },
   "P_FRA_VAR": {
    "bauxite": {
     "base": 8.526,
     "max": 14.493
+   },
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_VAUCLUSE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_VENDEE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_VIENNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_VOSGES": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_FRA_YONNE": {
+   "wheat": {
+    "base": 0.104,
+    "max": 0.3
+   }
+  },
+  "P_GBR_ABERDEEN": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ABERDEENSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ANGLESEY": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ANGUS": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ANTRIM": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ARGYLL_AND_BUTE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ARMAGH": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_BEDFORDSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_BERKSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_BERMUDA": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_BUCKINGHAMSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_CAERNARVONSHIRE_E_MERIONETHSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_CAMBRIDGESHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_CARDIGANSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_CARMARTHENSHIRE": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_CHESHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_CLACKMANNANSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_CORNWALL": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_CUMBERLAND_E_WESTMORLAND": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_DENBIGHSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_DERBYSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_DEVON": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_DORSET": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_DOWN": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_DUMFRIES_AND_GALLOWAY": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_DUNDEE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_DURHAM": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_EAST_AYRSHIRE": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_EAST_DUNBARTONSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_EAST_LOTHIAN": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_EAST_RENFREWSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_EAST_SUSSEX": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_EDIMBURGO": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_EILEAN_SIAR_EBRIDI_ESTERNE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ESSEX": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_FALKIRK": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_FERMANAGH": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_FIFE": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_FLINTSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_GILBERT_ELLICE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_GLAMORGAN": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_GLASGOW": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_GLOUCESTERSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_HAMPSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_HEREFORDSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_HERTFORDSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_HIGHLAND": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_INVERCLYDE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ISOLA_DI_WIGHT": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_KENT": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_LANCASHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_LEICESTERSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_LINCOLNSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_LINE_FENICE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_LONDONDERRY": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_LONDRA": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_MIDDLESEX": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_MIDLOTHIAN": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_MONMOUTHSHIRE": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_MONTGOMERYSHIRE_RADNORSHIRE_E_BRECKNOCKSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_MORAY": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_NORFOLK": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_NORTHAMPTONSHIRE": {
    "iron_ore": {
     "base": 5.668,
     "max": 9.635
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_NORTHUMBERLAND": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_NORTH_AYRSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_NORTH_LANARKSHIRE": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_NOTTINGHAMSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_ORKNEY": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_OXFORDSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_PEMBROKESHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_PERTH_E_KINROSS": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_PITCAIRN": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_RENFREWSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_RUTLAND": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_SANT_ELENA": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_SCOTTISH_BORDERS": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_SHETLAND_ISLANDS": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_SHROPSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_SOMERSET": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_SOUTH_AYRSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_SOUTH_LANARKSHIRE": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_STAFFORDSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_STIRLING": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_SUFFOLK": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_SURREY": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_TYRONE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_WARWICKSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_WEST_DUNBARTONSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_WEST_LOTHIAN": {
    "coal": {
     "base": 1.244,
     "max": 2.115
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_WEST_SUSSEX": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_WILTSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
+   }
+  },
+  "P_GBR_WORCESTERSHIRE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GBR_YORKSHIRE": {
@@ -4034,12 +7375,22 @@
    "iron_ore": {
     "base": 5.668,
     "max": 9.635
+   },
+   "wheat": {
+    "base": 0.018,
+    "max": 0.052
    }
   },
   "P_GHA_WESTERN": {
    "manganese": {
     "base": 4.396,
     "max": 12.706
+   }
+  },
+  "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI": {
+   "wheat": {
+    "base": 0.097,
+    "max": 0.282
    }
   },
   "P_GRC_ATTIKI": {
@@ -4050,12 +7401,38 @@
    "iron_ore": {
     "base": 0.157,
     "max": 0.452
+   },
+   "wheat": {
+    "base": 0.097,
+    "max": 0.282
+   }
+  },
+  "P_GRC_AYION_OROS": {
+   "wheat": {
+    "base": 0.097,
+    "max": 0.282
+   }
+  },
+  "P_GRC_IONIOI_NISOI": {
+   "wheat": {
+    "base": 0.097,
+    "max": 0.282
+   }
+  },
+  "P_GRC_KENTRIKI_MAKEDONIA": {
+   "wheat": {
+    "base": 0.097,
+    "max": 0.282
    }
   },
   "P_GRC_NOTIO_AIGAIO": {
    "iron_ore": {
     "base": 0.157,
     "max": 0.452
+   },
+   "wheat": {
+    "base": 0.097,
+    "max": 0.282
    }
   },
   "P_GRC_STEREA_ELLADA": {
@@ -4068,28 +7445,140 @@
     "max": 0.452
    }
   },
+  "P_HUN_BACS_KISKUN": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_BARANYA": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_BEKES": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
   "P_HUN_BORSOD_ABAUJ_ZEMPLEN": {
    "iron_ore": {
     "base": 0.47,
     "max": 1.357
+   },
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_BUDAPEST": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_CSONGRAD": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
    }
   },
   "P_HUN_FEJER": {
    "bauxite": {
     "base": 5.015,
     "max": 14.493
+   },
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_GYOR_MOSON_SOPRON": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_HAJDU_BIHAR": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_HEVES": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_JASZ_NAGYKUN_SZOLNOK": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
    }
   },
   "P_HUN_KOMAROM_ESZTERGOM": {
    "bauxite": {
     "base": 5.015,
     "max": 14.493
+   },
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_NOGRAD": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_PEST": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_SOMOGY": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_SZABOLCS_SZATMAR_BEREG": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_TOLNA": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_VAS": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
    }
   },
   "P_HUN_VESZPREM": {
    "bauxite": {
     "base": 5.015,
     "max": 14.493
+   },
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
+   }
+  },
+  "P_HUN_ZALA": {
+   "wheat": {
+    "base": 0.084,
+    "max": 0.244
    }
   },
   "P_IND_ASSAM": {
@@ -4134,26 +7623,56 @@
   },
   "P_IND_PUNJAB": {
    "wheat": {
-    "base": 2.489,
-    "max": 7.193
+    "base": 2.766,
+    "max": 7.995
    }
   },
   "P_IND_PUNJAB_PB": {
    "wheat": {
-    "base": 2.489,
-    "max": 7.193
+    "base": 2.766,
+    "max": 7.995
    }
   },
   "P_IND_UTTAR_PRADESH": {
    "wheat": {
-    "base": 2.489,
-    "max": 7.193
+    "base": 2.766,
+    "max": 7.995
    }
   },
   "P_IND_WEST_BENGAL": {
    "coal": {
     "base": 2.152,
     "max": 6.22
+   }
+  },
+  "P_IRL_CONNACHT": {
+   "wheat": {
+    "base": 0.04,
+    "max": 0.117
+   }
+  },
+  "P_IRL_DUBLINO": {
+   "wheat": {
+    "base": 0.04,
+    "max": 0.117
+   }
+  },
+  "P_IRL_LEINSTER": {
+   "wheat": {
+    "base": 0.04,
+    "max": 0.117
+   }
+  },
+  "P_IRL_MUNSTER": {
+   "wheat": {
+    "base": 0.04,
+    "max": 0.117
+   }
+  },
+  "P_IRL_ULSTER": {
+   "wheat": {
+    "base": 0.04,
+    "max": 0.117
    }
   },
   "P_IRN_KHUZESTAN": {
@@ -4176,12 +7695,44 @@
    "sulphur": {
     "base": 3.178,
     "max": 9.183
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_ANCONA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_ASCOLI_PICENO": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_ASTI": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_BARI": {
    "bauxite": {
     "base": 0.868,
     "max": 2.508
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_BOLOGNA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_CAGLIARI": {
@@ -4192,6 +7743,10 @@
    "manganese": {
     "base": 0.287,
     "max": 0.83
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_CALTANISSETTA": {
@@ -4202,6 +7757,28 @@
    "sulphur": {
     "base": 3.178,
     "max": 9.183
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_CASERTA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_CATANIA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_DODECANESO": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_ENNA": {
@@ -4212,6 +7789,10 @@
    "sulphur": {
     "base": 3.178,
     "max": 9.183
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_FIRENZE": {
@@ -4226,12 +7807,20 @@
    "mercury": {
     "base": 7.909,
     "max": 13.446
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_FOGGIA": {
    "bauxite": {
     "base": 0.868,
     "max": 2.508
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_GENOVA": {
@@ -4254,12 +7843,44 @@
    "manganese": {
     "base": 0.287,
     "max": 0.83
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_LECCE": {
    "bauxite": {
     "base": 0.868,
     "max": 2.508
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_MACERATA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_MATERA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_MILANO": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_NAPOLI": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_NUORO": {
@@ -4270,6 +7891,28 @@
    "manganese": {
     "base": 0.287,
     "max": 0.83
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_PARMA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_PERUGIA_NORD": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_PESCARA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_PISA": {
@@ -4284,6 +7927,10 @@
    "mercury": {
     "base": 7.909,
     "max": 13.446
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_POLA": {
@@ -4294,6 +7941,34 @@
    "mercury": {
     "base": 7.909,
     "max": 13.446
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_POTENZA_NORD": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_RAGUSA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_RAVENNA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_ROMA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_SASSARI": {
@@ -4304,6 +7979,10 @@
    "manganese": {
     "base": 0.287,
     "max": 0.83
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_SAVONA": {
@@ -4324,6 +8003,28 @@
    "mercury": {
     "base": 7.909,
     "max": 13.446
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_SIRACUSA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_TERNI": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_TRAPANI": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
    }
   },
   "P_ITA_TRIESTE": {
@@ -4334,24 +8035,94 @@
    "mercury": {
     "base": 7.909,
     "max": 13.446
+   },
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_VENEZIA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_VERONA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_VITERBO": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_ITA_ZARA": {
+   "wheat": {
+    "base": 0.207,
+    "max": 0.6
+   }
+  },
+  "P_JPN_AICHI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
    }
   },
   "P_JPN_AKITA_PREFECTURE": {
    "oil": {
     "base": 0.198,
     "max": 0.572
+   },
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
    }
   },
   "P_JPN_AOMORI_PREFECTURE": {
    "sulphur": {
     "base": 1.869,
     "max": 5.402
+   },
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_CHIBA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_FUKUI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
    }
   },
   "P_JPN_FUKUOKA_PREFECTURE": {
    "coal": {
     "base": 0.633,
     "max": 1.829
+   },
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_FUKUSHIMA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_HIROSHIMA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
    }
   },
   "P_JPN_HOKKAIDO": {
@@ -4366,36 +8137,438 @@
    "sulphur": {
     "base": 1.869,
     "max": 5.402
+   },
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_HYOGO_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_IBARAKI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_ISHIKAWA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
    }
   },
   "P_JPN_IWATE_PREFECTURE": {
    "sulphur": {
     "base": 1.869,
     "max": 5.402
+   },
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_KAGAWA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_KAGOSHIMA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_KANAGAWA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_KOCHI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_KUMAMOTO_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_KYOTO_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_MIE_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_MIYAGI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_MIYAZAKI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
    }
   },
   "P_JPN_NAGASAKI_PREFECTURE": {
    "coal": {
     "base": 0.633,
     "max": 1.829
+   },
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
    }
   },
   "P_JPN_NIIGATA_PREFECTURE": {
    "oil": {
     "base": 0.198,
     "max": 0.572
+   },
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_OGASAWARA": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_OITA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_OKAYAMA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_OKINAWA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_OSAKA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
    }
   },
   "P_JPN_SAGA_PREFECTURE": {
    "coal": {
     "base": 0.633,
     "max": 1.829
+   },
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_SAITAMA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_SHIGA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_SHIMANE_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_TOCHIGI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_TOKYO": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_TOTTORI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_TOYAMA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_WAKAYAMA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_YAMAGATA_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_JPN_YAMAGUCHI_PREFECTURE": {
+   "wheat": {
+    "base": 0.025,
+    "max": 0.072
+   }
+  },
+  "P_KOR_DAEGU": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
    }
   },
   "P_KOR_GANGWON": {
    "tungsten": {
     "base": 4.603,
     "max": 13.304
+   },
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_GYEONGGI": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_KANGWON": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_NORTH_CHUNGCHEONG": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_NORTH_GYEONGSANG": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_NORTH_HAMGYONG": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_NORTH_HWANGHAE": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_NORTH_JEOLLA": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_NORTH_PYONGAN": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_PYONGYANG": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_RASON": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_SEJONG": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_SEOUL": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_SOUTH_CHUNGCHEONG": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_SOUTH_GYEONGSANG": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_SOUTH_HWANGHAE": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_SOUTH_JEOLLA": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_SOUTH_PYONGAN": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_KOR_ULSAN": {
+   "wheat": {
+    "base": 0.01,
+    "max": 0.029
+   }
+  },
+  "P_LTU_ALYTUS": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_KAUNAS": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_KRETINGA": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_MARIJAMPOLE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_MEMEL": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_PANEVEZYS": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_SIAULIAI": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_TAURAGE": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_TELSIAI": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_UTENA": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LTU_VILNIUS": {
+   "wheat": {
+    "base": 0.018,
+    "max": 0.053
+   }
+  },
+  "P_LVA_KURZEME": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.097
+   }
+  },
+  "P_LVA_LATGALE": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.097
+   }
+  },
+  "P_LVA_PIERIGA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.097
+   }
+  },
+  "P_LVA_RIGA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.097
+   }
+  },
+  "P_LVA_VIDZEME": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.097
+   }
+  },
+  "P_LVA_ZEMGALE": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.097
    }
   },
   "P_MAL_JOHOR": {
@@ -4430,10 +8603,82 @@
     "max": 12.439
    }
   },
+  "P_MAR_CHAOUIA___OUARDIGHA": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.211
+   }
+  },
+  "P_MAR_DOUKKALA___ABDA": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.211
+   }
+  },
+  "P_MAR_GHARB___CHRARDA___BENI_HSSEN": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.211
+   }
+  },
+  "P_MAR_GRAND_CASABLANCA": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.211
+   }
+  },
+  "P_MAR_MARRAKECH___TENSIFT___AL_HAOUZ": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.211
+   }
+  },
+  "P_MAR_ORIENTAL": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.211
+   }
+  },
+  "P_MAR_RABAT___SALE___ZEMMOUR___ZAER": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.211
+   }
+  },
   "P_MAR_SOUSS___MASSA___DRAA": {
    "cobalt": {
     "base": 1.985,
     "max": 5.736
+   }
+  },
+  "P_MAR_TAZA___AL_HOCEIMA___TAOUNATE": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.211
+   }
+  },
+  "P_MEX_BAJA_CALIFORNIA": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_MEX_BAJA_CALIFORNIA_SUR": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_MEX_CAMPECHE": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_MEX_CHIAPAS": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
    }
   },
   "P_MEX_COAHUILA": {
@@ -4474,6 +8719,16 @@
    "coal": {
     "base": 0.438,
     "max": 1.266
+   },
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_MEX_QUINTANA_ROO": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
    }
   },
   "P_MEX_SAN_LUIS_POTOSI": {
@@ -4486,22 +8741,46 @@
     "max": 2.804
    }
   },
+  "P_MEX_SINALOA": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
   "P_MEX_TABASCO": {
    "oil": {
     "base": 0.972,
     "max": 2.81
+   },
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
    }
   },
   "P_MEX_TAMAULIPAS": {
    "oil": {
     "base": 0.972,
     "max": 2.81
+   },
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
    }
   },
   "P_MEX_VERACRUZ": {
    "oil": {
     "base": 0.972,
     "max": 2.81
+   },
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_MEX_YUCATAN": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
    }
   },
   "P_MEX_ZACATECAS": {
@@ -4520,6 +8799,12 @@
    "tin": {
     "base": 2.153,
     "max": 6.221
+   }
+  },
+  "P_NLD_DRENTHE": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
    }
   },
   "P_NLD_EI_BANGKA_BELITUNG_ISLANDS": {
@@ -4662,10 +8947,68 @@
     "max": 6.296
    }
   },
+  "P_NLD_FRIESLAND": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_NLD_GELDERLAND": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_NLD_GRONINGEN": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
   "P_NLD_LIMBURG": {
    "coal": {
     "base": 2.532,
     "max": 7.317
+   },
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_NLD_NOORD_BRABANT": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_NLD_NOORD_HOLLAND": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_NLD_OVERIJSSEL": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_NLD_UTRECHT": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_NLD_ZEELAND": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
+   }
+  },
+  "P_NLD_ZUID_HOLLAND": {
+   "wheat": {
+    "base": 0.031,
+    "max": 0.09
    }
   },
   "P_NOR_FINNMARK": {
@@ -4696,6 +9039,30 @@
    "molybdenum": {
     "base": 2.086,
     "max": 6.028
+   }
+  },
+  "P_PAL_HAIFA": {
+   "wheat": {
+    "base": 0.051,
+    "max": 0.146
+   }
+  },
+  "P_PAL_HAZAFON": {
+   "wheat": {
+    "base": 0.051,
+    "max": 0.146
+   }
+  },
+  "P_PAL_TEL_AVIV": {
+   "wheat": {
+    "base": 0.051,
+    "max": 0.146
+   }
+  },
+  "P_PAL_WEST_BANK": {
+   "wheat": {
+    "base": 0.051,
+    "max": 0.146
    }
   },
   "P_PER_JUNIN": {
@@ -4732,6 +9099,12 @@
     "max": 12.237
    }
   },
+  "P_POL_BIAYSTOK_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
   "P_POL_KIELCE_VOIVODESHIP": {
    "coal": {
     "base": 2.439,
@@ -4740,24 +9113,202 @@
    "iron_ore": {
     "base": 0.798,
     "max": 2.307
+   },
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
    }
   },
   "P_POL_KRAKOW_VOIVODESHIP": {
    "coal": {
     "base": 2.439,
     "max": 7.049
+   },
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_LUBLIN_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_LWOW_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_NOWOGRODEK_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_ODZ_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_POLESIE_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_POMERANIAN_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_POZNAN_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
    }
   },
   "P_POL_SILESIAN_VOIVODESHIP": {
    "coal": {
     "base": 2.439,
     "max": 7.049
+   },
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_STANISAWOW_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_TARNOPOL_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_VOLHYNIAN_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_WARSAW_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_POL_WILNO_VOIVODESHIP": {
+   "wheat": {
+    "base": 0.106,
+    "max": 0.305
+   }
+  },
+  "P_PRT_ANGRA_DO_HEROISMO": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_AVEIRO": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_BEJA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_BRAGA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_BRAGANCA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
    }
   },
   "P_PRT_CASTELO_BRANCO": {
    "tungsten": {
     "base": 6.652,
     "max": 19.224
+   },
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_COIMBRA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_EVORA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_FARO": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_GUARDA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_LEIRIA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_LISBOA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_PORTALEGRE": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_PORTO": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_SANTAREM": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_PRT_SETUBAL": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
    }
   },
   "P_PRT_VILA_REAL": {
@@ -4766,46 +9317,308 @@
     "max": 19.224
    }
   },
+  "P_PRT_VISEU": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_ROM_ALBA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_ARAD": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_ARGES": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_BACAU": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_BASARABIA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
   "P_ROM_BIHOR": {
    "bauxite": {
     "base": 0.623,
     "max": 1.801
+   },
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_BISTRITA_NASAUD": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_BOTOSANI": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_BRAILA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_BRASOV": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_BUCOVINA_DE_NORD": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_BUCURESTI": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
    }
   },
   "P_ROM_BUZAU": {
    "oil": {
     "base": 2.81,
     "max": 8.122
+   },
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_CADRILATER": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_CALARASI": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
    }
   },
   "P_ROM_CARAS_SEVERIN": {
    "iron_ore": {
     "base": 0.092,
     "max": 0.266
+   },
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_CLUJ": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_CONSTANTA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_COVASNA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
    }
   },
   "P_ROM_DAMBOVITA": {
    "oil": {
     "base": 2.81,
     "max": 8.122
+   },
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_DOLJ": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_GALATI": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_GIURGIU": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_GORJ": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_HARGHITA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
    }
   },
   "P_ROM_HUNEDOARA": {
    "iron_ore": {
     "base": 0.092,
     "max": 0.266
+   },
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_IALOMITA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_IASI": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_ILFOV": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_MARAMURES": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_MEHEDINTI": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_MURES": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_NEAMT": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_OLT": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
    }
   },
   "P_ROM_PRAHOVA": {
    "oil": {
     "base": 2.81,
     "max": 8.122
+   },
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_SALAJ": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_SATU_MARE": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_SIBIU": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_SUCEAVA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_TELEORMAN": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
    }
   },
   "P_ROM_TIMIS": {
    "iron_ore": {
     "base": 0.092,
     "max": 0.266
+   },
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_TULCEA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_VALCEA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_VASLUI": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
+   }
+  },
+  "P_ROM_VRANCEA": {
+   "wheat": {
+    "base": 0.064,
+    "max": 0.184
    }
   },
   "P_SAU_EASTERN": {
@@ -4838,10 +9651,332 @@
     "max": 12.789
    }
   },
+  "P_SWE_BLEKINGE": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_DALARNA": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_GAVLEBORG": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_GOTLAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_HALLAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_JAMTLAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_JONKOPING": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_KALMAR": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_KRONOBERG": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
   "P_SWE_NORRBOTTEN": {
    "iron_ore": {
     "base": 11.335,
     "max": 19.27
+   },
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_OREBRO": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_OSTERGOTLAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_SKANE": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_SODERMANLAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_STOCKHOLM": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_UPPSALA": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_VARMLAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_VASTERBOTTEN": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_VASTERNORRLAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_VASTMANLAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SWE_VASTRA_GOTALAND": {
+   "wheat": {
+    "base": 0.028,
+    "max": 0.08
+   }
+  },
+  "P_SYR_ALEPPO": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_AR_RAQQAH": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_DAMASCUS": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_DAR_A": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_DAYR_AZ_ZAWR": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_HASAKA_AL_HAKSA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_IDLIB": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_LATTAKIA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_QUNEITRA": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_SYR_TARTUS": {
+   "wheat": {
+    "base": 0.034,
+    "max": 0.099
+   }
+  },
+  "P_TUN_BEJA": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_BEN_AROUS_TUNIS_SUD": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_BIZERTE": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_JENDOUBA": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_KAIROUAN": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_KASSERINE": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_LE_KEF": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_MAHDIA": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_MANUBAH": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_MONASTIR": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_NABEUL": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_SFAX": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_SIDI_BOU_ZID": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_SILIANA": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_SOUSSE": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_TUNIS": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUN_ZAGHOUAN": {
+   "wheat": {
+    "base": 0.02,
+    "max": 0.058
+   }
+  },
+  "P_TUR_BALIKESIR": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_BILECIK": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_BURSA": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_CANAKKALE": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_DIYARBAKIR": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_EDIRNE": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
    }
   },
   "P_TUR_ELAZIG": {
@@ -4850,10 +9985,104 @@
     "max": 102.203
    }
   },
+  "P_TUR_ESKISEHIR": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_GAZIANTEP": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_ISTANBUL": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_KILIS": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_KIRKLARELI": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_KIRSEHIR": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_KOCAELI": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_KONYA": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_MARDIN": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_OSMANIYE": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_SAMSUN": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_SANLIURFA": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_TEKIRDAG": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_USAK": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
+  "P_TUR_YOZGAT": {
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
+   }
+  },
   "P_TUR_ZINGULDAK": {
    "coal": {
     "base": 0.876,
     "max": 2.532
+   },
+   "wheat": {
+    "base": 0.131,
+    "max": 0.377
    }
   },
   "P_USA_ALABAMA": {
@@ -4908,8 +10137,8 @@
   },
   "P_USA_KANSAS": {
    "wheat": {
-    "base": 7.337,
-    "max": 12.472
+    "base": 2.822,
+    "max": 4.797
    }
   },
   "P_USA_LOUISIANA": {
@@ -4930,14 +10159,14 @@
     "max": 4.435
    },
    "wheat": {
-    "base": 7.337,
-    "max": 12.472
+    "base": 2.822,
+    "max": 4.797
    }
   },
   "P_USA_NEBRASKA": {
    "wheat": {
-    "base": 7.337,
-    "max": 12.472
+    "base": 2.822,
+    "max": 4.797
    }
   },
   "P_USA_NEVADA": {
@@ -4948,8 +10177,8 @@
   },
   "P_USA_NORTH_DAKOTA": {
    "wheat": {
-    "base": 7.337,
-    "max": 12.472
+    "base": 2.822,
+    "max": 4.797
    }
   },
   "P_USA_OKLAHOMA": {
@@ -4966,8 +10195,8 @@
   },
   "P_USA_SOUTH_DAKOTA": {
    "wheat": {
-    "base": 7.337,
-    "max": 12.472
+    "base": 2.822,
+    "max": 4.797
    }
   },
   "P_USA_TEXAS": {
@@ -5034,8 +10263,8 @@
     "max": 20.808
    },
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_USSR_DONETSK": {
@@ -5048,8 +10277,8 @@
     "max": 10.573
    },
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_USSR_IMERETI": {
@@ -5078,8 +10307,8 @@
   },
   "P_USSR_KRASNODAR": {
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_USSR_LUHANSK": {
@@ -5106,8 +10335,8 @@
     "max": 1.475
    },
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_USSR_SAKHALIN": {
@@ -5122,14 +10351,14 @@
     "max": 3.046
    },
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_USSR_SARATOV": {
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_USSR_SVERDLOVSK": {
@@ -5146,14 +10375,14 @@
   },
   "P_USSR_ULYANOVSK": {
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_USSR_VOLGOGRAD": {
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_USSR_ZAPORIZHZHYA": {
@@ -5166,8 +10395,8 @@
     "max": 20.808
    },
    "wheat": {
-    "base": 2.398,
-    "max": 6.929
+    "base": 0.922,
+    "max": 2.665
    }
   },
   "P_VEN_ZULIA": {
@@ -5184,6 +10413,16 @@
    "bauxite": {
     "base": 0.983,
     "max": 2.842
+   },
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_BEOGRAD": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
    }
   },
   "P_YUG_BIHAC": {
@@ -5194,6 +10433,10 @@
    "bauxite": {
     "base": 0.983,
     "max": 2.842
+   },
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
    }
   },
   "P_YUG_CETINJE": {
@@ -5202,10 +10445,50 @@
     "max": 2.842
    }
   },
+  "P_YUG_CUPRIJA": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
   "P_YUG_DUBROVNIK": {
    "bauxite": {
     "base": 0.983,
     "max": 2.842
+   },
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_KARLOVAC": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_KRAGUJEVAC": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_KRUSEVAC": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_LJUBLJANA": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_MARIBOR": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
    }
   },
   "P_YUG_MOSTAR": {
@@ -5214,10 +10497,44 @@
     "max": 2.842
    }
   },
+  "P_YUG_NIS": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_NOVI_SAD": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_OSIJEK": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_POZAREVAC": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_PRISTINA": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
   "P_YUG_SABAC": {
    "antimony": {
     "base": 0.414,
     "max": 1.197
+   },
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
    }
   },
   "P_YUG_SARAJEVO": {
@@ -5230,10 +10547,20 @@
     "max": 2.842
    }
   },
+  "P_YUG_SMEDEREVO": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
   "P_YUG_SPLIT": {
    "bauxite": {
     "base": 0.983,
     "max": 2.842
+   },
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
    }
   },
   "P_YUG_TRAVNIK": {
@@ -5254,12 +10581,50 @@
    "bauxite": {
     "base": 0.983,
     "max": 2.842
+   },
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
    }
   },
   "P_YUG_VALJEVO": {
    "antimony": {
     "base": 0.414,
     "max": 1.197
+   },
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_VUKOVAR": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_ZAGREB": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_YUG_ZAJECAR": {
+   "wheat": {
+    "base": 0.073,
+    "max": 0.212
+   }
+  },
+  "P_ZAF_EASTERN_CAPE": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_ZAF_FREE_STATE": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
    }
   },
   "P_ZAF_GAUTENG": {
@@ -5270,6 +10635,16 @@
    "vanadium": {
     "base": 1.711,
     "max": 4.945
+   },
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_ZAF_KWAZULU_NATAL": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
    }
   },
   "P_ZAF_LIMPOPO": {
@@ -5280,6 +10655,10 @@
    "vanadium": {
     "base": 1.711,
     "max": 4.945
+   },
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
    }
   },
   "P_ZAF_MPUMALANGA": {
@@ -5290,6 +10669,16 @@
    "vanadium": {
     "base": 1.711,
     "max": 4.945
+   },
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_ZAF_NORTHERN_CAPE": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
    }
   },
   "P_ZAF_NORTH_WEST": {
@@ -5300,6 +10689,16 @@
    "vanadium": {
     "base": 1.711,
     "max": 4.945
+   },
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
+   }
+  },
+  "P_ZAF_WESTERN_CAPE": {
+   "wheat": {
+    "base": 0.038,
+    "max": 0.11
    }
   },
   "P_ZIM_MASHONALAND_WEST": {

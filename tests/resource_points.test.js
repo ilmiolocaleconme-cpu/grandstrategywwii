@@ -84,8 +84,8 @@ test('dati reali: CSV ricevuto non alterato, punteggi dell\'utente intatti, ness
   const user = inputs.scores.filter((s) => s.source === 'user_csv');
   assert.equal(user.length, received.length);
   user.forEach((s, i) => assert.equal(s.score_user, received[i].punteggio_output_1_10, `${s.location_id}: punteggio dell'utente alterato`));
-  assert.equal(user.filter((s) => s.score_user !== s.score_final).length, 5, 'correzioni di Claude: 5, ognuna motivata');
-  assert.equal(inputs.scores.filter((s) => s.source === 'claude_note').length, 8, 'righe aggiunte da Claude: 8 (petrolio tedesco + 4 alluminio + 2 ferro + stagno cinese), ognuna con motivo');
+  assert.equal(user.filter((s) => s.score_user !== s.score_final).length, 6, 'correzioni di Claude: 6 (5 + India nel frumento), ognuna motivata');
+  assert.equal(inputs.scores.filter((s) => s.source === 'claude_note').length, 8 + 36, 'righe aggiunte da Claude: 44 (petrolio tedesco + 4 alluminio + 2 ferro + stagno cinese + 36 paesi del frumento), ognuna con motivo');
 });
 
 test('dati reali: ogni risorsa somma al budget, ogni centro ha un punteggio 1-10, file generati allineati', async () => {

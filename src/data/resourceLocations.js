@@ -30,6 +30,7 @@ export const COUNTRY_IDS = Object.freeze({
   'Rhodesia meridionale': 'ZIM', Sudafrica: 'ZAF', Brasile: 'BRA', Giappone: 'JPN', Cile: 'CHL', Cuba: 'CUB', 'Sierra Leone': 'SLE', "Costa d'Oro britannica": 'GHA',
   Peru: 'PER', 'Arabia Saudita': 'SAU', Argentina: 'ARG', Colombia: 'COL', Ecuador: 'ECU', Iran: 'IRN', Iraq: 'IRQ', Venezuela: 'VEN', 'Nigeria britannica': 'NGA',
   'Siam / Thailandia': 'SIA', Corea: 'KOR', Filippine: 'PHL',
+  Australia: 'AUS', Irlanda: 'IRL', Danimarca: 'DNK', Finlandia: 'FIN', Lituania: 'LTU', Lettonia: 'LVA', Estonia: 'EST', 'Tunisia francese': 'TUN', Palestina: 'PAL', Siria: 'SYR', // frumento 1933-36 (29/10/2026)
 });
 const AGGREGATE_COUNTRIES = new Set(['Mondo', 'Germania e territori occupati']);
 const NATIONAL_TOTAL_PLACES = new Set(['Impianti del Reich', 'Produzione nazionale']);

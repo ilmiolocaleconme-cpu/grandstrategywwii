@@ -5,20 +5,27 @@
   "note": "Derivato da production_1936.json + extraction_factors.json (fattori provvisori) + resource_points.json. Rigenerare con npm run build:extraction. Non include le miniere costruite dal giocatore.",
   "byTerritory": {
     "ALG": {
-      "iron_ore": 137.6
+      "iron_ore": 137.6,
+      "wheat": 25.2
     },
     "ARG": {
       "oil": 50.4,
-      "wheat": 317.4
+      "wheat": 122.1
+    },
+    "AUS": {
+      "wheat": 122.4
     },
     "AUT": {
-      "iron_ore": 614.5
+      "iron_ore": 614.5,
+      "wheat": 8.7
     },
     "BEL": {
-      "coal": 304.2
+      "coal": 304.2,
+      "wheat": 9
     },
     "BGR": {
-      "iron_ore": 16.2
+      "iron_ore": 16.2,
+      "wheat": 26
     },
     "BOL": {
       "tin": 5.8
@@ -35,10 +42,13 @@
       "coal": 135.2,
       "oil": 29.7,
       "copper": 88.2,
-      "wheat": 539.4
+      "wheat": 207.6
     },
     "CEY": {
       "rubber": 134
+    },
+    "CHE": {
+      "wheat": 5
     },
     "CHL": {
       "iron_ore": 230.7,
@@ -62,50 +72,70 @@
     },
     "CZE": {
       "iron_ore": 230.8,
+      "wheat": 42,
       "tin": 0.1
     },
     "DEU": {
       "iron_ore": 406.6,
       "coal": 1780.8,
       "oil": 29.8,
+      "wheat": 121.6,
       "tin": 0.1
+    },
+    "DNK": {
+      "wheat": 8.5
     },
     "ECU": {
       "oil": 17.5
     },
     "EGY": {
-      "oil": 17.6
+      "oil": 17.6,
+      "wheat": 25
     },
     "ESP": {
       "iron_ore": 230.7,
-      "sulphur": 6.3
+      "sulphur": 6.3,
+      "wheat": 121.8
+    },
+    "EST": {
+      "wheat": 5
+    },
+    "FIN": {
+      "wheat": 5.7
     },
     "FRA": {
       "iron_ore": 2064.2,
       "coal": 518.4,
-      "bauxite": 1369.8
+      "bauxite": 1369.8,
+      "wheat": 208
     },
     "GBR": {
       "iron_ore": 813.2,
-      "coal": 2513
+      "coal": 2513,
+      "wheat": 46.5
     },
     "GRC": {
       "iron_ore": 47.1,
-      "bauxite": 183.8
+      "bauxite": 183.8,
+      "wheat": 14.4
     },
     "HUN": {
       "iron_ore": 47,
-      "bauxite": 695.4
+      "bauxite": 695.4,
+      "wheat": 42
     },
     "IND": {
       "iron_ore": 156.4,
       "coal": 259.2,
       "oil": 25.2,
       "bauxite": 37.4,
-      "wheat": 186.6
+      "wheat": 207.6
     },
     "INDO": {
       "rubber": 84
+    },
+    "IRL": {
+      "wheat": 5
     },
     "IRN": {
       "oil": 147
@@ -116,16 +146,27 @@
     "ITA": {
       "coal": 38.7,
       "bauxite": 312.6,
-      "sulphur": 71.1
+      "sulphur": 71.1,
+      "wheat": 208
     },
     "JPN": {
       "coal": 450.8,
       "oil": 29.7,
       "sulphur": 36.6,
-      "copper": 36.2
+      "copper": 36.2,
+      "wheat": 24
+    },
+    "KOR": {
+      "wheat": 6
     },
     "LBR": {
       "rubber": 24
+    },
+    "LTU": {
+      "wheat": 5.5
+    },
+    "LVA": {
+      "wheat": 5.4
     },
     "MAL": {
       "rubber": 729.9,
@@ -135,11 +176,15 @@
       "iron_ore": 81.3,
       "coal": 140.9
     },
+    "MAR": {
+      "wheat": 14.4
+    },
     "MEX": {
       "iron_ore": 230.7,
       "coal": 109.6,
       "oil": 145.8,
-      "sulphur": 3.8
+      "sulphur": 3.8,
+      "wheat": 8.8
     },
     "NFL": {
       "iron_ore": 50
@@ -152,22 +197,31 @@
       "oil": 132,
       "bauxite": 284.4,
       "rubber": 620,
+      "wheat": 8.8,
       "tin": 7.5
     },
     "NOR": {
       "iron_ore": 135.6
+    },
+    "PAL": {
+      "wheat": 5.2
     },
     "PER": {
       "oil": 50.4
     },
     "POL": {
       "iron_ore": 79.8,
-      "coal": 338.1
+      "coal": 338.1,
+      "wheat": 43.2
+    },
+    "PRT": {
+      "wheat": 15.3
     },
     "ROM": {
       "iron_ore": 27.6,
       "oil": 159.9,
-      "bauxite": 37.4
+      "bauxite": 37.4,
+      "wheat": 72
     },
     "SAU": {
       "oil": 50.4
@@ -182,10 +236,18 @@
       "bauxite": 505.8
     },
     "SWE": {
-      "iron_ore": 688.1
+      "iron_ore": 688.1,
+      "wheat": 14.7
+    },
+    "SYR": {
+      "wheat": 9
+    },
+    "TUN": {
+      "wheat": 8.5
     },
     "TUR": {
-      "coal": 109.5
+      "coal": 109.5,
+      "wheat": 72.6
     },
     "USA": {
       "iron_ore": 3127.5,
@@ -194,7 +256,7 @@
       "bauxite": 779.7,
       "sulphur": 418.2,
       "copper": 255.3,
-      "wheat": 917
+      "wheat": 353
     },
     "USSR": {
       "iron_ore": 1720.2,
@@ -202,16 +264,18 @@
       "oil": 503.2,
       "bauxite": 421.2,
       "copper": 37.1,
-      "wheat": 540
+      "wheat": 207.9
     },
     "VEN": {
       "oil": 422.6
     },
     "YUG": {
-      "bauxite": 531
+      "bauxite": 531,
+      "wheat": 41.4
     },
     "ZAF": {
-      "coal": 169
+      "coal": 169,
+      "wheat": 9
     },
     "ZAM": {
       "copper": 69.7

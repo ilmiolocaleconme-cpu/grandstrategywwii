@@ -38,7 +38,7 @@ Il punteggio dell'utente è sempre conservato in `score_user`: per tornare indie
 - **Petrolio 1937:** i punteggi sono coerenti con i valori reali, non con le quantità del CSV, che sono circa un decimo (già segnalate `value_suspect`). Il modello usa solo i punteggi: le quantità non entrano.
 - **Righe aggiunte da Claude (7, `source = claude_note`):** petrolio tedesco (Nienhagen/Wietze/Hemmingstedt, punteggio 3 [Ipotesi]); alluminio USA 9 [Probabile], URSS 8 [Ipotesi], Francia 7 [Probabile], Regno Unito 7 [Probabile]; ferro URSS 10 [Probabile], Regno Unito 9 [Probabile]. Stime del 1938 a ordine di grandezza, ognuna con il suo motivo in `punteggi_output.csv`: da confermare.
 - **Basi dopo il 1938** (9 centri, per esempio gomma Malaya 1939, tungsteno USA 1943): il punteggio base descrive un anno successivo alla partenza; per ora resta com'è, il tetto e la base coincidono con i dati ricevuti.
-- **Lacune rimaste** [Probabile, da verificare]: ferro senza India e Cina; carbone senza Cina, Sudafrica, Australia; frumento con soli 5 centri; petrolio senza produttori minori europei (Polonia, Austria, Ungheria). Alluminio e ferro sono stati completati (USA, URSS, Francia, Regno Unito).
+- **Lacune rimaste** [Probabile, da verificare]: ferro senza India e Cina; carbone senza Cina, Sudafrica, Australia; frumento (dal 29/10/2026 completato con 36 paesi dalla tabella USDA 1933-36, restano fuori URSS e Cina senza dato: l'URSS ha il 8 dell'utente, la Cina nessun centro); petrolio senza produttori minori europei (Polonia, Austria, Ungheria). Alluminio e ferro sono stati completati (USA, URSS, Francia, Regno Unito).
 - **Copertura province:** molti centri non hanno ancora province (per esempio 19 su 24 del petrolio): contano solo per nazione.
 
 ## Come rigenerare
@@ -51,3 +51,9 @@ Il punteggio dell'utente è sempre conservato in `score_user`: per tornare indie
 - Quando esisteranno le industrie, l'alluminio sarà l'uscita di una fabbrica con ingresso bauxite.
 - **Acciaio**: stesso trattamento (`tipo: prodotto`, da minerale di ferro e carbone, fabbrica `FCT-STEEL`; l'alluminio ha `FCT-ALUMINIUM`). A differenza dell'alluminio **non ha centri né punti**: il CSV non contiene dati di produzione siderurgica e non li invento. Per averli servono punteggi 1-10 per i poli siderurgici (Ruhr, Pittsburgh/Gary, Donbass, Sheffield...): da fornire o da stimare insieme.
 
+
+## Frumento 1933-36 (29/10/2026)
+- **Fonte (primaria, letta tramite un riassunto automatico di una scansione):** USDA, *World Wheat Prospects*, 30/9/1936, tabella 1, produzione per paese in migliaia di bushel. Tre raccolti precedenti la partenza del gioco (1933-34, 1934-35, 1935-36), media per attenuare le annate eccezionali. File: `data/resources/produzione_frumento_1936.csv`. **Non coperti dalla fonte:** URSS e Cina (esclusi dalle tabelle USDA). **Da controllare:** raccolto argentino 1935-36 (203,6 milioni di bushel, la scansione è confusa), cifre non verificate cella per cella.
+- **Punteggio:** 9 + ln(media / media USA) / ln 1,7, arrotondato e limitato a 1-10: gli USA restano 9 come nel CSV dell'utente, così il frumento usa la stessa scala logaritmica delle altre risorse (step 1,7). India: 6 dell'utente corretto a 8 (356 milioni di bushel, più del Canada).
+- **Province [Ipotesi]:** per i 36 paesi nuovi, tutte le province con meno del 50% di montagna, deserto e tundra (da `terrain.json`), quota uguale. Il frumento non è quindi concentrato dove cresce davvero: andrà raffinato con l'uso del suolo o con `province_agriculture.json`.
+- **Effetto:** 40 centri (erano 5). Il budget resta 100 punti: gli USA passano da 36,7 a 14,1 punti (353 t/giorno), Francia, Italia, Canada, India e URSS ~8,3 punti ciascuna (208 t/giorno). Cambiano entrate e cassa iniziale di 34 nazioni.
