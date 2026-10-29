@@ -44,3 +44,11 @@ Verificati oggi: 1, 2, 8, 9 (e intervalli, idempotenza dei tick, salvataggio, de
 
 ## F. Verifiche mai eseguite
 `vite build`, `node scripts/check-precache.js`, CI, funzionamento offline (compreso il caricamento di `adjacency.json` a partita aperta), resa grafica e tocco dei segnalini su telefono.
+
+## G. Regole qualitative del morale e della prontezza date dall'utente (29/10/2026, 17:47) — NON ancora implementabili
+Dettate dall'utente, senza numeri. Dipendono da sistemi che non esistono (combattimento, prestigio, cattura/morte di ufficiali).
+- **Morale sale con**: pause operative (riposo), vittorie, **punteggio prestigio nazionale** (non esiste nel repository: va definito).
+- **Morale scende con**: molte perdite di uomini in battaglia; battaglie perse, **anche** quando un ufficiale di alto rango viene catturato o ucciso: il comandante del corpo d'armata gerarchicamente sopra la divisione e, peggio ancora, il comandante dell'armata aggregata (serve ORBAT + stato degli ufficiali: oggi un ufficiale non può morire né essere catturato).
+- **Prontezza**: dipende dal riposo dopo le battaglie precedenti, «ecc.» (elenco da completare).
+- **Conflitto da risolvere** con l'allegato «12c56c54» (proposta di un altro assistente, in parte difforme dalla specifica tecnica): lì la prontezza = organizzazione/addestramento e lo stato operativo è un valore 0–100 che sale e scende; nella specifica tecnica la prontezza è materiale (uomini, mezzi, munizioni, carburante, riposo) e lo stato operativo è DERIVATO e non memorizzato. Implementato oggi: la specifica tecnica. Servono la tua scelta e una scala unica.
+- Dall'allegato, ancora da confermare: nessun problema deve abbassare tutti e tre i valori (es. senza carburante la fanteria a piedi combatte quasi normalmente, la corazzata no); avvisi al giocatore solo per divisioni in condizioni preoccupanti; i rimpiazzi non trasformano reclute in veterani; evitare di applicare due volte la stessa penalità.
