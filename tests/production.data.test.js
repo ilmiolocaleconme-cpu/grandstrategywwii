@@ -17,9 +17,22 @@ test('produzione: il rame è nel catalogo risorse come materia prima', () => {
   assert.equal(copper.tipo, undefined);
 });
 
-test('produzione: il file generato coincide con la fusione dei due CSV', () => {
-  const { rows } = mergeProduction(first, complete);
+const tin = parseCsv(readFileSync(url('data/resources/produzione_stagno_1936.csv'), 'utf8'), { name: 'produzione_stagno_1936.csv' });
+
+test('produzione: il file generato coincide con la fusione dei tre CSV', () => {
+  const { rows } = mergeProduction(first, complete, tin);
   assert.deepEqual(doc.rows, rows);
+});
+
+test('stagno 1936 (ricerca del 29/10/2026, ITRDC 1937 via Nature, tonnellate lunghe): 5 territori, totale circa 144.600 long ton, Malesia prima', () => {
+  const rows = doc.rows.filter((r) => r.resource === 'tin');
+  assert.equal(rows.length, 5);
+  assert.ok(rows.every((r) => r.source === 'ricerca'));
+  assert.deepEqual(rows.map((r) => r.territory), ['Malesia Britannica', 'Indie Orientali Olandesi', 'Bolivia', 'Siam', 'Nigeria Britannica']);
+  assert.equal(get('tin', 'Malesia Britannica').mt, 0.067878); // 66.806 long ton × 1,016047
+  assert.equal(get('tin', 'Indie Orientali Olandesi').scope, 'P_NLD_EI_');
+  const totalLongTons = rows.reduce((s, r) => s + r.mt, 0) / 1.016047e-6;
+  assert.ok(Math.abs(totalLongTons - 144633) < 2, `totale ${totalLongTons}`); // 66.806+31.546+24.074+12.678+9.529; il mondo era 179.600 (altri paesi senza dati)
 });
 
 test('produzione: il completo prevale e le righe mancanti arrivano dal primo', () => {

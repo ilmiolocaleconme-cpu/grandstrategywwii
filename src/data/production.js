@@ -2,9 +2,11 @@
 // Solo dati e funzioni PURE. Il valore è in milioni di tonnellate l'anno (Mt/anno), stima dell'utente: NON verificata da fonti primarie.
 // Il file «completo» prevale dove si sovrappone al primo; le righe presenti solo nel primo si aggiungono (deciso in chat 26/10/2026).
 export const PRODUCTION_SCHEMA = 'production-1936-v1';
+/** 1 tonnellata lunga = 1,016047 t metriche → Mt. */
+export const LONG_TON_TO_MT = 1.016047e-6;
 
 export const RESOURCE_IDS = Object.freeze({
-  Carbone: 'coal', Petrolio: 'oil', 'Minerale di Ferro': 'iron_ore', 'Gomma Naturale': 'rubber', Rame: 'copper', Bauxite: 'bauxite', Zolfo: 'sulphur',
+  Carbone: 'coal', Petrolio: 'oil', 'Minerale di Ferro': 'iron_ore', 'Gomma Naturale': 'rubber', Rame: 'copper', Bauxite: 'bauxite', Zolfo: 'sulphur', Stagno: 'tin',
 });
 
 /**
@@ -18,7 +20,7 @@ export const TERRITORIES = Object.freeze({
   'Indie Orientali Olandesi': { prefix: 'NLD', scope: 'P_NLD_EI_' }, Iran: { prefix: 'IRN' }, Iraq: { prefix: 'IRQ' },
   'Algeria (Colonia Francese)': { prefix: 'ALG' }, 'Malesia Britannica': { prefix: 'MAL' }, Liberia: { prefix: 'LBR' }, Cile: { prefix: 'CHL' },
   'Rhodesia Settentrionale': { prefix: 'ZAM' }, 'Congo Belga': { prefix: 'COD' }, Giappone: { prefix: 'JPN' }, Ungheria: { prefix: 'HUN' }, Italia: { prefix: 'ITA' },
-  Suriname: { prefix: 'SUR' }, Ceylon: { prefix: 'CEY' }, 'Indocina Francese': { prefix: 'INDO' }, Brasile: { prefix: 'BRA' }, Svezia: { prefix: 'SWE' }, Romania: { prefix: 'ROM' },
+  Suriname: { prefix: 'SUR' }, Bolivia: { prefix: 'BOL' }, 'Nigeria Britannica': { prefix: 'NGA' }, Siam: { prefix: 'SIA' }, Ceylon: { prefix: 'CEY' }, 'Indocina Francese': { prefix: 'INDO' }, Brasile: { prefix: 'BRA' }, Svezia: { prefix: 'SWE' }, Romania: { prefix: 'ROM' },
   'Stati Uniti (Terranova)': { prefix: 'NFL' }, Australia: { prefix: 'AUS' },
 });
 const SKIP = new Set(['Belgio / Congo Belga']);
@@ -42,7 +44,7 @@ function normalize(row, unit) {
  * Fonde i due file: tutte le righe del «completo»; dal primo, solo quelle (risorsa, territorio) che il completo non ha.
  * Ritorna { rows, conflicts }: `conflicts` elenca le sovrapposizioni con valori diversi (vince il completo) e le righe saltate.
  */
-export function mergeProduction(first, complete) {
+export function mergeProduction(first, complete, research = []) {
   const rows = [];
   const conflicts = [];
   const key = (r) => `${r.resource}|${r.territory}`;
@@ -56,6 +58,13 @@ export function mergeProduction(first, complete) {
     if (n.resource === 'coal' && n.territory === 'Australia') { conflicts.push({ kind: 'saltata', resource: 'coal', territory: 'Australia', primo: n.mt, reason: 'il primo file dice 1,45 Mt, la tabella di sintesi 14,5 Mt, il completo non la riporta: da decidere' }); continue; }
     seen.set(key(n), n);
     rows.push({ ...n, source: 'primo' });
+  }
+  // terza sorgente (ricerca web del 29/10/2026, tonnellate lunghe): solo le righe che gli altri due file non hanno
+  for (const r of research) {
+    const n = normalize(r, { column: 'Produzione_Tonnellate_Lunghe', factor: LONG_TON_TO_MT });
+    if (!n || seen.has(key(n))) continue;
+    seen.set(key(n), n);
+    rows.push({ ...n, source: 'ricerca' });
   }
   rows.sort((a, b) => a.resource.localeCompare(b.resource) || b.mt - a.mt || a.territory.localeCompare(b.territory));
   return { rows, conflicts };
@@ -73,7 +82,7 @@ export function validateProduction(file, { resources, provinceIds }) {
     seen.add(k);
     if (!known.has(r.resource)) errors.push(`produzione: ${k} usa una risorsa che non esiste in resources.json`);
     if (!(r.mt > 0)) errors.push(`produzione: ${k} con mt non valido`);
-    if (!['completo', 'primo'].includes(r.source)) errors.push(`produzione: ${k} con fonte sconosciuta`);
+    if (!['completo', 'primo', 'ricerca'].includes(r.source)) errors.push(`produzione: ${k} con fonte sconosciuta`);
     const start = r.scope ?? `P_${r.prefix}_`;
     if (![...provinceIds].some((id) => id.startsWith(start))) errors.push(`produzione: ${k} senza province con prefisso ${start}`);
   }

@@ -20,6 +20,9 @@
     "BGR": {
       "iron_ore": 16.2
     },
+    "BOL": {
+      "tin": 5.8
+    },
     "BRA": {
       "iron_ore": 27.6,
       "coal": 64.6,
@@ -57,12 +60,14 @@
       "iron_ore": 135.6
     },
     "CZE": {
-      "iron_ore": 230.8
+      "iron_ore": 230.8,
+      "tin": 0.1
     },
     "DEU": {
       "iron_ore": 406.6,
       "coal": 1780.8,
-      "oil": 29.8
+      "oil": 29.8,
+      "tin": 0.1
     },
     "ECU": {
       "oil": 17.5
@@ -122,7 +127,8 @@
       "rubber": 24
     },
     "MAL": {
-      "rubber": 729.9
+      "rubber": 729.9,
+      "tin": 16
     },
     "MAN": {
       "iron_ore": 81.3,
@@ -137,11 +143,15 @@
     "NFL": {
       "iron_ore": 50
     },
+    "NGA": {
+      "tin": 2.3
+    },
     "NLD": {
       "coal": 316.5,
       "oil": 132,
       "bauxite": 284.4,
-      "rubber": 620
+      "rubber": 620,
+      "tin": 7.5
     },
     "NOR": {
       "iron_ore": 135.6
@@ -160,6 +170,9 @@
     },
     "SAU": {
       "oil": 50.4
+    },
+    "SIA": {
+      "tin": 3
     },
     "SLE": {
       "iron_ore": 16.2

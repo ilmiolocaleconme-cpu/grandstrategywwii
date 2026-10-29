@@ -15,7 +15,7 @@ const j = (p) => JSON.parse(t(p));
 const cat = loadIndustryCatalog({ factoriesCsv: t('industry/factories.csv'), structuresCsv: t('infrastructure/structures.csv'), categoriesCsv: t('industry/production_categories.csv') });
 const recipes = new Map(j('industry/recipes.json').recipes.map((r) => [r.id, r]));
 const ctx = { production: j('resources/production_1936.json'), factors: j('resources/extraction_factors.json'), scaleFile: j('resources/extraction_scale.json'), pointsByProvince: j('resources/resource_points.json').byProvince, extra: j('resources/resource_locations_extra.json') };
-const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper', 'wheat']; // il frumento estratto vale entrata come le altre materie (dal 29/10/2026)
+const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper', 'wheat', 'tin']; // il frumento estratto vale entrata come le altre materie (dal 29/10/2026)
 const ext = Object.fromEntries(RAW.map((r) => [r, resourceExtraction(r, ctx)]));
 const political = j('political_1936.json');
 const economy = j('economy/economy.json');

@@ -38,6 +38,11 @@
       "realPerGame": 5.9,
       "status": "PROVISIONAL",
       "rationale": "Provvisorio, tarato il 28/10/2026 su richiesta dell'utente dopo l'ingresso del rame nella ricetta delle munizioni (REC-MUNITIONS-001, 0,33 t per t): il rame mondiale (7 territori con produzione storica 1936, posizioni extra approvate) copre circa il 99% delle 20 fabbriche di munizioni a pieno regime (prima 1000, copertura circa 1%). Da tarare con le fasce B e C."
+    },
+    "tin": {
+      "realPerGame": 11.6,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio, tarato il 29/10/2026 dopo l'ingresso dello stagno nella ricetta delle munizioni (0,02 t per t, ipotesi): con la produzione 1936 di 5 territori (Malesia 66.806 long ton, Indie Orientali Olandesi 31.546, Bolivia 24.074, Siam 12.678, Nigeria 9.529) la Malesia dà circa 16 t di gioco al giorno, cioè circa 8 impianti di munizioni a pieno regime (regola di taratura: il primo produttore alimenta 5-10 impianti). Da tarare con le fasce B e C."
     }
   }
 }

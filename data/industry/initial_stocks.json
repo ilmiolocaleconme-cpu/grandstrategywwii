@@ -18,18 +18,18 @@
       "iron_ore": 48000,
       "sulphur": 6750,
       "copper": 4950,
+      "tin": 300,
       "steel": 6000,
       "aluminium": 5100,
-      "processed_rubber": 1200,
-      "tin": 300
+      "processed_rubber": 1200
     },
     "CAN": {
       "iron_ore": 24000,
       "sulphur": 6750,
+      "tin": 300,
       "steel": 21000,
       "aluminium": 5100,
-      "processed_rubber": 1200,
-      "tin": 300
+      "processed_rubber": 1200
     },
     "CEY": {
       "coal": 9000
@@ -41,10 +41,10 @@
       "coal": 30000,
       "sulphur": 6750,
       "copper": 4950,
+      "tin": 285,
       "steel": 41701,
       "aluminium": 5100,
-      "processed_rubber": 1200,
-      "tin": 300
+      "processed_rubber": 1200
     },
     "DEU": {
       "iron_ore": 227010,
@@ -52,7 +52,7 @@
       "rubber": 16200,
       "sulphur": 7500,
       "copper": 9900,
-      "tin": 600
+      "tin": 585
     },
     "ESP": {
       "coal": 21000
@@ -83,9 +83,9 @@
       "iron_ore": 24000,
       "coal": 6195,
       "copper": 4950,
+      "tin": 300,
       "steel": 21000,
-      "processed_rubber": 1200,
-      "tin": 300
+      "processed_rubber": 1200
     },
     "JPN": {
       "iron_ore": 96000,
@@ -105,10 +105,10 @@
       "iron_ore": 12030,
       "sulphur": 6750,
       "copper": 4950,
+      "tin": 300,
       "steel": 21000,
       "aluminium": 5100,
-      "processed_rubber": 1200,
-      "tin": 300
+      "processed_rubber": 1200
     },
     "ROM": {
       "coal": 9000
@@ -120,10 +120,10 @@
       "coal": 21000,
       "sulphur": 6750,
       "copper": 4950,
+      "tin": 300,
       "steel": 21000,
       "aluminium": 5100,
-      "processed_rubber": 1200,
-      "tin": 300
+      "processed_rubber": 1200
     },
     "USA": {
       "iron_ore": 250875,
