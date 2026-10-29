@@ -29,6 +29,18 @@ Contesto SAU (nessun effetto di gioco): concessione alla SOCAL nel 1933, prospez
 - **Scelta del giocatore nel momento in cui scatta l'evento:** chi gioca la Spagna può scegliere se continuare con i repubblicani o passare a un'altra fazione spagnola (le parole dell'utente: «altra fazione spagnola»; quali fazioni siano giocabili oltre ai nazionalisti non è stato detto).
 - Prima dell'evento la Spagna è una nazione sola (`ESP`, giocabile nella ruota delle nazioni, `playable: true`).
 
+- **Fazioni giocabili (risposta dell'utente, 29/10/2026): nazionalisti e repubblicani.** Sono le due fazioni fra cui sceglie il giocatore all'evento.
+- **Aiuti esteri: Italia, Germania e Unione Sovietica possono aiutare, ognuna una fazione.** Mappa ipotizzata da Claude (non detta dall'utente per nome): Italia e Germania con i nazionalisti, URSS con i repubblicani (coerente con la schermata, che cita Italia, Germania e Portogallo con i nazionalisti). «Possono aiutare» = è una scelta, non un automatismo.
+- **Scatteranno eventi per le nazioni coinvolte** (interpretazione di Claude della frase «scatterà no eventi per le nazioni coinvolte», da confermare: se intendeva il contrario, cioè nessun evento, va corretto qui): un evento per ciascuna delle tre nazioni quando decide di aiutare.
+
+| ID | Evento | Nazione | Fazione aiutata | Data | Stato |
+|---|---|---|---|---|---|
+| EVT-ESP-AIUTO-ITA | Aiuto italiano nella guerra civile spagnola | Italia | nazionalisti (ipotesi) | da definire | da-fare |
+| EVT-ESP-AIUTO-DEU | Aiuto tedesco nella guerra civile spagnola | Germania | nazionalisti (ipotesi) | da definire | da-fare |
+| EVT-ESP-AIUTO-URSS | Aiuto sovietico nella guerra civile spagnola | Unione Sovietica | repubblicani (ipotesi) | da definire | da-fare |
+
+Cosa conta l'aiuto (denaro, merci, unità, volontari) e quando può partire non è stato deciso: nessun valore inventato. Legame col sistema già previsto di prestito di contingenti agli alleati (istruzioni del Progetto): da valutare, perché qui le fazioni non sono alleate formali.
+
 Lacune verificate il 29/10/2026 (nessun dato inventato):
 - Nel repository non esistono unità spagnole (`data/units`: nessuna riga `ESP` negli ordini di battaglia): le divisioni ribelli e quelle repubblicane non hanno ancora dati.
 - Non esiste un'entità politica per i ribelli/nazionalisti: va definita (id, nome, tipo, controllore) con l'evento, come per `MENG`.
