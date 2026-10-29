@@ -22,6 +22,20 @@ Contesto ESP (nessun effetto di gioco): le due fazioni sono Repubblica (Seconda 
 
 Contesto SAU (nessun effetto di gioco): concessione alla SOCAL nel 1933, prospezioni a Dhahran dal 1935, nel 1936 joint venture Caltex con Texaco (indicazioni dell'utente, 29/10/2026).
 
+## EVT-ESP-GC: bozza di assegnazione per fazione (29/10/2026, da una mappa fornita dall'utente)
+**Stato: IPOTESI, lettura di una mappa schematica, non un dato.** La mappa mostra la Spagna all'inizio della guerra civile (fine luglio 1936), con due colori e quadratini nelle città; **non ha una legenda**: lettura per convenzione (beige = nazionalisti, rosa = repubblicani), da confermare. L'immagine non è stata copiata nel repository (licenza non nota). `docs/DATI_PROVINCE.md` annota che diverse province erano divise fra i due campi: per questo la tabella ha tre stati e non si assegna un valore secco a ogni sponda dei dati (le «sponde» del repository sono tagli lungo i fiumi, non fronti).
+
+| Stato | Province (nomi dei dati) |
+|---|---|
+| Nazionalista | La Coruña, Lugo, Orense, Pontevedra, León, Zamora, Salamanca, Valladolid, Palencia, Burgos, Soria, Segovia, Ávila, Álava, Navarra, Logroño, Zaragoza, Huesca, Cáceres, Cádiz, Baleares (Maiorca e Ibiza; **Minorca repubblicana**), Canarie (La Palma repubblicana), protettorato del Marocco spagnolo |
+| Repubblicano | Madrid, Guadalajara, Cuenca, Ciudad Real, Albacete, Jaén, Almería, Málaga, Murcia, Alicante, Valencia, Castellón, Tarragona, Barcelona, Gerona, Lérida, Badajoz, Huelva, Vizcaya, Guipúzcoa, Santander, Asturias, Minorca |
+| Diviso o con enclave | Sevilla (città e zona nazionaliste), Córdoba (la città è un'enclave nazionalista in provincia repubblicana), Granada (città nazionalista in provincia repubblicana), Teruel (città nazionalista, provincia contesa), Toledo (Alcázar assediato), Asturias (Oviedo nazionalista in provincia repubblicana), Gijón e El Ferrol come punti sulla mappa |
+
+Da verificare e da decidere con l'utente:
+- Badajoz e Huelva: la lettura dell'immagine li dà repubblicani; la loro caduta nelle settimane successive è un evento successivo, non iniziale.
+- Le enclave sono mostrate sulla mappa come quadratini sulle città: le città del repository sono zone a sé (id proprio), quindi le enclave si possono modellare per zona senza spezzare la provincia.
+- Il sistema di eventi non esiste: nessun dato di gioco è stato modificato.
+
 ## Candidati da verificare (non sono eventi decisi)
 Controllo del 29/10/2026 sui luoghi delle risorse. 93 gruppi di giacimenti hanno la prima riga di dati dopo il 1936, ma di solito è solo l'anno di riferimento della fonte (1937, 1938), non l'inizio del giacimento: **non vanno trattati come eventi**. Restano da verificare questi casi, dove l'avvio potrebbe essere davvero successivo al 1936:
 
