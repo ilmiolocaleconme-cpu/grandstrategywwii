@@ -13,9 +13,12 @@
 import { createWar, declareWar, atWar, enemiesOf } from '../rules/war.js';
 import { createTheaters, createAssignment, cancelAssignment, completeAssignment, dropUnits, activeAssignments } from '../rules/theater.js';
 import { resolveBattleDay, categoryPower } from '../rules/combat.js';
-import { positionOf, findPath, issueMove, cancelMove } from '../rules/movement.js';
+import { positionOf, issueMove, cancelMove } from '../rules/movement.js';
 import { provinceStateOf, patchProvinceState } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
+import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
+import { planAssignment } from './theaterPlan.js';
+export { provinceController, canEnterWar, isFighter };
 
 export { validateWar } from '../rules/war.js';
 export { validateTheaters } from '../rules/theater.js';
@@ -32,31 +35,9 @@ export function validateCombat(c) {
   return errors;
 }
 
-/** Controllore effettivo di una provincia madre: quello della provincia se occupata, altrimenti quello della nazione proprietaria. */
-export function provinceController(state, net, id) {
-  return provinceStateOf(state, id).controller ?? controllerOf(net.owner(id), state.control);
-}
-
-/** Può entrare nella provincia: è sua o controllata da una nazione in guerra con essa. */
-export function canEnterWar(state, net, nation) {
-  return (m) => {
-    if (!net.has(m)) return false;
-    const c = provinceController(state, net, m);
-    return c === nation || atWar(state.war, c, nation);
-  };
-}
-
 export function playerDeclareWar(state, target) {
   if (!state.player) throw new Error('nessun giocatore');
   return { ...state, war: declareWar(state.war ?? createWar(), { a: state.player, b: target, date: state.date }) };
-}
-
-const effectiveOf = (state, id) => state.forces?.divisions?.[id]?.items?.['manpower.war'] ?? null;
-
-/** Divisione in grado di combattere: ha una dotazione con uomini effettivi e una categoria con potenza > 0. */
-export function isFighter(state, unit) {
-  const m = effectiveOf(state, unit.id);
-  return Boolean(m) && m.effective > 0 && categoryPower(unit.category) > 0;
 }
 
 /**
@@ -218,21 +199,31 @@ function assignmentPhase(state, ctx, net) {
     if (dead.length) s = { ...s, theaters: dropUnits(s.theaters, dead, { date }) };
     const cur = s.theaters.list[a.id];
     if (cur.status !== 'active') continue;
-    const pending = cur.kind === 'attack' ? cur.provinces.filter((p) => provinceController(s, net, p) !== cur.nation) : cur.provinces;
-    if (cur.kind === 'attack' && pending.length === 0) { s = { ...s, theaters: completeAssignment(s.theaters, a.id, { date }) }; continue; }
+    if (cur.kind === 'attack' && cur.provinces.every((p) => provinceController(s, net, p) === cur.nation)) { s = { ...s, theaters: completeAssignment(s.theaters, a.id, { date }) }; continue; }
     const canEnter = canEnterWar(s, net, cur.nation);
-    for (const uid of cur.units) {
-      if (s.movement?.orders?.[uid]) continue;
-      const u = ctx.unitsById.get(uid);
-      const pos = positionOf(s.movement, ctx.initial, uid);
-      if (!pos || cur.kind === 'defend' && cur.provinces.includes(pos) || cur.kind === 'attack' && pending.includes(pos)) continue;
-      const target = nearestTarget(s, net, pos, pending, canEnter);
-      if (!target) continue;
-      const r = issueMove(s.movement ?? { schema: 'movement-v1', positions: {}, orders: {} }, { id: uid, category: u.category }, target, { initial: ctx.initial, net, canEnter });
+    for (const o of planAssignment(s, ctx, net, cur).orders) {
+      const u = ctx.unitsById.get(o.unit);
+      const r = issueMove(s.movement ?? { schema: 'movement-v1', positions: {}, orders: {} }, { id: o.unit, category: u.category }, o.to, { initial: ctx.initial, net, canEnter });
       if (r.ok) s = { ...s, movement: r.movement };
     }
   }
   return s;
+}
+
+/** Avvisi «servono più truppe» (e «in raccolta») degli incarichi attivi di una nazione. ctx come createTheaterSystem. */
+export function theaterAlerts(state, ctx, nation) {
+  const net = ctx.getNet(state);
+  if (!net || !state.theaters) return [];
+  return activeAssignments(state.theaters).filter((a) => a.nation === nation).flatMap((a) => planAssignment(state, ctx, net, a).alerts);
+}
+
+/** Il giocatore forza (o toglie la forzatura di) un attacco: parte anche senza la superiorità richiesta. */
+export function playerForceAttack(state, id, force = true) {
+  const a = state.theaters?.list?.[id];
+  if (!a) throw new Error(`incarico inesistente: ${id}`);
+  if (a.nation !== state.player) throw new Error('non è un tuo incarico');
+  if (a.kind !== 'attack') throw new Error('si forza solo un attacco');
+  return { ...state, theaters: { ...state.theaters, list: { ...state.theaters.list, [id]: { ...a, force } } } };
 }
 
 /**

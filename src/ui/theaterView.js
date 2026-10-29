@@ -4,14 +4,15 @@ import { activeAssignments } from '../rules/theater.js';
 export const MARK_STYLES = Object.freeze({
   attack: { color: '#e0483b', fill: 'rgba(224,72,59,0.20)', width: 3, dash: [7, 4] },
   defend: { color: '#3d8bdc', fill: 'rgba(61,139,220,0.20)', width: 3, dash: [7, 4] },
+  alert: { color: '#ff9f1c', fill: 'rgba(255,159,28,0.30)', width: 4, dash: [3, 3] },
   pick: { color: '#f2c14e', fill: 'rgba(242,193,78,0.32)', width: 3.5, dash: null },
 });
 
 /**
  * Segni da disegnare: { [provincia madre]: stile }. Priorità crescente: province occupate (contorno nel colore dell'occupante) <
- * obiettivi degli incarichi attivi del giocatore < province che si stanno scegliendo. `colorOf(nazione)` dà il colore politico.
+ * obiettivi degli incarichi attivi del giocatore < province con avviso «servono più truppe» < province che si stanno scegliendo. `colorOf(nazione)` dà il colore politico.
  */
-export function theaterMarks({ state, pick = [], pickKind = 'attack', colorOf }) {
+export function theaterMarks({ state, pick = [], pickKind = 'attack', colorOf, alerts = [] }) {
   const marks = {};
   for (const [id, p] of Object.entries(state?.provinces ?? {})) {
     if (p.occupation === 'occupied' && p.controller) marks[id] = { color: colorOf(p.controller), fill: null, width: 3, dash: [2, 3] };
@@ -22,6 +23,7 @@ export function theaterMarks({ state, pick = [], pickKind = 'attack', colorOf })
       for (const p of a.provinces) marks[p] = MARK_STYLES[a.kind];
     }
   }
+  for (const al of alerts) if (al.level === 'short') marks[al.province] = MARK_STYLES.alert;
   for (const p of pick) marks[p] = MARK_STYLES.pick;
   void pickKind;
   return marks;
@@ -39,6 +41,6 @@ export function describeAssignment(a, { net, positionOf, controllerOf, unitName,
     const pos = positionOf(u);
     return { id: u, name: unitName(u), at: pos ? net.name(pos) : null, effective: effectiveOf(u) };
   });
-  return { id: a.id, name: a.name, kind: a.kind, kindLabel: KIND_LABEL[a.kind], status: a.status, since: a.since, objectives, units,
+  return { id: a.id, name: a.name, kind: a.kind, kindLabel: KIND_LABEL[a.kind], status: a.status, since: a.since, force: a.force === true, objectives, units,
     taken: objectives.filter((o) => o.done).length };
 }

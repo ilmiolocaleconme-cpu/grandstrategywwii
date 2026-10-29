@@ -1,7 +1,7 @@
 // Pannello Teatro: dai un incarico (attacco o difesa), scegli le province toccandole sulla mappa e conferma. Sotto: incarichi attivi, guerra e ultime battaglie.
 import { useState } from 'react';
 
-export default function TheaterPanel({ draft, unitCount, cards, enemies, candidates, log, nameOf, notice, onKind, onRemove, onConfirm, onCancelDraft, onCancelAssignment, onDeclareWar, onClose }) {
+export default function TheaterPanel({ draft, unitCount, cards, alerts, onForce, enemies, candidates, log, nameOf, notice, onKind, onRemove, onConfirm, onCancelDraft, onCancelAssignment, onDeclareWar, onClose }) {
   const [target, setTarget] = useState('');
   return (
     <aside className="panel army-panel th-panel" aria-label="Teatro">
@@ -38,6 +38,15 @@ export default function TheaterPanel({ draft, unitCount, cards, enemies, candida
                 <li key={c.id} className={`th-card ${c.kind}`}>
                   <div className="th-row"><strong>{c.name}</strong><span className={`ap-state ${c.kind === 'attack' ? 'warn' : 'good'}`}>{c.kindLabel}</span></div>
                   <p className="muted">{c.kind === 'attack' ? `${c.taken}/${c.objectives.length} obiettivi presi` : `${c.objectives.length} province da tenere`} · {c.units.length} unità</p>
+                  {(alerts ?? []).filter((al) => al.assignmentId === c.id).map((al) => (
+                    <p key={al.province} className={`th-alert ${al.level}`} role="alert">
+                      {al.level === 'short'
+                        ? `⚠ ${al.name}: servono più truppe. Ne servono ${al.need.toLocaleString('it-IT')}, ne hai ${al.have.toLocaleString('it-IT')}${al.arriving ? ` (+${al.arriving.toLocaleString('it-IT')} in arrivo)` : ''}: mancano circa ${al.divisions} ${al.divisions === 1 ? 'divisione' : 'divisioni'}.${c.kind === 'attack' ? ' L’attacco non parte finché non bastano.' : ''}`
+                        : `${al.name}: truppe in marcia. Presenti ${al.have.toLocaleString('it-IT')}, in arrivo ${al.arriving.toLocaleString('it-IT')}, richiesti ${al.need.toLocaleString('it-IT')}.`}
+                    </p>
+                  ))}
+                  {c.kind === 'attack' && (alerts ?? []).some((al) => al.assignmentId === c.id) && !c.force ? <button type="button" className="th-force" onClick={() => onForce(c.id, true)}>Attacca comunque</button> : null}
+                  {c.kind === 'attack' && c.force ? <button type="button" className="th-force on" onClick={() => onForce(c.id, false)}>Attacco forzato: annulla</button> : null}
                   <ul className="th-obj">
                     {c.objectives.map((o) => <li key={o.id} className={o.done ? 'done' : ''}>{o.done ? '✓' : '•'} {o.name} <span className="muted">({o.controller})</span></li>)}
                   </ul>

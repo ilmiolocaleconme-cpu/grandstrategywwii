@@ -43,7 +43,7 @@ import ArmyPanel from './ui/ArmyPanel.jsx';
 import TheaterPanel from './ui/TheaterPanel.jsx';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
-import { createTheaterSystem, playerAssign, playerCancelAssignment, playerDeclareWar, provinceController, isFighter } from './game/theaterState.js';
+import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, playerDeclareWar, provinceController, isFighter } from './game/theaterState.js';
 import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
 import { positionOf } from './rules/movement.js';
@@ -492,7 +492,8 @@ export default function App() {
       net: moveNet, positionOf: (u) => positionOf(game.movement, INITIAL_POSITIONS, u), controllerOf: (p) => provinceController(game, moveNet, p),
       unitName: (u) => UNITS_BY_ID.get(u)?.name ?? u, effectiveOf: (u) => game.forces?.divisions?.[u]?.items?.['manpower.war']?.effective ?? null,
     })) : []), [theater, game, moveNet]);
-  const theaterMarkSet = useMemo(() => (game && moveNet ? theaterMarks({ state: game, pick: theater?.draft?.provinces ?? [], colorOf: (n) => ownerColor(n) }) : null), [game?.provinces, game?.theaters, game?.player, theater?.draft?.provinces, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
+  const alerts = useMemo(() => (game && moveNet && game.theaters ? theaterAlerts(game, THEATER_CTX, game.player) : []), [game, moveNet]);
+  const theaterMarkSet = useMemo(() => (game && moveNet ? theaterMarks({ state: game, pick: theater?.draft?.provinces ?? [], colorOf: (n) => ownerColor(n), alerts }) : null), [game?.provinces, game?.theaters, game?.player, theater?.draft?.provinces, moveNet, alerts]); // eslint-disable-line react-hooks/exhaustive-deps
   // rete di movimento: si carica (e si costruisce) quando c'è una partita; l'adiacenza è un file a parte, non nel pacchetto principale
   useEffect(() => {
     if (!game || moveNet || !provinces) return undefined;
@@ -601,7 +602,7 @@ export default function App() {
           <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed}
             onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g, GAME_SYSTEMS))} />
         ) : null}
-        {game && tab === 'map' ? <button type="button" className={theater ? 'on' : ''} aria-pressed={Boolean(theater)} onClick={() => setTheater((t) => (t ? null : { draft: null, notice: null }))}>Teatro</button> : null}
+        {game && tab === 'map' ? <button type="button" className={theater ? 'on' : ''} aria-pressed={Boolean(theater)} onClick={() => setTheater((t) => (t ? null : { draft: null, notice: null }))}>Teatro{alerts.filter((al) => al.level === 'short').length ? ` ⚠${alerts.filter((al) => al.level === 'short').length}` : ''}</button> : null}
         <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
         <FullscreenButton />
       </nav>
@@ -698,7 +699,7 @@ export default function App() {
         ) : null}
         <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} />
         {theater && game ? (
-          <TheaterPanel draft={theater.draft} unitCount={theater.draft?.units.length ?? 0} cards={theaterCards} enemies={enemiesOf(game.war, game.player).map((n) => NATION_NAMES[n] ?? n)}
+          <TheaterPanel alerts={alerts} onForce={(id, f) => { try { setGame((g) => playerForceAttack(g, id, f)); } catch (e) { setTheater((t) => ({ ...t, notice: e.message })); } }} draft={theater.draft} unitCount={theater.draft?.units.length ?? 0} cards={theaterCards} enemies={enemiesOf(game.war, game.player).map((n) => NATION_NAMES[n] ?? n)}
             candidates={[...NATIONS_WITH_UNITS].filter((n) => n !== game.player && !enemiesOf(game.war, game.player).includes(n)).map((n) => ({ id: n, name: NATION_NAMES[n] ?? n })).sort((a, b) => a.name.localeCompare(b.name, 'it'))}
             log={(game.combat?.log ?? []).slice(-8).reverse()} nameOf={(p) => moveNet?.name(p) ?? p} notice={theater.notice}
             onKind={(kind) => setTheater((t) => ({ ...t, notice: null, draft: { ...t.draft, kind, provinces: [] } }))}

@@ -34,3 +34,12 @@ test('scheda incarico: obiettivi con stato, unità con posizione e uomini', () =
   assert.equal(d.units[0].at, null);
   assert.equal(d.taken, 2);
 });
+
+test('segni: le province con avviso «short» diventano arancioni, «gathering» no; la scelta in corso vince', () => {
+  const state = { player: 'GER' };
+  const alerts = [{ province: 'E', level: 'short' }, { province: 'Z', level: 'gathering' }, { province: 'Q', level: 'short' }];
+  const m = theaterMarks({ state, pick: ['Q'], colorOf, alerts });
+  assert.equal(m.E, MARK_STYLES.alert);
+  assert.equal(m.Z, undefined);
+  assert.equal(m.Q, MARK_STYLES.pick);
+});

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { createWar, declareWar, makePeace, atWar, enemiesOf, validateWar, pairKey } from '../src/rules/war.js';
 import { createTheaters, createAssignment, cancelAssignment, assignmentOfUnit, activeAssignments, validateTheaters, dropUnits } from '../src/rules/theater.js';
 import { resolveBattleDay, divisionPower, CATEGORY_POWER, RETREAT_BELOW } from '../src/rules/combat.js';
-import { createTheaterSystem, playerAssign, playerDeclareWar, playerCancelAssignment, provinceController, validateCombat } from '../src/game/theaterState.js';
+import { createTheaterSystem, playerAssign, playerDeclareWar, playerCancelAssignment, playerForceAttack, theaterAlerts, provinceController, validateCombat } from '../src/game/theaterState.js';
 import { createMovementSystem, canEnterFor } from '../src/game/movementState.js';
 import { validateState } from '../src/game/state.js';
 
@@ -129,10 +129,15 @@ test('incarico di attacco: marcia, conquista della provincia vuota, battaglia, c
   assert.deepEqual(validateCombat(s.combat), []);
 });
 
-test('un difensore forte respinge l\'attacco debole: l\'attaccante si ritira e l\'obiettivo resta al difensore', () => {
+test('un attaccante troppo debole aspetta al confine e segna l\'avviso; forzato attacca, viene respinto e l\'obiettivo resta al difensore', () => {
   let s = playerDeclareWar(base({ ger: 1500, pz: 0, fra: 20000 }), 'FRA');
   s = playerAssign(s, { kind: 'attack', provinces: ['C'], units: ['G1'], ctx }).state;
-  for (let i = 0; i < 60; i += 1) s = step(s);
+  for (let i = 0; i < 30; i += 1) s = step(s);
+  assert.equal(s.movement?.positions?.G1 ?? 'A', 'A', 'resta nel punto di raccolta');
+  assert.equal(s.combat, undefined, 'nessuna battaglia: non parte senza la superiorità');
+  assert.equal(theaterAlerts(s, ctx, 'GER')[0].level, 'short');
+  s = playerForceAttack(s, 'TH-0001');
+  for (let i = 0; i < 90; i += 1) s = step(s);
   assert.equal(provinceController(s, net, 'C'), 'FRA');
   assert.ok(s.combat.log.some((e) => e.outcome === 'attaccanti respinti'), 'almeno un respingimento nel registro');
   assert.ok(s.forces.divisions.G1.items['manpower.war'].effective < 1500);

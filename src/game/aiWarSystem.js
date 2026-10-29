@@ -16,11 +16,11 @@ import { createAssignment, cancelAssignment, activeAssignments } from '../rules/
 import { enemiesOf } from '../rules/war.js';
 import { divisionPower } from '../rules/combat.js';
 import { positionOf } from '../rules/movement.js';
-import { provinceController, isFighter } from './theaterState.js';
+import { provinceController, isFighter } from './warCommon.js';
+import { ATTACK_RATIO } from './theaterPlan.js';
 
 export const PERIOD = 7;
 export const MAX_DEPTH = 6;
-export const ATTACK_RATIO = 1.5;
 export const MAX_ATTACKS = 3;
 
 /** Nazioni coinvolte in almeno una guerra, in ordine alfabetico. */

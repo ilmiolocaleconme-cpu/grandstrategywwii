@@ -96,6 +96,7 @@ export function validateTheaters(th) {
       if (a.units.length === 0) errors.push(`teatri: ${k} attivo senza unità`);
       for (const u of a.units) { if (seen.has(u)) errors.push(`teatri: ${u} in due incarichi attivi (${seen.get(u)}, ${k})`); seen.set(u, k); }
     }
+    if (a?.force !== undefined && typeof a.force !== 'boolean') errors.push(`teatri: ${k} force non booleano`);
     if (typeof a?.since !== 'string') errors.push(`teatri: ${k} senza data`);
   }
   return errors;

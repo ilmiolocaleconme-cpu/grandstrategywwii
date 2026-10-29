@@ -338,3 +338,8 @@ h2 {
 .th-war button:disabled { opacity: .45; }
 .ap-actions button.go { background: var(--accent); color: #1d2418; border-color: var(--accent); font-weight: 600; }
 .th-panel .ap-title { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.th-alert { margin: 0; padding: 8px 10px; border-radius: 8px; font-size: 13px; line-height: 1.35; }
+.th-alert.short { background: rgba(255,159,28,.16); border: 1px solid #ff9f1c; color: #ffd08a; }
+.th-alert.gathering { background: rgba(255,255,255,.05); border: 1px solid #4a553f; color: var(--muted); }
+.th-force { min-height: 40px; padding: 0 12px; background: transparent; color: #ffd08a; border: 1px solid #ff9f1c; border-radius: 8px; font: inherit; }
+.th-force.on { background: rgba(255,159,28,.2); }
