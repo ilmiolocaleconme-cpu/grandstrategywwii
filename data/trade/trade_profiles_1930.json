@@ -32,7 +32,8 @@
     "partner_unnamed",
     "group_row",
     "merged_row",
-    "value_suspect"
+    "value_suspect",
+    "period_mismatch"
   ],
   "corrections": [
     {
@@ -58,6 +59,10 @@
     {
       "nation": "tutte",
       "what": "Periodo 1930, non 1936: i flussi possono essere cambiati prima dell'inizio della partita."
+    },
+    {
+      "nation": "DEU, USSR",
+      "what": "Voci probabilmente cambiate fra 1930 e 1936 marcate `period_mismatch` (benzina sintetica tedesca, importazione sovietica di fabbriche): da rivedere prima del commercio. Le altre voci non sono state riviste per il 1936 e restano 1930."
     }
   ],
   "profiles": [
@@ -181,7 +186,11 @@
         {
           "good": "Benzina sintetica (dai primi anni '30)",
           "goodClass": "fuel",
-          "productId": "fuel"
+          "productId": "fuel",
+          "flags": [
+            "period_mismatch"
+          ],
+          "note": "[Probabile] Nel 1936 la produzione sintetica era molto più grande che nel 1930 (non verificato): revisione necessaria prima di usarla come base 1936."
         },
         {
           "good": "Gomma sintetica (Buna)",
@@ -321,9 +330,10 @@
             "DEU"
           ],
           "flags": [
+            "period_mismatch",
             "value_suspect"
           ],
-          "note": "Il testo afferma «oltre il 50% delle macchine utensili mondiali prodotte in USA»: percentuale non verificata, non riportata come numero."
+          "note": "Il testo afferma «oltre il 50% delle macchine utensili mondiali prodotte in USA»: percentuale non verificata, non riportata come numero. [Probabile] Le importazioni di impianti completi erano al massimo intorno al 1930-31 e calarono dopo (non verificato): revisione necessaria per il 1936."
         }
       ],
       "notes": [

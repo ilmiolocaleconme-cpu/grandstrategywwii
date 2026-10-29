@@ -51,3 +51,10 @@ test('scambi 1930: il validatore segnala nazione doppia, partner uguale alla naz
   assert.ok(mod((d) => { d.profiles[0].produces[0].productId = 'xyz'; }).some((e) => e.includes('prodotto inesistente')));
   assert.ok(mod((d) => { d.profiles[0].nation = 'ZZZ'; }).some((e) => e.includes('nazione inesistente')));
 });
+
+test('scambi 1930: le voci cambiate fra 1930 e 1936 sono segnalate come period_mismatch e il flag è dichiarato', async () => {
+  const doc = await read('trade/trade_profiles_1930.json');
+  assert.ok(doc.flags.includes('period_mismatch'));
+  const marked = doc.profiles.flatMap((p) => [...p.produces, ...p.imports].filter((i) => (i.flags ?? []).includes('period_mismatch')).map((i) => `${p.nation}:${i.goodClass}`));
+  assert.deepEqual(marked.sort(), ['DEU:fuel', 'USSR:full_factories']);
+});
