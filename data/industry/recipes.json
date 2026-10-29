@@ -303,6 +303,83 @@
       },
       "quality": "MISSING_DATA",
       "rationale": "Pezzo di artiglieria DI RIFERIMENTO di 3 t (segnaposto: nessun catalogo di artiglieria esiste ancora, andrà sostituito da una ricetta per modello). Ingressi senza motori. PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo."
+    },
+    {
+      "id": "REC-FEED-001",
+      "factory": "FCT-FEED",
+      "inputs": [
+        {
+          "resource": "wheat",
+          "perUnit": 1.2
+        }
+      ],
+      "output": {
+        "product": "feed",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Mangime composto: circa 1,2 t di cereali e foraggio per tonnellata di mangime (scarti e perdite di lavorazione). Valore di progetto, non un dato storico. L'ingresso è solo il frumento perché è l'unica materia agricola con punti nel repository (scelta dell'utente, 29/10/2026). Attenzione: solo USA, URSS, Canada, Argentina e India hanno punti di frumento; le altre nazioni possono produrre mangime solo con scorte o, in futuro, con il commercio."
+    },
+    {
+      "id": "REC-FERT-001",
+      "factory": "FCT-FERTILIZER",
+      "inputs": [
+        {
+          "resource": "coal",
+          "perUnit": 1
+        },
+        {
+          "resource": "chemicals",
+          "perUnit": 0.3
+        }
+      ],
+      "output": {
+        "product": "fertilizer",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Fertilizzante azotato sintetico (ammoniaca e solfato ammonico, processo Haber-Bosch con idrogeno da carbone): ordine di grandezza di 1 t di carbone per tonnellata di prodotto, più una quota di prodotti chimici per acidi e sintesi. Semplificazione: un solo fertilizzante; fosfati e sali di potassio non sono nel catalogo delle risorse. Valori di progetto, non storici."
+    },
+    {
+      "id": "REC-PHARMA-001",
+      "factory": "FCT-PHARMA",
+      "inputs": [
+        {
+          "resource": "chemicals",
+          "perUnit": 1.5
+        },
+        {
+          "resource": "sulphur",
+          "perUnit": 0.1
+        }
+      ],
+      "output": {
+        "product": "medicine",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Farmaci di sintesi (antisettici, solfamidici dal 1935): molte tonnellate di prodotti chimici per tonnellata di farmaco, più zolfo per i solfamidici. Capacità bassa (10 t al giorno) perché il valore per tonnellata è alto. Valori di progetto, non storici. Consumatore oggi: l'allevamento di cavalli (cure veterinarie); gli uomini quando esisterà un modello di logoramento (scelta dell'utente, 29/10/2026)."
+    },
+    {
+      "id": "REC-HORSES-001",
+      "factory": "FCT-STUD",
+      "inputs": [
+        {
+          "resource": "feed",
+          "perUnit": 1
+        },
+        {
+          "resource": "medicine",
+          "perUnit": 0.05
+        }
+      ],
+      "output": {
+        "product": "horses",
+        "perUnit": 1
+      },
+      "outputUnit": "head/day",
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "Un cavallo allevato dalla nascita all'impiego militare (circa tre anni) consuma 1 t di mangime di gioco e 0,05 t di medicinali (cure veterinarie). L'uscita è in capi, non in tonnellate: 40 capi al giorno per allevamento a pieno regime, cioè una nazione con circa 30 divisioni da 4.465 cavalli e perdite del 25% l'anno ne ha bisogno di 2-3. Il pool dei cavalli è la scorta `horses` della nazione (src/rules/horsePool.js). Valori di progetto, non storici."
     }
   ],
   "flows": [

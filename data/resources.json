@@ -32,5 +32,9 @@
   { "id": "tanks", "name": "Carri armati", "status": "bozza-di-design", "tipo": "prodotto", "unit": "pezzi" },
   { "id": "artillery", "name": "Pezzi di artiglieria", "status": "bozza-di-design", "tipo": "prodotto", "unit": "pezzi" },
   { "id": "copper", "name": "Rame", "status": "bozza-di-design" },
+  { "id": "feed", "name": "Mangime", "status": "bozza-di-design", "tipo": "prodotto", "da": ["wheat"], "fabbrica": "FCT-FEED" },
+  { "id": "fertilizer", "name": "Fertilizzanti", "status": "bozza-di-design", "tipo": "prodotto", "da": ["coal", "chemicals"], "fabbrica": "FCT-FERTILIZER" },
+  { "id": "medicine", "name": "Medicinali", "status": "bozza-di-design", "tipo": "prodotto", "da": ["chemicals", "sulphur"], "fabbrica": "FCT-PHARMA" },
+  { "id": "horses", "name": "Cavalli", "status": "bozza-di-design", "tipo": "prodotto", "unita": "capi", "da": ["feed", "medicine"], "fabbrica": "FCT-STUD" },
   { "id": "hydro", "name": "Idroelettrica", "status": "bozza-di-design", "tipo": "fonte-energia" }
 ]

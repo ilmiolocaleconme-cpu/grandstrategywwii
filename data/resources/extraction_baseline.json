@@ -8,7 +8,8 @@
       "iron_ore": 137.6
     },
     "ARG": {
-      "oil": 50.4
+      "oil": 50.4,
+      "wheat": 317.4
     },
     "AUT": {
       "iron_ore": 614.5
@@ -30,7 +31,8 @@
     "CAN": {
       "coal": 135.2,
       "oil": 29.7,
-      "copper": 88.2
+      "copper": 88.2,
+      "wheat": 539.4
     },
     "CEY": {
       "rubber": 134
@@ -93,7 +95,8 @@
       "iron_ore": 156.4,
       "coal": 259.2,
       "oil": 25.2,
-      "bauxite": 37.4
+      "bauxite": 37.4,
+      "wheat": 186.6
     },
     "INDO": {
       "rubber": 84
@@ -176,14 +179,16 @@
       "oil": 2756.4,
       "bauxite": 779.7,
       "sulphur": 418.2,
-      "copper": 255.3
+      "copper": 255.3,
+      "wheat": 917
     },
     "USSR": {
       "iron_ore": 1720.2,
       "coal": 1296,
       "oil": 503.2,
       "bauxite": 421.2,
-      "copper": 37.1
+      "copper": 37.1,
+      "wheat": 540
     },
     "VEN": {
       "oil": 422.6

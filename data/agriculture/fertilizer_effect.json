@@ -1,0 +1,10 @@
+{
+  "schema": "fertilizer-effect-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Effetto dei fertilizzanti sulla resa del frumento (scelta dell'utente, 29/10/2026: i fertilizzanti aumentano la resa). Valori di PROGETTO, non dati storici. Si applica ogni giorno all'estrazione di base del frumento di una nazione (punti per scala; src/rules/fertilizer.js).",
+  "crop": "wheat",
+  "input": "fertilizer",
+  "yieldBonusMax": 0.25,
+  "fertilizerPerWheatTon": 0.06,
+  "rationale": "Con la copertura piena (0,06 t di fertilizzante al giorno per ogni tonnellata di frumento di base) la resa sale del 25%; con meno fertilizzante l'aumento è proporzionale alla copertura. Ordine di grandezza dell'incremento di resa dei cereali con la concimazione azotata (alcune decine di punti percentuali), valore di progetto non storico. 1 t di fertilizzante rende circa 4 t di frumento in più: abbastanza da convenire, non da regalare grano. Non modellati: stagioni, tipo di suolo, fosfati e potassa, differenze fra nazioni."
+}

@@ -22,9 +22,10 @@ const emptyNation = () => ({ balance: 0, population: 0, stocks: {}, facilities: 
  * - `population` (file population.json, opzionale): popolazione di gioco; la riserva di lavoratori si deriva (rules/workers.js);
  * - `construction` è la coda delle costruzioni in corso (vuota all'inizio);
  * - ogni nazione ha almeno `stocks.floor` per risorsa (riserva minima: oggi 500 t di acciaio, perché ogni costruzione ne richiede);
+ * - `horses` (horse_breeding.json, facoltativo): cavalli iniziali del pool (scorta `horses`, capi) per entità politica, se la tabella ne ha; oggi è vuota (MISSING_DATA);
  * - la difficoltà moltiplica scorte e cassa per `stockMul` (facile 1,5 · media 1 · reale 0,7), come definito in economy.json.
  */
-export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, population = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
+export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, population = null, horses = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
   const stockMul = economy ? difficulty(economy, difficultyId).stockMul : 1;
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
   // `nations` contiene le nazioni scegliibili e ogni altra entità che possiede industria (es. Iran, non giocabile)
@@ -47,6 +48,12 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
     if (!owner) throw new Error(`stato economico: scorte di ${territory}, che non è un'entità politica`);
     if (!nations[owner]) nations[owner] = emptyNation();
     for (const [res, t] of Object.entries(stocks.stocks[territory])) nations[owner].stocks[res] = (nations[owner].stocks[res] ?? 0) + t;
+  }
+  for (const [territory, e] of Object.entries(horses?.initialPool?.byNation ?? {}).sort(([a], [b]) => (a < b ? -1 : 1))) {
+    const owner = ownerOf.get(territory);
+    if (!owner) throw new Error(`stato economico: cavalli di ${territory}, che non è un'entità politica`);
+    if (!nations[owner]) nations[owner] = emptyNation();
+    nations[owner].stocks.horses = (nations[owner].stocks.horses ?? 0) + e.horses;
   }
   // riserva minima uguale per tutte (stocks.floor, es. 500 t di acciaio): è un massimo, chi ha già di più non cambia; scala con la difficoltà come gli stock
   for (const n of Object.values(nations)) for (const [res, t] of Object.entries(stocks.floor ?? {})) n.stocks[res] = Math.max(n.stocks[res] ?? 0, t);

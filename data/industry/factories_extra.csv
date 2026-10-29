@@ -1,0 +1,5 @@
+factory_id,facility_type,name_it,category,technology_required,building_name,construction_ecv,construction_days,base_capacity_per_day,energy_consumption,workers,balance_status,structure_id,factory_class,production_mode,status
+FCT-FEED,feed_mill,Mangimificio,food,AGR-017,Mangimificio L1,60,25,100,6,300,PROVISIONAL,FACX-001,industry,manufacturing,repo_extra
+FCT-FERTILIZER,fertilizer_plant,Impianto fertilizzanti,chemicals,IND-009,Impianto fertilizzanti L1,110,40,60,15,350,PROVISIONAL,FACX-002,industry,manufacturing,repo_extra
+FCT-PHARMA,pharmaceutical_plant,Industria farmaceutica,chemicals,IND-009,Industria farmaceutica L1,90,35,10,10,400,PROVISIONAL,FACX-003,industry,manufacturing,repo_extra
+FCT-STUD,stud_farm,Allevamento di cavalli,food,AGR-001,Allevamento cavalli L1,60,30,40,2,300,PROVISIONAL,FACX-004,agriculture,manufacturing,repo_extra

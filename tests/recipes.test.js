@@ -2,13 +2,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { loadIndustryCatalog } from '../src/data/industry.js';
+import { loadIndustryCatalogFrom } from '../src/data/industry.js';
 import { validateRecipes, validateExtractionScale, fullCapacityFlows, pointsToUnits, derivedIds } from '../src/data/recipes.js';
 import { PRODUCT_IDS, PRODUCT_META, RESOURCE_ORDER } from '../src/data/provinceResources.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
-const catalog = () => loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+// catalogo completo: Pack + fabbriche del repository (mangimificio, fertilizzanti, farmaceutica, allevamento: data/industry/factories_extra.csv)
+const catalog = () => loadIndustryCatalogFrom(text);
 const ctx = () => ({ factoriesById: catalog().byId, resources: json('resources.json') });
 const clone = (x) => JSON.parse(JSON.stringify(x));
 

@@ -1,0 +1,18 @@
+{
+  "schema": "horse-breeding-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Pool dei cavalli e allevamento (29/10/2026). Il pool di una nazione è la sua scorta `horses` (capi, in `state.nations[id].stocks`): gli allevamenti (FCT-STUD, ricetta REC-HORSES-001) la riempiono, i rinforzi delle divisioni la svuotano (stocks.horses di planReinforcements, src/rules/reinforcements.js). Qui i parametri del mantenimento e i cavalli iniziali. Valori di PROGETTO, non dati storici.",
+  "stock": "horses",
+  "unit": "capi",
+  "upkeep": {
+    "feedPerHorsePerDay": 0.0009,
+    "starvationLossPerDay": 0.01,
+    "rationale": "Ogni cavallo del pool consuma mangime ogni giorno: 0,0009 t di gioco, cioè la tonnellata per allevarlo (REC-HORSES-001) divisa per circa tre anni. Un pool di 100.000 capi mangia circa 90 t al giorno (poco meno di un mangimificio). La quota di mangime che manca al giorno fa morire l'1% dei cavalli rimasti senza cibo. Non modellati: i cavalli già assegnati alle divisioni (il loro foraggio dipende dalla logistica, non ancora presente), età, fertilità, stagioni."
+  },
+  "initialPool": {
+    "asOf": "1936-01-01",
+    "status": "MISSING_DATA",
+    "note": "Nessun numero nel repository. L'utente ha scelto di fornirli (risposta del 29/10/2026). Forma di ogni voce: { \"horses\": numero intero di capi disponibili nel pool all'inizio (non assegnati a divisioni), \"basis\": \"utente\" | \"ipotesi\", \"referenceYear\": \"AAAA\", \"source\": \"...\" }. Finché la tabella è vuota nessuna nazione parte con cavalli nel pool.",
+    "byNation": {}
+  }
+}

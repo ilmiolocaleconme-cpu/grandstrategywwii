@@ -8,11 +8,13 @@ const points = j('resources/resource_points.json').byProvince;
 const scale = j('resources/extraction_scale.json').unitsPerPoint;
 const parts = j('economy/economy.json').mines.gapParts;
 const round = (v) => Math.round(v * 1000) / 1000;
+const NOT_MINEABLE = new Set(['wheat']);
 const byProvince = {};
 for (const [pid, res] of Object.entries(points).sort()) {
   for (const [r, v] of Object.entries(res).sort()) {
     const k = scale[r];
     if (typeof k !== 'number') continue; // senza scala (rame, metalli rari...) non si costruiscono miniere
+    if (NOT_MINEABLE.has(r)) continue; // il frumento ha una scala ma non è una miniera: l'espansione agricola verrà con il modello agricolo
     const extra = Array.from({ length: parts }, (_, i) => round((v.max - v.base) * (i + 1) / parts * k));
     (byProvince[pid] ??= {})[r] = { base: v.base, max: v.max, extraPerDay: extra };
   }

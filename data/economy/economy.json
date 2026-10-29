@@ -1,7 +1,7 @@
 {
   "schema": "economy-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Economia di base: PROPOSTA di design, non dati storici (deciso in chat 26/10/2026). Una sola valuta di gioco; l'entrata giornaliera di una nazione è il valore delle merci prodotte o estratte più una quota fissa per i territori controllati. I prezzi sono tarati perché un'acciaieria a pieno regime si ripaghi in circa 75 giorni. Nessuna popolazione: il repository non ha quel dato. Il bilanciamento definitivo va rivisto quando esisteranno i consumatori (unità, carburante militare, munizioni).",
+  "note": "Economia di base: PROPOSTA di design, non dati storici (deciso in chat 26/10/2026). Una sola valuta di gioco; l'entrata giornaliera di una nazione è il valore delle merci prodotte o estratte più una quota fissa per i territori controllati. I prezzi sono tarati perché un'acciaieria a pieno regime si ripaghi in circa 75 giorni. Nessuna popolazione: il repository non ha quel dato. Il bilanciamento definitivo va rivisto quando esisteranno i consumatori (unità, carburante militare, munizioni). Il 29/10/2026 sono entrati frumento (0,008), mangime, fertilizzanti, medicinali e cavalli: i prezzi dei quattro prodotti sono appena sopra il valore degli ingressi, per non regalare denaro (il cavallo, in particolare, non è una fonte di entrate: serve alle divisioni).",
   "currency": {
     "id": "ECV",
     "name_it": "Valore economico di costruzione",
@@ -24,7 +24,7 @@
     "engines": 0.06,
     "munitions": 0.057, "tanks": 0.6, "artillery": 0.16,
     "electricity": null,
-    "wheat": null,
+    "wheat": 0.008,
     "tungsten": null,
     "tin": 0.11,
     "manganese": null,
@@ -36,7 +36,11 @@
     "antimony": null,
     "mercury": null,
     "uranium": null,
-    "copper": 0.02
+    "copper": 0.02,
+    "feed": 0.02,
+    "fertilizer": 0.03,
+    "medicine": 0.12,
+    "horses": 0.04
   },
   "territory": {
     "perProvince": 0.2,

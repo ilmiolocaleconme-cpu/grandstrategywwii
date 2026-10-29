@@ -2,14 +2,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { loadIndustryCatalog } from '../src/data/industry.js';
+import { loadIndustryCatalogFrom } from '../src/data/industry.js';
 import { validateRecipes, fullCapacityFlows } from '../src/data/recipes.js';
 import { produceDay, checkBalance } from '../src/rules/production.js';
 import { facilityCounts } from '../src/data/initialIndustry.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
-const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const cat = loadIndustryCatalogFrom(text); // Pack + fabbriche del repository (factories_extra.csv)
 const recipesFile = json('industry/recipes.json');
 const resources = json('resources.json');
 const ctx = () => ({ factoriesById: cat.byId, resources });

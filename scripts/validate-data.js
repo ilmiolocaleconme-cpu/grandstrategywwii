@@ -23,6 +23,7 @@ import { validateScores } from '../src/data/resourcePoints.js';
 import { validateTradeProfiles } from '../src/data/tradeProfiles.js';
 import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { validateHydro } from '../src/data/hydro.js';
+import { validateFertilizerEffect, validateHorseBreeding } from '../src/data/livestock.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
 import { validateAmmoConsumption } from '../src/data/ammo.js';
 import { validateUnits, validateOobEstimates } from '../src/data/units.js';
@@ -117,12 +118,14 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   {
     // Data Pack v11.1: catalogo industriale, struttura dei file importati e tabella provvisoria delle province
     const text = (p) => readFileTerrain(new URL(`../data/${p}`, import.meta.url), 'utf8');
-    const industry = loadIndustryCatalog({ factoriesCsv: await text('industry/factories.csv'), structuresCsv: await text('infrastructure/structures.csv'), categoriesCsv: await text('industry/production_categories.csv') });
+    const industry = loadIndustryCatalog({ factoriesCsv: await text('industry/factories.csv'), structuresCsv: await text('infrastructure/structures.csv'), categoriesCsv: await text('industry/production_categories.csv'), extraFactoriesCsv: await text('industry/factories_extra.csv'), extraStructuresCsv: await text('infrastructure/structures_extra.csv') });
     errors.push(...validateIndustryCatalog(industry));
     // Ricette e scala di estrazione (Fase 0 Risorse + Industria): riferimenti a fabbriche e risorse esistenti
     const recipesDoc = JSON.parse(await text('industry/recipes.json'));
     errors.push(...validateRecipes(recipesDoc, { factoriesById: industry.byId, resources: catalog.resources }));
     errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
+    errors.push(...validateFertilizerEffect(JSON.parse(await text('agriculture/fertilizer_effect.json')), { resources: catalog.resources }));
+    errors.push(...validateHorseBreeding(JSON.parse(await text('agriculture/horse_breeding.json')), { resources: catalog.resources, recipes: recipesDoc, entityIds: new Set(catalog.political.map((e) => e.id)) }));
     errors.push(...validateFuelConsumption(JSON.parse(await text('military/fuel_consumption.json')), { resources: catalog.resources }));
     errors.push(...validateAmmoConsumption(JSON.parse(await text('military/ammo_consumption.json')), { resources: catalog.resources }));
     errors.push(...validateFuelStorage(JSON.parse(await text('military/fuel_storage.json')), { structureIds: industry.structures, buildingIds: new Set(catalog.buildings.buildings.map((b) => b.id)) }));

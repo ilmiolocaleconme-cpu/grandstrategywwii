@@ -1,0 +1,5 @@
+structure_id,domain,type,level,function,capacity,inputs,system
+FACX-001,industry,Mangimificio L1,L1,feed processing,100,Frumento; energia; manodopera,Industria dei mangimi
+FACX-002,industry,Impianto fertilizzanti L1,L1,fertilizer production,60,Carbone; prodotti chimici; energia; manodopera,Chimica
+FACX-003,industry,Industria farmaceutica L1,L1,pharmaceutical production,10,Prodotti chimici; zolfo; energia; manodopera,Farmaceutica
+FACX-004,agriculture,Allevamento di cavalli L1,L1,horse breeding,40,Mangime; medicinali; energia; manodopera,Allevamento

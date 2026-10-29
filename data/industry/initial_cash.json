@@ -23,9 +23,9 @@
       "cash": 230
     },
     "ARG": {
-      "incomePerDay": 6.1,
+      "incomePerDay": 8.64,
       "provinces": 23,
-      "cash": 383
+      "cash": 459.2
     },
     "AUS": {
       "incomePerDay": 4,
@@ -58,9 +58,9 @@
       "cash": 419.9
     },
     "CAN": {
-      "incomePerDay": 17.14,
+      "incomePerDay": 21.46,
       "provinces": 12,
-      "cash": 714.2
+      "cash": 843.8
     },
     "CHE": {
       "incomePerDay": 6.2,
@@ -148,9 +148,9 @@
       "cash": 4385.9
     },
     "GBR": {
-      "incomePerDay": 163.79,
+      "incomePerDay": 165.28,
       "provinces": 390,
-      "cash": 5113.7
+      "cash": 5158.4
     },
     "GRC": {
       "incomePerDay": 10.55,
@@ -338,14 +338,14 @@
       "cash": 344
     },
     "USA": {
-      "incomePerDay": 244.67,
+      "incomePerDay": 252.0,
       "provinces": 72,
-      "cash": 7540.1
+      "cash": 7760.0
     },
     "USSR": {
-      "incomePerDay": 134.48,
+      "incomePerDay": 138.8,
       "provinces": 334,
-      "cash": 4234.4
+      "cash": 4364.0
     },
     "VAT": {
       "incomePerDay": 1,

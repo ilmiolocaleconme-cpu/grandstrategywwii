@@ -21,6 +21,8 @@ import initialStocks from '../data/industry/initial_stocks.json';
 import initialCash from '../data/industry/initial_cash.json';
 import economyData from '../data/economy/economy.json';
 import populationData from '../data/population/population.json';
+import fertilizerData from '../data/agriculture/fertilizer_effect.json';
+import horseBreeding from '../data/agriculture/horse_breeding.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { initForcesState } from './game/forcesState.js';
@@ -41,6 +43,8 @@ import hydroPlants from '../data/resources/hydro_plants.json';
 import factoriesCsv from '../data/industry/factories.csv?raw';
 import structuresCsv from '../data/infrastructure/structures.csv?raw';
 import categoriesCsv from '../data/industry/production_categories.csv?raw';
+import extraFactoriesCsv from '../data/industry/factories_extra.csv?raw';
+import extraStructuresCsv from '../data/infrastructure/structures_extra.csv?raw';
 import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar from './ui/GameBar.jsx';
 import { ProvinceBuild, EconomyPanel } from './ui/BuildPanel.jsx';
@@ -199,10 +203,10 @@ function useProvinces() {
 }
 
 // Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
-const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData };
+const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId };
+const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
@@ -210,7 +214,7 @@ const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuA
 const withForces = (state) => initForcesState(state, FORCES_CTX).state;
 const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
-  createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites }),
+  createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
 ];
 
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)
