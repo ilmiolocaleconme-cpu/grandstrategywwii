@@ -125,8 +125,8 @@
       "availability": {
         "type": "event",
         "eventId": "EVT-CSK-CARRI",
-        "date": null,
-        "dateBasis": "da_verificare"
+        "date": "1939-03-15",
+        "dateBasis": "utente"
       },
       "role": "Carro leggero cecoslovacco con cannone da 37 mm e trasmissione pneumatica innovativa (seppur complessa); requisito dalla Germania e integrato nella Wehrmacht.",
       "basis": "utente",
@@ -152,8 +152,8 @@
       "availability": {
         "type": "event",
         "eventId": "EVT-CSK-CARRI",
-        "date": null,
-        "dateBasis": "da_verificare"
+        "date": "1939-03-15",
+        "dateBasis": "utente"
       },
       "role": "Carro leggero, considerato il miglior carro leggero al mondo all'inizio del conflitto per affidabilità meccanica e velocità; lo scafo fu poi riutilizzato fino a fine guerra per il cacciacarri Hetzer.",
       "basis": "utente",

@@ -46,8 +46,8 @@ test('carri cecoslovacchi (Panzer 35(t) e 38(t)): entrano solo con un evento, ma
   assert.deepEqual(validateTankModels(doc), []);
   assert.deepEqual(doc.eventModels.map((m) => m.name), ['Panzer 35(t)', 'Panzer 38(t)']);
   assert.deepEqual(doc.eventModels.map((m) => m.originalDesignation), ['LT vz. 35', 'LT vz. 38']);
-  assert.ok(doc.eventModels.every((m) => m.originNation === 'CZE' && m.availability.type === 'event' && m.availability.date === null && m.availability.eventId === 'EVT-CSK-CARRI'));
-  for (const d of ['1936-01-01', '1939-06-01', '1943-01-01', '1945-12-31']) {
+  assert.ok(doc.eventModels.every((m) => m.originNation === 'CZE' && m.availability.type === 'event' && m.availability.date === '1939-03-15' && m.availability.dateBasis === 'utente' && m.availability.eventId === 'EVT-CSK-CARRI'));
+  for (const d of ['1936-01-01', '1939-03-15', '1939-06-01', '1943-01-01', '1945-12-31']) {
     assert.ok(modelsAvailableAt(doc, d).every((m) => !/\(t\)/.test(m.name)), `${d}: i modelli a evento non compaiono per data`);
   }
   assert.ok(doc.eventModels.every((m) => m.transfer.fromNation === 'CZE' && m.transfer.toNation === 'DEU' && /nessuna duplicazione/.test(m.transfer.rule)), 'il pool passa da CZE a DEU');
