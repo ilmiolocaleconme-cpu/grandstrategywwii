@@ -1,0 +1,285 @@
+{
+ "schema": "unit-template-v1",
+ "status": "DA_VERIFICARE",
+ "note": "Riferimenti per i template di divisione (triangolare/quadrata) e di artiglieria divisionale. Ogni valore ha anno di riferimento e fonte; quasi nessuno riguarda il 1936 (le fonti trovate sono del 1938-1943): 'appliesTo1936: non_verificato' significa che il valore NON va usato come dato 1936 senza revisione. null = nessuna fonte trovata, non inventato. Fonti non raggiunte in questa sessione: pagine Wikipedia su divisione tedesca e fucilieri sovietica (non trovate), nessuna fonte su UK, Giappone (organico), Cina.",
+ "formations": {
+  "triangular": {
+   "definition": "Tre elementi di manovra di livello reggimento (sotto un comando di brigata o direttamente alla divisione).",
+   "source": "Wikipedia, Triangular division (en.wikipedia.org/wiki/Triangular_division)"
+  },
+  "square": {
+   "definition": "Quattro reggimenti di fanteria, di norma in due brigate da due reggimenti.",
+   "source": "Wikipedia, Square division (en.wikipedia.org/wiki/Square_division)"
+  }
+ },
+ "nations": {
+  "DEU": {
+   "formation": {
+    "value": "triangular",
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html): 3 reggimenti di fanteria",
+    "appliesTo1936": "non_verificato"
+   },
+   "infantryRegiments": {
+    "value": 3,
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+    "appliesTo1936": "non_verificato"
+   },
+   "battalionsPerInfantryRegiment": {
+    "value": 3,
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+    "appliesTo1936": "non_verificato"
+   },
+   "manpowerMax": {
+    "value": 17000,
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+    "appliesTo1936": "non_verificato"
+   },
+   "artillery": {
+    "lightBattalions": {
+     "value": 3,
+     "referenceYear": 1943,
+     "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+     "appliesTo1936": "non_verificato"
+    },
+    "lightGunsPerBattalion": {
+     "value": 12,
+     "referenceYear": 1943,
+     "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+     "appliesTo1936": "non_verificato"
+    },
+    "lightCaliberMm": {
+     "value": 105,
+     "referenceYear": 1943,
+     "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+     "appliesTo1936": "non_verificato"
+    },
+    "mediumBattalions": {
+     "value": 1,
+     "referenceYear": 1943,
+     "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+     "appliesTo1936": "non_verificato"
+    },
+    "mediumGuns": {
+     "value": 12,
+     "referenceYear": 1943,
+     "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+     "appliesTo1936": "non_verificato"
+    },
+    "mediumCaliberMm": {
+     "value": 150,
+     "referenceYear": 1943,
+     "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+     "appliesTo1936": "non_verificato"
+    },
+    "totalGuns": {
+     "value": 48,
+     "referenceYear": 1943,
+     "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html) (derivato: 36+12)",
+     "appliesTo1936": "non_verificato"
+    }
+   },
+   "otherOrganic": {
+    "value": [
+     "battaglione anticarro",
+     "battaglione ricognizione",
+     "battaglione genio",
+     "battaglione trasmissioni",
+     "servizi divisionali"
+    ],
+    "referenceYear": 1943,
+    "source": "Tactical and Technical Trends n. 34, 23/9/1943, Notes on the German Infantry Division (m.lonesentry.com/articles/ttt34/german-infantry-division.html)",
+    "appliesTo1936": "non_verificato"
+   }
+  },
+  "FRA": {
+   "formation": {
+    "value": "triangular",
+    "referenceYear": 1940,
+    "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html): 3 RI x 3 BI",
+    "appliesTo1936": "non_verificato"
+   },
+   "infantryRegiments": {
+    "value": 3,
+    "referenceYear": 1940,
+    "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html)",
+    "appliesTo1936": "non_verificato"
+   },
+   "battalionsPerInfantryRegiment": {
+    "value": 3,
+    "referenceYear": 1940,
+    "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html)",
+    "appliesTo1936": "non_verificato"
+   },
+   "manpowerApprox": {
+    "value": 17500,
+    "referenceYear": 1940,
+    "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html) (circa 500 ufficiali e 17.000 uomini, cifra approssimata della fonte)",
+    "appliesTo1936": "non_verificato"
+   },
+   "artillery": {
+    "lightRegimentBattalions": {
+     "value": 3,
+     "referenceYear": 1940,
+     "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html) (RAD)",
+     "appliesTo1936": "non_verificato"
+    },
+    "lightGuns": {
+     "value": 36,
+     "referenceYear": 1940,
+     "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html) (75 mm mle 1897 ippotrainati)",
+     "appliesTo1936": "non_verificato"
+    },
+    "heavyRegimentBattalions": {
+     "value": 2,
+     "referenceYear": 1940,
+     "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html) (RALD)",
+     "appliesTo1936": "non_verificato"
+    },
+    "heavyGuns": {
+     "value": 24,
+     "referenceYear": 1940,
+     "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html) (155 mm mle 1917; un gruppo poteva avere 105 mm mle 1935)",
+     "appliesTo1936": "non_verificato"
+    },
+    "alternativeReserveTypeB": {
+     "value": "RAMD: 3 gruppi da 75 mm (36 pezzi) + 1 da 155 mm (12 obici)",
+     "referenceYear": 1940,
+     "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html)",
+     "appliesTo1936": "non_verificato"
+    }
+   },
+   "otherOrganic": {
+    "value": [
+     "compagnia anticarro divisionale 12x25 mm",
+     "batteria anticarro 8x47 mm",
+     "batteria contraerea 6x25 mm",
+     "battaglione genio",
+     "gruppo ricognizione GRDI",
+     "2 compagnie trasmissioni"
+    ],
+    "referenceYear": 1940,
+    "source": "Little Wars, French army 1940, Divisione d'Infanterie (littlewars.se/french1940/oob_di.html)",
+    "appliesTo1936": "non_verificato"
+   }
+  },
+  "ITA": {
+   "formation": {
+    "value": "triangular",
+    "referenceYear": 1937,
+    "source": "Wikipedia, Royal Italian Army during World War II (en.wikipedia.org/wiki/Royal_Italian_Army_during_World_War_II): prima della riforma del 1938 le divisioni di fanteria avevano tre reggimenti",
+    "appliesTo1936": "verificato"
+   },
+   "infantryRegiments": {
+    "value": 3,
+    "referenceYear": 1937,
+    "source": "Wikipedia, Royal Italian Army during World War II (en.wikipedia.org/wiki/Royal_Italian_Army_during_World_War_II) (prima del 1938)",
+    "appliesTo1936": "verificato"
+   },
+   "binaryReform": {
+    "value": "divisione binaria su 2 reggimenti",
+    "referenceYear": 1938,
+    "source": "Wikipedia, Royal Italian Army during World War II (en.wikipedia.org/wiki/Royal_Italian_Army_during_World_War_II)",
+    "appliesTo1936": "non_verificato"
+   },
+   "artilleryDesign1938": {
+    "value": {
+     "fieldPieces": 36,
+     "batteries": [
+      "12 obici da 100 mm",
+      "12 cannoni da 75 mm",
+      "12 obici da 75 mm someggiati"
+     ],
+     "aa": "8x20 mm"
+    },
+    "referenceYear": 1938,
+    "source": "Wikipedia, Royal Italian Army during World War II (en.wikipedia.org/wiki/Royal_Italian_Army_during_World_War_II) (progetto della divisione binaria: NON è l'organico triangolare del 1936)",
+    "appliesTo1936": "non_verificato"
+   },
+   "manpower": {
+    "value": null,
+    "referenceYear": null,
+    "source": "nessuna fonte trovata",
+    "appliesTo1936": "non_verificato"
+   }
+  },
+  "USSR": {
+   "formation": {
+    "value": "triangular",
+    "referenceYear": 1942,
+    "source": "Wikipedia, Triangular division (en.wikipedia.org/wiki/Triangular_division): divisioni della seconda guerra mondiale generalmente su tre reggimenti",
+    "appliesTo1936": "non_verificato"
+   },
+   "infantryRegiments": {
+    "value": 3,
+    "referenceYear": 1942,
+    "source": "Wikipedia, Triangular division (en.wikipedia.org/wiki/Triangular_division)",
+    "appliesTo1936": "non_verificato"
+   },
+   "artilleryShtat04_550": {
+    "value": "3 gruppi: 2 batterie da 4x76 mm + 1 da 4x122 mm per gruppo (terzo gruppo ridotto)",
+    "referenceYear": 1942,
+    "source": "wargameds.com, Researching an Order of Battle – The Soviets (continued 1), Shtat 04/550 del 10/12/1942",
+    "appliesTo1936": "non_verificato"
+   },
+   "manpower1936": {
+    "value": null,
+    "referenceYear": null,
+    "source": "nessuna fonte trovata",
+    "appliesTo1936": "non_verificato"
+   },
+   "territorialVsCadre": {
+    "value": null,
+    "referenceYear": null,
+    "source": "nessuna fonte trovata",
+    "appliesTo1936": "non_verificato"
+   }
+  },
+  "USA": {
+   "formation": {
+    "value": "square",
+    "referenceYear": 1939,
+    "source": "Wikipedia, Square division (en.wikipedia.org/wiki/Square_division): quadrate fino alla seconda guerra mondiale, riorganizzate in triangolari tra il 1940 e il 1942",
+    "appliesTo1936": "verificato"
+   },
+   "infantryRegiments": {
+    "value": 4,
+    "referenceYear": 1939,
+    "source": "Wikipedia, Square division (en.wikipedia.org/wiki/Square_division) (due brigate da due reggimenti)",
+    "appliesTo1936": "verificato"
+   },
+   "manpower": {
+    "value": null,
+    "referenceYear": null,
+    "source": "nessuna fonte trovata (la cifra di circa 22.000 uomini non è confermata dalle fonti lette)",
+    "appliesTo1936": "non_verificato"
+   }
+  },
+  "JPN": {
+   "formation": {
+    "value": "square",
+    "referenceYear": 1937,
+    "source": "Wikipedia, Triangular division (en.wikipedia.org/wiki/Triangular_division): divisioni quadrate 'prima del 1938', poi triangolari durante la guerra sino-giapponese",
+    "appliesTo1936": "verificato"
+   },
+   "manpower": {
+    "value": null,
+    "referenceYear": null,
+    "source": "nessuna fonte trovata",
+    "appliesTo1936": "non_verificato"
+   }
+  },
+  "GBR": {
+   "formation": {
+    "value": null,
+    "referenceYear": null,
+    "source": "nessuna fonte letta in questa sessione",
+    "appliesTo1936": "non_verificato"
+   },
+   "note": "Non verificato: divisioni di 3 brigate da 3 battaglioni (da conoscenza generale, [Ipotesi])"
+  }
+ }
+}

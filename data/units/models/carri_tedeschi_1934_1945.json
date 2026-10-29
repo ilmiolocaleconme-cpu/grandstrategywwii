@@ -1,0 +1,172 @@
+{
+  "schema": "tank-models-v1",
+  "nation": "DEU",
+  "status": "DA_VERIFICARE",
+  "note": "Catalogo dei carri tedeschi 1934-1945 dalla tabella dell'utente. Anni di produzione e quantità NON verificati da me. Gli anni sono interi (inizio assunto al 1° gennaio come per le unità): un modello con inizio 1936 risulterebbe disponibile dal 1/1/1936 anche se le prime consegne reali furono più tarde (da decidere per il Pz.Kpfw. IV). Nessuna statistica di combattimento è inventata. eventModels: modelli che entrano in gioco SOLO con un evento (mai per data): oggi nessun sistema di eventi esiste nel codice.",
+  "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me.",
+  "models": [
+    {
+      "id": "MDL-DEU-PZ-I",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. I",
+      "name": "Panzer I",
+      "sdkfz": "Sd.Kfz. 101",
+      "productionStart": 1934,
+      "productionEnd": 1938,
+      "producedApprox": 2300,
+      "role": "Carro leggero da addestramento, armato solo con mitragliatrici.",
+      "class": "light",
+      "basis": "utente",
+      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me."
+    },
+    {
+      "id": "MDL-DEU-PZ-II",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. II",
+      "name": "Panzer II",
+      "sdkfz": "Sd.Kfz. 121",
+      "productionStart": 1935,
+      "productionEnd": 1944,
+      "producedApprox": 1850,
+      "role": "Carro leggero da ricognizione, armato con cannone da 20 mm.",
+      "class": "light",
+      "basis": "utente",
+      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me."
+    },
+    {
+      "id": "MDL-DEU-PZ-III",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. III",
+      "name": "Panzer III",
+      "sdkfz": "Sd.Kfz. 141",
+      "productionStart": 1937,
+      "productionEnd": 1943,
+      "producedApprox": 5700,
+      "role": "Carro medio concepito per il combattimento contro altri carri (cannoni da 37/50 mm).",
+      "class": "medium",
+      "basis": "utente",
+      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me.",
+      "checks": [
+        {
+          "date": "2026-10-29",
+          "source": "https://www.corazzati.it/scheda_pzkpfw3.htm (indicata dall'utente)",
+          "confirmed": "Fine produzione: agosto 1943 (coerente con productionEnd 1943).",
+          "notDocumented": "La pagina non dà l'anno di inizio produzione né le quantità per versione; dà un totale di 15.000 scafi comprendendo i cannoni d'assalto (la tabella dell'utente indica circa 5.700 carri: non confrontabile). Non cita il 1936-37 né la disponibilità nelle Panzer-Division.",
+          "other": "Adozione ufficiale e avvio della produzione in serie: settembre 1939; Ausf. A, B, C prodotte in piccole quantità; Ausf. F in produzione dal 1940. Il 1937 di inizio resta quindi non confermato (può riferirsi alle sole versioni di preserie)."
+        }
+      ]
+    },
+    {
+      "id": "MDL-DEU-PZ-IV",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. IV",
+      "name": "Panzer IV",
+      "sdkfz": "Sd.Kfz. 161",
+      "productionStart": 1936,
+      "productionEnd": 1945,
+      "producedApprox": 8500,
+      "role": "Il carro medio più diffuso e longevo della Wehrmacht, armato con cannone da 75 mm.",
+      "class": "medium",
+      "basis": "utente",
+      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me."
+    },
+    {
+      "id": "MDL-DEU-PZ-V",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. V",
+      "name": "Panther",
+      "sdkfz": "Sd.Kfz. 171",
+      "productionStart": 1943,
+      "productionEnd": 1945,
+      "producedApprox": 6000,
+      "role": "Carro medio/pesante con corazzatura inclinata, creato per contrastare i T-34 sovietici.",
+      "class": "medium",
+      "basis": "utente",
+      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me."
+    },
+    {
+      "id": "MDL-DEU-PZ-VI",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. VI",
+      "name": "Tiger I",
+      "sdkfz": "Sd.Kfz. 181",
+      "productionStart": 1942,
+      "productionEnd": 1944,
+      "producedApprox": 1350,
+      "role": "Carro pesante con potente cannone da 88 mm e corazzatura spessa.",
+      "class": "heavy",
+      "basis": "utente",
+      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me."
+    },
+    {
+      "id": "MDL-DEU-PZ-VIB",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. VI Ausf. B",
+      "name": "Tiger II (King Tiger)",
+      "sdkfz": null,
+      "productionStart": 1944,
+      "productionEnd": 1945,
+      "producedApprox": 490,
+      "role": "Evoluzione del Tiger I con corazzatura inclinata e cannone da 88 mm lungo.",
+      "class": "heavy",
+      "basis": "utente",
+      "source": "Tabella dei Modelli Panzer (1934-1945) incollata dall'utente il 29/10/2026. Non verificata da me."
+    }
+  ],
+  "eventModels": [
+    {
+      "id": "MDL-DEU-PZ35T",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. 35(t)",
+      "name": "Panzer 35(t)",
+      "originNation": "CZE",
+      "originalDesignation": "LT vz. 35",
+      "class": "light",
+      "availability": {
+        "type": "event",
+        "eventId": "EVT-CSK-CARRI",
+        "date": "1939-03-15",
+        "dateBasis": "utente"
+      },
+      "role": "Carro leggero cecoslovacco con cannone da 37 mm e trasmissione pneumatica innovativa (seppur complessa); requisito dalla Germania e integrato nella Wehrmacht.",
+      "basis": "utente",
+      "source": "Testo incollato dall'utente il 29/10/2026 (industria bellica cecoslovacca anni '30). Non verificato da me.",
+      "transfer": {
+        "fromNation": "CZE",
+        "toNation": "DEU",
+        "what": "pool di carri",
+        "quantity": "quelli posseduti da CZE alla data dell'evento (non definiti: la Cecoslovacchia non ha ancora forze nei dati)",
+        "rule": "i carri passano da CZE a DEU: escono dal pool cecoslovacco ed entrano in quello tedesco, nessuna duplicazione",
+        "basis": "utente",
+        "source": "Indicazione dell'utente del 29/10/2026: il pool di carri cecoslovacchi passerà con evento alla Germania."
+      }
+    },
+    {
+      "id": "MDL-DEU-PZ38T",
+      "nation": "DEU",
+      "designation": "Pz.Kpfw. 38(t)",
+      "name": "Panzer 38(t)",
+      "originNation": "CZE",
+      "originalDesignation": "LT vz. 38",
+      "class": "light",
+      "availability": {
+        "type": "event",
+        "eventId": "EVT-CSK-CARRI",
+        "date": "1939-03-15",
+        "dateBasis": "utente"
+      },
+      "role": "Carro leggero, considerato il miglior carro leggero al mondo all'inizio del conflitto per affidabilità meccanica e velocità; lo scafo fu poi riutilizzato fino a fine guerra per il cacciacarri Hetzer.",
+      "basis": "utente",
+      "source": "Testo incollato dall'utente il 29/10/2026 (industria bellica cecoslovacca anni '30). Non verificato da me.",
+      "transfer": {
+        "fromNation": "CZE",
+        "toNation": "DEU",
+        "what": "pool di carri",
+        "quantity": "quelli posseduti da CZE alla data dell'evento (non definiti: la Cecoslovacchia non ha ancora forze nei dati)",
+        "rule": "i carri passano da CZE a DEU: escono dal pool cecoslovacco ed entrano in quello tedesco, nessuna duplicazione",
+        "basis": "utente",
+        "source": "Indicazione dell'utente del 29/10/2026: il pool di carri cecoslovacchi passerà con evento alla Germania."
+      }
+    }
+  ]
+}

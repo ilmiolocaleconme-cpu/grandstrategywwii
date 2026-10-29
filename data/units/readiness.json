@@ -1,0 +1,5 @@
+{
+  "schema": "readiness-v1",
+  "note": "Dotazione effettiva iniziale delle divisioni come frazione del previsto del template. ESEMPIO scelto dall'utente il 29/10/2026: media dei suoi due esempi (cavalli 4780/5000 = 0,956; carri 437/500 = 0,874) = 0,915. NON è un dato storico del 1936: si sostituisce con dati reali per voce (campo 'effective' dei template) quando esistono.",
+  "initialFillRatio": { "value": 0.915, "basis": "USER_EXAMPLE", "appliesTo": "tutte le voci numeriche dei template senza 'effective'", "source": "Esempi dell'utente del 29/10/2026 (media aritmetica)" }
+}

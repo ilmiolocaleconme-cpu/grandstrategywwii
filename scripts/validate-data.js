@@ -20,12 +20,22 @@ import { validateRegions } from '../src/data/regions.js';
 import { buildResourceLocations, validateResourceLocations } from '../src/data/resourceLocations.js';
 import { buildProvinceResources, validateProvinceResources } from '../src/data/provinceResources.js';
 import { validateScores } from '../src/data/resourcePoints.js';
+import { validateTradeProfiles } from '../src/data/tradeProfiles.js';
 import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { validateHydro } from '../src/data/hydro.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
 import { validateAmmoConsumption } from '../src/data/ammo.js';
 import { validateUnits, validateOobEstimates } from '../src/data/units.js';
 import { unitsBuilt } from './build-units.js';
+import { validateOfficers } from '../src/data/officers.js';
+import { officersBuilt } from './build-officers.js';
+import { validateTemplate } from '../src/data/templates.js';
+import { validateCadreTemplates } from '../src/data/cadres.js';
+import { validateDeployment } from '../src/data/deployment.js';
+import { deploymentBuilt } from './build-deployment.js';
+import { validateReadiness } from '../src/rules/readiness.js';
+import { validateTankModels } from '../src/data/tankModels.js';
+import { readdir } from 'node:fs/promises';
 import { validateEconomy } from '../src/data/economy.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
 import { validateInitialStocks } from '../src/data/initialStocks.js';
@@ -117,6 +127,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateAmmoConsumption(JSON.parse(await text('military/ammo_consumption.json')), { resources: catalog.resources }));
     errors.push(...validateFuelStorage(JSON.parse(await text('military/fuel_storage.json')), { structureIds: industry.structures, buildingIds: new Set(catalog.buildings.buildings.map((b) => b.id)) }));
     errors.push(...validateEconomy(JSON.parse(await text('economy/economy.json')), { resources: catalog.resources, recipes: JSON.parse(await text('industry/recipes.json')) }));
+    // Scambi 1930 (ipotesi qualitativa): nazioni e prodotti esistenti, copia del testo ricevuto invariata (sha256)
+    errors.push(...validateTradeProfiles(JSON.parse(await text('trade/trade_profiles_1930.json')), { nationIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), productIds: new Set(catalog.resources.map((r) => r.id)) }));
+    {
+      const src = JSON.parse(await text('trade/SOURCE.json'));
+      if (createHash('sha256').update(await readFile(new URL(`../${src.file}`, import.meta.url))).digest('hex') !== src.sha256) errors.push('scambi: il testo ricevuto è diverso dalla copia registrata (sha256)');
+    }
     errors.push(...validateInitialIndustry(JSON.parse(await text('industry/initial_industry.json')), { factoriesById: industry.byId, recipes: recipesDoc, entityIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), nationIds: JSON.parse(await text('nations.json')).map((n) => n.id) }));
     errors.push(...validateInitialStocks(JSON.parse(await text('industry/initial_stocks.json')), { resourceIds: new Set(catalog.resources.map((r) => r.id)), industry: JSON.parse(await text('industry/initial_industry.json')) }));
     {
@@ -151,12 +167,34 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // Catalogo unità (CSV dell'utente): copia non modificata, file generato allineato, revisioni coerenti
     {
       const unitsDoc = JSON.parse(await text('units/units.json'));
+      const deployDoc = JSON.parse(await text('units/deployment_1936.json'));
+      errors.push(...validateDeployment(deployDoc, { unitIds: new Set(unitsDoc.units.map((u) => u.id)), motherIds: new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id)) }).map((e) => `dislocazione: ${e}`));
+      if (JSON.stringify(deployDoc) !== JSON.stringify(await deploymentBuilt())) errors.push('dislocazione: deployment_1936.json non allineato, rigenerare con node scripts/build-deployment.js');
       errors.push(...validateUnits(unitsDoc, { nationIds: new Set(catalog.political.map((p) => p.id)) }));
       errors.push(...validateOobEstimates(parseCsv(await text('units/oob_1936_stime.csv'), { name: 'oob_1936_stime' }), { nationIds: new Set(catalog.political.map((p) => p.id)) }));
       const ub = await unitsBuilt();
       if (createHash('sha256').update(await readFile(new URL('../data/units/source/unita_cronologia_1935_1945.csv', import.meta.url))).digest('hex') !== unitsDoc.source.sha256) errors.push('unità: CSV sorgente diverso da quello registrato in units.json (sha256)');
       for (const src of unitsDoc.sources1936 ?? []) if (createHash('sha256').update(await readFile(new URL(`../data/units/${src.file}`, import.meta.url))).digest('hex') !== src.sha256) errors.push(`unità: ${src.file} diverso da quello registrato in units.json (sha256)`);
       if (JSON.stringify(unitsDoc) !== JSON.stringify(ub)) errors.push('unità: units.json non allineato a CSV e revisioni, rigenerare con npm run build:units');
+    }
+    // Ufficiali (CSV dell'utente): copie non modificate, file generato allineato, revisioni coerenti
+    {
+      const officersDoc = JSON.parse(await text('officers/officers.json'));
+      errors.push(...validateOfficers(officersDoc, { nationIds: new Set(catalog.political.map((p) => p.id)) }));
+      for (const f of [officersDoc.source, officersDoc.cardTemplate]) if (createHash('sha256').update(await readFile(new URL(`../data/officers/${f.file}`, import.meta.url))).digest('hex') !== f.sha256) errors.push(`ufficiali: ${f.file} diverso da quello registrato in officers.json (sha256)`);
+      if (JSON.stringify(officersDoc) !== JSON.stringify(await officersBuilt())) errors.push('ufficiali: officers.json non allineato a CSV e revisioni, rigenerare con npm run build:officers');
+    }
+    for (const f of ['carri_tedeschi_1934_1945.json', 'carri_cecoslovacchi_1935_1938.json']) errors.push(...validateTankModels(JSON.parse(await text(`units/models/${f}`))));
+    errors.push(...validateReadiness(JSON.parse(await text('units/readiness.json'))));
+    // Template di divisione (previsto/effettivo, basi e fonti)
+    for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {
+      errors.push(...validateTemplate(JSON.parse(await text(`units/templates/${f}`))).map((e) => `template ${f}: ${e}`));
+    }
+    // Quadri di divisione (template per nazione, espansione in divisione tramite mobilitazione)
+    {
+      const divisionIds = new Set();
+      for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n))) divisionIds.add(JSON.parse(await text(`units/templates/${f}`)).id);
+      errors.push(...validateCadreTemplates(JSON.parse(await text('units/templates/quadri_1936.json')), { nationIds: new Set(catalog.political.map((p) => p.id)), templateIds: divisionIds }).map((e) => `quadri: ${e}`));
     }
     // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate
     for (const sh of JSON.parse(await text('resources/SOURCE_IDRO.json')).files) {

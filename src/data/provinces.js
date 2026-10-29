@@ -79,20 +79,58 @@ export function mergeProvinceParts(meta, parts) {
   };
 }
 
+/** Valori di partenza del caricamento: poche richieste alla volta e qualche nuovo tentativo per file. */
+export const LOAD_DEFAULTS = Object.freeze({ concurrency: 12, retries: 2, delayMs: 400 });
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function loadWithRetry(load, retries, delayMs, sleep) {
+  let lastError;
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      return await load();
+    } catch (error) {
+      lastError = error;
+      if (attempt < retries) await sleep(delayMs * (attempt + 1));
+    }
+  }
+  throw lastError;
+}
+
 /**
- * Carica tutti i moduli insieme (Promise.allSettled: partono tutti subito, in parallelo) e li unisce.
- * `modules` è { percorso: () => Promise<modulo JSON> }, come restituito da import.meta.glob.
- * Se anche un solo file non si carica la mappa non parte: una mappa a metà falserebbe i bordi
+ * Carica tutti i moduli e li unisce. `modules` è { percorso: () => Promise<modulo JSON> }, come
+ * restituito da import.meta.glob. Le richieste partono a gruppi (`concurrency`, 12 di default): su rete
+ * mobile 178 richieste insieme ne facevano cadere alcune. Ogni file fallito viene riprovato `retries`
+ * volte (2 di default) con pausa crescente. Alcuni browser non ripetono un import() fallito: in quel caso i
+ * tentativi non bastano e serve ricaricare la pagina.
+ * Se anche un solo file resta non caricato la mappa non parte: una mappa a metà falserebbe i bordi
  * nazionali, e l'errore elenca tutti i file mancanti (utile quando manca qualcosa nella cache offline).
+ * `options` può cambiare concurrency, retries, delayMs e sleep (usato dai test).
  */
-export async function loadProvincesFrom(modules, onProgress) {
+export async function loadProvincesFrom(modules, onProgress, options = {}) {
+  const { concurrency, retries, delayMs } = { ...LOAD_DEFAULTS, ...options };
+  const sleep = options.sleep ?? wait;
   const entries = Object.entries(modules);
   const total = entries.length;
   let done = 0;
-  // onProgress(done, total) dopo ogni file finito (riuscito o no): serve alla barra di caricamento
+  // onProgress(done, total) dopo ogni file finito (riuscito o definitivamente fallito): serve alla barra di caricamento
   const tick = () => { done += 1; if (typeof onProgress === 'function') onProgress(done, total); };
   if (typeof onProgress === 'function') onProgress(0, total);
-  const settled = await Promise.allSettled(entries.map(([, load]) => Promise.resolve().then(load).finally(tick)));
+  const settled = new Array(entries.length);
+  let next = 0;
+  const worker = async () => {
+    while (next < entries.length) {
+      const i = next;
+      next += 1;
+      try {
+        settled[i] = { status: 'fulfilled', value: await loadWithRetry(entries[i][1], retries, delayMs, sleep) };
+      } catch (reason) {
+        settled[i] = { status: 'rejected', reason };
+      }
+      tick();
+    }
+  };
+  await Promise.all(Array.from({ length: Math.max(1, Math.min(concurrency, entries.length)) }, worker));
   const failed = [];
   const parts = {};
   let meta = null;

@@ -1,5 +1,6 @@
 // Catalogo cronologico delle unità: importazione dal CSV, revisioni, politica di attivazione al 1/1/1936.
 import { test } from 'node:test';
+import { validateTemplate, leaves, fillRatio } from '../src/data/templates.js';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -173,4 +174,103 @@ test('segnaposto fucilieri URSS: 46 divisioni anonime inattive, 2 per corpo, tem
   const two = makeDivisionPlaceholders({ nation: 'USSR', idPrefix: 'S36-USSR-F', namePrefix: 'X', category: 'infantry', variant: 'rifle', corps: ['a', 'b'], perCorps: 3, startYear: 1936, reason: 'r' });
   assert.deepEqual(two.map((u) => u.corps), ['a', 'a', 'a', 'b', 'b', 'b']);
   assert.equal(two[5].id, 'S36-USSR-F-006');
+});
+
+test('riferimenti template divisioni: ogni valore ha anno e fonte, nessun dato 1936 non verificato spacciato per certo', () => {
+  const ref = json('units/templates/divisioni_1936_riferimenti.json');
+  assert.equal(ref.status, 'DA_VERIFICARE');
+  const leaves = [];
+  const walk = (o, path) => {
+    if (o && typeof o === 'object' && 'referenceYear' in o) { leaves.push([path, o]); return; }
+    if (o && typeof o === 'object' && !Array.isArray(o)) for (const [k, v] of Object.entries(o)) walk(v, `${path}.${k}`);
+  };
+  walk(ref.nations, 'nations');
+  assert.ok(leaves.length > 30);
+  for (const [path, l] of leaves) {
+    assert.ok(String(l.source ?? '').trim(), `${path}: senza fonte`);
+    assert.ok(['verificato', 'non_verificato'].includes(l.appliesTo1936), path);
+    if (l.value === null) assert.equal(l.referenceYear, null, `${path}: valore nullo con anno`);
+    else assert.ok(Number.isInteger(l.referenceYear), `${path}: manca l'anno di riferimento`);
+    if (l.appliesTo1936 === 'verificato') assert.ok(l.referenceYear <= 1939, `${path}: verificato per il 1936 ma anno ${l.referenceYear}`);
+  }
+  assert.equal(ref.nations.USA.formation.value, 'square');
+  assert.equal(ref.nations.DEU.artillery.totalGuns.value, 48);
+});
+
+test('template fanteria tedesca 1936: organico di guerra previsto, effettivo da definire, nessun dato 1937-38 spacciato per 1936', () => {
+  const t = json('units/templates/divisione_fanteria_germania_1936.json');
+  assert.deepEqual(validateTemplate(t), []);
+  assert.equal(t.status, 'BOZZA_DA_CONFERMARE');
+  assert.equal(t.orgLevel, 'war');
+  assert.ok(leaves(t).length >= 20);
+  for (const [path, l] of leaves(t)) if (l.basis === 'utente') assert.equal(l.referenceYear, '1937-1938', `${path}: ricostruzione 1937-38, non 1936`);
+  assert.equal(t.manpower.war.value, 17263);
+  assert.equal(t.horses.value, 4465);
+  assert.equal(t.regimentsInfantry.value * t.battalionsPerRegiment.value, 9);
+  const e = t.equipment;
+  assert.equal(e.obiciLeggeri105mm.value + e.obiciPesanti150mm.value + e.cannoni105mm.value, 48, 'artiglieria divisionale = 48 pezzi (come il riferimento 1943)');
+  assert.equal(e.antiaerei20mm.aggregated, 'Luftwaffe', 'antiaerea aggregata, non organica certa');
+  assert.equal(t.manpower.peace.value, null);
+  assert.equal(e.veicoli.value, null, 'nessun valore inventato per ciò che non ha fonte');
+  assert.ok(['horses', 'manpower.war', 'equipment.fucili'].every((k) => fillRatio(leaves(t).find(([p]) => p === k)[1]) === null), 'effettivo non definito: nessun rapporto inventato');
+  assert.equal(t.effectiveSupply.value, null);
+  assert.equal(t.costs.resources, null);
+  const ref = json('units/templates/divisioni_1936_riferimenti.json').nations.DEU;
+  assert.equal(ref.artillery.totalGuns.value, 48, 'il riferimento 1943 dà lo stesso totale di pezzi');
+});
+
+test('template corazzata tedesca 1936: modello teorico 1935-37, 416 carri previsti non spacciati per disponibilità, mobilità per componente', () => {
+  const t = json('units/templates/divisione_corazzata_germania_1936.json');
+  assert.deepEqual(validateTemplate(t), []);
+  assert.equal(t.status, 'BOZZA_DA_CONFERMARE');
+  assert.equal(t.structure.reggimentiCarri.value * t.structure.battaglioniPerReggimentoCarri.value, 4, '4 battaglioni carri');
+  assert.equal(t.equipment.carri.value, 416);
+  assert.match(t.equipment.carri.note, /NON la disponibilità effettiva/);
+  assert.equal(t.equipment.carri.effective.value, null, 'i carri effettivi non sono noti: non inventati');
+  assert.deepEqual(Object.keys(t.mobility).sort(), ['artiglieria', 'fanteria', 'ricognizione']);
+  assert.ok(Object.values(t.mobility).every((m) => m.value === 'motorizzata' && m.basis === 'utente'));
+  assert.equal(t.manpower.war.value, null); assert.equal(t.equipment.artiglieria.value, null); assert.equal(t.effectiveSupply.value, null);
+  assert.equal(t.costs.resources, null);
+});
+
+test('validateTemplate / fillRatio: previsto contro effettivo (esempi sintetici, non dati storici)', () => {
+  const base = { schema: 'unit-template-v1', id: 'TPL-XXX-TEST-1936' };
+  const leaf = (value, effective) => ({ value, basis: 'utente', referenceYear: '1936', source: 'prova', ...(effective ? { effective } : {}) });
+  const ok = { ...base, horses: leaf(5000, { value: 4780, asOf: '1936-01-01', basis: 'utente', source: 'prova' }), equipment: { carri: leaf(500, { value: 437, asOf: '1936-01-01', basis: 'utente', source: 'prova' }) } };
+  assert.deepEqual(validateTemplate(ok), []);
+  assert.equal(fillRatio(ok.horses), 4780 / 5000);
+  assert.equal(fillRatio(ok.equipment.carri), 437 / 500);
+  const bad = (t, re) => assert.ok(validateTemplate(t).some((e) => re.test(e)), String(re));
+  bad({ ...base, horses: leaf(5000, { value: 5100, asOf: '1936-01-01', basis: 'utente', source: 'x' }) }, /supera il previsto/);
+  bad({ ...base, horses: leaf(5000, { value: 4780, asOf: null, basis: 'utente', source: 'x' }) }, /senza data/);
+  bad({ ...base, horses: leaf(5000, { value: 4780, asOf: '1936-01-01', basis: 'utente', source: '' }) }, /senza fonte/);
+  bad({ ...base, horses: leaf(5000, { value: -1, asOf: '1936-01-01', basis: 'utente', source: 'x' }) }, /non valido/);
+  bad({ ...base, horses: { value: 5, basis: 'boh', referenceYear: 1, source: 'x' } }, /basis/);
+  bad({ ...base, horses: { value: 5, basis: 'utente', source: 'x' } }, /anno di riferimento/);
+  bad({ ...base, horses: { value: 5, basis: 'ipotesi', source: '' } }, /senza fonte/);
+  bad({ ...base, formation: leaf('triangular', { value: 1, asOf: '1936-01-01', basis: 'utente', source: 'x' }) }, /non numerica/);
+  assert.equal(fillRatio({ value: 5000, effective: { value: null } }), null);
+});
+
+import { validateReadiness, initialEffective } from '../src/rules/readiness.js';
+
+test('dotazione effettiva iniziale: frazione di esempio 0,915 (media degli esempi dell\'utente), il dato reale ha la precedenza, nessun dato storico inventato', () => {
+  const r = json('units/readiness.json');
+  assert.deepEqual(validateReadiness(r), []);
+  assert.ok(Math.abs(r.initialFillRatio.value - (4780 / 5000 + 437 / 500) / 2) < 0.001, '0,915 = media di 0,956 e 0,874');
+  assert.equal(r.initialFillRatio.basis, 'USER_EXAMPLE');
+  const tpl = json('units/templates/divisione_corazzata_germania_1936.json');
+  const e = initialEffective(tpl, r.initialFillRatio.value);
+  assert.deepEqual(e['equipment.carri'], { planned: 416, effective: Math.round(416 * 0.915), source: 'ratio' });
+  assert.equal(e['equipment.carri'].effective, 381);
+  assert.equal(Object.keys(e).some((k) => k.startsWith('structure')), false, 'la struttura (reggimenti) non è una dotazione: nessun effettivo');
+  assert.ok(Object.values(e).every((v) => v.effective <= v.planned));
+  const inf = json('units/templates/divisione_fanteria_germania_1936.json');
+  assert.equal(initialEffective(inf, 0.915)['horses'].effective, Math.round(4465 * 0.915));
+  const real = structuredClone(inf); real.horses.effective = { value: 4000, asOf: '1936-01-01', basis: 'utente', source: 'prova' };
+  assert.deepEqual(validateTemplate(real), []);
+  assert.deepEqual(initialEffective(real, 0.915)['horses'], { planned: 4465, effective: 4000, source: 'template' }, 'il dato reale batte la frazione');
+  assert.deepEqual(inf.horses.effective.value, null, 'il template su disco non è stato modificato');
+  for (const bad of [0, 1.1, -1, NaN]) assert.throws(() => initialEffective(inf, bad), RangeError);
+  assert.ok(validateReadiness({ schema: 'readiness-v1', initialFillRatio: { value: 1.5, basis: 'USER_EXAMPLE', source: 'x' } }).some((x) => /intervallo/.test(x)));
 });

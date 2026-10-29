@@ -1,0 +1,644 @@
+{
+ "schema": "deployment-v1",
+ "basis": "ipotesi",
+ "note": "Unità → provincia madre al 1/1/1936, DERIVATA dalla stazione in testo libero del file dell'utente, dalle città del catalogo, dal corpo d'armata e da poche eccezioni dichiarate (OVERRIDES in src/data/deployment.js). Non è una dislocazione storica verificata. Le unità senza luogo noto sono in unplaced e non compaiono sulla mappa.",
+ "entries": [
+  {
+   "unit": "S36-DEU-001",
+   "name": "Wehrkreis I",
+   "province": "P_DEU_OSTPREUSSEN",
+   "how": "stazione \"Prussia orientale / Königsberg\": città konigsberg del catalogo"
+  },
+  {
+   "unit": "S36-DEU-002",
+   "name": "Wehrkreis II",
+   "province": "P_DEU_POMMERN",
+   "how": "stazione \"Pomerania / Stettino\": città stettino del catalogo"
+  },
+  {
+   "unit": "S36-DEU-003",
+   "name": "Wehrkreis III",
+   "province": "P_DEU_BERLIN",
+   "how": "stazione \"Brandeburgo / Berlino\": città berlino del catalogo"
+  },
+  {
+   "unit": "S36-DEU-004",
+   "name": "Wehrkreis IV",
+   "province": "P_DEU_SACHSEN",
+   "how": "stazione \"Sassonia / Dresda\": città dresda del catalogo"
+  },
+  {
+   "unit": "S36-DEU-005",
+   "name": "Wehrkreis V",
+   "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "how": "stazione \"Baden-Württemberg / Stoccarda\": città stoccarda del catalogo"
+  },
+  {
+   "unit": "S36-DEU-006",
+   "name": "Wehrkreis VI",
+   "province": "P_DEU_WESTFALEN_NORD",
+   "how": "stazione \"Renania / Münster\": città munster del catalogo"
+  },
+  {
+   "unit": "S36-DEU-007",
+   "name": "Wehrkreis VII",
+   "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "how": "stazione \"Baviera / Monaco\": Monaco di Baviera, provincia scelta a mano"
+  },
+  {
+   "unit": "S36-DEU-008",
+   "name": "Wehrkreis VIII",
+   "province": "P_DEU_NIEDERSCHLESIEN",
+   "how": "stazione \"Slesia / Breslavia\": città breslavia del catalogo"
+  },
+  {
+   "unit": "S36-DEU-009",
+   "name": "Wehrkreis IX",
+   "province": "P_DEU_KURHESSEN",
+   "how": "stazione \"Assia / Kassel\": città kassel del catalogo"
+  },
+  {
+   "unit": "S36-DEU-010",
+   "name": "Wehrkreis X",
+   "province": "P_DEU_HAMBURG",
+   "how": "stazione \"Schleswig-Holstein / Amburgo\": città amburgo del catalogo"
+  },
+  {
+   "unit": "S36-DEU-011",
+   "name": "Wehrkreis XI",
+   "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "how": "stazione \"Sassonia-Anhalt / Hannover\": città hannover del catalogo"
+  },
+  {
+   "unit": "S36-DEU-012",
+   "name": "Wehrkreis XII",
+   "province": "P_DEU_HESSEN_NASSAU",
+   "how": "stazione \"Renania-Palatinato / Wiesbaden\": città wiesbaden del catalogo"
+  },
+  {
+   "unit": "S36-DEU-013",
+   "name": "Wehrkreis XIII",
+   "province": "P_DEU_FRANKEN",
+   "how": "stazione \"Franconia / Norimberga\": città norimberga del catalogo"
+  },
+  {
+   "unit": "S36-DEU-014",
+   "name": "I. Armeekorps",
+   "province": "P_DEU_OSTPREUSSEN",
+   "how": "stazione \"Königsberg\": città konigsberg del catalogo"
+  },
+  {
+   "unit": "S36-DEU-015",
+   "name": "II. Armeekorps",
+   "province": "P_DEU_POMMERN",
+   "how": "stazione \"Stettino\": città stettino del catalogo"
+  },
+  {
+   "unit": "S36-DEU-016",
+   "name": "III. Armeekorps",
+   "province": "P_DEU_BERLIN",
+   "how": "stazione \"Berlino\": città berlino del catalogo"
+  },
+  {
+   "unit": "S36-DEU-017",
+   "name": "IV. Armeekorps",
+   "province": "P_DEU_SACHSEN",
+   "how": "stazione \"Dresda\": città dresda del catalogo"
+  },
+  {
+   "unit": "S36-DEU-018",
+   "name": "V. Armeekorps",
+   "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "how": "stazione \"Stoccarda\": città stoccarda del catalogo"
+  },
+  {
+   "unit": "S36-DEU-019",
+   "name": "VI. Armeekorps",
+   "province": "P_DEU_WESTFALEN_NORD",
+   "how": "stazione \"Münster\": città munster del catalogo"
+  },
+  {
+   "unit": "S36-DEU-020",
+   "name": "VII. Armeekorps",
+   "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "how": "stazione \"Monaco\": Monaco di Baviera non è tra le città del catalogo, provincia scelta a mano"
+  },
+  {
+   "unit": "S36-DEU-021",
+   "name": "VIII. Armeekorps",
+   "province": "P_DEU_NIEDERSCHLESIEN",
+   "how": "stazione \"Breslavia\": città breslavia del catalogo"
+  },
+  {
+   "unit": "S36-DEU-022",
+   "name": "IX. Armeekorps",
+   "province": "P_DEU_KURHESSEN",
+   "how": "stazione \"Kassel\": città kassel del catalogo"
+  },
+  {
+   "unit": "S36-DEU-023",
+   "name": "X. Armeekorps",
+   "province": "P_DEU_HAMBURG",
+   "how": "stazione \"Amburgo\": città amburgo del catalogo"
+  },
+  {
+   "unit": "S36-DEU-024",
+   "name": "XI. Armeekorps",
+   "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "how": "stazione \"Hannover\": città hannover del catalogo"
+  },
+  {
+   "unit": "S36-DEU-025",
+   "name": "XII. Armeekorps",
+   "province": "P_DEU_HESSEN_NASSAU",
+   "how": "stazione \"Wiesbaden\": città wiesbaden del catalogo"
+  },
+  {
+   "unit": "S36-DEU-026",
+   "name": "31. Infanterie-Division",
+   "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "how": "nel luogo del corpo d'armata XI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "S36-DEU-027",
+   "name": "32. Infanterie-Division",
+   "province": "P_DEU_POMMERN",
+   "how": "nel luogo del corpo d'armata II. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "S36-DEU-028",
+   "name": "33. Infanterie-Division",
+   "province": "P_DEU_HESSEN_NASSAU",
+   "how": "nel luogo del corpo d'armata XII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "S36-DEU-029",
+   "name": "34. Infanterie-Division",
+   "province": "P_DEU_HESSEN_NASSAU",
+   "how": "nel luogo del corpo d'armata XII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "S36-DEU-030",
+   "name": "35. Infanterie-Division",
+   "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "how": "nel luogo del corpo d'armata V. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "S36-DEU-031",
+   "name": "36. Infanterie-Division",
+   "province": "P_DEU_HESSEN_NASSAU",
+   "how": "nel luogo del corpo d'armata XII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "S36-FRA-001",
+   "name": "3e Division d'infanterie",
+   "province": "P_FRA_SEINE_MARITIME",
+   "how": "stazione \"Seine-Maritime / Rouen\": città rouen del catalogo"
+  },
+  {
+   "unit": "S36-FRA-002",
+   "name": "4e Division d'infanterie",
+   "province": "P_FRA_SARTHE",
+   "how": "stazione \"Sarthe / Le Mans\": provincia sarthe"
+  },
+  {
+   "unit": "S36-FRA-003",
+   "name": "5e Division d'infanterie",
+   "province": "P_FRA_LOIRET",
+   "how": "stazione \"Loiret / Orléans\": città orleans del catalogo"
+  },
+  {
+   "unit": "S36-FRA-004",
+   "name": "6e Division d'infanterie",
+   "province": "P_FRA_MARNE",
+   "how": "stazione \"Marne / Châlons-sur-Marne\": provincia marne"
+  },
+  {
+   "unit": "S36-FRA-005",
+   "name": "7e Division d'infanterie",
+   "province": "P_FRA_DOUBS",
+   "how": "stazione \"Doubs / Besançon\": provincia doubs"
+  },
+  {
+   "unit": "S36-FRA-006",
+   "name": "8e Division d'infanterie",
+   "province": "P_FRA_COTE_D_OR",
+   "how": "stazione \"Côte-d'Or / Dijon\": provincia cote-d'or"
+  },
+  {
+   "unit": "S36-FRA-007",
+   "name": "9e Division d'infanterie",
+   "province": "P_FRA_INDRE_ET_LOIRE",
+   "how": "stazione \"Indre-et-Loire / Tours\": città tours del catalogo"
+  },
+  {
+   "unit": "S36-FRA-008",
+   "name": "11e Division d'infanterie",
+   "province": "P_FRA_LOIRE_ATLANTIQUE",
+   "how": "stazione \"Loire-Atlantique / Nantes\": città nantes del catalogo"
+  },
+  {
+   "unit": "S36-FRA-009",
+   "name": "12e Division d'infanterie",
+   "province": "P_FRA_HAUTE_VIENNE",
+   "how": "stazione \"Haute-Vienne / Limoges\": provincia haute-vienne"
+  },
+  {
+   "unit": "S36-FRA-010",
+   "name": "13e Division d'infanterie",
+   "province": "P_FRA_PUY_DE_DOME",
+   "how": "stazione \"Puy-de-Dôme / Clermont-Ferrand\": città clermont-ferrand del catalogo"
+  },
+  {
+   "unit": "S36-FRA-011",
+   "name": "15e Division d'infanterie",
+   "province": "P_FRA_BOUCHES_DU_RHONE",
+   "how": "stazione \"Bouches-du-Rhône / Marsiglia\": città marsiglia del catalogo"
+  },
+  {
+   "unit": "S36-FRA-012",
+   "name": "16e Division d'infanterie",
+   "province": "P_FRA_HERAULT",
+   "how": "stazione \"Hérault / Montpellier\": città montpellier del catalogo"
+  },
+  {
+   "unit": "S36-FRA-013",
+   "name": "17e Division d'infanterie",
+   "province": "P_FRA_HAUTE_GARONNE",
+   "how": "stazione \"Haute-Garonne / Tolosa\": città tolosa del catalogo"
+  },
+  {
+   "unit": "S36-FRA-014",
+   "name": "18e Division d'infanterie",
+   "province": "P_FRA_GIRONDE",
+   "how": "stazione \"Gironde / Bordeaux\": città bordeaux del catalogo"
+  },
+  {
+   "unit": "S36-FRA-015",
+   "name": "20e Division d'infanterie",
+   "province": "P_FRA_MEURTHE_ET_MOSELLE",
+   "how": "stazione \"Meurthe-et-Moselle / Nancy\": città nancy del catalogo"
+  },
+  {
+   "unit": "S36-USSR-001",
+   "name": "Distretto militare di Leningrado",
+   "province": "P_USSR_LENINGRAD",
+   "how": "stazione \"Leningrado\": città leningrado del catalogo"
+  },
+  {
+   "unit": "S36-USSR-003",
+   "name": "Distretto militare di Kiev",
+   "province": "P_USSR_KIEV",
+   "how": "stazione \"Kiev\": città kiev del catalogo"
+  },
+  {
+   "unit": "S36-USSR-004",
+   "name": "Distretto militare di Mosca",
+   "province": "P_USSR_MOSKOVSKAYA",
+   "how": "stazione \"Mosca\": città mosca del catalogo"
+  },
+  {
+   "unit": "U00020",
+   "name": "1re Division Légère Mécanique",
+   "province": "P_FRA_MARNE",
+   "how": "stazione \"Marne / Reims\": provincia marne"
+  },
+  {
+   "unit": "U00030",
+   "name": "10e Division d'Infanterie",
+   "province": "P_FRA_ILLE_ET_VILAINE",
+   "how": "stazione \"Ille-et-Vilaine / Rennes\": città rennes del catalogo"
+  },
+  {
+   "unit": "U00060",
+   "name": "1. Infanterie-Division",
+   "province": "P_DEU_OSTPREUSSEN",
+   "how": "nel luogo del corpo d'armata I. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00062",
+   "name": "1. Panzer-Division",
+   "province": "P_DEU_BERLIN",
+   "how": "stazione \"Berlino / Wünsdorf\": città berlino del catalogo"
+  },
+  {
+   "unit": "U00063",
+   "name": "10. Infanterie-Division",
+   "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "how": "nel luogo del corpo d'armata VII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00064",
+   "name": "11. Infanterie-Division",
+   "province": "P_DEU_OSTPREUSSEN",
+   "how": "nel luogo del corpo d'armata I. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00065",
+   "name": "12. Infanterie-Division",
+   "province": "P_DEU_POMMERN",
+   "how": "nel luogo del corpo d'armata II. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00066",
+   "name": "13. Infanterie-Division",
+   "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "how": "nel luogo del corpo d'armata XI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00067",
+   "name": "14. Infanterie-Division",
+   "province": "P_DEU_SACHSEN",
+   "how": "nel luogo del corpo d'armata IV. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00068",
+   "name": "15. Infanterie-Division",
+   "province": "P_DEU_KURHESSEN",
+   "how": "nel luogo del corpo d'armata IX. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00069",
+   "name": "16. Infanterie-Division",
+   "province": "P_DEU_WESTFALEN_NORD",
+   "how": "nel luogo del corpo d'armata VI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00070",
+   "name": "17. Infanterie-Division",
+   "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "how": "nel luogo del corpo d'armata VII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00071",
+   "name": "18. Infanterie-Division",
+   "province": "P_DEU_NIEDERSCHLESIEN",
+   "how": "nel luogo del corpo d'armata VIII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00072",
+   "name": "19. Infanterie-Division",
+   "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "how": "nel luogo del corpo d'armata XI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00073",
+   "name": "2. Infanterie-Division",
+   "province": "P_DEU_POMMERN",
+   "how": "nel luogo del corpo d'armata II. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00074",
+   "name": "2. Panzer-Division",
+   "province": "P_DEU_MAINFRANKEN",
+   "how": "stazione \"Würzburg\": provincia scelta a mano (Mainfranken)"
+  },
+  {
+   "unit": "U00075",
+   "name": "20. Infanterie-Division",
+   "province": "P_DEU_HAMBURG",
+   "how": "nel luogo del corpo d'armata X. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00076",
+   "name": "21. Infanterie-Division",
+   "province": "P_DEU_OSTPREUSSEN",
+   "how": "nel luogo del corpo d'armata I. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00077",
+   "name": "22. Infanterie-Division",
+   "province": "P_DEU_HAMBURG",
+   "how": "nel luogo del corpo d'armata X. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00079",
+   "name": "24. Infanterie-Division",
+   "province": "P_DEU_SACHSEN",
+   "how": "nel luogo del corpo d'armata IV. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00080",
+   "name": "25. Infanterie-Division",
+   "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "how": "nel luogo del corpo d'armata V. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00081",
+   "name": "26. Infanterie-Division",
+   "province": "P_DEU_WESTFALEN_NORD",
+   "how": "nel luogo del corpo d'armata VI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00082",
+   "name": "27. Infanterie-Division",
+   "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "how": "nel luogo del corpo d'armata VII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00083",
+   "name": "28. Infanterie-Division",
+   "province": "P_DEU_NIEDERSCHLESIEN",
+   "how": "nel luogo del corpo d'armata VIII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00084",
+   "name": "29. Infanterie-Division",
+   "province": "P_DEU_KURHESSEN",
+   "how": "nel luogo del corpo d'armata IX. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00085",
+   "name": "3. Infanterie-Division",
+   "province": "P_DEU_BERLIN",
+   "how": "nel luogo del corpo d'armata III. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00086",
+   "name": "3. Panzer-Division",
+   "province": "P_DEU_BERLIN",
+   "how": "stazione \"Berlino\": città berlino del catalogo"
+  },
+  {
+   "unit": "U00087",
+   "name": "30. Infanterie-Division",
+   "province": "P_DEU_HAMBURG",
+   "how": "nel luogo del corpo d'armata X. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00088",
+   "name": "4. Infanterie-Division",
+   "province": "P_DEU_SACHSEN",
+   "how": "nel luogo del corpo d'armata IV. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00090",
+   "name": "5. Infanterie-Division",
+   "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "how": "nel luogo del corpo d'armata V. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00092",
+   "name": "6. Infanterie-Division",
+   "province": "P_DEU_WESTFALEN_NORD",
+   "how": "nel luogo del corpo d'armata VI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00093",
+   "name": "7. Infanterie-Division",
+   "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "how": "nel luogo del corpo d'armata VII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00094",
+   "name": "8. Infanterie-Division",
+   "province": "P_DEU_NIEDERSCHLESIEN",
+   "how": "nel luogo del corpo d'armata VIII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00095",
+   "name": "9. Infanterie-Division",
+   "province": "P_DEU_KURHESSEN",
+   "how": "nel luogo del corpo d'armata IX. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
+  },
+  {
+   "unit": "U00223",
+   "name": "1st Infantry Division",
+   "province": "P_GBR_HAMPSHIRE",
+   "how": "Aldershot Command (britishmilitaryhistory.co.uk, Aldershot 1930-1938: 1ª e 2ª divisione ad Aldershot); Aldershot è nell'Hampshire"
+  },
+  {
+   "unit": "U00224",
+   "name": "2nd Infantry Division",
+   "province": "P_GBR_HAMPSHIRE",
+   "how": "Aldershot Command (britishmilitaryhistory.co.uk, Aldershot 1930-1938: 1ª e 2ª divisione ad Aldershot); Aldershot è nell'Hampshire"
+  }
+ ],
+ "unplaced": [
+  {
+   "unit": "S36-FRA-016",
+   "name": "1re Division de cavalerie",
+   "reason": "stazione \"Francia orientale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-FRA-017",
+   "name": "2e Division de cavalerie",
+   "reason": "stazione \"Francia orientale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-FRA-018",
+   "name": "3e Division de cavalerie",
+   "reason": "stazione \"Francia orientale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-FRA-019",
+   "name": "4e Division de cavalerie",
+   "reason": "stazione \"Francia orientale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-FRA-020",
+   "name": "5e Division de cavalerie",
+   "reason": "stazione \"Francia orientale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-002",
+   "name": "Distretto militare bielorusso",
+   "reason": "stazione \"bielorusso\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-005",
+   "name": "Distretto militare del Volga",
+   "reason": "stazione \"del Volga\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-006",
+   "name": "Distretto militare degli Urali",
+   "reason": "stazione \"degli Urali\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-007",
+   "name": "Distretto militare del Caucaso Settentrionale",
+   "reason": "stazione \"del Caucaso Settentrionale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-008",
+   "name": "Distretto militare transcaucasico",
+   "reason": "stazione \"transcaucasico\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-009",
+   "name": "Distretto militare dell'Asia Centrale",
+   "reason": "stazione \"dell'Asia Centrale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-010",
+   "name": "Distretto militare siberiano",
+   "reason": "stazione \"siberiano\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-011",
+   "name": "Distretto militare transbaikalico",
+   "reason": "stazione \"transbaikalico\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-012",
+   "name": "Armata speciale del Distretto dell'Estremo Oriente",
+   "reason": "stazione \"Estremo Oriente\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-047",
+   "name": "1ª Brigata aviotrasportata",
+   "reason": "stazione \"Distretto militare di Leningrado\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-048",
+   "name": "2ª Brigata aviotrasportata",
+   "reason": "stazione \"Distretto militare bielorusso\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "S36-USSR-049",
+   "name": "3ª Brigata aviotrasportata",
+   "reason": "stazione \"Distretto militare di Kiev\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "U00031",
+   "name": "14e Division d'Infanterie",
+   "reason": "stazione \"Rhône / Lyon\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "U00033",
+   "name": "19e Division d'Infanterie",
+   "reason": "stazione \"Algeri / Algeria\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "U00035",
+   "name": "1re Division d'Infanterie",
+   "reason": "stazione \"Nord / Lille\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "U00036",
+   "name": "1re Division d'Infanterie Coloniale",
+   "reason": "stazione \"Francia / impero coloniale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "U00044",
+   "name": "2e Division d'Infanterie",
+   "reason": "stazione \"Somme / Amiens\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "U00045",
+   "name": "2e Division d'Infanterie Coloniale",
+   "reason": "stazione \"Francia / impero coloniale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "U00047",
+   "name": "3e Division d'Infanterie Coloniale",
+   "reason": "stazione \"Francia / impero coloniale\" non riconducibile a una provincia"
+  },
+  {
+   "unit": "U00049",
+   "name": "4e Division d'Infanterie Coloniale",
+   "reason": "stazione \"Francia / impero coloniale\" non riconducibile a una provincia"
+  }
+ ]
+}

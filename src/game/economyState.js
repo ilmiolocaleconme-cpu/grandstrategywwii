@@ -21,6 +21,7 @@ const emptyNation = () => ({ balance: 0, population: 0, stocks: {}, facilities: 
  * - `balance` = cassa iniziale di initial_cash.json (30 giorni di entrata + 200 ECV, 28/10/2026); con `cash: null` (solo per i calcoli dei dati) resta 0;
  * - `population` (file population.json, opzionale): popolazione di gioco; la riserva di lavoratori si deriva (rules/workers.js);
  * - `construction` è la coda delle costruzioni in corso (vuota all'inizio);
+ * - ogni nazione ha almeno `stocks.floor` per risorsa (riserva minima: oggi 500 t di acciaio, perché ogni costruzione ne richiede);
  * - la difficoltà moltiplica scorte e cassa per `stockMul` (facile 1,5 · media 1 · reale 0,7), come definito in economy.json.
  */
 export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, population = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
@@ -47,6 +48,8 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
     if (!nations[owner]) nations[owner] = emptyNation();
     for (const [res, t] of Object.entries(stocks.stocks[territory])) nations[owner].stocks[res] = (nations[owner].stocks[res] ?? 0) + t;
   }
+  // riserva minima uguale per tutte (stocks.floor, es. 500 t di acciaio): è un massimo, chi ha già di più non cambia; scala con la difficoltà come gli stock
+  for (const n of Object.values(nations)) for (const [res, t] of Object.entries(stocks.floor ?? {})) n.stocks[res] = Math.max(n.stocks[res] ?? 0, t);
   for (const n of Object.values(nations)) for (const res of Object.keys(n.stocks)) n.stocks[res] = Math.ceil(n.stocks[res] * stockMul - 1e-9);
   if (population) for (const [id, n] of Object.entries(nations)) n.population = populationOf(population, id); // MISSING_DATA = 0
   if (cash) for (const [id, n] of Object.entries(nations)) {

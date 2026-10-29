@@ -248,6 +248,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -266,6 +267,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -284,6 +286,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -302,6 +305,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -320,6 +324,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -338,6 +343,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -356,6 +362,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -374,6 +381,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -392,6 +400,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -410,6 +419,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -428,6 +438,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -446,6 +457,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": {
     "status": "faction_doubt",
     "confidence": "certo",
@@ -468,6 +480,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -486,6 +499,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -504,6 +518,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": {
     "status": "faction_doubt",
     "confidence": "certo",
@@ -526,6 +541,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -544,6 +560,7 @@
    "endYear": null,
    "source": "National Revolutionary Army historical orders of battle",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -562,6 +579,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -580,6 +598,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -646,6 +665,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -664,6 +684,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -682,6 +703,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -700,6 +722,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -718,6 +741,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -736,6 +760,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -754,6 +779,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -772,6 +798,7 @@
    "endYear": null,
    "source": "Liste divisions françaises WWII / ATF40",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -1331,6 +1358,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -1349,6 +1377,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -1367,6 +1396,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -2109,6 +2139,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -2217,6 +2248,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2235,6 +2267,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2253,6 +2286,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2397,6 +2431,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2415,6 +2450,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2433,6 +2469,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2541,6 +2578,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2559,6 +2597,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2577,6 +2616,7 @@
    "endYear": null,
    "source": "Bundesarchiv; Tessin; liste divisioni Wehrmacht",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -2595,6 +2635,7 @@
    "endYear": null,
    "source": "Rikukaigun; fonti IJA/IJN",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -2613,6 +2654,7 @@
    "endYear": null,
    "source": "Rikukaigun; fonti IJA/IJN",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": {
     "status": "duplicate",
     "confidence": "certo",
@@ -2636,6 +2678,7 @@
    "endYear": null,
    "source": "Rikukaigun; fonti IJA/IJN",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -3014,6 +3057,7 @@
    "endYear": null,
    "source": "Rikukaigun; fonti IJA/IJN",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -3356,6 +3400,7 @@
    "endYear": null,
    "source": "Rikukaigun; fonti IJA/IJN",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -3374,6 +3419,7 @@
    "endYear": null,
    "source": "Rikukaigun; fonti IJA/IJN",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -3644,6 +3690,7 @@
    "endYear": null,
    "source": "Regio Esercito; fonti storiche sulle divisioni italiane",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -3662,6 +3709,7 @@
    "endYear": null,
    "source": "Regio Esercito; fonti storiche sulle divisioni italiane",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -3680,6 +3728,7 @@
    "endYear": null,
    "source": "Regio Esercito; fonti storiche sulle divisioni italiane",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -3698,6 +3747,7 @@
    "endYear": null,
    "source": "Regio Esercito; fonti storiche sulle divisioni italiane",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -3716,6 +3766,7 @@
    "endYear": null,
    "source": "Regio Esercito; fonti storiche sulle divisioni italiane",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -4369,6 +4420,7 @@
    "endYear": null,
    "source": "British Army WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -4387,6 +4439,7 @@
    "endYear": null,
    "source": "British Army WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -4531,6 +4584,7 @@
    "endYear": null,
    "source": "British Army WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -4549,6 +4603,7 @@
    "endYear": null,
    "source": "British Army WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -4963,6 +5018,7 @@
    "endYear": null,
    "source": "British Army WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -5035,6 +5091,7 @@
    "endYear": null,
    "source": "British Army WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -5071,6 +5128,7 @@
    "endYear": null,
    "source": "British Army WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5089,6 +5147,7 @@
    "endYear": null,
    "source": "British Army WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -5125,6 +5184,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -5143,6 +5203,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": {
     "status": "corrected",
     "confidence": "certo",
@@ -5490,6 +5551,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5508,6 +5570,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5526,6 +5589,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5580,6 +5644,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5598,6 +5663,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5616,6 +5682,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5742,6 +5809,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5760,6 +5828,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5778,6 +5847,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5796,6 +5866,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5814,6 +5885,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5832,6 +5904,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5850,6 +5923,7 @@
    "endYear": null,
    "source": "RKKA/Red Army historical division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -5868,6 +5942,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -5886,6 +5961,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "high_command",
    "review": null
   },
   {
@@ -6462,6 +6538,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -6480,6 +6557,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -6498,6 +6576,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -6516,6 +6595,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -6534,6 +6614,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "theater",
    "review": null
   },
   {
@@ -6804,6 +6885,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -6822,6 +6904,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -6840,6 +6923,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {
@@ -6930,6 +7014,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army_group",
    "review": null
   },
   {
@@ -6948,6 +7033,7 @@
    "endYear": null,
    "source": "US Army Center of Military History; WWII division lists",
    "verification": "storico_da_verificare_per_data",
+   "commandLevel": "army",
    "review": null
   },
   {

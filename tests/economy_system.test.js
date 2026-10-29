@@ -40,13 +40,13 @@ test('un giorno: la Germania produce acciaio e consuma minerale, la cassa sale; 
   const s0 = fresh(); const s1 = advanceDay(s0, [system]);
   assert.ok(s1.nations.DEU.stocks.steel > 0 && s1.nations.DEU.stocks.iron_ore < s0.nations.DEU.stocks.iron_ore + 1);
   assert.ok(s1.nations.DEU.balance > s0.nations.DEU.balance);
-  assert.equal(s0.nations.DEU.stocks.steel ?? 0, 0, 'lo stato precedente non viene modificato');
+  assert.equal(s0.nations.DEU.stocks.steel, 500, 'lo stato precedente non viene modificato (resta la riserva minima)');
   assert.equal(advanceDay({ ...s0, nations: null }, [system]).nations, null, 'senza economia inizializzata non fa nulla');
 });
 
-test('fascia C: nessuna industria, la cassa cresce solo con la quota dei territori, nessuna scorta', () => {
+test('fascia C: nessuna industria, la cassa cresce solo con la quota dei territori, nessuna scorta oltre la riserva minima', () => {
   const s = sim(60);
-  assert.deepEqual(s.nations.ALB.stocks, {});
+  assert.deepEqual(s.nations.ALB.stocks, { steel: 500 }, 'nessuna produzione: resta solo la riserva minima di acciaio');
   assert.ok(s.nations.ALB.balance > fresh().nations.ALB.balance);
 });
 

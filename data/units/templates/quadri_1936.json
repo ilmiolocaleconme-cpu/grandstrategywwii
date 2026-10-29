@@ -1,0 +1,311 @@
+{
+  "schema": "cadre-templates-v1",
+  "status": "DA_DEFINIRE",
+  "note": "Quadri di divisione, un template per nazione (29/10/2026). Nessun valore numerico è stato inventato: null = da definire. Un quadro NON è una divisione di combattimento: diventa divisione completa solo con una legge di mobilitazione (richiamo di riservisti e dotazione dalle scorte o dalla produzione); nessuna divisione nasce gratis. Le leggi di mobilitazione non sono ancora modellate: il campo mobilization.law resta null. expandsTo indica il template di divisione completa, se esiste.",
+  "templates": [
+    {
+      "schema": "unit-template-v1",
+      "id": "TPL-CHN-CADRE-1936",
+      "kind": "cadre",
+      "status": "DA_DEFINIRE",
+      "nation": "CHN",
+      "appliesTo": {
+        "nation": "CHN",
+        "category": "infantry",
+        "echelon": "division",
+        "activeFrom": "1936-01-01"
+      },
+      "note": "Quadro di divisione per Cina. Nessun template di divisione completa definito per questa nazione: expandsTo = null.",
+      "formation": {
+        "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
+        "basis": "ipotesi",
+        "source": "Decisione di design dell'utente del 29/10/2026: i quadri diventano divisioni complete con leggi di mobilitazione. Concetto, non dato storico."
+      },
+      "manpower": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "equipment": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "mobilization": {
+        "law": null,
+        "status": "non_modellata",
+        "expandsTo": null,
+        "combatReady": false,
+        "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
+      }
+    },
+    {
+      "schema": "unit-template-v1",
+      "id": "TPL-DEU-CADRE-1936",
+      "kind": "cadre",
+      "status": "DA_DEFINIRE",
+      "nation": "DEU",
+      "appliesTo": {
+        "nation": "DEU",
+        "category": "infantry",
+        "echelon": "division",
+        "activeFrom": "1936-01-01"
+      },
+      "note": "Quadro di divisione per Germania. Si espande nel template di divisione già presente.",
+      "formation": {
+        "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
+        "basis": "ipotesi",
+        "source": "Decisione di design dell'utente del 29/10/2026: i quadri diventano divisioni complete con leggi di mobilitazione. Concetto, non dato storico."
+      },
+      "manpower": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "equipment": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "mobilization": {
+        "law": null,
+        "status": "non_modellata",
+        "expandsTo": "TPL-DEU-INF-1936",
+        "combatReady": false,
+        "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
+      }
+    },
+    {
+      "schema": "unit-template-v1",
+      "id": "TPL-FRA-CADRE-1936",
+      "kind": "cadre",
+      "status": "DA_DEFINIRE",
+      "nation": "FRA",
+      "appliesTo": {
+        "nation": "FRA",
+        "category": "infantry",
+        "echelon": "division",
+        "activeFrom": "1936-01-01"
+      },
+      "note": "Quadro di divisione per Francia. Nessun template di divisione completa definito per questa nazione: expandsTo = null.",
+      "formation": {
+        "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
+        "basis": "ipotesi",
+        "source": "Decisione di design dell'utente del 29/10/2026: i quadri diventano divisioni complete con leggi di mobilitazione. Concetto, non dato storico."
+      },
+      "manpower": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "equipment": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "mobilization": {
+        "law": null,
+        "status": "non_modellata",
+        "expandsTo": null,
+        "combatReady": false,
+        "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
+      }
+    },
+    {
+      "schema": "unit-template-v1",
+      "id": "TPL-GBR-CADRE-1936",
+      "kind": "cadre",
+      "status": "DA_DEFINIRE",
+      "nation": "GBR",
+      "appliesTo": {
+        "nation": "GBR",
+        "category": "infantry",
+        "echelon": "division",
+        "activeFrom": "1936-01-01"
+      },
+      "note": "Quadro di divisione per Regno Unito. Si espande nel template di divisione TPL-GBR-INF-1936, che parte come quadro al 30% (esempio dell'utente).",
+      "formation": {
+        "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
+        "basis": "ipotesi",
+        "source": "Decisione di design dell'utente del 29/10/2026: i quadri diventano divisioni complete con leggi di mobilitazione. Concetto, non dato storico."
+      },
+      "manpower": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "equipment": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "mobilization": {
+        "law": null,
+        "status": "non_modellata",
+        "expandsTo": "TPL-GBR-INF-1936",
+        "combatReady": false,
+        "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
+      }
+    },
+    {
+      "schema": "unit-template-v1",
+      "id": "TPL-ITA-CADRE-1936",
+      "kind": "cadre",
+      "status": "DA_DEFINIRE",
+      "nation": "ITA",
+      "appliesTo": {
+        "nation": "ITA",
+        "category": "infantry",
+        "echelon": "division",
+        "activeFrom": "1936-01-01"
+      },
+      "note": "Quadro di divisione per Italia. Nessun template di divisione completa definito per questa nazione: expandsTo = null.",
+      "formation": {
+        "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
+        "basis": "ipotesi",
+        "source": "Decisione di design dell'utente del 29/10/2026: i quadri diventano divisioni complete con leggi di mobilitazione. Concetto, non dato storico."
+      },
+      "manpower": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "equipment": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "mobilization": {
+        "law": null,
+        "status": "non_modellata",
+        "expandsTo": null,
+        "combatReady": false,
+        "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
+      }
+    },
+    {
+      "schema": "unit-template-v1",
+      "id": "TPL-JPN-CADRE-1936",
+      "kind": "cadre",
+      "status": "DA_DEFINIRE",
+      "nation": "JPN",
+      "appliesTo": {
+        "nation": "JPN",
+        "category": "infantry",
+        "echelon": "division",
+        "activeFrom": "1936-01-01"
+      },
+      "note": "Quadro di divisione per Giappone. Nessun template di divisione completa definito per questa nazione: expandsTo = null.",
+      "formation": {
+        "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
+        "basis": "ipotesi",
+        "source": "Decisione di design dell'utente del 29/10/2026: i quadri diventano divisioni complete con leggi di mobilitazione. Concetto, non dato storico."
+      },
+      "manpower": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "equipment": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "mobilization": {
+        "law": null,
+        "status": "non_modellata",
+        "expandsTo": null,
+        "combatReady": false,
+        "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
+      }
+    },
+    {
+      "schema": "unit-template-v1",
+      "id": "TPL-USA-CADRE-1936",
+      "kind": "cadre",
+      "status": "DA_DEFINIRE",
+      "nation": "USA",
+      "appliesTo": {
+        "nation": "USA",
+        "category": "infantry",
+        "echelon": "division",
+        "activeFrom": "1936-01-01"
+      },
+      "note": "Quadro di divisione per Stati Uniti. Nessun template di divisione completa definito per questa nazione: expandsTo = null.",
+      "formation": {
+        "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
+        "basis": "ipotesi",
+        "source": "Decisione di design dell'utente del 29/10/2026: i quadri diventano divisioni complete con leggi di mobilitazione. Concetto, non dato storico."
+      },
+      "manpower": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "equipment": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "mobilization": {
+        "law": null,
+        "status": "non_modellata",
+        "expandsTo": null,
+        "combatReady": false,
+        "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
+      }
+    },
+    {
+      "schema": "unit-template-v1",
+      "id": "TPL-USSR-CADRE-1936",
+      "kind": "cadre",
+      "status": "DA_DEFINIRE",
+      "nation": "USSR",
+      "appliesTo": {
+        "nation": "USSR",
+        "category": "infantry",
+        "echelon": "division",
+        "activeFrom": "1936-01-01"
+      },
+      "note": "Quadro di divisione per URSS. Si espande nel template di divisione già presente.",
+      "formation": {
+        "value": "quadro di divisione: comando, nucleo di ufficiali e sottufficiali, depositi di armi e materiali",
+        "basis": "ipotesi",
+        "source": "Decisione di design dell'utente del 29/10/2026: i quadri diventano divisioni complete con leggi di mobilitazione. Concetto, non dato storico."
+      },
+      "manpower": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "equipment": {
+        "cadre": {
+          "value": null,
+          "basis": "da_definire"
+        }
+      },
+      "mobilization": {
+        "law": null,
+        "status": "non_modellata",
+        "expandsTo": "TPL-USSR-RIFLE-1936",
+        "combatReady": false,
+        "rule": "Il quadro diventa divisione completa solo tramite una legge di mobilitazione: richiamo di riservisti e dotazione dalle scorte o dalla produzione; nessun rinforzo gratuito."
+      }
+    }
+  ]
+}

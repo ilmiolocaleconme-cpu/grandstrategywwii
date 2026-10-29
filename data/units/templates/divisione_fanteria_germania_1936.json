@@ -1,0 +1,267 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-DEU-INF-1936",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Template della fanteria tedesca al 1/1/1936. Scelta dell'utente (29/10/2026): organico di GUERRA. I valori sono la ricostruzione 1937-38 fornita dall'utente (basis 'utente'): NON sono un organico documentato del 1/1/1936 (la ricostruzione dell'esercito era in corso). Sono l'organico PREVISTO, non la dotazione effettiva di ogni divisione. null = da definire, non inventato. Dotazione effettiva: ogni voce numerica ha 'effective' (null finché non c'è un dato con data e fonte).",
+  "appliesTo": {
+    "nation": "DEU",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "formation": {
+    "value": "triangular",
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata). Dedotta dai 3 reggimenti di fanteria."
+  },
+  "mobility": {
+    "value": "trainata",
+    "basis": "ipotesi",
+    "referenceYear": null,
+    "source": "Ipotesi coerente con i 4.465 cavalli, non dichiarata dalla fonte"
+  },
+  "regimentsInfantry": {
+    "value": 3,
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+  },
+  "battalionsPerRegiment": {
+    "value": 3,
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+  },
+  "manpower": {
+    "war": {
+      "value": 17263,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 4465,
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "fucili": {
+      "value": 13500,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "pistole": {
+      "value": 3000,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "mitragliatriciLeggere": {
+      "value": 355,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "mitragliatriciPesanti": {
+      "value": 133,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "mortaiLeggeri50mm": {
+      "value": 37,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "mortaiPesanti81mm": {
+      "value": 54,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "cannoniFanteria75mm": {
+      "value": 20,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "cannoniFanteriaPesanti150mm": {
+      "value": 6,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "controcarro37mm": {
+      "value": 75,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "obiciLeggeri105mm": {
+      "value": 36,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "obiciPesanti150mm": {
+      "value": 8,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "cannoni105mm": {
+      "value": 4,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "antiaerei20mm": {
+      "value": 16,
+      "basis": "utente",
+      "referenceYear": "1937-1938",
+      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "aggregated": "Luftwaffe",
+      "note": "La fonte indica che il reparto antiaereo poteva essere aggregato dalla Luftwaffe: non conta come dotazione organica certa.",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "veicoli": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "radio": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "organicSupport": {
+    "value": [
+      "quartier generale e staff",
+      "artiglieria campale e componente pesante",
+      "battaglione esplorante",
+      "battaglione controcarro",
+      "battaglione genio",
+      "battaglione trasmissioni",
+      "servizi: logistica, sanità, veterinaria, trasporti, manutenzione"
+    ],
+    "basis": "utente",
+    "referenceYear": "1937-1938",
+    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva (carenze, mezzi da consegnare) per data: non definita. La produzione dovrà colmare la differenza fra organico previsto e dotazione reale."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'utente quando si passa a caserme e produzione."
+  }
+}

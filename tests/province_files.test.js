@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
-import { checkProvinceParts, fileName, loadProvincesFrom, mergeProvinceParts, META_SCHEMA } from '../src/data/provinces.js';
+import { checkProvinceParts, fileName, LOAD_DEFAULTS, loadProvincesFrom, mergeProvinceParts, META_SCHEMA } from '../src/data/provinces.js';
 import { listProvinceFiles, loadProvinces } from '../scripts/load-provinces.js';
 import { checkPrecache, hasMarker, precacheUrls, provinceMarkers } from '../scripts/check-precache.js';
 import { loadingPercent } from '../src/ui/loadingPercent.js';
@@ -39,7 +39,7 @@ test('unione: rileva file mancante, file non elencato, owner sbagliato, id dupli
   assert.throws(() => mergeProvinceParts(meta(), dup), (e) => Array.isArray(e.errors) && e.errors.length === 1 && /Province non valide/.test(e.message));
 });
 
-test('caricamento: tutti i file partono subito, in parallelo, prima che il primo sia finito', async () => {
+test('caricamento: i file partono insieme (entro il limite), prima che il primo sia finito', async () => {
   let started = 0;
   let release;
   const gate = new Promise((r) => { release = r; });
@@ -61,10 +61,50 @@ test('caricamento: se un file manca la mappa non parte e l\'errore li elenca tut
   const ok = (value) => async () => ({ default: value });
   const fail = async () => { throw new Error('offline'); };
   await assert.rejects(
-    loadProvincesFrom({ 'x/_meta.json': ok(meta()), 'x/AAA.json': fail, 'x/BBB.json': fail }),
+    loadProvincesFrom({ 'x/_meta.json': ok(meta()), 'x/AAA.json': fail, 'x/BBB.json': fail }, undefined, FAST),
     (e) => e.failed.join() === 'AAA,BBB' && /AAA\.json, BBB\.json/.test(e.message),
   );
   await assert.rejects(loadProvincesFrom({ 'x/AAA.json': ok(parts().AAA) }), /manca _meta\.json/);
+});
+
+const FAST = { sleep: async () => {} };
+
+test('caricamento: un file che fallisce una volta viene riprovato e la mappa parte', async () => {
+  let attempts = 0;
+  const flaky = async () => { attempts += 1; if (attempts < 3) throw new Error('rete'); return { default: parts().AAA }; };
+  const merged = await loadProvincesFrom({
+    '../../data/provinces/_meta.json': async () => ({ default: meta() }),
+    '../../data/provinces/AAA.json': flaky,
+    '../../data/provinces/BBB.json': async () => ({ default: parts().BBB }),
+  }, undefined, FAST);
+  assert.equal(attempts, 3, 'due fallimenti e un successo');
+  assert.equal(merged.features.length, 3);
+});
+
+test('caricamento: dopo i tentativi un file sempre rotto fa fallire tutto, con 1 + retries tentativi', async () => {
+  let attempts = 0;
+  const broken = async () => { attempts += 1; throw new Error('404'); };
+  await assert.rejects(
+    loadProvincesFrom({ '../../data/provinces/_meta.json': async () => ({ default: meta() }), '../../data/provinces/AAA.json': broken }, undefined, FAST),
+    (e) => e.failed.join() === 'AAA',
+  );
+  assert.equal(attempts, 1 + LOAD_DEFAULTS.retries);
+});
+
+test('caricamento: mai più richieste insieme del limite di concorrenza', async () => {
+  let running = 0;
+  let peak = 0;
+  const mod = (value) => async () => {
+    running += 1; peak = Math.max(peak, running);
+    await new Promise((r) => setImmediate(r));
+    running -= 1;
+    return { default: value };
+  };
+  const modules = { '../../data/provinces/_meta.json': mod(meta()) };
+  for (let i = 0; i < 20; i += 1) modules[`../../data/provinces/F${i}.json`] = mod({ type: 'FeatureCollection', owner: 'AAA', features: [] });
+  await loadProvincesFrom(modules, undefined, { ...FAST, concurrency: 4 }).catch(() => {});
+  assert.ok(peak <= 4, `picco di richieste insieme: ${peak}`);
+  assert.ok(peak >= 2, 'ma non sequenziale');
 });
 
 test('fileName ricava il nome dal percorso', () => {
@@ -177,7 +217,7 @@ test('caricamento: l\'avanzamento parte da 0/totale, cresce di uno a file (anche
   assert.deepEqual(calls, [[0, 3], [1, 3], [2, 3], [3, 3]]);
   const failing = { ...modules, '../../data/provinces/BBB.json': async () => { throw new Error('offline'); } };
   const calls2 = [];
-  await assert.rejects(loadProvincesFrom(failing, (d, t) => calls2.push([d, t])), /BBB\.json/);
+  await assert.rejects(loadProvincesFrom(failing, (d, t) => calls2.push([d, t]), FAST), /BBB\.json/);
   assert.deepEqual(calls2.at(-1), [3, 3]);
 });
 

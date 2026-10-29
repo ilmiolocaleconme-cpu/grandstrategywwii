@@ -9,8 +9,9 @@
     "note": "Riserva di lavoratori di gioco = 0,5% della popolazione (scelta dell'utente il 28/10/2026; l'assistente suggeriva 0,1-0,2% perché con 0,5% il vincolo pesa poco)."
   },
   "recruitment": {
-    "quality": "MISSING_DATA",
-    "note": "Riserva di reclutamento: rimandata ai cataloghi militari (Fase 5)."
+    "baseShare": 0.05,
+    "quality": "USER_ESTIMATE",
+    "note": "Pool nazionale di uomini (reclutamento) = 5% della popolazione: ESEMPIO scelto dall'utente il 29/10/2026. Può aumentare con leggi, diplomazia, nuove leve (per la Germania), mobilitazione totale, aumento dell'età di leva: modificatori da definire (src/rules/manpowerPool.js li accetta, nessun modificatore reale è definito). Regole di rimpiazzo delle perdite, addestramento, costi e tempi: da stabilire."
   },
   "nations": {
     "AFG": {

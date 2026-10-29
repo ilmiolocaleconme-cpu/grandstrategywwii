@@ -1,0 +1,36 @@
+{
+  "schema": "tank-models-v1",
+  "nation": "CZE",
+  "status": "DA_VERIFICARE",
+  "note": "Catalogo dei carri cecoslovacchi prodotti dalla Cecoslovacchia stessa (fino al 1938 compreso: dal 15/03/1939 lo Stato non esiste più, vedi EVT-CSK-ANNESSIONE). I due modelli sono quelli indicati dall'utente il 29/10/2026 (LT vz. 35, LT vz. 38); sono gli stessi che la Germania riceve come Panzer 35(t) e 38(t) con l'evento EVT-CSK-CARRI (vedi carri_tedeschi_1934_1945.json, eventModels). Gli ANNI e le QUANTITÀ NON vengono dall'utente: sono ricordi di Claude [Probabile], non verificati, quindi basis 'ipotesi'. Nessuna statistica di combattimento è inventata. Produttori ricordati da Claude [Probabile]: Škoda (LT vz. 35) e ČKD (LT vz. 38); il profilo commerciale 1930 cita Škoda e Tatra per armi e veicoli.",
+  "source": "Nomi dei modelli: testo incollato dall'utente il 29/10/2026. Anni, quantità e produttori: memoria di Claude, non verificati.",
+  "models": [
+    {
+      "id": "MDL-CZE-LT35",
+      "nation": "CZE",
+      "designation": "LT vz. 35",
+      "name": "LT vz. 35",
+      "productionStart": 1936,
+      "productionEnd": 1938,
+      "producedApprox": 434,
+      "producer": "Škoda",
+      "role": "Carro leggero con cannone da 37 mm e trasmissione pneumatica innovativa (seppur complessa).",
+      "class": "light",
+      "basis": "ipotesi",
+      "source": "Nome e descrizione: testo dell'utente del 29/10/2026. Anni, quantità (434, totale complessivo anche tedesco) e produttore: ricordo di Claude, da verificare."
+    },
+    {
+      "id": "MDL-CZE-LT38",
+      "nation": "CZE",
+      "designation": "LT vz. 38",
+      "name": "LT vz. 38",
+      "productionStart": 1938,
+      "productionEnd": 1938,
+      "producer": "ČKD",
+      "role": "Carro leggero affidabile ed efficiente, ordinato dall'esercito cecoslovacco; poi base del Panzer 38(t).",
+      "class": "light",
+      "basis": "ipotesi",
+      "source": "Nome e ruolo: testo dell'utente del 29/10/2026. Anni e produttore: ricordo di Claude, da verificare. Quantità non indicata: la maggior parte della produzione è avvenuta sotto la Germania."
+    }
+  ]
+}

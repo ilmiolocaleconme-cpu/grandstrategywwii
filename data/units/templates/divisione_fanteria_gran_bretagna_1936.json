@@ -1,0 +1,192 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-GBR-INF-1936",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Template della fanteria britannica al 1/1/1936. Scelta dell'utente (29/10/2026): il PREVISTO è provvisorio = cifre 1939-40 (organico di guerra, IPOTESI, fonti web deboli, anno incerto) e la divisione parte come QUADRO al 30% (esempio dell'utente, non storico); con la mobilitazione sale al 100% se ci sono le risorse (src/rules/reinforcements.js). L'organico di pace 1936 non è stato trovato online. Contesto 1936 (fonti web): 5 divisioni regolari e 14 formazioni di Territorial Army (britishmilitaryhistory.co.uk, 1930-1938); organico di bilancio 1935-36 dell'esercito regolare 208.630 uomini e della Territorial Army 175.094 (Hansard, 9/3/1936, totali nazionali). Il file dell'utente elenca 12 Territorial Army (e la stima del repository 12): discrepanza con le 14 da verificare. Cavalli, armi leggere, mortai, veicoli e radio: da definire (null).",
+  "appliesTo": {
+    "nation": "GBR",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "formation": {
+    "value": "triangolare: 3 brigate di fanteria da 3 battaglioni",
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Ricerca web del 29/10/2026, https://nigelef.tripod.com/Divorg.htm (sito amatoriale, fonte debole): divisione di fanteria britannica del 1939; il quarto battaglione di ogni brigata fu tolto a metà anni '30. Non è un organico di pace 1936."
+  },
+  "mobility": {
+    "value": null,
+    "basis": "da_definire",
+    "referenceYear": null,
+    "source": null
+  },
+  "structure": {
+    "brigateFanteria": {
+      "value": 3,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://nigelef.tripod.com/Divorg.htm (sito amatoriale, fonte debole): divisione di fanteria britannica del 1939; il quarto battaglione di ogni brigata fu tolto a metà anni '30. Non è un organico di pace 1936. Confermato da https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf"
+    },
+    "battaglioniPerBrigata": {
+      "value": 3,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://nigelef.tripod.com/Divorg.htm (sito amatoriale, fonte debole): divisione di fanteria britannica del 1939; il quarto battaglione di ogni brigata fu tolto a metà anni '30. Non è un organico di pace 1936. Confermato da https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf"
+    }
+  },
+  "manpower": {
+    "war": {
+      "value": 13863,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939).",
+      "effective": {
+        "value": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": null,
+    "basis": "da_definire",
+    "referenceYear": null,
+    "source": null
+  },
+  "equipment": {
+    "fucili": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "mitragliatrici": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "mortai": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "controcarro": {
+      "value": 48,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939).",
+      "effective": {
+        "value": null
+      }
+    },
+    "artiglieriaCampale": {
+      "value": 72,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939).",
+      "effective": {
+        "value": null
+      }
+    },
+    "antiaerei": {
+      "value": 27,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939).",
+      "effective": {
+        "value": null
+      }
+    },
+    "veicoli": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "radio": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "referenceFigures": {
+    "uominiTotali1939_40": {
+      "value": 13863,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939)."
+    },
+    "uominiPerBattaglione1939": {
+      "value": 780,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Ricerca web del 29/10/2026, https://nigelef.tripod.com/Divorg.htm (sito amatoriale, fonte debole): divisione di fanteria britannica del 1939; il quarto battaglione di ogni brigata fu tolto a metà anni '30. Non è un organico di pace 1936. (circa, tutti i gradi)"
+    },
+    "cannoni25libbre1939_40": {
+      "value": 72,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939)."
+    },
+    "controcarro2libbre1939_40": {
+      "value": 48,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939)."
+    },
+    "antiaerei20mm1939_40": {
+      "value": 27,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939)."
+    },
+    "cavalli1939_40": {
+      "value": 0,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939). Nessun cavallo elencato: non significa che nel 1936 non ce ne fossero."
+    }
+  },
+  "organicSupport": {
+    "value": [
+      "comando divisionale",
+      "reggimento di cavalleria divisionale",
+      "3 reggimenti di artiglieria da campo",
+      "reggimento controcarro",
+      "genio: 3 compagnie da campo e parco",
+      "trasmissioni",
+      "battaglione mitragliatrici (dai reparti di corpo d'armata)",
+      "servizi: 3 ambulanze da campo, rifornimenti, polizia militare"
+    ],
+    "basis": "ipotesi",
+    "referenceYear": "1939-1940",
+    "source": "Ricerca web del 29/10/2026, https://www.britishmilitaryhistory.co.uk/wp-content/uploads/sites/124/2017/10/War-Establishment-The-Infantry-Division-1939-1940.pdf: War Establishment, Infantry Division 1939-1940 (documento con intestazione '1944-1945' e titolo '1939-1940': l'anno delle cifre è incerto; i 25 libbre erano appena in servizio nel 1939)."
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: da definire."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'utente quando si passa a caserme e produzione."
+  },
+  "startsAsCadre": true,
+  "initialFillRatio": {
+    "value": 0.3,
+    "basis": "USER_EXAMPLE",
+    "source": "Esempio dell'utente del 29/10/2026: la divisione britannica parte come quadro al 30% del previsto e con la mobilitazione sale al 100% se ci sono le risorse. Non è un dato storico."
+  }
+}

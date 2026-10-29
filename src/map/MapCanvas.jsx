@@ -36,14 +36,10 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, focus, dataReady, readyKey, onReady }) {
+export default function MapCanvas({ land, provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, toolsHost, provinceResources, provinceUnits, focus, dataReady, readyKey, onReady }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
-  const [land, setLand] = useState(null); // terra di base (~350 kB), caricata dopo la mappa: un errore non blocca nulla
-  useEffect(() => {
-    let alive = true;
-    import('../../data/land_base.json').then((m) => alive && setLand(m.default)).catch(() => {});
-    return () => { alive = false; };
-  }, []);
+  // `land` (terra di base, data/land_base.json) arriva dall'App, precaricata all'apertura con gli altri dati: caricarla qui,
+  // dopo il montaggio, faceva disegnare la mappa due volte (prima senza terra, poi con) e si vedeva uno sfarfallio.
   const seaData = useMemo(() => (seas ? { zones: seas.zones } : null), [seas]); // oggetto stabile: ci si mettono in cache i tracciati
   const water = useMemo(
     () => (rivers && riversGeo && lakes ? buildCanvasWater(rivers, riversGeo, lakes, (r) => RIVER_WIDTH_PX[r?.widthClass] ?? RIVER_WIDTH_PX.small, riverTier) : EMPTY_WATER),
@@ -53,6 +49,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const wrapRef = useRef(null);
   const baseRef = useRef(null);
   const anchoredResources = useMemo(() => (provinceResources ? resolveResourceAnchors(model.items, provinceResources) : null), [model, provinceResources]);
+  const anchoredUnits = useMemo(() => (provinceUnits ? resolveResourceAnchors(model.items, provinceUnits) : null), [model, provinceUnits]);
   const resourceFills = useMemo(() => (layer === 'resources' && provinceResources ? resolveResourceFills(model.items, provinceResources) : null), [layer, model, provinceResources]);
   const overlayRef = useRef(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
@@ -63,7 +60,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
   const st = useRef({ view: IDENTITY, tiles: new TileStore(TILE_LIMIT), gen: 0, job: null, pumpTimer: 0, tileDev: TILE_CSS, labels: [], lod: { levels: [] }, borders: null, dpr: 1, size: { w: 0, h: 0 }, raf: 0, idleTimer: 0, scratch: null, labelTimer: 0, labelsContinue: false, pointers: new Map(), gesture: null, moved: false });
   // ultimi valori delle proprietà (letti dalle funzioni di disegno senza ricrearle)
   const props = useRef({});
-  props.current = { dataReady, onReady, land, model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, resourceFills };
+  props.current = { dataReady, onReady, land, model, water, layer, nationControl, selectedId, showRivers, onSelect, seaData, showSeas, selectedSeaId, onSelectSea, labelData, transportModel, provinceResources: anchoredResources, provinceUnits: anchoredUnits, resourceFills };
 
   const lay = () => layoutOf(VB, st.current.size.w, st.current.size.h);
   // zoom minimo: tutto il mondo e non più (niente copie affiancate della mappa)
@@ -221,7 +218,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     const p = props.current;
     const l = lay();
     const copies = visibleCopies(s.view, VB, p.model.bounds);
-    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, labels: s.labels, copies, layer: p.layer, provinceResources: p.provinceResources });
+    drawOverlay(o.getContext('2d'), { model: p.model, lod: s.lod, view: s.view, vb: VB, lay: l, dpr: s.dpr, selectedId: p.selectedId, seas: p.showSeas ? p.seaData : null, selectedSeaId: p.selectedSeaId, labels: s.labels, copies, layer: p.layer, provinceResources: p.provinceResources, provinceUnits: p.provinceUnits });
   };
 
   // porta alla vista corrente le piastrelle in cache (trascinamento e zoom costano solo questo)
@@ -478,7 +475,7 @@ export default function MapCanvas({ provinces, rivers, riversGeo, lakes, nationN
     }
   }, [size, model, water, layer, showRivers, seaData, showSeas, transportModel, resourceFills, land]);
   // la selezione della provincia cambia solo la sovrapposizione
-  useEffect(() => { paintOverlay(); }, [selectedId, selectedSeaId, seaData, showSeas, layer, anchoredResources]);
+  useEffect(() => { paintOverlay(); }, [selectedId, selectedSeaId, seaData, showSeas, layer, anchoredResources, anchoredUnits]);
 
   // nomi: solo quelli che stanno nella provincia e non si sovrappongono; compaiono a gesto fermo
   useEffect(() => {

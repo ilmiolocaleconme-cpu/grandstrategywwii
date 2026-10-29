@@ -45,3 +45,16 @@ test('errori segnalati: risorsa inesistente, elettricità come stock, nazione se
   const e = validateInitialStocks(bad, { resourceIds, industry }).join('|');
   assert.match(e, /risorsa inesistente titanio/); assert.match(e, /flusso/); assert.match(e, /ALB non ha industria/);
 });
+
+test('riserva minima: 500 t di acciaio = 200 ECV di cassa minima × 2,5 t/ECV, valida e rifiutata se sbagliata', () => {
+  const cash = json('industry/initial_cash.json');
+  const economy = json('economy/economy.json');
+  assert.deepEqual(file.floor, { steel: Math.round(cash.floor * economy.construction.steelPerEcv) });
+  assert.equal(file.floor.steel, 500);
+  assert.match(file.floorNote, /29\/10\/2026/);
+  const bad = (floor) => validateInitialStocks({ ...file, floor }, { resourceIds, industry });
+  assert.match(bad({ unobtainium: 5 })[0], /risorsa inesistente/);
+  assert.match(bad({ electricity: 5 })[0], /flusso/);
+  assert.match(bad({ steel: 0 })[0], /non valida/);
+  assert.match(bad({ steel: 1.5 })[0], /non valida/);
+});

@@ -21,7 +21,7 @@ Etichette dei dati: `DESIGN_DEFAULT` = valore di design proposto, non storico; `
 | Macchinari | FCT-MACHINERY | 1,2 acciaio | 70 | 84 acciaio | 14 |
 | Componenti | FCT-COMPONENTS | 0,6 acciaio + 0,2 alluminio + 0,1 gomma lavorata | 80 | 48 acciaio + 16 alluminio + 8 gomma | 12 |
 | Motori | FCT-ENGINE | 0,8 acciaio + 0,3 alluminio | 60 | 48 acciaio + 18 alluminio | 18 |
-| Munizioni | FCT-MUNITIONS | 0,6 acciaio + 0,4 prodotti chimici + 0,33 rame + 0,05 zolfo (rame e zolfo aggiunti il 28/10/2026: 1 t di rame = 120.000 colpi, con 40.000 colpi per t di munizioni) | 100 | 60 acciaio + 40 chimici + 33 rame + 5 zolfo | 12 |
+| Munizioni | FCT-MUNITIONS | 0,6 acciaio + 0,4 prodotti chimici + 0,33 rame + 0,05 zolfo + 0,02 stagno (rame e zolfo aggiunti il 28/10/2026: 1 t di rame = 120.000 colpi, con 40.000 colpi per t di munizioni; stagno aggiunto il 29/10/2026 su richiesta dell'utente, quantità 0,02 = ipotesi di Claude da confermare) | 100 | 60 acciaio + 40 chimici + 33 rame + 5 zolfo + 2 stagno | 12 |
 | Elettricità (potenza) | FCT-POWER | 0,5 t/giorno di carbone per ogni MW in funzione | 120 MW netti (definiti qui, nessun autoconsumo) | 60 t/giorno di carbone | 0 |
 | Elettricità idro | — | nessuno | **MISSING_DATA** | — | — |
 
@@ -168,7 +168,7 @@ Carbone 100→125 e ferro 80→100 t/giorno per punto (+25%, DESIGN_DEFAULT), pe
 - Limiti: nessuna cancellazione/rimborso di un cantiere; gli impianti iniziali non occupano slot; la colonna «dove» della coda mostra l'id tecnico della provincia.
 
 ## Munizioni: prezzo e consumi (28/10/2026, DESIGN_DEFAULT)
-- **Prezzo:** `economy.json` munizioni 0,05 → **0,055 ECV/t** (scelta in chat). Con rame e zolfo gli ingressi costano 0,041 ECV per tonnellata di prodotto (0,6 acciaio, 0,4 chimici, 0,33 rame, 0,05 zolfo): una fabbrica (100 t/giorno, 100 ECV di costruzione) guadagna 1,4 ECV al giorno e si ripaga in circa 71 giorni, come acciaio (73) e macchinari (71). A 0,05 sarebbe 111 giorni.
+- **Prezzo:** `economy.json` munizioni 0,05 → **0,055 ECV/t** (scelta in chat). Con rame e zolfo gli ingressi costano 0,041 ECV per tonnellata di prodotto (0,6 acciaio, 0,4 chimici, 0,33 rame, 0,05 zolfo): una fabbrica (100 t/giorno, 100 ECV di costruzione) guadagna 1,4 ECV al giorno e si ripaga in circa 71 giorni, come acciaio (73) e macchinari (71). A 0,05 sarebbe 111 giorni. **Aggiornamento 29/10/2026:** con lo stagno (0,02 t per t, prezzo 0,11 ECV/t, ipotesi) gli ingressi costano 0,0432 ECV per tonnellata: margine 1,18 ECV al giorno, ripagamento di circa 85 giorni (era 71). Non ritoccato il prezzo delle munizioni: se si vuole tornare a circa 71-75 giorni basta portarlo a circa 0,057.
 - **Acquisto e vendita:** nel repository non esiste ancora un mercato (nessun sistema di commercio, solo prezzi per l'entrata a valore aggiunto). Il prezzo vale come valore di una tonnellata prodotta; uno scarto fra prezzo di acquisto e di vendita va deciso insieme alle rotte commerciali.
 - **Consumi:** `data/military/ammo_consumption.json` (schema `ammo-consumption-v1`), `src/data/ammo.js`, `tests/ammo.test.js` (5 test). Tonnellate di `munitions` al giorno per unità standard e per fase; 1 t = 40.000 colpi, quindi un «colpo» è una massa equivalente di circa 25 g. Un'unità che non combatte consuma 0.
 

@@ -6,6 +6,7 @@
 // NON ancora presenti: spese di mantenimento, limiti di magazzino, commercio, cambi di proprietà dei territori (proprietà e province sono quelle del 1936). Le scorte quindi possono crescere senza limite dove la produzione supera i consumi.
 import { produceDay } from '../rules/production.js';
 import { dailyIncome } from '../rules/treasury.js';
+import { entityOfProvinceId } from '../data/provinceOwner.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
@@ -14,7 +15,7 @@ export function hydroMwByOwner(hydroFile, date, ownerOf) {
   const out = {};
   for (const p of hydroFile.plants) {
     if (p.validFrom > date) continue;
-    const territory = (p.provinceId ?? '').split('_')[1];
+    const territory = entityOfProvinceId(p.provinceId ?? '', ownerOf.keys());
     const owner = ownerOf.get(territory);
     if (!owner) continue;
     out[owner] = (out[owner] ?? 0) + (p.megawatts ?? 0);

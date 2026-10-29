@@ -66,7 +66,8 @@ test('ordine di una fabbrica: paga cassa e acciaio, occupa i lavoratori, 45 gior
 });
 
 test('vincoli: denaro e acciaio mancanti sono elencati; provincia altrui, ricetta sbagliata e fabbrica ignota rifiutate', () => {
-  const s = fresh('media', 'ALB');
+  const base = fresh('media', 'ALB');
+  const s = { ...base, nations: { ...base.nations, ALB: { ...base.nations.ALB, stocks: {} } } }; // senza la riserva minima di acciaio (29/10/2026): qui si prova il vincolo
   const r = api.start(s, 'ALB', steelOrder(provinceFirst('ALB')));
   assert.equal(r.ok, false); assert.equal(r.reason, 'missing');
   assert.ok(r.missing.some((m) => m.what === 'steel' && m.need === 300 && m.have === 0));

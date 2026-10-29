@@ -7,6 +7,7 @@ import { buildNations, validateNations, migrateV1toV2, migrateV2toV3 } from '../
 import { newGame, validateState, initEconomy, STATE_SCHEMA } from '../src/game/state.js';
 import { parseSave, serializeSave, SAVE_FORMAT } from '../src/game/save.js';
 import { produceDay } from '../src/rules/production.js';
+import { factoryBuildCost, mineCost } from '../src/data/economy.js';
 import { resourceExtraction, totalByPrefix } from '../src/data/extraction.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
@@ -20,7 +21,7 @@ const nations = buildNations({ political, ...start });
 const game = (extra = {}) => newGame({ nation: 'ITA', political, ownersWithProvinces: nationIds, start, ...extra });
 
 test('schema 2: ogni nazione ha cassa, scorte, impianti, miniere, rete e forze (vuote)', () => {
-  assert.equal(STATE_SCHEMA, 3);
+  assert.equal(STATE_SCHEMA, 6);
   assert.deepEqual(Object.keys(nations).sort(), [...nationIds, 'IRN'].sort(), 'le 72 nazioni più l\'Iran, non giocabile ma con industria');
   for (const n of Object.values(nations)) {
     assert.deepEqual(Object.keys(n).sort(), ['balance', 'baseGridMw', 'construction', 'facilities', 'forces', 'mines', 'population', 'stocks']);
@@ -40,7 +41,7 @@ test('impianti e scorte seguono i dati: USA 30 acciaierie, colonie al proprietar
   assert.ok(nations.GBR.facilities.some((f) => f.territory === 'GBR'));
   assert.equal(nations.DEU.stocks.iron_ore, 227010);
   assert.equal(nations.GBR.stocks.coal, stocks.stocks.CEY.coal + stocks.stocks.MAL.coal, 'le scorte delle colonie vanno al proprietario');
-  for (const id of industry.tierC) { assert.equal(nations[id].baseGridMw, 40); assert.equal(nations[id].facilities.length, 0); assert.deepEqual(nations[id].stocks, {}); }
+  for (const id of industry.tierC) { assert.equal(nations[id].baseGridMw, 40); assert.equal(nations[id].facilities.length, 0); assert.deepEqual(nations[id].stocks, { steel: stocks.floor.steel }, 'solo la riserva minima di acciaio'); }
   assert.equal(nations.USA.baseGridMw, 0);
   const ids = Object.values(nations).flatMap((n) => n.facilities.map((f) => f.id));
   assert.equal(new Set(ids).size, ids.length, 'id impianto unici');
@@ -62,8 +63,8 @@ test('migrazione 1→2: un salvataggio dello schema 1 si apre, nations è null e
   const v1 = { schema: 1, startDate: '1936-01-01', date: '1936-01-01', day: 0, player: 'ITA', control: Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id])) };
   const doc = JSON.stringify({ format: SAVE_FORMAT, schema: 1, savedAt: null, label: 'vecchio', state: v1 });
   const r = parseSave(doc);
-  assert.equal(r.ok, true); assert.equal(r.migratedFrom, 1, 'catena 1→2→3');
-  assert.equal(r.state.schema, 3); assert.equal(r.state.nations, null); assert.equal(r.state.difficulty, 'media');
+  assert.equal(r.ok, true); assert.equal(r.migratedFrom, 1, 'catena 1→2→3→4→5→6');
+  assert.equal(r.state.schema, 6); assert.equal(r.state.nations, null); assert.equal(r.state.difficulty, 'media');
   assert.deepEqual(r.state.control, v1.control);
   assert.deepEqual(initEconomy(r.state, { political, start }), game().state);
   const done = game().state;
@@ -71,11 +72,11 @@ test('migrazione 1→2: un salvataggio dello schema 1 si apre, nations è null e
   assert.deepEqual(migrateV1toV2(v1), { ...v1, schema: 2, difficulty: 'media', nations: null });
 });
 
-test('salvataggio schema 3: andata e ritorno identica; schema più recente rifiutato senza perdere nulla', () => {
+test('salvataggio schema 6: andata e ritorno identica; schema più recente rifiutato senza perdere nulla', () => {
   const s = game().state;
   const r = parseSave(serializeSave(s));
   assert.equal(r.ok, true); assert.deepEqual(r.state, s); assert.equal(r.migratedFrom, undefined);
-  const future = JSON.stringify({ format: SAVE_FORMAT, schema: 4, savedAt: null, label: '', state: s });
+  const future = JSON.stringify({ format: SAVE_FORMAT, schema: 7, savedAt: null, label: '', state: s });
   assert.equal(parseSave(future).reason, 'newer_version');
 });
 
@@ -98,9 +99,30 @@ test('integrazione: produceDay legge gli impianti e le scorte iniziali della Ger
   const stock = { ...d.stocks };
   for (const r of ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur']) stock[r] = (stock[r] ?? 0) + totalByPrefix(resourceExtraction(r, ctx), 'DEU');
   const without = produceDay({ facilities: d.facilities, stock: d.stocks, hydroMw: 0 }, catalog);
-  assert.equal(without.stock.steel ?? 0, 0, 'senza il passo di estrazione il giorno 1 non produce acciaio: lo stock è solo il deficit');
+  assert.ok((without.stock.steel ?? 0) <= stocks.floor.steel, 'senza il passo di estrazione il giorno 1 non produce acciaio: resta al più la riserva minima');
   const out = produceDay({ facilities: d.facilities, stock, hydroMw: 0 }, catalog);
   assert.ok(out.facilities.length === d.facilities.length);
   assert.ok(Object.values(out.stock).every((v) => v >= 0), 'nessuna scorta negativa');
   assert.ok(out.stock.steel > 0, 'le acciaierie tedesche hanno prodotto acciaio dalle scorte iniziali');
+});
+
+test('riserva minima di acciaio (29/10/2026): ogni nazione parte con almeno 500 t, chi ha già di più non cambia', () => {
+  assert.deepEqual(stocks.floor, { steel: 500 });
+  for (const [id, n] of Object.entries(nations)) assert.ok((n.stocks.steel ?? 0) >= 500, `${id}: acciaio ${n.stocks.steel ?? 0}`);
+  assert.equal(nations.ITA.stocks.steel, 21000, 'Italia: lo stock calcolato resta');
+  assert.equal(nations.BEL.stocks.steel, 6000);
+  assert.equal(nations.FRA.stocks.steel, 500, 'Francia: nessun deficit di acciaio, riceve solo la riserva');
+  assert.equal(nations.BRA.stocks.steel, 500, 'Brasile: senza industria nei dati, riceve la riserva');
+});
+
+test('riserva minima: scala con la difficoltà e basta all\'ordine più economico in ognuna', () => {
+  const economy = json('economy/economy.json');
+  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+  const expected = { facile: 750, media: 500, reale: 350 };
+  for (const d of ['facile', 'media', 'reale']) {
+    const n = buildNations({ political, ...start, economy, difficulty: d });
+    assert.equal(n.BRA.stocks.steel, expected[d], `${d}: riserva scalata`);
+    const cheapestFactory = Math.min(...[...cat.byId.values()].map((f) => factoryBuildCost(economy, f, d)?.steel).filter(Boolean));
+    assert.ok(n.BRA.stocks.steel >= Math.min(cheapestFactory, mineCost(economy, 1, d).steel), `${d}: la riserva non basta nemmeno all'ordine più economico`);
+  }
 });

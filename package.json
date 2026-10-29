@@ -32,7 +32,8 @@
     "build:terrain": "python3 -I scripts/terrain/build_terrain.py",
     "build:production": "node scripts/build-production.js",
     "build:population": "node scripts/build-province-population.js",
-    "build:units": "node scripts/build-units.js"
+    "build:units": "node scripts/build-units.js",
+    "build:officers": "node scripts/build-officers.js"
   },
   "dependencies": {
     "react": "^19.3.0",

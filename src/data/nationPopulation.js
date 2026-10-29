@@ -9,6 +9,9 @@ export function validatePopulation(file, { ownerIds }) {
   if (file?.schema !== POPULATION_SCHEMA) return [`popolazione: schema ${file?.schema}, atteso ${POPULATION_SCHEMA}`];
   const s = file.workersShare?.value;
   if (!(s > 0 && s < 1)) errors.push('popolazione: workersShare.value deve essere tra 0 e 1');
+  const r = file.recruitment;
+  if (!(r?.baseShare > 0 && r.baseShare <= 1)) errors.push('popolazione: recruitment.baseShare deve essere nell\'intervallo (0, 1]');
+  if (!['USER_ESTIMATE', 'MISSING_DATA'].includes(r?.quality)) errors.push(`popolazione: recruitment con qualità ${r?.quality}`);
   for (const id of ownerIds) if (!file.nations?.[id]) errors.push(`popolazione: manca ${id}`);
   for (const [id, n] of Object.entries(file.nations ?? {})) {
     if (!ownerIds.has(id)) errors.push(`popolazione: ${id} non è una nazione dello stato`);

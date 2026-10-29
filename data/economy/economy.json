@@ -26,7 +26,7 @@
     "electricity": null,
     "wheat": null,
     "tungsten": null,
-    "tin": null,
+    "tin": 0.11,
     "manganese": null,
     "chromium": null,
     "nickel": null,

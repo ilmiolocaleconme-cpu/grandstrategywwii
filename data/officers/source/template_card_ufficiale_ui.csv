@@ -1,0 +1,22 @@
+﻿campo;tipo;visibile_card;uso_giocatore;descrizione
+nome_ufficiale;string;SI;Informativo;Nome reale dell'ufficiale
+grado;string;SI;Informativo;Grado nella data corrente
+comando_attuale;string;SI;Informativo;Unità/comando attualmente assegnato
+esperienza;0-100;SI;Valutazione;Esperienza accumulata
+offensiva;0-100;SI;Scelta;Capacità orientata alle operazioni offensive
+difesa;0-100;SI;Scelta;Capacità orientata alla difesa
+logistica;0-100;SI;Scelta;Gestione dei rifornimenti e sostenibilità
+coordinamento;0-100;SI;Scelta;Coordinamento tra grandi unità/armi
+ricognizione;0-100;SI;Scelta;Uso delle informazioni e ricognizione
+mobilita;0-100;SI;Scelta;Capacità di operazioni mobili
+aggressivita;0-100;SI;Scelta;Tendenza a cercare l'iniziativa
+prudenza;0-100;SI;Scelta;Tendenza a preservare forze e preparare l'azione
+stile_comando;string;SI;Scelta;Descrizione sintetica del profilo
+storico_riferimento;string;SI;Aiuto storico;Incarichi realmente documentati
+compatibilita_data;0-100;SI;Aiuto storico;Quanto la proposta è coerente con la data
+compatibilita_unita;0-100;SI;Aiuto storico;Quanto il profilo è coerente con il tipo di unità
+storico_consigliato;boolean;SI;Aiuto storico;Indica se l'assegnazione rispecchia una situazione storica documentata
+alternativa_valida;boolean;SI;Aiuto storico;Indica se l'assegnazione è plausibile anche in una linea alternativa
+motivo_suggerimento;string;SI;Aiuto storico;Spiegazione breve del perché viene proposto
+assegna;action;SI;Interazione;Pulsante per assegnare l'ufficiale
+confronta;action;SI;Interazione;Confronta con altri candidati

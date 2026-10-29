@@ -6,6 +6,7 @@ import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { loadProvinces, unwatchProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
+import { withRetry } from './data/retry.js';
 import MapView from './map/MapView.jsx';
 import MapCanvas from './map/MapCanvas.jsx';
 import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.js';
@@ -22,6 +23,14 @@ import economyData from '../data/economy/economy.json';
 import populationData from '../data/population/population.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
+import { initForcesState } from './game/forcesState.js';
+import unitsFile from '../data/units/units.json';
+import deploymentFile from '../data/units/deployment_1936.json';
+import { unitsByProvince } from './data/deployment.js';
+import readiness from '../data/units/readiness.json';
+import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
+import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
+import tplGbrInfantry from '../data/units/templates/divisione_fanteria_gran_bretagna_1936.json';
 import { createEconomySystem } from './game/economySystem.js';
 import { createConstruction } from './game/construction.js';
 import mineSites from '../data/resources/mine_sites.json';
@@ -59,7 +68,7 @@ function useWaterData(start) {
   useEffect(() => {
     if (!start) return undefined;
     let alive = true;
-    Promise.all([import('../data/rivers.json'), import('../data/rivers_geo.json'), import('../data/lakes.json')])
+    Promise.all([withRetry(() => import('../data/rivers.json')), withRetry(() => import('../data/rivers_geo.json')), withRetry(() => import('../data/lakes.json'))])
       .then(([r, g, l]) => alive && setWater({ status: 'ready', rivers: r.default, riversGeo: g.default, lakes: l.default }))
       .catch(() => alive && setWater({ status: 'error', rivers: null, riversGeo: null, lakes: null }));
     return () => { alive = false; };
@@ -74,7 +83,7 @@ function useLinks(start) {
   useEffect(() => {
     if (!start || file) return undefined;
     let alive = true;
-    import('../data/links.json').then((m) => alive && setFile(m.default)).catch(() => {});
+    withRetry(() => import('../data/links.json')).then((m) => alive && setFile(m.default)).catch(() => {});
     return () => { alive = false; };
   }, [start, file]);
   return file;
@@ -86,7 +95,7 @@ function useSeaData(start) {
   useEffect(() => {
     if (!start) return undefined;
     let alive = true;
-    import('../data/sea_zones.json')
+    withRetry(() => import('../data/sea_zones.json'))
       .then((m) => alive && setSea({ status: 'ready', file: m.default }))
       .catch(() => alive && setSea({ status: 'error', file: null }));
     return () => { alive = false; };
@@ -100,10 +109,22 @@ function useLabelData(start) {
   useEffect(() => {
     if (!start) return undefined;
     let alive = true;
-    import('../data/labels.json').then((m) => alive && setLabels(m.default)).catch(() => {});
+    withRetry(() => import('../data/labels.json')).then((m) => alive && setLabels(m.default)).catch(() => {});
     return () => { alive = false; };
   }, [start]);
   return labels;
+}
+
+// Terra di base (data/land_base.json, ~350 kB): precaricata all'apertura con gli altri dati della mappa, così la mappa si disegna una volta sola
+function useLandBase(enabled) {
+  const [land, setLand] = useState(null);
+  useEffect(() => {
+    if (!enabled) return undefined;
+    let alive = true;
+    withRetry(() => import('../data/land_base.json')).then((m) => alive && setLand(m.default)).catch(() => {});
+    return () => { alive = false; };
+  }, [enabled]);
+  return land;
 }
 
 // Risorse per provincia (data/resources/province_resources.json, piccolo): si scaricano solo aprendo il livello Risorse
@@ -112,7 +133,7 @@ function useProvinceResources(enabled) {
   useEffect(() => {
     if (!enabled || data) return undefined;
     let alive = true;
-    import('../data/resources/province_resources.json').then((m) => alive && setData(m.default.byProvince)).catch(() => {});
+    withRetry(() => import('../data/resources/province_resources.json')).then((m) => alive && setData(m.default.byProvince)).catch(() => {});
     return () => { alive = false; };
   }, [enabled, data]);
   return data;
@@ -126,10 +147,10 @@ function useProvinceData(enabled) {
     if (!enabled || data) return undefined;
     let alive = true;
     Promise.all([
-      import('../data/population/province_population.json'),
-      import('../data/agriculture/province_agriculture.json'),
-      import('../data/military/province_presence.json'),
-      import('../data/resources/hydro_plants.json'),
+      withRetry(() => import('../data/population/province_population.json')),
+      withRetry(() => import('../data/agriculture/province_agriculture.json')),
+      withRetry(() => import('../data/military/province_presence.json')),
+      withRetry(() => import('../data/resources/hydro_plants.json')),
     ]).then(([pop, agr, mil, hyd]) => alive && setData({ population: pop.default, agriculture: agr.default, military: mil.default, hydro: hyd.default })).catch(() => {});
     return () => { alive = false; };
   }, [enabled, data]);
@@ -142,7 +163,7 @@ function useTerrain(enabled) {
   useEffect(() => {
     if (!enabled) return undefined;
     let alive = true;
-    import('../data/terrain.json').then((m) => alive && setTerrain(m.default)).catch(() => {});
+    withRetry(() => import('../data/terrain.json')).then((m) => alive && setTerrain(m.default)).catch(() => {});
     return () => { alive = false; };
   }, [enabled]);
   return terrain;
@@ -154,7 +175,7 @@ function useCities(enabled) {
   useEffect(() => {
     if (!enabled) return undefined;
     let alive = true;
-    import('../data/citta_grandi.json').then((m) => alive && setCities(m.default.features)).catch(() => {});
+    withRetry(() => import('../data/citta_grandi.json')).then((m) => alive && setCities(m.default.features)).catch(() => {});
     return () => { alive = false; };
   }, [enabled]);
   return cities;
@@ -184,6 +205,9 @@ const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIn
 const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId };
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
+// Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
+const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry], ratio: readiness.initialFillRatio.value };
+const withForces = (state) => initForcesState(state, FORCES_CTX).state;
 const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites }),
@@ -227,6 +251,7 @@ export default function App() {
   const [showTransport, setShowTransport] = useState(false);
   const transport = showTransport ? links : null;
   const labelData = useLabelData(true);
+  const land = useLandBase(USE_CANVAS);
   const [layer, setLayer] = useState('political');
   const [toolsHost, setToolsHost] = useState(null); // contenitore in barra dove la mappa mette livelli e zoom (una sola barra in alto)
   const citiesRaw = useCities(USE_CANVAS);
@@ -240,10 +265,11 @@ export default function App() {
     { label: 'Mari e rotte', done: seaStatus !== 'loading' },
     { label: 'Città', done: citiesRaw !== null },
     { label: 'Nomi', done: labelData !== null },
+    { label: 'Terra di base', done: land !== null },
     { label: 'Terreno', done: terrain !== null },
     { label: 'Risorse', done: provinceResources !== null },
     { label: 'Collegamenti', done: links !== null },
-  ] : []), [waterStatus, seaStatus, citiesRaw, labelData, terrain, provinceResources, links]);
+  ] : []), [waterStatus, seaStatus, citiesRaw, labelData, land, terrain, provinceResources, links]);
   const [preloadGaveUp, setPreloadGaveUp] = useState(false);
   useEffect(() => {
     if (provincesStatus !== 'ready' || preloadGaveUp) return undefined;
@@ -261,7 +287,7 @@ export default function App() {
   // Il pannello dei dati è nascosto: toccando una provincia, città o zona di mare compare solo il pulsante «i»;
   // il pannello si apre toccandolo. Se è già aperto, toccare un'altra voce ne aggiorna il contenuto; toccare il vuoto lo chiude.
   const [infoOpen, setInfoOpen] = useState(false);
-  const provinceData = useProvinceData(infoOpen); // scaricati solo quando si apre il pannello
+  const provinceData = useProvinceData(game !== null || infoOpen); // scaricati all'avvio della partita (o alla prima apertura del pannello), non a ogni selezione
   const linkStats = useMemo(() => (infoOpen && links && provinces ? provinceLinkStats(links, provinces.features.map((f) => f.properties)) : null), [infoOpen, links, provinces]);
   const selectProvince = (id) => { setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false); };
   const selectSea = (id) => { setSeaId(id); setProvinceId(null); if (id == null) setInfoOpen(false); };
@@ -284,8 +310,9 @@ export default function App() {
     return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
   }, [game, selectedItem]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
+  const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, deploymentFile, game?.date ?? '1936-01-01'), [game?.date]);
   const layerReady = (layer !== 'terrain' || terrain !== null) && (layer !== 'resources' || provinceResources !== null); // dati del livello scelto arrivati
-  const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && layerReady;
+  const dataReady = waterStatus !== 'loading' && seaStatus !== 'loading' && citiesRaw !== null && labelData !== null && land !== null && layerReady;
   // cambio di livello (Politico / Terreno / Risorse): la mappa si ridisegna e va mostrata solo a disegno finito, come all'avvio
   const changeLayer = (next) => {
     if (next === layer) return;
@@ -319,12 +346,12 @@ export default function App() {
     if (!provinces) return;
     const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner), start: START_ECONOMY });
     if (!r.ok) { setNotice({ kind: 'error', text: `Partita non creata: ${r.reason}` }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(withForces(r.state)); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const loadGame = (slot) => {
     const r = store?.read(slot);
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
-    setGame(initEconomy(r.state, { political, start: START_ECONOMY })); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(withForces(initEconomy(r.state, { political, start: START_ECONOMY }))); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
@@ -452,17 +479,18 @@ export default function App() {
               name: NATION_NAMES[game.player] ?? game.player,
               flag: flagsFile.flags[game.player],
               steps: [
-                ...(layer === 'political' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
+                ...(layer === 'political' || layer === 'army' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
                 { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
                 { label: 'Mari e rotte', done: seaStatus !== 'loading' },
                 { label: 'Città', done: citiesRaw !== null },
                 { label: 'Nomi sulla mappa', done: labelData !== null },
+                { label: 'Terra di base', done: land !== null },
                 { label: 'Disegno della mappa', done: mapReady },
               ],
             }} />
           </div>
         ) : null}
-        <MapScreen focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} />
+        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} />
         {!(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />

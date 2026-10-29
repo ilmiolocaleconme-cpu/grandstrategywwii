@@ -1,0 +1,674 @@
+{
+  "schema": "trade-profiles-v1",
+  "quality": "hypothesis",
+  "period": "1930",
+  "source": "data/trade/source/commercio_europa_1930.txt",
+  "note": "Base qualitativa dei flussi di scambio: cosa produce e cosa importa ogni nazione intorno al 1930. IPOTESI, non dato storico: testo fornito dall'utente senza fonte (deciso in chat, 29/10/2026), con errori corretti e segnalati in `flags`/`corrections`. Nessuna quantità: i volumi si decideranno col sistema commerciale. Il periodo è il 1930, non il 1936 di inizio partita. Un partner è indicato solo se nominato dal testo e presente fra le entità politiche; altrimenti `partner_unnamed`.",
+  "goodClasses": [
+    "ships",
+    "heavy_machinery",
+    "machine_tools",
+    "vehicles",
+    "aircraft",
+    "locomotives_rail",
+    "armaments",
+    "textiles",
+    "chemicals_pharma",
+    "electrical_optics",
+    "steel_products",
+    "consumer_goods",
+    "food",
+    "fuel",
+    "coal",
+    "rubber",
+    "raw_materials",
+    "precision_instruments",
+    "glass_ceramics",
+    "full_factories",
+    "high_tech_mixed"
+  ],
+  "flags": [
+    "source_error",
+    "partner_unnamed",
+    "group_row",
+    "merged_row",
+    "value_suspect",
+    "period_mismatch"
+  ],
+  "corrections": [
+    {
+      "nation": "GBR",
+      "what": "Gomma importata «da Regno Unito/Malesia»: il Regno Unito non è un partner di sé stesso. Ora: gomma naturale dalla Malesia britannica (MAL)."
+    },
+    {
+      "nation": "CHE",
+      "what": "«Carbone raffinato» non esiste come merce: interpretato come carbone."
+    },
+    {
+      "nation": "BEL, NLD",
+      "what": "Riga unica «Belgio & Paesi Bassi» divisa in due nazioni; l'importazione da Germania vale per entrambe."
+    },
+    {
+      "nation": "ESP, PRT, ROM, BGR, YUG, GRC",
+      "what": "Riga di gruppo «Spagna, Portogallo & Balcani» ripetuta per nazione, marcata `group_row`. Né Grecia né altri Balcani sono verificati uno a uno."
+    },
+    {
+      "nation": "USSR",
+      "what": "La percentuale «oltre il 50% delle macchine utensili mondiali» non è riportata come numero (value_suspect)."
+    },
+    {
+      "nation": "tutte",
+      "what": "Periodo 1930, non 1936: i flussi possono essere cambiati prima dell'inizio della partita."
+    },
+    {
+      "nation": "DEU, USSR",
+      "what": "Voci probabilmente cambiate fra 1930 e 1936 marcate `period_mismatch` (benzina sintetica tedesca, importazione sovietica di fabbriche): da rivedere prima del commercio. Le altre voci non sono state riviste per il 1936 e restano 1930."
+    }
+  ],
+  "profiles": [
+    {
+      "nation": "GBR",
+      "produces": [
+        {
+          "good": "Navi mercantili e da guerra (cantieri Clyde e Newcastle)",
+          "goodClass": "ships"
+        },
+        {
+          "good": "Locomotive",
+          "goodClass": "locomotives_rail"
+        },
+        {
+          "good": "Macchinari tessili e turbine",
+          "goodClass": "heavy_machinery"
+        },
+        {
+          "good": "Automobili (Rolls-Royce, Austin)",
+          "goodClass": "vehicles"
+        },
+        {
+          "good": "Aerei militari (Supermarine, Hawker)",
+          "goodClass": "aircraft"
+        },
+        {
+          "good": "Tessuti di lana e cotone (Manchester), esportati",
+          "goodClass": "textiles"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Gomma naturale per l'industria automobilistica",
+          "goodClass": "rubber",
+          "productId": "rubber",
+          "partners": [
+            "MAL"
+          ],
+          "flags": [
+            "source_error"
+          ],
+          "note": "Il testo dice «gomma lavorata e derivati … da Regno Unito/Malesia»: il Regno Unito non può importare da sé stesso. Corretto in gomma naturale dalla Malesia britannica (la lavorazione avviene in patria)."
+        },
+        {
+          "good": "Prodotti chimici di sintesi e utensili di precisione",
+          "goodClass": "chemicals_pharma",
+          "partners": [
+            "DEU"
+          ]
+        },
+        {
+          "good": "Carne congelata",
+          "goodClass": "food",
+          "partners": [
+            "ARG"
+          ]
+        },
+        {
+          "good": "Grano macinato",
+          "goodClass": "food",
+          "partners": [
+            "CAN",
+            "USA"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "FRA",
+      "produces": [
+        {
+          "good": "Autoveicoli di massa (Citroën, Renault, Peugeot)",
+          "goodClass": "vehicles"
+        },
+        {
+          "good": "Artiglieria pesante (Schneider-Creusot)",
+          "goodClass": "armaments"
+        },
+        {
+          "good": "Locomotive",
+          "goodClass": "locomotives_rail"
+        },
+        {
+          "good": "Materiale per la fortificazione (Linea Maginot dal 1928)",
+          "goodClass": "armaments"
+        },
+        {
+          "good": "Beni di lusso e consumo (moda, cosmetica, tessuti, vino)",
+          "goodClass": "consumer_goods"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Carbone e coke metallurgico per le fonderie della Lorena",
+          "goodClass": "coal",
+          "productId": "coal",
+          "partners": [
+            "DEU",
+            "BEL"
+          ]
+        },
+        {
+          "good": "Macchinari industriali ad alta precisione",
+          "goodClass": "machine_tools",
+          "partners": [
+            "DEU",
+            "USA"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "DEU",
+      "produces": [
+        {
+          "good": "Prodotti chimici e farmaceutici (IG Farben: fertilizzanti, coloranti, farmaci)",
+          "goodClass": "chemicals_pharma",
+          "productId": "chemicals"
+        },
+        {
+          "good": "Benzina sintetica (dai primi anni '30)",
+          "goodClass": "fuel",
+          "productId": "fuel",
+          "flags": [
+            "period_mismatch"
+          ],
+          "note": "[Probabile] Nel 1936 la produzione sintetica era molto più grande che nel 1930 (non verificato): revisione necessaria prima di usarla come base 1936."
+        },
+        {
+          "good": "Gomma sintetica (Buna)",
+          "goodClass": "rubber",
+          "productId": "processed_rubber",
+          "note": "Il prodotto del catalogo è la gomma lavorata; la ricetta sintetica esiste già in recipes.json."
+        },
+        {
+          "good": "Elettromeccanica e ottica (Siemens, AEG, Zeiss)",
+          "goodClass": "electrical_optics"
+        },
+        {
+          "good": "Macchine utensili e acciaio finito (rotaie, travi)",
+          "goodClass": "machine_tools"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Rame raffinato",
+          "goodClass": "raw_materials",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        },
+        {
+          "good": "Cotone grezzo",
+          "goodClass": "raw_materials",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        },
+        {
+          "good": "Gomma naturale",
+          "goodClass": "rubber",
+          "productId": "rubber",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        },
+        {
+          "good": "Grano e grassi animali",
+          "goodClass": "food",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        },
+        {
+          "good": "Prodotti petroliferi raffinati (finché la benzina sintetica non copre il fabbisogno)",
+          "goodClass": "fuel",
+          "productId": "fuel",
+          "partners": [
+            "USA",
+            "ROM",
+            "USSR"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "ITA",
+      "produces": [
+        {
+          "good": "Automobili e veicoli commerciali (FIAT, Lancia, Alfa Romeo)",
+          "goodClass": "vehicles"
+        },
+        {
+          "good": "Motori d'aviazione e addestratori",
+          "goodClass": "aircraft"
+        },
+        {
+          "good": "Turbine idrauliche (Ansaldo, Tosi) e cavi elettrici",
+          "goodClass": "electrical_optics"
+        },
+        {
+          "good": "Pneumatici (Pirelli)",
+          "goodClass": "consumer_goods"
+        },
+        {
+          "good": "Fibre artificiali (Viscosa/Rayon, Snia Viscosa)",
+          "goodClass": "textiles"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Torni di precisione e macchinari industriali veloci",
+          "goodClass": "machine_tools",
+          "partners": [
+            "DEU",
+            "USA"
+          ]
+        },
+        {
+          "good": "Carbone fossile",
+          "goodClass": "coal",
+          "productId": "coal",
+          "partners": [
+            "GBR",
+            "DEU"
+          ]
+        },
+        {
+          "good": "Prodotti siderurgici di base",
+          "goodClass": "steel_products",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "USSR",
+      "produces": [
+        {
+          "good": "Trattori e macchine agricole (Stalingrado, Charkiv)",
+          "goodClass": "heavy_machinery"
+        },
+        {
+          "good": "Acciaio strutturale, cemento, locomotive",
+          "goodClass": "steel_products"
+        },
+        {
+          "good": "Armamenti di base (fucili, artiglieria, carri BT/T-26)",
+          "goodClass": "armaments"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Fabbriche «chiavi in mano» e macchinari complessi (catene di montaggio Ford per la GAZ)",
+          "goodClass": "full_factories",
+          "partners": [
+            "USA",
+            "DEU"
+          ],
+          "flags": [
+            "period_mismatch",
+            "value_suspect"
+          ],
+          "note": "Il testo afferma «oltre il 50% delle macchine utensili mondiali prodotte in USA»: percentuale non verificata, non riportata come numero. [Probabile] Le importazioni di impianti completi erano al massimo intorno al 1930-31 e calarono dopo (non verificato): revisione necessaria per il 1936."
+        }
+      ],
+      "notes": [
+        "Importazione di beni di consumo finiti vietata dal monopolio statale del commercio estero (zero beni di consumo)."
+      ]
+    },
+    {
+      "nation": "SWE",
+      "produces": [
+        {
+          "good": "Cuscinetti a sfera (SKF), armi di precisione (Bofors), acciaio speciale, macchinari per il legno, telefonia (Ericsson)",
+          "goodClass": "precision_instruments"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Automobili",
+          "goodClass": "vehicles",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        },
+        {
+          "good": "Carburanti raffinati",
+          "goodClass": "fuel",
+          "productId": "fuel",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        },
+        {
+          "good": "Prodotti tessili finiti",
+          "goodClass": "textiles",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "CHE",
+      "produces": [
+        {
+          "good": "Orologeria di precisione, macchinari tessili e tipografici",
+          "goodClass": "precision_instruments"
+        },
+        {
+          "good": "Chimica fine e farmaceutica (Ciba, Sandoz)",
+          "goodClass": "chemicals_pharma"
+        },
+        {
+          "good": "Alimentari lavorati (Nestlé)",
+          "goodClass": "food"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Carbone",
+          "goodClass": "coal",
+          "productId": "coal",
+          "partners": [],
+          "flags": [
+            "source_error",
+            "partner_unnamed"
+          ],
+          "note": "Il testo dice «carbone raffinato»: espressione non valida; interpretato come carbone (o coke)."
+        },
+        {
+          "good": "Autoveicoli",
+          "goodClass": "vehicles",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        },
+        {
+          "good": "Metalli lavorati di base",
+          "goodClass": "steel_products",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "BEL",
+      "produces": [
+        {
+          "good": "Vetro piano",
+          "goodClass": "glass_ceramics"
+        },
+        {
+          "good": "Armi leggere (FN Herstal)",
+          "goodClass": "armaments"
+        },
+        {
+          "good": "Rotaie e vagoni ferroviari",
+          "goodClass": "locomotives_rail"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Macchinari complessi e beni industriali pesanti",
+          "goodClass": "heavy_machinery",
+          "partners": [
+            "DEU"
+          ],
+          "flags": [
+            "merged_row"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "NLD",
+      "produces": [
+        {
+          "good": "Elettronica di consumo e illuminazione (Philips)",
+          "goodClass": "electrical_optics"
+        },
+        {
+          "good": "Prodotti della raffinazione alimentare e petrolifera",
+          "goodClass": "fuel",
+          "productId": "fuel",
+          "note": "Raffinazione di petrolio importato; non implica giacimenti nei Paesi Bassi."
+        }
+      ],
+      "imports": [
+        {
+          "good": "Macchinari complessi e beni industriali pesanti",
+          "goodClass": "heavy_machinery",
+          "partners": [
+            "DEU"
+          ],
+          "flags": [
+            "merged_row"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "CZE",
+      "produces": [
+        {
+          "good": "Armi e veicoli (Škoda, Tatra)",
+          "goodClass": "armaments"
+        },
+        {
+          "good": "Calzature di massa (Bata)",
+          "goodClass": "consumer_goods"
+        },
+        {
+          "good": "Vetro e ceramica",
+          "goodClass": "glass_ceramics"
+        }
+      ],
+      "imports": [
+        {
+          "good": "Carburanti raffinati",
+          "goodClass": "fuel",
+          "productId": "fuel",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        },
+        {
+          "good": "Cotone e materie prime tessili lavorate",
+          "goodClass": "textiles",
+          "partners": [],
+          "flags": [
+            "partner_unnamed"
+          ]
+        }
+      ]
+    },
+    {
+      "nation": "ESP",
+      "produces": [
+        {
+          "good": "Prodotti agroalimentari finiti (olio, conserve di pesce, vino) e tessili di base",
+          "goodClass": "food",
+          "flags": [
+            "group_row"
+          ]
+        }
+      ],
+      "imports": [
+        {
+          "good": "Beni ad alta tecnologia: autoveicoli, radio, macchinari industriali, armamenti complessi, fertilizzanti chimici",
+          "goodClass": "high_tech_mixed",
+          "partners": [],
+          "flags": [
+            "group_row",
+            "partner_unnamed"
+          ]
+        }
+      ],
+      "notes": [
+        "Riga di gruppo «Spagna, Portogallo & Balcani» del testo: applicata a ogni nazione elencata, non verificata per singolo paese."
+      ]
+    },
+    {
+      "nation": "PRT",
+      "produces": [
+        {
+          "good": "Prodotti agroalimentari finiti (olio, conserve di pesce, vino) e tessili di base",
+          "goodClass": "food",
+          "flags": [
+            "group_row"
+          ]
+        }
+      ],
+      "imports": [
+        {
+          "good": "Beni ad alta tecnologia: autoveicoli, radio, macchinari industriali, armamenti complessi, fertilizzanti chimici",
+          "goodClass": "high_tech_mixed",
+          "partners": [],
+          "flags": [
+            "group_row",
+            "partner_unnamed"
+          ]
+        }
+      ],
+      "notes": [
+        "Riga di gruppo «Spagna, Portogallo & Balcani» del testo: applicata a ogni nazione elencata, non verificata per singolo paese."
+      ]
+    },
+    {
+      "nation": "ROM",
+      "produces": [
+        {
+          "good": "Prodotti agroalimentari finiti (olio, conserve di pesce, vino) e tessili di base",
+          "goodClass": "food",
+          "flags": [
+            "group_row"
+          ]
+        }
+      ],
+      "imports": [
+        {
+          "good": "Beni ad alta tecnologia: autoveicoli, radio, macchinari industriali, armamenti complessi, fertilizzanti chimici",
+          "goodClass": "high_tech_mixed",
+          "partners": [],
+          "flags": [
+            "group_row",
+            "partner_unnamed"
+          ]
+        }
+      ],
+      "notes": [
+        "Riga di gruppo «Spagna, Portogallo & Balcani» del testo: applicata a ogni nazione elencata, non verificata per singolo paese."
+      ]
+    },
+    {
+      "nation": "BGR",
+      "produces": [
+        {
+          "good": "Prodotti agroalimentari finiti (olio, conserve di pesce, vino) e tessili di base",
+          "goodClass": "food",
+          "flags": [
+            "group_row"
+          ]
+        }
+      ],
+      "imports": [
+        {
+          "good": "Beni ad alta tecnologia: autoveicoli, radio, macchinari industriali, armamenti complessi, fertilizzanti chimici",
+          "goodClass": "high_tech_mixed",
+          "partners": [],
+          "flags": [
+            "group_row",
+            "partner_unnamed"
+          ]
+        }
+      ],
+      "notes": [
+        "Riga di gruppo «Spagna, Portogallo & Balcani» del testo: applicata a ogni nazione elencata, non verificata per singolo paese."
+      ]
+    },
+    {
+      "nation": "YUG",
+      "produces": [
+        {
+          "good": "Prodotti agroalimentari finiti (olio, conserve di pesce, vino) e tessili di base",
+          "goodClass": "food",
+          "flags": [
+            "group_row"
+          ]
+        }
+      ],
+      "imports": [
+        {
+          "good": "Beni ad alta tecnologia: autoveicoli, radio, macchinari industriali, armamenti complessi, fertilizzanti chimici",
+          "goodClass": "high_tech_mixed",
+          "partners": [],
+          "flags": [
+            "group_row",
+            "partner_unnamed"
+          ]
+        }
+      ],
+      "notes": [
+        "Riga di gruppo «Spagna, Portogallo & Balcani» del testo: applicata a ogni nazione elencata, non verificata per singolo paese."
+      ]
+    },
+    {
+      "nation": "GRC",
+      "produces": [
+        {
+          "good": "Prodotti agroalimentari finiti (olio, conserve di pesce, vino) e tessili di base",
+          "goodClass": "food",
+          "flags": [
+            "group_row"
+          ]
+        }
+      ],
+      "imports": [
+        {
+          "good": "Beni ad alta tecnologia: autoveicoli, radio, macchinari industriali, armamenti complessi, fertilizzanti chimici",
+          "goodClass": "high_tech_mixed",
+          "partners": [],
+          "flags": [
+            "group_row",
+            "partner_unnamed"
+          ]
+        }
+      ],
+      "notes": [
+        "Riga di gruppo «Spagna, Portogallo & Balcani» del testo: applicata a ogni nazione elencata, non verificata per singolo paese."
+      ]
+    }
+  ]
+}

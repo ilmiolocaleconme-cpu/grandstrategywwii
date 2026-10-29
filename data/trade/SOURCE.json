@@ -1,0 +1,7 @@
+{
+  "file": "data/trade/source/commercio_europa_1930.txt",
+  "sha256": "1f00aed0d79f5218f14638666c6a79cf305524d17172224882546953111eb9a6",
+  "receivedOn": "2026-10-28",
+  "origin": "testo fornito dall'utente in chat, fonte originale non indicata",
+  "use": "Solo base qualitativa dei flussi di scambio (hypothesis). Copia byte per byte, da non modificare: correzioni e segnalazioni stanno in trade_profiles_1930.json."
+}
