@@ -23,6 +23,11 @@ import economyData from '../data/economy/economy.json';
 import populationData from '../data/population/population.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
+import { initForcesState } from './game/forcesState.js';
+import unitsFile from '../data/units/units.json';
+import readiness from '../data/units/readiness.json';
+import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
+import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
 import { createEconomySystem } from './game/economySystem.js';
 import { createConstruction } from './game/construction.js';
 import mineSites from '../data/resources/mine_sites.json';
@@ -197,6 +202,9 @@ const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIn
 const GAME_CATALOG = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv }).byId };
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
+// Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Solo la Germania ha template (29/10/2026).
+const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored], ratio: readiness.initialFillRatio.value };
+const withForces = (state) => initForcesState(state, FORCES_CTX).state;
 const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites }),
@@ -334,12 +342,12 @@ export default function App() {
     if (!provinces) return;
     const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner), start: START_ECONOMY });
     if (!r.ok) { setNotice({ kind: 'error', text: `Partita non creata: ${r.reason}` }); return; }
-    setGame(r.state); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(withForces(r.state)); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const loadGame = (slot) => {
     const r = store?.read(slot);
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
-    setGame(initEconomy(r.state, { political, start: START_ECONOMY })); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(withForces(initEconomy(r.state, { political, start: START_ECONOMY }))); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
