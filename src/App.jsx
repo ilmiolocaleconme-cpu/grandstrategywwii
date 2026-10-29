@@ -47,6 +47,10 @@ import mineSites from '../data/resources/mine_sites.json';
 import { loadIndustryCatalog } from './data/industry.js';
 import recipesFile from '../data/industry/recipes.json';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
+import technologiesFile from '../data/research/technologies.json';
+import securityFile from '../data/security/security.json';
+import aiRivalsFile from '../data/security/ai_rivals_1936.json';
+import presenceFile from '../data/military/province_presence.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
 import hydroPlants from '../data/resources/hydro_plants.json';
 import factoriesCsv from '../data/industry/factories.csv?raw';
@@ -57,6 +61,11 @@ import extraStructuresCsv from '../data/infrastructure/structures_extra.csv?raw'
 import { browserStorage, createSaveStore } from './game/save.js';
 import GameBar from './ui/GameBar.jsx';
 import { ProvinceBuild, EconomyPanel } from './ui/BuildPanel.jsx';
+import { ResearchPanel, SecurityPanel } from './ui/SecurityPanel.jsx';
+import { securitySummary, sabotageRows, describeOrderFailure } from './ui/securityView.js';
+import { createResearch } from './game/research.js';
+import { createSecurity } from './game/security.js';
+import { createAiSecurity } from './game/aiSecurity.js';
 import { provinceBuildOptions, economySummary, describeBuildFailure, upgradeOptions } from './ui/buildOptions.js';
 import { RESOURCE_META } from './data/provinceResources.js';
 import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
@@ -215,9 +224,13 @@ function useProvinces() {
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-const GAME_CATALOG = { levels: factoryLevelsFile, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
+const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value });
+// Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I rivali dell'IA sono PROVVISORI (hypothesis), vedi data/security/ai_rivals_1936.json.
+const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
+const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFile });
+const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, rivals: aiRivalsFile });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
 const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry], ratio: readiness.initialFillRatio.value };
 const withForces = (state) => initForcesState(state, FORCES_CTX).state;
@@ -233,6 +246,9 @@ const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
   createTradeSystem({ resources, getNet: () => MOVE_NET.net }), // commercio v1: contratti via terra (consegne e partenze); nessuna interfaccia ancora
+  GAME_RESEARCH.researchDay,
+  GAME_SECURITY.securityDay,
+  GAME_AI.aiDay,
 ];
 
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)
@@ -343,10 +359,30 @@ export default function App() {
   // ordini di costruzione del giocatore: le regole sono in GAME_BUILD, qui si applica solo il risultato e si riferisce l'esito
   const placeOrder = (order) => {
     const r = GAME_BUILD.start(game, game.player, order);
-    if (!r.ok) return { ok: false, text: describeBuildFailure(r) };
+    if (!r.ok) return { ok: false, text: describeBuildFailure(r, techName) };
     setGame(r.state);
     return { ok: true, text: 'Ordine avviato: costi pagati, il cantiere è in corso.' };
   };
+  // ricerca e sicurezza: le regole sono in GAME_RESEARCH e GAME_SECURITY, qui si applica solo il risultato e si riferisce l'esito
+  const techName = useMemo(() => { const m = new Map(technologiesFile.technologies.map((t) => [t.id, t.name_it])); return (id) => m.get(id) ?? id; }, []);
+  const secCtx = useMemo(() => ({
+    security: GAME_SECURITY, cfg: securityFile, techName,
+    nationName: (id) => NATION_NAMES[id] ?? id,
+    facilityName: (type) => GAME_CATALOG.factories.get(type)?.name_it ?? type,
+    placeName: (id) => (String(id).startsWith('P_') ? provinceName(id) : NATION_NAMES[id] ?? id),
+  }), [techName, provinceName]);
+  const applyOrder = (r, okText) => {
+    if (!r.ok) return { ok: false, text: describeOrderFailure(r, { techName }) };
+    setGame(r.state);
+    return { ok: true, text: okText };
+  };
+  const researchRows = useMemo(() => (game ? GAME_RESEARCH.listFor(game, game.player) : null), [game]);
+  const securityView = useMemo(() => (game ? securitySummary(game, game.player, { ...secCtx, state: game }) : null), [game, secCtx]);
+  const startResearch = (techId) => applyOrder(GAME_RESEARCH.start(game, game.player, techId), 'Ricerca avviata: costo pagato.');
+  const trainAgent = (role) => applyOrder(GAME_SECURITY.train(game, game.player, role), 'Addestramento avviato: costo pagato.');
+  const trainPolice = (place) => applyOrder(GAME_SECURITY.trainMilitaryPolice(game, game.player, place), 'Reparto di polizia militare in addestramento.');
+  const deploySpy = (targetId) => applyOrder(GAME_SECURITY.deploySpy(game, game.player, targetId), 'Spia schierata.');
+  const launchSabotage = (targetId, facilityId) => applyOrder(GAME_SECURITY.sabotage(game, game.player, { targetNation: targetId, facilityId }), 'Sabotaggio in preparazione: l\'esito arriva a fine operazione.');
   const buildOptions = useMemo(() => {
     const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
     return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
@@ -511,6 +547,8 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName })} upgrades={nationUpgrades} onOrder={placeOrder} />
+            <ResearchPanel rows={researchRows} onStart={startResearch} />
+            <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
             {statusSection}
           </main>

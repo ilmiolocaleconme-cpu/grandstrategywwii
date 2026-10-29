@@ -16,14 +16,15 @@ const json = (p) => JSON.parse(text(p));
 const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
 const levels = json('industry/factory_levels.json');
 const recipesFile = json('industry/recipes.json');
-const catalog = { levels, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: cat.byId };
+const technologies = json('research/technologies.json');
+const catalog = { levels, technologies, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: cat.byId };
 const political = json('political_1936.json'); const nationIds = json('nations.json').map((n) => n.id);
 const population = json('population/population.json'); const economy = json('economy/economy.json'); const sites = json('resources/mine_sites.json');
 const start = { nationIds, industry: json('industry/initial_industry.json'), stocks: json('industry/initial_stocks.json'), cash: json('industry/initial_cash.json'), economy, population };
 const share = population.workersShare.value;
 const build = createConstruction({ catalog, economy, sites, hydro: json('resources/hydro_plants.json'), political, workersShare: share });
 const fresh = () => newGame({ nation: 'ITA', political, ownersWithProvinces: nationIds, start }).state;
-const rich = (s) => ({ ...s, nations: { ...s.nations, ITA: { ...s.nations.ITA, balance: 1e7, population: 1e9, baseGridMw: 1e6, stocks: { ...s.nations.ITA.stocks, steel: 1e7 } } } });
+const rich = (s) => ({ ...s, nations: { ...s.nations, ITA: { ...s.nations.ITA, research: { done: ['TECH-IND-SERIES', 'TECH-IND-MASS'], active: null }, balance: 1e7, population: 1e9, baseGridMw: 1e6, stocks: { ...s.nations.ITA.stocks, steel: 1e7 } } } });
 const steel = cat.byId.get('FCT-STEEL');
 const steelFac = (s) => s.nations.ITA.facilities.find((f) => f.type === 'FCT-STEEL');
 
@@ -83,6 +84,17 @@ test('rifiuti: impianto inesistente, livello massimo, fondi insufficienti, nazio
   assert.equal(build.start(maxed, 'ITA', { kind: 'upgrade', facilityId: f0.id }).reason, 'max_level');
   const poor = { ...s0, nations: { ...s0.nations, ITA: { ...s0.nations.ITA, balance: 1 } } };
   assert.equal(build.start(poor, 'ITA', { kind: 'upgrade', facilityId: f0.id }).ok, false);
+});
+
+test('senza la tecnologia il miglioramento è rifiutato e il messaggio la nomina; con una sola tecnologia si arriva a L2 ma non a L3', () => {
+  const s0 = rich(fresh()); const f0 = steelFac(s0);
+  const noTech = { ...s0, nations: { ...s0.nations, ITA: { ...s0.nations.ITA, research: undefined } } };
+  const r = build.start(noTech, 'ITA', { kind: 'upgrade', facilityId: f0.id });
+  assert.equal(r.ok, false); assert.deepEqual(r.missing, [{ what: 'tech', need: 'TECH-IND-SERIES', have: null }]);
+  const ups = upgradeOptions(noTech, 'ITA', { build, catalog, economy });
+  assert.match(ups.find((u) => /^Acciaieria/.test(u.label)).message, /tecnologia «Produzione in serie»/);
+  const one = { ...s0, nations: { ...s0.nations, ITA: { ...s0.nations.ITA, research: { done: ['TECH-IND-SERIES'], active: null }, facilities: s0.nations.ITA.facilities.map((f) => (f.id === f0.id ? { ...f, level: 2 } : f)) } } };
+  assert.deepEqual(build.start(one, 'ITA', { kind: 'upgrade', facilityId: f0.id }).missing, [{ what: 'tech', need: 'TECH-IND-MASS', have: null }]);
 });
 
 test('lavoratori: l\'impianto migliorato ne occupa di più, i lavori in corso ne riservano la differenza', () => {

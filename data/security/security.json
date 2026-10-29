@@ -1,0 +1,21 @@
+{
+  "schema": "security-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Spionaggio, sabotaggio e difesa (decisione dell'utente 29/10/2026: il giocatore e l'IA usano spie e sabotatori; difendono polizia militare, guarnigione e polizia locale). TUTTI i valori sono di BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici. `capabilities` = tecnologia richiesta (data/research/technologies.json). Difesa di un luogo = polizia locale (fissa) + guarnigione (livello 0-3 da data/military/province_presence.json: oggi VUOTO, MISSING_DATA, quindi 0) + reparti di polizia militare assegnati (×ciMultiplier con il controspionaggio). Il luogo è la provincia madre dell'impianto, o l'entità politica per gli impianti iniziali (che non hanno provincia). Le probabilità si risolvono con un tiro deterministico (src/rules/security.js, nessun Math.random): lo stesso stato dà lo stesso esito. Le conseguenze diplomatiche di un sabotaggio scoperto sono MANCANTI (non esiste ancora un sistema diplomatico): oggi si registra solo l'incidente. Il danno da sabotaggio usa il campo `damage` (0-1) degli impianti, che riduce produzione ed energia.",
+  "capabilities": { "agents": "TECH-SEC-INTEL", "counterintelligence": "TECH-SEC-CI" },
+  "agents": {
+    "spy": { "name_it": "Spia", "cost_ecv": 3, "days": 30 },
+    "saboteur": { "name_it": "Sabotatore", "cost_ecv": 5, "days": 45 }
+  },
+  "militaryPolice": { "name_it": "Reparto di polizia militare", "cost_ecv": 4, "days": 20, "defense": 2, "ciMultiplier": 1.5, "maxPerPlace": 5 },
+  "localPolice": { "defense": 1 },
+  "garrison": { "defensePerLevel": 1.5 },
+  "sabotage": {
+    "cost_ecv": 10, "days": 10, "damage": 0.3,
+    "baseChance": 0.6, "chancePerDefense": 0.07, "spyBonus": 0.08, "maxSpyBonus": 3, "minChance": 0.1, "maxChance": 0.9,
+    "detectBase": 0.3, "detectPerDefense": 0.05, "minDetect": 0.05, "maxDetect": 0.9
+  },
+  "counterintelligence": { "catchBase": 0.005, "catchPerPolice": 0.004, "maxCatch": 0.2 },
+  "repair": { "perDay": 0.004 },
+  "logSize": 40
+}

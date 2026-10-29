@@ -5,14 +5,15 @@ import { entityOfProvinceId } from '../data/provinceOwner.js';
 import { levelDef, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
 
 const num = (v) => Math.round(v * 10) / 10;
+export const techNameOf = (catalog) => { const m = new Map((catalog.technologies?.technologies ?? []).map((t) => [t.id, t.name_it])); return (id) => m.get(id) ?? id; };
 const levelName = (catalog, level) => levelDef(catalog.levels, level)?.name_it ?? `L${level}`;
 const WHAT = { ecv: 'Denaro', steel: 'Acciaio', workers: 'Lavoratori', energyMw: 'Energia (MW)', tech: 'Tecnologia' };
 
 /** Frase in italiano per un ordine rifiutato (risultato di build.start con ok:false). */
-export function describeBuildFailure(r) {
+export function describeBuildFailure(r, techName = (id) => id) {
   if (r.ok) return '';
   switch (r.reason) {
-    case 'missing': return `Mancano: ${r.missing.map((m) => `${(WHAT[m.what] ?? m.what).toLowerCase()} (servono ${num(m.need)}, hai ${num(m.have ?? 0)})`).join('; ')}`;
+    case 'missing': return `Mancano: ${r.missing.map((m) => (m.what === 'tech' ? `tecnologia «${techName(m.need)}»` : `${(WHAT[m.what] ?? m.what).toLowerCase()} (servono ${num(m.need)}, hai ${num(m.have ?? 0)})`)).join('; ')}`;
     case 'not_controlled': return 'La provincia non è sotto il tuo controllo';
     case 'no_slot': return `Slot esauriti in questa provincia (${r.used} su ${r.capacity})`;
     case 'no_site': return 'Qui non c\'è un giacimento di questa risorsa';
@@ -112,7 +113,7 @@ export function upgradeOptions(state, nationId, { build, catalog, economy, provi
     if (!g.first) { out.push({ ...base, order: null, cost, ok: false, message: 'Tutti questi impianti sono già in lavori' }); continue; }
     const order = { kind: 'upgrade', facilityId: g.first.id };
     const r = build.start(state, nationId, order);
-    out.push({ ...base, order, cost, ok: r.ok, message: describeBuildFailure(r) });
+    out.push({ ...base, order, cost, ok: r.ok, message: describeBuildFailure(r, techNameOf(catalog)) });
   }
   return out.sort((a, b) => (a.label < b.label ? -1 : 1));
 }

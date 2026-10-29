@@ -5,6 +5,8 @@
 // il salvataggio non cambia forma quando arriveranno.
 import { difficulty } from '../data/economy.js';
 import { cashFor } from '../data/initialCash.js';
+import { validateResearch } from './research.js';
+import { validateSecurityShape } from './securityState.js';
 import { populationOf } from '../data/nationPopulation.js';
 
 export const DIFFICULTIES = ['facile', 'media', 'reale'];
@@ -107,6 +109,8 @@ export function validateNations(nations, { player } = {}) {
     if (!Array.isArray(n.mines)) errors.push(`stato: ${id}, miniere mancanti`);
     for (const m of n.mines ?? []) if (!Number.isInteger(m.level) || m.level < 1 || m.level > 3) errors.push(`stato: ${id}, miniera ${m.id} con livello ${m.level}`);
     for (const c of n.construction ?? []) if (!Number.isInteger(c.daysLeft) || c.daysLeft < 1 || !(c.workers >= 0)) errors.push(`stato: ${id}, costruzione ${c.id} non valida`);
+    errors.push(...validateResearch(id, n.research));
+    errors.push(...validateSecurityShape(id, n.security));
     const fo = n.forces;
     if (!fo || !Array.isArray(fo.land) || !Array.isArray(fo.naval) || !Array.isArray(fo.air)) errors.push(`stato: ${id}, forze armate non valide`);
   }

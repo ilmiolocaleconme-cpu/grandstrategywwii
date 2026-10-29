@@ -24,6 +24,8 @@ import { validateTradeProfiles } from '../src/data/tradeProfiles.js';
 import { validateRecipes, validateExtractionScale } from '../src/data/recipes.js';
 import { validateHydro } from '../src/data/hydro.js';
 import { validateFactoryLevels } from '../src/data/factoryLevels.js';
+import { validateTechnologies, consumersOf } from '../src/data/technologies.js';
+import { validateSecurityConfig } from '../src/rules/security.js';
 import { validateFertilizerEffect, validateHorseBreeding } from '../src/data/livestock.js';
 import { validateHospitalCare } from '../src/data/hospitals.js';
 import { validateFuelConsumption, validateFuelStorage } from '../src/data/fuel.js';
@@ -126,7 +128,18 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // Ricette e scala di estrazione (Fase 0 Risorse + Industria): riferimenti a fabbriche e risorse esistenti
     const recipesDoc = JSON.parse(await text('industry/recipes.json'));
     errors.push(...validateRecipes(recipesDoc, { factoriesById: industry.byId, resources: catalog.resources }));
-    errors.push(...validateFactoryLevels(JSON.parse(await text('industry/factory_levels.json'))));
+    const levelsDoc = JSON.parse(await text('industry/factory_levels.json'));
+    errors.push(...validateFactoryLevels(levelsDoc));
+    // Albero tecnologico iniziale e sicurezza (29/10/2026): ogni tecnologia deve essere richiesta da una regola, ogni requisito deve esistere
+    const techDoc = JSON.parse(await text('research/technologies.json'));
+    const securityDoc = JSON.parse(await text('security/security.json'));
+    const techIds = new Set(techDoc.technologies.map((t) => t.id));
+    errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc }) }));
+    for (const l of levelsDoc.levels) if (l.requires && !techIds.has(l.requires)) errors.push(`livelli fabbriche: L${l.level} richiede ${l.requires}, che non esiste`);
+    errors.push(...validateSecurityConfig(securityDoc, { techIds }));
+    const rivalsDoc = JSON.parse(await text('security/ai_rivals_1936.json'));
+    const knownNations = new Set(catalog.nations.map((n) => n.id));
+    for (const pair of rivalsDoc.pairs ?? []) for (const n of pair) if (!knownNations.has(n)) errors.push(`rivali IA: nazione sconosciuta ${n}`);
     errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
     errors.push(...validateFertilizerEffect(JSON.parse(await text('agriculture/fertilizer_effect.json')), { resources: catalog.resources }));
     errors.push(...validateHorseBreeding(JSON.parse(await text('agriculture/horse_breeding.json')), { resources: catalog.resources, recipes: recipesDoc, entityIds: new Set(catalog.political.map((e) => e.id)) }));

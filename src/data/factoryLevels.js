@@ -18,6 +18,8 @@ export function validateFactoryLevels(file) {
     if (ids.has(l.id)) errors.push(`livelli fabbriche: id duplicato ${l.id}`);
     ids.add(l.id);
     if (!l.name_it) errors.push(`livelli fabbriche: L${l.level} senza nome`);
+    if (l.requires !== null && l.requires !== undefined && (typeof l.requires !== 'string' || !l.requires)) errors.push(`livelli fabbriche: L${l.level} con requisito tecnologico non valido`);
+    if (i > 0 && !l.requires) errors.push(`livelli fabbriche: L${l.level} senza tecnologia richiesta`);
     for (const k of ['capacity', 'energy', 'workers']) if (!(l[k] > 0)) errors.push(`livelli fabbriche: L${l.level} con ${k} non valido`);
     if (i === 0) {
       if (['capacity', 'energy', 'workers'].some((k) => l[k] !== 1)) errors.push('livelli fabbriche: il livello 1 deve avere tutti i moltiplicatori a 1');

@@ -10,7 +10,8 @@ import { workersState } from '../rules/workers.js';
 import { SLOT_CAPACITY } from '../rules/slots.js';
 import { factoryBuildCost, mineCost } from '../data/economy.js';
 import { fullCapacityFlows } from '../data/recipes.js';
-import { levelMult, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
+import { techsOf } from './research.js';
+import { levelDef, levelMult, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
 import { hydroMwByOwner } from './economySystem.js';
 import { entityOfProvinceId } from '../data/provinceOwner.js';
 
@@ -59,7 +60,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       entity = entityOf(provinceId);
       if (state.control[entity] !== nationId) return fail('not_controlled');
     }
-    let cost; let entry; let requiredEnergy = 0;
+    let cost; let entry; let requiredEnergy = 0; let requires = null;
     if (order.kind === 'upgrade') {
       const f = nation.facilities.find((x) => x.id === order.facilityId);
       if (!f) return fail('no_facility');
@@ -72,6 +73,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       const up = upgradeCost(economy, factory, level, catalog.levels, state.difficulty);
       if (!up) return fail('not_upgradable');
       cost = up;
+      requires = levelDef(catalog.levels, level + 1)?.requires ?? null;
       requiredEnergy = r3(fullCapacityFlows(catalog.recipes.get(f.recipeId), factory).energyMw * up.energyFactor);
       entry = { kind: 'upgrade', facilityId: f.id, factoryId: f.type, recipeId: f.recipeId, provinceId: f.provinceId ?? null, territory: f.territory, fromLevel: level, level: level + 1, energyMw: requiredEnergy };
     } else if (order.kind === 'factory') {
@@ -97,8 +99,8 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     } else return fail('unknown_kind');
 
     const w = workersState(nation, { factoriesById: catalog.factories, share: workersShare, levels: catalog.levels ?? null });
-    const have = { balance: nation.balance, steel: nation.stocks.steel ?? 0, workers: w.free, powerSurplusMw: powerBalance(state, nation, nationId).surplus };
-    const check = canStartBuild({ cost: { ecv: cost.ecv, steel: cost.steel, workers: cost.workers, energyMw: requiredEnergy }, requires: null }, have);
+    const have = { balance: nation.balance, steel: nation.stocks.steel ?? 0, workers: w.free, techs: techsOf(nation), powerSurplusMw: powerBalance(state, nation, nationId).surplus };
+    const check = canStartBuild({ cost: { ecv: cost.ecv, steel: cost.steel, workers: cost.workers, energyMw: requiredEnergy }, requires }, have);
     if (!check.ok) return fail('missing', { missing: check.missing });
 
     const id = `${nationId}:${state.day}:${nation.construction.length}:${entry.kind}:${provinceId}`;
