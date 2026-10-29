@@ -229,6 +229,80 @@
       "noSelfConsumption": true,
       "quality": "DESIGN_DEFAULT",
       "rationale": "La centrale del Pack ha base_capacity_per_day = 0 (non produce merci): la potenza nominale è definita qui: 120 MW, come nel pacchetto ricevuto. Il carbone è per giorno e per MW: 0,5 t/giorno per ogni MW in funzione (120 MW → 60 t/giorno). Nessun autoconsumo (deciso in chat 26/10/2026): il energy_consumption = 25 del Pack per questa fabbrica viene ignorato, la potenza è netta."
+    },
+    {
+      "id": "REC-TANK-CZE-LT35",
+      "factory": "FCT-TANKS",
+      "massTonnes": 10.5,
+      "outputUnit": "pieces/day",
+      "inputs": [
+        {
+          "resource": "steel",
+          "perUnit": 12.6
+        },
+        {
+          "resource": "engines",
+          "perUnit": 0.84
+        },
+        {
+          "resource": "components",
+          "perUnit": 1.05
+        }
+      ],
+      "output": {
+        "product": "tanks",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "LT vz. 35 (Škoda, Cecoslovacchia). PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo."
+    },
+    {
+      "id": "REC-TANK-CZE-LT38",
+      "factory": "FCT-TANKS",
+      "massTonnes": 9.7,
+      "outputUnit": "pieces/day",
+      "inputs": [
+        {
+          "resource": "steel",
+          "perUnit": 11.64
+        },
+        {
+          "resource": "engines",
+          "perUnit": 0.776
+        },
+        {
+          "resource": "components",
+          "perUnit": 0.97
+        }
+      ],
+      "output": {
+        "product": "tanks",
+        "perUnit": 1
+      },
+      "quality": "DESIGN_DEFAULT",
+      "rationale": "LT vz. 38 (ČKD, Cecoslovacchia). PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo."
+    },
+    {
+      "id": "REC-ARTILLERY-001",
+      "factory": "FCT-ARTILLERY",
+      "massTonnes": 3.0,
+      "outputUnit": "pieces/day",
+      "inputs": [
+        {
+          "resource": "steel",
+          "perUnit": 3.6
+        },
+        {
+          "resource": "components",
+          "perUnit": 0.3
+        }
+      ],
+      "output": {
+        "product": "artillery",
+        "perUnit": 1
+      },
+      "quality": "MISSING_DATA",
+      "rationale": "Pezzo di artiglieria DI RIFERIMENTO di 3 t (segnaposto: nessun catalogo di artiglieria esiste ancora, andrà sostituito da una ricetta per modello). Ingressi senza motori. PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo."
     }
   ],
   "flows": [

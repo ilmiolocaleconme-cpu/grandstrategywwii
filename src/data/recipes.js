@@ -53,6 +53,14 @@ export function validateRecipes(file, { factoriesById, resources }) {
     const f = factoriesById.get(r.factory);
     if (!f) { errors.push(`ricette: ${r.id} punta a una fabbrica inesistente (${r.factory})`); return; }
     if (r.inputs.length === 0) errors.push(`ricette: ${r.id} senza ingressi`);
+    // prodotti a PEZZI (carri, artiglieria): capacità in pezzi al giorno = capacità della fabbrica (t di lavorazione) / peso del pezzo
+    const resDef = resources.find((x) => x.id === r.output?.product);
+    const pieces = resDef?.unit === 'pezzi';
+    if (pieces !== (r.outputUnit === 'pieces/day')) errors.push(`ricette: ${r.id} ${pieces ? 'produce un prodotto a pezzi: serve outputUnit "pieces/day"' : 'usa outputUnit "pieces/day" ma il prodotto non è a pezzi'}`);
+    if (pieces) {
+      if (!(r.massTonnes > 0)) errors.push(`ricette: ${r.id} produce pezzi ma non ha un peso del pezzo (massTonnes) valido`);
+      if (r.output?.perUnit !== 1) errors.push(`ricette: ${r.id} produce pezzi: perUnit di uscita deve essere 1`);
+    } else if ('massTonnes' in r) errors.push(`ricette: ${r.id} ha massTonnes ma non produce pezzi`);
     const cap = r.nominalOutputMw ?? f.base_capacity_per_day;
     if (!(cap > 0)) errors.push(`ricette: ${r.id} senza capacità giornaliera (${r.factory} ha base_capacity_per_day = ${f.base_capacity_per_day}: serve nominalOutputMw)`);
     if (r.nominalOutputMw !== undefined && f.base_capacity_per_day > 0) errors.push(`ricette: ${r.id} ridefinisce la capacità di ${r.factory}, già nel catalogo`);
@@ -87,11 +95,12 @@ export function validateRecipes(file, { factoriesById, resources }) {
 
 /**
  * Flussi di una ricetta a pieno regime: { outputPerDay, outputUnit, inputsPerDay: {risorsa: t/giorno}, energyMw }.
- * Per un prodotto `outputPerDay` è in t al giorno; per la centrale (outputUnit = MW) è la potenza in MW e gli ingressi sono t/giorno per MW in funzione.
+ * Per un prodotto `outputPerDay` è in t al giorno (in pezzi al giorno se la ricetta ha outputUnit "pieces/day": capacità / massTonnes, ingressi in t per pezzo); per la centrale (outputUnit = MW) è la potenza in MW e gli ingressi sono t/giorno per MW in funzione.
  * `energyMw` = MW assorbiti dalla fabbrica (energy_consumption del Pack letto come MW).
  */
 export function fullCapacityFlows(recipe, factory) {
-  const outputPerDay = recipe.nominalOutputMw ?? factory.base_capacity_per_day;
+  const pieceRecipe = recipe.outputUnit === 'pieces/day';
+  const outputPerDay = pieceRecipe ? round(factory.base_capacity_per_day / recipe.massTonnes) : (recipe.nominalOutputMw ?? factory.base_capacity_per_day);
   const inputsPerDay = Object.fromEntries(recipe.inputs.map((i) => [i.resource, round(i.perUnit * outputPerDay / recipe.output.perUnit)]));
   // noSelfConsumption: la centrale non consuma energia propria (il Pack le assegna un consumo che qui si ignora)
   return { outputPerDay, outputUnit: recipe.outputUnit ?? 't/day', inputsPerDay, energyMw: recipe.noSelfConsumption ? 0 : factory.energy_consumption };

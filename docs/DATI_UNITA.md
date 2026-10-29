@@ -128,3 +128,11 @@ Regola dell'utente: i rinforzi passano dal pool; se ci sono abbastanza risorse v
 - 1936 secondo le fonti web: 5 divisioni regolari e **14** Territorial Army; il file dell'utente ne elenca 12 (stima del repo: 12): da verificare. Le Territorial Army del catalogo restano al 1939 (inattive nel 1936).
 - Il quadro `TPL-GBR-CADRE-1936` (quadri_1936.json) ora si espande in `TPL-GBR-INF-1936`.
 - **Verificato**: 37 test sui moduli toccati e `validate-data`. **Non verificato**: `vite build` (npm non raggiungibile) e la resa in gioco.
+
+### Carri e artiglieria a pezzi (29/10/2026, richiesta dell'utente)
+- Prodotti `tanks` e `artillery` in `data/resources.json` con `unit: "pezzi"`; prezzi per pezzo in `economy.json` (carro 0,6 ECV, pezzo 0,16 ECV: **di progetto**, scelti per avere valore aggiunto positivo).
+- Ricette con `outputUnit: "pieces/day"` e `massTonnes` (peso del pezzo): pezzi al giorno = `base_capacity_per_day` della fabbrica (t di lavorazione) / peso. FCT-TANKS 45 t/giorno → LT vz. 35 (10,5 t) 4,286 pezzi/giorno, LT vz. 38 (9,7 t) 4,639. Ingressi per pezzo: acciaio 1,2 × peso, motori 0,08 × peso, componenti 0,10 × peso (artiglieria senza motori).
+- **Tutti i numeri sono proposte di Claude non approvate**: i pesi sono ricordi [Probabile] da verificare; le percentuali degli ingressi e i prezzi sono di progetto. `REC-ARTILLERY-001` è un segnaposto (pezzo di riferimento da 3 t, `MISSING_DATA`) finché non esiste un catalogo di artiglieria.
+- La Cecoslovacchia parte con 1 fabbrica di carri (ricetta LT vz. 35) e 1 di artiglieria (`ARMS` in `scripts/build-initial-industry.js`); le altre nazioni non ne hanno. Rigenerati industria, scorte e cassa: la cassa di molte nazioni cambia di 0,2 ECV al giorno perché **il file in repository era già non allineato allo script** (verificato rigenerando da HEAD), non per questa modifica.
+- Limiti: i pezzi prodotti restano frazionari nello stock (nessun arrotondamento); nessun collegamento fra carri prodotti e le unità/divisioni; `produceDay` non è ancora in SYSTEMS. Stato: ricette e produzione **implementate e testate come dati/regole** (`tests/pieces.test.js`, 5 test); produzione di unità: **mancante**.
+
