@@ -293,6 +293,7 @@ export const LAYERS = [
   { id: 'terrain', label: 'Terreno' },
   { id: 'resources', label: 'Risorse' },
   { id: 'army', label: 'Esercito' },
+  { id: 'ports', label: 'Porti' },
 ];
 
 // Colore politico: quello della potenza che controlla il territorio (colonie, protettorati e mandati

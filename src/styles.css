@@ -234,6 +234,7 @@ h2 {
 .build-list { list-style: none; padding: 0; margin: 4px 0; }
 .build-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid #3a4430; font-size: 14px; }
 .build-row .nation-btn { min-height: 40px; flex: none; }
+.build-row.port-focus { background: rgba(20, 64, 122, 0.28); box-shadow: inset 3px 0 0 #3f7fd0; padding-left: 8px; } /* porto toccato sulla mappa (livello Porti) */
 .panel h4 { font-size: 13px; margin: 8px 0 2px; color: var(--muted); }
 .eco-dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14px; }
 .eco-dl dt { color: var(--muted); } .eco-dl dd { margin: 0; }

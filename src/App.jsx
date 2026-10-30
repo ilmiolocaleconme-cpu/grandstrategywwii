@@ -78,6 +78,7 @@ import portLevelsFile from '../data/ports/port_levels.json';
 import portsBaseFile from '../data/ports/ports_1936.json';
 import coastalCitiesFile from '../data/ports/coastal_cities.json';
 import { provincePortRows, portSummary } from './ui/portView.js';
+import { portPinsByProvince } from './map/portIcons.js';
 import linkEdgesFile from '../data/infrastructure/link_edges.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
 import hydroPlants from '../data/resources/hydro_plants.json';
@@ -415,6 +416,8 @@ export default function App() {
     }
     setProvinceId(id); setSeaId(null); if (id == null) setInfoOpen(false);
   };
+  // tocco su un porto del livello Porti: si apre la scheda della città portuale (se è sulla mappa), altrimenti quella della provincia
+  const selectPort = ({ province, cittaId }) => selectProvince(mapItems.some((i) => i.id === cittaId) ? cittaId : province);
   const selectUnits = (g) => { if (theater?.draft) return; setCommand(null); setArmySel(g); setArmyChecked(new Set()); setArmyNotice(null); setProvinceId(null); setSeaId(null); setInfoOpen(false); };
   const toggleArmy = (uid) => setArmyChecked((s) => { const n = new Set(s); if (n.has(uid)) n.delete(uid); else n.add(uid); return n; });
   const selectSea = (id) => { setSeaId(id); setProvinceId(null); if (id == null) setInfoOpen(false); };
@@ -501,6 +504,7 @@ export default function App() {
     return game && id ? provincePortRows(game, id, { ports: GAME_PORTS, build: GAME_BUILD, nationId: game.player, techName }) : null;
   }, [game, selectedItem, techName]);
   const harbours = useMemo(() => (game ? portSummary(game, game.player, { ports: GAME_PORTS, entityOf: entityOfProvince }) : null), [game]);
+  const portPins = useMemo(() => portPinsByProvince(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -723,7 +727,7 @@ export default function App() {
               name: NATION_NAMES[game.player] ?? game.player,
               flag: flagsFile.flags[game.player],
               steps: [
-                ...(layer === 'political' || layer === 'army' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
+                ...(layer === 'political' || layer === 'army' || layer === 'ports' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
                 { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
                 { label: 'Mari e rotte', done: seaStatus !== 'loading' },
                 { label: 'Città', done: citiesRaw !== null },
@@ -734,7 +738,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} />
+        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPins} onSelectPort={selectPort} />
         {command && game ? (
           <CommandPanel orbat={game.orbat ?? createOrbatState()} units={unitsFile.units} nation={game.player} date={game.date} nationName={NATION_NAMES[game.player]} selectedId={command.selected} notice={command.notice}
             onSelect={(id) => setCommand((c) => ({ ...c, selected: id, notice: null }))}
@@ -760,7 +764,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} ports={provincePorts} /> : null} />
+            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} ports={provincePorts} focusPortId={selectedItem.id} /> : null} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>
