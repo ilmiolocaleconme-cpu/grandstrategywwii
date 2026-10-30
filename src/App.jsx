@@ -744,6 +744,9 @@ export default function App() {
             onSelect={(id) => setCommand((c) => ({ ...c, selected: id, notice: null }))}
             onAttach={(unitId, parentId) => { try { const r = playerAttach(game, { unitId, parentId, units: unitsFile.units }); setGame(r.state); setCommand((c) => ({ ...c, notice: `${UNITS_BY_ID.get(unitId).name} è ora agli ordini di ${UNITS_BY_ID.get(parentId).name}.` })); return true; } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); return false; } }}
             onDetach={(unitId) => { try { const r = playerDetach(game, unitId, { units: unitsFile.units }); setGame(r.state); setCommand((c) => ({ ...c, notice: `${UNITS_BY_ID.get(unitId).name} non ha più un comando superiore.` })); } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); } }}
+            fightersOf={(id) => divisionsUnder(game.orbat ?? createOrbatState(), id, UNITS_BY_ID).filter((d) => isFighter(game, UNITS_BY_ID.get(d)))}
+            onAssign={(id) => { const ids = divisionsUnder(game.orbat ?? createOrbatState(), id, UNITS_BY_ID).filter((d) => isFighter(game, UNITS_BY_ID.get(d))); setTheater({ draft: { kind: 'attack', provinces: [], units: ids }, notice: null }); setCommand(null); setArmySel(null); }}
+            onEntrench={(id, on) => { try { const all = divisionsUnder(game.orbat ?? createOrbatState(), id, UNITS_BY_ID); const ids = on ? all.filter((d) => isFighter(game, UNITS_BY_ID.get(d))) : all; setGame(playerToggleEntrench(game, { unitIds: ids, on, ctx: THEATER_CTX })); setCommand((c) => ({ ...c, notice: on ? `${ids.length} ${ids.length === 1 ? "divisione si trincera" : "divisioni si trincerano"}.` : 'Le divisioni smettono di trincerarsi.' })); } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); } }}
             onClose={() => setCommand(null)} />
         ) : null}
         {theater && game ? (

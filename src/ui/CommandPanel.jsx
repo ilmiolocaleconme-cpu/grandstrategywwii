@@ -36,7 +36,7 @@ function Picker({ title, groups, onPick, onClose, empty }) {
   );
 }
 
-export default function CommandPanel({ orbat, units, nation, date, nationName, selectedId, notice, onSelect, onAttach, onDetach, onClose }) {
+export default function CommandPanel({ orbat, units, nation, date, nationName, selectedId, notice, onSelect, onAttach, onDetach, fightersOf, onAssign, onEntrench, onClose }) {
   const [expanded, setExpanded] = useState(() => new Set());
   const [query, setQuery] = useState('');
   const [tab, setTab] = useState('free'); // 'free' = da assegnare, 'tree' = ordine di battaglia
@@ -50,6 +50,7 @@ export default function CommandPanel({ orbat, units, nation, date, nationName, s
   const parents = useMemo(() => (picker === 'parent' && sel ? validParents(orbat, sel.id, units, nation, date) : []), [picker, sel, orbat, units, nation, date]);
   const children = useMemo(() => (picker === 'child' && sel ? validChildren(orbat, sel.id, units, nation, date) : []), [picker, sel, orbat, units, nation, date]);
   const parentName = sel && orbat.links[sel.id] ? byId.get(orbat.links[sel.id].parent)?.name : null;
+  const nFight = sel && isCmd && fightersOf ? fightersOf(sel.id).length : 0;
   const toggle = (id) => setExpanded((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   const select = (id) => { setPicker(null); onSelect(id === selectedId ? null : id); };
   const pick = (kind) => (otherId) => {
@@ -92,6 +93,13 @@ export default function CommandPanel({ orbat, units, nation, date, nationName, s
           {picker === 'parent' ? <Picker title={`Aggiungi «${sel.name}» a…`} groups={parents} onPick={pick('parent')} onClose={() => setPicker(null)} empty="Nessun comando valido: serve un livello più alto, della stessa nazione." /> : null}
           {picker === 'child' ? <Picker title={`Aggiungi a «${sel.name}»…`} groups={children} onPick={pick('child')} onClose={() => setPicker(null)} empty="Nessuna unità libera di livello inferiore." /> : null}
           <p className="cmd-sel"><b>{sel.name}</b> <small>{levelLabel(sel)}{parentName ? ` · agli ordini di ${parentName}` : ' · senza comando superiore'}</small></p>
+          {isCmd && onAssign ? (
+            <div className="ap-actions cmd-orders" role="group" aria-label={`Ordini a ${sel.name}`}>
+              <button type="button" className="go" disabled={nFight === 0} onClick={() => onAssign(sel.id)} title="Dai un incarico di attacco o difesa a tutte le divisioni di questo comando">Incarico ({nFight})</button>
+              <button type="button" disabled={nFight === 0} onClick={() => onEntrench(sel.id, true)}>Trincera</button>
+              <button type="button" disabled={nFight === 0} onClick={() => onEntrench(sel.id, false)}>Smetti</button>
+            </div>
+          ) : null}
           <div className="ap-actions">
             <button type="button" className="go" onClick={() => setPicker('parent')}>Aggiungi a…</button>
             {isCmd ? <button type="button" onClick={() => setPicker('child')}>Aggiungi unità…</button> : null}

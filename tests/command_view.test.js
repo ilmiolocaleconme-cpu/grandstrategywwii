@@ -76,3 +76,8 @@ test('azioni del giocatore: inquadra, sposta, scollega; blocca unità altrui e c
   assert.throws(() => playerAttach(chain, { unitId: 'AG', parentId: 'CO', units }), /livello|ciclo/, 'un comando superiore non può dipendere da uno inferiore');
   assert.equal(playerDetach(s2, 'D1', { units }).state.orbat.links.D1, undefined);
 });
+
+test('App: il pannello Comando riceve incarico e trinceramento per le divisioni agli ordini del comando', () => {
+  const app = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8');
+  assert.match(app, /fightersOf=\{/); assert.match(app, /onAssign=\{\(id\) => \{ const ids = divisionsUnder/); assert.match(app, /onEntrench=\{\(id, on\)/);
+});
