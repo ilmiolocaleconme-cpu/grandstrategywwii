@@ -162,3 +162,50 @@ test('interfaccia: etichette allineate alle soglie, messaggi in italiano, righe 
   assert.equal(rows.find((r) => r.id === 'GBR').allied, true);
   assert.equal(pairView(g, 'FRA', 'DEU', config, name).canTrade, false, 'DEU-FRA è -40: commercio bloccato');
 });
+
+// ---- IA diplomatica e proposte ----
+import { createAiDiplomacy } from '../src/game/aiDiplomacy.js';
+const aiDip = createAiDiplomacy({ diplomacy: dip });
+const runAi = (s, n) => { let x = s; for (let i = 0; i < n; i += 1) x = advanceDay(x, [dip.diplomacyDay, aiDip.aiDiplomacyDay]); return x; };
+
+test('IA: Francia e URSS (nemico comune la Germania) migliorano i rapporti fino all\'alleanza; mai sotto la riserva', () => {
+  let s = game('ITA'); let min = Infinity;
+  s = rich(rich(s, 'FRA', 600), 'USSR', 600);
+  for (let i = 0; i < 400 && !areAllied(s.diplomacy, 'FRA', 'USSR'); i += 1) { s = advanceDay(s, [dip.diplomacyDay, aiDip.aiDiplomacyDay]); min = Math.min(min, s.nations.FRA.balance, s.nations.USSR.balance); }
+  assert.ok(areAllied(s.diplomacy, 'FRA', 'USSR'), 'patto franco-sovietico per iniziativa delle IA');
+  assert.ok(min >= config.ai.reserveEcv - 1e-6, `cassa minima ${min}`);
+  assert.deepEqual(validateState(s), []);
+});
+
+test('IA: nazioni senza nemico comune non spendono; stesso stato stesso esito', () => {
+  const a = runAi(rich(game('ITA'), 'NOR', 500), 120); const b = runAi(rich(game('ITA'), 'NOR', 500), 120);
+  assert.equal(JSON.stringify(a), JSON.stringify(b));
+  assert.equal(a.nations.NOR.balance, 500, 'nessuna spesa diplomatica');
+  assert.equal(relationOf(a.diplomacy, 'NOR', 'SWE'), 0);
+});
+
+test('IA verso il giocatore: offre l\'alleanza (paga lei); il giocatore accetta o rifiuta; scade senza risposta', () => {
+  let s = rich(rich(game('USSR'), 'FRA', 600), 'USSR', 600); // giocatore URSS, FRA e URSS ostili alla Germania
+  s = withRel(s, 'FRA', 'USSR', 45);
+  const before = s.nations.FRA.balance;
+  const r = dip.offerAlliance(s, 'FRA', 'USSR');
+  assert.ok(r.ok); assert.equal(r.state.nations.FRA.balance, before - config.alliance.ecv); assert.equal(dip.offerAlliance(r.state, 'FRA', 'USSR').reason, 'already_pending');
+  assert.equal(dip.proposalsOf(r.state).length, 1); assert.deepEqual(validateState(r.state), []);
+  const id = r.proposal.id;
+  const yes = dip.acceptProposal(r.state, 'USSR', id);
+  assert.ok(yes.ok); assert.ok(areAllied(yes.state.diplomacy, 'FRA', 'USSR')); assert.equal(dip.proposalsOf(yes.state).length, 0);
+  assert.equal(dip.acceptProposal(r.state, 'FRA', id).reason, 'no_proposal', 'solo il destinatario risponde');
+  const no = dip.rejectProposal(r.state, 'USSR', id);
+  assert.ok(no.ok); assert.equal(relationOf(no.state.diplomacy, 'FRA', 'USSR'), 45 + config.proposals.rejectPenalty); assert.ok(!areAllied(no.state.diplomacy, 'FRA', 'USSR'));
+  let t = r.state; for (let i = 0; i < config.proposals.expireDays + 1; i += 1) t = advanceDay(t, [dip.diplomacyDay]);
+  assert.equal(dip.proposalsOf(t).length, 0, 'scaduta');
+  const warred = dip.declareWar(r.state, 'FRA', 'USSR').state; // la guerra nel frattempo
+  assert.equal(dip.acceptProposal(warred, 'USSR', id).reason, 'at_war');
+});
+
+test('IA: un\'IA offre al giocatore da sola quando le condizioni ci sono', () => {
+  let s = withRel(rich(rich(game('USSR'), 'FRA', 600), 'USSR', 600), 'FRA', 'USSR', 50);
+  s = runAi(s, 40);
+  assert.ok(dip.proposalsOf(s).some((x) => x.from === 'FRA' && x.to === 'USSR'), 'proposta della Francia al giocatore');
+  assert.ok(!areAllied(s.diplomacy, 'FRA', 'USSR'), 'il giocatore non è alleato senza aver accettato');
+});

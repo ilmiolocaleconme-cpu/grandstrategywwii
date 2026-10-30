@@ -26,6 +26,8 @@ export function describeDiplomacyFailure(reason, x = {}) {
     case 'already_at_war': return 'Siete già in guerra';
     case 'not_at_war': return 'Non siete in guerra';
     case 'hopeless': return `Rapporto troppo compromesso per la pace (${Math.round(x.relation)}, serve oltre ${x.min})`;
+    case 'no_proposal': return 'La proposta non c\'è più (scaduta o già risolta)';
+    case 'already_pending': return 'C\'è già una proposta in attesa';
     case 'unknown_nation': return 'Nazione sconosciuta';
     case 'same_nation': return 'Nazione non valida';
     case 'no_economy': return 'Economia non inizializzata';

@@ -100,6 +100,7 @@ import { provinceLinkRows, infraSummary } from './ui/infraView.js';
 import { createSecurity } from './game/security.js';
 import { createAiSecurity } from './game/aiSecurity.js';
 import { createDiplomacyGame } from './game/diplomacyState.js';
+import { createAiDiplomacy } from './game/aiDiplomacy.js';
 import { DiplomacyPanel } from './ui/DiplomacyPanel.jsx';
 import { notableRows, pairView, describeDiplomacyFailure } from './ui/diplomacyView.js';
 import { provinceBuildOptions, economySummary, describeBuildFailure, upgradeOptions } from './ui/buildOptions.js';
@@ -276,6 +277,7 @@ const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: 
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
 // Diplomazia minima (30/10/2026): parametri DESIGN_DEFAULT, situazione 1936 hypothesis. Rapporti, alleanze, accessi, costi di guerra, consenso al commercio.
 const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: diplomacyStart });
+const GAME_AI_DIPLOMACY = createAiDiplomacy({ diplomacy: GAME_DIPLOMACY }); // IA diplomatica: alleanze e rapporti (accessi, commercio e guerra: mancanti)
 const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
 const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry], ratio: readiness.initialFillRatio.value };
@@ -295,7 +297,7 @@ const GAME_SYSTEMS = [
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
   createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
-  GAME_DIPLOMACY.diplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
+  GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
@@ -480,6 +482,10 @@ export default function App() {
     war: dipAct(GAME_DIPLOMACY.declareWar, (r, n) => `Guerra dichiarata a ${n}.`),
     peace: dipAct(GAME_DIPLOMACY.makePeace, (r, n) => `Pace con ${n}.`),
   };
+  const answerProposal = (fn, okText) => (id) => { const r = fn(game, game.player, id); if (r.state) setGame(r.state); return r.ok ? { ok: true, text: okText } : { ok: false, text: describeDiplomacyFailure(r.reason, r) }; };
+  const acceptProposal = answerProposal(GAME_DIPLOMACY.acceptProposal, 'Alleanza conclusa.');
+  const rejectProposal = answerProposal(GAME_DIPLOMACY.rejectProposal, 'Proposta rifiutata.');
+  const dipProposals = (game?.diplomacy?.proposals ?? []).filter((x) => x.to === game?.player).map((x) => ({ ...x, fromName: NATION_NAMES[x.from] ?? x.from, enemyName: NATION_NAMES[x.enemy] ?? x.enemy }));
   const nationNameOf = (id) => NATION_NAMES[id] ?? id;
   const dipRows = useMemo(() => (game?.diplomacy ? notableRows(game, game.player, diplomacyConfig, nationNameOf) : []), [game?.diplomacy, game?.war, game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
   const startResearch = (techId) => applyOrder(GAME_RESEARCH.start(game, game.player, techId), 'Ricerca avviata: costo pagato.');
@@ -697,7 +703,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} />
-            <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} />
+            <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
             <ResearchPanel rows={researchRows} onStart={startResearch} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />

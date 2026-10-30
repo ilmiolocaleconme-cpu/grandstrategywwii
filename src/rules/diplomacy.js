@@ -5,7 +5,7 @@ import { pairKey } from './war.js';
 
 export const DIPLOMACY_SCHEMA = 'diplomacy-v1';
 
-export const createDiplomacy = () => ({ schema: DIPLOMACY_SCHEMA, relations: {}, alliances: {}, access: {} });
+export const createDiplomacy = () => ({ schema: DIPLOMACY_SCHEMA, relations: {}, alliances: {}, access: {}, proposals: [] });
 
 const r2 = (x) => Math.round(x * 100) / 100;
 const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
@@ -57,6 +57,10 @@ export function validateDiplomacy(d) {
   for (const [k, v] of Object.entries(d.relations)) if (!keyOk(k) || !Number.isFinite(v) || v < -100 || v > 100) errors.push(`diplomazia: rapporto ${JSON.stringify(k)} non valido`);
   for (const [k, v] of Object.entries(d.alliances)) { if (!keyOk(k)) errors.push(`diplomazia: alleanza ${JSON.stringify(k)} non valida`); if (typeof v?.since !== 'string') errors.push(`diplomazia: alleanza ${k} senza data`); }
   for (const [k, v] of Object.entries(d.access)) { const p = k.split('>'); if (p.length !== 2 || p[0] === '' || p[1] === '' || p[0] === p[1]) errors.push(`diplomazia: accesso ${JSON.stringify(k)} non valido`); if (typeof v?.since !== 'string') errors.push(`diplomazia: accesso ${k} senza data`); }
+  if (d.proposals !== undefined) {
+    if (!Array.isArray(d.proposals)) errors.push('diplomazia: proposals non è una lista');
+    else for (const x of d.proposals) if (typeof x?.id !== 'string' || typeof x?.from !== 'string' || typeof x?.to !== 'string' || x.from === x.to || x?.kind !== 'alliance' || typeof x?.date !== 'string') errors.push(`diplomazia: proposta ${JSON.stringify(x?.id)} non valida`);
+  }
   return errors;
 }
 
@@ -73,6 +77,9 @@ export function validateDiplomacyConfig(c) {
   const al = need(c?.alliance, 'alliance'); num('alliance.minRelation', al.minRelation); num('alliance.ecv', al.ecv); num('alliance.breakPenalty', al.breakPenalty);
   const ac = need(c?.access, 'access'); num('access.minRelation', ac.minRelation); num('access.ecv', ac.ecv);
   const w = need(c?.war, 'war'); for (const k of ['victimPenalty', 'victimAlliesPenalty', 'dailyDrift', 'peaceMinRelation', 'afterPeaceRelation']) num(`war.${k}`, w[k]);
+  const ai = need(c?.ai, 'ai'); num('ai.period', ai.period); num('ai.reserveEcv', ai.reserveEcv);
+  if (Number.isFinite(ai.period) && ai.period < 1) errors.push('diplomazia config: ai.period < 1');
+  const pr = need(c?.proposals, 'proposals'); num('proposals.expireDays', pr.expireDays); num('proposals.rejectPenalty', pr.rejectPenalty);
   if (Number.isFinite(t.minRelation) && Number.isFinite(c?.sabotage?.maxRelation) && c.sabotage.maxRelation >= t.minRelation) errors.push('diplomazia config: la soglia di sabotaggio deve stare sotto quella del commercio');
   if (!['DESIGN_DEFAULT', 'hypothesis'].includes(c?.quality)) errors.push('diplomazia config: quality deve essere DESIGN_DEFAULT o hypothesis');
   return errors;

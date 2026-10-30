@@ -16,7 +16,7 @@ function flags(p) {
 /**
  * partners: [{ id, name }]; rows: notableRows(...); detail(id) → pairView; cfg: parametri; actions: { improve, alliance, breakAlliance, access, revoke, war, peace }(id) → { ok, text }.
  */
-export function DiplomacyPanel({ partners, rows, detail, cfg, actions }) {
+export function DiplomacyPanel({ partners, rows, detail, cfg, actions, proposals = [], onAccept = () => null, onReject = () => null }) {
   const [msg, setMsg] = useState(null);
   const [target, setTarget] = useState('');
   const p = target ? detail(target) : null;
@@ -25,6 +25,22 @@ export function DiplomacyPanel({ partners, rows, detail, cfg, actions }) {
     <section aria-label="Diplomazia">
       <h2>Diplomazia</h2>
       <Msg msg={msg} />
+      {proposals.length ? (
+        <div>
+          <h3>Proposte ricevute ({proposals.length})</h3>
+          <ul className="build-list">
+            {proposals.map((x) => (
+              <li key={x.id} className="build-row">
+                <div><strong>{x.fromName}</strong> propone un'alleanza{x.enemyName ? ` (nemico comune: ${x.enemyName})` : ''}
+                  <div className="muted small">Scade dopo {cfg.proposals.expireDays} giorni senza risposta · rifiutare costa {cfg.proposals.rejectPenalty} di rapporto</div>
+                  <button type="button" className="nation-btn" onClick={() => setMsg(onAccept(x.id))}>Accetta</button>{' '}
+                  <button type="button" className="nation-btn" onClick={() => setMsg(onReject(x.id))}>Rifiuta</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       <label className="small">Nazione{' '}
         <select value={target} onChange={(e) => { setTarget(e.target.value); setMsg(null); }}><option value="">— scegli —</option>{partners.map((n) => <option key={n.id} value={n.id}>{n.name}</option>)}</select>
       </label>

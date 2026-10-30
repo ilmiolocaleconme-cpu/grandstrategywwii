@@ -89,6 +89,44 @@ export function createDiplomacyGame({ config, start }) {
     return { ok: true, enemy, state: withDip(p.state, addAlliance(dip(p.state), actor, target, state.date)) };
   }
 
+  const proposalsOf = (state) => state.diplomacy?.proposals ?? [];
+
+  /** Un'IA offre un'alleanza a un'altra nazione (di solito il giocatore): stesse condizioni della proposta, paga chi offre, la risposta arriva dopo. */
+  function offerAlliance(state, from, to) {
+    const bad = checkPair(state, from, to); if (bad) return bad;
+    if (atWar(state.war, from, to)) return fail('at_war');
+    const d = dip(state);
+    if (areAllied(d, from, to)) return fail('already_allied');
+    if (proposalsOf(state).some((x) => pairKey(x.from, x.to) === pairKey(from, to))) return fail('already_pending');
+    const rel = relationOf(d, from, to);
+    if (rel < config.alliance.minRelation) return fail('relation_low', { relation: rel, min: config.alliance.minRelation });
+    const enemy = commonEnemy(withDip(state, d), from, to);
+    if (!enemy) return fail('no_common_enemy');
+    const p = pay(state, from, config.alliance.ecv); if (!p.ok) return p;
+    const proposal = { id: `A-${state.day}-${from}-${to}`, from, to, kind: 'alliance', date: state.date, day: state.day, enemy };
+    const d2 = dip(p.state);
+    return { ok: true, proposal, state: withDip(p.state, { ...d2, proposals: [...(d2.proposals ?? []), proposal] }) };
+  }
+
+  const dropProposal = (d, id) => ({ ...d, proposals: (d.proposals ?? []).filter((x) => x.id !== id) });
+
+  /** `actor` accetta una proposta ricevuta: nasce l'alleanza (gratis per chi accetta). */
+  function acceptProposal(state, actor, id) {
+    const pr = proposalsOf(state).find((x) => x.id === id);
+    if (!pr || pr.to !== actor) return fail('no_proposal');
+    const d = dip(state);
+    if (atWar(state.war, pr.from, pr.to)) return { ok: false, reason: 'at_war', state: withDip(state, dropProposal(d, id)) };
+    if (areAllied(d, pr.from, pr.to)) return { ok: false, reason: 'already_allied', state: withDip(state, dropProposal(d, id)) };
+    return { ok: true, state: withDip(state, addAlliance(dropProposal(d, id), pr.from, pr.to, state.date)) };
+  }
+
+  /** `actor` rifiuta: la proposta cade e il rapporto cala un poco (rejectPenalty). */
+  function rejectProposal(state, actor, id) {
+    const pr = proposalsOf(state).find((x) => x.id === id);
+    if (!pr || pr.to !== actor) return fail('no_proposal');
+    return { ok: true, state: withDip(state, addRelation(dropProposal(dip(state), id), pr.from, pr.to, config.proposals.rejectPenalty, range)) };
+  }
+
   /** Rompe un'alleanza: -30 (soglia dell'utente) con l'ex alleato, accesso reciproco revocato. */
   function breakAlliance(state, actor, ally) {
     const bad = checkPair(state, actor, ally); if (bad) return bad;
@@ -166,6 +204,7 @@ export function createDiplomacyGame({ config, start }) {
       if (!tradeConsent({ ...s, diplomacy: d }, c.seller, c.buyer).ok) continue;
       if (relationOf(d, c.seller, c.buyer) < config.trade.gainCap) d = addRelation(d, c.seller, c.buyer, config.trade.dailyGain, range);
     }
+    d = { ...d, proposals: (d.proposals ?? []).filter((x) => state.day - (x.day ?? state.day) < config.proposals.expireDays) }; // le proposte senza risposta scadono
     s = { ...s, diplomacy: d };
     for (const c of s.trade?.contracts ?? []) {
       if ((c.status === 'active' || c.status === 'suspended') && !tradeConsent(s, c.seller, c.buyer).ok) s = cancelBetween(s, c.seller, c.buyer);
@@ -173,6 +212,6 @@ export function createDiplomacyGame({ config, start }) {
     return s;
   }
 
-  return { init, relation, allied, tradeConsent, hostilesOf, commonEnemy, improveRelations, proposeAlliance, breakAlliance, requestAccess, revokeAccessTo, declareWar, makePeace, diplomacyDay, config };
+  return { init, offerAlliance, acceptProposal, rejectProposal, proposalsOf, relation, allied, tradeConsent, hostilesOf, commonEnemy, improveRelations, proposeAlliance, breakAlliance, requestAccess, revokeAccessTo, declareWar, makePeace, diplomacyDay, config };
 }
 
