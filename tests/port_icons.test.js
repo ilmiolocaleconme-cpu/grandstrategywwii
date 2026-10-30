@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { portPinsByProvince, pinSpec, shortName, drawProvincePorts, PORT_DIAMETER, PORT_NAME_ZOOM, MAX_NAME_CHARS } from '../src/map/portIcons.js';
+import { portPins, shipyardPins, pinSpec, shortName, drawPorts, PORT_DIAMETER, PORT_NAME_ZOOM, MAX_NAME_CHARS } from '../src/map/portIcons.js';
 import { LAYERS } from '../src/map/geo.js';
 
 const json = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
@@ -25,28 +25,24 @@ function fakeCtx(w = 800, h = 600) {
   return ctx;
 }
 const model = () => {
-  const mk = (id, x, y, area) => ({ props: { id }, areaKm2: area, anchor: { x, y } });
-  const items = [mk('P_1', 100, 100, 500), mk('P_2', 300, 100, 100)];
-  const byId = new Map([...items.map((i) => [i.props.id, i]), ['C_A', mk('C_A', 130, 100, 1)], ['C_B', mk('C_B', 101, 100, 1)], ['C_C', mk('C_C', 330, 130, 1)]]);
-  return { items, byId };
+  const mk = (id, x, y) => ({ props: { id }, anchor: { x, y } });
+  const byId = new Map([['C_A', mk('C_A', 130, 100)], ['C_B', mk('C_B', 101, 100)], ['C_C', mk('C_C', 330, 130)]]);
+  return { items: [], byId };
 };
-const args = (m, extra = {}) => ({ items: m.items, byProvince: portPinsByProvince(ports, null), a: { sx: 1, tx: 0, ty: 0 }, dpr: 1, copies: [0], boxes: [], model: m, hits: [], k: 1, ...extra });
+const args = (m, extra = {}) => ({ pins: portPins(ports, null), a: { sx: 1, tx: 0, ty: 0 }, dpr: 1, copies: [0], boxes: [], model: m, hits: [], k: 1, ...extra });
 
-test('portPinsByProvince: solo livello ≥ 1, ordinati per livello poi nome; lo stato di partita prevale sul 1936', () => {
-  const p = portPinsByProvince(ports, null);
-  assert.deepEqual(Object.keys(p).sort(), ['P_1', 'P_2']);
-  assert.deepEqual(p.P_1.map((x) => [x.cittaId, x.level]), [['C_B', 3], ['C_A', 2]]);
-  const built = portPinsByProvince(ports, { ports: { levels: { C_D: 1, C_A: 3 } } });
-  assert.deepEqual(built.P_3.map((x) => x.cittaId), ['C_D']);
-  assert.deepEqual(built.P_1.map((x) => x.cittaId), ['C_A', 'C_B'], 'parità di livello: ordine per nome');
-  assert.deepEqual(portPinsByProvince(null, null), {});
+test('portPins: solo livello ≥ 1, ordinati per livello poi nome; lo stato di partita prevale sul 1936', () => {
+  assert.deepEqual(portPins(ports, null).map((x) => [x.cittaId, x.level, x.province]), [['C_B', 3, 'P_1'], ['C_A', 2, 'P_1'], ['C_C', 1, 'P_2']]);
+  const built = portPins(ports, { ports: { levels: { C_D: 1, C_A: 3 } } });
+  assert.deepEqual(built.map((x) => x.cittaId), ['C_A', 'C_B', 'C_D', 'C_C'], 'livello 3 per nome, poi 1 per nome');
+  assert.deepEqual(portPins(null, null), []);
 });
 
-test('pinSpec: diametro dal livello del porto principale, etichetta con +N, nome accorciato', () => {
-  const s = pinSpec(portPinsByProvince(ports, null).P_1);
+test('pinSpec: diametro dal livello, nome accorciato', () => {
+  const s = pinSpec(portPins(ports, null)[0]);
   assert.equal(s.diameter, PORT_DIAMETER[3]);
-  assert.equal(s.label, 'Beta +1');
-  assert.ok(s.title.includes('Alfa (livello 2)'));
+  assert.equal(s.label, 'Beta');
+  assert.ok(s.title.includes('livello 3'));
   assert.ok(PORT_DIAMETER[1] < PORT_DIAMETER[2] && PORT_DIAMETER[2] < PORT_DIAMETER[3]);
   assert.equal(shortName('Nome lunghissimo di porto').length, MAX_NAME_CHARS);
   assert.equal(shortName('Roma'), 'Roma');
@@ -56,43 +52,58 @@ test('il livello «Porti» è tra i livelli della mappa', () => {
   assert.ok(LAYERS.some((l) => l.id === 'ports' && l.label === 'Porti'));
 });
 
-test('drawProvincePorts: senza nomi sotto lo zoom, con nomi sopra; linee e aree toccabili verso le città vere', () => {
+test('drawPorts: un distintivo per porto, sul punto della città, senza linee; nome da zoom e solo con spazio', () => {
   const m = model();
-  const far = args(m, { k: PORT_NAME_ZOOM - 1 });
-  drawProvincePorts(fakeCtx(), far);
-  const provHits = far.hits.filter((h) => h.cittaId === 'C_B' && h.province === 'P_1');
-  assert.equal(provHits.length, 1, 'un solo distintivo per provincia, sul porto principale (C_B)');
-  const badge = provHits[0];
-  assert.equal(badge.x1 - badge.x0, PORT_DIAMETER[3], 'senza nome l\'area è il solo distintivo');
-  assert.ok(far.hits.some((h) => h.cittaId === 'C_A' && h.x1 - h.x0 === 18), 'puntino della seconda città portuale a 30 px: cliccabile');
-  assert.ok(!far.hits.some((h) => h.cittaId === 'C_B' && h.x1 - h.x0 === 18), 'C_B è a 1 px dal distintivo: nessuna linea né puntino');
-
-  const near = args(m, { k: PORT_NAME_ZOOM });
-  const ctx = fakeCtx();
-  drawProvincePorts(ctx, near);
-  const withName = near.hits.find((h) => h.cittaId === 'C_B' && h.province === 'P_1' && h.x1 - h.x0 > PORT_DIAMETER[3]);
-  assert.ok(withName, 'con il nome l\'area toccabile si allarga fino al testo');
-  assert.ok(ctx.calls.some((c) => c[0] === 'fillText' && c[1] === 'Beta +1'));
+  const far = args(m, { k: PORT_NAME_ZOOM - 1 }); const ctxFar = fakeCtx();
+  drawPorts(ctxFar, far);
+  assert.equal(far.hits.length, 2, 'C_A e C_B sono a 29 px: troppo vicini per due distintivi (C_A salta), C_C è libero');
+  const b = far.hits.find((h) => h.cittaId === 'C_B');
+  assert.equal(b.x1 - b.x0, PORT_DIAMETER[3]);
+  assert.equal((b.x0 + b.x1) / 2, 101, 'centrato sulla città');
+  const near = args(m, { k: PORT_NAME_ZOOM }); const ctx = fakeCtx();
+  drawPorts(ctx, near);
+  assert.ok(near.hits.find((h) => h.cittaId === 'C_B').x1 - near.hits.find((h) => h.cittaId === 'C_B').x0 > PORT_DIAMETER[3], 'con il nome l\'area si allarga');
+  assert.ok(ctx.calls.some((c) => c[0] === 'fillText' && c[1] === 'Beta'));
 });
 
-test('drawProvincePorts: fuori schermo e sovrapposizioni saltati, nessuna linea oltre il massimo', () => {
+test('drawPorts: fuori schermo e sovrapposizioni saltati, città mancante ignorata', () => {
   const m = model();
   const off = args(m, { a: { sx: 1, tx: -5000, ty: 0 } });
-  drawProvincePorts(fakeCtx(), off);
+  drawPorts(fakeCtx(), off);
   assert.equal(off.hits.length, 0);
   const busy = args(m, { boxes: [[60, 60, 140, 140]] });
-  drawProvincePorts(fakeCtx(), busy);
-  assert.ok(!busy.hits.some((h) => h.province === 'P_1'), 'riquadro già occupato: distintivo saltato');
-  const wide = args(m, { a: { sx: 20, tx: -1500, ty: -1500 }, k: 8 });
-  drawProvincePorts(fakeCtx(2000, 2000), wide);
-  assert.ok(!wide.hits.some((h) => h.cittaId === 'C_C' && h.x1 - h.x0 === 18), 'città a più di 300 px: niente linea');
-  drawProvincePorts(fakeCtx(), { ...args(m), byProvince: null });
+  drawPorts(fakeCtx(), busy);
+  assert.ok(!busy.hits.some((h) => h.cittaId === 'C_B' || h.cittaId === 'C_A'), 'riquadro già occupato: distintivi saltati');
+  const none = args({ items: [], byId: new Map() });
+  drawPorts(fakeCtx(), none);
+  assert.equal(none.hits.length, 0);
+  drawPorts(fakeCtx(), { ...args(m), pins: null });
+});
+
+test('shipyardPins: cantieri costruiti, uno per provincia, accanto al porto principale (o alla città costiera)', () => {
+  const st = { nations: { A: { facilities: [{ type: 'FCT-SHIPYARD', provinceId: 'P_1' }, { type: 'FCT-SHIPYARD', provinceId: 'P_1' }, { type: 'FCT-STEEL', provinceId: 'P_2' }, { type: 'FCT-SHIPYARD' }] }, B: { facilities: [{ type: 'FCT-SHIPYARD', provinceId: 'P_3' }, { type: 'FCT-SHIPYARD', provinceId: 'P_9' }] } } };
+  const y = shipyardPins(ports, st);
+  assert.deepEqual(y.map((x) => [x.provinceId, x.cittaId, x.count]), [['P_1', 'C_B', 2], ['P_3', 'C_D', 1]], 'P_1: porto di livello più alto; P_3: città costiera senza porto; P_9 senza coste: nessun segno; senza provinceId o non cantiere: ignorati');
+  assert.deepEqual(shipyardPins(ports, null), []);
+});
+
+test('drawPorts: il cantiere si disegna accanto al porto e si può toccare (vince sul porto)', () => {
+  const m = model();
+  m.byId.set('C_D', { props: { id: 'C_D' }, anchor: { x: 200, y: 250 } });
+  const a = args(m, { yards: [{ provinceId: 'P_1', cittaId: 'C_B', name: 'Beta', count: 1 }, { provinceId: 'P_3', cittaId: 'C_D', name: 'Delta', count: 1 }] });
+  drawPorts(fakeCtx(), a);
+  const yards = a.hits.filter((h) => h.yard);
+  assert.equal(yards.length, 2);
+  const port = a.hits.find((h) => h.cittaId === 'C_B' && !h.yard);
+  const y1 = yards.find((h) => h.cittaId === 'C_B');
+  assert.ok(y1.x0 < port.x0 + PORT_DIAMETER[3] / 2 && y1.y0 > port.y0 + PORT_DIAMETER[3] / 2 - 1, 'in basso a sinistra, attaccato al distintivo del porto');
+  assert.ok(a.hits.indexOf(y1) > a.hits.indexOf(port), 'il cantiere viene dopo: nel tocco vince');
+  assert.equal((yards.find((h) => h.cittaId === 'C_D').x0 + yards.find((h) => h.cittaId === 'C_D').x1) / 2, 200, 'senza porto: sul punto della città');
 });
 
 test('dati reali: ogni porto del 1936 ha una città costiera con provincia madre', () => {
   const base = json('ports/ports_1936.json'); const coastal = json('ports/coastal_cities.json').cities;
-  const pins = portPinsByProvince({ coastal, base: { ports: base.ports } }, null);
-  const total = Object.values(pins).reduce((n, l) => n + l.length, 0);
+  const total = portPins({ coastal, base: { ports: base.ports } }, null).length;
   assert.ok(total >= Object.keys(base.ports).filter((id) => base.ports[id].level >= 1).length * 0.9, 'quasi tutti i porti compaiono');
   assert.ok(total > 20);
 });

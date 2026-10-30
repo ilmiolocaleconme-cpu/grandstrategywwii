@@ -78,7 +78,7 @@ import portLevelsFile from '../data/ports/port_levels.json';
 import portsBaseFile from '../data/ports/ports_1936.json';
 import coastalCitiesFile from '../data/ports/coastal_cities.json';
 import { provincePortRows, portSummary } from './ui/portView.js';
-import { portPinsByProvince } from './map/portIcons.js';
+import { portPins, shipyardPins } from './map/portIcons.js';
 import linkEdgesFile from '../data/infrastructure/link_edges.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
 import hydroPlants from '../data/resources/hydro_plants.json';
@@ -504,7 +504,8 @@ export default function App() {
     return game && id ? provincePortRows(game, id, { ports: GAME_PORTS, build: GAME_BUILD, nationId: game.player, techName }) : null;
   }, [game, selectedItem, techName]);
   const harbours = useMemo(() => (game ? portSummary(game, game.player, { ports: GAME_PORTS, entityOf: entityOfProvince }) : null), [game]);
-  const portPins = useMemo(() => portPinsByProvince(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
+  const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
+  const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri navali costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -738,7 +739,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPins} onSelectPort={selectPort} />
+        <MapScreen land={land} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
         {command && game ? (
           <CommandPanel orbat={game.orbat ?? createOrbatState()} units={unitsFile.units} nation={game.player} date={game.date} nationName={NATION_NAMES[game.player]} selectedId={command.selected} notice={command.notice}
             onSelect={(id) => setCommand((c) => ({ ...c, selected: id, notice: null }))}
