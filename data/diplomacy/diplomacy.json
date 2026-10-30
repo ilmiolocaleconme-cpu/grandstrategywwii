@@ -1,0 +1,12 @@
+{
+  "schema": "diplomacy-config-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Parametri della diplomazia minima (30/10/2026). Le soglie citate (-20 commercio, -40 sabotaggio, +40 alleanza, -30 rottura) sono scelte dell'utente; TUTTI gli altri numeri sono valori di progetto di Claude, da bilanciare, non dati storici. Rapporti da -100 a +100.",
+  "relation": { "min": -100, "max": 100 },
+  "trade": { "minRelation": -20, "dailyGain": 0.05, "gainCap": 50 },
+  "sabotage": { "maxRelation": -40 },
+  "improve": { "ecv": 20, "gain": 10, "maxRelation": 90 },
+  "alliance": { "minRelation": 40, "ecv": 50, "breakPenalty": -30 },
+  "access": { "minRelation": 20, "ecv": 30 },
+  "war": { "victimPenalty": -60, "victimAlliesPenalty": -30, "dailyDrift": -0.5, "peaceMinRelation": -90, "afterPeaceRelation": -30 }
+}

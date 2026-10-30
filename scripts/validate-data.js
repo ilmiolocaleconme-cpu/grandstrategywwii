@@ -27,6 +27,7 @@ import { validateHydro } from '../src/data/hydro.js';
 import { validateFactoryLevels } from '../src/data/factoryLevels.js';
 import { validateTechnologies, consumersOf } from '../src/data/technologies.js';
 import { validateSecurityConfig } from '../src/rules/security.js';
+import { validateDiplomacyConfig, validateDiplomacyStart } from '../src/rules/diplomacy.js';
 import { validatePortsList, validatePorts, buildPorts } from '../src/data/ports.js';
 import { validatePortLevels } from '../src/data/portLevels.js';
 import { validateGarrisonEstimate, buildGarrisonEstimate } from '../src/data/garrison.js';
@@ -165,9 +166,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const linksDoc = JSON.parse(await text('links.json'));
     const rebuilt = buildLinkEdges({ links: linksDoc, config: infraCfg, provinces: catalog.provinces.features.map((f) => f.properties) });
     if (JSON.stringify(rebuilt) !== JSON.stringify(edgesDoc)) errors.push('collegamenti: link_edges.json non coincide con data/links.json e infrastructure.json: rigenerare con node scripts/build-infrastructure.js');
-    const rivalsDoc = JSON.parse(await text('security/ai_rivals_1936.json'));
-    const knownNations = new Set(catalog.nations.map((n) => n.id));
-    for (const pair of rivalsDoc.pairs ?? []) for (const n of pair) if (!knownNations.has(n)) errors.push(`rivali IA: nazione sconosciuta ${n}`);
+    errors.push(...validateDiplomacyConfig(JSON.parse(await text('diplomacy/diplomacy.json'))), ...validateDiplomacyStart(JSON.parse(await text('diplomacy/relations_1936.json')), catalog.nations.map((n) => n.id)));
     errors.push(...validateExtractionScale(JSON.parse(await text('resources/extraction_scale.json')), { recipes: recipesDoc, resources: catalog.resources }));
     errors.push(...validateFertilizerEffect(JSON.parse(await text('agriculture/fertilizer_effect.json')), { resources: catalog.resources }));
     errors.push(...validateHorseBreeding(JSON.parse(await text('agriculture/horse_breeding.json')), { resources: catalog.resources, recipes: recipesDoc, entityIds: new Set(catalog.political.map((e) => e.id)) }));

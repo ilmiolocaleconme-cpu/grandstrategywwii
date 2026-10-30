@@ -4,6 +4,7 @@
 import { createMovementState, issueMove, cancelMove, tickMovement, positionOf, validateMovement } from '../rules/movement.js';
 import { controllerOf } from '../map/geo.js';
 import { atWar } from '../rules/war.js';
+import { hasAccess } from '../rules/diplomacy.js';
 import { provinceStateOf } from './provinceState.js';
 
 export function validateMovementShape(state) {
@@ -22,12 +23,12 @@ export function currentDeployment(deploymentDoc, state) {
   return { ...deploymentDoc, entries: deploymentDoc.entries.map((e) => (mv.positions[e.unit] ? { ...e, province: mv.positions[e.unit] } : e)) };
 }
 
-/** Può entrare nella provincia `m`? Province proprie (controllo effettivo, anche per occupazione) e di nazioni in guerra con la propria (nessun accesso/diplomazia modellati). */
+/** Può entrare nella provincia `m`? Province proprie (controllo effettivo, anche per occupazione), di nazioni in guerra con la propria e di chi ha concesso accesso o alleanza. */
 export function canEnterFor(state, net, nation) {
   return (m) => {
     if (!net.has(m)) return false;
     const c = provinceStateOf(state, m).controller ?? controllerOf(net.owner(m), state.control);
-    return c === nation || atWar(state.war, c, nation);
+    return c === nation || atWar(state.war, c, nation) || hasAccess(state.diplomacy, nation, c); // alleati e accordi di accesso (diplomazia 30/10/2026)
   };
 }
 

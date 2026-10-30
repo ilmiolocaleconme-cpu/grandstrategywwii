@@ -7,25 +7,29 @@ import { advanceDay } from '../src/game/engine.js';
 import { createResearch, researchOf } from '../src/game/research.js';
 import { createSecurity } from '../src/game/security.js';
 import { securityOf } from '../src/game/securityState.js';
-import { createAiSecurity, rivalsOf } from '../src/game/aiSecurity.js';
+import { createAiSecurity } from '../src/game/aiSecurity.js';
+import { createDiplomacyGame } from '../src/game/diplomacyState.js';
 
 const json = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
-const cfg = json('security/security.json'); const technologies = json('research/technologies.json'); const rivals = json('security/ai_rivals_1936.json');
+const cfg = json('security/security.json'); const technologies = json('research/technologies.json');
 const political = json('political_1936.json'); const nationIds = json('nations.json').map((n) => n.id);
 const population = json('population/population.json'); const economy = json('economy/economy.json');
 const start = { nationIds, industry: json('industry/initial_industry.json'), stocks: json('industry/initial_stocks.json'), cash: json('industry/initial_cash.json'), economy, population };
 const research = createResearch({ technologies, economy });
 const security = createSecurity({ security: cfg, economy, political });
-const ai = createAiSecurity({ research, security, rivals });
+const dip = createDiplomacyGame({ config: json('diplomacy/diplomacy.json'), start: json('diplomacy/relations_1936.json') });
+const ai = createAiSecurity({ research, security, hostilesOf: dip.hostilesOf });
 const SYSTEMS = [research.researchDay, security.securityDay, ai.aiDay];
 const withNation = (s, id, patch) => ({ ...s, nations: { ...s.nations, [id]: { ...s.nations[id], ...patch } } });
-const game = () => withNation(withNation(withNation(newGame({ nation: 'ITA', political, ownersWithProvinces: nationIds, start }).state, 'DEU', { balance: 500 }), 'POL', { balance: 500 }), 'FRA', { balance: 500 });
+const game = () => dip.init(withNation(withNation(withNation(newGame({ nation: 'ITA', political, ownersWithProvinces: nationIds, start }).state, 'DEU', { balance: 500 }), 'POL', { balance: 500 }), 'FRA', { balance: 500 }));
 const run = (s, n) => { let x = s; for (let i = 0; i < n; i += 1) x = advanceDay(x, SYSTEMS); return x; };
 
-test('rivali: relazione simmetrica, file dichiarato hypothesis, nazioni esistenti', () => {
-  assert.equal(rivals.quality, 'hypothesis');
-  assert.deepEqual(rivalsOf(rivals, 'DEU'), ['FRA', 'USSR']); assert.deepEqual(rivalsOf(rivals, 'FRA'), ['DEU']); assert.deepEqual(rivalsOf(rivals, 'ITA'), []);
-  for (const [a, b] of rivals.pairs) assert.ok(nationIds.includes(a) && nationIds.includes(b));
+test('ostili dalla diplomazia: rapporto <= -40 o guerra, simmetrico; neutrali e alleati esclusi', () => {
+  const g = game();
+  assert.deepEqual(dip.hostilesOf(g, 'DEU'), ['FRA', 'USSR']); assert.deepEqual(dip.hostilesOf(g, 'FRA'), ['DEU']); assert.deepEqual(dip.hostilesOf(g, 'ITA'), []);
+  assert.deepEqual(dip.hostilesOf(g, 'GBR'), [], 'alleata della Francia, nessun rapporto ostile');
+  const war = dip.declareWar(g, 'ITA', 'POL').state; // la guerra rende ostili anche senza passare dalla soglia
+  assert.deepEqual(dip.hostilesOf(war, 'POL'), ['ITA']);
 });
 
 test('una nazione senza rivali ricerca l\'industria e non spende in spie né polizia', () => {
@@ -45,7 +49,7 @@ test('la Germania IA (rivali Francia e URSS): ricerca la sicurezza, mette polizi
   const ops = securityOf(de).log.filter((l) => l.kind === 'sabotage');
   assert.ok(ops.length > 0, 'almeno un sabotaggio condotto');
   assert.ok(minBalance >= 150 - 1e-6, `cassa minima ${minBalance}`); // l'IA non spende mai sotto la riserva
-  assert.ok(ops.every((l) => ['FRA', 'USSR'].includes(l.targetNation)), 'solo contro i rivali');
+  assert.ok(ops.every((l) => ['FRA', 'USSR'].includes(l.targetNation)), 'solo contro gli ostili');
   assert.ok(securityOf(s.nations.FRA).incidents.length + securityOf(s.nations.USSR).incidents.length > 0, 'i bersagli registrano incidenti');
   assert.deepEqual(validateState(s), []);
 });
@@ -57,11 +61,15 @@ test('l\'IA non comanda il giocatore e non lo colpisce se non è un rivale; stes
   assert.ok(a.nations.ITA.facilities.every((f) => (f.damage ?? 0) === 0));
 });
 
-test('se il giocatore è un rivale, l\'IA non lo sabota (spento finché manca la diplomazia) ma sabota le altre IA', () => {
-  const g = newGame({ nation: 'FRA', political, ownersWithProvinces: nationIds, start }).state;
+test('se il giocatore è ostile (rapporto <= -40) l\'IA lo sabota; se è neutrale no', () => {
+  const g = dip.init(newGame({ nation: 'FRA', political, ownersWithProvinces: nationIds, start }).state);
   const s = run(withNation(g, 'DEU', { balance: 500 }), 600);
   const log = securityOf(s.nations.DEU).log;
-  assert.ok(!log.some((l) => l.targetNation === 'FRA'), 'nessuna azione contro il giocatore');
-  assert.ok(log.some((l) => l.kind === 'sabotage' && l.targetNation === 'USSR'), 'colpisce comunque l\'altro rivale IA');
-  assert.ok((s.nations.FRA.facilities).every((f) => (f.damage ?? 0) === 0));
+  assert.ok(log.some((l) => l.targetNation === 'FRA'), 'azioni contro il giocatore ostile');
+  assert.ok(log.some((l) => l.kind === 'sabotage' && l.targetNation === 'FRA'), 'sabotaggi riusciti o tentati sul giocatore');
+  assert.ok(s.nations.DEU.balance >= 150 - 1e-6, 'riserva rispettata'); // con fondi limitati l\'IA concentra le risorse sul primo ostile (ordine alfabetico): limite noto
+  const calm = { ...g, diplomacy: { ...g.diplomacy, relations: { ...g.diplomacy.relations, 'DEU|FRA': -10 } } };
+  const t = run(withNation(calm, 'DEU', { balance: 500 }), 600);
+  assert.ok(!securityOf(t.nations.DEU).log.some((l) => l.targetNation === 'FRA'), 'rapporto sopra la soglia: nessuna azione');
+  assert.ok(t.nations.FRA.facilities.every((f) => (f.damage ?? 0) === 0));
 });

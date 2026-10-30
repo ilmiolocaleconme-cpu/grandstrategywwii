@@ -46,7 +46,7 @@ import ArmyPanel from './ui/ArmyPanel.jsx';
 import TheaterPanel from './ui/TheaterPanel.jsx';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
-import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, playerDeclareWar, provinceController, isFighter, playerToggleEntrench, entrenchOf } from './game/theaterState.js';
+import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, provinceController, isFighter, playerToggleEntrench, entrenchOf } from './game/theaterState.js';
 import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
 import { positionOf } from './rules/movement.js';
@@ -64,7 +64,8 @@ import recipesFile from '../data/industry/recipes.json';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
 import securityFile from '../data/security/security.json';
-import aiRivalsFile from '../data/security/ai_rivals_1936.json';
+import diplomacyConfig from '../data/diplomacy/diplomacy.json';
+import diplomacyStart from '../data/diplomacy/relations_1936.json';
 import presenceFile from '../data/military/province_presence.json';
 import garrisonEstimateFile from '../data/military/garrison_estimate_1936.json';
 import { presenceFromEstimate } from './data/garrison.js';
@@ -93,6 +94,9 @@ import { entityOfProvinceId } from './data/provinceOwner.js';
 import { provinceLinkRows, infraSummary } from './ui/infraView.js';
 import { createSecurity } from './game/security.js';
 import { createAiSecurity } from './game/aiSecurity.js';
+import { createDiplomacyGame } from './game/diplomacyState.js';
+import { DiplomacyPanel } from './ui/DiplomacyPanel.jsx';
+import { notableRows, pairView, describeDiplomacyFailure } from './ui/diplomacyView.js';
 import { provinceBuildOptions, economySummary, describeBuildFailure, upgradeOptions } from './ui/buildOptions.js';
 import { RESOURCE_META } from './data/provinceResources.js';
 import { initialClock, msPerDay, pressBack, pressForward, pressPause } from './game/speed.js';
@@ -262,13 +266,15 @@ const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.ind
 // Ospedali (data/medical/hospital_care.json): il personale esce dal pool reclutabile; la regola delle retrovie (rules/hospitals.js isRear) non è applicata finché non esiste lo stato di guerra.
 const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsFile.units, population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available;
 export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
-// Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I rivali dell'IA sono PROVVISORI (hypothesis), vedi data/security/ai_rivals_1936.json.
+// Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I nemici dell'IA vengono dalla diplomazia (guerra o rapporto <= soglia), giocatore compreso.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
-const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, rivals: aiRivalsFile });
+// Diplomazia minima (30/10/2026): parametri DESIGN_DEFAULT, situazione 1936 hypothesis. Rapporti, alleanze, accessi, costi di guerra, consenso al commercio.
+const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: diplomacyStart });
+const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
 const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry], ratio: readiness.initialFillRatio.value };
-const withForces = (state) => initForcesState(state, FORCES_CTX).state;
+const withForces = (state) => GAME_DIPLOMACY.init(initForcesState(state, FORCES_CTX).state); // anche la diplomazia: stato iniziale 1936 se manca
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };
 const GAME_SEA = { sea: null }; // rotte marittime con i porti reali (game/seaState.js): si crea quando arrivano le zone di mare e le province
@@ -284,6 +290,7 @@ const GAME_SYSTEMS = [
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
   createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
+  GAME_DIPLOMACY.diplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
@@ -437,7 +444,7 @@ export default function App() {
   const securityView = useMemo(() => (game ? securitySummary(game, game.player, { ...secCtx, state: game }) : null), [game, secCtx]);
   // commercio: il giocatore è una delle due parti; il percorso usa la rete di movimento e le rotte marittime con i porti reali (se già caricate)
   const tradeGoodList = useMemo(() => tradeGoods(economyData, resources), []);
-  const tradeCtx = () => ({ economy: economyData, resources, net: gameNet(game), sea: GAME_SEA.sea ? GAME_SEA.sea.at(game) : null });
+  const tradeCtx = () => ({ economy: economyData, resources, net: gameNet(game), sea: GAME_SEA.sea ? GAME_SEA.sea.at(game) : null, consent: GAME_DIPLOMACY.tradeConsent });
   const orderOf = (o) => (o.direction === 'sell' ? { seller: game.player, buyer: o.partner } : { seller: o.partner, buyer: game.player });
   const previewTradeOrder = useCallback((o) => previewTrade(game, { ...orderOf(o), good: o.good, perDay: o.perDay, days: o.days, mode: o.mode }, tradeCtx()), [game, moveNet, seaFile]); // eslint-disable-line react-hooks/exhaustive-deps
   const openTrade = (o) => {
@@ -449,6 +456,24 @@ export default function App() {
   const cancelTrade = (id) => { const r = cancelTradeContract(game, id); if (!r.ok) return { ok: false, text: describeTradeFailure(r.reason) }; setGame(r.state); return { ok: true, text: `Contratto ${id} annullato.` }; };
   const tradePartners = useMemo(() => (game ? Object.keys(game.nations).filter((id) => id !== game.player).map((id) => ({ id, name: NATION_NAMES[id] ?? id })).sort((a, b) => a.name.localeCompare(b.name, 'it')) : []), [game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
   const tradeList = useMemo(() => (game ? tradeRows(game, game.player, { nationName: (id) => NATION_NAMES[id] ?? id, goods: tradeGoodList }) : []), [game?.trade, game?.day, game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
+  // diplomazia: azioni del giocatore verso una nazione (rapporti, alleanze, accesso, guerra e pace)
+  const dipAct = (fn, okText) => (target) => {
+    const r = fn(game, game.player, target);
+    if (!r.ok) return { ok: false, text: describeDiplomacyFailure(r.reason, r) };
+    setGame(r.state);
+    return { ok: true, text: typeof okText === 'function' ? okText(r, NATION_NAMES[target] ?? target) : okText };
+  };
+  const dipActions = {
+    improve: dipAct(GAME_DIPLOMACY.improveRelations, (r, n) => `Rapporti con ${n} migliorati.`),
+    alliance: dipAct(GAME_DIPLOMACY.proposeAlliance, (r, n) => `${n} accetta l'alleanza (nemico comune: ${NATION_NAMES[r.enemy] ?? r.enemy}).`),
+    breakAlliance: dipAct(GAME_DIPLOMACY.breakAlliance, (r, n) => `Alleanza con ${n} rotta.`),
+    access: dipAct(GAME_DIPLOMACY.requestAccess, (r, n) => `${n} concede il passaggio alle tue truppe.`),
+    revoke: (target) => { const r = GAME_DIPLOMACY.revokeAccessTo(game, game.player, target); if (!r.ok) return { ok: false, text: describeDiplomacyFailure(r.reason) }; setGame(r.state); return { ok: true, text: 'Accesso ritirato.' }; },
+    war: dipAct(GAME_DIPLOMACY.declareWar, (r, n) => `Guerra dichiarata a ${n}.`),
+    peace: dipAct(GAME_DIPLOMACY.makePeace, (r, n) => `Pace con ${n}.`),
+  };
+  const nationNameOf = (id) => NATION_NAMES[id] ?? id;
+  const dipRows = useMemo(() => (game?.diplomacy ? notableRows(game, game.player, diplomacyConfig, nationNameOf) : []), [game?.diplomacy, game?.war, game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
   const startResearch = (techId) => applyOrder(GAME_RESEARCH.start(game, game.player, techId), 'Ricerca avviata: costo pagato.');
   const trainAgent = (role) => applyOrder(GAME_SECURITY.train(game, game.player, role), 'Addestramento avviato: costo pagato.');
   const trainPolice = (place) => applyOrder(GAME_SECURITY.trainMilitaryPolice(game, game.player, place), 'Reparto di polizia militare in addestramento.');
@@ -661,6 +686,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} />
+            <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
             <ResearchPanel rows={researchRows} onStart={startResearch} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
@@ -711,7 +737,7 @@ export default function App() {
             onRemove={(p) => setTheater((t) => ({ ...t, draft: { ...t.draft, provinces: t.draft.provinces.filter((x) => x !== p) } }))}
             onConfirm={confirmAssign} onCancelDraft={() => setTheater({ draft: null, notice: null })}
             onCancelAssignment={(id) => { try { setGame((g) => playerCancelAssignment(g, id)); setTheater((t) => ({ ...t, notice: `Incarico ${id} annullato.` })); } catch (e) { setTheater((t) => ({ ...t, notice: e.message })); } }}
-            onDeclareWar={(n) => { try { setGame((g) => playerDeclareWar(g, n)); setTheater((t) => ({ ...t, notice: `Guerra dichiarata a ${NATION_NAMES[n] ?? n}.` })); } catch (e) { setTheater((t) => ({ ...t, notice: e.message })); } }}
+            onDeclareWar={(n) => { const r = GAME_DIPLOMACY.declareWar(game, game.player, n); if (r.ok) { setGame(r.state); setTheater((t) => ({ ...t, notice: `Guerra dichiarata a ${NATION_NAMES[n] ?? n}.` })); } else setTheater((t) => ({ ...t, notice: describeDiplomacyFailure(r.reason, r) })); }}
             onClose={() => setTheater(null)} />
         ) : armyGroup && layer === 'army' && game ? (
           <ArmyPanel group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={UNITS_BY_ID} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}

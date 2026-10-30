@@ -1,6 +1,0 @@
-{
-  "schema": "ai-rivals-v1",
-  "quality": "hypothesis",
-  "note": "Coppie di nazioni che l'IA tratta come ostili per lo spionaggio e il sabotaggio. PROVVISORIO: non esiste ancora un sistema diplomatico né di guerra, quindi l'ostilità non può derivare dallo stato di gioco. Le coppie rappresentano rivalità politiche note nel 1936 e sono una scelta di Claude da rivedere; non sono dati verificati. L'IA agisce contro un rivale solo se ha la tecnologia, i fondi e il rivale ha impianti. Il giocatore non è mai escluso: se controlli una di queste nazioni l'IA rivale ti colpisce. Quando arriverà la diplomazia questo file va sostituito da relazioni reali.",
-  "pairs": [["DEU", "FRA"], ["DEU", "USSR"], ["JPN", "CHN"]]
-}
