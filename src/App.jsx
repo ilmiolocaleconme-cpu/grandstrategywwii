@@ -56,6 +56,7 @@ import readiness from '../data/units/readiness.json';
 import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
 import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
 import tplGbrInfantry from '../data/units/templates/divisione_fanteria_gran_bretagna_1936.json';
+import tplFraInfantry from '../data/units/templates/divisione_fanteria_francia_1936.json';
 import { createEconomySystem } from './game/economySystem.js';
 import { createConstruction } from './game/construction.js';
 import mineSites from '../data/resources/mine_sites.json';
@@ -273,7 +274,7 @@ const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyD
 const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: diplomacyStart });
 const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
-const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry], ratio: readiness.initialFillRatio.value };
+const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry], ratio: readiness.initialFillRatio.value };
 const withForces = (state) => GAME_DIPLOMACY.init(initForcesState(state, FORCES_CTX).state); // anche la diplomazia: stato iniziale 1936 se manca
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };

@@ -411,3 +411,9 @@ Campo opzionale `state.diplomacy` (nessuna migrazione; inizializzato alla partit
 - **IA di sabotaggio**: ora guidata dall'ostilità (guerra o rapporto <= -40), giocatore compreso; `data/security/ai_rivals_1936.json` rimosso. Con fondi limitati l'IA concentra le risorse sul primo ostile in ordine alfabetico (limite noto).
 - **Verificato**: suite completa, `validate-data`, bundle esbuild (modulo PWA escluso) e render del pannello. NON verificato: `vite build`, uso reale su telefono.
 - **Mancante**: l'IA non propone né accetta alleanze, non dichiara guerra, non chiede accessi, non commercia; il giocatore non riceve proposte; nessuna ripercussione sugli alleati quando si dichiara guerra (non entrano in guerra da soli); gli alleati non condividono le province nella difesa; le soglie vanno bilanciate.
+
+## Template provvisorio fanteria francese (scelta A, 30/10/2026)
+- **Implementato e testato** (`tests/template_fra.test.js`): `data/units/templates/divisione_fanteria_francia_1936.json`, collegato in `App.jsx`. Stato `BOZZA_DA_CONFERMARE`.
+- Previsto 17.500 uomini = **IPOTESI** (organico di guerra 1939-40, fonte web debole: littlewars.se; non è l'organico di pace 1936). Parte come quadro al 30% (estensione provvisoria dell'esempio dell'utente per la Gran Bretagna, non storico). Armi, cavalli, veicoli: `null`.
+- Copre solo la categoria `infantry`: restano senza dotazione le divisioni motorizzate, alpine e le leggere meccaniche francesi. Altre nazioni: ancora nessun template.
+- Effetto: la Francia ora combatte (provato nel browser: dichiarata guerra, l'IA francese conquista Baden, Saarpfalz e Koblenz-Trier in 4 settimane contro un giocatore passivo). Bilanciamento non verificato.
