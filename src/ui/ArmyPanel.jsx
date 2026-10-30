@@ -92,7 +92,7 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
+export default function ArmyPanel({ group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, onCommand, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
     () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig })])),
@@ -163,6 +163,7 @@ export default function ArmyPanel({ group, game, unitsById, officersById, initia
           <button type="button" className="danger" onClick={onCancel} disabled={n === 0}>Annulla ordini</button>
           {onEntrench ? <button type="button" onClick={() => onEntrench(true)} disabled={n === 0} title="Le divisioni ferme guadagnano un bonus difensivo ogni giorno senza battaglia">Trincera</button> : null}
           {onEntrench ? <button type="button" onClick={() => onEntrench(false)} disabled={n === 0}>Smetti</button> : null}
+          {onCommand ? <button type="button" onClick={onCommand} title="Apri la catena di comando con l'unità scelta">Comando</button> : null}
           {onAssign ? <button type="button" className="go" onClick={onAssign}>Incarico{n ? ` (${n})` : ''}</button> : null}
         </footer>
       )}
