@@ -521,9 +521,9 @@ export function drawOverlay(ctx, p) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawProvinceResources(ctx, { items: model.items, byProvince: provinceResources, a, dpr, copies, boxes: cityBoxes, model });
   }
-  // livello Esercito: segnalini delle unità (dislocazione derivata), prima dei nomi come le risorse
+  // segnalini delle unità (dislocazione derivata): sempre visibili, in ogni livello, prima dei nomi come le risorse
   if (unitHits) unitHits.length = 0;
-  if (layer === 'army' && provinceUnits) {
+  if (provinceUnits) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawProvinceUnits(ctx, { items: model.items, byProvince: provinceUnits, a, dpr, copies, boxes: cityBoxes, model, hits: unitHits });
   }

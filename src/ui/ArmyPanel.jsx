@@ -3,65 +3,7 @@ import { useMemo, useState } from 'react';
 import Flag from './Flag.jsx';
 import { unitInfo } from '../rules/unitInfo.js';
 
-const ECH = { division: 'Divisione', brigade: 'Brigata', command: 'Comando' };
-const CAT = { infantry: 'fanteria', armored: 'corazzata', mechanized: 'meccanizzata', motorized: 'motorizzata', cavalry: 'cavalleria', mountain: 'alpina', airborne: 'paracadutisti', command: 'comando' };
-const LEVEL = { corps: 'corpo d’armata', army: 'armata', army_group: 'gruppo d’armate', theater: 'teatro', high_command: 'alto comando', district: 'distretto' };
-
-const POLICY = { conservative: 'conservativa', normal: 'normale', aggressive: 'aggressiva' };
-
-function Info({ info, canSetPolicy, onPolicy }) {
-  const c = info.commander;
-  const s = info.strength;
-  const k = info.condition;
-  return (
-    <div className="unit-info">
-      <h3>{info.name}</h3>
-      <p className="muted">{ECH[info.echelon] ?? info.echelon} · {CAT[info.category] ?? info.category}{info.commandLevel ? ` · ${LEVEL[info.commandLevel] ?? info.commandLevel}` : ''} · {info.nation}</p>
-      <dl>
-        <dt>Comandante</dt>
-        <dd>{c.status === 'assegnato' ? `${c.name} (${c.rank}) — ${c.source === 'player' ? 'scelto da te' : 'assegnato in automatico'}, dal ${c.since}` : c.status === 'vacante' ? 'vacante' : `non gestito (${c.reason})`}</dd>
-        <dt>Posizione</dt>
-        <dd>{info.movement.provinceName ?? 'sconosciuta'}{info.movement.order ? ` → ${info.movement.order.toName}: prossima tappa ${info.movement.order.nextName}, ${info.movement.order.daysLeft} g. alla tappa, ${info.movement.order.totalDays} g. in tutto` : ' (ferma)'}</dd>
-        <dt>Inquadrata in</dt>
-        <dd>{info.chain.length ? info.chain.map((x) => x.name).join(' › ') : 'nessun comando superiore'}</dd>
-        <dt>Forze assegnate</dt>
-        <dd>{info.children.length ? info.children.map((x) => x.name).join(', ') : 'nessuna'}</dd>
-        <dt>Consistenza</dt>
-        <dd>{s ? (s.cadre ? 'quadro (non pronto al combattimento) · ' : '') + (s.manpower ? `uomini ${s.manpower.effective} / ${s.manpower.planned} (${Math.round(s.manpower.ratio * 100)}%)` : 'uomini: dato assente') + (s.reinforce ? '' : ' · rinforzi sospesi') : 'nessuna dotazione per questa unità (modello non ancora definito)'}</dd>
-        <dt>Dotazione</dt>
-        <dd>{info.equipment.length ? info.equipment.slice(0, 3).map((e) => `${e.item} ${e.effective}/${e.planned} (${Math.round(e.ratio * 100)}%)`).join(' · ') + (info.equipment.length > 3 ? ` · altre ${info.equipment.length - 3} voci` : '') : 'nessun dato'}</dd>
-        {k ? (
-          <>
-            <dt>Stato operativo</dt>
-            <dd><strong>{k.operational.name}</strong>{k.operational.cause ? ` — causa: ${k.operational.cause}` : ''}</dd>
-            <dt>Esperienza</dt>
-            <dd>{Math.round(k.experience)} · livello {k.experienceLevel.level} {k.experienceLevel.name}{k.isNew ? ' (unità nuova, si addestra fino al tetto)' : ''}</dd>
-            <dt>Morale</dt>
-            <dd>{Math.round(k.morale)} · {k.moraleBand} (volontà di combattere; fermo finché non esistono combattimento e rifornimenti)</dd>
-            <dt>Prontezza</dt>
-            <dd>{Math.round(k.readiness)} · {k.readinessBand} (organizzazione e preparazione; non varia finché non esistono riposo, battaglie e riorganizzazioni)</dd>
-            <dt>Forza materiale</dt>
-            <dd>{k.material.value === null ? 'dato assente' : `${k.material.value}${k.material.cause ? ` — limitata da: ${k.material.cause}` : ''}`} (uomini e dotazione; munizioni, carburante, rifornimenti non modellati)</dd>
-            <dt>Politica d’impiego</dt>
-            <dd>
-              {canSetPolicy ? ['conservative', 'normal', 'aggressive'].map((p) => (
-                <button key={p} type="button" aria-pressed={k.policy === p} className={k.policy === p ? 'on' : ''} onClick={() => onPolicy(info.id, p)}>{POLICY[p]}</button>
-              )) : POLICY[k.policy]}
-              {' '}(solo memorizzata: nessun effetto finché non esiste il combattimento)
-            </dd>
-          </>
-        ) : (
-          <>
-            <dt>Condizione</dt>
-            <dd>esperienza, morale e prontezza sono definiti per le divisioni con dotazione; questa unità non ne ha</dd>
-          </>
-        )}
-        <dt>Ancora non modellati</dt>
-        <dd>{info.notModeled.map((n) => n.id).join(', ')} (descritti nei documenti guida, senza regole); la fatica non è prevista in nessun documento</dd>
-      </dl>
-    </div>
-  );
-}
+import { Info, ECH, CAT } from './UnitInfo.jsx';
 
 const ECH_MARK = { division: 'XX', brigade: 'X', command: '' };
 const LVL_MARK = { corps: 'XXX', army: 'XXXX', army_group: 'XXXXX', theater: 'XXXXXX', high_command: '★', district: '▫' };
@@ -92,11 +34,11 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, onCommand, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
+export default function ArmyPanel({ templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, onCommand, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
-    () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig })])),
-    [group, game, unitsById, officersById, initial, provinceName, conditionConfig],
+    () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig, templates })])),
+    [group, game, unitsById, officersById, initial, provinceName, conditionConfig, templates],
   );
   const n = selected.size;
   const moving = group.units.filter((u) => infos.get(u.id)?.movement.order).length;
@@ -110,10 +52,11 @@ export default function ArmyPanel({ group, game, unitsById, officersById, initia
         </div>
         <button type="button" className="close" aria-label="Chiudi" onClick={onClose}>×</button>
       </header>
-      <p className={`ap-hint${canMove && n > 0 ? ' go' : ''}`}>
+      <p className={`ap-hint${canMove && moveMode ? ' go' : ''}`}>
         {!canMove ? 'Unità di un’altra nazione: puoi vederle, non dare ordini.'
-          : n === 0 ? 'Tocca le unità da muovere.'
-            : `${n} ${n === 1 ? 'unità scelta' : 'unità scelte'}: tocca sulla mappa la provincia di destinazione (solo territorio tuo).`}
+          : moveMode ? `${n} ${n === 1 ? 'unità scelta' : 'unità scelte'}: tocca sulla mappa la destinazione: territorio tuo = marcia, nemico (in guerra) = attacco.`
+            : n === 0 ? 'Usa il menu sul segnalino per tutte le unità, oppure spunta quelle che vuoi.'
+              : `${n} ${n === 1 ? 'unità scelta' : 'unità scelte'}: usa il menu sul segnalino.`}
       </p>
       {notice && <p className="ap-notice" role="status">{notice}</p>}
       <ul className="ap-list">
@@ -161,10 +104,7 @@ export default function ArmyPanel({ group, game, unitsById, officersById, initia
           <button type="button" onClick={() => onSelectAll(group.units.map((u) => u.id))} disabled={n === group.units.length}>Tutte</button>
           <button type="button" onClick={onClear} disabled={n === 0}>Nessuna</button>
           <button type="button" className="danger" onClick={onCancel} disabled={n === 0}>Annulla ordini</button>
-          {onEntrench ? <button type="button" onClick={() => onEntrench(true)} disabled={n === 0} title="Le divisioni ferme guadagnano un bonus difensivo ogni giorno senza battaglia">Trincera</button> : null}
-          {onEntrench ? <button type="button" onClick={() => onEntrench(false)} disabled={n === 0}>Smetti</button> : null}
           {onCommand ? <button type="button" onClick={onCommand} title="Apri la catena di comando con l'unità scelta">Comando</button> : null}
-          {onAssign ? <button type="button" className="go" onClick={onAssign}>Incarico{n ? ` (${n})` : ''}</button> : null}
         </footer>
       )}
     </aside>

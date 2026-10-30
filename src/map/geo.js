@@ -292,7 +292,6 @@ export const LAYERS = [
   { id: 'political', label: 'Politico' },
   { id: 'terrain', label: 'Terreno' },
   { id: 'resources', label: 'Risorse' },
-  { id: 'army', label: 'Esercito' },
   { id: 'ports', label: 'Porti' },
 ];
 
