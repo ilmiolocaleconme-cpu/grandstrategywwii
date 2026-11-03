@@ -56,7 +56,7 @@ export function corpsDivisions(note) {
   return m ? m[1].split(';').map((s) => s.replace(/\./g, '').trim()).filter(Boolean).map(Number) : [];
 }
 
-export function buildDeployment({ units, cities, provinces }) {
+export function buildDeployment({ units, cities, provinces, garrisons = [] }) {
   const idx = buildIndexes({ cities, provinces });
   const entries = new Map();
   const unplaced = [];
@@ -77,6 +77,14 @@ export function buildDeployment({ units, cities, provinces }) {
       const d = byName.get(`DEU|${n}. Infanterie-Division`);
       if (d && !entries.has(d.id)) place(d, { province: at.province, how: `nel luogo del corpo d'armata ${corps.name} (assegnazione dalla nota del corpo, indicativa)` });
     }
+  }
+  // sedi di guarnigione da fonte esterna (data/units/source/ita_sedi_guarnigione.json): mai sovrascrivono una voce già derivata
+  const known = new Set(provinces.map((p) => p.id));
+  const byId = new Map(units.map((u) => [u.id, u]));
+  for (const g of garrisons) {
+    const u = byId.get(g.unit);
+    if (!u || entries.has(u.id) || !known.has(g.province)) continue;
+    place(u, { province: g.province, how: `sede di guarnigione "${g.seat}" (${g.reliability}): ${g.source}` });
   }
   for (const u of units) {
     if (entries.has(u.id)) continue;
