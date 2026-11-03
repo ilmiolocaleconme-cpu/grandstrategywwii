@@ -31,12 +31,15 @@ function chooseRoute(order, net, sea) {
 }
 
 /**
- * Apre un contratto nello stato di partita. ctx: { economy, resources, net (rete di movimento), sea? (createSeaContext) }. Ritorna { ok, state, contract } o { ok: false, reason }.
+ * Apre un contratto nello stato di partita. ctx: { economy, resources, net (rete di movimento), sea? (createSeaContext), consent? ((stato, venditore, compratore) → {ok, reason}) }. Ritorna { ok, state, contract } o { ok: false, reason }.
  * Il percorso è calcolato ora (province del proprietario secondo la rete): senza rete caricata o senza percorso l'ordine è rifiutato.
  * order.mode: 'land' (predefinito), 'sea' o 'auto'.
  */
-export function openTradeContract(state, order, { economy, resources, net, sea = null }) {
+export function openTradeContract(state, order, ctx) {
+  const { economy, resources, net, sea = null } = ctx;
   if (!state.nations) return { ok: false, reason: 'no_economy' };
+  const consent = ctx.consent ? ctx.consent(state, order.seller, order.buyer) : { ok: true }; // diplomazia: guerra o rapporto ostile rifiutano il contratto
+  if (!consent.ok) return { ok: false, reason: consent.reason === 'at_war' ? 'at_war' : 'hostile' };
   if ((order.mode ?? 'land') === 'land' && !net) return { ok: false, reason: 'no_map' };
   const route = chooseRoute(order, net, sea);
   const r = openContract(state.trade, order, { economy, resources, nations: state.nations, route, day: state.day + 1, date: state.date }); // i sistemi girano dopo l'avanzamento del giorno: il contratto parte dal prossimo

@@ -1,0 +1,144 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-FRA-INF-1936",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Template provvisorio della fanteria francese al 1/1/1936, scelta A dell'utente (30/10/2026): serve a far combattere le 16 divisioni di fanteria francesi presenti nel dispiegamento, che altrimenti non avevano dotazione. Il PREVISTO è l'organico di guerra 1939-40 (IPOTESI, fonte web debole), non l'organico di pace 1936, che non è stato trovato. La divisione parte con la stessa percentuale iniziale delle altre (readiness.json). Copre solo la categoria 'infantry' (non motorizzate, alpine, coloniali di altra categoria né le divisioni leggere meccaniche). Sostituire con i dati dell'utente appena disponibili. Cavalli, armi, veicoli e radio: da definire (null).",
+  "appliesTo": {
+    "nation": "FRA",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "formation": {
+    "value": "triangolare: 3 reggimenti di fanteria da 3 battaglioni",
+    "basis": "ipotesi",
+    "referenceYear": "1939-1940",
+    "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936."
+  },
+  "mobility": {
+    "value": null,
+    "basis": "da_definire",
+    "referenceYear": null,
+    "source": null
+  },
+  "structure": {
+    "reggimentiFanteria": {
+      "value": 3,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936."
+    },
+    "battaglioniPerReggimento": {
+      "value": 3,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936."
+    }
+  },
+  "manpower": {
+    "war": {
+      "value": 17500,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936.",
+      "effective": {
+        "value": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": null,
+    "basis": "da_definire",
+    "referenceYear": null,
+    "source": null
+  },
+  "equipment": {
+    "fucili": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "mitragliatrici": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "mortai": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "controcarro": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "artiglieriaCampale": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "antiaerei": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "veicoli": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    },
+    "radio": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "referenceFigures": {
+    "uominiTotali1939_40": {
+      "value": 17500,
+      "basis": "ipotesi",
+      "referenceYear": "1939-1940",
+      "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936."
+    }
+  },
+  "organicSupport": {
+    "value": null,
+    "basis": "da_definire",
+    "referenceYear": null,
+    "source": null
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: da definire."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'utente quando si passa a caserme e produzione."
+  },
+  "startsAsCadre": true,
+  "initialFillRatio": {
+    "value": 0.3,
+    "basis": "USER_EXAMPLE",
+    "source": "Esempio dell'utente del 29/10/2026 (quadro al 30% del previsto), esteso qui alla fanteria francese in via provvisoria. Non è un dato storico."
+  }
+}

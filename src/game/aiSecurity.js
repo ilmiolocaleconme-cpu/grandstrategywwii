@@ -1,26 +1,19 @@
 // IA per ricerca, difesa e sabotaggio. Funzione PURA e deterministica (nessun Math.random, nessun Date.now): usa solo gli ordini del giocatore (research.start, security.*).
 // IMPLEMENTATO: scelta della ricerca, polizia militare nei luoghi con più impianti, spie → sabotatori → sabotaggio contro i rivali.
-// PROVVISORIO: i rivali vengono da data/security/ai_rivals_1936.json (hypothesis), perché non esiste ancora un sistema diplomatico né di guerra.
+// I nemici derivano dalla diplomazia (30/10/2026): guerra o rapporto <= soglia di sabotaggio, giocatore compreso (hostilesOf(stato, id)).
 // MANCANTE: l'IA non migliora ancora le fabbriche, non commercia, non muove unità e non usa la diplomazia.
 import { roll01 } from '../rules/security.js';
 import { securityOf } from './securityState.js';
 
 export const AI_DEFAULTS = Object.freeze({ period: 10, reserveEcv: 150, policePerPlace: 2 });
 
-/** Rivali di una nazione dal file delle coppie (la relazione è simmetrica). */
-export function rivalsOf(rivalsFile, id) {
-  const out = new Set();
-  for (const [a, b] of rivalsFile?.pairs ?? []) { if (a === id) out.add(b); if (b === id) out.add(a); }
-  return [...out].sort();
-}
-
-export function createAiSecurity({ research, security, rivals, options = {} }) {
+export function createAiSecurity({ research, security, hostilesOf, options = {} }) {
   const o = { ...AI_DEFAULTS, ...options };
 
   function actFor(state, id) {
     let s = state;
     const my = () => s.nations[id];
-    const enemies = rivalsOf(rivals, id).filter((t) => s.nations[t]);
+    const enemies = hostilesOf(s, id).filter((t) => s.nations[t]);
     const involved = enemies.length > 0;
     const spendable = () => my().balance - o.reserveEcv;
 
@@ -45,9 +38,7 @@ export function createAiSecurity({ research, security, rivals, options = {} }) {
 
     // 3. attacco: spie → sabotatori → sabotaggio, contro ogni rivale con impianti
     if (!security.canAgents(my())) return s;
-    // Finché non c'è la diplomazia l'IA non sabota il giocatore (scelta dell'utente): colpisce solo altre IA.
     for (const t of enemies) {
-      if (t === s.player) continue;
       if (!s.nations[t].facilities.length) continue;
       let sec = securityOf(my());
       const queuedRole = (role) => sec.queue.filter((q) => q.kind === 'train' && q.role === role).length;

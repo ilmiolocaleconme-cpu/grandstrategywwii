@@ -129,7 +129,7 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
         const cx = box[0] + COUNTER_W / 2 + i * (COUNTER_W + GAP);
         drawCounter(ctx, spec, cx, py);
         // area toccabile del segnalino (pixel CSS), con provincia madre e nazione: lo legge il tocco della mappa
-        hits?.push({ x0: cx - COUNTER_W / 2 - 2, y0: py - COUNTER_H / 2 - 10, x1: cx + COUNTER_W / 2 + 2, y1: py + COUNTER_H / 2 + 2, province: it.props.parentProvince ?? it.props.id, nation: spec.nation });
+        hits?.push({ x0: cx - COUNTER_W / 2 - 2, y0: py - COUNTER_H / 2 - 10, x1: cx + COUNTER_W / 2 + 2, y1: py + COUNTER_H / 2 + 2, province: it.props.parentProvince ?? it.props.id, nation: spec.nation, cx, cy: py });
       });
       if (extra > 0) {
         ctx.save();

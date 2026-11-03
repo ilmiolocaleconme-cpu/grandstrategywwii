@@ -4,6 +4,7 @@
 import { chainOf, childrenOf, orbatLevel } from './orbat.js';
 import { MANAGED_LEVELS } from './commanders.js';
 import { positionOf } from './movement.js';
+import { templateFor } from './forces.js';
 import { conditionOf, experienceLevel, materialStrength, valueBand, operationalState } from './divisionCondition.js';
 
 // (esperienza, morale, prontezza e stato operativo ora esistono: vedi divisionCondition.js; qui restano i sistemi ancora senza modello)
@@ -14,10 +15,33 @@ export const NOT_MODELED = Object.freeze([
   { id: 'sanità', rule: 'morti, feriti, dispersi; percorso feriti: sanità divisionale → evacuazione → ospedale → recupero' },
 ]);
 
+const COMP_LABEL = {
+  formation: 'Formazione', mobility: 'Mobilità', regimentsInfantry: 'Reggimenti di fanteria', battalionsPerRegiment: 'Battaglioni per reggimento', horses: 'Cavalli',
+  brigateFanteria: 'Brigate di fanteria', battaglioniPerBrigata: 'Battaglioni per brigata', reggimentiFanteria: 'Reggimenti di fanteria', battaglioniPerReggimento: 'Battaglioni per reggimento',
+  reggimentiCarri: 'Reggimenti carri', battaglioniPerReggimentoCarri: 'Battaglioni per reggimento carri', battaglioniMotociclisti: 'Battaglioni motociclisti', reggimentiArtiglieria: 'Reggimenti di artiglieria',
+};
+const humanize = (k) => COMP_LABEL[k] ?? k.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase().replace(/^./, (c) => c.toUpperCase());
+
+/** Composizione teorica della divisione dal template (formazione, reggimenti, battaglioni, supporti organici). Ogni riga porta la base del dato (utente/ipotesi/fonte).
+ * null se per la categoria non c'è un template. I valori `null` (da_definire) non compaiono: non si mostrano dati che non esistono. */
+export function compositionOf(unit, templates) {
+  const t = templates ? templateFor(unit, templates) : null;
+  if (!t) return null;
+  const rows = [];
+  const add = (key, leaf) => { if (leaf && leaf.value !== null && leaf.value !== undefined && !Array.isArray(leaf.value)) rows.push({ key, label: humanize(key), value: leaf.value, basis: leaf.basis ?? null }); };
+  add('formation', t.formation);
+  for (const k of ['regimentsInfantry', 'battalionsPerRegiment']) add(k, t[k]);
+  for (const [k, v] of Object.entries(t.structure ?? {})) add(k, v);
+  add('mobility', t.mobility);
+  add('horses', t.horses);
+  const support = Array.isArray(t.organicSupport?.value) ? t.organicSupport.value : [];
+  return { templateId: t.id, status: t.status ?? null, rows, support };
+}
+
 /**
  * state: stato della partita; unit: voce del catalogo; ctx: { unitsById: Map, officersById: Map, initial: Map unità → provincia, provinceName(id) }.
  */
-export function unitInfo(state, unit, { unitsById, officersById, initial, provinceName = (x) => x, conditionConfig = null }) {
+export function unitInfo(state, unit, { unitsById, officersById, initial, provinceName = (x) => x, conditionConfig = null, templates = null }) {
   const name = (id) => unitsById.get(id)?.name ?? id;
   // comandante: i comandanti sono gestiti solo per corpi e armate (src/rules/commanders.js)
   let commander;
@@ -59,5 +83,5 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
     province: here, provinceName: here ? provinceName(here) : null,
     order: order ? { to: order.path[order.path.length - 1], toName: provinceName(order.path[order.path.length - 1]), nextName: provinceName(order.path[order.leg + 1]), daysLeft: order.daysLeft, totalDays: order.totalDays } : null,
   };
-  return { id: unit.id, name: unit.name, nation: unit.nation, echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, condition, movement, notModeled: NOT_MODELED };
+  return { id: unit.id, name: unit.name, nation: unit.nation, echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
 }
