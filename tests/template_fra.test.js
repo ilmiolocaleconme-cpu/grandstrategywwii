@@ -31,5 +31,5 @@ test('al 1/1/1936: le 16 divisioni di fanteria francesi ricevono la dotazione (q
 });
 
 test('App.jsx carica il template francese', () => {
-  assert.match(readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8'), /tplFraInfantry\]/);
+  assert.match(readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8'), /templates: \[[^\]]*\btplFraInfantry\b[^\]]*\]/);
 });
