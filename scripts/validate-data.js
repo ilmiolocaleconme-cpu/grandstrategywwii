@@ -41,7 +41,8 @@ import { validateOfficers } from '../src/data/officers.js';
 import { officersBuilt } from './build-officers.js';
 import { validateTemplate } from '../src/data/templates.js';
 import { validateCadreTemplates } from '../src/data/cadres.js';
-import { validateEquipmentCatalog } from '../src/data/equipmentCatalog.js';
+import { validateEquipmentCatalog, mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
+import { templatesBuilt } from './build-templates.js';
 import { validateDeployment } from '../src/data/deployment.js';
 import { validateConditionConfig } from '../src/rules/divisionCondition.js';
 import { deploymentBuilt } from './build-deployment.js';
@@ -245,7 +246,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     {
       const divisionTemplates = [];
       for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) divisionTemplates.push(JSON.parse(await text(`units/templates/${f}`)));
-      errors.push(...validateEquipmentCatalog(JSON.parse(await text('units/equipment/catalog.json')), { templates: divisionTemplates }));
+      const catalogDocs = [];
+      for (const f of (await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).sort()) catalogDocs.push(JSON.parse(await text(`units/equipment/${f}`)));
+      errors.push(...validateEquipmentCatalog(mergeEquipmentCatalogs(catalogDocs), { templates: divisionTemplates }));
+      // Template e cataloghi generati dai CSV (Fase 6): i file su disco devono coincidere con quelli ricostruiti dai CSV
+      const built = await templatesBuilt();
+      for (const [name, doc] of Object.entries(built.templates)) if (JSON.stringify(doc) !== JSON.stringify(JSON.parse(await text(`units/templates/${name}`)))) errors.push(`template ${name}: non allineato ai CSV, rigenerare con npm run build:templates`);
+      for (const [name, doc] of Object.entries(built.catalogs)) if (JSON.stringify(doc) !== JSON.stringify(JSON.parse(await text(`units/equipment/${name}`)))) errors.push(`catalogo ${name}: non allineato ai CSV, rigenerare con npm run build:templates`);
     }
     // Quadri di divisione (template per nazione, espansione in divisione tramite mobilitazione)
     {

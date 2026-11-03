@@ -2,6 +2,8 @@
 // Una voce = una classe funzionale per nazione (o una voce aggregata) con `equipment_id` univoco; `aliases` collega (nazione, chiave del template)
 // all'equipment_id SENZA rinominare le chiavi dei template (usate come percorsi `equipment.<chiave>` da forces, readiness e reinforcements).
 // Non si inventano modelli storici né caratteristiche tecniche: `models` resta vuoto finché non ci sono dati.
+import { RELIABILITY } from './templates.js';
+
 export const EQUIPMENT_SCHEMA = 'equipment-catalog-v1';
 
 export const CATEGORIES = [
@@ -9,9 +11,31 @@ export const CATEGORIES = [
   'HEAVY_ARTILLERY', 'TRUCK', 'ARTILLERY_TRACTOR', 'ARMORED_CAR', 'TANK', 'TANK_DESTROYER', 'SELF_PROPELLED_ARTILLERY', 'SPECIAL_VEHICLE',
   'LOGISTICS_EQUIPMENT',
 ];
-export const GRANULARITY = ['class', 'aggregate'];
+// Granularità: 'class' = classe funzionale (nessun modello noto), 'model' = modello con designazione, 'aggregate' = voce aggregata non dettagliata.
+// UNO schema e UNA forma di id per tutte le nazioni: <PREFISSO>-<NAZIONE>-<NOME> (es. ART-DEU-MOR-81, MG-FRA-FM2429). Campi facoltativi per i modelli:
+// designation (obbligatoria per 'model'), family, role, reliability (RELIABILITY di templates.js), reference_date, source_id, source_note.
+export const GRANULARITY = ['class', 'aggregate', 'model'];
+
+/** Prefisso dell'id per categoria. Estendere qui, in un solo punto, quando compare una nuova categoria. */
+export const ID_PREFIX = {
+  INDIVIDUAL_WEAPON: 'INW', MACHINE_GUN: 'MG', GRENADE_LAUNCHER: 'GL', MORTAR: 'ART', ANTI_TANK_GUN: 'ART', FIELD_GUN: 'ART', HOWITZER: 'ART',
+  ANTI_AIRCRAFT_GUN: 'ART', HEAVY_ARTILLERY: 'ART', SELF_PROPELLED_ARTILLERY: 'ART', TANK: 'TNK', TANK_DESTROYER: 'TD', TRUCK: 'VEH',
+  ARTILLERY_TRACTOR: 'VEH', ARMORED_CAR: 'VEH', SPECIAL_VEHICLE: 'VEH', LOGISTICS_EQUIPMENT: 'LOG',
+};
+
+/** Classe dei CSV di catalogo → categoria. Solo le classi viste finora: una classe nuova è un errore esplicito, da aggiungere qui. */
+export const CLASS_TO_CATEGORY = {
+  rifle: 'INDIVIDUAL_WEAPON', pistol: 'INDIVIDUAL_WEAPON', light_machine_gun: 'MACHINE_GUN', heavy_machine_gun: 'MACHINE_GUN',
+  rifle_grenade_launcher: 'GRENADE_LAUNCHER', light_mortar: 'MORTAR', medium_mortar: 'MORTAR', anti_tank_gun: 'ANTI_TANK_GUN',
+  field_gun: 'FIELD_GUN', howitzer: 'HOWITZER',
+};
 
 const ID_RE = /^([A-Z]{2,4})-([A-Z]{2,4})-[A-Z0-9]+(-[A-Z0-9]+)*$/;
+
+/** Unisce più cataloghi (uno per nazione o per fonte) in un solo documento da validare; gli id duplicati li segnala il validatore. */
+export function mergeEquipmentCatalogs(docs) {
+  return { schema: EQUIPMENT_SCHEMA, entries: docs.flatMap((d) => d.entries ?? []), aliases: docs.flatMap((d) => d.aliases ?? []) };
+}
 
 /**
  * Errori del catalogo (vuoto = valido). `templates` (facoltativo) = template di divisione: ogni chiave di `equipment` di un template con
@@ -35,6 +59,8 @@ export function validateEquipmentCatalog(doc, { templates } = {}) {
     if (e.durable !== true) errors.push(`${p}: le armi sono equipaggiamenti durevoli (durable: true); le munizioni stanno nel consumo munizioni`);
     if (!Array.isArray(e.models)) errors.push(`${p}: models non è un array`);
     if (!String(e.name_it ?? '').trim()) errors.push(`${p}: senza nome`);
+    if (e.granularity === 'model' && !String(e.designation ?? '').trim()) errors.push(`${p}: un modello richiede la designazione`);
+    if (e.reliability !== undefined && !RELIABILITY.includes(e.reliability)) errors.push(`${p}: reliability ${JSON.stringify(e.reliability)}`);
     if (e.modelCatalog !== undefined && !/^data\/units\/models\/.+\.json$/.test(e.modelCatalog)) errors.push(`${p}: modelCatalog non valido`);
   }
   const seen = new Set();

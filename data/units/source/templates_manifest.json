@@ -1,0 +1,14 @@
+{
+  "schema": "template-sources-v1",
+  "note": "Elenco dei set di CSV da cui si generano i template di divisione e i cataloghi equipaggiamenti (npm run build:templates). Un set = un template per categoria (nazione + categoria + scaglione + anno) con le righe di organico e il catalogo dei modelli. Per aggiungere una nazione o un anno: copiare i CSV non modificati in questa cartella e aggiungere un set. `granularityOverrides`: id del CSV → 'class' per le voci generiche (es. «fucile standard») che il CSV non distingue dai modelli.",
+  "sets": [
+    {
+      "id": "FRA-INF-1939",
+      "template": "fr_2di_template_1939.csv",
+      "lines": "fr_2di_equipment_1939.csv",
+      "catalog": "land_equipment_catalog_fr_1939.csv",
+      "output": "divisione_fanteria_francia_1939.json",
+      "granularityOverrides": { "FRA-RIFLE-1939": "class", "FRA-PISTOL-1939": "class" }
+    }
+  ]
+}

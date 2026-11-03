@@ -2,12 +2,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { validateEquipmentCatalog, resolveEquipment, equipmentIdForPath, CATEGORIES } from '../src/data/equipmentCatalog.js';
+import { validateEquipmentCatalog, resolveEquipment, equipmentIdForPath, mergeEquipmentCatalogs, CATEGORIES } from '../src/data/equipmentCatalog.js';
 import { validateTankModels } from '../src/data/tankModels.js';
 
 const root = new URL('../', import.meta.url);
 const json = (p) => JSON.parse(readFileSync(new URL(p, root), 'utf8'));
-const catalog = json('data/units/equipment/catalog.json');
+const edir = new URL('data/units/equipment/', root);
+const catalog = mergeEquipmentCatalogs(readdirSync(edir).filter((n) => /^catalog.*\.json$/.test(n)).sort().map((f) => JSON.parse(readFileSync(new URL(f, edir), 'utf8'))));
 const tdir = new URL('data/units/templates/', root);
 const templates = readdirSync(tdir).filter((n) => /^divisione_.*\.json$/.test(n)).map((f) => JSON.parse(readFileSync(new URL(f, tdir), 'utf8')));
 
@@ -22,7 +23,7 @@ test('nessun modello o caratteristica inventata: models vuoti, calibro solo dove
     assert.equal(e.durable, true);
   }
   const key = (id) => catalog.aliases.find((a) => a.equipment_id === id).templateKey;
-  for (const e of catalog.entries.filter((x) => x.caliber_mm !== null)) assert.match(key(e.equipment_id), new RegExp(`${e.caliber_mm}mm`), e.equipment_id);
+  for (const e of catalog.entries.filter((x) => x.caliber_mm !== null && x.granularity === 'class')) assert.match(key(e.equipment_id), new RegExp(`${e.caliber_mm}mm`), e.equipment_id);
 });
 
 test('armi di nazioni diverse non sono equivalenti: stesso template key, voci diverse; stessa funzione e calibro diverso, voci diverse', () => {

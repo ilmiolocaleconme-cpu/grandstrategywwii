@@ -1,0 +1,9 @@
+﻿template_id,subunit_id,equipment_id,quantity,quantity_status,basis,effective_quantity,mechanics_profile_id,source_note
+TPL-FRA-INF-2DI-1939,33e+73e+127e RI,FRA-FM2429,336,STANDARD_TOE,3x_standard_infantry_regiment,,,112 per reggimento; totale divisionale
+TPL-FRA-INF-2DI-1939,33e+73e+127e RI,FRA-HOTCHKISS1914,144,STANDARD_TOE,3x_standard_infantry_regiment,,,48 per reggimento; totale divisionale
+TPL-FRA-INF-2DI-1939,33e+73e+127e RI,FRA-VB1916,432,STANDARD_TOE,3x_standard_infantry_regiment,,,144 per reggimento; totale divisionale
+TPL-FRA-INF-2DI-1939,33e+73e+127e RI,FRA-MORTAR60,27,STANDARD_TOE,3x_standard_infantry_regiment,,,9 per reggimento; totale divisionale
+TPL-FRA-INF-2DI-1939,33e+73e+127e RI,FRA-MORTAR81,24,STANDARD_TOE,3x_standard_infantry_regiment,,,8 per reggimento; totale divisionale
+TPL-FRA-INF-2DI-1939,Compagnie/reggimenti anticarro,FRA-AT25,15,PROVISIONAL,provisional_2di_estimate,,,Quantità da confermare con fonte specifica
+TPL-FRA-INF-2DI-1939,34e Régiment d'Artillerie Divisionnaire,FRA-ART75M1897,36,STANDARD_TOE,34e_RAD_three_groups,,,Tre gruppi da 12 pezzi
+TPL-FRA-INF-2DI-1939,234e Régiment d'Artillerie Lourde Divisionnaire,FRA-HOW155C,24,STANDARD_TOE,234e_RALD_two_groups,,,Due gruppi da 12 pezzi

@@ -1,0 +1,2 @@
+﻿template_id,nation,category,echelon,series,division_name,reference_date,formation,infantry_regiments,manpower_initial_estimate,manpower_organic_max,horses_organic,status,source_quality,note
+TPL-FRA-INF-2DI-1939,FRA,infantry,division,A,2e Division d'Infanterie,1939-09,triangular,3,15500,16400,4900,RECONSTRUCTED_TEMPLATE,MIXED_DOCUMENTED_AND_STANDARD_TOE,2e DI Serie A type Nord-Est. Personnel and horse values rounded by user; equipment rows must retain evidence/uncertainty individually.
