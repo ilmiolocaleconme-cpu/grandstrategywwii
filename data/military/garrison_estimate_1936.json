@@ -11,10 +11,6 @@
    "units": 3,
    "garrison": 3
   },
-  "P_DEU_HESSEN_NASSAU": {
-   "units": 3,
-   "garrison": 3
-  },
   "P_DEU_KURHESSEN": {
    "units": 3,
    "garrison": 3
@@ -36,24 +32,24 @@
    "garrison": 3
   },
   "P_DEU_POMMERN": {
-   "units": 3,
-   "garrison": 3
+   "units": 2,
+   "garrison": 2
   },
   "P_DEU_SACHSEN": {
    "units": 3,
    "garrison": 3
   },
   "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": {
-   "units": 3,
-   "garrison": 3
+   "units": 2,
+   "garrison": 2
   },
   "P_DEU_WESTFALEN_NORD": {
    "units": 3,
    "garrison": 3
   },
   "P_DEU_WUERTTEMBERG_HOHENZOLLERN": {
-   "units": 3,
-   "garrison": 3
+   "units": 2,
+   "garrison": 2
   },
   "P_FRA_BOUCHES_DU_RHONE": {
    "units": 1,
@@ -122,11 +118,27 @@
   "P_GBR_HAMPSHIRE": {
    "units": 2,
    "garrison": 2
+  },
+  "P_ITA_ASTI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ITA_BOLZANO_OVEST": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ITA_TORINO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ITA_UDINE": {
+   "units": 1,
+   "garrison": 1
   }
  },
  "byEntity": {
   "DEU": {
-   "units": 38,
+   "units": 32,
    "garrison": 2
   },
   "FRA": {
@@ -135,6 +147,10 @@
   },
   "GBR": {
    "units": 2,
+   "garrison": 1
+  },
+  "ITA": {
+   "units": 4,
    "garrison": 1
   }
  }

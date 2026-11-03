@@ -239,3 +239,12 @@ Principio dell'utente: **tutto scalabile, niente fatto in modo diverso per nazio
 - Francia: fanteria dal 1/9/1939 con `TPL-FRA-INF-1939`. Italia: fanteria dal 1/6/1940 con `TPL-ITA-INF-1940`. All'avvio 1936 queste due nazioni non hanno forze: nessun dato inventato.
 - Limite noto: un'istanza già creata non cambia mai versione di template (es. una divisione tedesca creata nel 1936 resta sul template 1936 anche dopo il 1939). Il passaggio di versione richiederebbe una regola di rimpiazzo dell'equipaggiamento: non implementato.
 - Le divisioni che entrano in servizio prima del 1/9/1939 ricevono il template valido quel giorno (1936) e lo mantengono.
+
+## Sedi di guarnigione italiane (03/11/2026)
+
+- **Problema**: nel dislocamento al 1936 l'Italia non aveva nessuna voce (le unità italiane non hanno la "stazione" del file dell'utente), quindi nessuna divisione italiana compariva sulla mappa.
+- **Dati**: `data/units/source/ita_sedi_guarnigione.json`, 34 sedi lette da pagine Wikipedia in inglese (fonte secondaria, non verificata su fonti ufficiali), ognuna con URL, affidabilità (`alta`/`media`) e nota. `missing` elenca le 6 unità senza fonte letta, che restano non collocate: 8ª Po, 1ª e 2ª Squadra navale, Comando Supremo, Regia Aeronautica, e la "32ª corazzata Ariete".
+- **Cosa è la sede**: la sede di pace o di formazione al 1939-1943, **non** la posizione al 1/1/1936 né quella di guerra (es. Bologna e Brescia erano in Libia nel giugno 1940). La provincia è quella del catalogo che contiene la città (coordinate approssimate); i fiumi che dividono una provincia in "sponde" rimandano alla provincia madre.
+- **U00209 "32ª corazzata Ariete"**: il "32º" è un reggimento carri della 132ª Ariete (U00218). Probabile doppione nei dati: non collocata per non duplicare la divisione. Da decidere se rimuoverla da `units.json`.
+- **Stima delle guarnigioni**: `buildGarrisonEstimate` ora conta solo le unità attive al 1/1/1936. Prima contava tutte le voci del dislocamento. Effetto: l'Italia ha 4 unità (le alpine del 1935); la Germania perde qualche divisione nata dopo il 1936 (Hessen-Nassau da 3 a 0, Pommern, Süd-Hannover e Württemberg da 3 a 2).
+- **Visibilità in gioco**: una divisione appare sulla mappa solo dal suo anno di inizio. Con partenza 1936 si vedono le 4 alpine; le altre compaiono dal 1939-1942.
