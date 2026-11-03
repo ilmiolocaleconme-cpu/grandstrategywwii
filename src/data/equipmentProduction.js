@@ -12,6 +12,7 @@ export function validateEquipmentProduction(file, { factoriesById = null, techId
   if (file?.schema !== PRODUCTION_SCHEMA) return [`produzione equipaggiamenti: schema ${file?.schema}, atteso ${PRODUCTION_SCHEMA}`];
   const errors = [];
   if (!['DESIGN_DEFAULT', 'MISSING_DATA', 'verified'].includes(file.quality)) errors.push('produzione equipaggiamenti: qualità sconosciuta');
+  if (!(file.priceFactor >= 1)) errors.push('produzione equipaggiamenti: priceFactor deve essere >= 1 (un pezzo non vale meno dei suoi materiali)');
   for (const k of ['steel', 'components']) if (!(file.inputsPerTonne?.[k] > 0)) errors.push(`produzione equipaggiamenti: inputsPerTonne.${k} non valido`);
   for (const [g, def] of Object.entries(file.groups ?? {})) {
     if (!def.name_it) errors.push(`produzione equipaggiamenti: gruppo ${g} senza nome`);
@@ -74,4 +75,26 @@ export function groupUnlocked(table, group, researched = new Set()) {
 /** Ricette che una nazione può usare ora (equipaggiamenti della sua nazione, gruppo sbloccato). */
 export function recipesAvailable(generated, table, nation, researched = new Set()) {
   return generated.filter((r) => r.equipmentId.split('-')[1] === nation && groupUnlocked(table, r.group, researched));
+}
+
+/**
+ * Prezzi dei pezzi (opzione D, 03/11/2026): priceFactor × costo dei materiali della ricetta ai prezzi di `prices`. Chiave `equipment.<id>`, 6 decimali.
+ * Una materia senza prezzo è un errore (mai un prezzo che ignora un ingresso).
+ */
+export function equipmentPrices(recipes, prices, factor) {
+  const out = {};
+  for (const r of recipes) {
+    let cost = 0;
+    for (const i of r.inputs) {
+      if (typeof prices[i.resource] !== 'number') throw new Error(`prezzo: ${r.id} usa ${i.resource}, senza prezzo in economy.json`);
+      cost += i.perUnit * prices[i.resource];
+    }
+    out[r.output.product] = Math.round(cost * factor * 1e6) / 1e6;
+  }
+  return out;
+}
+
+/** economy.json con i prezzi dei pezzi aggiunti (non sovrascrive prezzi già presenti). */
+export function withEquipmentPrices(economy, recipes, factor) {
+  return { ...economy, prices: { ...equipmentPrices(recipes, economy.prices, factor), ...economy.prices } };
 }

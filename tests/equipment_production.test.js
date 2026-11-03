@@ -4,8 +4,10 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { loadIndustryCatalogFrom } from '../src/data/industry.js';
 import { validateRecipes, fullCapacityFlows } from '../src/data/recipes.js';
+import { dailyIncome } from '../src/rules/treasury.js';
+import { createTradeState, tradableGoods, openContract } from '../src/rules/trade.js';
 import { mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
-import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes, groupUnlocked, recipesAvailable, isProducible } from '../src/data/equipmentProduction.js';
+import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes, equipmentPrices, withEquipmentPrices, groupUnlocked, recipesAvailable, isProducible } from '../src/data/equipmentProduction.js';
 import { produceDay, checkBalance } from '../src/rules/production.js';
 import { planReinforcements, dispatch, applyArrivals } from '../src/rules/reinforcements.js';
 import { transitDaysFromRoute, makeTransitDays, seaDaysOf } from '../src/rules/reinforcementTransit.js';
@@ -164,4 +166,44 @@ test('capacityShare: i fucili usano il 4% della fabbrica — 4,8 t di acciaio e 
   assert.equal(fullCapacityFlows(generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C'), industry.byId.get('FCT-ARTILLERY')).inputsPerDay.steel, 5.88, 'obici: 70 t × 7% × 1,2');
   const bad = structuredClone(withEquipmentRecipes(recipesDoc, generated)); bad.recipes.find((r) => r.id === rifle.id).capacityShare = 1.5;
   assert.ok(validateRecipes(bad, ctx()).some((e) => /capacityShare non valido/.test(e)));
+});
+
+// ---- prezzi (opzione D, 03/11/2026) e vendita ad altre nazioni ----
+const economyFile = json('economy/economy.json');
+const priced = withEquipmentPrices(economyFile, generated, table.priceFactor);
+
+test('prezzi: 1,25 × costo dei materiali, stessa regola di carri e artiglieria; i prezzi esistenti non cambiano', () => {
+  const how = generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C');
+  const mat = 3 * economyFile.prices.steel + 0.25 * economyFile.prices.components;
+  assert.equal(priced.prices['equipment.ART-FRA-HOW155C'], Math.round(mat * 1.25 * 1e6) / 1e6);
+  assert.ok(priced.prices['equipment.INW-FRA-RIFLE-1939'] > 0);
+  for (const [k, v] of Object.entries(economyFile.prices)) assert.equal(priced.prices[k], v, k);
+  assert.ok(generated.every((r) => priced.prices[r.output.product] > 0));
+  assert.ok(priced.prices[how.output.product] > mat, 'un pezzo vale più dei suoi materiali');
+  assert.throws(() => equipmentPrices([{ ...how, inputs: [{ resource: 'unobtainium', perUnit: 1 }] }], economyFile.prices, 1.25), /senza prezzo/);
+  assert.ok(validateEquipmentProduction({ ...table, priceFactor: 0.9 }).some((e) => /priceFactor/.test(e)));
+});
+
+test('un obice produce valore aggiunto positivo: l\'entrata giornaliera non cala più producendo armi', () => {
+  const how = generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C');
+  const f = fullCapacityFlows(how, industry.byId.get('FCT-ARTILLERY'));
+  const goods = { [how.output.product]: f.outputPerDay };
+  const inputs = Object.fromEntries(Object.entries(f.inputsPerDay));
+  const inc = dailyIncome({ goods, inputs }, priced, 'media');
+  assert.ok(inc.valueAdded > 0 && Math.abs(inc.goods / inc.inputs - 1.25) < 0.01, `ricavo/costo = ${inc.goods / inc.inputs}`);
+  assert.equal(dailyIncome({ goods, inputs }, economyFile, 'media').goods, 0, 'prima: i pezzi non valevano nulla');
+});
+
+test('vendita: gli equipaggiamenti sono commerciabili a pezzi interi, consegnati dopo il transito dalla scorta del venditore', () => {
+  const good = 'equipment.ART-FRA-HOW155C';
+  assert.ok(tradableGoods(priced).includes(good));
+  assert.ok(!tradableGoods(economyFile).includes(good));
+  const nations = { FRA: { balance: 0, stocks: { [good]: 10 } }, POL: { balance: 5, stocks: {} } };
+  const route = { ok: true, kind: 'land', km: 250, via: [] };
+  const o = (perDay) => openContract(createTradeState(), { seller: 'FRA', buyer: 'POL', good, perDay, days: 3 }, { economy: priced, resources: json('resources.json'), nations, route, day: 0, date: '1939-09-01' });
+  assert.deepEqual([o(1.5).ok, o(1.5).reason], [false, 'invalid_quantity']);
+  const c = o(2);
+  assert.equal(c.ok, true);
+  assert.equal(c.contract.unitPrice, priced.prices[good]);
+  assert.equal(c.contract.transitDays, 3);
 });

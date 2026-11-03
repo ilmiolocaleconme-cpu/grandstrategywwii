@@ -19,7 +19,7 @@ import { buildCanvasModel } from './map/canvasModel.js';
 import initialIndustry from '../data/industry/initial_industry.json';
 import initialStocks from '../data/industry/initial_stocks.json';
 import initialCash from '../data/industry/initial_cash.json';
-import economyData from '../data/economy/economy.json';
+import economyFile from '../data/economy/economy.json';
 import populationData from '../data/population/population.json';
 import fertilizerData from '../data/agriculture/fertilizer_effect.json';
 import horseBreeding from '../data/agriculture/horse_breeding.json';
@@ -63,7 +63,7 @@ import { loadIndustryCatalog } from './data/industry.js';
 import recipesFile from '../data/industry/recipes.json';
 import equipmentProductionTable from '../data/units/equipment/equipment_production.json';
 import { mergeEquipmentCatalogs } from './data/equipmentCatalog.js';
-import { buildEquipmentRecipes } from './data/equipmentProduction.js';
+import { buildEquipmentRecipes, withEquipmentPrices } from './data/equipmentProduction.js';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
 import securityFile from '../data/security/security.json';
@@ -251,11 +251,13 @@ function useProvinces() {
 }
 
 // Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
+// Ricette degli equipaggiamenti (Fase 4): una per voce di OGNI catalogo data/units/equipment/catalog*.json, generate dalla tabella per categoria (nessun elenco per nazione qui)
+const EQUIPMENT_RECIPES = buildEquipmentRecipes(mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' }))), equipmentProductionTable);
+// Prezzi dei pezzi (opzione D): priceFactor × costo dei materiali; ogni equipaggiamento diventa commerciabile
+const economyData = withEquipmentPrices(economyFile, EQUIPMENT_RECIPES, equipmentProductionTable.priceFactor);
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-// Ricette degli equipaggiamenti (Fase 4): una per voce di OGNI catalogo data/units/equipment/catalog*.json, generate dalla tabella per categoria (nessun elenco per nazione qui)
-const EQUIPMENT_RECIPES = buildEquipmentRecipes(mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' }))), equipmentProductionTable);
 const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Strade e ferrovie in partita (data/infrastructure.js): collegamenti tra province madri, livello di partenza e massimo; i miglioramenti sono ordini di costruzione 'infra'.
 const GAME_PORTS = { levels: portLevelsFile, coastal: coastalCitiesFile.cities, base: portsBaseFile };
