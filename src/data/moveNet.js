@@ -1,5 +1,8 @@
 // Rete di movimento tra PROVINCE MADRI, dalle province della mappa e dal grafo di adiacenza (data/adjacency.json).
 // Le sotto-province (sponde, isole di una madre) si fondono nella madre; due madri sono vicine se lo sono due loro parti.
+// Le ZONE URBANE (citta_grandi.json) sono nodi a sé, come le province: si entra e si esce da esse. Collegamenti da
+// data/city_links.json: "access" zona → tassello di provincia (la zona è vicina alla madre di quel tassello), "part" fra
+// parti della stessa città. Una zona ha `parentOf` = la sua madre, per ereditarne il controllo finché non ne ha uno proprio.
 // Distanza = tra i centri dei riquadri (in gradi → km con la formula dell’emiverseno (haversine)): APPROSSIMAZIONE dichiarata.
 import { buildAdjacency } from './adjacency.js';
 
@@ -21,13 +24,18 @@ function bboxOf(geometry) {
   return [x0, y0, x1, y1];
 }
 
-/** Rete { has, neighbors, km, owner, centre, name } sulle madri. collection: FeatureCollection delle province; adjacencyFile: data/adjacency.json. */
-export function buildMoveNet(collection, adjacencyFile) {
+/**
+ * Rete { has, neighbors, km, owner, centre, name, parentOf } sulle madri e sulle zone urbane.
+ * collection: FeatureCollection delle province (senza città); adjacencyFile: data/adjacency.json.
+ * opts (facoltativo): { cities: feature delle zone urbane (citta_grandi.json), cityLinks: data/city_links.json }.
+ */
+export function buildMoveNet(collection, adjacencyFile, { cities = [], cityLinks = null } = {}) {
   const adj = buildAdjacency(collection, adjacencyFile); // lancia se il file non corrisponde alle province
   const motherOf = new Map();
   const owner = new Map();
   const name = new Map();
   const box = new Map();
+  const parent = new Map();
   for (const f of collection.features) {
     const p = f.properties;
     const m = p.parentProvince ?? p.id;
@@ -46,6 +54,24 @@ export function buildMoveNet(collection, adjacencyFile) {
       if (b && b !== a) { nb.get(a).add(b); nb.get(b).add(a); }
     }
   }
+  // zone urbane: nodi propri (id della zona), collegati dai soli collegamenti di città
+  const cityIds = new Set();
+  for (const z of cities) {
+    const id = z.properties.id;
+    if (box.has(id) || cityIds.has(id)) continue; // un id già usato da una provincia non si sovrascrive
+    cityIds.add(id);
+    box.set(id, bboxOf(z.geometry));
+    nb.set(id, new Set());
+    owner.set(id, z.properties.owner ?? null);
+    name.set(id, z.properties.name ?? id);
+    parent.set(id, z.properties.parentProvince ?? null);
+  }
+  for (const l of cityLinks?.links ?? []) {
+    if (!cityIds.has(l.a)) continue;
+    const other = l.type === 'access' ? motherOf.get(l.b) : (cityIds.has(l.b) ? l.b : null);
+    if (!other || !nb.has(other) || other === l.a) continue;
+    nb.get(l.a).add(other); nb.get(other).add(l.a);
+  }
   const centre = (m) => { const b = box.get(m); return [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]; };
   return {
     has: (m) => box.has(m),
@@ -55,5 +81,7 @@ export function buildMoveNet(collection, adjacencyFile) {
     owner: (m) => owner.get(m) ?? null,
     name: (m) => name.get(m) ?? m,
     centre,
+    parentOf: (m) => (cityIds.has(m) ? parent.get(m) ?? null : null),
+    isCity: (m) => cityIds.has(m),
   };
 }

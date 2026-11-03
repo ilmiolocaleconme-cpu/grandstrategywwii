@@ -427,7 +427,7 @@ export default function App() {
     }
     if (id != null && armySel && moveMode && game && armySel.nation === game.player && armyChecked.size > 0 && moveNet) {
       const item = mapItems.find((i) => i.id === id);
-      const to = item ? (item.props.parentProvince ?? item.props.id) : id;
+      const to = moveNet.has(id) ? id : (item ? (item.props.parentProvince ?? item.props.id) : id); // una città è una destinazione a sé
       const intent = moveIntent(game, moveNet, to);
       if (intent.kind === 'attack') { // «Muovi» verso una provincia nemica è un attacco: le unità che possono combattere partono con un incarico
         const ids = [...armyChecked].filter((uid) => { const u = UNITS_BY_ID.get(uid); return u && isFighter(game, u); });
@@ -585,15 +585,16 @@ export default function App() {
   const alerts = useMemo(() => (game && moveNet && game.theaters ? theaterAlerts(game, THEATER_CTX, game.player) : []), [game, moveNet]);
   const theaterMarkSet = useMemo(() => (game && moveNet ? theaterMarks({ state: game, pick: theater?.draft?.provinces ?? [], colorOf: (n) => ownerColor(n), alerts }) : null), [game?.provinces, game?.theaters, game?.player, theater?.draft?.provinces, moveNet, alerts]); // eslint-disable-line react-hooks/exhaustive-deps
   // rete di movimento: si carica (e si costruisce) quando c'è una partita; l'adiacenza è un file a parte, non nel pacchetto principale
+  // le zone urbane entrano nella rete con i loro collegamenti (data/city_links.json): si aspettano le zone caricate
   useEffect(() => {
-    if (!game || moveNet || !provinces) return undefined;
+    if (!game || moveNet || !provinces || !citiesRaw) return undefined;
     let alive = true;
-    import('../data/adjacency.json').then((m) => {
+    Promise.all([import('../data/adjacency.json'), import('../data/city_links.json')]).then(([adj, links]) => {
       if (!alive) return;
-      try { const net = buildMoveNet(provinces, m.default); MOVE_NET.net = net; setMoveNet(net); } catch (e) { setArmyNotice(`Movimento non disponibile: ${e.message}`); }
+      try { const net = buildMoveNet(provinces, adj.default, { cities: citiesRaw, cityLinks: links.default }); MOVE_NET.net = net; setMoveNet(net); } catch (e) { setArmyNotice(`Movimento non disponibile: ${e.message}`); }
     }).catch(() => { if (alive) setArmyNotice('Movimento non disponibile: file di adiacenza non caricato.'); });
     return () => { alive = false; };
-  }, [!!game, !!provinces, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [!!game, !!provinces, !!citiesRaw, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
   // rotte marittime: servono le zone di mare e le province (stesso ordine di data/sea_zones.json); i porti vengono da data/ports e da state.ports
   useEffect(() => {
     if (!game || GAME_SEA.sea || !seaFile || !provinces) return;

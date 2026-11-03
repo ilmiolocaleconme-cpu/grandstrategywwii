@@ -2,10 +2,9 @@
 // nessuna migrazione dello schema (come `provinces`). Le regole sono in src/rules/movement.js; qui: posizioni correnti,
 // ordine del giocatore e sistema giornaliero.
 import { createMovementState, issueMove, cancelMove, tickMovement, positionOf, validateMovement } from '../rules/movement.js';
-import { controllerOf } from '../map/geo.js';
 import { atWar } from '../rules/war.js';
 import { hasAccess } from '../rules/diplomacy.js';
-import { provinceStateOf } from './provinceState.js';
+import { provinceController } from './warCommon.js';
 
 export function validateMovementShape(state) {
   return state.movement === undefined ? [] : validateMovement(state.movement);
@@ -27,7 +26,7 @@ export function currentDeployment(deploymentDoc, state) {
 export function canEnterFor(state, net, nation) {
   return (m) => {
     if (!net.has(m)) return false;
-    const c = provinceStateOf(state, m).controller ?? controllerOf(net.owner(m), state.control);
+    const c = provinceController(state, net, m);
     return c === nation || atWar(state.war, c, nation) || hasAccess(state.diplomacy, nation, c); // alleati e accordi di accesso (diplomazia 30/10/2026)
   };
 }
