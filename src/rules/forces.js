@@ -3,6 +3,7 @@
 // Solo le divisioni che hanno un template ricevono un'istanza: le altre (nazioni o tipi senza template) restano senza dotazione, NON si inventa.
 import { isActiveAt } from '../data/units.js';
 import { initialEffective } from './readiness.js';
+import { isTemplateValidAt, templateWindow } from '../data/templates.js';
 
 export const FORCES_SCHEMA = 'forces-v1';
 
@@ -11,9 +12,14 @@ export function createForcesState() {
 }
 
 /** Template che si applica a un'unità (stessa nazione, categoria e scaglione), oppure null. */
-export function templateFor(unit, templates) {
+export function templateFor(unit, templates, date = null) {
   if (unit.echelon !== 'division') return null;
-  return templates.find((t) => t.appliesTo && t.appliesTo.nation === unit.nation && t.appliesTo.category === unit.category && t.appliesTo.echelon === unit.echelon) ?? null;
+  const matches = templates.filter((t) => t.appliesTo && t.appliesTo.nation === unit.nation && t.appliesTo.category === unit.category && t.appliesTo.echelon === unit.echelon);
+  // Senza data: primo template corrispondente (comportamento invariato). Con data: tra le versioni valide quella con inizio più recente (Fase 2, 03/11/2026).
+  if (date == null) return matches[0] ?? null;
+  const valid = matches.filter((t) => isTemplateValidAt(t, date));
+  valid.sort((a, b) => (templateWindow(b).from ?? '').localeCompare(templateWindow(a).from ?? ''));
+  return valid[0] ?? null;
 }
 
 /** Istanza di una divisione: { templateId, since, items: { 'manpower.war': { planned, effective, source }, ... } } (solo voci numeriche note). */
@@ -30,7 +36,7 @@ export function initForces(forces, { units, templates, ratio, date }) {
   let created = 0;
   for (const u of [...units].sort((a, b) => (a.id < b.id ? -1 : 1))) {
     if (u.echelon !== 'division' || !isActiveAt(u, date) || divisions[u.id]) continue;
-    const t = templateFor(u, templates);
+    const t = templateFor(u, templates, date);
     if (!t) { withoutTemplate.push(u.id); continue; }
     divisions[u.id] = buildDivision(t, ratio, date);
     created += 1;
