@@ -9,7 +9,7 @@ const LEVEL = { corps: 'corpo d’armata', army: 'armata', army_group: 'gruppo d
 
 const POLICY = { conservative: 'conservativa', normal: 'normale', aggressive: 'aggressiva' };
 
-function Info({ info, canSetPolicy, onPolicy }) {
+function Info({ info, canSetPolicy, onPolicy, onReinforce }) {
   const c = info.commander;
   const s = info.strength;
   const k = info.condition;
@@ -28,6 +28,17 @@ function Info({ info, canSetPolicy, onPolicy }) {
         <dd>{info.children.length ? info.children.map((x) => x.name).join(', ') : 'nessuna'}</dd>
         <dt>Consistenza</dt>
         <dd>{s ? (s.cadre ? 'quadro (non pronto al combattimento) · ' : '') + (s.manpower ? `uomini ${s.manpower.effective} / ${s.manpower.planned} (${Math.round(s.manpower.ratio * 100)}%)` : 'uomini: dato assente') + (s.reinforce ? '' : ' · rinforzi sospesi') : 'nessuna dotazione per questa unità (modello non ancora definito)'}</dd>
+        {info.strength && onReinforce && (
+          <>
+            <dt>Rinforzi</dt>
+            <dd>
+              <button type="button" aria-pressed={info.strength.reinforce} className={info.strength.reinforce ? 'on' : ''} onClick={() => onReinforce(info.id, !info.strength.reinforce)}>
+                {info.strength.reinforce ? 'Automatici: attivi — tocca per interrompere' : 'Interrotti — tocca per riprendere'}
+              </button>
+              {' '}(quelli già in viaggio arrivano comunque)
+            </dd>
+          </>
+        )}
         <dt>Dotazione</dt>
         <dd>{info.equipment.length ? info.equipment.slice(0, 3).map((e) => `${e.item} ${e.effective}/${e.planned} (${Math.round(e.ratio * 100)}%)`).join(' · ') + (info.equipment.length > 3 ? ` · altre ${info.equipment.length - 3} voci` : '') : 'nessun dato'}</dd>
         {k ? (
@@ -92,7 +103,7 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
+export default function ArmyPanel({ group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
     () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig })])),
@@ -151,7 +162,7 @@ export default function ArmyPanel({ group, game, unitsById, officersById, initia
                   </ul>
                 ) : null;
               })() : null}
-              {openId === u.id && <Info info={info} canSetPolicy={canMove && info.nation === game.player && info.condition !== null} onPolicy={onPolicy} />}
+              {openId === u.id && <Info info={info} canSetPolicy={canMove && info.nation === game.player && info.condition !== null} onPolicy={onPolicy} onReinforce={info.nation === game.player ? onReinforce : undefined} />}
             </li>
           );
         })}

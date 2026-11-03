@@ -1,0 +1,14 @@
+{
+  "schema": "depots-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Deposito di partenza dei rinforzi per nazione (decisione dell'utente 03/11/2026: rinforzi automatici). Per ora SOLO la provincia della capitale (fatto noto, id provincia madre del catalogo); le nazioni assenti non hanno deposito e le loro divisioni non ricevono rinforzi finché non se ne aggiunge uno (MISSING_DATA, nessun deposito inventato). Un deposito reale per fabbrica o porto sostituirà questo elenco.",
+  "nations": {
+    "DEU": { "province": "P_DEU_BERLIN", "basis": "capital" },
+    "FRA": { "province": "P_FRA_SEINE", "basis": "capital" },
+    "GBR": { "province": "P_GBR_LONDRA", "basis": "capital" },
+    "ITA": { "province": "P_ITA_ROMA", "basis": "capital" },
+    "USSR": { "province": "P_USSR_MOSKOVSKAYA", "basis": "capital" },
+    "JPN": { "province": "P_JPN_TOKYO", "basis": "capital" },
+    "USA": { "province": "P_USA_MARYLAND", "basis": "capital" }
+  }
+}
