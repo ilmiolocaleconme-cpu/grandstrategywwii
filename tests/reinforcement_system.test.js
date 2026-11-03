@@ -4,6 +4,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createReinforcementSystem, setDivisionReinforcement, depotRoute } from '../src/game/reinforcementSystem.js';
 import { validateReinforcementFields } from '../src/rules/reinforcements.js';
+import { transitDaysFromRoute } from '../src/rules/reinforcementTransit.js';
+import { buildSeaGraph } from '../src/data/seaRoutes.js';
 
 const KEY = 'equipment.ART-FRA-HOW155C';
 const units = [{ id: 'FRA-1', nation: 'FRA' }, { id: 'FRA-2', nation: 'FRA' }, { id: 'GBR-1', nation: 'GBR' }];
@@ -92,4 +94,40 @@ test('i depositi reali: id province esistenti nel catalogo, una capitale per naz
   const ids = new Set(JSON.parse(readFileSync(new URL('../data/citta_grandi.json', import.meta.url), 'utf8')).features.map((f) => f.properties.parentProvince));
   assert.equal(depots.schema, 'depots-v1');
   for (const [n, d] of Object.entries(depots.nations)) { assert.ok(ids.has(d.province), `${n} ${d.province}`); assert.ok(d.province.startsWith(`P_${n}_`), n); assert.equal(d.basis, 'capital'); }
+});
+
+// ---- traversata via mare (03/11/2026): isole A-B e C-D, zone di mare Z1 (porto B) e Z2 (porto C) ----
+const seaFile = { zones: [
+  { id: 'Z1', kind: 'sea', seed: [0, 0], neighbors: [['Z2', 444]], coastal: [] },
+  { id: 'Z2', kind: 'sea', seed: [4, 0], neighbors: [['Z1', 444]], coastal: [] },
+] };
+const seaParams = { speedKmPerDay: { ocean: 400, sea: 400, gulf: 300, strait: 250, approach: 200 }, portHandlingDays: 1 };
+const graph = buildSeaGraph(seaFile, seaParams);
+const mk = (ports) => ({ context: { graph, portsOf: () => ports }, motherOf: (p) => p.replace('-child', '') });
+const islands = { A: ['B'], B: ['A'], C: ['D'], D: ['C'], E: [] };
+const isl = (sea, at = 'D') => ({ net: { has: (m) => m in islands, neighbors: (m) => islands[m], km: () => 120 }, depots: { nations: { FRA: { province: 'A' } } }, positionOf: () => at, canEnter: () => () => true, sea });
+
+test('via mare: tratto di terra al porto + traversata + tratto di terra; i giorni di mare si aggiungono solo qui', () => {
+  const ports = [{ province: 'B-child', zone: 'Z1', coastKm: 50 }, { province: 'C', zone: 'Z2', coastKm: 50 }];
+  const r = depotRoute(isl(mk(ports)), 'FRA', 'd');
+  assert.deepEqual(r, { landKm: 240, seaDays: 4 }, 'A→B 120 km + C→D 120 km; mare 444 km a 400 km/g + 2 giorni di porto = 4');
+  assert.equal(transitDaysFromRoute(r), 7, '3 giorni di terra + 4 di mare');
+  assert.equal(depotRoute({ ...isl(mk(ports)), positionOf: () => 'B' }, 'FRA', 'd').seaDays, undefined, 'stessa isola: nessun mare');
+});
+
+test('via mare: senza porto proprio su una delle due coste, o zone di mare chiuse, o senza contesto di mare: null', () => {
+  const only = (p) => depotRoute(isl(mk([p])), 'FRA', 'd');
+  assert.equal(only({ province: 'B', zone: 'Z1', coastKm: 50 }), null, 'nessun porto sull\'isola di arrivo');
+  assert.equal(only({ province: 'C', zone: 'Z2', coastKm: 50 }), null, 'nessun porto sull\'isola di partenza');
+  assert.equal(depotRoute(isl(null), 'FRA', 'd'), null);
+  const closed = { ...graph, params: { ...seaParams, closedZones: ['Z2'] } };
+  const ports = [{ province: 'B', zone: 'Z1', coastKm: 1 }, { province: 'C', zone: 'Z2', coastKm: 1 }];
+  assert.equal(depotRoute(isl({ context: { graph: closed, portsOf: () => ports }, motherOf: (p) => p }), 'FRA', 'd'), null, 'zona chiusa (ghiaccio)');
+  assert.equal(depotRoute(isl(mk(ports), 'E'), 'FRA', 'd'), null, 'provincia isolata e senza costa');
+});
+
+test('sistema: una divisione oltremare riceve i rinforzi con 3 + 4 giorni di viaggio', () => {
+  const ports = [{ province: 'B', zone: 'Z1', coastKm: 1 }, { province: 'C', zone: 'Z2', coastKm: 1 }];
+  const s = createReinforcementSystem({ units, poolOf: () => 0, routeOf: (st, n, id) => (id === 'FRA-1' ? depotRoute(isl(mk(ports)), n, id) : null) })(game());
+  assert.equal(s.forces.transfers.find((t) => t.divisionId === 'FRA-1' && t.item === KEY).arrivesOn, '1939-09-17');
 });

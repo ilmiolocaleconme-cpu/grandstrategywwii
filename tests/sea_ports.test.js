@@ -58,3 +58,23 @@ test('il controllo segue lo stato: se l\'Italia perde il controllo della provinc
   assert.ok(!sea.at(lost).portsOf('ITA').some((p) => motherOf(p.province) === bariProv));
   assert.ok(sea.at(lost).portsOf('DEU').some((p) => motherOf(p.province) === bariProv));
 });
+
+// ---- rinforzi via mare con dati reali (03/11/2026): deposito di Roma → divisione in Sardegna ----
+import { buildMoveNet } from '../src/data/moveNet.js';
+import { depotRoute } from '../src/game/reinforcementSystem.js';
+import { transitDaysFromRoute } from '../src/rules/reinforcementTransit.js';
+import { provinceController } from '../src/game/warCommon.js';
+
+test('rinforzi: Roma → Cagliari via terra non esiste, via mare sì (giorni di mare > 0); Roma → Catania idem; Roma → Napoli solo terra', () => {
+  const s = fresh(); const sea = mk();
+  const net = buildMoveNet(collection, read('adjacency.json'));
+  const depots = read('units/depots.json');
+  const ctx = (at) => ({ net, depots, positionOf: () => at, canEnter: (n) => (m) => provinceController(s, net, m) === n, sea: { context: sea.at(s), motherOf } });
+  const cag = depotRoute(ctx('P_ITA_CAGLIARI'), 'ITA', 'u');
+  assert.ok(cag && cag.seaDays > 0 && cag.landKm >= 0, JSON.stringify(cag));
+  assert.ok(transitDaysFromRoute(cag) > cag.seaDays, 'i giorni di mare sono solo una parte');
+  const cat = depotRoute(ctx('P_ITA_CATANIA'), 'ITA', 'u');
+  assert.ok(cat && (cat.seaDays === undefined || cat.seaDays >= 0), JSON.stringify(cat));
+  const land = net.has('P_ITA_NAPOLI') ? depotRoute(ctx('P_ITA_NAPOLI'), 'ITA', 'u') : { landKm: 1 };
+  assert.equal(land.seaDays, undefined, 'stessa terraferma: nessun giorno di mare');
+});

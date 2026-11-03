@@ -280,7 +280,7 @@ const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuA
 const withForces = (state) => initForcesState(state, FORCES_CTX).state;
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };
-const GAME_SEA = { sea: null }; // rotte marittime con i porti reali (game/seaState.js): si crea quando arrivano le zone di mare e le province
+const GAME_SEA = { sea: null, motherOf: null }; // rotte marittime con i porti reali (game/seaState.js): si crea quando arrivano le zone di mare e le province
 const INITIAL_POSITIONS = initialPositions(deploymentFile);
 const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
@@ -296,7 +296,7 @@ const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
   // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
-  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsFile.units, poolOf: hospitalManpower, routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n }, nation, unitId) })(state) : state),
+  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsFile.units, poolOf: hospitalManpower, routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   GAME_SECURITY.securityDay,
@@ -526,6 +526,7 @@ export default function App() {
     try {
       const props = provinces.features.map((f) => f.properties);
       const mother = new Map(props.map((p) => [p.id, p.parentProvince ?? p.id]));
+      GAME_SEA.motherOf = (id) => mother.get(id) ?? id;
       GAME_SEA.sea = createGameSea({ seaFile, params: seaRoutesParams, provinceIds: props.map((p) => p.id), motherOf: (id) => mother.get(id) ?? id, entityOf: entityOfProvince, ports: GAME_PORTS });
     } catch (e) { setArmyNotice(`Rotte marittime non disponibili: ${e.message}`); }
   }, [!!game, !!seaFile, !!provinces]); // eslint-disable-line react-hooks/exhaustive-deps
