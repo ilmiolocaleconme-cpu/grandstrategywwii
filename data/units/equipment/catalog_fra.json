@@ -1,0 +1,267 @@
+{
+  "schema": "equipment-catalog-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Catalogo FRA generato da CSV con scripts/build-templates.js: non modificare a mano. Stesso schema e stessa forma di id di tutte le nazioni; ogni voce con attendibilità (reliability) e nota di fonte. Le varianti datate (DATED_VARIANT) restano qui e non entrano nei template della data.",
+  "source": {
+    "files": [
+      {
+        "file": "source/fr_2di_template_1939.csv",
+        "sha256": "9d1c2beb297e4827f75bb17908e92e7da9b1ab8dccbb3424c43cb8052501f9d9"
+      },
+      {
+        "file": "source/fr_2di_equipment_1939.csv",
+        "sha256": "4c7331c2dd05d19e3023502cb2b81e6283bfbe7b2c95145d50c0af2bf1f1c40c"
+      },
+      {
+        "file": "source/land_equipment_catalog_fr_1939.csv",
+        "sha256": "c49a806d008e95736b52c34a223c0ff5348d27b4f62b97094975b174ade3b940"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "equipment_id": "INW-FRA-RIFLE-1939",
+      "nation": "FRA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Fucile standard fanteria francese",
+      "family": "small_arms",
+      "role": "individual_infantry_weapon",
+      "caliber_mm": null,
+      "name_it": "Fucile standard fanteria francese",
+      "durable": true,
+      "models": [],
+      "reliability": "MISSING_DATA",
+      "reference_date": "1939-09",
+      "source_id": "FRA-RIFLE-1939",
+      "source_note": "Numero di fucili non ricostruito; non dedurre automaticamente un fucile per ogni uomo."
+    },
+    {
+      "equipment_id": "INW-FRA-PISTOL-1939",
+      "nation": "FRA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Pistola d'ordinanza",
+      "family": "small_arms",
+      "role": "officer_and_specialist_sidearm",
+      "caliber_mm": null,
+      "name_it": "Pistola d'ordinanza",
+      "durable": true,
+      "models": [],
+      "reliability": "MISSING_DATA",
+      "reference_date": "1939-09",
+      "source_id": "FRA-PISTOL-1939",
+      "source_note": "Quantità non ricostruita."
+    },
+    {
+      "equipment_id": "MG-FRA-FM2429",
+      "nation": "FRA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Fusil-mitrailleur 24/29",
+      "family": "small_arms",
+      "role": "squad_automatic_fire",
+      "caliber_mm": 7.5,
+      "name_it": "Fusil-mitrailleur 24/29",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "FRA-FM2429",
+      "source_note": "112 per reggimento x 3; organico tipico Nord-Est, non inventario verificato della 2e DI."
+    },
+    {
+      "equipment_id": "MG-FRA-HOTCHKISS1914",
+      "nation": "FRA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitrailleuse Hotchkiss Mle 1914",
+      "family": "small_arms",
+      "role": "battalion_and_regimental_support",
+      "caliber_mm": 8,
+      "name_it": "Mitrailleuse Hotchkiss Mle 1914",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "FRA-HOTCHKISS1914",
+      "source_note": "48 per reggimento x 3; organico tipico Nord-Est."
+    },
+    {
+      "equipment_id": "GL-FRA-VB1916",
+      "nation": "FRA",
+      "category": "GRENADE_LAUNCHER",
+      "granularity": "model",
+      "designation": "Lanciagranate VB per fucile",
+      "family": "small_arms",
+      "role": "infantry_indirect_grenade_fire",
+      "caliber_mm": 50,
+      "name_it": "Lanciagranate VB per fucile",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "FRA-VB1916",
+      "source_note": "144 per reggimento x 3; organico tipico Nord-Est."
+    },
+    {
+      "equipment_id": "ART-FRA-MORTAR60",
+      "nation": "FRA",
+      "category": "MORTAR",
+      "granularity": "model",
+      "designation": "Mortaio da 60 mm",
+      "family": "infantry_support",
+      "role": "close_indirect_fire",
+      "caliber_mm": 60,
+      "name_it": "Mortaio da 60 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "FRA-MORTAR60",
+      "source_note": "9 per reggimento x 3; organico tipico Nord-Est."
+    },
+    {
+      "equipment_id": "ART-FRA-MORTAR81",
+      "nation": "FRA",
+      "category": "MORTAR",
+      "granularity": "model",
+      "designation": "Mortaio da 81 mm",
+      "family": "infantry_support",
+      "role": "battalion_indirect_fire",
+      "caliber_mm": 81,
+      "name_it": "Mortaio da 81 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "FRA-MORTAR81",
+      "source_note": "8 per reggimento x 3; organico tipico Nord-Est."
+    },
+    {
+      "equipment_id": "ART-FRA-AT25",
+      "nation": "FRA",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone anticarro da 25 mm",
+      "family": "anti_tank",
+      "role": "anti_armor_direct_fire",
+      "caliber_mm": 25,
+      "name_it": "Cannone anticarro da 25 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "FRA-AT25",
+      "source_note": "Valore provvisorio da verificare su organico e data esatta; non usare come quantità certa."
+    },
+    {
+      "equipment_id": "ART-FRA-ART75M1897",
+      "nation": "FRA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "Canon de 75 mm Mle 1897",
+      "family": "field_artillery",
+      "role": "divisional_field_artillery",
+      "caliber_mm": 75,
+      "name_it": "Canon de 75 mm Mle 1897",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "FRA-ART75M1897",
+      "source_note": "3 gruppi da 3 batterie di 4 pezzi; 36 complessivi. Struttura standard ricostruita, da distinguere dall'inventario effettivo."
+    },
+    {
+      "equipment_id": "ART-FRA-HOW155C",
+      "nation": "FRA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Canon de 155 C",
+      "family": "heavy_artillery",
+      "role": "divisional_heavy_indirect_fire",
+      "caliber_mm": 155,
+      "name_it": "Canon de 155 C",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "FRA-HOW155C",
+      "source_note": "2 gruppi da 3 batterie di 4 pezzi; 24 complessivi. Modello preciso e dotazione effettiva da verificare."
+    },
+    {
+      "equipment_id": "ART-FRA-AT47M1937",
+      "nation": "FRA",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Canon antichar de 47 mm Mle 1937",
+      "family": "anti_tank",
+      "role": "anti_armor_direct_fire",
+      "caliber_mm": 47,
+      "name_it": "Canon antichar de 47 mm Mle 1937",
+      "durable": true,
+      "models": [],
+      "reliability": "DATED_VARIANT",
+      "reference_date": "1940-05",
+      "source_id": "FRA-AT47M1937",
+      "source_note": "Tenere separato dal template settembre 1939; compare nell'ordine di battaglia successivo della divisione."
+    }
+  ],
+  "aliases": [
+    {
+      "nation": "FRA",
+      "templateKey": "INW-FRA-RIFLE-1939",
+      "equipment_id": "INW-FRA-RIFLE-1939"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "INW-FRA-PISTOL-1939",
+      "equipment_id": "INW-FRA-PISTOL-1939"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "MG-FRA-FM2429",
+      "equipment_id": "MG-FRA-FM2429"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "MG-FRA-HOTCHKISS1914",
+      "equipment_id": "MG-FRA-HOTCHKISS1914"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "GL-FRA-VB1916",
+      "equipment_id": "GL-FRA-VB1916"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-MORTAR60",
+      "equipment_id": "ART-FRA-MORTAR60"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-MORTAR81",
+      "equipment_id": "ART-FRA-MORTAR81"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-AT25",
+      "equipment_id": "ART-FRA-AT25"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-ART75M1897",
+      "equipment_id": "ART-FRA-ART75M1897"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-HOW155C",
+      "equipment_id": "ART-FRA-HOW155C"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-AT47M1937",
+      "equipment_id": "ART-FRA-AT47M1937"
+    }
+  ]
+}

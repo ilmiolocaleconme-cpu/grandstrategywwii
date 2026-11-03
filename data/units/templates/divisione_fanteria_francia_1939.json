@@ -1,0 +1,138 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-FRA-INF-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/fr_2di_template_1939.csv, source/fr_2di_equipment_1939.csv, source/land_equipment_catalog_fr_1939.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (FRA infantry division, serie A); 2e Division d'Infanterie è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "FRA",
+    "category": "infantry",
+    "echelon": "division",
+    "validFrom": "1939-09-01"
+  },
+  "formation": {
+    "value": "triangular"
+  },
+  "regimentsInfantry": {
+    "value": 3
+  },
+  "manpower": {
+    "war": {
+      "value": 16400,
+      "effective": {
+        "value": 15500
+      }
+    }
+  },
+  "horses": {
+    "value": 4900,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "INW-FRA-RIFLE-1939": {
+      "value": null,
+      "reliability": "MISSING_DATA",
+      "note": "Nessuna quantità nelle righe di organico. Numero di fucili non ricostruito; non dedurre automaticamente un fucile per ogni uomo."
+    },
+    "INW-FRA-PISTOL-1939": {
+      "value": null,
+      "reliability": "MISSING_DATA",
+      "note": "Nessuna quantità nelle righe di organico. Quantità non ricostruita."
+    },
+    "MG-FRA-FM2429": {
+      "value": 336,
+      "reliability": "STANDARD_TOE",
+      "unit": "33e+73e+127e RI",
+      "note": "112 per reggimento; totale divisionale",
+      "effective": {
+        "value": null
+      }
+    },
+    "MG-FRA-HOTCHKISS1914": {
+      "value": 144,
+      "reliability": "STANDARD_TOE",
+      "unit": "33e+73e+127e RI",
+      "note": "48 per reggimento; totale divisionale",
+      "effective": {
+        "value": null
+      }
+    },
+    "GL-FRA-VB1916": {
+      "value": 432,
+      "reliability": "STANDARD_TOE",
+      "unit": "33e+73e+127e RI",
+      "note": "144 per reggimento; totale divisionale",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-FRA-MORTAR60": {
+      "value": 27,
+      "reliability": "STANDARD_TOE",
+      "unit": "33e+73e+127e RI",
+      "note": "9 per reggimento; totale divisionale",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-FRA-MORTAR81": {
+      "value": 24,
+      "reliability": "STANDARD_TOE",
+      "unit": "33e+73e+127e RI",
+      "note": "8 per reggimento; totale divisionale",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-FRA-AT25": {
+      "value": 15,
+      "reliability": "PROVISIONAL",
+      "unit": "Compagnie/reggimenti anticarro",
+      "note": "Quantità da confermare con fonte specifica",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-FRA-ART75M1897": {
+      "value": 36,
+      "reliability": "STANDARD_TOE",
+      "unit": "34e Régiment d'Artillerie Divisionnaire",
+      "note": "Tre gruppi da 12 pezzi",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-FRA-HOW155C": {
+      "value": 24,
+      "reliability": "STANDARD_TOE",
+      "unit": "234e Régiment d'Artillerie Lourde Divisionnaire",
+      "note": "Due gruppi da 12 pezzi",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-FRA-INF-2DI-1939",
+    "series": "A",
+    "referenceDivision": "2e Division d'Infanterie",
+    "referenceDate": "1939-09",
+    "sourceQuality": "MIXED_DOCUMENTED_AND_STANDARD_TOE",
+    "sourceNote": "2e DI Serie A type Nord-Est. Personnel and horse values rounded by user; equipment rows must retain evidence/uncertainty individually.",
+    "sourceFiles": [
+      {
+        "file": "source/fr_2di_template_1939.csv",
+        "sha256": "9d1c2beb297e4827f75bb17908e92e7da9b1ab8dccbb3424c43cb8052501f9d9"
+      },
+      {
+        "file": "source/fr_2di_equipment_1939.csv",
+        "sha256": "4c7331c2dd05d19e3023502cb2b81e6283bfbe7b2c95145d50c0af2bf1f1c40c"
+      },
+      {
+        "file": "source/land_equipment_catalog_fr_1939.csv",
+        "sha256": "c49a806d008e95736b52c34a223c0ff5348d27b4f62b97094975b174ade3b940"
+      }
+    ]
+  }
+}
