@@ -199,3 +199,11 @@ Principio dell'utente: **tutto scalabile, niente fatto in modo diverso per nazio
 - **Catalogo**: stessa forma di id per tutte le nazioni, `<PREFISSO>-<NAZ>-<NOME>` (es. `MG-FRA-FM2429`; Germania: `ART-DEU-MOR-81`); granularità `class` | `model` | `aggregate`. Per i modelli: designation, family, role, reliability, reference_date, source_id (l'id del CSV). Nel template le chiavi `equipment.*` sono gli `equipment_id` (alias a sé stesse).
 - **Aggiungere una nazione o un anno**: copiare i tre CSV in `data/units/source/`, aggiungere un set al manifesto, `npm run build:templates`, `npm run validate:data`. Una classe o una categoria nuova dà un errore esplicito: si aggiunge in un solo punto (`CLASS_TO_CATEGORY`, `ID_PREFIX`, `CATEGORY_CODE`). Limiti attuali: più righe di organico per lo stesso equipaggiamento sono rifiutate; la gerarchia (reggimenti, batterie) non è ancora costruita, resta solo `unit`.
 - Il file `strutture_comunicazioni_comando_1934_1945.csv` (infrastruttura di comunicazione) non è un equipaggiamento di divisione: non usato.
+
+## Fase 4-5 – Produzione degli equipaggiamenti e giorni di trasferimento (03/11/2026)
+
+- `data/units/equipment/equipment_production.json` (DESIGN_DEFAULT, non storico): tabella PER CATEGORIA con fabbrica, peso del pezzo e gruppo; ingressi = acciaio 1,2 t e componenti 0,10 t per t di peso (come le ricette esistenti). Un peso storico di un modello va in `overrides` (per `equipment_id`).
+- `src/data/equipmentProduction.js` genera una ricetta per ogni voce del catalogo (prodotto `equipment.<equipment_id>`, la stessa chiave dei template e delle istanze). Nessun codice per nazione. Varianti datate e categorie fuori tabella (contraerea, carri, veicoli) non producono. Il prodotto legacy `artillery` resta.
+- Tecnologie di partenza: i gruppi `light_arms`, `mortars`, `basic_artillery` (`requires: null`) sono noti a tutte le nazioni dal 1936; un gruppo con `requires` serve la ricerca (`groupUnlocked`). Nessuna nuova tecnologia creata: serve prima l'approvazione dell'albero.
+- `src/rules/reinforcementTransit.js`: giorni = ceil(km via terra / `TRANSIT_KM_PER_DAY`) + giorni di mare (da `findSeaRoute`) SOLO se il percorso attraversa il mare.
+- Non collegato a `SYSTEMS` (come `produceDay`): manca lo stato iniziale dell'industria e l'azione `setFacilityRecipe`.

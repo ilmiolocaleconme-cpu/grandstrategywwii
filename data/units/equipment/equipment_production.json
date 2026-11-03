@@ -1,0 +1,21 @@
+{
+  "schema": "equipment-production-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, carri, veicoli, ecc.) NON sono producibili con questa tabella: i carri hanno già le ricette REC-TANK-*, il resto è MISSING_DATA. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data.",
+  "inputsPerTonne": { "steel": 1.2, "components": 0.1 },
+  "groups": {
+    "light_arms": { "name_it": "Armi leggere e mitragliatrici", "requires": null },
+    "mortars": { "name_it": "Mortai", "requires": null },
+    "basic_artillery": { "name_it": "Artiglieria di base", "requires": null }
+  },
+  "categories": {
+    "INDIVIDUAL_WEAPON": { "factory": "FCT-WEAPONS", "massTonnes": 0.005, "group": "light_arms" },
+    "MACHINE_GUN": { "factory": "FCT-WEAPONS", "massTonnes": 0.03, "group": "light_arms" },
+    "GRENADE_LAUNCHER": { "factory": "FCT-WEAPONS", "massTonnes": 0.003, "group": "light_arms" },
+    "MORTAR": { "factory": "FCT-ARTILLERY", "massTonnes": 0.06, "group": "mortars" },
+    "ANTI_TANK_GUN": { "factory": "FCT-ARTILLERY", "massTonnes": 0.5, "group": "basic_artillery" },
+    "FIELD_GUN": { "factory": "FCT-ARTILLERY", "massTonnes": 1.5, "group": "basic_artillery" },
+    "HOWITZER": { "factory": "FCT-ARTILLERY", "massTonnes": 2.5, "group": "basic_artillery" }
+  },
+  "overrides": {}
+}

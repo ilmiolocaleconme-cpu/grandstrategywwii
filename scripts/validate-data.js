@@ -42,6 +42,7 @@ import { officersBuilt } from './build-officers.js';
 import { validateTemplate } from '../src/data/templates.js';
 import { validateCadreTemplates } from '../src/data/cadres.js';
 import { validateEquipmentCatalog, mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
+import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipmentProduction.js';
 import { templatesBuilt } from './build-templates.js';
 import { validateDeployment } from '../src/data/deployment.js';
 import { validateConditionConfig } from '../src/rules/divisionCondition.js';
@@ -249,6 +250,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       const catalogDocs = [];
       for (const f of (await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).sort()) catalogDocs.push(JSON.parse(await text(`units/equipment/${f}`)));
       errors.push(...validateEquipmentCatalog(mergeEquipmentCatalogs(catalogDocs), { templates: divisionTemplates }));
+      // Fase 4: tabella di produzione per categoria + ricette generate per ogni equipaggiamento del catalogo (prodotto equipment.<id>)
+      const mergedCatalog = mergeEquipmentCatalogs(catalogDocs);
+      const prodTable = JSON.parse(await text('units/equipment/equipment_production.json'));
+      errors.push(...validateEquipmentProduction(prodTable, { factoriesById: industry.byId, techIds, catalog: mergedCatalog }));
+      errors.push(...validateRecipes(withEquipmentRecipes(recipesDoc, buildEquipmentRecipes(mergedCatalog, prodTable)), { factoriesById: industry.byId, resources: catalog.resources, equipmentIds: new Set(mergedCatalog.entries.map((e) => e.equipment_id)) }));
       // Template e cataloghi generati dai CSV (Fase 6): i file su disco devono coincidere con quelli ricostruiti dai CSV
       const built = await templatesBuilt();
       for (const [name, doc] of Object.entries(built.templates)) if (JSON.stringify(doc) !== JSON.stringify(JSON.parse(await text(`units/templates/${name}`)))) errors.push(`template ${name}: non allineato ai CSV, rigenerare con npm run build:templates`);

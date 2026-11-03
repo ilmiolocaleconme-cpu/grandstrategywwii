@@ -7,6 +7,8 @@ import { PRODUCT_META, RESOURCE_ORDER } from './provinceResources.js';
 
 export const RECIPES_SCHEMA = 'recipes-v1';
 export const EXTRACTION_SCALE_SCHEMA = 'extraction-scale-v1';
+/** Prefisso del prodotto-equipaggiamento: la chiave di scorta è `equipment.<equipment_id>`, la stessa del percorso nei template e nelle istanze delle divisioni. */
+export const EQUIPMENT_PREFIX = 'equipment.';
 export const QUALITIES = Object.freeze(['DESIGN_DEFAULT', 'MISSING_DATA']);
 
 /** Prodotti e flussi del catalogo risorse (`tipo`): ciò che si ottiene da una ricetta, non si estrae. */
@@ -16,9 +18,10 @@ export function derivedIds(resources) {
 
 /**
  * Errori delle ricette (lista vuota = valide).
- * ctx: { factoriesById: Map(factory_id → fabbrica con numeri), resources: [{id, tipo?}] }
+ * ctx: { factoriesById: Map(factory_id → fabbrica con numeri), resources: [{id, tipo?}], equipmentIds?: Set(equipment_id del catalogo equipaggiamenti) }
+ * Un prodotto `equipment.<equipment_id>` (Fase 4, equipaggiamenti) è valido se l'id è nel catalogo; è sempre un prodotto a pezzi.
  */
-export function validateRecipes(file, { factoriesById, resources }) {
+export function validateRecipes(file, { factoriesById, resources, equipmentIds = null }) {
   const errors = [];
   if (file?.schema !== RECIPES_SCHEMA) return [`ricette: schema ${file?.schema}, atteso ${RECIPES_SCHEMA}`];
   const known = new Set(resources.map((r) => r.id));
@@ -32,7 +35,11 @@ export function validateRecipes(file, { factoriesById, resources }) {
     if (!QUALITIES.includes(r.quality)) errors.push(`ricette: ${r.id} con qualità sconosciuta "${r.quality}"`);
     if (!String(r.rationale ?? '').trim()) errors.push(`ricette: ${r.id} senza motivazione`);
     const out = r.output;
-    if (!out || !derived.has(out.product)) errors.push(`ricette: ${r.id} produce "${out?.product}", che non è un prodotto o flusso del catalogo`);
+    const isEquip = typeof out?.product === 'string' && out.product.startsWith(EQUIPMENT_PREFIX);
+    if (isEquip && !equipmentIds?.has(out.product.slice(EQUIPMENT_PREFIX.length))) errors.push(`ricette: ${r.id} produce ${out.product}, che non è nel catalogo equipaggiamenti`);
+    else if (isEquip && !(out.perUnit > 0)) errors.push(`ricette: ${r.id} con perUnit di uscita non valido`);
+    else if (isEquip) { if (!producedBy.has(out.product)) producedBy.set(out.product, []); producedBy.get(out.product).push(r.id); }
+    else if (!out || !derived.has(out.product)) errors.push(`ricette: ${r.id} produce "${out?.product}", che non è un prodotto o flusso del catalogo`);
     else if (!(out.perUnit > 0)) errors.push(`ricette: ${r.id} con perUnit di uscita non valido`);
     else { if (!producedBy.has(out.product)) producedBy.set(out.product, []); producedBy.get(out.product).push(r.id); }
     if (!Array.isArray(r.inputs)) { errors.push(`ricette: ${r.id} senza elenco ingressi`); return; }
@@ -55,7 +62,7 @@ export function validateRecipes(file, { factoriesById, resources }) {
     if (r.inputs.length === 0) errors.push(`ricette: ${r.id} senza ingressi`);
     // prodotti a PEZZI (carri, artiglieria): capacità in pezzi al giorno = capacità della fabbrica (t di lavorazione) / peso del pezzo
     const resDef = resources.find((x) => x.id === r.output?.product);
-    const pieces = resDef?.unit === 'pezzi';
+    const pieces = resDef?.unit === 'pezzi' || (typeof r.output?.product === 'string' && r.output.product.startsWith(EQUIPMENT_PREFIX));
     if (pieces !== (r.outputUnit === 'pieces/day')) errors.push(`ricette: ${r.id} ${pieces ? 'produce un prodotto a pezzi: serve outputUnit "pieces/day"' : 'usa outputUnit "pieces/day" ma il prodotto non è a pezzi'}`);
     if (pieces) {
       if (!(r.massTonnes > 0)) errors.push(`ricette: ${r.id} produce pezzi ma non ha un peso del pezzo (massTonnes) valido`);
