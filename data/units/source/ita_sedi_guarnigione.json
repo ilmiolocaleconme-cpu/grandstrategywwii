@@ -1,0 +1,305 @@
+{
+ "schema": "garrisons-v1",
+ "basis": "ipotesi",
+ "note": "Sedi di guarnigione (comando di divisione) delle unità italiane, lette da pagine Wikipedia in inglese il 3/11/2026. È la sede di pace o di formazione al 1939-1943, NON la posizione al 1/1/1936 né quella di guerra: per l'Italia non esiste una dislocazione del 1936 nei dati. Fonti secondarie (Wikipedia), non verificate su fonti ufficiali. La provincia del catalogo è quella che contiene la città (coordinate approssimate). Le unità senza fonte letta sono in missing: non si inventa.",
+ "entries": [
+  {
+   "unit": "U00186",
+   "seat": "Torino",
+   "province": "P_ITA_TORINO_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/1st_Alpine_Division_%22Taurinense%22",
+   "note": "infobox Garrison/HQ e testo: \"The headquarters of the division was in the city of Turin\""
+  },
+  {
+   "unit": "U00187",
+   "seat": "Merano",
+   "province": "P_ITA_BOLZANO_OVEST_SP1",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/2nd_Alpine_Division_%22Tridentina%22",
+   "note": "infobox Garrison/HQ: Meran; elenco reparti non datato al 1940"
+  },
+  {
+   "unit": "U00188",
+   "seat": "Udine",
+   "province": "P_ITA_UDINE_SP1",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/3rd_Alpine_Division_%22Julia%22",
+   "note": "infobox e ordine di battaglia 1940: comando a Udine"
+  },
+  {
+   "unit": "U00189",
+   "seat": "Cuneo",
+   "province": "P_ITA_ASTI_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/4th_Alpine_Division_%22Cuneense%22",
+   "note": "infobox e testo: sede del comando a Cuneo; il catalogo non ha una provincia di Cuneo, scelta la provincia che la contiene"
+  },
+  {
+   "unit": "U00190",
+   "seat": "Padova",
+   "province": "P_ITA_VENEZIA_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/10th_Infantry_Division_%22Piave%22",
+   "note": "infobox Garrison/HQ: Padua; assetto prebellico, non datato al 1940"
+  },
+  {
+   "unit": "U00191",
+   "seat": "Bolzano",
+   "province": "P_ITA_BOLZANO_EST",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/11th_Infantry_Division_%22Brennero%22",
+   "note": "comando a Bolzano in tempo di pace; dal 4/1/1940 nell'area Pianezza-San Maurizio Canavese"
+  },
+  {
+   "unit": "U00192",
+   "seat": "Trieste",
+   "province": "P_ITA_TRIESTE",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/12th_Infantry_Division_%22Sassari%22",
+   "note": "\"entirely based in Trieste\"; il 10/6/1940 era presso Borjana, al confine jugoslavo"
+  },
+  {
+   "unit": "U00193",
+   "seat": "Parma",
+   "province": "P_ITA_PARMA",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/133rd_Armored_Division_%22Littorio%22",
+   "note": "sede di FORMAZIONE: formata il 6/11/1939 a Parma"
+  },
+  {
+   "unit": "U00194",
+   "seat": "Udine",
+   "province": "P_ITA_UDINE_SP1",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/13th_Infantry_Division_%22Re%22",
+   "note": "infobox Garrison/HQ: Udine; reggimenti da ordine di battaglia 1943"
+  },
+  {
+   "unit": "U00195",
+   "seat": "Firenze",
+   "province": "P_ITA_FIRENZE_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/19th_Infantry_Division_%22Venezia%22",
+   "note": "infobox Garrison/HQ: Florence; dal 1939 destinata all'Albania"
+  },
+  {
+   "unit": "U00196",
+   "seat": "Torino",
+   "province": "P_ITA_TORINO_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/1st_Infantry_Division_%22Superga%22",
+   "note": "\"based, together with its two infantry regiments, in Turin\""
+  },
+  {
+   "unit": "U00197",
+   "seat": "Roma",
+   "province": "P_ITA_ROMA_SP2",
+   "reliability": "media",
+   "source": "https://en.wikipedia.org/wiki/21st_Infantry_Division_%22Granatieri_di_Sardegna%22",
+   "note": "nessun campo sede nell'infobox: Roma ricavata dai reggimenti e dalla \"21st Territorial Division of Rome\"; a giugno 1940 era ad Asti"
+  },
+  {
+   "unit": "U00198",
+   "seat": "Perugia",
+   "province": "P_ITA_PERUGIA_NORD_SP1",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/22nd_Infantry_Division_%22Cacciatori_delle_Alpi%22",
+   "note": "infobox e testo: Perugia; a giugno 1940 in riserva al confine francese"
+  },
+  {
+   "unit": "U00199",
+   "seat": "Bari",
+   "province": "P_ITA_BARI_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/23rd_Infantry_Division_%22Ferrara%22",
+   "note": "sede di pace fino al 1939 (fonte secondaria: relazione di ricerca); poi Albania"
+  },
+  {
+   "unit": "U00200",
+   "seat": "Chieti",
+   "province": "P_ITA_PESCARA",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/24th_Infantry_Division_%22Pinerolo%22",
+   "note": "sede di pace; il catalogo non ha Chieti, scelta la provincia che la contiene (Pescara)"
+  },
+  {
+   "unit": "U00201",
+   "seat": "Napoli",
+   "province": "P_ITA_NAPOLI",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/25th_Infantry_Division_%22Bologna%22",
+   "note": "sede di pace; a giugno 1940 in Libia; la pagina è incoerente sull'artiglieria (Napoli o Caserta)"
+  },
+  {
+   "unit": "U00202",
+   "seat": "Asti",
+   "province": "P_ITA_ASTI_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/26th_Infantry_Division_%22Assietta%22",
+   "note": "sede di pace; giugno 1940 al confine francese"
+  },
+  {
+   "unit": "U00203",
+   "seat": "Catanzaro",
+   "province": "P_ITA_CATANZARO",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/27th_Infantry_Division_%22Brescia%22",
+   "note": "sede di pace; dal 1939 in Libia"
+  },
+  {
+   "unit": "U00204",
+   "seat": "Palermo",
+   "province": "P_ITA_PALERMO",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/28th_Infantry_Division_%22Aosta%22",
+   "note": "sede di pace"
+  },
+  {
+   "unit": "U00205",
+   "seat": "Messina",
+   "province": "P_ITA_MESSINA",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/29th_Infantry_Division_%22Piemonte%22",
+   "note": "sede di pace; fino a settembre 1940 in Sicilia"
+  },
+  {
+   "unit": "U00206",
+   "seat": "Novara",
+   "province": "P_ITA_NOVARA",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/2nd_Infantry_Division_%22Sforzesca%22",
+   "note": "infobox Garrison/HQ: Novara"
+  },
+  {
+   "unit": "U00207",
+   "seat": "Cagliari",
+   "province": "P_ITA_CAGLIARI",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/30th_Infantry_Division_%22Sabauda%22",
+   "note": "sede di pace; la pagina è incoerente su un reggimento (Iglesias o Sassari)"
+  },
+  {
+   "unit": "U00208",
+   "seat": "Sassari",
+   "province": "P_ITA_SASSARI",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/31st_Infantry_Division_%22Calabria%22",
+   "note": "infobox: sede di pace Sassari"
+  },
+  {
+   "unit": "U00210",
+   "seat": "Alessandria",
+   "province": "P_ITA_ASTI_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/3rd_Infantry_Division_%22Ravenna%22",
+   "note": "sede di pace, assetto 1939; il catalogo non ha Alessandria, scelta la provincia che la contiene"
+  },
+  {
+   "unit": "U00211",
+   "seat": "Cuneo",
+   "province": "P_ITA_ASTI_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/4th_Infantry_Division_%22Livorno%22",
+   "note": "infobox e testo: \"headquartered in Cuneo\"; il catalogo non ha Cuneo, scelta la provincia che la contiene"
+  },
+  {
+   "unit": "U00212",
+   "seat": "Imperia",
+   "province": "P_ITA_SAVONA",
+   "reliability": "media",
+   "source": "https://en.wikipedia.org/wiki/5th_Infantry_Division_%22Cosseria%22",
+   "note": "infobox Garrison/HQ: Imperia (dal 1929); non datata al 1940; il catalogo non ha Imperia, scelta la provincia che la contiene (Savona)"
+  },
+  {
+   "unit": "U00213",
+   "seat": "Milano",
+   "province": "P_ITA_MILANO_SP1",
+   "reliability": "media",
+   "source": "https://en.wikipedia.org/wiki/6th_Infantry_Division_%22Cuneo%22",
+   "note": "solo infobox: Milano; reggimenti a Milano; a giugno 1940 nell'area di Limone Piemonte"
+  },
+  {
+   "unit": "U00214",
+   "seat": "Brescia",
+   "province": "P_ITA_BRESCIA",
+   "reliability": "media",
+   "source": "https://en.wikipedia.org/wiki/7th_Infantry_Division_%22Lupi_di_Toscana%22",
+   "note": "\"basata a Brescia\" salvo il 78º reggimento (Bergamo)"
+  },
+  {
+   "unit": "U00216",
+   "seat": "Verona",
+   "province": "P_ITA_VERONA_SP3",
+   "reliability": "media",
+   "source": "https://en.wikipedia.org/wiki/9th_Infantry_Division_%22Pasubio%22",
+   "note": "infobox: Verona, fino al 10/7/1941; non datata al 1940"
+  },
+  {
+   "unit": "U00217",
+   "seat": "Siena",
+   "province": "P_ITA_SIENA",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/131st_Armored_Division_%22Centauro%22",
+   "note": "sede di FORMAZIONE: aprile 1939"
+  },
+  {
+   "unit": "U00218",
+   "seat": "Milano",
+   "province": "P_ITA_MILANO_SP1",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/132nd_Armored_Division_%22Ariete%22",
+   "note": "sede di FORMAZIONE: II Brigata corazzata a Milano dal 15/7/1937; divisione dal 1/2/1939"
+  },
+  {
+   "unit": "U00219",
+   "seat": "Tarquinia",
+   "province": "P_ITA_VITERBO_SP1",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/185th_Infantry_Division_%22Folgore%22",
+   "note": "sede di FORMAZIONE: 1/9/1941, Tarquinia"
+  },
+  {
+   "unit": "U00220",
+   "seat": "Pisa",
+   "province": "P_ITA_PISA_SP1",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/184th_Infantry_Division_%22Nembo%22",
+   "note": "sede di FORMAZIONE: 1/11/1942, Pisa"
+  },
+  {
+   "unit": "U00185",
+   "seat": "Roma",
+   "province": "P_ITA_ROMA_SP2",
+   "reliability": "alta",
+   "source": "https://en.wikipedia.org/wiki/Supermarina",
+   "note": "Supermarina, Lungotevere Flaminio, Roma (1940-1943): sede dello stato maggiore, non di una flotta"
+  }
+ ],
+ "missing": [
+  {
+   "unit": "U00209",
+   "reason": "non è una divisione distinta: il 32º è un reggimento carri della 132ª Ariete (già U00218); probabile doppione nei dati, non collocata per non duplicarla"
+  },
+  {
+   "unit": "U00215",
+   "reason": "8ª Po: nessuna pagina leggibile con la sede"
+  },
+  {
+   "unit": "U00181",
+   "reason": "1ª Squadra navale: nessuna fonte letta indica la base"
+  },
+  {
+   "unit": "U00182",
+   "reason": "2ª Squadra navale: nessuna fonte letta indica la base"
+  },
+  {
+   "unit": "U00183",
+   "reason": "Comando Supremo: la pagina letta non indica la sede"
+  },
+  {
+   "unit": "U00184",
+   "reason": "Regia Aeronautica: la pagina letta non indica la sede del comando"
+  }
+ ]
+}

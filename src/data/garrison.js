@@ -1,5 +1,6 @@
 // Stima della guarnigione al 1/1/1936 dalle divisioni e brigate schierate. DESIGN_DEFAULT, non un dato storico. Funzioni PURE.
 import { entityOfProvinceId } from './provinceOwner.js';
+import { isActiveAt } from './units.js';
 
 export const GARRISON_SCHEMA = 'garrison-estimate-v1';
 
@@ -8,9 +9,10 @@ export function buildGarrisonEstimate({ deployment, units, config, entityIds }) 
   const est = config?.garrison?.estimate;
   if (!est) throw new Error('garrison.estimate mancante in security.json');
   const echelon = new Map((units ?? []).map((u) => [u.id, u.echelon]));
+  const active = new Map((units ?? []).map((u) => [u.id, isActiveAt(u, '1936-01-01')])); // la stima è al 1/1/1936: solo le unità già attive
   const perProvince = new Map(); const perEntity = new Map();
   for (const e of deployment?.entries ?? []) {
-    if (!est.echelons.includes(echelon.get(e.unit))) continue;
+    if (!est.echelons.includes(echelon.get(e.unit)) || active.get(e.unit) === false) continue;
     perProvince.set(e.province, (perProvince.get(e.province) ?? 0) + 1);
     const ent = entityOfProvinceId(e.province, entityIds);
     if (ent) perEntity.set(ent, (perEntity.get(ent) ?? 0) + 1);

@@ -79,12 +79,12 @@ export function buildDeployment({ units, cities, provinces, garrisons = [] }) {
     }
   }
   // sedi di guarnigione da fonte esterna (data/units/source/ita_sedi_guarnigione.json): mai sovrascrivono una voce già derivata
-  const known = new Set(provinces.map((p) => p.id));
+  const motherOf = new Map(provinces.map((p) => [p.id, p.parentProvince ?? p.id])); // le "sponde" dei fiumi rimandano alla provincia madre
   const byId = new Map(units.map((u) => [u.id, u]));
   for (const g of garrisons) {
     const u = byId.get(g.unit);
-    if (!u || entries.has(u.id) || !known.has(g.province)) continue;
-    place(u, { province: g.province, how: `sede di guarnigione "${g.seat}" (${g.reliability}): ${g.source}` });
+    if (!u || entries.has(u.id) || !motherOf.has(g.province)) continue;
+    place(u, { province: motherOf.get(g.province), how: `sede di guarnigione "${g.seat}" (${g.reliability}): ${g.source}` });
   }
   for (const u of units) {
     if (entries.has(u.id)) continue;
