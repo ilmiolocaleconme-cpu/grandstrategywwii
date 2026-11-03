@@ -1,7 +1,7 @@
 {
   "schema": "equipment-production-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, carri, veicoli, ecc.) NON sono producibili con questa tabella: i carri hanno già le ricette REC-TANK-*, il resto è MISSING_DATA. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data. TEMPI (decisione dell'utente 03/11/2026: la quantità per peso va bene, ma i pezzi non escono tutti in un giorno): ogni categoria ha buildDays (giorni per costruire un lotto) e releaseEveryDays (ogni quanti giorni si chiude e si consegna un lotto): es. armi leggere 14 giorni, consegna settimanale. I giorni sono scelti da Claude (DESIGN_DEFAULT), non storici. I lotti NON riducono il volume: ritardano soltanto la consegna; per cambiare il volume si cambia il peso.",
+  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, carri, veicoli, ecc.) NON sono producibili con questa tabella: i carri hanno già le ricette REC-TANK-*, il resto è MISSING_DATA. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data. TEMPI (decisione dell'utente 03/11/2026: la quantità per peso va bene, ma i pezzi non escono tutti in un giorno): ogni categoria ha buildDays (giorni per costruire un lotto) e releaseEveryDays (ogni quanti giorni si chiude e si consegna un lotto): es. armi leggere 14 giorni, consegna settimanale. I giorni sono scelti da Claude (DESIGN_DEFAULT), non storici. I lotti NON riducono il volume: ritardano soltanto la consegna; per cambiare il volume si cambia il peso. CAPACITÀ (richiesta dell'utente 03/11/2026: troppo ferro al giorno per i fucili): `capacityShare` = quota della capacità della fabbrica usata dalla categoria; riduce in proporzione pezzi al giorno e acciaio/componenti consumati al giorno. Fucili 0,1: una fabbrica di armi leggere (100 t/giorno) usa 12 t di acciaio al giorno e fa 2000 fucili al giorno invece di 120 t e 20000. Valore DESIGN_DEFAULT da tarare.",
   "inputsPerTonne": {
     "steel": 1.2,
     "components": 0.1
@@ -26,7 +26,8 @@
       "massTonnes": 0.005,
       "group": "light_arms",
       "buildDays": 14,
-      "releaseEveryDays": 7
+      "releaseEveryDays": 7,
+      "capacityShare": 0.1
     },
     "MACHINE_GUN": {
       "factory": "FCT-WEAPONS",

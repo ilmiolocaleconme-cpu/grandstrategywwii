@@ -67,6 +67,7 @@ export function validateRecipes(file, { factoriesById, resources, equipmentIds =
     if (pieces) {
       if (!(r.massTonnes > 0)) errors.push(`ricette: ${r.id} produce pezzi ma non ha un peso del pezzo (massTonnes) valido`);
       if (r.output?.perUnit !== 1) errors.push(`ricette: ${r.id} produce pezzi: perUnit di uscita deve essere 1`);
+      if ('capacityShare' in r && !(r.capacityShare > 0 && r.capacityShare <= 1)) errors.push(`ricette: ${r.id} con capacityShare non valido (0 < quota <= 1)`);
       // lotti (facoltativi, solo pezzi): costruzione di un lotto in buildDays giorni, consegna ogni releaseEveryDays giorni (buildDays >= releaseEveryDays)
       if (('buildDays' in r) !== ('releaseEveryDays' in r)) errors.push(`ricette: ${r.id} deve avere insieme buildDays e releaseEveryDays`);
       else if ('buildDays' in r) {
@@ -74,6 +75,7 @@ export function validateRecipes(file, { factoriesById, resources, equipmentIds =
         else if (!Number.isInteger(r.buildDays) || r.buildDays < r.releaseEveryDays) errors.push(`ricette: ${r.id} con buildDays non valido (intero >= releaseEveryDays)`);
       }
     } else if ('massTonnes' in r) errors.push(`ricette: ${r.id} ha massTonnes ma non produce pezzi`);
+    else if ('capacityShare' in r) errors.push(`ricette: ${r.id} ha capacityShare ma non produce pezzi`);
     else if ('buildDays' in r || 'releaseEveryDays' in r) errors.push(`ricette: ${r.id} ha tempi di lotto ma non produce pezzi`);
     const cap = r.nominalOutputMw ?? f.base_capacity_per_day;
     if (!(cap > 0)) errors.push(`ricette: ${r.id} senza capacità giornaliera (${r.factory} ha base_capacity_per_day = ${f.base_capacity_per_day}: serve nominalOutputMw)`);
@@ -115,7 +117,9 @@ export function validateRecipes(file, { factoriesById, resources, equipmentIds =
 export function fullCapacityFlows(recipe, factory, mult = null) {
   const pieceRecipe = recipe.outputUnit === 'pieces/day';
   const cap = mult?.capacity ?? 1; // livello della fabbrica (data/industry/factory_levels.json): moltiplica produzione, materie ed energia
-  const outputPerDay = round((pieceRecipe ? factory.base_capacity_per_day / recipe.massTonnes : (recipe.nominalOutputMw ?? factory.base_capacity_per_day)) * cap);
+  // capacityShare (facoltativo, solo pezzi, 0-1): quota della capacità della fabbrica che la ricetta usa. Riduce in proporzione pezzi/giorno E consumo di materie al giorno (energia invariata).
+  const share = pieceRecipe ? (recipe.capacityShare ?? 1) : 1;
+  const outputPerDay = round((pieceRecipe ? (factory.base_capacity_per_day * share) / recipe.massTonnes : (recipe.nominalOutputMw ?? factory.base_capacity_per_day)) * cap);
   const inputsPerDay = Object.fromEntries(recipe.inputs.map((i) => [i.resource, round(i.perUnit * outputPerDay / recipe.output.perUnit)]));
   // noSelfConsumption: la centrale non consuma energia propria (il Pack le assegna un consumo che qui si ignora)
   return { outputPerDay, outputUnit: recipe.outputUnit ?? 't/day', inputsPerDay, energyMw: recipe.noSelfConsumption ? 0 : factory.energy_consumption * (mult?.energy ?? 1) };

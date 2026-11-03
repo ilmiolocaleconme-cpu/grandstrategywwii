@@ -21,6 +21,7 @@ export function validateEquipmentProduction(file, { factoriesById = null, techId
   for (const [c, def] of Object.entries(file.categories ?? {})) {
     if (!CATEGORIES.includes(c)) errors.push(`produzione equipaggiamenti: categoria sconosciuta ${c}`);
     if (!(def.massTonnes > 0)) errors.push(`produzione equipaggiamenti: ${c} senza peso valido`);
+    if ('capacityShare' in def && !(def.capacityShare > 0 && def.capacityShare <= 1)) errors.push(`produzione equipaggiamenti: ${c} con capacityShare non valido (0 < quota <= 1)`);
     if (!Number.isInteger(def.releaseEveryDays) || def.releaseEveryDays < 1) errors.push(`produzione equipaggiamenti: ${c} con releaseEveryDays non valido`);
     else if (!Number.isInteger(def.buildDays) || def.buildDays < def.releaseEveryDays) errors.push(`produzione equipaggiamenti: ${c} con buildDays non valido (intero >= releaseEveryDays)`);
     if (!(def.group in (file.groups ?? {}))) errors.push(`produzione equipaggiamenti: ${c} con gruppo sconosciuto ${def.group}`);
@@ -30,6 +31,7 @@ export function validateEquipmentProduction(file, { factoriesById = null, techId
   for (const [id, o] of Object.entries(file.overrides ?? {})) {
     if (catalog && !ids.has(id)) errors.push(`produzione equipaggiamenti: override per ${id}, assente dal catalogo`);
     if (o.massTonnes !== undefined && !(o.massTonnes > 0)) errors.push(`produzione equipaggiamenti: override ${id} con peso non valido`);
+    if (o.capacityShare !== undefined && !(o.capacityShare > 0 && o.capacityShare <= 1)) errors.push(`produzione equipaggiamenti: override ${id} con capacityShare non valido`);
     for (const k of ['buildDays', 'releaseEveryDays']) if (o[k] !== undefined && !(Number.isInteger(o[k]) && o[k] >= 1)) errors.push(`produzione equipaggiamenti: override ${id} con ${k} non valido`);
   }
   return errors;
@@ -49,6 +51,7 @@ export function buildEquipmentRecipes(catalog, table) {
     out.push({
       id: `REC-${e.equipment_id}`, factory: cat.factory, massTonnes: mass, outputUnit: 'pieces/day',
       buildDays: ov.buildDays ?? cat.buildDays, releaseEveryDays: ov.releaseEveryDays ?? cat.releaseEveryDays,
+      ...((ov.capacityShare ?? cat.capacityShare ?? 1) < 1 ? { capacityShare: ov.capacityShare ?? cat.capacityShare } : {}),
       inputs: [{ resource: 'steel', perUnit: r6(table.inputsPerTonne.steel * mass) }, { resource: 'components', perUnit: r6(table.inputsPerTonne.components * mass) }],
       output: { product: `${EQUIPMENT_PREFIX}${e.equipment_id}`, perUnit: 1 },
       quality: 'DESIGN_DEFAULT', equipmentId: e.equipment_id, group: cat.group,

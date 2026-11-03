@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { loadIndustryCatalogFrom } from '../src/data/industry.js';
-import { validateRecipes } from '../src/data/recipes.js';
+import { validateRecipes, fullCapacityFlows } from '../src/data/recipes.js';
 import { mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
 import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes, groupUnlocked, recipesAvailable, isProducible } from '../src/data/equipmentProduction.js';
 import { produceDay, checkBalance } from '../src/rules/production.js';
@@ -109,12 +109,12 @@ test('lotti: armi leggere costruzione 14 giorni, consegna settimanale — nulla 
   assert.deepEqual([rec.buildDays, rec.releaseEveryDays], [14, 7]);
   const { delivered, f } = run(rec, 22);
   assert.deepEqual(delivered.slice(0, 13), new Array(13).fill(0), 'i primi pezzi arrivano dopo 14 giorni');
-  assert.equal(delivered[13], 7 * 20000, 'giorno 14: primo lotto chiuso al giorno 7 (7 giorni di lavoro)');
+  assert.equal(delivered[13], 7 * 2000, 'giorno 14: primo lotto chiuso al giorno 7 (7 giorni di lavoro)');
   assert.deepEqual(delivered.slice(14, 20), new Array(6).fill(0));
-  assert.equal(delivered[20], 7 * 20000, 'poi un lotto a settimana');
+  assert.equal(delivered[20], 7 * 2000, 'poi un lotto a settimana');
   assert.ok(delivered.every(Number.isInteger));
   assert.equal(f.batches.length, 1, 'un lotto chiuso e in costruzione');
-  assert.equal(delivered.reduce((a, b) => a + b, 0) + f.batches.reduce((t, b) => t + b.qty, 0) + f.wip, 22 * 20000, 'nessun pezzo perso né creato');
+  assert.equal(delivered.reduce((a, b) => a + b, 0) + f.batches.reduce((t, b) => t + b.qty, 0) + f.wip, 22 * 2000, 'nessun pezzo perso né creato');
 });
 
 test('lotti: il volume non cambia (solo ritardo) e senza data è un errore, non un lotto che sparisce', () => {
@@ -152,4 +152,16 @@ test('catena completa: fabbrica a lotti → scorta equipment.<id> → rinforzi �
   const b = applyArrivals(a.forces, '1939-09-17');
   assert.equal(b.forces.divisions['FRA-2'].items[item].effective, 24);
   assert.equal(b.forces.transfers.length, 0);
+});
+
+test('capacityShare: i fucili usano il 10% della fabbrica — 12 t di acciaio e 2000 pezzi al giorno; le altre categorie restano al 100%', () => {
+  const rifle = generated.find((r) => r.equipmentId === 'INW-FRA-RIFLE-1939');
+  assert.equal(rifle.capacityShare, 0.1);
+  assert.equal(generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C').capacityShare, undefined);
+  const f = fullCapacityFlows(rifle, industry.byId.get('FCT-WEAPONS'));
+  assert.equal(f.outputPerDay, 2000);
+  assert.equal(f.inputsPerDay.steel, 12);
+  assert.equal(fullCapacityFlows(generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C'), industry.byId.get('FCT-ARTILLERY')).inputsPerDay.steel, 84, 'obici invariati: 70 t × 1,2');
+  const bad = structuredClone(withEquipmentRecipes(recipesDoc, generated)); bad.recipes.find((r) => r.id === rifle.id).capacityShare = 1.5;
+  assert.ok(validateRecipes(bad, ctx()).some((e) => /capacityShare non valido/.test(e)));
 });
