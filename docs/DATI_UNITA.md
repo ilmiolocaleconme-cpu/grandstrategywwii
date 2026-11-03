@@ -232,3 +232,10 @@ Principio dell'utente: **tutto scalabile, niente fatto in modo diverso per nazio
 - Partenza: `data/units/depots.json` (capitale per DEU, FRA, GBR, ITA, USSR, JPN, USA). Percorso via terra sulle province che la nazione controlla, giorni = km / 100 (almeno 1). LIMITI: nazioni senza deposito e divisioni senza percorso NON ricevono rinforzi, nessun tempo inventato. Nell'App solo DEU e GBR hanno template (quindi divisioni con dotazione) all'inizio della partita.
 
 - Traversata via mare (03/11/2026): se la divisione non è raggiungibile via terra, `depotRoute` somma tratto di terra deposito → porto proprio, traversata (`findSeaRoute` fra i porti propri delle due coste, con i giorni di sosta nei porti) e tratto di terra porto → divisione: giorni = ceil(km di terra / 100) + giorni di mare. Senza porto proprio su una delle due coste, con zone chiuse (ghiaccio) o isole senza costa: nessun rinforzo. LIMITI: stretti controllati da nemici e blocchi navali non modellati per i convogli; il porto è scelto dalla rotta di mare più rapida, non dal tempo totale; nessuna capacità dei porti né perdite in mare.
+
+## Attivazione tardiva delle forze (03/11/2026)
+
+- `createForcesActivationSystem(ctx)` (in `src/game/forcesState.js`) gira ogni giorno, prima degli altri sistemi: richiama `initForces` (idempotente) alla data corrente, quindi crea le istanze delle divisioni diventate attive e per ognuna applica `templateFor(unit, templates, date)`.
+- Francia: fanteria dal 1/9/1939 con `TPL-FRA-INF-1939`. Italia: fanteria dal 1/6/1940 con `TPL-ITA-INF-1940`. All'avvio 1936 queste due nazioni non hanno forze: nessun dato inventato.
+- Limite noto: un'istanza già creata non cambia mai versione di template (es. una divisione tedesca creata nel 1936 resta sul template 1936 anche dopo il 1939). Il passaggio di versione richiederebbe una regola di rimpiazzo dell'equipaggiamento: non implementato.
+- Le divisioni che entrano in servizio prima del 1/9/1939 ricevono il template valido quel giorno (1936) e lo mantengono.

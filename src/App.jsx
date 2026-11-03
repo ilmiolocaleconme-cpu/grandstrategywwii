@@ -26,7 +26,10 @@ import horseBreeding from '../data/agriculture/horse_breeding.json';
 import hospitalCare from '../data/medical/hospital_care.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
-import { initForcesState, nationManpowerPool } from './game/forcesState.js';
+import { initForcesState, nationManpowerPool, createForcesActivationSystem } from './game/forcesState.js';
+import tplFraInfantry1939 from '../data/units/templates/divisione_fanteria_francia_1939.json';
+import tplDeuInfantry1939 from '../data/units/templates/divisione_fanteria_germania_1939.json';
+import tplItaInfantry1940 from '../data/units/templates/divisione_fanteria_italia_1940.json';
 import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';
 import { TradePanel } from './ui/TradePanel.jsx';
 import { tradeGoods, tradeRows, previewTrade, describeTradeFailure } from './ui/tradeView.js';
@@ -276,7 +279,7 @@ const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: 
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
 const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, rivals: aiRivalsFile });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
-const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry], ratio: readiness.initialFillRatio.value };
+const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplDeuInfantry1939, tplFraInfantry1939, tplItaInfantry1940], ratio: readiness.initialFillRatio.value };
 const withForces = (state) => initForcesState(state, FORCES_CTX).state;
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };
@@ -288,6 +291,7 @@ const ENTRENCH_ERRORS = validateEntrenchConfig(entrenchFile);
 if (ENTRENCH_ERRORS.length) console.error('Trinceramento: configurazione non valida, uso i valori predefiniti.', ENTRENCH_ERRORS);
 const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
+  createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
   createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),

@@ -46,3 +46,17 @@ export function nationManpowerPool(state, nation, { units, population, baseShare
   // il personale degli ospedali (costruiti e in costruzione) è fuori dal pool: conta come arruolato
   return manpowerPoolState({ population, baseShare, modifiers, enlisted: enlistedManpower(state.forces, units, nation) + hospitalStaff(state.nations?.[nation]) });
 }
+
+/**
+ * Attivazione delle forze nel tempo (03/11/2026): ogni giorno crea le istanze delle divisioni che ora hanno un template valido e prima no (es. la fanteria francese dal 1/9/1939, l'italiana dal
+ * 1/6/1940). Non tocca le istanze esistenti (initForces è idempotente): una divisione già istanziata NON cambia versione di template. Senza forze inizializzate non fa nulla.
+ * ctx: { units, templates, ratio }.
+ */
+export function createForcesActivationSystem(ctx) {
+  const starts = ctx.templates.map((t) => t.appliesTo?.validFrom ?? t.appliesTo?.activeFrom ?? null).filter((d) => d !== null).sort();
+  return function forcesActivationDay(state) {
+    if (!state.forces?.initialized || starts.length === 0 || state.date < starts[0]) return state;
+    const r = initForces(state.forces, { ...ctx, date: state.date });
+    return r.created === 0 ? state : { ...state, forces: r.state };
+  };
+}
