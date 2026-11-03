@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Info } from './UnitInfo.jsx';
 
-export default function UnitSheet({ infos, canSetPolicy, onPolicy, onClose }) {
+export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, onClose }) {
   const [i, setI] = useState(0);
   const info = infos[Math.min(i, infos.length - 1)];
   if (!info) return null;
@@ -17,7 +17,7 @@ export default function UnitSheet({ infos, canSetPolicy, onPolicy, onClose }) {
           {infos.map((x, k) => <button key={x.id} type="button" role="tab" aria-selected={k === i} className={k === i ? 'on' : ''} onClick={() => setI(k)}>{x.name}</button>)}
         </div>
       ) : null}
-      <div className="us-body"><Info info={info} canSetPolicy={canSetPolicy && info.nation !== undefined} onPolicy={onPolicy} /></div>
+      <div className="us-body"><Info info={info} canSetPolicy={canSetPolicy && info.nation !== undefined} onPolicy={onPolicy} onReinforce={info.nation === undefined ? undefined : onReinforce} /></div>
     </aside>
   );
 }

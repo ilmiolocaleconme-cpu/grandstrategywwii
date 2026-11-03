@@ -19,14 +19,17 @@ import { buildCanvasModel } from './map/canvasModel.js';
 import initialIndustry from '../data/industry/initial_industry.json';
 import initialStocks from '../data/industry/initial_stocks.json';
 import initialCash from '../data/industry/initial_cash.json';
-import economyData from '../data/economy/economy.json';
+import economyFile from '../data/economy/economy.json';
 import populationData from '../data/population/population.json';
 import fertilizerData from '../data/agriculture/fertilizer_effect.json';
 import horseBreeding from '../data/agriculture/horse_breeding.json';
 import hospitalCare from '../data/medical/hospital_care.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
-import { initForcesState, nationManpowerPool } from './game/forcesState.js';
+import { initForcesState, nationManpowerPool, createForcesActivationSystem } from './game/forcesState.js';
+import tplFraInfantry1939 from '../data/units/templates/divisione_fanteria_francia_1939.json';
+import tplDeuInfantry1939 from '../data/units/templates/divisione_fanteria_germania_1939.json';
+import tplItaInfantry1940 from '../data/units/templates/divisione_fanteria_italia_1940.json';
 import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';
 import { TradePanel } from './ui/TradePanel.jsx';
 import { tradeGoods, tradeRows, previewTrade, describeTradeFailure } from './ui/tradeView.js';
@@ -56,6 +59,8 @@ import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, pl
 import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
 import { positionOf } from './rules/movement.js';
+import depotsFile from '../data/units/depots.json';
+import { createReinforcementSystem, setDivisionReinforcement, depotRoute } from './game/reinforcementSystem.js';
 import conditionConfig from '../data/units/condition_config.json';
 import { createConditionSystem, playerSetPolicy } from './game/conditionState.js';
 import readiness from '../data/units/readiness.json';
@@ -68,6 +73,9 @@ import { createConstruction } from './game/construction.js';
 import mineSites from '../data/resources/mine_sites.json';
 import { loadIndustryCatalog } from './data/industry.js';
 import recipesFile from '../data/industry/recipes.json';
+import equipmentProductionTable from '../data/units/equipment/equipment_production.json';
+import { mergeEquipmentCatalogs } from './data/equipmentCatalog.js';
+import { buildEquipmentRecipes, withEquipmentPrices } from './data/equipmentProduction.js';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
 import securityFile from '../data/security/security.json';
@@ -261,10 +269,14 @@ function useProvinces() {
 }
 
 // Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
+// Ricette degli equipaggiamenti (Fase 4): una per voce di OGNI catalogo data/units/equipment/catalog*.json, generate dalla tabella per categoria (nessun elenco per nazione qui)
+const EQUIPMENT_RECIPES = buildEquipmentRecipes(mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' }))), equipmentProductionTable);
+// Prezzi dei pezzi (opzione D): priceFactor × costo dei materiali; ogni equipaggiamento diventa commerciabile
+const economyData = withEquipmentPrices(economyFile, EQUIPMENT_RECIPES, equipmentProductionTable.priceFactor);
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
+const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Strade e ferrovie in partita (data/infrastructure.js): collegamenti tra province madri, livello di partenza e massimo; i miglioramenti sono ordini di costruzione 'infra'.
 const GAME_PORTS = { levels: portLevelsFile, coastal: coastalCitiesFile.cities, base: portsBaseFile };
 const GAME_INFRA = { config: infraConfig, index: createInfraIndex(linkEdgesFile) };
@@ -283,11 +295,11 @@ const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: dip
 const GAME_AI_DIPLOMACY = createAiDiplomacy({ diplomacy: GAME_DIPLOMACY }); // IA diplomatica: alleanze e rapporti (accessi, commercio e guerra: mancanti)
 const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
-const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry], ratio: readiness.initialFillRatio.value };
+const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry, tplDeuInfantry1939, tplFraInfantry1939, tplItaInfantry1940], ratio: readiness.initialFillRatio.value };
 const withForces = (state) => GAME_DIPLOMACY.init(initForcesState(state, FORCES_CTX).state); // anche la diplomazia: stato iniziale 1936 se manca
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };
-const GAME_SEA = { sea: null }; // rotte marittime con i porti reali (game/seaState.js): si crea quando arrivano le zone di mare e le province
+const GAME_SEA = { sea: null, motherOf: null }; // rotte marittime con i porti reali (game/seaState.js): si crea quando arrivano le zone di mare e le province
 const INITIAL_POSITIONS = initialPositions(deploymentFile);
 const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
@@ -295,6 +307,7 @@ const ENTRENCH_ERRORS = validateEntrenchConfig(entrenchFile);
 if (ENTRENCH_ERRORS.length) console.error('Trinceramento: configurazione non valida, uso i valori predefiniti.', ENTRENCH_ERRORS);
 const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
+  createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
   createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
@@ -303,6 +316,8 @@ const GAME_SYSTEMS = [
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
+  // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
+  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsFile.units, poolOf: hospitalManpower, routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   GAME_SECURITY.securityDay,
@@ -585,6 +600,7 @@ export default function App() {
     try {
       const props = provinces.features.map((f) => f.properties);
       const mother = new Map(props.map((p) => [p.id, p.parentProvince ?? p.id]));
+      GAME_SEA.motherOf = (id) => mother.get(id) ?? id;
       GAME_SEA.sea = createGameSea({ seaFile, params: seaRoutesParams, provinceIds: props.map((p) => p.id), motherOf: (id) => mother.get(id) ?? id, entityOf: entityOfProvince, ports: GAME_PORTS });
     } catch (e) { setArmyNotice(`Rotte marittime non disponibili: ${e.message}`); }
   }, [!!game, !!seaFile, !!provinces]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -796,10 +812,10 @@ export default function App() {
             onClose={() => setTheater(null)} />
         ) : infoSheet && armyGroup && game ? (
           <UnitSheet infos={radialIds.map((id) => unitInfo(game, UNITS_BY_ID.get(id), { unitsById: UNITS_BY_ID, officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates }))}
-            canSetPolicy={radialOwn} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, UNITS_BY_ID.get(uid)?.nation))} onClose={() => setInfoSheet(false)} />
+            canSetPolicy={radialOwn} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, UNITS_BY_ID.get(uid)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
         ) : armyGroup && game ? (
           <ArmyPanel templates={FORCES_CTX.templates} moveMode={moveMode} group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={UNITS_BY_ID} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
-            provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, UNITS_BY_ID.get(uid)?.nation))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
+            provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, UNITS_BY_ID.get(uid)?.nation))} onReinforce={(uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
             onAssign={armySel.nation === game.player && moveNet ? startAssign : undefined} onCommand={armySel.nation === game.player ? () => { const first = [...armyChecked][0] ?? null; setCommand({ selected: first, notice: null }); setTheater(null); setArmySel(null); } : undefined} entrenchOf={(id) => entrenchOf(game, id, THEATER_CTX.entrenchCfg)} onEntrench={armySel.nation === game.player && moveNet ? (on) => { try { setGame((g) => playerToggleEntrench(g, { unitIds: [...armyChecked], on, ctx: THEATER_CTX })); setArmyNotice(on ? 'Le unità scelte si trincerano: il bonus cresce ogni giorno fermo.' : 'Le unità scelte smettono di trincerarsi.'); } catch (e) { setArmyNotice(e.message); } } : undefined} subordinates={(id) => divisionsUnder(game.orbat ?? { links: {} }, id, UNITS_BY_ID).map((d) => ({ id: d, name: UNITS_BY_ID.get(d).name, province: provinceName(positionOf(game.movement, INITIAL_POSITIONS, d)) }))} onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
         ) : !(seaId && seaById.get(seaId)) && !selectedItem ? null : infoOpen ? (
           seaId && seaById.get(seaId) ? (

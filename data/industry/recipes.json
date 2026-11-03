@@ -254,7 +254,8 @@
         "perUnit": 1
       },
       "quality": "DESIGN_DEFAULT",
-      "rationale": "LT vz. 35 (Škoda, Cecoslovacchia). PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo."
+      "rationale": "LT vz. 35 (Škoda, Cecoslovacchia). PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo. BILANCIAMENTO 03/11/2026 (richiesta dell'utente: stesso schema per tutte le nazioni, l'acciaio serve a costruzioni e altro): capacityShare = quota della capacità della fabbrica usata da questa ricetta; valore DESIGN_DEFAULT, non storico.",
+      "capacityShare": 0.25
     },
     {
       "id": "REC-TANK-CZE-LT38",
@@ -280,7 +281,8 @@
         "perUnit": 1
       },
       "quality": "DESIGN_DEFAULT",
-      "rationale": "LT vz. 38 (ČKD, Cecoslovacchia). PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo."
+      "rationale": "LT vz. 38 (ČKD, Cecoslovacchia). PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo. BILANCIAMENTO 03/11/2026 (richiesta dell'utente: stesso schema per tutte le nazioni, l'acciaio serve a costruzioni e altro): capacityShare = quota della capacità della fabbrica usata da questa ricetta; valore DESIGN_DEFAULT, non storico.",
+      "capacityShare": 0.25
     },
     {
       "id": "REC-ARTILLERY-001",
@@ -302,7 +304,8 @@
         "perUnit": 1
       },
       "quality": "MISSING_DATA",
-      "rationale": "Pezzo di artiglieria DI RIFERIMENTO di 3 t (segnaposto: nessun catalogo di artiglieria esiste ancora, andrà sostituito da una ricetta per modello). Ingressi senza motori. PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo."
+      "rationale": "Pezzo di artiglieria DI RIFERIMENTO di 3 t (segnaposto: nessun catalogo di artiglieria esiste ancora, andrà sostituito da una ricetta per modello). Ingressi senza motori. PROPOSTA di Claude del 29/10/2026 (richiesta dell'utente: carri e artiglieria contati a PEZZI). Pesi dei modelli: ricordi di Claude [Probabile], non verificati. Ingressi per pezzo in tonnellate: acciaio 1,2 t per t di peso (stessa perdita del 20% dei macchinari), motori 0,08 t e componenti 0,10 t per t di peso (numeri di progetto, NON approvati, da tarare). La capacità in pezzi al giorno è base_capacity_per_day della fabbrica (t di lavorazione al giorno) diviso il peso del pezzo. BILANCIAMENTO 03/11/2026 (richiesta dell'utente: stesso schema per tutte le nazioni, l'acciaio serve a costruzioni e altro): capacityShare = quota della capacità della fabbrica usata da questa ricetta; valore DESIGN_DEFAULT, non storico.",
+      "capacityShare": 0.06
     },
     {
       "id": "REC-FEED-001",

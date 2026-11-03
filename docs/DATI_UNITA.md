@@ -199,3 +199,43 @@ Principio dell'utente: **tutto scalabile, niente fatto in modo diverso per nazio
 - **Catalogo**: stessa forma di id per tutte le nazioni, `<PREFISSO>-<NAZ>-<NOME>` (es. `MG-FRA-FM2429`; Germania: `ART-DEU-MOR-81`); granularità `class` | `model` | `aggregate`. Per i modelli: designation, family, role, reliability, reference_date, source_id (l'id del CSV). Nel template le chiavi `equipment.*` sono gli `equipment_id` (alias a sé stesse).
 - **Aggiungere una nazione o un anno**: copiare i tre CSV in `data/units/source/`, aggiungere un set al manifesto, `npm run build:templates`, `npm run validate:data`. Una classe o una categoria nuova dà un errore esplicito: si aggiunge in un solo punto (`CLASS_TO_CATEGORY`, `ID_PREFIX`, `CATEGORY_CODE`). Limiti attuali: più righe di organico per lo stesso equipaggiamento sono rifiutate; la gerarchia (reggimenti, batterie) non è ancora costruita, resta solo `unit`.
 - Il file `strutture_comunicazioni_comando_1934_1945.csv` (infrastruttura di comunicazione) non è un equipaggiamento di divisione: non usato.
+
+## Fase 4-5 – Produzione degli equipaggiamenti e giorni di trasferimento (03/11/2026)
+
+- `data/units/equipment/equipment_production.json` (DESIGN_DEFAULT, non storico): tabella PER CATEGORIA con fabbrica, peso del pezzo e gruppo; ingressi = acciaio 1,2 t e componenti 0,10 t per t di peso (come le ricette esistenti). Un peso storico di un modello va in `overrides` (per `equipment_id`).
+- `src/data/equipmentProduction.js` genera una ricetta per ogni voce del catalogo (prodotto `equipment.<equipment_id>`, la stessa chiave dei template e delle istanze). Nessun codice per nazione. Varianti datate e categorie fuori tabella (contraerea, carri, veicoli) non producono. Il prodotto legacy `artillery` resta.
+- Tecnologie di partenza: i gruppi `light_arms`, `mortars`, `basic_artillery` (`requires: null`) sono noti a tutte le nazioni dal 1936; un gruppo con `requires` serve la ricerca (`groupUnlocked`). Nessuna nuova tecnologia creata: serve prima l'approvazione dell'albero.
+- `src/rules/reinforcementTransit.js`: giorni = ceil(km via terra / `TRANSIT_KM_PER_DAY`) + giorni di mare (da `findSeaRoute`) SOLO se il percorso attraversa il mare.
+- Non collegato a `SYSTEMS` (come `produceDay`): manca lo stato iniziale dell'industria e l'azione `setFacilityRecipe`.
+
+### Tempi di produzione a lotti e collegamento al ciclo economico (03/11/2026)
+
+- Ogni categoria della tabella ha `buildDays` (giorni per costruire un lotto) e `releaseEveryDays` (ogni quanti giorni si chiude un lotto). Valori DESIGN_DEFAULT: armi leggere 14/7, mortai 21/7, controcarro 28/14, cannoni 42/14, obici 56/14. Esempio armi leggere: nessun pezzo per 13 giorni, il primo lotto arriva al giorno 14, poi uno a settimana.
+- I lotti ritardano soltanto: il volume (pezzi/giorno = capacità ÷ peso) non cambia. Per produrre meno si cambia il peso.
+- Stato nell'impianto (campi opzionali, nessuna migrazione): `wip` (pezzi in lavorazione), `runDays`, `batches` [{qty, readyOn}]. Le ricette senza `releaseEveryDays` restano immediate.
+- `createEconomySystem` passa la data a `produceDay` e salva lo stato dei lotti; l'App aggiunge le ricette generate da TUTTI i `catalog*.json` al catalogo di gioco.
+- `setFacilityRecipe` (src/game/facilityRecipe.js): cambia la ricetta di un impianto (stessa fabbrica, gruppo sbloccato, nazione propria); rifiuta il cambio con lotti in consegna; i pezzi in lavorazione non finiti si perdono.
+- Limiti noti: nei dati iniziali solo CZE e la fascia C hanno fabbriche di artiglieria; nessuna nazione ha fabbriche di armi leggere (vanno costruite). Gli equipaggiamenti non hanno prezzo in economy.json: i materiali consumati contano come costo, i pezzi prodotti non danno entrata. Nessuna UI per scegliere la ricetta. Il sistema giornaliero dei rinforzi non è ancora collegato.
+
+- `capacityShare` (03/11/2026): quota della capacità della fabbrica usata da una categoria. Il consumo giornaliero di acciaio di una fabbrica a pezzi è 1,2 × la sua capacità, indipendente dal peso del pezzo: per consumare meno si abbassa la quota, non si alza il peso. Fucili 0,04 (4,8 t di acciaio e 800 fucili al giorno per fabbrica di armi leggere, circa 290.000 l'anno; prima 120 t e 20000). Ordine di grandezza preso da un testo dell'utente (Mauser Oberndorf ~270.000/anno nel 1936), non verificato.
+
+- Bilanciamento delle quote (03/11/2026, DESIGN_DEFAULT): per fabbrica fucili 800/giorno (4,8 t acciaio), mitragliatrici 100 (3,6 t), lanciagranate 167 (0,6 t), mortai 15 (1,1 t), controcarro 5 (2,9 t), cannoni da campagna 3 (5 t), obici 2 (5,9 t): 24 t di acciaio al giorno per una fabbrica di ogni categoria, contro i 1200 t/giorno di 12 acciaierie. La ricetta legacy `REC-ARTILLERY-001` (pezzo di riferimento da 3 t, 84 t di acciaio al giorno a pieno regime) NON è stata toccata: la usano la Cecoslovacchia e le nazioni minori (queste già limitate al 5%).
+
+- Cecoslovacchia e nazioni minori, stesso schema (03/11/2026): `REC-ARTILLERY-001` ha `capacityShare` 0,06 (1,4 pezzi/giorno, 5 t di acciaio al giorno; prima 23 pezzi e 84 t) e i carri cecoslovacchi LT35/LT38 0,25 (circa 1,1 carri/giorno, 13,5 t di acciaio; prima 4,3 carri e 54 t). Le nazioni minori (fascia C) restano limitate al 5% di quella capacità: 0,07 pezzi/giorno. La loro scorta iniziale di 760 t di acciaio (scelta dell'utente per ~180 giorni al vecchio consumo) ora basta per anni: da rivedere.
+
+- Prezzi e vendita (03/11/2026, decisione D dell'utente): prezzo di un pezzo = `priceFactor` (1,25) × costo dei materiali della ricetta ai prezzi di economy.json, come carri e artiglieria esistenti (1,22-1,32). Calcolati a runtime (`withEquipmentPrices`), non scritti in economy.json; l'App li applica a tutta l'economia. Gli equipaggiamenti diventano merci commerciabili, a pezzi interi (`isPieces` in trade.js); producendoli l'entrata giornaliera non cala più. Limite: nella UI del commercio i nomi mostrano ancora l'id (`equipment.<id>`), e l'elenco delle merci cresce di decine di voci.
+
+### Rinforzi automatici (03/11/2026)
+
+- `src/game/reinforcementSystem.js` (in `GAME_SYSTEMS`, dopo l'economia): ogni giorno 1) arrivi (l'eccedenza oltre il previsto torna in scorta), 2) nuovi invii per le divisioni con `reinforce` != false: uomini dal pool, pezzi `equipment.<id>` e cavalli dalla scorta della nazione, i più scoperti per primi. La merce lascia la scorta all'invio (non è vendibile mentre viaggia).
+- Interruttore per divisione: pulsante «Rinforzi» nella scheda della divisione (ArmyPanel, solo le tue): spento = nessun nuovo invio, quelli in viaggio arrivano comunque.
+- Partenza: `data/units/depots.json` (capitale per DEU, FRA, GBR, ITA, USSR, JPN, USA). Percorso via terra sulle province che la nazione controlla, giorni = km / 100 (almeno 1). LIMITI: nazioni senza deposito e divisioni senza percorso NON ricevono rinforzi, nessun tempo inventato. Nell'App solo DEU e GBR hanno template (quindi divisioni con dotazione) all'inizio della partita.
+
+- Traversata via mare (03/11/2026): se la divisione non è raggiungibile via terra, `depotRoute` somma tratto di terra deposito → porto proprio, traversata (`findSeaRoute` fra i porti propri delle due coste, con i giorni di sosta nei porti) e tratto di terra porto → divisione: giorni = ceil(km di terra / 100) + giorni di mare. Senza porto proprio su una delle due coste, con zone chiuse (ghiaccio) o isole senza costa: nessun rinforzo. LIMITI: stretti controllati da nemici e blocchi navali non modellati per i convogli; il porto è scelto dalla rotta di mare più rapida, non dal tempo totale; nessuna capacità dei porti né perdite in mare.
+
+## Attivazione tardiva delle forze (03/11/2026)
+
+- `createForcesActivationSystem(ctx)` (in `src/game/forcesState.js`) gira ogni giorno, prima degli altri sistemi: richiama `initForces` (idempotente) alla data corrente, quindi crea le istanze delle divisioni diventate attive e per ognuna applica `templateFor(unit, templates, date)`.
+- Francia: fanteria dal 1/9/1939 con `TPL-FRA-INF-1939`. Italia: fanteria dal 1/6/1940 con `TPL-ITA-INF-1940`. All'avvio 1936 queste due nazioni non hanno forze: nessun dato inventato.
+- Limite noto: un'istanza già creata non cambia mai versione di template (es. una divisione tedesca creata nel 1936 resta sul template 1936 anche dopo il 1939). Il passaggio di versione richiederebbe una regola di rimpiazzo dell'equipaggiamento: non implementato.
+- Le divisioni che entrano in servizio prima del 1/9/1939 ricevono il template valido quel giorno (1936) e lo mantengono.

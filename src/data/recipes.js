@@ -7,6 +7,8 @@ import { PRODUCT_META, RESOURCE_ORDER } from './provinceResources.js';
 
 export const RECIPES_SCHEMA = 'recipes-v1';
 export const EXTRACTION_SCALE_SCHEMA = 'extraction-scale-v1';
+/** Prefisso del prodotto-equipaggiamento: la chiave di scorta è `equipment.<equipment_id>`, la stessa del percorso nei template e nelle istanze delle divisioni. */
+export const EQUIPMENT_PREFIX = 'equipment.';
 export const QUALITIES = Object.freeze(['DESIGN_DEFAULT', 'MISSING_DATA']);
 
 /** Prodotti e flussi del catalogo risorse (`tipo`): ciò che si ottiene da una ricetta, non si estrae. */
@@ -16,9 +18,10 @@ export function derivedIds(resources) {
 
 /**
  * Errori delle ricette (lista vuota = valide).
- * ctx: { factoriesById: Map(factory_id → fabbrica con numeri), resources: [{id, tipo?}] }
+ * ctx: { factoriesById: Map(factory_id → fabbrica con numeri), resources: [{id, tipo?}], equipmentIds?: Set(equipment_id del catalogo equipaggiamenti) }
+ * Un prodotto `equipment.<equipment_id>` (Fase 4, equipaggiamenti) è valido se l'id è nel catalogo; è sempre un prodotto a pezzi.
  */
-export function validateRecipes(file, { factoriesById, resources }) {
+export function validateRecipes(file, { factoriesById, resources, equipmentIds = null }) {
   const errors = [];
   if (file?.schema !== RECIPES_SCHEMA) return [`ricette: schema ${file?.schema}, atteso ${RECIPES_SCHEMA}`];
   const known = new Set(resources.map((r) => r.id));
@@ -32,7 +35,11 @@ export function validateRecipes(file, { factoriesById, resources }) {
     if (!QUALITIES.includes(r.quality)) errors.push(`ricette: ${r.id} con qualità sconosciuta "${r.quality}"`);
     if (!String(r.rationale ?? '').trim()) errors.push(`ricette: ${r.id} senza motivazione`);
     const out = r.output;
-    if (!out || !derived.has(out.product)) errors.push(`ricette: ${r.id} produce "${out?.product}", che non è un prodotto o flusso del catalogo`);
+    const isEquip = typeof out?.product === 'string' && out.product.startsWith(EQUIPMENT_PREFIX);
+    if (isEquip && !equipmentIds?.has(out.product.slice(EQUIPMENT_PREFIX.length))) errors.push(`ricette: ${r.id} produce ${out.product}, che non è nel catalogo equipaggiamenti`);
+    else if (isEquip && !(out.perUnit > 0)) errors.push(`ricette: ${r.id} con perUnit di uscita non valido`);
+    else if (isEquip) { if (!producedBy.has(out.product)) producedBy.set(out.product, []); producedBy.get(out.product).push(r.id); }
+    else if (!out || !derived.has(out.product)) errors.push(`ricette: ${r.id} produce "${out?.product}", che non è un prodotto o flusso del catalogo`);
     else if (!(out.perUnit > 0)) errors.push(`ricette: ${r.id} con perUnit di uscita non valido`);
     else { if (!producedBy.has(out.product)) producedBy.set(out.product, []); producedBy.get(out.product).push(r.id); }
     if (!Array.isArray(r.inputs)) { errors.push(`ricette: ${r.id} senza elenco ingressi`); return; }
@@ -55,12 +62,21 @@ export function validateRecipes(file, { factoriesById, resources }) {
     if (r.inputs.length === 0) errors.push(`ricette: ${r.id} senza ingressi`);
     // prodotti a PEZZI (carri, artiglieria): capacità in pezzi al giorno = capacità della fabbrica (t di lavorazione) / peso del pezzo
     const resDef = resources.find((x) => x.id === r.output?.product);
-    const pieces = resDef?.unit === 'pezzi';
+    const pieces = resDef?.unit === 'pezzi' || (typeof r.output?.product === 'string' && r.output.product.startsWith(EQUIPMENT_PREFIX));
     if (pieces !== (r.outputUnit === 'pieces/day')) errors.push(`ricette: ${r.id} ${pieces ? 'produce un prodotto a pezzi: serve outputUnit "pieces/day"' : 'usa outputUnit "pieces/day" ma il prodotto non è a pezzi'}`);
     if (pieces) {
       if (!(r.massTonnes > 0)) errors.push(`ricette: ${r.id} produce pezzi ma non ha un peso del pezzo (massTonnes) valido`);
       if (r.output?.perUnit !== 1) errors.push(`ricette: ${r.id} produce pezzi: perUnit di uscita deve essere 1`);
+      if ('capacityShare' in r && !(r.capacityShare > 0 && r.capacityShare <= 1)) errors.push(`ricette: ${r.id} con capacityShare non valido (0 < quota <= 1)`);
+      // lotti (facoltativi, solo pezzi): costruzione di un lotto in buildDays giorni, consegna ogni releaseEveryDays giorni (buildDays >= releaseEveryDays)
+      if (('buildDays' in r) !== ('releaseEveryDays' in r)) errors.push(`ricette: ${r.id} deve avere insieme buildDays e releaseEveryDays`);
+      else if ('buildDays' in r) {
+        if (!Number.isInteger(r.releaseEveryDays) || r.releaseEveryDays < 1) errors.push(`ricette: ${r.id} con releaseEveryDays non valido`);
+        else if (!Number.isInteger(r.buildDays) || r.buildDays < r.releaseEveryDays) errors.push(`ricette: ${r.id} con buildDays non valido (intero >= releaseEveryDays)`);
+      }
     } else if ('massTonnes' in r) errors.push(`ricette: ${r.id} ha massTonnes ma non produce pezzi`);
+    else if ('capacityShare' in r) errors.push(`ricette: ${r.id} ha capacityShare ma non produce pezzi`);
+    else if ('buildDays' in r || 'releaseEveryDays' in r) errors.push(`ricette: ${r.id} ha tempi di lotto ma non produce pezzi`);
     const cap = r.nominalOutputMw ?? f.base_capacity_per_day;
     if (!(cap > 0)) errors.push(`ricette: ${r.id} senza capacità giornaliera (${r.factory} ha base_capacity_per_day = ${f.base_capacity_per_day}: serve nominalOutputMw)`);
     if (r.nominalOutputMw !== undefined && f.base_capacity_per_day > 0) errors.push(`ricette: ${r.id} ridefinisce la capacità di ${r.factory}, già nel catalogo`);
@@ -101,7 +117,9 @@ export function validateRecipes(file, { factoriesById, resources }) {
 export function fullCapacityFlows(recipe, factory, mult = null) {
   const pieceRecipe = recipe.outputUnit === 'pieces/day';
   const cap = mult?.capacity ?? 1; // livello della fabbrica (data/industry/factory_levels.json): moltiplica produzione, materie ed energia
-  const outputPerDay = round((pieceRecipe ? factory.base_capacity_per_day / recipe.massTonnes : (recipe.nominalOutputMw ?? factory.base_capacity_per_day)) * cap);
+  // capacityShare (facoltativo, solo pezzi, 0-1): quota della capacità della fabbrica che la ricetta usa. Riduce in proporzione pezzi/giorno E consumo di materie al giorno (energia invariata).
+  const share = pieceRecipe ? (recipe.capacityShare ?? 1) : 1;
+  const outputPerDay = round((pieceRecipe ? (factory.base_capacity_per_day * share) / recipe.massTonnes : (recipe.nominalOutputMw ?? factory.base_capacity_per_day)) * cap);
   const inputsPerDay = Object.fromEntries(recipe.inputs.map((i) => [i.resource, round(i.perUnit * outputPerDay / recipe.output.perUnit)]));
   // noSelfConsumption: la centrale non consuma energia propria (il Pack le assegna un consumo che qui si ignora)
   return { outputPerDay, outputUnit: recipe.outputUnit ?? 't/day', inputsPerDay, energyMw: recipe.noSelfConsumption ? 0 : factory.energy_consumption * (mult?.energy ?? 1) };

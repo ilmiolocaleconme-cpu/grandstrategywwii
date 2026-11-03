@@ -1,0 +1,245 @@
+{
+  "schema": "equipment-catalog-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Catalogo ITA generato da CSV con scripts/build-templates.js: non modificare a mano. Stesso schema e stessa forma di id di tutte le nazioni; ogni voce con attendibilità (reliability) e nota di fonte. Le varianti datate (DATED_VARIANT) restano qui e non entrano nei template della data.",
+  "source": {
+    "files": [
+      {
+        "file": "source/ita_inf_template_1940.csv",
+        "sha256": "07afa2da6b1cc1e586aa71858ffd1089a43baa50b79ba0f77d9661921e06de5a"
+      },
+      {
+        "file": "source/ita_inf_equipment_1940.csv",
+        "sha256": "8a9d6465271d2ea489a691779fb9e55411a869322ae97e58137290598bf466c6"
+      },
+      {
+        "file": "source/land_equipment_catalog_ita_1940.csv",
+        "sha256": "9d30c5401a432dbcc6be31c00d3bf58bd80bfc0abf054d1aa4ad54246497864c"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "equipment_id": "INW-ITA-RIFLE-1940",
+      "nation": "ITA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Fucile standard fanteria italiano",
+      "family": "small_arms",
+      "role": "individual_infantry_weapon",
+      "caliber_mm": null,
+      "name_it": "Fucile standard fanteria italiano",
+      "durable": true,
+      "models": [],
+      "reliability": "MISSING_DATA",
+      "reference_date": "1940-06",
+      "source_id": "ITA-RIFLE-1940",
+      "source_note": "Numero di fucili non ricostruito; nessuna fonte trovata; non dedurre un fucile per ogni uomo."
+    },
+    {
+      "equipment_id": "INW-ITA-PISTOL-1940",
+      "nation": "ITA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Pistola d'ordinanza",
+      "family": "small_arms",
+      "role": "officer_and_specialist_sidearm",
+      "caliber_mm": null,
+      "name_it": "Pistola d'ordinanza",
+      "durable": true,
+      "models": [],
+      "reliability": "MISSING_DATA",
+      "reference_date": "1940-06",
+      "source_id": "ITA-PISTOL-1940",
+      "source_note": "Quantita non ricostruita; nessuna fonte trovata."
+    },
+    {
+      "equipment_id": "MG-ITA-HMG-1940",
+      "nation": "ITA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitragliatrice pesante (modello non specificato dalla fonte)",
+      "family": "small_arms",
+      "role": "battalion_and_regimental_support",
+      "caliber_mm": null,
+      "name_it": "Mitragliatrice pesante (modello non specificato dalla fonte)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-06",
+      "source_id": "ITA-HMG-1940",
+      "source_note": "Quantita discordante tra fonti secondarie (48/60/80); modello non indicato."
+    },
+    {
+      "equipment_id": "MG-ITA-LMG-1940",
+      "nation": "ITA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitragliatrice leggera (modello non specificato dalla fonte)",
+      "family": "small_arms",
+      "role": "squad_automatic_fire",
+      "caliber_mm": null,
+      "name_it": "Mitragliatrice leggera (modello non specificato dalla fonte)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-06",
+      "source_id": "ITA-LMG-1940",
+      "source_note": "108 per reggimento x 2 (Wikipedia, per progetto); altra fonte 270. Modello non indicato."
+    },
+    {
+      "equipment_id": "ART-ITA-MORTAR81-1940",
+      "nation": "ITA",
+      "category": "MORTAR",
+      "granularity": "model",
+      "designation": "Mortaio da 81 mm Mod. 35",
+      "family": "infantry_support",
+      "role": "battalion_indirect_fire",
+      "caliber_mm": 81,
+      "name_it": "Mortaio da 81 mm Mod. 35",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1940-06",
+      "source_id": "ITA-MORTAR81-1940",
+      "source_note": "6 per reggimento x 2 + 18 nel battaglione mortai divisionale (Wikipedia Royal Italian Army during WWII; militaryhistoryvisualized.com/tag/1940/)."
+    },
+    {
+      "equipment_id": "ART-ITA-BRIXIA45-1940",
+      "nation": "ITA",
+      "category": "MORTAR",
+      "granularity": "model",
+      "designation": "Mortaio da 45 mm Brixia Mod. 35",
+      "family": "infantry_support",
+      "role": "close_indirect_fire",
+      "caliber_mm": 45,
+      "name_it": "Mortaio da 45 mm Brixia Mod. 35",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-06",
+      "source_id": "ITA-BRIXIA45-1940",
+      "source_note": "54 per reggimento x 2 (Wikipedia); altre fonti 126 e 144."
+    },
+    {
+      "equipment_id": "ART-ITA-AT47-1940",
+      "nation": "ITA",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone anticarro da 47 mm",
+      "family": "anti_tank",
+      "role": "anti_armor_direct_fire",
+      "caliber_mm": 47,
+      "name_it": "Cannone anticarro da 47 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-06",
+      "source_id": "ITA-AT47-1940",
+      "source_note": "8 pezzi nella compagnia cannoni (Wikipedia; militaryhistoryvisualized.com/tag/1940/); ww2-weapons.com dice 24. Designazione precisa (47/32) non riportata dalle fonti."
+    },
+    {
+      "equipment_id": "ART-ITA-GUN75-1940",
+      "nation": "ITA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "Cannone da 75 mm",
+      "family": "field_artillery",
+      "role": "divisional_field_artillery",
+      "caliber_mm": 75,
+      "name_it": "Cannone da 75 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1940-06",
+      "source_id": "ITA-GUN75-1940",
+      "source_note": "12 cannoni da 75 mm ippotrainati nel reggimento artiglieria divisionale (Wikipedia, cit. Mollo 1981 p. 84). Modello preciso non indicato dalla fonte."
+    },
+    {
+      "equipment_id": "ART-ITA-HOW75-1940",
+      "nation": "ITA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 75 mm someggiato",
+      "family": "field_artillery",
+      "role": "divisional_pack_artillery",
+      "caliber_mm": 75,
+      "name_it": "Obice da 75 mm someggiato",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1940-06",
+      "source_id": "ITA-HOW75-1940",
+      "source_note": "12 obici da 75 mm someggiati (Wikipedia, cit. Mollo 1981 p. 84). Modello preciso non indicato dalla fonte."
+    },
+    {
+      "equipment_id": "ART-ITA-HOW100-1940",
+      "nation": "ITA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 100 mm",
+      "family": "field_artillery",
+      "role": "divisional_howitzer_fire",
+      "caliber_mm": 100,
+      "name_it": "Obice da 100 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1940-06",
+      "source_id": "ITA-HOW100-1940",
+      "source_note": "12 obici da 100 mm ippotrainati (Wikipedia, cit. Mollo 1981 p. 84; ww2-weapons.com; militaryhistoryvisualized.com). Modello preciso non indicato dalla fonte."
+    }
+  ],
+  "aliases": [
+    {
+      "nation": "ITA",
+      "templateKey": "INW-ITA-RIFLE-1940",
+      "equipment_id": "INW-ITA-RIFLE-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "INW-ITA-PISTOL-1940",
+      "equipment_id": "INW-ITA-PISTOL-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "MG-ITA-HMG-1940",
+      "equipment_id": "MG-ITA-HMG-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "MG-ITA-LMG-1940",
+      "equipment_id": "MG-ITA-LMG-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-MORTAR81-1940",
+      "equipment_id": "ART-ITA-MORTAR81-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-BRIXIA45-1940",
+      "equipment_id": "ART-ITA-BRIXIA45-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-AT47-1940",
+      "equipment_id": "ART-ITA-AT47-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-GUN75-1940",
+      "equipment_id": "ART-ITA-GUN75-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-HOW75-1940",
+      "equipment_id": "ART-ITA-HOW75-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-HOW100-1940",
+      "equipment_id": "ART-ITA-HOW100-1940"
+    }
+  ]
+}

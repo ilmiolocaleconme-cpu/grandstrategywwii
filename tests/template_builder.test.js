@@ -103,3 +103,22 @@ test('cataloghi di nazioni diverse si fondono con id e alias senza collisioni', 
   assert.deepEqual(validateEquipmentCatalog(mergeEquipmentCatalogs([fra, ital])), []);
   assert.ok(validateEquipmentCatalog(mergeEquipmentCatalogs([fra, fra])).some((e) => /duplicato/.test(e)));
 });
+
+test('Germania 1939 e Italia 1940 (agenti di ricerca): file su disco = CSV; scelta per data senza toccare i template del 1936; dati mancanti senza effettivo', async () => {
+  const { templates } = await templatesBuilt();
+  const disk = (p) => JSON.parse(readFileSync(new URL(`../data/units/templates/${p}`, import.meta.url), 'utf8'));
+  const deu = templates['divisione_fanteria_germania_1939.json']; const ita = templates['divisione_fanteria_italia_1940.json'];
+  assert.deepEqual(disk('divisione_fanteria_germania_1939.json'), deu);
+  assert.deepEqual(disk('divisione_fanteria_italia_1940.json'), ita);
+  for (const t of [deu, ita]) assert.deepEqual(validateTemplate(t), []);
+  assert.deepEqual([deu.id, ita.id], ['TPL-DEU-INF-1939', 'TPL-ITA-INF-1940']);
+  const old = disk('divisione_fanteria_germania_1936.json');
+  const unit = { id: 'D1', nation: 'DEU', category: 'infantry', echelon: 'division' };
+  assert.equal(templateFor(unit, [old, deu], '1936-01-01').id, old.id, 'all\'inizio della partita resta il template del 1936');
+  assert.equal(templateFor(unit, [old, deu], '1939-09-01').id, 'TPL-DEU-INF-1939', 'dal settembre 1939 vale il nuovo');
+  assert.equal(templateFor({ ...unit, nation: 'ITA' }, [ita], '1939-12-31'), null);
+  assert.equal(ita.horses.value, null); assert.equal('effective' in ita.horses, false); assert.equal(ita.manpower.war.effective.value, null, 'iniziale ignoto: lo stima il motore col rapporto');
+  const items = initialEffective(ita, 0.9);
+  assert.deepEqual(items['manpower.war'], { planned: 12979, effective: Math.round(12979 * 0.9), source: 'ratio' });
+  assert.equal(items.horses, undefined, 'nessun cavallo inventato');
+});

@@ -9,7 +9,7 @@ export const STATUS_NAMES = { active: 'attivo', suspended: 'sospeso (percorso in
 /** Merci commerciabili con nome, unità e prezzo: [{ id, name, unit, price }] in ordine alfabetico del nome. */
 export function tradeGoods(economy, resources) {
   const byId = new Map((resources ?? []).map((r) => [r.id, r]));
-  return tradableGoods(economy).map((id) => ({ id, name: byId.get(id)?.name ?? id, unit: byId.get(id)?.unit ?? 't', price: economy.prices[id] })).sort((a, b) => a.name.localeCompare(b.name, 'it'));
+  return tradableGoods(economy).map((id) => ({ id, name: byId.get(id)?.name ?? id, unit: byId.get(id)?.unit ?? (id.startsWith('equipment.') ? 'pezzi' : 't'), price: economy.prices[id] })).sort((a, b) => a.name.localeCompare(b.name, 'it'));
 }
 
 /** Frase in italiano per un ordine di commercio rifiutato. */

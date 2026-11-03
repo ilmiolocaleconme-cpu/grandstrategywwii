@@ -22,16 +22,16 @@ test('i prodotti tanks e artillery sono a pezzi e le ricette passano la validazi
   assert.ok(recipesFile.recipes.filter((r) => r.output.product === 'tanks').length >= 2);
 });
 
-test('capacità in pezzi al giorno: 45 t di lavorazione / peso del modello (LT vz. 35 10,5 t → 4,286 pezzi al giorno)', () => {
+test('capacità in pezzi al giorno: 45 t × 25% di lavorazione / peso del modello (LT vz. 35 10,5 t → 4,286 pezzi al giorno)', () => {
   const f = cat.byId.get('FCT-TANKS');
   assert.equal(f.base_capacity_per_day, 45);
   const a = fullCapacityFlows(rec('REC-TANK-CZE-LT35'), f);
   assert.equal(a.outputUnit, 'pieces/day');
-  assert.equal(a.outputPerDay, 4.286);
+  assert.equal(a.outputPerDay, 1.071);
   const b = fullCapacityFlows(rec('REC-TANK-CZE-LT38'), f);
   assert.ok(b.outputPerDay > a.outputPerDay, 'un modello più leggero si produce in più pezzi');
   // acciaio per pezzo = 1,2 × peso: 12,6 t × 4,286 pezzi/giorno
-  assert.ok(Math.abs(a.inputsPerDay.steel - 12.6 * 4.286) < 0.01);
+  assert.ok(Math.abs(a.inputsPerDay.steel - 12.6 * 1.071) < 0.01);
 });
 
 test('produzione di un giorno: i carri escono a pezzi e il bilancio torna; con metà acciaio, metà produzione', () => {
@@ -39,11 +39,11 @@ test('produzione di un giorno: i carri escono a pezzi e il bilancio torna; con m
   const fl = fullCapacityFlows(rec('REC-TANK-CZE-LT35'), cat.byId.get('FCT-TANKS'));
   const full = produceDay({ facilities: f, stock: { ...fl.inputsPerDay }, hydroMw: 100 }, catalog);
   assert.equal(full.facilities[0].efficiency, 1);
-  assert.ok(Math.abs(full.stock.tanks - 4.286) < 0.01);
+  assert.ok(Math.abs(full.stock.tanks - 1.071) < 0.01);
   assert.deepEqual(checkBalance(full.balance), []);
   const half = produceDay({ facilities: f, stock: { ...fl.inputsPerDay, steel: fl.inputsPerDay.steel / 2 }, hydroMw: 100 }, catalog);
   assert.equal(half.facilities[0].bottleneck, 'steel');
-  assert.ok(Math.abs(half.stock.tanks - 4.286 / 2) < 0.02);
+  assert.ok(Math.abs(half.stock.tanks - 1.071 / 2) < 0.02);
 });
 
 test('validazione: pezzi senza peso, peso su un prodotto in tonnellate, unità sbagliata', () => {
@@ -82,10 +82,10 @@ test('fascia C: una fabbrica di artiglieria limitata al 5% con 760 t di acciaio 
   assert.equal(n[c].stocks.steel, 1260, 'riserva minima di costruzione 500 t + scorta dell\'artiglieria 760 t, in aggiunta');
   assert.equal(n.DEU.facilities.filter((f) => f.type === 'FCT-ARTILLERY').length, 0);
   assert.ok(industry.tierC.every((id) => n[id].facilities.length === 1), 'tutte e 51');
-  // un giorno di produzione: 5% di 23,33 pezzi = 1,167 pezzi, 4,2 t di acciaio, 0,35 t di componenti
+  // un giorno di produzione: 5% di 1,4 pezzi (quota 6% di 70 t / 3 t) = 0,07 pezzi, 0,252 t di acciaio, 0,021 t di componenti
   const r = produceDay({ facilities: n[c].facilities, stock: n[c].stocks, hydroMw: n[c].baseGridMw }, catalog);
-  assert.ok(Math.abs(r.stock.artillery - 1.167) < 0.01);
-  assert.ok(Math.abs(n[c].stocks.steel - r.stock.steel - 4.2) < 0.05);
+  assert.ok(Math.abs(r.stock.artillery - 0.07) < 0.001);
+  assert.ok(Math.abs(n[c].stocks.steel - r.stock.steel - 0.252) < 0.005);
   assert.deepEqual(checkBalance(r.balance), []);
 });
 

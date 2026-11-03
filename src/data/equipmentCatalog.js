@@ -74,10 +74,11 @@ export function validateEquipmentCatalog(doc, { templates } = {}) {
     else if (e.nation !== a.nation) errors.push(`${p}: la voce ${e.equipment_id} è di un'altra nazione (${e.nation})`);
   }
   for (const e of byId.values()) if (!(doc.aliases ?? []).some((a) => a.equipment_id === e.equipment_id)) errors.push(`equipaggiamento ${e.equipment_id}: nessun alias (voce non collegata a un template)`);
+  // Le chiavi con value null ("da definire", es. fanteria francese 1936) non hanno quantità da risolvere: l'alias serve quando il dato arriva.
   for (const t of templates ?? []) {
     const nation = t?.appliesTo?.nation;
     if (!nation || !t.equipment || typeof t.equipment !== 'object') continue;
-    for (const key of Object.keys(t.equipment)) if (!seen.has(`${nation}|${key}`)) errors.push(`template ${t.id}: la chiave equipment.${key} non ha un alias nel catalogo (${nation})`);
+    for (const [key, leaf] of Object.entries(t.equipment)) if (leaf?.value !== null && !seen.has(`${nation}|${key}`)) errors.push(`template ${t.id}: la chiave equipment.${key} non ha un alias nel catalogo (${nation})`);
   }
   return errors;
 }

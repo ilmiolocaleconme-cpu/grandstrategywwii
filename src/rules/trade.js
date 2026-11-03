@@ -6,6 +6,8 @@
 // Via mare: il percorso arriva da src/data/seaRoutes.js (route.kind = 'sea', con `days` già calcolati); qui si accetta e si ricontrolla.
 // NON implementato (limiti dichiarati): capacità dei porti, ferrovie/fiumi come capacità, rischi e perdite in mare, accordi diplomatici e relazioni,
 // spread fra prezzo di acquisto e di vendita, capacità massima della rotta, limite dei magazzini. Il ritardo usa una velocità di progetto (ipotesi).
+import { EQUIPMENT_PREFIX } from '../data/recipes.js';
+
 export const TRADE_SCHEMA = 'trade-v1';
 /** Velocità di trasporto via terra per il ritardo di consegna: IPOTESI di progetto (km al giorno), non un dato storico. */
 export const TRANSIT_KM_PER_DAY = 100;
@@ -29,7 +31,7 @@ function routeRecord(route) {
 }
 const transitDaysOf = (route) => (route.kind === 'sea' ? Math.max(1, route.days) : Math.max(1, Math.ceil(route.km / TRANSIT_KM_PER_DAY)));
 
-const isPieces = (resources, good) => resources?.find?.((r) => r.id === good)?.unit === 'pezzi';
+const isPieces = (resources, good) => good.startsWith(EQUIPMENT_PREFIX) || resources?.find?.((r) => r.id === good)?.unit === 'pezzi'; // gli equipaggiamenti sono sempre pezzi interi
 
 /**
  * Percorso via terra più corto (km) fra due nazioni. net: { has, neighbors, km, owner } (src/data/moveNet.js); blocked: Set di nazioni da non attraversare.

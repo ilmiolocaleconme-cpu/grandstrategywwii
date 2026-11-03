@@ -6,7 +6,7 @@ const LEVEL = { corps: 'corpo d’armata', army: 'armata', army_group: 'gruppo d
 
 const POLICY = { conservative: 'conservativa', normal: 'normale', aggressive: 'aggressiva' };
 
-export function Info({ info, canSetPolicy, onPolicy }) {
+export function Info({ info, canSetPolicy, onPolicy, onReinforce }) {
   const c = info.commander;
   const s = info.strength;
   const k = info.condition;
@@ -25,6 +25,17 @@ export function Info({ info, canSetPolicy, onPolicy }) {
         <dd>{info.children.length ? info.children.map((x) => x.name).join(', ') : 'nessuna'}</dd>
         <dt>Consistenza</dt>
         <dd>{s ? (s.cadre ? 'quadro (non pronto al combattimento) · ' : '') + (s.manpower ? `uomini ${s.manpower.effective} / ${s.manpower.planned} (${Math.round(s.manpower.ratio * 100)}%)` : 'uomini: dato assente') + (s.reinforce ? '' : ' · rinforzi sospesi') : 'nessuna dotazione per questa unità (modello non ancora definito)'}</dd>
+        {info.strength && onReinforce && (
+          <>
+            <dt>Rinforzi</dt>
+            <dd>
+              <button type="button" aria-pressed={info.strength.reinforce} className={info.strength.reinforce ? 'on' : ''} onClick={() => onReinforce(info.id, !info.strength.reinforce)}>
+                {info.strength.reinforce ? 'Automatici: attivi — tocca per interrompere' : 'Interrotti — tocca per riprendere'}
+              </button>
+              {' '}(quelli già in viaggio arrivano comunque)
+            </dd>
+          </>
+        )}
         {info.composition ? (
           <>
             <dt>Composizione</dt>
