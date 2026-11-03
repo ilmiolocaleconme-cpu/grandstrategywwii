@@ -1,0 +1,164 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-DEU-INF-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/deu_inf_template_1939.csv, source/deu_inf_equipment_1939.csv, source/land_equipment_catalog_deu_1939.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (DEU infantry division, serie 1. Welle); Infanterie-Division (1. Welle - tipo 1939) è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "DEU",
+    "category": "infantry",
+    "echelon": "division",
+    "validFrom": "1939-09-01"
+  },
+  "formation": {
+    "value": "triangular"
+  },
+  "regimentsInfantry": {
+    "value": 3
+  },
+  "manpower": {
+    "war": {
+      "value": 17200,
+      "effective": {
+        "value": 16860
+      }
+    }
+  },
+  "horses": {
+    "value": 5375,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "INW-DEU-RIFLE-1939": {
+      "value": 12609,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione (totale)",
+      "note": "12609 fucili/carabine: tabella 1. Welle in Wikipedia Aufstellungswelle (https://en.wikipedia.org/wiki/Aufstellungswelle) che cita Buchner 2001; riferita a forza nominale 16860, non a 17200; fonte secondaria, tabella senza citazione propria",
+      "effective": {
+        "value": null
+      }
+    },
+    "INW-DEU-PISTOL-1939": {
+      "value": 3681,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione (totale)",
+      "note": "3681 pistole: stessa tabella di Wikipedia Aufstellungswelle (da Buchner 2001); fonte secondaria",
+      "effective": {
+        "value": null
+      }
+    },
+    "MG-DEU-MG34-L": {
+      "value": 527,
+      "reliability": "PROVISIONAL",
+      "unit": "3x Infanterie-Regiment + reparti divisionali",
+      "note": "643 MG totali di cui 116 pesanti (ww2-weapons.com https://www.ww2-weapons.com/germany-army-unit-organisation-1939-41/) = 527 leggere per differenza; Nafziger generalstaff.org elenca 123 per reggimento + 17 trasmissioni + 32 artiglieria + 25 ricognizione + 18 cacciacarri + 34 genio + 2 comando = 497 (restanti non documentati). Wikipedia/Buchner: 535 MG totali. Cifra non univoca",
+      "effective": {
+        "value": null
+      }
+    },
+    "MG-DEU-MG34-S": {
+      "value": 116,
+      "reliability": "STANDARD_TOE",
+      "unit": "3x Infanterie-Regiment + Aufklaerungs-Abteilung",
+      "note": "36 sMG per reggimento (3 compagnie MG da 12) x 3 + 8 nel btg. ricognizione = 116; coincide in generalstaff.org (Nafziger) e ww2-weapons.com",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-DEU-GRW36": {
+      "value": 84,
+      "reliability": "STANDARD_TOE",
+      "unit": "3x Infanterie-Regiment + Aufklaerungs-Abteilung",
+      "note": "27 per reggimento (3 per compagnia fucilieri) x 3 + 3 ricognizione = 84; generalstaff.org (Nafziger) e ww2-weapons.com concordano",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-DEU-GRW34": {
+      "value": 58,
+      "reliability": "STANDARD_TOE",
+      "unit": "3x Infanterie-Regiment + Aufklaerungs-Abteilung",
+      "note": "18 per reggimento (6 per compagnia MG) x 3 + 4 ricognizione = 58; generalstaff.org (Nafziger) e ww2-weapons.com concordano",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-DEU-LEIG18": {
+      "value": 20,
+      "reliability": "STANDARD_TOE",
+      "unit": "13. Kompanie dei 3 Infanterie-Regiment + Aufklaerungs-Abteilung",
+      "note": "6 per reggimento (13a compagnia) x 3 + 2 ricognizione = 20 (generalstaff.org Nafziger); ww2-weapons.com indica 18 (solo reggimenti); con i 6 sIG il totale 26 coincide con Wikipedia/Buchner",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-DEU-SIG33": {
+      "value": 6,
+      "reliability": "STANDARD_TOE",
+      "unit": "13. Kompanie dei 3 Infanterie-Regiment",
+      "note": "2 per reggimento (13a compagnia) x 3 = 6; generalstaff.org e ww2-weapons.com concordano",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-DEU-PAK36": {
+      "value": 75,
+      "reliability": "STANDARD_TOE",
+      "unit": "14. Kompanie + Panzerjaeger-Abteilung + Aufklaerungs-Abteilung",
+      "note": "12 per reggimento (14a compagnia) x 3 + 36 nel btg. cacciacarri (3 compagnie da 12) + 3 ricognizione = 75; concorda con ww2-weapons.com e Wikipedia/Buchner. Nel testo Nafziger il tipo e' '37/50/75 mm' generico; in settembre 1939 e' il 3,7 cm Pak 36",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-DEU-LEFH18": {
+      "value": 36,
+      "reliability": "STANDARD_TOE",
+      "unit": "Artillerie-Regiment (I-III. Abteilung)",
+      "note": "3 gruppi da 3 batterie x 4 pezzi = 36 (generalstaff.org Nafziger; ww2-weapons.com)",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-DEU-SFH18": {
+      "value": 8,
+      "reliability": "STANDARD_TOE",
+      "unit": "Artillerie-Regiment (IV. Abteilung)",
+      "note": "8 obici pesanti da 15 cm nel IV gruppo (generalstaff.org Nafziger; ww2-weapons.com)",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-DEU-K18-105": {
+      "value": 4,
+      "reliability": "STANDARD_TOE",
+      "unit": "Artillerie-Regiment (IV. Abteilung)",
+      "note": "4 cannoni da 10,5 cm nel IV gruppo (generalstaff.org Nafziger; ww2-weapons.com); totale artiglieria 48 = Wikipedia/Buchner",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-DEU-INF-1W-1939",
+    "series": "1. Welle",
+    "referenceDivision": "Infanterie-Division (1. Welle - tipo 1939)",
+    "referenceDate": "1939-09",
+    "sourceQuality": "MIXED_DOCUMENTED_AND_STANDARD_TOE",
+    "sourceNote": "Divisione tipo (nessuna divisione specifica) della 1. Aufstellungswelle di settembre 1939. Massimo 17200 = somma dei totali di unita' (Nafziger 'Standard Internal Structure German Infantry Divisions 1939-1945' su generalstaff.org; ww2-weapons.com dà 16500-17200). Iniziale 16860 = forza nominale (518 ufficiali; 102 funzionari; 2573 sottufficiali; 13667 soldati) da Buchner 'Das Handbuch der deutschen Infanterie 1939-1945' p. 9 via Wikipedia Aufstellungswelle. Cavalli 5375 concordi nelle tre fonti. Fonti secondarie: nessuna fonte primaria (Kriegsgliederung originale) consultata.",
+    "sourceFiles": [
+      {
+        "file": "source/deu_inf_template_1939.csv",
+        "sha256": "e0b03775c770130829da596ebb98e86ef60d79fed81b5f70574666b8bcf8054a"
+      },
+      {
+        "file": "source/deu_inf_equipment_1939.csv",
+        "sha256": "be6a00b14b0172d0efc7b1bb9e8440decf246ea40825192c5609b682b9c93a39"
+      },
+      {
+        "file": "source/land_equipment_catalog_deu_1939.csv",
+        "sha256": "c120d550c6c63a6cca25b4d8333e8c014a55629701dd96f16a0ebaeb519056ce"
+      }
+    ]
+  }
+}

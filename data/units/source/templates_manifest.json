@@ -8,7 +8,32 @@
       "lines": "fr_2di_equipment_1939.csv",
       "catalog": "land_equipment_catalog_fr_1939.csv",
       "output": "divisione_fanteria_francia_1939.json",
-      "granularityOverrides": { "FRA-RIFLE-1939": "class", "FRA-PISTOL-1939": "class" }
+      "granularityOverrides": {
+        "FRA-RIFLE-1939": "class",
+        "FRA-PISTOL-1939": "class"
+      }
+    },
+    {
+      "id": "DEU-INF-1939",
+      "template": "deu_inf_template_1939.csv",
+      "lines": "deu_inf_equipment_1939.csv",
+      "catalog": "land_equipment_catalog_deu_1939.csv",
+      "output": "divisione_fanteria_germania_1939.json",
+      "granularityOverrides": {
+        "DEU-RIFLE-1939": "class",
+        "DEU-PISTOL-1939": "class"
+      }
+    },
+    {
+      "id": "ITA-INF-1940",
+      "template": "ita_inf_template_1940.csv",
+      "lines": "ita_inf_equipment_1940.csv",
+      "catalog": "land_equipment_catalog_ita_1940.csv",
+      "output": "divisione_fanteria_italia_1940.json",
+      "granularityOverrides": {
+        "ITA-RIFLE-1940": "class",
+        "ITA-PISTOL-1940": "class"
+      }
     }
   ]
 }

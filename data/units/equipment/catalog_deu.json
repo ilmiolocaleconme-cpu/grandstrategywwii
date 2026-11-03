@@ -1,0 +1,311 @@
+{
+  "schema": "equipment-catalog-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Catalogo DEU generato da CSV con scripts/build-templates.js: non modificare a mano. Stesso schema e stessa forma di id di tutte le nazioni; ogni voce con attendibilità (reliability) e nota di fonte. Le varianti datate (DATED_VARIANT) restano qui e non entrano nei template della data.",
+  "source": {
+    "files": [
+      {
+        "file": "source/deu_inf_template_1939.csv",
+        "sha256": "e0b03775c770130829da596ebb98e86ef60d79fed81b5f70574666b8bcf8054a"
+      },
+      {
+        "file": "source/deu_inf_equipment_1939.csv",
+        "sha256": "be6a00b14b0172d0efc7b1bb9e8440decf246ea40825192c5609b682b9c93a39"
+      },
+      {
+        "file": "source/land_equipment_catalog_deu_1939.csv",
+        "sha256": "c120d550c6c63a6cca25b4d8333e8c014a55629701dd96f16a0ebaeb519056ce"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "equipment_id": "INW-DEU-RIFLE-1939",
+      "nation": "DEU",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Fucile/carabina standard fanteria tedesca (Kar 98k e tipi affini)",
+      "family": "small_arms",
+      "role": "individual_infantry_weapon",
+      "caliber_mm": null,
+      "name_it": "Fucile/carabina standard fanteria tedesca (Kar 98k e tipi affini)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "DEU-RIFLE-1939",
+      "source_note": "Totale divisionale da tabella Wikipedia Aufstellungswelle (Buchner 2001); mix di modelli non distinto; forza di riferimento 16860."
+    },
+    {
+      "equipment_id": "INW-DEU-PISTOL-1939",
+      "nation": "DEU",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Pistola d'ordinanza (P08 Luger e P38/tipi affini)",
+      "family": "small_arms",
+      "role": "officer_and_specialist_sidearm",
+      "caliber_mm": null,
+      "name_it": "Pistola d'ordinanza (P08 Luger e P38/tipi affini)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "DEU-PISTOL-1939",
+      "source_note": "Totale divisionale da tabella Wikipedia Aufstellungswelle (Buchner 2001); mix di modelli non distinto."
+    },
+    {
+      "equipment_id": "MG-DEU-MG34-L",
+      "nation": "DEU",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "MG 34 (impiego come mitragliatrice leggera con bipiede)",
+      "family": "small_arms",
+      "role": "squad_automatic_fire",
+      "caliber_mm": 7.92,
+      "name_it": "MG 34 (impiego come mitragliatrice leggera con bipiede)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "DEU-MG34-L",
+      "source_note": "643 MG totali meno 116 pesanti (ww2-weapons.com); cifra per differenza e non univoca (Wikipedia/Buchner: 535 MG totali)."
+    },
+    {
+      "equipment_id": "MG-DEU-MG34-S",
+      "nation": "DEU",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "MG 34 su treppiede Lafette 34 (sMG)",
+      "family": "small_arms",
+      "role": "battalion_and_regimental_support",
+      "caliber_mm": 7.92,
+      "name_it": "MG 34 su treppiede Lafette 34 (sMG)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-MG34-S",
+      "source_note": "36 per reggimento x 3 + 8 ricognizione; generalstaff.org (Nafziger) e ww2-weapons.com."
+    },
+    {
+      "equipment_id": "ART-DEU-GRW36",
+      "nation": "DEU",
+      "category": "MORTAR",
+      "granularity": "model",
+      "designation": "5 cm leichter Granatwerfer 36 (leGrW 36)",
+      "family": "infantry_support",
+      "role": "close_indirect_fire",
+      "caliber_mm": 50,
+      "name_it": "5 cm leichter Granatwerfer 36 (leGrW 36)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-GRW36",
+      "source_note": "27 per reggimento x 3 + 3 ricognizione; generalstaff.org (Nafziger) e ww2-weapons.com."
+    },
+    {
+      "equipment_id": "ART-DEU-GRW34",
+      "nation": "DEU",
+      "category": "MORTAR",
+      "granularity": "model",
+      "designation": "8 cm schwerer Granatwerfer 34 (sGrW 34)",
+      "family": "infantry_support",
+      "role": "battalion_indirect_fire",
+      "caliber_mm": 81,
+      "name_it": "8 cm schwerer Granatwerfer 34 (sGrW 34)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-GRW34",
+      "source_note": "18 per reggimento x 3 + 4 ricognizione; generalstaff.org (Nafziger) e ww2-weapons.com."
+    },
+    {
+      "equipment_id": "ART-DEU-LEIG18",
+      "nation": "DEU",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "7.5 cm leichtes Infanteriegeschuetz 18 (leIG 18)",
+      "family": "infantry_support",
+      "role": "regimental_infantry_gun",
+      "caliber_mm": 75,
+      "name_it": "7.5 cm leichtes Infanteriegeschuetz 18 (leIG 18)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-LEIG18",
+      "source_note": "Classe field_gun come per ART-DEU-INFGUN-75 in catalog.json (manca una classe 'infantry_gun'). 18 nei reggimenti + 2 ricognizione (Nafziger)."
+    },
+    {
+      "equipment_id": "ART-DEU-SIG33",
+      "nation": "DEU",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "15 cm schweres Infanteriegeschuetz 33 (sIG 33)",
+      "family": "infantry_support",
+      "role": "regimental_infantry_gun",
+      "caliber_mm": 150,
+      "name_it": "15 cm schweres Infanteriegeschuetz 33 (sIG 33)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-SIG33",
+      "source_note": "Classe field_gun come per ART-DEU-INFGUN-150 in catalog.json. 2 per reggimento x 3."
+    },
+    {
+      "equipment_id": "ART-DEU-PAK36",
+      "nation": "DEU",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "3.7 cm Panzerabwehrkanone 36 (Pak 36)",
+      "family": "anti_tank",
+      "role": "anti_armor_direct_fire",
+      "caliber_mm": 37,
+      "name_it": "3.7 cm Panzerabwehrkanone 36 (Pak 36)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-PAK36",
+      "source_note": "75 pezzi per divisione (ww2-weapons.com; Wikipedia/Buchner; Nafziger)."
+    },
+    {
+      "equipment_id": "ART-DEU-LEFH18",
+      "nation": "DEU",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "10.5 cm leichte Feldhaubitze 18 (leFH 18)",
+      "family": "field_artillery",
+      "role": "divisional_field_artillery",
+      "caliber_mm": 105,
+      "name_it": "10.5 cm leichte Feldhaubitze 18 (leFH 18)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-LEFH18",
+      "source_note": "3 gruppi da 3 batterie di 4 pezzi."
+    },
+    {
+      "equipment_id": "ART-DEU-SFH18",
+      "nation": "DEU",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "15 cm schwere Feldhaubitze 18 (sFH 18)",
+      "family": "heavy_artillery",
+      "role": "divisional_heavy_indirect_fire",
+      "caliber_mm": 150,
+      "name_it": "15 cm schwere Feldhaubitze 18 (sFH 18)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-SFH18",
+      "source_note": "2 batterie da 4 pezzi nel IV gruppo."
+    },
+    {
+      "equipment_id": "ART-DEU-K18-105",
+      "nation": "DEU",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "10.5 cm Kanone 18 (10.5 cm K 18)",
+      "family": "heavy_artillery",
+      "role": "divisional_heavy_indirect_fire",
+      "caliber_mm": 105,
+      "name_it": "10.5 cm Kanone 18 (10.5 cm K 18)",
+      "durable": true,
+      "models": [],
+      "reliability": "STANDARD_TOE",
+      "reference_date": "1939-09",
+      "source_id": "DEU-K18-105",
+      "source_note": "1 batteria da 4 pezzi nel IV gruppo; classe field_gun come ART-DEU-GUN-105 in catalog.json."
+    },
+    {
+      "equipment_id": "ART-DEU-PAK38",
+      "nation": "DEU",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "5 cm Panzerabwehrkanone 38 (Pak 38)",
+      "family": "anti_tank",
+      "role": "anti_armor_direct_fire",
+      "caliber_mm": 50,
+      "name_it": "5 cm Panzerabwehrkanone 38 (Pak 38)",
+      "durable": true,
+      "models": [],
+      "reliability": "DATED_VARIANT",
+      "reference_date": "1941-04",
+      "source_id": "DEU-PAK38",
+      "source_note": "Produzione dal 1940; primo impiego tedesco in aprile 1941 (Wikipedia 5 cm Pak 38). Non nel template settembre 1939."
+    }
+  ],
+  "aliases": [
+    {
+      "nation": "DEU",
+      "templateKey": "INW-DEU-RIFLE-1939",
+      "equipment_id": "INW-DEU-RIFLE-1939"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "INW-DEU-PISTOL-1939",
+      "equipment_id": "INW-DEU-PISTOL-1939"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "MG-DEU-MG34-L",
+      "equipment_id": "MG-DEU-MG34-L"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "MG-DEU-MG34-S",
+      "equipment_id": "MG-DEU-MG34-S"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-GRW36",
+      "equipment_id": "ART-DEU-GRW36"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-GRW34",
+      "equipment_id": "ART-DEU-GRW34"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-LEIG18",
+      "equipment_id": "ART-DEU-LEIG18"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-SIG33",
+      "equipment_id": "ART-DEU-SIG33"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-PAK36",
+      "equipment_id": "ART-DEU-PAK36"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-LEFH18",
+      "equipment_id": "ART-DEU-LEFH18"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-SFH18",
+      "equipment_id": "ART-DEU-SFH18"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-K18-105",
+      "equipment_id": "ART-DEU-K18-105"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-PAK38",
+      "equipment_id": "ART-DEU-PAK38"
+    }
+  ]
+}

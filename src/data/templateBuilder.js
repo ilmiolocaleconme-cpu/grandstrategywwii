@@ -107,6 +107,9 @@ export function buildDivisionSet({ template: tRows, lines: lRows, catalog: cRows
   const max = intOf(t.manpower_organic_max, `template ${t.template_id}: manpower_organic_max`);
   const initial = optInt(t.manpower_initial_estimate, `template ${t.template_id}: manpower_initial_estimate`);
   if (initial !== null && initial > max) throw new Error(`template ${t.template_id}: l'organico iniziale (${initial}) supera il massimo (${max})`);
+  const horses = optInt(t.horses_organic, `template ${t.template_id}: horses_organic`);
+  // dato mancante = null con MISSING_DATA e SENZA effettivo (come le quantità); con un valore, l'effettivo iniziale lo stima il motore
+  const horsesLeaf = horses === null ? { value: null, reliability: 'MISSING_DATA' } : { value: horses, effective: { value: null } };
   const template = {
     schema: SCHEMA_V2,
     id,
@@ -115,8 +118,8 @@ export function buildDivisionSet({ template: tRows, lines: lRows, catalog: cRows
     appliesTo: { nation: t.nation, category: t.category, echelon: t.echelon, validFrom },
     formation: { value: t.formation },
     regimentsInfantry: { value: intOf(t.infantry_regiments, `template ${t.template_id}: infantry_regiments`) },
-    manpower: { war: { value: max, effective: { value: initial } } },
-    horses: { value: optInt(t.horses_organic, `template ${t.template_id}: horses_organic`), effective: { value: null } },
+    manpower: { war: { value: max, effective: { value: initial } } }, // organico noto, iniziale ignoto (null): il motore usa il rapporto (source 'ratio')
+    horses: horsesLeaf,
     equipment,
     metadata: {
       sourceTemplateId: t.template_id, series: t.series, referenceDivision: t.division_name, referenceDate: t.reference_date,
