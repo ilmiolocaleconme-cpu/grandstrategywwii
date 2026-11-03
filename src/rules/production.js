@@ -9,6 +9,7 @@
 //  6. Bilancio: iniziale + prodotto − consumato = finale (nessuna risorsa dal nulla). Tutto in tonnellate; elettricità in MW (flusso, mai in scorta).
 import { fullCapacityFlows } from '../data/recipes.js';
 import { levelMult } from '../data/factoryLevels.js';
+import { addDays } from '../game/calendar.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
@@ -18,7 +19,7 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
  * catalog: { recipes: Map(id → ricetta), factories: Map(factory_id → fabbrica), levels?: factory_levels.json (livelli delle fabbriche: campo `level` dell'impianto, 1-3, assente = 1) }
  * Ritorna { stock, powerMw: { supply, demand, ratio }, facilities: [{ id, efficiency, bottleneck, inputRatios, energyRatio, produced, consumed, state }], balance }
  */
-export function produceDay({ facilities, stock, hydroMw = 0 }, catalog) {
+export function produceDay({ facilities, stock, hydroMw = 0, date = null }, catalog) {
   const next = { ...stock };
   const initial = { ...stock };
   const produced = {}; const consumed = {};
@@ -80,12 +81,38 @@ export function produceDay({ facilities, stock, hydroMw = 0 }, catalog) {
     const eff = base * (1 - damage);
     const fConsumed = {}; for (const [res, need] of Object.entries(flows.inputsPerDay)) fConsumed[res] = r3(need * eff);
     consume(flows, eff);
-    const out = r3(flows.outputPerDay * eff * recipe.output.perUnit);
+    let out = r3(flows.outputPerDay * eff * recipe.output.perUnit);
+    let progress;
+    if (recipe.releaseEveryDays) { // pezzi a LOTTI (Fase 4): il lavoro si accumula, ogni releaseEveryDays si chiude un lotto di pezzi interi, consegnato dopo buildDays − releaseEveryDays giorni
+      ({ delivered: out, progress } = batchStep(f, recipe, out, date));
+    }
     next[recipe.output.product] = r3((next[recipe.output.product] ?? 0) + out);
     add(produced, recipe.output.product, out);
-    report.push({ id: f.id, kind: 'factory', efficiency: r3(eff), bottleneck: base < throttle ? limitedBy : null, inputRatios, energyRatio: r3(energyRatio), produced: { [recipe.output.product]: out }, consumed: fConsumed, state: stateOf(eff, damage, throttle) });
+    report.push({ id: f.id, kind: 'factory', efficiency: r3(eff), bottleneck: base < throttle ? limitedBy : null, inputRatios, energyRatio: r3(energyRatio), produced: { [recipe.output.product]: out }, consumed: fConsumed, state: stateOf(eff, damage, throttle), ...(progress ? { progress } : {}) });
   }
   return { stock: next, powerMw: { supply, demand, ratio: r3(energyRatio) }, facilities: report, balance: { initial, produced, consumed, final: next } };
+}
+
+/**
+ * Produzione a lotti di un impianto con ricetta `releaseEveryDays` (+ `buildDays` >= releaseEveryDays). Stato dell'impianto (tutto opzionale, nessuna migrazione):
+ * wip = pezzi in lavorazione (frazionari), runDays = giorni dall'ultima chiusura, batches = [{ qty, readyOn }] lotti chiusi non ancora consegnati.
+ * Ogni giorno il lavoro (out) si somma a wip; ogni releaseEveryDays si chiude un lotto con i pezzi INTERI di wip (il resto resta) che arriva a readyOn
+ * = oggi + buildDays − releaseEveryDays. Esempio: costruzione 14 giorni, consegna ogni 7 → primo lotto dopo 14 giorni, poi uno a settimana.
+ * Ritorna { delivered (pezzi consegnati oggi, interi), progress: nuovo stato }. Richiede `date`: senza è un errore, non un lotto che sparisce.
+ */
+function batchStep(f, recipe, out, date) {
+  if (date === null) throw new Error(`produzione: ${f.id} produce a lotti ma manca la data`);
+  let wip = (f.wip ?? 0) + out;
+  let runDays = (f.runDays ?? 0) + 1;
+  const batches = [...(f.batches ?? [])];
+  if (runDays >= recipe.releaseEveryDays) {
+    const qty = Math.floor(wip + 1e-9);
+    wip = r3(wip - qty);
+    runDays = 0;
+    if (qty > 0) batches.push({ qty, readyOn: addDays(date, recipe.buildDays - recipe.releaseEveryDays) });
+  }
+  const ready = batches.filter((b) => b.readyOn <= date);
+  return { delivered: ready.reduce((t, b) => t + b.qty, 0), progress: { wip: r3(wip), runDays, batches: batches.filter((b) => b.readyOn > date) } };
 }
 
 /** Stato leggibile: operativo / ridotta capacità / danneggiato / fermo. Il danno e gli ingressi si distinguono nella UI dal collo di bottiglia. */

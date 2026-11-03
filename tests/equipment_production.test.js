@@ -91,26 +91,63 @@ test('giorni di trasferimento: via terra km/velocità; la traversata si aggiunge
   assert.throws(() => makeTransitDays(() => { throw new Error('nessun percorso'); })('X'), /nessun percorso/);
 });
 
-test('catena completa: fabbrica → scorta equipment.<id> → rinforzi → arrivo (terra e mare)', () => {
+// simula giorni di produzione di UN impianto (stato dell'impianto portato avanti come fa il ciclo economico)
+const run = (rec, days, from = '1939-09-01', stock0 = { steel: 1e6, components: 1e5 }) => {
+  const cat = { recipes: new Map([[rec.id, rec]]), factories: industry.byId, levels: json('industry/factory_levels.json') };
+  let f = { id: 'F1', type: rec.factory, recipeId: rec.id }; let stock = stock0; const delivered = [];
+  for (let d = 0; d < days; d += 1) {
+    const date = new Date(Date.parse(from) + d * 86400000).toISOString().slice(0, 10);
+    const r = produceDay({ facilities: [f], stock, hydroMw: 1000, date }, cat);
+    assert.deepEqual(checkBalance(r.balance), []);
+    f = { ...f, ...r.facilities[0].progress }; stock = r.stock; delivered.push(r.facilities[0].produced[rec.output.product]);
+  }
+  return { f, stock, delivered };
+};
+
+test('lotti: armi leggere costruzione 14 giorni, consegna settimanale — nulla nei primi 13 giorni, poi un lotto a settimana, solo pezzi interi', () => {
+  const rec = generated.find((r) => r.equipmentId === 'INW-FRA-RIFLE-1939');
+  assert.deepEqual([rec.buildDays, rec.releaseEveryDays], [14, 7]);
+  const { delivered, f } = run(rec, 22);
+  assert.deepEqual(delivered.slice(0, 13), new Array(13).fill(0), 'i primi pezzi arrivano dopo 14 giorni');
+  assert.equal(delivered[13], 7 * 20000, 'giorno 14: primo lotto chiuso al giorno 7 (7 giorni di lavoro)');
+  assert.deepEqual(delivered.slice(14, 20), new Array(6).fill(0));
+  assert.equal(delivered[20], 7 * 20000, 'poi un lotto a settimana');
+  assert.ok(delivered.every(Number.isInteger));
+  assert.equal(f.batches.length, 1, 'un lotto chiuso e in costruzione');
+  assert.equal(delivered.reduce((a, b) => a + b, 0) + f.batches.reduce((t, b) => t + b.qty, 0) + f.wip, 22 * 20000, 'nessun pezzo perso né creato');
+});
+
+test('lotti: il volume non cambia (solo ritardo) e senza data è un errore, non un lotto che sparisce', () => {
   const rec = generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C');
-  const cat = { recipes: new Map([rec].map((r) => [r.id, r])), factories: industry.byId, levels: json('industry/factory_levels.json') };
-  const day = produceDay({ facilities: [{ id: 'F1', type: 'FCT-ARTILLERY', recipeId: rec.id }], stock: { steel: 1000, components: 100 }, hydroMw: 100 }, cat);
-  assert.deepEqual(checkBalance(day.balance), []);
-  const made = day.stock['equipment.ART-FRA-HOW155C'];
-  assert.ok(made > 0, 'la fabbrica produce pezzi');
-  assert.equal(made, 28, '70 t/giorno / 2,5 t per pezzo');
-  const units = [{ id: 'FRA-1', nation: 'FRA' }, { id: 'FRA-2', nation: 'FRA' }];
+  const { delivered, f } = run(rec, 70);
+  const total = delivered.reduce((a, b) => a + b, 0);
+  assert.equal(total + f.batches.reduce((t, b) => t + b.qty, 0) + f.wip, 70 * 28, '28 pezzi/giorno anche con i lotti: totale consegnato + in lavorazione = lavoro svolto');
+  assert.equal(delivered.findIndex((x) => x > 0), 55, 'obice: primo lotto chiuso al giorno 14, consegnato dopo altri 42 giorni');
+  const cat = { recipes: new Map([[rec.id, rec]]), factories: industry.byId, levels: json('industry/factory_levels.json') };
+  assert.throws(() => produceDay({ facilities: [{ id: 'F1', type: rec.factory, recipeId: rec.id }], stock: { steel: 100, components: 100 }, hydroMw: 100 }, cat), /manca la data/);
+  const legacy = recipesDoc.recipes.find((r) => r.id === 'REC-ARTILLERY-001');
+  const out = produceDay({ facilities: [{ id: 'A', type: legacy.factory, recipeId: legacy.id }], stock: { steel: 1000, components: 100 }, hydroMw: 100 }, { recipes: new Map([[legacy.id, legacy]]), factories: industry.byId, levels: json('industry/factory_levels.json') });
+  assert.ok(out.facilities[0].produced.artillery > 0 && !out.facilities[0].progress, 'le ricette senza lotti restano immediate (compatibilità)');
+});
+
+test('catena completa: fabbrica a lotti → scorta equipment.<id> → rinforzi → arrivo (terra e mare)', () => {
+  const rec = generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C');
+  const { stock, delivered } = run(rec, 60);
   const item = 'equipment.ART-FRA-HOW155C';
+  const made = stock[item];
+  assert.equal(made, 392, 'primo lotto: 14 giorni × 28 obici');
+  assert.equal(delivered.filter((x) => x > 0).length, 1);
+  const units = [{ id: 'FRA-1', nation: 'FRA' }, { id: 'FRA-2', nation: 'FRA' }];
   let forces = { divisions: { 'FRA-1': { items: { [item]: { planned: 24, effective: 4 } } }, 'FRA-2': { items: { [item]: { planned: 24, effective: 0 } } } } };
   const route = { 'FRA-1': { landKm: 250 }, 'FRA-2': { landKm: 250, seaDays: 4 } };
-  const plan = planReinforcements(forces, { units, nation: 'FRA', date: '1939-09-10', poolAvailable: 0, stocks: { [item]: Math.floor(made) }, transitDays: makeTransitDays((id) => route[id]) });
+  const plan = planReinforcements(forces, { units, nation: 'FRA', date: '1939-09-10', poolAvailable: 0, stocks: { [item]: made }, transitDays: makeTransitDays((id) => route[id]) });
   const by = Object.fromEntries(plan.transfers.map((t) => [t.divisionId, t]));
-  assert.deepEqual([by['FRA-2'].qty, by['FRA-1'].qty], [24, 4], 'la più scoperta prima; il resto delle 28 non basta per tutti i 20+24');
+  assert.deepEqual([by['FRA-2'].qty, by['FRA-1'].qty], [24, 20], 'la più scoperta prima');
   assert.deepEqual([by['FRA-1'].arrivesOn, by['FRA-2'].arrivesOn], ['1939-09-13', '1939-09-17']);
-  assert.equal(plan.remaining.stocks[item], 0);
+  assert.equal(plan.remaining.stocks[item], made - 44);
   forces = dispatch(forces, plan.transfers);
   const a = applyArrivals(forces, '1939-09-13');
-  assert.equal(a.forces.divisions['FRA-1'].items[item].effective, 8);
+  assert.equal(a.forces.divisions['FRA-1'].items[item].effective, 24);
   assert.equal(a.forces.divisions['FRA-2'].items[item].effective, 0, 'via mare arriva dopo');
   const b = applyArrivals(a.forces, '1939-09-17');
   assert.equal(b.forces.divisions['FRA-2'].items[item].effective, 24);

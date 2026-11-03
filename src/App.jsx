@@ -61,6 +61,9 @@ import { createConstruction } from './game/construction.js';
 import mineSites from '../data/resources/mine_sites.json';
 import { loadIndustryCatalog } from './data/industry.js';
 import recipesFile from '../data/industry/recipes.json';
+import equipmentProductionTable from '../data/units/equipment/equipment_production.json';
+import { mergeEquipmentCatalogs } from './data/equipmentCatalog.js';
+import { buildEquipmentRecipes } from './data/equipmentProduction.js';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
 import securityFile from '../data/security/security.json';
@@ -251,7 +254,9 @@ function useProvinces() {
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
+// Ricette degli equipaggiamenti (Fase 4): una per voce di OGNI catalogo data/units/equipment/catalog*.json, generate dalla tabella per categoria (nessun elenco per nazione qui)
+const EQUIPMENT_RECIPES = buildEquipmentRecipes(mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' }))), equipmentProductionTable);
+const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Strade e ferrovie in partita (data/infrastructure.js): collegamenti tra province madri, livello di partenza e massimo; i miglioramenti sono ordini di costruzione 'infra'.
 const GAME_PORTS = { levels: portLevelsFile, coastal: coastalCitiesFile.cities, base: portsBaseFile };
 const GAME_INFRA = { config: infraConfig, index: createInfraIndex(linkEdgesFile) };

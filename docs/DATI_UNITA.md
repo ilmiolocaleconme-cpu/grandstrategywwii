@@ -207,3 +207,12 @@ Principio dell'utente: **tutto scalabile, niente fatto in modo diverso per nazio
 - Tecnologie di partenza: i gruppi `light_arms`, `mortars`, `basic_artillery` (`requires: null`) sono noti a tutte le nazioni dal 1936; un gruppo con `requires` serve la ricerca (`groupUnlocked`). Nessuna nuova tecnologia creata: serve prima l'approvazione dell'albero.
 - `src/rules/reinforcementTransit.js`: giorni = ceil(km via terra / `TRANSIT_KM_PER_DAY`) + giorni di mare (da `findSeaRoute`) SOLO se il percorso attraversa il mare.
 - Non collegato a `SYSTEMS` (come `produceDay`): manca lo stato iniziale dell'industria e l'azione `setFacilityRecipe`.
+
+### Tempi di produzione a lotti e collegamento al ciclo economico (03/11/2026)
+
+- Ogni categoria della tabella ha `buildDays` (giorni per costruire un lotto) e `releaseEveryDays` (ogni quanti giorni si chiude un lotto). Valori DESIGN_DEFAULT: armi leggere 14/7, mortai 21/7, controcarro 28/14, cannoni 42/14, obici 56/14. Esempio armi leggere: nessun pezzo per 13 giorni, il primo lotto arriva al giorno 14, poi uno a settimana.
+- I lotti ritardano soltanto: il volume (pezzi/giorno = capacità ÷ peso) non cambia. Per produrre meno si cambia il peso.
+- Stato nell'impianto (campi opzionali, nessuna migrazione): `wip` (pezzi in lavorazione), `runDays`, `batches` [{qty, readyOn}]. Le ricette senza `releaseEveryDays` restano immediate.
+- `createEconomySystem` passa la data a `produceDay` e salva lo stato dei lotti; l'App aggiunge le ricette generate da TUTTI i `catalog*.json` al catalogo di gioco.
+- `setFacilityRecipe` (src/game/facilityRecipe.js): cambia la ricetta di un impianto (stessa fabbrica, gruppo sbloccato, nazione propria); rifiuta il cambio con lotti in consegna; i pezzi in lavorazione non finiti si perdono.
+- Limiti noti: nei dati iniziali solo CZE e la fascia C hanno fabbriche di artiglieria; nessuna nazione ha fabbriche di armi leggere (vanno costruite). Gli equipaggiamenti non hanno prezzo in economy.json: i materiali consumati contano come costo, i pezzi prodotti non danno entrata. Nessuna UI per scegliere la ricetta. Il sistema giornaliero dei rinforzi non è ancora collegato.

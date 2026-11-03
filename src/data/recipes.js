@@ -67,7 +67,14 @@ export function validateRecipes(file, { factoriesById, resources, equipmentIds =
     if (pieces) {
       if (!(r.massTonnes > 0)) errors.push(`ricette: ${r.id} produce pezzi ma non ha un peso del pezzo (massTonnes) valido`);
       if (r.output?.perUnit !== 1) errors.push(`ricette: ${r.id} produce pezzi: perUnit di uscita deve essere 1`);
+      // lotti (facoltativi, solo pezzi): costruzione di un lotto in buildDays giorni, consegna ogni releaseEveryDays giorni (buildDays >= releaseEveryDays)
+      if (('buildDays' in r) !== ('releaseEveryDays' in r)) errors.push(`ricette: ${r.id} deve avere insieme buildDays e releaseEveryDays`);
+      else if ('buildDays' in r) {
+        if (!Number.isInteger(r.releaseEveryDays) || r.releaseEveryDays < 1) errors.push(`ricette: ${r.id} con releaseEveryDays non valido`);
+        else if (!Number.isInteger(r.buildDays) || r.buildDays < r.releaseEveryDays) errors.push(`ricette: ${r.id} con buildDays non valido (intero >= releaseEveryDays)`);
+      }
     } else if ('massTonnes' in r) errors.push(`ricette: ${r.id} ha massTonnes ma non produce pezzi`);
+    else if ('buildDays' in r || 'releaseEveryDays' in r) errors.push(`ricette: ${r.id} ha tempi di lotto ma non produce pezzi`);
     const cap = r.nominalOutputMw ?? f.base_capacity_per_day;
     if (!(cap > 0)) errors.push(`ricette: ${r.id} senza capacità giornaliera (${r.factory} ha base_capacity_per_day = ${f.base_capacity_per_day}: serve nominalOutputMw)`);
     if (r.nominalOutputMw !== undefined && f.base_capacity_per_day > 0) errors.push(`ricette: ${r.id} ridefinisce la capacità di ${r.factory}, già nel catalogo`);

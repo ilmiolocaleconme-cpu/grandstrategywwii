@@ -109,6 +109,9 @@ export function validateNations(nations, { player } = {}) {
       if (!(f.damage >= 0 && f.damage <= 1)) errors.push(`stato: ${f.id}, danno fuori da 0-1`);
       if (f.level !== undefined && (!Number.isInteger(f.level) || f.level < 1 || f.level > 3)) errors.push(`stato: ${f.id}, livello ${f.level} non valido`);
       if (typeof f.type !== 'string' || typeof f.recipeId !== 'string') errors.push(`stato: ${f.id}, tipo o ricetta mancanti`);
+      if (f.wip !== undefined && !(num(f.wip) && f.wip >= 0)) errors.push(`stato: ${f.id}, pezzi in lavorazione non validi`);
+      if (f.runDays !== undefined && (!Number.isInteger(f.runDays) || f.runDays < 0)) errors.push(`stato: ${f.id}, giorni di lotto non validi`);
+      if (f.batches !== undefined && (!Array.isArray(f.batches) || f.batches.some((b) => !Number.isInteger(b?.qty) || b.qty < 1 || !/^\d{4}-\d{2}-\d{2}$/.test(b?.readyOn ?? '')))) errors.push(`stato: ${f.id}, lotti non validi`);
     }
     if (!Array.isArray(n.mines)) errors.push(`stato: ${id}, miniere mancanti`);
     for (const m of n.mines ?? []) if (!Number.isInteger(m.level) || m.level < 1 || m.level > 3) errors.push(`stato: ${id}, miniera ${m.id} con livello ${m.level}`);
