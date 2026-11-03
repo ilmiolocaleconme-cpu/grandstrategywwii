@@ -1,0 +1,10 @@
+{
+  "schema": "diplomacy-start-v1",
+  "quality": "hypothesis",
+  "note": "Situazione diplomatica iniziale (1936). Tutte le coppie non elencate partono NEUTRE (0): scelta dell'utente. Le coppie elencate sono rivalità e legami noti del 1936 ma i valori numerici sono stime di Claude (hypothesis), non dati verificati. Le alleanze sono quelle indicate dall'utente: Francia-Regno Unito, Francia-Polonia, Francia-Cecoslovacchia, Regno Unito-Portogallo (Piccola Intesa e Intesa balcanica non incluse).",
+  "relations": [
+    ["DEU", "FRA", -40], ["DEU", "USSR", -50], ["JPN", "CHN", -60],
+    ["FRA", "GBR", 60], ["FRA", "POL", 50], ["FRA", "CZE", 50], ["GBR", "PRT", 60]
+  ],
+  "alliances": [["FRA", "GBR"], ["FRA", "POL"], ["FRA", "CZE"], ["GBR", "PRT"]]
+}

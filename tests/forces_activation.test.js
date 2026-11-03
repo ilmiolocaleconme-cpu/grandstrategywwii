@@ -10,7 +10,7 @@ import { isActiveAt } from '../src/data/units.js';
 
 const json = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
 const units = json('units/units.json').units;
-const names = ['divisione_fanteria_germania_1936', 'divisione_corazzata_germania_1936', 'divisione_fanteria_gran_bretagna_1936', 'divisione_fanteria_germania_1939', 'divisione_fanteria_francia_1939', 'divisione_fanteria_italia_1940'];
+const names = ['divisione_fanteria_germania_1936', 'divisione_corazzata_germania_1936', 'divisione_fanteria_gran_bretagna_1936', 'divisione_fanteria_francia_1936', 'divisione_fanteria_germania_1939', 'divisione_fanteria_francia_1939', 'divisione_fanteria_italia_1940'];
 const templates = names.map((f) => json(`units/templates/${f}.json`));
 const ratio = json('units/readiness.json').initialFillRatio.value;
 const ctx = { units, templates, ratio };
@@ -19,32 +19,31 @@ const nationList = json('nations.json').map((n) => n.id);
 const start = () => initForcesState(newGame({ nation: 'FRA', political, ownersWithProvinces: nationList }).state, ctx).state;
 const of = (s, nation) => Object.entries(s.forces.divisions).filter(([id]) => units.find((u) => u.id === id).nation === nation);
 
-test('al 1936 solo i template del 1936 creano istanze; Francia e Italia restano senza dotazione', () => {
+test('al 1936 partono Germania, Gran Bretagna e Francia (template 1936); l\'Italia resta senza dotazione', () => {
   const s = start();
-  assert.equal(of(s, 'FRA').length, 0);
   assert.equal(of(s, 'ITA').length, 0);
-  assert.ok(of(s, 'DEU').length > 0 && of(s, 'GBR').length > 0);
+  assert.ok(of(s, 'DEU').length > 0 && of(s, 'GBR').length > 0 && of(s, 'FRA').length > 0);
+  for (const [, d] of of(s, 'FRA')) assert.equal(d.templateId, 'TPL-FRA-INF-1936');
 });
 
-test('1/9/1939: la fanteria francese riceve il template FRA 1939 (15.500 uomini effettivi); l\'Italia ancora no; le istanze tedesche del 1936 non cambiano', () => {
+test('dal 1/9/1939 le divisioni NUOVE di fanteria francese e tedesca usano il template 1939; le istanze esistenti non cambiano; l\'Italia ancora no', () => {
   const s0 = { ...start(), date: '1939-08-30' };
   const sys = createForcesActivationSystem(ctx);
-  const before = of(s0, 'DEU');
+  const beforeFra = of(s0, 'FRA'), beforeDeu = of(s0, 'DEU');
   const a = advanceDays(s0, 1, [sys]);
-  assert.equal(of(a, 'FRA').length, 0, '31 agosto: ancora nulla');
   const b = advanceDays(a, 1, [sys]);
-  const fra = of(b, 'FRA');
-  const franceInf = units.filter((u) => u.nation === 'FRA' && u.echelon === 'division' && u.category === 'infantry' && isActiveAt(u, '1939-09-01'));
-  assert.ok(franceInf.length > 0 && fra.length === franceInf.length, `${fra.length}/${franceInf.length}`);
-  for (const [, d] of fra) { assert.equal(d.templateId, 'TPL-FRA-INF-1939'); assert.deepEqual(d.items['manpower.war'], { planned: 16400, effective: 15500, source: 'template' }); }
-  assert.equal(of(b, 'ITA').length, 0);
-  const after = Object.fromEntries(of(b, 'DEU'));
-  for (const [id, d] of before) assert.deepEqual(after[id], d, 'nessuna istanza esistente cambia versione di template');
-  const nuove = Object.entries(after).filter(([id]) => !before.some(([i]) => i === id));
-  for (const [id, d] of nuove) if (units.find((u) => u.id === id).category === 'infantry') assert.ok(['TPL-DEU-INF-1936', 'TPL-DEU-INF-1939'].includes(d.templateId), 'riceve il template valido nel giorno di entrata in servizio');
-  assert.deepEqual(validateForcesState(b.forces, units), []);
-  const c = advanceDays(b, 1, [sys]);
-  assert.deepEqual(c.forces, b.forces, 'idempotente');
+  const c = advanceDays(b, 40, [sys]);
+  for (const [nation, before, tpl] of [['FRA', beforeFra, 'TPL-FRA-INF-1939'], ['DEU', beforeDeu, 'TPL-DEU-INF-1939']]) {
+    const after = Object.fromEntries(of(c, nation));
+    for (const [id, d] of before) assert.deepEqual(after[id], d, `${nation}: nessuna istanza esistente cambia versione di template`);
+    const nuove = Object.entries(after).filter(([id]) => !before.some(([i]) => i === id) && units.find((u) => u.id === id).category === 'infantry');
+    for (const [, d] of nuove) assert.ok(d.templateId.startsWith(`TPL-${nation}-INF-`), 'template di fanteria della nazione');
+    for (const [, d] of nuove.filter(([id]) => isActiveAt(units.find((u) => u.id === id), '1939-09-01') && !isActiveAt(units.find((u) => u.id === id), '1939-08-30'))) assert.equal(d.templateId, tpl);
+  }
+  assert.equal(of(c, 'ITA').length, 0);
+  assert.deepEqual(validateForcesState(c.forces, units), []);
+  const d2 = advanceDays(c, 1, [sys]);
+  assert.deepEqual(d2.forces, c.forces, 'idempotente');
 });
 
 test('1/6/1940: fanteria italiana con il template ITA 1940 (organico iniziale ignoto → rapporto); cavalli assenti senza inventarli', () => {

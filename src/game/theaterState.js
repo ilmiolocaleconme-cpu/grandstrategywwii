@@ -21,6 +21,14 @@ import { planAssignment } from './theaterPlan.js';
 import { createEntrench, entrenchBonus, setDig, tickEntrench, validateEntrench, DEFAULT_ENTRENCH } from '../rules/entrench.js';
 export { provinceController, canEnterWar, isFighter };
 
+/** Cosa significa «Muovi» verso una provincia: marcia su territorio proprio; attacco se la controlla un nemico in guerra con il giocatore; altrimenti marcia (che fallirà senza percorso su territorio proprio). */
+export function moveIntent(state, net, to) {
+  const c = provinceController(state, net, to);
+  if (c === state.player) return { kind: 'move', controller: c };
+  if (state.war && enemiesOf(state.war, state.player).includes(c)) return { kind: 'attack', controller: c };
+  return { kind: 'move', controller: c };
+}
+
 export { validateWar } from '../rules/war.js';
 export { validateTheaters } from '../rules/theater.js';
 export { validateEntrench };

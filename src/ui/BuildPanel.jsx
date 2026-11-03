@@ -59,22 +59,23 @@ export function LinkList({ data, onOrder }) {
 const Msg2 = ({ msg }) => (msg ? <p className={msg.ok ? 'muted' : 'warn'} role="status">{msg.text}</p> : null);
 
 /** Porti delle città costiere della provincia (provincePortRows): livello attuale, prossimo livello, costo. onOrder(order) → { ok, text }. */
-export function PortList({ rows, onOrder }) {
+export function PortList({ rows, onOrder, focusId = null, readOnly = false }) {
   const [msg, setMsg] = useState(null);
-  if (!rows || rows.length === 0) return null;
+  const shown = readOnly ? (rows ?? []).filter((r) => r.level > 0) : rows; // province altrui: solo i porti che esistono, senza ordini
+  if (!shown || shown.length === 0) return null;
   return (
     <section aria-label="Porti">
       <h3>Porti</h3>
       <Msg2 msg={msg} />
       <ul className="build-list">
-        {rows.map((r) => (
-          <li key={r.cittaId} className="build-row">
+        {shown.map((r) => (
+          <li key={r.cittaId} className={r.cittaId === focusId ? 'build-row port-focus' : 'build-row'} aria-current={r.cittaId === focusId ? 'true' : undefined}>
             <div>
-              <strong>{r.name}</strong> · {r.levelName}{r.atMax ? ' (massimo)' : ` → ${r.nextName}`}
-              {!r.atMax && r.cost ? <div className="muted small">{`${fmt(r.cost.ecv)} ECV · ${fmt(r.cost.steel)} t acciaio · ${fmt(r.cost.workers)} lavoratori · ${r.cost.days} giorni`}</div> : null}
-              {!r.atMax && !r.ok ? <div className="warn small">{r.message}</div> : null}
+              <strong>{r.name}</strong> · {r.levelName}{readOnly ? '' : r.atMax ? ' (massimo)' : ` → ${r.nextName}`}
+              {!readOnly && !r.atMax && r.cost ? <div className="muted small">{`${fmt(r.cost.ecv)} ECV · ${fmt(r.cost.steel)} t acciaio · ${fmt(r.cost.workers)} lavoratori · ${r.cost.days} giorni`}</div> : null}
+              {!readOnly && !r.atMax && !r.ok ? <div className="warn small">{r.message}</div> : null}
             </div>
-            {!r.atMax ? <button type="button" className="nation-btn" disabled={!r.ok} onClick={() => setMsg(onOrder(r.order))}>{r.level === 0 ? 'Costruisci' : 'Migliora'}</button> : null}
+            {!readOnly && !r.atMax ? <button type="button" className="nation-btn" disabled={!r.ok} onClick={() => setMsg(onOrder(r.order))}>{r.level === 0 ? 'Costruisci' : 'Migliora'}</button> : null}
           </li>
         ))}
       </ul>
@@ -83,10 +84,10 @@ export function PortList({ rows, onOrder }) {
 }
 
 /** Elenco di ciò che si può costruire in una provincia (opzioni da provinceBuildOptions). onOrder(order) → testo di esito. `upgrades`: miglioramenti degli impianti costruiti qui (upgradeOptions). */
-export function ProvinceBuild({ options, onOrder, upgrades = null, links = null, ports = null }) {
+export function ProvinceBuild({ options, onOrder, upgrades = null, links = null, ports = null, focusPortId = null }) {
   const [msg, setMsg] = useState(null);
   if (!options) return null;
-  if (options.reason === 'not_controlled') return <section aria-label="Costruzioni"><h3>Costruzioni</h3><p className="muted small">Puoi costruire solo nelle province che controlli.</p></section>;
+  if (options.reason === 'not_controlled') return <><section aria-label="Costruzioni"><h3>Costruzioni</h3><p className="muted small">Puoi costruire solo nelle province che controlli.</p></section><PortList rows={ports} readOnly focusId={focusPortId} /></>;
   if (options.mines.length === 0 && options.factories.length === 0 && !(options.hospitals?.length > 0) && !(ports && ports.length > 0)) return null;
   const row = (o) => (
     <li key={JSON.stringify(o.order)} className="build-row">
@@ -110,7 +111,7 @@ export function ProvinceBuild({ options, onOrder, upgrades = null, links = null,
         </li>))}</ul></> : null}
       <UpgradeList upgrades={upgrades} onOrder={onOrder} title="Miglioramenti qui" />
       <LinkList data={links} onOrder={onOrder} />
-      <PortList rows={ports} onOrder={onOrder} />
+      <PortList rows={ports} onOrder={onOrder} focusId={focusPortId} />
       <details open><summary>Fabbriche ({options.factories.length})</summary><ul className="build-list">{options.factories.map(row)}</ul></details>
     </section>
   );
