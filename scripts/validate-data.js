@@ -42,6 +42,7 @@ import { validateOfficers } from '../src/data/officers.js';
 import { officersBuilt } from './build-officers.js';
 import { validateTemplate } from '../src/data/templates.js';
 import { validateCadreTemplates } from '../src/data/cadres.js';
+import { validateEquipmentCatalog } from '../src/data/equipmentCatalog.js';
 import { validateDeployment } from '../src/data/deployment.js';
 import { validateConditionConfig } from '../src/rules/divisionCondition.js';
 import { deploymentBuilt } from './build-deployment.js';
@@ -238,6 +239,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // Template di divisione (previsto/effettivo, basi e fonti)
     for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {
       errors.push(...validateTemplate(JSON.parse(await text(`units/templates/${f}`))).map((e) => `template ${f}: ${e}`));
+    }
+    // Catalogo degli equipaggiamenti (Fase 3): coerenza e copertura delle chiavi equipment dei template di divisione
+    {
+      const divisionTemplates = [];
+      for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) divisionTemplates.push(JSON.parse(await text(`units/templates/${f}`)));
+      errors.push(...validateEquipmentCatalog(JSON.parse(await text('units/equipment/catalog.json')), { templates: divisionTemplates }));
     }
     // Quadri di divisione (template per nazione, espansione in divisione tramite mobilitazione)
     {

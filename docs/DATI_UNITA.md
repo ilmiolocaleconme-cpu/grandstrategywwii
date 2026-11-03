@@ -181,3 +181,11 @@ Decisioni dell'utente: template **per categoria** (nazione + categoria + scaglio
 - Validità: `appliesTo.validFrom` / `validTo` (date AAAA-MM-GG, estremi inclusi); `activeFrom` resta come sinonimo di `validFrom`. Il nome del template non si sovrascrive: una nuova versione ha un nuovo `id` e un'altra finestra.
 - `templateFor(unit, templates, date)`: con la data sceglie, tra le versioni valide, quella con inizio più recente; senza data restituisce il primo corrispondente (comportamento precedente). `initForces` passa la data.
 - Test: `tests/template_v2.test.js`. Nessun template esistente è stato migrato. Nota: `tests/provinces.test.js`, `labels`, `med` e `nord_baltico` sono lenti (oltre 90 s ciascuno) ma non toccano questo codice.
+
+## Catalogo equipaggiamenti (Fase 3, 03/11/2026)
+- File: `data/units/equipment/catalog.json` (`equipment-catalog-v1`, stato `BOZZA_DA_CONFERMARE`). Codice: `src/data/equipmentCatalog.js`. Test: `tests/equipment_catalog.test.js`; controllato anche da `scripts/validate-data.js`.
+- 27 voci: GERMANIA (19) e REGNO UNITO (8). Ogni voce è una **classe funzionale per nazione** (`granularity: class`, id tipo `ART-DEU-MOR-81`) oppure una **voce aggregata** non dettagliata dal template (`aggregate`, categoria anche nulla: veicoli, radio, artiglieria della corazzata).
+- Le 17 categorie sono quelle della specifica. Le armi sono `durable: true`; le munizioni restano consumabili in `data/military/ammo_consumption.json`.
+- **Nessun modello storico inventato**: `models` è vuoto; il calibro è riportato solo se compare nel nome della chiave del template. I carri rimandano al catalogo `MDL-*` esistente (`modelCatalog`).
+- `aliases` collega (nazione, chiave del template) all'`equipment_id`. Le chiavi dei template **non sono state rinominate** (sono i percorsi `equipment.<chiave>` di forces, readiness e reinforcements). Un template nuovo con una chiave senza alias fa fallire la validazione.
+- Fuori da questa fase: ricette, tecnologie, pool (Fasi 4-5). Il template URSS non ha chiavi `equipment` con valori e non è coperto; Francia e altre nazioni arrivano con i loro template.

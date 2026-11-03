@@ -1,0 +1,415 @@
+{
+  "schema": "equipment-catalog-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Catalogo degli equipaggiamenti (Fase 3, 03/11/2026). Ogni voce è una CLASSE funzionale per nazione ricavata dalle chiavi dei template esistenti (granularity 'class') oppure una voce AGGREGATA non dettagliata dal template (granularity 'aggregate'). Nessun modello storico è stato inventato: `models` è vuoto finché non ci sono dati; il calibro è riportato solo se compare nel nome della chiave del template. Non si considerano equivalenti armi di nazioni diverse o con la stessa funzione e calibro diverso. Le armi sono equipaggiamenti DUREVOLI (`durable: true`); le munizioni sono consumabili e stanno in data/military/ammo_consumption.json. `aliases` collega (nazione, chiave del template) all'equipment_id: le chiavi dei template NON sono state rinominate. I carri rimandano al catalogo MDL-* già esistente. Nessuna ricetta, tecnologia o pool in questa fase (Fasi 4-5).",
+  "entries": [
+    {
+      "equipment_id": "INW-DEU-RIFLE",
+      "nation": "DEU",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "caliber_mm": null,
+      "name_it": "Fucili (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "INW-DEU-PISTOL",
+      "nation": "DEU",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "caliber_mm": null,
+      "name_it": "Pistole (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "MG-DEU-LMG",
+      "nation": "DEU",
+      "category": "MACHINE_GUN",
+      "granularity": "class",
+      "caliber_mm": null,
+      "name_it": "Mitragliatrici leggere (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "MG-DEU-HMG",
+      "nation": "DEU",
+      "category": "MACHINE_GUN",
+      "granularity": "class",
+      "caliber_mm": null,
+      "name_it": "Mitragliatrici pesanti (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-MOR-50",
+      "nation": "DEU",
+      "category": "MORTAR",
+      "granularity": "class",
+      "caliber_mm": 50,
+      "name_it": "Mortai leggeri da 50 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-MOR-81",
+      "nation": "DEU",
+      "category": "MORTAR",
+      "granularity": "class",
+      "caliber_mm": 81,
+      "name_it": "Mortai pesanti da 81 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-INFGUN-75",
+      "nation": "DEU",
+      "category": "FIELD_GUN",
+      "granularity": "class",
+      "caliber_mm": 75,
+      "name_it": "Cannoni di fanteria da 75 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-INFGUN-150",
+      "nation": "DEU",
+      "category": "FIELD_GUN",
+      "granularity": "class",
+      "caliber_mm": 150,
+      "name_it": "Cannoni di fanteria pesanti da 150 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-AT-37",
+      "nation": "DEU",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "class",
+      "caliber_mm": 37,
+      "name_it": "Cannoni anticarro da 37 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-HOW-105",
+      "nation": "DEU",
+      "category": "HOWITZER",
+      "granularity": "class",
+      "caliber_mm": 105,
+      "name_it": "Obici leggeri da 105 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-HOW-150",
+      "nation": "DEU",
+      "category": "HOWITZER",
+      "granularity": "class",
+      "caliber_mm": 150,
+      "name_it": "Obici pesanti da 150 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-GUN-105",
+      "nation": "DEU",
+      "category": "FIELD_GUN",
+      "granularity": "class",
+      "caliber_mm": 105,
+      "name_it": "Cannoni da 105 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-AA-20",
+      "nation": "DEU",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "class",
+      "caliber_mm": 20,
+      "name_it": "Antiaerei da 20 mm (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "TNK-DEU-TANK",
+      "nation": "DEU",
+      "category": "TANK",
+      "granularity": "class",
+      "caliber_mm": null,
+      "name_it": "Carri armati (Germania)",
+      "durable": true,
+      "models": [],
+      "modelCatalog": "data/units/models/carri_tedeschi_1934_1945.json"
+    },
+    {
+      "equipment_id": "INW-DEU-LIGHT",
+      "nation": "DEU",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Armi leggere, voce aggregata (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "MG-DEU-MG",
+      "nation": "DEU",
+      "category": "MACHINE_GUN",
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Mitragliatrici, voce aggregata (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-DEU-ARTY",
+      "nation": "DEU",
+      "category": null,
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Artiglieria, voce aggregata (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "VEH-DEU-GEN",
+      "nation": "DEU",
+      "category": null,
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Veicoli, voce aggregata (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "COM-DEU-RADIO",
+      "nation": "DEU",
+      "category": null,
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Radio, voce aggregata (Germania)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "INW-GBR-RIFLE",
+      "nation": "GBR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "caliber_mm": null,
+      "name_it": "Fucili (Regno Unito)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "MG-GBR-MG",
+      "nation": "GBR",
+      "category": "MACHINE_GUN",
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Mitragliatrici, voce aggregata (Regno Unito)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-GBR-MORTAR",
+      "nation": "GBR",
+      "category": "MORTAR",
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Mortai, voce aggregata (Regno Unito)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-GBR-AT",
+      "nation": "GBR",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Cannoni anticarro, voce aggregata (Regno Unito)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-GBR-FIELD",
+      "nation": "GBR",
+      "category": "FIELD_GUN",
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Artiglieria campale, voce aggregata (Regno Unito)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "ART-GBR-AA",
+      "nation": "GBR",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Antiaerei, voce aggregata (Regno Unito)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "VEH-GBR-GEN",
+      "nation": "GBR",
+      "category": null,
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Veicoli, voce aggregata (Regno Unito)",
+      "durable": true,
+      "models": []
+    },
+    {
+      "equipment_id": "COM-GBR-RADIO",
+      "nation": "GBR",
+      "category": null,
+      "granularity": "aggregate",
+      "caliber_mm": null,
+      "name_it": "Radio, voce aggregata (Regno Unito)",
+      "durable": true,
+      "models": []
+    }
+  ],
+  "aliases": [
+    {
+      "nation": "DEU",
+      "templateKey": "fucili",
+      "equipment_id": "INW-DEU-RIFLE"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "pistole",
+      "equipment_id": "INW-DEU-PISTOL"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "mitragliatriciLeggere",
+      "equipment_id": "MG-DEU-LMG"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "mitragliatriciPesanti",
+      "equipment_id": "MG-DEU-HMG"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "mortaiLeggeri50mm",
+      "equipment_id": "ART-DEU-MOR-50"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "mortaiPesanti81mm",
+      "equipment_id": "ART-DEU-MOR-81"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "cannoniFanteria75mm",
+      "equipment_id": "ART-DEU-INFGUN-75"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "cannoniFanteriaPesanti150mm",
+      "equipment_id": "ART-DEU-INFGUN-150"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "controcarro37mm",
+      "equipment_id": "ART-DEU-AT-37"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "obiciLeggeri105mm",
+      "equipment_id": "ART-DEU-HOW-105"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "obiciPesanti150mm",
+      "equipment_id": "ART-DEU-HOW-150"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "cannoni105mm",
+      "equipment_id": "ART-DEU-GUN-105"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "antiaerei20mm",
+      "equipment_id": "ART-DEU-AA-20"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "carri",
+      "equipment_id": "TNK-DEU-TANK"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "armiLeggere",
+      "equipment_id": "INW-DEU-LIGHT"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "mitragliatrici",
+      "equipment_id": "MG-DEU-MG"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "artiglieria",
+      "equipment_id": "ART-DEU-ARTY"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "veicoli",
+      "equipment_id": "VEH-DEU-GEN"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "radio",
+      "equipment_id": "COM-DEU-RADIO"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "fucili",
+      "equipment_id": "INW-GBR-RIFLE"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "mitragliatrici",
+      "equipment_id": "MG-GBR-MG"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "mortai",
+      "equipment_id": "ART-GBR-MORTAR"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "controcarro",
+      "equipment_id": "ART-GBR-AT"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "artiglieriaCampale",
+      "equipment_id": "ART-GBR-FIELD"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "antiaerei",
+      "equipment_id": "ART-GBR-AA"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "veicoli",
+      "equipment_id": "VEH-GBR-GEN"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "radio",
+      "equipment_id": "COM-GBR-RADIO"
+    }
+  ]
+}
