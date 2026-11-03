@@ -1,7 +1,7 @@
 {
   "schema": "equipment-production-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, carri, veicoli, ecc.) NON sono producibili con questa tabella: i carri hanno già le ricette REC-TANK-*, il resto è MISSING_DATA. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data. TEMPI (decisione dell'utente 03/11/2026: la quantità per peso va bene, ma i pezzi non escono tutti in un giorno): ogni categoria ha buildDays (giorni per costruire un lotto) e releaseEveryDays (ogni quanti giorni si chiude e si consegna un lotto): es. armi leggere 14 giorni, consegna settimanale. I giorni sono scelti da Claude (DESIGN_DEFAULT), non storici. I lotti NON riducono il volume: ritardano soltanto la consegna; per cambiare il volume si cambia il peso. CAPACITÀ (richiesta dell'utente 03/11/2026: troppo ferro al giorno per i fucili): `capacityShare` = quota della capacità della fabbrica usata dalla categoria; riduce in proporzione pezzi al giorno e acciaio/componenti consumati al giorno. Fucili 0,04: una fabbrica di armi leggere (100 t/giorno) usa 4,8 t di acciaio al giorno e fa 800 fucili al giorno (circa 290.000 l'anno). Calibrato sull'ordine di grandezza di un testo fornito dall'utente il 03/11/2026 (Mauser Oberndorf ~270.000 fucili/anno nel 1936): cifra NON verificata da Claude con fonti proprie, ricerca web senza numeri utili. DESIGN_DEFAULT da tarare.",
+  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, carri, veicoli, ecc.) NON sono producibili con questa tabella: i carri hanno già le ricette REC-TANK-*, il resto è MISSING_DATA. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data. TEMPI (decisione dell'utente 03/11/2026: la quantità per peso va bene, ma i pezzi non escono tutti in un giorno): ogni categoria ha buildDays (giorni per costruire un lotto) e releaseEveryDays (ogni quanti giorni si chiude e si consegna un lotto): es. armi leggere 14 giorni, consegna settimanale. I giorni sono scelti da Claude (DESIGN_DEFAULT), non storici. I lotti NON riducono il volume: ritardano soltanto la consegna; per cambiare il volume si cambia il peso. CAPACITÀ (richiesta dell'utente 03/11/2026: troppo ferro al giorno per i fucili): `capacityShare` = quota della capacità della fabbrica usata dalla categoria; riduce in proporzione pezzi al giorno e acciaio/componenti consumati al giorno. Fucili 0,04: una fabbrica di armi leggere (100 t/giorno) usa 4,8 t di acciaio al giorno e fa 800 fucili al giorno (circa 290.000 l'anno). Calibrato sull'ordine di grandezza di un testo fornito dall'utente il 03/11/2026 (Mauser Oberndorf ~270.000 fucili/anno nel 1936): cifra NON verificata da Claude con fonti proprie, ricerca web senza numeri utili. DESIGN_DEFAULT da tarare. BILANCIAMENTO (richiesta dell'utente 03/11/2026: l'acciaio serve a carri, infrastrutture, navi e costruzioni; le armi non devono pesarci): quote scelte per avere per fabbrica circa: fucili 800/giorno (4,8 t acciaio), mitragliatrici 100 (3,6 t), lanciagranate 167 (0,6 t), mortai 15 (1,1 t), cannoni controcarro 5 (2,9 t), cannoni da campagna 3 (5 t), obici 2 (5,9 t). Con 12 acciaierie da 100 t/giorno la Germania produce 1200 t/giorno: una fabbrica per ciascuna delle 7 categorie consuma 24 t, circa il 2%. Tutti DESIGN_DEFAULT, nessun dato storico verificato.",
   "inputsPerTonne": {
     "steel": 1.2,
     "components": 0.1
@@ -34,42 +34,48 @@
       "massTonnes": 0.03,
       "group": "light_arms",
       "buildDays": 14,
-      "releaseEveryDays": 7
+      "releaseEveryDays": 7,
+      "capacityShare": 0.03
     },
     "GRENADE_LAUNCHER": {
       "factory": "FCT-WEAPONS",
       "massTonnes": 0.003,
       "group": "light_arms",
       "buildDays": 14,
-      "releaseEveryDays": 7
+      "releaseEveryDays": 7,
+      "capacityShare": 0.005
     },
     "MORTAR": {
       "factory": "FCT-ARTILLERY",
       "massTonnes": 0.06,
       "group": "mortars",
       "buildDays": 21,
-      "releaseEveryDays": 7
+      "releaseEveryDays": 7,
+      "capacityShare": 0.0125
     },
     "ANTI_TANK_GUN": {
       "factory": "FCT-ARTILLERY",
       "massTonnes": 0.5,
       "group": "basic_artillery",
       "buildDays": 28,
-      "releaseEveryDays": 14
+      "releaseEveryDays": 14,
+      "capacityShare": 0.035
     },
     "FIELD_GUN": {
       "factory": "FCT-ARTILLERY",
       "massTonnes": 1.5,
       "group": "basic_artillery",
       "buildDays": 42,
-      "releaseEveryDays": 14
+      "releaseEveryDays": 14,
+      "capacityShare": 0.06
     },
     "HOWITZER": {
       "factory": "FCT-ARTILLERY",
       "massTonnes": 2.5,
       "group": "basic_artillery",
       "buildDays": 56,
-      "releaseEveryDays": 14
+      "releaseEveryDays": 14,
+      "capacityShare": 0.07
     }
   },
   "overrides": {}
