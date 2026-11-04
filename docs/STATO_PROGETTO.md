@@ -11,7 +11,7 @@ Repo: `ilmiolocaleconme-cpu/grandstrategywwii`, branch `main`. Lingua di lavoro:
 - CI GitHub `test-and-build` (test + build app): è l'unico posto dove l'app viene compilata, nella sandbox di Claude npm/vite non si installano.
 
 ## Limiti noti (da non dimenticare)
-1. **Template 1939 di FRA e DEU mai usati in gioco**: le istanze nascono nel 1936 e non cambiano mai versione di template. Serve una regola di aggiornamento dell'equipaggiamento (decisione dell'utente). Solo l'Italia (template 1940, nessun template 1936) li usa.
+1. **Aggiornamento template delle istanze** (04/11/2026, branch `claude/aggiornamento-template-divisioni`): implementato e testato per DEU e FRA (dal 1/9/1939), regola e mappa `data/units/equipment/upgrade_map.json` **da approvare** (dettagli in `docs/DATI_UNITA.md`). Finché la PR non è in `main`, i template 1939 non hanno effetto sulle istanze già create. Resta: antiaerei 20 mm tedeschi non accreditati, nessuna mappa per FRA (template 1936 senza quantità).
 2. **Italia 1936**: si vedono solo le 4 divisioni alpine; le altre compaiono dal 1939-1942. La sede nei dati è di pace/formazione 1939-1943, non la posizione al 1936.
 3. **Non collocate/da verificare**: 8ª Po, 1ª e 2ª Squadra navale, Comando Supremo, Regia Aeronautica; U00209 "32ª corazzata Ariete" è probabile doppione di U00218 (decidere se rimuoverla).
 4. Classi mancanti in `CLASS_TO_CATEGORY` (fucile controcarro, mitra, antiaerei, cannoni di fanteria, cavalli); depositi solo nelle capitali per 7 nazioni.
@@ -21,7 +21,7 @@ Repo: `ilmiolocaleconme-cpu/grandstrategywwii`, branch `main`. Lingua di lavoro:
 - **Giappone**: aspettare una fonte del 1941 oppure usare i dati 1944 con la data corretta?
 - **Scorta iniziale di acciaio delle nazioni minori** (760 t): abbassarla?
 - **Report di produzione per stabilimento** salvato nello stato (consigliato: sì).
-- **Aggiornamento template** delle istanze esistenti (limite 1).
+- **Aggiornamento template**: approvare o cambiare la regola implementata (carry-over con mappa, voci nuove da 0, eccedenza alla scorta, antiaerei persi, quadri che seguono la versione).
 - **Partita da giugno 1940** per avere l'Italia completa (opzione 3 discussa).
 
 ## Prossime fasi

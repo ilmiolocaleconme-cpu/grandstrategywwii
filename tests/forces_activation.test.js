@@ -26,7 +26,7 @@ test('al 1936 partono Germania, Gran Bretagna e Francia (template 1936); l\'Ital
   for (const [, d] of of(s, 'FRA')) assert.equal(d.templateId, 'TPL-FRA-INF-1936');
 });
 
-test('dal 1/9/1939 le divisioni NUOVE di fanteria francese e tedesca usano il template 1939; le istanze esistenti non cambiano; l\'Italia ancora no', () => {
+test('dal 1/9/1939 le divisioni NUOVE di fanteria francese e tedesca usano il template 1939; le istanze esistenti di fanteria passano al 1939 (tests/template_upgrade.test.js), le altre non cambiano; l\'Italia ancora no', () => {
   const s0 = { ...start(), date: '1939-08-30' };
   const sys = createForcesActivationSystem(ctx);
   const beforeFra = of(s0, 'FRA'), beforeDeu = of(s0, 'DEU');
@@ -35,7 +35,13 @@ test('dal 1/9/1939 le divisioni NUOVE di fanteria francese e tedesca usano il te
   const c = advanceDays(b, 40, [sys]);
   for (const [nation, before, tpl] of [['FRA', beforeFra, 'TPL-FRA-INF-1939'], ['DEU', beforeDeu, 'TPL-DEU-INF-1939']]) {
     const after = Object.fromEntries(of(c, nation));
-    for (const [id, d] of before) assert.deepEqual(after[id], d, `${nation}: nessuna istanza esistente cambia versione di template`);
+    // Aggiornamento di template (03/11/2026): le istanze di fanteria già create passano alla versione 1939 (stessa nazione, stessa unità, stesso `since`); le altre categorie restano.
+    for (const [id, d] of before) {
+      if (units.find((u) => u.id === id).category === 'infantry') {
+        assert.equal(after[id].templateId, tpl, `${nation}: ${id} passa al template 1939`);
+        assert.equal(after[id].since, d.since);
+      } else assert.deepEqual(after[id], d, `${nation}: ${id} non di fanteria, nessuna versione più recente`);
+    }
     const nuove = Object.entries(after).filter(([id]) => !before.some(([i]) => i === id) && units.find((u) => u.id === id).category === 'infantry');
     for (const [, d] of nuove) assert.ok(d.templateId.startsWith(`TPL-${nation}-INF-`), 'template di fanteria della nazione');
     for (const [, d] of nuove.filter(([id]) => isActiveAt(units.find((u) => u.id === id), '1939-09-01') && !isActiveAt(units.find((u) => u.id === id), '1939-08-30'))) assert.equal(d.templateId, tpl);
