@@ -20,6 +20,7 @@ import { validateConditionShape } from './conditionState.js';
 import { validateCommandersShape } from './commandersState.js';
 import { validateDiplomacy } from '../rules/diplomacy.js';
 import { validateWar, validateTheaters, validateCombat, validateEntrench } from './theaterState.js';
+import { validateMobilizationShape } from './mobilizationState.js';
 
 export const STATE_SCHEMA = 8; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni; 4: comandanti; 5: inquadramento; 6: forze (istanze di divisione); 7: commercio (contratti); 8: registro delle unità create in partita (unitRegistry). Migrazioni in economyState.js, commandersState.js, orbatState.js e forcesState.js
 
@@ -103,6 +104,7 @@ export function validateState(state) {
   errors.push(...validatePortsShape(state.ports)); // opzionale: assente = porti del 1936
   errors.push(...validateWar(state.war), ...validateTheaters(state.theaters), ...validateCombat(state.combat), ...validateEntrench(state.entrench)); // opzionali: guerra, incarichi di teatro, registro battaglie, trinceramento
   errors.push(...validateDiplomacy(state.diplomacy)); // opzionale: assente = nessun rapporto
+  errors.push(...validateMobilizationShape(state.mobilization)); // opzionale: assente = nessuna legge di mobilitazione scattata
   errors.push(...validateMovementShape(state)); // opzionale: assente = unità alla dislocazione iniziale
   errors.push(...validateProvinceStates(state.provinces)); // opzionale: assente = tutte le province al default
   return errors;
