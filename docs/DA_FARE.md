@@ -48,6 +48,17 @@ Verificati oggi: 1, 2, 8, 9 (e intervalli, idempotenza dei tick, salvataggio, de
 
 - **Regola delle riserve militari (04/11/2026, approvata dall'utente, `src/rules/militaryReserve.js`):** divisioni intere (la capacità sostiene `floor`), riserva di munizioni = 30 giorni di consumo di attacco delle divisioni **attive al 1/1/1936** (100 divisioni, non 348: il conteggio precedente era errato), copertura di tutte le divisioni attive. Nelle scorte iniziali la riserva è la voce `munitions` (DEU 8.100 t, FRA 6.030 t, USA 720 t, ITA 960 t, GBR 1.200 t, JPN 3.600 t, URSS 3.600 t). **Fabbriche minime per coprire le divisioni attive: 13** (DEU 3, FRA 3, JPN 2, URSS 2, GBR 1, ITA 1, USA 1). Con le 20 originali restano scoperte Germania, Francia e Giappone. Le 33 fabbriche del 04/11/2026 si basavano sul conteggio errato: **da decidere** (13 secondo la regola, o mantenere 33).
 
+## Decisioni dell'utente del 04/11/2026 (registrate)
+- **Fabbriche di munizioni: 33 tenute**, eccezione alla regola (13). Si rivedono quando entreranno navi e aerei.
+- **Divisioni intere**: la Francia (e ogni nazione) conta divisioni intere, non in forza ridotta. Da bilanciare con il gioco completo.
+- **Riserva militare**: `src/rules/militaryReserve.js` e voce `munitions` nelle scorte iniziali. Da usare dai sistemi militari (da fare).
+- **Addestramento**: scala di esperienza da confermare dall'utente (vedi chat). Da fare.
+- **Caserme**: costo come quello dell'ospedale (30 ECV, 20 t di acciaio, 45 giorni). Personale: da definire.
+- **Costo di reclutamento**: solo materiale (il costo di unità non è ancora implementato).
+- **Pannello di reclutamento**: ordinato e organizzato, all'altezza dei giochi commerciali. Da fare.
+- **Città**: alcune città nelle province con più città non funzionano; ogni parte di città deve essere funzionale. Da riprodurre con un esempio preciso: il controllo dei dati non trova anomalie.
+- **Navi e aerei**: più avanti.
+
 ## E. Dati
 - Dislocazione 1936: 25 unità con stazione non risolvibile; 3 divisioni britanniche (3ª, 4ª, 5ª) e la 23. Infanterie-Division senza sede.
 - Dislocazione derivata (ipotesi): sostituire con dati storici per unità quando disponibili.
