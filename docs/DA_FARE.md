@@ -38,7 +38,7 @@ Verificati oggi: 1, 2, 8, 9 (e intervalli, idempotenza dei tick, salvataggio, de
 - Velocità di marcia per categoria (`MARCH_KM_PER_DAY`): valori provvisori di bilanciamento da validare.
 - Elenco delle unità nel pannello provincia; frecce degli ordini sulla mappa; segnalini delle nazioni oltre le prime due («+N») non cliccabili; mappa SVG di riserva senza segnalini.
 
-- Combattimento urbano (`src/rules/combat.js`, `resolveUrbanBattleDay`): difesa ×2,5, mezzi corazzati a 0,5–0,9 della potenza, imboscate giornaliere per gli attaccanti (1 %) e i difensori (0,4 %) anche se vincono la giornata. **Tutti i numeri sono ipotesi di bilanciamento, da approvare.** Testato nel modulo (`tests/combat_urban.test.js`), non in una partita reale; nessun effetto su città-province senza nodo di movimento.
+- Combattimento urbano (`src/rules/combat.js`, `resolveUrbanBattleDay`): difesa ×2,5, mezzi corazzati a 0,5–0,9 della potenza, imboscate giornaliere per gli attaccanti (1 %) e i difensori (0,4 %) anche se vincono la giornata. Meccanismo delle imboscate confermato dall'utente (solo il meccanismo: **i numeri restano ipotesi di bilanciamento, da approvare**). Testato nel modulo (`tests/combat_urban.test.js`), non in una partita reale; nessun effetto su città-province senza nodo di movimento.
 
 ## E. Dati
 - Dislocazione 1936: 25 unità con stazione non risolvibile; 3 divisioni britanniche (3ª, 4ª, 5ª) e la 23. Infanterie-Division senza sede.
