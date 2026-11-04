@@ -1,6 +1,7 @@
 // Forze nello stato della partita (schema 6, 29/10/2026): istanze di divisione con dotazione previsto/effettivo.
 // La logica è in src/rules/forces.js; qui: forma dello stato, migrazione 5→6, inizializzazione e pool di uomini della nazione.
-import { FORCES_SCHEMA, createForcesState, initForces, enlistedManpower } from '../rules/forces.js';
+import { FORCES_SCHEMA, createForcesState, initForces, enlistedManpower, templateFor } from '../rules/forces.js';
+import { upgradeTarget, upgradeDivision } from '../rules/templateUpgrade.js';
 import { manpowerPoolState } from '../rules/manpowerPool.js';
 import { hospitalStaff } from '../rules/hospitals.js';
 import { validateReinforcementFields } from '../rules/reinforcements.js';
@@ -23,7 +24,13 @@ export function validateForcesShape(f) {
       if (!Number.isInteger(it?.planned) || it.planned < 0) errors.push(`forze: ${id} ${k} previsto non valido`);
       else if (!Number.isInteger(it.effective) || it.effective < 0) errors.push(`forze: ${id} ${k} effettivo non valido`);
       else if (it.effective > it.planned) errors.push(`forze: ${id} ${k} effettivo ${it.effective} supera il previsto ${it.planned}`);
-      if (!['template', 'ratio'].includes(it?.source)) errors.push(`forze: ${id} ${k} con origine ${JSON.stringify(it?.source)}`);
+      if (!['template', 'ratio', 'upgrade'].includes(it?.source)) errors.push(`forze: ${id} ${k} con origine ${JSON.stringify(it?.source)}`);
+    }
+    // campo opzionale `upgrade` (aggiornamento di template, 03/11/2026): { from, on, surplus?, dropped? }
+    if (v.upgrade !== undefined) {
+      const u = v.upgrade;
+      if (u === null || typeof u !== 'object' || typeof u.from !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(u.on ?? '')) errors.push(`forze: ${id} upgrade non valido`);
+      else for (const f of ['surplus', 'dropped']) if (u[f] !== undefined && (u[f] === null || typeof u[f] !== 'object' || !Object.values(u[f]).every((q) => Number.isInteger(q) && q > 0))) errors.push(`forze: ${id} upgrade.${f} non valido`);
     }
   }
   return errors;
@@ -47,16 +54,36 @@ export function nationManpowerPool(state, nation, { units, population, baseShare
   return manpowerPoolState({ population, baseShare, modifiers, enlisted: enlistedManpower(state.forces, units, nation) + hospitalStaff(state.nations?.[nation]) });
 }
 
+const r3 = (v) => Math.round(v * 1000) / 1000;
+
 /**
- * Attivazione delle forze nel tempo (03/11/2026): ogni giorno crea le istanze delle divisioni che ora hanno un template valido e prima no (es. la fanteria francese dal 1/9/1939, l'italiana dal
- * 1/6/1940). Non tocca le istanze esistenti (initForces è idempotente): una divisione già istanziata NON cambia versione di template. Senza forze inizializzate non fa nulla.
- * ctx: { units, templates, ratio }.
+ * Attivazione delle forze nel tempo (03/11/2026): ogni giorno 1) crea le istanze delle divisioni che ora hanno un template valido e prima no (es. la fanteria francese dal 1/9/1939, l'italiana
+ * dal 1/6/1940); 2) AGGIORNA le istanze esistenti quando per la loro unità vale un template più recente (es. la fanteria tedesca e francese già create nel 1936, dal 1/9/1939): vedi
+ * src/rules/templateUpgrade.js (dotazione portata con la mappa, mai creata; eccedenza alla scorta nazionale). Quadri esclusi. Senza forze inizializzate non fa nulla.
+ * ctx: { units, templates, ratio, upgradeMap? } (senza mappa: nessuna voce di equipaggiamento si porta, solo uomini e cavalli).
  */
 export function createForcesActivationSystem(ctx) {
   const starts = ctx.templates.map((t) => t.appliesTo?.validFrom ?? t.appliesTo?.activeFrom ?? null).filter((d) => d !== null).sort();
+  const unitsById = new Map(ctx.units.map((u) => [u.id, u]));
   return function forcesActivationDay(state) {
     if (!state.forces?.initialized || starts.length === 0 || state.date < starts[0]) return state;
     const r = initForces(state.forces, { ...ctx, date: state.date });
-    return r.created === 0 ? state : { ...state, forces: r.state };
+    let forces = r.created === 0 ? state.forces : r.state;
+    let nations = state.nations;
+    let divisions = forces.divisions;
+    for (const id of Object.keys(divisions).sort()) {
+      const unit = unitsById.get(id);
+      const next = unit ? upgradeTarget(divisions[id], unit, ctx.templates, state.date, templateFor) : null;
+      if (!next) continue;
+      const up = upgradeDivision(divisions[id], next, { nation: unit.nation, map: ctx.upgradeMap, date: state.date });
+      divisions = { ...divisions, [id]: up.division };
+      if (nations?.[unit.nation]) {
+        const stocks = { ...nations[unit.nation].stocks };
+        for (const [path, qty] of Object.entries(up.surplus)) stocks[path] = r3((stocks[path] ?? 0) + qty);
+        if (Object.keys(up.surplus).length) nations = { ...nations, [unit.nation]: { ...nations[unit.nation], stocks } };
+      }
+    }
+    if (divisions !== forces.divisions) forces = { ...forces, divisions };
+    return forces === state.forces && nations === state.nations ? state : { ...state, forces, nations };
   };
 }
