@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { resourceExtraction, totalByPrefix } from '../src/data/extraction.js';
 import { loadIndustryCatalog } from '../src/data/industry.js';
 import { computeInitialStocks } from '../src/data/initialStocks.js';
+import { activeDivisions, militaryReserve, RESERVE_DAYS, MUNITIONS_ID } from '../src/rules/militaryReserve.js';
 
 // Riserva minima di acciaio uguale per tutte (29/10/2026): pavimento di cassa (200 ECV) × acciaio per ECV delle costruzioni (2,5 t/ECV) = 500 t.
 // Senza, chi non ha deficit di acciaio (produttori) o industria nei dati parte a 0 t e non può avviare nessun ordine (ogni ordine richiede acciaio).
@@ -19,6 +20,13 @@ const ext = Object.fromEntries(RAW.map((r) => [r, resourceExtraction(r, ctx)]));
 const supply = {};
 for (const id of Object.keys(industry.nations)) supply[id] = Object.fromEntries(RAW.map((r) => [r, totalByPrefix(ext[r], id)]));
 const stocks = computeInitialStocks({ industry, recipes: j('industry/recipes.json'), factoriesById: cat.byId, supply, days: DAYS, utilisation: UTILISATION });
+// Riserva militare di munizioni (regola del 04/11/2026): 30 giorni del consumo di attacco delle divisioni attive al 1/1/1936.
+// Il conteggio parte dal catalogo (units.json), non dall'industria: la copertura in divisioni intere è in src/rules/militaryReserve.js.
+const unitsFile = j('units/units.json');
+const reserveDivisions = activeDivisions(Array.isArray(unitsFile) ? unitsFile : unitsFile.units, j('military/ammo_consumption.json'));
+for (const [nation, row] of Object.entries(militaryReserve({ divisions: reserveDivisions, factories: {}, days: RESERVE_DAYS }))) {
+  if (row.reserve > 0) stocks[nation] = { ...(stocks[nation] ?? {}), [MUNITIONS_ID]: row.reserve };
+}
 const cashFloor = j('industry/initial_cash.json').floor;
 const steelPerEcv = j('economy/economy.json').construction.steelPerEcv;
 const STEEL_FLOOR = Math.round(cashFloor * steelPerEcv);

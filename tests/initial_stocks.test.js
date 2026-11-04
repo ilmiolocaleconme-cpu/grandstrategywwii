@@ -9,7 +9,10 @@ import { computeInitialStocks, validateInitialStocks } from '../src/data/initial
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
 const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
-const file = json('industry/initial_stocks.json');
+const fileFull = json('industry/initial_stocks.json');
+// la riserva militare di munizioni (regola del 04/11/2026) ha il suo test in military_reserve.test.js: qui si confronta solo la regola dell'industria
+const withoutReserve = (stocks) => Object.fromEntries(Object.entries(stocks).map(([n, v]) => [n, Object.fromEntries(Object.entries(v).filter(([r]) => r !== 'munitions'))]).filter(([, v]) => Object.keys(v).length > 0));
+const file = { ...fileFull, stocks: withoutReserve(fileFull.stocks) };
 const industry = json('industry/initial_industry.json');
 const recipes = json('industry/recipes.json');
 const ctx = { production: json('resources/production_1936.json'), factors: json('resources/extraction_factors.json'), scaleFile: json('resources/extraction_scale.json'), pointsByProvince: json('resources/resource_points.json').byProvince, extra: json('resources/resource_locations_extra.json') };
