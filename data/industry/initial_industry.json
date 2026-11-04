@@ -228,7 +228,7 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 1
+          "count": 2
         },
         {
           "factory": "FCT-POWER",
@@ -356,7 +356,7 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 1
+          "count": 2
         },
         {
           "factory": "FCT-POWER",
@@ -713,7 +713,7 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 2
+          "count": 6
         },
         {
           "factory": "FCT-POWER",
@@ -769,7 +769,7 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 1
+          "count": 2
         }
       ]
     },

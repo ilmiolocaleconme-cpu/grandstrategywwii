@@ -57,9 +57,8 @@ test('5 mesi senza commercio: l\'acciaio tedesco resta a pieno regime per 150 gi
   const day = (n) => sim(n);
   const steel = (s) => s.nations.DEU.stocks.steel;
   const d100 = day(100); const d101 = advanceDay(d100, [system]);
-  // variazione netta dello stock: 12 acciaierie × 100 t = 1.200 t prodotte, meno 324 t usate da macchinari, componenti, motori e munizioni
-  // (dal 04/11/2026 la Germania ha 1 fabbrica di munizioni, non 2: 60 t di acciaio in meno al giorno)
-  assert.equal(Math.round(steel(d101) - steel(d100)), 876, 'acciaierie a pieno regime');
+  // variazione netta dello stock: 12 acciaierie × 100 t = 1.200 t prodotte, meno 384 t usate da macchinari, componenti, motori e munizioni
+  assert.equal(Math.round(steel(d101) - steel(d100)), 816, 'acciaierie a pieno regime');
   const d160 = day(160); const d161 = advanceDay(d160, [system]);
   assert.ok(steel(d161) - steel(d160) < 816, 'dopo il giorno 150 il minerale importato è finito: la produzione cala');
   assert.ok(d160.nations.DEU.stocks.iron_ore < 1, 'minerale esaurito');

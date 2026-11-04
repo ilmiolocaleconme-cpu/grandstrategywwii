@@ -27,12 +27,12 @@ test('in difesa si consuma meno che in attacco, per ogni categoria che ha entram
   for (const c of json('military/ammo_consumption.json').categories) if (typeof c.attack === 'number' && typeof c.defense === 'number') assert.ok(c.defense < c.attack, c.id);
 });
 
-test('una fabbrica del Pack regge 12 divisioni di fanteria in attacco; la Germania (1 fabbrica dal 04/11/2026) 12; le 13 iniziali 162', () => {
+test('una fabbrica del Pack regge 12 divisioni di fanteria in attacco; la Germania (2 fabbriche) 25; le 20 iniziali 250', () => {
   const f = json('military/ammo_consumption.json');
   const cap = catalog().byId.get('FCT-MUNITIONS').base_capacity_per_day;
   assert.equal(Math.floor(ammoUnitsSupported(f, 'infantry_foot', 'attack', cap)), 12);
   assert.equal(Math.floor(ammoUnitsSupported(f, 'infantry_foot', 'attack', 2 * cap)), 25);
-  assert.equal(Math.floor(ammoUnitsSupported(f, 'infantry_foot', 'attack', 13 * cap)), 162);
+  assert.equal(Math.floor(ammoUnitsSupported(f, 'infantry_foot', 'attack', 20 * cap)), 250);
 });
 
 test('addestramento: 2 t/giorno per divisione, un quarto della fanteria in attacco', () => {
