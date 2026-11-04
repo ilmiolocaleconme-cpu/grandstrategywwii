@@ -44,6 +44,7 @@ import { validateTemplate } from '../src/data/templates.js';
 import { validateCadreTemplates } from '../src/data/cadres.js';
 import { validateEquipmentCatalog, mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
 import { validateUpgradeMap } from '../src/rules/templateUpgrade.js';
+import { validateMobilizationLaws } from '../src/game/mobilizationState.js';
 import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipmentProduction.js';
 import { templatesBuilt } from './build-templates.js';
 import { validateDeployment } from '../src/data/deployment.js';
@@ -239,6 +240,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     }
     for (const f of ['carri_tedeschi_1934_1945.json', 'carri_cecoslovacchi_1935_1938.json']) errors.push(...validateTankModels(JSON.parse(await text(`units/models/${f}`))));
     errors.push(...validateReadiness(JSON.parse(await text('units/readiness.json'))));
+    errors.push(...validateMobilizationLaws(JSON.parse(await text('units/mobilization_laws.json')), { nationIds: catalog.nations.map((n) => n.id) }));
     // Template di divisione (previsto/effettivo, basi e fonti)
     for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {
       errors.push(...validateTemplate(JSON.parse(await text(`units/templates/${f}`))).map((e) => `template ${f}: ${e}`));
