@@ -4,6 +4,12 @@
   "note": "Consumo di munizioni per CATEGORIA di unità, in tonnellate del prodotto `munitions` al giorno per un'unità standard (divisione, stormo, nave, gruppo antiaereo), per fase: attacco o difesa. Segnaposto di bilanciamento proposto il 28/10/2026, NON dato storico, da approvare e da riscalare quando verrà importato il catalogo delle unità. Taratura: una fabbrica di munizioni (100 t/giorno) regge circa 12 divisioni di fanteria in attacco continuo; le 20 fabbriche iniziali (2000 t/giorno) reggono circa 250 divisioni in attacco continuo, quindi la capacità iniziale copre più o meno tutti gli eserciti in combattimento insieme. Per una nazione sola il rapporto è più stretto: la Germania (2 fabbriche, 200 t/giorno) regge circa 25 divisioni in attacco continuo.",
   "roundsPerTonne": 40000,
   "roundsNote": "Un «colpo» è l'unità di conto della ricetta del 28/10/2026: 1 t di munizioni = 40.000 colpi, cioè circa 25 g a colpo (1 t di rame = 120.000 colpi). Per artiglieria, bombe e proiettili navali è una massa equivalente, non una cartuccia singola.",
+  "training": {
+    "tonnesPerDay": 2,
+    "quality": "BALANCE_APPROVED",
+    "basis": "Approvato dall'utente (04/11/2026): consumo di una divisione in addestramento, t/giorno per tutta la durata. Proposta di 100 t/giorno scartata: una fabbrica intera per divisione. 2 t/giorno = un quarto della fanteria in attacco.",
+    "note": "Consumo fisso (non dipende dalla fase): un'unità in addestramento consuma queste tonnellate ogni giorno."
+  },
   "idleFactor": 0,
   "idleNote": "Un'unità che non combatte (ferma, in marcia, in missione senza fuoco) non consuma munizioni.",
   "categories": [

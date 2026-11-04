@@ -35,6 +35,12 @@ test('una fabbrica del Pack regge 12 divisioni di fanteria in attacco; la German
   assert.equal(Math.floor(ammoUnitsSupported(f, 'infantry_foot', 'attack', 20 * cap)), 250);
 });
 
+test('addestramento: 2 t/giorno per divisione, un quarto della fanteria in attacco', () => {
+  const f = json('military/ammo_consumption.json');
+  assert.equal(f.training.tonnesPerDay, 2);
+  assert.ok(f.training.tonnesPerDay * 4 <= f.categories.find((c) => c.id === 'infantry_foot').attack + 1e-9);
+});
+
 test('coerenza con la ricetta: 1 t di rame = 120.000 colpi, quindi il rame per t di munizioni × 120.000 ≈ colpi per t (entro il 2%)', () => {
   const f = json('military/ammo_consumption.json');
   const rec = json('industry/recipes.json').recipes.find((r) => r.id === 'REC-MUNITIONS-001');

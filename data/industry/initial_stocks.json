@@ -16,18 +16,14 @@
     },
     "BEL": {
       "iron_ore": 48000,
-      "sulphur": 6750,
-      "copper": 4950,
-      "tin": 300,
-      "steel": 6000,
+      "sulphur": 6000,
       "aluminium": 5100,
       "processed_rubber": 1200
     },
     "CAN": {
       "iron_ore": 24000,
-      "sulphur": 6750,
-      "tin": 300,
-      "steel": 21000,
+      "sulphur": 6000,
+      "steel": 12000,
       "aluminium": 5100,
       "processed_rubber": 1200
     },
@@ -38,11 +34,9 @@
       "coal": 21000
     },
     "CZE": {
-      "coal": 30000,
-      "sulphur": 6750,
-      "copper": 4950,
-      "tin": 285,
-      "steel": 23781,
+      "coal": 21000,
+      "sulphur": 6000,
+      "steel": 14781,
       "aluminium": 5100,
       "processed_rubber": 1200
     },
@@ -50,9 +44,9 @@
       "iron_ore": 227010,
       "bauxite": 84000,
       "rubber": 16200,
-      "sulphur": 7500,
-      "copper": 9900,
-      "tin": 585
+      "sulphur": 22500,
+      "copper": 29700,
+      "tin": 1785
     },
     "ESP": {
       "coal": 21000
@@ -60,18 +54,19 @@
     "FRA": {
       "oil": 16500,
       "rubber": 16200,
-      "sulphur": 6750,
-      "copper": 4950,
-      "tin": 300
+      "sulphur": 15000,
+      "copper": 19800,
+      "tin": 1200,
+      "steel": 3000
     },
     "GBR": {
       "iron_ore": 70020,
       "oil": 16500,
       "bauxite": 42000,
       "rubber": 16200,
-      "sulphur": 7500,
-      "copper": 9900,
-      "tin": 600
+      "sulphur": 14250,
+      "copper": 14850,
+      "tin": 900
     },
     "HUN": {
       "coal": 9000
@@ -82,9 +77,10 @@
     "ITA": {
       "iron_ore": 24000,
       "coal": 6195,
-      "copper": 4950,
-      "tin": 300,
-      "steel": 21000,
+      "sulphur": 3585,
+      "copper": 14850,
+      "tin": 900,
+      "steel": 39000,
       "processed_rubber": 1200
     },
     "JPN": {
@@ -92,8 +88,10 @@
       "oil": 12045,
       "bauxite": 42000,
       "rubber": 16200,
-      "sulphur": 1260,
-      "tin": 300
+      "sulphur": 16260,
+      "copper": 19320,
+      "tin": 1500,
+      "steel": 12000
     },
     "MAL": {
       "coal": 9000
@@ -103,10 +101,8 @@
     },
     "POL": {
       "iron_ore": 12030,
-      "sulphur": 6750,
-      "copper": 4950,
-      "tin": 300,
-      "steel": 21000,
+      "sulphur": 6000,
+      "steel": 12000,
       "aluminium": 5100,
       "processed_rubber": 1200
     },
@@ -118,10 +114,8 @@
     },
     "SWE": {
       "coal": 21000,
-      "sulphur": 6750,
-      "copper": 4950,
-      "tin": 300,
-      "steel": 21000,
+      "sulphur": 6000,
+      "steel": 12000,
       "aluminium": 5100,
       "processed_rubber": 1200
     },
@@ -132,9 +126,9 @@
     },
     "USSR": {
       "rubber": 16200,
-      "sulphur": 7500,
-      "copper": 4335,
-      "tin": 600
+      "sulphur": 22500,
+      "copper": 24135,
+      "tin": 1800
     },
     "VEN": {
       "coal": 9000

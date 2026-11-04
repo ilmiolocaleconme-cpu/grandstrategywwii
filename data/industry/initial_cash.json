@@ -8,29 +8,29 @@
   "note": "Cassa iniziale = 30 giorni di entrata (difficoltà Media: miniere nazionali + impianti a pieno regime − ingressi + quota province + capitale) + 200 ECV uguali per tutte (decisioni del 28/10/2026). Le città grandi non sono contate. A runtime la cassa è moltiplicata per stockMul della difficoltà (1,5 · 1 · 0,7). Stima di progetto, non un dato storico.",
   "nations": {
     "AFG": {
-      "incomePerDay": 8.59,
+      "incomePerDay": 7.85,
       "provinces": 34,
-      "cash": 457.7
+      "cash": 435.5
     },
     "ALB": {
-      "incomePerDay": 5.39,
+      "incomePerDay": 4.65,
       "provinces": 18,
-      "cash": 361.7
+      "cash": 339.5
     },
     "AND": {
-      "incomePerDay": 1.79,
+      "incomePerDay": 1.05,
       "provinces": 0,
-      "cash": 253.7
+      "cash": 231.5
     },
     "ARG": {
-      "incomePerDay": 7.87,
+      "incomePerDay": 7.13,
       "provinces": 23,
-      "cash": 436.1
+      "cash": 413.9
     },
     "AUS": {
-      "incomePerDay": 5.77,
+      "incomePerDay": 5.03,
       "provinces": 15,
-      "cash": 373.1
+      "cash": 350.9
     },
     "AUT": {
       "incomePerDay": 8.3,
@@ -38,34 +38,34 @@
       "cash": 449
     },
     "BEL": {
-      "incomePerDay": 20.66,
+      "incomePerDay": 19.28,
       "provinces": 24,
-      "cash": 819.8
+      "cash": 778.4
     },
     "BGR": {
-      "incomePerDay": 8.9,
+      "incomePerDay": 8.15,
       "provinces": 34,
-      "cash": 467
+      "cash": 444.5
     },
     "BOL": {
-      "incomePerDay": 4.23,
+      "incomePerDay": 3.49,
       "provinces": 9,
-      "cash": 326.9
+      "cash": 304.7
     },
     "BRA": {
-      "incomePerDay": 8.12,
+      "incomePerDay": 7.38,
       "provinces": 28,
-      "cash": 443.6
+      "cash": 421.4
     },
     "CAN": {
-      "incomePerDay": 18.8,
+      "incomePerDay": 17.42,
       "provinces": 12,
-      "cash": 764
+      "cash": 722.6
     },
     "CHE": {
-      "incomePerDay": 7.03,
+      "incomePerDay": 6.29,
       "provinces": 26,
-      "cash": 410.9
+      "cash": 388.7
     },
     "CHL": {
       "incomePerDay": 9.58,
@@ -73,54 +73,54 @@
       "cash": 487.4
     },
     "CHN": {
-      "incomePerDay": 9.34,
+      "incomePerDay": 8.59,
       "provinces": 28,
-      "cash": 480.2
+      "cash": 457.7
     },
     "COL": {
-      "incomePerDay": 9.05,
+      "incomePerDay": 8.31,
       "provinces": 32,
-      "cash": 471.5
+      "cash": 449.3
     },
     "CRI": {
-      "incomePerDay": 3.39,
+      "incomePerDay": 2.65,
       "provinces": 8,
-      "cash": 301.7
+      "cash": 279.5
     },
     "CUB": {
-      "incomePerDay": 5.81,
+      "incomePerDay": 5.06,
       "provinces": 16,
-      "cash": 374.3
+      "cash": 351.8
     },
     "CZE": {
-      "incomePerDay": 15.39,
+      "incomePerDay": 13.22,
       "provinces": 5,
-      "cash": 661.7
+      "cash": 596.6
     },
     "DEU": {
-      "incomePerDay": 64.18,
+      "incomePerDay": 75.16,
       "provinces": 52,
-      "cash": 2125.4
+      "cash": 2454.8
     },
     "DNK": {
-      "incomePerDay": 5.66,
+      "incomePerDay": 4.92,
       "provinces": 19,
-      "cash": 369.8
+      "cash": 347.6
     },
     "DOM": {
-      "incomePerDay": 7.99,
+      "incomePerDay": 7.25,
       "provinces": 31,
-      "cash": 439.7
+      "cash": 417.5
     },
     "ECU": {
-      "incomePerDay": 6.77,
+      "incomePerDay": 6.02,
       "provinces": 24,
-      "cash": 403.1
+      "cash": 380.6
     },
     "EGY": {
-      "incomePerDay": 9.77,
+      "incomePerDay": 9.02,
       "provinces": 38,
-      "cash": 493.1
+      "cash": 470.6
     },
     "ESP": {
       "incomePerDay": 21.75,
@@ -128,49 +128,49 @@
       "cash": 852.5
     },
     "EST": {
-      "incomePerDay": 4.23,
+      "incomePerDay": 3.49,
       "provinces": 12,
-      "cash": 326.9
+      "cash": 304.7
     },
     "ETH": {
-      "incomePerDay": 3.79,
+      "incomePerDay": 3.05,
       "provinces": 10,
-      "cash": 313.7
+      "cash": 291.5
     },
     "FIN": {
-      "incomePerDay": 7.64,
+      "incomePerDay": 6.89,
       "provinces": 29,
-      "cash": 429.2
+      "cash": 406.7
     },
     "FRA": {
-      "incomePerDay": 141.58,
+      "incomePerDay": 148.6,
       "provinces": 421,
-      "cash": 4447.4
+      "cash": 4658
     },
     "GBR": {
-      "incomePerDay": 167.84,
+      "incomePerDay": 171.8,
       "provinces": 390,
-      "cash": 5235.2
+      "cash": 5354
     },
     "GRC": {
-      "incomePerDay": 11.46,
+      "incomePerDay": 10.72,
       "provinces": 39,
-      "cash": 543.8
+      "cash": 521.6
     },
     "GTM": {
-      "incomePerDay": 6.19,
+      "incomePerDay": 5.45,
       "provinces": 22,
-      "cash": 385.7
+      "cash": 363.5
     },
     "HND": {
-      "incomePerDay": 5.19,
+      "incomePerDay": 4.45,
       "provinces": 17,
-      "cash": 355.7
+      "cash": 333.5
     },
     "HTI": {
-      "incomePerDay": 3.79,
+      "incomePerDay": 3.05,
       "provinces": 10,
-      "cash": 313.7
+      "cash": 291.5
     },
     "HUN": {
       "incomePerDay": 14,
@@ -178,9 +178,9 @@
       "cash": 620
     },
     "IRL": {
-      "incomePerDay": 3.43,
+      "incomePerDay": 2.69,
       "provinces": 8,
-      "cash": 302.9
+      "cash": 280.7
     },
     "IRN": {
       "incomePerDay": 11.27,
@@ -188,59 +188,59 @@
       "cash": 538.1
     },
     "ISL": {
-      "incomePerDay": 1.99,
+      "incomePerDay": 1.25,
       "provinces": 1,
-      "cash": 259.7
+      "cash": 237.5
     },
     "ITA": {
-      "incomePerDay": 40.19,
+      "incomePerDay": 45.83,
       "provinces": 110,
-      "cash": 1405.7
+      "cash": 1574.9
     },
     "JPN": {
-      "incomePerDay": 43.32,
+      "incomePerDay": 54.6,
       "provinces": 77,
-      "cash": 1499.6
+      "cash": 1838
     },
     "LBR": {
-      "incomePerDay": 4.99,
-      "provinces": 15,
-      "cash": 349.7
-    },
-    "LIE": {
-      "incomePerDay": 1.99,
-      "provinces": 1,
-      "cash": 259.7
-    },
-    "LTU": {
       "incomePerDay": 4.24,
-      "provinces": 12,
+      "provinces": 15,
       "cash": 327.2
     },
+    "LIE": {
+      "incomePerDay": 1.25,
+      "provinces": 1,
+      "cash": 237.5
+    },
+    "LTU": {
+      "incomePerDay": 3.49,
+      "provinces": 12,
+      "cash": 304.7
+    },
     "LUX": {
-      "incomePerDay": 2.39,
+      "incomePerDay": 1.65,
       "provinces": 3,
-      "cash": 271.7
+      "cash": 249.5
     },
     "LVA": {
-      "incomePerDay": 4.04,
+      "incomePerDay": 3.29,
       "provinces": 11,
-      "cash": 321.2
+      "cash": 298.7
     },
     "MAN": {
-      "incomePerDay": 3.59,
+      "incomePerDay": 2.84,
       "provinces": 3,
-      "cash": 307.7
+      "cash": 285.2
     },
     "MCO": {
-      "incomePerDay": 1.79,
+      "incomePerDay": 1.05,
       "provinces": 0,
-      "cash": 253.7
+      "cash": 231.5
     },
     "MENG": {
-      "incomePerDay": 1.79,
+      "incomePerDay": 1.05,
       "provinces": 0,
-      "cash": 253.7
+      "cash": 231.5
     },
     "MEX": {
       "incomePerDay": 15.33,
@@ -248,14 +248,14 @@
       "cash": 659.9
     },
     "MNG": {
-      "incomePerDay": 6.19,
+      "incomePerDay": 5.45,
       "provinces": 22,
-      "cash": 385.7
+      "cash": 363.5
     },
     "NIC": {
-      "incomePerDay": 5.19,
+      "incomePerDay": 4.45,
       "provinces": 17,
-      "cash": 355.7
+      "cash": 333.5
     },
     "NLD": {
       "incomePerDay": 57.36,
@@ -263,39 +263,39 @@
       "cash": 1920.8
     },
     "NOR": {
-      "incomePerDay": 13.81,
+      "incomePerDay": 13.06,
       "provinces": 56,
-      "cash": 614.3
+      "cash": 591.8
     },
     "NZL": {
-      "incomePerDay": 2.99,
+      "incomePerDay": 2.25,
       "provinces": 6,
-      "cash": 289.7
+      "cash": 267.5
     },
     "PAN": {
-      "incomePerDay": 4.19,
+      "incomePerDay": 3.45,
       "provinces": 12,
-      "cash": 325.7
+      "cash": 303.5
     },
     "PER": {
-      "incomePerDay": 7.3,
+      "incomePerDay": 6.55,
       "provinces": 25,
-      "cash": 419
+      "cash": 396.5
     },
     "POL": {
-      "incomePerDay": 18.22,
+      "incomePerDay": 16.84,
       "provinces": 20,
-      "cash": 746.6
+      "cash": 705.2
     },
     "PRT": {
-      "incomePerDay": 15.52,
+      "incomePerDay": 14.77,
       "provinces": 68,
-      "cash": 665.6
+      "cash": 643.1
     },
     "PRY": {
-      "incomePerDay": 5.19,
+      "incomePerDay": 4.45,
       "provinces": 17,
-      "cash": 355.7
+      "cash": 333.5
     },
     "ROM": {
       "incomePerDay": 17.04,
@@ -303,39 +303,39 @@
       "cash": 711.2
     },
     "SAU": {
-      "incomePerDay": 4.9,
+      "incomePerDay": 4.15,
       "provinces": 13,
-      "cash": 347
+      "cash": 324.5
     },
     "SIA": {
-      "incomePerDay": 3.32,
+      "incomePerDay": 2.58,
       "provinces": 6,
-      "cash": 299.6
+      "cash": 277.4
     },
     "SLV": {
-      "incomePerDay": 4.59,
+      "incomePerDay": 3.85,
       "provinces": 14,
-      "cash": 337.7
+      "cash": 315.5
     },
     "SMR": {
-      "incomePerDay": 1.79,
+      "incomePerDay": 1.05,
       "provinces": 0,
-      "cash": 253.7
+      "cash": 231.5
     },
     "SWE": {
-      "incomePerDay": 21.35,
+      "incomePerDay": 19.97,
       "provinces": 27,
-      "cash": 840.5
+      "cash": 799.1
     },
     "TUR": {
-      "incomePerDay": 22.52,
+      "incomePerDay": 21.78,
       "provinces": 98,
-      "cash": 875.6
+      "cash": 853.4
     },
     "URY": {
-      "incomePerDay": 5.59,
+      "incomePerDay": 4.85,
       "provinces": 19,
-      "cash": 367.7
+      "cash": 345.5
     },
     "USA": {
       "incomePerDay": 247.5,
@@ -343,14 +343,14 @@
       "cash": 7625
     },
     "USSR": {
-      "incomePerDay": 136.14,
+      "incomePerDay": 147.42,
       "provinces": 334,
-      "cash": 4284.2
+      "cash": 4622.6
     },
     "VAT": {
-      "incomePerDay": 1.79,
+      "incomePerDay": 1.05,
       "provinces": 0,
-      "cash": 253.7
+      "cash": 231.5
     },
     "VEN": {
       "incomePerDay": 18.23,
@@ -358,9 +358,9 @@
       "cash": 746.9
     },
     "YEM": {
-      "incomePerDay": 5.79,
+      "incomePerDay": 5.05,
       "provinces": 20,
-      "cash": 373.7
+      "cash": 351.5
     },
     "YUG": {
       "incomePerDay": 16.14,
@@ -368,9 +368,9 @@
       "cash": 684.2
     },
     "ZAF": {
-      "incomePerDay": 4.51,
+      "incomePerDay": 3.77,
       "provinces": 9,
-      "cash": 335.3
+      "cash": 313.1
     }
   }
 }

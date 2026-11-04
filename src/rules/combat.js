@@ -17,8 +17,9 @@ export const RETREAT_RATIO = 3;
 export const categoryPower = (category) => CATEGORY_POWER[category] ?? 0;
 
 /** Potenza di una divisione: { category, effective, bonus? }. `bonus` (>= 0, es. trinceramento) moltiplica per (1 + bonus). I comandi valgono 0. */
-export function divisionPower({ category, effective, bonus = 0 }) {
-  return Math.max(0, effective) * categoryPower(category) * (1 + Math.max(0, bonus));
+// `factor` (facoltativo) sostituisce il fattore della categoria: serve al combattimento urbano.
+export function divisionPower({ category, effective, bonus = 0, factor }) {
+  return Math.max(0, effective) * (factor ?? categoryPower(category)) * (1 + Math.max(0, bonus));
 }
 
 /**
@@ -43,9 +44,54 @@ export function resolveBattleDay({ attackers, defenders, defenseMultiplier = 1 }
   const defenderLoss = dPow > 0 ? loss(defenders, rateD) : Object.fromEntries(defenders.map((u) => [u.id, 0]));
   const left = (units, lossMap) => ({ effective: units.reduce((s, u) => s + u.effective - lossMap[u.id], 0), planned: units.reduce((s, u) => s + u.planned, 0) });
   const a = left(attackers, attackerLoss); const d = left(defenders, defenderLoss);
-  const weak = (s, ownPow, otherPow) => s.planned > 0 && (s.effective / s.planned < RETREAT_BELOW || (ownPow > 0 && otherPow / ownPow > RETREAT_RATIO) || (ownPow === 0 && otherPow > 0));
   return {
     attackerLoss, defenderLoss, attackerPower: aPow, defenderPower: dPow,
-    attackerRetreats: weak(a, aPow, dPow), defenderRetreats: weak(d, dPow, aPow),
+    attackerRetreats: shouldRetreat(a, aPow, dPow), defenderRetreats: shouldRetreat(d, dPow, aPow),
+  };
+}
+
+/** Una parte si ritira? s: { effective, planned }; ownPow / otherPow: potenze della parte e dell'avversario. */
+export function shouldRetreat(s, ownPow, otherPow) {
+  return s.planned > 0 && (s.effective / s.planned < RETREAT_BELOW || (ownPow > 0 && otherPow / ownPow > RETREAT_RATIO) || (ownPow === 0 && otherPow > 0));
+}
+
+// ---- COMBATTIMENTO URBANO (zona urbana, nodo della rete di movimento) ----
+// Brutale e insidioso. TUTTI i numeri sono IPOTESI DI BILANCIAMENTO di Claude, non dati storici, da approvare:
+//  - in città la difesa vale URBAN_DEFENSE volte (cecchini, barricate, edifici; sopra il moltiplicatore di terreno/trincee);
+//  - i mezzi corazzati perdono quasi metà della potenza (strade strette, macerie): URBAN_FACTOR sostituisce CATEGORY_POWER;
+//  - AGGUATI: ogni giorno gli attaccanti perdono una quota di uomini anche quando vincono la giornata (URBAN_AMBUSH_ATTACKER),
+//    i difensori una quota minore (URBAN_AMBUSH_DEFENDER); così una città si logora anche quando sembra conquistata;
+//  - il tutto si somma allo scontro normale, con gli stessi limiti (mai oltre gli uomini effettivi).
+export const URBAN_DEFENSE = 2.5;
+export const URBAN_FACTOR = Object.freeze({ infantry: 1, mountain: 0.8, airborne: 0.9, cavalry: 0.4, motorized: 0.7, mechanized: 0.6, armored: 0.9 });
+export const URBAN_AMBUSH_ATTACKER = 0.01;
+export const URBAN_AMBUSH_DEFENDER = 0.004;
+
+export const urbanFactor = (category) => URBAN_FACTOR[category] ?? categoryPower(category);
+
+/** Quota fissa di uomini persi in un'imboscata: almeno 1 se c'è qualcuno, mai oltre gli effettivi. */
+function ambushLoss(effective, rate) {
+  return effective > 0 ? Math.min(effective, Math.max(1, Math.round(effective * rate))) : 0;
+}
+
+/** Un giorno di combattimento in città. Stessa forma di resolveBattleDay, più le imboscate; la ritirata è ricalcolata dopo le perdite. */
+export function resolveUrbanBattleDay({ attackers, defenders, defenseMultiplier = 1 }) {
+  const urban = (units) => units.map((u) => ({ ...u, factor: urbanFactor(u.category) }));
+  const r = resolveBattleDay({ attackers: urban(attackers), defenders: urban(defenders), defenseMultiplier: defenseMultiplier * URBAN_DEFENSE });
+  const addAmbush = (units, lossMap, rate) => {
+    const out = { ...lossMap };
+    for (const u of units) {
+      const left = u.effective - (lossMap[u.id] ?? 0);
+      out[u.id] = (lossMap[u.id] ?? 0) + ambushLoss(left, rate);
+    }
+    return out;
+  };
+  const attackerLoss = addAmbush(attackers, r.attackerLoss, URBAN_AMBUSH_ATTACKER);
+  const defenderLoss = addAmbush(defenders, r.defenderLoss, URBAN_AMBUSH_DEFENDER);
+  const after = (units, lossMap) => ({ effective: units.reduce((s, u) => s + u.effective - lossMap[u.id], 0), planned: units.reduce((s, u) => s + u.planned, 0) });
+  const a = after(attackers, attackerLoss); const d = after(defenders, defenderLoss);
+  return {
+    attackerLoss, defenderLoss, attackerPower: r.attackerPower, defenderPower: r.defenderPower,
+    attackerRetreats: shouldRetreat(a, r.attackerPower, r.defenderPower), defenderRetreats: shouldRetreat(d, r.defenderPower, r.attackerPower),
   };
 }

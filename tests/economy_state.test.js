@@ -109,9 +109,12 @@ test('integrazione: produceDay legge gli impianti e le scorte iniziali della Ger
 test('riserva minima di acciaio (29/10/2026): ogni nazione parte con almeno 500 t, chi ha già di più non cambia', () => {
   assert.deepEqual(stocks.floor, { steel: 500 });
   for (const [id, n] of Object.entries(nations)) assert.ok((n.stocks.steel ?? 0) >= 500, `${id}: acciaio ${n.stocks.steel ?? 0}`);
-  assert.equal(nations.ITA.stocks.steel, 21000, 'Italia: lo stock calcolato resta');
-  assert.equal(nations.BEL.stocks.steel, 6000);
-  assert.equal(nations.FRA.stocks.steel, 500, 'Francia: nessun deficit di acciaio, riceve solo la riserva');
+  // dal 04/11/2026 l'Italia ha 3 fabbriche di munizioni (60 t di acciaio al giorno ciascuna): il deficit cresce, e con lui lo stock di 150 giorni
+  assert.equal(nations.ITA.stocks.steel, 39000, 'Italia: stock calcolato con le fabbriche di munizioni');
+  // dal 04/11/2026 il Belgio non ha fabbriche di munizioni: la riserva minima di 500 t (nessun deficit di acciaio)
+  assert.equal(nations.BEL.stocks.steel, 500);
+  // dal 04/11/2026 la Francia ha 4 fabbriche di munizioni (240 t di acciaio al giorno): deficit, stock di 150 giorni = 3000 t
+  assert.equal(nations.FRA.stocks.steel, 3000, 'Francia: deficit di acciaio dalle fabbriche di munizioni');
   assert.equal(nations.BRA.stocks.steel, 500 + 760, 'Brasile (fascia C): riserva 500 t + scorta dell\'artiglieria minima 760 t');
 });
 

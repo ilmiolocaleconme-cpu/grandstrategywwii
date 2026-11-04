@@ -6,8 +6,12 @@ import { provinceStateOf } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
 
 /** Controllore effettivo di una provincia madre: quello della provincia se occupata, altrimenti quello della nazione proprietaria. */
+// Una zona urbana senza controllo proprio segue la sua madre (se occupata, la città è occupata con lei).
 export function provinceController(state, net, id) {
-  return provinceStateOf(state, id).controller ?? controllerOf(net.owner(id), state.control);
+  const own = provinceStateOf(state, id).controller;
+  if (own) return own;
+  const mother = net.parentOf?.(id);
+  return mother ? provinceController(state, net, mother) : controllerOf(net.owner(id), state.control);
 }
 
 /** Può entrare nella provincia: è sua, controllata da una nazione in guerra con essa o da chi le ha concesso accesso (alleati inclusi). */

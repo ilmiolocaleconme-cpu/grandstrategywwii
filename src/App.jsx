@@ -286,7 +286,7 @@ const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.ind
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 // Ospedali (data/medical/hospital_care.json): il personale esce dal pool reclutabile; la regola delle retrovie (rules/hospitals.js isRear) non è applicata finché non esiste lo stato di guerra.
 const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsFile.units, population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available;
-export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
+export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I nemici dell'IA vengono dalla diplomazia (guerra o rapporto <= soglia), giocatore compreso.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
@@ -427,7 +427,7 @@ export default function App() {
     }
     if (id != null && armySel && moveMode && game && armySel.nation === game.player && armyChecked.size > 0 && moveNet) {
       const item = mapItems.find((i) => i.id === id);
-      const to = item ? (item.props.parentProvince ?? item.props.id) : id;
+      const to = moveNet.has(id) ? id : (item ? (item.props.parentProvince ?? item.props.id) : id); // una città è una destinazione a sé
       const intent = moveIntent(game, moveNet, to);
       if (intent.kind === 'attack') { // «Muovi» verso una provincia nemica è un attacco: le unità che possono combattere partono con un incarico
         const ids = [...armyChecked].filter((uid) => { const u = UNITS_BY_ID.get(uid); return u && isFighter(game, u); });
@@ -526,7 +526,8 @@ export default function App() {
   const deploySpy = (targetId) => applyOrder(GAME_SECURITY.deploySpy(game, game.player, targetId), 'Spia schierata.');
   const launchSabotage = (targetId, facilityId) => applyOrder(GAME_SECURITY.sabotage(game, game.player, { targetNation: targetId, facilityId }), 'Sabotaggio in preparazione: l\'esito arriva a fine operazione.');
   const buildOptions = useMemo(() => {
-    const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
+    // una zona urbana costruisce con i propri slot; il resto della mappa usa la provincia madre
+    const id = selectedItem?.props?.kind === 'citta' ? selectedItem.props.id : (selectedItem?.props?.parentProvince ?? selectedItem?.props?.id);
     return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
   }, [game, selectedItem]);
   const provinceUpgrades = useMemo(() => {
@@ -585,15 +586,16 @@ export default function App() {
   const alerts = useMemo(() => (game && moveNet && game.theaters ? theaterAlerts(game, THEATER_CTX, game.player) : []), [game, moveNet]);
   const theaterMarkSet = useMemo(() => (game && moveNet ? theaterMarks({ state: game, pick: theater?.draft?.provinces ?? [], colorOf: (n) => ownerColor(n), alerts }) : null), [game?.provinces, game?.theaters, game?.player, theater?.draft?.provinces, moveNet, alerts]); // eslint-disable-line react-hooks/exhaustive-deps
   // rete di movimento: si carica (e si costruisce) quando c'è una partita; l'adiacenza è un file a parte, non nel pacchetto principale
+  // le zone urbane entrano nella rete con i loro collegamenti (data/city_links.json): si aspettano le zone caricate
   useEffect(() => {
-    if (!game || moveNet || !provinces) return undefined;
+    if (!game || moveNet || !provinces || !citiesRaw) return undefined;
     let alive = true;
-    import('../data/adjacency.json').then((m) => {
+    Promise.all([import('../data/adjacency.json'), import('../data/city_links.json')]).then(([adj, links]) => {
       if (!alive) return;
-      try { const net = buildMoveNet(provinces, m.default); MOVE_NET.net = net; setMoveNet(net); } catch (e) { setArmyNotice(`Movimento non disponibile: ${e.message}`); }
+      try { const net = buildMoveNet(provinces, adj.default, { cities: citiesRaw, cityLinks: links.default }); MOVE_NET.net = net; setMoveNet(net); } catch (e) { setArmyNotice(`Movimento non disponibile: ${e.message}`); }
     }).catch(() => { if (alive) setArmyNotice('Movimento non disponibile: file di adiacenza non caricato.'); });
     return () => { alive = false; };
-  }, [!!game, !!provinces, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [!!game, !!provinces, !!citiesRaw, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
   // rotte marittime: servono le zone di mare e le province (stesso ordine di data/sea_zones.json); i porti vengono da data/ports e da state.ports
   useEffect(() => {
     if (!game || GAME_SEA.sea || !seaFile || !provinces) return;
