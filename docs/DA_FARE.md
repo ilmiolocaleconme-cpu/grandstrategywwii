@@ -43,6 +43,8 @@ Verificati oggi: 1, 2, 8, 9 (e intervalli, idempotenza dei tick, salvataggio, de
 - Costruzioni nelle zone urbane: la zona è la sede (non la madre) e ha 10 slot di fabbrica (`cityPart`); test in `tests/city_construction.test.js`. Non testato nel browser.
 - **Caserme e reclutamento divisioni: NON implementati.** `data/buildings.json` ha la caserma solo come slot senza costo né effetto. Serve decidere: costo, tempo, template reclutabili, uomini ed equipaggiamento consumati, e cosa succede alla divisione creata. Nessun numero deciso.
 
+- **04/11/2026 (decisione dell'utente):** fabbriche di munizioni iniziali **da 20 a 13** (USA 2, Gran Bretagna 1, Germania 1, URSS 1, le altre nazioni 1: la distribuzione è una mia scelta, da confermare). Scorte iniziali rigenerate (`npm run build:initial-stocks`). Addestramento: **2 t/giorno per divisione** (`data/military/ammo_consumption.json`, `training`), proposta di 100 t/giorno scartata (una fabbrica intera per divisione). Restano aperti: l'acciaio di partenza (7000 t non riprodotti: 21.000 t in Media), il costo dell'equipaggiamento, il reclutamento e il registro delle divisioni dinamiche.
+
 ## E. Dati
 - Dislocazione 1936: 25 unità con stazione non risolvibile; 3 divisioni britanniche (3ª, 4ª, 5ª) e la 23. Infanterie-Division senza sede.
 - Dislocazione derivata (ipotesi): sostituire con dati storici per unità quando disponibili.
