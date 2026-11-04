@@ -12,7 +12,7 @@
 // o comandanti nell'esito; nessun dato storico di guerra: la guerra si dichiara a mano.
 import { createWar, declareWar, atWar, enemiesOf } from '../rules/war.js';
 import { createTheaters, createAssignment, cancelAssignment, completeAssignment, dropUnits, activeAssignments } from '../rules/theater.js';
-import { resolveBattleDay, categoryPower } from '../rules/combat.js';
+import { resolveBattleDay, resolveUrbanBattleDay, categoryPower } from '../rules/combat.js';
 import { positionOf, issueMove, cancelMove } from '../rules/movement.js';
 import { provinceStateOf, patchProvinceState } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
@@ -145,7 +145,9 @@ function battlePhase(state, ctx, net) {
     const defenders = units.filter((u) => u.nation === c);
     const attackers = units.filter((u) => u.nation !== c && atWar(s.war, u.nation, c));
     if (defenders.length === 0 || attackers.length === 0) continue;
-    const r = resolveBattleDay({ attackers: attackers.map((u) => ({ ...u, bonus: 0 })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
+    // nel nodo di una zona urbana si combatte con le regole urbane (imboscate, difesa rafforzata, mezzi penalizzati)
+    const solve = net.isCity?.(p) === true ? resolveUrbanBattleDay : resolveBattleDay;
+    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: 0 })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
     for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l);
     for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l);
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));
