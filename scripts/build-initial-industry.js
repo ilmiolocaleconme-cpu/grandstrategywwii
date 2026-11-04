@@ -19,6 +19,11 @@ const MW = { tank: 24, art: 15, steel: 12, alu: 18, chem: 14, ref: 10, syn: 20, 
 const FACT = { steel: ['FCT-STEEL', 'REC-STEEL-001'], alu: ['FCT-ALUMINIUM', 'REC-ALU-001'], ref: ['FCT-REFINERY', 'REC-FUEL-OIL-001'], syn: ['FCT-SYNFUEL', 'REC-FUEL-COAL-001'], rub: ['FCT-RUBBER', 'REC-RUBBER-001'], chem: ['FCT-CHEMICAL', 'REC-CHEM-001'], mach: ['FCT-MACHINERY', 'REC-MACHINERY-001'], comp: ['FCT-COMPONENTS', 'REC-COMPONENTS-001'], eng: ['FCT-ENGINE', 'REC-ENGINES-001'], mun: ['FCT-MUNITIONS', 'REC-MUNITIONS-001'], therm: ['FCT-POWER', 'REC-ELECTRIC-COAL-001'], tank: ['FCT-TANKS', 'REC-TANK-CZE-LT35'], art: ['FCT-ARTILLERY', 'REC-ARTILLERY-001'] };
 // Fabbriche di carri e di artiglieria: oggi solo la Cecoslovacchia (richiesta dell'utente del 29/10/2026; Škoda e ČKD). Le altre nazioni non le hanno ancora: mancano le ricette per i loro modelli.
 const ARMS = { CZE: { tank: 1, art: 1 } };
+// Fabbriche di munizioni per nazione (decisione dell'utente del 04/11/2026, «per equilibrare il gioco»): copertura della domanda di
+// attacco continuo di tutte le divisioni del catalogo (348 divisioni, data/military/ammo_consumption.json) con almeno il 100 %.
+// 100 t/giorno per fabbrica. Le nazioni senza divisioni nel catalogo non ne ricevono. Il vecchio calcolo (un quinto delle acciaierie) è
+// sostituito da questa tabella; le altre nazioni di fascia A restano a 0 fabbriche di munizioni.
+const MUN = { USA: 6, GBR: 3, DEU: 6, USSR: 6, ITA: 3, FRA: 4, JPN: 5, BEL: 0, CAN: 0, CZE: 0, POL: 0, SWE: 0 };
 
 const candidates = new Set(Object.keys(A));
 for (const r of R) for (const id of ext[r].byProvince.keys()) candidates.add(id.split('_')[1]);
@@ -35,7 +40,7 @@ for (const n of [...candidates].sort()) {
   k.syn = n === 'DEU' ? 2 : 0;
   k.rub = Math.floor(e.rubber / 108) || (tier === 'A' && m >= 4 ? 1 : 0);
   if (tier === 'A') {
-    k.mach = Math.max(1, Math.round(m / 8)); k.comp = Math.max(1, Math.round(m / 10)); k.eng = Math.max(1, Math.round(m / 10)); k.mun = Math.max(1, Math.round(m / 5));
+    k.mach = Math.max(1, Math.round(m / 8)); k.comp = Math.max(1, Math.round(m / 10)); k.eng = Math.max(1, Math.round(m / 10)); k.mun = MUN[n] ?? 0;
     k.chem = Math.max(1, Math.ceil(k.mun / 2));
   }
   Object.assign(k, ARMS[n] ?? {});

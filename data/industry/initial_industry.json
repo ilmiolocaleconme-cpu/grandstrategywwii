@@ -51,11 +51,6 @@
           "count": 1
         },
         {
-          "factory": "FCT-MUNITIONS",
-          "recipeId": "REC-MUNITIONS-001",
-          "count": 1
-        },
-        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 1
@@ -89,11 +84,6 @@
         {
           "factory": "FCT-ENGINE",
           "recipeId": "REC-ENGINES-001",
-          "count": 1
-        },
-        {
-          "factory": "FCT-MUNITIONS",
-          "recipeId": "REC-MUNITIONS-001",
           "count": 1
         }
       ]
@@ -160,11 +150,6 @@
           "count": 1
         },
         {
-          "factory": "FCT-MUNITIONS",
-          "recipeId": "REC-MUNITIONS-001",
-          "count": 1
-        },
-        {
           "factory": "FCT-TANKS",
           "recipeId": "REC-TANK-CZE-LT35",
           "count": 1
@@ -177,7 +162,7 @@
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 2
+          "count": 1
         }
       ]
     },
@@ -208,7 +193,7 @@
         {
           "factory": "FCT-CHEMICAL",
           "recipeId": "REC-CHEM-001",
-          "count": 1
+          "count": 3
         },
         {
           "factory": "FCT-MACHINERY",
@@ -228,12 +213,12 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 2
+          "count": 6
         },
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 3
+          "count": 4
         }
       ]
     },
@@ -280,7 +265,7 @@
         {
           "factory": "FCT-CHEMICAL",
           "recipeId": "REC-CHEM-001",
-          "count": 1
+          "count": 2
         },
         {
           "factory": "FCT-MACHINERY",
@@ -300,7 +285,7 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 1
+          "count": 4
         },
         {
           "factory": "FCT-POWER",
@@ -336,7 +321,7 @@
         {
           "factory": "FCT-CHEMICAL",
           "recipeId": "REC-CHEM-001",
-          "count": 1
+          "count": 2
         },
         {
           "factory": "FCT-MACHINERY",
@@ -356,12 +341,12 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 2
+          "count": 3
         },
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 2
+          "count": 3
         }
       ]
     },
@@ -414,7 +399,7 @@
         {
           "factory": "FCT-CHEMICAL",
           "recipeId": "REC-CHEM-001",
-          "count": 1
+          "count": 2
         },
         {
           "factory": "FCT-MACHINERY",
@@ -434,7 +419,7 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 1
+          "count": 3
         }
       ]
     },
@@ -465,7 +450,7 @@
         {
           "factory": "FCT-CHEMICAL",
           "recipeId": "REC-CHEM-001",
-          "count": 1
+          "count": 3
         },
         {
           "factory": "FCT-MACHINERY",
@@ -485,7 +470,7 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 1
+          "count": 5
         },
         {
           "factory": "FCT-POWER",
@@ -582,11 +567,6 @@
           "count": 1
         },
         {
-          "factory": "FCT-MUNITIONS",
-          "recipeId": "REC-MUNITIONS-001",
-          "count": 1
-        },
-        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 1
@@ -652,11 +632,6 @@
         {
           "factory": "FCT-ENGINE",
           "recipeId": "REC-ENGINES-001",
-          "count": 1
-        },
-        {
-          "factory": "FCT-MUNITIONS",
-          "recipeId": "REC-MUNITIONS-001",
           "count": 1
         },
         {
@@ -749,7 +724,7 @@
         {
           "factory": "FCT-CHEMICAL",
           "recipeId": "REC-CHEM-001",
-          "count": 1
+          "count": 3
         },
         {
           "factory": "FCT-MACHINERY",
@@ -769,7 +744,7 @@
         {
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
-          "count": 2
+          "count": 6
         }
       ]
     },

@@ -23,9 +23,9 @@ test('valido: una voce per ogni proprietario, cassa = 30 × entrata + 200', () =
   for (const id of industry.tierC) assert.ok(cash.nations[id].cash >= 200, `${id}: almeno il minimo`);
 });
 
-test('ordine di grandezza: USA la più ricca (circa 7.400 ECV), Germania circa 2.100, mediana fascia C sopra il minimo ma sotto 500', () => {
+test('ordine di grandezza: USA la più ricca (circa 7.400 ECV), Germania circa 2.500, mediana fascia C sopra il minimo ma sotto 500', () => {
   assert.ok(cash.nations.USA.cash > 7000 && cash.nations.USA.cash < 8000);
-  assert.ok(cash.nations.DEU.cash > 1800 && cash.nations.DEU.cash < 2400);
+  assert.ok(cash.nations.DEU.cash > 1800 && cash.nations.DEU.cash < 2600); // dal 04/11/2026: 6 fabbriche di munizioni, più reddito
   const c = industry.tierC.map((id) => cash.nations[id].cash).sort((a, b) => a - b);
   assert.ok(c[25] > 200 && c[25] < 500, `mediana ${c[25]}`);
   assert.ok(cash.nations.USA.incomePerDay > cash.nations.GBR.incomePerDay);
