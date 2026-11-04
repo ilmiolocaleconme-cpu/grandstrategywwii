@@ -43,6 +43,7 @@ import { officersBuilt } from './build-officers.js';
 import { validateTemplate } from '../src/data/templates.js';
 import { validateCadreTemplates } from '../src/data/cadres.js';
 import { validateEquipmentCatalog, mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
+import { validateUpgradeMap } from '../src/rules/templateUpgrade.js';
 import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipmentProduction.js';
 import { templatesBuilt } from './build-templates.js';
 import { validateDeployment } from '../src/data/deployment.js';
@@ -251,6 +252,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       errors.push(...validateEquipmentCatalog(mergeEquipmentCatalogs(catalogDocs), { templates: divisionTemplates }));
       // Fase 4: tabella di produzione per categoria + ricette generate per ogni equipaggiamento del catalogo (prodotto equipment.<id>)
       const mergedCatalog = mergeEquipmentCatalogs(catalogDocs);
+      errors.push(...validateUpgradeMap(JSON.parse(await text('units/equipment/upgrade_map.json')), { catalog: mergedCatalog, templates: divisionTemplates }));
       const prodTable = JSON.parse(await text('units/equipment/equipment_production.json'));
       errors.push(...validateEquipmentProduction(prodTable, { factoriesById: industry.byId, techIds, catalog: mergedCatalog }));
       errors.push(...validateRecipes(withEquipmentRecipes(recipesDoc, buildEquipmentRecipes(mergedCatalog, prodTable)), { factoriesById: industry.byId, resources: catalog.resources, equipmentIds: new Set(mergedCatalog.entries.map((e) => e.equipment_id)) }));

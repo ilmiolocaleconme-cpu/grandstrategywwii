@@ -1,4 +1,5 @@
 // Stima delle guarnigioni 1936 e suo effetto sulla difesa (29/10/2026). DESIGN_DEFAULT.
+import { isActiveAt } from '../src/data/units.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -17,7 +18,8 @@ test('stima: il file nel repository coincide con la derivazione, livelli nei lim
   assert.deepEqual(JSON.parse(JSON.stringify(est)), json('military/garrison_estimate_1936.json'));
   assert.deepEqual(validateGarrisonEstimate(est), []); assert.equal(est.quality, 'DESIGN_DEFAULT');
   const echelon = new Map(units.map((u) => [u.id, u.echelon]));
-  const counted = deployment.entries.filter((e) => ['division', 'brigade'].includes(echelon.get(e.unit))).length;
+  const byId = new Map(units.map((u) => [u.id, u]));
+  const counted = deployment.entries.filter((e) => ['division', 'brigade'].includes(echelon.get(e.unit)) && isActiveAt(byId.get(e.unit), '1936-01-01')).length;
   assert.equal(Object.values(est.byProvince).reduce((a, v) => a + v.units, 0), counted);
   for (const v of Object.values(est.byProvince)) assert.ok(v.garrison >= 1 && v.garrison <= 3 && v.garrison === Math.min(3, v.units));
   for (const v of Object.values(est.byEntity)) assert.ok(v.garrison >= 1 && v.garrison <= 2);
@@ -40,6 +42,12 @@ test('difesa: la guarnigione stimata alza la difesa dell\'impianto iniziale dell
   const s = newGame({ nation: 'ITA', political, ownersWithProvinces: start.nationIds, start }).state;
   const f = s.nations.DEU.facilities[0]; const place = withG.placeOf(f);
   assert.ok(withG.defenseAt(s.nations.DEU, place).garrison > without.defenseAt(s.nations.DEU, place).garrison, `luogo ${place}`);
-  const g = s.nations.ITA.facilities[0];
-  assert.equal(withG.defenseAt(s.nations.ITA, withG.placeOf(g)).garrison, 0, 'nessuna unità schierata nei dati: nessuna guarnigione stimata');
+  // una nazione senza unità schierate nei dati (nessuna provincia o entità sua nella stima) non riceve guarnigione
+  const est = json('military/garrison_estimate_1936.json');
+  const bare = Object.keys(s.nations).find((n) => s.nations[n].facilities?.length && !Object.keys({ ...est.byProvince, ...est.byEntity }).some((k) => k === n || k.startsWith(`P_${n}_`)));
+  assert.ok(bare, 'esiste almeno una nazione con impianti e senza unità schierate');
+  const g = s.nations[bare].facilities[0];
+  assert.equal(withG.defenseAt(s.nations[bare], withG.placeOf(g)).garrison, 0, `${bare}: nessuna unità schierata nei dati: nessuna guarnigione stimata`);
+  // l'Italia ha solo le 4 divisioni alpine del 1935 attive al 1936: le altre (1939-42) non gonfiano la stima
+  assert.equal(est.byEntity.ITA.units, 4);
 });

@@ -1,0 +1,19 @@
+{
+  "schema": "equipment-upgrade-map-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Mappa dell'equipaggiamento quando una divisione già in servizio passa a una versione più recente del template (es. fanteria tedesca dal 1/9/1939). Le istanze usano come chiave la chiave del template (equipment.<chiave>): quelle del 1936 (fucili, mortaiPesanti81mm) e quelle del 1939 (INW-DEU-RIFLE-1939, ART-DEU-GRW34) sono diverse e non c'è altro legame. Ogni riga dice: la dotazione effettiva della voce `from` diventa dotazione della voce `to`. L'abbinamento è per categoria, calibro e ruolo letti dal catalogo (la validazione controlla categoria e calibro). NON è un dato storico: è una scelta di progetto, basis ipotesi. Voci senza riga (e le voci nuove del template) partono da 0: nessuna dotazione si crea dal nulla, la colma la produzione tramite i rinforzi. La Francia 1936 non ha righe: il suo template 1936 non ha quantità di equipaggiamento (value null).",
+  "entries": [
+    { "nation": "DEU", "from": "fucili", "to": "INW-DEU-RIFLE-1939", "basis": "ipotesi", "note": "fucile standard di fanteria" },
+    { "nation": "DEU", "from": "pistole", "to": "INW-DEU-PISTOL-1939", "basis": "ipotesi", "note": "pistola d'ordinanza" },
+    { "nation": "DEU", "from": "mitragliatriciLeggere", "to": "MG-DEU-MG34-L", "basis": "ipotesi", "note": "mitragliatrice leggera = MG 34 su bipiede" },
+    { "nation": "DEU", "from": "mitragliatriciPesanti", "to": "MG-DEU-MG34-S", "basis": "ipotesi", "note": "mitragliatrice pesante = MG 34 su treppiede" },
+    { "nation": "DEU", "from": "mortaiLeggeri50mm", "to": "ART-DEU-GRW36", "basis": "ipotesi", "note": "mortaio da 50 mm" },
+    { "nation": "DEU", "from": "mortaiPesanti81mm", "to": "ART-DEU-GRW34", "basis": "ipotesi", "note": "mortaio da 81 mm" },
+    { "nation": "DEU", "from": "cannoniFanteria75mm", "to": "ART-DEU-LEIG18", "basis": "ipotesi", "note": "cannone di fanteria da 75 mm" },
+    { "nation": "DEU", "from": "cannoniFanteriaPesanti150mm", "to": "ART-DEU-SIG33", "basis": "ipotesi", "note": "cannone di fanteria pesante da 150 mm" },
+    { "nation": "DEU", "from": "controcarro37mm", "to": "ART-DEU-PAK36", "basis": "ipotesi", "note": "controcarro da 37 mm" },
+    { "nation": "DEU", "from": "obiciLeggeri105mm", "to": "ART-DEU-LEFH18", "basis": "ipotesi", "note": "obice leggero da 105 mm" },
+    { "nation": "DEU", "from": "obiciPesanti150mm", "to": "ART-DEU-SFH18", "basis": "ipotesi", "note": "obice pesante da 150 mm" },
+    { "nation": "DEU", "from": "cannoni105mm", "to": "ART-DEU-K18-105", "basis": "ipotesi", "note": "cannone da 105 mm" }
+  ]
+}

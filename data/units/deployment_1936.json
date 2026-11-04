@@ -502,6 +502,210 @@
    "how": "nel luogo del corpo d'armata IX. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
+   "unit": "U00185",
+   "name": "Regia Marina",
+   "province": "P_ITA_ROMA",
+   "how": "sede di guarnigione \"Roma\" (alta): https://en.wikipedia.org/wiki/Supermarina"
+  },
+  {
+   "unit": "U00186",
+   "name": "1ª Divisione alpina 'Taurinense'",
+   "province": "P_ITA_TORINO",
+   "how": "sede di guarnigione \"Torino\" (alta): https://en.wikipedia.org/wiki/1st_Alpine_Division_%22Taurinense%22"
+  },
+  {
+   "unit": "U00187",
+   "name": "2ª Divisione alpina 'Tridentina'",
+   "province": "P_ITA_BOLZANO_OVEST",
+   "how": "sede di guarnigione \"Merano\" (alta): https://en.wikipedia.org/wiki/2nd_Alpine_Division_%22Tridentina%22"
+  },
+  {
+   "unit": "U00188",
+   "name": "3ª Divisione alpina 'Julia'",
+   "province": "P_ITA_UDINE",
+   "how": "sede di guarnigione \"Udine\" (alta): https://en.wikipedia.org/wiki/3rd_Alpine_Division_%22Julia%22"
+  },
+  {
+   "unit": "U00189",
+   "name": "4ª Divisione alpina 'Cuneense'",
+   "province": "P_ITA_ASTI",
+   "how": "sede di guarnigione \"Cuneo\" (alta): https://en.wikipedia.org/wiki/4th_Alpine_Division_%22Cuneense%22"
+  },
+  {
+   "unit": "U00190",
+   "name": "10ª Divisione fanteria 'Piave'",
+   "province": "P_ITA_VENEZIA",
+   "how": "sede di guarnigione \"Padova\" (alta): https://en.wikipedia.org/wiki/10th_Infantry_Division_%22Piave%22"
+  },
+  {
+   "unit": "U00191",
+   "name": "11ª Divisione fanteria 'Brennero'",
+   "province": "P_ITA_BOLZANO_EST",
+   "how": "sede di guarnigione \"Bolzano\" (alta): https://en.wikipedia.org/wiki/11th_Infantry_Division_%22Brennero%22"
+  },
+  {
+   "unit": "U00192",
+   "name": "12ª Divisione fanteria 'Sassari'",
+   "province": "P_ITA_TRIESTE",
+   "how": "sede di guarnigione \"Trieste\" (alta): https://en.wikipedia.org/wiki/12th_Infantry_Division_%22Sassari%22"
+  },
+  {
+   "unit": "U00193",
+   "name": "133ª Divisione corazzata 'Littorio'",
+   "province": "P_ITA_PARMA",
+   "how": "sede di guarnigione \"Parma\" (alta): https://en.wikipedia.org/wiki/133rd_Armored_Division_%22Littorio%22"
+  },
+  {
+   "unit": "U00194",
+   "name": "13ª Divisione fanteria 'Re'",
+   "province": "P_ITA_UDINE",
+   "how": "sede di guarnigione \"Udine\" (alta): https://en.wikipedia.org/wiki/13th_Infantry_Division_%22Re%22"
+  },
+  {
+   "unit": "U00195",
+   "name": "19ª Divisione fanteria 'Venezia'",
+   "province": "P_ITA_FIRENZE",
+   "how": "sede di guarnigione \"Firenze\" (alta): https://en.wikipedia.org/wiki/19th_Infantry_Division_%22Venezia%22"
+  },
+  {
+   "unit": "U00196",
+   "name": "1ª Divisione fanteria 'Superga'",
+   "province": "P_ITA_TORINO",
+   "how": "sede di guarnigione \"Torino\" (alta): https://en.wikipedia.org/wiki/1st_Infantry_Division_%22Superga%22"
+  },
+  {
+   "unit": "U00197",
+   "name": "21ª Divisione fanteria 'Granatieri di Sardegna'",
+   "province": "P_ITA_ROMA",
+   "how": "sede di guarnigione \"Roma\" (media): https://en.wikipedia.org/wiki/21st_Infantry_Division_%22Granatieri_di_Sardegna%22"
+  },
+  {
+   "unit": "U00198",
+   "name": "22ª Divisione fanteria 'Cacciatori delle Alpi'",
+   "province": "P_ITA_PERUGIA_NORD",
+   "how": "sede di guarnigione \"Perugia\" (alta): https://en.wikipedia.org/wiki/22nd_Infantry_Division_%22Cacciatori_delle_Alpi%22"
+  },
+  {
+   "unit": "U00199",
+   "name": "23ª Divisione fanteria 'Ferrara'",
+   "province": "P_ITA_BARI",
+   "how": "sede di guarnigione \"Bari\" (alta): https://en.wikipedia.org/wiki/23rd_Infantry_Division_%22Ferrara%22"
+  },
+  {
+   "unit": "U00200",
+   "name": "24ª Divisione fanteria 'Pinerolo'",
+   "province": "P_ITA_PESCARA",
+   "how": "sede di guarnigione \"Chieti\" (alta): https://en.wikipedia.org/wiki/24th_Infantry_Division_%22Pinerolo%22"
+  },
+  {
+   "unit": "U00201",
+   "name": "25ª Divisione fanteria 'Bologna'",
+   "province": "P_ITA_NAPOLI",
+   "how": "sede di guarnigione \"Napoli\" (alta): https://en.wikipedia.org/wiki/25th_Infantry_Division_%22Bologna%22"
+  },
+  {
+   "unit": "U00202",
+   "name": "26ª Divisione fanteria 'Assietta'",
+   "province": "P_ITA_ASTI",
+   "how": "sede di guarnigione \"Asti\" (alta): https://en.wikipedia.org/wiki/26th_Infantry_Division_%22Assietta%22"
+  },
+  {
+   "unit": "U00203",
+   "name": "27ª Divisione fanteria 'Brescia'",
+   "province": "P_ITA_CATANZARO",
+   "how": "sede di guarnigione \"Catanzaro\" (alta): https://en.wikipedia.org/wiki/27th_Infantry_Division_%22Brescia%22"
+  },
+  {
+   "unit": "U00204",
+   "name": "28ª Divisione fanteria 'Aosta'",
+   "province": "P_ITA_PALERMO",
+   "how": "sede di guarnigione \"Palermo\" (alta): https://en.wikipedia.org/wiki/28th_Infantry_Division_%22Aosta%22"
+  },
+  {
+   "unit": "U00205",
+   "name": "29ª Divisione fanteria 'Piemonte'",
+   "province": "P_ITA_MESSINA",
+   "how": "sede di guarnigione \"Messina\" (alta): https://en.wikipedia.org/wiki/29th_Infantry_Division_%22Piemonte%22"
+  },
+  {
+   "unit": "U00206",
+   "name": "2ª Divisione fanteria 'Sforzesca'",
+   "province": "P_ITA_NOVARA",
+   "how": "sede di guarnigione \"Novara\" (alta): https://en.wikipedia.org/wiki/2nd_Infantry_Division_%22Sforzesca%22"
+  },
+  {
+   "unit": "U00207",
+   "name": "30ª Divisione fanteria 'Sabauda'",
+   "province": "P_ITA_CAGLIARI",
+   "how": "sede di guarnigione \"Cagliari\" (alta): https://en.wikipedia.org/wiki/30th_Infantry_Division_%22Sabauda%22"
+  },
+  {
+   "unit": "U00208",
+   "name": "31ª Divisione fanteria 'Calabria'",
+   "province": "P_ITA_SASSARI",
+   "how": "sede di guarnigione \"Sassari\" (alta): https://en.wikipedia.org/wiki/31st_Infantry_Division_%22Calabria%22"
+  },
+  {
+   "unit": "U00210",
+   "name": "3ª Divisione fanteria 'Ravenna'",
+   "province": "P_ITA_ASTI",
+   "how": "sede di guarnigione \"Alessandria\" (alta): https://en.wikipedia.org/wiki/3rd_Infantry_Division_%22Ravenna%22"
+  },
+  {
+   "unit": "U00211",
+   "name": "4ª Divisione fanteria 'Livorno'",
+   "province": "P_ITA_ASTI",
+   "how": "sede di guarnigione \"Cuneo\" (alta): https://en.wikipedia.org/wiki/4th_Infantry_Division_%22Livorno%22"
+  },
+  {
+   "unit": "U00212",
+   "name": "5ª Divisione fanteria 'Cosseria'",
+   "province": "P_ITA_SAVONA",
+   "how": "sede di guarnigione \"Imperia\" (media): https://en.wikipedia.org/wiki/5th_Infantry_Division_%22Cosseria%22"
+  },
+  {
+   "unit": "U00213",
+   "name": "6ª Divisione fanteria 'Cuneo'",
+   "province": "P_ITA_MILANO",
+   "how": "sede di guarnigione \"Milano\" (media): https://en.wikipedia.org/wiki/6th_Infantry_Division_%22Cuneo%22"
+  },
+  {
+   "unit": "U00214",
+   "name": "7ª Divisione fanteria 'Lupi di Toscana'",
+   "province": "P_ITA_BRESCIA",
+   "how": "sede di guarnigione \"Brescia\" (media): https://en.wikipedia.org/wiki/7th_Infantry_Division_%22Lupi_di_Toscana%22"
+  },
+  {
+   "unit": "U00216",
+   "name": "9ª Divisione fanteria 'Pasubio'",
+   "province": "P_ITA_VERONA",
+   "how": "sede di guarnigione \"Verona\" (media): https://en.wikipedia.org/wiki/9th_Infantry_Division_%22Pasubio%22"
+  },
+  {
+   "unit": "U00217",
+   "name": "131ª Divisione corazzata 'Centauro'",
+   "province": "P_ITA_SIENA",
+   "how": "sede di guarnigione \"Siena\" (alta): https://en.wikipedia.org/wiki/131st_Armored_Division_%22Centauro%22"
+  },
+  {
+   "unit": "U00218",
+   "name": "132ª Divisione corazzata 'Ariete'",
+   "province": "P_ITA_MILANO",
+   "how": "sede di guarnigione \"Milano\" (alta): https://en.wikipedia.org/wiki/132nd_Armored_Division_%22Ariete%22"
+  },
+  {
+   "unit": "U00219",
+   "name": "185ª Divisione paracadutisti 'Folgore'",
+   "province": "P_ITA_VITERBO",
+   "how": "sede di guarnigione \"Tarquinia\" (alta): https://en.wikipedia.org/wiki/185th_Infantry_Division_%22Folgore%22"
+  },
+  {
+   "unit": "U00220",
+   "name": "184ª Divisione paracadutisti 'Nembo'",
+   "province": "P_ITA_PISA",
+   "how": "sede di guarnigione \"Pisa\" (alta): https://en.wikipedia.org/wiki/184th_Infantry_Division_%22Nembo%22"
+  },
+  {
    "unit": "U00223",
    "name": "1st Infantry Division",
    "province": "P_GBR_HAMPSHIRE",

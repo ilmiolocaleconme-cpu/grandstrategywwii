@@ -18,7 +18,8 @@ export async function loadProvinceProps() {
 export async function deploymentBuilt() {
   const units = (await json('units/units.json')).units;
   const cities = (await json('citta_grandi.json')).features.map((f) => f.properties);
-  return buildDeployment({ units, cities, provinces: await loadProvinceProps() });
+  const garrisons = (await json('units/source/ita_sedi_guarnigione.json').catch(() => ({ entries: [] }))).entries;
+  return buildDeployment({ units, cities, provinces: await loadProvinceProps(), garrisons });
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
