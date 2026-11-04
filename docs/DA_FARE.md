@@ -40,6 +40,9 @@ Verificati oggi: 1, 2, 8, 9 (e intervalli, idempotenza dei tick, salvataggio, de
 
 - Combattimento urbano (`src/rules/combat.js`, `resolveUrbanBattleDay`): difesa ×2,5, mezzi corazzati a 0,5–0,9 della potenza, imboscate giornaliere per gli attaccanti (1 %) e i difensori (0,4 %) anche se vincono la giornata. Meccanismo delle imboscate e numeri (difesa ×2,5, imboscate 1 % attaccanti e 0,4 % difensori, corazzati 0,9, cavalleria 0,4) **approvati dall'utente** come valori di bilanciamento, non come dati storici. Testato nel modulo (`tests/combat_urban.test.js`), non in una partita reale; nessun effetto su città-province senza nodo di movimento.
 
+- Costruzioni nelle zone urbane: la zona è la sede (non la madre) e ha 10 slot di fabbrica (`cityPart`); test in `tests/city_construction.test.js`. Non testato nel browser.
+- **Caserme e reclutamento divisioni: NON implementati.** `data/buildings.json` ha la caserma solo come slot senza costo né effetto. Serve decidere: costo, tempo, template reclutabili, uomini ed equipaggiamento consumati, e cosa succede alla divisione creata. Nessun numero deciso.
+
 ## E. Dati
 - Dislocazione 1936: 25 unità con stazione non risolvibile; 3 divisioni britanniche (3ª, 4ª, 5ª) e la 23. Infanterie-Division senza sede.
 - Dislocazione derivata (ipotesi): sostituire con dati storici per unità quando disponibili.

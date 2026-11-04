@@ -23,12 +23,12 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
 
 /**
  * ctx: { catalog: { recipes: Map, factories: Map, levels?: factory_levels.json }, economy, sites (mine_sites.json), hydro (hydro_plants.json), political,
- *        workersShare (quota della popolazione), provinceExists?: (id) => boolean,
+ *        workersShare (quota della popolazione), provinceExists?: (id) => boolean, isCity?: (id) => boolean (zona urbana: slot di parte),
  *        infra?: { index (createInfraIndex), config (infrastructure.json) }: senza, gli ordini 'infra' sono rifiutati,
  *        hospitals?: { params (hospital_care.json), manpowerAvailable(state, nationId) → uomini liberi del pool reclutabile, isRear?(state, nationId, provinceId) }: senza, gli ordini 'hospital' sono rifiutati
  *        ports?: { levels (port_levels.json), coastal (coastal_cities.json → cities), base (ports_1936.json) }: senza, gli ordini 'port' sono rifiutati }
  */
-export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, infra = null, hospitals = null, ports = null }) {
+export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, isCity = null, infra = null, hospitals = null, ports = null }) {
   const entityIds = political.map((e) => e.id);
   const entityOf = (provinceId) => entityOfProvinceId(provinceId, entityIds); // anche MAR_ES, NLD_EI, JPN_MANDATE
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
@@ -129,7 +129,9 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       if (q.factory.factory_class === 'industry') {
         const used = nation.facilities.filter((f) => f.provinceId === provinceId && catalog.factories.get(f.type).factory_class === 'industry').length
           + nation.construction.filter((c) => c.kind === 'factory' && c.provinceId === provinceId && c.slot).length;
-        if (used + economy.construction.slotsPerFactory > SLOT_CAPACITY.province) return fail('no_slot', { used, capacity: SLOT_CAPACITY.province });
+        // una zona urbana ha la propria capienza (10 slot per parte), una provincia madre quella di provincia (14)
+        const capacity = isCity?.(provinceId) === true ? SLOT_CAPACITY.cityPart : SLOT_CAPACITY.province;
+        if (used + economy.construction.slotsPerFactory > capacity) return fail('no_slot', { used, capacity });
       }
       entry = { kind: 'factory', factoryId: order.factoryId, recipeId: order.recipeId, provinceId, territory: entity, energyMw: cost.energyMw, slot: q.factory.factory_class === 'industry' };
     } else if (order.kind === 'mine') {

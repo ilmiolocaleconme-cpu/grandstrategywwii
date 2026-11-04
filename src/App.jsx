@@ -286,7 +286,7 @@ const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.ind
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 // Ospedali (data/medical/hospital_care.json): il personale esce dal pool reclutabile; la regola delle retrovie (rules/hospitals.js isRear) non è applicata finché non esiste lo stato di guerra.
 const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsFile.units, population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available;
-export const GAME_BUILD = createConstruction({ catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
+export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I nemici dell'IA vengono dalla diplomazia (guerra o rapporto <= soglia), giocatore compreso.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
@@ -526,7 +526,8 @@ export default function App() {
   const deploySpy = (targetId) => applyOrder(GAME_SECURITY.deploySpy(game, game.player, targetId), 'Spia schierata.');
   const launchSabotage = (targetId, facilityId) => applyOrder(GAME_SECURITY.sabotage(game, game.player, { targetNation: targetId, facilityId }), 'Sabotaggio in preparazione: l\'esito arriva a fine operazione.');
   const buildOptions = useMemo(() => {
-    const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
+    // una zona urbana costruisce con i propri slot; il resto della mappa usa la provincia madre
+    const id = selectedItem?.props?.kind === 'citta' ? selectedItem.props.id : (selectedItem?.props?.parentProvince ?? selectedItem?.props?.id);
     return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
   }, [game, selectedItem]);
   const provinceUpgrades = useMemo(() => {
