@@ -54,3 +54,40 @@ export function sheetSections(info) {
     { id: 'storia', label: 'Storia', available: false },
   ];
 }
+
+// ---- Fase 3: equipaggiamento per categoria ----
+// Tabella ESPLICITA: una voce entra in un gruppo solo se è qui. Le chiavi sconosciute (o ambigue) restano in «non classificati»
+// con il loro codice originale: nessuna categoria attribuita automaticamente (specifica, sez. 8).
+export const EQUIPMENT_GROUP_LABEL = Object.freeze({
+  individuali: 'Armi individuali', mitragliatrici: 'Mitragliatrici', mortai: 'Mortai', artiglieria: 'Artiglieria',
+  anticarro: 'Anticarro', contraerea: 'Contraerea', veicoli: 'Veicoli', corazzati: 'Corazzati', trasmissioni: 'Trasmissioni',
+  non_classificati: 'Non classificati',
+});
+export const EQUIPMENT_GROUP = Object.freeze({
+  fucili: 'individuali', pistole: 'individuali', 'INW-DEU-RIFLE-1939': 'individuali', 'INW-DEU-PISTOL-1939': 'individuali',
+  'INW-FRA-RIFLE-1939': 'individuali', 'INW-FRA-PISTOL-1939': 'individuali', 'INW-ITA-RIFLE-1940': 'individuali', 'INW-ITA-PISTOL-1940': 'individuali',
+  mitragliatrici: 'mitragliatrici', mitragliatriciLeggere: 'mitragliatrici', mitragliatriciPesanti: 'mitragliatrici',
+  'MG-DEU-MG34-L': 'mitragliatrici', 'MG-DEU-MG34-S': 'mitragliatrici', 'MG-FRA-FM2429': 'mitragliatrici', 'MG-FRA-HOTCHKISS1914': 'mitragliatrici',
+  'MG-ITA-HMG-1940': 'mitragliatrici', 'MG-ITA-LMG-1940': 'mitragliatrici',
+  mortai: 'mortai', mortaiLeggeri50mm: 'mortai', mortaiPesanti81mm: 'mortai', 'ART-DEU-GRW34': 'mortai', 'ART-DEU-GRW36': 'mortai',
+  'ART-FRA-MORTAR60': 'mortai', 'ART-FRA-MORTAR81': 'mortai', 'ART-ITA-MORTAR81-1940': 'mortai', 'ART-ITA-BRIXIA45-1940': 'mortai',
+  artiglieria: 'artiglieria', artiglieriaCampale: 'artiglieria', cannoni105mm: 'artiglieria', cannoniFanteria75mm: 'artiglieria',
+  cannoniFanteriaPesanti150mm: 'artiglieria', obiciLeggeri105mm: 'artiglieria', obiciPesanti150mm: 'artiglieria',
+  'ART-DEU-K18-105': 'artiglieria', 'ART-DEU-LEFH18': 'artiglieria', 'ART-DEU-LEIG18': 'artiglieria', 'ART-DEU-SFH18': 'artiglieria',
+  'ART-DEU-SIG33': 'artiglieria', 'ART-FRA-ART75M1897': 'artiglieria', 'ART-FRA-HOW155C': 'artiglieria', 'ART-ITA-GUN75-1940': 'artiglieria',
+  'ART-ITA-HOW75-1940': 'artiglieria', 'ART-ITA-HOW100-1940': 'artiglieria',
+  controcarro: 'anticarro', controcarro37mm: 'anticarro', 'ART-DEU-PAK36': 'anticarro', 'ART-FRA-AT25': 'anticarro', 'ART-ITA-AT47-1940': 'anticarro',
+  antiaerei: 'contraerea', antiaerei20mm: 'contraerea',
+  veicoli: 'veicoli', carri: 'corazzati', radio: 'trasmissioni',
+});
+
+/** Raggruppa le voci di dotazione. rows: [{ item, planned, effective, ratio, source? }]. Nessuna voce viene scartata. */
+export function equipmentGroups(rows) {
+  const out = Object.keys(EQUIPMENT_GROUP_LABEL).map((g) => ({ id: g, label: EQUIPMENT_GROUP_LABEL[g], rows: [] }));
+  const byId = new Map(out.map((g) => [g.id, g]));
+  for (const r of rows ?? []) {
+    const g = EQUIPMENT_GROUP[r.item] ?? 'non_classificati';
+    byId.get(g).rows.push({ ...r, group: g, difference: (r.effective ?? 0) - (r.planned ?? 0) });
+  }
+  return out.filter((g) => g.rows.length > 0);
+}

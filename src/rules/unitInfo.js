@@ -25,6 +25,13 @@ const humanize = (k) => COMP_LABEL[k] ?? k.replace(/([a-z])([A-Z])/g, '$1 $2').t
 
 /** Composizione teorica della divisione dal template (formazione, reggimenti, battaglioni, supporti organici). Ogni riga porta la base del dato (utente/ipotesi/fonte).
  * null se per la categoria non c'è un template. I valori `null` (da_definire) non compaiono: non si mostrano dati che non esistono. */
+/** Quante foglie del template hanno value null (non definite). Solo il valore previsto, non gli effettivi. */
+export function countUndefined(node) {
+  if (node === null || typeof node !== 'object' || Array.isArray(node)) return 0;
+  if ('basis' in node || 'value' in node) return node.value === null ? 1 : 0;
+  return Object.values(node).reduce((s, v) => s + countUndefined(v), 0);
+}
+
 export function compositionOf(unit, templates) {
   const t = templates ? templateFor(unit, templates) : null;
   if (!t) return null;
@@ -36,7 +43,9 @@ export function compositionOf(unit, templates) {
   add('mobility', t.mobility);
   add('horses', t.horses);
   const support = Array.isArray(t.organicSupport?.value) ? t.organicSupport.value : [];
-  return { templateId: t.id, status: t.status ?? null, rows, support };
+  // voci del template ancora non definite (value null): si contano e si segnalano, mai si riempiono
+  const undefinedCount = countUndefined(t);
+  return { templateId: t.id, status: t.status ?? null, rows, support, undefinedCount };
 }
 
 /**
@@ -67,7 +76,7 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
     : null;
   // prontezza materiale: solo ciò che i dati contengono (uomini e dotazione effettivi/previsti); munizioni, carburante, rifornimenti, riparazioni e riposo no
   const equipment = inst
-    ? Object.entries(inst.items).filter(([k, v]) => k.startsWith('equipment.') && v.planned > 0).map(([k, v]) => ({ item: k.slice('equipment.'.length), planned: v.planned, effective: v.effective, ratio: v.effective / v.planned })).sort((a, b) => (a.ratio - b.ratio) || (a.item < b.item ? -1 : 1))
+    ? Object.entries(inst.items).filter(([k, v]) => k.startsWith('equipment.') && v.planned > 0).map(([k, v]) => ({ item: k.slice('equipment.'.length), planned: v.planned, effective: v.effective, ratio: v.effective / v.planned, source: v.source ?? null })).sort((a, b) => (a.ratio - b.ratio) || (a.item < b.item ? -1 : 1))
     : [];
   // condizione (solo divisioni con dotazione): esperienza, morale, prontezza e stato operativo derivato, ciascuno con la sua causa
   let condition = null;

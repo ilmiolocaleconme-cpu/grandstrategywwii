@@ -1,6 +1,6 @@
 // Contenuto delle sezioni della scheda unità (fase 2). Solo dati già prodotti dal motore: nessun valore inventato.
 import { ECH, CAT } from './UnitInfo.jsx';
-import { sheetSections } from '../rules/unitSheet.js';
+import { sheetSections, equipmentGroups } from '../rules/unitSheet.js';
 
 const NA = <span className="muted">dato non disponibile</span>;
 const POLICY = { conservative: 'conservativa', normal: 'normale', aggressive: 'aggressiva' };
@@ -45,6 +45,7 @@ function Composizione({ info }) {
   if (!c) return NA;
   return (
     <div>
+      {c.undefinedCount > 0 ? <p className="us-warn small">Template incompleto: {c.undefinedCount} {c.undefinedCount === 1 ? 'voce non definita' : 'voci non definite'} (non mostrate, non stimate).</p> : null}
       <ul className="ui-comp">{c.rows.map((r) => <li key={r.key}>{r.label}: <b>{String(r.value)}</b>{r.basis ? <small> ({r.basis})</small> : null}</li>)}</ul>
       {c.support.length ? <p className="small muted">Supporti organici: {c.support.join(' · ')}</p> : null}
       {c.status ? <p className="small muted">Template {c.templateId}: {c.status.toLowerCase().replace(/_/g, ' ')}</p> : null}
@@ -54,10 +55,27 @@ function Composizione({ info }) {
 
 function Equipaggiamento({ info }) {
   if (!info.equipment.length) return NA;
+  const groups = equipmentGroups(info.equipment);
   return (
-    <ul className="ui-eq">
-      {info.equipment.map((e) => <li key={e.item}><span>{e.item}</span><b>{e.effective} / {e.planned}</b><small>{pct(e.ratio)}</small></li>)}
-    </ul>
+    <div className="us-eqgroups">
+      {groups.map((g) => (
+        <section key={g.id} aria-label={g.label}>
+          <h4 className="us-eqhead">{g.label}</h4>
+          <table className="us-eqtable">
+            <thead><tr><th scope="col">Voce</th><th scope="col">Prevista</th><th scope="col">Effettiva</th><th scope="col">Differenza</th></tr></thead>
+            <tbody>
+              {g.rows.map((r) => (
+                <tr key={r.item}>
+                  <td><code>{r.item}</code>{r.source === 'ratio' ? <small className="muted"> stimato</small> : null}</td><td>{r.planned}</td><td>{r.effective}</td>
+                  <td className={r.difference < 0 ? 'us-neg' : ''}>{r.difference > 0 ? `+${r.difference}` : r.difference}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      ))}
+      <p className="small muted">«stimato»: effettivo iniziale calcolato dal previsto con una frazione d'esempio, non un dato storico. Le voci in «Non classificati» mantengono il codice originale: la loro categoria non è ancora definita.</p>
+    </div>
   );
 }
 

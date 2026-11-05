@@ -408,3 +408,12 @@ h2 {
 .unit-sheet .us-row dd button { margin: 4px 6px 0 0; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #4a553f; background: transparent; color: var(--ink); }
 .unit-sheet .us-row dd button.on, .unit-sheet .us-row dd button[aria-pressed='true'] { background: var(--accent); color: #1d2418; }
 .nato-symbol { flex: 0 0 auto; }
+
+/* Scheda unità, fase 3: equipaggiamento per categoria e segnalazioni del template */
+.unit-sheet .us-warn { color: var(--tone-warn); margin: 0 0 6px; }
+.unit-sheet .us-eqhead { margin: 10px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.unit-sheet .us-eqtable { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+.unit-sheet .us-eqtable th, .unit-sheet .us-eqtable td { padding: 4px 6px; text-align: right; border-bottom: 1px solid #3b4534; }
+.unit-sheet .us-eqtable th:first-child, .unit-sheet .us-eqtable td:first-child { text-align: left; }
+.unit-sheet .us-eqtable code { overflow-wrap: anywhere; font-size: 12px; }
+.unit-sheet .us-neg { color: var(--tone-bad); }
