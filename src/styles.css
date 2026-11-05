@@ -394,3 +394,17 @@ h2 {
 .ui-eq { list-style: none; margin: 0; padding: 0 !important; display: grid; gap: 2px; }
 .ui-eq li { display: grid; grid-template-columns: 1fr auto 44px; gap: 8px; align-items: baseline; }
 .ui-eq small { text-align: right; color: var(--muted); }
+
+/* Scheda unità, fase 2 */
+.unit-sheet .us-header { align-items: center; gap: 10px; }
+.unit-sheet .us-header .ap-title h2 { font-size: 16px; margin: 0; }
+.unit-sheet .us-sections { flex-wrap: wrap; margin-top: 6px; }
+.unit-sheet .us-sections button { min-height: 36px; }
+.unit-sheet .us-sections button.na { opacity: 0.7; }
+.unit-sheet .us-list { margin: 0; display: grid; grid-template-columns: 1fr; gap: 4px 0; }
+.unit-sheet .us-row { display: grid; gap: 2px; padding: 4px 0; border-bottom: 1px solid #3b4534; }
+.unit-sheet .us-row dt { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.unit-sheet .us-row dd { margin: 0; overflow-wrap: anywhere; }
+.unit-sheet .us-row dd button { margin: 4px 6px 0 0; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #4a553f; background: transparent; color: var(--ink); }
+.unit-sheet .us-row dd button.on, .unit-sheet .us-row dd button[aria-pressed='true'] { background: var(--accent); color: #1d2418; }
+.nato-symbol { flex: 0 0 auto; }

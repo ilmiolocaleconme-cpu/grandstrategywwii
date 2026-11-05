@@ -2,6 +2,7 @@
 // Funzione PURA. Ciò che il progetto non modella (fatica, morale, organizzazione, esperienza...) NON si inventa: compare in
 // `notModeled`, così il pannello lo dice invece di mostrare numeri finti.
 import { chainOf, childrenOf, orbatLevel } from './orbat.js';
+import { affiliationOf } from './unitSheet.js';
 import { MANAGED_LEVELS } from './commanders.js';
 import { positionOf } from './movement.js';
 import { templateFor } from './forces.js';
@@ -83,5 +84,5 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
     province: here, provinceName: here ? provinceName(here) : null,
     order: order ? { to: order.path[order.path.length - 1], toName: provinceName(order.path[order.path.length - 1]), nextName: provinceName(order.path[order.leg + 1]), daysLeft: order.daysLeft, totalDays: order.totalDays } : null,
   };
-  return { id: unit.id, name: unit.name, nation: unit.nation, echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
+  return { id: unit.id, name: unit.name, nation: unit.nation, affiliation: affiliationOf(state, unit.nation), echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
 }
