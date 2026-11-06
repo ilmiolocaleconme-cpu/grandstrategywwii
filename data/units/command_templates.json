@@ -1,0 +1,9 @@
+{
+  "schema": "command-template-v1",
+  "quality": "BALANCE_HYPOTHESIS",
+  "note": "Template dei comandi creati dal giocatore (decisioni dell'utente del 06/11/2026). I valori sono IPOTESI DI BILANCIAMENTO di Claude, approvate dall'utente come tali: non sono dati storici. Lo stato maggiore è il personale del comando, separato dagli uomini del costo di formazione.",
+  "levels": {
+    "corps": { "name_it": "Corpo d'armata", "staff": 60, "formationManpower": 300, "formationDays": 20, "basis": "ipotesi" },
+    "army": { "name_it": "Armata", "staff": 150, "formationManpower": 600, "formationDays": 45, "basis": "ipotesi" }
+  }
+}

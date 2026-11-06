@@ -91,11 +91,18 @@ function Comando({ info }) {
   );
 }
 
-function Operazioni({ info, canSetPolicy, onPolicy, onReinforce, onMoveHq }) {
+function Operazioni({ info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand }) {
   const m = info.movement;
   const k = info.condition;
   return (
     <dl className="us-list">
+      {onFormCommand && info.echelon === 'division' ? (
+        <Row label="Nuovo comando">
+          <button type="button" onClick={() => onFormCommand('corps')}>Forma un corpo</button>
+          <button type="button" onClick={() => onFormCommand('army')}>Forma un'armata</button>
+          <small className="muted"> corpo: 300 uomini dal pool, 20 giorni · armata: 600 uomini, 45 giorni (ipotesi di bilanciamento)</small>
+        </Row>
+      ) : null}
       {onMoveHq && info.commandLevel ? <Row label="Comando"><button type="button" onClick={() => onMoveHq(info.id)}>Muovi il comando</button><small className="muted"> (le divisioni restano dove sono)</small></Row> : null}
       <Row label="Posizione">{m.provinceName ?? (m.estimate ? <span>{m.estimate.provinceName} <small className="muted">— posizione stimata: {m.estimate.inProvince} di {m.estimate.basedOn} divisioni sottostanti sono lì</small></span> : 'posizione non nota')}</Row>
       <Row label="Ordine">{m.order ? `verso ${m.order.toName}: prossima tappa ${m.order.nextName}, ${m.order.daysLeft} g. alla tappa, ${m.order.totalDays} g. in tutto` : 'nessuno (ferma)'}</Row>
@@ -136,12 +143,12 @@ function Condizione({ info }) {
 const BODY = { panoramica: Panoramica, organico: Organico, composizione: Composizione, equipaggiamento: Equipaggiamento, comando: Comando, operazioni: Operazioni, condizione: Condizione };
 
 /** Corpo di una sezione: quella non modellata mostra «dato non disponibile» con la sua ragione, mai un valore. */
-export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq }) {
+export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand }) {
   const meta = sheetSections(info).find((s) => s.id === id);
   if (!meta) return null;
   const Body = BODY[id];
   if (!meta.available || !Body) {
     return <p className="muted">{NA}. {id === 'logistica' ? 'Rifornimenti e carburante non sono ancora modellati per le unità.' : id === 'sanita' ? 'Feriti, recuperi e sanità non sono ancora modellati.' : 'La storia dell’unità non è ancora registrata nel gioco.'}</p>;
   }
-  return <Body info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} />;
+  return <Body info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} />;
 }

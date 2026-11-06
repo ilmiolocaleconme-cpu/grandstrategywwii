@@ -6,7 +6,7 @@ export const REGISTRY_SCHEMA = 'unit-registry-v1';
 export const REGISTRY_PREFIX = 'X';
 
 export function createUnitRegistry() {
-  return { schema: REGISTRY_SCHEMA, next: 1, units: {} };
+  return { schema: REGISTRY_SCHEMA, next: 1, units: {}, forming: [] };
 }
 
 /** Id nuovo per il contatore dato. */
@@ -53,5 +53,6 @@ export function validateUnitRegistry(r) {
     if (u?.id !== id) errors.push(`registro unità: ${id} con id interno diverso`);
   }
   if (r.next <= max) errors.push('registro unità: il contatore non supera gli id già usati');
+  if (r.forming !== undefined && !Array.isArray(r.forming)) errors.push('registro unità: forming non è un elenco');
   return errors;
 }
