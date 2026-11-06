@@ -11,6 +11,7 @@
 // terreno, fiumi e ponti non modificano ancora la battaglia (defenseMultiplier = 1 salvo `ctx.defenseMultiplier`); niente rifornimenti, morale
 // o comandanti nell'esito; nessun dato storico di guerra: la guerra si dichiara a mano.
 import { createWar, declareWar, atWar, enemiesOf } from '../rules/war.js';
+import { unitOf } from '../rules/unitRegistry.js';
 import { createTheaters, createAssignment, cancelAssignment, completeAssignment, dropUnits, activeAssignments } from '../rules/theater.js';
 import { resolveBattleDay, resolveUrbanBattleDay, categoryPower } from '../rules/combat.js';
 import { positionOf, issueMove, cancelMove } from '../rules/movement.js';
@@ -58,7 +59,7 @@ export function playerAssign(state, { kind, provinces, units, ctx }) {
   const net = ctx.getNet(state);
   const own = [];
   for (const uid of units) {
-    const u = ctx.unitsById.get(uid);
+    const u = unitOf(state, uid, ctx.unitsById);
     if (!u) throw new Error(`unità inesistente: ${uid}`);
     if (u.nation !== state.player) throw new Error(`${u.name} non è tua`);
     if (!isFighter(state, u)) throw new Error(`${u.name} non può combattere (nessuna dotazione o uomini a zero)`);
@@ -90,7 +91,7 @@ function combatantsByProvince(state, ctx) {
   const s0 = state;
   const map = new Map();
   for (const e of ctx.deploymentDoc.entries) {
-    const u = ctx.unitsById.get(e.unit);
+    const u = unitOf(state, e.unit, ctx.unitsById);
     if (!u || !isFighter(state, u)) continue;
     const pos = positionOf(state.movement, ctx.initial, u.id);
     if (!pos) continue;
@@ -219,7 +220,7 @@ export function entrenchOf(state, unitId, cfg = DEFAULT_ENTRENCH) {
 export function playerToggleEntrench(state, { unitIds, on, ctx }) {
   const positions = {};
   for (const id of unitIds) {
-    const u = ctx.unitsById.get(id);
+    const u = unitOf(state, id, ctx.unitsById);
     if (!u) throw new Error(`unità inesistente: ${id}`);
     if (u.nation !== state.player) throw new Error(`${u.name} non è tua`);
     if (on && !isFighter(state, u)) throw new Error(`${u.name} non può trincerarsi (nessuna dotazione o uomini a zero)`);
@@ -245,14 +246,14 @@ function assignmentPhase(state, ctx, net) {
   let s = state;
   const date = s.date;
   for (const a of activeAssignments(s.theaters ?? createTheaters())) {
-    const dead = a.units.filter((uid) => { const u = ctx.unitsById.get(uid); return !u || !isFighter(s, u); });
+    const dead = a.units.filter((uid) => { const u = unitOf(state, uid, ctx.unitsById); return !u || !isFighter(s, u); });
     if (dead.length) s = { ...s, theaters: dropUnits(s.theaters, dead, { date }) };
     const cur = s.theaters.list[a.id];
     if (cur.status !== 'active') continue;
     if (cur.kind === 'attack' && cur.provinces.every((p) => provinceController(s, net, p) === cur.nation)) { s = { ...s, theaters: completeAssignment(s.theaters, a.id, { date }) }; continue; }
     const canEnter = canEnterWar(s, net, cur.nation);
     for (const o of planAssignment(s, ctx, net, cur).orders) {
-      const u = ctx.unitsById.get(o.unit);
+      const u = unitOf(state, o.unit, ctx.unitsById);
       const r = issueMove(s.movement ?? { schema: 'movement-v1', positions: {}, orders: {} }, { id: o.unit, category: u.category }, o.to, { initial: ctx.initial, net, canEnter });
       if (r.ok) s = { ...s, movement: r.movement };
     }

@@ -13,6 +13,7 @@
 // riserve strategiche, valutazione di fiumi/terreno/rifornimenti, coordinamento tra alleati (non esistono alleanze), ritirata ordinata,
 // produzione e rinforzi orientati alla guerra.
 import { createAssignment, cancelAssignment, activeAssignments } from '../rules/theater.js';
+import { unitOf } from '../rules/unitRegistry.js';
 import { enemiesOf } from '../rules/war.js';
 import { divisionPower } from '../rules/combat.js';
 import { positionOf } from '../rules/movement.js';
@@ -50,7 +51,7 @@ function snapshot(state, ctx, nation, enemies) {
   const mine = [];
   const enemyPower = new Map();
   for (const e of ctx.deploymentDoc.entries) {
-    const u = ctx.unitsById.get(e.unit);
+    const u = unitOf(state, e.unit, ctx.unitsById);
     if (!u || !isFighter(state, u)) continue;
     const pos = positionOf(state.movement, ctx.initial, u.id);
     if (!pos) continue;

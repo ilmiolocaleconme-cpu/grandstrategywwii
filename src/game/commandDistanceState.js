@@ -5,6 +5,7 @@ import { conditionOf, createConditionState } from '../rules/divisionCondition.js
 import { estimatedHqProvince } from '../rules/hqPosition.js';
 import { positionOf, createMovementState, issueMove } from '../rules/movement.js';
 import { canEnterFor } from './movementState.js';
+import { unitOf } from '../rules/unitRegistry.js';
 
 /** Posizione di un comando: quella reale (movimento o dislocazione), altrimenti la stimata. null se nessuna. */
 export function commandPosition({ state, initial, orbat, unitsById, id }) {
@@ -31,7 +32,7 @@ export function createCommandDistanceSystem({ net, orbat, unitsById, initial, cf
       const cp = cmdPos(parent);
       if (!dp || !cp) continue;
       const far = isFarFromCommand(net.km(cp, dp));
-      const nation = unitsById.get(id)?.nation ?? null;
+      const nation = unitOf(state, id, unitsById)?.nation ?? null;
       const c = conditionOf(state.conditions, id, cfg, nation);
       const base = { experience: c.experience, morale: c.morale, readiness: c.readinessBeforeDistance, policy: c.policy, isNew: c.isNew, trainedThrough: c.trainedThrough };
       updates.push({ unitId: id, far, base });

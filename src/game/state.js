@@ -3,6 +3,7 @@
 // controllo dei territori: `control` mappa ogni id di `political_1936.json` al suo controllore.
 
 import { START_DATE, addDays, daysBetween, isValidDate } from './calendar.js';
+import { createUnitRegistry, validateUnitRegistry } from '../rules/unitRegistry.js';
 import { DIFFICULTIES, DEFAULT_DIFFICULTY, buildNations, validateNations } from './economyState.js';
 import { populationOf } from '../data/nationPopulation.js';
 import { validateProvinceStates } from './provinceState.js';
@@ -20,7 +21,7 @@ import { validateCommandersShape } from './commandersState.js';
 import { validateDiplomacy } from '../rules/diplomacy.js';
 import { validateWar, validateTheaters, validateCombat, validateEntrench } from './theaterState.js';
 
-export const STATE_SCHEMA = 7; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni; 4: comandanti; 5: inquadramento; 6: forze (istanze di divisione); 7: commercio (contratti). Migrazioni in economyState.js, commandersState.js, orbatState.js e forcesState.js
+export const STATE_SCHEMA = 8; // 2: economia per nazione e difficoltà; 3: popolazione e coda costruzioni; 4: comandanti; 5: inquadramento; 6: forze (istanze di divisione); 7: commercio (contratti); 8: registro delle unità create in partita (unitRegistry). Migrazioni in economyState.js, commandersState.js, orbatState.js e forcesState.js
 
 /**
  * Nazioni scegliibili: `playable` nel dataset politico E almeno una provincia sulla mappa.
@@ -65,6 +66,7 @@ export function newGame({ nation, political, ownersWithProvinces, startDate = ST
       orbat: createOrbatState(),
       forces: createForcesState(),
       trade: createTradeState(),
+      unitRegistry: createUnitRegistry(),
     },
   };
 }
@@ -95,6 +97,7 @@ export function validateState(state) {
   errors.push(...validateOrbatShape(state.orbat));
   errors.push(...validateForcesShape(state.forces));
   errors.push(...validateTradeShape(state.trade));
+  errors.push(...validateUnitRegistry(state.unitRegistry)); // schema 8: registro delle unità create in partita
   errors.push(...validateConditionShape(state)); // opzionale: assente = condizioni iniziali
   errors.push(...validateInfrastructureShape(state.infrastructure)); // opzionale: assente = tutti i collegamenti al livello di partenza
   errors.push(...validatePortsShape(state.ports)); // opzionale: assente = porti del 1936

@@ -122,15 +122,15 @@ const start = { nationIds, industry: read('industry/initial_industry.json'), sto
 const game = (nation = 'ITA') => newGame({ nation, political, ownersWithProvinces: nationIds, start }).state;
 
 test('schema 7: partita nuova con commercio vuoto; migrazione 6→7; salvataggio e ricarica', () => {
-  assert.equal(STATE_SCHEMA, 7);
+  assert.equal(STATE_SCHEMA, 8);
   const g = game();
   assert.deepEqual(g.trade, { schema: 'trade-v1', nextId: 1, contracts: [] });
   assert.deepEqual(validateState(g), []);
   const { trade, ...old } = g;
   const m = migrateV6toV7({ ...old, schema: 6 });
-  assert.equal(m.schema, 7); assert.deepEqual(m.trade, createTradeState());
+  assert.equal(m.schema, 7, 'il singolo passo 6→7 produce lo schema 7'); assert.deepEqual(m.trade, createTradeState());
   const r = parseSave(JSON.stringify({ format: 'grandstrategywwii-save', schema: 6, savedAt: null, label: '', state: { ...old, schema: 6 } }));
-  if (r.ok) { assert.equal(r.migratedFrom, 6); assert.equal(r.state.schema, 7); assert.deepEqual(r.state.trade, createTradeState()); }
+  if (r.ok) { assert.equal(r.migratedFrom, 6); assert.equal(r.state.schema, 8); assert.deepEqual(r.state.trade, createTradeState()); }
   const back = parseSave(serializeSave(g));
   assert.equal(back.ok, true); assert.deepEqual(back.state.trade, g.trade);
 });

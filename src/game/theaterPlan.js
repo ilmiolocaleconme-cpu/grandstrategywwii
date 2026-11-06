@@ -12,6 +12,7 @@
 //   di categoria (src/rules/combat.js). Limiti: la minaccia conta solo le divisioni presenti ORA (non rinforzi in marcia del nemico), niente
 //   fiumi/terreno/rifornimenti, nessuna previsione dell'IA avversaria.
 import { divisionPower } from '../rules/combat.js';
+import { unitOf } from '../rules/unitRegistry.js';
 import { atWar } from '../rules/war.js';
 import { positionOf, findPath } from '../rules/movement.js';
 import { entrenchBonus, DEFAULT_ENTRENCH } from '../rules/entrench.js';
@@ -38,7 +39,7 @@ export function defensivePowerOf(state, unit, cfg = DEFAULT_ENTRENCH) {
 export function enemyPowerMap(state, ctx, nation, { defending = false } = {}) {
   const map = new Map();
   for (const e of ctx.deploymentDoc.entries) {
-    const u = ctx.unitsById.get(e.unit);
+    const u = unitOf(state, e.unit, ctx.unitsById);
     if (!u || u.nation === nation || !atWar(state.war, u.nation, nation) || !isFighter(state, u)) continue;
     const pos = positionOf(state.movement, ctx.initial, u.id);
     if (pos) map.set(pos, (map.get(pos) ?? 0) + (defending ? defensivePowerOf(state, u, ctx.entrenchCfg) : powerOfUnit(state, u)));
@@ -64,7 +65,7 @@ const cmpId = (x, y) => (x < y ? -1 : x > y ? 1 : 0);
 function fightersOf(state, ctx, a, { defending = false } = {}) {
   const out = [];
   for (const id of a.units) {
-    const u = ctx.unitsById.get(id);
+    const u = unitOf(state, id, ctx.unitsById);
     if (!u || !isFighter(state, u)) continue;
     const pos = positionOf(state.movement, ctx.initial, id);
     if (!pos) continue;

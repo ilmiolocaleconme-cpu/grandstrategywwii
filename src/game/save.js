@@ -10,6 +10,7 @@ import { migrateV3toV4 } from './commandersState.js';
 import { migrateV4toV5 } from './orbatState.js';
 import { migrateV5toV6 } from './forcesState.js';
 import { migrateV6toV7 } from './tradeState.js';
+import { migrateV7toV8 } from './unitRegistryState.js';
 
 export const SAVE_FORMAT = 'gswwii-save';
 export const SAVE_SCHEMA = STATE_SCHEMA;
@@ -22,9 +23,10 @@ export const SLOTS = ['auto', 'manual'];
  * Schema 2 → 3 (28/10/2026): popolazione per nazione (null, riempita dai dati al caricamento) e coda delle costruzioni.
  * Schema 3 → 4 (29/10/2026): comandanti di corpo e armata (nessuna assegnazione).
  * Schema 6 → 7 (29/10/2026): commercio (nessun contratto).
+ * Schema 7 → 8 (05/11/2026): registro delle unità create in partita (vuoto).
  * Quando cambia la forma dello stato si incrementa STATE_SCHEMA e si aggiunge qui la funzione, con un test.
  */
-export const MIGRATIONS = { 1: migrateV1toV2, 2: migrateV2toV3, 3: migrateV3toV4, 4: migrateV4toV5, 5: migrateV5toV6, 6: migrateV6toV7 };
+export const MIGRATIONS = { 1: migrateV1toV2, 2: migrateV2toV3, 3: migrateV3toV4, 4: migrateV4toV5, 5: migrateV5toV6, 6: migrateV6toV7, 7: migrateV7toV8 };
 
 export function serializeSave(state, { savedAt, label = '' } = {}) {
   return JSON.stringify({ format: SAVE_FORMAT, schema: state.schema, savedAt: savedAt ?? null, label, state });
