@@ -5,6 +5,7 @@
 import { addDays } from '../game/calendar.js';
 import { registerUnit } from './unitRegistry.js';
 import { attach } from './orbat.js';
+import { createMovementState } from '../rules/movement.js';
 
 export const COMMAND_TEMPLATE_SCHEMA = 'command-template-v1';
 export const COMMAND_LEVELS = ['corps', 'army'];
@@ -32,7 +33,7 @@ export function availableManpower(state, nation, poolBase) {
 }
 
 /** Avvia la formazione di un comando. Ritorna { ok, state } o { ok: false, reason }. */
-export function startFormation(state, { nation, level, parentId = null, date, template, pool, catalog }) {
+export function startFormation(state, { nation, level, parentId = null, date, template, pool, catalog, province = null }) {
   if (!COMMAND_LEVELS.includes(level)) return { ok: false, reason: 'livello' };
   const d = template.levels[level];
   const available = availableManpower(state, nation, pool);
@@ -44,7 +45,7 @@ export function startFormation(state, { nation, level, parentId = null, date, te
   }
   const reg = state.unitRegistry;
   const maxSeen = Math.max(0, ...(reg.forming ?? []).map((f) => Number(f.id.slice(1)) || 0));
-  const entry = { id: `F${maxSeen + 1}`, nation, level, manpower: d.formationManpower, start: date, end: addDays(date, d.formationDays), parentId };
+  const entry = { id: `F${maxSeen + 1}`, nation, level, manpower: d.formationManpower, start: date, end: addDays(date, d.formationDays), parentId, province };
   return { ok: true, state: { ...state, unitRegistry: { ...reg, forming: [...(reg.forming ?? []), entry] } }, formation: entry };
 }
 
@@ -61,15 +62,18 @@ export function completeFormations(state, { date, units, catalog }) {
   if (due.length === 0) return state;
   let registry = { ...reg, forming: forming.filter((f) => f.end > date) };
   let orbat = state.orbat;
+  let movement = state.movement;
   for (const f of due) {
     const seq = Object.values(registry.units).filter((u) => u.nation === f.nation && u.commandLevel === f.level && u.origin === 'player').length + 1;
     const r = registerUnit(registry, { name: commandName(f.level, f.nation, seq), nation: f.nation, echelon: 'command', category: 'command', commandLevel: f.level, variant: null, startYear: Number(f.end.slice(0, 4)), endYear: null, origin: 'player', formedOn: f.end });
     registry = r.registry;
+    // il comando nasce nella provincia della divisione che ha avviato la formazione: così è sulla mappa e può muoversi
+    if (f.province) movement = { ...(movement ?? createMovementState()), positions: { ...(movement?.positions ?? {}), [r.id]: f.province } };
     if (f.parentId) {
       const view = [...catalog.values(), ...Object.values(registry.units)];
       const res = attach(orbat, { childId: r.id, parentId: f.parentId, units: view, date: f.end, source: 'player' });
       orbat = res.state;
     }
   }
-  return { ...state, unitRegistry: registry, orbat };
+  return { ...state, unitRegistry: registry, orbat, movement };
 }

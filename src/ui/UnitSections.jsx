@@ -79,14 +79,21 @@ function Equipaggiamento({ info }) {
   );
 }
 
-function Comando({ info }) {
+function Comando({ info, onAttachTo, armies }) {
   const c = info.commander;
+  const parent = info.chain.length ? info.chain[0].id : null; // la catena parte dal superiore diretto
+  const canAttach = onAttachTo && info.origin === 'player' && info.commandLevel === 'corps' && armies && armies.length > 0;
   return (
     <dl className="us-list">
       <Row label="Comandante">{c.status === 'assegnato' ? `${c.name} (${c.rank})` : c.status === 'vacante' ? 'vacante' : `non gestito: ${c.reason}`}</Row>
       <Row label="Livello">{ECH[info.echelon] ?? info.echelon}{info.commandLevel ? ` · ${info.commandLevel}` : ''}</Row>
       <Row label="Inquadrata in">{info.chain.length ? info.chain.map((x) => x.name).join(' › ') : 'nessun comando superiore'}</Row>
       <Row label="Forze assegnate">{info.children.length ? info.children.map((x) => x.name).join(', ') : 'nessuna'}</Row>
+      {canAttach ? (
+        <Row label="Assegna a un'armata">
+          {armies.filter((a) => a.id !== parent).map((a) => <button key={a.id} type="button" onClick={() => onAttachTo(info.id, a.id)}>{a.name}</button>)}
+        </Row>
+      ) : null}
     </dl>
   );
 }
@@ -143,12 +150,12 @@ function Condizione({ info }) {
 const BODY = { panoramica: Panoramica, organico: Organico, composizione: Composizione, equipaggiamento: Equipaggiamento, comando: Comando, operazioni: Operazioni, condizione: Condizione };
 
 /** Corpo di una sezione: quella non modellata mostra «dato non disponibile» con la sua ragione, mai un valore. */
-export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand }) {
+export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand, onAttachTo, armies }) {
   const meta = sheetSections(info).find((s) => s.id === id);
   if (!meta) return null;
   const Body = BODY[id];
   if (!meta.available || !Body) {
     return <p className="muted">{NA}. {id === 'logistica' ? 'Rifornimenti e carburante non sono ancora modellati per le unità.' : id === 'sanita' ? 'Feriti, recuperi e sanità non sono ancora modellati.' : 'La storia dell’unità non è ancora registrata nel gioco.'}</p>;
   }
-  return <Body info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} />;
+  return <Body info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} armies={armies} />;
 }

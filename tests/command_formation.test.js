@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createUnitRegistry, unitOf } from '../src/rules/unitRegistry.js';
 import { validateCommandTemplates, startFormation, completeFormations, availableManpower, reservedManpower, commandName } from '../src/rules/commandFormation.js';
-import { createOrbatState } from '../src/rules/orbat.js';
+import { createOrbatState, attach } from '../src/rules/orbat.js';
 import { validateUnitRegistry } from '../src/rules/unitRegistry.js';
 
 const template = JSON.parse(readFileSync(new URL('../data/units/command_templates.json', import.meta.url), 'utf8'));
@@ -66,4 +66,21 @@ test('pool: gli uomini in formazione non risultano disponibili per altre formazi
   const s = startFormation(base(), { nation: 'GER', level: 'corps', date: '1936-01-01', template, pool: 350, catalog }).state;
   const second = startFormation(s, { nation: 'GER', level: 'corps', date: '1936-01-02', template, pool: 350, catalog });
   assert.equal(second.reason, 'uomini', 'restano 50 uomini: non bastano');
+});
+
+test('posizione: il comando nuovo nasce nella provincia della divisione che ha avviato la formazione', () => {
+  const f = startFormation(base(), { nation: 'GER', level: 'corps', date: '1936-01-01', template, pool: 1000, catalog, province: 'P_BER' });
+  const done = completeFormations(f.state, { date: '1936-01-21', units: null, catalog });
+  const id = Object.keys(done.unitRegistry.units)[0];
+  assert.equal(done.movement.positions[id], 'P_BER', 'sulla mappa e pronto a muoversi');
+});
+
+test('inquadramento: un corpo nuovo si collega a un\'armata della stessa nazione con la regola ORBAT esistente', () => {
+  const f = startFormation(base(), { nation: 'GER', level: 'corps', date: '1936-01-01', template, pool: 1000, catalog, province: 'P_BER' });
+  const done = completeFormations(f.state, { date: '1936-01-21', units: null, catalog });
+  const id = Object.keys(done.unitRegistry.units)[0];
+  const view = [...catalog.values(), ...Object.values(done.unitRegistry.units)];
+  const linked = attach(done.orbat, { childId: id, parentId: 'A1', units: view, date: '1936-01-21', source: 'player' });
+  assert.equal(linked.state.links[id].parent, 'A1');
+  assert.throws(() => attach(done.orbat, { childId: id, parentId: 'C1', units: view, date: '1936-01-21' }), /superiore|non/i, 'un corpo non va sotto un corpo');
 });

@@ -584,9 +584,14 @@ export default function App() {
   const [hqId, setHqId] = useState(null);
   const [hqMove, setHqMove] = useState(null);
   // formazione di un comando creato dal giocatore (decisioni 06/11/2026): uomini dal pool, tempi del template
+  // inquadramento di un comando creato dal giocatore sotto un'armata della sua nazione (ORBAT, stesse regole di sempre)
+  const attachCommand = (unitId, parentId) => {
+    if (!game) return;
+    try { const r = playerAttach(game, { unitId, parentId, units: unitsList(game, unitsFile.units) }); setGame(r.state); setArmyNotice(`${unitOf(game, unitId, UNITS_BY_ID)?.name ?? unitId} inquadrato sotto ${unitOf(game, parentId, UNITS_BY_ID)?.name ?? parentId}.`); } catch (e) { setArmyNotice(e.message); }
+  };
   const formCommand = (level, parentId = null) => {
     if (!game) return;
-    const r = startFormation(game, { nation: game.player, level, parentId, date: game.date, template: commandTemplates, pool: hospitalManpower(game, game.player), catalog: UNITS_BY_ID });
+    const r = startFormation(game, { nation: game.player, level, parentId, date: game.date, template: commandTemplates, pool: hospitalManpower(game, game.player), catalog: UNITS_BY_ID, province: armySel?.province ?? null });
     if (r.ok) { setGame(r.state); setArmyNotice(`Formazione avviata: il comando sarà pronto il ${r.formation.end}.`); return; }
     const why = { uomini: `servono ${r.need} uomini dal pool, disponibili ${r.have}`, livello: 'livello non valido', superiore: 'superiore non adatto' }[r.reason] ?? r.reason;
     setArmyNotice(`Impossibile formare il comando: ${why}.`);
@@ -858,7 +863,7 @@ export default function App() {
           <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
         ) : infoSheet && armyGroup && game ? (
           <UnitSheet infos={radialIds.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates }))}
-            canSetPolicy={radialOwn} onFormCommand={armySel.nation === game.player ? formCommand : undefined} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
+            canSetPolicy={radialOwn} onFormCommand={armySel.nation === game.player ? formCommand : undefined} onAttachTo={attachCommand} armies={game ? unitsList(game, unitsFile.units).filter((u) => u.echelon === 'command' && u.commandLevel === 'army' && u.nation === game.player && isActiveAt(u, game.date ?? '1936-01-01')).map((u) => ({ id: u.id, name: u.name })) : []} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
         ) : armyGroup && game ? (
           <ArmyPanel templates={FORCES_CTX.templates} moveMode={moveMode} group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={unitsView(game, UNITS_BY_ID)} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
             provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={(uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}

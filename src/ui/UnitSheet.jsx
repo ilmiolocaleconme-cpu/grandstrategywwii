@@ -6,7 +6,7 @@ import UnitSection from './UnitSections.jsx';
 import { natoSpec, sheetSections } from '../rules/unitSheet.js';
 import { CAT } from './UnitInfo.jsx';
 
-export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, onClose, onMoveHq, onFormCommand }) {
+export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, onClose, onMoveHq, onFormCommand, onAttachTo, armies }) {
   const [i, setI] = useState(0);
   const [section, setSection] = useState('panoramica');
   const info = infos[Math.min(i, infos.length - 1)];
@@ -37,7 +37,7 @@ export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, 
         ))}
       </nav>
       <div className="us-body" role="tabpanel">
-        <UnitSection id={section} info={info} canSetPolicy={canSetPolicy && info.nation !== undefined} onPolicy={onPolicy} onReinforce={info.nation === undefined ? undefined : onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} />
+        <UnitSection id={section} info={info} canSetPolicy={canSetPolicy && info.nation !== undefined} onPolicy={onPolicy} onReinforce={info.nation === undefined ? undefined : onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} armies={armies} />
       </div>
     </aside>
   );
