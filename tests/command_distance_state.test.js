@@ -49,3 +49,12 @@ test('ordine di marcia: senza partenza nota il comando non si muove', () => {
   const r = orderCommandMove(base(), { unitId: 'C1', to: 'C', nation: 'GER', net, initial, startProvince: null });
   assert.equal(r.ok, false);
 });
+
+test('verifica: muovere un comando non cambia divisioni, rinforzi in viaggio né collegamenti ORBAT', () => {
+  const s = { ...base(), forces: { divisions: { D1: { templateId: 'T' }, D2: { templateId: 'T' } }, transfers: [{ id: 'R1', divisionId: 'D1', item: 'manpower.war', qty: 5 }] } };
+  const before = JSON.stringify({ divisions: s.forces.divisions, transfers: s.forces.transfers, orbat });
+  const r = orderCommandMove(s, { unitId: 'C1', to: 'C', nation: 'GER', net, initial, startProvince: 'A' });
+  assert.equal(r.ok, true);
+  assert.equal(JSON.stringify({ divisions: r.state.forces.divisions, transfers: r.state.forces.transfers, orbat }), before);
+  assert.equal(r.state.movement.positions.D1, undefined, 'le divisioni non ricevono una posizione dal comando');
+});

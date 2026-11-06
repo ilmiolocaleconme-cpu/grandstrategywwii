@@ -53,7 +53,7 @@ import UnitSheet from './ui/UnitSheet.jsx';
 import { unitInfo } from './rules/unitInfo.js';
 import { playerAttach, playerDetach } from './game/orbatState.js';
 import { createOrbatState } from './rules/orbat.js';
-import { estimatedHqProvince } from './rules/hqPosition.js';
+import { commandsByProvince } from './rules/hqPosition.js';
 import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
@@ -570,18 +570,12 @@ export default function App() {
   const [hqId, setHqId] = useState(null);
   const [hqMove, setHqMove] = useState(null); // comando in attesa della destinazione (tocco sulla mappa)
   const estimatedHqs = useMemo(() => {
-    const out = new Map();
-    if (!game) return out;
-    const orbat = game.orbat ?? createOrbatState();
-    for (const u of unitsFile.units) {
-      if (u.echelon !== 'command' || !['corps', 'army'].includes(u.commandLevel) || !isActiveAt(u, game.date ?? '1936-01-01')) continue;
-      if (positionOf(game.movement, INITIAL_POSITIONS, u.id)) continue;
-      const e = estimatedHqProvince({ hqId: u.id, orbat, unitsById: UNITS_BY_ID, positionOf: (id) => positionOf(game.movement, INITIAL_POSITIONS, id) });
-      if (!e) continue;
-      if (!out.has(e.province)) out.set(e.province, []);
-      out.get(e.province).push({ id: u.id, name: u.name, inProvince: e.inProvince, basedOn: e.basedOn });
-    }
-    return out;
+    if (!game) return new Map();
+    return commandsByProvince({
+      commands: unitsFile.units, orbat: game.orbat ?? createOrbatState(), unitsById: UNITS_BY_ID,
+      positionOf: (id) => positionOf(game.movement, INITIAL_POSITIONS, id),
+      isActive: (u) => isActiveAt(u, game.date ?? '1936-01-01'),
+    });
   }, [game?.movement, game?.orbat, game?.date]); // eslint-disable-line react-hooks/exhaustive-deps
   // Teatro: incarichi (attacco/difesa) con province scelte sulla mappa, guerra e registro delle battaglie
   const theaterCtx = { getNet: gameNet, unitsById: UNITS_BY_ID };

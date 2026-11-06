@@ -31,3 +31,27 @@ test('sottoposti che non sono divisioni (es. supporto) non contano', () => {
   const e = estimatedHqProvince({ hqId: 'C1', orbat, unitsById, positionOf: posOf({ S1: 'P_X' }) });
   assert.equal(e, null);
 });
+
+import { commandsByProvince } from '../src/rules/hqPosition.js';
+
+test('comandi per provincia: un comando mosso compare dove si trova, uno fermo con la stima, uno senza posizione non compare', () => {
+  const cmds = [
+    { id: 'C1', name: 'I Corpo', echelon: 'command', commandLevel: 'corps' },
+    { id: 'C2', name: 'II Corpo', echelon: 'command', commandLevel: 'corps' },
+    { id: 'C3', name: 'III Corpo', echelon: 'command', commandLevel: 'corps' },
+  ];
+  const byId = new Map([...cmds, ...['D1', 'D2'].map((id) => ({ id, echelon: 'division', category: 'infantry' }))].map((u) => [u.id, u]));
+  const orbat = { links: { D1: { parent: 'C2' }, D2: { parent: 'C2' } } };
+  const pos = { C1: 'P_MOVED', D1: 'P_X', D2: 'P_X' }; // C1 mosso; C2 stimata in P_X; C3 senza divisioni
+  const out = commandsByProvince({ commands: cmds, orbat, unitsById: byId, positionOf: (id) => pos[id] ?? null, isActive: () => true });
+  assert.deepEqual(out.get('P_MOVED'), [{ id: 'C1', name: 'I Corpo', estimated: false }]);
+  assert.equal(out.get('P_X')[0].id, 'C2');
+  assert.equal(out.get('P_X')[0].estimated, true);
+  assert.equal([...out.values()].flat().some((r) => r.id === 'C3'), false, 'senza posizione non compare');
+});
+
+test('comandi per provincia: i comandi non attivi non compaiono', () => {
+  const cmds = [{ id: 'C1', name: 'I Corpo', echelon: 'command', commandLevel: 'corps' }];
+  const out = commandsByProvince({ commands: cmds, orbat: { links: {} }, unitsById: new Map(), positionOf: () => 'P_X', isActive: () => false });
+  assert.equal(out.size, 0);
+});

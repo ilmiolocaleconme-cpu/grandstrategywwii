@@ -110,8 +110,8 @@ function ProvinceBody({ item, nationNames, nationControl, provinceResources, pro
       {cards.map((c) => <Card key={c.id} card={c} quality={c.id === 'data' ? p.borderQuality : null} />)}
       {hqs && hqs.length && onOpenHq ? (
         <section className="pv-hq" aria-label="Comandi stimati in questa provincia">
-          <h3>Comandi (posizione stimata)</h3>
-          <ul>{hqs.map((h) => <li key={h.id}><button type="button" onClick={() => onOpenHq(h.id)}>{h.name}</button> <small className="muted">stimato: {h.inProvince} di {h.basedOn} divisioni sottostanti sono qui</small></li>)}</ul>
+          <h3>Comandi</h3>
+          <ul>{hqs.map((h) => <li key={h.id}><button type="button" onClick={() => onOpenHq(h.id)}>{h.name}</button> <small className="muted">{h.estimated ? `posizione stimata: ${h.inProvince} di ${h.basedOn} divisioni sottostanti sono qui` : 'posizione nota'}</small></li>)}</ul>
         </section>
       ) : null}
     </aside>
