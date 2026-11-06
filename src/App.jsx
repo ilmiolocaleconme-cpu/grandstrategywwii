@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { unitOf, unitsView } from './rules/unitRegistry.js';
+import { unitOf, unitsView, unitsList } from './rules/unitRegistry.js';
 import resources from '../data/resources.json';
 import political from '../data/political_1936.json';
 import nations from '../data/nations.json';
@@ -315,7 +315,7 @@ if (ENTRENCH_ERRORS.length) console.error('Trinceramento: configurazione non val
 const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
-  commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
+  (state) => commandersSystem({ units: unitsList(state, unitsFile.units), officers: officersFile.officers })(state), // comandi creati dal giocatore inclusi
   createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
   (state) => completeFormations(state, { date: state.date, catalog: UNITS_BY_ID }), // comandi creati dal giocatore: completano alla data prevista
@@ -326,7 +326,7 @@ const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
   // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
-  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsFile.units, poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
+  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   GAME_SECURITY.securityDay,
@@ -571,7 +571,7 @@ export default function App() {
   const estimatedHqs = useMemo(() => {
     if (!game) return new Map();
     return commandsByProvince({
-      commands: unitsFile.units, orbat: game.orbat ?? createOrbatState(), unitsById: unitsView(game, UNITS_BY_ID),
+      commands: unitsList(game, unitsFile.units), orbat: game.orbat ?? createOrbatState(), unitsById: unitsView(game, UNITS_BY_ID),
       positionOf: (id) => positionOf(game.movement, INITIAL_POSITIONS, id),
       isActive: (u) => isActiveAt(u, game.date ?? '1936-01-01'),
     });
@@ -835,10 +835,10 @@ export default function App() {
         ) : null}
         <MapScreen land={land} radial={armyGroup ? <UnitRadial n={radialIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
         {command && game ? (
-          <CommandPanel orbat={game.orbat ?? createOrbatState()} units={unitsFile.units} nation={game.player} date={game.date} nationName={NATION_NAMES[game.player]} selectedId={command.selected} notice={command.notice}
+          <CommandPanel orbat={game.orbat ?? createOrbatState()} units={unitsList(game, unitsFile.units)} nation={game.player} date={game.date} nationName={NATION_NAMES[game.player]} selectedId={command.selected} notice={command.notice}
             onSelect={(id) => setCommand((c) => ({ ...c, selected: id, notice: null }))}
-            onAttach={(unitId, parentId) => { try { const r = playerAttach(game, { unitId, parentId, units: unitsFile.units }); setGame(r.state); setCommand((c) => ({ ...c, notice: `${unitOf(game, unitId, UNITS_BY_ID).name} è ora agli ordini di ${unitOf(game, parentId, UNITS_BY_ID).name}.` })); return true; } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); return false; } }}
-            onDetach={(unitId) => { try { const r = playerDetach(game, unitId, { units: unitsFile.units }); setGame(r.state); setCommand((c) => ({ ...c, notice: `${unitOf(game, unitId, UNITS_BY_ID).name} non ha più un comando superiore.` })); } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); } }}
+            onAttach={(unitId, parentId) => { try { const r = playerAttach(game, { unitId, parentId, units: unitsList(game, unitsFile.units) }); setGame(r.state); setCommand((c) => ({ ...c, notice: `${unitOf(game, unitId, UNITS_BY_ID).name} è ora agli ordini di ${unitOf(game, parentId, UNITS_BY_ID).name}.` })); return true; } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); return false; } }}
+            onDetach={(unitId) => { try { const r = playerDetach(game, unitId, { units: unitsList(game, unitsFile.units) }); setGame(r.state); setCommand((c) => ({ ...c, notice: `${unitOf(game, unitId, UNITS_BY_ID).name} non ha più un comando superiore.` })); } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); } }}
             fightersOf={(id) => divisionsUnder(game.orbat ?? createOrbatState(), id, unitsView(game, UNITS_BY_ID)).filter((d) => isFighter(game, unitOf(game, d, UNITS_BY_ID)))}
             onAssign={(id) => { const ids = divisionsUnder(game.orbat ?? createOrbatState(), id, unitsView(game, UNITS_BY_ID)).filter((d) => isFighter(game, unitOf(game, d, UNITS_BY_ID))); setTheater({ draft: { kind: 'attack', provinces: [], units: ids }, notice: null }); setCommand(null); setArmySel(null); }}
             onEntrench={(id, on) => { try { const all = divisionsUnder(game.orbat ?? createOrbatState(), id, unitsView(game, UNITS_BY_ID)); const ids = on ? all.filter((d) => isFighter(game, unitOf(game, d, UNITS_BY_ID))) : all; setGame(playerToggleEntrench(game, { unitIds: ids, on, ctx: THEATER_CTX })); setCommand((c) => ({ ...c, notice: on ? `${ids.length} ${ids.length === 1 ? "divisione si trincera" : "divisioni si trincerano"}.` : 'Le divisioni smettono di trincerarsi.' })); } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); } }}

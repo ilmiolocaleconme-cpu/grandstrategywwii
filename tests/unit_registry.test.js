@@ -57,3 +57,15 @@ test('validazione: id non validi, contatore indietro e id interni diversi sono e
   assert.ok(validateUnitRegistry({ ...r, units: { X00001: { id: 'X00009' } } }).some((e) => /id interno/.test(e)));
   assert.deepEqual(validateUnitRegistry(undefined), [], 'assente: nessun errore');
 });
+
+import { unitsList } from '../src/rules/unitRegistry.js';
+
+test('liste per i sistemi: l\'array del catalogo più le unità create; senza registro, lo stesso array', () => {
+  const arr = [{ id: 'U00001' }];
+  const r = registerUnit(createUnitRegistry(), { name: 'Nuovo', nation: 'GER' });
+  const list = unitsList({ unitRegistry: r.registry }, arr);
+  assert.equal(list.length, 2);
+  assert.equal(list[1].id, r.id);
+  assert.equal(unitsList({}, arr), arr);
+  assert.equal(unitsList({ unitRegistry: r.registry }, arr), list, 'ricostruita solo se cambia il registro');
+});

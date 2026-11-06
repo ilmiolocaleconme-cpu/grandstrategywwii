@@ -56,3 +56,16 @@ export function validateUnitRegistry(r) {
   if (r.forming !== undefined && !Array.isArray(r.forming)) errors.push('registro unità: forming non è un elenco');
   return errors;
 }
+
+/** Lista delle unità (come l'array del catalogo) più quelle del registro. Ricostruita solo se cambia il registro. */
+const listCache = new WeakMap();
+export function unitsList(state, catalogArray) {
+  const reg = state?.unitRegistry?.units;
+  if (!reg || Object.keys(reg).length === 0) return catalogArray;
+  let entry = listCache.get(catalogArray);
+  if (!entry || entry.reg !== reg) {
+    entry = { reg, list: [...catalogArray, ...Object.values(reg)] };
+    listCache.set(catalogArray, entry);
+  }
+  return entry.list;
+}
