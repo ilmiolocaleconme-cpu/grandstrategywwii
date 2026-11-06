@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { orbatLevel, chainOf } from '../rules/orbat.js';
 import { commandTree, visibleRows, loose, validParents, validChildren, levelLabel } from './commandView.js';
+import CommandSummary from './CommandSummary.jsx';
 
 const levelOf = (u) => orbatLevel(u);
 const commandTreeOf = commandTree;
@@ -36,7 +37,7 @@ function Picker({ title, groups, onPick, onClose, empty }) {
   );
 }
 
-export default function CommandPanel({ orbat, units, nation, date, nationName, selectedId, notice, onSelect, onAttach, onDetach, fightersOf, onAssign, onEntrench, onClose }) {
+export default function CommandPanel({ orbat, units, nation, date, nationName, selectedId, notice, onSelect, onAttach, onDetach, fightersOf, onAssign, onEntrench, onClose, summary = null }) {
   const [expanded, setExpanded] = useState(() => new Set());
   const [query, setQuery] = useState('');
   const [tab, setTab] = useState('free'); // 'free' = da assegnare, 'tree' = ordine di battaglia
@@ -65,6 +66,7 @@ export default function CommandPanel({ orbat, units, nation, date, nationName, s
     <aside className="panel army-panel cmd-panel" aria-label="Comando">
       <header className="ap-head">
         <div className="ap-title"><h2>Comando</h2><p>{nationName} · {free.length} da assegnare</p></div>
+        <CommandSummary summary={summary} />
         <button type="button" className="close" aria-label="Chiudi" onClick={onClose}>×</button>
       </header>
       {notice ? <p className="ap-notice" role="status">{notice}</p> : null}

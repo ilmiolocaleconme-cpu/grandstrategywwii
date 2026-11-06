@@ -417,3 +417,12 @@ h2 {
 .unit-sheet .us-eqtable th:first-child, .unit-sheet .us-eqtable td:first-child { text-align: left; }
 .unit-sheet .us-eqtable code { overflow-wrap: anywhere; font-size: 12px; }
 .unit-sheet .us-neg { color: var(--tone-bad); }
+
+/* Riepilogo dello stato maggiore (pannello comando) */
+.cmd-summary { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 10px; }
+.cmd-sum { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border: 1px solid #4a553f; border-radius: 999px; background: rgba(0,0,0,.2); font-variant-numeric: tabular-nums; min-width: 0; }
+.cmd-sum b { font-size: 13px; }
+.cmd-sum-ico { width: 18px; height: 18px; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+.cmd-sum.warn { border-color: var(--warn); }
+.cmd-sum.warn .cmd-sum-ico { stroke: var(--warn); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

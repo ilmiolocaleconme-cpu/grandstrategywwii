@@ -67,6 +67,7 @@ import { createReinforcementSystem, setDivisionReinforcement, depotRoute } from 
 import conditionConfig from '../data/units/condition_config.json';
 import commandTemplates from '../data/units/command_templates.json';
 import { startFormation, completeFormations, availableManpower } from './rules/commandFormation.js';
+import { commandSummary } from './rules/commandSummary.js';
 import { createConditionSystem, playerSetPolicy } from './game/conditionState.js';
 import { createCommandDistanceSystem, orderCommandMove, commandPosition } from './game/commandDistanceState.js';
 import readiness from '../data/units/readiness.json';
@@ -631,6 +632,8 @@ export default function App() {
       unitName: (u) => unitOf(game, u, UNITS_BY_ID)?.name ?? u, effectiveOf: (u) => game.forces?.divisions?.[u]?.items?.['manpower.war']?.effective ?? null,
     })) : []), [theater, game, moveNet]);
   const alerts = useMemo(() => (game && moveNet && game.theaters ? theaterAlerts(game, THEATER_CTX, game.player) : []), [game, moveNet]);
+  // riepilogo in alto dello stato maggiore: solo dati che il motore produce (cassa, uomini liberi, prontezza, morale, avvisi)
+  const commandSummaryData = useMemo(() => (game ? commandSummary(game, { nation: game.player, unitsById: unitsView(game, UNITS_BY_ID), conditionConfig, availableMen: availableManpower(game, game.player, hospitalManpower(game, game.player)), alerts: alerts.length }) : null), [game, alerts]);
   const theaterMarkSet = useMemo(() => (game && moveNet ? theaterMarks({ state: game, pick: theater?.draft?.provinces ?? [], colorOf: (n) => ownerColor(n), alerts }) : null), [game?.provinces, game?.theaters, game?.player, theater?.draft?.provinces, moveNet, alerts]); // eslint-disable-line react-hooks/exhaustive-deps
   // rete di movimento: si carica (e si costruisce) quando c'è una partita; l'adiacenza è un file a parte, non nel pacchetto principale
   // le zone urbane entrano nella rete con i loro collegamenti (data/city_links.json): si aspettano le zone caricate
@@ -840,7 +843,7 @@ export default function App() {
         ) : null}
         <MapScreen land={land} radial={armyGroup ? <UnitRadial n={radialIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
         {command && game ? (
-          <CommandPanel orbat={game.orbat ?? createOrbatState()} units={unitsList(game, unitsFile.units)} nation={game.player} date={game.date} nationName={NATION_NAMES[game.player]} selectedId={command.selected} notice={command.notice}
+          <CommandPanel summary={commandSummaryData} orbat={game.orbat ?? createOrbatState()} units={unitsList(game, unitsFile.units)} nation={game.player} date={game.date} nationName={NATION_NAMES[game.player]} selectedId={command.selected} notice={command.notice}
             onSelect={(id) => setCommand((c) => ({ ...c, selected: id, notice: null }))}
             onAttach={(unitId, parentId) => { try { const r = playerAttach(game, { unitId, parentId, units: unitsList(game, unitsFile.units) }); setGame(r.state); setCommand((c) => ({ ...c, notice: `${unitOf(game, unitId, UNITS_BY_ID).name} è ora agli ordini di ${unitOf(game, parentId, UNITS_BY_ID).name}.` })); return true; } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); return false; } }}
             onDetach={(unitId) => { try { const r = playerDetach(game, unitId, { units: unitsList(game, unitsFile.units) }); setGame(r.state); setCommand((c) => ({ ...c, notice: `${unitOf(game, unitId, UNITS_BY_ID).name} non ha più un comando superiore.` })); } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); } }}
