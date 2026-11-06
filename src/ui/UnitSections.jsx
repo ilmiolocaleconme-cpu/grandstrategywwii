@@ -96,7 +96,7 @@ function Operazioni({ info, canSetPolicy, onPolicy, onReinforce }) {
   const k = info.condition;
   return (
     <dl className="us-list">
-      <Row label="Posizione">{m.provinceName ?? 'sconosciuta'}</Row>
+      <Row label="Posizione">{m.provinceName ?? (m.estimate ? <span>{m.estimate.provinceName} <small className="muted">— posizione stimata: {m.estimate.inProvince} di {m.estimate.basedOn} divisioni sottostanti sono lì</small></span> : 'posizione non nota')}</Row>
       <Row label="Ordine">{m.order ? `verso ${m.order.toName}: prossima tappa ${m.order.nextName}, ${m.order.daysLeft} g. alla tappa, ${m.order.totalDays} g. in tutto` : 'nessuno (ferma)'}</Row>
       {info.strength && onReinforce ? (
         <Row label="Rinforzi">

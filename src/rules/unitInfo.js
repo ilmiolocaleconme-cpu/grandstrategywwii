@@ -3,6 +3,7 @@
 // `notModeled`, così il pannello lo dice invece di mostrare numeri finti.
 import { chainOf, childrenOf, orbatLevel } from './orbat.js';
 import { affiliationOf } from './unitSheet.js';
+import { estimatedHqProvince } from './hqPosition.js';
 import { MANAGED_LEVELS } from './commanders.js';
 import { positionOf } from './movement.js';
 import { templateFor } from './forces.js';
@@ -89,8 +90,11 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
   // posizione e ordine di marcia
   const here = positionOf(state.movement, initial, unit.id);
   const order = state.movement?.orders?.[unit.id] ?? null;
+  // comandi senza posizione reale: posizione stimata dalle divisioni sottostanti (src/rules/hqPosition.js), sempre etichettata
+  const est = !here && unit.category === 'command' ? estimatedHqProvince({ hqId: unit.id, orbat, unitsById, positionOf: (id) => positionOf(state.movement, initial, id) }) : null;
   const movement = {
     province: here, provinceName: here ? provinceName(here) : null,
+    estimate: est ? { province: est.province, provinceName: provinceName(est.province), inProvince: est.inProvince, basedOn: est.basedOn, source: 'stimata' } : null,
     order: order ? { to: order.path[order.path.length - 1], toName: provinceName(order.path[order.path.length - 1]), nextName: provinceName(order.path[order.leg + 1]), daysLeft: order.daysLeft, totalDays: order.totalDays } : null,
   };
   return { id: unit.id, name: unit.name, nation: unit.nation, affiliation: affiliationOf(state, unit.nation), echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
