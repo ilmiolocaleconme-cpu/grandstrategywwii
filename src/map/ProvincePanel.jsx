@@ -69,7 +69,7 @@ function Card({ card, quality }) {
   );
 }
 
-function ProvinceBody({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose, build = null }) {
+function ProvinceBody({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose, build = null, hqs = null, onOpenHq = null }) {
   const p = item.props;
   const motherId = p.parentProvince ?? p.id;
   const resourceIds = provinceResources?.[p.id] ?? provinceResources?.[p.parentProvince] ?? [];
@@ -108,6 +108,12 @@ function ProvinceBody({ item, nationNames, nationControl, provinceResources, pro
       {alert && <div className={`pv-alert tone-${alert.tone}`} role="alert">⚠ {alert.label}</div>}
       {build}
       {cards.map((c) => <Card key={c.id} card={c} quality={c.id === 'data' ? p.borderQuality : null} />)}
+      {hqs && hqs.length && onOpenHq ? (
+        <section className="pv-hq" aria-label="Comandi stimati in questa provincia">
+          <h3>Comandi (posizione stimata)</h3>
+          <ul>{hqs.map((h) => <li key={h.id}><button type="button" onClick={() => onOpenHq(h.id)}>{h.name}</button> <small className="muted">stimato: {h.inProvince} di {h.basedOn} divisioni sottostanti sono qui</small></li>)}</ul>
+        </section>
+      ) : null}
     </aside>
   );
 }
@@ -116,7 +122,7 @@ function ProvinceBody({ item, nationNames, nationControl, provinceResources, pro
  * Pannello della provincia: intestazione sempre visibile, Panoramica, schede espandibili ordinate per priorità
  * (docs/DESIGN_PANNELLO_PROVINCIA.md). Il pannello esiste solo su richiesta (pulsante «i» nell'angolo della mappa).
  */
-export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose, build = null }) {
+export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose, build = null, hqs = null, onOpenHq = null }) {
   if (!item) return null;
-  return <ProvinceBody item={item} nationNames={nationNames} nationControl={nationControl} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={hydro} game={game} onClose={onClose} build={build} />;
+  return <ProvinceBody item={item} nationNames={nationNames} nationControl={nationControl} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={hydro} game={game} onClose={onClose} build={build} hqs={hqs} onOpenHq={onOpenHq} />;
 }

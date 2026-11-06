@@ -53,6 +53,8 @@ import UnitSheet from './ui/UnitSheet.jsx';
 import { unitInfo } from './rules/unitInfo.js';
 import { playerAttach, playerDetach } from './game/orbatState.js';
 import { createOrbatState } from './rules/orbat.js';
+import { estimatedHqProvince } from './rules/hqPosition.js';
+import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
 import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, provinceController, isFighter, moveIntent, playerToggleEntrench, entrenchOf } from './game/theaterState.js';
@@ -551,6 +553,22 @@ export default function App() {
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
   const armyGroup = armySel ? (provinceUnits[armySel.province] ?? []).find((x) => x.nation === armySel.nation) ?? null : null;
+  // Comandi di corpo e armata senza posizione reale: posizione stimata dalle divisioni sottostanti (src/rules/hqPosition.js). Solo consultazione.
+  const [hqId, setHqId] = useState(null);
+  const estimatedHqs = useMemo(() => {
+    const out = new Map();
+    if (!game) return out;
+    const orbat = game.orbat ?? createOrbatState();
+    for (const u of unitsFile.units) {
+      if (u.echelon !== 'command' || !['corps', 'army'].includes(u.commandLevel) || !isActiveAt(u, game.date ?? '1936-01-01')) continue;
+      if (positionOf(game.movement, INITIAL_POSITIONS, u.id)) continue;
+      const e = estimatedHqProvince({ hqId: u.id, orbat, unitsById: UNITS_BY_ID, positionOf: (id) => positionOf(game.movement, INITIAL_POSITIONS, id) });
+      if (!e) continue;
+      if (!out.has(e.province)) out.set(e.province, []);
+      out.get(e.province).push({ id: u.id, name: u.name, inProvince: e.inProvince, basedOn: e.basedOn });
+    }
+    return out;
+  }, [game?.movement, game?.orbat, game?.date]); // eslint-disable-line react-hooks/exhaustive-deps
   // Teatro: incarichi (attacco/difesa) con province scelte sulla mappa, guerra e registro delle battaglie
   const theaterCtx = { getNet: gameNet, unitsById: UNITS_BY_ID };
   // Menu radiale sul segnalino: agisce sulle unità spuntate, o su tutte quelle del segnalino se nessuna è spuntata
@@ -813,6 +831,8 @@ export default function App() {
             onCancelAssignment={(id) => { try { setGame((g) => playerCancelAssignment(g, id)); setTheater((t) => ({ ...t, notice: `Incarico ${id} annullato.` })); } catch (e) { setTheater((t) => ({ ...t, notice: e.message })); } }}
             onDeclareWar={(n) => { const r = GAME_DIPLOMACY.declareWar(game, game.player, n); if (r.ok) { setGame(r.state); setTheater((t) => ({ ...t, notice: `Guerra dichiarata a ${NATION_NAMES[n] ?? n}.` })); } else setTheater((t) => ({ ...t, notice: describeDiplomacyFailure(r.reason, r) })); }}
             onClose={() => setTheater(null)} />
+        ) : hqId && game && UNITS_BY_ID.get(hqId) ? (
+          <UnitSheet infos={[unitInfo(game, UNITS_BY_ID.get(hqId), { unitsById: UNITS_BY_ID, officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates })]} canSetPolicy={false} onClose={() => setHqId(null)} />
         ) : infoSheet && armyGroup && game ? (
           <UnitSheet infos={radialIds.map((id) => unitInfo(game, UNITS_BY_ID.get(id), { unitsById: UNITS_BY_ID, officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates }))}
             canSetPolicy={radialOwn} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, UNITS_BY_ID.get(uid)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
@@ -824,7 +844,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} ports={provincePorts} focusPortId={selectedItem.id} /> : null} />
+            <ProvincePanel hqs={selectedItem ? (estimatedHqs.get(selectedItem.props.id) ?? estimatedHqs.get(selectedItem.props.parentProvince ?? selectedItem.props.id) ?? null) : null} onOpenHq={(id) => { setHqId(id); setInfoOpen(false); }} item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} ports={provincePorts} focusPortId={selectedItem.id} /> : null} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>
