@@ -91,11 +91,12 @@ function Comando({ info }) {
   );
 }
 
-function Operazioni({ info, canSetPolicy, onPolicy, onReinforce }) {
+function Operazioni({ info, canSetPolicy, onPolicy, onReinforce, onMoveHq }) {
   const m = info.movement;
   const k = info.condition;
   return (
     <dl className="us-list">
+      {onMoveHq && info.commandLevel ? <Row label="Comando"><button type="button" onClick={() => onMoveHq(info.id)}>Muovi il comando</button><small className="muted"> (le divisioni restano dove sono)</small></Row> : null}
       <Row label="Posizione">{m.provinceName ?? (m.estimate ? <span>{m.estimate.provinceName} <small className="muted">— posizione stimata: {m.estimate.inProvince} di {m.estimate.basedOn} divisioni sottostanti sono lì</small></span> : 'posizione non nota')}</Row>
       <Row label="Ordine">{m.order ? `verso ${m.order.toName}: prossima tappa ${m.order.nextName}, ${m.order.daysLeft} g. alla tappa, ${m.order.totalDays} g. in tutto` : 'nessuno (ferma)'}</Row>
       {info.strength && onReinforce ? (
@@ -127,6 +128,7 @@ function Condizione({ info }) {
       <Row label="Prontezza">{Math.round(k.readiness)} · {k.readinessBand}</Row>
       <Row label="Forza materiale">{k.material.value === null ? 'dato assente' : `${k.material.value}${k.material.cause ? ` — limitata da: ${k.material.cause}` : ''}`}</Row>
       <Row label="Stato operativo">{k.operational.name}{k.operational.cause ? ` — causa: ${k.operational.cause}` : ''}</Row>
+      {k.distancePenalty > 0 ? <Row label="Distanza dal comando">{`−${k.distancePenalty} di prontezza: il comando è lontano (oltre 300 km). Si recupera di 1 al giorno quando torna vicino.`}</Row> : null}
     </dl>
   );
 }
@@ -134,12 +136,12 @@ function Condizione({ info }) {
 const BODY = { panoramica: Panoramica, organico: Organico, composizione: Composizione, equipaggiamento: Equipaggiamento, comando: Comando, operazioni: Operazioni, condizione: Condizione };
 
 /** Corpo di una sezione: quella non modellata mostra «dato non disponibile» con la sua ragione, mai un valore. */
-export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce }) {
+export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq }) {
   const meta = sheetSections(info).find((s) => s.id === id);
   if (!meta) return null;
   const Body = BODY[id];
   if (!meta.available || !Body) {
     return <p className="muted">{NA}. {id === 'logistica' ? 'Rifornimenti e carburante non sono ancora modellati per le unità.' : id === 'sanita' ? 'Feriti, recuperi e sanità non sono ancora modellati.' : 'La storia dell’unità non è ancora registrata nel gioco.'}</p>;
   }
-  return <Body info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} />;
+  return <Body info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} />;
 }

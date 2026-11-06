@@ -65,6 +65,7 @@ import depotsFile from '../data/units/depots.json';
 import { createReinforcementSystem, setDivisionReinforcement, depotRoute } from './game/reinforcementSystem.js';
 import conditionConfig from '../data/units/condition_config.json';
 import { createConditionSystem, playerSetPolicy } from './game/conditionState.js';
+import { createCommandDistanceSystem, orderCommandMove, commandPosition } from './game/commandDistanceState.js';
 import readiness from '../data/units/readiness.json';
 import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
 import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
@@ -314,6 +315,7 @@ const GAME_SYSTEMS = [
   commandersSystem({ units: unitsFile.units, officers: officersFile.officers }),
   createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
+  (state) => createCommandDistanceSystem({ net: gameNet(state), orbat: state.orbat ?? createOrbatState(), unitsById: UNITS_BY_ID, initial: INITIAL_POSITIONS, cfg: conditionConfig })(state), // distanza dal comando: prontezza persa e recuperata (src/rules/commandDistance.js)
   createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
@@ -422,6 +424,17 @@ export default function App() {
   const [theater, setTheater] = useState(null); // { draft: null | { kind, provinces: [], units: [] }, notice } quando il pannello Teatro è aperto
   // destinazione di un ordine: con un segnalino proprio aperto e unità spuntate, il tocco su una provincia è un ordine di marcia
   const selectProvince = (id) => {
+    if (id != null && hqMove && game && moveNet) { // destinazione di un ordine di marcia per un comando
+      const hq = UNITS_BY_ID.get(hqMove);
+      const item = mapItems.find((i) => i.id === id);
+      const to = moveNet.has(id) ? id : (item ? (item.props.parentProvince ?? item.props.id) : id);
+      setHqMove(null);
+      if (!hq || hq.nation !== game.player) { setArmyNotice('Puoi muovere solo i comandi della tua nazione.'); return; }
+      const start = commandPosition({ state: game, initial: INITIAL_POSITIONS, orbat: game.orbat ?? createOrbatState(), unitsById: UNITS_BY_ID, id: hqMove });
+      const r = orderCommandMove(game, { unitId: hqMove, to, nation: game.player, net: infraNet(moveNet, GAME_INFRA.index, infraConfig, game), initial: INITIAL_POSITIONS, startProvince: start });
+      if (r.ok) { setGame(r.state); setArmyNotice(`${hq.name} in marcia verso ${moveNet.name(to)} (${r.days} giorni).`); } else setArmyNotice(`Il comando non può muoversi lì (${r.reason}).`);
+      return;
+    }
     if (id != null && theater?.draft && moveNet) {
       const item = mapItems.find((i) => i.id === id);
       const mother = item ? (item.props.parentProvince ?? item.props.id) : id;
@@ -555,6 +568,7 @@ export default function App() {
   const armyGroup = armySel ? (provinceUnits[armySel.province] ?? []).find((x) => x.nation === armySel.nation) ?? null : null;
   // Comandi di corpo e armata senza posizione reale: posizione stimata dalle divisioni sottostanti (src/rules/hqPosition.js). Solo consultazione.
   const [hqId, setHqId] = useState(null);
+  const [hqMove, setHqMove] = useState(null); // comando in attesa della destinazione (tocco sulla mappa)
   const estimatedHqs = useMemo(() => {
     const out = new Map();
     if (!game) return out;
@@ -832,7 +846,7 @@ export default function App() {
             onDeclareWar={(n) => { const r = GAME_DIPLOMACY.declareWar(game, game.player, n); if (r.ok) { setGame(r.state); setTheater((t) => ({ ...t, notice: `Guerra dichiarata a ${NATION_NAMES[n] ?? n}.` })); } else setTheater((t) => ({ ...t, notice: describeDiplomacyFailure(r.reason, r) })); }}
             onClose={() => setTheater(null)} />
         ) : hqId && game && UNITS_BY_ID.get(hqId) ? (
-          <UnitSheet infos={[unitInfo(game, UNITS_BY_ID.get(hqId), { unitsById: UNITS_BY_ID, officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates })]} canSetPolicy={false} onClose={() => setHqId(null)} />
+          <UnitSheet infos={[unitInfo(game, UNITS_BY_ID.get(hqId), { unitsById: UNITS_BY_ID, officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={UNITS_BY_ID.get(hqId)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
         ) : infoSheet && armyGroup && game ? (
           <UnitSheet infos={radialIds.map((id) => unitInfo(game, UNITS_BY_ID.get(id), { unitsById: UNITS_BY_ID, officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates }))}
             canSetPolicy={radialOwn} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, UNITS_BY_ID.get(uid)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />

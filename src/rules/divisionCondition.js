@@ -56,8 +56,10 @@ export function experienceLevel(value, cfg) {
 export function conditionOf(conditions, unitId, cfg, nation = null) {
   const e = conditions?.byUnit?.[unitId];
   const base = e?.isNew ? cfg.initial.newUnit : { ...cfg.initial.existing1936, morale: cfg.initial.existing1936.moraleByNation?.[nation] ?? cfg.initial.existing1936.morale };
+  const penalty = Number.isFinite(e?.distancePenalty) ? e.distancePenalty : 0; // perdita di prontezza per distanza dal comando (commandDistance.js)
   return {
-    experience: clamp(e?.experience ?? base.experience), morale: clamp(e?.morale ?? base.morale), readiness: clamp(e?.readiness ?? base.readiness),
+    experience: clamp(e?.experience ?? base.experience), morale: clamp(e?.morale ?? base.morale), readiness: clamp((e?.readiness ?? base.readiness) - penalty),
+    readinessBeforeDistance: clamp(e?.readiness ?? base.readiness), distancePenalty: penalty,
     policy: e?.policy ?? cfg.policy.default, isNew: e?.isNew === true, trainedThrough: e?.trainedThrough ?? null, stored: e !== undefined,
   };
 }
@@ -157,6 +159,7 @@ export function validateConditionState(c) {
     for (const f of ['experience', 'morale', 'readiness']) if (!(e?.[f] >= 0 && e[f] <= 100)) errors.push(`condizione: ${id} ${f} fuori da 0–100`);
     if (!POLICIES.includes(e?.policy)) errors.push(`condizione: ${id} politica non valida`);
     if (typeof e?.isNew !== 'boolean') errors.push(`condizione: ${id} isNew non booleano`);
+    if (e?.distancePenalty !== undefined && !(Number.isInteger(e.distancePenalty) && e.distancePenalty >= 0 && e.distancePenalty <= 20)) errors.push(`condizione: ${id} distancePenalty fuori da 0–20`);
   }
   return errors;
 }
