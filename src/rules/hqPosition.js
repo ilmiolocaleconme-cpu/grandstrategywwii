@@ -37,3 +37,26 @@ export function commandsByProvince({ commands, orbat, unitsById, positionOf, isA
   }
   return out;
 }
+
+/**
+ * Unisce i comandi (stimati o mossi) ai gruppi che la mappa già disegna (unitsByProvince). Un comando già presente nella
+ * dislocazione non viene duplicato. Stesse regole dei segnalini: un gruppo per nazione e provincia; il comando conta fra i «commands».
+ */
+export function mergeCommandsIntoProvinceUnits(base, byProvince, unitsById) {
+  const out = {};
+  for (const [p, groups] of Object.entries(base)) out[p] = groups.map((g) => ({ ...g, units: [...g.units] }));
+  for (const [p, rows] of byProvince) {
+    for (const r of rows) {
+      const u = unitsById.get(r.id);
+      if (!u) continue;
+      const groups = (out[p] ??= []);
+      if (groups.some((g) => g.units.some((x) => x.id === r.id))) continue;
+      let g = groups.find((x) => x.nation === u.nation);
+      if (!g) { g = { nation: u.nation, divisions: 0, commands: 0, units: [] }; groups.push(g); }
+      g.commands += 1;
+      g.units.push({ id: u.id, name: u.name, echelon: u.echelon, category: u.category, commandLevel: u.commandLevel ?? null });
+    }
+  }
+  for (const groups of Object.values(out)) groups.sort((a, b) => (a.nation < b.nation ? -1 : 1));
+  return out;
+}

@@ -55,3 +55,25 @@ test('comandi per provincia: i comandi non attivi non compaiono', () => {
   const out = commandsByProvince({ commands: cmds, orbat: { links: {} }, unitsById: new Map(), positionOf: () => 'P_X', isActive: () => false });
   assert.equal(out.size, 0);
 });
+
+import { mergeCommandsIntoProvinceUnits } from '../src/rules/hqPosition.js';
+
+test('mappa: un comando stimato o mosso entra nel gruppo della sua provincia come gli altri; nessun doppione', () => {
+  const units = new Map([
+    ['D1', { id: 'D1', name: 'Div 1', nation: 'GER', echelon: 'division', category: 'infantry' }],
+    ['C1', { id: 'C1', name: 'I Corpo', nation: 'GER', echelon: 'command', category: 'command', commandLevel: 'corps' }],
+    ['C9', { id: 'C9', name: 'Corpo francese', nation: 'FRA', echelon: 'command', category: 'command', commandLevel: 'army' }],
+  ]);
+  const base = { P_X: [{ nation: 'GER', divisions: 1, commands: 0, units: [{ id: 'D1', name: 'Div 1', echelon: 'division', category: 'infantry', commandLevel: null }] }] };
+  const byProv = new Map([['P_X', [{ id: 'C1', name: 'I Corpo', estimated: true }, { id: 'C9', name: 'Corpo francese', estimated: false }]]]);
+  const m = mergeCommandsIntoProvinceUnits(base, byProv, units);
+  const ger = m.P_X.find((g) => g.nation === 'GER');
+  assert.equal(ger.divisions, 1, 'le divisioni restano');
+  assert.equal(ger.commands, 1, 'il corpo conta come comando');
+  assert.ok(ger.units.some((u) => u.id === 'C1' && u.commandLevel === 'corps'));
+  assert.equal(m.P_X.find((g) => g.nation === 'FRA').commands, 1, 'nazione diversa: gruppo a parte');
+  // doppione: C1 già nella dislocazione
+  const dup = mergeCommandsIntoProvinceUnits({ P_X: [{ nation: 'GER', divisions: 0, commands: 1, units: [{ id: 'C1', name: 'I Corpo', echelon: 'command', category: 'command', commandLevel: 'corps' }] }] }, byProv, units);
+  assert.equal(dup.P_X.find((g) => g.nation === 'GER').commands, 1, 'nessun doppione');
+  assert.equal(base.P_X[0].commands, 0, 'la base non cambia');
+});

@@ -53,7 +53,7 @@ import UnitSheet from './ui/UnitSheet.jsx';
 import { unitInfo } from './rules/unitInfo.js';
 import { playerAttach, playerDetach } from './game/orbatState.js';
 import { createOrbatState } from './rules/orbat.js';
-import { commandsByProvince } from './rules/hqPosition.js';
+import { commandsByProvince, mergeCommandsIntoProvinceUnits } from './rules/hqPosition.js';
 import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
@@ -564,11 +564,6 @@ export default function App() {
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
-  const provinceUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
-  const armyGroup = armySel ? (provinceUnits[armySel.province] ?? []).find((x) => x.nation === armySel.nation) ?? null : null;
-  // Comandi di corpo e armata senza posizione reale: posizione stimata dalle divisioni sottostanti (src/rules/hqPosition.js). Solo consultazione.
-  const [hqId, setHqId] = useState(null);
-  const [hqMove, setHqMove] = useState(null); // comando in attesa della destinazione (tocco sulla mappa)
   const estimatedHqs = useMemo(() => {
     if (!game) return new Map();
     return commandsByProvince({
@@ -577,6 +572,14 @@ export default function App() {
       isActive: (u) => isActiveAt(u, game.date ?? '1936-01-01'),
     });
   }, [game?.movement, game?.orbat, game?.date]); // eslint-disable-line react-hooks/exhaustive-deps
+  const dislocUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
+  // comandi stimati o mossi: sulla mappa come gli altri segnalini (stessi gruppi per nazione e provincia)
+  const provinceUnits = useMemo(() => mergeCommandsIntoProvinceUnits(dislocUnits, estimatedHqs, UNITS_BY_ID), [dislocUnits, estimatedHqs]);
+  const armyGroup = armySel ? (provinceUnits[armySel.province] ?? []).find((x) => x.nation === armySel.nation) ?? null : null;
+  // Comandi di corpo e armata senza posizione reale: posizione stimata dalle divisioni sottostanti (src/rules/hqPosition.js). Solo consultazione.
+  const [hqId, setHqId] = useState(null);
+  const [hqMove, setHqMove] = useState(null); // comando in attesa della destinazione (tocco sulla mappa)
+
   // Teatro: incarichi (attacco/difesa) con province scelte sulla mappa, guerra e registro delle battaglie
   const theaterCtx = { getNet: gameNet, unitsById: UNITS_BY_ID };
   // Menu radiale sul segnalino: agisce sulle unità spuntate, o su tutte quelle del segnalino se nessuna è spuntata
