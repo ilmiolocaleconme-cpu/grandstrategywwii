@@ -465,7 +465,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, unitHits, provincePorts, portYards, portHits, seas, selectedSeaId, marks } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, commandLinks, unitHits, provincePorts, portYards, portHits, seas, selectedSeaId, marks } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -525,7 +525,7 @@ export function drawOverlay(ctx, p) {
   if (unitHits) unitHits.length = 0;
   if (provinceUnits) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    drawProvinceUnits(ctx, { items: model.items, byProvince: provinceUnits, a, dpr, copies, boxes: cityBoxes, model, hits: unitHits });
+    drawProvinceUnits(ctx, { items: model.items, byProvince: provinceUnits, a, dpr, copies, boxes: cityBoxes, model, hits: unitHits, farIds: commandLinks?.farIds, threads: commandLinks?.threads });
   }
   // livello Porti: distintivo con l'àncora sul porto (punto della città portuale) e nome, prima dei nomi delle città
   if (portHits) portHits.length = 0;

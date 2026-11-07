@@ -1,5 +1,7 @@
 // Contenuto delle sezioni della scheda unità (fase 2). Solo dati già prodotti dal motore: nessun valore inventato.
+import { useState } from 'react';
 import { ECH, CAT } from './UnitInfo.jsx';
+import { COMMAND_DISTANCE_KM } from '../rules/commandDistance.js';
 import { sheetSections, equipmentGroups } from '../rules/unitSheet.js';
 
 const NA = <span className="muted">dato non disponibile</span>;
@@ -79,10 +81,19 @@ function Equipaggiamento({ info }) {
   );
 }
 
-function Comando({ info, onAttachTo, armies }) {
+/** Distanza dal comando in chiaro: oltre COMMAND_DISTANCE_KM la prontezza cala (regola in commandDistance.js). Mai solo colore. */
+function KmNote({ km }) {
+  if (km === null || km === undefined) return <small className="muted"> distanza non nota</small>;
+  const far = km > COMMAND_DISTANCE_KM;
+  return <small className={far ? 'us-far' : 'muted'}>{far ? ' ⚠ fuori portata · ' : ' · '}{Math.round(km)} km</small>;
+}
+
+function Comando({ info, onAttachTo, onDetach, parentOptions }) {
+  const [open, setOpen] = useState(false);
   const c = info.commander;
-  const parent = info.chain.length ? info.chain[0].id : null; // la catena parte dal superiore diretto
-  const canAttach = onAttachTo && info.origin === 'player' && info.commandLevel === 'corps' && armies && armies.length > 0;
+  const hasParent = info.chain.length > 0;
+  const canAttach = Boolean(onAttachTo && parentOptions);
+  const groups = open && canAttach ? parentOptions(info.id) : [];
   return (
     <dl className="us-list">
       <Row label="Comandante">{c.status === 'assegnato' ? `${c.name} (${c.rank})` : c.status === 'vacante' ? 'vacante' : `non gestito: ${c.reason}`}</Row>
@@ -90,8 +101,25 @@ function Comando({ info, onAttachTo, armies }) {
       <Row label="Inquadrata in">{info.chain.length ? info.chain.map((x) => x.name).join(' › ') : 'nessun comando superiore'}</Row>
       <Row label="Forze assegnate">{info.children.length ? info.children.map((x) => x.name).join(', ') : 'nessuna'}</Row>
       {canAttach ? (
-        <Row label="Assegna a un'armata">
-          {armies.filter((a) => a.id !== parent).map((a) => <button key={a.id} type="button" onClick={() => onAttachTo(info.id, a.id)}>{a.name}</button>)}
+        <Row label="Inquadramento">
+          <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>{open ? 'Chiudi l’elenco' : 'Inquadra in…'}</button>
+          {onDetach && hasParent ? <button type="button" onClick={() => onDetach(info.id)}>Scollega</button> : null}
+          {open ? (
+            groups.length === 0 ? <p className="muted small">Nessun comando valido: serve un livello più alto, della stessa nazione.</p> : (
+              <div className="us-parents">
+                {groups.map((g) => (
+                  <div key={g.level} role="group" aria-label={g.label}>
+                    <p className="us-parents-head">{g.label}</p>
+                    {g.items.map((p) => (
+                      <button key={p.id} type="button" className="us-parent" onClick={() => { onAttachTo(info.id, p.id); setOpen(false); }}>
+                        <b>{p.name}</b><KmNote km={p.km} />
+                      </button>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )
+          ) : null}
         </Row>
       ) : null}
     </dl>
@@ -150,12 +178,12 @@ function Condizione({ info }) {
 const BODY = { panoramica: Panoramica, organico: Organico, composizione: Composizione, equipaggiamento: Equipaggiamento, comando: Comando, operazioni: Operazioni, condizione: Condizione };
 
 /** Corpo di una sezione: quella non modellata mostra «dato non disponibile» con la sua ragione, mai un valore. */
-export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand, onAttachTo, armies }) {
+export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions }) {
   const meta = sheetSections(info).find((s) => s.id === id);
   if (!meta) return null;
   const Body = BODY[id];
   if (!meta.available || !Body) {
     return <p className="muted">{NA}. {id === 'logistica' ? 'Rifornimenti e carburante non sono ancora modellati per le unità.' : id === 'sanita' ? 'Feriti, recuperi e sanità non sono ancora modellati.' : 'La storia dell’unità non è ancora registrata nel gioco.'}</p>;
   }
-  return <Body info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} armies={armies} />;
+  return <Body key={info.id} info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} onDetach={onDetach} parentOptions={parentOptions} />;
 }

@@ -2,6 +2,14 @@
 
 Documento per riprendere il lavoro in una nuova sessione senza perdere le decisioni. Le decisioni dell'utente hanno la precedenza su tutto il resto. Stato del repository: `main` e `ccr-e05b6c3a-hd4gp6` allineati all'ultimo commit del riepilogo di comando (`37b6ad4`). Suite completa: 1107/1107. Build OK.
 
+## Lavoro in corso (07/11/2026) — NON ancora su `main`
+Branch `wip/inquadramento-e-fili` (da `main` 9fb7359). **Build e browser NON verificati**: in quella sessione `vite` non era installato e l'installazione dei pacchetti era bloccata. Sono verificati solo: suite `node --test` e controllo di sintassi JSX con il compilatore TypeScript. **Prima di unire a `main`: installare i pacchetti, `npx vite build`, aprire l'app a 360 e 390 px e guardare le tre funzioni qui sotto.**
+- **Scheda divisione → «Comando» → «Inquadra in…» / «Scollega»**: elenco dei comandi validi della propria nazione per livello, con la distanza stimata (km) e l'avviso «⚠ fuori portata» oltre 300 km. Usa `validParents`, `playerAttach`, `playerDetach` (lo stato `orbat.links` esisteva già dallo schema 5: **nessuna migrazione**). Sostituisce il vecchio «Assegna a un'armata», che valeva solo per i corpi creati dal giocatore.
+- **Mappa: luce sulle divisioni fuori portata**: alone ambra fisso (non animato, scelta mia: nessun consumo continuo di batteria, nessun problema di movimento ridotto) più medaglione «!». Vale solo per la nostra nazione.
+- **Mappa: fili di comando** divisione → corpo → armata → gruppo d'armate → teatro, solo divisioni di terra e solo nostra nazione. Il livello si legge dal tratto (pieno / tratteggio / punti-trattini) e dallo spessore. Un filo manca se uno dei due segnalini non è disegnato (zoom lontano o sovrapposizione): non si inventa. Nessuna legenda ancora.
+- Codice: `src/rules/commandLinks.js` (puro, testato: `tests/command_links.test.js`), `src/map/unitIcons.js` (`counterSpec`, `threadEnds`, `nearestPair`, `drawThreads`), `src/App.jsx` (`commandLinks`, `parentOptions`, `detachCommand`).
+- Da decidere con l'utente: se i fili devono comparire sempre o solo con una selezione (con molte divisioni possono coprire la mappa); legenda dei tratti; pulsazione animata della luce; fili anche per i nemici (oggi no: la posizione dei loro comandi non è informazione del giocatore).
+
 ## Come lavorare (regole dell'utente)
 - Lingua: italiano. Risposte brevi. Prima la verità scomoda. Etichette sulle affermazioni: [Certo] con prova, [Probabile] inferenza forte, [Ipotesi] lacuna colmata.
 - Domande: una alla volta, con opzioni A/B. Per ogni opzione: cosa comporta, differenze, vantaggi, svantaggi, costo. Poi il consiglio, spiegato.
@@ -63,11 +71,11 @@ Documento per riprendere il lavoro in una nuova sessione senza perdere le decisi
 1. Albero di comando reale nello stile del mockup B (nella scheda o nel pannello comando).
 2. Riepilogo: forza materiale (non mostrata perché il dato medio non è affidabile).
 3. Avanzamento delle formazioni in corso nel pannello (quanto manca alla fine).
-4. Pulsante «aggiungi a un comando esistente» (oggi si inquadra solo dalla scheda del corpo).
+4. ~~Pulsante «aggiungi a un comando esistente»~~ Correzione: il pannello **Comando** aveva già «Aggiungi a…», «Aggiungi unità…» e «Scollega» (il punto era scritto male). Mancava nella scheda della divisione: ora c'è, nel branch `wip/inquadramento-e-fili` (vedi «Lavoro in corso»). Resta da vedere se il pulsante «Comando» in alto sia raggiungibile su telefono: nello screenshot del 07/11 era sovrapposto a «Teatro».
 5. Stato maggiore con personale e dotazione del comando (oggi il template non ha effetti).
 6. Unificare le azioni di comando in un unico pannello (oggi sono in tre posti: pannello Comando, scheda del corpo, scheda della divisione).
 7. Libreria di simboli NATO completa (oggi semplificata; da verificare con lo standard).
-8. Verifica su telefono (360 e 390 px) di tutta la scheda e dei pannelli: mai fatta.
+8. Verifica su telefono (360 e 390 px) di tutta la scheda e dei pannelli: mai fatta. **Difetti già visti negli screenshot dell'utente (07/11)**: la barra in basso è tagliata («Coman…»), i titoli vanno a capo su tre righe, il pannello copre metà schermo, i pulsanti «Comando» e «Teatro» in alto si sovrappongono. **È la prima cosa da fare con `vite` installato.**
 9. Navi e aerei: più avanti, con le loro fabbriche e i loro consumi.
 10. Comunicazioni e combattimento: il combattimento urbano è approvato come bilanciamento; non testato in una partita reale.
 11. Scala dell'addestramento e numeri dei comandi: approvazione da confermare.

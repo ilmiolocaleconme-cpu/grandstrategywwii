@@ -35,17 +35,78 @@ export function symbolOf(group) {
   return { category: 'command', mark: LEVEL_MARK[top?.commandLevel] ?? 'XXX' };
 }
 
-/** Testo e colore del segnalino di un gruppo { nation, divisions, commands, units }. */
-export function counterSpec(group) {
+/**
+ * Testo e colore del segnalino di un gruppo { nation, divisions, commands, units }.
+ * Con `farIds` (insieme di id di divisioni fuori portata dal comando) aggiunge `far` e `farCount`: serve alla luce sulla mappa.
+ * Senza `farIds` il risultato è identico a prima (nessun campo in più).
+ */
+export function counterSpec(group, farIds) {
   const main = group.divisions > 0 ? String(group.divisions) : `${group.commands}`;
   const sub = group.divisions > 0 && group.commands > 0 ? `+${group.commands}` : '';
-  return { nation: group.nation, main, sub, ...symbolOf(group), color: ownerColor(group.nation, ''), title: `${group.nation}: ${group.divisions} div., ${group.commands} com.` };
+  const spec = { nation: group.nation, main, sub, ...symbolOf(group), color: ownerColor(group.nation, ''), title: `${group.nation}: ${group.divisions} div., ${group.commands} com.` };
+  if (!farIds || farIds.size === 0) return spec;
+  const farCount = group.units.filter((u) => u.echelon === 'division' && farIds.has(u.id)).length;
+  return farCount > 0 ? { ...spec, far: true, farCount, title: `${spec.title}, ${farCount} fuori portata dal comando` } : spec;
 }
 
 /** Elenco dei segnalini di una provincia: ordinati per numero di unità, al massimo MAX_COUNTERS più un «+N» di nazioni in più. */
-export function countersFor(groups) {
+export function countersFor(groups, farIds) {
   const sorted = [...groups].sort((x, y) => (y.units.length - x.units.length) || (x.nation < y.nation ? -1 : 1));
-  return { shown: sorted.slice(0, MAX_COUNTERS).map(counterSpec), extra: Math.max(0, sorted.length - MAX_COUNTERS) };
+  return { shown: sorted.slice(0, MAX_COUNTERS).map((g) => counterSpec(g, farIds)), extra: Math.max(0, sorted.length - MAX_COUNTERS) };
+}
+
+/**
+ * Estremi di un filo tra due segnalini (centri in pixel), accorciati al bordo dei riquadri così il filo non li copre.
+ * hw/hh = mezza larghezza/altezza del riquadro più un margine. Ritorna null se i riquadri si toccano o coincidono (nessun filo visibile).
+ */
+export function threadEnds(a, b, hw = COUNTER_W / 2 + 3, hh = COUNTER_H / 2 + 3) {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  if (dx === 0 && dy === 0) return null;
+  const s = Math.min(dx === 0 ? Infinity : hw / Math.abs(dx), dy === 0 ? Infinity : hh / Math.abs(dy));
+  if (s >= 0.5) return null; // i due riquadri si sovrappongono o sono quasi a contatto
+  return { x0: a.x + dx * s, y0: a.y + dy * s, x1: b.x - dx * s, y1: b.y - dy * s };
+}
+
+/** Segnalino più vicino tra quelli di una provincia e di una nazione (la mappa si ripete in orizzontale: ci possono essere più copie). */
+export function nearestPair(hits, fromProv, toProv, nation) {
+  const A = hits.filter((h) => h.province === fromProv && h.nation === nation);
+  const B = hits.filter((h) => h.province === toProv && h.nation === nation);
+  let best = null;
+  for (const p of A) {
+    for (const q of B) {
+      const d = (p.cx - q.cx) ** 2 + (p.cy - q.cy) ** 2;
+      if (!best || d < best.d) best = { a: { x: p.cx, y: p.cy }, b: { x: q.cx, y: q.cy }, d };
+    }
+  }
+  return best;
+}
+
+// Stile dei fili per livello del comando: il LIVELLO si legge dal tratto (pieno / tratteggio / punti) e dallo spessore, non solo dal colore.
+export const THREAD_STYLE = {
+  corps: { width: 1.5, dash: [] },
+  army: { width: 2.2, dash: [7, 4] },
+  army_group: { width: 2.6, dash: [2, 4] },
+  theater: { width: 3, dash: [11, 4, 2, 4] },
+};
+
+/** Fili di comando sui segnalini già disegnati. `threads` da commandThreads(); `hits` con provincia, nazione e centro dei segnalini. */
+function drawThreads(ctx, threads, hits) {
+  ctx.save();
+  ctx.lineCap = 'round';
+  for (const t of threads) {
+    const pair = nearestPair(hits, t.fromProv, t.toProv, t.nation);
+    const e = pair && threadEnds(pair.a, pair.b);
+    if (!e) continue; // uno dei due segnalini non è stato disegnato (zoom o sovrapposizione): nessun filo inventato
+    const st = THREAD_STYLE[t.level] ?? THREAD_STYLE.corps;
+    for (const [w, color] of [[st.width + 2.5, 'rgba(20,20,20,0.75)'], [st.width, '#f2e6b8']]) { // alone scuro sotto: leggibile su ogni colore di provincia
+      ctx.setLineDash(st.dash);
+      ctx.lineWidth = w;
+      ctx.strokeStyle = color;
+      ctx.beginPath(); ctx.moveTo(e.x0, e.y0); ctx.lineTo(e.x1, e.y1); ctx.stroke();
+    }
+  }
+  ctx.restore();
 }
 
 /** Simbolo interno nel riquadro (x0,y0,w,h): fanteria = croce, corazzata = ovale, cavalleria = diagonale, ecc. */
@@ -97,13 +158,29 @@ function drawCounter(ctx, spec, x, y) {
   ctx.textAlign = 'right';
   ctx.strokeText(label, x0 + w - 3, y0 + h - 6);
   ctx.fillText(label, x0 + w - 3, y0 + h - 6);
+  if (spec.far) { // divisioni fuori portata dal comando: alone ambra + medaglione «!» (forma e testo, non solo colore); fisso, senza animazione
+    ctx.save();
+    ctx.shadowColor = '#ffb020';
+    ctx.shadowBlur = 14;
+    ctx.strokeStyle = '#ffb020';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(x0 - 3, y0 - 3, w + 6, h + 6);
+    ctx.restore();
+    ctx.fillStyle = '#ffb020';
+    ctx.beginPath(); ctx.arc(x0 + 1, y0 + h - 1, 8, 0, Math.PI * 2); ctx.fill();
+    ctx.lineWidth = 1.2; ctx.strokeStyle = '#111'; ctx.stroke();
+    ctx.fillStyle = '#111';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('!', x0 + 1, y0 + h);
+  }
 }
 
 /**
  * Disegna i segnalini sulle province visibili. `byProvince`: { idElemento: [gruppi] } (già ancorato a una sotto-provincia).
  * Un riquadro che toccherebbe uno già disegnato si salta; priorità alle province più grandi. ctx: (dpr, 0, 0, dpr, 0, 0).
  */
-export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxes, model, hits }) {
+export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxes, model, hits, farIds, threads }) {
   if (!byProvince) return;
   const W = ctx.canvas.width / dpr;
   const H = ctx.canvas.height / dpr;
@@ -115,7 +192,7 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
   cand.sort((x, y) => (y[0].areaKm2 ?? 0) - (x[0].areaKm2 ?? 0));
   for (const [it, groups] of cand) {
     const pt = model ? anchorOf(model, it) : { x: it.bbox.x + it.bbox.w / 2, y: it.bbox.y + it.bbox.h / 2 };
-    const { shown, extra } = countersFor(groups);
+    const { shown, extra } = countersFor(groups, farIds);
     const n = shown.length + (extra > 0 ? 1 : 0);
     const w = n * COUNTER_W + (n - 1) * GAP;
     for (const off of copies) {
@@ -147,4 +224,5 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
       }
     }
   }
+  if (threads?.length && hits?.length) drawThreads(ctx, threads, hits); // fili di comando: dopo i segnalini, accorciati ai loro bordi
 }

@@ -41,6 +41,8 @@ import deploymentFile from '../data/units/deployment_1936.json';
 import entrenchFile from '../data/units/entrenchment.json';
 import { validateEntrenchConfig } from './rules/entrench.js';
 import { divisionsUnder } from './rules/orbat.js';
+import { validParents } from './ui/commandView.js';
+import { distanceTo, commandDistances, commandThreads } from './rules/commandLinks.js';
 import { unitsByProvince } from './data/deployment.js';
 import officersFile from '../data/officers/officers.json';
 import { commandersSystem } from './game/commandersState.js';
@@ -577,6 +579,21 @@ export default function App() {
       isActive: (u) => isActiveAt(u, game.date ?? '1936-01-01'),
     });
   }, [game?.movement, game?.orbat, game?.date]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Luce sulla mappa per le divisioni fuori portata dal comando e fili divisione → corpo → armata → teatro.
+  // Solo la nostra nazione: la posizione dei comandi nemici non è un'informazione del giocatore. Le posizioni dei comandi senza posto reale sono stimate.
+  const commandLinks = useMemo(() => {
+    if (!game) return null;
+    const orbat = game.orbat ?? createOrbatState();
+    if (Object.keys(orbat.links).length === 0) return null;
+    const net = gameNet(game);
+    if (!net) return null;
+    const um = unitsView(game, UNITS_BY_ID);
+    const posOf = (id) => positionOf(game.movement, INITIAL_POSITIONS, id);
+    const cache = new Map();
+    const cmdPosOf = (id) => { if (!cache.has(id)) cache.set(id, commandPosition({ state: game, initial: INITIAL_POSITIONS, orbat, unitsById: um, id })); return cache.get(id); };
+    const far = commandDistances({ orbat, unitsById: um, posOf, cmdPosOf, km: (a, b) => net.km(a, b), nation: game.player }).filter((d) => d.far);
+    return { farIds: new Set(far.map((d) => d.id)), threads: commandThreads({ orbat, unitsById: um, posOf, cmdPosOf, nation: game.player }) };
+  }, [game?.movement, game?.orbat, game?.date, game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
   const dislocUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
   // comandi stimati o mossi: sulla mappa come gli altri segnalini (stessi gruppi per nazione e provincia)
   const provinceUnits = useMemo(() => mergeCommandsIntoProvinceUnits(dislocUnits, estimatedHqs, UNITS_BY_ID), [dislocUnits, estimatedHqs]);
@@ -589,6 +606,21 @@ export default function App() {
   const attachCommand = (unitId, parentId) => {
     if (!game) return;
     try { const r = playerAttach(game, { unitId, parentId, units: unitsList(game, unitsFile.units) }); setGame(r.state); setArmyNotice(`${unitOf(game, unitId, UNITS_BY_ID)?.name ?? unitId} inquadrato sotto ${unitOf(game, parentId, UNITS_BY_ID)?.name ?? parentId}.`); } catch (e) { setArmyNotice(e.message); }
+  };
+  const detachCommand = (unitId) => {
+    if (!game) return;
+    try { const r = playerDetach(game, unitId, { units: unitsList(game, unitsFile.units) }); setGame(r.state); setArmyNotice(`${unitOf(game, unitId, UNITS_BY_ID)?.name ?? unitId} non ha più un comando superiore.`); } catch (e) { setArmyNotice(e.message); }
+  };
+  // comandi validi per inquadrare un'unità, per livello, ciascuno con la distanza stimata dalla divisione (km) — nell'elenco «Inquadra in…» della scheda
+  const parentOptions = (unitId) => {
+    if (!game) return [];
+    const orbat = game.orbat ?? createOrbatState();
+    const um = unitsView(game, UNITS_BY_ID);
+    const net = gameNet(game);
+    const cmdPosOf = (cid) => commandPosition({ state: game, initial: INITIAL_POSITIONS, orbat, unitsById: um, id: cid });
+    const groups = validParents(orbat, unitId, unitsList(game, unitsFile.units), game.player, game.date ?? '1936-01-01');
+    const kms = distanceTo({ unitPos: positionOf(game.movement, INITIAL_POSITIONS, unitId), candidates: groups.flatMap((g) => g.items), cmdPosOf, km: net ? (a, b) => net.km(a, b) : () => null });
+    return groups.map((g) => ({ ...g, items: g.items.map((p) => ({ ...p, km: kms.get(p.id) ?? null })) }));
   };
   const formCommand = (level, parentId = null) => {
     if (!game) return;
@@ -841,7 +873,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={radialIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
+        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={radialIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={commandLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
         {command && game ? (
           <CommandPanel summary={commandSummaryData} orbat={game.orbat ?? createOrbatState()} units={unitsList(game, unitsFile.units)} nation={game.player} date={game.date} nationName={NATION_NAMES[game.player]} selectedId={command.selected} notice={command.notice}
             onSelect={(id) => setCommand((c) => ({ ...c, selected: id, notice: null }))}
@@ -866,7 +898,7 @@ export default function App() {
           <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
         ) : infoSheet && armyGroup && game ? (
           <UnitSheet infos={radialIds.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates }))}
-            canSetPolicy={radialOwn} onFormCommand={armySel.nation === game.player ? formCommand : undefined} onAttachTo={attachCommand} armies={game ? unitsList(game, unitsFile.units).filter((u) => u.echelon === 'command' && u.commandLevel === 'army' && u.nation === game.player && isActiveAt(u, game.date ?? '1936-01-01')).map((u) => ({ id: u.id, name: u.name })) : []} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
+            canSetPolicy={radialOwn} onFormCommand={armySel.nation === game.player ? formCommand : undefined} onAttachTo={radialOwn ? attachCommand : undefined} onDetach={radialOwn ? detachCommand : undefined} parentOptions={radialOwn ? parentOptions : undefined} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
         ) : armyGroup && game ? (
           <ArmyPanel templates={FORCES_CTX.templates} moveMode={moveMode} group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={unitsView(game, UNITS_BY_ID)} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
             provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={(uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
