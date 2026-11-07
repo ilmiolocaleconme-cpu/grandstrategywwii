@@ -413,6 +413,13 @@ h2 {
 .unit-sheet .us-row dd button.us-parent { display: block; width: 100%; min-height: 44px; margin: 0; padding: 6px 12px; border-radius: 10px; text-align: left; line-height: 1.3; }
 .unit-sheet .us-row dd button.us-parent small { display: block; font-size: 12px; }
 .unit-sheet .us-far { color: #ffcf70; font-weight: 700; }
+.unit-sheet .us-row dd button.us-parent.near { border-color: var(--accent); }
+/* pannello Comando, «Aggiungi a…» per vicinanza: nome in grassetto, sotto livello e distanza; il più vicino ha il bordo evidenziato e la scritta «il più vicino» */
+.cmd-picker .cmd-near { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.cmd-picker .cmd-near button { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; width: 100%; min-height: 44px; text-align: left; }
+.cmd-picker .cmd-near button small { grid-column: 2; font-size: 12px; opacity: 0.8; }
+.cmd-picker .cmd-near button small.far { color: #ffcf70; font-weight: 700; opacity: 1; }
+.cmd-picker .cmd-near button.near { border-color: var(--accent); }
 .nato-symbol { flex: 0 0 auto; }
 
 /* Scheda unità, fase 3: equipaggiamento per categoria e segnalazioni del template */

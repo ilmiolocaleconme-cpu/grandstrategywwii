@@ -88,12 +88,12 @@ export function nearestPair(points, fromProv, toProv, nation) {
   return best;
 }
 
-// Stile dei fili per livello del comando: il LIVELLO si legge dal tratto (pieno / tratteggio / punti) e dallo spessore, non solo dal colore.
+// Stile dei fili: tutti sottili e tratteggiati (richiesta dell'utente, 07/11/2026); il LIVELLO del comando si legge dalla lunghezza del tratteggio, non dal colore.
 export const THREAD_STYLE = {
-  corps: { width: 1.5, dash: [] },
-  army: { width: 2.2, dash: [7, 4] },
-  army_group: { width: 2.6, dash: [2, 4] },
-  theater: { width: 3, dash: [11, 4, 2, 4] },
+  corps: { width: 1.2, dash: [5, 4] },
+  army: { width: 1.4, dash: [9, 4] },
+  army_group: { width: 1.4, dash: [9, 4, 2, 4] },
+  theater: { width: 1.6, dash: [14, 4, 2, 4] },
 };
 
 /** Fili di comando. `threads` da commandThreads(); `points` = segnalini disegnati e ancoraggi dei non disegnati (vedi nearestPair). */

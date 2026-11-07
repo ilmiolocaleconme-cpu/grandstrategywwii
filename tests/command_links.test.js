@@ -172,3 +172,50 @@ test('fili: la coppia sceglie l\'ancoraggio nascosto quando manca il segnalino d
   const r = nearestPair(pts, 'p1', 'p2', 'DEU');
   assert.deepEqual([r.a.hidden, r.b.hidden, r.b.x], [false, true, 4000]);
 });
+
+// ---- Elenco «Inquadra in…» per vicinanza e fili tratteggiati (richieste del 07/11/2026)
+import { nearestFirst, distanceLabel } from '../src/rules/commandLinks.js';
+
+const groups = [
+  { level: 'army', label: 'Armata', items: [{ id: 'A1', name: 'Armata Nord', km: 250 }, { id: 'A2', name: 'Armata Sud', km: null }] },
+  { level: 'corps', label: 'Corpo d’armata', items: [{ id: 'C1', name: 'Corpo B', km: 40 }, { id: 'C2', name: 'Corpo A', km: 40 }, { id: 'C3', name: 'Corpo Z', km: 420 }] },
+];
+
+test('elenco: una lista sola, dal più vicino; a parità di km ordine alfabetico; senza distanza in fondo', () => {
+  const l = nearestFirst(groups);
+  assert.deepEqual(l.map((p) => p.id), ['C2', 'C1', 'A1', 'C3', 'A2']);
+  assert.deepEqual(l.map((p) => p.levelLabel), ['Corpo d’armata', 'Corpo d’armata', 'Armata', 'Corpo d’armata', 'Armata'], 'ogni voce porta il suo livello (il corpo può essere più lontano dell\'armata)');
+});
+
+test('elenco: «il più vicino» è segnato una volta sola, sulla prima voce con distanza nota', () => {
+  const l = nearestFirst(groups);
+  assert.deepEqual(l.map((p) => p.nearest), [true, false, false, false, false]);
+  const noKm = nearestFirst([{ level: 'army', label: 'Armata', items: [{ id: 'A', name: 'A', km: null }, { id: 'B', name: 'B' }] }]);
+  assert.ok(noKm.every((p) => p.nearest === false), 'senza nessuna distanza nota nessuno è «il più vicino»');
+  assert.deepEqual(nearestFirst([]), []);
+});
+
+test('elenco: non modifica i dati di ingresso', () => {
+  const copy = JSON.parse(JSON.stringify(groups));
+  nearestFirst(groups);
+  assert.deepEqual(groups, copy);
+});
+
+test('distanza: testo in chiaro, avviso con simbolo oltre i 300 km, «non nota» se assente', () => {
+  assert.deepEqual(distanceLabel(120.4), { text: '120 km', far: false });
+  assert.deepEqual(distanceLabel(300), { text: '300 km', far: false });
+  assert.deepEqual(distanceLabel(301), { text: '⚠ fuori portata · 301 km', far: true });
+  assert.deepEqual(distanceLabel(null), { text: 'distanza non nota', far: false });
+  assert.deepEqual(distanceLabel(undefined), { text: 'distanza non nota', far: false });
+  assert.deepEqual(distanceLabel(NaN), { text: 'distanza non nota', far: false });
+});
+
+test('fili: ogni livello è tratteggiato e sottile', async () => {
+  const { THREAD_STYLE } = await import('../src/map/unitIcons.js');
+  for (const [level, st] of Object.entries(THREAD_STYLE)) {
+    assert.ok(st.dash.length >= 2, `${level}: tratteggio`);
+    assert.ok(st.width <= 2, `${level}: sottile`);
+  }
+  const patterns = new Set(Object.values(THREAD_STYLE).map((s) => s.dash.join(',')));
+  assert.ok(patterns.size >= 3, 'i livelli si distinguono dal tratteggio, non solo dallo spessore');
+});

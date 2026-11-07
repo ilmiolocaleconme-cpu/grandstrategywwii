@@ -1,7 +1,7 @@
 // Contenuto delle sezioni della scheda unità (fase 2). Solo dati già prodotti dal motore: nessun valore inventato.
 import { useState } from 'react';
 import { ECH, CAT } from './UnitInfo.jsx';
-import { COMMAND_DISTANCE_KM } from '../rules/commandDistance.js';
+import { nearestFirst, distanceLabel } from '../rules/commandLinks.js';
 import { sheetSections, equipmentGroups } from '../rules/unitSheet.js';
 
 const NA = <span className="muted">dato non disponibile</span>;
@@ -81,11 +81,10 @@ function Equipaggiamento({ info }) {
   );
 }
 
-/** Distanza dal comando in chiaro: oltre COMMAND_DISTANCE_KM la prontezza cala (regola in commandDistance.js). Mai solo colore. */
-function KmNote({ km }) {
-  if (km === null || km === undefined) return <small className="muted"> distanza non nota</small>;
-  const far = km > COMMAND_DISTANCE_KM;
-  return <small className={far ? 'us-far' : 'muted'}>{far ? ' ⚠ fuori portata · ' : ' · '}{Math.round(km)} km</small>;
+/** Sotto il nome: livello e distanza dal comando, in chiaro (oltre la soglia la prontezza cala: regola in commandDistance.js). Mai solo colore. */
+function KmNote({ km, levelLabel, nearest }) {
+  const d = distanceLabel(km);
+  return <small className={d.far ? 'us-far' : 'muted'}>{levelLabel} · {d.text}{nearest ? ' · il più vicino' : ''}</small>;
 }
 
 function Comando({ info, onAttachTo, onDetach, parentOptions }) {
@@ -93,7 +92,7 @@ function Comando({ info, onAttachTo, onDetach, parentOptions }) {
   const c = info.commander;
   const hasParent = info.chain.length > 0;
   const canAttach = Boolean(onAttachTo && parentOptions);
-  const groups = open && canAttach ? parentOptions(info.id) : [];
+  const list = open && canAttach ? nearestFirst(parentOptions(info.id)) : []; // il comando più vicino per primo, poi gli altri per distanza
   return (
     <dl className="us-list">
       <Row label="Comandante">{c.status === 'assegnato' ? `${c.name} (${c.rank})` : c.status === 'vacante' ? 'vacante' : `non gestito: ${c.reason}`}</Row>
@@ -105,17 +104,12 @@ function Comando({ info, onAttachTo, onDetach, parentOptions }) {
           <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>{open ? 'Chiudi l’elenco' : 'Inquadra in…'}</button>
           {onDetach && hasParent ? <button type="button" onClick={() => onDetach(info.id)}>Scollega</button> : null}
           {open ? (
-            groups.length === 0 ? <p className="muted small">Nessun comando valido: serve un livello più alto, della stessa nazione.</p> : (
+            list.length === 0 ? <p className="muted small">Nessun comando valido: serve un livello più alto, della stessa nazione.</p> : (
               <div className="us-parents">
-                {groups.map((g) => (
-                  <div key={g.level} role="group" aria-label={g.label}>
-                    <p className="us-parents-head">{g.label}</p>
-                    {g.items.map((p) => (
-                      <button key={p.id} type="button" className="us-parent" onClick={() => { onAttachTo(info.id, p.id); setOpen(false); }}>
-                        <b>{p.name}</b><KmNote km={p.km} />
-                      </button>
-                    ))}
-                  </div>
+                {list.map((p) => (
+                  <button key={p.id} type="button" className={`us-parent${p.nearest ? ' near' : ''}`} onClick={() => { onAttachTo(info.id, p.id); setOpen(false); }}>
+                    <b>{p.name}</b><KmNote km={p.km} levelLabel={p.levelLabel} nearest={p.nearest} />
+                  </button>
                 ))}
               </div>
             )

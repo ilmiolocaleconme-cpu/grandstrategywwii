@@ -3,6 +3,8 @@
 import { orbatLevel, chainOf, descendantsOf } from './orbat.js';
 import { isFarFromCommand } from './commandDistance.js';
 
+const known = (km) => km !== null && km !== undefined && Number.isFinite(km);
+
 const isLandDivision = (u) => Boolean(u) && orbatLevel(u) === 'division';
 const kmBetween = (km, a, b) => { const d = km(a, b); return Number.isFinite(d) ? d : null; };
 
@@ -102,4 +104,28 @@ function focusedThreads({ orbat, unitsById, posOf, cmdPosOf, nation, focusIds })
     out.push({ from: id, to: parent, fromProv, toProv, level: toLevel, nation: unit.nation });
   }
   return out;
+}
+
+/**
+ * Elenco «Inquadra in…» per vicinanza: una lista sola (non più divisa per livello), dal comando più vicino al più lontano.
+ * Prende i gruppi di validParents con `km` su ogni voce; le voci senza distanza vanno in fondo, a parità di km vale l'ordine alfabetico.
+ * Ritorna [{ ...voce, level, levelLabel, nearest }]; `nearest` è vero solo per la prima voce con distanza nota.
+ */
+export function nearestFirst(groups) {
+  const flat = groups.flatMap((g) => g.items.map((p) => ({ ...p, level: g.level, levelLabel: g.label })));
+  flat.sort((a, b) => {
+    const ka = known(a.km) ? a.km : Infinity;
+    const kb = known(b.km) ? b.km : Infinity;
+    if (ka !== kb) return ka < kb ? -1 : 1;
+    return String(a.name).localeCompare(String(b.name), 'it');
+  });
+  const first = flat.findIndex((p) => known(p.km));
+  return flat.map((p, i) => ({ ...p, nearest: i === first }));
+}
+
+/** Testo della distanza sotto il nome di un comando: chiaro anche senza colori. far = oltre la soglia dei 300 km. */
+export function distanceLabel(km) {
+  if (!known(km)) return { text: 'distanza non nota', far: false };
+  const r = Math.round(km);
+  return isFarFromCommand(km) ? { text: `⚠ fuori portata · ${r} km`, far: true } : { text: `${r} km`, far: false };
 }

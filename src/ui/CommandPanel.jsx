@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { orbatLevel, chainOf } from '../rules/orbat.js';
 import { commandTree, visibleRows, loose, validParents, validChildren, levelLabel } from './commandView.js';
 import CommandSummary from './CommandSummary.jsx';
+import { nearestFirst, distanceLabel } from '../rules/commandLinks.js';
 
 const levelOf = (u) => orbatLevel(u);
 const commandTreeOf = commandTree;
@@ -23,11 +24,18 @@ function Row({ row, selected, onSelect, onToggle }) {
   );
 }
 
-function Picker({ title, groups, onPick, onClose, empty }) {
+function Picker({ title, groups, onPick, onClose, empty, byDistance = false }) {
+  const flat = byDistance ? nearestFirst(groups) : null; // «Aggiungi a…»: una lista sola, dal comando più vicino, con la distanza sotto il nome
   return (
     <section className="cmd-picker" aria-label={title}>
       <header><strong>{title}</strong><button type="button" className="close" aria-label="Chiudi elenco" onClick={onClose}>×</button></header>
-      {groups.length === 0 ? <p className="muted">{empty}</p> : groups.map((g) => (
+      {groups.length === 0 ? <p className="muted">{empty}</p> : flat ? (
+        <ul className="cmd-near">{flat.map((u) => { const d = distanceLabel(u.km); return (
+          <li key={u.id}><button type="button" className={u.nearest ? 'near' : ''} onClick={() => onPick(u.id)}>
+            <i aria-hidden="true">{MARK[u.level] ?? ''}</i><b>{u.name}</b>
+            <small className={d.far ? 'far' : ''}>{u.levelLabel} · {d.text}{u.nearest ? ' · il più vicino' : ''}</small>
+          </button></li>); })}</ul>
+      ) : groups.map((g) => (
         <div key={g.label} className="cmd-group">
           <h4>{g.label}</h4>
           <ul>{g.items.map((u) => <li key={u.id}><button type="button" onClick={() => onPick(u.id)}><i aria-hidden="true">{MARK[g.level] ?? ''}</i>{u.name}</button></li>)}</ul>
@@ -37,7 +45,7 @@ function Picker({ title, groups, onPick, onClose, empty }) {
   );
 }
 
-export default function CommandPanel({ orbat, units, nation, date, nationName, selectedId, notice, onSelect, onAttach, onDetach, fightersOf, onAssign, onEntrench, onClose, summary = null }) {
+export default function CommandPanel({ orbat, units, nation, date, nationName, selectedId, notice, onSelect, onAttach, onDetach, parentOptions, fightersOf, onAssign, onEntrench, onClose, summary = null }) {
   const [expanded, setExpanded] = useState(() => new Set());
   const [query, setQuery] = useState('');
   const [tab, setTab] = useState('free'); // 'free' = da assegnare, 'tree' = ordine di battaglia
@@ -48,7 +56,7 @@ export default function CommandPanel({ orbat, units, nation, date, nationName, s
   const free = useMemo(() => loose(orbat, units, nation, date, query), [orbat, units, nation, date, query]);
   const sel = selectedId ? byId.get(selectedId) : null;
   const isCmd = sel ? !['division', 'support'].includes(levelOf(sel)) : false;
-  const parents = useMemo(() => (picker === 'parent' && sel ? validParents(orbat, sel.id, units, nation, date) : []), [picker, sel, orbat, units, nation, date]);
+  const parents = useMemo(() => (picker === 'parent' && sel ? (parentOptions ? parentOptions(sel.id) : validParents(orbat, sel.id, units, nation, date)) : []), [picker, sel, orbat, units, nation, date, parentOptions]); // con parentOptions ogni comando ha la distanza dall'unità
   const children = useMemo(() => (picker === 'child' && sel ? validChildren(orbat, sel.id, units, nation, date) : []), [picker, sel, orbat, units, nation, date]);
   const parentName = sel && orbat.links[sel.id] ? byId.get(orbat.links[sel.id].parent)?.name : null;
   const nFight = sel && isCmd && fightersOf ? fightersOf(sel.id).length : 0;
@@ -92,7 +100,7 @@ export default function CommandPanel({ orbat, units, nation, date, nationName, s
       </div>
       {sel ? (
         <footer className="cmd-bar">
-          {picker === 'parent' ? <Picker title={`Aggiungi «${sel.name}» a…`} groups={parents} onPick={pick('parent')} onClose={() => setPicker(null)} empty="Nessun comando valido: serve un livello più alto, della stessa nazione." /> : null}
+          {picker === 'parent' ? <Picker title={`Aggiungi «${sel.name}» a…`} groups={parents} byDistance={Boolean(parentOptions)} onPick={pick('parent')} onClose={() => setPicker(null)} empty="Nessun comando valido: serve un livello più alto, della stessa nazione." /> : null}
           {picker === 'child' ? <Picker title={`Aggiungi a «${sel.name}»…`} groups={children} onPick={pick('child')} onClose={() => setPicker(null)} empty="Nessuna unità libera di livello inferiore." /> : null}
           <p className="cmd-sel"><b>{sel.name}</b> <small>{levelLabel(sel)}{parentName ? ` · agli ordini di ${parentName}` : ' · senza comando superiore'}</small></p>
           {isCmd && onAssign ? (
