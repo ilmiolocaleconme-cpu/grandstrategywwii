@@ -59,24 +59,30 @@ export function countersFor(groups, farIds) {
  * Estremi di un filo tra due segnalini (centri in pixel), accorciati al bordo dei riquadri così il filo non li copre.
  * hw/hh = mezza larghezza/altezza del riquadro più un margine. Ritorna null se i riquadri si toccano o coincidono (nessun filo visibile).
  */
-export function threadEnds(a, b, hw = COUNTER_W / 2 + 3, hh = COUNTER_H / 2 + 3) {
+export function threadEnds(a, b, { hw = COUNTER_W / 2 + 3, hh = COUNTER_H / 2 + 3 } = {}) {
   const dx = b.x - a.x;
   const dy = b.y - a.y;
   if (dx === 0 && dy === 0) return null;
   const s = Math.min(dx === 0 ? Infinity : hw / Math.abs(dx), dy === 0 ? Infinity : hh / Math.abs(dy));
-  if (s >= 0.5) return null; // i due riquadri si sovrappongono o sono quasi a contatto
-  return { x0: a.x + dx * s, y0: a.y + dy * s, x1: b.x - dx * s, y1: b.y - dy * s };
+  const sa = a.hidden ? 0 : s; // un estremo senza segnalino disegnato (fuori schermo o coperto) non si accorcia: il filo parte dal centro della provincia
+  const sb = b.hidden ? 0 : s;
+  if (!a.hidden && !b.hidden && s >= 0.5) return null; // i due riquadri si sovrappongono o sono quasi a contatto
+  return { x0: a.x + dx * sa, y0: a.y + dy * sa, x1: b.x - dx * sb, y1: b.y - dy * sb };
 }
 
-/** Segnalino più vicino tra quelli di una provincia e di una nazione (la mappa si ripete in orizzontale: ci possono essere più copie). */
-export function nearestPair(hits, fromProv, toProv, nation) {
-  const A = hits.filter((h) => h.province === fromProv && h.nation === nation);
-  const B = hits.filter((h) => h.province === toProv && h.nation === nation);
+/**
+ * Coppia di punti più vicina tra una provincia e l'altra, per una nazione (la mappa si ripete in orizzontale: più copie).
+ * `points` = segnalini disegnati ({province, nation, cx, cy}) più gli ancoraggi di quelli NON disegnati ({..., hidden: true}):
+ * un comando a più di 300 km, cioè proprio il caso «fuori portata», è quasi sempre fuori schermo, ma il filo deve comunque raggiungerlo.
+ */
+export function nearestPair(points, fromProv, toProv, nation) {
+  const A = points.filter((h) => h.province === fromProv && h.nation === nation);
+  const B = points.filter((h) => h.province === toProv && h.nation === nation);
   let best = null;
   for (const p of A) {
     for (const q of B) {
       const d = (p.cx - q.cx) ** 2 + (p.cy - q.cy) ** 2;
-      if (!best || d < best.d) best = { a: { x: p.cx, y: p.cy }, b: { x: q.cx, y: q.cy }, d };
+      if (!best || d < best.d) best = { a: { x: p.cx, y: p.cy, hidden: Boolean(p.hidden) }, b: { x: q.cx, y: q.cy, hidden: Boolean(q.hidden) }, d };
     }
   }
   return best;
@@ -90,14 +96,14 @@ export const THREAD_STYLE = {
   theater: { width: 3, dash: [11, 4, 2, 4] },
 };
 
-/** Fili di comando sui segnalini già disegnati. `threads` da commandThreads(); `hits` con provincia, nazione e centro dei segnalini. */
-function drawThreads(ctx, threads, hits) {
+/** Fili di comando. `threads` da commandThreads(); `points` = segnalini disegnati e ancoraggi dei non disegnati (vedi nearestPair). */
+function drawThreads(ctx, threads, points) {
   ctx.save();
   ctx.lineCap = 'round';
   for (const t of threads) {
-    const pair = nearestPair(hits, t.fromProv, t.toProv, t.nation);
+    const pair = nearestPair(points, t.fromProv, t.toProv, t.nation);
     const e = pair && threadEnds(pair.a, pair.b);
-    if (!e) continue; // uno dei due segnalini non è stato disegnato (zoom o sovrapposizione): nessun filo inventato
+    if (!e) continue; // provincia senza unità della nazione, o riquadri a contatto: nessun filo inventato
     const st = THREAD_STYLE[t.level] ?? THREAD_STYLE.corps;
     for (const [w, color] of [[st.width + 2.5, 'rgba(20,20,20,0.75)'], [st.width, '#f2e6b8']]) { // alone scuro sotto: leggibile su ogni colore di provincia
       ctx.setLineDash(st.dash);
@@ -190,6 +196,7 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
     if (groups?.length) cand.push([it, groups]);
   }
   cand.sort((x, y) => (y[0].areaKm2 ?? 0) - (x[0].areaKm2 ?? 0));
+  const hidden = []; // ancoraggi dei segnalini non disegnati (fuori schermo o coperti da uno più grande): servono solo ai fili
   for (const [it, groups] of cand) {
     const pt = model ? anchorOf(model, it) : { x: it.bbox.x + it.bbox.w / 2, y: it.bbox.y + it.bbox.h / 2 };
     const { shown, extra } = countersFor(groups, farIds);
@@ -198,9 +205,10 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
     for (const off of copies) {
       const px = a.sx * (pt.x + off) + a.tx;
       const py = a.sx * pt.y + a.ty;
-      if (px < -w || py < -COUNTER_H || px > W + w || py > H + COUNTER_H) continue;
+      const skip = () => { if (threads?.length) for (const g of groups) hidden.push({ province: it.props.parentProvince ?? it.props.id, nation: g.nation, cx: px, cy: py, hidden: true }); };
+      if (px < -w || py < -COUNTER_H || px > W + w || py > H + COUNTER_H) { skip(); continue; }
       const box = [px - w / 2, py - COUNTER_H / 2, px + w / 2, py + COUNTER_H / 2];
-      if (boxes.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) continue;
+      if (boxes.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) { skip(); continue; }
       boxes.push(box);
       shown.forEach((spec, i) => {
         const cx = box[0] + COUNTER_W / 2 + i * (COUNTER_W + GAP);
@@ -224,5 +232,5 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
       }
     }
   }
-  if (threads?.length && hits?.length) drawThreads(ctx, threads, hits); // fili di comando: dopo i segnalini, accorciati ai loro bordi
+  if (threads?.length) drawThreads(ctx, threads, [...(hits ?? []), ...hidden]); // fili di comando: dopo i segnalini; accorciati ai bordi dei riquadri disegnati
 }

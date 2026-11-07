@@ -150,3 +150,25 @@ test('selezione: un\'unità inesistente o senza posizione non rompe e non invent
 test('selezione: senza focusIds resta il comportamento di tutti i fili (compatibilità)', () => {
   assert.equal(commandThreads({ ...base, nation: 'DEU' }).length, 3);
 });
+
+// ---- Comando fuori schermo: il filo deve raggiungerlo (caso tipico della divisione «fuori portata», a più di 300 km)
+test('fili: un estremo non disegnato non si accorcia e non annulla il filo', async () => {
+  const { threadEnds, COUNTER_W } = await import('../src/map/unitIcons.js');
+  const e = threadEnds({ x: 100, y: 100 }, { x: 5000, y: 100, hidden: true });
+  assert.ok(e, 'il filo esiste anche se un estremo è fuori schermo');
+  assert.ok(e.x0 > 100 && e.x0 < 100 + COUNTER_W, 'accorciato dal lato del segnalino disegnato');
+  assert.equal(e.x1, 5000, 'non accorciato dal lato nascosto');
+  const bothHidden = threadEnds({ x: 0, y: 0, hidden: true }, { x: 30, y: 5, hidden: true });
+  assert.deepEqual([bothHidden.x0, bothHidden.x1], [0, 30], 'due ancoraggi vicini restano un filo, senza accorciamenti');
+});
+
+test('fili: la coppia sceglie l\'ancoraggio nascosto quando manca il segnalino disegnato', async () => {
+  const { nearestPair } = await import('../src/map/unitIcons.js');
+  const pts = [
+    { province: 'p1', nation: 'DEU', cx: 50, cy: 50 },                       // disegnato
+    { province: 'p2', nation: 'DEU', cx: 4000, cy: 70, hidden: true },       // comando fuori schermo
+    { province: 'p2', nation: 'FRA', cx: 60, cy: 60 },                       // altra nazione: ignorata
+  ];
+  const r = nearestPair(pts, 'p1', 'p2', 'DEU');
+  assert.deepEqual([r.a.hidden, r.b.hidden, r.b.x], [false, true, 4000]);
+});
