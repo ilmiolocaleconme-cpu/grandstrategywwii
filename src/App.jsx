@@ -592,7 +592,7 @@ export default function App() {
     const cache = new Map();
     const cmdPosOf = (id) => { if (!cache.has(id)) cache.set(id, commandPosition({ state: game, initial: INITIAL_POSITIONS, orbat, unitsById: um, id })); return cache.get(id); };
     const far = commandDistances({ orbat, unitsById: um, posOf, cmdPosOf, km: (a, b) => net.km(a, b), nation: game.player }).filter((d) => d.far);
-    return { farIds: new Set(far.map((d) => d.id)), threads: commandThreads({ orbat, unitsById: um, posOf, cmdPosOf, nation: game.player }) };
+    return { farIds: new Set(far.map((d) => d.id)), orbat, um, posOf, cmdPosOf }; // la luce è sempre accesa finché la divisione è fuori portata; i fili si calcolano dopo, per la selezione
   }, [game?.movement, game?.orbat, game?.date, game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
   const dislocUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
   // comandi stimati o mossi: sulla mappa come gli altri segnalini (stessi gruppi per nazione e provincia)
@@ -635,6 +635,14 @@ export default function App() {
   // Menu radiale sul segnalino: agisce sulle unità spuntate, o su tutte quelle del segnalino se nessuna è spuntata
   const radialIds = armyGroup ? (armyChecked.size ? [...armyChecked] : armyGroup.units.map((u) => u.id)) : [];
   const radialOwn = Boolean(game && armySel && armySel.nation === game.player);
+  // Fili di comando solo per ciò che il giocatore ha scelto (decisione del 07/11/2026): scheda di un comando, segnalino toccato (unità spuntate o tutte quelle del segnalino) o unità scelta nel pannello Comando.
+  const focusIds = hqId ? [hqId] : armySel ? radialIds : command?.selected ? [command.selected] : [];
+  const focusKey = focusIds.join('|');
+  const mapLinks = useMemo(() => {
+    if (!commandLinks) return null;
+    const { farIds, orbat, um, posOf, cmdPosOf } = commandLinks;
+    return { farIds, threads: commandThreads({ orbat, unitsById: um, posOf, cmdPosOf, nation: game.player, focusIds }) };
+  }, [commandLinks, focusKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const radialFighters = game ? radialIds.filter((id) => { const u = unitOf(game, id, UNITS_BY_ID); return u && isFighter(game, u); }) : [];
   const radialDigging = Boolean(game) && radialFighters.length > 0 && radialFighters.every((id) => entrenchOf(game, id, THEATER_CTX.entrenchCfg).digging);
   const radialMove = () => {
@@ -873,7 +881,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={radialIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={commandLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
+        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={radialIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
         {command && game ? (
           <CommandPanel summary={commandSummaryData} orbat={game.orbat ?? createOrbatState()} units={unitsList(game, unitsFile.units)} nation={game.player} date={game.date} nationName={NATION_NAMES[game.player]} selectedId={command.selected} notice={command.notice}
             onSelect={(id) => setCommand((c) => ({ ...c, selected: id, notice: null }))}

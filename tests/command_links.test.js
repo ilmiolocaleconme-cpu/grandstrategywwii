@@ -113,3 +113,40 @@ test('fili: si sceglie la coppia di segnalini più vicina tra le copie della map
   assert.deepEqual([r.a.x, r.b.x], [1010, 990]);
   assert.equal(nearestPair(hits, 'p1', 'p9', 'DEU'), null, 'segnalino assente: nessun filo');
 });
+
+// ---- Fili solo per la selezione (decisione del 07/11/2026)
+const focus = (ids, extra = {}) => commandThreads({ ...base, nation: 'DEU', focusIds: ids, ...extra });
+const keyOf = (s) => `${s.fromProv}>${s.toProv}:${s.level}`;
+
+test('selezione: nessuna unità scelta = nessun filo', () => {
+  assert.deepEqual(focus([]), []);
+});
+
+test('selezione: una divisione mostra la sua catena verso l\'alto, non i fratelli', () => {
+  // D3 (p9) sotto il corpo C (p2) sotto l'armata A (p3): fili p9→p2 e p2→p3. D1 e D2 (p1) restano senza filo.
+  assert.deepEqual(focus(['D3']).map(keyOf).sort(), ['p2>p3:army', 'p9>p2:corps']);
+});
+
+test('selezione: un corpo mostra le sue divisioni sotto e i suoi superiori', () => {
+  assert.deepEqual(focus(['C']).map(keyOf).sort(), ['p1>p2:corps', 'p2>p3:army', 'p9>p2:corps']);
+});
+
+test('selezione: l\'armata mostra tutta la discesa; il supporto e le altre nazioni restano fuori', () => {
+  const t = focus(['A']);
+  assert.deepEqual(t.map(keyOf).sort(), ['p1>p2:corps', 'p2>p3:army', 'p9>p2:corps']);
+  assert.ok(!t.some((s) => s.from === 'S' || s.from === 'X'));
+});
+
+test('selezione: un\'unità nemica scelta non produce fili (niente informazioni sul nemico)', () => {
+  assert.deepEqual(focus(['X']), []);
+  assert.deepEqual(focus(['X', 'D3']).map(keyOf).sort(), ['p2>p3:army', 'p9>p2:corps'], 'la nemica non aggiunge nulla, la nostra sì');
+});
+
+test('selezione: un\'unità inesistente o senza posizione non rompe e non inventa fili', () => {
+  assert.deepEqual(focus(['ZZZ']), []);
+  assert.deepEqual(focus(['D3'], { cmdPosOf: (id) => (id === 'C' ? null : POS[id]) }), [], 'senza posizione del corpo nessun filo da/verso il corpo');
+});
+
+test('selezione: senza focusIds resta il comportamento di tutti i fili (compatibilità)', () => {
+  assert.equal(commandThreads({ ...base, nation: 'DEU' }).length, 3);
+});
