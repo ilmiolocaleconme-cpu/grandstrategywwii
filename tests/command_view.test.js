@@ -77,7 +77,11 @@ test('azioni del giocatore: inquadra, sposta, scollega; blocca unità altrui e c
   assert.equal(playerDetach(s2, 'D1', { units }).state.orbat.links.D1, undefined);
 });
 
-test('App: il pannello Comando riceve incarico e trinceramento per le divisioni agli ordini del comando', () => {
+test('App: il pannello Comando riceve marcia, incarico e trinceramento per le sole divisioni spuntate', () => {
   const app = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8');
-  assert.match(app, /fightersOf=\{/); assert.match(app, /onAssign=\{\(id\) => \{ const ids = divisionsUnder/); assert.match(app, /onEntrench=\{\(id, on\)/);
+  assert.match(app, /fightersOf=\{fightersAmong\}/);
+  assert.match(app, /onMarch=\{moveNet \? \(ids\) =>/);
+  assert.match(app, /onAssign=\{\(ids\) => \{ setTheater\(\{ draft: \{ kind: 'attack', provinces: \[\], units: fightersAmong\(ids\) \}/);
+  assert.match(app, /onEntrench=\{\(ids, on\)/);
+  assert.match(app, /const divisionsOf = /); assert.match(app, /divisionsUnder\(game\.orbat/);
 });

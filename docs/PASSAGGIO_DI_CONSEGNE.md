@@ -65,6 +65,14 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 **Pannello comando**
 - Riepilogo in alto con dati reali: cassa ECV, uomini liberi nel pool, prontezza e morale medi, avvisi. Un dato assente mostra «—», mai zero (`src/rules/commandSummary.js`).
 
+**Stato maggiore variante B nel gioco (08/11/2026, branch `fix/selezione-hq`, da provare su telefono)**
+- Il pannello Comando ora ha il layout del mockup B: barra «STATO MAGGIORE» con il riepilogo, albero a nodi tondi (XXX, XXXX…) con pallino di stato, dettaglio con barre (personale, prontezza, morale, forza materiale), azioni tonde con etichetta, barra in basso con cinque sezioni.
+- Pallino di stato: verde = nessuna divisione fuori portata (300 km), giallo = alcune, rosso = tutte («fuori comando»). Nessuna soglia inventata (`src/rules/commandStatus.js`).
+- «Forza materiale» mostra «—»: la media non è affidabile. Sezioni «Materiali», «Condizione» e «Storia» sono visibili ma disattivate («Non ancora disponibile»).
+- Sezione «Ordini»: «Seleziona tutte (N)» spunta le divisioni agli ordini, si tolgono quelle che restano, poi «Muovi (M)» (tocco sulla mappa per la destinazione; barra «Annulla» in basso), «Incarico», «Trincera», «Smetti» valgono solo per le spuntate. Alla fine il pannello si riapre con l'esito (quante partite e perché le altre no).
+- Non si creano armate né teatri da qui; nell'albero compaiono solo i comandi che esistono.
+- Da verificare su telefono (360/390 px): albero con molti comandi, barra in basso, barra «Annulla» sopra la mappa.
+
 **Stato maggiore (mockup)**
 - Variante B scelta: albero a tutta larghezza, dettaglio sotto, barra in basso con etichette. Stile con cornici d'ottone e bagliore, senza copiare grafica di altri giochi.
 - Mockup privato: https://claude.ai/artifact/RryWcLDUQ8WzeWACErfiHb (versione 3). Dati di esempio.
