@@ -35,7 +35,7 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, onCommand, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
+export default function ArmyPanel({ orderCount, childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, onCommand, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
     () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig, templates })])),
@@ -57,7 +57,7 @@ export default function ArmyPanel({ childOptions, onAttachChild, templates, move
         {!canMove ? 'Unità di un’altra nazione: puoi vederle, non dare ordini.'
           : moveMode ? `${n} ${n === 1 ? 'unità scelta' : 'unità scelte'}: tocca sulla mappa la destinazione: territorio tuo = marcia, nemico (in guerra) = attacco.`
             : n === 0 ? 'Usa il menu sul segnalino per tutte le unità, oppure spunta quelle che vuoi.'
-              : `${n} ${n === 1 ? 'unità scelta' : 'unità scelte'}: usa il menu sul segnalino.`}
+              : `${n} ${n === 1 ? 'unità scelta' : 'unità scelte'}${orderCount > n ? ` (${orderCount} con le forze agli ordini)` : ''}: usa il menu sul segnalino.`}
       </p>
       {notice && <p className="ap-notice" role="status">{notice}</p>}
       <ul className="ap-list">

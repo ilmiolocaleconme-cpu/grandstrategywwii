@@ -241,3 +241,47 @@ test('«Aggiungi unità…»: le unità libere sono in una lista sola dalla più
   assert.deepEqual(l.map((u) => [u.id, u.levelLabel, u.nearest]), [['D5', 'Divisione', true], ['D6', 'Divisione', false], ['C9', 'Corpo d’armata', false]]);
   assert.equal(distanceLabel(l[2].km).far, true, 'il corpo a 310 km è fuori portata: lo dice il testo, non solo il colore');
 });
+
+// ---- Tocco su un comando rimasto solo in una città; ordini estesi alle forze agli ordini (segnalato dall'utente 08/11/2026)
+import { groupAt, withSubordinates } from '../src/rules/unitGroups.js';
+
+const grp = (nation, ids, extra = {}) => ({ nation, divisions: ids.filter((i) => i.startsWith('D')).length, commands: ids.filter((i) => !i.startsWith('D')).length, units: ids.map((id) => ({ id })), ...extra });
+const MOTHER = { brema_citta: 'brema', brema_nord: 'brema' };
+const motherOf = (k) => MOTHER[k];
+
+test('tocco: un comando solo in una città si trova dalla provincia madre del segnalino', () => {
+  const pu = { brema_citta: [grp('DEU', ['HQ1'])] };
+  const g = groupAt(pu, motherOf, 'brema', 'DEU');
+  assert.deepEqual(g.units.map((u) => u.id), ['HQ1'], 'prima di questa correzione il gruppo non si trovava e il tocco non apriva nulla');
+  assert.equal(groupAt(pu, motherOf, 'brema', 'FRA'), null, 'un\'altra nazione non c\'è');
+  assert.equal(groupAt(pu, motherOf, 'amburgo', 'DEU'), null);
+});
+
+test('tocco: città e provincia madre della stessa nazione si uniscono; le altre province restano fuori', () => {
+  const pu = { brema: [grp('DEU', ['D1', 'D2'])], brema_citta: [grp('DEU', ['HQ1', 'D3'])], altra: [grp('DEU', ['D9'])] };
+  const g = groupAt(pu, motherOf, 'brema', 'DEU');
+  assert.deepEqual(g.units.map((u) => u.id).sort(), ['D1', 'D2', 'D3', 'HQ1']);
+  assert.equal(g.divisions, 3, 'conteggi sommati: D1, D2, D3');
+  assert.equal(g.commands, 1);
+});
+
+test('tocco: con un solo gruppo restituisce lo stesso oggetto; senza dati null', () => {
+  const only = grp('DEU', ['D1']);
+  assert.equal(groupAt({ brema: [only] }, motherOf, 'brema', 'DEU'), only);
+  assert.equal(groupAt(null, motherOf, 'brema', 'DEU'), null);
+  assert.equal(groupAt({ brema: [only] }, undefined, 'brema', 'DEU'), only, 'senza mappa delle madri vale la chiave diretta');
+});
+
+test('ordini: un comando scelto porta con sé le divisioni agli ordini, a ogni livello, ciascuna una volta', () => {
+  const ub = new Map([
+    ['A', { id: 'A', category: 'command', commandLevel: 'army' }], ['C', { id: 'C', category: 'command', commandLevel: 'corps' }],
+    ['D1', { id: 'D1', category: 'infantry', echelon: 'division' }], ['D2', { id: 'D2', category: 'armored', echelon: 'division' }],
+    ['D3', { id: 'D3', category: 'infantry', echelon: 'division' }], ['S', { id: 'S', category: 'artillery', echelon: 'regiment' }],
+  ]);
+  const orbat = { links: { C: { parent: 'A' }, D1: { parent: 'C' }, D2: { parent: 'C' }, D3: { parent: 'A' }, S: { parent: 'C' } } };
+  assert.deepEqual(withSubordinates({ orbat, ids: ['C'], unitsById: ub }).sort(), ['C', 'D1', 'D2'], 'il supporto non è una divisione: non si muove con l\'ordine');
+  assert.deepEqual(withSubordinates({ orbat, ids: ['A'], unitsById: ub }).sort(), ['A', 'D1', 'D2', 'D3'], 'l\'armata comprende le divisioni dei corpi sotto di lei');
+  assert.deepEqual(withSubordinates({ orbat, ids: ['C', 'D1'], unitsById: ub }).sort(), ['C', 'D1', 'D2'], 'senza doppioni');
+  assert.deepEqual(withSubordinates({ orbat, ids: ['D1'], unitsById: ub }), ['D1'], 'una divisione sola resta sola');
+  assert.deepEqual(withSubordinates({ orbat: { links: {} }, ids: ['C'], unitsById: ub }), ['C'], 'comando senza forze: solo se stesso');
+});
