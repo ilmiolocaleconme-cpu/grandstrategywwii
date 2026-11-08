@@ -349,6 +349,20 @@ h2 {
 .ap-dig.max { background: rgba(123, 211, 137, 0.2); border-color: rgba(123, 211, 137, 0.6); color: #a9e5b3; }
 .ap-subs { list-style: none; margin: 2px 0 6px 28px; padding: 0 0 0 10px; border-left: 2px solid rgba(255, 255, 255, 0.18); display: grid; gap: 2px; font-size: 12px; }
 .ap-subs small { opacity: 0.7; margin-left: 6px; }
+.ap-subs small.far, .cf-picker small.far { color: #ffcf70; font-weight: 700; opacity: 1; }
+/* forze agli ordini di un comando: conteggio, pulsanti e, aperto, l'elenco delle unità libere dalla più vicina; in linea nel pannello (non sovrapposto) */
+.cf { margin: 2px 0 8px 28px; display: grid; gap: 4px; }
+.cf-head { margin: 0; font-size: 12px; opacity: 0.85; }
+.cf .ap-subs { margin-left: 0; }
+.cf-btn { min-height: 44px; padding: 6px 12px; text-align: left; border-radius: 10px; }
+.cf-btn.go { border-color: var(--accent); }
+.cf-picker { display: grid; gap: 4px; padding: 6px; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; max-height: min(52vh, 360px); overflow-y: auto; }
+.cf-picker header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.cf-picker ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.cf-picker li button { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; width: 100%; min-height: 44px; padding: 6px 10px; text-align: left; border-radius: 10px; }
+.cf-picker li button i { font-style: normal; font-size: 10px; color: var(--accent); min-width: 40px; text-align: center; }
+.cf-picker li button small { grid-column: 2; font-size: 12px; opacity: 0.8; }
+.cf-picker li button.near { border-color: var(--accent); }
 
 /* Pannello Comando (catena di comando) */
 .cmd-panel { width: min(430px, 94%); }

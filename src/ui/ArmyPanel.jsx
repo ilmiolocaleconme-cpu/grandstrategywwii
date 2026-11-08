@@ -4,6 +4,7 @@ import Flag from './Flag.jsx';
 import { unitInfo } from '../rules/unitInfo.js';
 
 import { Info, ECH, CAT } from './UnitInfo.jsx';
+import CommandForces from './CommandForces.jsx';
 
 const ECH_MARK = { division: 'XX', brigade: 'X', command: '' };
 const LVL_MARK = { corps: 'XXX', army: 'XXXX', army_group: 'XXXXX', theater: 'XXXXXX', high_command: '★', district: '▫' };
@@ -34,7 +35,7 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, onCommand, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
+export default function ArmyPanel({ childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, onCommand, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
     () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig, templates })])),
@@ -86,14 +87,7 @@ export default function ArmyPanel({ templates, moveMode, group, game, unitsById,
                 </button>
                 <button type="button" className="ap-i" aria-label={`Scheda di ${u.name}`} aria-expanded={openId === u.id} onClick={() => setOpenId(u.id === openId ? null : u.id)}>i</button>
               </div>
-              {unit.category === 'command' && subordinates ? (() => {
-                const subs = subordinates(u.id);
-                return subs.length ? (
-                  <ul className="ap-subs" aria-label={`Agli ordini di ${u.name}`}>
-                    {subs.map((d) => <li key={d.id}><b>{d.name}</b> <small>{d.province ?? '—'}</small></li>)}
-                  </ul>
-                ) : null;
-              })() : null}
+              {unit.category === 'command' && subordinates ? <CommandForces unit={unit} subs={subordinates(u.id)} own={Boolean(onAttachChild)} childOptions={childOptions} onAttachChild={onAttachChild} /> : null}
               {openId === u.id && <Info info={info} canSetPolicy={canMove && info.nation === game.player && info.condition !== null} onPolicy={onPolicy} onReinforce={info.nation === game.player ? onReinforce : undefined} />}
             </li>
           );

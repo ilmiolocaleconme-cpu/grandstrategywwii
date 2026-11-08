@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { ECH, CAT } from './UnitInfo.jsx';
 import { nearestFirst, distanceLabel } from '../rules/commandLinks.js';
+import { ChildPicker } from './CommandForces.jsx';
 import { sheetSections, equipmentGroups } from '../rules/unitSheet.js';
 
 const NA = <span className="muted">dato non disponibile</span>;
@@ -87,8 +88,10 @@ function KmNote({ km, levelLabel, nearest }) {
   return <small className={d.far ? 'us-far' : 'muted'}>{levelLabel} · {d.text}{nearest ? ' · il più vicino' : ''}</small>;
 }
 
-function Comando({ info, onAttachTo, onDetach, parentOptions }) {
+function Comando({ info, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild }) {
   const [open, setOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
+  const canAddChild = Boolean(childOptions && onAttachChild && info.commandLevel);
   const c = info.commander;
   const hasParent = info.chain.length > 0;
   const canAttach = Boolean(onAttachTo && parentOptions);
@@ -99,6 +102,12 @@ function Comando({ info, onAttachTo, onDetach, parentOptions }) {
       <Row label="Livello">{ECH[info.echelon] ?? info.echelon}{info.commandLevel ? ` · ${info.commandLevel}` : ''}</Row>
       <Row label="Inquadrata in">{info.chain.length ? info.chain.map((x) => x.name).join(' › ') : 'nessun comando superiore'}</Row>
       <Row label="Forze assegnate">{info.children.length ? info.children.map((x) => x.name).join(', ') : 'nessuna'}</Row>
+      {canAddChild ? (
+        <Row label="Aggiungi unità">
+          <button type="button" aria-expanded={addOpen} onClick={() => setAddOpen((v) => !v)}>{addOpen ? 'Chiudi l’elenco' : 'Aggiungi unità…'}</button>
+          {addOpen ? <ChildPicker title={`Aggiungi a «${info.name}»…`} options={() => childOptions(info.id)} onPick={(cid) => { onAttachChild(info.id, cid); setAddOpen(false); }} onClose={() => setAddOpen(false)} /> : null}
+        </Row>
+      ) : null}
       {canAttach ? (
         <Row label="Inquadramento">
           <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>{open ? 'Chiudi l’elenco' : 'Inquadra in…'}</button>
@@ -172,12 +181,12 @@ function Condizione({ info }) {
 const BODY = { panoramica: Panoramica, organico: Organico, composizione: Composizione, equipaggiamento: Equipaggiamento, comando: Comando, operazioni: Operazioni, condizione: Condizione };
 
 /** Corpo di una sezione: quella non modellata mostra «dato non disponibile» con la sua ragione, mai un valore. */
-export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions }) {
+export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild }) {
   const meta = sheetSections(info).find((s) => s.id === id);
   if (!meta) return null;
   const Body = BODY[id];
   if (!meta.available || !Body) {
     return <p className="muted">{NA}. {id === 'logistica' ? 'Rifornimenti e carburante non sono ancora modellati per le unità.' : id === 'sanita' ? 'Feriti, recuperi e sanità non sono ancora modellati.' : 'La storia dell’unità non è ancora registrata nel gioco.'}</p>;
   }
-  return <Body key={info.id} info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} onDetach={onDetach} parentOptions={parentOptions} />;
+  return <Body key={info.id} info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} onDetach={onDetach} parentOptions={parentOptions} childOptions={childOptions} onAttachChild={onAttachChild} />;
 }

@@ -219,3 +219,25 @@ test('fili: ogni livello è tratteggiato e sottile', async () => {
   const patterns = new Set(Object.values(THREAD_STYLE).map((s) => s.dash.join(',')));
   assert.ok(patterns.size >= 3, 'i livelli si distinguono dal tratteggio, non solo dallo spessore');
 });
+
+// ---- Forze agli ordini di un comando (scelta B, 08/11/2026)
+import { byDistance } from '../src/rules/commandLinks.js';
+
+test('forze agli ordini: dalla più vicina, senza distanza in fondo, a parità alfabetico; non modifica l\'ingresso', () => {
+  const subs = [{ id: 'a', name: 'Zeta', km: 90 }, { id: 'b', name: 'Beta', km: null }, { id: 'c', name: 'Alfa', km: 90 }, { id: 'd', name: 'Delta', km: 12 }, { id: 'e', name: 'Eps' }];
+  const copy = JSON.parse(JSON.stringify(subs));
+  assert.deepEqual(byDistance(subs).map((x) => x.id), ['d', 'c', 'a', 'b', 'e']);
+  assert.deepEqual(subs, copy);
+  assert.deepEqual(byDistance([]), []);
+});
+
+test('«Aggiungi unità…»: le unità libere sono in una lista sola dalla più vicina al comando, con il livello di ciascuna', () => {
+  // forma di validChildren: gruppi per etichetta di livello; km è la distanza dal comando
+  const groups = [
+    { level: 'corps', label: 'Corpo d’armata', items: [{ id: 'C9', name: 'Corpo IX', km: 310 }] },
+    { level: 'division', label: 'Divisione', items: [{ id: 'D5', name: 'Divisione 5', km: 20 }, { id: 'D6', name: 'Divisione 6', km: 150 }] },
+  ];
+  const l = nearestFirst(groups);
+  assert.deepEqual(l.map((u) => [u.id, u.levelLabel, u.nearest]), [['D5', 'Divisione', true], ['D6', 'Divisione', false], ['C9', 'Corpo d’armata', false]]);
+  assert.equal(distanceLabel(l[2].km).far, true, 'il corpo a 310 km è fuori portata: lo dice il testo, non solo il colore');
+});

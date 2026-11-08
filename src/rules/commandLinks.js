@@ -129,3 +129,13 @@ export function distanceLabel(km) {
   const r = Math.round(km);
   return isFarFromCommand(km) ? { text: `⚠ fuori portata · ${r} km`, far: true } : { text: `${r} km`, far: false };
 }
+
+/** Voci con `km` in ordine di vicinanza: la più vicina per prima, senza distanza in fondo, a parità di km alfabetico. Non modifica l'ingresso. */
+export function byDistance(items) {
+  return [...items].sort((a, b) => {
+    const ka = known(a.km) ? a.km : Infinity;
+    const kb = known(b.km) ? b.km : Infinity;
+    if (ka !== kb) return ka < kb ? -1 : 1;
+    return String(a.name).localeCompare(String(b.name), 'it');
+  });
+}
