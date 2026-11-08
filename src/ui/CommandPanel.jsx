@@ -155,7 +155,8 @@ export default function CommandPanel({
       {notice ? <p className="ap-notice" role="status">{notice}</p> : null}
       <div className="sm-scroll">
         {tab === 'org' ? (
-          <>
+          <div className="sm-cols">
+            <div className="sm-col">
             <input type="search" className="cmd-search" placeholder="Cerca unità o comando" aria-label="Cerca" value={query} onChange={(e) => setQuery(e.target.value)} />
             <section className="sm-frame sm-tree" aria-label="Albero di comando">
               {q ? (found.length ? <div className="sm-row">{found.map(node)}</div> : <p className="muted">Nessun comando trovato.</p>)
@@ -173,11 +174,21 @@ export default function CommandPanel({
                 </ul>
               )) : null}
             </section>
+            {sel ? (
+        <nav className="sm-frame sm-acts" aria-label={`Azioni su ${sel.name}`}>
+          <button type="button" onClick={() => setPicker((v) => !v)} aria-expanded={picker}><Ico name="assign" className="sm-act-ico" /><span>Aggiungi a…</span></button>
+          {onMarch ? <button type="button" onClick={() => { setChecked(checkAll(rowIds)); setTab('ord'); }} disabled={rows.length === 0}><Ico name="move" className="sm-act-ico" /><span>Muovi tutte</span></button> : null}
+          <button type="button" disabled={!parentName} onClick={() => onDetach(sel.id)}><Ico name="detach" className="sm-act-ico" /><span>Scollega</span></button>
+        </nav>
+            ) : null}
+            </div>
+            <div className="sm-col">
             {picker && sel ? <Picker title={`Aggiungi «${sel.name}» a…`} groups={parents} byDistance={Boolean(parentOptions)} onPick={pick} onClose={() => setPicker(false)} empty="Nessun comando valido: serve un livello più alto, della stessa nazione." /> : null}
             {detail}
             {sel && isCmd ? <section className="sm-frame sm-forces"><CommandForces unit={sel} subs={subs} own childOptions={childOptions} onAttachChild={(hq, child) => onAttach(child, hq)} /></section> : null}
             {!sel ? <p className="ap-hint">Tocca un comando o una divisione da assegnare.</p> : null}
-          </>
+            </div>
+          </div>
         ) : null}
         {tab === 'ord' ? (sel ? (
           <section className="sm-frame sm-orders" aria-label={`Ordini a ${sel.name}`}>
@@ -212,13 +223,6 @@ export default function CommandPanel({
           </section>
         ) : <p className="ap-hint">Scegli prima un comando o una divisione nell’Organico.</p>) : null}
       </div>
-      {sel && tab === 'org' ? (
-        <nav className="sm-frame sm-acts" aria-label={`Azioni su ${sel.name}`}>
-          <button type="button" onClick={() => setPicker((v) => !v)} aria-expanded={picker}><Ico name="assign" className="sm-act-ico" /><span>Aggiungi a…</span></button>
-          {onMarch ? <button type="button" onClick={() => { setChecked(checkAll(rowIds)); setTab('ord'); }} disabled={rows.length === 0}><Ico name="move" className="sm-act-ico" /><span>Muovi tutte</span></button> : null}
-          <button type="button" disabled={!parentName} onClick={() => onDetach(sel.id)}><Ico name="detach" className="sm-act-ico" /><span>Scollega</span></button>
-        </nav>
-      ) : null}
       <nav className="sm-nav" role="tablist" aria-label="Sezioni">
         {TABS.map((t) => (
           <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} disabled={t.soon} title={t.soon ? 'Non ancora disponibile' : undefined} onClick={() => setTab(t.id)}>

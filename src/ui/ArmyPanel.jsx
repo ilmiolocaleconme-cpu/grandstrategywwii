@@ -35,7 +35,7 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ orderCount, childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, onCommand, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
+export default function ArmyPanel({ orderCount, childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
     () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig, templates })])),
@@ -98,7 +98,6 @@ export default function ArmyPanel({ orderCount, childOptions, onAttachChild, tem
           <button type="button" onClick={() => onSelectAll(group.units.map((u) => u.id))} disabled={n === group.units.length}>Tutte</button>
           <button type="button" onClick={onClear} disabled={n === 0}>Nessuna</button>
           <button type="button" className="danger" onClick={onCancel} disabled={n === 0}>Annulla ordini</button>
-          {onCommand ? <button type="button" onClick={onCommand} title="Apri la catena di comando con l'unità scelta">Comando</button> : null}
         </footer>
       )}
     </aside>

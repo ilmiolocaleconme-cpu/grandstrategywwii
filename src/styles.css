@@ -520,3 +520,18 @@ h2 {
 .order-bar { position: fixed; z-index: 30; left: 8px; right: 8px; bottom: calc(10px + env(safe-area-inset-bottom)); display: flex; gap: 10px; align-items: center; padding: 10px 12px; background: #0d1110; color: var(--ink); border: 2px solid var(--accent); border-radius: 12px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6); font-size: 14px; }
 .order-bar span { flex: 1; }
 .order-bar button { min-height: 44px; padding: 6px 14px; border-radius: 10px; border: 1px solid #4a553f; background: rgba(0, 0, 0, 0.3); color: var(--ink); font: inherit; cursor: pointer; }
+
+/* Stato maggiore: due colonne e barre compatte quando lo schermo è basso (telefono in orizzontale) */
+.sm-cols, .sm-col { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.sm-acts { padding: 6px; }
+@media (max-height: 520px) {
+  .cmd-panel.sm { width: min(760px, 100%); gap: 6px; padding-top: max(4px, env(safe-area-inset-top)); padding-bottom: max(4px, env(safe-area-inset-bottom)); }
+  .sm-top { flex-wrap: nowrap; padding: 4px 4px 4px 10px; gap: 6px; }
+  .sm-top .cmd-summary { flex-wrap: nowrap; gap: 4px; overflow: hidden; }
+  .sm-top .cmd-summary > * { padding: 2px 6px; font-size: 12px; }
+  .sm-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; align-items: start; }
+  .sm-acts button { min-height: 44px; min-width: 0; grid-auto-flow: column; gap: 6px; padding: 4px 10px; }
+  .sm-nav button { min-height: 36px; padding: 4px 2px; grid-auto-flow: column; justify-content: center; gap: 5px; font-size: 11px; }
+  .sm-nav-ico { width: 16px; height: 16px; }
+  .sm-node { min-height: 78px; }
+}
