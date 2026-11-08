@@ -46,6 +46,7 @@ export function sheetSections(info) {
     { id: 'organico', label: 'Organico', available: has(info.strength?.manpower) },
     { id: 'composizione', label: 'Composizione', available: has(info.composition) },
     { id: 'equipaggiamento', label: 'Equipaggiamento', available: (info.equipment ?? []).length > 0 },
+    { id: 'rinforzi', label: 'Rinforzi', available: has(info.reinforcements) },
     { id: 'comando', label: 'Comando', available: true },
     { id: 'operazioni', label: 'Operazioni', available: true },
     { id: 'condizione', label: 'Condizione', available: has(info.condition) },

@@ -4,6 +4,7 @@ import { ECH, CAT } from './UnitInfo.jsx';
 import { nearestFirst, distanceLabel } from '../rules/commandLinks.js';
 import { ChildPicker } from './CommandForces.jsx';
 import { sheetSections, equipmentGroups } from '../rules/unitSheet.js';
+import { reinforcementGroups, needLine } from '../rules/reinforcementView.js';
 
 const NA = <span className="muted">dato non disponibile</span>;
 const POLICY = { conservative: 'conservativa', normal: 'normale', aggressive: 'aggressiva' };
@@ -178,7 +179,40 @@ function Condizione({ info }) {
   );
 }
 
-const BODY = { panoramica: Panoramica, organico: Organico, composizione: Composizione, equipaggiamento: Equipaggiamento, comando: Comando, operazioni: Operazioni, condizione: Condizione };
+function Rinforzi({ info, onReinforce }) {
+  const r = info.reinforcements;
+  if (!r) return NA;
+  const groups = reinforcementGroups(r.rows);
+  return (
+    <div className="us-reinf">
+      <p className="us-reinf-state">
+        <b>{r.cadre ? 'Quadro: non riceve rinforzi' : r.enabled ? 'Rinforzi automatici attivi' : 'Rinforzi sospesi: nessun nuovo invio'}</b>
+        {!r.enabled && !r.cadre ? <small className="muted"> I rinforzi già in viaggio arrivano comunque.</small> : null}
+      </p>
+      {onReinforce && !r.cadre ? (
+        <button type="button" className={`us-reinf-btn${r.enabled ? ' on' : ''}`} aria-pressed={r.enabled} onClick={() => onReinforce(info.id, !r.enabled)}>
+          {r.enabled ? 'Sospendi i rinforzi' : 'Riprendi i rinforzi'}
+        </button>
+      ) : null}
+      {groups.length === 0 ? <p className="muted small">Organico, cavalli e mezzi al completo: niente da rinforzare e niente in viaggio.</p> : groups.map((g) => (
+        <section key={g.id} aria-label={g.label}>
+          <h4 className="us-eqhead">{g.label}</h4>
+          <ul className="us-needs">
+            {g.rows.map((x) => (
+              <li key={x.item}>
+                <span><code>{x.kind === 'mezzi' ? x.code : x.kind === 'cavalli' ? 'cavalli' : 'uomini'}</code> <small className="muted">{x.effective} / {x.planned}</small></span>
+                <small className={x.deficit > 0 && x.stock === 0 ? 'us-neg' : 'muted'}>{needLine(x)}</small>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+      <p className="small muted">Gli uomini vengono dal pool della nazione; cavalli e mezzi dalle scorte. Senza scorta o senza un percorso dal deposito la divisione resta senza rinforzi. La produzione di carri e artiglieria che riempia le scorte non c’è ancora.</p>
+    </div>
+  );
+}
+
+const BODY = { panoramica: Panoramica, organico: Organico, composizione: Composizione, equipaggiamento: Equipaggiamento, rinforzi: Rinforzi, comando: Comando, operazioni: Operazioni, condizione: Condizione };
 
 /** Corpo di una sezione: quella non modellata mostra «dato non disponibile» con la sua ragione, mai un valore. */
 export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild }) {

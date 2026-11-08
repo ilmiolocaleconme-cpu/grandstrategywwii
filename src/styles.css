@@ -535,3 +535,20 @@ h2 {
   .sm-nav-ico { width: 16px; height: 16px; }
   .sm-node { min-height: 78px; }
 }
+
+/* Scheda unità: azioni tonde con etichetta, sezioni su una striscia scorrevole, sezione Rinforzi */
+.unit-sheet .us-acts { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
+.unit-sheet .us-acts button { min-width: 84px; min-height: 56px; padding: 4px 10px; border-radius: 14px; border: 2px solid #8a6a2e; background: radial-gradient(circle at 50% 30%, #2b3730, #0e1411); color: var(--ink); display: grid; justify-items: center; align-content: center; gap: 1px; font: inherit; font-size: 11px; cursor: pointer; }
+.unit-sheet .us-acts button.on { border-color: var(--accent); }
+.unit-sheet .us-act-ico { font-size: 20px; line-height: 1; color: #d7b060; }
+.unit-sheet .us-attach { margin: 0 0 6px; padding: 8px; border: 1px solid #4a553f; border-radius: 10px; background: rgba(0, 0, 0, 0.25); display: grid; gap: 6px; max-height: 40%; overflow-y: auto; }
+.unit-sheet .us-attach header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.unit-sheet .us-sections { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; padding-bottom: 4px; }
+.unit-sheet .us-sections button { flex: 0 0 auto; padding: 0 12px; white-space: nowrap; }
+.us-reinf { display: grid; gap: 8px; }
+.us-reinf-state { margin: 0; }
+.us-reinf-btn { min-height: 44px; border-radius: 10px; border: 1px solid #4a553f; background: rgba(0, 0, 0, 0.25); color: var(--ink); font: inherit; cursor: pointer; }
+.us-reinf-btn.on { border-color: var(--accent); }
+.us-needs { list-style: none; margin: 0; padding: 0 !important; display: grid; gap: 4px; }
+.us-needs li { display: grid; gap: 1px; padding: 4px 0; border-bottom: 1px solid #3b4534; }
+.us-needs code { overflow-wrap: anywhere; }

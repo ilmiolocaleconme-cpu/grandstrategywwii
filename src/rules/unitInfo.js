@@ -1,6 +1,7 @@
 // Scheda informativa di un'unità, ricavata SOLO da ciò che lo stato di partita e i dati contengono davvero.
 // Funzione PURA. Ciò che il progetto non modella (fatica, morale, organizzazione, esperienza...) NON si inventa: compare in
 // `notModeled`, così il pannello lo dice invece di mostrare numeri finti.
+import { reinforcementNeeds } from './reinforcementView.js';
 import { chainOf, childrenOf, orbatLevel } from './orbat.js';
 import { affiliationOf } from './unitSheet.js';
 import { estimatedHqProvince } from './hqPosition.js';
@@ -97,5 +98,5 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
     estimate: est ? { province: est.province, provinceName: provinceName(est.province), inProvince: est.inProvince, basedOn: est.basedOn, source: 'stimata' } : null,
     order: order ? { to: order.path[order.path.length - 1], toName: provinceName(order.path[order.path.length - 1]), nextName: provinceName(order.path[order.leg + 1]), daysLeft: order.daysLeft, totalDays: order.totalDays } : null,
   };
-  return { id: unit.id, name: unit.name, nation: unit.nation, origin: unit.origin ?? null, affiliation: affiliationOf(state, unit.nation), echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
+  return { id: unit.id, name: unit.name, nation: unit.nation, origin: unit.origin ?? null, affiliation: affiliationOf(state, unit.nation), echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, reinforcements: inst ? reinforcementNeeds({ forces: state.forces, stocks: state.nations?.[unit.nation]?.stocks, divisionId: unit.id }) : null, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
 }

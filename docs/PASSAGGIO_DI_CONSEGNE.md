@@ -73,6 +73,12 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Non si creano armate né teatri da qui; nell'albero compaiono solo i comandi che esistono.
 - Da verificare su telefono (360/390 px): albero con molti comandi, barra in basso, barra «Annulla» sopra la mappa.
 
+**Scheda unità e rinforzi (09/11/2026, branch `fix/selezione-hq`, da provare su telefono)**
+- Un tocco su una divisione sola mostra solo il cerchio (Muovi, Trincera, Supporta spento, «I») e una barra sottile in basso; l'elenco compare solo con più unità nella provincia.
+- Scheda unità: riga di pulsanti tondi con etichetta (Inquadra, Scollega, Sospendi/Riprendi rinforzi), sezioni su una striscia scorrevole, nuova sezione «Rinforzi» (`src/rules/reinforcementView.js`): cosa manca, cosa è in viaggio, scorta.
+- I rinforzi di cavalli e mezzi dalle scorte esistono già nel motore (`reinforcementSystem.js`), ma NESSUNA produzione riempie le scorte `equipment.*`: i mezzi non arrivano perché la scorta è vuota. Prossimo passo grande (A): ricette di produzione di carri, artiglieria e mezzi → scorte della nazione.
+- Non fatto: «priorità rinforzi» (il parametro `requests` di `planReinforcements` esiste ma non è collegato al sistema giornaliero) e la barra in alto riordinata («Livelli» e «Menu»).
+
 **Stato maggiore (mockup)**
 - Variante B scelta: albero a tutta larghezza, dettaglio sotto, barra in basso con etichette. Stile con cornici d'ottone e bagliore, senza copiare grafica di altri giochi.
 - Mockup privato: https://claude.ai/artifact/RryWcLDUQ8WzeWACErfiHb (versione 3). Dati di esempio.
