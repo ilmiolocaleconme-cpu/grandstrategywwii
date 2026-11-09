@@ -72,6 +72,7 @@ import commandTemplates from '../data/units/command_templates.json';
 import { startFormation, completeFormations, availableManpower } from './rules/commandFormation.js';
 import { commandSummary } from './rules/commandSummary.js';
 import { nodeStats } from './rules/commandStatus.js';
+import { Popover, PopItem, PopSection } from './ui/TopMenu.jsx';
 import { createConditionSystem, playerSetPolicy } from './game/conditionState.js';
 import { createCommandDistanceSystem, orderCommandMove, commandPosition } from './game/commandDistanceState.js';
 import readiness from '../data/units/readiness.json';
@@ -836,9 +837,17 @@ export default function App() {
           <GameBar game={game} playerName={NATION_NAMES[game.player]} running={running} speed={speed}
             onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g, GAME_SYSTEMS))} />
         ) : null}
-        {game && tab === 'map' ? <button type="button" className={command ? 'on' : ''} aria-pressed={Boolean(command)} onClick={() => { setOrderTo(null); setCommand((c) => (c ? null : { selected: null, notice: null })); setTheater(null); setArmySel(null); }}>Comando</button> : null}
-        {game && tab === 'map' ? <button type="button" className={theater ? 'on' : ''} aria-pressed={Boolean(theater)} onClick={() => { setOrderTo(null); setTheater((t) => (t ? null : { draft: null, notice: null })); setCommand(null); }}>Teatro{alerts.filter((al) => al.level === 'short').length ? ` ⚠${alerts.filter((al) => al.level === 'short').length}` : ''}</button> : null}
-        <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>
+        {game && tab === 'map' ? (
+          <Popover label="Menu" align="right" active={Boolean(command || theater)} badge={alerts.filter((al) => al.level === 'short').length ? `⚠${alerts.filter((al) => al.level === 'short').length}` : null} title="Comando, Teatro, Partita">
+            {(close) => (
+              <PopSection title="Menu">
+                <PopItem checked={Boolean(command)} onClick={() => { setOrderTo(null); setCommand((c) => (c ? null : { selected: null, notice: null })); setTheater(null); setArmySel(null); close(); }}>Comando</PopItem>
+                <PopItem checked={Boolean(theater)} onClick={() => { setOrderTo(null); setTheater((t) => (t ? null : { draft: null, notice: null })); setCommand(null); close(); }}>Teatro{alerts.filter((al) => al.level === 'short').length ? ` ⚠${alerts.filter((al) => al.level === 'short').length}` : ''}</PopItem>
+                <PopItem onClick={() => { setTab('game'); close(); }}>Partita</PopItem>
+              </PopSection>
+            )}
+          </Popover>
+        ) : <button type="button" className={tab === 'game' ? 'on' : ''} aria-pressed={tab === 'game'} onClick={() => setTab('game')}>Partita</button>}
         <FullscreenButton />
       </nav>
       {game && tab === 'map' && notice?.kind === 'error' ? <p className="gb-note warn" role="status">{notice.text}</p> : null}

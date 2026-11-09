@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { focusView } from './focus.js';
+import { Popover, PopItem, PopSection } from '../ui/TopMenu.jsx';
 import { HOME_BOUNDS, LAYERS, MAX_K, MAX_LAT, RIVER_WIDTH_PX, WORLD_W, minZoomToFit, riverTier, pickLabels, visibleCopies, wrapView, zoomAt } from './geo.js';
 import { citySnapTolerance, nearestCityAt } from './citta.js';
 import { buildBorders, buildCanvasModel, buildCanvasWater, createBorderLodJob, createLodJob, nearestSmallProvinceAt, pickProvinceAt, CANVAS_LOD_TOLS } from './canvasModel.js';
@@ -672,24 +673,28 @@ export default function MapCanvas({ selectedUnits, radial, land, provinces, rive
       <div ref={radialRef} className="radial-anchor" style={{ display: 'none' }}>{selectedUnits ? radial : null}</div>
 
       {toolsHost ? createPortal(
-      <div className="nav-tools" role="toolbar" aria-label="Livelli e zoom">
-        <div className="seg">
-          {LAYERS.map((l) => (
-            <button key={l.id} type="button" className={layer === l.id ? 'on' : ''} aria-pressed={layer === l.id} onClick={() => onLayerChange(l.id)}>
-              {l.label}
-            </button>
-          ))}
-        </div>
-        <div className="zoom">
-          <button type="button" className={showRivers ? 'on' : ''} aria-pressed={showRivers} aria-label="Mostra o nascondi i fiumi" onClick={onToggleRivers}>≈</button>
-          {onToggleTransport ? (
-            <button type="button" className={showTransport ? 'on' : ''} aria-pressed={Boolean(showTransport)} aria-label="Mostra o nascondi strade e ferrovie" onClick={onToggleTransport}>═</button>
-          ) : null}
-          <button type="button" className={showSeas ? 'on' : ''} aria-pressed={showSeas} aria-label="Mostra o nascondi le zone marittime" onClick={onToggleSeas}>⚓</button>
-          <button type="button" className="zoom-step" aria-label="Ingrandisci" onClick={() => zoomButton(1.6)}>+</button>
-          <button type="button" className="zoom-step" aria-label="Riduci" onClick={() => zoomButton(1 / 1.6)}>−</button>
-          <button type="button" aria-label="Vista iniziale" onClick={goHome}>⌂</button>
-        </div>
+      <div className="nav-tools" role="toolbar" aria-label="Livelli e vista">
+        <Popover label="Livelli" title="Livello della mappa, fiumi, strade e zoom">
+          {(close) => (
+            <>
+              <PopSection title="Livello">
+                {LAYERS.map((l) => <PopItem key={l.id} checked={layer === l.id} onClick={() => { onLayerChange(l.id); close(); }}>{l.label}</PopItem>)}
+              </PopSection>
+              <PopSection title="Sulla mappa">
+                <PopItem checked={Boolean(showRivers)} onClick={onToggleRivers}>Fiumi</PopItem>
+                {onToggleTransport ? <PopItem checked={Boolean(showTransport)} onClick={onToggleTransport}>Strade e ferrovie</PopItem> : null}
+                <PopItem checked={Boolean(showSeas)} onClick={onToggleSeas}>Zone marittime</PopItem>
+              </PopSection>
+              <PopSection title="Vista">
+                <div className="pop-row">
+                  <PopItem onClick={() => zoomButton(1.6)}>Ingrandisci</PopItem>
+                  <PopItem onClick={() => zoomButton(1 / 1.6)}>Riduci</PopItem>
+                  <PopItem onClick={() => { goHome(); close(); }}>Vista iniziale</PopItem>
+                </div>
+              </PopSection>
+            </>
+          )}
+        </Popover>
       </div>
       , toolsHost) : null}
 

@@ -552,3 +552,24 @@ h2 {
 .us-needs { list-style: none; margin: 0; padding: 0 !important; display: grid; gap: 4px; }
 .us-needs li { display: grid; gap: 1px; padding: 4px 0; border-bottom: 1px solid #3b4534; }
 .us-needs code { overflow-wrap: anywhere; }
+
+/* Barra in alto in ordine: «Livelli» a sinistra, data e tempo al centro, «Menu» e schermo intero a destra */
+.tabs { flex-wrap: nowrap; }
+.nav-tools-host { flex: 0 0 auto; }
+.tabs .gamebar { margin-left: auto; margin-right: auto; min-width: 0; }
+.tabs:not(:has(.gamebar)) .nav-tools-host { flex: 1 1 auto; }
+.pop { position: relative; }
+.tabs .pop-btn { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.pop-caret { font-size: 10px; opacity: 0.8; }
+.pop-badge { min-width: 18px; padding: 0 5px; border-radius: 9px; background: #b3261e; color: #fff; font-size: 11px; line-height: 18px; text-align: center; }
+.pop-panel { position: absolute; z-index: 60; top: calc(100% + 6px); min-width: 230px; max-width: min(92vw, 340px); max-height: calc(100dvh - 64px); overflow-y: auto; padding: 8px; display: grid; gap: 8px; background: var(--panel); border: 1px solid #4a553f; border-radius: 12px; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55); }
+.pop-panel.left { left: 0; }
+.pop-panel.right { right: 0; }
+.pop-section h3 { margin: 0 0 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.pop-section > div { display: grid; gap: 4px; }
+.pop-row { display: flex !important; flex-wrap: wrap; gap: 4px; }
+.pop-row .pop-item { flex: 1 1 auto; justify-content: center; }
+.tabs .pop-item, .pop-item { display: flex; align-items: center; gap: 10px; min-height: 44px; width: 100%; padding: 0 12px; text-align: left; background: rgba(0, 0, 0, 0.22); color: var(--ink); border: 1px solid #4a553f; border-radius: 8px; font: inherit; font-size: 14px; cursor: pointer; }
+.tabs .pop-item.on, .pop-item.on { border-color: var(--accent); background: rgba(160, 190, 90, 0.14); color: var(--ink); }
+.pop-item:disabled { opacity: 0.45; cursor: default; }
+.pop-check { width: 20px; height: 20px; flex: none; display: grid; place-items: center; border: 2px solid #8a6a2e; border-radius: 6px; font-size: 13px; color: var(--accent); }
