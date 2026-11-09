@@ -7,7 +7,7 @@ import { natoSpec, sheetSections } from '../rules/unitSheet.js';
 import { CAT } from './UnitInfo.jsx';
 import { nearestFirst, distanceLabel } from '../rules/commandLinks.js';
 
-export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, onClose, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild }) {
+export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, onPriority, onClose, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild }) {
   const [i, setI] = useState(0);
   const [section, setSection] = useState('panoramica');
   const [attachOpen, setAttachOpen] = useState(false);
@@ -41,6 +41,11 @@ export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, 
               <span className="us-act-ico" aria-hidden="true">{info.strength.reinforce ? '⏸' : '▶'}</span><span>{info.strength.reinforce ? 'Sospendi rinforzi' : 'Riprendi rinforzi'}</span>
             </button>
           ) : null}
+          {canReinforce && onPriority && info.strength.reinforce && info.reinforcements ? (
+            <button type="button" className={info.reinforcements.priority ? 'on' : ''} aria-pressed={info.reinforcements.priority} onClick={() => onPriority(info.id, !info.reinforcements.priority)}>
+              <span className="us-act-ico" aria-hidden="true">★</span><span>{info.reinforcements.priority ? 'Priorità attiva' : 'Priorità rinforzi'}</span>
+            </button>
+          ) : null}
         </nav>
       ) : null}
       {attachOpen ? (
@@ -68,7 +73,7 @@ export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, 
         ))}
       </nav>
       <div className="us-body" role="tabpanel">
-        <UnitSection id={section} info={info} canSetPolicy={canSetPolicy && info.nation !== undefined} onPolicy={onPolicy} onReinforce={info.nation === undefined ? undefined : onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} onDetach={onDetach} parentOptions={parentOptions} childOptions={childOptions} onAttachChild={onAttachChild} />
+        <UnitSection id={section} info={info} canSetPolicy={canSetPolicy && info.nation !== undefined} onPolicy={onPolicy} onReinforce={info.nation === undefined ? undefined : onReinforce} onPriority={info.nation === undefined ? undefined : onPriority} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} onDetach={onDetach} parentOptions={parentOptions} childOptions={childOptions} onAttachChild={onAttachChild} />
       </div>
     </aside>
   );

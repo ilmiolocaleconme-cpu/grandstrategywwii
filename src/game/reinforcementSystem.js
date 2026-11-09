@@ -3,7 +3,7 @@
 // giorni di trasferimento (via terra: km / TRANSIT_KM_PER_DAY; i giorni di mare si aggiungono SOLO se il percorso attraversa il mare, vedi depotRoute).
 // Sistema giornaliero PURO per GAME_SYSTEMS: stato in ingresso → nuovo stato. Ordine del giorno: 1) arrivi (l'eccedenza torna in scorta), 2) nuovi invii (la merce lascia la scorta).
 // Limiti dichiarati: le divisioni senza deposito della nazione o senza percorso (né terra né mare con porti propri) restano senza rinforzi (nessun tempo inventato); i quadri (`cadre`) non ricevono.
-import { applyArrivals, dispatch, inTransit, planReinforcements, setReinforcement } from '../rules/reinforcements.js';
+import { applyArrivals, dispatch, inTransit, planReinforcements, priorityRequests, setPriority, setReinforcement } from '../rules/reinforcements.js';
 import { transitDaysFromRoute } from '../rules/reinforcementTransit.js';
 import { findPath } from '../rules/movement.js';
 import { findSeaRoute } from '../data/seaRoutes.js';
@@ -15,6 +15,12 @@ const isStockItem = (k) => k.startsWith('equipment.') || k === 'horses';
 export function setDivisionReinforcement(state, divisionId, enabled) {
   if (!state.forces?.divisions?.[divisionId]) throw new Error(`divisione senza istanza: ${divisionId}`);
   return { ...state, forces: setReinforcement(state.forces, divisionId, enabled) };
+}
+
+/** Priorità della divisione (azione del giocatore): true = servita per prima dal pool e dalle scorte; non crea risorse. */
+export function setDivisionPriority(state, divisionId, on) {
+  if (!state.forces?.divisions?.[divisionId]) throw new Error(`divisione senza istanza: ${divisionId}`);
+  return { ...state, forces: setPriority(state.forces, divisionId, on) };
 }
 
 /** Distanze (km) dalla provincia `from` a tutte le province raggiungibili entrando solo dove `canEnter`. */
@@ -95,7 +101,7 @@ export function createReinforcementSystem({ units, poolOf, routeOf }) {
       const stocks = Object.fromEntries(Object.entries(nations[nation].stocks).filter(([k]) => isStockItem(k)).map(([k, v]) => [k, Math.floor(v + 1e-9) + ids.reduce((t, id) => t + inTransit(forces, id, k), 0)]));
       const plan = planReinforcements(forces, {
         units: units.filter((u) => u.nation === nation && days.has(u.id)), nation, date: state.date,
-        poolAvailable: Math.max(0, Math.floor(poolOf(state, nation))), stocks, transitDays: (id) => days.get(id),
+        poolAvailable: Math.max(0, Math.floor(poolOf(state, nation))), stocks, requests: priorityRequests(forces), transitDays: (id) => days.get(id),
       });
       if (plan.transfers.length === 0) continue;
       forces = dispatch(forces, plan.transfers);

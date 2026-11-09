@@ -29,7 +29,7 @@ test('senza istanza di forza: null', () => {
 
 test('righe: solo ciò che manca o è in viaggio; carenza netta del viaggio, primo arrivo, scorta', () => {
   const n = reinforcementNeeds({ forces, stocks, divisionId: 'D1' });
-  assert.equal(n.enabled, true); assert.equal(n.cadre, false);
+  assert.equal(n.enabled, true); assert.equal(n.cadre, false); assert.equal(n.priority, false);
   assert.deepEqual(n.rows.map((r) => r.item), ['manpower.war', 'equipment.radio', 'equipment.ART-FRA-HOW155C']);
   const men = n.rows[0];
   assert.deepEqual([men.kind, men.inTransit, men.deficit, men.arrivesOn, men.stock], ['uomini', 170, 30, '1936-01-07', null]);
@@ -71,4 +71,13 @@ test('la sezione «Rinforzi» c\'è solo con il dato', () => {
   const av = (info) => sheetSections(info).find((s) => s.id === 'rinforzi').available;
   assert.equal(av({ reinforcements: { enabled: true, cadre: false, rows: [] } }), true);
   assert.equal(av({ reinforcements: null }), false);
+});
+
+test('priorità: letta dalla divisione; il validatore rifiuta un valore non booleano', async () => {
+  const { validateReinforcementFields } = await import('../src/rules/reinforcements.js');
+  const f = { ...forces, divisions: { ...forces.divisions, D1: { ...forces.divisions.D1, priority: true } } };
+  assert.equal(reinforcementNeeds({ forces: f, stocks, divisionId: 'D1' }).priority, true);
+  assert.equal(reinforcementNeeds({ forces, stocks, divisionId: 'D1' }).priority, false);
+  const bad = { ...forces, divisions: { ...forces.divisions, D1: { ...forces.divisions.D1, priority: 'sì' } } };
+  assert.ok(validateReinforcementFields(bad).some((e) => /priority/.test(e)));
 });

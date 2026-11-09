@@ -22,6 +22,19 @@ export function setReinforcement(forces, divisionId, enabled) {
   return { ...forces, divisions: { ...forces.divisions, [divisionId]: { ...d, reinforce: enabled } } };
 }
 
+/** Priorità di una divisione (campo opzionale `priority`, assente = normale): le divisioni con priorità sono servite per prime dal pool e dalle scorte. Non crea risorse. */
+export function setPriority(forces, divisionId, on) {
+  const d = forces.divisions[divisionId];
+  if (!d) throw new Error(`divisione senza istanza: ${divisionId}`);
+  if (typeof on !== 'boolean') throw new TypeError('on deve essere booleano');
+  return { ...forces, divisions: { ...forces.divisions, [divisionId]: { ...d, priority: on } } };
+}
+
+/** Mappa { id: true } delle divisioni con priorità, nella forma che planReinforcements chiama `requests`. */
+export function priorityRequests(forces) {
+  return Object.fromEntries(Object.entries(forces.divisions ?? {}).filter(([, d]) => d.priority === true).map(([id]) => [id, true]));
+}
+
 /** Quantità già in viaggio per una divisione e una voce (riservata: non si assegna due volte). */
 export function inTransit(forces, divisionId, item) {
   return transfersOf(forces).filter((t) => t.divisionId === divisionId && t.item === item).reduce((s, t) => s + t.qty, 0);
@@ -110,6 +123,7 @@ export function validateReinforcementFields(forces) {
   const errors = [];
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'reinforce' in d && typeof d.reinforce !== 'boolean') errors.push(`forze: ${id} reinforce non booleano`);
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'cadre' in d && typeof d.cadre !== 'boolean') errors.push(`forze: ${id} cadre non booleano`);
+  for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'priority' in d && typeof d.priority !== 'boolean') errors.push(`forze: ${id} priority non booleano`);
   if (forces.transfers !== undefined) {
     if (!Array.isArray(forces.transfers)) return [...errors, 'forze: transfers non è un array'];
     const seen = new Set();

@@ -131,3 +131,25 @@ test('sistema: una divisione oltremare riceve i rinforzi con 3 + 4 giorni di via
   const s = createReinforcementSystem({ units, poolOf: () => 0, routeOf: (st, n, id) => (id === 'FRA-1' ? depotRoute(isl(mk(ports)), n, id) : null) })(game());
   assert.equal(s.forces.transfers.find((t) => t.divisionId === 'FRA-1' && t.item === KEY).arrivesOn, '1939-09-17');
 });
+
+test('priorità: la divisione con priorità è servita per prima dalle scorte, anche se meno scoperta; nulla si crea né si perde', () => {
+  const s0 = { ...game(10), forces: { ...forces(), divisions: { ...forces().divisions, 'FRA-1': { ...forces().divisions['FRA-1'], priority: true } } } };
+  const s1 = sys()(s0);
+  const art = Object.fromEntries(s1.forces.transfers.filter((t) => t.item === KEY).map((t) => [t.divisionId, t.qty]));
+  assert.deepEqual(art, { 'FRA-1': 10 }, 'FRA-1 ha 4/24 ma, con priorità, prende tutti i 10 pezzi; FRA-2 (0/24) niente');
+  assert.equal(total(s1), total(s0));
+  const senza = sys()({ ...game(10) });
+  const art2 = Object.fromEntries(senza.forces.transfers.filter((t) => t.item === KEY).map((t) => [t.divisionId, t.qty]));
+  assert.deepEqual(art2, { 'FRA-2': 10 }, 'senza priorità vince la più scoperta (FRA-2)');
+});
+
+test('setDivisionPriority: acceso e spento, stato di ingresso intatto, errore senza istanza', async () => {
+  const { setDivisionPriority } = await import('../src/game/reinforcementSystem.js');
+  const { priorityRequests } = await import('../src/rules/reinforcements.js');
+  const s0 = game();
+  const s1 = setDivisionPriority(s0, 'FRA-2', true);
+  assert.deepEqual(priorityRequests(s1.forces), { 'FRA-2': true });
+  assert.deepEqual(priorityRequests(s0.forces), {}, 'lo stato di ingresso non cambia');
+  assert.deepEqual(priorityRequests(setDivisionPriority(s1, 'FRA-2', false).forces), {});
+  assert.throws(() => setDivisionPriority(s0, 'XXX', true), /senza istanza/);
+});

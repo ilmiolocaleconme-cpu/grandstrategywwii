@@ -66,7 +66,7 @@ import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
 import { positionOf } from './rules/movement.js';
 import depotsFile from '../data/units/depots.json';
-import { createReinforcementSystem, setDivisionReinforcement, depotRoute } from './game/reinforcementSystem.js';
+import { createReinforcementSystem, setDivisionReinforcement, setDivisionPriority, depotRoute } from './game/reinforcementSystem.js';
 import conditionConfig from '../data/units/condition_config.json';
 import commandTemplates from '../data/units/command_templates.json';
 import { startFormation, completeFormations, availableManpower } from './rules/commandFormation.js';
@@ -978,7 +978,7 @@ export default function App() {
         ) : armyGroup && game ? (
           armyGroup.units.length > 1 ? (
           <ArmyPanel orderCount={orderIds.length} childOptions={armySel.nation === game.player ? childOptions : undefined} onAttachChild={armySel.nation === game.player ? attachChild : undefined} templates={FORCES_CTX.templates} moveMode={moveMode} group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={unitsView(game, UNITS_BY_ID)} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
-            provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={(uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
+            provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={(uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on))} onPriority={(uid, on) => setGame((g) => setDivisionPriority(g, uid, on))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
             onAssign={armySel.nation === game.player && moveNet ? startAssign : undefined} entrenchOf={(id) => entrenchOf(game, id, THEATER_CTX.entrenchCfg)} onEntrench={armySel.nation === game.player && moveNet ? (on) => { try { setGame((g) => playerToggleEntrench(g, { unitIds: [...armyChecked], on, ctx: THEATER_CTX })); setArmyNotice(on ? 'Le unità scelte si trincerano: il bonus cresce ogni giorno fermo.' : 'Le unità scelte smettono di trincerarsi.'); } catch (e) { setArmyNotice(e.message); } } : undefined} subordinates={subordinatesOf} onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
           ) : (
             <div className="order-bar unit-bar" role="status">

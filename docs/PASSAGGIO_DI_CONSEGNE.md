@@ -78,7 +78,7 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Scheda unità: riga di pulsanti tondi con etichetta (Inquadra, Scollega, Sospendi/Riprendi rinforzi), sezioni su una striscia scorrevole, nuova sezione «Rinforzi» (`src/rules/reinforcementView.js`): cosa manca, cosa è in viaggio, scorta.
 - I rinforzi di cavalli e mezzi dalle scorte esistono già nel motore (`reinforcementSystem.js`), ma NESSUNA produzione riempie le scorte `equipment.*`: i mezzi non arrivano perché la scorta è vuota. Prossimo passo grande (A): ricette di produzione di carri, artiglieria e mezzi → scorte della nazione.
 - Barra in alto riordinata (`src/ui/TopMenu.jsx`): «Livelli» a sinistra (livello, fiumi, strade, mari, zoom), data e tempo al centro, «Menu» a destra (Comando, Teatro con il ⚠, Partita) e schermo intero. Da provare su telefono.
-- Non fatto: «priorità rinforzi» (il parametro `requests` di `planReinforcements` esiste ma non è collegato al sistema giornaliero).
+- Priorità rinforzi (10/11/2026): campo opzionale `priority` per divisione, collegato al parametro `requests` di `planReinforcements`; le divisioni con priorità sono servite per prime dal pool e dalle scorte (non crea risorse). Pulsante «Priorità rinforzi» nella scheda e nella sezione «Rinforzi».
 
 **Stato maggiore (mockup)**
 - Variante B scelta: albero a tutta larghezza, dettaglio sotto, barra in basso con etichette. Stile con cornici d'ottone e bagliore, senza copiare grafica di altri giochi.

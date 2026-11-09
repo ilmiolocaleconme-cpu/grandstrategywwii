@@ -179,7 +179,7 @@ function Condizione({ info }) {
   );
 }
 
-function Rinforzi({ info, onReinforce }) {
+function Rinforzi({ info, onReinforce, onPriority }) {
   const r = info.reinforcements;
   if (!r) return NA;
   const groups = reinforcementGroups(r.rows);
@@ -194,6 +194,12 @@ function Rinforzi({ info, onReinforce }) {
           {r.enabled ? 'Sospendi i rinforzi' : 'Riprendi i rinforzi'}
         </button>
       ) : null}
+      {onPriority && !r.cadre && r.enabled ? (
+        <button type="button" className={`us-reinf-btn${r.priority ? ' on' : ''}`} aria-pressed={r.priority} onClick={() => onPriority(info.id, !r.priority)}>
+          {r.priority ? 'Priorità attiva: servita per prima' : 'Dai priorità ai rinforzi'}
+        </button>
+      ) : null}
+      {r.priority && r.enabled && !r.cadre ? <p className="small muted">Con priorità la divisione prende uomini, cavalli e mezzi prima delle altre; non crea risorse in più.</p> : null}
       {groups.length === 0 ? <p className="muted small">Organico, cavalli e mezzi al completo: niente da rinforzare e niente in viaggio.</p> : groups.map((g) => (
         <section key={g.id} aria-label={g.label}>
           <h4 className="us-eqhead">{g.label}</h4>
@@ -215,12 +221,12 @@ function Rinforzi({ info, onReinforce }) {
 const BODY = { panoramica: Panoramica, organico: Organico, composizione: Composizione, equipaggiamento: Equipaggiamento, rinforzi: Rinforzi, comando: Comando, operazioni: Operazioni, condizione: Condizione };
 
 /** Corpo di una sezione: quella non modellata mostra «dato non disponibile» con la sua ragione, mai un valore. */
-export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild }) {
+export default function UnitSection({ id, info, canSetPolicy, onPolicy, onReinforce, onPriority, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild }) {
   const meta = sheetSections(info).find((s) => s.id === id);
   if (!meta) return null;
   const Body = BODY[id];
   if (!meta.available || !Body) {
     return <p className="muted">{NA}. {id === 'logistica' ? 'Rifornimenti e carburante non sono ancora modellati per le unità.' : id === 'sanita' ? 'Feriti, recuperi e sanità non sono ancora modellati.' : 'La storia dell’unità non è ancora registrata nel gioco.'}</p>;
   }
-  return <Body key={info.id} info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} onDetach={onDetach} parentOptions={parentOptions} childOptions={childOptions} onAttachChild={onAttachChild} />;
+  return <Body key={info.id} info={info} canSetPolicy={canSetPolicy} onPolicy={onPolicy} onReinforce={onReinforce} onPriority={onPriority} onMoveHq={onMoveHq} onFormCommand={onFormCommand} onAttachTo={onAttachTo} onDetach={onDetach} parentOptions={parentOptions} childOptions={childOptions} onAttachChild={onAttachChild} />;
 }

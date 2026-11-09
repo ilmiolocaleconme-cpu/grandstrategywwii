@@ -28,7 +28,7 @@ export function reinforcementNeeds({ forces, stocks, divisionId }) {
     });
   }
   rows.sort((a, b) => (KIND_ORDER[a.kind] - KIND_ORDER[b.kind]) || (b.deficit - a.deficit) || (a.item < b.item ? -1 : 1));
-  return { enabled: d.reinforce !== false, cadre: d.cadre === true, rows };
+  return { enabled: d.reinforce !== false, cadre: d.cadre === true, priority: d.priority === true, rows };
 }
 
 /** Raggruppa le righe: Uomini, Cavalli, poi i mezzi per categoria (stessa tabella esplicita dell'equipaggiamento; le voci ignote restano «Non classificati»). */
