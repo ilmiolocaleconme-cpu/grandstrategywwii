@@ -1,4 +1,5 @@
 // Ospedali e cura dei feriti con la medicina (29/10/2026): regole pure, dati e validatore. Non collegato al ciclo di partita.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -73,7 +74,7 @@ import { provinceBuildOptions } from '../src/ui/buildOptions.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const cat = loadIndustryCatalogFrom(text);
-const catalog = { recipes: new Map(json('industry/recipes.json').recipes.map((r) => [r.id, r])), factories: cat.byId };
+const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId };
 const political = json('political_1936.json');
 const nationIds = json('nations.json').map((n) => n.id);
 const pop = json('population/population.json');

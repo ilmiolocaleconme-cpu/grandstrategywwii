@@ -24,13 +24,11 @@ const nationIds = json('nations.json').map((n) => n.id);
 const economy = json('economy/economy.json');
 const start = { nationIds, industry: json('industry/initial_industry.json'), stocks: json('industry/initial_stocks.json'), cash: json('industry/initial_cash.json'), economy, population: json('population/population.json') };
 const eco = createEconomySystem({ catalog, economy, baseline: json('resources/extraction_baseline.json'), hydro: json('resources/hydro_plants.json'), political, cash: start.cash });
-// ATTENZIONE: nei dati iniziali (initial_industry.json) le grandi potenze NON hanno fabbriche di artiglieria né di armi leggere (solo CZE e la fascia C): qui se ne dà una alla
-// Francia come se il giocatore l'avesse costruita (la costruzione è già coperta da construction_game.test.js).
+// Dal 10/11/2026 la Francia ha nei dati iniziali una fabbrica di armi leggere e una di artiglieria (ricetta di default: fucile e cannone da 75 mm): qui si aggiungono solo scorte abbondanti.
 const fresh = () => {
   const s = newGame({ nation: 'FRA', political, ownersWithProvinces: nationIds, start }).state;
   const fra = s.nations.FRA;
-  const extra = ['FCT-ARTILLERY', 'FCT-WEAPONS'].map((type, i) => ({ id: `FRA:FRA:${type}:test:1`, type, recipeId: type === 'FCT-ARTILLERY' ? 'REC-ARTILLERY-001' : 'REC-MG-FRA-FM2429', territory: 'FRA', damage: 0, priority: 900 + i, active: true }));
-  return { ...s, nations: { ...s.nations, FRA: { ...fra, facilities: [...fra.facilities, ...extra], stocks: { ...fra.stocks, steel: 5e6, components: 5e5 } } } };
+  return { ...s, nations: { ...s.nations, FRA: { ...fra, stocks: { ...fra.stocks, steel: 5e6, components: 5e5 } } } };
 };
 const ctx = { catalog, table };
 const HOW = 'REC-ART-FRA-HOW155C';
@@ -41,7 +39,7 @@ test('la fabbrica di artiglieria francese, con la ricetta dell\'obice 155 mm, co
   assert.ok(fac);
   const s1 = setFacilityRecipe(s0, 'FRA', fac.id, HOW, ctx);
   assert.equal(s1.nations.FRA.facilities.find((f) => f.id === fac.id).recipeId, HOW);
-  assert.equal(s0.nations.FRA.facilities.find((f) => f.id === fac.id).recipeId, 'REC-ARTILLERY-001', 'lo stato di partenza non è modificato');
+  assert.equal(s0.nations.FRA.facilities.find((f) => f.id === fac.id).recipeId, 'REC-ART-FRA-ART75M1897', 'lo stato di partenza non è modificato');
   const key = 'equipment.ART-FRA-HOW155C';
   const early = advanceDays(s1, 20, [eco]);
   assert.equal(early.nations.FRA.stocks[key] ?? 0, 0, 'costruzione 56 giorni: nulla dopo 20');
@@ -68,5 +66,5 @@ test('setFacilityRecipe rifiuta ciò che non è valido, con il motivo', () => {
   assert.doesNotThrow(() => setFacilityRecipe(s, 'FRA', art.id, HOW, { catalog, table: locked, researched: new Set(['TECH-X']) }));
   const withBatch = structuredClone(setFacilityRecipe(s, 'FRA', art.id, HOW, ctx));
   withBatch.nations.FRA.facilities.find((f) => f.id === art.id).batches = [{ qty: 5, readyOn: '1936-03-01' }];
-  assert.throws(() => setFacilityRecipe(withBatch, 'FRA', art.id, 'REC-ARTILLERY-001', ctx), /lotti in consegna/);
+  assert.throws(() => setFacilityRecipe(withBatch, 'FRA', art.id, 'REC-ART-FRA-ART75M1897', ctx), /lotti in consegna/);
 });

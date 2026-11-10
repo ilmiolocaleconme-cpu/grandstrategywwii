@@ -89,7 +89,8 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Economia: sezione «Equipaggiamenti in magazzino (pezzi)» e «Produzione di equipaggiamenti» con scelta ricetta (menu a tendina, conferma se si perdono pezzi in lavorazione, rifiuto con lotti in consegna). Handler `changeRecipe` in `App.jsx`.
 - Pannello costruzioni: prima mostrava le ricette di equipaggiamento di TUTTE le nazioni. Ora solo quelle della propria nazione e sbloccate, UNA riga per tipo di fabbrica; la ricetta iniziale di una fabbrica nuova è la prima per id (provvisoria, p. es. può essere la pistola): si cambia dall'impianto.
 - Stato: implementato e testato nelle funzioni pure (`tests/recipe_view.test.js`); schermata NON provata su telefono.
-- Mancano ancora: impianti iniziali di armi/artiglieria (oggi si parte senza), efficienza/collo di bottiglia per impianto (non salvata nello stato), carri e veicoli (dati mancanti), prezzo dei pezzi da decidere.
+- Impianti iniziali (10/11/2026): una fabbrica di armi leggere e una di artiglieria per DEU, FRA, GBR, ITA (generatore `scripts/build-initial-industry.js`, tabella `EQUIP`; scorte ricalcolate con `npm run build:stocks`). USA, URSS e Giappone NON le hanno: nel catalogo equipaggiamenti non c'è nessuna loro voce; servono prima i dati. I test costruiscono il catalogo con `tests/_equipment_recipes.js`.
+- Mancano ancora: efficienza/collo di bottiglia per impianto (non salvata nello stato), carri e veicoli (dati mancanti), prezzo dei pezzi da decidere.
 
 ## Cosa resta da fare (in ordine di proposta)
 1. Albero di comando reale nello stile del mockup B (nella scheda o nel pannello comando).

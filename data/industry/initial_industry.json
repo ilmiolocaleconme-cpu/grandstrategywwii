@@ -216,6 +216,16 @@
           "count": 6
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-DEU-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-DEU-HOW-105",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 4
@@ -288,9 +298,19 @@
           "count": 4
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-FRA-RIFLE-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-FRA-ART75M1897",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 2
+          "count": 3
         }
       ]
     },
@@ -342,6 +362,16 @@
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
           "count": 3
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-GBR-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-GBR-FIELD",
+          "count": 1
         },
         {
           "factory": "FCT-POWER",
@@ -420,6 +450,16 @@
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
           "count": 3
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-ITA-RIFLE-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-ITA-GUN75-1940",
+          "count": 1
         }
       ]
     },

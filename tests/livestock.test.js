@@ -1,4 +1,5 @@
 // Cavalli, mangime, fertilizzanti, medicina (29/10/2026): catalogo, ricette, regole pure, ciclo giornaliero e validatori.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -19,7 +20,7 @@ const json = (p) => JSON.parse(text(p));
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const cat = loadIndustryCatalogFrom(text);
 const recipesDoc = json('industry/recipes.json');
-const recipes = new Map(recipesDoc.recipes.map((r) => [r.id, r]));
+const recipes = new Map([...recipesDoc.recipes, ...EQUIPMENT_RECIPE_LIST].map((r) => [r.id, r]));
 const catalog = { recipes, factories: cat.byId };
 const resources = json('resources.json');
 const fert = json('agriculture/fertilizer_effect.json');

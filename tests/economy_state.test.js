@@ -1,4 +1,5 @@
 // Stato economico per nazione, schema 2 (28/10/2026): costruzione dai dati iniziali, validazione, migrazione 1→2, integrazione con produceDay.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -92,15 +93,15 @@ test('validazione: id duplicato, scorta negativa, danno fuori scala, player asse
 
 test('integrazione: produceDay legge gli impianti e le scorte iniziali della Germania senza errori e rispetta il bilancio', () => {
   const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
-  const catalog = { recipes: new Map(json('industry/recipes.json').recipes.map((r) => [r.id, r])), factories: cat.byId };
+  const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId };
   const d = nations.DEU;
   // le scorte iniziali coprono solo il DEFICIT: ciò che la nazione estrae in casa arriva ogni giorno dalle miniere (passo di estrazione, non ancora in SYSTEMS)
   const ctx = { production: json('resources/production_1936.json'), factors: json('resources/extraction_factors.json'), scaleFile: json('resources/extraction_scale.json'), pointsByProvince: json('resources/resource_points.json').byProvince, extra: json('resources/resource_locations_extra.json') };
   const stock = { ...d.stocks };
   for (const r of ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur']) stock[r] = (stock[r] ?? 0) + totalByPrefix(resourceExtraction(r, ctx), 'DEU');
-  const without = produceDay({ facilities: d.facilities, stock: d.stocks, hydroMw: 0 }, catalog);
+  const without = produceDay({ facilities: d.facilities, stock: d.stocks, hydroMw: 0, date: '1936-01-01' }, catalog);
   assert.ok((without.stock.steel ?? 0) <= stocks.floor.steel, 'senza il passo di estrazione il giorno 1 non produce acciaio: resta al più la riserva minima');
-  const out = produceDay({ facilities: d.facilities, stock, hydroMw: 0 }, catalog);
+  const out = produceDay({ facilities: d.facilities, stock, hydroMw: 0, date: '1936-01-01' }, catalog);
   assert.ok(out.facilities.length === d.facilities.length);
   assert.ok(Object.values(out.stock).every((v) => v >= 0), 'nessuna scorta negativa');
   assert.ok(out.stock.steel > 0, 'le acciaierie tedesche hanno prodotto acciaio dalle scorte iniziali');
@@ -110,11 +111,13 @@ test('riserva minima di acciaio (29/10/2026): ogni nazione parte con almeno 500 
   assert.deepEqual(stocks.floor, { steel: 500 });
   for (const [id, n] of Object.entries(nations)) assert.ok((n.stocks.steel ?? 0) >= 500, `${id}: acciaio ${n.stocks.steel ?? 0}`);
   // dal 04/11/2026 l'Italia ha 3 fabbriche di munizioni (60 t di acciaio al giorno ciascuna): il deficit cresce, e con lui lo stock di 150 giorni
-  assert.equal(nations.ITA.stocks.steel, 39000, 'Italia: stock calcolato con le fabbriche di munizioni');
+  // dal 10/11/2026 anche una fabbrica di armi leggere e una di artiglieria (+1.476 t di acciaio di stock)
+  assert.equal(nations.ITA.stocks.steel, 40476, 'Italia: stock calcolato con munizioni, armi leggere e artiglieria');
   // dal 04/11/2026 il Belgio non ha fabbriche di munizioni: la riserva minima di 500 t (nessun deficit di acciaio)
   assert.equal(nations.BEL.stocks.steel, 500);
   // dal 04/11/2026 la Francia ha 4 fabbriche di munizioni (240 t di acciaio al giorno): deficit, stock di 150 giorni = 3000 t
-  assert.equal(nations.FRA.stocks.steel, 3000, 'Francia: deficit di acciaio dalle fabbriche di munizioni');
+  // dal 10/11/2026 anche armi leggere e artiglieria (+1.476 t): 4.476 t
+  assert.equal(nations.FRA.stocks.steel, 4476, 'Francia: deficit di acciaio da munizioni, armi leggere e artiglieria');
   assert.equal(nations.BRA.stocks.steel, 500 + 760, 'Brasile (fascia C): riserva 500 t + scorta dell\'artiglieria minima 760 t');
 });
 

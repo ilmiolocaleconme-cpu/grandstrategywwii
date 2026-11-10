@@ -1,4 +1,5 @@
 // Helper puri dell'interfaccia delle costruzioni (28/10/2026): opzioni per provincia, riepilogo economico, messaggi di rifiuto.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -10,7 +11,7 @@ import { provinceBuildOptions, economySummary, describeBuildFailure } from '../s
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
 const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
-const catalog = { recipes: new Map(json('industry/recipes.json').recipes.map((r) => [r.id, r])), factories: cat.byId };
+const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId };
 const political = json('political_1936.json'); const nationIds = json('nations.json').map((n) => n.id);
 const population = json('population/population.json'); const economy = json('economy/economy.json'); const sites = json('resources/mine_sites.json');
 const start = { nationIds, industry: json('industry/initial_industry.json'), stocks: json('industry/initial_stocks.json'), cash: json('industry/initial_cash.json'), economy, population };

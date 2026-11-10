@@ -1,4 +1,5 @@
 // Stock iniziali (27/10/2026): 150 giorni senza commercio per le nazioni con industria.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -14,7 +15,7 @@ const fileFull = json('industry/initial_stocks.json');
 const withoutReserve = (stocks) => Object.fromEntries(Object.entries(stocks).map(([n, v]) => [n, Object.fromEntries(Object.entries(v).filter(([r]) => r !== 'munitions'))]).filter(([, v]) => Object.keys(v).length > 0));
 const file = { ...fileFull, stocks: withoutReserve(fileFull.stocks) };
 const industry = json('industry/initial_industry.json');
-const recipes = json('industry/recipes.json');
+const recipes = { ...json('industry/recipes.json'), recipes: allRecipeList() };
 const ctx = { production: json('resources/production_1936.json'), factors: json('resources/extraction_factors.json'), scaleFile: json('resources/extraction_scale.json'), pointsByProvince: json('resources/resource_points.json').byProvince, extra: json('resources/resource_locations_extra.json') };
 const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper', 'wheat', 'tin'];
 const ext = Object.fromEntries(RAW.map((r) => [r, resourceExtraction(r, ctx)]));

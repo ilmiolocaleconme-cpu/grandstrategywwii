@@ -1,5 +1,6 @@
 // Costruzioni nel gioco (28/10/2026): costi, vincoli, coda, completamento, miniere, ciclo con l'economia.
 // Le province degli ordini sono quelle «madre» (resource_points.json, slot per provincia madre): le sponde di un fiume non moltiplicano gli slot.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -15,7 +16,7 @@ const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8
 const json = (p) => JSON.parse(text(p));
 const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
 const recipesFile = json('industry/recipes.json');
-const catalog = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: cat.byId };
+const catalog = { recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPE_LIST].map((r) => [r.id, r])), factories: cat.byId };
 const political = json('political_1936.json');
 const nationIds = json('nations.json').map((n) => n.id);
 const population = json('population/population.json');

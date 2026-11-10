@@ -1,4 +1,5 @@
 // Strade e ferrovie in partita (29/10/2026): livello massimo, livello di partenza, miglioramento, effetto su marcia/commercio e sulla mappa. Valori DESIGN_DEFAULT.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -21,7 +22,7 @@ const config = json('infrastructure/infrastructure.json'); const edgesFile = jso
 const provinces = await loadProvinces(); const props = provinces.features.map((f) => f.properties);
 const index = createInfraIndex(edgesFile);
 const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
-const catalog = { recipes: new Map(json('industry/recipes.json').recipes.map((r) => [r.id, r])), factories: cat.byId, levels: json('industry/factory_levels.json') };
+const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId, levels: json('industry/factory_levels.json') };
 const political = json('political_1936.json'); const nationIds = json('nations.json').map((n) => n.id); const entityIds = political.map((e) => e.id);
 const population = json('population/population.json'); const economy = json('economy/economy.json');
 const start = { nationIds, industry: json('industry/initial_industry.json'), stocks: json('industry/initial_stocks.json'), cash: json('industry/initial_cash.json'), economy, population };

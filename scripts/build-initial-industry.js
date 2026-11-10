@@ -15,10 +15,14 @@ const hy = {};
 for (const p of hydro.plants ?? []) if ((p.era ?? 'pre1936') !== 'event') { const n = (p.provinceId ?? '').split('_')[1]; if (n) hy[n] = (hy[n] ?? 0) + (p.megawatts ?? 0); }
 
 const A = { USA: 30, DEU: 12, USSR: 10, GBR: 8, FRA: 4, JPN: 4, BEL: 2, ITA: 1, CZE: 1, POL: 1, CAN: 1, SWE: 1 }; // acciaierie
-const MW = { tank: 24, art: 15, steel: 12, alu: 18, chem: 14, ref: 10, syn: 20, rub: 9, mach: 14, comp: 12, eng: 18, mun: 12 };
-const FACT = { steel: ['FCT-STEEL', 'REC-STEEL-001'], alu: ['FCT-ALUMINIUM', 'REC-ALU-001'], ref: ['FCT-REFINERY', 'REC-FUEL-OIL-001'], syn: ['FCT-SYNFUEL', 'REC-FUEL-COAL-001'], rub: ['FCT-RUBBER', 'REC-RUBBER-001'], chem: ['FCT-CHEMICAL', 'REC-CHEM-001'], mach: ['FCT-MACHINERY', 'REC-MACHINERY-001'], comp: ['FCT-COMPONENTS', 'REC-COMPONENTS-001'], eng: ['FCT-ENGINE', 'REC-ENGINES-001'], mun: ['FCT-MUNITIONS', 'REC-MUNITIONS-001'], therm: ['FCT-POWER', 'REC-ELECTRIC-COAL-001'], tank: ['FCT-TANKS', 'REC-TANK-CZE-LT35'], art: ['FCT-ARTILLERY', 'REC-ARTILLERY-001'] };
+const MW = { tank: 24, art: 15, steel: 12, alu: 18, chem: 14, ref: 10, syn: 20, rub: 9, mach: 14, comp: 12, eng: 18, mun: 12, wpn: 8 };
+const FACT = { steel: ['FCT-STEEL', 'REC-STEEL-001'], alu: ['FCT-ALUMINIUM', 'REC-ALU-001'], ref: ['FCT-REFINERY', 'REC-FUEL-OIL-001'], syn: ['FCT-SYNFUEL', 'REC-FUEL-COAL-001'], rub: ['FCT-RUBBER', 'REC-RUBBER-001'], chem: ['FCT-CHEMICAL', 'REC-CHEM-001'], mach: ['FCT-MACHINERY', 'REC-MACHINERY-001'], comp: ['FCT-COMPONENTS', 'REC-COMPONENTS-001'], eng: ['FCT-ENGINE', 'REC-ENGINES-001'], mun: ['FCT-MUNITIONS', 'REC-MUNITIONS-001'], therm: ['FCT-POWER', 'REC-ELECTRIC-COAL-001'], tank: ['FCT-TANKS', 'REC-TANK-CZE-LT35'], art: ['FCT-ARTILLERY', 'REC-ARTILLERY-001'], wpn: ['FCT-WEAPONS', null] };
 // Fabbriche di carri e di artiglieria: oggi solo la Cecoslovacchia (richiesta dell'utente del 29/10/2026; Škoda e ČKD). Le altre nazioni non le hanno ancora: mancano le ricette per i loro modelli.
-const ARMS = { CZE: { tank: 1, art: 1 } };
+const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 1 }, FRA: { wpn: 1, art: 1 }, GBR: { wpn: 1, art: 1 }, ITA: { wpn: 1, art: 1 } };
+// Armi leggere e artiglieria (richiesta dell'utente del 10/11/2026): un impianto di ciascun tipo per le nazioni che hanno voci nel catalogo equipaggiamenti
+// (data/units/equipment/catalog*.json). Ricetta di default = prodotto REC-<equipment_id> generato da equipment_production.json: valore di gioco, non storico;
+// il giocatore la cambia dall'impianto. USA, URSS e Giappone NON hanno impianti di questo tipo: nel catalogo non c'è nessuna loro voce, e non si inventano.
+const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-HOW-105' }, FRA: { wpn: 'REC-INW-FRA-RIFLE-1939', art: 'REC-ART-FRA-ART75M1897' }, GBR: { wpn: 'REC-INW-GBR-RIFLE', art: 'REC-ART-GBR-FIELD' }, ITA: { wpn: 'REC-INW-ITA-RIFLE-1940', art: 'REC-ART-ITA-GUN75-1940' } };
 // Fabbriche di munizioni per nazione (decisione dell'utente del 04/11/2026, «per equilibrare il gioco»): copertura della domanda di
 // attacco continuo di tutte le divisioni del catalogo (348 divisioni, data/military/ammo_consumption.json) con almeno il 100 %.
 // 100 t/giorno per fabbrica. Le nazioni senza divisioni nel catalogo non ne ricevono. Il vecchio calcolo (un quinto delle acciaierie) è
@@ -47,8 +51,8 @@ for (const n of [...candidates].sort()) {
   const demand = Object.entries(k).reduce((s, [f, c]) => s + (c || 0) * MW[f], 0);
   k.therm = demand > (hy[n] ?? 0) ? Math.ceil((demand - (hy[n] ?? 0)) / 120) : 0;
   if (!Object.values(k).some(Boolean)) continue;
-  const order = ['steel', 'alu', 'ref', 'syn', 'rub', 'chem', 'mach', 'comp', 'eng', 'mun', 'tank', 'art', 'therm'];
-  nations[n] = { tier, owner: entities.get(n).owner, facilities: order.filter((f) => k[f] > 0).map((f) => ({ factory: FACT[f][0], recipeId: FACT[f][1], count: k[f] })) };
+  const order = ['steel', 'alu', 'ref', 'syn', 'rub', 'chem', 'mach', 'comp', 'eng', 'mun', 'wpn', 'tank', 'art', 'therm'];
+  nations[n] = { tier, owner: entities.get(n).owner, facilities: order.filter((f) => k[f] > 0).map((f) => ({ factory: FACT[f][0], recipeId: EQUIP[n]?.[f] ?? FACT[f][1], count: k[f] })) };
 }
 const doc = {
   schema: 'initial-industry-v1',

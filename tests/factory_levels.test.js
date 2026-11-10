@@ -1,4 +1,5 @@
 // Livelli delle fabbriche (29/10/2026): fabbrica → complesso industriale → grande complesso industriale. Valori DESIGN_DEFAULT.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -17,7 +18,7 @@ const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), 
 const levels = json('industry/factory_levels.json');
 const recipesFile = json('industry/recipes.json');
 const technologies = json('research/technologies.json');
-const catalog = { levels, technologies, recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: cat.byId };
+const catalog = { levels, technologies, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPE_LIST].map((r) => [r.id, r])), factories: cat.byId };
 const political = json('political_1936.json'); const nationIds = json('nations.json').map((n) => n.id);
 const population = json('population/population.json'); const economy = json('economy/economy.json'); const sites = json('resources/mine_sites.json');
 const start = { nationIds, industry: json('industry/initial_industry.json'), stocks: json('industry/initial_stocks.json'), cash: json('industry/initial_cash.json'), economy, population };

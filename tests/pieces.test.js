@@ -1,4 +1,5 @@
 // Carri e artiglieria a PEZZI (non in tonnellate): capacità = t di lavorazione della fabbrica / peso del pezzo; Cecoslovacchia con le due fabbriche.
+import { allRecipeList, EQUIPMENT_RECIPE_LIST } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -14,7 +15,7 @@ const recipesFile = json('industry/recipes.json');
 const resources = json('resources.json');
 const ctx = () => ({ factoriesById: cat.byId, resources });
 const rec = (id) => recipesFile.recipes.find((r) => r.id === id);
-const catalog = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: cat.byId };
+const catalog = { recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPE_LIST].map((r) => [r.id, r])), factories: cat.byId };
 
 test('i prodotti tanks e artillery sono a pezzi e le ricette passano la validazione', () => {
   assert.deepEqual(validateRecipes(recipesFile, ctx()), []);
@@ -68,6 +69,8 @@ test('la Cecoslovacchia parte con una fabbrica di carri e una di artiglieria; le
 // ---- paesi minori (fascia C): minimo di produzione di artiglieria, con scorta iniziale (29/10/2026) ----
 import { buildNations } from '../src/game/economyState.js';
 import { validateInitialIndustry } from '../src/data/initialIndustry.js';
+import { mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
+import { buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipmentProduction.js';
 
 test('fascia C: una fabbrica di artiglieria limitata al 5% con 760 t di acciaio e 65 t di componenti in più della riserva; le altre fasce non cambiano', () => {
   const industry = json('industry/initial_industry.json');
@@ -80,7 +83,7 @@ test('fascia C: una fabbrica di artiglieria limitata al 5% con 760 t di acciaio 
   assert.equal(n[c].facilities[0].throttle, 0.05);
   assert.equal(n[c].stocks.components, 65);
   assert.equal(n[c].stocks.steel, 1260, 'riserva minima di costruzione 500 t + scorta dell\'artiglieria 760 t, in aggiunta');
-  assert.equal(n.DEU.facilities.filter((f) => f.type === 'FCT-ARTILLERY').length, 0);
+  assert.equal(n.DEU.facilities.filter((f) => f.type === 'FCT-ARTILLERY' && f.recipeId === 'REC-ARTILLERY-001').length, 0, 'le grandi potenze non usano la ricetta generica delle minori');
   assert.ok(industry.tierC.every((id) => n[id].facilities.length === 1), 'tutte e 51');
   // un giorno di produzione: 5% di 1,4 pezzi (quota 6% di 70 t / 3 t) = 0,07 pezzi, 0,252 t di acciaio, 0,021 t di componenti
   const r = produceDay({ facilities: n[c].facilities, stock: n[c].stocks, hydroMw: n[c].baseGridMw }, catalog);
@@ -103,7 +106,7 @@ test('limitazione della produzione: valore fuori da 0-1 rifiutato; 0 = fermo; la
 
 test('validazione di minorArtillery: ricetta di un\'altra fabbrica, limitazione non valida', () => {
   const industry = json('industry/initial_industry.json');
-  const vctx = { factoriesById: cat.byId, recipes: recipesFile, entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((x) => x.id) };
+  const vctx = { factoriesById: cat.byId, recipes: withEquipmentRecipes(recipesFile, buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita'].map((n) => json(`units/equipment/${n}.json`))), json('units/equipment/equipment_production.json'))), entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((x) => x.id) };
   assert.deepEqual(validateInitialIndustry(industry, vctx), []);
   const bad = (mut, re) => { const d = structuredClone(industry); mut(d.minorArtillery); assert.ok(validateInitialIndustry(d, vctx).some((e) => re.test(e)), String(re)); };
   bad((m) => { m.recipeId = 'REC-STEEL-001'; }, /non è di FCT-ARTILLERY/);
