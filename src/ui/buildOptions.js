@@ -2,6 +2,8 @@
 import { mineCost, factoryBuildCost } from '../data/economy.js';
 import { workersState } from '../rules/workers.js';
 import { entityOfProvinceId } from '../data/provinceOwner.js';
+import { techsOf } from '../game/research.js';
+import { defaultEquipmentRecipe, splitStocks } from './recipeView.js';
 import { levelDef, maxFactoryLevel, upgradeCost } from '../data/factoryLevels.js';
 
 const num = (v) => Math.round(v * 10) / 10;
@@ -40,7 +42,7 @@ export function describeBuildFailure(r, techName = (id) => id) {
  * Cosa può costruire `nationId` in una provincia madre. ctx: { build (createConstruction), catalog, sites, economy, resourceLabel(id) }.
  * Ogni voce: { order, label, cost, ok, message } — `ok` dice se l'ordine sarebbe accettato ORA (prova a secco, lo stato non cambia).
  */
-export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id, hospitals = null }) {
+export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id, hospitals = null, equipmentTable = null }) {
   const nation = state.nations?.[nationId];
   const out = { mines: [], factories: [], hospitals: [] };
   if (!nation) return out;
@@ -56,14 +58,21 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
     out.mines.push({ order, label: `${resourceLabel(resource)}: miniera livello ${level}`, detail: `+${gain} t/giorno`, cost: mineCost(economy, level, state.difficulty), ok: r.ok, message: describeBuildFailure(r) });
   }
   const seen = new Set();
+  const researched = techsOf(nation);
   for (const recipe of catalog.recipes.values()) {
-    const key = `${recipe.factory}/${recipe.id}`;
     const factory = catalog.factories.get(recipe.factory);
-    if (!factory || seen.has(key)) continue;
+    if (!factory) continue;
+    // ricette di equipaggiamento: solo quelle della propria nazione e sbloccate, UNA riga per tipo di fabbrica (la ricetta si cambia poi dall'impianto)
+    if (recipe.equipmentId) {
+      if (recipe.equipmentId.split('-')[1] !== nationId) continue;
+      if (equipmentTable) { const def = defaultEquipmentRecipe(catalog.recipes, nationId, recipe.factory, equipmentTable, researched); if (!def || def.id !== recipe.id) continue; }
+    }
+    const key = recipe.equipmentId ? `${recipe.factory}/equipment` : `${recipe.factory}/${recipe.id}`;
+    if (seen.has(key)) continue;
     seen.add(key);
     const order = { kind: 'factory', factoryId: recipe.factory, recipeId: recipe.id, provinceId };
     const r = build.start(state, nationId, order);
-    out.factories.push({ order, label: `${factory.name_it}`, detail: recipe.id, cost: factoryBuildCost(economy, factory, state.difficulty), ok: r.ok, message: describeBuildFailure(r) });
+    out.factories.push({ order, label: `${factory.name_it}`, detail: recipe.equipmentId ? 'equipaggiamenti: la ricetta si sceglie dall\'impianto, in Economia' : recipe.id, cost: factoryBuildCost(economy, factory, state.difficulty), ok: r.ok, message: describeBuildFailure(r) });
   }
   for (const [kind, def] of Object.entries(hospitals?.kinds ?? {})) { // ospedali: provincia (ospedale) o retrovie (campo); costo in ECV, acciaio, giorni e personale dal pool
     const order = { kind: 'hospital', hospitalKind: kind, provinceId };
@@ -74,9 +83,10 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
 }
 
 /** Riepilogo economico di una nazione per la schermata Economia. ctx: { build, catalog, workersShare, resourceLabel(id), provinceName(id), infra? (infrastructure.json: nomi dei livelli) } */
-export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id, infra = null, hospitalKinds = {}, portLevels = null }) {
+export function economySummary(state, nationId, { build, catalog, workersShare, resourceLabel = (id) => id, provinceName = (id) => id, infra = null, hospitalKinds = {}, portLevels = null, equipmentName = () => null }) {
   const n = state.nations?.[nationId];
   if (!n) return null;
+  const split = splitStocks(n.stocks, { resourceLabel, nameOf: equipmentName });
   const counts = new Map();
   for (const f of n.facilities) { const k = `${f.type}|${f.level ?? 1}`; counts.set(k, (counts.get(k) ?? 0) + 1); }
   const label = (kind, c) => (kind === 'mine' ? `Miniera ${resourceLabel(c.resource)} L${c.level}`
@@ -90,7 +100,8 @@ export function economySummary(state, nationId, { build, catalog, workersShare, 
     population: n.population,
     workers: workersState(n, { factoriesById: catalog.factories, share: workersShare, levels: catalog.levels ?? null }),
     power: build.powerBalance(state, n, nationId),
-    stocks: Object.entries(n.stocks).filter(([, t]) => t > 0).map(([id, t]) => ({ id, label: resourceLabel(id), tons: Math.round(t) })).sort((a, b) => b.tons - a.tons),
+    stocks: split.resources,
+    equipmentStocks: split.equipment,
     plants: [...counts].map(([k, count]) => { const [type, lv] = k.split('|'); const level = Number(lv); const base = catalog.factories.get(type)?.name_it ?? type; return { type, level, name: level > 1 ? `${base} (${levelName(catalog, level)})` : base, count }; }).sort((a, b) => b.count - a.count),
     queue: n.construction.map((c) => ({ id: c.id, label: label(c.kind, c), daysLeft: c.daysLeft, totalDays: c.totalDays, where: c.kind === 'infra' ? c.edgeId.split('~').map(provinceName).join(' – ') : provinceName(c.provinceId) })),
     mines: n.mines.map((m) => ({ id: m.id, label: `${resourceLabel(m.resource)} L${m.level}`, where: provinceName(m.provinceId) })),

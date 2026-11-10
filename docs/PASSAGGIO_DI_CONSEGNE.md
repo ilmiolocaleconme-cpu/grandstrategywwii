@@ -84,6 +84,13 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Variante B scelta: albero a tutta larghezza, dettaglio sotto, barra in basso con etichette. Stile con cornici d'ottone e bagliore, senza copiare grafica di altri giochi.
 - Mockup privato: https://claude.ai/artifact/RryWcLDUQ8WzeWACErfiHb (versione 3). Dati di esempio.
 
+## Produzione di equipaggiamenti: interfaccia (10/11/2026)
+- `src/ui/recipeView.js` (puro): `facilityRecipeRows` (impianti con ricette di equipaggiamento, scelte con prova a secco di `setFacilityRecipe`, ricette bloccate con la tecnologia richiesta), `batchView`/`batchLine` (lavorazione, giorni al lotto, pezzi in consegna), `splitStocks` (tonnellate separate dai pezzi), `defaultEquipmentRecipe`.
+- Economia: sezione «Equipaggiamenti in magazzino (pezzi)» e «Produzione di equipaggiamenti» con scelta ricetta (menu a tendina, conferma se si perdono pezzi in lavorazione, rifiuto con lotti in consegna). Handler `changeRecipe` in `App.jsx`.
+- Pannello costruzioni: prima mostrava le ricette di equipaggiamento di TUTTE le nazioni. Ora solo quelle della propria nazione e sbloccate, UNA riga per tipo di fabbrica; la ricetta iniziale di una fabbrica nuova è la prima per id (provvisoria, p. es. può essere la pistola): si cambia dall'impianto.
+- Stato: implementato e testato nelle funzioni pure (`tests/recipe_view.test.js`); schermata NON provata su telefono.
+- Mancano ancora: impianti iniziali di armi/artiglieria (oggi si parte senza), efficienza/collo di bottiglia per impianto (non salvata nello stato), carri e veicoli (dati mancanti), prezzo dei pezzi da decidere.
+
 ## Cosa resta da fare (in ordine di proposta)
 1. Albero di comando reale nello stile del mockup B (nella scheda o nel pannello comando).
 2. Riepilogo: forza materiale (non mostrata perché il dato medio non è affidabile).

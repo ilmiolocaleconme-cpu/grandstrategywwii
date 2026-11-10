@@ -116,7 +116,9 @@ import GameBar from './ui/GameBar.jsx';
 import { ProvinceBuild, EconomyPanel } from './ui/BuildPanel.jsx';
 import { ResearchPanel, SecurityPanel } from './ui/SecurityPanel.jsx';
 import { securitySummary, sabotageRows, describeOrderFailure } from './ui/securityView.js';
-import { createResearch } from './game/research.js';
+import { createResearch, techsOf } from './game/research.js';
+import { setFacilityRecipe } from './game/facilityRecipe.js';
+import { facilityRecipeRows } from './ui/recipeView.js';
 import { createInfraIndex, infraNet, applyLinkLevels } from './data/infrastructure.js';
 import { idsChecksum } from './data/adjacency.js';
 import { entityOfProvinceId } from './data/provinceOwner.js';
@@ -283,7 +285,9 @@ function useProvinces() {
 
 // Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
 // Ricette degli equipaggiamenti (Fase 4): una per voce di OGNI catalogo data/units/equipment/catalog*.json, generate dalla tabella per categoria (nessun elenco per nazione qui)
-const EQUIPMENT_RECIPES = buildEquipmentRecipes(mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' }))), equipmentProductionTable);
+const EQUIPMENT_CATALOG = mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' })));
+const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProductionTable);
+const EQUIPMENT_NAMES = new Map(EQUIPMENT_CATALOG.entries.map((e) => [e.equipment_id, e.name_it ?? e.designation ?? e.equipment_id]));
 // Prezzi dei pezzi (opzione D): priceFactor × costo dei materiali; ogni equipaggiamento diventa commerciabile
 const economyData = withEquipmentPrices(economyFile, EQUIPMENT_RECIPES, equipmentProductionTable.priceFactor);
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding };
@@ -340,7 +344,7 @@ const GAME_SYSTEMS = [
 ];
 
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)
-const BUILD_CTX = { build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
+const BUILD_CTX = { equipmentTable: equipmentProductionTable, build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
 
 const NATIONS_WITH_UNITS = new Set(unitsFile.units.map((u) => u.nation)); // nazioni con unità nel catalogo: i possibili avversari
 const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
@@ -506,6 +510,13 @@ export default function App() {
     setGame(r.state);
     return { ok: true, text: 'Ordine avviato: costi pagati, il cantiere è in corso.' };
   };
+  // produzione di equipaggiamenti: la regola è setFacilityRecipe (pura, lancia un Error col motivo); qui si applica il risultato
+  const changeRecipe = (facilityId, recipeId) => {
+    try {
+      setGame(setFacilityRecipe(game, game.player, facilityId, recipeId, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]) }));
+      return { ok: true, text: 'Ricetta cambiata: la produzione riparte da zero.' };
+    } catch (e) { return { ok: false, text: e.message }; }
+  };
   // ricerca e sicurezza: le regole sono in GAME_RESEARCH e GAME_SECURITY, qui si applica solo il risultato e si riferisce l'esito
   const techName = useMemo(() => { const m = new Map(technologiesFile.technologies.map((t) => [t.id, t.name_it])); return (id) => m.get(id) ?? id; }, []);
   const secCtx = useMemo(() => ({
@@ -583,6 +594,7 @@ export default function App() {
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
   const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri navali costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
+  const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName }) : []), [game, techName]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const estimatedHqs = useMemo(() => {
@@ -899,7 +911,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
-            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} />
+            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
             <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
             <ResearchPanel rows={researchRows} onStart={startResearch} />

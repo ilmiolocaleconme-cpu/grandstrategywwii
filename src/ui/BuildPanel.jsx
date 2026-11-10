@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { batchLine } from './recipeView.js';
 
 const fmt = (v) => Math.round(v).toLocaleString('it-IT');
 const f1 = (v) => (Math.round(v * 10) / 10).toLocaleString('it-IT');
@@ -118,9 +119,61 @@ export function ProvinceBuild({ options, onOrder, upgrades = null, links = null,
 }
 
 /** Riepilogo economico della nazione del giocatore (economySummary). */
-export function EconomyPanel({ summary, upgrades = null, onOrder = null, network = null, harbours = null }) {
+/** Impianti che producono equipaggiamenti: ricetta scelta dal giocatore e stato dei lotti. Cambiare ricetta azzera i pezzi in lavorazione (conferma). */
+export function FacilityList({ rows, onChange }) {
+  const [msg, setMsg] = useState(null);
+  const [pending, setPending] = useState(null);
+  if (!rows || rows.length === 0) return null;
+  const apply = (facilityId, recipeId) => { const r = onChange(facilityId, recipeId); setMsg(r); setPending(null); };
+  return (
+    <section aria-label="Produzione di equipaggiamenti">
+      <h3>Produzione di equipaggiamenti ({rows.length})</h3>
+      <ul className="build-list">
+        {rows.map((r) => {
+          const blocked = r.options.find((o) => !o.ok && !o.current);
+          const confirm = pending?.facilityId === r.facilityId ? pending : null;
+          return (
+            <li key={r.facilityId} className="build-row fac-row">
+              <div>
+                <strong>{r.factory}</strong>{r.level > 1 ? ` L${r.level}` : ''}
+                <div className="small">{r.current ? r.current.label : 'Nessuna ricetta'}</div>
+                {r.batches ? (
+                  <>
+                    <div className="ap-bar" role="img" aria-label={`Prossimo lotto tra ${r.batches.daysToBatch} giorni`}><span style={{ width: `${Math.round(r.batches.progress * 100)}%` }} /></div>
+                    <div className="muted small">{batchLine(r.batches)}</div>
+                  </>
+                ) : null}
+                <label className="small">Produce{' '}
+                  <select value={r.current?.recipeId ?? ''} aria-label={`Ricetta di ${r.factory}`} onChange={(e) => {
+                    const id = e.target.value; if (!id || id === r.current?.recipeId) return;
+                    if (r.lostOnChange > 0) setPending({ facilityId: r.facilityId, recipeId: id, lost: r.lostOnChange }); else apply(r.facilityId, id);
+                  }}>
+                    {r.current ? null : <option value="">Scegli…</option>}
+                    {r.options.map((o) => <option key={o.recipeId} value={o.recipeId} disabled={!o.ok && !o.current}>{o.label}</option>)}
+                    {r.locked.map((o) => <option key={o.recipeId} value={o.recipeId} disabled>{o.label} (richiede {o.requires})</option>)}
+                  </select>
+                </label>
+                {blocked ? <div className="muted small">{blocked.message}</div> : null}
+                {confirm ? (
+                  <div className="warn small" role="alert">Cambiare ricetta azzera {confirm.lost} pezzi in lavorazione.{' '}
+                    <button type="button" className="nation-btn" onClick={() => apply(confirm.facilityId, confirm.recipeId)}>Conferma</button>{' '}
+                    <button type="button" className="nation-btn" onClick={() => setPending(null)}>Annulla</button>
+                  </div>
+                ) : null}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      {msg ? <p className={msg.ok ? 'muted small' : 'warn small'} role="status">{msg.text}</p> : null}
+      <p className="muted small">Pesi, tempi di lotto e ingressi sono valori di gioco, non dati storici. Il lotto non cambia il volume, ritarda solo la consegna.</p>
+    </section>
+  );
+}
+
+export function EconomyPanel({ summary, upgrades = null, onOrder = null, network = null, harbours = null, facilityRows = null, onRecipe = null }) {
   if (!summary) return null;
-  const { balance, population, workers, power, stocks, plants, queue, mines } = summary;
+  const { balance, population, workers, power, stocks, plants, queue, mines, equipmentStocks = [] } = summary;
   return (
     <section aria-label="Economia">
       <h2>Economia</h2>
@@ -137,8 +190,13 @@ export function EconomyPanel({ summary, upgrades = null, onOrder = null, network
       {upgrades && onOrder ? <UpgradeList upgrades={upgrades} onOrder={onOrder} title="Migliora gli impianti" /> : null}
       {network ? <p className="small">Rete (km): {[4, 3, 2, 1].map((l) => `${network.names[l]} ${fmt(network.km[l])}`).join(' · ')} · {network.upgradable} collegamenti migliorabili</p> : null}
       {harbours ? <p className="small">Porti: {[3, 2, 1].map((l) => `${harbours.names[l]} ${harbours.count[l]}`).join(' · ')}</p> : null}
-      <h3>Scorte (t)</h3>
+      <h3>Risorse (t)</h3>
       <p className="small">{stocks.map((s) => `${s.label} ${fmt(s.tons)}`).join(' · ') || 'vuote'}</p>
+      <h3>Equipaggiamenti in magazzino (pezzi)</h3>
+      {equipmentStocks.length === 0 ? <p className="muted small">Nessun equipaggiamento in magazzino. Costruisci una fabbrica di armi o artiglieria e scegli cosa produrre.</p> : (
+        <p className="small">{equipmentStocks.map((e) => `${e.label}${e.unknown ? ' (voce non nel catalogo)' : ''} ${fmt(e.pieces)}`).join(' · ')}</p>
+      )}
+      {facilityRows && onRecipe ? <FacilityList rows={facilityRows} onChange={onRecipe} /> : null}
       <details><summary>Impianti ({plants.reduce((a, p) => a + p.count, 0)}) e miniere ({mines.length})</summary>
         <ul>{plants.map((p) => <li key={`${p.type}|${p.level}`}>{p.name} × {p.count}</li>)}{mines.map((m) => <li key={m.id}>Miniera {m.label} · {m.where}</li>)}</ul>
       </details>
