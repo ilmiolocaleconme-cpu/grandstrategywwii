@@ -1,0 +1,8 @@
+﻿equipment_id,nation,designation,family,class,caliber_mm,role,quantity_planned,quantity_effective,quantity_basis,reference_date,confidence,source_note
+USSR-RIFLE-1939,USSR,Fucile standard dei fucilieri sovietici (modello non specificato dalla fonte),small_arms,rifle,,individual_infantry_weapon,,,unknown_not_filled,1939-01,MISSING_DATA,Numero e modello dei fucili non indicati dalla fonte; non dedurre un fucile per ogni uomo.
+USSR-HMG-1939,USSR,"Mitragliatrice pesante Maxim da 7,62 mm",small_arms,heavy_machine_gun,7.62,sustained_fire_support,174,,division_table_1939,1939-01,PROVISIONAL,"174 mitragliatrici pesanti Maxim da 7,62 mm."
+USSR-LMG-1939,USSR,"Mitragliatrice leggera DT da 7,62 mm",small_arms,light_machine_gun,7.62,squad_automatic_weapon,243,,division_table_1939,1939-01,PROVISIONAL,"243 mitragliatrici leggere DT da 7,62 mm."
+USSR-AT45-1939,USSR,Cannone anticarro da 45 mm,anti_tank,anti_tank_gun,45,anti_armor_direct_fire,72,,division_table_1939,1939-01,PROVISIONAL,72 cannoni anticarro da 45 mm.
+USSR-GUN76-1939,USSR,Cannone da 76 mm (reggimentale e divisionale non separati dalla fonte),field_artillery,field_gun,76,regimental_and_divisional_fire,42,,division_table_1939,1939-01,PROVISIONAL,42 pezzi da 76 mm; la fonte non distingue cannoni reggimentali da divisionali né il modello.
+USSR-HOW122-1939,USSR,Obice da 122 mm,field_artillery,howitzer,122,divisional_howitzer_fire,28,,division_table_1939,1939-01,PROVISIONAL,28 obici da 122 mm; modello non indicato dalla fonte.
+USSR-HOW152-1939,USSR,Obice da 152 mm,field_artillery,howitzer,152,heavy_howitzer_fire,12,,division_table_1939,1939-01,PROVISIONAL,12 obici da 152 mm; modello non indicato dalla fonte.

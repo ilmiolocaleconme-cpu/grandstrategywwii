@@ -1,0 +1,179 @@
+{
+  "schema": "equipment-catalog-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Catalogo USSR generato da CSV con scripts/build-templates.js: non modificare a mano. Stesso schema e stessa forma di id di tutte le nazioni; ogni voce con attendibilità (reliability) e nota di fonte. Le varianti datate (DATED_VARIANT) restano qui e non entrano nei template della data.",
+  "source": {
+    "files": [
+      {
+        "file": "source/ussr_inf_template_1939.csv",
+        "sha256": "8421dc7bde74f193a50cf26d6deb6ef929de92927600853c154bc1c87fd69cd2"
+      },
+      {
+        "file": "source/ussr_inf_equipment_1939.csv",
+        "sha256": "de69eb2faccdf366b61085ed3182d680c433c2fb8fba02c7ad5c80d4fad7529d"
+      },
+      {
+        "file": "source/land_equipment_catalog_ussr_1939.csv",
+        "sha256": "a0b1a52a5fb02f1481c877b5a22cd770c96897d0d703e3c55d023b755ac89899"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "equipment_id": "INW-USSR-RIFLE-1939",
+      "nation": "USSR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Fucile standard dei fucilieri sovietici (modello non specificato dalla fonte)",
+      "family": "small_arms",
+      "role": "individual_infantry_weapon",
+      "caliber_mm": null,
+      "name_it": "Fucile standard dei fucilieri sovietici (modello non specificato dalla fonte)",
+      "durable": true,
+      "models": [],
+      "reliability": "MISSING_DATA",
+      "reference_date": "1939-01",
+      "source_id": "USSR-RIFLE-1939",
+      "source_note": "Numero e modello dei fucili non indicati dalla fonte; non dedurre un fucile per ogni uomo."
+    },
+    {
+      "equipment_id": "MG-USSR-HMG-1939",
+      "nation": "USSR",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitragliatrice pesante Maxim da 7,62 mm",
+      "family": "small_arms",
+      "role": "sustained_fire_support",
+      "caliber_mm": 7.62,
+      "name_it": "Mitragliatrice pesante Maxim da 7,62 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-01",
+      "source_id": "USSR-HMG-1939",
+      "source_note": "174 mitragliatrici pesanti Maxim da 7,62 mm."
+    },
+    {
+      "equipment_id": "MG-USSR-LMG-1939",
+      "nation": "USSR",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitragliatrice leggera DT da 7,62 mm",
+      "family": "small_arms",
+      "role": "squad_automatic_weapon",
+      "caliber_mm": 7.62,
+      "name_it": "Mitragliatrice leggera DT da 7,62 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-01",
+      "source_id": "USSR-LMG-1939",
+      "source_note": "243 mitragliatrici leggere DT da 7,62 mm."
+    },
+    {
+      "equipment_id": "ART-USSR-AT45-1939",
+      "nation": "USSR",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone anticarro da 45 mm",
+      "family": "anti_tank",
+      "role": "anti_armor_direct_fire",
+      "caliber_mm": 45,
+      "name_it": "Cannone anticarro da 45 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-01",
+      "source_id": "USSR-AT45-1939",
+      "source_note": "72 cannoni anticarro da 45 mm."
+    },
+    {
+      "equipment_id": "ART-USSR-GUN76-1939",
+      "nation": "USSR",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "Cannone da 76 mm (reggimentale e divisionale non separati dalla fonte)",
+      "family": "field_artillery",
+      "role": "regimental_and_divisional_fire",
+      "caliber_mm": 76,
+      "name_it": "Cannone da 76 mm (reggimentale e divisionale non separati dalla fonte)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-01",
+      "source_id": "USSR-GUN76-1939",
+      "source_note": "42 pezzi da 76 mm; la fonte non distingue cannoni reggimentali da divisionali né il modello."
+    },
+    {
+      "equipment_id": "ART-USSR-HOW122-1939",
+      "nation": "USSR",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 122 mm",
+      "family": "field_artillery",
+      "role": "divisional_howitzer_fire",
+      "caliber_mm": 122,
+      "name_it": "Obice da 122 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-01",
+      "source_id": "USSR-HOW122-1939",
+      "source_note": "28 obici da 122 mm; modello non indicato dalla fonte."
+    },
+    {
+      "equipment_id": "ART-USSR-HOW152-1939",
+      "nation": "USSR",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 152 mm",
+      "family": "field_artillery",
+      "role": "heavy_howitzer_fire",
+      "caliber_mm": 152,
+      "name_it": "Obice da 152 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-01",
+      "source_id": "USSR-HOW152-1939",
+      "source_note": "12 obici da 152 mm; modello non indicato dalla fonte."
+    }
+  ],
+  "aliases": [
+    {
+      "nation": "USSR",
+      "templateKey": "INW-USSR-RIFLE-1939",
+      "equipment_id": "INW-USSR-RIFLE-1939"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "MG-USSR-HMG-1939",
+      "equipment_id": "MG-USSR-HMG-1939"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "MG-USSR-LMG-1939",
+      "equipment_id": "MG-USSR-LMG-1939"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-AT45-1939",
+      "equipment_id": "ART-USSR-AT45-1939"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-GUN76-1939",
+      "equipment_id": "ART-USSR-GUN76-1939"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-HOW122-1939",
+      "equipment_id": "ART-USSR-HOW122-1939"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-HOW152-1939",
+      "equipment_id": "ART-USSR-HOW152-1939"
+    }
+  ]
+}

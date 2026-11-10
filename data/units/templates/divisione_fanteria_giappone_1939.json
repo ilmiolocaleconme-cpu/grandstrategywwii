@@ -1,0 +1,108 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-JPN-INF-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/jpn_inf_template_1939.csv, source/jpn_inf_equipment_1939.csv, source/land_equipment_catalog_jpn_1939.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (JPN infantry division, serie Tipo B); Divisione di fanteria giapponese tipo B (generica) è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "JPN",
+    "category": "infantry",
+    "echelon": "division",
+    "validFrom": "1939-09-01"
+  },
+  "formation": {
+    "value": "triangular"
+  },
+  "regimentsInfantry": {
+    "value": 3
+  },
+  "manpower": {
+    "war": {
+      "value": 20000,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": null,
+    "reliability": "MISSING_DATA"
+  },
+  "equipment": {
+    "INW-JPN-RIFLE-1939": {
+      "value": 9000,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria tipo B",
+      "note": "9.000 fucili per la divisione tipo B (tabella); modello non indicato dalla fonte. Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "MG-JPN-HMG-1939": {
+      "value": 112,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria tipo B",
+      "note": "112 mitragliatrici pesanti (tabella); modello non indicato. Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "MG-JPN-LMG-1939": {
+      "value": 382,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria tipo B",
+      "note": "382 mitragliatrici leggere (tabella); modello non indicato. Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-JPN-AT37-1939": {
+      "value": 22,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria tipo B",
+      "note": "22 cannoni anticarro da 37 mm (tabella). Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-JPN-GUN75-REG-1939": {
+      "value": 12,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria tipo B",
+      "note": "12 cannoni reggimentali da 75 mm (4 per compagnia cannoni di reggimento, Type 41). Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-JPN-GUN75-DIV-1939": {
+      "value": 36,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria tipo B",
+      "note": "36 cannoni da 75 mm campali o da montagna (reggimento di artiglieria); il modello esatto dipende dal reggimento (Type 94 da montagna nella variante da montagna). Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-JPN-INF-B-1939",
+    "series": "Tipo B",
+    "referenceDivision": "Divisione di fanteria giapponese tipo B (generica)",
+    "referenceDate": "1939-09",
+    "sourceQuality": "SECONDARY_SINGLE_SOURCE",
+    "sourceNote": "Divisione di riferimento GENERICA «Type B» dell'articolo Wikipedia: 3 reggimenti di fanteria (brigata di fanteria da 11.600 uomini), reggimento di artiglieria da campagna o da montagna; totale 20.000 uomini e 7.500 cavalli (la lista dà 19.770; si usa il totale della tabella). L'articolo descrive la struttura «all'inizio della seconda guerra mondiale» senza mese: si usa settembre 1939. Cavalli e organico iniziale NON copiati nel template: lasciati vuoti. Modello del fucile NON indicato dalla fonte. Fonte unica e secondaria.",
+    "sourceFiles": [
+      {
+        "file": "source/jpn_inf_template_1939.csv",
+        "sha256": "52d904280547e78081315907c066239276036321885736a29e065f73eeaedae8"
+      },
+      {
+        "file": "source/jpn_inf_equipment_1939.csv",
+        "sha256": "1fb8d34063c93d56d9b7000f86ed50a07657fd993758079a3cc4783c6cdb7276"
+      },
+      {
+        "file": "source/land_equipment_catalog_jpn_1939.csv",
+        "sha256": "7e422500c7d3773bdb50f336b3bddda1c8e9bc9285deadc643a169226a07acf2"
+      }
+    ]
+  }
+}

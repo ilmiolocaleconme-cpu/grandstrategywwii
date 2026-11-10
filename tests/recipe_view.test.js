@@ -67,7 +67,7 @@ import { buildEquipmentRecipes } from '../src/data/equipmentProduction.js';
 const txt = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const js = (p) => JSON.parse(txt(p));
 const eqTable = js('units/equipment/equipment_production.json');
-const eqCatalog = mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita'].map((n) => js(`units/equipment/${n}.json`)));
+const eqCatalog = mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita', 'catalog_ussr', 'catalog_jpn'].map((n) => js(`units/equipment/${n}.json`)));
 const eqRecipes = buildEquipmentRecipes(eqCatalog, eqTable);
 const ind = loadIndustryCatalog({ factoriesCsv: txt('industry/factories.csv'), structuresCsv: txt('infrastructure/structures.csv'), categoriesCsv: txt('industry/production_categories.csv') });
 const realCatalog = { recipes: new Map([...js('industry/recipes.json').recipes, ...eqRecipes].map((r) => [r.id, r])), factories: ind.byId };

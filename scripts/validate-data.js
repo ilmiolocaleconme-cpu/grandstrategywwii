@@ -185,7 +185,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       const src = JSON.parse(await text('trade/SOURCE.json'));
       if (createHash('sha256').update(await readFile(new URL(`../${src.file}`, import.meta.url))).digest('hex') !== src.sha256) errors.push('scambi: il testo ricevuto è diverso dalla copia registrata (sha256)');
     }
-    errors.push(...validateInitialIndustry(JSON.parse(await text('industry/initial_industry.json')), { factoriesById: industry.byId, recipes: recipesDoc, entityIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), nationIds: JSON.parse(await text('nations.json')).map((n) => n.id) }));
+    // le fabbriche iniziali di armi e artiglieria usano ricette di equipaggiamento GENERATE dal catalogo (non stanno in recipes.json)
+    const generatedEquipmentRecipes = [];
+    for (const f of (await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).sort()) generatedEquipmentRecipes.push(JSON.parse(await text(`units/equipment/${f}`)));
+    const industryRecipesDoc = withEquipmentRecipes(recipesDoc, buildEquipmentRecipes(mergeEquipmentCatalogs(generatedEquipmentRecipes), JSON.parse(await text('units/equipment/equipment_production.json'))));
+    errors.push(...validateInitialIndustry(JSON.parse(await text('industry/initial_industry.json')), { factoriesById: industry.byId, recipes: industryRecipesDoc, entityIds: new Set(JSON.parse(await text('political_1936.json')).map((e) => e.id)), nationIds: JSON.parse(await text('nations.json')).map((n) => n.id) }));
     errors.push(...validateInitialStocks(JSON.parse(await text('industry/initial_stocks.json')), { resourceIds: new Set(catalog.resources.map((r) => r.id)), industry: JSON.parse(await text('industry/initial_industry.json')) }));
     {
       const [pol, nat, ind, stk] = [JSON.parse(await text('political_1936.json')), JSON.parse(await text('nations.json')), JSON.parse(await text('industry/initial_industry.json')), JSON.parse(await text('industry/initial_stocks.json'))];

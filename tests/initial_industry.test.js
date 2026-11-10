@@ -11,7 +11,7 @@ const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8
 const json = (p) => JSON.parse(text(p));
 const catalog = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
 const file = json('industry/initial_industry.json');
-const equipmentRecipes = buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita'].map((n) => json(`units/equipment/${n}.json`))), json('units/equipment/equipment_production.json'));
+const equipmentRecipes = buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita', 'catalog_ussr', 'catalog_jpn'].map((n) => json(`units/equipment/${n}.json`))), json('units/equipment/equipment_production.json'));
 const ctx = () => ({ factoriesById: catalog.byId, recipes: withEquipmentRecipes(json('industry/recipes.json'), equipmentRecipes), entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((n) => n.id) });
 
 test('valido: 12 entità in fascia A, 13 in B, le nazioni restanti in C senza impianti', () => {
@@ -53,11 +53,11 @@ test('rete di base: 40 MW (MISSING_DATA) solo per la fascia C', () => {
   assert.match(validateInitialIndustry(bad, ctx()).join('|'), /rete di base mancante/);
 });
 
-test('armi leggere e artiglieria (10/11/2026): una fabbrica di ciascun tipo per DEU, FRA, GBR, ITA con ricetta della propria nazione; USA, URSS e Giappone no (manca il catalogo)', () => {
-  for (const n of ['DEU', 'FRA', 'GBR', 'ITA']) {
+test('armi leggere e artiglieria (10/11/2026): una fabbrica di ciascun tipo per DEU, FRA, GBR, ITA, USSR, JPN con ricetta della propria nazione; gli USA no (manca il catalogo)', () => {
+  for (const n of ['DEU', 'FRA', 'GBR', 'ITA', 'USSR', 'JPN']) {
     const c = facilityCounts(file, n);
     assert.equal(c['FCT-WEAPONS'], 1, n); assert.equal(c['FCT-ARTILLERY'], 1, n);
     for (const f of file.nations[n].facilities.filter((x) => x.factory === 'FCT-WEAPONS' || x.factory === 'FCT-ARTILLERY')) assert.ok(f.recipeId.split('-').includes(n), `${n}: ${f.recipeId}`);
   }
-  for (const n of ['USA', 'USSR', 'JPN']) assert.equal(facilityCounts(file, n)['FCT-WEAPONS'], undefined, `${n} senza voci di catalogo: nessun impianto inventato`);
+  for (const n of ['USA']) assert.equal(facilityCounts(file, n)['FCT-WEAPONS'], undefined, `${n} senza voci di catalogo: nessun impianto inventato`);
 });

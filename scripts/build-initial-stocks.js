@@ -21,7 +21,7 @@ const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper'
 const ext = Object.fromEntries(RAW.map((r) => [r, resourceExtraction(r, ctx)]));
 const supply = {};
 for (const id of Object.keys(industry.nations)) supply[id] = Object.fromEntries(RAW.map((r) => [r, totalByPrefix(ext[r], id)]));
-const stocks = computeInitialStocks({ industry, recipes: withEquipmentRecipes(j('industry/recipes.json'), buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita'].map((n) => j(`units/equipment/${n}.json`))), j('units/equipment/equipment_production.json'))), factoriesById: cat.byId, supply, days: DAYS, utilisation: UTILISATION });
+const stocks = computeInitialStocks({ industry, recipes: withEquipmentRecipes(j('industry/recipes.json'), buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita', 'catalog_ussr', 'catalog_jpn'].map((n) => j(`units/equipment/${n}.json`))), j('units/equipment/equipment_production.json'))), factoriesById: cat.byId, supply, days: DAYS, utilisation: UTILISATION });
 // Riserva militare di munizioni (regola del 04/11/2026): 30 giorni del consumo di attacco delle divisioni attive al 1/1/1936.
 // Il conteggio parte dal catalogo (units.json), non dall'industria: la copertura in divisioni intere è in src/rules/militaryReserve.js.
 const unitsFile = j('units/units.json');

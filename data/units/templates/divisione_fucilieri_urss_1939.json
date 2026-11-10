@@ -1,0 +1,113 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-USSR-INF-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/ussr_inf_template_1939.csv, source/ussr_inf_equipment_1939.csv, source/land_equipment_catalog_ussr_1939.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (USSR infantry division, serie Divisione di fucilieri); Divisione di fucilieri (generica, 1939) è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "USSR",
+    "category": "infantry",
+    "echelon": "division",
+    "validFrom": "1939-01-01"
+  },
+  "formation": {
+    "value": "triangular"
+  },
+  "regimentsInfantry": {
+    "value": 3
+  },
+  "manpower": {
+    "war": {
+      "value": 19000,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": null,
+    "reliability": "MISSING_DATA"
+  },
+  "equipment": {
+    "INW-USSR-RIFLE-1939": {
+      "value": null,
+      "reliability": "MISSING_DATA",
+      "note": "Nessuna quantità nelle righe di organico. Numero e modello dei fucili non indicati dalla fonte; non dedurre un fucile per ogni uomo."
+    },
+    "MG-USSR-HMG-1939": {
+      "value": 174,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fucilieri",
+      "note": "174 mitragliatrici pesanti Maxim da 7,62 mm. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "MG-USSR-LMG-1939": {
+      "value": 243,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fucilieri",
+      "note": "243 mitragliatrici leggere DT da 7,62 mm. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USSR-AT45-1939": {
+      "value": 72,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fucilieri",
+      "note": "72 cannoni anticarro da 45 mm. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USSR-GUN76-1939": {
+      "value": 42,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fucilieri",
+      "note": "42 pezzi da 76 mm; la fonte non distingue cannoni reggimentali da divisionali né il modello. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USSR-HOW122-1939": {
+      "value": 28,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fucilieri",
+      "note": "28 obici da 122 mm; modello non indicato dalla fonte. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USSR-HOW152-1939": {
+      "value": 12,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fucilieri",
+      "note": "12 obici da 152 mm; modello non indicato dalla fonte. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-USSR-INF-RIFLE-1939",
+    "series": "Divisione di fucilieri",
+    "referenceDivision": "Divisione di fucilieri (generica, 1939)",
+    "referenceDate": "1939-01",
+    "sourceQuality": "SECONDARY_SINGLE_SOURCE",
+    "sourceNote": "Divisione di riferimento GENERICA (nessuna divisione numerata) della tabella 1939 di ww2-weapons.com: 3 reggimenti di fanteria da 2.900 uomini; totale 19.000 uomini (valore della tabella, usato come organico massimo). Organico iniziale e cavalli NON trovati: lasciati vuoti. Numero di fucili e modello NON indicati dalla fonte: non dedotti. Fonte unica e secondaria, non verificata su tabelle d'organico originali. Data: la pagina indica solo «1939», non il mese: si usa gennaio.",
+    "sourceFiles": [
+      {
+        "file": "source/ussr_inf_template_1939.csv",
+        "sha256": "8421dc7bde74f193a50cf26d6deb6ef929de92927600853c154bc1c87fd69cd2"
+      },
+      {
+        "file": "source/ussr_inf_equipment_1939.csv",
+        "sha256": "de69eb2faccdf366b61085ed3182d680c433c2fb8fba02c7ad5c80d4fad7529d"
+      },
+      {
+        "file": "source/land_equipment_catalog_ussr_1939.csv",
+        "sha256": "a0b1a52a5fb02f1481c877b5a22cd770c96897d0d703e3c55d023b755ac89899"
+      }
+    ]
+  }
+}

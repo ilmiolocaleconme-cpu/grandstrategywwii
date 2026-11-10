@@ -1,4 +1,5 @@
 // Entità di una provincia dall'id (29/10/2026): MAR_ES, NLD_EI e JPN_MANDATE hanno un trattino basso nell'id e risultavano «non controllate».
+import { allRecipeList } from './_equipment_recipes.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -47,7 +48,7 @@ test('dati reali: ogni centrale idroelettrica e ogni sito minerario risale a un\
 
 test('costruzioni: le province di MAR_ES, NLD_EI e JPN_MANDATE sono del controllore, non più «non controllate»', () => {
   const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
-  const catalog = { recipes: new Map(json('industry/recipes.json').recipes.map((r) => [r.id, r])), factories: cat.byId };
+  const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId };
   const population = json('population/population.json'); const economy = json('economy/economy.json'); const sites = json('resources/mine_sites.json');
   const nationIds = json('nations.json').map((n) => n.id);
   const start = { nationIds, industry: json('industry/initial_industry.json'), stocks: json('industry/initial_stocks.json'), cash: json('industry/initial_cash.json'), economy, population };

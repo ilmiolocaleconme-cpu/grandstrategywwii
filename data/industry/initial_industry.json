@@ -513,9 +513,19 @@
           "count": 5
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-JPN-RIFLE-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-JPN-GUN75-DIV-1939",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 2
+          "count": 3
         }
       ]
     },
@@ -785,6 +795,16 @@
           "factory": "FCT-MUNITIONS",
           "recipeId": "REC-MUNITIONS-001",
           "count": 6
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-USSR-RIFLE-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-GUN76-1939",
+          "count": 1
         }
       ]
     },

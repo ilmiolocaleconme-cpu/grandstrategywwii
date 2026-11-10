@@ -1,0 +1,157 @@
+{
+  "schema": "equipment-catalog-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Catalogo JPN generato da CSV con scripts/build-templates.js: non modificare a mano. Stesso schema e stessa forma di id di tutte le nazioni; ogni voce con attendibilità (reliability) e nota di fonte. Le varianti datate (DATED_VARIANT) restano qui e non entrano nei template della data.",
+  "source": {
+    "files": [
+      {
+        "file": "source/jpn_inf_template_1939.csv",
+        "sha256": "52d904280547e78081315907c066239276036321885736a29e065f73eeaedae8"
+      },
+      {
+        "file": "source/jpn_inf_equipment_1939.csv",
+        "sha256": "1fb8d34063c93d56d9b7000f86ed50a07657fd993758079a3cc4783c6cdb7276"
+      },
+      {
+        "file": "source/land_equipment_catalog_jpn_1939.csv",
+        "sha256": "7e422500c7d3773bdb50f336b3bddda1c8e9bc9285deadc643a169226a07acf2"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "equipment_id": "INW-JPN-RIFLE-1939",
+      "nation": "JPN",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Fucile standard della fanteria giapponese (modello non specificato dalla fonte)",
+      "family": "small_arms",
+      "role": "individual_infantry_weapon",
+      "caliber_mm": null,
+      "name_it": "Fucile standard della fanteria giapponese (modello non specificato dalla fonte)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "JPN-RIFLE-1939",
+      "source_note": "9.000 fucili per la divisione tipo B (tabella); modello non indicato dalla fonte."
+    },
+    {
+      "equipment_id": "MG-JPN-HMG-1939",
+      "nation": "JPN",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitragliatrice pesante (modello non specificato dalla fonte)",
+      "family": "small_arms",
+      "role": "sustained_fire_support",
+      "caliber_mm": null,
+      "name_it": "Mitragliatrice pesante (modello non specificato dalla fonte)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "JPN-HMG-1939",
+      "source_note": "112 mitragliatrici pesanti (tabella); modello non indicato."
+    },
+    {
+      "equipment_id": "MG-JPN-LMG-1939",
+      "nation": "JPN",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitragliatrice leggera (modello non specificato dalla fonte)",
+      "family": "small_arms",
+      "role": "squad_automatic_weapon",
+      "caliber_mm": null,
+      "name_it": "Mitragliatrice leggera (modello non specificato dalla fonte)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "JPN-LMG-1939",
+      "source_note": "382 mitragliatrici leggere (tabella); modello non indicato."
+    },
+    {
+      "equipment_id": "ART-JPN-AT37-1939",
+      "nation": "JPN",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone anticarro da 37 mm",
+      "family": "anti_tank",
+      "role": "anti_armor_direct_fire",
+      "caliber_mm": 37,
+      "name_it": "Cannone anticarro da 37 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "JPN-AT37-1939",
+      "source_note": "22 cannoni anticarro da 37 mm (tabella)."
+    },
+    {
+      "equipment_id": "ART-JPN-GUN75-REG-1939",
+      "nation": "JPN",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "Cannone reggimentale Type 41 da 75 mm",
+      "family": "field_artillery",
+      "role": "regimental_gun_fire",
+      "caliber_mm": 75,
+      "name_it": "Cannone reggimentale Type 41 da 75 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "JPN-GUN75-REG-1939",
+      "source_note": "12 cannoni reggimentali da 75 mm (4 per compagnia cannoni di reggimento, Type 41)."
+    },
+    {
+      "equipment_id": "ART-JPN-GUN75-DIV-1939",
+      "nation": "JPN",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "Cannone da campagna o da montagna da 75 mm",
+      "family": "field_artillery",
+      "role": "divisional_field_artillery",
+      "caliber_mm": 75,
+      "name_it": "Cannone da campagna o da montagna da 75 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1939-09",
+      "source_id": "JPN-GUN75-DIV-1939",
+      "source_note": "36 cannoni da 75 mm campali o da montagna (reggimento di artiglieria); il modello esatto dipende dal reggimento (Type 94 da montagna nella variante da montagna)."
+    }
+  ],
+  "aliases": [
+    {
+      "nation": "JPN",
+      "templateKey": "INW-JPN-RIFLE-1939",
+      "equipment_id": "INW-JPN-RIFLE-1939"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "MG-JPN-HMG-1939",
+      "equipment_id": "MG-JPN-HMG-1939"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "MG-JPN-LMG-1939",
+      "equipment_id": "MG-JPN-LMG-1939"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-AT37-1939",
+      "equipment_id": "ART-JPN-AT37-1939"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-GUN75-REG-1939",
+      "equipment_id": "ART-JPN-GUN75-REG-1939"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-GUN75-DIV-1939",
+      "equipment_id": "ART-JPN-GUN75-DIV-1939"
+    }
+  ]
+}

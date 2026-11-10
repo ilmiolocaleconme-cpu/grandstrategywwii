@@ -34,6 +34,26 @@
         "ITA-RIFLE-1940": "class",
         "ITA-PISTOL-1940": "class"
       }
+    },
+    {
+      "id": "USSR-INF-1939",
+      "template": "ussr_inf_template_1939.csv",
+      "lines": "ussr_inf_equipment_1939.csv",
+      "catalog": "land_equipment_catalog_ussr_1939.csv",
+      "output": "divisione_fucilieri_urss_1939.json",
+      "granularityOverrides": {
+        "USSR-RIFLE-1939": "class"
+      }
+    },
+    {
+      "id": "JPN-INF-1939",
+      "template": "jpn_inf_template_1939.csv",
+      "lines": "jpn_inf_equipment_1939.csv",
+      "catalog": "land_equipment_catalog_jpn_1939.csv",
+      "output": "divisione_fanteria_giappone_1939.json",
+      "granularityOverrides": {
+        "JPN-RIFLE-1939": "class"
+      }
     }
   ]
 }

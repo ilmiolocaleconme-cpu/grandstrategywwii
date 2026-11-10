@@ -67,9 +67,11 @@ export const EQUIPMENT_GROUP_LABEL = Object.freeze({
 export const EQUIPMENT_GROUP = Object.freeze({
   fucili: 'individuali', pistole: 'individuali', 'INW-DEU-RIFLE-1939': 'individuali', 'INW-DEU-PISTOL-1939': 'individuali',
   'INW-FRA-RIFLE-1939': 'individuali', 'INW-FRA-PISTOL-1939': 'individuali', 'INW-ITA-RIFLE-1940': 'individuali', 'INW-ITA-PISTOL-1940': 'individuali',
+  'INW-USSR-RIFLE-1939': 'individuali', 'INW-JPN-RIFLE-1939': 'individuali',
   mitragliatrici: 'mitragliatrici', mitragliatriciLeggere: 'mitragliatrici', mitragliatriciPesanti: 'mitragliatrici',
   'MG-DEU-MG34-L': 'mitragliatrici', 'MG-DEU-MG34-S': 'mitragliatrici', 'MG-FRA-FM2429': 'mitragliatrici', 'MG-FRA-HOTCHKISS1914': 'mitragliatrici',
   'MG-ITA-HMG-1940': 'mitragliatrici', 'MG-ITA-LMG-1940': 'mitragliatrici',
+  'MG-USSR-HMG-1939': 'mitragliatrici', 'MG-USSR-LMG-1939': 'mitragliatrici', 'MG-JPN-HMG-1939': 'mitragliatrici', 'MG-JPN-LMG-1939': 'mitragliatrici',
   mortai: 'mortai', mortaiLeggeri50mm: 'mortai', mortaiPesanti81mm: 'mortai', 'ART-DEU-GRW34': 'mortai', 'ART-DEU-GRW36': 'mortai',
   'ART-FRA-MORTAR60': 'mortai', 'ART-FRA-MORTAR81': 'mortai', 'ART-ITA-MORTAR81-1940': 'mortai', 'ART-ITA-BRIXIA45-1940': 'mortai',
   artiglieria: 'artiglieria', artiglieriaCampale: 'artiglieria', cannoni105mm: 'artiglieria', cannoniFanteria75mm: 'artiglieria',
@@ -77,7 +79,8 @@ export const EQUIPMENT_GROUP = Object.freeze({
   'ART-DEU-K18-105': 'artiglieria', 'ART-DEU-LEFH18': 'artiglieria', 'ART-DEU-LEIG18': 'artiglieria', 'ART-DEU-SFH18': 'artiglieria',
   'ART-DEU-SIG33': 'artiglieria', 'ART-FRA-ART75M1897': 'artiglieria', 'ART-FRA-HOW155C': 'artiglieria', 'ART-ITA-GUN75-1940': 'artiglieria',
   'ART-ITA-HOW75-1940': 'artiglieria', 'ART-ITA-HOW100-1940': 'artiglieria',
-  controcarro: 'anticarro', controcarro37mm: 'anticarro', 'ART-DEU-PAK36': 'anticarro', 'ART-FRA-AT25': 'anticarro', 'ART-ITA-AT47-1940': 'anticarro',
+  'ART-USSR-GUN76-1939': 'artiglieria', 'ART-USSR-HOW122-1939': 'artiglieria', 'ART-USSR-HOW152-1939': 'artiglieria', 'ART-JPN-GUN75-DIV-1939': 'artiglieria', 'ART-JPN-GUN75-REG-1939': 'artiglieria',
+  controcarro: 'anticarro', controcarro37mm: 'anticarro', 'ART-DEU-PAK36': 'anticarro', 'ART-FRA-AT25': 'anticarro', 'ART-ITA-AT47-1940': 'anticarro', 'ART-USSR-AT45-1939': 'anticarro', 'ART-JPN-AT37-1939': 'anticarro',
   antiaerei: 'contraerea', antiaerei20mm: 'contraerea',
   veicoli: 'veicoli', carri: 'corazzati', radio: 'trasmissioni',
 });
