@@ -5,6 +5,8 @@ import { unitInfo } from '../rules/unitInfo.js';
 
 import { Info, ECH, CAT } from './UnitInfo.jsx';
 import CommandForces from './CommandForces.jsx';
+import { InfoIcon, LinkIcon } from './ActionIcons.jsx';
+import { panelHint } from './unitActions.js';
 
 const ECH_MARK = { division: 'XX', brigade: 'X', command: '' };
 const LVL_MARK = { corps: 'XXX', army: 'XXXX', army_group: 'XXXXX', theater: 'XXXXXX', high_command: '★', district: '▫' };
@@ -35,7 +37,7 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ orderCount, childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName }) {
+export default function ArmyPanel({ orderCount, childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName, onAttachUnit }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
     () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig, templates })])),
@@ -53,12 +55,7 @@ export default function ArmyPanel({ orderCount, childOptions, onAttachChild, tem
         </div>
         <button type="button" className="close" aria-label="Chiudi" onClick={onClose}>×</button>
       </header>
-      <p className={`ap-hint${canMove && moveMode ? ' go' : ''}`}>
-        {!canMove ? 'Unità di un’altra nazione: puoi vederle, non dare ordini.'
-          : moveMode ? `${n} ${n === 1 ? 'unità scelta' : 'unità scelte'}: tocca sulla mappa la destinazione: territorio tuo = marcia, nemico (in guerra) = attacco.`
-            : n === 0 ? 'Usa il menu sul segnalino per tutte le unità, oppure spunta quelle che vuoi.'
-              : `${n} ${n === 1 ? 'unità scelta' : 'unità scelte'}${orderCount > n ? ` (${orderCount} con le forze agli ordini)` : ''}: usa il menu sul segnalino.`}
-      </p>
+      {(() => { const hint = panelHint({ canMove, moveMode, n, orderCount }); return hint ? <p className={`ap-hint${canMove && moveMode ? ' go' : ''}`}>{hint}</p> : null; })()}
       {notice && <p className="ap-notice" role="status">{notice}</p>}
       <ul className="ap-list">
         {group.units.map((u) => {
@@ -85,7 +82,10 @@ export default function ArmyPanel({ orderCount, childOptions, onAttachChild, tem
                     return <span className={`ap-dig${max ? ' max' : ''}`} title="Bonus difensivo: cresce ogni giorno fermo e senza battaglia">⛏ +{Math.round(en.bonus * 100)}%{max ? ' max' : ` · giorno ${en.days}`}</span>;
                   })()}
                 </button>
-                <button type="button" className="ap-i" aria-label={`Scheda di ${u.name}`} aria-expanded={openId === u.id} onClick={() => setOpenId(u.id === openId ? null : u.id)}>i</button>
+                <div className="ap-acts" role="group" aria-label={`Azioni per ${u.name}`}>
+                  <button type="button" aria-label={`Scheda di ${u.name}`} title="Scheda" aria-expanded={openId === u.id} onClick={() => setOpenId(u.id === openId ? null : u.id)}><InfoIcon /></button>
+                  {canMove && onAttachUnit ? <button type="button" aria-label={`Inquadra ${u.name} in un comando`} title="Inquadra in un comando (HQ), dal più vicino" onClick={() => onAttachUnit(u.id)}><LinkIcon /></button> : null}
+                </div>
               </div>
               {unit.category === 'command' && subordinates ? <CommandForces unit={unit} subs={subordinates(u.id)} own={Boolean(onAttachChild)} childOptions={childOptions} onAttachChild={onAttachChild} /> : null}
               {openId === u.id && <Info info={info} canSetPolicy={canMove && info.nation === game.player && info.condition !== null} onPolicy={onPolicy} onReinforce={info.nation === game.player ? onReinforce : undefined} />}

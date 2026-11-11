@@ -84,6 +84,14 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Variante B scelta: albero a tutta larghezza, dettaglio sotto, barra in basso con etichette. Stile con cornici d'ottone e bagliore, senza copiare grafica di altri giochi.
 - Mockup privato: https://claude.ai/artifact/RryWcLDUQ8WzeWACErfiHb (versione 3). Dati di esempio.
 
+**Pulsanti «i» e catena (11/11/2026, decisioni dell'utente dal disegno a mano del 10/11)**
+- Segnalino scelto: resta scoperto (anello tratteggiato), a destra un riquadro con «i» (scheda) sopra e catena (Inquadra) sotto, 46 px ciascuno. Supporto = bandierina (non più «+»). Catena attiva solo con UNA unità della propria nazione (spuntarla nell'elenco se il segnalino ne ha di più).
+- Elenco unità: su ogni scheda «i» sopra e catena sotto; via il testo iniziale «Usa il menu…» (restano gli avvisi di marcia e unità straniere). Variante A: niente «Inquadra spuntate» in basso (B si può aggiungere dopo).
+- La catena apre la scheda di quella unità con «Inquadra in…» già aperto (HQ dal più vicino). Nessuna regola nuova di gioco.
+- Icone SVG in `src/ui/ActionIcons.jsx` (i, catena = Inquadra, catena spezzata = Scollega, bandierina = Supporto); regole pure in `src/ui/unitActions.js` (`tests/unit_actions.test.js`).
+- Corretto: titolo «Inquadra … in…» tagliato e × fuori dal riquadro; elenco degli HQ senza stile (pulsanti grigi).
+- Ancora aperto: testi tecnici «(sponda A/B)» e «comandante non gestito».
+
 ## Produzione di equipaggiamenti: interfaccia (10/11/2026)
 - `src/ui/recipeView.js` (puro): `facilityRecipeRows` (impianti con ricette di equipaggiamento, scelte con prova a secco di `setFacilityRecipe`, ricette bloccate con la tecnologia richiesta), `batchView`/`batchLine` (lavorazione, giorni al lotto, pezzi in consegna), `splitStocks` (tonnellate separate dai pezzi), `defaultEquipmentRecipe`.
 - Economia: sezione «Equipaggiamenti in magazzino (pezzi)» e «Produzione di equipaggiamenti» con scelta ricetta (menu a tendina, conferma se si perdono pezzi in lavorazione, rifiuto con lotti in consegna). Handler `changeRecipe` in `App.jsx`.

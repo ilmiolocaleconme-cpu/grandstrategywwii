@@ -6,13 +6,14 @@ import UnitSection from './UnitSections.jsx';
 import { natoSpec, sheetSections } from '../rules/unitSheet.js';
 import { CAT } from './UnitInfo.jsx';
 import { nearestFirst, distanceLabel } from '../rules/commandLinks.js';
+import { LinkIcon, UnlinkIcon } from './ActionIcons.jsx';
 
-export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, onPriority, onClose, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild }) {
+export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, onPriority, onClose, onMoveHq, onFormCommand, onAttachTo, onDetach, parentOptions, childOptions, onAttachChild, openAttach = false }) {
   const [i, setI] = useState(0);
   const [section, setSection] = useState('panoramica');
-  const [attachOpen, setAttachOpen] = useState(false);
+  const [attachOpen, setAttachOpen] = useState(Boolean(openAttach));
   const info = infos[Math.min(i, infos.length - 1)];
-  useEffect(() => { setSection('panoramica'); setAttachOpen(false); }, [info?.id]);
+  useEffect(() => { setSection('panoramica'); setAttachOpen(Boolean(openAttach)); }, [info?.id, openAttach]);
   if (!info) return null;
   const sections = sheetSections(info);
   const spec = natoSpec(info, info.affiliation);
@@ -34,8 +35,8 @@ export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, 
       </header>
       {canAttach || canReinforce ? (
         <nav className="us-acts" aria-label="Azioni sull’unità">
-          {canAttach ? <button type="button" aria-expanded={attachOpen} onClick={() => setAttachOpen((v) => !v)}><span className="us-act-ico" aria-hidden="true">＋</span><span>Inquadra</span></button> : null}
-          {canAttach && onDetach && hasParent ? <button type="button" onClick={() => onDetach(info.id)}><span className="us-act-ico" aria-hidden="true">⛓</span><span>Scollega</span></button> : null}
+          {canAttach ? <button type="button" aria-expanded={attachOpen} onClick={() => setAttachOpen((v) => !v)}><span className="us-act-ico" aria-hidden="true"><LinkIcon /></span><span>Inquadra</span></button> : null}
+          {canAttach && onDetach && hasParent ? <button type="button" onClick={() => onDetach(info.id)}><span className="us-act-ico" aria-hidden="true"><UnlinkIcon /></span><span>Scollega</span></button> : null}
           {canReinforce ? (
             <button type="button" className={info.strength.reinforce ? 'on' : ''} aria-pressed={info.strength.reinforce} onClick={() => onReinforce(info.id, !info.strength.reinforce)}>
               <span className="us-act-ico" aria-hidden="true">{info.strength.reinforce ? '⏸' : '▶'}</span><span>{info.strength.reinforce ? 'Sospendi rinforzi' : 'Riprendi rinforzi'}</span>

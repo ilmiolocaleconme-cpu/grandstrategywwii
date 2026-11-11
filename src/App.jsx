@@ -53,6 +53,7 @@ import ArmyPanel from './ui/ArmyPanel.jsx';
 import TheaterPanel from './ui/TheaterPanel.jsx';
 import CommandPanel from './ui/CommandPanel.jsx';
 import UnitRadial from './ui/UnitRadial.jsx';
+import { chainAction, sheetTarget } from './ui/unitActions.js';
 import UnitSheet from './ui/UnitSheet.jsx';
 import { unitInfo } from './rules/unitInfo.js';
 import { playerAttach, playerDetach } from './game/orbatState.js';
@@ -433,7 +434,7 @@ export default function App() {
   const [armyNotice, setArmyNotice] = useState(null);
   const [moveNet, setMoveNet] = useState(null);
   const [moveMode, setMoveMode] = useState(false); // true dopo «Muovi» nel menu radiale: il prossimo tocco su una provincia è la destinazione
-  const [infoSheet, setInfoSheet] = useState(false); // scheda completa delle unità del segnalino scelto
+  const [infoSheet, setInfoSheet] = useState(false); // scheda completa: true = unità del segnalino; { unitId, attach } = una unità, con «Inquadra in…» aperto se attach
   const [command, setCommand] = useState(null); // { selected, notice } quando il pannello Comando (catena di comando) è aperto
   const [theater, setTheater] = useState(null); // { draft: null | { kind, provinces: [], units: [] }, notice } quando il pannello Teatro è aperto
   const [orderTo, setOrderTo] = useState(null); // { ids, back, note }: ordine di marcia dallo Stato maggiore in attesa della destinazione sulla mappa
@@ -697,6 +698,8 @@ export default function App() {
   // Menu radiale sul segnalino: agisce sulle unità spuntate, o su tutte quelle del segnalino se nessuna è spuntata
   const radialIds = armyGroup ? (armyChecked.size ? [...armyChecked] : armyGroup.units.map((u) => u.id)) : [];
   const radialOwn = Boolean(game && armySel && armySel.nation === game.player);
+  const radialChain = chainAction({ ids: radialIds, own: radialOwn });
+  const sheet = sheetTarget(infoSheet, radialIds);
   // Gli ordini (marcia, incarico, trincea) valgono anche per le divisioni agli ordini di un comando scelto, ognuna dalla propria posizione. Scheda e fili restano sulle unità scelte.
   const orderIds = game && radialOwn ? withSubordinates({ orbat: game.orbat ?? createOrbatState(), ids: radialIds, unitsById: unitsView(game, UNITS_BY_ID) }) : radialIds;
   // Fili di comando solo per ciò che il giocatore ha scelto (decisione del 07/11/2026): scheda di un comando, segnalino toccato (unità spuntate o tutte quelle del segnalino) o unità scelta nel pannello Comando.
@@ -954,7 +957,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={orderIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
+        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={orderIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} chain={radialChain} onInfo={() => setInfoSheet(true)} onAttach={() => { if (radialChain.enabled) setInfoSheet({ unitId: radialChain.unitId, attach: true }); }} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
         {orderTo && !command ? (
           <div className="order-bar" role="status">
             <span>{orderTo.note ?? `Tocca sulla mappa la destinazione per ${orderTo.ids.length} ${orderTo.ids.length === 1 ? 'divisione' : 'divisioni'}: territorio tuo = marcia, nemico (in guerra) = attacco.`}</span>
@@ -984,19 +987,19 @@ export default function App() {
             onClose={() => setTheater(null)} />
         ) : hqId && game && unitOf(game, hqId, UNITS_BY_ID) ? (
           <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
-        ) : infoSheet && armyGroup && game ? (
-          <UnitSheet infos={radialIds.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates }))}
+        ) : sheet && armyGroup && game ? (
+          <UnitSheet openAttach={sheet.attach} infos={sheet.ids.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates }))}
             canSetPolicy={radialOwn} onFormCommand={armySel.nation === game.player ? formCommand : undefined} onAttachTo={radialOwn ? attachCommand : undefined} onDetach={radialOwn ? detachCommand : undefined} parentOptions={radialOwn ? parentOptions : undefined} childOptions={radialOwn ? childOptions : undefined} onAttachChild={radialOwn ? attachChild : undefined} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
         ) : armyGroup && game ? (
           armyGroup.units.length > 1 ? (
           <ArmyPanel orderCount={orderIds.length} childOptions={armySel.nation === game.player ? childOptions : undefined} onAttachChild={armySel.nation === game.player ? attachChild : undefined} templates={FORCES_CTX.templates} moveMode={moveMode} group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={unitsView(game, UNITS_BY_ID)} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
             provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={(uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on))} onPriority={(uid, on) => setGame((g) => setDivisionPriority(g, uid, on))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
-            onAssign={armySel.nation === game.player && moveNet ? startAssign : undefined} entrenchOf={(id) => entrenchOf(game, id, THEATER_CTX.entrenchCfg)} onEntrench={armySel.nation === game.player && moveNet ? (on) => { try { setGame((g) => playerToggleEntrench(g, { unitIds: [...armyChecked], on, ctx: THEATER_CTX })); setArmyNotice(on ? 'Le unità scelte si trincerano: il bonus cresce ogni giorno fermo.' : 'Le unità scelte smettono di trincerarsi.'); } catch (e) { setArmyNotice(e.message); } } : undefined} subordinates={subordinatesOf} onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
+            onAssign={armySel.nation === game.player && moveNet ? startAssign : undefined} entrenchOf={(id) => entrenchOf(game, id, THEATER_CTX.entrenchCfg)} onEntrench={armySel.nation === game.player && moveNet ? (on) => { try { setGame((g) => playerToggleEntrench(g, { unitIds: [...armyChecked], on, ctx: THEATER_CTX })); setArmyNotice(on ? 'Le unità scelte si trincerano: il bonus cresce ogni giorno fermo.' : 'Le unità scelte smettono di trincerarsi.'); } catch (e) { setArmyNotice(e.message); } } : undefined} subordinates={subordinatesOf} onAttachUnit={armySel.nation === game.player ? (uid) => setInfoSheet({ unitId: uid, attach: true }) : undefined} onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
           ) : (
             <div className="order-bar unit-bar" role="status">
               <span><b>{armyGroup.units[0].name}</b> · {provinceName(armySel.province)}<br />
                 {armyNotice ?? (moveMode ? 'Tocca sulla mappa la destinazione: territorio tuo = marcia, nemico (in guerra) = attacco.'
-                  : game.movement?.orders?.[armyGroup.units[0].id] ? `In marcia verso ${provinceName(game.movement.orders[armyGroup.units[0].id].path.at(-1))}` : (radialOwn ? 'Usa il cerchio sul segnalino: muovi, trincera, scheda («I»).' : 'Unità di un’altra nazione: puoi vederla, non dare ordini.'))}</span>
+                  : game.movement?.orders?.[armyGroup.units[0].id] ? `In marcia verso ${provinceName(game.movement.orders[armyGroup.units[0].id].path.at(-1))}` : (radialOwn ? 'Usa i pulsanti sul segnalino: muovi, trincera, scheda (i), inquadra (catena).' : 'Unità di un’altra nazione: puoi vederla, non dare ordini.'))}</span>
               {game.movement?.orders?.[armyGroup.units[0].id] ? <button type="button" onClick={() => { setGame((g) => cancelOrders(g, [armyGroup.units[0].id])); setArmyNotice('Ordine annullato: l’unità resta dove è.'); }}>Annulla ordine</button> : null}
               <button type="button" aria-label="Chiudi" onClick={() => setArmySel(null)}>×</button>
             </div>

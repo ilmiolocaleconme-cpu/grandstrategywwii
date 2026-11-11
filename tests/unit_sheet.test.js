@@ -38,11 +38,11 @@ test('mappa: nessun livello «Esercito»; i segnalini si disegnano e si toccano 
   assert.ok(!/layer === 'army'/.test(read('src/map/canvasDraw.js')) && !/layer === 'army'/.test(read('src/map/MapCanvas.jsx')) && !/layer === 'army'/.test(read('src/App.jsx')));
 });
 
-test('menu radiale: azioni I, muovi (anche attacco), trincera, supporto (disattivato: nessuna regola); ancora che segue il segnalino', () => {
+test('menu sul segnalino: riquadro i/catena accanto al segnalino scoperto, muovi (anche attacco), trincera, supporto (disattivato: nessuna regola); ancora che segue il segnalino', () => {
   const r = read('src/ui/UnitRadial.jsx');
   for (const id of ['move', 'dig', 'sup']) assert.match(r, new RegExp(`id="${id}"`));
   assert.match(r, /id="sup"[^>]*disabled/);
-  assert.match(r, /rd-center/); assert.ok(!/id="at"/.test(r), 'attacco unito a Muovi');
+  assert.match(r, /rd-side/); assert.match(r, /rd-info/); assert.match(r, /rd-chain[^>]*disabled=\{!chain\?\.enabled\}/); assert.ok(!/rd-center/.test(r), 'il segnalino resta scoperto'); assert.ok(!/id="at"/.test(r), 'attacco unito a Muovi');
   const m = read('src/map/MapCanvas.jsx');
   assert.match(m, /placeRadial\(\)/); assert.match(m, /radial-anchor/);
   const a = read('src/App.jsx');
