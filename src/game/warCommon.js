@@ -7,10 +7,15 @@ import { controllerOf } from '../map/geo.js';
 
 /** Controllore effettivo di una provincia madre: quello della provincia se occupata, altrimenti quello della nazione proprietaria. */
 // Una zona urbana senza controllo proprio segue la sua madre (se occupata, la città è occupata con lei).
+// Sponde (11/11/2026): una sponda ha il suo controllo; senza, segue quello scritto sulla provincia madre e poi la nazione proprietaria.
+// La provincia madre divisa, chiesta per nome, vale come la sua sponda principale (incarichi e salvataggi scritti per madre).
 export function provinceController(state, net, id) {
   const own = provinceStateOf(state, id).controller;
   if (own) return own;
+  const canon = net.canon?.(id) ?? id;
+  if (canon !== id) return provinceController(state, net, canon);
   const mother = net.parentOf?.(id);
+  if (mother && net.isBank?.(id)) return provinceStateOf(state, mother).controller ?? controllerOf(net.owner(id), state.control);
   return mother ? provinceController(state, net, mother) : controllerOf(net.owner(id), state.control);
 }
 

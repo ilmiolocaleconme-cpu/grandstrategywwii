@@ -29,11 +29,12 @@ export function buildIndexes({ cities, provinces }) {
     const key = `${p.owner}|${norm(stripBank(p.name))}`;
     if (!provByKey.has(key)) provByKey.set(key, mother);
   }
+  const zoneByKey = new Map(); // stessa chiave → zona di città (per sapere su quale sponda sta)
   for (const c of cities) {
     const key = `${c.owner}|${stripSide(norm(c.name))}`;
-    if (!cityByKey.has(key)) cityByKey.set(key, c.parentProvince);
+    if (!cityByKey.has(key)) { cityByKey.set(key, c.parentProvince); zoneByKey.set(key, c.id); }
   }
-  return { cityByKey, provByKey, motherIds };
+  return { cityByKey, provByKey, motherIds, zoneByKey };
 }
 
 /** Provincia madre di una stazione ("Marne / Reims", "Berlino", ...) per una nazione, oppure null. */
@@ -43,7 +44,7 @@ export function resolveStation(station, nation, idx) {
   const parts = String(station).split(/\s*[/,]\s*/).map(norm).filter(Boolean);
   for (const c of [...parts].reverse()) {
     const city = idx.cityByKey.get(`${nation}|${c}`);
-    if (city) return { province: city, how: `stazione "${station}": città ${c} del catalogo` };
+    if (city) return { province: city, how: `stazione "${station}": città ${c} del catalogo`, zone: idx.zoneByKey?.get(`${nation}|${c}`) ?? null };
     const prov = idx.provByKey.get(`${nation}|${c}`);
     if (prov) return { province: prov, how: `stazione "${station}": provincia ${c}` };
   }
@@ -56,11 +57,27 @@ export function corpsDivisions(note) {
   return m ? m[1].split(';').map((s) => s.replace(/\./g, '').trim()).filter(Boolean).map(Number) : [];
 }
 
-export function buildDeployment({ units, cities, provinces, garrisons = [] }) {
+/**
+ * Sponde (decisione dell'utente 11/11/2026): un'unità in una provincia divisa da un fiume sta su una SPONDA.
+ * Regola: la sponda della città della stazione (zona di città → tassello che tocca, data/city_links.json), oppure la sponda indicata dalla
+ * fonte (sedi di guarnigione), oppure quella del corpo d'armata; altrimenti la sponda principale (la più grande per area).
+ * banks: bankIndex delle province (src/data/moveNet.js); cityLinks: data/city_links.json. Senza banks non si scrive nessuna sponda.
+ */
+export function buildDeployment({ units, cities, provinces, garrisons = [], banks = null, cityLinks = null }) {
   const idx = buildIndexes({ cities, provinces });
   const entries = new Map();
   const unplaced = [];
-  const place = (u, hit) => { if (!entries.has(u.id)) entries.set(u.id, { unit: u.id, name: u.name, province: hit.province, how: hit.how }); };
+  const access = new Map((cityLinks?.links ?? []).filter((l) => l.type === 'access').map((l) => [l.a, l.b]));
+  const bankFor = (province, hint) => {
+    if (!banks?.isSplit(province)) return null;
+    if (hint && banks.isBank(hint) && banks.provinceOf(hint) === province) return hint;
+    return banks.canon(province);
+  };
+  const place = (u, hit) => {
+    if (entries.has(u.id)) return;
+    const bank = bankFor(hit.province, hit.bank ?? (hit.zone ? access.get(hit.zone) : null));
+    entries.set(u.id, { unit: u.id, name: u.name, province: hit.province, ...(bank ? { bank } : {}), how: hit.how });
+  };
   for (const u of units) {
     const byName = OVERRIDES[norm(u.name)];
     if (byName && u.nation === 'GBR') { place(u, byName); continue; }
@@ -75,7 +92,7 @@ export function buildDeployment({ units, cities, provinces, garrisons = [] }) {
     if (!at) continue;
     for (const n of corpsDivisions(corps.note)) {
       const d = byName.get(`DEU|${n}. Infanterie-Division`);
-      if (d && !entries.has(d.id)) place(d, { province: at.province, how: `nel luogo del corpo d'armata ${corps.name} (assegnazione dalla nota del corpo, indicativa)` });
+      if (d && !entries.has(d.id)) place(d, { province: at.province, bank: at.bank, how: `nel luogo del corpo d'armata ${corps.name} (assegnazione dalla nota del corpo, indicativa)` });
     }
   }
   // sedi di guarnigione da fonte esterna (data/units/source/ita_sedi_guarnigione.json): mai sovrascrivono una voce già derivata
@@ -84,7 +101,7 @@ export function buildDeployment({ units, cities, provinces, garrisons = [] }) {
   for (const g of garrisons) {
     const u = byId.get(g.unit);
     if (!u || entries.has(u.id) || !motherOf.has(g.province)) continue;
-    place(u, { province: motherOf.get(g.province), how: `sede di guarnigione "${g.seat}" (${g.reliability}): ${g.source}` });
+    place(u, { province: motherOf.get(g.province), bank: g.province, how: `sede di guarnigione "${g.seat}" (${g.reliability}): ${g.source}` });
   }
   for (const u of units) {
     if (entries.has(u.id)) continue;
@@ -110,6 +127,7 @@ export function validateDeployment(doc, { unitIds, motherIds } = {}) {
     if (unitIds && !unitIds.has(e.unit)) errors.push(`dislocazione: unità inesistente ${e.unit}`);
     if (motherIds && !motherIds.has(e.province)) errors.push(`dislocazione: ${e.unit} in provincia inesistente ${e.province}`);
     if (!String(e.how ?? '').trim()) errors.push(`dislocazione: ${e.unit} senza motivazione`);
+    if (e.bank !== undefined && (typeof e.bank !== 'string' || !e.bank.startsWith(`${e.province}_SP`))) errors.push(`dislocazione: ${e.unit} con sponda ${e.bank} che non è di ${e.province}`);
   }
   for (const u of doc.unplaced ?? []) if (seen.has(u.unit)) errors.push(`dislocazione: ${u.unit} sia collocata sia non collocata`);
   return errors;

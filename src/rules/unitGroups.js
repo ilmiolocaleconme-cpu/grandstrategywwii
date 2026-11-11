@@ -4,14 +4,6 @@ import { divisionsUnder, orbatLevel } from './orbat.js';
 const sum = (parts, k) => parts.reduce((n, p) => n + (p[k] ?? 0), 0);
 
 /**
- * Gruppo di una nazione «in una provincia» per il tocco sul segnalino. Le unità sono raggruppate per la loro posizione ESATTA, che può essere
- * una città (una città è una destinazione a sé) o una sotto-provincia; il segnalino, invece, porta la provincia MADRE. Si uniscono quindi
- * tutti i gruppi della nazione la cui posizione ha quella provincia madre. Senza questo, un comando spostato su una città (es. Brema) e
- * rimasto solo non si poteva toccare. `motherOf(id)` dà la madre di una posizione (undefined = è già una madre).
- * Un'unità ha una sola posizione, quindi non compare in due gruppi: le liste si concatenano e i conteggi si sommano.
- * Con un solo gruppo restituisce lo stesso oggetto; senza gruppi null.
- */
-/**
  * Funzione id → provincia madre per province e città (zone di città comprese). Le città stanno in un file a parte
  * (data/citta_grandi.json): senza di loro le unità ferme in una città non si trovano toccando il segnalino.
  */
@@ -22,6 +14,35 @@ export function motherIndex(provinceFeatures, cityFeatures) {
     if (id != null) m.set(id, pr?.parentProvince ?? id);
   }
   return (id) => m.get(id);
+}
+
+/**
+ * Gruppo di una nazione «in una provincia» per il tocco sul segnalino. Le unità sono raggruppate per la loro posizione ESATTA, che può essere
+ * una città (una città è una destinazione a sé) o una sotto-provincia; il segnalino, invece, porta la provincia MADRE. Si uniscono quindi
+ * tutti i gruppi della nazione la cui posizione ha quella provincia madre. Senza questo, un comando spostato su una città (es. Brema) e
+ * rimasto solo non si poteva toccare. `motherOf(id)` dà la madre di una posizione (undefined = è già una madre).
+ * Un'unità ha una sola posizione, quindi non compare in due gruppi: le liste si concatenano e i conteggi si sommano.
+ * Con un solo gruppo restituisce lo stesso oggetto; senza gruppi null.
+ */
+/**
+ * Riporta le chiavi di { posto: gruppi } al posto canonico (`canon`): le unità rimaste su una provincia madre divisa (salvataggi di prima
+ * delle sponde) finiscono sulla sponda principale, unite per nazione a quelle già lì. Le altre chiavi restano come sono.
+ */
+export function canonUnitKeys(provinceUnits, canon) {
+  if (!provinceUnits || !canon) return provinceUnits;
+  const out = {};
+  for (const [key, groups] of Object.entries(provinceUnits)) {
+    const k = canon(key) ?? key;
+    if (!out[k]) { out[k] = groups; continue; }
+    const merged = [...out[k]];
+    for (const g of groups) {
+      const i = merged.findIndex((x) => x.nation === g.nation);
+      if (i < 0) merged.push(g);
+      else merged[i] = { ...merged[i], units: [...merged[i].units, ...g.units], divisions: (merged[i].divisions ?? 0) + (g.divisions ?? 0), commands: (merged[i].commands ?? 0) + (g.commands ?? 0) };
+    }
+    out[k] = merged.sort((a, b) => (a.nation < b.nation ? -1 : a.nation > b.nation ? 1 : 0));
+  }
+  return out;
 }
 
 export function groupAt(provinceUnits, motherOf, province, nation) {

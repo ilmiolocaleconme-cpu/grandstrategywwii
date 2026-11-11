@@ -43,11 +43,11 @@ import { validateEntrenchConfig } from './rules/entrench.js';
 import { divisionsUnder } from './rules/orbat.js';
 import { validParents, validChildren } from './ui/commandView.js';
 import { distanceTo, commandDistances, commandThreads } from './rules/commandLinks.js';
-import { groupAt, motherIndex, withSubordinates } from './rules/unitGroups.js';
+import { canonUnitKeys, groupAt, withSubordinates } from './rules/unitGroups.js';
 import { unitsByProvince } from './data/deployment.js';
 import officersFile from '../data/officers/officers.json';
 import { commandersSystem } from './game/commandersState.js';
-import { buildMoveNet } from './data/moveNet.js';
+import { bankIndex, buildMoveNet } from './data/moveNet.js';
 import { orderMove, cancelOrders, createMovementSystem, currentDeployment, initialPositions } from './game/movementState.js';
 import ArmyPanel from './ui/ArmyPanel.jsx';
 import TheaterPanel from './ui/TheaterPanel.jsx';
@@ -447,7 +447,8 @@ export default function App() {
     if (intent.kind === 'attack') { // «Muovi» verso una provincia nemica è un attacco: le unità che possono combattere partono con un incarico
       const ids = unitIds.filter((uid) => { const u = unitOf(game, uid, UNITS_BY_ID); return u && isFighter(game, u); });
       try {
-        const a = playerAssign(game, { kind: 'attack', provinces: [to], units: ids, ctx: theaterCtx });
+        // i teatri lavorano per provincia madre (fase 1 delle sponde): l'attacco è alla provincia, verso la sua sponda principale
+        const a = playerAssign(game, { kind: 'attack', provinces: [moveNet.provinceOf?.(to) ?? to], units: ids, ctx: theaterCtx });
         setGame(a.state);
         return { done: true, msg: `Attacco a ${moveNet.name(to)} (${a.id}): ${ids.length} ${ids.length === 1 ? 'unità si muove' : 'unità si muovono'}; parte quando le forze bastano (vedi «Teatro»).` };
       } catch (e) { return { done: false, msg: e.message }; }
@@ -502,7 +503,8 @@ export default function App() {
 
   const mapItems = useMemo(() => (provincesWithCities && mapWanted ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces, mapWanted]);
   // nome leggibile di una provincia (anche madre) per code e liste; se manca, l'id
-  const provinceName = useMemo(() => { const m = new Map(); for (const f of provinces?.features ?? []) { const pr = f.properties; if (pr?.name) { m.set(f.id ?? pr.id, pr.name); if (pr.parentProvince && !m.has(pr.parentProvince)) m.set(pr.parentProvince, pr.name); } } return (id) => m.get(id) ?? id; }, [provinces]);
+  // nomi di province, sponde e zone di città (una marcia verso una città mostrava l'id grezzo, es. P_DEU_COLONIA_CITTA_P1)
+  const provinceName = useMemo(() => { const m = new Map(); for (const f of [...(provinces?.features ?? []), ...(cities ?? [])]) { const pr = f.properties; if (pr?.name) { m.set(f.id ?? pr.id, pr.name); if (pr.parentProvince && !m.has(pr.parentProvince)) m.set(pr.parentProvince, String(pr.name).replace(/ \(sponda [a-z]\)$/i, '')); } } return (id) => m.get(id) ?? id; }, [provinces, cities]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
   // ordini di costruzione del giocatore: le regole sono in GAME_BUILD, qui si applica solo il risultato e si riferisce l'esito
   const placeOrder = (order) => {
@@ -634,12 +636,11 @@ export default function App() {
   }, [game?.movement, game?.orbat, game?.date, game?.player]); // eslint-disable-line react-hooks/exhaustive-deps
   const dislocUnits = useMemo(() => unitsByProvince(unitsFile.units, currentDeployment(deploymentFile, game), game?.date ?? '1936-01-01'), [game?.date, game?.movement]); // eslint-disable-line react-hooks/exhaustive-deps
   // comandi stimati o mossi: sulla mappa come gli altri segnalini (stessi gruppi per nazione e provincia)
-  const provinceUnits = useMemo(() => mergeCommandsIntoProvinceUnits(dislocUnits, estimatedHqs, UNITS_BY_ID), [dislocUnits, estimatedHqs]);
-  // provincia madre di una posizione: le unità si raggruppano per posizione esatta (anche una città), il segnalino toccato porta la madre
-  // provincia madre di ogni id della mappa, CITTÀ COMPRESE (data/citta_grandi.json): un'unità ferma in una zona di città
-  // (es. Bonn, P_DEU_BONN_CITTA_P1) appartiene al segnalino della provincia madre (Köln-Aachen), quello che si tocca sulla mappa
-  const motherOf = useMemo(() => motherIndex(provinces?.features, cities), [provinces, cities]);
-  const armyGroup = armySel ? groupAt(provinceUnits, motherOf, armySel.province, armySel.nation) : null;
+  // Sponde (11/11/2026): ogni segnalino è un POSTO (sponda, provincia non divisa o zona di città) e il tocco porta quel posto.
+  // Una posizione scritta per provincia madre divisa (salvataggi di prima) vale la sponda principale: placeOf la riporta lì.
+  const placeOf = useMemo(() => { const b = provinces ? bankIndex(provinces.features) : null; return (id) => (b && id ? b.canon(id) : id); }, [provinces]);
+  const provinceUnits = useMemo(() => canonUnitKeys(mergeCommandsIntoProvinceUnits(dislocUnits, estimatedHqs, UNITS_BY_ID), placeOf), [dislocUnits, estimatedHqs, placeOf]);
+  const armyGroup = armySel ? groupAt(provinceUnits, null, armySel.province, armySel.nation) : null;
   // Comandi di corpo e armata senza posizione reale: posizione stimata dalle divisioni sottostanti (src/rules/hqPosition.js). Solo consultazione.
   const [hqId, setHqId] = useState(null);
   const [hqMove, setHqMove] = useState(null);
@@ -710,9 +711,9 @@ export default function App() {
   const mapLinks = useMemo(() => {
     if (!commandLinks) return null;
     const { farIds, orbat, um, posOf, cmdPosOf } = commandLinks;
-    const toMother = (p) => (p ? (motherOf(p) ?? p) : p); // i segnalini portano la provincia madre: i fili si agganciano a quella
-    return { farIds, threads: commandThreads({ orbat, unitsById: um, posOf: (id) => toMother(posOf(id)), cmdPosOf: (id) => toMother(cmdPosOf(id)), nation: game.player, focusIds }) };
-  }, [commandLinks, focusKey, motherOf]); // eslint-disable-line react-hooks/exhaustive-deps
+    // i fili si agganciano al segnalino del posto (sponda o provincia); una madre divisa vale la sponda principale
+    return { farIds, threads: commandThreads({ orbat, unitsById: um, posOf: (id) => placeOf(posOf(id)), cmdPosOf: (id) => placeOf(cmdPosOf(id)), nation: game.player, focusIds }) };
+  }, [commandLinks, focusKey, placeOf]); // eslint-disable-line react-hooks/exhaustive-deps
   const radialFighters = game ? orderIds.filter((id) => { const u = unitOf(game, id, UNITS_BY_ID); return u && isFighter(game, u); }) : [];
   const radialDigging = Boolean(game) && radialFighters.length > 0 && radialFighters.every((id) => entrenchOf(game, id, THEATER_CTX.entrenchCfg).digging);
   const radialMove = () => {

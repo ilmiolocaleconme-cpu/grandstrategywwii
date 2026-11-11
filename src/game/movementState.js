@@ -12,14 +12,14 @@ export function validateMovementShape(state) {
 
 /** Mappa unità → provincia della dislocazione iniziale (file deployment_1936.json). */
 export function initialPositions(deploymentDoc) {
-  return new Map(deploymentDoc.entries.map((e) => [e.unit, e.province]));
+  return new Map(deploymentDoc.entries.map((e) => [e.unit, e.bank ?? e.province])); // sponda, se la provincia è divisa da un fiume
 }
 
 /** Dislocazione corrente nel formato di unitsByProvince: { entries: [{ unit, province }] }. */
+// La posizione è il POSTO: la sponda per le province divise da un fiume (e.bank), altrimenti la provincia.
 export function currentDeployment(deploymentDoc, state) {
-  const mv = state?.movement;
-  if (!mv) return deploymentDoc;
-  return { ...deploymentDoc, entries: deploymentDoc.entries.map((e) => (mv.positions[e.unit] ? { ...e, province: mv.positions[e.unit] } : e)) };
+  const pos = state?.movement?.positions ?? {};
+  return { ...deploymentDoc, entries: deploymentDoc.entries.map((e) => { const at = pos[e.unit] ?? e.bank ?? e.province; return at === e.province ? e : { ...e, province: at }; }) };
 }
 
 /** Può entrare nella provincia `m`? Province proprie (controllo effettivo, anche per occupazione), di nazioni in guerra con la propria e di chi ha concesso accesso o alleanza. */

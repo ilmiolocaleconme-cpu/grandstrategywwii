@@ -3,23 +3,26 @@
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { buildDeployment } from '../src/data/deployment.js';
+import { bankIndex } from '../src/data/moveNet.js';
 
 const data = new URL('../data/', import.meta.url);
 const json = async (p) => JSON.parse(await readFile(new URL(p, data), 'utf8'));
 
-export async function loadProvinceProps() {
+export async function loadProvinceFeatures() {
   const out = [];
   for (const f of (await readdir(new URL('provinces/', data))).filter((n) => /^[A-Z]+\.json$/.test(n)).sort()) {
-    for (const ft of (await json(`provinces/${f}`)).features) out.push(ft.properties);
+    for (const ft of (await json(`provinces/${f}`)).features) out.push(ft);
   }
   return out;
 }
+export async function loadProvinceProps() { return (await loadProvinceFeatures()).map((f) => f.properties); }
 
 export async function deploymentBuilt() {
   const units = (await json('units/units.json')).units;
   const cities = (await json('citta_grandi.json')).features.map((f) => f.properties);
   const garrisons = (await json('units/source/ita_sedi_guarnigione.json').catch(() => ({ entries: [] }))).entries;
-  return buildDeployment({ units, cities, provinces: await loadProvinceProps(), garrisons });
+  const features = await loadProvinceFeatures();
+  return buildDeployment({ units, cities, provinces: features.map((f) => f.properties), garrisons, banks: bankIndex(features), cityLinks: await json('city_links.json') });
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

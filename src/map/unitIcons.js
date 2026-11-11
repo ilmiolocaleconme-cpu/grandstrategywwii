@@ -205,7 +205,7 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
     for (const off of copies) {
       const px = a.sx * (pt.x + off) + a.tx;
       const py = a.sx * pt.y + a.ty;
-      const skip = () => { if (threads?.length) for (const g of groups) hidden.push({ province: it.props.parentProvince ?? it.props.id, nation: g.nation, cx: px, cy: py, hidden: true }); };
+      const skip = () => { if (threads?.length) for (const g of groups) hidden.push({ province: it.props.id, nation: g.nation, cx: px, cy: py, hidden: true }); };
       if (px < -w || py < -COUNTER_H || px > W + w || py > H + COUNTER_H) { skip(); continue; }
       const box = [px - w / 2, py - COUNTER_H / 2, px + w / 2, py + COUNTER_H / 2];
       if (boxes.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) { skip(); continue; }
@@ -213,8 +213,8 @@ export function drawProvinceUnits(ctx, { items, byProvince, a, dpr, copies, boxe
       shown.forEach((spec, i) => {
         const cx = box[0] + COUNTER_W / 2 + i * (COUNTER_W + GAP);
         drawCounter(ctx, spec, cx, py);
-        // area toccabile del segnalino (pixel CSS), con provincia madre e nazione: lo legge il tocco della mappa
-        hits?.push({ x0: cx - COUNTER_W / 2 - 2, y0: py - COUNTER_H / 2 - 10, x1: cx + COUNTER_W / 2 + 2, y1: py + COUNTER_H / 2 + 2, province: it.props.parentProvince ?? it.props.id, nation: spec.nation, cx, cy: py });
+        // area toccabile del segnalino (pixel CSS), con il POSTO (sponda, provincia o zona di città) e la nazione: lo legge il tocco della mappa
+        hits?.push({ x0: cx - COUNTER_W / 2 - 2, y0: py - COUNTER_H / 2 - 10, x1: cx + COUNTER_W / 2 + 2, y1: py + COUNTER_H / 2 + 2, province: it.props.id, nation: spec.nation, cx, cy: py });
       });
       if (extra > 0) {
         ctx.save();

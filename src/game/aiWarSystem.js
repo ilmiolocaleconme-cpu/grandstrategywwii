@@ -47,14 +47,16 @@ function bfs(net, start, allow, maxDepth) {
   return dist;
 }
 
-function snapshot(state, ctx, nation, enemies) {
+function snapshot(state, ctx, nation, enemies, net) {
   const mine = [];
+  const provOf = net?.provinceOf ?? ((x) => x); // sponde: l'IA ragiona per provincia madre
   const enemyPower = new Map();
   for (const e of ctx.deploymentDoc.entries) {
     const u = unitOf(state, e.unit, ctx.unitsById);
     if (!u || !isFighter(state, u)) continue;
-    const pos = positionOf(state.movement, ctx.initial, u.id);
-    if (!pos) continue;
+    const at = positionOf(state.movement, ctx.initial, u.id);
+    if (!at) continue;
+    const pos = provOf(at);
     const power = divisionPower({ category: u.category, effective: state.forces.divisions[u.id].items['manpower.war'].effective });
     if (u.nation === nation) mine.push({ id: u.id, pos, power });
     else if (enemies.has(u.nation)) enemyPower.set(pos, (enemyPower.get(pos) ?? 0) + power);
@@ -65,7 +67,7 @@ function snapshot(state, ctx, nation, enemies) {
 function planNation(state, nation, ctx, net) {
   let s = state;
   const enemies = new Set(enemiesOf(s.war, nation));
-  const { mine, enemyPower } = snapshot(s, ctx, nation, enemies);
+  const { mine, enemyPower } = snapshot(s, ctx, nation, enemies, net);
   const ownProvince = (p) => provinceController(s, net, p) === nation;
   const threat = (p) => (enemyPower.get(p) ?? 0) + net.neighbors(p).reduce((t, n) => t + (enemyPower.get(n) ?? 0), 0);
 

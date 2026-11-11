@@ -67,9 +67,13 @@ export function findPath(net, from, to, canEnter) {
  * Dà l'ordine di muoversi. unit: { id, category }. initial: Map unità → provincia. net/canEnter come findPath.
  * Ritorna { ok, movement, path, days, reason }; reason: 'unknown_position' | 'same_province' | 'no_route'.
  */
-export function issueMove(movement, unit, to, { initial, net, canEnter }) {
-  const from = positionOf(movement, initial, unit.id);
-  if (!from) return { ok: false, movement, reason: 'unknown_position' };
+export function issueMove(movement, unit, toAsked, { initial, net, canEnter }) {
+  // sponde (11/11/2026): una provincia madre divisa vale come la sua sponda principale, sia in partenza sia in arrivo
+  const canon = net.canon ?? ((x) => x);
+  const at = positionOf(movement, initial, unit.id);
+  if (!at) return { ok: false, movement, reason: 'unknown_position' };
+  const from = canon(at);
+  const to = canon(toAsked);
   if (from === to) return { ok: false, movement, reason: 'same_province' };
   const path = findPath(net, from, to, canEnter);
   if (!path) return { ok: false, movement, reason: 'no_route' };

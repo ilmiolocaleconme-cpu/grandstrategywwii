@@ -25,30 +25,35 @@
    "unit": "S36-DEU-004",
    "name": "Wehrkreis IV",
    "province": "P_DEU_SACHSEN",
+   "bank": "P_DEU_SACHSEN_SP2",
    "how": "stazione \"Sassonia / Dresda\": città dresda del catalogo"
   },
   {
    "unit": "S36-DEU-005",
    "name": "Wehrkreis V",
    "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "bank": "P_DEU_WUERTTEMBERG_HOHENZOLLERN_SP1",
    "how": "stazione \"Baden-Württemberg / Stoccarda\": città stoccarda del catalogo"
   },
   {
    "unit": "S36-DEU-006",
    "name": "Wehrkreis VI",
    "province": "P_DEU_WESTFALEN_NORD",
+   "bank": "P_DEU_WESTFALEN_NORD_SP2",
    "how": "stazione \"Renania / Münster\": città munster del catalogo"
   },
   {
    "unit": "S36-DEU-007",
    "name": "Wehrkreis VII",
    "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "bank": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
    "how": "stazione \"Baviera / Monaco\": Monaco di Baviera, provincia scelta a mano"
   },
   {
    "unit": "S36-DEU-008",
    "name": "Wehrkreis VIII",
    "province": "P_DEU_NIEDERSCHLESIEN",
+   "bank": "P_DEU_NIEDERSCHLESIEN_SP2",
    "how": "stazione \"Slesia / Breslavia\": città breslavia del catalogo"
   },
   {
@@ -67,12 +72,14 @@
    "unit": "S36-DEU-011",
    "name": "Wehrkreis XI",
    "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "bank": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG_SP3",
    "how": "stazione \"Sassonia-Anhalt / Hannover\": città hannover del catalogo"
   },
   {
    "unit": "S36-DEU-012",
    "name": "Wehrkreis XII",
    "province": "P_DEU_HESSEN_NASSAU",
+   "bank": "P_DEU_HESSEN_NASSAU_SP1",
    "how": "stazione \"Renania-Palatinato / Wiesbaden\": città wiesbaden del catalogo"
   },
   {
@@ -103,30 +110,35 @@
    "unit": "S36-DEU-017",
    "name": "IV. Armeekorps",
    "province": "P_DEU_SACHSEN",
+   "bank": "P_DEU_SACHSEN_SP2",
    "how": "stazione \"Dresda\": città dresda del catalogo"
   },
   {
    "unit": "S36-DEU-018",
    "name": "V. Armeekorps",
    "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "bank": "P_DEU_WUERTTEMBERG_HOHENZOLLERN_SP1",
    "how": "stazione \"Stoccarda\": città stoccarda del catalogo"
   },
   {
    "unit": "S36-DEU-019",
    "name": "VI. Armeekorps",
    "province": "P_DEU_WESTFALEN_NORD",
+   "bank": "P_DEU_WESTFALEN_NORD_SP2",
    "how": "stazione \"Münster\": città munster del catalogo"
   },
   {
    "unit": "S36-DEU-020",
    "name": "VII. Armeekorps",
    "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "bank": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
    "how": "stazione \"Monaco\": Monaco di Baviera non è tra le città del catalogo, provincia scelta a mano"
   },
   {
    "unit": "S36-DEU-021",
    "name": "VIII. Armeekorps",
    "province": "P_DEU_NIEDERSCHLESIEN",
+   "bank": "P_DEU_NIEDERSCHLESIEN_SP2",
    "how": "stazione \"Breslavia\": città breslavia del catalogo"
   },
   {
@@ -145,18 +157,21 @@
    "unit": "S36-DEU-024",
    "name": "XI. Armeekorps",
    "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "bank": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG_SP3",
    "how": "stazione \"Hannover\": città hannover del catalogo"
   },
   {
    "unit": "S36-DEU-025",
    "name": "XII. Armeekorps",
    "province": "P_DEU_HESSEN_NASSAU",
+   "bank": "P_DEU_HESSEN_NASSAU_SP1",
    "how": "stazione \"Wiesbaden\": città wiesbaden del catalogo"
   },
   {
    "unit": "S36-DEU-026",
    "name": "31. Infanterie-Division",
    "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "bank": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG_SP3",
    "how": "nel luogo del corpo d'armata XI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
@@ -169,30 +184,35 @@
    "unit": "S36-DEU-028",
    "name": "33. Infanterie-Division",
    "province": "P_DEU_HESSEN_NASSAU",
+   "bank": "P_DEU_HESSEN_NASSAU_SP1",
    "how": "nel luogo del corpo d'armata XII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "S36-DEU-029",
    "name": "34. Infanterie-Division",
    "province": "P_DEU_HESSEN_NASSAU",
+   "bank": "P_DEU_HESSEN_NASSAU_SP1",
    "how": "nel luogo del corpo d'armata XII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "S36-DEU-030",
    "name": "35. Infanterie-Division",
    "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "bank": "P_DEU_WUERTTEMBERG_HOHENZOLLERN_SP1",
    "how": "nel luogo del corpo d'armata V. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "S36-DEU-031",
    "name": "36. Infanterie-Division",
    "province": "P_DEU_HESSEN_NASSAU",
+   "bank": "P_DEU_HESSEN_NASSAU_SP1",
    "how": "nel luogo del corpo d'armata XII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "S36-FRA-001",
    "name": "3e Division d'infanterie",
    "province": "P_FRA_SEINE_MARITIME",
+   "bank": "P_FRA_SEINE_MARITIME_SP1",
    "how": "stazione \"Seine-Maritime / Rouen\": città rouen del catalogo"
   },
   {
@@ -205,6 +225,7 @@
    "unit": "S36-FRA-003",
    "name": "5e Division d'infanterie",
    "province": "P_FRA_LOIRET",
+   "bank": "P_FRA_LOIRET_SP1",
    "how": "stazione \"Loiret / Orléans\": città orleans del catalogo"
   },
   {
@@ -229,6 +250,7 @@
    "unit": "S36-FRA-007",
    "name": "9e Division d'infanterie",
    "province": "P_FRA_INDRE_ET_LOIRE",
+   "bank": "P_FRA_INDRE_ET_LOIRE_SP2",
    "how": "stazione \"Indre-et-Loire / Tours\": città tours del catalogo"
   },
   {
@@ -253,6 +275,7 @@
    "unit": "S36-FRA-011",
    "name": "15e Division d'infanterie",
    "province": "P_FRA_BOUCHES_DU_RHONE",
+   "bank": "P_FRA_BOUCHES_DU_RHONE_SP1",
    "how": "stazione \"Bouches-du-Rhône / Marsiglia\": città marsiglia del catalogo"
   },
   {
@@ -271,6 +294,7 @@
    "unit": "S36-FRA-014",
    "name": "18e Division d'infanterie",
    "province": "P_FRA_GIRONDE",
+   "bank": "P_FRA_GIRONDE_SP2",
    "how": "stazione \"Gironde / Bordeaux\": città bordeaux del catalogo"
   },
   {
@@ -289,6 +313,7 @@
    "unit": "S36-USSR-003",
    "name": "Distretto militare di Kiev",
    "province": "P_USSR_KIEV",
+   "bank": "P_USSR_KIEV_SP2",
    "how": "stazione \"Kiev\": città kiev del catalogo"
   },
   {
@@ -325,6 +350,7 @@
    "unit": "U00063",
    "name": "10. Infanterie-Division",
    "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "bank": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
    "how": "nel luogo del corpo d'armata VII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
@@ -343,12 +369,14 @@
    "unit": "U00066",
    "name": "13. Infanterie-Division",
    "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "bank": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG_SP3",
    "how": "nel luogo del corpo d'armata XI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00067",
    "name": "14. Infanterie-Division",
    "province": "P_DEU_SACHSEN",
+   "bank": "P_DEU_SACHSEN_SP2",
    "how": "nel luogo del corpo d'armata IV. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
@@ -361,24 +389,28 @@
    "unit": "U00069",
    "name": "16. Infanterie-Division",
    "province": "P_DEU_WESTFALEN_NORD",
+   "bank": "P_DEU_WESTFALEN_NORD_SP2",
    "how": "nel luogo del corpo d'armata VI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00070",
    "name": "17. Infanterie-Division",
    "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "bank": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
    "how": "nel luogo del corpo d'armata VII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00071",
    "name": "18. Infanterie-Division",
    "province": "P_DEU_NIEDERSCHLESIEN",
+   "bank": "P_DEU_NIEDERSCHLESIEN_SP2",
    "how": "nel luogo del corpo d'armata VIII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00072",
    "name": "19. Infanterie-Division",
    "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+   "bank": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG_SP3",
    "how": "nel luogo del corpo d'armata XI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
@@ -415,30 +447,35 @@
    "unit": "U00079",
    "name": "24. Infanterie-Division",
    "province": "P_DEU_SACHSEN",
+   "bank": "P_DEU_SACHSEN_SP2",
    "how": "nel luogo del corpo d'armata IV. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00080",
    "name": "25. Infanterie-Division",
    "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "bank": "P_DEU_WUERTTEMBERG_HOHENZOLLERN_SP1",
    "how": "nel luogo del corpo d'armata V. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00081",
    "name": "26. Infanterie-Division",
    "province": "P_DEU_WESTFALEN_NORD",
+   "bank": "P_DEU_WESTFALEN_NORD_SP2",
    "how": "nel luogo del corpo d'armata VI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00082",
    "name": "27. Infanterie-Division",
    "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "bank": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
    "how": "nel luogo del corpo d'armata VII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00083",
    "name": "28. Infanterie-Division",
    "province": "P_DEU_NIEDERSCHLESIEN",
+   "bank": "P_DEU_NIEDERSCHLESIEN_SP2",
    "how": "nel luogo del corpo d'armata VIII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
@@ -469,30 +506,35 @@
    "unit": "U00088",
    "name": "4. Infanterie-Division",
    "province": "P_DEU_SACHSEN",
+   "bank": "P_DEU_SACHSEN_SP2",
    "how": "nel luogo del corpo d'armata IV. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00090",
    "name": "5. Infanterie-Division",
    "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+   "bank": "P_DEU_WUERTTEMBERG_HOHENZOLLERN_SP1",
    "how": "nel luogo del corpo d'armata V. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00092",
    "name": "6. Infanterie-Division",
    "province": "P_DEU_WESTFALEN_NORD",
+   "bank": "P_DEU_WESTFALEN_NORD_SP2",
    "how": "nel luogo del corpo d'armata VI. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00093",
    "name": "7. Infanterie-Division",
    "province": "P_DEU_MUENCHEN_OBERBAYERN",
+   "bank": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
    "how": "nel luogo del corpo d'armata VII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
    "unit": "U00094",
    "name": "8. Infanterie-Division",
    "province": "P_DEU_NIEDERSCHLESIEN",
+   "bank": "P_DEU_NIEDERSCHLESIEN_SP2",
    "how": "nel luogo del corpo d'armata VIII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
@@ -505,36 +547,42 @@
    "unit": "U00185",
    "name": "Regia Marina",
    "province": "P_ITA_ROMA",
+   "bank": "P_ITA_ROMA_SP2",
    "how": "sede di guarnigione \"Roma\" (alta): https://en.wikipedia.org/wiki/Supermarina"
   },
   {
    "unit": "U00186",
    "name": "1ª Divisione alpina 'Taurinense'",
    "province": "P_ITA_TORINO",
+   "bank": "P_ITA_TORINO_SP2",
    "how": "sede di guarnigione \"Torino\" (alta): https://en.wikipedia.org/wiki/1st_Alpine_Division_%22Taurinense%22"
   },
   {
    "unit": "U00187",
    "name": "2ª Divisione alpina 'Tridentina'",
    "province": "P_ITA_BOLZANO_OVEST",
+   "bank": "P_ITA_BOLZANO_OVEST_SP1",
    "how": "sede di guarnigione \"Merano\" (alta): https://en.wikipedia.org/wiki/2nd_Alpine_Division_%22Tridentina%22"
   },
   {
    "unit": "U00188",
    "name": "3ª Divisione alpina 'Julia'",
    "province": "P_ITA_UDINE",
+   "bank": "P_ITA_UDINE_SP1",
    "how": "sede di guarnigione \"Udine\" (alta): https://en.wikipedia.org/wiki/3rd_Alpine_Division_%22Julia%22"
   },
   {
    "unit": "U00189",
    "name": "4ª Divisione alpina 'Cuneense'",
    "province": "P_ITA_ASTI",
+   "bank": "P_ITA_ASTI_SP2",
    "how": "sede di guarnigione \"Cuneo\" (alta): https://en.wikipedia.org/wiki/4th_Alpine_Division_%22Cuneense%22"
   },
   {
    "unit": "U00190",
    "name": "10ª Divisione fanteria 'Piave'",
    "province": "P_ITA_VENEZIA",
+   "bank": "P_ITA_VENEZIA_SP2",
    "how": "sede di guarnigione \"Padova\" (alta): https://en.wikipedia.org/wiki/10th_Infantry_Division_%22Piave%22"
   },
   {
@@ -559,36 +607,42 @@
    "unit": "U00194",
    "name": "13ª Divisione fanteria 'Re'",
    "province": "P_ITA_UDINE",
+   "bank": "P_ITA_UDINE_SP1",
    "how": "sede di guarnigione \"Udine\" (alta): https://en.wikipedia.org/wiki/13th_Infantry_Division_%22Re%22"
   },
   {
    "unit": "U00195",
    "name": "19ª Divisione fanteria 'Venezia'",
    "province": "P_ITA_FIRENZE",
+   "bank": "P_ITA_FIRENZE_SP2",
    "how": "sede di guarnigione \"Firenze\" (alta): https://en.wikipedia.org/wiki/19th_Infantry_Division_%22Venezia%22"
   },
   {
    "unit": "U00196",
    "name": "1ª Divisione fanteria 'Superga'",
    "province": "P_ITA_TORINO",
+   "bank": "P_ITA_TORINO_SP2",
    "how": "sede di guarnigione \"Torino\" (alta): https://en.wikipedia.org/wiki/1st_Infantry_Division_%22Superga%22"
   },
   {
    "unit": "U00197",
    "name": "21ª Divisione fanteria 'Granatieri di Sardegna'",
    "province": "P_ITA_ROMA",
+   "bank": "P_ITA_ROMA_SP2",
    "how": "sede di guarnigione \"Roma\" (media): https://en.wikipedia.org/wiki/21st_Infantry_Division_%22Granatieri_di_Sardegna%22"
   },
   {
    "unit": "U00198",
    "name": "22ª Divisione fanteria 'Cacciatori delle Alpi'",
    "province": "P_ITA_PERUGIA_NORD",
+   "bank": "P_ITA_PERUGIA_NORD_SP1",
    "how": "sede di guarnigione \"Perugia\" (alta): https://en.wikipedia.org/wiki/22nd_Infantry_Division_%22Cacciatori_delle_Alpi%22"
   },
   {
    "unit": "U00199",
    "name": "23ª Divisione fanteria 'Ferrara'",
    "province": "P_ITA_BARI",
+   "bank": "P_ITA_BARI_SP2",
    "how": "sede di guarnigione \"Bari\" (alta): https://en.wikipedia.org/wiki/23rd_Infantry_Division_%22Ferrara%22"
   },
   {
@@ -607,6 +661,7 @@
    "unit": "U00202",
    "name": "26ª Divisione fanteria 'Assietta'",
    "province": "P_ITA_ASTI",
+   "bank": "P_ITA_ASTI_SP2",
    "how": "sede di guarnigione \"Asti\" (alta): https://en.wikipedia.org/wiki/26th_Infantry_Division_%22Assietta%22"
   },
   {
@@ -649,12 +704,14 @@
    "unit": "U00210",
    "name": "3ª Divisione fanteria 'Ravenna'",
    "province": "P_ITA_ASTI",
+   "bank": "P_ITA_ASTI_SP2",
    "how": "sede di guarnigione \"Alessandria\" (alta): https://en.wikipedia.org/wiki/3rd_Infantry_Division_%22Ravenna%22"
   },
   {
    "unit": "U00211",
    "name": "4ª Divisione fanteria 'Livorno'",
    "province": "P_ITA_ASTI",
+   "bank": "P_ITA_ASTI_SP2",
    "how": "sede di guarnigione \"Cuneo\" (alta): https://en.wikipedia.org/wiki/4th_Infantry_Division_%22Livorno%22"
   },
   {
@@ -667,6 +724,7 @@
    "unit": "U00213",
    "name": "6ª Divisione fanteria 'Cuneo'",
    "province": "P_ITA_MILANO",
+   "bank": "P_ITA_MILANO_SP1",
    "how": "sede di guarnigione \"Milano\" (media): https://en.wikipedia.org/wiki/6th_Infantry_Division_%22Cuneo%22"
   },
   {
@@ -679,6 +737,7 @@
    "unit": "U00216",
    "name": "9ª Divisione fanteria 'Pasubio'",
    "province": "P_ITA_VERONA",
+   "bank": "P_ITA_VERONA_SP3",
    "how": "sede di guarnigione \"Verona\" (media): https://en.wikipedia.org/wiki/9th_Infantry_Division_%22Pasubio%22"
   },
   {
@@ -691,18 +750,21 @@
    "unit": "U00218",
    "name": "132ª Divisione corazzata 'Ariete'",
    "province": "P_ITA_MILANO",
+   "bank": "P_ITA_MILANO_SP1",
    "how": "sede di guarnigione \"Milano\" (alta): https://en.wikipedia.org/wiki/132nd_Armored_Division_%22Ariete%22"
   },
   {
    "unit": "U00219",
    "name": "185ª Divisione paracadutisti 'Folgore'",
    "province": "P_ITA_VITERBO",
+   "bank": "P_ITA_VITERBO_SP1",
    "how": "sede di guarnigione \"Tarquinia\" (alta): https://en.wikipedia.org/wiki/185th_Infantry_Division_%22Folgore%22"
   },
   {
    "unit": "U00220",
    "name": "184ª Divisione paracadutisti 'Nembo'",
    "province": "P_ITA_PISA",
+   "bank": "P_ITA_PISA_SP1",
    "how": "sede di guarnigione \"Pisa\" (alta): https://en.wikipedia.org/wiki/184th_Infantry_Division_%22Nembo%22"
   },
   {

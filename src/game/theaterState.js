@@ -90,11 +90,13 @@ export function playerCancelAssignment(state, id) {
 function combatantsByProvince(state, ctx) {
   const s0 = state;
   const map = new Map();
+  const canon = ctx.getNet?.(state)?.canon ?? ((x) => x); // si combatte per POSTO: la sponda (una madre divisa vale la sponda principale)
   for (const e of ctx.deploymentDoc.entries) {
     const u = unitOf(state, e.unit, ctx.unitsById);
     if (!u || !isFighter(state, u)) continue;
-    const pos = positionOf(state.movement, ctx.initial, u.id);
-    if (!pos) continue;
+    const at = positionOf(state.movement, ctx.initial, u.id);
+    if (!at) continue;
+    const pos = canon(at);
     const m = effectiveOf(state, u.id);
     if (!map.has(pos)) map.set(pos, []);
     map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) });

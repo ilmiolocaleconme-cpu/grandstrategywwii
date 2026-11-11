@@ -130,7 +130,9 @@ export function upgradeEdgeCost(config, economy, edge, fromLevel, difficultyId) 
  * geografica ma i «km equivalenti» a velocità di strada.
  */
 export function infraNet(net, index, config, state) {
-  return { ...net, km: (a, b) => { const e = index.pair(a, b); return net.km(a, b) / (e ? speedFactor(config, levelOf(state, e)) : 1); } };
+  // strade e ferrovie sono fra province madri: due sponde usano il collegamento delle loro madri; fra sponde sorelle non c'è strada (si guada)
+  const prov = net.provinceOf ?? ((x) => x);
+  return { ...net, km: (a, b) => { const pa = prov(a); const pb = prov(b); const e = pa === pb ? null : index.pair(pa, pb); return net.km(a, b) / (e ? speedFactor(config, levelOf(state, e)) : 1); } };
 }
 
 /**

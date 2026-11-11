@@ -36,12 +36,17 @@ export function defensivePowerOf(state, unit, cfg = DEFAULT_ENTRENCH) {
 }
 
 /** Potenza nemica per provincia (Map): le divisioni in grado di combattere delle nazioni in guerra con `nation`. `defending`: con il loro trinceramento (serve a calcolare quanti ne servono per attaccarle). */
+// Sponde (11/11/2026): i teatri ragionano per PROVINCIA MADRE; le unità stanno su una sponda → si leggono nella loro madre.
+const provinceOfCtx = (state, ctx) => { const net = ctx.getNet?.(state); return net?.provinceOf ?? ((x) => x); };
+
 export function enemyPowerMap(state, ctx, nation, { defending = false } = {}) {
   const map = new Map();
+  const provOf = provinceOfCtx(state, ctx);
   for (const e of ctx.deploymentDoc.entries) {
     const u = unitOf(state, e.unit, ctx.unitsById);
     if (!u || u.nation === nation || !atWar(state.war, u.nation, nation) || !isFighter(state, u)) continue;
-    const pos = positionOf(state.movement, ctx.initial, u.id);
+    const at = positionOf(state.movement, ctx.initial, u.id);
+    const pos = at ? provOf(at) : null;
     if (pos) map.set(pos, (map.get(pos) ?? 0) + (defending ? defensivePowerOf(state, u, ctx.entrenchCfg) : powerOfUnit(state, u)));
   }
   return map;
@@ -64,13 +69,15 @@ const cmpId = (x, y) => (x < y ? -1 : x > y ? 1 : 0);
 
 function fightersOf(state, ctx, a, { defending = false } = {}) {
   const out = [];
+  const provOf = provinceOfCtx(state, ctx);
   for (const id of a.units) {
     const u = unitOf(state, id, ctx.unitsById);
     if (!u || !isFighter(state, u)) continue;
-    const pos = positionOf(state.movement, ctx.initial, id);
-    if (!pos) continue;
+    const at = positionOf(state.movement, ctx.initial, id);
+    if (!at) continue;
+    const pos = provOf(at);
     const order = state.movement?.orders?.[id];
-    out.push({ id, u, pos, power: defending ? defensivePowerOf(state, u, ctx.entrenchCfg) : powerOfUnit(state, u), moving: Boolean(order), dest: order ? order.path[order.path.length - 1] : null });
+    out.push({ id, u, pos, power: defending ? defensivePowerOf(state, u, ctx.entrenchCfg) : powerOfUnit(state, u), moving: Boolean(order), dest: order ? provOf(order.path[order.path.length - 1]) : null });
   }
   return out.sort((x, y) => cmpId(x.id, y.id));
 }

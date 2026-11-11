@@ -84,6 +84,17 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Variante B scelta: albero a tutta larghezza, dettaglio sotto, barra in basso con etichette. Stile con cornici d'ottone e bagliore, senza copiare grafica di altri giochi.
 - Mockup privato: https://claude.ai/artifact/RryWcLDUQ8WzeWACErfiHb (versione 3). Dati di esempio.
 
+**Sponde come posti separati, fase 1: solo movimento (11/11/2026, decisione dell'utente)**
+- Segnalato: una divisione in Weser-Ems (sponda B) mandata alla sponda A rispondeva «già lì»: la rete fondeva le sponde nella madre.
+- Ora (`src/data/moveNet.js`): ogni sponda è un posto; `bankIndex` dà sponda principale (la più grande per area, stessa dove la mappa disegnava icone e segnalini), `provinceOf`, `isBank`, `banksOf`. La madre divisa resta un NOME DI COMODO: `net.has(madre)` vero, vicini e distanze della sponda principale; `issueMove` la traduce (salvataggi di prima: nessuna migrazione, schema invariato).
+- Controllo (`provinceController`): la sponda ha il suo; senza, segue quello scritto sulla madre, poi la nazione. La madre chiesta per nome vale la sponda principale.
+- Teatri e IA ragionano per PROVINCIA MADRE (`provinceOf` in theaterPlan.js e aiWarSystem.js); il combattimento e la conquista avvengono per posto (sponda). Un attacco dato col tocco va alla provincia, quindi alla sua sponda principale (limite della fase 1).
+- Strade e ferrovie fra sponde: quelle delle madri (`infraNet`); fra sponde sorelle nessun bonus stradale. Nessuna penalità di attraversamento (fase successiva: ponti, guadi).
+- Dislocazione 1936: campo `bank` (62 unità) = sponda della città della stazione (zona → `city_links` access), della sede di guarnigione o del corpo d'armata, altrimenti la principale. `scripts/build-deployment.js` rigenerato.
+- Segnalini per posto: il tocco porta la sponda (o la zona di città); `canonUnitKeys` riporta le posizioni sulla madre alla sponda principale.
+- Decisione dell'utente da confermare: «ogni parte ha le sue capacità industriali e produttività» (B: 14 slot per ogni sponda?) + pulsante in angolo per la vista della provincia intera. Contraddice la regola del 22/10 in `src/rules/slots.js`. Fase 2, non iniziata.
+- Test: `tests/sponde_movement.test.js` (dati veri).
+
 **Pulsanti «i» e catena (11/11/2026, decisioni dell'utente dal disegno a mano del 10/11)**
 - Segnalino scelto: resta scoperto (anello tratteggiato), a destra un riquadro con «i» (scheda) sopra e catena (Inquadra) sotto, 46 px ciascuno. Supporto = bandierina (non più «+»). Catena attiva solo con UNA unità della propria nazione (spuntarla nell'elenco se il segnalino ne ha di più).
 - Elenco unità: su ogni scheda «i» sopra e catena sotto; via il testo iniziale «Usa il menu…» (restano gli avvisi di marcia e unità straniere). Variante A: niente «Inquadra spuntate» in basso (B si può aggiungere dopo).
