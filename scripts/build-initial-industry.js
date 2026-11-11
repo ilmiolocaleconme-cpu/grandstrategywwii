@@ -18,12 +18,13 @@ const A = { USA: 30, DEU: 12, USSR: 10, GBR: 8, FRA: 4, JPN: 4, BEL: 2, ITA: 1, 
 const MW = { tank: 24, art: 15, steel: 12, alu: 18, chem: 14, ref: 10, syn: 20, rub: 9, mach: 14, comp: 12, eng: 18, mun: 12, wpn: 8 };
 const FACT = { steel: ['FCT-STEEL', 'REC-STEEL-001'], alu: ['FCT-ALUMINIUM', 'REC-ALU-001'], ref: ['FCT-REFINERY', 'REC-FUEL-OIL-001'], syn: ['FCT-SYNFUEL', 'REC-FUEL-COAL-001'], rub: ['FCT-RUBBER', 'REC-RUBBER-001'], chem: ['FCT-CHEMICAL', 'REC-CHEM-001'], mach: ['FCT-MACHINERY', 'REC-MACHINERY-001'], comp: ['FCT-COMPONENTS', 'REC-COMPONENTS-001'], eng: ['FCT-ENGINE', 'REC-ENGINES-001'], mun: ['FCT-MUNITIONS', 'REC-MUNITIONS-001'], therm: ['FCT-POWER', 'REC-ELECTRIC-COAL-001'], tank: ['FCT-TANKS', 'REC-TANK-CZE-LT35'], art: ['FCT-ARTILLERY', 'REC-ARTILLERY-001'], wpn: ['FCT-WEAPONS', null] };
 // Fabbriche di carri e di artiglieria: oggi solo la Cecoslovacchia (richiesta dell'utente del 29/10/2026; Škoda e ČKD). Le altre nazioni non le hanno ancora: mancano le ricette per i loro modelli.
-const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 1 }, FRA: { wpn: 1, art: 1 }, GBR: { wpn: 1, art: 1 }, ITA: { wpn: 1, art: 1 }, USSR: { wpn: 1, art: 1 }, JPN: { wpn: 1, art: 1 } };
+const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 1 }, FRA: { wpn: 1, art: 1 }, GBR: { wpn: 1, art: 1 }, ITA: { wpn: 1, art: 1 }, USSR: { wpn: 1, art: 1 }, JPN: { wpn: 1, art: 1 }, USA: { wpn: 1, art: 1 } };
 // Armi leggere e artiglieria (richiesta dell'utente del 10/11/2026): un impianto di ciascun tipo per le nazioni che hanno voci nel catalogo equipaggiamenti (USSR e JPN da fonti web del 10/11/2026, provvisorie)
 // (data/units/equipment/catalog*.json). Ricetta di default = prodotto REC-<equipment_id> generato da equipment_production.json: valore di gioco, non storico;
-// il giocatore la cambia dall'impianto. Gli USA NON hanno impianti di questo tipo: nel catalogo non c'è nessuna loro voce, e non si inventano.
+// il giocatore la cambia dall'impianto. USA dal T/O 70 del 1940 (scheda fornita dall'utente, 11/11/2026).
 const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-HOW-105' }, FRA: { wpn: 'REC-INW-FRA-RIFLE-1939', art: 'REC-ART-FRA-ART75M1897' }, GBR: { wpn: 'REC-INW-GBR-RIFLE', art: 'REC-ART-GBR-FIELD' }, ITA: { wpn: 'REC-INW-ITA-RIFLE-1940', art: 'REC-ART-ITA-GUN75-1940' },
-  USSR: { wpn: 'REC-INW-USSR-RIFLE-1939', art: 'REC-ART-USSR-GUN76-1939' }, JPN: { wpn: 'REC-INW-JPN-RIFLE-1939', art: 'REC-ART-JPN-GUN75-DIV-1939' } };
+  USSR: { wpn: 'REC-INW-USSR-RIFLE-1939', art: 'REC-ART-USSR-GUN76-1939' }, JPN: { wpn: 'REC-INW-JPN-RIFLE-1939', art: 'REC-ART-JPN-GUN75-DIV-1939' },
+  USA: { wpn: 'REC-INW-USA-RIFLE-1940', art: 'REC-ART-USA-HOW105-1940' } };
 // Fabbriche di munizioni per nazione (decisione dell'utente del 04/11/2026, «per equilibrare il gioco»): copertura della domanda di
 // attacco continuo di tutte le divisioni del catalogo (348 divisioni, data/military/ammo_consumption.json) con almeno il 100 %.
 // 100 t/giorno per fabbrica. Le nazioni senza divisioni nel catalogo non ne ricevono. Il vecchio calcolo (un quinto delle acciaierie) è

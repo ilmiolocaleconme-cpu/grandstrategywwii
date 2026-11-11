@@ -741,6 +741,16 @@
           "count": 6
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-USA-RIFLE-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USA-HOW105-1940",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 1

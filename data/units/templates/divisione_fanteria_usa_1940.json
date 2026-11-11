@@ -1,0 +1,125 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-USA-INF-1940",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/usa_inf_template_1940.csv, source/usa_inf_equipment_1940.csv, source/land_equipment_catalog_usa_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (USA infantry division, serie Triangolare); Divisione di fanteria triangolare (T/O 70) è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "USA",
+    "category": "infantry",
+    "echelon": "division",
+    "validFrom": "1940-11-01"
+  },
+  "formation": {
+    "value": "triangular"
+  },
+  "regimentsInfantry": {
+    "value": 3
+  },
+  "manpower": {
+    "war": {
+      "value": 15245,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": 0,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "INW-USA-RIFLE-1940": {
+      "value": 6942,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria",
+      "note": "6.942 fucili cal. .30 (T/O 70). Il modello principale è l'M1903 Springfield; l'M1 Garand non è ancora universale: la scheda non dà la ripartizione, non dedurla. Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "effective": {
+        "value": null
+      }
+    },
+    "MG-USA-BAR-1940": {
+      "value": null,
+      "reliability": "MISSING_DATA",
+      "note": "Nessuna quantità nelle righe di organico. Presente nell'organico; totale non ricavabile in modo affidabile dalla scansione. Classificato come «mitragliatrice leggera» per il ruolo di arma automatica di squadra (scelta di classificazione del progetto)."
+    },
+    "MG-USA-HMG-1940": {
+      "value": null,
+      "reliability": "MISSING_DATA",
+      "note": "Nessuna quantità nelle righe di organico. Nelle compagnie armi pesanti e nei reparti di supporto; totale non indicato."
+    },
+    "MG-USA-M2-1940": {
+      "value": null,
+      "reliability": "MISSING_DATA",
+      "note": "Nessuna quantità nelle righe di organico. Soprattutto in comando, artiglieria e supporto; totale non indicato."
+    },
+    "ART-USA-MORTAR81-1940": {
+      "value": 36,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria",
+      "note": "36 mortai M1 da 81 mm. Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USA-AT37-1940": {
+      "value": 60,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria",
+      "note": "60 cannoni in totale: 36 nelle compagnie anticarro reggimentali (12 per reggimento) + 24 nelle batterie comando dei 4 battaglioni di artiglieria (6 ciascuno). Se si contano solo quelli della fanteria: 36. Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USA-HOW105-1940": {
+      "value": 36,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria",
+      "note": "3 battaglioni leggeri da 12 obici ciascuno = 36. Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USA-HOW155-1940": {
+      "value": 12,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria",
+      "note": "12 obici da 155 mm nel battaglione medio (T/O 6-95, 1 ottobre 1940). Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USA-GUN75-1940": {
+      "value": 8,
+      "reliability": "PROVISIONAL",
+      "unit": "Divisione di fanteria",
+      "note": "8 cannoni da 75 mm nel battaglione medio (T/O 6-95). Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-USA-INF-TRI-1940",
+    "series": "Triangolare",
+    "referenceDivision": "Divisione di fanteria triangolare (T/O 70)",
+    "referenceDate": "1940-11",
+    "sourceQuality": "SECONDARY_SINGLE_SOURCE",
+    "sourceNote": "Divisione GENERICA T/O 70 del 1 novembre 1940: 3 reggimenti di fanteria da 3.340 uomini, 9 battaglioni, 27 compagnie fucilieri, artiglieria divisionale su 4 battaglioni; 14.811 uomini di organico più 423 sanitari e cappellani aggregati = 15.245 (usato come organico massimo). Cavalli: 0 nella divisione standard. La partita parte nel 1936: la divisione «quadrata» (4 reggimenti in 2 brigate) è storicamente più coerente ma NON documentata nel progetto; questo template vale dal novembre 1940 e non cambia lo stato iniziale 1936. I mezzi di trasporto (circa 1.200) sono una stima della scheda, non un totale T/O verificato: NON inseriti. Totali di BAR, mitragliatrici .30 e .50 non ricavabili in modo affidabile dalla scansione: lasciati vuoti. Fonte secondaria unica, non verificata sul documento originale.",
+    "sourceFiles": [
+      {
+        "file": "source/usa_inf_template_1940.csv",
+        "sha256": "5f7f1d4e85f603695c0736bcfea95e6fac42f4f5680830a14d22d131382e188e"
+      },
+      {
+        "file": "source/usa_inf_equipment_1940.csv",
+        "sha256": "b604e49881f900711d5c45b1ca9ef827a7fcf39d52cf2b00d15148e8d7cbcdbc"
+      },
+      {
+        "file": "source/land_equipment_catalog_usa_1940.csv",
+        "sha256": "ad516df30c8f256b5c6181ee036a5e238646c5300c97465c734fc9f967fce1c1"
+      }
+    ]
+  }
+}
