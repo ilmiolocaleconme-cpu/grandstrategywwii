@@ -11,6 +11,19 @@ const sum = (parts, k) => parts.reduce((n, p) => n + (p[k] ?? 0), 0);
  * Un'unità ha una sola posizione, quindi non compare in due gruppi: le liste si concatenano e i conteggi si sommano.
  * Con un solo gruppo restituisce lo stesso oggetto; senza gruppi null.
  */
+/**
+ * Funzione id → provincia madre per province e città (zone di città comprese). Le città stanno in un file a parte
+ * (data/citta_grandi.json): senza di loro le unità ferme in una città non si trovano toccando il segnalino.
+ */
+export function motherIndex(provinceFeatures, cityFeatures) {
+  const m = new Map();
+  for (const f of [...(provinceFeatures ?? []), ...(cityFeatures ?? [])]) {
+    const pr = f?.properties; const id = pr?.id ?? f?.id;
+    if (id != null) m.set(id, pr?.parentProvince ?? id);
+  }
+  return (id) => m.get(id);
+}
+
 export function groupAt(provinceUnits, motherOf, province, nation) {
   if (!provinceUnits || !province) return null;
   const parts = [];

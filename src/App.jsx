@@ -43,7 +43,7 @@ import { validateEntrenchConfig } from './rules/entrench.js';
 import { divisionsUnder } from './rules/orbat.js';
 import { validParents, validChildren } from './ui/commandView.js';
 import { distanceTo, commandDistances, commandThreads } from './rules/commandLinks.js';
-import { groupAt, withSubordinates } from './rules/unitGroups.js';
+import { groupAt, motherIndex, withSubordinates } from './rules/unitGroups.js';
 import { unitsByProvince } from './data/deployment.js';
 import officersFile from '../data/officers/officers.json';
 import { commandersSystem } from './game/commandersState.js';
@@ -636,7 +636,9 @@ export default function App() {
   // comandi stimati o mossi: sulla mappa come gli altri segnalini (stessi gruppi per nazione e provincia)
   const provinceUnits = useMemo(() => mergeCommandsIntoProvinceUnits(dislocUnits, estimatedHqs, UNITS_BY_ID), [dislocUnits, estimatedHqs]);
   // provincia madre di una posizione: le unità si raggruppano per posizione esatta (anche una città), il segnalino toccato porta la madre
-  const motherOf = useMemo(() => { const m = new Map((provinces?.features ?? []).map((f) => [f.properties.id, f.properties.parentProvince ?? f.properties.id])); return (id) => m.get(id); }, [provinces]);
+  // provincia madre di ogni id della mappa, CITTÀ COMPRESE (data/citta_grandi.json): un'unità ferma in una zona di città
+  // (es. Bonn, P_DEU_BONN_CITTA_P1) appartiene al segnalino della provincia madre (Köln-Aachen), quello che si tocca sulla mappa
+  const motherOf = useMemo(() => motherIndex(provinces?.features, cities), [provinces, cities]);
   const armyGroup = armySel ? groupAt(provinceUnits, motherOf, armySel.province, armySel.nation) : null;
   // Comandi di corpo e armata senza posizione reale: posizione stimata dalle divisioni sottostanti (src/rules/hqPosition.js). Solo consultazione.
   const [hqId, setHqId] = useState(null);
