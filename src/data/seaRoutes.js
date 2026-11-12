@@ -79,20 +79,23 @@ export function buildSeaGraph(seaFile, params) {
 /**
  * Porti di una nazione: una provincia per zona di mare (quella con più costa; a parità, l'id minore).
  * ownerOf(idProvincia) → proprietario; portFilter(idProvincia, idZona) facoltativo per restringere ai porti reali.
- * Ritorna [{ province, zone, coastKm }] ordinato per zona.
+ * Ritorna [{ province, zone, coastKm }] ordinato per zona. Con `all: true` ritorna TUTTE le coppie (provincia, zona) che passano i filtri, ordinate per zona e id.
  */
-export function nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm = 0, portFilter = null } = {}) {
+export function nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm = 0, portFilter = null, all = false } = {}) {
   const best = new Map();
+  const every = []; // all: ogni coppia (provincia, zona), non solo la provincia con più costa per zona (serve al movimento via mare: una exclave ha il suo porto)
   for (const z of seaFile.zones) {
     for (const [p, km] of z.coastal) {
       if (km < minCoastKm) continue;
       const id = provinceIds[p];
       if (ownerOf(id) !== nation) continue;
       if (portFilter && !portFilter(id, z.id)) continue;
+      if (all) { every.push({ province: id, zone: z.id, coastKm: km }); continue; }
       const cur = best.get(z.id);
       if (!cur || km > cur.coastKm || (km === cur.coastKm && id < cur.province)) best.set(z.id, { province: id, zone: z.id, coastKm: km });
     }
   }
+  if (all) return every.sort((a, b) => (a.zone < b.zone ? -1 : a.zone > b.zone ? 1 : a.province < b.province ? -1 : 1));
   return [...best.values()].sort((a, b) => (a.zone < b.zone ? -1 : 1));
 }
 
@@ -143,7 +146,7 @@ export function findSeaRoute(graph, fromPorts, toPorts, { seller = null, buyer =
 }
 
 /**
- * Contesto pronto per il commercio: { graph, portsOf(nazione), route(venditore, compratore) }.
+ * Contesto pronto per il commercio: { graph, portsOf(nazione), allPortsOf(nazione), route(venditore, compratore) }.
  * ownerOf(idProvincia) deve dare il proprietario ATTUALE; blocked e closedZones sono letti a ogni chiamata (funzioni o insiemi).
  * Le zone di params.closedZones (ghiaccio artico) sono sempre chiuse; closedZones aggiunge chiusure di partita (blocchi, mine).
  */
@@ -151,7 +154,8 @@ export function createSeaContext({ seaFile, params, provinceIds, ownerOf, portFi
   const graph = buildSeaGraph(seaFile, params);
   const get = (v) => (typeof v === 'function' ? v() : v);
   const portsOf = (nation) => nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm: params.minCoastKm, portFilter });
+  const allPortsOf = (nation) => nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm: params.minCoastKm, portFilter, all: true }); // per il movimento via mare (rules/seaMove.js)
   const baseClosed = params.closedZones ?? [];
   const route = (seller, buyer) => findSeaRoute(graph, portsOf(seller), portsOf(buyer), { seller, buyer, blocked: get(blocked), closedZones: new Set([...baseClosed, ...get(closedZones)]) });
-  return { graph, portsOf, route };
+  return { graph, portsOf, allPortsOf, route };
 }

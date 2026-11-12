@@ -452,11 +452,12 @@ export default function App() {
       } catch (e) { return { done: false, msg: e.message }; }
     }
     const movers = unitIds.map((uid) => unitOf(game, uid, UNITS_BY_ID)).filter(Boolean).map((u) => ({ id: u.id, category: u.category }));
-    const r = orderMove(game, { units: movers, to, nation: game.player, deploymentDoc: deploymentFile, net: infraNet(moveNet, GAME_INFRA.index, infraConfig, game) });
+    const r = orderMove(game, { units: movers, to, nation: game.player, deploymentDoc: deploymentFile, net: infraNet(moveNet, GAME_INFRA.index, infraConfig, game), sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(game), motherOf: GAME_SEA.motherOf } : null });
     if (r.moved.length) setGame(r.state);
     const slowest = r.moved.reduce((m, x) => Math.max(m, x.days), 0);
-    const why = { no_route: 'nessun percorso su territorio tuo', same_province: 'già lì', unknown_position: 'posizione sconosciuta' };
-    return { done: true, msg: `${r.moved.length ? `${r.moved.length} unità in marcia verso ${moveNet.name(to)} (fino a ${slowest} giorni). ` : ''}${r.failed.length ? `${r.failed.length} non partite: ${[...new Set(r.failed.map((f) => why[f.reason] ?? f.reason))].join(', ')}.` : ''}` };
+    const why = { no_route: 'nessun percorso su territorio tuo né via mare tra porti tuoi', same_province: 'già lì', unknown_position: 'posizione sconosciuta' };
+    const bysea = r.moved.filter((x) => x.seaLegs).length;
+    return { done: true, msg: `${r.moved.length ? `${r.moved.length} unità in marcia verso ${moveNet.name(to)} (fino a ${slowest} giorni${bysea ? `, ${bysea} via mare` : ''}). ` : ''}${r.failed.length ? `${r.failed.length} non partite: ${[...new Set(r.failed.map((f) => why[f.reason] ?? f.reason))].join(', ')}.` : ''}` };
   };
   // destinazione di un ordine: con un segnalino proprio aperto e unità spuntate, il tocco su una provincia è un ordine di marcia
   const selectProvince = (id) => {
