@@ -16,7 +16,7 @@ const names = (list) => list.map((m) => m.id);
 
 test('dati: catalogo dei fucili valido per le cinque nazioni', () => {
   assert.deepEqual(validateSmallArms(doc, { techIds, nationIds }), []);
-  for (const n of ['DEU', 'ITA', 'USSR', 'USA', 'GBR']) assert.ok(doc.models.some((m) => m.nation === n), n);
+  for (const n of ['DEU', 'ITA', 'USSR', 'USA', 'GBR', 'FRA', 'JPN']) assert.ok(doc.models.some((m) => m.nation === n), n);
 });
 
 test('le cinque tecnologie della fanteria sono usate tutte dai modelli', () => {
@@ -53,6 +53,15 @@ test('disponibilità: tecnologia + anno (con 2 anni di anticipo al massimo); sco
   assert.ok(!names(producibleModels(doc, 'DEU', 1944, new Set(['TECH-INF-SEMI1']))).includes('MDL-DEU-G43'), 'senza la 2ª generazione niente G43');
   assert.ok(!names(producibleModels(doc, 'USA', 1945, all)).includes('MDL-USA-M1D'), 'M1D sperimentale');
   assert.ok(!names(producibleModels(doc, 'USSR', 1945, all)).includes('MDL-USSR-FEDOROV'), 'Fedorov solo scorte');
+});
+
+test('Francia e Giappone: solo fucili a ripetizione fino al MAS 44 (1944); il Tipo 4 resta sperimentale', () => {
+  const all = new Set(['TECH-INF-OPTICS', 'TECH-INF-SEMI1', 'TECH-INF-SEMI2', 'TECH-INF-SELECT', 'TECH-INF-EMERG']);
+  assert.ok(names(producibleModels(doc, 'FRA', 1936, new Set())).includes('MDL-FRA-BERTHIER-M34'));
+  assert.ok(!names(producibleModels(doc, 'FRA', 1941, all)).some((id) => /MAS-4/.test(id)), 'nessun semiautomatico francese prima del 1942');
+  assert.ok(names(producibleModels(doc, 'FRA', 1942, all)).includes('MDL-FRA-MAS-44'), 'anticipo massimo di 2 anni');
+  assert.ok(!names(producibleModels(doc, 'JPN', 1945, all)).includes('MDL-JPN-TYPE4'));
+  assert.ok(names(producibleModels(doc, 'JPN', 1937, new Set())).includes('MDL-JPN-TYPE99'), 'Tipo 99 anticipato al 1937');
 });
 
 test('Ricerca: il pannello sa quali modelli sblocca una tecnologia per la nazione', () => {
