@@ -79,3 +79,15 @@ test('Terranova (12/11/2026): fantoccio che non è una nazione del gioco → le 
   assert.equal(economicOwner(byId.get('MAN'), nations), 'MAN', 'il Manciukuò è una nazione: resta suo, con la quota');
   assert.equal(economicOwner(byId.get('NFL')), 'NFL', 'senza elenco delle nazioni nessun cambio');
 });
+
+test('quota iniziale (12/11/2026): il Giappone parte con il 100% del Manciukuò; una quota cambiata non torna indietro', () => {
+  const config = json('diplomacy/diplomacy.json');
+  assert.deepEqual(config.puppet.startLevy, { MAN: 1 });
+  const dip = createDiplomacyGame({ config, start: json('diplomacy/relations_1936.json'), political });
+  const s = dip.init({ date: '1936-01-01', day: 0, nations: { JPN: {}, MAN: {} } });
+  assert.equal(levyOf(s, 'MAN'), 1);
+  const lowered = dip.setPuppetLevy(s, 'JPN', 'MAN', 0).state;
+  assert.equal(levyOf(dip.init(lowered), 'MAN'), 0, 'caricando di nuovo resta 0');
+  const old = dip.init({ date: '1937-01-01', day: 365, nations: { JPN: {}, MAN: {} }, diplomacy: s.diplomacy });
+  assert.equal(levyOf(old, 'MAN'), 1, 'salvataggio di prima delle quote: parte al 100%');
+});

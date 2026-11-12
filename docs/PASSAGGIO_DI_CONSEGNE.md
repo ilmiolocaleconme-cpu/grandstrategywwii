@@ -87,6 +87,7 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 **Risorse prese ai fantocci (12/11/2026, decisione dell'utente, opzione C)**
 - Fantoccio = entità che possiede se stessa ma è controllata da un'altra nei dati del 1936 (`puppetsOf` in `src/rules/puppetLevy.js`): Manciukuò → Giappone, Terranova → Regno Unito. I mandati (proprietario LEAGUE) non sono fantocci: la loro economia (estrazione, idroelettrico) va tutta a chi li amministra (`economicOwner`, decisione dell'utente 12/11/2026: Palestina → GBR, Siria → FRA). Stessa regola per i fantocci che non sono nazioni del gioco (Terranova → GBR: ferro di Bell Island 50 t/g); serve `nationIds` in `createEconomySystem`.
 - Chi controlla sceglie la quota (0/25/50/75/100%) nel pannello Diplomazia; campo opzionale `state.puppetLevy`. L'economia sposta ogni giorno quella parte dell'estrazione di base (le miniere costruite dal fantoccio restano sue).
+- Quota iniziale `diplomacy.puppet.startLevy` = { MAN: 1 } (decisione dell'utente 12/11/2026): il Giappone, giocatore o IA, parte con il 100% del Manciukuò e può abbassarla; si applica solo se `state.puppetLevy` manca.
 - Il rapporto scende di `diplomacy.puppet.relationPerDayAtFull` (-0,05/giorno al 100%, valore di progetto) × quota.
 - Ferro del Manciukuò 2,6 Mt tramite `data/resources/correzioni_produzione_1936.csv` (i file ricevuti restano invariati, sha256).
 - Limiti: Terranova non è una nazione del gioco (il pannello non la mostra); rapporto iniziale Giappone–Manciukuò 0 (manca nei dati del 1936); l'IA non usa ancora le quote.

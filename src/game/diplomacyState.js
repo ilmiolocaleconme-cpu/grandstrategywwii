@@ -31,7 +31,10 @@ export function createDiplomacyGame({ config, start, political = [] }) {
   const hostileLimit = config.sabotage.maxRelation;
 
   /** Aggiunge `state.diplomacy` se manca (partita nuova o salvataggio vecchio). */
-  const init = (state) => (state.diplomacy ? state : withDip(state, buildStartDiplomacy(start, state.date, range)));
+  // quote iniziali dei fantocci (diplomacy.json → puppet.startLevy, es. Manciukuò al 100% per il Giappone): solo se il campo manca,
+  // così una quota cambiata dal giocatore (anche a 0) non torna indietro al caricamento
+  const withLevy = (state) => (state.puppetLevy !== undefined || !config.puppet?.startLevy ? state : { ...state, puppetLevy: Object.fromEntries(Object.entries(config.puppet.startLevy).filter(([p]) => puppets.has(p))) });
+  const init = (state) => withLevy(state.diplomacy ? state : withDip(state, buildStartDiplomacy(start, state.date, range)));
 
   const relation = (state, a, b) => relationOf(state.diplomacy, a, b);
   const allied = (state, a, b) => areAllied(state.diplomacy, a, b);

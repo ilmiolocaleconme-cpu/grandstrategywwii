@@ -13,6 +13,8 @@
   },
   "puppet": {
     "relationPerDayAtFull": -0.05,
+    "startLevy": { "MAN": 1 },
+    "startLevyNote": "Quota iniziale (decisione dell'utente 12/11/2026): il Giappone parte prendendo il 100% delle risorse del Manciukuò, come Terranova per il Regno Unito, ma può abbassarla dal pannello Diplomazia. Vale anche per l'IA.",
     "note": "Risorse prese ai fantocci (decisione dell'utente 12/11/2026, quota scelta da chi controlla): con il 100% il rapporto scende di 0,05 al giorno (circa -18 in un anno), in proporzione con quote minori. Valore di progetto di Claude, da bilanciare."
   },
   "sabotage": {

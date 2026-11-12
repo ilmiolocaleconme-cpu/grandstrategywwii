@@ -80,6 +80,7 @@ export function validateDiplomacyConfig(c) {
   const ai = need(c?.ai, 'ai'); num('ai.period', ai.period); num('ai.reserveEcv', ai.reserveEcv);
   if (Number.isFinite(ai.period) && ai.period < 1) errors.push('diplomazia config: ai.period < 1');
   num('puppet.relationPerDayAtFull', need(c?.puppet, 'puppet').relationPerDayAtFull);
+  for (const [k, v] of Object.entries(c?.puppet?.startLevy ?? {})) if (![0, 0.25, 0.5, 0.75, 1].includes(v)) errors.push(`diplomazia config: puppet.startLevy.${k} non è 0, 0,25, 0,5, 0,75 o 1`);
   if (Number.isFinite(c?.puppet?.relationPerDayAtFull) && c.puppet.relationPerDayAtFull > 0) errors.push('diplomazia config: puppet.relationPerDayAtFull deve essere <= 0');
   const pr = need(c?.proposals, 'proposals'); num('proposals.expireDays', pr.expireDays); num('proposals.rejectPenalty', pr.rejectPenalty);
   if (Number.isFinite(t.minRelation) && Number.isFinite(c?.sabotage?.maxRelation) && c.sabotage.maxRelation >= t.minRelation) errors.push('diplomazia config: la soglia di sabotaggio deve stare sotto quella del commercio');
