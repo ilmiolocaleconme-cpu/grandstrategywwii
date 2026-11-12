@@ -1010,7 +1010,7 @@ export default function App() {
             <div className="order-bar unit-bar" role="status">
               <span><b>{armyGroup.units[0].name}</b> · {provinceName(armySel.province)}<br />
                 {armyNotice ?? (moveMode ? 'Tocca sulla mappa la destinazione: territorio tuo = marcia, nemico (in guerra) = attacco.'
-                  : game.movement?.orders?.[armyGroup.units[0].id] ? `In marcia verso ${provinceName(game.movement.orders[armyGroup.units[0].id].path.at(-1))}` : (radialOwn ? `Usa il cerchio sul segnalino: muovi, trincera, scheda («I»).${radialFighters.length === 0 ? ' Trincea spenta: qui non ci sono truppe combattenti (è un comando).' : ''}` : 'Unità di un’altra nazione: puoi vederla, non dare ordini.'))}</span>
+                  : game.movement?.orders?.[armyGroup.units[0].id] ? `In marcia verso ${provinceName(game.movement.orders[armyGroup.units[0].id].path.at(-1))}` : (radialOwn ? 'Usa il cerchio sul segnalino: muovi, trincera, scheda («I»).' : 'Unità di un’altra nazione: puoi vederla, non dare ordini.'))}</span>
               {game.movement?.orders?.[armyGroup.units[0].id] ? <button type="button" onClick={() => { setGame((g) => cancelOrders(g, [armyGroup.units[0].id])); setArmyNotice('Ordine annullato: l’unità resta dove è.'); }}>Annulla ordine</button> : null}
               <button type="button" aria-label="Chiudi" onClick={() => setArmySel(null)}>×</button>
             </div>
