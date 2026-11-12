@@ -165,6 +165,11 @@ export function createSeaContext({ seaFile, params, provinceIds, ownerOf, portFi
   const portsOf = (nation) => nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm: params.minCoastKm, portFilter });
   const allPortsOf = (nation) => nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm: params.minCoastKm, portFilter, allPerZone: true });
   const baseClosed = params.closedZones ?? [];
-  const route = (seller, buyer) => findSeaRoute(graph, portsOf(seller), portsOf(buyer), { seller, buyer, blocked: get(blocked), closedZones: new Set([...baseClosed, ...get(closedZones)]) });
+  // scelta dei porti (facoltativa): fromProvince/toProvince = provincia del porto del venditore/compratore. Una provincia può affacciarsi su più zone di mare: valgono tutte.
+  // Una provincia che non è un porto della nazione dà 'no_port_seller'/'no_port_buyer' (non si ripiega su un altro porto).
+  const route = (seller, buyer, choice = null) => {
+    const pick = (nation, province) => (province ? allPortsOf(nation).filter((p) => p.province === province) : portsOf(nation));
+    return findSeaRoute(graph, pick(seller, choice?.fromProvince ?? null), pick(buyer, choice?.toProvince ?? null), { seller, buyer, blocked: get(blocked), closedZones: new Set([...baseClosed, ...get(closedZones)]) });
+  };
   return { graph, portsOf, allPortsOf, route };
 }

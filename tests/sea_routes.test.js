@@ -307,3 +307,50 @@ test('commercio: il sistema giornaliero ricontrolla le rotte via mare ogni reche
   const day10 = system({ ...opened.state, day: 10 });
   assert.equal(day10.trade.contracts[0].status, 'suspended');
 });
+
+test('porti scelti: la rotta parte e arriva dai porti indicati; una provincia senza porto non ripiega su un altro', () => {
+  const sea = ctx();
+  const itaPorts = [...new Set(sea.allPortsOf('ITA').map((p) => p.province))];
+  const usaPorts = [...new Set(sea.allPortsOf('USA').map((p) => p.province))];
+  assert.ok(itaPorts.length > 3 && usaPorts.length > 3);
+  const from = itaPorts[itaPorts.length - 1]; const to = usaPorts[usaPorts.length - 1];
+  const r = sea.route('ITA', 'USA', { fromProvince: from, toProvince: to });
+  assert.equal(r.ok, true, JSON.stringify(r));
+  assert.equal(r.ports.from.province, from);
+  assert.equal(r.ports.to.province, to);
+  // senza scelta: invariato rispetto a prima
+  assert.deepEqual(sea.route('ITA', 'USA', null), sea.route('ITA', 'USA'));
+  assert.equal(sea.route('ITA', 'USA', { fromProvince: 'P_NON_ESISTE' }).reason, 'no_port_seller');
+  assert.equal(sea.route('ITA', 'USA', { toProvince: 'P_NON_ESISTE' }).reason, 'no_port_buyer');
+  // il porto di un'altra nazione non vale come proprio
+  assert.equal(sea.route('ITA', 'USA', { fromProvince: usaPorts[0] }).reason, 'no_port_seller');
+});
+
+test('porti scelti: due contratti dallo stesso porto verso destinazioni diverse; il contratto ricorda la scelta e il ricontrollo la mantiene', () => {
+  const state = { nations: nations(), day: 0, date: '1936-01-01', trade: createTradeState() };
+  const sea = ctx();
+  const itaPorts = [...new Set(sea.allPortsOf('ITA').map((p) => p.province))];
+  const from = itaPorts[0];
+  const usaPorts = [...new Set(sea.allPortsOf('USA').map((p) => p.province))];
+  const base = { seller: 'ITA', buyer: 'USA', good: 'steel', perDay: 5, days: 5, fromPort: from };
+  const a = openTradeContract(state, { ...base, toPort: usaPorts[0] }, { economy, resources, net: null, sea });
+  assert.equal(a.ok, true, JSON.stringify(a));
+  const b = openTradeContract(a.state, { ...base, toPort: usaPorts[usaPorts.length - 1] }, { economy, resources, net: null, sea });
+  assert.equal(b.ok, true, JSON.stringify(b));
+  const [c1, c2] = b.state.trade.contracts;
+  assert.equal(c1.route.kind, 'sea', 'scegliere un porto forza la via mare anche senza mode');
+  assert.deepEqual(c1.portChoice, { fromProvince: from, toProvince: usaPorts[0] });
+  assert.equal(c1.route.ports.from.province, from);
+  assert.equal(c2.route.ports.from.province, from);
+  assert.notEqual(c1.route.ports.to.province, c2.route.ports.to.province);
+  assert.deepEqual(validateTradeState(b.state.trade), []);
+  // senza scelta il contratto non porta il campo
+  const free = openTradeContract(state, { ...base, fromPort: null, mode: 'sea' }, { economy, resources, net: null, sea });
+  assert.equal('portChoice' in free.contract, false);
+  // il ricontrollo usa i porti scelti
+  const system = createTradeSystem({ resources, getSea: () => sea, recheckEvery: 1 });
+  const after = system({ ...b.state, day: 1 });
+  assert.deepEqual(after.trade.contracts.map((c) => c.route.ports.to.province), [c1.route.ports.to.province, c2.route.ports.to.province]);
+  // porto scelto che non è della nazione: rifiutato
+  assert.equal(openTradeContract(state, { ...base, fromPort: usaPorts[0] }, { economy, resources, net: null, sea }).reason, 'no_port_seller');
+});
