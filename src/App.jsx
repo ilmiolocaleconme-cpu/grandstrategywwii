@@ -105,6 +105,7 @@ import portsBaseFile from '../data/ports/ports_1936.json';
 import coastalCitiesFile from '../data/ports/coastal_cities.json';
 import { provincePortRows, portSummary } from './ui/portView.js';
 import { portPins, shipyardPins } from './map/portIcons.js';
+import shipyardsFile from '../data/naval/shipyards_1936.json';
 import linkEdgesFile from '../data/infrastructure/link_edges.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
 import hydroPlants from '../data/resources/hydro_plants.json';
@@ -597,7 +598,7 @@ export default function App() {
   }, [game, selectedItem, techName]);
   const harbours = useMemo(() => (game ? portSummary(game, game.player, { ports: GAME_PORTS, entityOf: entityOfProvince }) : null), [game]);
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
-  const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri navali costruiti, accanto al porto
+  const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game, shipyardsFile), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri storici 1936 (bozza) e costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
   const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName }) : []), [game, techName]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);

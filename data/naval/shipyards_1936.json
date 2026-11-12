@@ -1,0 +1,323 @@
+{
+  "schema": "shipyards-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "asOf": "1936-01-01",
+  "note": "BOZZA dei principali cantieri navali (militari e privati) attivi nel 1936, uno per città costiera del catalogo (data/ports/coastal_cities.json). Fonte: conoscenza storica generale, NESSUNA fonte verificata per voce: ogni voce è `basis: ipotesi` da confermare. È un elenco di PRESENZA per la mappa, non una capacità produttiva: oggi il cantiere non ha ricetta né produce navi. Approssimazioni: l'icona è sulla città del catalogo, mentre alcuni cantieri stanno in località vicine della stessa provincia (Clydebank, Wallsend, Kure, Newport News, Quincy, Mare Island, Bremerton, Sestri Ponente): la provincia è quella giusta, il punto no. Mancano i cantieri le cui città non sono nel catalogo (La Spezia, Wilhelmshaven, Brest, Lorient, Saint-Nazaire, Cherbourg, Yokosuka, Sasebo, Barrow, Chatham, Monfalcone, Danzica): da aggiungere con le città.",
+  "shipyards": [
+    {
+      "id": "YARD-DEU_KIEL",
+      "cittaId": "P_DEU_KIEL_CITTA",
+      "nation": "DEU",
+      "name": "Kiel",
+      "operator": "Germaniawerft, Howaldtswerke e Marinewerft Kiel",
+      "kind": "mixed",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-DEU_AMBURGO",
+      "cittaId": "P_DEU_AMBURGO_CITTA",
+      "nation": "DEU",
+      "name": "Amburgo",
+      "operator": "Blohm & Voss",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-DEU_BREMA",
+      "cittaId": "P_DEU_BREMA_CITTA",
+      "nation": "DEU",
+      "name": "Brema",
+      "operator": "Deschimag AG Weser",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-DEU_STETTINO",
+      "cittaId": "P_DEU_STETTINO_CITTA",
+      "nation": "DEU",
+      "name": "Stettino",
+      "operator": "Stettiner Oderwerke e cantieri Vulcan",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-GBR_GLASGOW",
+      "cittaId": "P_GBR_GLASGOW_CITTA",
+      "nation": "GBR",
+      "name": "Glasgow",
+      "operator": "Cantieri del Clyde (Fairfield a Govan)",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-GBR_BELFAST",
+      "cittaId": "P_GBR_BELFAST_CITTA",
+      "nation": "GBR",
+      "name": "Belfast",
+      "operator": "Harland & Wolff",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-GBR_NEWCASTLE_UPON_TYNE",
+      "cittaId": "P_GBR_NEWCASTLE_UPON_TYNE_CITTA",
+      "nation": "GBR",
+      "name": "Newcastle upon Tyne",
+      "operator": "Cantieri del Tyne (Armstrong Whitworth, Vickers-Armstrongs)",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-GBR_PORTSMOUTH",
+      "cittaId": "P_GBR_PORTSMOUTH_CITTA",
+      "nation": "GBR",
+      "name": "Portsmouth",
+      "operator": "Portsmouth Royal Dockyard",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-GBR_PLYMOUTH",
+      "cittaId": "P_GBR_PLYMOUTH_CITTA",
+      "nation": "GBR",
+      "name": "Plymouth",
+      "operator": "Devonport Royal Dockyard",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-FRA_TOLONE",
+      "cittaId": "P_FRA_TOLONE_CITTA",
+      "nation": "FRA",
+      "name": "Tolone",
+      "operator": "Arsenal de Toulon",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-FRA_NANTES",
+      "cittaId": "P_FRA_NANTES_CITTA",
+      "nation": "FRA",
+      "name": "Nantes",
+      "operator": "Ateliers et Chantiers de la Loire / Dubigeon",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-ITA_GENOVA",
+      "cittaId": "P_ITA_GENOVA_CITTA",
+      "nation": "ITA",
+      "name": "Genova",
+      "operator": "Ansaldo (Sampierdarena e Sestri Ponente)",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-ITA_TRIESTE",
+      "cittaId": "P_ITA_TRIESTE_CITTA",
+      "nation": "ITA",
+      "name": "Trieste",
+      "operator": "Cantieri Riuniti dell'Adriatico",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-ITA_TARANTO",
+      "cittaId": "P_ITA_TARANTO_CITTA",
+      "nation": "ITA",
+      "name": "Taranto",
+      "operator": "Arsenale della Regia Marina di Taranto",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-ITA_NAPOLI",
+      "cittaId": "P_ITA_NAPOLI_CITTA",
+      "nation": "ITA",
+      "name": "Napoli",
+      "operator": "Cantieri e arsenale di Napoli",
+      "kind": "mixed",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-ITA_VENEZIA",
+      "cittaId": "P_ITA_VENEZIA_CITTA",
+      "nation": "ITA",
+      "name": "Venezia",
+      "operator": "Arsenale di Venezia",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-JPN_NAGASAKI",
+      "cittaId": "P_JPN_NAGASAKI_CITTA",
+      "nation": "JPN",
+      "name": "Nagasaki",
+      "operator": "Mitsubishi Nagasaki",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-JPN_KOBE",
+      "cittaId": "P_JPN_KOBE_CITTA",
+      "nation": "JPN",
+      "name": "Kōbe",
+      "operator": "Kawasaki e Mitsubishi a Kōbe",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-JPN_HIROSHIMA",
+      "cittaId": "P_JPN_HIROSHIMA_CITTA",
+      "nation": "JPN",
+      "name": "Hiroshima",
+      "operator": "Arsenale navale di Kure (nella prefettura di Hiroshima)",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USA_FILADELFIA",
+      "cittaId": "P_USA_FILADELFIA_CITTA",
+      "nation": "USA",
+      "name": "Filadelfia",
+      "operator": "Philadelphia Navy Yard e Cramp",
+      "kind": "mixed",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USA_NORFOLK",
+      "cittaId": "P_USA_NORFOLK_CITTA",
+      "nation": "USA",
+      "name": "Norfolk",
+      "operator": "Norfolk Navy Yard e Newport News (stato della Virginia)",
+      "kind": "mixed",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USA_BOSTON",
+      "cittaId": "P_USA_BOSTON_CITTA",
+      "nation": "USA",
+      "name": "Boston",
+      "operator": "Boston Navy Yard e Fore River (stato del Massachusetts)",
+      "kind": "mixed",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USA_NEW_YORK",
+      "cittaId": "P_USA_NEW_YORK_CITTA",
+      "nation": "USA",
+      "name": "New York",
+      "operator": "Brooklyn Navy Yard",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USA_SAN_FRANCISCO",
+      "cittaId": "P_USA_SAN_FRANCISCO_CITTA",
+      "nation": "USA",
+      "name": "San Francisco",
+      "operator": "Mare Island e Bethlehem (stato della California)",
+      "kind": "mixed",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USA_SEATTLE",
+      "cittaId": "P_USA_SEATTLE_CITTA",
+      "nation": "USA",
+      "name": "Seattle",
+      "operator": "Puget Sound Navy Yard (stato di Washington)",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USSR_LENINGRADO",
+      "cittaId": "P_USSR_LENINGRADO_CITTA",
+      "nation": "USSR",
+      "name": "Leningrado",
+      "operator": "Cantieri Baltico e Ammiragliato",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USSR_MYKOLAIV",
+      "cittaId": "P_USSR_MYKOLAIV_CITTA",
+      "nation": "USSR",
+      "name": "Nikolaev",
+      "operator": "Cantieri di Nikolaev (Marti e 61 Kommunara)",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USSR_SEBASTOPOLI",
+      "cittaId": "P_USSR_SEBASTOPOLI_CITTA",
+      "nation": "USSR",
+      "name": "Sebastopoli",
+      "operator": "Cantiere navale di Sebastopoli",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-USSR_VLADIVOSTOK",
+      "cittaId": "P_USSR_VLADIVOSTOK_CITTA",
+      "nation": "USSR",
+      "name": "Vladivostok",
+      "operator": "Dalzavod",
+      "kind": "mixed",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-POL_GDYNIA",
+      "cittaId": "P_POL_GDYNIA_CITTA",
+      "nation": "POL",
+      "name": "Gdynia",
+      "operator": "Cantiere di Gdynia",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-SWE_GOTEBORG",
+      "cittaId": "P_SWE_GOTEBORG_CITTA",
+      "nation": "SWE",
+      "name": "Göteborg",
+      "operator": "Götaverken ed Eriksberg",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-SWE_MALMO",
+      "cittaId": "P_SWE_MALMO_CITTA",
+      "nation": "SWE",
+      "name": "Malmö",
+      "operator": "Kockums",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-NLD_ROTTERDAM",
+      "cittaId": "P_NLD_ROTTERDAM_CITTA",
+      "nation": "NLD",
+      "name": "Rotterdam",
+      "operator": "Wilton-Fijenoord e RDM",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-NLD_AMSTERDAM",
+      "cittaId": "P_NLD_AMSTERDAM_CITTA",
+      "nation": "NLD",
+      "name": "Amsterdam",
+      "operator": "Nederlandsche Scheepsbouw Maatschappij",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-BEL_ANVERSA",
+      "cittaId": "P_BEL_ANVERSA_CITTA",
+      "nation": "BEL",
+      "name": "Anversa",
+      "operator": "Cockerill (Hoboken)",
+      "kind": "private",
+      "basis": "ipotesi"
+    }
+  ]
+}

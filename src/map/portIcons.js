@@ -34,20 +34,29 @@ export function portPins(ports, state) {
 }
 
 /**
- * Cantieri navali costruiti (state.nations[*].facilities di tipo FCT-SHIPYARD con provinceId), uno per provincia: [{ provinceId, cittaId, name, count }].
- * La posizione è quella del porto principale della provincia (livello più alto); senza porti, della prima città costiera. Province senza coste: nessun segno.
- * Nei dati non esiste la posizione del cantiere dentro la provincia: è un'approssimazione.
+ * Cantieri navali sulla mappa, uno per provincia: [{ provinceId, cittaId, name, count }].
+ * - costruiti: state.nations[*].facilities di tipo FCT-SHIPYARD con provinceId; la posizione è quella del porto principale della provincia (livello più alto), senza porti della prima città costiera;
+ * - storici 1936 (`initial` = data/naval/shipyards_1936.json, facoltativo): ciascuno sulla sua città del catalogo; se la provincia ha anche cantieri costruiti, i conteggi si sommano e vince la città storica.
+ * Province senza coste: nessun segno. Nei dati non esiste la posizione del cantiere dentro la provincia: è un'approssimazione.
  */
-export function shipyardPins(ports, state) {
+export function shipyardPins(ports, state, initial = null) {
+  if (!ports?.coastal) return [];
   const counts = new Map();
   for (const n of Object.values(state?.nations ?? {})) {
     for (const f of n.facilities ?? []) if (f.type === SHIPYARD_ID && typeof f.provinceId === 'string') counts.set(f.provinceId, (counts.get(f.provinceId) ?? 0) + 1);
   }
-  if (!counts.size || !ports?.coastal) return [];
+  const historic = new Map(); // provincia → { cittaId, name }
+  for (const y of initial?.shipyards ?? []) {
+    const c = ports.coastal[y.cittaId];
+    if (!c?.parentProvince) continue;
+    counts.set(c.parentProvince, (counts.get(c.parentProvince) ?? 0) + 1);
+    if (!historic.has(c.parentProvince)) historic.set(c.parentProvince, { cittaId: y.cittaId, name: c.name });
+  }
+  if (!counts.size) return [];
   const pins = portPins(ports, state);
   const out = [];
   for (const [provinceId, count] of [...counts].sort()) {
-    const host = pins.find((p) => p.province === provinceId)
+    const host = historic.get(provinceId) ?? pins.find((p) => p.province === provinceId)
       ?? Object.entries(ports.coastal).filter(([, c]) => c.parentProvince === provinceId).sort(([a], [b]) => (a < b ? -1 : 1)).map(([cittaId, c]) => ({ cittaId, name: c.name }))[0];
     if (host) out.push({ provinceId, cittaId: host.cittaId, name: host.name, count });
   }
