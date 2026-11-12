@@ -96,10 +96,10 @@ test('battaglia: il bonus dei fucili vale in attacco e si somma alla difesa', ()
   assert.ok(seen.every(([, n]) => n > 0));
 });
 
-test('bonus delle tecnologie: appena ricercate, solo per le categorie col fucile; totale +10%', () => {
+test('bonus delle tecnologie: appena ricercate, solo per le categorie col fucile; 1% ciascuna, totale +5%', () => {
   assert.equal(rifleTechBonus(doc, 'infantry', new Set()), 0);
-  assert.equal(rifleTechBonus(doc, 'infantry', new Set(['TECH-INF-SEMI1'])), 0.02);
-  assert.equal(rifleTechBonus(doc, 'infantry', ALL), 0.1);
+  assert.equal(rifleTechBonus(doc, 'infantry', new Set(['TECH-INF-SEMI1'])), 0.01);
+  assert.equal(rifleTechBonus(doc, 'infantry', ALL), 0.05);
   assert.equal(rifleTechBonus(doc, 'armored', ALL), 0);
   const bad = structuredClone(doc); bad.rifleQuality.techBonus['TECH-NO'] = 0.01;
   assert.ok(validateRifleQuality(bad, { techIds: new Set(ALL) }).some((e) => /inesistente/.test(e)));

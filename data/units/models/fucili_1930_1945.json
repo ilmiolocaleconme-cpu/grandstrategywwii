@@ -1247,7 +1247,7 @@
   }
  ],
  "rifleQuality": {
-  "note": "Fase 2 (12/11/2026, scelta A dell'utente): VALORI DI BILANCIAMENTO di Claude (DESIGN_DEFAULT), non dati storici. Ogni fucile prodotto vale la qualità del miglior modello che la nazione può produrre quel giorno (byType, o `quality` del modello se presente). La qualità media della nazione = punti accumulati / uomini PREVISTI delle sue divisioni, al massimo maxQuality. Bonus in battaglia = bonusPerQuality × qualità media, solo per le categorie elencate (la corazzata no). techBonus (richiesta dell'utente 12/11/2026): bonus in battaglia che si ottiene appena la tecnologia è ricercata (dottrina e addestramento), anche prima che i fucili nuovi arrivino ai reparti; si somma al bonus della qualità, stesse categorie. Totale delle 5 tecnologie: +10%.",
+  "note": "Fase 2 (12/11/2026, scelta A dell'utente): VALORI DI BILANCIAMENTO di Claude (DESIGN_DEFAULT), non dati storici. Ogni fucile prodotto vale la qualità del miglior modello che la nazione può produrre quel giorno (byType, o `quality` del modello se presente). La qualità media della nazione = punti accumulati / uomini PREVISTI delle sue divisioni, al massimo maxQuality. Bonus in battaglia = bonusPerQuality × qualità media, solo per le categorie elencate (la corazzata no). techBonus (richiesta dell'utente 12/11/2026): bonus in battaglia che si ottiene appena la tecnologia è ricercata (dottrina e addestramento), anche prima che i fucili nuovi arrivino ai reparti; si somma al bonus della qualità, stesse categorie. Totale delle 5 tecnologie: +5% (1% ciascuna dal 12/11/2026, decisione dell'utente; prima +10%).",
   "byType": {
    "bolt": 0,
    "sniper": 0,
@@ -1265,10 +1265,10 @@
    "mechanized"
   ],
   "techBonus": {
-   "TECH-INF-OPTICS": 0.02,
-   "TECH-INF-SEMI1": 0.02,
-   "TECH-INF-SEMI2": 0.02,
-   "TECH-INF-SELECT": 0.03,
+   "TECH-INF-OPTICS": 0.01,
+   "TECH-INF-SEMI1": 0.01,
+   "TECH-INF-SEMI2": 0.01,
+   "TECH-INF-SELECT": 0.01,
    "TECH-INF-EMERG": 0.01
   }
  }

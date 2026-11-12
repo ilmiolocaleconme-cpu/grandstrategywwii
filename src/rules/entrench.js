@@ -4,7 +4,7 @@
 // Il bonus massimo (+50%) è un'IPOTESI di Claude con calcolo in data/units/entrenchment.json (campo rationale).
 // Stato: campo OPZIONALE `state.entrench = { schema, dig: { unitId: true }, days: { unitId: n }, pos: { unitId: provincia } }`.
 export const ENTRENCH_SCHEMA = 'entrench-v1';
-export const DEFAULT_ENTRENCH = Object.freeze({ maxBonus: 0.5, rampDays: 7, curve: 'linear' });
+export const DEFAULT_ENTRENCH = Object.freeze({ maxBonus: 0.5, rampDays: 14, curve: 'linear' }); // 14 giorni dal 12/11/2026 (prima 7)
 
 export const createEntrench = () => ({ schema: ENTRENCH_SCHEMA, dig: {}, days: {}, pos: {} });
 
