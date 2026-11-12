@@ -48,8 +48,8 @@ test('pinSpec: diametro dal livello, nome accorciato', () => {
   assert.equal(shortName('Roma'), 'Roma');
 });
 
-test('il livello «Porti» è tra i livelli della mappa', () => {
-  assert.ok(LAYERS.some((l) => l.id === 'ports' && l.label === 'Porti'));
+test('«Porti» non è più un livello di base: è un\'opzione sulla mappa, indipendente dal livello', () => {
+  assert.ok(!LAYERS.some((l) => l.id === 'ports' || l.label === 'Porti'));
 });
 
 test('drawPorts: un distintivo per porto, sul punto della città, senza linee; nome da zoom e solo con spazio', () => {

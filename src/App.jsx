@@ -380,6 +380,7 @@ export default function App() {
   const { file: seaFile, status: seaStatus } = useSeaData(true);
   const linksRaw = useLinks(USE_CANVAS);
   const [showTransport, setShowTransport] = useState(false);
+  const [showPorts, setShowPorts] = useState(false); // porti e cantieri sulla mappa: opzione indipendente dal livello, come le strade
   // collegamenti con i gradini della PARTITA (livello di partenza o migliorato): la mappa e le regole usano lo stesso dato. Se le province non corrispondono al grafo non si applica nulla.
   const links = useMemo(() => {
     if (!linksRaw || !provinces) return linksRaw;
@@ -943,7 +944,7 @@ export default function App() {
               name: NATION_NAMES[game.player] ?? game.player,
               flag: flagsFile.flags[game.player],
               steps: [
-                ...(layer === 'political' || layer === 'ports' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
+                ...(layer === 'political' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
                 { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
                 { label: 'Mari e rotte', done: seaStatus !== 'loading' },
                 { label: 'Città', done: citiesRaw !== null },
@@ -954,7 +955,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={orderIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
+        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={orderIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} onInfo={() => setInfoSheet(true)} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} showPorts={showPorts} onTogglePorts={() => setShowPorts((v) => !v)} provincePorts={showPorts ? portPinList : null} portYards={showPorts ? portYardList : null} onSelectPort={selectPort} />
         {orderTo && !command ? (
           <div className="order-bar" role="status">
             <span>{orderTo.note ?? `Tocca sulla mappa la destinazione per ${orderTo.ids.length} ${orderTo.ids.length === 1 ? 'divisione' : 'divisioni'}: territorio tuo = marcia, nemico (in guerra) = attacco.`}</span>
