@@ -69,3 +69,13 @@ test('mandati della Società delle Nazioni (12/11/2026): le risorse vanno a chi 
   assert.equal(economicOwner(byId.get('DANZIG')), 'DANZIG');
   assert.equal(economicOwner(byId.get('ITA')), 'ITA');
 });
+
+test('Terranova (12/11/2026): fantoccio che non è una nazione del gioco → le sue risorse al Regno Unito', async () => {
+  const { economicOwner } = await import('../src/rules/puppetLevy.js');
+  const nations = new Set(json('nations.json').map((n) => n.id));
+  const byId = new Map(political.map((e) => [e.id, e]));
+  assert.equal(nations.has('NFL'), false);
+  assert.equal(economicOwner(byId.get('NFL'), nations), 'GBR');
+  assert.equal(economicOwner(byId.get('MAN'), nations), 'MAN', 'il Manciukuò è una nazione: resta suo, con la quota');
+  assert.equal(economicOwner(byId.get('NFL')), 'NFL', 'senza elenco delle nazioni nessun cambio');
+});

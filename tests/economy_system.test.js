@@ -108,3 +108,11 @@ test('mandati (12/11/2026): il frumento di Palestina e Siria entra nelle scorte 
   assert.ok(Math.abs(wheat(s1, 'GBR') - wheat(s2, 'GBR') - baseline.byTerritory.PAL.wheat) < 0.01);
   assert.ok(Math.abs(wheat(s1, 'FRA') - wheat(s2, 'FRA') - baseline.byTerritory.SYR.wheat) < 0.01);
 });
+
+test('Terranova (12/11/2026): con l\'elenco delle nazioni il ferro di Bell Island entra nelle scorte del Regno Unito', () => {
+  const withNations = createEconomySystem({ catalog, economy: start.economy, baseline, hydro, political, cash: start.cash, nationIds });
+  const s0 = fresh();
+  const iron = (s) => s.nations.GBR.stocks.iron_ore ?? 0;
+  const d = iron(advanceDay(s0, [withNations])) - iron(advanceDay(s0, [system]));
+  assert.ok(Math.abs(d - baseline.byTerritory.NFL.iron_ore) < 0.01, `${d}`);
+});

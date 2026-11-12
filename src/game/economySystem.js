@@ -39,8 +39,10 @@ export function hydroMwByOwner(hydroFile, date, ownerOf) {
  * ctx: { sites (mine_sites.json, opzionale), catalog: { recipes: Map, factories: Map }, economy, baseline (extraction_baseline.json), hydro (hydro_plants.json), political, cash (initial_cash.json: province per proprietario),
  *        livestock (opzionale): { fertilizer: contenuto di fertilizer_effect.json, horses: contenuto di horse_breeding.json } }
  */
-export function createEconomySystem({ catalog, economy, baseline, hydro, political, cash, sites = { byProvince: {} }, livestock = null, smallArms = null }) {
-  const ownerOf = new Map(political.map((e) => [e.id, economicOwner(e)])); // mandati della Società delle Nazioni → chi li amministra
+export function createEconomySystem({ catalog, economy, baseline, hydro, political, cash, sites = { byProvince: {} }, livestock = null, smallArms = null, nationIds = null }) {
+  const nationSet = nationIds ? new Set(nationIds) : null;
+  // mandati della Società delle Nazioni e fantocci che non sono nazioni del gioco (Terranova) → chi li amministra
+  const ownerOf = new Map(political.map((e) => [e.id, economicOwner(e, nationSet)]));
   const puppets = puppetsOf(political); // fantocci → chi li controlla (quote in state.puppetLevy, 12/11/2026)
   const supply = {};
   for (const [territory, row] of Object.entries(baseline.byTerritory)) {

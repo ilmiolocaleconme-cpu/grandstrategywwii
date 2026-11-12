@@ -12,10 +12,14 @@ export const LEVY_STEPS = [0, 0.25, 0.5, 0.75, 1];
  * Chi riceve l'economia di un'entità (estrazione, idroelettrico). Mandati della Società delle Nazioni (proprietario LEAGUE, che non è una
  * nazione): tutto a chi li amministra (decisione dell'utente 12/11/2026), es. Palestina → Regno Unito, Siria → Francia.
  * Danzica (città libera, amministra se stessa) resta a sé.
+ * Fantoccio che NON è una nazione del gioco (es. Terranova, controllata dal Regno Unito): tutto a chi lo controlla (decisione dell'utente
+ * 12/11/2026), perché non c'è nessuno che possa ricevere le sue risorse né un pannello dove scegliere la quota. nationIds: Set delle nazioni.
  */
-export function economicOwner(e) {
+export function economicOwner(e, nationIds = null) {
   const owner = e.owner ?? e.id;
-  return owner === 'LEAGUE' && e.controller ? e.controller : owner;
+  if (owner === 'LEAGUE' && e.controller) return e.controller;
+  if (nationIds && !nationIds.has(owner) && e.controller && nationIds.has(e.controller)) return e.controller;
+  return owner;
 }
 const r3 = (x) => Math.round(x * 1000) / 1000;
 
