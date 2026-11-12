@@ -7,13 +7,14 @@ const pct = (v) => `${Math.round(v * 100)}%`;
 const Msg = ({ msg }) => (msg ? <p className={msg.ok ? 'muted' : 'warn'} role="status">{msg.text}</p> : null);
 
 /** rows: research.listFor(...). onStart(techId) → { ok, text }. unlocksFor(techId) (facoltativo) → nomi dei modelli sbloccati; rifles (facoltativo) → nomi dei fucili producibili oggi. */
-export function ResearchPanel({ rows, onStart, unlocksFor = null, rifles = null }) {
+export function ResearchPanel({ rows, onStart, unlocksFor = null, rifles = null, rifleInfo = null }) {
   const [msg, setMsg] = useState(null);
   if (!rows || rows.length === 0) return null;
   return (
     <section aria-label="Ricerca">
       <h2>Ricerca</h2>
       <Msg msg={msg} />
+      {rifleInfo ? <p className="muted small">Qualità media dei fucili: {fmt(rifleInfo.quality)} · bonus della fanteria in battaglia: +{pct(rifleInfo.bonus)}</p> : null}
       {rifles ? <p className="muted small">Fucili producibili oggi: {rifles.length ? rifles.join(', ') : 'nessun modello nel catalogo'}</p> : null}
       <ul className="build-list">
         {rows.map(({ tech, cost, status, missing }) => (

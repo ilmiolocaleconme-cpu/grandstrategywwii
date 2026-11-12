@@ -12,6 +12,11 @@ import { produceDay } from '../rules/production.js';
 import { fertilizerEffect } from '../rules/fertilizer.js';
 import { horseUpkeep } from '../rules/horsePool.js';
 import { dailyIncome } from '../rules/treasury.js';
+import { bestRifleQuality, addRiflePoints } from '../rules/rifleQuality.js';
+import { techsOf } from './research.js';
+
+// Fucili prodotti (equipaggiamento INW-<nazione>-RIFLE…): servono alla qualità dei fucili della nazione (src/rules/rifleQuality.js).
+export const isRifleProduct = (product) => /^equipment\.INW-[A-Z]+-RIFLE/.test(product);
 import { entityOfProvinceId } from '../data/provinceOwner.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
@@ -33,7 +38,7 @@ export function hydroMwByOwner(hydroFile, date, ownerOf) {
  * ctx: { sites (mine_sites.json, opzionale), catalog: { recipes: Map, factories: Map }, economy, baseline (extraction_baseline.json), hydro (hydro_plants.json), political, cash (initial_cash.json: province per proprietario),
  *        livestock (opzionale): { fertilizer: contenuto di fertilizer_effect.json, horses: contenuto di horse_breeding.json } }
  */
-export function createEconomySystem({ catalog, economy, baseline, hydro, political, cash, sites = { byProvince: {} }, livestock = null }) {
+export function createEconomySystem({ catalog, economy, baseline, hydro, political, cash, sites = { byProvince: {} }, livestock = null, smallArms = null }) {
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
   const supply = {};
   for (const [territory, row] of Object.entries(baseline.byTerritory)) {
@@ -82,6 +87,10 @@ export function createEconomySystem({ catalog, economy, baseline, hydro, politic
       for (const [res, t] of Object.entries(produced)) goods[res] = r3((goods[res] ?? 0) + t);
       const income = dailyIncome({ goods, inputs: consumed, territory: { provinces: cash.nations[id]?.provinces ?? 0, cities: 0, capitals: 1 } }, economy, state.difficulty).total;
       nations[id] = { ...n, facilities, stocks: after, balance: r3(n.balance + income) };
+      if (smallArms) { // fase 2 fucili: ogni fucile prodotto vale la qualità del miglior modello producibile oggi
+        const rifles = Object.entries(produced).reduce((s, [k, v]) => (isRifleProduct(k) ? s + v : s), 0);
+        if (rifles > 0) nations[id] = addRiflePoints(nations[id], rifles, bestRifleQuality(smallArms, id, Number(String(state.date).slice(0, 4)), techsOf(n)));
+      }
     }
     return { ...state, nations };
   };

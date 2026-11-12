@@ -27,6 +27,7 @@ import { validateHydro } from '../src/data/hydro.js';
 import { validateFactoryLevels } from '../src/data/factoryLevels.js';
 import { validateTechnologies, consumersOf } from '../src/data/technologies.js';
 import { validateSmallArms } from '../src/data/smallArmsModels.js';
+import { validateRifleQuality } from '../src/rules/rifleQuality.js';
 import { validateSecurityConfig } from '../src/rules/security.js';
 import { validateDiplomacyConfig, validateDiplomacyStart } from '../src/rules/diplomacy.js';
 import { validatePortsList, validatePorts, buildPorts } from '../src/data/ports.js';
@@ -151,6 +152,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // Modelli di fucile (12/11/2026): tecnologie richieste esistenti, modelli padre coerenti
     const smallArmsDoc = JSON.parse(await text('units/models/fucili_1930_1945.json'));
     errors.push(...validateSmallArms(smallArmsDoc, { techIds, nationIds: new Set(catalog.nations.map((n) => n.id)) }));
+    errors.push(...validateRifleQuality(smallArmsDoc));
     for (const [n] of Object.entries(techDoc.initialResearch ?? {})) if (!catalog.nations.some((x) => x.id === n)) errors.push(`tecnologie: initialResearch per la nazione inesistente ${n}`);
     errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc, ports: JSON.parse(await text('ports/port_levels.json')), smallArms: smallArmsDoc }) }));
     for (const l of levelsDoc.levels) if (l.requires && !techIds.has(l.requires)) errors.push(`livelli fabbriche: L${l.level} richiede ${l.requires}, che non esiste`);

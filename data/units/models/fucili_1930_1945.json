@@ -171,7 +171,8 @@
    "productionEnd": 1945,
    "status": "standard",
    "basis": "utente",
-   "note": "Caricatore staccabile."
+   "note": "Caricatore staccabile.",
+   "quality": 1.25
   },
   {
    "id": "MDL-DEU-K43",
@@ -186,7 +187,8 @@
    "productionEnd": 1945,
    "status": "standard",
    "basis": "utente",
-   "note": "Nuova denominazione del G43, non un modello distinto."
+   "note": "Nuova denominazione del G43, non un modello distinto.",
+   "quality": 1.25
   },
   {
    "id": "MDL-DEU-FG42",
@@ -216,7 +218,8 @@
    "productionEnd": 1945,
    "status": "limited",
    "basis": "utente",
-   "note": "Produzione di emergenza."
+   "note": "Produzione di emergenza.",
+   "quality": 0.5
   },
   {
    "id": "MDL-DEU-VK98",
@@ -942,5 +945,24 @@
    "basis": "utente",
    "note": "Mai in produzione di serie."
   }
- ]
+ ],
+ "rifleQuality": {
+  "note": "Fase 2 (12/11/2026, scelta A dell'utente): VALORI DI BILANCIAMENTO di Claude (DESIGN_DEFAULT), non dati storici. Ogni fucile prodotto vale la qualità del miglior modello che la nazione può produrre quel giorno (byType, o `quality` del modello se presente). La qualità media della nazione = punti accumulati / uomini PREVISTI delle sue divisioni, al massimo maxQuality. Bonus in battaglia = bonusPerQuality × qualità media, solo per le categorie elencate (la corazzata no).",
+  "byType": {
+   "bolt": 0,
+   "sniper": 0,
+   "semi": 1,
+   "selective": 1.25
+  },
+  "maxQuality": 1.25,
+  "bonusPerQuality": 0.08,
+  "categories": [
+   "infantry",
+   "mountain",
+   "airborne",
+   "cavalry",
+   "motorized",
+   "mechanized"
+  ]
+ }
 }

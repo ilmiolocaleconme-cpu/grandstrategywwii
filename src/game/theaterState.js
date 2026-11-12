@@ -99,7 +99,8 @@ function combatantsByProvince(state, ctx) {
     const pos = canon(at);
     const m = effectiveOf(state, u.id);
     if (!map.has(pos)) map.set(pos, []);
-    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) });
+    const rifle = ctx.rifleBonus?.(s0, u) ?? 0; // qualità dei fucili della nazione (src/rules/rifleQuality.js): vale in attacco e in difesa
+    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, rifle, bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) + rifle });
   }
   return map;
 }
@@ -150,7 +151,7 @@ function battlePhase(state, ctx, net) {
     if (defenders.length === 0 || attackers.length === 0) continue;
     // nel nodo di una zona urbana si combatte con le regole urbane (imboscate, difesa rafforzata, mezzi penalizzati)
     const solve = net.isCity?.(p) === true ? resolveUrbanBattleDay : resolveBattleDay;
-    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: 0 })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
+    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
     for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l);
     for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l);
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));

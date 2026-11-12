@@ -101,6 +101,7 @@ export function validateNations(nations, { player } = {}) {
       else for (const h of n.hospitals) if (typeof h.id !== 'string' || typeof h.kind !== 'string' || typeof h.provinceId !== 'string' || !Number.isInteger(h.staff) || h.staff < 0) errors.push(`stato: ${id}, ospedale ${h?.id} non valido`);
     }
     if (!num(n.baseGridMw)) errors.push(`stato: ${id}, rete di base non valida`);
+    if (n.rifles !== undefined && (n.rifles === null || !num(n.rifles.points))) errors.push(`stato: ${id}, punti dei fucili non validi`); // facoltativo (fucili, fase 2)
     for (const [r, v] of Object.entries(n.stocks ?? {})) if (!num(v)) errors.push(`stato: ${id}, scorta di ${r} non valida`);
     if (!n.stocks || typeof n.stocks !== 'object') errors.push(`stato: ${id}, scorte mancanti`);
     if (!Array.isArray(n.facilities)) errors.push(`stato: ${id}, impianti mancanti`);

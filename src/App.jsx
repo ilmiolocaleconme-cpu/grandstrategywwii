@@ -98,6 +98,7 @@ import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
 import smallArmsFile from '../data/units/models/fucili_1930_1945.json';
 import { modelsUnlockedBy, producibleModels } from './data/smallArmsModels.js';
+import { averageQuality, rifleBonus, plannedMenByNation } from './rules/rifleQuality.js';
 import securityFile from '../data/security/security.json';
 import diplomacyConfig from '../data/diplomacy/diplomacy.json';
 import diplomacyStart from '../data/diplomacy/relations_1936.json';
@@ -329,7 +330,15 @@ const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
 const ENTRENCH_ERRORS = validateEntrenchConfig(entrenchFile);
 if (ENTRENCH_ERRORS.length) console.error('Trinceramento: configurazione non valida, uso i valori predefiniti.', ENTRENCH_ERRORS);
-const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+// Fucili (fase 2): qualità media della nazione = punti dei fucili prodotti / uomini previsti delle sue divisioni; calcolata una volta per stato
+const RIFLE_MEN = new WeakMap();
+const rifleAverage = (state, nation) => {
+  if (!state.forces) return 0;
+  let men = RIFLE_MEN.get(state.forces);
+  if (!men) { men = plannedMenByNation(state.forces, (id) => unitOf(state, id, UNITS_BY_ID)?.nation); RIFLE_MEN.set(state.forces, men); }
+  return averageQuality(smallArmsFile, state.nations?.[nation]?.rifles?.points ?? 0, men[nation] ?? 0);
+};
+const THEATER_CTX = { rifleBonus: (state, u) => rifleBonus(smallArmsFile, u.category, rifleAverage(state, u.nation)), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse)
@@ -342,7 +351,7 @@ const GAME_SYSTEMS = [
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
   GAME_BUILD.constructionDay,
-  createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
+  createEconomySystem({ catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding }, smallArms: smallArmsFile }),
   // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
   (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
@@ -934,7 +943,7 @@ export default function App() {
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
             <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
-            <ResearchPanel rows={researchRows} onStart={startResearch} unlocksFor={(id) => modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation)} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} />
+            <ResearchPanel rows={researchRows} onStart={startResearch} unlocksFor={(id) => modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation)} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} rifleInfo={{ quality: rifleAverage(game, game.player), bonus: rifleBonus(smallArmsFile, 'infantry', rifleAverage(game, game.player)) }} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
             {statusSection}
