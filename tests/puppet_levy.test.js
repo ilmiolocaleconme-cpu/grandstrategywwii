@@ -59,3 +59,13 @@ test('rapporto iniziale Giappone–Manciukuò +80 (decisione dell\'utente 12/11/
   const start = json('diplomacy/relations_1936.json');
   assert.ok(start.relations.some(([a, b, v]) => a === 'JPN' && b === 'MAN' && v === 80));
 });
+
+test('mandati della Società delle Nazioni (12/11/2026): le risorse vanno a chi li amministra', async () => {
+  const { economicOwner } = await import('../src/rules/puppetLevy.js');
+  const byId = new Map(political.map((e) => [e.id, e]));
+  assert.equal(economicOwner(byId.get('PAL')), 'GBR');
+  assert.equal(economicOwner(byId.get('SYR')), 'FRA');
+  assert.equal(economicOwner(byId.get('MAN')), 'MAN', 'il fantoccio resta proprietario: la quota la sceglie chi controlla');
+  assert.equal(economicOwner(byId.get('DANZIG')), 'DANZIG');
+  assert.equal(economicOwner(byId.get('ITA')), 'ITA');
+});

@@ -7,6 +7,16 @@
 // Funzioni PURE.
 
 export const LEVY_STEPS = [0, 0.25, 0.5, 0.75, 1];
+
+/**
+ * Chi riceve l'economia di un'entità (estrazione, idroelettrico). Mandati della Società delle Nazioni (proprietario LEAGUE, che non è una
+ * nazione): tutto a chi li amministra (decisione dell'utente 12/11/2026), es. Palestina → Regno Unito, Siria → Francia.
+ * Danzica (città libera, amministra se stessa) resta a sé.
+ */
+export function economicOwner(e) {
+  const owner = e.owner ?? e.id;
+  return owner === 'LEAGUE' && e.controller ? e.controller : owner;
+}
 const r3 = (x) => Math.round(x * 1000) / 1000;
 
 /** Map fantoccio → nazione che lo controlla, dai dati politici. */

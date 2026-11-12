@@ -98,3 +98,13 @@ test('fantocci (12/11/2026): con la quota del 100% il ferro e il carbone del Man
   assert.ok(gain(levy, 'JPN', 'iron_ore') - gain(base, 'JPN', 'iron_ore') > 160);
   assert.ok(gain(base, 'MAN', 'iron_ore') - gain(levy, 'MAN', 'iron_ore') > 160);
 });
+
+test('mandati (12/11/2026): il frumento di Palestina e Siria entra nelle scorte di Regno Unito e Francia', () => {
+  const s0 = fresh();
+  const s1 = advanceDay(s0, [system]);
+  const plain = createEconomySystem({ catalog, economy: start.economy, baseline: { byTerritory: Object.fromEntries(Object.entries(baseline.byTerritory).filter(([t]) => !['PAL', 'SYR'].includes(t))) }, hydro, political, cash: start.cash });
+  const s2 = advanceDay(s0, [plain]);
+  const wheat = (s, n) => s.nations[n].stocks.wheat ?? 0;
+  assert.ok(Math.abs(wheat(s1, 'GBR') - wheat(s2, 'GBR') - baseline.byTerritory.PAL.wheat) < 0.01);
+  assert.ok(Math.abs(wheat(s1, 'FRA') - wheat(s2, 'FRA') - baseline.byTerritory.SYR.wheat) < 0.01);
+});
