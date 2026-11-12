@@ -87,7 +87,7 @@ test('Francia 1939 nel motore: scelta per data, organico iniziale reale e quanti
   const { templates } = await templatesBuilt();
   const t = templates['divisione_fanteria_francia_1939.json'];
   const unit = { id: 'F1', nation: 'FRA', category: 'infantry', echelon: 'division' };
-  assert.equal(templateFor(unit, [t], '1936-01-01'), null, 'non esiste prima del settembre 1939');
+  assert.equal(templateFor(unit, [t], '1936-01-01').id, 'TPL-FRA-INF-1939', 'prima del settembre 1939, se è l\'unico, si usa per approssimazione (regola del 12/11/2026)');
   assert.equal(templateFor(unit, [t], '1939-09-01').id, 'TPL-FRA-INF-1939');
   const items = initialEffective(t, 0.9);
   assert.deepEqual(items['manpower.war'], { planned: 16400, effective: 15500, source: 'template' });
@@ -116,7 +116,7 @@ test('Germania 1939 e Italia 1940 (agenti di ricerca): file su disco = CSV; scel
   const unit = { id: 'D1', nation: 'DEU', category: 'infantry', echelon: 'division' };
   assert.equal(templateFor(unit, [old, deu], '1936-01-01').id, old.id, 'all\'inizio della partita resta il template del 1936');
   assert.equal(templateFor(unit, [old, deu], '1939-09-01').id, 'TPL-DEU-INF-1939', 'dal settembre 1939 vale il nuovo');
-  assert.equal(templateFor({ ...unit, nation: 'ITA' }, [ita], '1939-12-31'), null);
+  assert.equal(templateFor({ ...unit, nation: 'ITA' }, [ita], '1939-12-31').id, 'TPL-ITA-INF-1940', 'unico template italiano: usato anche prima (approssimazione)');
   assert.equal(ita.horses.value, null); assert.equal('effective' in ita.horses, false); assert.equal(ita.manpower.war.effective.value, null, 'iniziale ignoto: lo stima il motore col rapporto');
   const items = initialEffective(ita, 0.9);
   assert.deepEqual(items['manpower.war'], { planned: 12979, effective: Math.round(12979 * 0.9), source: 'ratio' });

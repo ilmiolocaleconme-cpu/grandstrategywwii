@@ -1,6 +1,6 @@
 // Istanze di divisione nello stato: per ogni divisione attiva con un template, uomini, cavalli e armi PREVISTI ed EFFETTIVI (29/10/2026).
 // Funzioni PURE. L'effettivo iniziale viene da initialEffective (src/rules/readiness.js): dato reale del template, altrimenti previsto × frazione di esempio.
-// Solo le divisioni che hanno un template ricevono un'istanza: le altre (nazioni o tipi senza template) restano senza dotazione, NON si inventa.
+// Solo le divisioni che hanno un template (anche per approssimazione: vedi templateFor) ricevono un'istanza; i numeri restano quelli dei template, NON si inventano.
 import { isActiveAt } from '../data/units.js';
 import { initialEffective } from './readiness.js';
 import { isTemplateValidAt, templateWindow } from '../data/templates.js';
@@ -12,14 +12,40 @@ export function createForcesState() {
 }
 
 /** Template che si applica a un'unità (stessa nazione, categoria e scaglione), oppure null. */
-export function templateFor(unit, templates, date = null) {
-  if (unit.echelon !== 'division') return null;
-  const matches = templates.filter((t) => t.appliesTo && t.appliesTo.nation === unit.nation && t.appliesTo.category === unit.category && t.appliesTo.echelon === unit.echelon);
-  // Senza data: primo template corrispondente (comportamento invariato). Con data: tra le versioni valide quella con inizio più recente (Fase 2, 03/11/2026).
-  if (date == null) return matches[0] ?? null;
+// Stesse regole per tutte le nazioni (12/11/2026, richiesta dell'utente). Quando manca il template giusto si usa, come APPROSSIMAZIONE dichiarata:
+//  1) un template senza alcun numero d'armi (es. Francia 1936, voci «da definire») prende le ARMI dal template successivo della stessa nazione e
+//     categoria (completeTemplates, da chiamare una volta sui dati); uomini, quadro e frazione iniziale restano i suoi;
+//  2) se nessun template è valido alla data, quello della stessa nazione e categoria che inizia per primo DOPO la data (es. Italia 1940 usato dal 1936);
+//  3) montagna, aviotrasportate, cavalleria, motorizzate e meccanizzate senza template proprio usano quello di fanteria della nazione.
+//     Le corazzate no: senza template proprio restano senza istanza (una corazzata con la dotazione di una fanteria sarebbe sbagliata).
+export const CATEGORY_FALLBACK = Object.freeze({ mountain: 'infantry', airborne: 'infantry', cavalry: 'infantry', motorized: 'infantry', mechanized: 'infantry' });
+const hasEquipmentNumbers = (t) => Object.values(t.equipment ?? {}).some((v) => Number.isFinite(v?.value ?? v));
+
+function templateForCategory(unit, category, templates, date) {
+  const matches = templates.filter((t) => t.appliesTo && t.appliesTo.nation === unit.nation && t.appliesTo.category === category && t.appliesTo.echelon === unit.echelon);
+  if (date == null) return matches[0] ?? null; // senza data: primo template corrispondente (comportamento invariato)
+  // con data: tra le versioni valide quella con inizio più recente (Fase 2, 03/11/2026)
   const valid = matches.filter((t) => isTemplateValidAt(t, date));
   valid.sort((a, b) => (templateWindow(b).from ?? '').localeCompare(templateWindow(a).from ?? ''));
-  return valid[0] ?? null;
+  if (valid[0]) return valid[0];
+  const later = matches.filter((t) => (templateWindow(t).from ?? '') > date).sort((a, b) => (templateWindow(a).from ?? '').localeCompare(templateWindow(b).from ?? '') || (a.id < b.id ? -1 : 1));
+  return later[0] ?? null;
+}
+
+/** Regola 1: copie dei template senza numeri d'armi con l'equipaggiamento del template successivo (stessa nazione, categoria, scaglione). equipmentFrom = id usato. */
+export function completeTemplates(templates) {
+  return templates.map((t) => {
+    if (hasEquipmentNumbers(t) || !t.appliesTo) return t;
+    const from = templateWindow(t).from ?? '';
+    const donor = templates.filter((d) => d !== t && hasEquipmentNumbers(d) && d.appliesTo?.nation === t.appliesTo.nation && d.appliesTo?.category === t.appliesTo.category && d.appliesTo?.echelon === t.appliesTo.echelon && (templateWindow(d).from ?? '') > from)
+      .sort((a, b) => (templateWindow(a).from ?? '').localeCompare(templateWindow(b).from ?? ''))[0];
+    return donor ? { ...t, equipment: donor.equipment, equipmentFrom: donor.id } : t;
+  });
+}
+
+export function templateFor(unit, templates, date = null) {
+  if (unit.echelon !== 'division') return null;
+  return templateForCategory(unit, unit.category, templates, date) ?? (CATEGORY_FALLBACK[unit.category] ? templateForCategory(unit, CATEGORY_FALLBACK[unit.category], templates, date) : null);
 }
 
 /** Istanza di una divisione: { templateId, since, items: { 'manpower.war': { planned, effective, source }, ... } } (solo voci numeriche note). */

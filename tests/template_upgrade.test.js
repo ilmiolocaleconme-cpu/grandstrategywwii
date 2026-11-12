@@ -5,7 +5,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { newGame } from '../src/game/state.js';
 import { initForcesState, createForcesActivationSystem, validateForcesShape } from '../src/game/forcesState.js';
 import { advanceDays } from '../src/game/engine.js';
-import { validateForcesState, templateFor } from '../src/rules/forces.js';
+import { validateForcesState, templateFor, CATEGORY_FALLBACK } from '../src/rules/forces.js';
 import { planReinforcements, mobilize } from '../src/rules/reinforcements.js';
 import { validateUpgradeMap, upgradeDivision, upgradeTarget } from '../src/rules/templateUpgrade.js';
 import { mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
@@ -85,7 +85,7 @@ test('dati reali: dal 1/9/1939 le divisioni tedesche e francesi già create pass
     for (const [id, d] of of(c, nation)) {
       const old = before[id];
       if (!old) continue;
-      if (unitOf(id).category !== 'infantry') { assert.deepEqual(d, old, `${id}: non di fanteria, nessuna versione più recente`); continue; }
+      if (!['infantry', ...Object.keys(CATEGORY_FALLBACK)].includes(unitOf(id).category)) { assert.deepEqual(d, old, `${id}: non di fanteria, nessuna versione più recente`); continue; }
       assert.equal(d.templateId, `TPL-${nation}-INF-1939`, id);
       assert.equal(d.since, old.since); assert.equal(d.upgrade.from, old.templateId); assert.equal(d.upgrade.on, '1939-09-01');
       assert.equal(d.items['manpower.war'].planned, nation === 'DEU' ? 17200 : 16400);

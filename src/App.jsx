@@ -28,10 +28,14 @@ import hospitalCare from '../data/medical/hospital_care.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { initForcesState, nationManpowerPool, createForcesActivationSystem } from './game/forcesState.js';
+import { completeTemplates } from './rules/forces.js'; // armi del template successivo per i template senza numeri (Francia 1936)
 import { createMobilizationSystem } from './game/mobilizationState.js';
 import tplFraInfantry1939 from '../data/units/templates/divisione_fanteria_francia_1939.json';
 import tplDeuInfantry1939 from '../data/units/templates/divisione_fanteria_germania_1939.json';
 import tplItaInfantry1940 from '../data/units/templates/divisione_fanteria_italia_1940.json';
+import tplJpnInfantry1939 from '../data/units/templates/divisione_fanteria_giappone_1939.json';
+import tplUsaInfantry1940 from '../data/units/templates/divisione_fanteria_usa_1940.json';
+import tplUssrInfantry1939 from '../data/units/templates/divisione_fucilieri_urss_1939.json';
 import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';
 import { TradePanel } from './ui/TradePanel.jsx';
 import { tradeGoods, tradeRows, previewTrade, describeTradeFailure } from './ui/tradeView.js';
@@ -327,7 +331,7 @@ const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: dip
 const GAME_AI_DIPLOMACY = createAiDiplomacy({ diplomacy: GAME_DIPLOMACY }); // IA diplomatica: alleanze e rapporti (accessi, commercio e guerra: mancanti)
 const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
-const FORCES_CTX = { units: unitsFile.units, templates: [tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry, tplDeuInfantry1939, tplFraInfantry1939, tplItaInfantry1940], ratio: readiness.initialFillRatio.value, upgradeMap: equipmentUpgradeMap };
+const FORCES_CTX = { units: unitsFile.units, templates: completeTemplates([tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry, tplDeuInfantry1939, tplFraInfantry1939, tplItaInfantry1940, tplJpnInfantry1939, tplUsaInfantry1940, tplUssrInfantry1939]), ratio: readiness.initialFillRatio.value, upgradeMap: equipmentUpgradeMap };
 const withForces = (state) => GAME_DIPLOMACY.init(initForcesState(state, FORCES_CTX).state); // anche la diplomazia: stato iniziale 1936 se manca
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };

@@ -70,3 +70,27 @@ test('inizio partita: le divisioni tedesche del 1936 partono tutte allo stesso l
   }
   assert.equal(factors.size, 1, 'tutte uguali');
 });
+
+test('stesse regole per tutte le nazioni: al 1/1/1936 ogni divisione attiva delle 7 potenze (tranne le corazzate senza template) ha armi riconosciute', async () => {
+  const { completeTemplates, CATEGORY_FALLBACK } = await import('../src/rules/forces.js');
+  const { isActiveAt } = await import('../src/data/units.js');
+  const names = ['divisione_fanteria_germania_1936', 'divisione_corazzata_germania_1936', 'divisione_fanteria_gran_bretagna_1936', 'divisione_fanteria_francia_1936', 'divisione_fanteria_germania_1939', 'divisione_fanteria_francia_1939', 'divisione_fanteria_italia_1940', 'divisione_fanteria_giappone_1939', 'divisione_fanteria_usa_1940', 'divisione_fucilieri_urss_1939'];
+  const templates = completeTemplates(names.map((n) => json(`units/templates/${n}.json`)));
+  const fra = templates.find((t) => t.id === 'TPL-FRA-INF-1936');
+  assert.equal(fra.equipmentFrom, 'TPL-FRA-INF-1939', 'Francia 1936: armi dal 1939');
+  assert.equal(fra.startsAsCadre, true, 'resta un quadro');
+  assert.equal(fra.initialFillRatio.value, 0.3);
+  const units = json('units/units.json').units;
+  const { state } = initForcesState({ schema: 7, date: '1936-01-01', forces: { schema: 'forces-v1', initialized: false, divisions: {} } }, { units, templates, ratio: json('units/readiness.json').initialFillRatio.value });
+  const nations = new Set();
+  for (const u of units.filter((x) => x.echelon === 'division' && isActiveAt(x, '1936-01-01'))) {
+    const d = state.forces.divisions[u.id];
+    if (u.category === 'armored' && !(u.nation === 'DEU')) { assert.equal(d, undefined); continue; }
+    assert.ok(d, `${u.id} (${u.nation} ${u.category}) senza istanza`);
+    assert.ok(u.category === 'infantry' || u.category === 'armored' || CATEGORY_FALLBACK[u.category]);
+    const f = equipmentFill(d.items, (k) => categoryOf(u.nation, k), cfg);
+    assert.notEqual(f.fill, null, `${u.id}: nessuna arma riconosciuta`);
+    nations.add(u.nation);
+  }
+  assert.deepEqual([...nations].sort(), ['DEU', 'FRA', 'GBR', 'ITA', 'JPN', 'USA', 'USSR']);
+});
