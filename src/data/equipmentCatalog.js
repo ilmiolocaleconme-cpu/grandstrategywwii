@@ -28,6 +28,7 @@ export const CLASS_TO_CATEGORY = {
   rifle: 'INDIVIDUAL_WEAPON', pistol: 'INDIVIDUAL_WEAPON', light_machine_gun: 'MACHINE_GUN', heavy_machine_gun: 'MACHINE_GUN',
   rifle_grenade_launcher: 'GRENADE_LAUNCHER', light_mortar: 'MORTAR', medium_mortar: 'MORTAR', anti_tank_gun: 'ANTI_TANK_GUN',
   field_gun: 'FIELD_GUN', howitzer: 'HOWITZER',
+  light_tank: 'TANK', medium_tank: 'TANK', heavy_tank: 'TANK', // 12/11/2026: template delle divisioni corazzate
 };
 
 const ID_RE = /^([A-Z]{2,4})-([A-Z]{2,4})-[A-Z0-9]+(-[A-Z0-9]+)*$/;

@@ -1,0 +1,92 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-JPN-ARM-1942",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/jpn_arm_template_1942.csv, source/jpn_arm_equipment_1942.csv, source/land_equipment_catalog_jpn_arm_1942.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (JPN armored division, serie Divisione carri); Divisione carri giapponese (Sensha Shidan) 1942, generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "JPN",
+    "category": "armored",
+    "echelon": "division",
+    "validFrom": "1942-06-01"
+  },
+  "formation": {
+    "value": "armored"
+  },
+  "regimentsInfantry": {
+    "value": 1
+  },
+  "manpower": {
+    "war": {
+      "value": 10000,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": 0,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "TNK-JPN-TYPE97-1942": {
+      "value": 150,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "150 (Carro medio Tipo 97 Chi-Ha). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "TNK-JPN-TYPE95-1942": {
+      "value": 80,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "80 (Carro leggero Tipo 95 Ha-Go). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-JPN-GUN75-ARM-1942": {
+      "value": 24,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "24 (Cannone da 75 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-JPN-AT47-ARM-1942": {
+      "value": 18,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "18 (Cannone controcarro da 47 mm Tipo 1). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-JPN-TNK-1942",
+    "series": "Divisione carri",
+    "referenceDivision": "Divisione carri giapponese (Sensha Shidan) 1942, generica",
+    "referenceDate": "1942-06",
+    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
+    "sourceNote": "Due brigate carri (4 reggimenti), un reggimento di fanteria meccanizzata, artiglieria. Quantità stimate. Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+    "sourceFiles": [
+      {
+        "file": "source/jpn_arm_template_1942.csv",
+        "sha256": "68d306764199872ff648b934051e1dd665e598a55e1504b64fc9cb9a10fcad44"
+      },
+      {
+        "file": "source/jpn_arm_equipment_1942.csv",
+        "sha256": "cff816ff5e9d119ecf91f62f3249c67589d7311daa7141657262c4dcce9e63aa"
+      },
+      {
+        "file": "source/land_equipment_catalog_jpn_arm_1942.csv",
+        "sha256": "66a60f220cbefc229551da643bc0574e548f60c31e8489c1128003b24e033e40"
+      }
+    ]
+  }
+}

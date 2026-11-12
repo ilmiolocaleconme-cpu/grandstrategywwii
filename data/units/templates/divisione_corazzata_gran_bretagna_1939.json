@@ -1,0 +1,92 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-GBR-ARM-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/gbr_arm_template_1939.csv, source/gbr_arm_equipment_1939.csv, source/land_equipment_catalog_gbr_arm_1939.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (GBR armored division, serie Armoured Division); Armoured Division britannica 1939-40, generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "GBR",
+    "category": "armored",
+    "echelon": "division",
+    "validFrom": "1939-09-01"
+  },
+  "formation": {
+    "value": "armored"
+  },
+  "regimentsInfantry": {
+    "value": 0
+  },
+  "manpower": {
+    "war": {
+      "value": 9442,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": 0,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "TNK-GBR-LIGHT-TANK-1939": {
+      "value": 140,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "140 (Carro leggero (Light Tank Mk VI)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "TNK-GBR-CRUISER-1939": {
+      "value": 200,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "200 (Carro cruiser (A9, A10, A13)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-GBR-25PDR-ARM-1939": {
+      "value": 24,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "24 (Cannone-obice da 25 libbre (artiglieria a cavallo)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-GBR-2PDR-ARM-1939": {
+      "value": 48,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "48 (Cannone controcarro da 2 libbre). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-GBR-ARM-1939",
+    "series": "Armoured Division",
+    "referenceDivision": "Armoured Division britannica 1939-40, generica",
+    "referenceDate": "1939-09",
+    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
+    "sourceNote": "Due brigate corazzate (3 reggimenti ciascuna) e un gruppo di supporto (artiglieria a cavallo, controcarro, fanteria motorizzata). Ripartizione fra carri leggeri e cruiser stimata. Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+    "sourceFiles": [
+      {
+        "file": "source/gbr_arm_template_1939.csv",
+        "sha256": "57c51cca20356f21e169d8db4bf2ffe793c9a60faf3ff8640ec9cea3ddba05bb"
+      },
+      {
+        "file": "source/gbr_arm_equipment_1939.csv",
+        "sha256": "e02be7b464c96d38a40d1c6908a37ce2d64bbccb2c982156434367e2046d5721"
+      },
+      {
+        "file": "source/land_equipment_catalog_gbr_arm_1939.csv",
+        "sha256": "8f6bd5b5e08bf37336e6a4ae5b0e8ce9785c88dba56fda901807fbd531b46aef"
+      }
+    ]
+  }
+}

@@ -64,6 +64,41 @@
       "granularityOverrides": {
         "USA-RIFLE-1940": "class"
       }
+    },
+    {
+      "id": "FRA-ARM-1940",
+      "template": "fra_arm_template_1940.csv",
+      "lines": "fra_arm_equipment_1940.csv",
+      "catalog": "land_equipment_catalog_fra_arm_1940.csv",
+      "output": "divisione_corazzata_francia_1940.json"
+    },
+    {
+      "id": "GBR-ARM-1939",
+      "template": "gbr_arm_template_1939.csv",
+      "lines": "gbr_arm_equipment_1939.csv",
+      "catalog": "land_equipment_catalog_gbr_arm_1939.csv",
+      "output": "divisione_corazzata_gran_bretagna_1939.json"
+    },
+    {
+      "id": "ITA-ARM-1940",
+      "template": "ita_arm_template_1940.csv",
+      "lines": "ita_arm_equipment_1940.csv",
+      "catalog": "land_equipment_catalog_ita_arm_1940.csv",
+      "output": "divisione_corazzata_italia_1940.json"
+    },
+    {
+      "id": "USA-ARM-1940",
+      "template": "usa_arm_template_1940.csv",
+      "lines": "usa_arm_equipment_1940.csv",
+      "catalog": "land_equipment_catalog_usa_arm_1940.csv",
+      "output": "divisione_corazzata_usa_1940.json"
+    },
+    {
+      "id": "JPN-ARM-1942",
+      "template": "jpn_arm_template_1942.csv",
+      "lines": "jpn_arm_equipment_1942.csv",
+      "catalog": "land_equipment_catalog_jpn_arm_1942.csv",
+      "output": "divisione_corazzata_giappone_1942.json"
     }
   ]
 }

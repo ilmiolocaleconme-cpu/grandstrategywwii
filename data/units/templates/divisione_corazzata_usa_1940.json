@@ -1,0 +1,92 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-USA-ARM-1940",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/usa_arm_template_1940.csv, source/usa_arm_equipment_1940.csv, source/land_equipment_catalog_usa_arm_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (USA armored division, serie Armored Division); Armored Division statunitense 1940 («pesante»), generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "USA",
+    "category": "armored",
+    "echelon": "division",
+    "validFrom": "1940-07-01"
+  },
+  "formation": {
+    "value": "armored"
+  },
+  "regimentsInfantry": {
+    "value": 1
+  },
+  "manpower": {
+    "war": {
+      "value": 12697,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": 0,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "TNK-USA-LIGHT-TANK-1940": {
+      "value": 273,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "273 (Carro leggero M2A4 / M3 Stuart). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "TNK-USA-MEDIUM-TANK-1940": {
+      "value": 108,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "108 (Carro medio M2 / M3). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USA-HOW105-ARM-1940": {
+      "value": 24,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "24 (Obice da 105 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USA-AT37-ARM-1940": {
+      "value": 68,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "68 (Cannone controcarro da 37 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-USA-ARM-1940",
+    "series": "Armored Division",
+    "referenceDivision": "Armored Division statunitense 1940 («pesante»), generica",
+    "referenceDate": "1940-07",
+    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
+    "sourceNote": "Brigata corazzata con due reggimenti leggeri e uno medio, reggimento di fanteria corazzata, artiglieria. Quantità stimate. Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+    "sourceFiles": [
+      {
+        "file": "source/usa_arm_template_1940.csv",
+        "sha256": "f5f2f73a69f619e552cfcb5a72177feb9d95fe0a8dd191e20f64e11c8ea3457b"
+      },
+      {
+        "file": "source/usa_arm_equipment_1940.csv",
+        "sha256": "ba8b7ed6a895b506e8751a0dc98239d0d8658977a23b1b00fafb39e6f18c03f4"
+      },
+      {
+        "file": "source/land_equipment_catalog_usa_arm_1940.csv",
+        "sha256": "50bd8b96dbd46172a3e1cb741524555f1b401845004bd17dd46324816ef86e95"
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+template_id,subunit_id,equipment_id,quantity,quantity_status,basis,effective_quantity,mechanics_profile_id,source_note
+TPL-ITA-COR-1940,Divisione corazzata,ITA-M13-1940,117,ESTIMATED,division_table,,,"117 (Carro medio M13/40 (o M11/39)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-ITA-COR-1940,Divisione corazzata,ITA-L3-ARM-1940,47,ESTIMATED,division_table,,,"47 (Carro veloce L3). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-ITA-COR-1940,Divisione corazzata,ITA-GUN75-27-ARM-1940,24,ESTIMATED,division_table,,,"24 (Cannone da 75/27). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-ITA-COR-1940,Divisione corazzata,ITA-AT47-ARM-1940,24,ESTIMATED,division_table,,,"24 (Cannone controcarro da 47/32). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."

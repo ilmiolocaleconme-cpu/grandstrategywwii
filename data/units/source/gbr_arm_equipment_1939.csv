@@ -1,0 +1,5 @@
+template_id,subunit_id,equipment_id,quantity,quantity_status,basis,effective_quantity,mechanics_profile_id,source_note
+TPL-GBR-ARM-1939,Divisione corazzata,GBR-LIGHT-TANK-1939,140,ESTIMATED,division_table,,,"140 (Carro leggero (Light Tank Mk VI)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-GBR-ARM-1939,Divisione corazzata,GBR-CRUISER-1939,200,ESTIMATED,division_table,,,"200 (Carro cruiser (A9, A10, A13)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-GBR-ARM-1939,Divisione corazzata,GBR-25PDR-ARM-1939,24,ESTIMATED,division_table,,,"24 (Cannone-obice da 25 libbre (artiglieria a cavallo)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-GBR-ARM-1939,Divisione corazzata,GBR-2PDR-ARM-1939,48,ESTIMATED,division_table,,,"48 (Cannone controcarro da 2 libbre). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."

@@ -14,7 +14,7 @@ import { CLASS_TO_CATEGORY, ID_PREFIX, EQUIPMENT_SCHEMA } from './equipmentCatal
 
 export const MANIFEST_SCHEMA = 'template-sources-v1';
 /** Codice di categoria nell'id del template. Estendere qui quando compare una nuova categoria di divisione. */
-export const CATEGORY_CODE = { infantry: 'INF' };
+export const CATEGORY_CODE = { infantry: 'INF', armored: 'ARM' };
 
 const blank = (s) => String(s ?? '').trim() === '';
 const intOf = (s, what) => {

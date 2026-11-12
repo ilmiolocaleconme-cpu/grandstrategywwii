@@ -1,0 +1,92 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-FRA-ARM-1940",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/fra_arm_template_1940.csv, source/fra_arm_equipment_1940.csv, source/land_equipment_catalog_fra_arm_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (FRA armored division, serie Division cuirassée); Division cuirassée (DCr) 1940, generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "FRA",
+    "category": "armored",
+    "echelon": "division",
+    "validFrom": "1940-01-01"
+  },
+  "formation": {
+    "value": "armored"
+  },
+  "regimentsInfantry": {
+    "value": 0
+  },
+  "manpower": {
+    "war": {
+      "value": 6500,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": 0,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "TNK-FRA-B1BIS-1940": {
+      "value": 68,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "68 (Carro pesante Char B1 bis). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "TNK-FRA-H39-1940": {
+      "value": 90,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "90 (Carro leggero Hotchkiss H39). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-FRA-HOW105-ARM-1940": {
+      "value": 24,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "24 (Obice da 105 mm (gruppi divisionali della DCr)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-FRA-AT47-ARM-1940": {
+      "value": 8,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "8 (Cannone controcarro da 47 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-FRA-DCR-1940",
+    "series": "Division cuirassée",
+    "referenceDivision": "Division cuirassée (DCr) 1940, generica",
+    "referenceDate": "1940-01",
+    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
+    "sourceNote": "Divisione corazzata da rottura (DCr): 2 battaglioni di carri pesanti B1 bis e 2 di carri leggeri H39, un battaglione di cacciatori portati, 2 gruppi di artiglieria da 105. Organico e quantità stimati. Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+    "sourceFiles": [
+      {
+        "file": "source/fra_arm_template_1940.csv",
+        "sha256": "106fc684065b50bb4f4c44eb52452f73cc3c9b29c43c02ccd007958abc439d19"
+      },
+      {
+        "file": "source/fra_arm_equipment_1940.csv",
+        "sha256": "3540a065b01bea3d66d650940a7d51a99d0fb3c01ed1df028969af0db40a2b14"
+      },
+      {
+        "file": "source/land_equipment_catalog_fra_arm_1940.csv",
+        "sha256": "15bf4be4f098b7c7df508520199957103a46368881d14b7a59baa05c7c5d2688"
+      }
+    ]
+  }
+}

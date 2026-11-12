@@ -1,0 +1,5 @@
+template_id,subunit_id,equipment_id,quantity,quantity_status,basis,effective_quantity,mechanics_profile_id,source_note
+TPL-JPN-TNK-1942,Divisione corazzata,JPN-TYPE97-1942,150,ESTIMATED,division_table,,,"150 (Carro medio Tipo 97 Chi-Ha). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-JPN-TNK-1942,Divisione corazzata,JPN-TYPE95-1942,80,ESTIMATED,division_table,,,"80 (Carro leggero Tipo 95 Ha-Go). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-JPN-TNK-1942,Divisione corazzata,JPN-GUN75-ARM-1942,24,ESTIMATED,division_table,,,"24 (Cannone da 75 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-JPN-TNK-1942,Divisione corazzata,JPN-AT47-ARM-1942,18,ESTIMATED,division_table,,,"18 (Cannone controcarro da 47 mm Tipo 1). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."

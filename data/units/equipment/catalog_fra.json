@@ -15,6 +15,18 @@
       {
         "file": "source/land_equipment_catalog_fr_1939.csv",
         "sha256": "c49a806d008e95736b52c34a223c0ff5348d27b4f62b97094975b174ade3b940"
+      },
+      {
+        "file": "source/fra_arm_template_1940.csv",
+        "sha256": "106fc684065b50bb4f4c44eb52452f73cc3c9b29c43c02ccd007958abc439d19"
+      },
+      {
+        "file": "source/fra_arm_equipment_1940.csv",
+        "sha256": "3540a065b01bea3d66d650940a7d51a99d0fb3c01ed1df028969af0db40a2b14"
+      },
+      {
+        "file": "source/land_equipment_catalog_fra_arm_1940.csv",
+        "sha256": "15bf4be4f098b7c7df508520199957103a46368881d14b7a59baa05c7c5d2688"
       }
     ]
   },
@@ -205,6 +217,74 @@
       "reference_date": "1940-05",
       "source_id": "FRA-AT47M1937",
       "source_note": "Tenere separato dal template settembre 1939; compare nell'ordine di battaglia successivo della divisione."
+    },
+    {
+      "equipment_id": "TNK-FRA-B1BIS-1940",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro pesante Char B1 bis",
+      "family": "tracked_vehicle",
+      "role": "breakthrough_tank",
+      "caliber_mm": 75,
+      "name_it": "Carro pesante Char B1 bis",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-01",
+      "source_id": "FRA-B1BIS-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-FRA-H39-1940",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro leggero Hotchkiss H39",
+      "family": "tracked_vehicle",
+      "role": "infantry_support_tank",
+      "caliber_mm": 37,
+      "name_it": "Carro leggero Hotchkiss H39",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-01",
+      "source_id": "FRA-H39-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-FRA-HOW105-ARM-1940",
+      "nation": "FRA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 105 mm (gruppi divisionali della DCr)",
+      "family": "artillery",
+      "role": "divisional_artillery",
+      "caliber_mm": 105,
+      "name_it": "Obice da 105 mm (gruppi divisionali della DCr)",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-01",
+      "source_id": "FRA-HOW105-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-FRA-AT47-ARM-1940",
+      "nation": "FRA",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone controcarro da 47 mm",
+      "family": "artillery",
+      "role": "anti_tank",
+      "caliber_mm": 47,
+      "name_it": "Cannone controcarro da 47 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-01",
+      "source_id": "FRA-AT47-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -262,6 +342,26 @@
       "nation": "FRA",
       "templateKey": "ART-FRA-AT47M1937",
       "equipment_id": "ART-FRA-AT47M1937"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-B1BIS-1940",
+      "equipment_id": "TNK-FRA-B1BIS-1940"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-H39-1940",
+      "equipment_id": "TNK-FRA-H39-1940"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-HOW105-ARM-1940",
+      "equipment_id": "ART-FRA-HOW105-ARM-1940"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-AT47-ARM-1940",
+      "equipment_id": "ART-FRA-AT47-ARM-1940"
     }
   ]
 }

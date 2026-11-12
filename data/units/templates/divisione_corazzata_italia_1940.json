@@ -1,0 +1,92 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-ITA-ARM-1940",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/ita_arm_template_1940.csv, source/ita_arm_equipment_1940.csv, source/land_equipment_catalog_ita_arm_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (ITA armored division, serie Divisione corazzata); Divisione corazzata italiana 1940 (tipo Ariete), generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "ITA",
+    "category": "armored",
+    "echelon": "division",
+    "validFrom": "1940-06-01"
+  },
+  "formation": {
+    "value": "armored"
+  },
+  "regimentsInfantry": {
+    "value": 1
+  },
+  "manpower": {
+    "war": {
+      "value": 7400,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": 0,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "TNK-ITA-M13-1940": {
+      "value": 117,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "117 (Carro medio M13/40 (o M11/39)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "TNK-ITA-L3-ARM-1940": {
+      "value": 47,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "47 (Carro veloce L3). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-ITA-GUN75-27-ARM-1940": {
+      "value": 24,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "24 (Cannone da 75/27). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-ITA-AT47-ARM-1940": {
+      "value": 24,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione corazzata",
+      "note": "24 (Cannone controcarro da 47/32). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-ITA-COR-1940",
+    "series": "Divisione corazzata",
+    "referenceDivision": "Divisione corazzata italiana 1940 (tipo Ariete), generica",
+    "referenceDate": "1940-06",
+    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
+    "sourceNote": "Un reggimento carristi, un reggimento bersaglieri, un reggimento di artiglieria da 75/27. Ripartizione fra carri medi e carri veloci stimata. Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+    "sourceFiles": [
+      {
+        "file": "source/ita_arm_template_1940.csv",
+        "sha256": "465a627b411740b9a6522aa09af342d32287faafe21dcde82c165d14683c8b86"
+      },
+      {
+        "file": "source/ita_arm_equipment_1940.csv",
+        "sha256": "e8775df6911b12ae6c4a1672af17d0a02192bae98426b560781a548ca2d0e08a"
+      },
+      {
+        "file": "source/land_equipment_catalog_ita_arm_1940.csv",
+        "sha256": "07adc7748d373232d96cc2a528dd555a8f596d1b70da10c84d257d0d7bb02ff7"
+      }
+    ]
+  }
+}

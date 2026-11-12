@@ -1,0 +1,5 @@
+template_id,subunit_id,equipment_id,quantity,quantity_status,basis,effective_quantity,mechanics_profile_id,source_note
+TPL-FRA-DCR-1940,Divisione corazzata,FRA-B1BIS-1940,68,ESTIMATED,division_table,,,"68 (Carro pesante Char B1 bis). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-FRA-DCR-1940,Divisione corazzata,FRA-H39-1940,90,ESTIMATED,division_table,,,"90 (Carro leggero Hotchkiss H39). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-FRA-DCR-1940,Divisione corazzata,FRA-HOW105-ARM-1940,24,ESTIMATED,division_table,,,"24 (Obice da 105 mm (gruppi divisionali della DCr)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-FRA-DCR-1940,Divisione corazzata,FRA-AT47-ARM-1940,8,ESTIMATED,division_table,,,"8 (Cannone controcarro da 47 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."

@@ -15,6 +15,18 @@
       {
         "file": "source/land_equipment_catalog_usa_1940.csv",
         "sha256": "ad516df30c8f256b5c6181ee036a5e238646c5300c97465c734fc9f967fce1c1"
+      },
+      {
+        "file": "source/usa_arm_template_1940.csv",
+        "sha256": "f5f2f73a69f619e552cfcb5a72177feb9d95fe0a8dd191e20f64e11c8ea3457b"
+      },
+      {
+        "file": "source/usa_arm_equipment_1940.csv",
+        "sha256": "ba8b7ed6a895b506e8751a0dc98239d0d8658977a23b1b00fafb39e6f18c03f4"
+      },
+      {
+        "file": "source/land_equipment_catalog_usa_arm_1940.csv",
+        "sha256": "50bd8b96dbd46172a3e1cb741524555f1b401845004bd17dd46324816ef86e95"
       }
     ]
   },
@@ -171,6 +183,74 @@
       "reference_date": "1940-11",
       "source_id": "USA-GUN75-1940",
       "source_note": "8 cannoni da 75 mm nel battaglione medio (T/O 6-95)."
+    },
+    {
+      "equipment_id": "TNK-USA-LIGHT-TANK-1940",
+      "nation": "USA",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro leggero M2A4 / M3 Stuart",
+      "family": "tracked_vehicle",
+      "role": "light_tank",
+      "caliber_mm": 37,
+      "name_it": "Carro leggero M2A4 / M3 Stuart",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USA-LIGHT-TANK-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-USA-MEDIUM-TANK-1940",
+      "nation": "USA",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro medio M2 / M3",
+      "family": "tracked_vehicle",
+      "role": "medium_tank",
+      "caliber_mm": 75,
+      "name_it": "Carro medio M2 / M3",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USA-MEDIUM-TANK-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USA-HOW105-ARM-1940",
+      "nation": "USA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 105 mm",
+      "family": "artillery",
+      "role": "divisional_artillery",
+      "caliber_mm": 105,
+      "name_it": "Obice da 105 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USA-HOW105-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USA-AT37-ARM-1940",
+      "nation": "USA",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone controcarro da 37 mm",
+      "family": "artillery",
+      "role": "anti_tank",
+      "caliber_mm": 37,
+      "name_it": "Cannone controcarro da 37 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USA-AT37-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -218,6 +298,26 @@
       "nation": "USA",
       "templateKey": "ART-USA-GUN75-1940",
       "equipment_id": "ART-USA-GUN75-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "TNK-USA-LIGHT-TANK-1940",
+      "equipment_id": "TNK-USA-LIGHT-TANK-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "TNK-USA-MEDIUM-TANK-1940",
+      "equipment_id": "TNK-USA-MEDIUM-TANK-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-HOW105-ARM-1940",
+      "equipment_id": "ART-USA-HOW105-ARM-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-AT37-ARM-1940",
+      "equipment_id": "ART-USA-AT37-ARM-1940"
     }
   ]
 }

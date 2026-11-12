@@ -1,0 +1,113 @@
+{
+  "schema": "equipment-catalog-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Catalogo GBR generato da CSV con scripts/build-templates.js: non modificare a mano. Stesso schema e stessa forma di id di tutte le nazioni; ogni voce con attendibilità (reliability) e nota di fonte. Le varianti datate (DATED_VARIANT) restano qui e non entrano nei template della data.",
+  "source": {
+    "files": [
+      {
+        "file": "source/gbr_arm_template_1939.csv",
+        "sha256": "57c51cca20356f21e169d8db4bf2ffe793c9a60faf3ff8640ec9cea3ddba05bb"
+      },
+      {
+        "file": "source/gbr_arm_equipment_1939.csv",
+        "sha256": "e02be7b464c96d38a40d1c6908a37ce2d64bbccb2c982156434367e2046d5721"
+      },
+      {
+        "file": "source/land_equipment_catalog_gbr_arm_1939.csv",
+        "sha256": "8f6bd5b5e08bf37336e6a4ae5b0e8ce9785c88dba56fda901807fbd531b46aef"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "equipment_id": "TNK-GBR-LIGHT-TANK-1939",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro leggero (Light Tank Mk VI)",
+      "family": "tracked_vehicle",
+      "role": "reconnaissance_tank",
+      "caliber_mm": 7.7,
+      "name_it": "Carro leggero (Light Tank Mk VI)",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1939-09",
+      "source_id": "GBR-LIGHT-TANK-1939",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-GBR-CRUISER-1939",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro cruiser (A9, A10, A13)",
+      "family": "tracked_vehicle",
+      "role": "cruiser_tank",
+      "caliber_mm": 40,
+      "name_it": "Carro cruiser (A9, A10, A13)",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1939-09",
+      "source_id": "GBR-CRUISER-1939",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-25PDR-ARM-1939",
+      "nation": "GBR",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "Cannone-obice da 25 libbre (artiglieria a cavallo)",
+      "family": "artillery",
+      "role": "divisional_artillery",
+      "caliber_mm": 87.6,
+      "name_it": "Cannone-obice da 25 libbre (artiglieria a cavallo)",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1939-09",
+      "source_id": "GBR-25PDR-ARM-1939",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-2PDR-ARM-1939",
+      "nation": "GBR",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone controcarro da 2 libbre",
+      "family": "artillery",
+      "role": "anti_tank",
+      "caliber_mm": 40,
+      "name_it": "Cannone controcarro da 2 libbre",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1939-09",
+      "source_id": "GBR-2PDR-ARM-1939",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    }
+  ],
+  "aliases": [
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-LIGHT-TANK-1939",
+      "equipment_id": "TNK-GBR-LIGHT-TANK-1939"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-CRUISER-1939",
+      "equipment_id": "TNK-GBR-CRUISER-1939"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-25PDR-ARM-1939",
+      "equipment_id": "ART-GBR-25PDR-ARM-1939"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-2PDR-ARM-1939",
+      "equipment_id": "ART-GBR-2PDR-ARM-1939"
+    }
+  ]
+}

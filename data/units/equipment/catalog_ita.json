@@ -15,6 +15,18 @@
       {
         "file": "source/land_equipment_catalog_ita_1940.csv",
         "sha256": "9d30c5401a432dbcc6be31c00d3bf58bd80bfc0abf054d1aa4ad54246497864c"
+      },
+      {
+        "file": "source/ita_arm_template_1940.csv",
+        "sha256": "465a627b411740b9a6522aa09af342d32287faafe21dcde82c165d14683c8b86"
+      },
+      {
+        "file": "source/ita_arm_equipment_1940.csv",
+        "sha256": "e8775df6911b12ae6c4a1672af17d0a02192bae98426b560781a548ca2d0e08a"
+      },
+      {
+        "file": "source/land_equipment_catalog_ita_arm_1940.csv",
+        "sha256": "07adc7748d373232d96cc2a528dd555a8f596d1b70da10c84d257d0d7bb02ff7"
       }
     ]
   },
@@ -188,6 +200,74 @@
       "reference_date": "1940-06",
       "source_id": "ITA-HOW100-1940",
       "source_note": "12 obici da 100 mm ippotrainati (Wikipedia, cit. Mollo 1981 p. 84; ww2-weapons.com; militaryhistoryvisualized.com). Modello preciso non indicato dalla fonte."
+    },
+    {
+      "equipment_id": "TNK-ITA-M13-1940",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro medio M13/40 (o M11/39)",
+      "family": "tracked_vehicle",
+      "role": "medium_tank",
+      "caliber_mm": 47,
+      "name_it": "Carro medio M13/40 (o M11/39)",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-06",
+      "source_id": "ITA-M13-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-ITA-L3-ARM-1940",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro veloce L3",
+      "family": "tracked_vehicle",
+      "role": "tankette",
+      "caliber_mm": 8,
+      "name_it": "Carro veloce L3",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-06",
+      "source_id": "ITA-L3-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-GUN75-27-ARM-1940",
+      "nation": "ITA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "Cannone da 75/27",
+      "family": "artillery",
+      "role": "divisional_artillery",
+      "caliber_mm": 75,
+      "name_it": "Cannone da 75/27",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-06",
+      "source_id": "ITA-GUN75-27-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-AT47-ARM-1940",
+      "nation": "ITA",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone controcarro da 47/32",
+      "family": "artillery",
+      "role": "anti_tank",
+      "caliber_mm": 47,
+      "name_it": "Cannone controcarro da 47/32",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-06",
+      "source_id": "ITA-AT47-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -240,6 +320,26 @@
       "nation": "ITA",
       "templateKey": "ART-ITA-HOW100-1940",
       "equipment_id": "ART-ITA-HOW100-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-M13-1940",
+      "equipment_id": "TNK-ITA-M13-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-L3-ARM-1940",
+      "equipment_id": "TNK-ITA-L3-ARM-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-GUN75-27-ARM-1940",
+      "equipment_id": "ART-ITA-GUN75-27-ARM-1940"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-AT47-ARM-1940",
+      "equipment_id": "ART-ITA-AT47-ARM-1940"
     }
   ]
 }

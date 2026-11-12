@@ -83,6 +83,10 @@ export const EQUIPMENT_GROUP = Object.freeze({
   controcarro: 'anticarro', controcarro37mm: 'anticarro', 'ART-DEU-PAK36': 'anticarro', 'ART-FRA-AT25': 'anticarro', 'ART-ITA-AT47-1940': 'anticarro', 'ART-USSR-AT45-1939': 'anticarro', 'ART-JPN-AT37-1939': 'anticarro', 'ART-USA-AT37-1940': 'anticarro',
   antiaerei: 'contraerea', antiaerei20mm: 'contraerea',
   veicoli: 'veicoli', carri: 'corazzati', radio: 'trasmissioni',
+  // divisioni corazzate (12/11/2026)
+  'TNK-FRA-B1BIS-1940': 'corazzati', 'TNK-FRA-H39-1940': 'corazzati', 'TNK-GBR-LIGHT-TANK-1939': 'corazzati', 'TNK-GBR-CRUISER-1939': 'corazzati', 'TNK-ITA-M13-1940': 'corazzati', 'TNK-ITA-L3-ARM-1940': 'corazzati', 'TNK-USA-LIGHT-TANK-1940': 'corazzati', 'TNK-USA-MEDIUM-TANK-1940': 'corazzati', 'TNK-JPN-TYPE97-1942': 'corazzati', 'TNK-JPN-TYPE95-1942': 'corazzati',
+  'ART-FRA-HOW105-ARM-1940': 'artiglieria', 'ART-GBR-25PDR-ARM-1939': 'artiglieria', 'ART-ITA-GUN75-27-ARM-1940': 'artiglieria', 'ART-USA-HOW105-ARM-1940': 'artiglieria', 'ART-JPN-GUN75-ARM-1942': 'artiglieria',
+  'ART-FRA-AT47-ARM-1940': 'anticarro', 'ART-GBR-2PDR-ARM-1939': 'anticarro', 'ART-ITA-AT47-ARM-1940': 'anticarro', 'ART-USA-AT37-ARM-1940': 'anticarro', 'ART-JPN-AT47-ARM-1942': 'anticarro',
 });
 
 /** Raggruppa le voci di dotazione. rows: [{ item, planned, effective, ratio, source? }]. Nessuna voce viene scartata. */

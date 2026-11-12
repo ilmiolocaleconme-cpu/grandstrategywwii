@@ -1,0 +1,5 @@
+equipment_id,nation,designation,family,class,caliber_mm,role,quantity_planned,quantity_effective,quantity_basis,reference_date,confidence,source_note
+USA-LIGHT-TANK-1940,USA,Carro leggero M2A4 / M3 Stuart,tracked_vehicle,light_tank,37,light_tank,273,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+USA-MEDIUM-TANK-1940,USA,Carro medio M2 / M3,tracked_vehicle,medium_tank,75,medium_tank,108,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+USA-HOW105-ARM-1940,USA,Obice da 105 mm,artillery,howitzer,105,divisional_artillery,24,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+USA-AT37-ARM-1940,USA,Cannone controcarro da 37 mm,artillery,anti_tank_gun,37,anti_tank,68,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
