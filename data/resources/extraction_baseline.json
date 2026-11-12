@@ -16,7 +16,7 @@
       "wheat": 122.4
     },
     "AUT": {
-      "iron_ore": 614.5,
+      "iron_ore": 613.5,
       "wheat": 8.7
     },
     "BEL": {
@@ -32,7 +32,7 @@
     },
     "BRA": {
       "iron_ore": 27.6,
-      "coal": 64.6,
+      "coal": 64.2,
       "rubber": 30
     },
     "BUR": {
@@ -51,7 +51,7 @@
       "wheat": 5
     },
     "CHL": {
-      "iron_ore": 230.7,
+      "iron_ore": 230.3,
       "sulphur": 5.2,
       "copper": 120.8
     },
@@ -71,13 +71,13 @@
       "iron_ore": 135.6
     },
     "CZE": {
-      "iron_ore": 230.8,
+      "iron_ore": 230.4,
       "wheat": 42,
       "tin": 0.1
     },
     "DEU": {
       "iron_ore": 406.6,
-      "coal": 1780.8,
+      "coal": 1780.7,
       "oil": 29.8,
       "wheat": 121.6,
       "tin": 0.1
@@ -93,7 +93,7 @@
       "wheat": 25
     },
     "ESP": {
-      "iron_ore": 230.7,
+      "iron_ore": 230.4,
       "sulphur": 6.3,
       "wheat": 121.8
     },
@@ -115,12 +115,12 @@
       "wheat": 46.5
     },
     "GRC": {
-      "iron_ore": 47.1,
+      "iron_ore": 46.8,
       "bauxite": 183.8,
       "wheat": 14.4
     },
     "HUN": {
-      "iron_ore": 47,
+      "iron_ore": 46.9,
       "bauxite": 695.4,
       "wheat": 42
     },
@@ -157,6 +157,8 @@
       "wheat": 24
     },
     "KOR": {
+      "iron_ore": 14.7,
+      "coal": 23.2,
       "wheat": 6
     },
     "LBR": {
@@ -180,7 +182,7 @@
       "wheat": 14.4
     },
     "MEX": {
-      "iron_ore": 230.7,
+      "iron_ore": 230.4,
       "coal": 109.6,
       "oil": 145.8,
       "sulphur": 3.8,
@@ -193,7 +195,7 @@
       "tin": 2.3
     },
     "NLD": {
-      "coal": 316.5,
+      "coal": 315.9,
       "oil": 132,
       "bauxite": 284.4,
       "rubber": 620,
@@ -210,7 +212,7 @@
       "oil": 50.4
     },
     "POL": {
-      "iron_ore": 79.8,
+      "iron_ore": 79.7,
       "coal": 338.1,
       "wheat": 43.2
     },
@@ -246,7 +248,7 @@
       "wheat": 8.5
     },
     "TUR": {
-      "coal": 109.5,
+      "coal": 109.4,
       "wheat": 72.6
     },
     "USA": {
@@ -260,7 +262,7 @@
     },
     "USSR": {
       "iron_ore": 1720.2,
-      "coal": 1296,
+      "coal": 1296.1,
       "oil": 503.2,
       "bauxite": 421.2,
       "copper": 37.1,

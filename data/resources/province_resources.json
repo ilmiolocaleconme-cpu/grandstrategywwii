@@ -1807,9 +1807,12 @@
    "wheat"
   ],
   "P_KOR_NORTH_HAMGYONG": [
+   "coal",
+   "iron_ore",
    "wheat"
   ],
   "P_KOR_NORTH_HWANGHAE": [
+   "iron_ore",
    "wheat"
   ],
   "P_KOR_NORTH_JEOLLA": [
@@ -1819,6 +1822,7 @@
    "wheat"
   ],
   "P_KOR_PYONGYANG": [
+   "coal",
    "wheat"
   ],
   "P_KOR_RASON": [
@@ -1836,13 +1840,18 @@
   "P_KOR_SOUTH_GYEONGSANG": [
    "wheat"
   ],
+  "P_KOR_SOUTH_HAMGYONG": [
+   "coal"
+  ],
   "P_KOR_SOUTH_HWANGHAE": [
+   "iron_ore",
    "wheat"
   ],
   "P_KOR_SOUTH_JEOLLA": [
    "wheat"
   ],
   "P_KOR_SOUTH_PYONGAN": [
+   "coal",
    "wheat"
   ],
   "P_KOR_ULSAN": [

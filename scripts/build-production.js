@@ -10,6 +10,8 @@ export async function productionBuilt() {
   const first = parseCsv(await readFile(dataUrl('resources/produzione_risorse_mondiale_1936.csv'), 'utf8'), { name: 'produzione_risorse_mondiale_1936.csv' });
   const complete = parseCsv(await readFile(dataUrl('resources/produzione_risorse_mondiale_completo_1936.csv'), 'utf8'), { name: 'produzione_risorse_mondiale_completo_1936.csv' });
   const research = parseCsv(await readFile(dataUrl('resources/produzione_stagno_1936.csv'), 'utf8'), { name: 'produzione_stagno_1936.csv' });
+  // quarta sorgente (12/11/2026): carbone e ferro della Corea, ricerca web, stesso formato (tonnellate lunghe)
+  research.push(...parseCsv(await readFile(dataUrl('resources/produzione_corea_1936.csv'), 'utf8'), { name: 'produzione_corea_1936.csv' }));
   return mergeProduction(first, complete, research);
 }
 
@@ -18,7 +20,7 @@ export function productionFile({ rows, conflicts }) {
     schema: PRODUCTION_SCHEMA,
     quality: 'USER_ESTIMATE',
     unit: 'Mt/anno',
-    note: 'Stime 1936 fornite dall\'utente (non verificate su fonti primarie; il ferro di USA, Francia, URSS, Regno Unito, Germania e Belgio coincide con US Bureau of Mines e NBER). Il file «completo» prevale sul primo dove si sovrappongono; le righe del primo che il completo non ha si aggiungono. Generato da scripts/build-production.js: non modificare a mano. Dal 29/10/2026 lo stagno (5 territori) viene da una terza sorgente, produzione_stagno_1936.csv: cifre dell\'International Tin Research and Development Council (Statistical Year Book 1937) riassunte in Nature 140, 176, in tonnellate lunghe, controllo incrociato col totale mondiale USGS (182.000 t metriche); NON sono stime dell\'utente e non sono verificate su fonti primarie. Riga con source «ricerca».',
+    note: 'Stime 1936 fornite dall\'utente (non verificate su fonti primarie; il ferro di USA, Francia, URSS, Regno Unito, Germania e Belgio coincide con US Bureau of Mines e NBER). Il file «completo» prevale sul primo dove si sovrappongono; le righe del primo che il completo non ha si aggiungono. Generato da scripts/build-production.js: non modificare a mano. Dal 29/10/2026 lo stagno (5 territori) viene da una terza sorgente, produzione_stagno_1936.csv: cifre dell\'International Tin Research and Development Council (Statistical Year Book 1937) riassunte in Nature 140, 176, in tonnellate lunghe, controllo incrociato col totale mondiale USGS (182.000 t metriche); NON sono stime dell\'utente e non sono verificate su fonti primarie. Riga con source «ricerca». Dal 12/11/2026 anche carbone e ferro della Corea (produzione_corea_1936.csv: Statistisches Jahrbuch 1938 e British Geological Survey 1936-38, ricerca web, non verificati su fonti primarie).',
     conversion: { realPerGame: 43.8, quality: 'DESIGN_DEFAULT', rationale: '1 acciaieria (100 t/giorno) ≈ 1,6 Mt/anno di acciaio reale → 1 t di gioco ≈ 43,8 t reali. Non ancora applicata ai punti delle province.' },
     rows,
     conflicts,

@@ -2,7 +2,7 @@
   "schema": "production-1936-v1",
   "quality": "USER_ESTIMATE",
   "unit": "Mt/anno",
-  "note": "Stime 1936 fornite dall'utente (non verificate su fonti primarie; il ferro di USA, Francia, URSS, Regno Unito, Germania e Belgio coincide con US Bureau of Mines e NBER). Il file «completo» prevale sul primo dove si sovrappongono; le righe del primo che il completo non ha si aggiungono. Generato da scripts/build-production.js: non modificare a mano. Dal 29/10/2026 lo stagno (5 territori) viene da una terza sorgente, produzione_stagno_1936.csv: cifre dell'International Tin Research and Development Council (Statistical Year Book 1937) riassunte in Nature 140, 176, in tonnellate lunghe, controllo incrociato col totale mondiale USGS (182.000 t metriche); NON sono stime dell'utente e non sono verificate su fonti primarie. Riga con source «ricerca».",
+  "note": "Stime 1936 fornite dall'utente (non verificate su fonti primarie; il ferro di USA, Francia, URSS, Regno Unito, Germania e Belgio coincide con US Bureau of Mines e NBER). Il file «completo» prevale sul primo dove si sovrappongono; le righe del primo che il completo non ha si aggiungono. Generato da scripts/build-production.js: non modificare a mano. Dal 29/10/2026 lo stagno (5 territori) viene da una terza sorgente, produzione_stagno_1936.csv: cifre dell'International Tin Research and Development Council (Statistical Year Book 1937) riassunte in Nature 140, 176, in tonnellate lunghe, controllo incrociato col totale mondiale USGS (182.000 t metriche); NON sono stime dell'utente e non sono verificate su fonti primarie. Riga con source «ricerca». Dal 12/11/2026 anche carbone e ferro della Corea (produzione_corea_1936.csv: Statistisches Jahrbuch 1938 e British Geological Survey 1936-38, ricerca web, non verificati su fonti primarie).",
   "conversion": {
     "realPerGame": 43.8,
     "quality": "DESIGN_DEFAULT",
@@ -182,6 +182,15 @@
       "source": "completo"
     },
     {
+      "resource": "coal",
+      "territory": "Corea",
+      "prefix": "KOR",
+      "region": "Pyongan, Hamgyong",
+      "mt": 2.074999,
+      "context": "Colonia giapponese: antracite del Pyongan e lignite dell'Hamgyong. 2.075.000 t metriche (Statistisches Jahrbuch für das Deutsche Reich 1938, tabella internazionale; ordine delle colonne incerto) convertite in tonnellate lunghe. Ricerca web di Claude del 12/11/2026, non verificata su fonti primarie.",
+      "source": "ricerca"
+    },
+    {
       "resource": "copper",
       "territory": "Stati Uniti",
       "prefix": "USA",
@@ -342,6 +351,15 @@
       "mt": 0.35,
       "context": "Produzione residua non occupata, parzialmente vincolata a contratti prebellici.",
       "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Corea",
+      "prefix": "KOR",
+      "region": "Hwanghae, Musan",
+      "mt": 0.234402,
+      "context": "Colonia giapponese: Jaeryong e Kyomipo (Hwanghae), Musan. British Geological Survey, Statistical Summary of the Mineral Industry 1936-1938 (allineamento delle colonne incerto). Ricerca web di Claude del 12/11/2026, non verificata su fonti primarie.",
+      "source": "ricerca"
     },
     {
       "resource": "oil",

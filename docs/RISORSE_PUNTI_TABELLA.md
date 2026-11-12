@@ -10,9 +10,9 @@ Parametri: step 1.7, 100 punti di output base mondiale per risorsa (quindi perce
 | Antimonio | 7 | Cina 70%, Bolivia 14%, Messico 8% | 1.93 | ×1,57 | 50% / 70% / 82% / 94% | sì (Cina) |
 | Bauxite | 12 | Francia 26%, Regno Unito 16%, Ungheria 15% | 6.55 | ×2,59 | 19% / 26% / 32% / 45% | no |
 | Cromo | 5 | Regno Unito 56%, Turchia 35%, Francia 4% | 2.25 | ×2,89 | 53% / 56% / 57% / 57% | sì (Regno Unito) |
-| Carbone | 18 | Stati Uniti 21%, Regno Unito 17%, Germania 15% | 7.26 | ×2,05 | 16% / 21% / 27% / 40% | no |
+| Carbone | 19 | Stati Uniti 21%, Regno Unito 17%, Germania 15% | 7.28 | ×2,05 | 15% / 21% / 27% / 40% | no |
 | Cobalto | 3 | Belgio 81%, Regno Unito 17%, Francia 2% | 1.45 | ×1,35 | 69% / 81% / 88% / 96% | sì (Belgio) |
-| Minerale di ferro | 21 | Stati Uniti 19%, URSS 19%, Regno Unito 14% | 7.53 | ×1,76 | 14% / 19% / 23% / 30% | no |
+| Minerale di ferro | 22 | Stati Uniti 19%, URSS 19%, Regno Unito 14% | 7.55 | ×1,76 | 14% / 19% / 23% / 30% | no |
 | Manganese | 6 | URSS 62%, Regno Unito 26%, Brasile 7% | 2.16 | ×1,71 | 46% / 62% / 73% / 87% | sì (URSS) |
 | Mercurio | 5 | Italia 47%, Spagna 47%, Cecoslovacchia 2% | 2.22 | ×1,76 | 42% / 48% / 49% / 50% | no |
 | Molibdeno | 4 | Stati Uniti 86%, Cile 10%, Norvegia 2% | 1.34 | ×1,27 | 69% / 86% / 93% / 98% | sì (Stati Uniti) |
