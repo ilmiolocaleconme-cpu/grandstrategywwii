@@ -72,6 +72,8 @@ import { positionOf } from './rules/movement.js';
 import depotsFile from '../data/units/depots.json';
 import { createReinforcementSystem, setDivisionReinforcement, setDivisionPriority, depotRoute } from './game/reinforcementSystem.js';
 import { buildEquivalence } from './data/equipmentEquivalence.js';
+import combatEquipmentCfg from '../data/units/combat_equipment.json';
+import { buildCategoryOf, equipmentFill } from './rules/equipmentFill.js';
 import conditionConfig from '../data/units/condition_config.json';
 import commandTemplates from '../data/units/command_templates.json';
 import { startFormation, completeFormations, availableManpower } from './rules/commandFormation.js';
@@ -296,6 +298,8 @@ function useProvinces() {
 // Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
 // Ricette degli equipaggiamenti (Fase 4): una per voce di OGNI catalogo data/units/equipment/catalog*.json, generate dalla tabella per categoria (nessun elenco per nazione qui)
 const EQUIPMENT_CATALOG = mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' })));
+const CATEGORY_OF = buildCategoryOf(EQUIPMENT_CATALOG); // voce di divisione → categoria d'arma (dotazione in battaglia)
+const fillOf = (state, unitId, nation) => equipmentFill(state.forces?.divisions?.[unitId]?.items, (k) => CATEGORY_OF(nation, k), combatEquipmentCfg);
 const EQUIPMENT_SOURCES = buildEquivalence({ catalog: EQUIPMENT_CATALOG, upgradeMap: equipmentUpgradeMap }); // pezzi prodotti → voci dei template delle divisioni
 const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProductionTable);
 const EQUIPMENT_NAMES = new Map(EQUIPMENT_CATALOG.entries.map((e) => [e.equipment_id, e.name_it ?? e.designation ?? e.equipment_id]));
@@ -351,7 +355,7 @@ const onEquipmentLost = (state, unitId, lost) => {
   if (rifles <= 0) return state;
   return { ...state, nations: { ...state.nations, [nation]: removeRiflePoints(n, rifles, rifleAverage(state, nation)) } };
 };
-const THEATER_CTX = { onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+const THEATER_CTX = { equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse)
@@ -1025,13 +1029,13 @@ export default function App() {
             onDeclareWar={(n) => { const r = GAME_DIPLOMACY.declareWar(game, game.player, n); if (r.ok) { setGame(r.state); setTheater((t) => ({ ...t, notice: `Guerra dichiarata a ${NATION_NAMES[n] ?? n}.` })); } else setTheater((t) => ({ ...t, notice: describeDiplomacyFailure(r.reason, r) })); }}
             onClose={() => setTheater(null)} />
         ) : hqId && game && unitOf(game, hqId, UNITS_BY_ID) ? (
-          <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates, sourcesOf: EQUIPMENT_SOURCES })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
+          <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates, sourcesOf: EQUIPMENT_SOURCES, fillOf })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
         ) : sheet && armyGroup && game ? (
-          <UnitSheet openAttach={sheet.attach} infos={sheet.ids.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates, sourcesOf: EQUIPMENT_SOURCES }))}
+          <UnitSheet openAttach={sheet.attach} infos={sheet.ids.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates, sourcesOf: EQUIPMENT_SOURCES, fillOf }))}
             canSetPolicy={radialOwn} onFormCommand={armySel.nation === game.player ? formCommand : undefined} onAttachTo={radialOwn ? attachCommand : undefined} onDetach={radialOwn ? detachCommand : undefined} parentOptions={radialOwn ? parentOptions : undefined} childOptions={radialOwn ? childOptions : undefined} onAttachChild={radialOwn ? attachChild : undefined} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
         ) : armyGroup && game ? (
           armyGroup.units.length > 1 ? (
-          <ArmyPanel sourcesOf={EQUIPMENT_SOURCES} orderCount={orderIds.length} childOptions={armySel.nation === game.player ? childOptions : undefined} onAttachChild={armySel.nation === game.player ? attachChild : undefined} templates={FORCES_CTX.templates} moveMode={moveMode} group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={unitsView(game, UNITS_BY_ID)} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
+          <ArmyPanel sourcesOf={EQUIPMENT_SOURCES} fillOf={fillOf} orderCount={orderIds.length} childOptions={armySel.nation === game.player ? childOptions : undefined} onAttachChild={armySel.nation === game.player ? attachChild : undefined} templates={FORCES_CTX.templates} moveMode={moveMode} group={{ ...armyGroup, province: armySel.province }} game={game} unitsById={unitsView(game, UNITS_BY_ID)} officersById={OFFICERS_BY_ID} initial={INITIAL_POSITIONS}
             provinceName={provinceName} conditionConfig={conditionConfig} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={(uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on))} onPriority={(uid, on) => setGame((g) => setDivisionPriority(g, uid, on))} canMove={armySel.nation === game.player && moveNet !== null} selected={armyChecked} onToggle={toggleArmy} onSelectAll={(ids) => setArmyChecked(new Set(ids))} onClear={() => setArmyChecked(new Set())} flag={flagsFile.flags[armySel.nation]} nationName={NATION_NAMES[armySel.nation]}
             onAssign={armySel.nation === game.player && moveNet ? startAssign : undefined} entrenchOf={(id) => entrenchOf(game, id, THEATER_CTX.entrenchCfg)} onEntrench={armySel.nation === game.player && moveNet ? (on) => { try { setGame((g) => playerToggleEntrench(g, { unitIds: [...armyChecked], on, ctx: THEATER_CTX })); setArmyNotice(on ? 'Le unità scelte si trincerano: il bonus cresce ogni giorno fermo.' : 'Le unità scelte smettono di trincerarsi.'); } catch (e) { setArmyNotice(e.message); } } : undefined} subordinates={subordinatesOf} onAttachUnit={armySel.nation === game.player ? (uid) => setInfoSheet({ unitId: uid, attach: true }) : undefined} onClose={() => setArmySel(null)} onCancel={() => { setGame((g) => cancelOrders(g, [...armyChecked])); setArmyNotice('Ordini annullati: le unità restano dove sono.'); }} notice={armyNotice} />
           ) : (

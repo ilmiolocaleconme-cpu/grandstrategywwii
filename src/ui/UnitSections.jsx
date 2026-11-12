@@ -24,6 +24,7 @@ function Panoramica({ info }) {
       <Row label="Prontezza">{k ? `${Math.round(k.readiness)} · ${k.readinessBand}` : NA}</Row>
       <Row label="Esperienza">{k ? `${Math.round(k.experience)} · ${k.experienceLevel.name}` : NA}</Row>
       <Row label="Forza materiale">{k ? (k.material.value === null ? NA : `${k.material.value}${k.material.cause ? ` — limitata da: ${k.material.cause}` : ''}`) : NA}</Row>
+      <Row label="Potenza delle armi">{info.firepower ? (info.firepower.fill === null ? 'dati delle armi mancanti: 100%' : `${pct(info.firepower.factor)} (dotazione ${pct(info.firepower.fill)})`) : NA}</Row>
       <Row label="Stato operativo">{k ? `${k.operational.name}${k.operational.cause ? ` — causa: ${k.operational.cause}` : ''}` : NA}</Row>
       <p className="small muted">Non ancora modellato: {info.notModeled.map((n) => n.id).join(', ')}.</p>
     </dl>

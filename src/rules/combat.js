@@ -6,7 +6,8 @@
 //    chi è più debole perde di più; un sovrastante rapporto di forze non azzera nulla in un giorno;
 //  - la difesa gode di `defenseMultiplier` (terreno, fiumi: lo calcola il chiamante; default 1 = nessun effetto);
 //  - ritirata: una parte con meno di RETREAT_BELOW degli uomini PREVISTI (o con potenza < 1/RETREAT_RATIO dell'avversario) lascia la provincia.
-// NON MODELLATO: morti/feriti/dispersi separati (si perdono "uomini effettivi"), equipaggiamento perso, munizioni, supporto aereo/artiglieria,
+//  - equipaggiamento: perso in proporzione agli uomini (equipmentLosses) e, se il chiamante lo passa, pesa sulla potenza (`equipment`).
+// NON MODELLATO: morti/feriti/dispersi separati (si perdono "uomini effettivi"), munizioni, supporto aereo/artiglieria,
 // ordine di battaglia superiore, comandanti, morale, esperienza, rifornimenti.
 export const CATEGORY_POWER = Object.freeze({ infantry: 1, mountain: 1, airborne: 0.9, cavalry: 0.8, motorized: 1.2, mechanized: 1.4, armored: 1.8 });
 export const LOSS_BASE = 0.02;
@@ -34,8 +35,9 @@ export const categoryPower = (category) => CATEGORY_POWER[category] ?? 0;
 
 /** Potenza di una divisione: { category, effective, bonus? }. `bonus` (>= 0, es. trinceramento) moltiplica per (1 + bonus). I comandi valgono 0. */
 // `factor` (facoltativo) sostituisce il fattore della categoria: serve al combattimento urbano.
-export function divisionPower({ category, effective, bonus = 0, factor }) {
-  return Math.max(0, effective) * (factor ?? categoryPower(category)) * (1 + Math.max(0, bonus));
+// equipment (facoltativo, 12/11/2026) = moltiplicatore della dotazione d'armi (src/rules/equipmentFill.js); assente = 1.
+export function divisionPower({ category, effective, bonus = 0, factor, equipment = 1 }) {
+  return Math.max(0, effective) * (factor ?? categoryPower(category)) * (1 + Math.max(0, bonus)) * Math.max(0, equipment);
 }
 
 /**

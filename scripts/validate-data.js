@@ -28,6 +28,7 @@ import { validateFactoryLevels } from '../src/data/factoryLevels.js';
 import { validateTechnologies, consumersOf } from '../src/data/technologies.js';
 import { validateSmallArms } from '../src/data/smallArmsModels.js';
 import { validateRifleQuality } from '../src/rules/rifleQuality.js';
+import { validateCombatEquipment } from '../src/rules/equipmentFill.js';
 import { validateSecurityConfig } from '../src/rules/security.js';
 import { validateDiplomacyConfig, validateDiplomacyStart } from '../src/rules/diplomacy.js';
 import { validatePortsList, validatePorts, buildPorts } from '../src/data/ports.js';
@@ -153,6 +154,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const smallArmsDoc = JSON.parse(await text('units/models/fucili_1930_1945.json'));
     errors.push(...validateSmallArms(smallArmsDoc, { techIds, nationIds: new Set(catalog.nations.map((n) => n.id)) }));
     errors.push(...validateRifleQuality(smallArmsDoc, { techIds }));
+    errors.push(...validateCombatEquipment(JSON.parse(await text('units/combat_equipment.json')), { categories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK']) }));
     for (const [n] of Object.entries(techDoc.initialResearch ?? {})) if (!catalog.nations.some((x) => x.id === n)) errors.push(`tecnologie: initialResearch per la nazione inesistente ${n}`);
     errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc, ports: JSON.parse(await text('ports/port_levels.json')), smallArms: smallArmsDoc }) }));
     for (const l of levelsDoc.levels) if (l.requires && !techIds.has(l.requires)) errors.push(`livelli fabbriche: L${l.level} richiede ${l.requires}, che non esiste`);

@@ -37,11 +37,11 @@ function stateOf(info) {
   return { text: 'Ferma', tone: 'idle' };
 }
 
-export default function ArmyPanel({ orderCount, childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName, onAttachUnit, sourcesOf = null }) {
+export default function ArmyPanel({ orderCount, childOptions, onAttachChild, templates, moveMode, group, game, unitsById, officersById, initial, provinceName, conditionConfig, onPolicy, onReinforce, canMove, selected, onToggle, onSelectAll, onClear, onClose, onCancel, onAssign, entrenchOf, onEntrench, subordinates, notice, flag, nationName, onAttachUnit, sourcesOf = null, fillOf = null }) {
   const [openId, setOpenId] = useState(null);
   const infos = useMemo(
-    () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig, templates, sourcesOf })])),
-    [group, game, unitsById, officersById, initial, provinceName, conditionConfig, templates, sourcesOf],
+    () => new Map(group.units.map((u) => [u.id, unitInfo(game, unitsById.get(u.id), { unitsById, officersById, initial, provinceName, conditionConfig, templates, sourcesOf, fillOf })])),
+    [group, game, unitsById, officersById, initial, provinceName, conditionConfig, templates, sourcesOf, fillOf],
   );
   const n = selected.size;
   const moving = group.units.filter((u) => infos.get(u.id)?.movement.order).length;

@@ -100,7 +100,8 @@ function combatantsByProvince(state, ctx) {
     const m = effectiveOf(state, u.id);
     if (!map.has(pos)) map.set(pos, []);
     const rifle = ctx.rifleBonus?.(s0, u) ?? 0; // qualità dei fucili della nazione (src/rules/rifleQuality.js): vale in attacco e in difesa
-    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, rifle, bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) + rifle });
+    const equipment = ctx.equipmentFactor?.(s0, u) ?? 1; // dotazione d'armi della divisione (src/rules/equipmentFill.js)
+    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, rifle, equipment, bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) + rifle });
   }
   return map;
 }

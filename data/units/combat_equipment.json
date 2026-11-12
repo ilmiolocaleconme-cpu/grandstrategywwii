@@ -1,0 +1,17 @@
+{
+  "schema": "combat-equipment-v1",
+  "status": "DESIGN_DEFAULT",
+  "note": "Peso dell'equipaggiamento nella potenza di battaglia (12/11/2026, scelta dell'utente: punto 1). VALORI DI BILANCIAMENTO di Claude, non dati storici. Per ogni categoria d'arma presente nel template della divisione si calcola la dotazione (effettivi / previsti, al massimo 1); la dotazione complessiva è la media pesata per categoria (pesi qui sotto: i pezzi NON si contano uno per uno, altrimenti i fucili, migliaia, coprirebbero tutto il resto). Potenza = potenza di prima × (floor + (1 - floor) × dotazione): una divisione senza armi combatte al 50%, con metà delle armi al 75%. Voci senza categoria nel catalogo (o senza numeri previsti) non contano; una divisione senza alcuna voce riconosciuta combatte al 100% (dati mancanti non penalizzano).",
+  "floor": 0.5,
+  "weights": {
+    "INDIVIDUAL_WEAPON": 1,
+    "MACHINE_GUN": 2,
+    "MORTAR": 1,
+    "GRENADE_LAUNCHER": 0.5,
+    "FIELD_GUN": 2,
+    "HOWITZER": 2,
+    "ANTI_TANK_GUN": 1,
+    "ANTI_AIRCRAFT_GUN": 0.5,
+    "TANK": 2
+  }
+}

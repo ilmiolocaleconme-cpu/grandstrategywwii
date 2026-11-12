@@ -53,7 +53,7 @@ export function compositionOf(unit, templates) {
 /**
  * state: stato della partita; unit: voce del catalogo; ctx: { unitsById: Map, officersById: Map, initial: Map unità → provincia, provinceName(id) }.
  */
-export function unitInfo(state, unit, { unitsById, officersById, initial, provinceName = (x) => x, conditionConfig = null, templates = null, sourcesOf = null }) {
+export function unitInfo(state, unit, { unitsById, officersById, initial, provinceName = (x) => x, conditionConfig = null, templates = null, sourcesOf = null, fillOf = null }) {
   const name = (id) => unitsById.get(id)?.name ?? id;
   // comandante: i comandanti sono gestiti solo per corpi e armate (src/rules/commanders.js)
   let commander;
@@ -76,6 +76,8 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
   const strength = inst
     ? { templateId: inst.templateId, manpower: men ? { planned: men.planned, effective: men.effective, ratio: men.planned > 0 ? men.effective / men.planned : null } : null, cadre: inst.cadre === true, reinforce: inst.reinforce !== false }
     : null;
+  // dotazione d'armi che pesa sulla potenza in battaglia (src/rules/equipmentFill.js); null se non passata
+  const firepower = inst && fillOf ? fillOf(state, unit.id, unit.nation) : null;
   // prontezza materiale: solo ciò che i dati contengono (uomini e dotazione effettivi/previsti); munizioni, carburante, rifornimenti, riparazioni e riposo no
   const equipment = inst
     ? Object.entries(inst.items).filter(([k, v]) => k.startsWith('equipment.') && v.planned > 0).map(([k, v]) => ({ item: k.slice('equipment.'.length), planned: v.planned, effective: v.effective, ratio: v.effective / v.planned, source: v.source ?? null })).sort((a, b) => (a.ratio - b.ratio) || (a.item < b.item ? -1 : 1))
@@ -98,5 +100,5 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
     estimate: est ? { province: est.province, provinceName: provinceName(est.province), inProvince: est.inProvince, basedOn: est.basedOn, source: 'stimata' } : null,
     order: order ? { to: order.path[order.path.length - 1], toName: provinceName(order.path[order.path.length - 1]), nextName: provinceName(order.path[order.leg + 1]), daysLeft: order.daysLeft, totalDays: order.totalDays } : null,
   };
-  return { id: unit.id, name: unit.name, nation: unit.nation, origin: unit.origin ?? null, affiliation: affiliationOf(state, unit.nation), echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, reinforcements: inst ? reinforcementNeeds({ forces: state.forces, stocks: state.nations?.[unit.nation]?.stocks, divisionId: unit.id, sourcesOf: sourcesOf ? (item) => sourcesOf(unit.nation, item) : null }) : null, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
+  return { id: unit.id, name: unit.name, nation: unit.nation, origin: unit.origin ?? null, affiliation: affiliationOf(state, unit.nation), echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, firepower, equipment, reinforcements: inst ? reinforcementNeeds({ forces: state.forces, stocks: state.nations?.[unit.nation]?.stocks, divisionId: unit.id, sourcesOf: sourcesOf ? (item) => sourcesOf(unit.nation, item) : null }) : null, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
 }
