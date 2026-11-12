@@ -96,13 +96,13 @@ test('stesse regole per tutte le nazioni: al 1/1/1936 ogni divisione attiva dell
 
 test('corazzate: un template per ognuna delle 6 potenze con corazzate nei dati; i carri contano come TANK', async () => {
   const { completeTemplates, templateFor } = await import('../src/rules/forces.js');
-  const files = ['divisione_corazzata_germania_1936', 'divisione_corazzata_francia_1940', 'divisione_corazzata_gran_bretagna_1939', 'divisione_corazzata_italia_1940', 'divisione_corazzata_usa_1940', 'divisione_corazzata_giappone_1942'];
+  const files = ['divisione_corazzata_germania_1936', 'divisione_corazzata_francia_1940', 'divisione_corazzata_gran_bretagna_1939', 'divisione_corazzata_italia_1940', 'divisione_corazzata_usa_1940', 'divisione_corazzata_giappone_1942', 'divisione_corazzata_urss_1940'];
   const templates = completeTemplates(files.map((n) => json(`units/templates/${n}.json`)));
   const units = json('units/units.json').units.filter((u) => u.echelon === 'division' && u.category === 'armored');
   const nations = new Set(units.map((u) => u.nation));
   for (const u of units) assert.ok(templateFor(u, templates, '1943-01-01'), `${u.id} (${u.nation}) senza template corazzato`);
   assert.deepEqual([...nations].sort(), ['DEU', 'FRA', 'GBR', 'ITA', 'JPN', 'USA']);
-  for (const n of ['FRA', 'GBR', 'ITA', 'USA', 'JPN']) {
+  for (const n of ['FRA', 'GBR', 'ITA', 'USA', 'JPN', 'USSR']) { // la URSS ha il template anche senza divisioni corazzate nei dati (divisioni create dal giocatore)
     const t = templates.find((x) => x.appliesTo.nation === n && x.appliesTo.category === 'armored');
     const tanks = Object.keys(t.equipment).filter((k) => categoryOf(n, `equipment.${k}`) === 'TANK');
     assert.ok(tanks.length >= 2, `${n}: carri riconosciuti`);

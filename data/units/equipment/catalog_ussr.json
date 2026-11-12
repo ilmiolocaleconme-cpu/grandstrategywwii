@@ -15,6 +15,18 @@
       {
         "file": "source/land_equipment_catalog_ussr_1939.csv",
         "sha256": "a0b1a52a5fb02f1481c877b5a22cd770c96897d0d703e3c55d023b755ac89899"
+      },
+      {
+        "file": "source/ussr_arm_template_1940.csv",
+        "sha256": "319507c59a969e1e6f31dcb0d0cdca73536d351210988a4122a78e969d75f2d4"
+      },
+      {
+        "file": "source/ussr_arm_equipment_1940.csv",
+        "sha256": "c76ca5bc884c110ffc10d13d0b7a20b14096fae169dc18ff0a9a85656ff59578"
+      },
+      {
+        "file": "source/land_equipment_catalog_ussr_arm_1940.csv",
+        "sha256": "622dec8501a43e777e10322a6ccdb796f3a6fe848ec8cd0b2112d584ef64b4ce"
       }
     ]
   },
@@ -137,6 +149,108 @@
       "reference_date": "1939-01",
       "source_id": "USSR-HOW152-1939",
       "source_note": "12 obici da 152 mm; modello non indicato dalla fonte."
+    },
+    {
+      "equipment_id": "TNK-USSR-KV-1940",
+      "nation": "USSR",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro pesante KV-1",
+      "family": "tracked_vehicle",
+      "role": "heavy_tank",
+      "caliber_mm": 76.2,
+      "name_it": "Carro pesante KV-1",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USSR-KV-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-USSR-T34-1940",
+      "nation": "USSR",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro medio T-34",
+      "family": "tracked_vehicle",
+      "role": "medium_tank",
+      "caliber_mm": 76.2,
+      "name_it": "Carro medio T-34",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USSR-T34-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-USSR-BT-1940",
+      "nation": "USSR",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro veloce BT-7",
+      "family": "tracked_vehicle",
+      "role": "fast_tank",
+      "caliber_mm": 45,
+      "name_it": "Carro veloce BT-7",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USSR-BT-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-USSR-T26-1940",
+      "nation": "USSR",
+      "category": "TANK",
+      "granularity": "model",
+      "designation": "Carro leggero T-26 (anche lanciafiamme)",
+      "family": "tracked_vehicle",
+      "role": "infantry_support_tank",
+      "caliber_mm": 45,
+      "name_it": "Carro leggero T-26 (anche lanciafiamme)",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USSR-T26-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-HOW122-ARM-1940",
+      "nation": "USSR",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 122 mm",
+      "family": "artillery",
+      "role": "divisional_artillery",
+      "caliber_mm": 122,
+      "name_it": "Obice da 122 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USSR-HOW122-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-HOW152-ARM-1940",
+      "nation": "USSR",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 152 mm",
+      "family": "artillery",
+      "role": "divisional_artillery",
+      "caliber_mm": 152,
+      "name_it": "Obice da 152 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "reference_date": "1940-07",
+      "source_id": "USSR-HOW152-ARM-1940",
+      "source_note": "Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -174,6 +288,36 @@
       "nation": "USSR",
       "templateKey": "ART-USSR-HOW152-1939",
       "equipment_id": "ART-USSR-HOW152-1939"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TNK-USSR-KV-1940",
+      "equipment_id": "TNK-USSR-KV-1940"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TNK-USSR-T34-1940",
+      "equipment_id": "TNK-USSR-T34-1940"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TNK-USSR-BT-1940",
+      "equipment_id": "TNK-USSR-BT-1940"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TNK-USSR-T26-1940",
+      "equipment_id": "TNK-USSR-T26-1940"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-HOW122-ARM-1940",
+      "equipment_id": "ART-USSR-HOW122-ARM-1940"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-HOW152-ARM-1940",
+      "equipment_id": "ART-USSR-HOW152-ARM-1940"
     }
   ]
 }

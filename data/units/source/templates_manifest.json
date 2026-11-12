@@ -99,6 +99,13 @@
       "lines": "jpn_arm_equipment_1942.csv",
       "catalog": "land_equipment_catalog_jpn_arm_1942.csv",
       "output": "divisione_corazzata_giappone_1942.json"
+    },
+    {
+      "id": "USSR-ARM-1940",
+      "template": "ussr_arm_template_1940.csv",
+      "lines": "ussr_arm_equipment_1940.csv",
+      "catalog": "land_equipment_catalog_ussr_arm_1940.csv",
+      "output": "divisione_corazzata_urss_1940.json"
     }
   ]
 }

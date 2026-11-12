@@ -1,0 +1,110 @@
+{
+  "schema": "unit-template-v2",
+  "id": "TPL-USSR-ARM-1940",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "note": "Generato da CSV (source/ussr_arm_template_1940.csv, source/ussr_arm_equipment_1940.csv, source/land_equipment_catalog_ussr_arm_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (USSR armored division, serie Divisione carri); Divisione carri sovietica (tankovaya diviziya) 1940, generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
+  "appliesTo": {
+    "nation": "USSR",
+    "category": "armored",
+    "echelon": "division",
+    "validFrom": "1940-07-01"
+  },
+  "formation": {
+    "value": "armored"
+  },
+  "regimentsInfantry": {
+    "value": 1
+  },
+  "manpower": {
+    "war": {
+      "value": 10940,
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "horses": {
+    "value": 0,
+    "effective": {
+      "value": null
+    }
+  },
+  "equipment": {
+    "TNK-USSR-KV-1940": {
+      "value": 63,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione carri",
+      "note": "63 (Carro pesante KV-1). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "TNK-USSR-T34-1940": {
+      "value": 210,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione carri",
+      "note": "210 (Carro medio T-34). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "TNK-USSR-BT-1940": {
+      "value": 26,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione carri",
+      "note": "26 (Carro veloce BT-7). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "TNK-USSR-T26-1940": {
+      "value": 76,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione carri",
+      "note": "76 (Carro leggero T-26 (anche lanciafiamme)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USSR-HOW122-ARM-1940": {
+      "value": 12,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione carri",
+      "note": "12 (Obice da 122 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    },
+    "ART-USSR-HOW152-ARM-1940": {
+      "value": 12,
+      "reliability": "ESTIMATED",
+      "unit": "Divisione carri",
+      "note": "12 (Obice da 152 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "effective": {
+        "value": null
+      }
+    }
+  },
+  "metadata": {
+    "sourceTemplateId": "TPL-USSR-TD-1940",
+    "series": "Divisione carri",
+    "referenceDivision": "Divisione carri sovietica (tankovaya diviziya) 1940, generica",
+    "referenceDate": "1940-07",
+    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
+    "sourceNote": "Divisione carri dei corpi meccanizzati del 1940: due reggimenti carri, un reggimento motorizzato, un reggimento di artiglieria. Organico previsto: 375 carri (63 KV, 210 T-34, 26 BT, 76 T-26 compresi i lanciafiamme). Nel 1936 la URSS non aveva divisioni carri (brigate e corpi meccanizzati). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+    "sourceFiles": [
+      {
+        "file": "source/ussr_arm_template_1940.csv",
+        "sha256": "319507c59a969e1e6f31dcb0d0cdca73536d351210988a4122a78e969d75f2d4"
+      },
+      {
+        "file": "source/ussr_arm_equipment_1940.csv",
+        "sha256": "c76ca5bc884c110ffc10d13d0b7a20b14096fae169dc18ff0a9a85656ff59578"
+      },
+      {
+        "file": "source/land_equipment_catalog_ussr_arm_1940.csv",
+        "sha256": "622dec8501a43e777e10322a6ccdb796f3a6fe848ec8cd0b2112d584ef64b4ce"
+      }
+    ]
+  }
+}

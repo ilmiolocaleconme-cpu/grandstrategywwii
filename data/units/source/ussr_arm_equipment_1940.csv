@@ -1,0 +1,7 @@
+template_id,subunit_id,equipment_id,quantity,quantity_status,basis,effective_quantity,mechanics_profile_id,source_note
+TPL-USSR-TD-1940,Divisione carri,USSR-KV-1940,63,ESTIMATED,division_table,,,"63 (Carro pesante KV-1). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-USSR-TD-1940,Divisione carri,USSR-T34-1940,210,ESTIMATED,division_table,,,"210 (Carro medio T-34). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-USSR-TD-1940,Divisione carri,USSR-BT-1940,26,ESTIMATED,division_table,,,"26 (Carro veloce BT-7). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-USSR-TD-1940,Divisione carri,USSR-T26-1940,76,ESTIMATED,division_table,,,"76 (Carro leggero T-26 (anche lanciafiamme)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-USSR-TD-1940,Divisione carri,USSR-HOW122-ARM-1940,12,ESTIMATED,division_table,,,"12 (Obice da 122 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+TPL-USSR-TD-1940,Divisione carri,USSR-HOW152-ARM-1940,12,ESTIMATED,division_table,,,"12 (Obice da 152 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."

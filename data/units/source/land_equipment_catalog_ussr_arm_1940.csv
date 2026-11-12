@@ -1,0 +1,7 @@
+equipment_id,nation,designation,family,class,caliber_mm,role,quantity_planned,quantity_effective,quantity_basis,reference_date,confidence,source_note
+USSR-KV-1940,USSR,Carro pesante KV-1,tracked_vehicle,heavy_tank,76.2,heavy_tank,63,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+USSR-T34-1940,USSR,Carro medio T-34,tracked_vehicle,medium_tank,76.2,medium_tank,210,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+USSR-BT-1940,USSR,Carro veloce BT-7,tracked_vehicle,light_tank,45,fast_tank,26,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+USSR-T26-1940,USSR,Carro leggero T-26 (anche lanciafiamme),tracked_vehicle,light_tank,45,infantry_support_tank,76,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+USSR-HOW122-ARM-1940,USSR,Obice da 122 mm,artillery,howitzer,122,divisional_artillery,12,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+USSR-HOW152-ARM-1940,USSR,Obice da 152 mm,artillery,howitzer,152,divisional_artillery,12,,division_table_1940,1940-07,ESTIMATED,"Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati."

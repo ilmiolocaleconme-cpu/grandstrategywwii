@@ -42,7 +42,7 @@ test('una ricetta per ogni equipaggiamento producibile, di ogni nazione, con la 
   const b1 = generated.find((r) => r.equipmentId === 'TNK-FRA-B1BIS-1940');
   assert.deepEqual([b1.factory, b1.massTonnes, b1.output.product], ['FCT-TANKS', 31.5, 'equipment.TNK-FRA-B1BIS-1940']);
   assert.deepEqual(b1.inputs, [{ resource: 'steel', perUnit: 37.8 }, { resource: 'components', perUnit: 3.15 }, { resource: 'engines', perUnit: 2.52 }]);
-  for (const n of ['DEU', 'FRA', 'GBR', 'ITA', 'USA', 'JPN']) assert.ok(generated.some((r) => r.factory === 'FCT-TANKS' && r.equipmentId.split('-')[1] === n), `carri di ${n}`);
+  for (const n of ['DEU', 'FRA', 'GBR', 'ITA', 'USA', 'JPN', 'USSR']) assert.ok(generated.some((r) => r.factory === 'FCT-TANKS' && r.equipmentId.split('-')[1] === n), `carri di ${n}`);
   const how = generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C');
   assert.deepEqual([how.factory, how.massTonnes, how.output.product], ['FCT-ARTILLERY', 2.5, 'equipment.ART-FRA-HOW155C']);
   assert.deepEqual(how.inputs, [{ resource: 'steel', perUnit: 3 }, { resource: 'components', perUnit: 0.25 }]);

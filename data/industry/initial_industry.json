@@ -842,6 +842,11 @@
           "count": 1
         },
         {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-USSR-T26-1940",
+          "count": 1
+        },
+        {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-USSR-GUN76-1939",
           "count": 1

@@ -128,6 +128,18 @@
     },
     "TNK-JPN-TYPE95-1942": {
       "massTonnes": 7.4
+    },
+    "TNK-USSR-KV-1940": {
+      "massTonnes": 45
+    },
+    "TNK-USSR-T34-1940": {
+      "massTonnes": 26.5
+    },
+    "TNK-USSR-BT-1940": {
+      "massTonnes": 13.8
+    },
+    "TNK-USSR-T26-1940": {
+      "massTonnes": 9.4
     }
   },
   "priceFactor": 1.25
