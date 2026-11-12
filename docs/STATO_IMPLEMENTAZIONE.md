@@ -398,7 +398,7 @@ Economia di base (26/10/2026): implementato e testato sui dati e sulle funzioni 
 
 ## Trinceramento delle divisioni (ipotesi di bilanciamento)
 - **Implementato e testato** (`tests/entrench.test.js`): `src/rules/entrench.js`, `data/units/entrenchment.json`, fase `entrenchPhase` in `theaterState.js`.
-- Regola: una divisione ferma guadagna +1 giorno di trinceramento al giorno; un giorno di battaglia lascia i giorni invariati; muoversi (o ricevere un ordine di marcia) azzera. Bonus lineare fino al **7° giorno** (richiesto dall'utente), poi massimo.
+- Regola: una divisione ferma guadagna +1 giorno di trinceramento al giorno; un giorno di battaglia lascia i giorni invariati; muoversi (o ricevere un ordine di marcia) azzera. Bonus lineare fino al **14° giorno** (7 richiesti dall'utente il 29/10/2026, portati a 14 il 12/11/2026), poi massimo.
 - **Massimo +50%: IPOTESI di Claude, da approvare.** Ragionamento: i manuali usano la regola pratica 3:1 per attaccare una difesa preparata; il gioco attacca a 1,5:1; con ×1,5 di difesa trincerata il rapporto richiesto diventa 2,25:1, lasciando margine fino a ~3:1 per terreno e fortificazioni (non ancora modellati). Parametri modificabili in `data/units/entrenchment.json`.
 - Le divisioni con incarico di difesa si trincerano da sole; il bonus conta nella potenza difensiva, nel «presenti» degli avvisi e nel fabbisogno d'attacco.
 - UI: chip «⛏ +N% · giorno d» sulla scheda, pulsanti «Trincera»/«Smetti» nel pannello esercito. Verificato nel browser solo il comando e il chip a giorno 0; la crescita giornaliera è verificata solo dai test.
