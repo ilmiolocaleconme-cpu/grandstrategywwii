@@ -1,0 +1,15 @@
+{
+  "schema": "mobilization-laws-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Leggi di mobilitazione: quando la condizione `trigger` è vera, tutti i quadri (`cadre: true`) della nazione diventano divisioni che ricevono rinforzi (src/rules/reinforcements.js `mobilize`). La mobilitazione NON crea uomini né mezzi: i rinforzi colmano il previsto con pool, scorte e tempi di trasferimento, se le risorse ci sono. La condizione è sullo STATO di guerra (state.war), non su una data: vale se la guerra la dichiara il giocatore, un evento o l'IA, quando esisteranno. Limite: nessun codice dichiara oggi la guerra Germania-Polonia al 1/9/1939 (l'IA non dichiara guerra): se il giocatore non è la Germania, la condizione non si avvera da sola. NON modellato qui: la quota di divisioni che restano ai confini (Linea Maginot), vedi docs/DATI_UNITA.md.",
+  "laws": [
+    {
+      "id": "LAW-FRA-GENERAL-MOBILIZATION",
+      "nation": "FRA",
+      "trigger": { "type": "war", "a": "DEU", "b": "POL" },
+      "effect": "mobilize_cadres",
+      "basis": "utente",
+      "source": "Indicazione dell'utente, 04/11/2026: la mobilitazione della Francia inizia appena la Germania dichiara guerra alla Polonia."
+    }
+  ]
+}
