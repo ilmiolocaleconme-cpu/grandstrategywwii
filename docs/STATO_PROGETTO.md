@@ -16,6 +16,7 @@ Repo: `ilmiolocaleconme-cpu/grandstrategywwii`, branch `main`. Lingua di lavoro:
 3. **Non collocate/da verificare**: 8ª Po, 1ª e 2ª Squadra navale, Comando Supremo, Regia Aeronautica; U00209 "32ª corazzata Ariete" è probabile doppione di U00218 (decidere se rimuoverla).
 4. Classi mancanti in `CLASS_TO_CATEGORY` (fucile controcarro, mitra, antiaerei, cannoni di fanteria, cavalli); depositi solo nelle capitali per 7 nazioni.
 5. Sedi italiane da fonti secondarie: verificare su fonti italiane (regioesercito.it, it.wikipedia) quando raggiungibili.
+6. **Movimento via mare** (12/11/2026, branch `claude/movimento-via-mare`): le exclave (Prussia orientale) raggiungono il resto del paese tra porti propri. Versione semplificata: solo giorni di rotta, niente capacità, costi o rischi; l'IA dei teatri non lo usa. Dettagli in `docs/DATI_UNITA.md`.
 
 ## Decisioni aperte dell'utente
 - **Giappone**: aspettare una fonte del 1941 oppure usare i dati 1944 con la data corretta?

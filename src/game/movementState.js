@@ -35,15 +35,15 @@ export function canEnterFor(state, net, nation) {
  * Ordina a `units` ([{ id, category }]) di andare in `to`. Ritorna { state, moved: [{ unit, days, path }], failed: [{ unit, reason }] }.
  * Le unità già in destinazione, o senza percorso, restano come sono e finiscono in `failed`.
  */
-export function orderMove(state, { units, to, nation, deploymentDoc, net }) {
+export function orderMove(state, { units, to, nation, deploymentDoc, net, sea = null }) {
   const initial = initialPositions(deploymentDoc);
   const canEnter = canEnterFor(state, net, nation);
   let movement = state.movement ?? createMovementState();
   const moved = [];
   const failed = [];
   for (const u of units) {
-    const r = issueMove(movement, u, to, { initial, net, canEnter });
-    if (r.ok) { movement = r.movement; moved.push({ unit: u.id, days: r.days, path: r.path }); } else failed.push({ unit: u.id, reason: r.reason });
+    const r = issueMove(movement, u, to, { initial, net, canEnter, sea: sea ? { ...sea, nation } : null });
+    if (r.ok) { movement = r.movement; moved.push({ unit: u.id, days: r.days, path: r.path, ...(r.seaLegs ? { seaLegs: r.seaLegs } : {}) }); } else failed.push({ unit: u.id, reason: r.reason });
   }
   return { state: moved.length ? { ...state, movement } : state, moved, failed };
 }

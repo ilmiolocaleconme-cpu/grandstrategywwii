@@ -7,7 +7,10 @@
 //  - MARCH_KM_PER_DAY: velocità di marcia per categoria, valori di partenza di bilanciamento, NON dati storici;
 //  - la distanza è tra i centri dei riquadri delle province (approssimazione);
 //  - si entra solo in province della propria nazione (nessuna guerra, diplomazia o accesso modellati: vedi `canEnter`).
-// NON MODELLATI: fiumi e attraversamenti (ponti, guadi), terreno, stagione, rifornimenti, combattimento, mare, ferrovia.
+// MARE (12/11/2026, src/rules/seaMove.js): se non c'è una via di terra e il chiamante passa `sea`, l'ordine include UNA tratta di mare tra porti propri (order.seaLegs: indice tratta → giorni fissi).
+// NON MODELLATI: fiumi e attraversamenti (ponti, guadi), terreno, stagione, rifornimenti, combattimento, ferrovia; per il mare capacità, costi e rischi.
+
+import { seaPlan } from './seaMove.js';
 
 export const MOVEMENT_SCHEMA = 'movement-v1';
 export const MARCH_KM_PER_DAY = Object.freeze({ infantry: 20, mountain: 15, airborne: 20, cavalry: 35, motorized: 50, mechanized: 40, armored: 35, command: 20 });
@@ -67,16 +70,21 @@ export function findPath(net, from, to, canEnter) {
  * Dà l'ordine di muoversi. unit: { id, category }. initial: Map unità → provincia. net/canEnter come findPath.
  * Ritorna { ok, movement, path, days, reason }; reason: 'unknown_position' | 'same_province' | 'no_route'.
  */
-export function issueMove(movement, unit, to, { initial, net, canEnter }) {
+export function issueMove(movement, unit, to, { initial, net, canEnter, sea = null }) {
   const from = positionOf(movement, initial, unit.id);
   if (!from) return { ok: false, movement, reason: 'unknown_position' };
   if (from === to) return { ok: false, movement, reason: 'same_province' };
-  const path = findPath(net, from, to, canEnter);
+  let path = findPath(net, from, to, canEnter);
+  let seaLegs = null;
+  if (!path && sea) { // nessuna via di terra: tratta di mare tra porti propri (exclave, isole)
+    const plan = seaPlan(net, from, to, canEnter, sea);
+    if (plan) { path = plan.path; seaLegs = { [plan.seaLeg]: plan.seaDays }; }
+  }
   if (!path) return { ok: false, movement, reason: 'no_route' };
-  const firstDays = hopDays(net.km(path[0], path[1]), unit.category);
-  const days = path.slice(1).reduce((s, id, i) => s + hopDays(net.km(path[i], id), unit.category), 0);
-  const order = { path, leg: 0, daysLeft: firstDays, category: unit.category, totalDays: days };
-  return { ok: true, movement: { ...movement, orders: { ...movement.orders, [unit.id]: order } }, path, days };
+  const legDays = (i, a, b) => seaLegs?.[i] ?? hopDays(net.km(a, b), unit.category);
+  const days = path.slice(1).reduce((s, id, i) => s + legDays(i, path[i], id), 0);
+  const order = { path, leg: 0, daysLeft: legDays(0, path[0], path[1]), category: unit.category, totalDays: days, ...(seaLegs ? { seaLegs } : {}) };
+  return { ok: true, movement: { ...movement, orders: { ...movement.orders, [unit.id]: order } }, path, days, ...(seaLegs ? { seaLegs } : {}) };
 }
 
 /** Annulla l'ordine: l'unità resta dove si trova. */
@@ -99,7 +107,7 @@ export function tickMovement(movement, kmBetween) {
     const leg = o.leg + 1;
     positions[id] = o.path[leg];
     if (leg < o.path.length - 1) {
-      orders[id] = { ...o, leg, daysLeft: hopDays(kmBetween(o.path[leg], o.path[leg + 1]), o.category) };
+      orders[id] = { ...o, leg, daysLeft: o.seaLegs?.[leg] ?? hopDays(kmBetween(o.path[leg], o.path[leg + 1]), o.category) };
     }
   }
   return { ...movement, positions, orders };
@@ -117,6 +125,11 @@ export function validateMovement(m) {
     if (!Array.isArray(o?.path) || o.path.length < 2 || !o.path.every((p) => typeof p === 'string')) errors.push(`movimento: percorso di ${k} non valido`);
     else if (!Number.isInteger(o.leg) || o.leg < 0 || o.leg >= o.path.length - 1) errors.push(`movimento: tratta di ${k} fuori percorso`);
     if (!Number.isInteger(o?.daysLeft) || o.daysLeft < 1) errors.push(`movimento: giorni di ${k} non validi`);
+    if (o?.seaLegs !== undefined) { // tratte di mare (opzionale): indice di tratta → giorni interi ≥ 1
+      const legs = o.seaLegs;
+      if (legs === null || typeof legs !== 'object' || Array.isArray(legs)) errors.push(`movimento: tratte di mare di ${k} non valide`);
+      else for (const [i, d] of Object.entries(legs)) if (!Number.isInteger(Number(i)) || Number(i) < 0 || Number(i) >= (o.path?.length ?? 0) - 1 || !Number.isInteger(d) || d < 1) errors.push(`movimento: tratta di mare ${i} di ${k} non valida`);
+    }
   }
   return errors;
 }
