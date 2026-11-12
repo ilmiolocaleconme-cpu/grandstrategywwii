@@ -13,11 +13,14 @@ const zone = (id, name, city, mother) => ({ type: 'Feature', id, properties: { i
 
 test('costanti: 10, 14, 14', () => assert.deepEqual({ ...SLOT_CAPACITY }, { cityPart: 10, province: 14, capitalPart: 14 }));
 
-test('sintetico: sponde di una provincia contano una volta, città 10 per parte, capitale 14 per ogni parte, provincia-città senza slot di provincia', () => {
+test('sintetico: 14 slot per ogni sponda (la madre ne accumula la somma), città 10 per parte, capitale 14 per ogni parte, provincia-città senza slot di provincia', () => {
   const provinces = { features: [tile('P_X_A_SP1', { parentProvince: 'P_X_A' }), tile('P_X_A_SP2', { parentProvince: 'P_X_A' }), tile('P_X_B'), tile('P_X_CAP', { kind: 'citta' })] };
   const zones = [zone('Z1', 'Gamma', 'G', 'P_X_A'), zone('Z2', 'Gamma sud', 'G', 'P_X_A'), zone('Z3', 'Capitalia', 'C', 'P_X_B'), zone('Z4', 'Capitalia sud', 'C', 'P_X_B')];
   const cat = buildSlotCatalog({ provinces, zones, nations: [{ id: 'X', capital: 'Capitalia' }] });
-  assert.equal(slotsOf(cat, 'P_X_A'), 14);
+  assert.equal(slotsOf(cat, 'P_X_A_SP1'), 14); // decisione dell'utente 11/11/2026: ogni sponda ha i suoi 14 slot
+  assert.equal(slotsOf(cat, 'P_X_A_SP2'), 14);
+  assert.equal(cat.byMother.P_X_A, 28); // la provincia madre è l'accumulatore
+  assert.equal(slotsOf(cat, 'P_X_A'), null); // e non ha slot propri
   assert.equal(slotsOf(cat, 'P_X_B'), 14);
   assert.equal(cat.provinces.P_X_CAP, 0); // provincia = città: niente slot di provincia
   assert.equal(cat.cityParts.P_X_CAP, 10); // conta come parte di città
@@ -29,12 +32,15 @@ test('sintetico: sponde di una provincia contano una volta, città 10 per parte,
   assert.equal(slotsOf(cat, 'inesistente'), null);
 });
 
-test('dati reali: una provincia madre = 14 (tranne le 3 province-città), ogni zona 10 o 14, totali coerenti', async () => {
+test('dati reali: una provincia o una sponda = 14 (tranne le 3 province-città), la madre divisa accumula 14 per sponda, ogni zona 10 o 14, totali coerenti', async () => {
   const provinces = await loadProvinces();
   const zones = read('citta_grandi.json').features;
   const cat = buildSlotCatalog({ provinces, zones, nations: read('nations.json') });
   const mothers = new Set(provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id));
-  assert.equal(Object.keys(cat.provinces).length, mothers.size);
+  const banks = provinces.features.filter((f) => f.properties.parentProvince);
+  const split = new Set(banks.map((f) => f.properties.parentProvince));
+  assert.equal(Object.keys(cat.provinces).length, mothers.size - split.size + banks.length);
+  for (const m of split) assert.equal(cat.byMother[m], 14 * banks.filter((f) => f.properties.parentProvince === m).length);
   const zero = Object.entries(cat.provinces).filter(([, v]) => v === 0).map(([k]) => k).sort();
   assert.deepEqual(zero, ['P_HUN_BUDAPEST', 'P_LVA_RIGA', 'P_ROM_BUCURESTI']);
   assert.ok(Object.values(cat.provinces).every((v) => v === 0 || v === 14));

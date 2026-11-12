@@ -1,6 +1,7 @@
 // Slot: la capacità di costruzione/impianti di ogni luogo, UGUALE PER TUTTI (decisione di design concordata in chat, 22/10/2026):
 //  - una parte di città: 10 slot (una città divisa in parti ha 10 slot per ogni parte);
-//  - una provincia: 14 slot per provincia madre (le sponde di un fiume NON moltiplicano gli slot: contano come una provincia sola);
+//  - una provincia: 14 slot; una provincia divisa da un fiume ha 14 slot PER OGNI SPONDA (decisione dell'utente 11/11/2026, che sostituisce
+//    quella del 22/10 «le sponde non moltiplicano gli slot»): la provincia madre è l'ACCUMULATORE, cioè la somma delle sue sponde;
 //  - una capitale: 14 slot per ogni sua parte.
 // SCELTA PROVVISORIA: se tutta la provincia madre È una città (Budapest, Riga, Bucarest: provincia = città) non ha anche gli slot
 // della provincia: contano solo le parti della città, altrimenti si conterebbe due volte lo stesso territorio.
@@ -16,8 +17,9 @@ const motherOf = (props) => props.parentProvince ?? props.id;
 
 /**
  * Catalogo degli slot. provinces: collezione dei pezzi di provincia (sponde e città-provincia comprese); zones: feature delle zone
- * urbane (citta_grandi.json); nations: elenco con `capital`. Ritorna { provinces: {madreId: n}, cityParts: {zonaId: n},
- * capitalParts: [zonaId], totals }.
+ * urbane (citta_grandi.json); nations: elenco con `capital`. Ritorna { provinces: {posto: n}, cityParts: {zonaId: n},
+ * capitalParts: [zonaId], byMother: {madreId: somma delle sponde}, totals }. «Posto» = la sponda per le province divise da un fiume,
+ * la provincia madre per le altre.
  */
 export function buildSlotCatalog({ provinces, zones, nations }) {
   const tilesByMother = new Map();
@@ -27,8 +29,14 @@ export function buildSlotCatalog({ provinces, zones, nations }) {
   }
   const parts = [...zones, ...provinces.features.filter((f) => f.properties.kind === 'citta' && !zones.some((z) => z.properties.parentProvince === motherOf(f.properties)))];
   const marked = markCapitals(parts.map((f) => ({ ...f, id: f.id ?? f.properties.id })), nations);
-  const provincesOut = {};
-  for (const [m, tiles] of tilesByMother) provincesOut[m] = tiles.every((t) => t.properties.kind === 'citta') ? 0 : SLOT_CAPACITY.province;
+  const provincesOut = {}; const byMother = {};
+  for (const [m, tiles] of tilesByMother) {
+    if (tiles.every((t) => t.properties.kind === 'citta')) { provincesOut[m] = 0; byMother[m] = 0; continue; }
+    const banks = tiles.filter((t) => t.properties.parentProvince); // sponde di un fiume (tutte le sotto-province sono sponde)
+    if (banks.length === 0) { provincesOut[m] = SLOT_CAPACITY.province; byMother[m] = SLOT_CAPACITY.province; continue; }
+    for (const t of banks) provincesOut[t.properties.id] = SLOT_CAPACITY.province;
+    byMother[m] = SLOT_CAPACITY.province * banks.length;
+  }
   const cityParts = {}; const capitalParts = [];
   for (const f of marked) {
     const id = f.properties.id;
@@ -39,6 +47,7 @@ export function buildSlotCatalog({ provinces, zones, nations }) {
   const sum = (o) => Object.values(o).reduce((s, v) => s + v, 0);
   return {
     provinces: provincesOut,
+    byMother,
     cityParts,
     capitalParts,
     totals: { provinces: Object.values(provincesOut).filter((v) => v > 0).length, provinceSlots: sum(provincesOut), cityParts: Object.keys(cityParts).length, cityPartSlots: sum(cityParts), capitalParts: capitalParts.length, slots: sum(provincesOut) + sum(cityParts) },

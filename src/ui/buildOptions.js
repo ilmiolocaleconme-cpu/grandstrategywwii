@@ -20,6 +20,7 @@ export function describeBuildFailure(r, techName = (id) => id) {
     case 'not_controlled': return 'La provincia non è sotto il tuo controllo';
     case 'no_slot': return `Slot esauriti in questa provincia (${r.used} su ${r.capacity})`;
     case 'no_site': return 'Qui non c\'è un giacimento di questa risorsa';
+    case 'use_bank': return 'La provincia è divisa da un fiume: si costruisce su una sponda';
     case 'no_gain': return 'Qui la miniera non produrrebbe di più (base uguale al massimo)';
     case 'already_building': return 'C\'è già una miniera in costruzione qui';
     case 'max_level': return 'Già al livello massimo';
@@ -48,6 +49,7 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
   if (!nation) return out;
   if (state.control[entityOfProvinceId(provinceId, Object.keys(state.control))] !== nationId) return { ...out, reason: 'not_controlled' };
   for (const [resource, site] of Object.entries(sites.byProvince[provinceId] ?? {})) {
+    if (site.legacy) continue; // provincia madre divisa: le miniere stanno sulle sponde
     const current = nation.mines.find((m) => m.provinceId === provinceId && m.resource === resource)?.level ?? 0;
     const level = current + 1;
     if (level > economy.mines.gapParts) continue;

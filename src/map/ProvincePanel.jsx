@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { QUALITY_COLORS } from './geo.js';
 import { TERRAIN_LABEL } from '../data/terrain.js';
 import { RESOURCE_META } from '../data/provinceResources.js';
@@ -69,7 +69,32 @@ function Card({ card, quality }) {
   );
 }
 
-function ProvinceBody({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose, build = null, hqs = null, onOpenHq = null }) {
+// Provincia intera = somma delle sponde (decisione dell'utente 11/11/2026): totali e dettaglio per sponda. Si costruisce sulle sponde.
+function WholeProvince({ sum, resourceLabel }) {
+  const deposits = Object.entries(sum.total.deposits);
+  return (
+    <section className="pv-whole" aria-label={`Provincia intera: ${sum.name}`}>
+      <ul className="pv-ind">
+        <li><span className="muted small">Sponde</span><b>{sum.banks.length}</b></li>
+        <li><span className="muted small">Slot</span><b>{sum.total.used}/{sum.total.slots}</b></li>
+        <li><span className="muted small">Impianti</span><b>{sum.total.factories}</b></li>
+      </ul>
+      {deposits.length ? <p className="small">Giacimenti (miniere al massimo): {deposits.map(([r, t]) => `${resourceLabel(r)} +${Math.round(t)} t/g`).join(' · ')}</p> : null}
+      <ul className="pv-banks">
+        {sum.banks.map((b) => (
+          <li key={b.id}><b>{b.name}</b><span className="muted small">slot {b.used}/{b.slots} · impianti {b.factories}{Object.keys(b.mines).length ? ` · miniere ${Object.entries(b.mines).map(([r, l]) => `${resourceLabel(r)} L${l}`).join(', ')}` : ''}</span></li>
+        ))}
+      </ul>
+      {sum.legacy ? <p className="muted small">Costruito sulla provincia prima delle sponde: impianti {sum.legacy.factories}, slot {sum.legacy.used} (contati nel totale).</p> : null}
+      <p className="muted small">Si costruisce su una sponda: torna alla sponda per i lavori.</p>
+    </section>
+  );
+}
+
+function ProvinceBody({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose, build = null, hqs = null, onOpenHq = null, sum = null }) {
+  const [whole, setWhole] = useState(false);
+  useEffect(() => { setWhole(false); }, [item?.id]);
+  const showWhole = whole && sum !== null;
   const p = item.props;
   const motherId = p.parentProvince ?? p.id;
   const resourceIds = provinceResources?.[p.id] ?? provinceResources?.[p.parentProvince] ?? [];
@@ -93,20 +118,25 @@ function ProvinceBody({ item, nationNames, nationControl, provinceResources, pro
     <aside className="panel pv" aria-live="polite">
       <header className="pv-head">
         <div className="panel-head">
-          <h2>{header.name}</h2>
+          <h2>{showWhole ? sum.name : header.name}</h2>
+          {sum ? (
+            <button type="button" className={`pv-whole-toggle${showWhole ? ' on' : ''}`} aria-pressed={showWhole} title={showWhole ? 'Torna alla sponda toccata' : 'Vedi la provincia intera: somma delle sponde'} onClick={() => setWhole((v) => !v)}>
+              {showWhole ? 'Sponda' : 'Provincia'}
+            </button>
+          ) : null}
           <button type="button" className="close" aria-label="Chiudi" onClick={onClose}>×</button>
         </div>
         {header.nameLocal && <p className="muted">{header.nameLocal}</p>}
         <p className="pv-owner">{header.ownerName}</p>
         <p className="pv-control">Controllo: <b>{header.controllerName}</b> · <span className={`tone-${header.status.tone}`}>Stato: {header.status.label}</span></p>
-        <ul className="pv-ind">
+        {showWhole ? null : <ul className="pv-ind">
           {header.indicators.map((i) => (
             <li key={i.id} className={`tone-${i.tone}`}><span className="muted small">{i.label}</span><b>{i.value}</b></li>
           ))}
-        </ul>
+        </ul>}
       </header>
       {alert && <div className={`pv-alert tone-${alert.tone}`} role="alert">⚠ {alert.label}</div>}
-      {build}
+      {showWhole ? <WholeProvince sum={sum} resourceLabel={(r) => RESOURCE_META[r]?.label ?? r} /> : build}
       {cards.map((c) => <Card key={c.id} card={c} quality={c.id === 'data' ? p.borderQuality : null} />)}
       {hqs && hqs.length && onOpenHq ? (
         <section className="pv-hq" aria-label="Comandi stimati in questa provincia">
@@ -122,7 +152,7 @@ function ProvinceBody({ item, nationNames, nationControl, provinceResources, pro
  * Pannello della provincia: intestazione sempre visibile, Panoramica, schede espandibili ordinate per priorità
  * (docs/DESIGN_PANNELLO_PROVINCIA.md). Il pannello esiste solo su richiesta (pulsante «i» nell'angolo della mappa).
  */
-export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose, build = null, hqs = null, onOpenHq = null }) {
+export default function ProvincePanel({ item, nationNames, nationControl, provinceResources, provinceData, linkStats, hydro, game, onClose, build = null, hqs = null, onOpenHq = null, sum = null }) {
   if (!item) return null;
-  return <ProvinceBody item={item} nationNames={nationNames} nationControl={nationControl} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={hydro} game={game} onClose={onClose} build={build} hqs={hqs} onOpenHq={onOpenHq} />;
+  return <ProvinceBody item={item} nationNames={nationNames} nationControl={nationControl} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={hydro} game={game} onClose={onClose} build={build} hqs={hqs} onOpenHq={onOpenHq} sum={sum} />;
 }

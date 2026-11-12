@@ -101,7 +101,7 @@ test('lavoratori: la riserva limita le costruzioni; slot: 14 per provincia, il 1
 });
 
 test('miniere: tre livelli in ordine, ognuna porta più estrazione; quarto livello, doppio ordine e sito inesistente rifiutati', () => {
-  const [pid, res] = Object.entries(sites.byProvince).filter(([p, r]) => p.startsWith('P_DEU_') && r.coal && r.coal.extraPerDay[0] > 1).map(([p]) => [p, 'coal'])[0];
+  const [pid, res] = Object.entries(sites.byProvince).filter(([p, r]) => p.startsWith('P_DEU_') && r.coal && !r.coal.legacy && r.coal.extraPerDay[0] > 1).map(([p]) => [p, 'coal'])[0];
   let s = rich(fresh(), 'DEU');
   const coal = (x) => x.nations.DEU.stocks.coal ?? 0;
   const outBefore = coal(advanceDay(s, [eco])) - coal(s);
@@ -121,8 +121,12 @@ test('miniere: tre livelli in ordine, ognuna porta più estrazione; quarto livel
   }
   assert.equal(api.start(s, 'DEU', { kind: 'mine', provinceId: pid, resource: res }).reason, 'max_level');
   assert.equal(api.start(s, 'DEU', { kind: 'mine', provinceId: pid, resource: 'uranium' }).reason, 'no_site');
-  const [flat] = Object.entries(sites.byProvince).filter(([p, r]) => p.startsWith('P_USA_') && r.coal && r.coal.extraPerDay[0] === 0);
-  assert.equal(api.start(rich(fresh(), 'USA'), 'USA', { kind: 'mine', provinceId: flat[0], resource: 'coal' }).reason, 'no_gain', 'base = max: nessun guadagno possibile');
+  // tetto +10% (12/11/2026): anche dove la base del 1936 era il massimo (carbone USA) una miniera ora porta qualcosa
+  const usa = Object.entries(sites.byProvince).filter(([p, r]) => p.startsWith('P_USA_') && r.coal);
+  assert.ok(usa.length > 0 && usa.every(([, r]) => r.coal.extraPerDay[0] > 0));
+  // provincia madre divisa da un fiume: la miniera si costruisce su una sponda
+  const [legacyPid, legacyRes] = Object.entries(sites.byProvince).flatMap(([p, r]) => Object.entries(r).filter(([, v]) => v.legacy && p.startsWith('P_DEU_')).map(([res]) => [p, res]))[0];
+  assert.equal(api.start(rich(fresh(), 'DEU'), 'DEU', { kind: 'mine', provinceId: legacyPid, resource: legacyRes }).reason, 'use_bank');
   assert.deepEqual(validateState(s), []);
 });
 

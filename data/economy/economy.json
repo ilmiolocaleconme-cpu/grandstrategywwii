@@ -80,6 +80,8 @@
   },
   "mines": {
     "gapParts": 3,
+    "capFactor": 1.1,
+    "capFactorNote": "Tetto delle miniere alzato del 10% per tutte le province (decisione dell'utente 12/11/2026): massimo di gioco = max di resource_points.json × capFactor. Dà un po' di crescita anche dove la base del 1936 era già il massimo (es. carbone e petrolio USA).",
     "rationale": "Ogni livello porta i punti di una provincia e risorsa di 1/3 della distanza tra base e max (resource_points.json). Si costruisce in ordine, un livello per volta. Giacimenti non esauribili (deciso in chat). Il petrolio richiede energia per il pompaggio (da definire con la ricetta di estrazione).",
     "levels": [
       {

@@ -84,6 +84,14 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Variante B scelta: albero a tutta larghezza, dettaglio sotto, barra in basso con etichette. Stile con cornici d'ottone e bagliore, senza copiare grafica di altri giochi.
 - Mockup privato: https://claude.ai/artifact/RryWcLDUQ8WzeWACErfiHb (versione 3). Dati di esempio.
 
+**Sponde, fase 2: economia per sponda (12/11/2026, decisioni dell'utente)**
+- Slot: 14 per OGNI sponda (sostituisce la regola del 22/10); la provincia madre è l'ACCUMULATORE (`byMother` in `src/rules/slots.js`, `src/rules/provinceSum.js`). `province_industry.csv` rigenerato: 3085 posti (+486 × 14 slot).
+- Miniere: giacimento DIVISO fra le sponde per area (`share` in `mine_sites.json`, schema v2); la voce della madre resta `legacy` per le miniere dei salvataggi vecchi; costruire sulla madre divisa → `use_bank`. Tetto ×1,1 per tutti (`economy.mines.capFactor`), così crescono anche i siti dove la base era già il massimo (carbone USA).
+- Si costruisce nel posto toccato (sponda); miglioramenti di strade, ferrovie e porti restano per provincia madre.
+- Pannello della sponda: pulsante «Provincia» nell'angolo → totali (slot, impianti, giacimenti) e dettaglio per sponda; «Sponda» torna indietro.
+- Fabbriche iniziali: per nazione, senza luogo (`initial_industry.json`): non toccate. Giappone senza siti di miniera: buco di dati da sistemare.
+- Test: `tests/province_sum.test.js`; aggiornati slots, industry, construction_game, build_ui.
+
 **Sponde come posti separati, fase 1: solo movimento (11/11/2026, decisione dell'utente)**
 - Segnalato: una divisione in Weser-Ems (sponda B) mandata alla sponda A rispondeva «già lì»: la rete fondeva le sponde nella madre.
 - Ora (`src/data/moveNet.js`): ogni sponda è un posto; `bankIndex` dà sponda principale (la più grande per area, stessa dove la mappa disegnava icone e segnalini), `provinceOf`, `isBank`, `banksOf`. La madre divisa resta un NOME DI COMODO: `net.has(madre)` vero, vicini e distanze della sponda principale; `issueMove` la traduce (salvataggi di prima: nessuna migrazione, schema invariato).

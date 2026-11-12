@@ -37,8 +37,10 @@ test('opzioni in una provincia italiana con carbone: miniera L1 con guadagno e c
 test('opzioni vuote se la provincia non è tua; nessuna miniera inutile; i rifiuti hanno una frase in italiano', () => {
   const foreign = Object.keys(sites.byProvince).find((p) => p.startsWith('P_FRA_'));
   assert.deepEqual(provinceBuildOptions(state, 'ITA', foreign, ctx), { mines: [], factories: [], hospitals: [], reason: 'not_controlled' });
-  const flat = Object.entries(sites.byProvince).find(([p, r]) => p.startsWith('P_USA_') && r.coal && r.coal.extraPerDay[0] === 0)[0];
-  assert.ok(!provinceBuildOptions(state, 'USA', flat, ctx).mines.some((m) => m.order.resource === 'coal'));
+  // provincia madre divisa da un fiume: nessuna miniera proposta sulla madre (si costruisce sulle sponde, 12/11/2026)
+  const legacy = Object.entries(sites.byProvince).find(([p, r]) => p.startsWith('P_ITA_') && Object.values(r).some((v) => v.legacy));
+  if (legacy) assert.equal(provinceBuildOptions(state, 'ITA', legacy[0], ctx).mines.length, 0);
+  assert.equal(describeBuildFailure({ ok: false, reason: 'use_bank' }), 'La provincia è divisa da un fiume: si costruisce su una sponda');
   const r = build.start({ ...state, nations: { ...state.nations, ITA: { ...state.nations.ITA, balance: 1 } } }, 'ITA', { kind: 'factory', factoryId: 'FCT-STEEL', recipeId: 'REC-STEEL-001', provinceId: coalProv });
   assert.equal(r.ok, false);
   assert.match(describeBuildFailure(r), /^Mancano: denaro \(servono 120, hai 1\)/);

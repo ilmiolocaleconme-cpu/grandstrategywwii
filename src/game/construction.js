@@ -24,11 +24,12 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
 /**
  * ctx: { catalog: { recipes: Map, factories: Map, levels?: factory_levels.json }, economy, sites (mine_sites.json), hydro (hydro_plants.json), political,
  *        workersShare (quota della popolazione), provinceExists?: (id) => boolean, isCity?: (id) => boolean (zona urbana: slot di parte),
+ *        isSplit?: (id) => boolean (provincia madre divisa da un fiume: fabbriche, miniere e ospedali si costruiscono sulle sponde, 12/11/2026),
  *        infra?: { index (createInfraIndex), config (infrastructure.json) }: senza, gli ordini 'infra' sono rifiutati,
  *        hospitals?: { params (hospital_care.json), manpowerAvailable(state, nationId) → uomini liberi del pool reclutabile, isRear?(state, nationId, provinceId) }: senza, gli ordini 'hospital' sono rifiutati
  *        ports?: { levels (port_levels.json), coastal (coastal_cities.json → cities), base (ports_1936.json) }: senza, gli ordini 'port' sono rifiutati }
  */
-export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, isCity = null, infra = null, hospitals = null, ports = null }) {
+export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, isCity = null, isSplit = null, infra = null, hospitals = null, ports = null }) {
   const entityIds = political.map((e) => e.id);
   const entityOf = (provinceId) => entityOfProvinceId(provinceId, entityIds); // anche MAR_ES, NLD_EI, JPN_MANDATE
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
@@ -66,6 +67,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       if (provinceExists && !provinceExists(provinceId)) return fail('unknown_province');
       entity = entityOf(provinceId);
       if (state.control[entity] !== nationId) return fail('not_controlled');
+      if (isSplit?.(provinceId) === true) return fail('use_bank');
     }
     let cost; let entry; let requiredEnergy = 0; let requires = null;
     if (order.kind === 'upgrade') {
@@ -137,6 +139,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     } else if (order.kind === 'mine') {
       const site = sites.byProvince[provinceId]?.[order.resource];
       if (!site) return fail('no_site');
+      if (site.legacy) return fail('use_bank'); // provincia divisa da un fiume: si costruisce su una sponda (12/11/2026)
       const current = nation.mines.find((m) => m.provinceId === provinceId && m.resource === order.resource)?.level ?? 0;
       if (nation.construction.some((c) => c.kind === 'mine' && c.provinceId === provinceId && c.resource === order.resource)) return fail('already_building');
       const level = current + 1;
