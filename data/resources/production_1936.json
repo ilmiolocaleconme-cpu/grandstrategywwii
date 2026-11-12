@@ -309,6 +309,16 @@
     },
     {
       "resource": "iron_ore",
+      "territory": "Manciukuò",
+      "prefix": "MAN",
+      "region": "Anshan, Benxihu (Manciuria)",
+      "mt": 2.6,
+      "context": "Decisione dell'utente del 12/11/2026: 2,6 Mt invece di 1,3 (file completo). British Geological Survey, Statistical Summary of the Mineral Industry 1936-1938: Manciuria 1936 circa 2.580.000 t lunghe di minerale. Sfruttato per le acciaierie dell'Impero giapponese.",
+      "source": "correzione",
+      "previous": 1.3
+    },
+    {
+      "resource": "iron_ore",
       "territory": "India Britannica",
       "prefix": "IND",
       "region": "Singhbhum, Mayurbhanj (Acciaierie Tata)",
@@ -323,15 +333,6 @@
       "region": "Ouenza, Boukhadra",
       "mt": 2.2,
       "context": "Minerale ad alto tenore interamente esportato in Europa.",
-      "source": "completo"
-    },
-    {
-      "resource": "iron_ore",
-      "territory": "Manciukuò",
-      "prefix": "MAN",
-      "region": "Anshan, Benxihu (Manciuria)",
-      "mt": 1.3,
-      "context": "Sfruttato intensivamente per le acciaierie dell'Impero Giapponese.",
       "source": "completo"
     },
     {

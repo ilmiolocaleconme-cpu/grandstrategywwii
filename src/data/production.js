@@ -44,7 +44,7 @@ function normalize(row, unit) {
  * Fonde i due file: tutte le righe del «completo»; dal primo, solo quelle (risorsa, territorio) che il completo non ha.
  * Ritorna { rows, conflicts }: `conflicts` elenca le sovrapposizioni con valori diversi (vince il completo) e le righe saltate.
  */
-export function mergeProduction(first, complete, research = []) {
+export function mergeProduction(first, complete, research = [], corrections = []) {
   const rows = [];
   const conflicts = [];
   const key = (r) => `${r.resource}|${r.territory}`;
@@ -66,6 +66,15 @@ export function mergeProduction(first, complete, research = []) {
     seen.set(key(n), n);
     rows.push({ ...n, source: 'ricerca' });
   }
+  // correzioni DECISE DALL'UTENTE (correzioni_produzione_1936.csv): sostituiscono il valore di una riga esistente senza toccare
+  // i file ricevuti (protetti da sha256); la riga tiene il valore di prima in `previous` e il motivo in `context`
+  for (const r of corrections) {
+    const n = normalize(r, { column: 'Produzione_1936_Mt', factor: 1 });
+    if (!n) throw new Error(`produzione: correzione non riconosciuta ${r.Risorsa} ${r.Nazione}`);
+    const i = rows.findIndex((x) => key(x) === key(n));
+    if (i < 0) throw new Error(`produzione: correzione senza riga da correggere ${key(n)}`);
+    rows[i] = { ...rows[i], mt: n.mt, previous: rows[i].mt, context: String(r.Motivo ?? '').trim() || rows[i].context, source: 'correzione' };
+  }
   rows.sort((a, b) => a.resource.localeCompare(b.resource) || b.mt - a.mt || a.territory.localeCompare(b.territory));
   return { rows, conflicts };
 }
@@ -82,7 +91,7 @@ export function validateProduction(file, { resources, provinceIds }) {
     seen.add(k);
     if (!known.has(r.resource)) errors.push(`produzione: ${k} usa una risorsa che non esiste in resources.json`);
     if (!(r.mt > 0)) errors.push(`produzione: ${k} con mt non valido`);
-    if (!['completo', 'primo', 'ricerca'].includes(r.source)) errors.push(`produzione: ${k} con fonte sconosciuta`);
+    if (!['completo', 'primo', 'ricerca', 'correzione'].includes(r.source)) errors.push(`produzione: ${k} con fonte sconosciuta`);
     const start = r.scope ?? `P_${r.prefix}_`;
     if (![...provinceIds].some((id) => id.startsWith(start))) errors.push(`produzione: ${k} senza province con prefisso ${start}`);
   }

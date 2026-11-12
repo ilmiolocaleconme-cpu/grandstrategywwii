@@ -23,7 +23,8 @@ const tin = [
 ];
 
 test('produzione: il file generato coincide con la fusione dei CSV (primo, completo, stagno, Corea)', () => {
-  const { rows } = mergeProduction(first, complete, tin);
+  const corrections = parseCsv(readFileSync(url('data/resources/correzioni_produzione_1936.csv'), 'utf8'), { name: 'correzioni_produzione_1936.csv' });
+  const { rows } = mergeProduction(first, complete, tin, corrections);
   assert.deepEqual(doc.rows, rows);
 });
 
@@ -93,4 +94,9 @@ test('Giappone 1936 (ricerca del 12/11/2026): ferro circa 0,75 Mt (Kamaishi, Kut
   const jp = doc.rows.find((r) => r.prefix === 'JPN' && r.resource === 'iron_ore');
   assert.equal(jp.source, 'ricerca');
   assert.ok(Math.abs(jp.mt - 0.754) < 0.001);
+});
+
+test('correzione dell\'utente (12/11/2026): ferro del Manciukuò 2,6 Mt, valore di prima conservato', () => {
+  const man = doc.rows.find((r) => r.prefix === 'MAN' && r.resource === 'iron_ore');
+  assert.equal(man.source, 'correzione'); assert.equal(man.mt, 2.6); assert.equal(man.previous, 1.3);
 });

@@ -12,7 +12,9 @@ export async function productionBuilt() {
   const research = parseCsv(await readFile(dataUrl('resources/produzione_stagno_1936.csv'), 'utf8'), { name: 'produzione_stagno_1936.csv' });
   // quarta sorgente (12/11/2026): carbone e ferro della Corea e ferro del Giappone, ricerca web, stesso formato (tonnellate lunghe)
   research.push(...parseCsv(await readFile(dataUrl('resources/produzione_impero_giapponese_1936.csv'), 'utf8'), { name: 'produzione_impero_giapponese_1936.csv' }));
-  return mergeProduction(first, complete, research);
+  // correzioni decise dall'utente (12/11/2026: ferro del Manciukuò 1,3 → 2,6 Mt)
+  const corrections = parseCsv(await readFile(dataUrl('resources/correzioni_produzione_1936.csv'), 'utf8'), { name: 'correzioni_produzione_1936.csv' });
+  return mergeProduction(first, complete, research, corrections);
 }
 
 export function productionFile({ rows, conflicts }) {
