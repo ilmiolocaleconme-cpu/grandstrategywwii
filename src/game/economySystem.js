@@ -8,6 +8,7 @@
 // Il fertilizzante e il mangime consumati contano come ingressi nel valore aggiunto (costano, come ogni merce consumata).
 // Le miniere costruite (state.mines, dati in mine_sites.json) aumentano l'estrazione; le costruzioni in corso sono in game/construction.js.
 // NON ancora presenti: spese di mantenimento, limiti di magazzino, commercio, cambi di proprietà dei territori (proprietà e province sono quelle del 1936). Le scorte quindi possono crescere senza limite dove la produzione supera i consumi.
+import { applyLevy, puppetsOf } from '../rules/puppetLevy.js';
 import { produceDay } from '../rules/production.js';
 import { fertilizerEffect } from '../rules/fertilizer.js';
 import { horseUpkeep } from '../rules/horsePool.js';
@@ -40,6 +41,7 @@ export function hydroMwByOwner(hydroFile, date, ownerOf) {
  */
 export function createEconomySystem({ catalog, economy, baseline, hydro, political, cash, sites = { byProvince: {} }, livestock = null, smallArms = null }) {
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
+  const puppets = puppetsOf(political); // fantocci → chi li controlla (quote in state.puppetLevy, 12/11/2026)
   const supply = {};
   for (const [territory, row] of Object.entries(baseline.byTerritory)) {
     const owner = ownerOf.get(territory);
@@ -50,10 +52,11 @@ export function createEconomySystem({ catalog, economy, baseline, hydro, politic
   return function economyDay(state) {
     if (!state.nations) return state;
     const hydroNow = hydroMwByOwner(hydro, state.date, ownerOf);
+    const supplyToday = applyLevy(supply, puppets, state.puppetLevy);
     const nations = {};
     for (const id of Object.keys(state.nations).sort()) {
       const n = state.nations[id];
-      const extracted = { ...(supply[id] ?? {}) };
+      const extracted = { ...(supplyToday[id] ?? {}) };
       for (const m of n.mines ?? []) { // miniere costruite dal giocatore: produzione in più della base al livello raggiunto
         const extra = sites.byProvince[m.provinceId]?.[m.resource]?.extraPerDay[m.level - 1];
         if (extra) extracted[m.resource] = r3((extracted[m.resource] ?? 0) + extra);

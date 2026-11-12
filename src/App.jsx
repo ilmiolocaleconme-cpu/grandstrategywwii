@@ -50,6 +50,7 @@ import { validParents, validChildren } from './ui/commandView.js';
 import { distanceTo, commandDistances, commandThreads } from './rules/commandLinks.js';
 import { canonUnitKeys, groupAt, withSubordinates } from './rules/unitGroups.js';
 import { provinceSum } from './rules/provinceSum.js';
+import { LEVY_STEPS, levyOf, levyYield } from './rules/puppetLevy.js';
 import { SLOT_CAPACITY } from './rules/slots.js';
 import { unitsByProvince } from './data/deployment.js';
 import officersFile from '../data/officers/officers.json';
@@ -327,7 +328,7 @@ export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isC
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
 // Diplomazia minima (30/10/2026): parametri DESIGN_DEFAULT, situazione 1936 hypothesis. Rapporti, alleanze, accessi, costi di guerra, consenso al commercio.
-const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: diplomacyStart });
+const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: diplomacyStart, political });
 const GAME_AI_DIPLOMACY = createAiDiplomacy({ diplomacy: GAME_DIPLOMACY }); // IA diplomatica: alleanze e rapporti (accessi, commercio e guerra: mancanti)
 const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
@@ -592,6 +593,19 @@ export default function App() {
     if (!r.ok) return { ok: false, text: describeDiplomacyFailure(r.reason, r) };
     setGame(r.state);
     return { ok: true, text: typeof okText === 'function' ? okText(r, NATION_NAMES[target] ?? target) : okText };
+  };
+  // risorse prese ai fantocci (12/11/2026): solo chi li controlla vede la quota; resa = estrazione di base del fantoccio × quota
+  const puppetLevyView = (target) => {
+    if (!game || GAME_DIPLOMACY.overlordOf(target) !== game.player) return null;
+    const share = levyOf(game, target);
+    const base = extractionBaseline.byTerritory[target] ?? {};
+    return { share, steps: LEVY_STEPS, perDay: (s) => levyYield({ [target]: base }, target, s), relationPerDay: (diplomacyConfig.puppet?.relationPerDayAtFull ?? 0) * share };
+  };
+  const setPuppetLevy = (target, share) => {
+    const r = GAME_DIPLOMACY.setPuppetLevy(game, game.player, target, share);
+    if (!r.ok) return { ok: false, text: 'Quota non valida: solo chi controlla il fantoccio può sceglierla.' };
+    setGame(r.state);
+    return { ok: true, text: share > 0 ? `Prendi il ${Math.round(share * 100)}% delle risorse di ${NATION_NAMES[target] ?? target}.` : `Non prendi più risorse da ${NATION_NAMES[target] ?? target}.` };
   };
   const dipActions = {
     improve: dipAct(GAME_DIPLOMACY.improveRelations, (r, n) => `Rapporti con ${n} migliorati.`),
@@ -962,7 +976,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
-            <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
+            <DiplomacyPanel levy={puppetLevyView} onLevy={setPuppetLevy} partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
             <ResearchPanel rows={researchRows} onStart={startResearch} unlocksFor={(id) => modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation)} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} rifleInfo={{ quality: rifleAverage(game, game.player), bonus: rifleTotalBonus(game, game.player, 'infantry') }} techBonusOf={(id) => smallArmsFile.rifleQuality.techBonus?.[id] ?? 0} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />

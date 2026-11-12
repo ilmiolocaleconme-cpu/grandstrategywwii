@@ -11,6 +11,10 @@
     "dailyGain": 0.05,
     "gainCap": 50
   },
+  "puppet": {
+    "relationPerDayAtFull": -0.05,
+    "note": "Risorse prese ai fantocci (decisione dell'utente 12/11/2026, quota scelta da chi controlla): con il 100% il rapporto scende di 0,05 al giorno (circa -18 in un anno), in proporzione con quote minori. Valore di progetto di Claude, da bilanciare."
+  },
   "sabotage": {
     "maxRelation": -40
   },

@@ -87,3 +87,14 @@ test('la difficoltà conta: «reale» guadagna meno e parte con meno scorte di �
   assert.ok(gainF > gainR);
   assert.ok(fresh('facile').nations.DEU.stocks.iron_ore > fresh('reale').nations.DEU.stocks.iron_ore);
 });
+
+test('fantocci (12/11/2026): con la quota del 100% il ferro e il carbone del Manciukuò vanno nelle scorte del Giappone', () => {
+  const s0 = fresh();
+  const day = (s) => advanceDay(s, [system]);
+  const base = day(s0);
+  const levy = day({ ...s0, puppetLevy: { MAN: 1 } });
+  const gain = (st, n, r) => (st.nations[n].stocks[r] ?? 0) - (s0.nations[n].stocks[r] ?? 0);
+  // il Manciukuò non estrae più per sé: il suo ferro (circa 163 t/g) passa al Giappone
+  assert.ok(gain(levy, 'JPN', 'iron_ore') - gain(base, 'JPN', 'iron_ore') > 160);
+  assert.ok(gain(base, 'MAN', 'iron_ore') - gain(levy, 'MAN', 'iron_ore') > 160);
+});

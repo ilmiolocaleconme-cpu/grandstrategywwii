@@ -7,6 +7,7 @@ import {
   hostilesOf as rawHostiles, validateDiplomacy,
 } from '../rules/diplomacy.js';
 import { cancelContract } from '../rules/trade.js';
+import { puppetsOf, setLevy } from '../rules/puppetLevy.js';
 
 export { validateDiplomacy as validateDiplomacyShape, hasAccess };
 
@@ -20,7 +21,8 @@ export function buildStartDiplomacy(startDoc, date, range) {
   return d;
 }
 
-export function createDiplomacyGame({ config, start }) {
+export function createDiplomacyGame({ config, start, political = [] }) {
+  const puppets = puppetsOf(political); // fantocci → chi li controlla
   const range = { min: config.relation.min, max: config.relation.max };
   const fail = (reason, extra = {}) => ({ ok: false, reason, ...extra });
   const dip = (state) => state.diplomacy ?? createDiplomacy();
@@ -204,6 +206,11 @@ export function createDiplomacyGame({ config, start }) {
       if (!tradeConsent({ ...s, diplomacy: d }, c.seller, c.buyer).ok) continue;
       if (relationOf(d, c.seller, c.buyer) < config.trade.gainCap) d = addRelation(d, c.seller, c.buyer, config.trade.dailyGain, range);
     }
+    // risorse prese ai fantocci: il rapporto scende ogni giorno in proporzione alla quota (12/11/2026)
+    for (const [puppet, share] of Object.entries(state.puppetLevy ?? {}).sort()) {
+      const overlord = puppets.get(puppet);
+      if (overlord && share > 0 && config.puppet?.relationPerDayAtFull) d = addRelation(d, overlord, puppet, config.puppet.relationPerDayAtFull * share, range);
+    }
     d = { ...d, proposals: (d.proposals ?? []).filter((x) => state.day - (x.day ?? state.day) < config.proposals.expireDays) }; // le proposte senza risposta scadono
     s = { ...s, diplomacy: d };
     for (const c of s.trade?.contracts ?? []) {
@@ -212,6 +219,10 @@ export function createDiplomacyGame({ config, start }) {
     return s;
   }
 
-  return { init, offerAlliance, acceptProposal, rejectProposal, proposalsOf, relation, allied, tradeConsent, hostilesOf, commonEnemy, improveRelations, proposeAlliance, breakAlliance, requestAccess, revokeAccessTo, declareWar, makePeace, diplomacyDay, config };
+  /** Quota di risorse presa a un fantoccio (0..1 a passi di 0,25). */
+  const setPuppetLevy = (state, actor, puppet, share) => setLevy(state, puppets, actor, puppet, share);
+  const overlordOf = (puppet) => puppets.get(puppet) ?? null;
+
+  return { setPuppetLevy, overlordOf, init, offerAlliance, acceptProposal, rejectProposal, proposalsOf, relation, allied, tradeConsent, hostilesOf, commonEnemy, improveRelations, proposeAlliance, breakAlliance, requestAccess, revokeAccessTo, declareWar, makePeace, diplomacyDay, config };
 }
 

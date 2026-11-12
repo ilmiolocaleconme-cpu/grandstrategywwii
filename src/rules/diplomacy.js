@@ -79,6 +79,8 @@ export function validateDiplomacyConfig(c) {
   const w = need(c?.war, 'war'); for (const k of ['victimPenalty', 'victimAlliesPenalty', 'dailyDrift', 'peaceMinRelation', 'afterPeaceRelation']) num(`war.${k}`, w[k]);
   const ai = need(c?.ai, 'ai'); num('ai.period', ai.period); num('ai.reserveEcv', ai.reserveEcv);
   if (Number.isFinite(ai.period) && ai.period < 1) errors.push('diplomazia config: ai.period < 1');
+  num('puppet.relationPerDayAtFull', need(c?.puppet, 'puppet').relationPerDayAtFull);
+  if (Number.isFinite(c?.puppet?.relationPerDayAtFull) && c.puppet.relationPerDayAtFull > 0) errors.push('diplomazia config: puppet.relationPerDayAtFull deve essere <= 0');
   const pr = need(c?.proposals, 'proposals'); num('proposals.expireDays', pr.expireDays); num('proposals.rejectPenalty', pr.rejectPenalty);
   if (Number.isFinite(t.minRelation) && Number.isFinite(c?.sabotage?.maxRelation) && c.sabotage.maxRelation >= t.minRelation) errors.push('diplomazia config: la soglia di sabotaggio deve stare sotto quella del commercio');
   if (!['DESIGN_DEFAULT', 'hypothesis'].includes(c?.quality)) errors.push('diplomazia config: quality deve essere DESIGN_DEFAULT o hypothesis');

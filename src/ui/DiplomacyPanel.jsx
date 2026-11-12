@@ -16,7 +16,25 @@ function flags(p) {
 /**
  * partners: [{ id, name }]; rows: notableRows(...); detail(id) → pairView; cfg: parametri; actions: { improve, alliance, breakAlliance, access, revoke, war, peace }(id) → { ok, text }.
  */
-export function DiplomacyPanel({ partners, rows, detail, cfg, actions, proposals = [], onAccept = () => null, onReject = () => null }) {
+const RES_LABEL = { coal: 'carbone', iron_ore: 'ferro', oil: 'petrolio', wheat: 'frumento', bauxite: 'bauxite', copper: 'rame', tin: 'stagno', rubber: 'gomma', sulfur: 'zolfo', chromium: 'cromo', tungsten: 'tungsteno', nickel: 'nichel', manganese: 'manganese' };
+const yieldText = (y) => Object.entries(y).map(([r, t]) => `${RES_LABEL[r] ?? r} ${Math.round(t * 10) / 10} t/g`).join(' · ') || 'niente da prendere';
+
+/** Quota di risorse presa a un fantoccio (12/11/2026): solo per chi lo controlla. */
+function LevyBox({ info, onSet, onMsg }) {
+  return (
+    <div className="levy">
+      <p><strong>Fantoccio sotto il tuo controllo.</strong> Risorse che prendi ogni giorno: {Math.round(info.share * 100)}% ({yieldText(info.perDay(info.share))}).</p>
+      <div className="levy-steps" role="group" aria-label="Quota di risorse presa">
+        {info.steps.map((s) => (
+          <button key={s} type="button" className={`nation-btn${s === info.share ? ' on' : ''}`} aria-pressed={s === info.share} onClick={() => onMsg(onSet(s))}>{Math.round(s * 100)}%</button>
+        ))}
+      </div>
+      <p className="muted">Più prendi, più il rapporto scende ({info.relationPerDay < 0 ? `${Math.round(info.relationPerDay * 365)} in un anno con la quota attuale` : 'nessun calo con 0%'}). Valori di progetto, da bilanciare.</p>
+    </div>
+  );
+}
+
+export function DiplomacyPanel({ partners, rows, detail, cfg, actions, proposals = [], onAccept = () => null, onReject = () => null, levy = () => null, onLevy = () => null }) {
   const [msg, setMsg] = useState(null);
   const [target, setTarget] = useState('');
   const p = target ? detail(target) : null;
@@ -47,6 +65,7 @@ export function DiplomacyPanel({ partners, rows, detail, cfg, actions, proposals
       {p ? (
         <div className="small">
           <p><strong>{p.name}</strong>: rapporto {sign(p.relation)} ({p.label}) · {flags(p)}</p>
+          {levy(target) ? <LevyBox info={levy(target)} onSet={(s) => onLevy(target, s)} onMsg={setMsg} /> : null}
           <div className="trade-form">
             <button type="button" className="nation-btn" disabled={p.war} onClick={run(actions.improve)}>Migliora i rapporti ({cfg.improve.ecv} ECV, +{cfg.improve.gain})</button>{' '}
             {p.allied

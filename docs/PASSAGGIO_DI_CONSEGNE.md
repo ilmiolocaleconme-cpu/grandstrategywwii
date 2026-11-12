@@ -84,6 +84,13 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Variante B scelta: albero a tutta larghezza, dettaglio sotto, barra in basso con etichette. Stile con cornici d'ottone e bagliore, senza copiare grafica di altri giochi.
 - Mockup privato: https://claude.ai/artifact/RryWcLDUQ8WzeWACErfiHb (versione 3). Dati di esempio.
 
+**Risorse prese ai fantocci (12/11/2026, decisione dell'utente, opzione C)**
+- Fantoccio = entità che possiede se stessa ma è controllata da un'altra nei dati del 1936 (`puppetsOf` in `src/rules/puppetLevy.js`): Manciukuò → Giappone, Terranova → Regno Unito. I mandati (proprietario LEAGUE) restano fuori: decisione a parte.
+- Chi controlla sceglie la quota (0/25/50/75/100%) nel pannello Diplomazia; campo opzionale `state.puppetLevy`. L'economia sposta ogni giorno quella parte dell'estrazione di base (le miniere costruite dal fantoccio restano sue).
+- Il rapporto scende di `diplomacy.puppet.relationPerDayAtFull` (-0,05/giorno al 100%, valore di progetto) × quota.
+- Ferro del Manciukuò 2,6 Mt tramite `data/resources/correzioni_produzione_1936.csv` (i file ricevuti restano invariati, sha256).
+- Limiti: Terranova non è una nazione del gioco (il pannello non la mostra); rapporto iniziale Giappone–Manciukuò 0 (manca nei dati del 1936); l'IA non usa ancora le quote.
+
 **Sponde, fase 2: economia per sponda (12/11/2026, decisioni dell'utente)**
 - Slot: 14 per OGNI sponda (sostituisce la regola del 22/10); la provincia madre è l'ACCUMULATORE (`byMother` in `src/rules/slots.js`, `src/rules/provinceSum.js`). `province_industry.csv` rigenerato: 3085 posti (+486 × 14 slot).
 - Miniere: giacimento DIVISO fra le sponde per area (`share` in `mine_sites.json`, schema v2); la voce della madre resta `legacy` per le miniere dei salvataggi vecchi; costruire sulla madre divisa → `use_bank`. Tetto ×1,1 per tutti (`economy.mines.capFactor`), così crescono anche i siti dove la base era già il massimo (carbone USA).
