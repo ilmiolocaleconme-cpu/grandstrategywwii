@@ -112,7 +112,7 @@ function garrisonOrders(state, law, { units, nationOf, deploymentDoc, net }) {
 
 /**
  * Sistema giornaliero. ctx: { units (unitsFile.units), laws (documento mobilization_laws), movement: { net: (state) => rete|null, deploymentDoc } (facoltativo: senza, nessuna guarnigione) }.
- * Senza forze inizializzate non fa nulla. La guarnigione scatta una volta sola per legge, il primo giorno in cui la rete di movimento è disponibile.
+ * Senza forze inizializzate non fa nulla. La guarnigione scatta una volta sola per legge (solo con la condizione `trigger` vera, mai a data fissa), il primo giorno in cui la rete di movimento è disponibile, e SOLO se la nazione della legge non è quella del giocatore.
  */
 export function createMobilizationSystem({ units, laws, movement = null }) {
   const nationOf = new Map(units.map((u) => [u.id, u.nation]));
@@ -129,7 +129,8 @@ export function createMobilizationSystem({ units, laws, movement = null }) {
         if (d.cadre === true && nationOf.get(id) === law.nation) { forces = mobilize(forces, id); changed = true; }
       }
       if (!started[law.id]) { started = { ...started, [law.id]: { on: state.date } }; changed = true; }
-      const net = law.garrison && movement && !garrison?.[law.id] ? movement.net(state) : null;
+      // la guarnigione è per la nazione guidata dall'IA: se la guida il giocatore, le sue divisioni le muove lui
+      const net = law.garrison && movement && state.player !== law.nation && !garrison?.[law.id] ? movement.net(state) : null;
       if (net) {
         const r = garrisonOrders({ ...cur, forces }, law, { units, nationOf, deploymentDoc: movement.deploymentDoc, net });
         cur = { ...cur, theaters: r.state.theaters };

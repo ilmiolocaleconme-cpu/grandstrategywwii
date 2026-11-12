@@ -26,7 +26,7 @@ const dep = read('units/deployment_1936.json');
 const col = await loadProvinces();
 const net = buildMoveNet(col, read('adjacency.json'));
 const motherIds = new Set(col.features.map((f) => f.properties.parentProvince ?? f.properties.id));
-const start = () => ({ ...initForcesState(newGame({ nation: 'FRA', political, ownersWithProvinces: nationList }).state, ctx).state, date: '1939-09-01' });
+const start = () => ({ ...initForcesState(newGame({ nation: 'DEU', political, ownersWithProvinces: nationList }).state, ctx).state, date: '1939-09-01' });
 const war = (s) => ({ ...s, war: declareWar(s.war ?? createWar(), { a: 'DEU', b: 'POL', date: s.date }) });
 const mob = createMobilizationSystem({ units, laws, movement: { net: () => net, deploymentDoc: dep } });
 const infFra = units.filter((u) => u.nation === 'FRA' && u.category === 'infantry');
@@ -103,4 +103,15 @@ test('senza guerra Germania-Polonia nessun ordine; senza contesto di movimento s
   const plain = createMobilizationSystem({ units, laws })(war(s));
   assert.equal(plain.mobilization.garrison, undefined);
   assert.equal(plain.theaters, s.theaters);
+});
+
+test('se la Francia la gioca il giocatore la guarnigione NON scatta (mobilitazione sì); solo con l\'evento (guerra DEU-POL), mai senza', () => {
+  const p = { ...start(), player: 'FRA' };
+  const w = mob(war(p));
+  assert.ok(w.mobilization.started[law.id], 'la mobilitazione scatta comunque');
+  assert.equal(w.mobilization.garrison, undefined);
+  assert.equal(w.theaters, p.theaters, 'nessun incarico creato al posto del giocatore');
+  const ai = start();
+  assert.equal(mob(ai), ai, 'IA ma senza guerra DEU-POL: nessuna guarnigione');
+  assert.ok(mob(war(ai)).mobilization.garrison[law.id], 'IA con guerra DEU-POL: scatta');
 });
