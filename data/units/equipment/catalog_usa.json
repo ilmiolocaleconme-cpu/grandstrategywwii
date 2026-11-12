@@ -1,0 +1,223 @@
+{
+  "schema": "equipment-catalog-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Catalogo USA generato da CSV con scripts/build-templates.js: non modificare a mano. Stesso schema e stessa forma di id di tutte le nazioni; ogni voce con attendibilità (reliability) e nota di fonte. Le varianti datate (DATED_VARIANT) restano qui e non entrano nei template della data.",
+  "source": {
+    "files": [
+      {
+        "file": "source/usa_inf_template_1940.csv",
+        "sha256": "5f7f1d4e85f603695c0736bcfea95e6fac42f4f5680830a14d22d131382e188e"
+      },
+      {
+        "file": "source/usa_inf_equipment_1940.csv",
+        "sha256": "b604e49881f900711d5c45b1ca9ef827a7fcf39d52cf2b00d15148e8d7cbcdbc"
+      },
+      {
+        "file": "source/land_equipment_catalog_usa_1940.csv",
+        "sha256": "ad516df30c8f256b5c6181ee036a5e238646c5300c97465c734fc9f967fce1c1"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "equipment_id": "INW-USA-RIFLE-1940",
+      "nation": "USA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "class",
+      "designation": "Fucile cal. .30 (M1903 Springfield prevalente; M1 Garand in distribuzione progressiva)",
+      "family": "small_arms",
+      "role": "individual_infantry_weapon",
+      "caliber_mm": null,
+      "name_it": "Fucile cal. .30 (M1903 Springfield prevalente; M1 Garand in distribuzione progressiva)",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-11",
+      "source_id": "USA-RIFLE-1940",
+      "source_note": "6.942 fucili cal. .30 (T/O 70). Il modello principale è l'M1903 Springfield; l'M1 Garand non è ancora universale: la scheda non dà la ripartizione, non dedurla."
+    },
+    {
+      "equipment_id": "MG-USA-BAR-1940",
+      "nation": "USA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Fucile automatico BAR M1918 cal. .30",
+      "family": "small_arms",
+      "role": "squad_automatic_weapon",
+      "caliber_mm": 7.62,
+      "name_it": "Fucile automatico BAR M1918 cal. .30",
+      "durable": true,
+      "models": [],
+      "reliability": "MISSING_DATA",
+      "reference_date": "1940-11",
+      "source_id": "USA-BAR-1940",
+      "source_note": "Presente nell'organico; totale non ricavabile in modo affidabile dalla scansione. Classificato come «mitragliatrice leggera» per il ruolo di arma automatica di squadra (scelta di classificazione del progetto)."
+    },
+    {
+      "equipment_id": "MG-USA-HMG-1940",
+      "nation": "USA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitragliatrice pesante cal. .30 (M1917A1 e M1919A4)",
+      "family": "small_arms",
+      "role": "sustained_fire_support",
+      "caliber_mm": 7.62,
+      "name_it": "Mitragliatrice pesante cal. .30 (M1917A1 e M1919A4)",
+      "durable": true,
+      "models": [],
+      "reliability": "MISSING_DATA",
+      "reference_date": "1940-11",
+      "source_id": "USA-HMG-1940",
+      "source_note": "Nelle compagnie armi pesanti e nei reparti di supporto; totale non indicato."
+    },
+    {
+      "equipment_id": "MG-USA-M2-1940",
+      "nation": "USA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "designation": "Mitragliatrice Browning M2 cal. .50",
+      "family": "small_arms",
+      "role": "heavy_machine_gun_fire",
+      "caliber_mm": 12.7,
+      "name_it": "Mitragliatrice Browning M2 cal. .50",
+      "durable": true,
+      "models": [],
+      "reliability": "MISSING_DATA",
+      "reference_date": "1940-11",
+      "source_id": "USA-M2-1940",
+      "source_note": "Soprattutto in comando, artiglieria e supporto; totale non indicato."
+    },
+    {
+      "equipment_id": "ART-USA-MORTAR81-1940",
+      "nation": "USA",
+      "category": "MORTAR",
+      "granularity": "model",
+      "designation": "Mortaio M1 da 81 mm",
+      "family": "support",
+      "role": "infantry_indirect_fire",
+      "caliber_mm": 81,
+      "name_it": "Mortaio M1 da 81 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-11",
+      "source_id": "USA-MORTAR81-1940",
+      "source_note": "36 mortai M1 da 81 mm."
+    },
+    {
+      "equipment_id": "ART-USA-AT37-1940",
+      "nation": "USA",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "designation": "Cannone anticarro M3 da 37 mm",
+      "family": "anti_tank",
+      "role": "anti_armor_direct_fire",
+      "caliber_mm": 37,
+      "name_it": "Cannone anticarro M3 da 37 mm",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-11",
+      "source_id": "USA-AT37-1940",
+      "source_note": "60 cannoni in totale: 36 nelle compagnie anticarro reggimentali (12 per reggimento) + 24 nelle batterie comando dei 4 battaglioni di artiglieria (6 ciascuno). Se si contano solo quelli della fanteria: 36."
+    },
+    {
+      "equipment_id": "ART-USA-HOW105-1940",
+      "nation": "USA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 105 mm M2A1",
+      "family": "field_artillery",
+      "role": "divisional_howitzer_fire",
+      "caliber_mm": 105,
+      "name_it": "Obice da 105 mm M2A1",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-11",
+      "source_id": "USA-HOW105-1940",
+      "source_note": "3 battaglioni leggeri da 12 obici ciascuno = 36."
+    },
+    {
+      "equipment_id": "ART-USA-HOW155-1940",
+      "nation": "USA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "designation": "Obice da 155 mm M1",
+      "family": "field_artillery",
+      "role": "medium_howitzer_fire",
+      "caliber_mm": 155,
+      "name_it": "Obice da 155 mm M1",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-11",
+      "source_id": "USA-HOW155-1940",
+      "source_note": "12 obici da 155 mm nel battaglione medio (T/O 6-95, 1 ottobre 1940)."
+    },
+    {
+      "equipment_id": "ART-USA-GUN75-1940",
+      "nation": "USA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "designation": "Cannone da 75 mm M1897",
+      "family": "field_artillery",
+      "role": "divisional_field_fire",
+      "caliber_mm": 75,
+      "name_it": "Cannone da 75 mm M1897",
+      "durable": true,
+      "models": [],
+      "reliability": "PROVISIONAL",
+      "reference_date": "1940-11",
+      "source_id": "USA-GUN75-1940",
+      "source_note": "8 cannoni da 75 mm nel battaglione medio (T/O 6-95)."
+    }
+  ],
+  "aliases": [
+    {
+      "nation": "USA",
+      "templateKey": "INW-USA-RIFLE-1940",
+      "equipment_id": "INW-USA-RIFLE-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "MG-USA-BAR-1940",
+      "equipment_id": "MG-USA-BAR-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "MG-USA-HMG-1940",
+      "equipment_id": "MG-USA-HMG-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "MG-USA-M2-1940",
+      "equipment_id": "MG-USA-M2-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-MORTAR81-1940",
+      "equipment_id": "ART-USA-MORTAR81-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-AT37-1940",
+      "equipment_id": "ART-USA-AT37-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-HOW105-1940",
+      "equipment_id": "ART-USA-HOW105-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-HOW155-1940",
+      "equipment_id": "ART-USA-HOW155-1940"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-GUN75-1940",
+      "equipment_id": "ART-USA-GUN75-1940"
+    }
+  ]
+}

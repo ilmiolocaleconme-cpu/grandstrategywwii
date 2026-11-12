@@ -54,6 +54,16 @@
       "granularityOverrides": {
         "JPN-RIFLE-1939": "class"
       }
+    },
+    {
+      "id": "USA-INF-1940",
+      "template": "usa_inf_template_1940.csv",
+      "lines": "usa_inf_equipment_1940.csv",
+      "catalog": "land_equipment_catalog_usa_1940.csv",
+      "output": "divisione_fanteria_usa_1940.json",
+      "granularityOverrides": {
+        "USA-RIFLE-1940": "class"
+      }
     }
   ]
 }

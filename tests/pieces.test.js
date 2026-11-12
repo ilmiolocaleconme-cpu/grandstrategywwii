@@ -106,7 +106,7 @@ test('limitazione della produzione: valore fuori da 0-1 rifiutato; 0 = fermo; la
 
 test('validazione di minorArtillery: ricetta di un\'altra fabbrica, limitazione non valida', () => {
   const industry = json('industry/initial_industry.json');
-  const vctx = { factoriesById: cat.byId, recipes: withEquipmentRecipes(recipesFile, buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita', 'catalog_ussr', 'catalog_jpn'].map((n) => json(`units/equipment/${n}.json`))), json('units/equipment/equipment_production.json'))), entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((x) => x.id) };
+  const vctx = { factoriesById: cat.byId, recipes: withEquipmentRecipes(recipesFile, buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita', 'catalog_ussr', 'catalog_jpn', 'catalog_usa'].map((n) => json(`units/equipment/${n}.json`))), json('units/equipment/equipment_production.json'))), entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((x) => x.id) };
   assert.deepEqual(validateInitialIndustry(industry, vctx), []);
   const bad = (mut, re) => { const d = structuredClone(industry); mut(d.minorArtillery); assert.ok(validateInitialIndustry(d, vctx).some((e) => re.test(e)), String(re)); };
   bad((m) => { m.recipeId = 'REC-STEEL-001'; }, /non è di FCT-ARTILLERY/);
