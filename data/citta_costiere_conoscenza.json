@@ -372,6 +372,12 @@
    "nome": "Montpellier",
    "costiera": false,
    "motivo": "nell'interno (il porto è Sète)"
+  },
+  {
+   "cittaId": "P_DEU_WILHELMSHAVEN_CITTA",
+   "nome": "Wilhelmshaven",
+   "costiera": true,
+   "motivo": "porto sul Jadebusen (Mare del Nord), base navale e cantieri"
   }
  ]
 }

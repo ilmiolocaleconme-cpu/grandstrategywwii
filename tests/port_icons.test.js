@@ -159,7 +159,7 @@ test('cantieri storici 1936 (bozza): dati validi, una voce per città, e compaio
   const doc = rd('naval/shipyards_1936.json');
   const coastal = rd('ports/coastal_cities.json').cities;
   assert.deepEqual(validateShipyards(doc, { coastal }), []);
-  assert.ok(doc.shipyards.length >= 30 && doc.shipyards.every((y) => y.basis === 'ipotesi'), 'bozza: tutte ipotesi da confermare');
+  assert.ok(doc.shipyards.length >= 47 && doc.shipyards.every((y) => y.basis === 'ipotesi'), 'bozza: tutte ipotesi da confermare');
   const bad = (patch) => validateShipyards({ ...doc, shipyards: [{ ...doc.shipyards[0], ...patch }, ...doc.shipyards.slice(1)] }, { coastal }).join();
   assert.match(bad({ cittaId: 'P_XXX_NO_CITTA' }), /città costiera/);
   assert.match(bad({ nation: 'ZZZ' }), /diversa dal proprietario/);

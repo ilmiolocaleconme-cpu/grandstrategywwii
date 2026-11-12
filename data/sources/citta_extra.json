@@ -1,0 +1,19 @@
+{
+  "schema": "citta-extra-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "note": "Città costiere con cantieri o arsenali navali che il catalogo (Natural Earth, soglia 300.000 abitanti) non contiene. Coordinate del centro APPROSSIMATE (conoscenza geografica generale, ~1-2 km, non verificate su dataset) e area del disco STIMATA (ipotesi di progetto): l'area urbana vera c'è solo dove il sottoinsieme Natural Earth del repository ne ha già una (campo `geometria` della zona); il file Natural Earth completo non era raggiungibile. Script: scripts/add-extra-cities.js.",
+  "cities": [
+    { "name": "La Spezia", "lon": 9.824, "lat": 44.103, "areaKm2": 20, "nameLocal": "La Spezia" },
+    { "name": "Monfalcone", "lon": 13.532, "lat": 45.807, "areaKm2": 15, "nameLocal": "Monfalcone" },
+    { "name": "Wilhelmshaven", "lon": 8.106, "lat": 53.529, "areaKm2": 20, "nameLocal": "Wilhelmshaven" },
+    { "name": "Brest", "lon": -4.486, "lat": 48.390, "areaKm2": 20, "nameLocal": "Brest" },
+    { "name": "Lorient", "lon": -3.366, "lat": 47.748, "areaKm2": 15, "nameLocal": "Lorient" },
+    { "name": "Saint-Nazaire", "lon": -2.213, "lat": 47.273, "areaKm2": 15, "nameLocal": "Saint-Nazaire" },
+    { "name": "Cherbourg", "lon": -1.622, "lat": 49.634, "areaKm2": 15, "nameLocal": "Cherbourg" },
+    { "name": "Barrow-in-Furness", "lon": -3.226, "lat": 54.111, "areaKm2": 15, "nameLocal": "Barrow-in-Furness" },
+    { "name": "Chatham", "lon": 0.530, "lat": 51.380, "areaKm2": 20, "nameLocal": "Chatham" },
+    { "name": "Yokosuka", "lon": 139.672, "lat": 35.281, "areaKm2": 30, "nameLocal": "Yokosuka" },
+    { "name": "Kure", "lon": 132.566, "lat": 34.249, "areaKm2": 20, "nameLocal": "Kure" },
+    { "name": "Sasebo", "lon": 129.715, "lat": 33.180, "areaKm2": 20, "nameLocal": "Sasebo" }
+  ]
+}

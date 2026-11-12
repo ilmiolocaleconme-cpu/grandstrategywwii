@@ -11,7 +11,10 @@ const base = read('sources/citta_base.json').features;
 const worldBase = base.filter((f) => String(f.properties.source).includes(', world'));
 const provinces = await loadProvinces();
 const provIds = new Set(provinces.features.map((f) => f.properties.id));
+const motherIds = new Set(provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id)); // madri anche delle province divise in sponde
 const worldIds = new Set(worldBase.map((f) => f.id));
+const extraBase = base.filter((f) => String(f.properties.source).includes('Città extra per cantieri'));
+const extraIds = new Set(extraBase.map((f) => f.id));
 const worldZones = zones.filter((f) => worldIds.has(f.properties.cittaId));
 
 test('mondo: 1153 città nuove in 109 nazioni, id unici, provincia madre esistente', () => {
@@ -26,7 +29,7 @@ test('mondo: 1153 città nuove in 109 nazioni, id unici, provincia madre esisten
 });
 
 test('mondo: nessuna nazione ha città sia vecchie sia nuove (le nuove solo dove prima non ce n era)', () => {
-  const old = new Set(base.filter((f) => !worldIds.has(f.id)).map((f) => f.properties.owner));
+  const old = new Set(base.filter((f) => !worldIds.has(f.id) && !extraIds.has(f.id)).map((f) => f.properties.owner));
   for (const f of worldBase) assert.equal(old.has(f.properties.owner), false, `${f.id} (${f.properties.owner})`);
 });
 
@@ -56,4 +59,22 @@ test('mondo: le capitali di Natural Earth con almeno 50 000 abitanti hanno una c
   const owners = new Set(worldBase.map((f) => f.properties.owner));
   for (const o of ['JPN', 'CHN', 'IND', 'USA', 'BRA', 'ARG', 'AUS', 'CAN', 'MEX', 'IRN', 'AFG']) assert.ok(owners.has(o), o);
   assert.ok(worldBase.some((f) => /capitale/.test(f.properties.source)));
+});
+
+test('città extra per i cantieri navali (data/sources/citta_extra.json, scripts/add-extra-cities.js): 12 zone ad area stimata, costiere, provincia esistente, dichiarate approssimate', () => {
+  const extra = read('sources/citta_extra.json');
+  assert.equal(extra.cities.length, 12);
+  assert.equal(extraBase.length, 12);
+  const coastal = read('ports/coastal_cities.json').cities;
+  for (const f of extraBase) {
+    const z = zones.find((x) => x.properties.cittaId === f.id);
+    assert.ok(z, `${f.id}: zona mancante`);
+    assert.ok(['disco', 'urbana'].includes(z.properties.geometria), `${f.id}: disco di partenza o area urbana NE dove il sottoinsieme ce l'ha`);
+    assert.equal(z.properties.nomeDaVerificare, true);
+    assert.match(f.properties.source, /approssimat/);
+    assert.ok(motherIds.has(f.properties.parentProvince), `${f.id}: provincia madre ${f.properties.parentProvince}`);
+    assert.ok(isLatin(z.properties.nameLocal), f.id);
+    assert.ok(coastal[f.id], `${f.id}: deve essere una città costiera (ha cantiere navale)`);
+  }
+  assert.equal(new Set(extraBase.map((f) => f.id)).size, 12);
 });

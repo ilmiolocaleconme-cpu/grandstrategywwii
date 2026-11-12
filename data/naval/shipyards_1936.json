@@ -2,7 +2,7 @@
   "schema": "shipyards-v1",
   "status": "BOZZA_DA_CONFERMARE",
   "asOf": "1936-01-01",
-  "note": "BOZZA dei principali cantieri navali (militari e privati) attivi nel 1936, uno per città costiera del catalogo (data/ports/coastal_cities.json). Fonte: conoscenza storica generale, NESSUNA fonte verificata per voce: ogni voce è `basis: ipotesi` da confermare. È un elenco di PRESENZA per la mappa, non una capacità produttiva: oggi il cantiere non ha ricetta né produce navi. Approssimazioni: l'icona è sulla città del catalogo, mentre alcuni cantieri stanno in località vicine della stessa provincia (Clydebank, Wallsend, Kure, Newport News, Quincy, Mare Island, Bremerton, Sestri Ponente): la provincia è quella giusta, il punto no. Mancano i cantieri le cui città non sono nel catalogo (La Spezia, Wilhelmshaven, Brest, Lorient, Saint-Nazaire, Cherbourg, Yokosuka, Sasebo, Barrow, Chatham, Monfalcone, Danzica): da aggiungere con le città.",
+  "note": "BOZZA dei principali cantieri navali (militari e privati) attivi nel 1936, uno per città costiera del catalogo (data/ports/coastal_cities.json). Fonte: conoscenza storica generale, NESSUNA fonte verificata per voce: ogni voce è `basis: ipotesi` da confermare. È un elenco di PRESENZA per la mappa, non una capacità produttiva: oggi il cantiere non ha ricetta né produce navi. 12 città (La Spezia, Monfalcone, Wilhelmshaven, Brest, Lorient, Saint-Nazaire, Cherbourg, Barrow-in-Furness, Chatham, Yokosuka, Kure, Sasebo) sono state aggiunte al catalogo il 12/11/2026 (data/sources/citta_extra.json) con centro approssimato e area del disco stimata. Approssimazioni: per alcuni cantieri la città del catalogo non coincide con la località esatta (Clydebank, Wallsend, Newport News, Quincy, Mare Island, Bremerton, Sestri Ponente): la provincia è quella giusta, il punto no. Mancano cantieri minori o le cui città non sono nel catalogo.",
   "shipyards": [
     {
       "id": "YARD-DEU_KIEL",
@@ -167,15 +167,6 @@
       "basis": "ipotesi"
     },
     {
-      "id": "YARD-JPN_HIROSHIMA",
-      "cittaId": "P_JPN_HIROSHIMA_CITTA",
-      "nation": "JPN",
-      "name": "Hiroshima",
-      "operator": "Arsenale navale di Kure (nella prefettura di Hiroshima)",
-      "kind": "navy",
-      "basis": "ipotesi"
-    },
-    {
       "id": "YARD-USA_FILADELFIA",
       "cittaId": "P_USA_FILADELFIA_CITTA",
       "nation": "USA",
@@ -316,6 +307,123 @@
       "nation": "BEL",
       "name": "Anversa",
       "operator": "Cockerill (Hoboken)",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-ITA_LA_SPEZIA",
+      "cittaId": "P_ITA_LA_SPEZIA_CITTA",
+      "nation": "ITA",
+      "name": "La Spezia",
+      "operator": "Arsenale militare marittimo di La Spezia e cantiere del Muggiano",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-ITA_MONFALCONE",
+      "cittaId": "P_ITA_MONFALCONE_CITTA",
+      "nation": "ITA",
+      "name": "Monfalcone",
+      "operator": "Cantieri Riuniti dell'Adriatico (Monfalcone)",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-DEU_WILHELMSHAVEN",
+      "cittaId": "P_DEU_WILHELMSHAVEN_CITTA",
+      "nation": "DEU",
+      "name": "Wilhelmshaven",
+      "operator": "Kriegsmarinewerft Wilhelmshaven",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-FRA_BREST",
+      "cittaId": "P_FRA_BREST_CITTA",
+      "nation": "FRA",
+      "name": "Brest",
+      "operator": "Arsenal de Brest",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-FRA_LORIENT",
+      "cittaId": "P_FRA_LORIENT_CITTA",
+      "nation": "FRA",
+      "name": "Lorient",
+      "operator": "Arsenal de Lorient",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-FRA_SAINT_NAZAIRE",
+      "cittaId": "P_FRA_SAINT_NAZAIRE_CITTA",
+      "nation": "FRA",
+      "name": "Saint-Nazaire",
+      "operator": "Chantiers de Penhoët",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-FRA_CHERBOURG",
+      "cittaId": "P_FRA_CHERBOURG_CITTA",
+      "nation": "FRA",
+      "name": "Cherbourg",
+      "operator": "Arsenal de Cherbourg",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-GBR_BARROW_IN_FURNESS",
+      "cittaId": "P_GBR_BARROW_IN_FURNESS_CITTA",
+      "nation": "GBR",
+      "name": "Barrow-in-Furness",
+      "operator": "Vickers-Armstrongs a Barrow",
+      "kind": "private",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-GBR_CHATHAM",
+      "cittaId": "P_GBR_CHATHAM_CITTA",
+      "nation": "GBR",
+      "name": "Chatham",
+      "operator": "Chatham Royal Dockyard",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-JPN_YOKOSUKA",
+      "cittaId": "P_JPN_YOKOSUKA_CITTA",
+      "nation": "JPN",
+      "name": "Yokosuka",
+      "operator": "Arsenale navale di Yokosuka",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-JPN_KURE",
+      "cittaId": "P_JPN_KURE_CITTA",
+      "nation": "JPN",
+      "name": "Kure",
+      "operator": "Arsenale navale di Kure",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-JPN_SASEBO",
+      "cittaId": "P_JPN_SASEBO_CITTA",
+      "nation": "JPN",
+      "name": "Sasebo",
+      "operator": "Arsenale navale di Sasebo",
+      "kind": "navy",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "YARD-DANZIG_DANZICA",
+      "cittaId": "P_DANZIG_DANZICA_CITTA",
+      "nation": "DANZIG",
+      "name": "Danzica",
+      "operator": "Danziger Werft e Schichau",
       "kind": "private",
       "basis": "ipotesi"
     }
