@@ -26,6 +26,7 @@ export function validateEquipmentProduction(file, { factoriesById = null, techId
     if (!Number.isInteger(def.releaseEveryDays) || def.releaseEveryDays < 1) errors.push(`produzione equipaggiamenti: ${c} con releaseEveryDays non valido`);
     else if (!Number.isInteger(def.buildDays) || def.buildDays < def.releaseEveryDays) errors.push(`produzione equipaggiamenti: ${c} con buildDays non valido (intero >= releaseEveryDays)`);
     if (!(def.group in (file.groups ?? {}))) errors.push(`produzione equipaggiamenti: ${c} con gruppo sconosciuto ${def.group}`);
+    if ('inputsPerTonne' in def && !(Object.keys(def.inputsPerTonne ?? {}).length && Object.values(def.inputsPerTonne).every((v) => v > 0))) errors.push(`produzione equipaggiamenti: ${c} con inputsPerTonne non valido`);
     if (factoriesById && !factoriesById.has(def.factory)) errors.push(`produzione equipaggiamenti: ${c} con fabbrica inesistente ${def.factory}`);
   }
   const ids = new Set((catalog?.entries ?? []).map((e) => e.equipment_id));
@@ -53,7 +54,8 @@ export function buildEquipmentRecipes(catalog, table) {
       id: `REC-${e.equipment_id}`, factory: cat.factory, massTonnes: mass, outputUnit: 'pieces/day',
       buildDays: ov.buildDays ?? cat.buildDays, releaseEveryDays: ov.releaseEveryDays ?? cat.releaseEveryDays,
       ...((ov.capacityShare ?? cat.capacityShare ?? 1) < 1 ? { capacityShare: ov.capacityShare ?? cat.capacityShare } : {}),
-      inputs: [{ resource: 'steel', perUnit: r6(table.inputsPerTonne.steel * mass) }, { resource: 'components', perUnit: r6(table.inputsPerTonne.components * mass) }],
+      // ingressi per t di peso: quelli della categoria (es. i carri hanno anche i motori) o quelli generali della tabella
+      inputs: Object.entries(cat.inputsPerTonne ?? table.inputsPerTonne).map(([resource, t]) => ({ resource, perUnit: r6(t * mass) })),
       output: { product: `${EQUIPMENT_PREFIX}${e.equipment_id}`, perUnit: 1 },
       quality: 'DESIGN_DEFAULT', equipmentId: e.equipment_id, group: cat.group,
       rationale: `Generata dalla tabella per categoria ${e.category} (${table.quality}): peso ${mass} t, tempi di lotto e ingressi per t di peso sono valori di bilanciamento, non dati storici su ${e.designation ?? e.equipment_id}.`,

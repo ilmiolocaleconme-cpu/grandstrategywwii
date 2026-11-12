@@ -310,7 +310,7 @@ function useProvinces() {
 const EQUIPMENT_CATALOG = mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' })));
 const CATEGORY_OF = buildCategoryOf(EQUIPMENT_CATALOG); // voce di divisione → categoria d'arma (dotazione in battaglia)
 const fillOf = (state, unitId, nation) => equipmentFill(state.forces?.divisions?.[unitId]?.items, (k) => CATEGORY_OF(nation, k), combatEquipmentCfg);
-const EQUIPMENT_SOURCES = buildEquivalence({ catalog: EQUIPMENT_CATALOG, upgradeMap: equipmentUpgradeMap }); // pezzi prodotti → voci dei template delle divisioni
+const EQUIPMENT_SOURCES = buildEquivalence({ catalog: EQUIPMENT_CATALOG, upgradeMap: equipmentUpgradeMap, generic: { TANK: 'tanks' }, categoryOf: CATEGORY_OF }); // pezzi prodotti → voci dei template delle divisioni
 const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProductionTable);
 const EQUIPMENT_NAMES = new Map(EQUIPMENT_CATALOG.entries.map((e) => [e.equipment_id, e.name_it ?? e.designation ?? e.equipment_id]));
 // Prezzi dei pezzi (opzione D): priceFactor × costo dei materiali; ogni equipaggiamento diventa commerciabile

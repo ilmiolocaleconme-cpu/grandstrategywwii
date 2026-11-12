@@ -11,7 +11,9 @@ const strip = (p) => (p.startsWith(PATH) ? p.slice(PATH.length) : null);
  * catalog = catalogo unito { entries, aliases }; upgradeMap = { entries: [{ nation, from, to }] }.
  * Ritorna sourcesOf(nation, item) → elenco delle voci di scorta che possono rifornire `item`: prima la voce stessa, poi le equivalenti in ordine alfabetico.
  */
-export function buildEquivalence({ catalog, upgradeMap = null }) {
+// generic (facoltativo, 12/11/2026): { categoria: prodotto generico } — es. { TANK: 'tanks' }, i carri delle ricette REC-TANK-* (pezzi non
+// assegnati a un modello) riforniscono qualsiasi voce di carri della nazione; categoryOf(nazione, voce) dice la categoria.
+export function buildEquivalence({ catalog, upgradeMap = null, generic = null, categoryOf = null }) {
   const parent = new Map(); // union-find per chiave "NAZ|id"
   const find = (k) => { let r = k; while (parent.has(r) && parent.get(r) !== r) r = parent.get(r); return r; };
   const union = (a, b) => { const ra = find(a); const rb = find(b); if (ra !== rb) parent.set(ra < rb ? rb : ra, ra < rb ? ra : rb); };
@@ -27,8 +29,8 @@ export function buildEquivalence({ catalog, upgradeMap = null }) {
     const id = strip(item);
     if (id === null) return [item];
     const list = members.get(`${nation}|${id}`);
-    if (!list) return [item];
-    const others = list.map((k) => PATH + k.slice(k.indexOf('|') + 1)).filter((p) => p !== item).sort();
-    return [item, ...others];
+    const others = list ? list.map((k) => PATH + k.slice(k.indexOf('|') + 1)).filter((p) => p !== item).sort() : [];
+    const g = generic && categoryOf ? generic[categoryOf(nation, item)] : null;
+    return g ? [item, ...others, g] : [item, ...others];
   };
 }

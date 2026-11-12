@@ -53,3 +53,16 @@ test('scheda della divisione: la scorta mostrata somma le voci equivalenti', () 
   assert.equal(r.rows[0].stock, 42);
   assert.equal(reinforcementNeeds({ forces: forces(), stocks: { 'equipment.INW-DEU-RIFLE-1939': 42 }, divisionId: 'D1' }).rows[0].stock, 0);
 });
+
+test('carri: le voci TNK delle divisioni ricevono i carri prodotti per modello e, per ultimi, i carri generici delle ricette REC-TANK-*', async () => {
+  const { buildCategoryOf } = await import('../src/rules/equipmentFill.js');
+  const categoryOf = buildCategoryOf(catalog);
+  const src = buildEquivalence({ catalog, upgradeMap, generic: { TANK: 'tanks' }, categoryOf });
+  assert.deepEqual(src('FRA', 'equipment.TNK-FRA-B1BIS-1940'), ['equipment.TNK-FRA-B1BIS-1940', 'tanks']);
+  assert.ok(src('DEU', 'equipment.carri').includes('equipment.TNK-DEU-TANK'));
+  assert.equal(src('DEU', 'equipment.carri').at(-1), 'tanks');
+  assert.deepEqual(src('FRA', 'equipment.ART-FRA-HOW155C'), ['equipment.ART-FRA-HOW155C'], 'gli obici no');
+  const f = { schema: 'forces-v1', initialized: true, divisions: { C1: { templateId: 't', since: '1940-01-01', items: { 'equipment.TNK-FRA-B1BIS-1940': { planned: 68, effective: 40 } } } } };
+  const p = planReinforcements(f, { units: [{ id: 'C1', nation: 'FRA' }], nation: 'FRA', date: '1940-03-01', poolAvailable: 0, stocks: { 'equipment.TNK-FRA-B1BIS-1940': 10, tanks: 50 }, transitDays: () => 3, sourcesOf: (item) => src('FRA', item) });
+  assert.deepEqual(p.transfers.map((t) => [t.qty, t.stockKey ?? null]), [[10, null], [18, 'tanks']]);
+});
