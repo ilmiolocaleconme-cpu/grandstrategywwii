@@ -3,7 +3,7 @@
 // giorni di trasferimento (via terra: km / TRANSIT_KM_PER_DAY; i giorni di mare si aggiungono SOLO se il percorso attraversa il mare, vedi depotRoute).
 // Sistema giornaliero PURO per GAME_SYSTEMS: stato in ingresso → nuovo stato. Ordine del giorno: 1) arrivi (l'eccedenza torna in scorta), 2) nuovi invii (la merce lascia la scorta).
 // Limiti dichiarati: le divisioni senza deposito della nazione o senza percorso (né terra né mare con porti propri) restano senza rinforzi (nessun tempo inventato); i quadri (`cadre`) non ricevono.
-import { applyArrivals, dispatch, inTransit, planReinforcements, priorityRequests, setPriority, setReinforcement } from '../rules/reinforcements.js';
+import { applyArrivals, dispatch, inTransitFromStock, stockKeyOf, planReinforcements, priorityRequests, setPriority, setReinforcement } from '../rules/reinforcements.js';
 import { transitDaysFromRoute } from '../rules/reinforcementTransit.js';
 import { findPath } from '../rules/movement.js';
 import { findSeaRoute } from '../data/seaRoutes.js';
@@ -74,7 +74,7 @@ export function depotRoute(ctx, nation, unitId) {
  * ctx: { units (unitsFile.units), poolOf(state, nation) → uomini disponibili nel pool, routeOf(state, nation, unitId) → { landKm, seaDays? } | null }.
  * Senza forze inizializzate non fa nulla.
  */
-export function createReinforcementSystem({ units, poolOf, routeOf }) {
+export function createReinforcementSystem({ units, poolOf, routeOf, sourcesOf = null }) {
   const nationOfUnit = new Map(units.map((u) => [u.id, u.nation]));
   return function reinforcementDay(state) {
     if (!state.forces?.initialized || !state.nations) return state;
@@ -85,7 +85,7 @@ export function createReinforcementSystem({ units, poolOf, routeOf }) {
     forces = arr.forces;
     for (const t of arr.returned) {
       const nation = nationOfUnit.get(t.divisionId);
-      if (t.from === 'stock' && nation && nations[nation]) nations[nation] = { ...nations[nation], stocks: { ...nations[nation].stocks, [t.item]: r3((nations[nation].stocks[t.item] ?? 0) + t.returnedQty) } };
+      if (t.from === 'stock' && nation && nations[nation]) nations[nation] = { ...nations[nation], stocks: { ...nations[nation].stocks, [stockKeyOf(t)]: r3((nations[nation].stocks[stockKeyOf(t)] ?? 0) + t.returnedQty) } };
     }
     // 2) nuovi invii, per nazione in ordine di id
     const owners = [...new Set(Object.keys(forces.divisions).map((id) => nationOfUnit.get(id)).filter((n) => n && nations[n]))].sort();
@@ -98,15 +98,16 @@ export function createReinforcementSystem({ units, poolOf, routeOf }) {
       }
       if (days.size === 0) continue;
       // la merce in viaggio ha già lasciato la scorta, ma planReinforcements la sottrae di nuovo dalle scorte che riceve: gliela si somma, così il netto è la scorta reale
-      const stocks = Object.fromEntries(Object.entries(nations[nation].stocks).filter(([k]) => isStockItem(k)).map(([k, v]) => [k, Math.floor(v + 1e-9) + ids.reduce((t, id) => t + inTransit(forces, id, k), 0)]));
+      const stocks = Object.fromEntries(Object.entries(nations[nation].stocks).filter(([k]) => isStockItem(k)).map(([k, v]) => [k, Math.floor(v + 1e-9) + inTransitFromStock(forces, ids, k)]));
       const plan = planReinforcements(forces, {
         units: units.filter((u) => u.nation === nation && days.has(u.id)), nation, date: state.date,
         poolAvailable: Math.max(0, Math.floor(poolOf(state, nation))), stocks, requests: priorityRequests(forces), transitDays: (id) => days.get(id),
+        sourcesOf: sourcesOf ? (item) => sourcesOf(nation, item) : null, // fucili prodotti come INW-DEU-RIFLE-1939 riforniscono anche la voce «fucili» del 1936
       });
       if (plan.transfers.length === 0) continue;
       forces = dispatch(forces, plan.transfers);
       const left = { ...nations[nation].stocks };
-      for (const t of plan.transfers) if (t.from === 'stock') left[t.item] = r3((left[t.item] ?? 0) - t.qty);
+      for (const t of plan.transfers) if (t.from === 'stock') left[stockKeyOf(t)] = r3((left[stockKeyOf(t)] ?? 0) - t.qty);
       nations[nation] = { ...nations[nation], stocks: left };
     }
     return { ...state, forces, nations };

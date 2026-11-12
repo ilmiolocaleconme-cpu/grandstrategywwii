@@ -10,7 +10,8 @@ const KIND_ORDER = { uomini: 0, cavalli: 1, mezzi: 2 };
  * Ritorna null senza istanza di forza, altrimenti { enabled, cadre, rows } con le sole voci che mancano o sono in viaggio.
  * Riga: { item, code, kind: 'uomini'|'cavalli'|'mezzi', planned, effective, inTransit, deficit (netto del viaggio), arrivesOn (primo arrivo), stock (null per gli uomini) }.
  */
-export function reinforcementNeeds({ forces, stocks, divisionId }) {
+// sourcesOf(item) (facoltativo) → voci di scorta equivalenti (src/data/equipmentEquivalence.js): la scorta mostrata è la loro somma.
+export function reinforcementNeeds({ forces, stocks, divisionId, sourcesOf = null }) {
   const d = forces?.divisions?.[divisionId];
   if (!d) return null;
   const rows = [];
@@ -24,7 +25,7 @@ export function reinforcementNeeds({ forces, stocks, divisionId }) {
     const arrivals = tr.map((t) => t.arrivesOn).filter(Boolean).sort();
     rows.push({
       item, code: kind === 'mezzi' ? item.slice('equipment.'.length) : item, kind, planned: v.planned, effective: v.effective, inTransit, deficit,
-      arrivesOn: arrivals[0] ?? null, stock: kind === 'uomini' ? null : Math.floor((stocks?.[item] ?? 0) + 1e-9),
+      arrivesOn: arrivals[0] ?? null, stock: kind === 'uomini' ? null : Math.floor((sourcesOf ? sourcesOf(item) : [item]).reduce((s, k) => s + (stocks?.[k] ?? 0), 0) + 1e-9),
     });
   }
   rows.sort((a, b) => (KIND_ORDER[a.kind] - KIND_ORDER[b.kind]) || (b.deficit - a.deficit) || (a.item < b.item ? -1 : 1));

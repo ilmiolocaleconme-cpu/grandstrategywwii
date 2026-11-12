@@ -40,6 +40,15 @@ export function inTransit(forces, divisionId, item) {
   return transfersOf(forces).filter((t) => t.divisionId === divisionId && t.item === item).reduce((s, t) => s + t.qty, 0);
 }
 
+/** Voce di scorta da cui è partito un trasferimento (campo facoltativo `stockKey`, assente = la voce stessa). */
+export const stockKeyOf = (t) => t.stockKey ?? t.item;
+
+/** Quantità in viaggio verso le divisioni `ids` prelevata dalla voce di scorta `key` (riservata: non si assegna due volte). */
+export function inTransitFromStock(forces, ids, key) {
+  const set = new Set(ids);
+  return transfersOf(forces).filter((t) => set.has(t.divisionId) && t.from === 'stock' && stockKeyOf(t) === key).reduce((s, t) => s + t.qty, 0);
+}
+
 /** Carenza netta di una voce: previsto − effettivo − già in viaggio (mai negativa). */
 export function netDeficit(forces, divisionId, item) {
   const it = forces.divisions[divisionId]?.items?.[item];
@@ -53,14 +62,16 @@ export function netDeficit(forces, divisionId, item) {
  * Ordine: prima le divisioni con richiesta, poi la più scoperta (effettivo/previsto più basso), poi per id. Non si assegna più della carenza né delle risorse.
  * Ritorna { transfers (nuovi), remaining: { pool, stocks }, skipped: [{ divisionId, item, reason }] }; reason: 'disabled' | 'no_resources'.
  */
-export function planReinforcements(forces, { units, nation, date, poolAvailable, stocks = {}, requests = {}, transitDays }) {
+// sourcesOf(item) (facoltativo, 12/11/2026) → voci di scorta che possono rifornire `item` (src/data/equipmentEquivalence.js); assente = solo la voce stessa.
+export function planReinforcements(forces, { units, nation, date, poolAvailable, stocks = {}, requests = {}, transitDays, sourcesOf = null }) {
   if (typeof transitDays !== 'function') throw new TypeError('transitDays è obbligatorio: il tempo di trasferimento non è inventato qui');
   const owned = new Set(units.filter((u) => u.nation === nation).map((u) => u.id));
   const ids = Object.keys(forces.divisions).filter((id) => owned.has(id));
   const reservedPool = ids.reduce((s, id) => s + inTransit(forces, id, MANPOWER_ITEM), 0);
   let pool = Math.max(0, poolAvailable - reservedPool);
   const left = {};
-  for (const [k, v] of Object.entries(stocks)) left[k] = Math.max(0, v - ids.reduce((s, id) => s + inTransit(forces, id, k), 0));
+  for (const [k, v] of Object.entries(stocks)) left[k] = Math.max(0, v - inTransitFromStock(forces, ids, k));
+  const sources = (item) => (sourcesOf ? sourcesOf(item) : [item]);
   const transfers = [];
   const skipped = [];
   const itemsOf = (id) => Object.keys(forces.divisions[id].items);
@@ -73,13 +84,21 @@ export function planReinforcements(forces, { units, nation, date, poolAvailable,
     if (isCadre(forces.divisions[id])) { skipped.push({ divisionId: id, item, reason: 'cadre' }); continue; }
     if (!isEnabled(forces.divisions[id])) { skipped.push({ divisionId: id, item, reason: 'disabled' }); continue; }
     const need = netDeficit(forces, id, item);
-    const available = item === MANPOWER_ITEM ? pool : (left[item] ?? 0);
+    const available = item === MANPOWER_ITEM ? pool : sources(item).reduce((s, k) => s + (left[k] ?? 0), 0);
     const qty = Math.min(need, available);
     if (qty <= 0) { skipped.push({ divisionId: id, item, reason: 'no_resources' }); continue; }
-    if (item === MANPOWER_ITEM) pool -= qty; else left[item] -= qty;
     const days = transitDays(id);
     if (!Number.isInteger(days) || days < 0) throw new RangeError(`giorni di trasferimento non validi per ${id}: ${days}`);
-    transfers.push({ id: `${id}|${item}|${date}`, divisionId: id, item, qty, from: item === MANPOWER_ITEM ? 'pool' : 'stock', sentOn: date, arrivesOn: addDays(date, days) });
+    const base = { divisionId: id, item, sentOn: date, arrivesOn: addDays(date, days) };
+    if (item === MANPOWER_ITEM) { pool -= qty; transfers.push({ id: `${id}|${item}|${date}`, ...base, qty, from: 'pool' }); continue; }
+    let rest = qty; // si preleva prima dalla voce stessa, poi dalle equivalenti: un trasferimento per ogni voce di scorta usata
+    for (const k of sources(item)) {
+      const take = Math.min(rest, left[k] ?? 0);
+      if (take <= 0) continue;
+      left[k] -= take; rest -= take;
+      transfers.push(k === item ? { id: `${id}|${item}|${date}`, ...base, qty: take, from: 'stock' } : { id: `${id}|${item}|${date}|${k}`, ...base, qty: take, from: 'stock', stockKey: k });
+      if (rest === 0) break;
+    }
   }
   return { transfers, remaining: { pool, stocks: left }, skipped };
 }
@@ -133,6 +152,7 @@ export function validateReinforcementFields(forces) {
       if (!forces.divisions?.[t?.divisionId]) errors.push(`forze: trasferimento ${t?.id} verso divisione senza istanza`);
       if (!Number.isInteger(t?.qty) || t.qty <= 0) errors.push(`forze: trasferimento ${t?.id} con quantità non valida`);
       if (!['pool', 'stock'].includes(t?.from)) errors.push(`forze: trasferimento ${t?.id} con origine ${JSON.stringify(t?.from)}`);
+      if (t && 'stockKey' in t && (t.from !== 'stock' || typeof t.stockKey !== 'string' || t.stockKey === '')) errors.push(`forze: trasferimento ${t?.id} con voce di scorta non valida`);
       if (!/^\d{4}-\d{2}-\d{2}$/.test(t?.sentOn ?? '') || !/^\d{4}-\d{2}-\d{2}$/.test(t?.arrivesOn ?? '') || t.arrivesOn < t.sentOn) errors.push(`forze: trasferimento ${t?.id} con date non valide`);
     }
   }

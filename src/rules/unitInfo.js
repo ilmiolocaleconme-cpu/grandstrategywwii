@@ -53,7 +53,7 @@ export function compositionOf(unit, templates) {
 /**
  * state: stato della partita; unit: voce del catalogo; ctx: { unitsById: Map, officersById: Map, initial: Map unità → provincia, provinceName(id) }.
  */
-export function unitInfo(state, unit, { unitsById, officersById, initial, provinceName = (x) => x, conditionConfig = null, templates = null }) {
+export function unitInfo(state, unit, { unitsById, officersById, initial, provinceName = (x) => x, conditionConfig = null, templates = null, sourcesOf = null }) {
   const name = (id) => unitsById.get(id)?.name ?? id;
   // comandante: i comandanti sono gestiti solo per corpi e armate (src/rules/commanders.js)
   let commander;
@@ -98,5 +98,5 @@ export function unitInfo(state, unit, { unitsById, officersById, initial, provin
     estimate: est ? { province: est.province, provinceName: provinceName(est.province), inProvince: est.inProvince, basedOn: est.basedOn, source: 'stimata' } : null,
     order: order ? { to: order.path[order.path.length - 1], toName: provinceName(order.path[order.path.length - 1]), nextName: provinceName(order.path[order.leg + 1]), daysLeft: order.daysLeft, totalDays: order.totalDays } : null,
   };
-  return { id: unit.id, name: unit.name, nation: unit.nation, origin: unit.origin ?? null, affiliation: affiliationOf(state, unit.nation), echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, reinforcements: inst ? reinforcementNeeds({ forces: state.forces, stocks: state.nations?.[unit.nation]?.stocks, divisionId: unit.id }) : null, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
+  return { id: unit.id, name: unit.name, nation: unit.nation, origin: unit.origin ?? null, affiliation: affiliationOf(state, unit.nation), echelon: unit.echelon, category: unit.category, commandLevel: unit.commandLevel ?? null, commander, chain, children: kids, strength, equipment, reinforcements: inst ? reinforcementNeeds({ forces: state.forces, stocks: state.nations?.[unit.nation]?.stocks, divisionId: unit.id, sourcesOf: sourcesOf ? (item) => sourcesOf(unit.nation, item) : null }) : null, condition, movement, composition: unit.echelon === 'division' || unit.echelon === 'brigade' ? compositionOf(unit, templates) : null, notModeled: NOT_MODELED };
 }
