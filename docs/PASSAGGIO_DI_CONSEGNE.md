@@ -117,3 +117,8 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Dati: `data/units/` (catalogo, template, `condition_config.json`, `command_templates.json`), `data/military/ammo_consumption.json`, `data/industry/`.
 - Documentazione: `docs/CONTRATTO_DATI_UNITA.md` (fase 1), `docs/DA_FARE.md` (decisioni e lavori aperti), questo file.
 - Note di audit della scheda (fuori dal repository): `/tmp/claude-0/-home-user-grandstrategywwii/38e80d11-0ef1-5d85-83bf-fd95ed44e519/scratchpad/audit_fase0_scheda_unita.md`.
+
+## Porti: più scali sulla stessa zona di mare (12/11/2026)
+- Königsberg era già un porto di livello 2 (`ports_1936.json`) e compare sulla mappa, ma nelle rotte di mare il Baltico meridionale era servito solo da P_DEU_POMMERN (più costa): `nationPorts` tiene UNA provincia per zona.
+- Ora `allPortsOf(nazione)` (seaRoutes.js) elenca tutte le province con porto per zona; i RINFORZI (`depotRoute`) scelgono il porto più vicino per via di terra. Le rotte commerciali restano a una provincia per zona (la provincia lì non conta). `findSeaRoute` prende il primo porto per zona.
+- LIMITO: il porto resta scelto dal percorso di mare più rapido (limite già noto); la zona di mare di un porto non è distinta per le province con due coste (approssimazione dichiarata).

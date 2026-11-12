@@ -153,3 +153,9 @@ test('setDivisionPriority: acceso e spento, stato di ingresso intatto, errore se
   assert.deepEqual(priorityRequests(setDivisionPriority(s1, 'FRA-2', false).forces), {});
   assert.throws(() => setDivisionPriority(s0, 'XXX', true), /senza istanza/);
 });
+
+test('via mare: con più porti sulla stessa zona di mare si sceglie quello più vicino per via di terra (non quello con più costa)', () => {
+  const ctx = { context: { graph, portsOf: () => [], allPortsOf: () => [{ province: 'B', zone: 'Z1', coastKm: 50 }, { province: 'C', zone: 'Z2', coastKm: 300 }, { province: 'D', zone: 'Z2', coastKm: 20 }] }, motherOf: (p) => p };
+  const r = depotRoute(isl(ctx, 'D'), 'FRA', 'd');
+  assert.deepEqual(r, { landKm: 120, seaDays: 4 }, 'A→B 120 km + 0 km (la divisione è nel porto D, non in C che ha più costa)');
+});
