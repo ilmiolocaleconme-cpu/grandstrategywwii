@@ -151,3 +151,25 @@ test('drawPorts: i cantieri si disegnano e si possono toccare anche senza i port
   drawPorts(fakeCtx(), args(m, { pins: null, yards: null, hits: none }));
   assert.equal(none.length, 0, 'senza porti né cantieri non si disegna nulla');
 });
+
+test('cantieri storici 1936 (bozza): dati validi, una voce per città, e compaiono sulla mappa dall\'inizio senza costruire nulla', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { validateShipyards } = await import('../src/data/shipyards.js');
+  const rd = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
+  const doc = rd('naval/shipyards_1936.json');
+  const coastal = rd('ports/coastal_cities.json').cities;
+  assert.deepEqual(validateShipyards(doc, { coastal }), []);
+  assert.ok(doc.shipyards.length >= 47 && doc.shipyards.every((y) => y.basis === 'ipotesi'), 'bozza: tutte ipotesi da confermare');
+  const bad = (patch) => validateShipyards({ ...doc, shipyards: [{ ...doc.shipyards[0], ...patch }, ...doc.shipyards.slice(1)] }, { coastal }).join();
+  assert.match(bad({ cittaId: 'P_XXX_NO_CITTA' }), /città costiera/);
+  assert.match(bad({ nation: 'ZZZ' }), /diversa dal proprietario/);
+  assert.match(bad({ basis: 'certo' }), /basis/);
+  assert.match(validateShipyards({ ...doc, shipyards: [doc.shipyards[0], doc.shipyards[0]] }, { coastal }).join(), /duplicato/);
+  const ports = { coastal, base: rd('ports/ports_1936.json'), levels: rd('ports/port_levels.json') };
+  const pins = shipyardPins(ports, null, doc);
+  assert.ok(pins.length > 0 && pins.length <= doc.shipyards.length);
+  assert.ok(pins.some((p) => p.cittaId === 'P_DEU_KIEL_CITTA' && p.provinceId === 'P_DEU_SCHLESWIG_HOLSTEIN'));
+  assert.deepEqual(shipyardPins(ports, null, null), [], 'senza elenco storico né costruiti: nessun segno');
+  const st = { nations: { DEU: { facilities: [{ type: 'FCT-SHIPYARD', provinceId: 'P_DEU_SCHLESWIG_HOLSTEIN' }] } } };
+  assert.equal(shipyardPins(ports, st, doc).find((p) => p.provinceId === 'P_DEU_SCHLESWIG_HOLSTEIN').count, 2, 'storico + costruito si sommano');
+});
