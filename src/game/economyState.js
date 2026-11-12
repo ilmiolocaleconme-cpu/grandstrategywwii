@@ -27,7 +27,7 @@ const emptyNation = () => ({ balance: 0, population: 0, stocks: {}, facilities: 
  * - `horses` (horse_breeding.json, facoltativo): cavalli iniziali del pool (scorta `horses`, capi) per entità politica, se la tabella ne ha; oggi è vuota (MISSING_DATA);
  * - la difficoltà moltiplica scorte e cassa per `stockMul` (facile 1,5 · media 1 · reale 0,7), come definito in economy.json.
  */
-export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, population = null, horses = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
+export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, population = null, horses = null, research = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
   const stockMul = economy ? difficulty(economy, difficultyId).stockMul : 1;
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
   // `nations` contiene le nazioni scegliibili e ogni altra entità che possiede industria (es. Iran, non giocabile)
@@ -79,6 +79,8 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
     if (!cash.nations[id]) throw new Error(`stato economico: manca la cassa iniziale di ${id}`);
     n.balance = cashFor(cash.nations[id].cash, stockMul);
   }
+  // Tecnologie possedute al 1/1/1936 (technologies.json → initialResearch, 12/11/2026). Senza `research` nessuna nazione ne ha (come prima).
+  if (research) for (const [id, done] of Object.entries(research)) if (nations[id]) nations[id].research = { done: [...done], active: null };
   return nations;
 }
 

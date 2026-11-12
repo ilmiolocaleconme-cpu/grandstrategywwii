@@ -94,6 +94,8 @@ import { mergeEquipmentCatalogs } from './data/equipmentCatalog.js';
 import { buildEquipmentRecipes, withEquipmentPrices } from './data/equipmentProduction.js';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
+import smallArmsFile from '../data/units/models/fucili_1930_1945.json';
+import { modelsUnlockedBy, producibleModels } from './data/smallArmsModels.js';
 import securityFile from '../data/security/security.json';
 import diplomacyConfig from '../data/diplomacy/diplomacy.json';
 import diplomacyStart from '../data/diplomacy/relations_1936.json';
@@ -293,7 +295,7 @@ const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProd
 const EQUIPMENT_NAMES = new Map(EQUIPMENT_CATALOG.entries.map((e) => [e.equipment_id, e.name_it ?? e.designation ?? e.equipment_id]));
 // Prezzi dei pezzi (opzione D): priceFactor × costo dei materiali; ogni equipaggiamento diventa commerciabile
 const economyData = withEquipmentPrices(economyFile, EQUIPMENT_RECIPES, equipmentProductionTable.priceFactor);
-const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding };
+const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding, research: technologiesFile.initialResearch ?? null };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
 const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
@@ -923,7 +925,7 @@ export default function App() {
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
             <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
-            <ResearchPanel rows={researchRows} onStart={startResearch} />
+            <ResearchPanel rows={researchRows} onStart={startResearch} unlocksFor={(id) => modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation)} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
             {statusSection}
