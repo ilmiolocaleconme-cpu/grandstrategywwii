@@ -1,6 +1,23 @@
 {
   "schema": "province-military-v1",
-  "quality": "MISSING_DATA",
-  "note": "Nessuna presenza militare per provincia nel repository. File volutamente vuoto: rappresenta PRESENZA (guarnigione, quartier generale, fortificazioni, antiaerea, radar, installazioni), non le unità, che resteranno nel sistema esercito. Chiave = id della provincia MADRE; livelli 0-3.",
-  "byProvince": {}
+  "quality": "USER_ESTIMATE",
+  "note": "Presenza militare per provincia (guarnigione, quartier generale, fortificazioni, antiaerea, radar, installazioni), non le unità. Chiave = id provincia MADRE; livelli 0-3. Per ora SOLO la Linea Maginot (indicazione dell'utente, 04/11/2026): fortificazioni al livello 3 dall'inizio nelle province francesi di confine con la Germania (Bas-Rhin, Haut-Rhin, Moselle) più Meurthe-et-Moselle. Tutte le altre province restano senza dato (MISSING_DATA per provincia). Il livello è un DATO: oggi nessuna regola di combattimento lo usa.",
+  "byProvince": {
+    "P_FRA_BAS_RHIN": {
+      "fortifications": 3,
+      "quality": "USER_ESTIMATE"
+    },
+    "P_FRA_HAUT_RHIN": {
+      "fortifications": 3,
+      "quality": "USER_ESTIMATE"
+    },
+    "P_FRA_MOSELLE": {
+      "fortifications": 3,
+      "quality": "USER_ESTIMATE"
+    },
+    "P_FRA_MEURTHE_ET_MOSELLE": {
+      "fortifications": 3,
+      "quality": "USER_ESTIMATE"
+    }
+  }
 }

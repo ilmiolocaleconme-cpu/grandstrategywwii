@@ -1,15 +1,42 @@
 {
   "schema": "mobilization-laws-v1",
   "status": "BOZZA_DA_CONFERMARE",
-  "note": "Leggi di mobilitazione: quando la condizione `trigger` è vera, tutti i quadri (`cadre: true`) della nazione diventano divisioni che ricevono rinforzi (src/rules/reinforcements.js `mobilize`). La mobilitazione NON crea uomini né mezzi: i rinforzi colmano il previsto con pool, scorte e tempi di trasferimento, se le risorse ci sono. La condizione è sullo STATO di guerra (state.war), non su una data: vale se la guerra la dichiara il giocatore, un evento o l'IA, quando esisteranno. Limite: nessun codice dichiara oggi la guerra Germania-Polonia al 1/9/1939 (l'IA non dichiara guerra): se il giocatore non è la Germania, la condizione non si avvera da sola. NON modellato qui: la quota di divisioni che restano ai confini (Linea Maginot), vedi docs/DATI_UNITA.md.",
+  "note": "Leggi di mobilitazione: quando la condizione `trigger` è vera, tutti i quadri (`cadre: true`) della nazione diventano divisioni che ricevono rinforzi (src/rules/reinforcements.js `mobilize`). La mobilitazione NON crea uomini né mezzi: i rinforzi colmano il previsto con pool, scorte e tempi di trasferimento, se le risorse ci sono. La condizione è sullo STATO di guerra (state.war), non su una data: vale se la guerra la dichiara il giocatore, un evento o l'IA, quando esisteranno. Limite: nessun codice dichiara oggi la guerra Germania-Polonia al 1/9/1939 (l'IA non dichiara guerra): se il giocatore non è la Germania, la condizione non si avvera da sola. `garrison` (facoltativo): alla PRIMA applicazione della legge, ceil(share × divisioni della categoria) della nazione vengono assegnate a incarichi di DIFESA di teatro (uno per settore in `theaters`): il sistema di teatro le porta nelle province e le fa trincerare, e le riassegna solo se il giocatore le sposta (le più vicine per giorni di marcia, ripartite in modo equilibrato). Le divisioni senza posizione o senza percorso sono saltate e il mancato raggiungimento della quota è registrato (state.mobilization.garrison). Il livello di fortificazione delle province è in data/military/province_presence.json ed è solo un dato: nessuna regola di combattimento lo usa ancora.",
   "laws": [
     {
       "id": "LAW-FRA-GENERAL-MOBILIZATION",
       "nation": "FRA",
-      "trigger": { "type": "war", "a": "DEU", "b": "POL" },
+      "trigger": {
+        "type": "war",
+        "a": "DEU",
+        "b": "POL"
+      },
       "effect": "mobilize_cadres",
       "basis": "utente",
-      "source": "Indicazione dell'utente, 04/11/2026: la mobilitazione della Francia inizia appena la Germania dichiara guerra alla Polonia."
+      "source": "Indicazione dell'utente, 04/11/2026: la mobilitazione della Francia inizia appena la Germania dichiara guerra alla Polonia.",
+      "garrison": {
+        "category": "infantry",
+        "share": 0.5,
+        "basis": "utente",
+        "selection": "ipotesi",
+        "source": "Indicazione dell'utente, 04/11 e 12/11/2026: alla mobilitazione circa la metà (ceil) delle divisioni di fanteria francesi presidia il confine con la Germania (Linea Maginot) nelle province Bas-Rhin, Haut-Rhin, Moselle e Meurthe-et-Moselle, come incarichi di DIFESA di teatro (le truppe restano e si trincerano), due corpi di guardia. La suddivisione in due settori (Reno / Lorena), la scelta di QUALI divisioni (le più vicine per giorni di marcia) e la ripartizione sono ipotesi di progetto.",
+        "theaters": [
+          {
+            "name": "Linea Maginot - Reno",
+            "provinces": [
+              "P_FRA_BAS_RHIN",
+              "P_FRA_HAUT_RHIN"
+            ]
+          },
+          {
+            "name": "Linea Maginot - Lorena",
+            "provinces": [
+              "P_FRA_MOSELLE",
+              "P_FRA_MEURTHE_ET_MOSELLE"
+            ]
+          }
+        ]
+      }
     }
   ]
 }

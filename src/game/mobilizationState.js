@@ -5,13 +5,15 @@
 // Ogni giorno, finché la condizione resta vera, mobilita anche i quadri comparsi dopo (idempotente: nessun cambiamento = stesso oggetto di stato).
 import { atWar } from '../rules/war.js';
 import { mobilize } from '../rules/reinforcements.js';
+import { orderMove } from './movementState.js';
+import { createTheaters, createAssignment } from '../rules/theater.js';
 
 export const MOBILIZATION_SCHEMA = 'mobilization-v1';
 export const LAWS_SCHEMA = 'mobilization-laws-v1';
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 /** Errori della tabella delle leggi (vuoto = valida). nationIds = id delle nazioni esistenti. */
-export function validateMobilizationLaws(doc, { nationIds } = {}) {
+export function validateMobilizationLaws(doc, { nationIds, provinceIds = null } = {}) {
   const errors = [];
   if (doc?.schema !== LAWS_SCHEMA) errors.push(`mobilitazione: schema ${JSON.stringify(doc?.schema)}`);
   if (!Array.isArray(doc?.laws)) return [...errors, 'mobilitazione: laws non è un array'];
@@ -32,6 +34,18 @@ export function validateMobilizationLaws(doc, { nationIds } = {}) {
     }
     if (!['utente', 'ipotesi'].includes(l.basis)) errors.push(`${p}: basis ${JSON.stringify(l.basis)}`);
     if (!String(l.source ?? '').trim()) errors.push(`${p}: senza fonte`);
+    const g = l.garrison;
+    if (g !== undefined) {
+      if (typeof g.category !== 'string' || g.category === '') errors.push(`${p}: guarnigione senza categoria`);
+      if (!(typeof g.share === 'number' && g.share > 0 && g.share <= 1)) errors.push(`${p}: quota di guarnigione non valida`);
+      const th = g.theaters;
+      const flat = Array.isArray(th) ? th.flatMap((t) => t?.provinces ?? []) : [];
+      if (!Array.isArray(th) || th.length === 0 || th.some((t) => typeof t?.name !== 'string' || t.name === '' || !Array.isArray(t.provinces) || t.provinces.length === 0)) errors.push(`${p}: settori di guarnigione assenti o senza nome/province`);
+      else if (new Set(flat).size !== flat.length) errors.push(`${p}: provincia di guarnigione in più settori`);
+      if (!['utente', 'ipotesi'].includes(g.basis) || !['utente', 'ipotesi'].includes(g.selection)) errors.push(`${p}: guarnigione senza basis/selection validi`);
+      if (!String(g.source ?? '').trim()) errors.push(`${p}: guarnigione senza fonte`);
+      if (provinceIds) for (const id of (Array.isArray(g.theaters) ? g.theaters.flatMap((t) => t?.provinces ?? []) : [])) if (!provinceIds.has(id)) errors.push(`${p}: provincia di guarnigione ${id} inesistente`);
+    }
   }
   return errors;
 }
@@ -44,18 +58,70 @@ export function validateMobilizationShape(m) {
   if (m.schema !== MOBILIZATION_SCHEMA) errors.push(`mobilitazione: schema ${JSON.stringify(m.schema)}`);
   if (m.started === null || typeof m.started !== 'object' || Array.isArray(m.started)) return [...errors, 'mobilitazione: started non è un oggetto'];
   for (const [id, v] of Object.entries(m.started)) if (!DATE_RE.test(v?.on ?? '')) errors.push(`mobilitazione: ${id} senza data valida`);
+  if (m.garrison !== undefined) {
+    if (m.garrison === null || typeof m.garrison !== 'object' || Array.isArray(m.garrison)) return [...errors, 'mobilitazione: garrison non è un oggetto'];
+    for (const [id, g] of Object.entries(m.garrison)) {
+      if (!DATE_RE.test(g?.on ?? '') || !Array.isArray(g.units) || !Number.isInteger(g.quota) || !Number.isInteger(g.shortfall)) errors.push(`mobilitazione: guarnigione ${id} non valida`);
+      else if (g.units.some((u) => typeof u?.unit !== 'string' || typeof u?.to !== 'string')) errors.push(`mobilitazione: guarnigione ${id} con ordini non validi`);
+    }
+  }
   return errors;
 }
 
 const conditionHolds = (state, t) => t.type === 'war' && atWar(state.war, t.a, t.b);
 
-/** Sistema giornaliero. ctx: { units (unitsFile.units), laws (documento mobilization_laws) }. Senza forze inizializzate non fa nulla. */
-export function createMobilizationSystem({ units, laws }) {
+/**
+ * Guarnigione di confine: sceglie ceil(share × n) divisioni della categoria tra quelle della nazione (le più vicine per giorni di marcia a una delle province),
+ * le ripartisce in modo equilibrato fra le province (capienza ceil(k / province)) e le assegna a un incarico di DIFESA di teatro per settore (`theaters`):
+ * marcia, presidio e trinceramento li gestisce il sistema di teatro. Ritorna { state, record }.
+ */
+function garrisonOrders(state, law, { units, nationOf, deploymentDoc, net }) {
+  const g = law.garrison;
+  const provinces = g.theaters.flatMap((t) => t.provinces);
+  const mine = units.filter((u) => u.category === g.category && nationOf.get(u.id) === law.nation && state.forces.divisions[u.id]);
+  const quota = Math.ceil(g.share * mine.length);
+  // giorni di marcia di ogni divisione verso ogni provincia (prova a vuoto: lo stato non cambia)
+  const options = [];
+  for (const u of mine) {
+    const days = [];
+    for (const to of provinces) {
+      const r = orderMove(state, { units: [u], to, nation: law.nation, deploymentDoc, net });
+      if (r.moved.length) days.push({ to, days: r.moved[0].days });
+    }
+    if (days.length) options.push({ u, days: days.sort((a, b) => a.days - b.days || a.to.localeCompare(b.to)) });
+  }
+  options.sort((a, b) => a.days[0].days - b.days[0].days || a.u.id.localeCompare(b.u.id));
+  const chosen = options.slice(0, quota);
+  const cap = Math.ceil(chosen.length / provinces.length);
+  const load = Object.fromEntries(provinces.map((p) => [p, 0]));
+  const assigned = [];
+  for (const { u, days } of chosen) {
+    const target = days.find((d) => load[d.to] < cap) ?? days[0];
+    load[target.to] += 1; assigned.push({ unit: u.id, to: target.to });
+  }
+  let th = state.theaters ?? createTheaters();
+  const made = [];
+  for (const t of g.theaters) {
+    const us = assigned.filter((a) => t.provinces.includes(a.to)).map((a) => a.unit);
+    if (us.length === 0) continue;
+    const r = createAssignment(th, { nation: law.nation, kind: 'defend', provinces: t.provinces, units: us, date: state.date, name: t.name });
+    th = r.state; made.push(r.id);
+  }
+  return { state: { ...state, theaters: th }, record: { on: state.date, quota, units: assigned, theaters: made, shortfall: quota - assigned.length } };
+}
+
+/**
+ * Sistema giornaliero. ctx: { units (unitsFile.units), laws (documento mobilization_laws), movement: { net: (state) => rete|null, deploymentDoc } (facoltativo: senza, nessuna guarnigione) }.
+ * Senza forze inizializzate non fa nulla. La guarnigione scatta una volta sola per legge (solo con la condizione `trigger` vera, mai a data fissa), il primo giorno in cui la rete di movimento è disponibile, e SOLO se la nazione della legge non è quella del giocatore.
+ */
+export function createMobilizationSystem({ units, laws, movement = null }) {
   const nationOf = new Map(units.map((u) => [u.id, u.nation]));
   return function mobilizationDay(state) {
     if (!state.forces?.initialized) return state;
+    let cur = state;
     let forces = state.forces;
     let started = state.mobilization?.started ?? {};
+    let garrison = state.mobilization?.garrison;
     let changed = false;
     for (const law of laws.laws) {
       if (!conditionHolds(state, law.trigger)) continue;
@@ -63,8 +129,16 @@ export function createMobilizationSystem({ units, laws }) {
         if (d.cadre === true && nationOf.get(id) === law.nation) { forces = mobilize(forces, id); changed = true; }
       }
       if (!started[law.id]) { started = { ...started, [law.id]: { on: state.date } }; changed = true; }
+      // la guarnigione è per la nazione guidata dall'IA: se la guida il giocatore, le sue divisioni le muove lui
+      const net = law.garrison && movement && state.player !== law.nation && !garrison?.[law.id] ? movement.net(state) : null;
+      if (net) {
+        const r = garrisonOrders({ ...cur, forces }, law, { units, nationOf, deploymentDoc: movement.deploymentDoc, net });
+        cur = { ...cur, theaters: r.state.theaters };
+        garrison = { ...(garrison ?? {}), [law.id]: r.record };
+        changed = true;
+      }
     }
     if (!changed) return state;
-    return { ...state, forces, mobilization: { schema: MOBILIZATION_SCHEMA, started } };
+    return { ...cur, forces, mobilization: { schema: MOBILIZATION_SCHEMA, started, ...(garrison ? { garrison } : {}) } };
   };
 }
