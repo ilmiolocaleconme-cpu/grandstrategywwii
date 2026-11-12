@@ -65,6 +65,28 @@ export function pinSpec(p) {
   return { level: p.level, diameter: PORT_DIAMETER[p.level] ?? PORT_DIAMETER[1], label: shortName(p.name), title: `${p.name} (livello ${p.level})` };
 }
 
+// La città di un porto sulla mappa: per id esatto, altrimenti la parte più grande tra i poligoni della città (ids «…_CITTA_P1», «_P2»... con props.cittaId = id del porto).
+// Prima della correzione del 12/11/2026 si cercava solo l'id esatto: i porti di città divise in parti (Königsberg, Amburgo, Brema, Stettino...) non venivano disegnati.
+const partsCache = new WeakMap();
+export function cityItemOf(model, cittaId) {
+  const exact = model.byId.get(cittaId);
+  if (exact) return exact;
+  const n = model.items?.length ?? 0;
+  let c = partsCache.get(model.byId);
+  if (!c || c.n !== n) {
+    const best = new Map();
+    for (const it of model.items ?? []) {
+      const key = it.props?.cittaId;
+      if (!key) continue;
+      const cur = best.get(key);
+      if (!cur || (it.props.areaKm2 ?? 0) > (cur.props.areaKm2 ?? 0)) best.set(key, it);
+    }
+    c = { n, best };
+    partsCache.set(model.byId, c);
+  }
+  return c.best.get(cittaId) ?? null;
+}
+
 const overlaps = (boxes, b) => boxes.some((o) => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
 
 /** Àncora disegnata in un riquadro 24 × 24 (anello, fuso, traversa, braccia con punte). */
@@ -130,7 +152,7 @@ export function drawPorts(ctx, { pins, yards = [], a, dpr, copies, boxes, model,
   const showName = k >= PORT_NAME_ZOOM;
   if (showName) ctx.font = `bold ${NAME_PX}px sans-serif`;
   for (const p of pins ?? []) {
-    const city = model.byId.get(p.cittaId);
+    const city = cityItemOf(model, p.cittaId);
     if (!city) continue;
     const spec = pinSpec(p);
     const pt = anchorOf(model, city);
@@ -169,7 +191,7 @@ export function drawPorts(ctx, { pins, yards = [], a, dpr, copies, boxes, model,
   }
   // cantieri navali: attaccati in basso a sinistra del distintivo del porto (o, senza porto, sul punto della città costiera)
   for (const y of yards ?? []) {
-    const city = model.byId.get(y.cittaId);
+    const city = cityItemOf(model, y.cittaId);
     if (!city) continue;
     const pt = anchorOf(model, city);
     const yr = YARD_DIAMETER / 2;

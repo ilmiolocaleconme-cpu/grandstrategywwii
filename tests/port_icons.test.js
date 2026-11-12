@@ -107,3 +107,34 @@ test('dati reali: ogni porto del 1936 ha una città costiera con provincia madre
   assert.ok(total >= Object.keys(base.ports).filter((id) => base.ports[id].level >= 1).length * 0.9, 'quasi tutti i porti compaiono');
   assert.ok(total > 20);
 });
+
+// --- 12/11/2026: porti di città divise in parti (Königsberg, Amburgo...) non venivano disegnati ---
+import { cityItemOf } from '../src/map/portIcons.js';
+
+test('cityItemOf: id esatto, altrimenti la parte più grande della città; città assente: null', () => {
+  const mk = (id, cittaId, area) => ({ id, props: { id, cittaId, areaKm2: area }, anchor: { x: 1, y: 1 } });
+  const items = [mk('C_X_P1', 'C_X', 115), mk('C_X_P2', 'C_X', 13), mk('C_Y', 'C_Y', 5)];
+  const m = { items, byId: new Map(items.map((i) => [i.id, i])) };
+  assert.equal(cityItemOf(m, 'C_Y').id, 'C_Y', 'id esatto');
+  assert.equal(cityItemOf(m, 'C_X').id, 'C_X_P1', 'parte più grande');
+  assert.equal(cityItemOf(m, 'C_Z'), null);
+});
+
+test('dati reali: ogni porto del 1936 e ogni città costiera ha una città disegnabile sulla mappa (nessun porto saltato in silenzio)', () => {
+  const feats = json('citta_grandi.json').features;
+  const items = feats.map((f) => ({ id: f.properties.id, props: f.properties, anchor: { x: 0, y: 0 } }));
+  const m = { items, byId: new Map(items.map((i) => [i.id, i])) };
+  const missing = Object.keys(json('ports/ports_1936.json').ports).filter((id) => !cityItemOf(m, id));
+  assert.deepEqual(missing, [], `porti senza città sulla mappa: ${missing.join(', ')}`);
+  assert.equal(cityItemOf(m, 'P_DEU_KONIGSBERG_CITTA').id, 'P_DEU_KONIGSBERG_CITTA_P1');
+});
+
+test('drawPorts: un porto la cui città è divisa in parti viene disegnato (Königsberg)', () => {
+  const items = [{ id: 'P_K_CITTA_P1', props: { id: 'P_K_CITTA_P1', cittaId: 'P_K_CITTA', areaKm2: 60 }, anchor: { x: 50, y: 50 } }];
+  const m = { items, byId: new Map(items.map((i) => [i.id, i])) };
+  const pk = { coastal: { P_K_CITTA: { name: 'Königsberg', parentProvince: 'P_K' } }, base: { ports: { P_K_CITTA: { level: 2 } } } };
+  const hits = [];
+  drawPorts(fakeCtx(), { pins: portPins(pk, null), a: { sx: 1, tx: 0, ty: 0 }, dpr: 1, copies: [0], boxes: [], model: m, hits, k: 1 });
+  assert.equal(hits.length, 1);
+  assert.equal(hits[0].cittaId, 'P_K_CITTA');
+});
