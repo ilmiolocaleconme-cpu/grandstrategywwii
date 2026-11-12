@@ -58,7 +58,7 @@
       "sulphur": 15000,
       "copper": 19800,
       "tin": 1200,
-      "steel": 4476,
+      "steel": 6503,
       "munitions": 6030
     },
     "GBR": {
@@ -83,7 +83,7 @@
       "sulphur": 3585,
       "copper": 14850,
       "tin": 900,
-      "steel": 40476,
+      "steel": 42502,
       "processed_rubber": 1200,
       "munitions": 960
     },
@@ -96,7 +96,7 @@
       "sulphur": 16260,
       "copper": 19320,
       "tin": 1500,
-      "steel": 13476,
+      "steel": 15501,
       "munitions": 3600
     },
     "MAL": {

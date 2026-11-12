@@ -221,6 +221,11 @@
           "count": 1
         },
         {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-DEU-TANK",
+          "count": 1
+        },
+        {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-DEU-HOW-105",
           "count": 1
@@ -303,6 +308,11 @@
           "count": 1
         },
         {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-FRA-H39-1940",
+          "count": 1
+        },
+        {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-FRA-ART75M1897",
           "count": 1
@@ -366,6 +376,11 @@
         {
           "factory": "FCT-WEAPONS",
           "recipeId": "REC-INW-GBR-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-GBR-LIGHT-TANK-1939",
           "count": 1
         },
         {
@@ -457,6 +472,11 @@
           "count": 1
         },
         {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-ITA-L3-ARM-1940",
+          "count": 1
+        },
+        {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-ITA-GUN75-1940",
           "count": 1
@@ -515,6 +535,11 @@
         {
           "factory": "FCT-WEAPONS",
           "recipeId": "REC-INW-JPN-RIFLE-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-JPN-TYPE95-1942",
           "count": 1
         },
         {
@@ -743,6 +768,11 @@
         {
           "factory": "FCT-WEAPONS",
           "recipeId": "REC-INW-USA-RIFLE-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-USA-LIGHT-TANK-1940",
           "count": 1
         },
         {

@@ -33,9 +33,9 @@
       "cash": 350.9
     },
     "AUT": {
-      "incomePerDay": 8.3,
+      "incomePerDay": 8.28,
       "provinces": 11,
-      "cash": 449
+      "cash": 448.4
     },
     "BEL": {
       "incomePerDay": 19.28,
@@ -53,9 +53,9 @@
       "cash": 304.7
     },
     "BRA": {
-      "incomePerDay": 7.38,
+      "incomePerDay": 7.37,
       "provinces": 28,
-      "cash": 421.4
+      "cash": 421.1
     },
     "CAN": {
       "incomePerDay": 17.42,
@@ -93,9 +93,9 @@
       "cash": 351.8
     },
     "CZE": {
-      "incomePerDay": 13.22,
+      "incomePerDay": 13.21,
       "provinces": 5,
-      "cash": 596.6
+      "cash": 596.3
     },
     "DEU": {
       "incomePerDay": 75.16,
@@ -143,9 +143,9 @@
       "cash": 406.7
     },
     "FRA": {
-      "incomePerDay": 148.6,
+      "incomePerDay": 148.3,
       "provinces": 421,
-      "cash": 4658
+      "cash": 4649
     },
     "GBR": {
       "incomePerDay": 171.8,
@@ -153,9 +153,9 @@
       "cash": 5354
     },
     "GRC": {
-      "incomePerDay": 10.72,
+      "incomePerDay": 10.71,
       "provinces": 39,
-      "cash": 521.6
+      "cash": 521.3
     },
     "GTM": {
       "incomePerDay": 5.45,
@@ -198,9 +198,9 @@
       "cash": 1574.9
     },
     "JPN": {
-      "incomePerDay": 54.6,
+      "incomePerDay": 54.79,
       "provinces": 77,
-      "cash": 1838
+      "cash": 1843.7
     },
     "LBR": {
       "incomePerDay": 4.24,
@@ -228,9 +228,9 @@
       "cash": 298.7
     },
     "MAN": {
-      "incomePerDay": 2.84,
+      "incomePerDay": 3.33,
       "provinces": 3,
-      "cash": 285.2
+      "cash": 299.9
     },
     "MCO": {
       "incomePerDay": 1.05,
@@ -283,9 +283,9 @@
       "cash": 396.5
     },
     "POL": {
-      "incomePerDay": 16.84,
+      "incomePerDay": 16.83,
       "provinces": 20,
-      "cash": 705.2
+      "cash": 704.9
     },
     "PRT": {
       "incomePerDay": 14.77,
@@ -343,9 +343,9 @@
       "cash": 7625
     },
     "USSR": {
-      "incomePerDay": 147.42,
+      "incomePerDay": 147.43,
       "provinces": 334,
-      "cash": 4622.6
+      "cash": 4622.9
     },
     "VAT": {
       "incomePerDay": 1.05,

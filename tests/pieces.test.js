@@ -61,7 +61,12 @@ test('la Cecoslovacchia parte con una fabbrica di carri e una di artiglieria; le
   assert.equal(c['FCT-TANKS'], 1);
   assert.equal(c['FCT-ARTILLERY'], 1);
   assert.equal(ind.nations.CZE.facilities.find((x) => x.factory === 'FCT-TANKS').recipeId, 'REC-TANK-CZE-LT35');
-  assert.equal(facilityCounts(ind, 'DEU')['FCT-TANKS'], undefined, 'le altre nazioni non hanno ancora fabbriche di carri');
+  // dal 12/11/2026 (decisione dell'utente): una fabbrica di carri anche per DEU, FRA, GBR, ITA, JPN, USA, col carro del proprio catalogo; la URSS no
+  for (const [n, r] of [['DEU', 'REC-TNK-DEU-TANK'], ['FRA', 'REC-TNK-FRA-H39-1940'], ['GBR', 'REC-TNK-GBR-LIGHT-TANK-1939'], ['ITA', 'REC-TNK-ITA-L3-ARM-1940'], ['JPN', 'REC-TNK-JPN-TYPE95-1942'], ['USA', 'REC-TNK-USA-LIGHT-TANK-1940']]) {
+    assert.equal(facilityCounts(ind, n)['FCT-TANKS'], 1, n);
+    assert.equal(ind.nations[n].facilities.find((x) => x.factory === 'FCT-TANKS').recipeId, r, n);
+  }
+  assert.equal(facilityCounts(ind, 'USSR')['FCT-TANKS'], undefined, 'URSS: nessun carro nel catalogo');
   const models = json('units/models/carri_cecoslovacchi_1935_1938.json').models;
   assert.ok(models.every((m) => rec(`REC-TANK-CZE-${m.id.split('-').pop()}`)), 'una ricetta per ogni modello cecoslovacco');
 });
@@ -106,7 +111,7 @@ test('limitazione della produzione: valore fuori da 0-1 rifiutato; 0 = fermo; la
 
 test('validazione di minorArtillery: ricetta di un\'altra fabbrica, limitazione non valida', () => {
   const industry = json('industry/initial_industry.json');
-  const vctx = { factoriesById: cat.byId, recipes: withEquipmentRecipes(recipesFile, buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_ita', 'catalog_ussr', 'catalog_jpn', 'catalog_usa'].map((n) => json(`units/equipment/${n}.json`))), json('units/equipment/equipment_production.json'))), entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((x) => x.id) };
+  const vctx = { factoriesById: cat.byId, recipes: withEquipmentRecipes(recipesFile, buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_gbr', 'catalog_ita', 'catalog_ussr', 'catalog_jpn', 'catalog_usa'].map((n) => json(`units/equipment/${n}.json`))), json('units/equipment/equipment_production.json'))), entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((x) => x.id) };
   assert.deepEqual(validateInitialIndustry(industry, vctx), []);
   const bad = (mut, re) => { const d = structuredClone(industry); mut(d.minorArtillery); assert.ok(validateInitialIndustry(d, vctx).some((e) => re.test(e)), String(re)); };
   bad((m) => { m.recipeId = 'REC-STEEL-001'; }, /non è di FCT-ARTILLERY/);

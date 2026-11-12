@@ -31,7 +31,9 @@ for (const id of Object.keys(nations).sort()) {
   const territories = political.filter((e) => (e.owner ?? e.id) === id).map((e) => e.id);
   for (const tr of territories) for (const r of RAW) { const v = totalByPrefix(ext[r], tr); if (v > 0) goods[r] = (goods[r] ?? 0) + v; }
   for (const f of nations[id].facilities) {
-    const r = recipes.get(f.recipeId); const fl = fullCapacityFlows(r, cat.byId.get(f.type));
+    const r = recipes.get(f.recipeId);
+    if (!r) continue; // ricette generate degli equipaggiamenti (armi, artiglieria, carri: REC-<equipment_id>): fuori dall'entrata iniziale, come finora
+    const fl = fullCapacityFlows(r, cat.byId.get(f.type));
     if (fl.outputUnit === 'MW') { inputs.coal = (inputs.coal ?? 0) + fl.inputsPerDay.coal; continue; }
     goods[r.output.product] = (goods[r.output.product] ?? 0) + fl.outputPerDay;
     for (const [k, q] of Object.entries(fl.inputsPerDay)) inputs[k] = (inputs[k] ?? 0) + q;

@@ -61,9 +61,10 @@ test('5 mesi senza commercio: l\'acciaio tedesco resta a pieno regime per 150 gi
   // variazione netta dello stock: 12 acciaierie × 100 t = 1.200 t prodotte, meno 384 t usate da macchinari, componenti, motori e munizioni
   // dal 04/11/2026 la Germania ha 6 fabbriche di munizioni (360 t di acciaio al giorno): netto 1.200 − 624 = 576
   // dal 10/11/2026 anche una fabbrica di armi leggere e una di artiglieria (11 t di acciaio al giorno in più): 565
-  assert.equal(Math.round(steel(d101) - steel(d100)), 565, 'acciaierie a pieno regime');
+  // dal 12/11/2026 anche una fabbrica di carri (13 t di acciaio al giorno in più): 552
+  assert.equal(Math.round(steel(d101) - steel(d100)), 552, 'acciaierie a pieno regime');
   const d160 = day(160); const d161 = advanceDay(d160, [system]);
-  assert.ok(steel(d161) - steel(d160) < 565, 'dopo il giorno 150 il minerale importato è finito: la produzione cala');
+  assert.ok(steel(d161) - steel(d160) < 552, 'dopo il giorno 150 il minerale importato è finito: la produzione cala');
   assert.ok(d160.nations.DEU.stocks.iron_ore < 1, 'minerale esaurito');
   // dal 04/11/2026 (6 fabbriche di munizioni tedesche) lo stock dopo 150 giorni è circa 87.000 t
   assert.ok(steel(d161) > steel(d160) - 500 && steel(d160) > 80000, 'non crolla: la Germania estrae minerale in casa (circa 400 t/giorno) e ha acciaio in magazzino');
