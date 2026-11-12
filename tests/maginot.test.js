@@ -7,7 +7,9 @@ import { buildMoveNet } from '../src/data/moveNet.js';
 import { newGame } from '../src/game/state.js';
 import { initForcesState } from '../src/game/forcesState.js';
 import { createMobilizationSystem, validateMobilizationLaws, validateMobilizationShape } from '../src/game/mobilizationState.js';
-import { createMovementSystem } from '../src/game/movementState.js';
+import { createMovementSystem, initialPositions } from '../src/game/movementState.js';
+import { createTheaterSystem } from '../src/game/theaterState.js';
+import { activeAssignments, validateTheaters } from '../src/rules/theater.js';
 import { validateProvinceDataset } from '../src/data/provinceData.js';
 import { advanceDays } from '../src/game/engine.js';
 import { createWar, declareWar } from '../src/rules/war.js';
@@ -31,18 +33,21 @@ const infFra = units.filter((u) => u.nation === 'FRA' && u.category === 'infantr
 
 test('dati: le 4 province hanno fortificazioni 3 e il file è valido; la legge con guarnigione è valida e rifiuta quote/province errate', () => {
   const doc = read('military/province_presence.json');
-  assert.deepEqual(Object.keys(doc.byProvince).sort(), [...law.garrison.provinces].sort());
+  const gProv = law.garrison.theaters.flatMap((t) => t.provinces);
+  assert.equal(law.garrison.theaters.length, 2, 'due settori');
+  assert.deepEqual(Object.keys(doc.byProvince).sort(), [...gProv].sort());
   for (const e of Object.values(doc.byProvince)) assert.equal(e.fortifications, 3);
   assert.deepEqual(validateProvinceDataset('military', doc, { motherIds }), []);
   assert.deepEqual(validateMobilizationLaws(laws, { nationIds: nationList, provinceIds: motherIds }), []);
   const bad = (g) => validateMobilizationLaws({ ...laws, laws: [{ ...law, garrison: { ...law.garrison, ...g } }] }, { nationIds: nationList, provinceIds: motherIds }).join();
   assert.match(bad({ share: 0 }), /quota/);
-  assert.match(bad({ provinces: ['P_FRA_NON_ESISTE'] }), /inesistente/);
-  assert.match(bad({ provinces: [] }), /province/);
+  assert.match(bad({ theaters: [{ name: 'X', provinces: ['P_FRA_NON_ESISTE'] }] }), /inesistente/);
+  assert.match(bad({ theaters: [] }), /settori/);
+  assert.match(bad({ theaters: [{ name: 'A', provinces: ['P_FRA_MOSELLE'] }, { name: 'B', provinces: ['P_FRA_MOSELLE'] }] }), /più settori/);
   assert.match(bad({ source: '' }), /guarnigione senza fonte/);
 });
 
-test('alla guerra Germania-Polonia ceil(metà) della fanteria francese riceve l\'ordine verso le 4 province, in modo equilibrato; registrato nello stato', () => {
+test('alla guerra Germania-Polonia ceil(metà) della fanteria francese va in 2 incarichi di DIFESA (Reno e Lorena) sulle 4 province, in modo equilibrato; registrato nello stato', () => {
   const w = mob(war(start()));
   const g = w.mobilization.garrison[law.id];
   const existing = infFra.filter((u) => w.forces.divisions[u.id]);
@@ -51,23 +56,33 @@ test('alla guerra Germania-Polonia ceil(metà) della fanteria francese riceve l\
   assert.ok(g.units.length > 0 && g.units.length <= g.quota);
   assert.equal(g.shortfall, g.quota - g.units.length);
   assert.deepEqual(validateMobilizationShape(w.mobilization), []);
-  const per = {}; for (const u of g.units) { per[u.to] = (per[u.to] ?? 0) + 1; assert.ok(law.garrison.provinces.includes(u.to)); assert.equal(units.find((x) => x.id === u.unit).category, 'infantry'); assert.ok(w.movement.orders[u.unit], 'ordine di movimento attivo'); }
-  const counts = Object.values(per);
-  assert.ok(Math.max(...counts) <= Math.ceil(g.units.length / law.garrison.provinces.length), 'nessuna provincia sovraccarica');
-  assert.equal(new Set(g.units.map((u) => u.unit)).size, g.units.length, 'nessuna divisione ordinata due volte');
-  // gli altri paesi non vengono toccati
-  for (const u of g.units) assert.equal(units.find((x) => x.id === u.unit).nation, 'FRA');
+  assert.deepEqual(validateTheaters(w.theaters), []);
+  const act = activeAssignments(w.theaters);
+  assert.ok(act.length >= 1 && act.length <= 2);
+  assert.deepEqual(act.map((a) => a.id).sort(), [...g.theaters].sort());
+  for (const a of act) {
+    assert.equal(a.kind, 'defend'); assert.equal(a.nation, 'FRA'); assert.match(a.name, /^Linea Maginot/);
+    assert.ok(law.garrison.theaters.some((t) => t.name === a.name && a.provinces.join() === t.provinces.join()));
+  }
+  assert.equal(new Set(act.flatMap((a) => a.units)).size, g.units.length, 'nessuna divisione in due incarichi');
+  const per = {}; for (const u of g.units) { per[u.to] = (per[u.to] ?? 0) + 1; assert.equal(units.find((x) => x.id === u.unit).category, 'infantry'); assert.equal(units.find((x) => x.id === u.unit).nation, 'FRA'); }
+  assert.ok(Math.max(...Object.values(per)) <= Math.ceil(g.units.length / 4), 'nessuna provincia sovraccarica');
 });
 
-test('le divisioni arrivano davvero nelle province di confine con il passare dei giorni; l\'ordine è idempotente (nessun secondo invio)', () => {
+test('con il sistema di teatro le divisioni arrivano, restano e si trincerano; la guarnigione non viene riassegnata', () => {
+  const unitsById = new Map(units.map((u) => [u.id, u]));
+  const tctx = { getNet: () => net, unitsById, deploymentDoc: dep, initial: initialPositions(dep) };
   const w = mob(war(start()));
   assert.equal(mob(w), w, 'secondo giorno: stesso oggetto');
-  const done = advanceDays(w, 60, [createMovementSystem(net), mob]);
   const g = w.mobilization.garrison[law.id];
-  const arrived = g.units.filter((u) => done.movement.positions[u.unit] === u.to);
+  const done = advanceDays(w, 90, [createMovementSystem(net), createTheaterSystem(tctx), mob]);
+  const arrived = g.units.filter((u) => done.movement.positions[u.unit] === u.to || initialPositions(dep).get(u.unit) === u.to);
   assert.ok(arrived.length > 0, 'almeno una divisione è arrivata');
   assert.deepEqual(done.mobilization.garrison, w.mobilization.garrison, 'la guarnigione non viene riordinata');
-  assert.deepEqual(validateMobilizationShape(done.mobilization), []);
+  assert.equal(activeAssignments(done.theaters).length, activeAssignments(w.theaters).length, 'gli incarichi di difesa restano attivi');
+  const digging = g.units.filter((u) => (done.entrench?.days?.[u.unit] ?? 0) > 0);
+  assert.ok(digging.length > 0, 'chi è arrivato si trincera');
+  for (const u of g.units) assert.ok(done.forces.divisions[u.unit], 'la divisione esiste ancora (non scartata dal teatro)');
 });
 
 test('senza rete di movimento (non ancora caricata) la mobilitazione scatta ma la guarnigione aspetta; poi scatta una volta sola', () => {
@@ -87,5 +102,5 @@ test('senza guerra Germania-Polonia nessun ordine; senza contesto di movimento s
   assert.equal(mob(s), s);
   const plain = createMobilizationSystem({ units, laws })(war(s));
   assert.equal(plain.mobilization.garrison, undefined);
-  assert.equal(plain.movement, s.movement);
+  assert.equal(plain.theaters, s.theaters);
 });

@@ -6,6 +6,7 @@
 import { atWar } from '../rules/war.js';
 import { mobilize } from '../rules/reinforcements.js';
 import { orderMove } from './movementState.js';
+import { createTheaters, createAssignment } from '../rules/theater.js';
 
 export const MOBILIZATION_SCHEMA = 'mobilization-v1';
 export const LAWS_SCHEMA = 'mobilization-laws-v1';
@@ -37,10 +38,13 @@ export function validateMobilizationLaws(doc, { nationIds, provinceIds = null } 
     if (g !== undefined) {
       if (typeof g.category !== 'string' || g.category === '') errors.push(`${p}: guarnigione senza categoria`);
       if (!(typeof g.share === 'number' && g.share > 0 && g.share <= 1)) errors.push(`${p}: quota di guarnigione non valida`);
-      if (!Array.isArray(g.provinces) || g.provinces.length === 0 || new Set(g.provinces).size !== g.provinces.length) errors.push(`${p}: province di guarnigione assenti o duplicate`);
+      const th = g.theaters;
+      const flat = Array.isArray(th) ? th.flatMap((t) => t?.provinces ?? []) : [];
+      if (!Array.isArray(th) || th.length === 0 || th.some((t) => typeof t?.name !== 'string' || t.name === '' || !Array.isArray(t.provinces) || t.provinces.length === 0)) errors.push(`${p}: settori di guarnigione assenti o senza nome/province`);
+      else if (new Set(flat).size !== flat.length) errors.push(`${p}: provincia di guarnigione in più settori`);
       if (!['utente', 'ipotesi'].includes(g.basis) || !['utente', 'ipotesi'].includes(g.selection)) errors.push(`${p}: guarnigione senza basis/selection validi`);
       if (!String(g.source ?? '').trim()) errors.push(`${p}: guarnigione senza fonte`);
-      if (provinceIds) for (const id of g.provinces ?? []) if (!provinceIds.has(id)) errors.push(`${p}: provincia di guarnigione ${id} inesistente`);
+      if (provinceIds) for (const id of (Array.isArray(g.theaters) ? g.theaters.flatMap((t) => t?.provinces ?? []) : [])) if (!provinceIds.has(id)) errors.push(`${p}: provincia di guarnigione ${id} inesistente`);
     }
   }
   return errors;
@@ -68,17 +72,19 @@ const conditionHolds = (state, t) => t.type === 'war' && atWar(state.war, t.a, t
 
 /**
  * Guarnigione di confine: sceglie ceil(share × n) divisioni della categoria tra quelle della nazione (le più vicine per giorni di marcia a una delle province),
- * le ripartisce in modo equilibrato (capienza ceil(k / province)) e impartisce gli ordini di movimento. Ritorna { state, record }.
+ * le ripartisce in modo equilibrato fra le province (capienza ceil(k / province)) e le assegna a un incarico di DIFESA di teatro per settore (`theaters`):
+ * marcia, presidio e trinceramento li gestisce il sistema di teatro. Ritorna { state, record }.
  */
 function garrisonOrders(state, law, { units, nationOf, deploymentDoc, net }) {
   const g = law.garrison;
+  const provinces = g.theaters.flatMap((t) => t.provinces);
   const mine = units.filter((u) => u.category === g.category && nationOf.get(u.id) === law.nation && state.forces.divisions[u.id]);
   const quota = Math.ceil(g.share * mine.length);
   // giorni di marcia di ogni divisione verso ogni provincia (prova a vuoto: lo stato non cambia)
   const options = [];
   for (const u of mine) {
     const days = [];
-    for (const to of g.provinces) {
+    for (const to of provinces) {
       const r = orderMove(state, { units: [u], to, nation: law.nation, deploymentDoc, net });
       if (r.moved.length) days.push({ to, days: r.moved[0].days });
     }
@@ -86,17 +92,22 @@ function garrisonOrders(state, law, { units, nationOf, deploymentDoc, net }) {
   }
   options.sort((a, b) => a.days[0].days - b.days[0].days || a.u.id.localeCompare(b.u.id));
   const chosen = options.slice(0, quota);
-  const cap = Math.ceil(chosen.length / g.provinces.length);
-  const load = Object.fromEntries(g.provinces.map((p) => [p, 0]));
-  let cur = state;
+  const cap = Math.ceil(chosen.length / provinces.length);
+  const load = Object.fromEntries(provinces.map((p) => [p, 0]));
   const assigned = [];
   for (const { u, days } of chosen) {
     const target = days.find((d) => load[d.to] < cap) ?? days[0];
-    const r = orderMove(cur, { units: [u], to: target.to, nation: law.nation, deploymentDoc, net });
-    if (!r.moved.length) continue;
-    cur = r.state; load[target.to] += 1; assigned.push({ unit: u.id, to: target.to });
+    load[target.to] += 1; assigned.push({ unit: u.id, to: target.to });
   }
-  return { state: cur, record: { on: state.date, quota, units: assigned, shortfall: quota - assigned.length } };
+  let th = state.theaters ?? createTheaters();
+  const made = [];
+  for (const t of g.theaters) {
+    const us = assigned.filter((a) => t.provinces.includes(a.to)).map((a) => a.unit);
+    if (us.length === 0) continue;
+    const r = createAssignment(th, { nation: law.nation, kind: 'defend', provinces: t.provinces, units: us, date: state.date, name: t.name });
+    th = r.state; made.push(r.id);
+  }
+  return { state: { ...state, theaters: th }, record: { on: state.date, quota, units: assigned, theaters: made, shortfall: quota - assigned.length } };
 }
 
 /**
@@ -121,7 +132,7 @@ export function createMobilizationSystem({ units, laws, movement = null }) {
       const net = law.garrison && movement && !garrison?.[law.id] ? movement.net(state) : null;
       if (net) {
         const r = garrisonOrders({ ...cur, forces }, law, { units, nationOf, deploymentDoc: movement.deploymentDoc, net });
-        cur = { ...cur, movement: r.state.movement };
+        cur = { ...cur, theaters: r.state.theaters };
         garrison = { ...(garrison ?? {}), [law.id]: r.record };
         changed = true;
       }
