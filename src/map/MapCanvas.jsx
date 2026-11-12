@@ -38,7 +38,7 @@ const EMPTY_WATER = { lines: [], lakes: [] };
 // la vista può cambiare quanto vuole in orizzontale durante il gesto (il giro del mondo si normalizza a gesto fermo); in verticale restano i poli
 const clampY = (v) => ({ k: v.k, x: v.x, y: wrapView(v, VB).y });
 
-export default function MapCanvas({ selectedUnits, radial, land, provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, showPorts, onTogglePorts, toolsHost, provinceResources, provinceUnits, commandLinks, onSelectUnits, provincePorts, portYards, onSelectPort, marks, focus, dataReady, readyKey, onReady }) {
+export default function MapCanvas({ selectedUnits, radial, land, provinces, rivers, riversGeo, lakes, nationNames, nationControl, selectedId, onSelect, layer, onLayerChange, showRivers, onToggleRivers, seas, showSeas, onToggleSeas, selectedSeaId, onSelectSea, labelData, transport, showTransport, onToggleTransport, showPorts, onTogglePorts, showYards, onToggleYards, toolsHost, provinceResources, provinceUnits, commandLinks, onSelectUnits, provincePorts, portYards, onSelectPort, marks, focus, dataReady, readyKey, onReady }) {
   const model = useMemo(() => buildCanvasModel(provinces), [provinces]);
   // `land` (terra di base, data/land_base.json) arriva dall'App, precaricata all'apertura con gli altri dati: caricarla qui,
   // dopo il montaggio, faceva disegnare la mappa due volte (prima senza terra, poi con) e si vedeva uno sfarfallio.
@@ -569,7 +569,7 @@ export default function MapCanvas({ selectedUnits, radial, land, provinces, rive
       const hit = hitAt(s.unitHits, px, py); // i segnalini hanno la precedenza su città e province
       if (hit) { p.onSelectUnits({ province: hit.province, nation: hit.nation }); return; }
     }
-    if (p.provincePorts && p.onSelectPort) {
+    if ((p.provincePorts || p.portYards) && p.onSelectPort) {
       const hit = hitAt(s.portHits, px, py); // distintivo, nome o puntino della città portuale: precedenza su città e province
       if (hit) { p.onSelectPort({ province: hit.province, cittaId: hit.cittaId }); return; }
     }
@@ -684,6 +684,7 @@ export default function MapCanvas({ selectedUnits, radial, land, provinces, rive
                 <PopItem checked={Boolean(showRivers)} onClick={onToggleRivers}>Fiumi</PopItem>
                 {onToggleTransport ? <PopItem checked={Boolean(showTransport)} onClick={onToggleTransport}>Strade e ferrovie</PopItem> : null}
                 {onTogglePorts ? <PopItem checked={Boolean(showPorts)} onClick={onTogglePorts}>Porti</PopItem> : null}
+                {onToggleYards ? <PopItem checked={Boolean(showYards)} onClick={onToggleYards}>Cantieri navali</PopItem> : null}
                 <PopItem checked={Boolean(showSeas)} onClick={onToggleSeas}>Zone marittime</PopItem>
               </PopSection>
               <PopSection title="Vista">

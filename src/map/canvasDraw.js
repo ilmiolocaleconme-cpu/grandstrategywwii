@@ -529,7 +529,7 @@ export function drawOverlay(ctx, p) {
   }
   // livello Porti: distintivo con l'àncora sul porto (punto della città portuale) e nome, prima dei nomi delle città
   if (portHits) portHits.length = 0;
-  if (provincePorts) { // il padre passa i porti solo se l'opzione «Porti» è accesa
+  if (provincePorts || portYards) { // il padre passa porti e cantieri solo se le opzioni «Porti» e «Cantieri navali» sono accese
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawPorts(ctx, { pins: provincePorts, yards: portYards, a, dpr, copies, boxes: cityBoxes, model, hits: portHits, k: view.k });
   }

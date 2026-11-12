@@ -138,3 +138,16 @@ test('drawPorts: un porto la cui città è divisa in parti viene disegnato (Kön
   assert.equal(hits.length, 1);
   assert.equal(hits[0].cittaId, 'P_K_CITTA');
 });
+
+test('drawPorts: i cantieri si disegnano e si possono toccare anche senza i porti (opzioni indipendenti)', () => {
+  const m = model();
+  const yards = [{ provinceId: 'P_1', cittaId: 'C_A', name: 'Alfa', count: 1 }];
+  const hits = [];
+  drawPorts(fakeCtx(), args(m, { pins: null, yards, hits }));
+  assert.equal(hits.length, 1);
+  assert.equal(hits[0].yard, true);
+  assert.equal(hits[0].province, 'P_1');
+  const none = [];
+  drawPorts(fakeCtx(), args(m, { pins: null, yards: null, hits: none }));
+  assert.equal(none.length, 0, 'senza porti né cantieri non si disegna nulla');
+});
