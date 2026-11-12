@@ -54,3 +54,8 @@ test('il rapporto fra chi controlla e il fantoccio scende ogni giorno in proporz
   assert.ok(dip.relation(h, 'JPN', 'MAN') > dip.relation(s, 'JPN', 'MAN'));
   assert.equal(dip.overlordOf('MAN'), 'JPN');
 });
+
+test('rapporto iniziale Giappone–Manciukuò +80 (decisione dell\'utente 12/11/2026)', () => {
+  const start = json('diplomacy/relations_1936.json');
+  assert.ok(start.relations.some(([a, b, v]) => a === 'JPN' && b === 'MAN' && v === 80));
+});
