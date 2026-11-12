@@ -82,6 +82,7 @@ export function openContract(trade, order, { economy, resources, nations, route,
     id, seller, buyer, good, perDay, unitPrice: economy.prices[good], startDay: day, endDay: day + days - 1, startDate: date,
     status: 'active', route: routeRecord(route), transitDays: transitDaysOf(route),
     delivered: 0, paid: 0, shortfallDays: 0, inTransit: [],
+    ...(order.portChoice ? { portChoice: order.portChoice } : {}), // province dei porti scelti dal giocatore (via mare): il ricontrollo del percorso le mantiene
   };
   return { ok: true, state: { ...trade, nextId: trade.nextId + 1, contracts: [...trade.contracts, contract] }, contract };
 }
@@ -176,6 +177,11 @@ export function validateTradeState(trade) {
     if (c.route !== undefined) {
       if (!['land', 'sea'].includes(c.route?.kind)) errors.push(`${p}: tipo di percorso ${JSON.stringify(c.route?.kind)} non valido`);
       else if (c.route.kind === 'sea' && (!Array.isArray(c.route.zones) || c.route.zones.length === 0)) errors.push(`${p}: percorso via mare senza zone`);
+    }
+    if (c.portChoice !== undefined) {
+      const pc = c.portChoice;
+      if (!pc || typeof pc !== 'object' || ![pc.fromProvince, pc.toProvince].every((v) => v === null || typeof v === 'string')) errors.push(`${p}: porti scelti non validi`);
+      else if (c.route?.kind === 'land') errors.push(`${p}: porti scelti su un percorso via terra`);
     }
     for (const k of ['delivered', 'paid', 'shortfallDays']) if (!(c[k] >= 0)) errors.push(`${p}: ${k} non valido`);
     if (!Array.isArray(c.inTransit) || c.inTransit.some((s) => !Number.isInteger(s.arrive) || !(s.qty > 0))) errors.push(`${p}: merce in viaggio non valida`);

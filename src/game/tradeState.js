@@ -16,11 +16,18 @@ const daysOf = (r) => (r.kind === 'sea' ? r.days : Math.max(1, Math.ceil(r.km / 
  * Sceglie il percorso secondo order.mode: 'land' (predefinito, come prima), 'sea' o 'auto' (il più rapido fra terra e mare; a parità, terra).
  * Ritorna il percorso oppure { ok: false, reason }. Senza rete 'land' dà 'no_map'; senza contesto marittimo 'sea' dà 'no_sea'.
  */
+/** Porti scelti dal giocatore: { fromProvince, toProvince } (anche uno solo) oppure null se non ne ha scelti. */
+export function portChoiceOf(order) {
+  const from = order.fromPort ?? null; const to = order.toPort ?? null;
+  return from || to ? { fromProvince: from, toProvince: to } : null;
+}
+
 function chooseRoute(order, net, sea) {
-  const mode = order.mode ?? 'land';
+  // scegliere un porto vuol dire viaggiare per mare: la via terra e «la più rapida» non hanno senso
+  const mode = portChoiceOf(order) ? 'sea' : (order.mode ?? 'land');
   if (!['land', 'sea', 'auto'].includes(mode)) return { ok: false, reason: 'invalid_mode' };
   const land = mode !== 'sea' && net ? findLandRoute(net, (m) => net.owner(m), order.seller, order.buyer) : null;
-  const water = mode !== 'land' && sea ? sea.route(order.seller, order.buyer) : null;
+  const water = mode !== 'land' && sea ? sea.route(order.seller, order.buyer, portChoiceOf(order)) : null;
   if (mode === 'land') return land ?? { ok: false, reason: 'no_map' };
   if (mode === 'sea') return water ?? { ok: false, reason: 'no_sea' };
   if (!land && !water) return { ok: false, reason: 'no_map' };
@@ -40,9 +47,9 @@ export function openTradeContract(state, order, ctx) {
   if (!state.nations) return { ok: false, reason: 'no_economy' };
   const consent = ctx.consent ? ctx.consent(state, order.seller, order.buyer) : { ok: true }; // diplomazia: guerra o rapporto ostile rifiutano il contratto
   if (!consent.ok) return { ok: false, reason: consent.reason === 'at_war' ? 'at_war' : 'hostile' };
-  if ((order.mode ?? 'land') === 'land' && !net) return { ok: false, reason: 'no_map' };
+  if ((order.mode ?? 'land') === 'land' && !net && !portChoiceOf(order)) return { ok: false, reason: 'no_map' };
   const route = chooseRoute(order, net, sea);
-  const r = openContract(state.trade, order, { economy, resources, nations: state.nations, route, day: state.day + 1, date: state.date }); // i sistemi girano dopo l'avanzamento del giorno: il contratto parte dal prossimo
+  const r = openContract(state.trade, { ...order, portChoice: portChoiceOf(order) }, { economy, resources, nations: state.nations, route, day: state.day + 1, date: state.date }); // i sistemi girano dopo l'avanzamento del giorno: il contratto parte dal prossimo
   return r.ok ? { ok: true, state: { ...state, trade: r.state }, contract: r.contract } : r;
 }
 
@@ -62,7 +69,7 @@ export function createTradeSystem({ resources, getNet = () => null, getSea = () 
     const net = getNet(state);
     const sea = getSea(state);
     if ((net || sea) && state.day % recheckEvery === 0) {
-      trade = revalidateRoutes(trade, { net, ownerOf: net ? (m) => net.owner(m) : undefined, seaRouteOf: sea ? (c) => sea.route(c.seller, c.buyer) : null });
+      trade = revalidateRoutes(trade, { net, ownerOf: net ? (m) => net.owner(m) : undefined, seaRouteOf: sea ? (c) => sea.route(c.seller, c.buyer, c.portChoice ?? null) : null });
     }
     const r = tradeDay(trade, state.nations, { day: state.day, resources });
     return { ...state, trade: r.trade, nations: r.nations };

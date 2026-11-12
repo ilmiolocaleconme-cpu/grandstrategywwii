@@ -541,7 +541,19 @@ export default function App() {
   // commercio: il giocatore è una delle due parti; il percorso usa la rete di movimento e le rotte marittime con i porti reali (se già caricate)
   const tradeGoodList = useMemo(() => tradeGoods(economyData, resources), []);
   const tradeCtx = () => ({ economy: economyData, resources, net: gameNet(game), sea: GAME_SEA.sea ? GAME_SEA.sea.at(game) : null, consent: GAME_DIPLOMACY.tradeConsent });
-  const orderOf = (o) => (o.direction === 'sell' ? { seller: game.player, buyer: o.partner } : { seller: o.partner, buyer: game.player });
+  // porti scelti: «myPort» è del giocatore, «partnerPort» della controparte; chi vende parte da fromPort, chi compra arriva a toPort
+  const orderOf = (o) => {
+    const sell = o.direction === 'sell';
+    return { seller: sell ? game.player : o.partner, buyer: sell ? o.partner : game.player, fromPort: (sell ? o.myPort : o.partnerPort) || null, toPort: (sell ? o.partnerPort : o.myPort) || null };
+  };
+  const portChoices = useCallback((nationId) => {
+    const ctx = GAME_SEA.sea && game ? GAME_SEA.sea.at(game) : null;
+    if (!ctx || !nationId) return [];
+    const seen = new Map();
+    for (const p of ctx.allPortsOf(nationId)) if (!seen.has(p.province)) seen.set(p.province, { province: p.province, label: provinceName(p.province) });
+    return [...seen.values()].sort((a, b) => a.label.localeCompare(b.label, 'it'));
+  }, [game, seaFile, provinceName]); // eslint-disable-line react-hooks/exhaustive-deps
+  const myPortList = useMemo(() => portChoices(game?.player), [portChoices]); // eslint-disable-line react-hooks/exhaustive-deps
   const previewTradeOrder = useCallback((o) => previewTrade(game, { ...orderOf(o), good: o.good, perDay: o.perDay, days: o.days, mode: o.mode }, tradeCtx()), [game, moveNet, seaFile]); // eslint-disable-line react-hooks/exhaustive-deps
   const openTrade = (o) => {
     const r = openTradeContract(game, { ...orderOf(o), good: o.good, perDay: o.perDay, days: o.days, mode: o.mode }, tradeCtx());
@@ -919,7 +931,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
             <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
-            <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
+            <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} myPorts={myPortList} portChoices={portChoices} portLabel={provinceName} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
             <ResearchPanel rows={researchRows} onStart={startResearch} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
