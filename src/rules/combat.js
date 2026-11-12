@@ -11,6 +11,22 @@
 export const CATEGORY_POWER = Object.freeze({ infantry: 1, mountain: 1, airborne: 0.9, cavalry: 0.8, motorized: 1.2, mechanized: 1.4, armored: 1.8 });
 export const LOSS_BASE = 0.02;
 export const LOSS_CAP = 3;
+// Equipaggiamento perso in battaglia (12/11/2026, IPOTESI DI BILANCIAMENTO): ogni voce `equipment.*` perde la stessa quota degli uomini × EQUIPMENT_LOSS_SHARE
+// (una parte delle armi dei caduti e dei feriti viene recuperata). I cavalli non sono toccati qui.
+export const EQUIPMENT_LOSS_SHARE = 0.5;
+
+/** Pezzi persi per voce: { voce: n } (interi, arrotondati). items = voci della divisione; manpowerBefore = uomini effettivi prima della perdita. */
+export function equipmentLosses(items, manpowerBefore, loss, share = EQUIPMENT_LOSS_SHARE) {
+  if (!(loss > 0) || !(manpowerBefore > 0)) return {};
+  const ratio = Math.min(1, loss / manpowerBefore) * share;
+  const out = {};
+  for (const [k, v] of Object.entries(items ?? {})) {
+    if (!k.startsWith('equipment.') || !(v?.effective > 0)) continue;
+    const n = Math.min(v.effective, Math.round(v.effective * ratio));
+    if (n > 0) out[k] = n;
+  }
+  return out;
+}
 export const RETREAT_BELOW = 0.25;
 export const RETREAT_RATIO = 3;
 

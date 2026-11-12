@@ -2,6 +2,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
+import { rifleTechBonus, removeRiflePoints } from '../src/rules/rifleQuality.js';
+import { equipmentLosses, EQUIPMENT_LOSS_SHARE } from '../src/rules/combat.js';
 import { validateRifleQuality, bestRifleQuality, addRiflePoints, averageQuality, rifleBonus, plannedMenByNation, modelQuality } from '../src/rules/rifleQuality.js';
 import { loadIndustryCatalog } from '../src/data/industry.js';
 import { mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
@@ -75,7 +77,7 @@ test('battaglia: il bonus dei fucili vale in attacco e si somma alla difesa', ()
   const net = { has: (m) => m in OWNERS, neighbors: (m) => (m === 'X' ? ['Y'] : ['X']), km: () => 100, owner: (m) => OWNERS[m], name: (m) => m };
   const UNITS = [{ id: 'G1', name: 'G1', nation: 'GER', category: 'infantry', echelon: 'division' }, { id: 'F1', name: 'F1', nation: 'FRA', category: 'infantry', echelon: 'division' }];
   const unitsById = new Map(UNITS.map((u) => [u.id, u]));
-  const div = () => ({ templateId: 't', since: 'd', items: { 'manpower.war': { planned: 10000, effective: 10000, source: 'template' } } });
+  const div = () => ({ templateId: 't', since: 'd', items: { 'manpower.war': { planned: 10000, effective: 10000, source: 'template' }, 'equipment.fucili': { planned: 8000, effective: 8000 } } });
   const entries = [{ unit: 'G1', province: 'X' }, { unit: 'F1', province: 'X' }];
   const state = { schema: 7, startDate: '1936-01-01', date: '1936-01-01', day: 0, player: 'GER', control: { GER: 'GER', FRA: 'FRA' }, difficulty: 'normal',
     war: declareWar(createWar(), { a: 'GER', b: 'FRA', date: '1936-01-01' }),
@@ -87,4 +89,29 @@ test('battaglia: il bonus dei fucili vale in attacco e si somma alla difesa', ()
   const fraRifles = lossesOf({ ...ctx, rifleBonus: (_s, u) => (u.nation === 'FRA' ? 0.08 : 0) });
   assert.ok(fraRifles.G1 > plain.G1, 'l\'attaccante coi fucili migliori fa più perdite');
   assert.ok(fraRifles.F1 < plain.F1, 'e ne subisce meno');
+  const seen = [];
+  const after = createTheaterSystem({ ...ctx, onEquipmentLost: (st, id, lost) => { seen.push([id, lost['equipment.fucili']]); return st; } })({ ...state, day: 1 });
+  assert.ok(after.forces.divisions.G1.items['equipment.fucili'].effective < 8000, 'il difensore perde anche fucili');
+  assert.deepEqual(seen.map((x) => x[0]).sort(), ['F1', 'G1']);
+  assert.ok(seen.every(([, n]) => n > 0));
+});
+
+test('bonus delle tecnologie: appena ricercate, solo per le categorie col fucile; totale +10%', () => {
+  assert.equal(rifleTechBonus(doc, 'infantry', new Set()), 0);
+  assert.equal(rifleTechBonus(doc, 'infantry', new Set(['TECH-INF-SEMI1'])), 0.02);
+  assert.equal(rifleTechBonus(doc, 'infantry', ALL), 0.1);
+  assert.equal(rifleTechBonus(doc, 'armored', ALL), 0);
+  const bad = structuredClone(doc); bad.rifleQuality.techBonus['TECH-NO'] = 0.01;
+  assert.ok(validateRifleQuality(bad, { techIds: new Set(ALL) }).some((e) => /inesistente/.test(e)));
+});
+
+test('armi perse in battaglia: metà della quota degli uomini, voce per voce; i punti dei fucili calano', () => {
+  const items = { 'manpower.war': { planned: 10000, effective: 10000 }, 'equipment.fucili': { planned: 8000, effective: 8000 }, 'equipment.mg': { planned: 100, effective: 1 }, horses: { planned: 500, effective: 500 } };
+  assert.equal(EQUIPMENT_LOSS_SHARE, 0.5);
+  assert.deepEqual(equipmentLosses(items, 10000, 1000), { 'equipment.fucili': 400 }, '10% degli uomini → 5% dei fucili; 1 mitragliatrice × 5% arrotondato = 0; i cavalli no');
+  assert.deepEqual(equipmentLosses(items, 10000, 0), {});
+  assert.deepEqual(equipmentLosses(items, 100, 1e6), { 'equipment.fucili': 4000, 'equipment.mg': 1 }, 'mai oltre metà con la divisione distrutta');
+  assert.equal(removeRiflePoints({ rifles: { points: 1000 } }, 400, 0.5).rifles.points, 800);
+  assert.equal(removeRiflePoints({ rifles: { points: 10 } }, 400, 1).rifles.points, 0, 'mai sotto zero');
+  const none = { balance: 1 }; assert.equal(removeRiflePoints(none, 5, 1), none);
 });

@@ -4,7 +4,8 @@
 //  - qualità media = punti accumulati / uomini PREVISTI delle divisioni della nazione (non gli effettivi: le perdite non la fanno salire), al massimo maxQuality;
 //  - bonus = bonusPerQuality × qualità media, sommato al bonus di trinceramento, solo per le categorie elencate.
 // Stato (campo OPZIONALE, assente = 0 punti, nessuna migrazione): nation.rifles = { points }.
-// NON MODELLATO: fucili persi in battaglia, distribuzione divisione per divisione (da fare quando produzione e voci delle divisioni saranno collegate).
+// Fucili persi in battaglia (12/11/2026): tolgono punti alla qualità media attuale (removeRiflePoints, chiamata dal combattimento).
+// NON MODELLATO: distribuzione divisione per divisione (da fare quando produzione e voci delle divisioni saranno collegate).
 import { producibleModels } from '../data/smallArmsModels.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
@@ -24,6 +25,13 @@ export function addRiflePoints(nation, count, quality) {
   return { ...nation, rifles: { points: r3((nation.rifles?.points ?? 0) + add) } };
 }
 
+/** Toglie i punti dei fucili persi in battaglia: count pezzi alla qualità media attuale (mai sotto zero). */
+export function removeRiflePoints(nation, count, avgQuality) {
+  const sub = count * avgQuality;
+  if (!(sub > 0) || !nation.rifles) return nation;
+  return { ...nation, rifles: { points: r3(Math.max(0, nation.rifles.points - sub)) } };
+}
+
 /** Qualità media (0..maxQuality) dati i punti e gli uomini previsti. */
 export function averageQuality(doc, points, plannedMen) {
   if (!(plannedMen > 0) || !(points > 0)) return 0;
@@ -37,8 +45,15 @@ export function rifleBonus(doc, category, avgQuality) {
   return r3(q.bonusPerQuality * avgQuality);
 }
 
-/** Errori della configurazione (vuoto = valida). */
-export function validateRifleQuality(doc) {
+/** Bonus delle tecnologie ricercate (techBonus): vale appena la ricerca è finita, per le stesse categorie. techs = Set degli id. */
+export function rifleTechBonus(doc, category, techs) {
+  const q = doc?.rifleQuality;
+  if (!q?.techBonus || !q.categories.includes(category)) return 0;
+  return r3(Object.entries(q.techBonus).reduce((s, [id, b]) => (techs.has(id) ? s + b : s), 0));
+}
+
+/** Errori della configurazione (vuoto = valida). techIds (facoltativo) = id delle tecnologie esistenti. */
+export function validateRifleQuality(doc, { techIds = null } = {}) {
   const q = doc?.rifleQuality;
   if (!q) return ['fucili: rifleQuality mancante'];
   const errors = [];
@@ -46,6 +61,12 @@ export function validateRifleQuality(doc) {
   if (!(q.maxQuality > 0)) errors.push('fucili: maxQuality non valida');
   if (!(q.bonusPerQuality >= 0 && q.bonusPerQuality * q.maxQuality <= 0.5)) errors.push('fucili: bonusPerQuality non valido (bonus massimo oltre il 50%)');
   if (!Array.isArray(q.categories)) errors.push('fucili: categorie mancanti');
+  const tb = q.techBonus ?? {};
+  for (const [id, b] of Object.entries(tb)) {
+    if (!(b >= 0)) errors.push(`fucili: bonus della tecnologia ${id} non valido`);
+    if (techIds && !techIds.has(id)) errors.push(`fucili: bonus per la tecnologia inesistente ${id}`);
+  }
+  if (Object.values(tb).reduce((s, b) => s + b, 0) > 0.2) errors.push('fucili: bonus delle tecnologie oltre il 20% in totale');
   for (const m of doc.models ?? []) if ('quality' in m && !(m.quality >= 0 && m.quality <= q.maxQuality)) errors.push(`fucili: ${m.id}: qualità non valida`);
   return errors;
 }

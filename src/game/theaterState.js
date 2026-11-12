@@ -13,7 +13,7 @@
 import { createWar, declareWar, atWar, enemiesOf } from '../rules/war.js';
 import { unitOf } from '../rules/unitRegistry.js';
 import { createTheaters, createAssignment, cancelAssignment, completeAssignment, dropUnits, activeAssignments } from '../rules/theater.js';
-import { resolveBattleDay, resolveUrbanBattleDay, categoryPower } from '../rules/combat.js';
+import { resolveBattleDay, resolveUrbanBattleDay, categoryPower, equipmentLosses } from '../rules/combat.js';
 import { positionOf, issueMove, cancelMove } from '../rules/movement.js';
 import { provinceStateOf, patchProvinceState } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
@@ -105,11 +105,17 @@ function combatantsByProvince(state, ctx) {
   return map;
 }
 
-function applyLoss(state, id, loss) {
+// Perdite di una divisione: uomini e, in proporzione, equipaggiamento (src/rules/combat.js → equipmentLosses). ctx.onEquipmentLost(state, id, lost) (facoltativo)
+// aggiorna ciò che dipende dai pezzi persi (es. qualità dei fucili della nazione).
+function applyLoss(state, id, loss, ctx = {}) {
   if (!loss) return state;
   const d = state.forces.divisions[id];
   const m = d.items['manpower.war'];
-  return { ...state, forces: { ...state.forces, divisions: { ...state.forces.divisions, [id]: { ...d, items: { ...d.items, 'manpower.war': { ...m, effective: m.effective - loss } } } } } };
+  const lost = equipmentLosses(d.items, m.effective, loss);
+  const items = { ...d.items, 'manpower.war': { ...m, effective: m.effective - loss } };
+  for (const [k, n] of Object.entries(lost)) items[k] = { ...items[k], effective: items[k].effective - n };
+  const s = { ...state, forces: { ...state.forces, divisions: { ...state.forces.divisions, [id]: { ...d, items } } } };
+  return Object.keys(lost).length && ctx.onEquipmentLost ? ctx.onEquipmentLost(s, id, lost) : s;
 }
 
 function setPosition(state, unitId, province, ctx) {
@@ -152,8 +158,8 @@ function battlePhase(state, ctx, net) {
     // nel nodo di una zona urbana si combatte con le regole urbane (imboscate, difesa rafforzata, mezzi penalizzati)
     const solve = net.isCity?.(p) === true ? resolveUrbanBattleDay : resolveBattleDay;
     const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
-    for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l);
-    for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l);
+    for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l, ctx);
+    for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l, ctx);
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));
     const sum = (o) => Object.values(o).reduce((x, y) => x + y, 0);
     let outcome = 'in corso';

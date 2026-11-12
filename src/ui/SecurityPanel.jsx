@@ -7,14 +7,14 @@ const pct = (v) => `${Math.round(v * 100)}%`;
 const Msg = ({ msg }) => (msg ? <p className={msg.ok ? 'muted' : 'warn'} role="status">{msg.text}</p> : null);
 
 /** rows: research.listFor(...). onStart(techId) → { ok, text }. unlocksFor(techId) (facoltativo) → nomi dei modelli sbloccati; rifles (facoltativo) → nomi dei fucili producibili oggi. */
-export function ResearchPanel({ rows, onStart, unlocksFor = null, rifles = null, rifleInfo = null }) {
+export function ResearchPanel({ rows, onStart, unlocksFor = null, rifles = null, rifleInfo = null, techBonusOf = null }) {
   const [msg, setMsg] = useState(null);
   if (!rows || rows.length === 0) return null;
   return (
     <section aria-label="Ricerca">
       <h2>Ricerca</h2>
       <Msg msg={msg} />
-      {rifleInfo ? <p className="muted small">Qualità media dei fucili: {fmt(rifleInfo.quality)} · bonus della fanteria in battaglia: +{pct(rifleInfo.bonus)}</p> : null}
+      {rifleInfo ? <p className="muted small">Qualità media dei fucili: {fmt(rifleInfo.quality)} · bonus della fanteria in battaglia (qualità + tecnologie): +{pct(rifleInfo.bonus)}</p> : null}
       {rifles ? <p className="muted small">Fucili producibili oggi: {rifles.length ? rifles.join(', ') : 'nessun modello nel catalogo'}</p> : null}
       <ul className="build-list">
         {rows.map(({ tech, cost, status, missing }) => (
@@ -22,6 +22,7 @@ export function ResearchPanel({ rows, onStart, unlocksFor = null, rifles = null,
             <div>
               <strong>{tech.name_it}</strong> · {researchStatusLabel(status)}
               <div className="muted small">{tech.description}</div>
+              {techBonusOf && techBonusOf(tech.id) > 0 ? <div className="muted small">Bonus in battaglia della fanteria: +{pct(techBonusOf(tech.id))}</div> : null}
               {unlocksFor && unlocksFor(tech.id).length ? <div className="muted small">Sblocca: {unlocksFor(tech.id).join(', ')}</div> : null}
               <div className="muted small">{fmt(cost.ecv)} ECV · {cost.days} giorni{missing.length ? ` · prima: ${missing.join(', ')}` : ''}</div>
             </div>

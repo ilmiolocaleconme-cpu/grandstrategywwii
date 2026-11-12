@@ -99,7 +99,8 @@ import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
 import smallArmsFile from '../data/units/models/fucili_1930_1945.json';
 import { modelsUnlockedBy, producibleModels } from './data/smallArmsModels.js';
-import { averageQuality, rifleBonus, plannedMenByNation } from './rules/rifleQuality.js';
+import { averageQuality, rifleBonus, rifleTechBonus, plannedMenByNation, removeRiflePoints } from './rules/rifleQuality.js';
+import { isRifleProduct } from './game/economySystem.js';
 import securityFile from '../data/security/security.json';
 import diplomacyConfig from '../data/diplomacy/diplomacy.json';
 import diplomacyStart from '../data/diplomacy/relations_1936.json';
@@ -340,7 +341,17 @@ const rifleAverage = (state, nation) => {
   if (!men) { men = plannedMenByNation(state.forces, (id) => unitOf(state, id, UNITS_BY_ID)?.nation); RIFLE_MEN.set(state.forces, men); }
   return averageQuality(smallArmsFile, state.nations?.[nation]?.rifles?.points ?? 0, men[nation] ?? 0);
 };
-const THEATER_CTX = { rifleBonus: (state, u) => rifleBonus(smallArmsFile, u.category, rifleAverage(state, u.nation)), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+const rifleTotalBonus = (state, nation, category) => rifleBonus(smallArmsFile, category, rifleAverage(state, nation)) + rifleTechBonus(smallArmsFile, category, techsOf(state.nations?.[nation]));
+// fucili persi in battaglia: tolgono punti alla qualità della nazione (le voci di template equivalenti a un fucile prodotto contano come fucili)
+const onEquipmentLost = (state, unitId, lost) => {
+  const nation = unitOf(state, unitId, UNITS_BY_ID)?.nation;
+  const n = nation && state.nations?.[nation];
+  if (!n?.rifles) return state;
+  const rifles = Object.entries(lost).reduce((s, [k, q]) => (EQUIPMENT_SOURCES(nation, k).some(isRifleProduct) ? s + q : s), 0);
+  if (rifles <= 0) return state;
+  return { ...state, nations: { ...state.nations, [nation]: removeRiflePoints(n, rifles, rifleAverage(state, nation)) } };
+};
+const THEATER_CTX = { onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse)
@@ -945,7 +956,7 @@ export default function App() {
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
             <DiplomacyPanel partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
-            <ResearchPanel rows={researchRows} onStart={startResearch} unlocksFor={(id) => modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation)} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} rifleInfo={{ quality: rifleAverage(game, game.player), bonus: rifleBonus(smallArmsFile, 'infantry', rifleAverage(game, game.player)) }} />
+            <ResearchPanel rows={researchRows} onStart={startResearch} unlocksFor={(id) => modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation)} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} rifleInfo={{ quality: rifleAverage(game, game.player), bonus: rifleTotalBonus(game, game.player, 'infantry') }} techBonusOf={(id) => smallArmsFile.rifleQuality.techBonus?.[id] ?? 0} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
             {statusSection}
