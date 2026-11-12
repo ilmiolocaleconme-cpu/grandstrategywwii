@@ -28,6 +28,7 @@ import hospitalCare from '../data/medical/hospital_care.json';
 import { newGame, playableNations, initEconomy } from './game/state.js';
 import { advanceDay } from './game/engine.js';
 import { initForcesState, nationManpowerPool, createForcesActivationSystem } from './game/forcesState.js';
+import { createMobilizationSystem } from './game/mobilizationState.js';
 import tplFraInfantry1939 from '../data/units/templates/divisione_fanteria_francia_1939.json';
 import tplDeuInfantry1939 from '../data/units/templates/divisione_fanteria_germania_1939.json';
 import tplItaInfantry1940 from '../data/units/templates/divisione_fanteria_italia_1940.json';
@@ -87,6 +88,7 @@ import { loadIndustryCatalog } from './data/industry.js';
 import recipesFile from '../data/industry/recipes.json';
 import equipmentProductionTable from '../data/units/equipment/equipment_production.json';
 import equipmentUpgradeMap from '../data/units/equipment/upgrade_map.json';
+import mobilizationLaws from '../data/units/mobilization_laws.json';
 import { mergeEquipmentCatalogs } from './data/equipmentCatalog.js';
 import { buildEquipmentRecipes, withEquipmentPrices } from './data/equipmentProduction.js';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
@@ -325,6 +327,7 @@ if (ENTRENCH_ERRORS.length) console.error('Trinceramento: configurazione non val
 const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
+  createMobilizationSystem({ units: unitsFile.units, laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } }), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi
   (state) => commandersSystem({ units: unitsList(state, unitsFile.units), officers: officersFile.officers })(state), // comandi creati dal giocatore inclusi
   createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
