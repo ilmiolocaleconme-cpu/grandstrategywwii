@@ -16,7 +16,7 @@
       "wheat": 122.4
     },
     "AUT": {
-      "iron_ore": 613.5,
+      "iron_ore": 612.4,
       "wheat": 8.7
     },
     "BEL": {
@@ -51,7 +51,7 @@
       "wheat": 5
     },
     "CHL": {
-      "iron_ore": 230.3,
+      "iron_ore": 230,
       "sulphur": 5.2,
       "copper": 120.8
     },
@@ -68,10 +68,10 @@
       "oil": 85.8
     },
     "CUB": {
-      "iron_ore": 135.6
+      "iron_ore": 135.3
     },
     "CZE": {
-      "iron_ore": 230.4,
+      "iron_ore": 230,
       "wheat": 42,
       "tin": 0.1
     },
@@ -93,7 +93,7 @@
       "wheat": 25
     },
     "ESP": {
-      "iron_ore": 230.4,
+      "iron_ore": 230.1,
       "sulphur": 6.3,
       "wheat": 121.8
     },
@@ -120,7 +120,7 @@
       "wheat": 14.4
     },
     "HUN": {
-      "iron_ore": 46.9,
+      "iron_ore": 46.8,
       "bauxite": 695.4,
       "wheat": 42
     },
@@ -150,6 +150,7 @@
       "wheat": 208
     },
     "JPN": {
+      "iron_ore": 47.2,
       "coal": 450.8,
       "oil": 29.7,
       "sulphur": 36.6,
@@ -182,7 +183,7 @@
       "wheat": 14.4
     },
     "MEX": {
-      "iron_ore": 230.4,
+      "iron_ore": 230.1,
       "coal": 109.6,
       "oil": 145.8,
       "sulphur": 3.8,
@@ -203,7 +204,7 @@
       "tin": 7.5
     },
     "NOR": {
-      "iron_ore": 135.6
+      "iron_ore": 135.2
     },
     "PAL": {
       "wheat": 5.2
@@ -212,7 +213,7 @@
       "oil": 50.4
     },
     "POL": {
-      "iron_ore": 79.7,
+      "iron_ore": 79.6,
       "coal": 338.1,
       "wheat": 43.2
     },

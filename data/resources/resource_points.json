@@ -978,8 +978,8 @@
      "punteggio": 7,
      "periodoBase": "1937",
      "punteggioMax": 9,
-     "punti": 3.916,
-     "puntiMax": 11.317,
+     "punti": 3.909,
+     "puntiMax": 11.298,
      "province": [
       "P_AUT_STYRIA"
      ]
@@ -992,8 +992,8 @@
      "punteggio": 2,
      "periodoBase": "1937",
      "punteggioMax": 4,
-     "punti": 0.276,
-     "puntiMax": 0.797,
+     "punti": 0.275,
+     "puntiMax": 0.796,
      "province": [
       "P_BRA_AMAPA",
       "P_BRA_MINAS_GERAIS"
@@ -1008,7 +1008,7 @@
      "periodoBase": "1937",
      "punteggioMax": 3,
      "punti": 0.162,
-     "puntiMax": 0.469,
+     "puntiMax": 0.468,
      "province": [
       "P_BGR_SOFIA"
      ]
@@ -1021,8 +1021,8 @@
      "punteggio": 6,
      "periodoBase": "1936",
      "punteggioMax": 8,
-     "punti": 2.303,
-     "puntiMax": 6.657,
+     "punti": 2.3,
+     "puntiMax": 6.646,
      "province": [
       "P_CZE_BOHEMIA",
       "P_CZE_MORAVIAN_SILESIAN_COUNTRY"
@@ -1036,8 +1036,8 @@
      "punteggio": 6,
      "periodoBase": "1937",
      "punteggioMax": 8,
-     "punti": 2.303,
-     "puntiMax": 6.657,
+     "punti": 2.3,
+     "puntiMax": 6.646,
      "province": [
       "P_CHL_COQUIMBO"
      ]
@@ -1051,7 +1051,7 @@
      "periodoBase": "1936",
      "punteggioMax": 3,
      "punti": 0.162,
-     "puntiMax": 0.469,
+     "puntiMax": 0.468,
      "province": [
       "P_KOR_NORTH_HAMGYONG",
       "P_KOR_NORTH_HWANGHAE",
@@ -1066,8 +1066,8 @@
      "punteggio": 5,
      "periodoBase": "1937",
      "punteggioMax": 7,
-     "punti": 1.355,
-     "puntiMax": 3.916,
+     "punti": 1.353,
+     "puntiMax": 3.909,
      "province": [
       "P_CUB_GUANTANAMO",
       "P_CUB_HOLGUIN",
@@ -1082,8 +1082,8 @@
      "punteggio": 9,
      "periodoBase": "1938",
      "punteggioMax": 10,
-     "punti": 11.317,
-     "puntiMax": 19.238,
+     "punti": 11.298,
+     "puntiMax": 19.207,
      "province": [
       "P_FRA_MEURTHE_ET_MOSELLE",
       "P_FRA_MOSELLE"
@@ -1097,12 +1097,27 @@
      "punteggio": 8,
      "periodoBase": "1938",
      "punteggioMax": 10,
-     "punti": 6.657,
-     "puntiMax": 19.238,
+     "punti": 6.646,
+     "puntiMax": 19.207,
      "province": [
       "P_AUT_STYRIA",
       "P_DEU_SACHSEN",
       "P_DEU_THUERINGEN"
+     ]
+    },
+    {
+     "id": "iron_ore|Giappone|kamaishi",
+     "controllo": "Giappone",
+     "paese": "Giappone",
+     "luogo": "Kamaishi, Kutchan",
+     "punteggio": 1,
+     "periodoBase": "1936",
+     "punteggioMax": 3,
+     "punti": 0.162,
+     "puntiMax": 0.468,
+     "province": [
+      "P_JPN_HOKKAIDO",
+      "P_JPN_IWATE_PREFECTURE"
      ]
     },
     {
@@ -1113,8 +1128,8 @@
      "punteggio": 3,
      "periodoBase": "1936",
      "punteggioMax": 5,
-     "punti": 0.469,
-     "puntiMax": 1.355,
+     "punti": 0.468,
+     "puntiMax": 1.353,
      "province": [
       "P_GRC_ATTIKI",
       "P_GRC_NOTIO_AIGAIO",
@@ -1129,8 +1144,8 @@
      "punteggio": 6,
      "periodoBase": "1937",
      "punteggioMax": 8,
-     "punti": 2.303,
-     "puntiMax": 6.657,
+     "punti": 2.3,
+     "puntiMax": 6.646,
      "province": [
       "P_MEX_COLIMA",
       "P_MEX_DURANGO",
@@ -1145,8 +1160,8 @@
      "punteggio": 5,
      "periodoBase": "1937",
      "punteggioMax": 7,
-     "punti": 1.355,
-     "puntiMax": 3.916,
+     "punti": 1.353,
+     "puntiMax": 3.909,
      "province": [
       "P_NOR_FINNMARK",
       "P_NOR_NORDLAND",
@@ -1162,8 +1177,8 @@
      "punteggio": 4,
      "periodoBase": "1937",
      "punteggioMax": 6,
-     "punti": 0.797,
-     "puntiMax": 2.303,
+     "punti": 0.796,
+     "puntiMax": 2.3,
      "province": [
       "P_POL_KIELCE_VOIVODESHIP"
      ]
@@ -1176,8 +1191,8 @@
      "punteggio": 9,
      "periodoBase": "1938",
      "punteggioMax": 10,
-     "punti": 11.317,
-     "puntiMax": 19.238,
+     "punti": 11.298,
+     "puntiMax": 19.207,
      "province": [
       "P_GBR_NORTHAMPTONSHIRE",
       "P_GBR_YORKSHIRE"
@@ -1191,8 +1206,8 @@
      "punteggio": 2,
      "periodoBase": "1936",
      "punteggioMax": 4,
-     "punti": 0.276,
-     "puntiMax": 0.797,
+     "punti": 0.275,
+     "puntiMax": 0.796,
      "province": [
       "P_ROM_CARAS_SEVERIN",
       "P_ROM_HUNEDOARA",
@@ -1208,7 +1223,7 @@
      "periodoBase": "1937",
      "punteggioMax": 3,
      "punti": 0.162,
-     "puntiMax": 0.469,
+     "puntiMax": 0.468,
      "province": [
       "P_SLE_NORTHERN"
      ]
@@ -1221,8 +1236,8 @@
      "punteggio": 6,
      "periodoBase": "1935",
      "punteggioMax": 8,
-     "punti": 2.303,
-     "puntiMax": 6.657,
+     "punti": 2.3,
+     "puntiMax": 6.646,
      "province": [
       "P_ESP_ASTURIAS",
       "P_ESP_SANTANDER",
@@ -1237,8 +1252,8 @@
      "punteggio": 10,
      "periodoBase": "1938",
      "punteggioMax": 10,
-     "punti": 19.238,
-     "puntiMax": 19.238,
+     "punti": 19.207,
+     "puntiMax": 19.207,
      "province": [
       "P_USA_MINNESOTA"
      ]
@@ -1251,8 +1266,8 @@
      "punteggio": 9,
      "periodoBase": "1937",
      "punteggioMax": 10,
-     "punti": 11.317,
-     "puntiMax": 19.238,
+     "punti": 11.298,
+     "puntiMax": 19.207,
      "province": [
       "P_SWE_NORRBOTTEN"
      ]
@@ -1265,8 +1280,8 @@
      "punteggio": 6,
      "periodoBase": "1937",
      "punteggioMax": 8,
-     "punti": 2.303,
-     "puntiMax": 6.657,
+     "punti": 2.3,
+     "puntiMax": 6.646,
      "province": [
       "P_NFL_NEWFOUNDLAND_AND_LABRADOR"
      ]
@@ -1279,8 +1294,8 @@
      "punteggio": 10,
      "periodoBase": "1938",
      "punteggioMax": 10,
-     "punti": 19.238,
-     "puntiMax": 19.238,
+     "punti": 19.207,
+     "puntiMax": 19.207,
      "province": [
       "P_USSR_CHELYABINSK",
       "P_USSR_DNIPROPETROVSK"
@@ -1294,8 +1309,8 @@
      "punteggio": 3,
      "periodoBase": "1937",
      "punteggioMax": 5,
-     "punti": 0.469,
-     "puntiMax": 1.355,
+     "punti": 0.468,
+     "puntiMax": 1.353,
      "province": [
       "P_HUN_BORSOD_ABAUJ_ZEMPLEN"
      ]
@@ -1303,91 +1318,91 @@
    ],
    "byControl": {
     "Stati Uniti": {
-     "base": 19.238,
-     "max": 19.238
+     "base": 19.207,
+     "max": 19.207
     },
     "URSS": {
-     "base": 19.238,
-     "max": 19.238
+     "base": 19.207,
+     "max": 19.207
     },
     "Regno Unito": {
-     "base": 13.782,
-     "max": 26.364
+     "base": 13.76,
+     "max": 26.321
     },
     "Francia": {
-     "base": 11.317,
-     "max": 19.238
+     "base": 11.298,
+     "max": 19.207
     },
     "Svezia": {
-     "base": 11.317,
-     "max": 19.238
+     "base": 11.298,
+     "max": 19.207
     },
     "Germania": {
-     "base": 10.573,
-     "max": 30.555
+     "base": 10.555,
+     "max": 30.505
     },
     "Cecoslovacchia": {
-     "base": 2.303,
-     "max": 6.657
+     "base": 2.3,
+     "max": 6.646
     },
     "Cile": {
-     "base": 2.303,
-     "max": 6.657
+     "base": 2.3,
+     "max": 6.646
     },
     "Messico": {
-     "base": 2.303,
-     "max": 6.657
+     "base": 2.3,
+     "max": 6.646
     },
     "Spagna": {
-     "base": 2.303,
-     "max": 6.657
+     "base": 2.3,
+     "max": 6.646
     },
     "Cuba": {
-     "base": 1.355,
-     "max": 3.916
+     "base": 1.353,
+     "max": 3.909
     },
     "Norvegia": {
-     "base": 1.355,
-     "max": 3.916
+     "base": 1.353,
+     "max": 3.909
     },
     "Polonia": {
-     "base": 0.797,
-     "max": 2.303
+     "base": 0.796,
+     "max": 2.3
     },
     "Grecia": {
-     "base": 0.469,
-     "max": 1.355
+     "base": 0.468,
+     "max": 1.353
     },
     "Ungheria": {
-     "base": 0.469,
-     "max": 1.355
+     "base": 0.468,
+     "max": 1.353
+    },
+    "Giappone": {
+     "base": 0.324,
+     "max": 0.936
     },
     "Brasile": {
-     "base": 0.276,
-     "max": 0.797
+     "base": 0.275,
+     "max": 0.796
     },
     "Romania": {
-     "base": 0.276,
-     "max": 0.797
+     "base": 0.275,
+     "max": 0.796
     },
     "Bulgaria": {
      "base": 0.162,
-     "max": 0.469
-    },
-    "Giappone": {
-     "base": 0.162,
-     "max": 0.469
+     "max": 0.468
     }
    },
    "totale": {
-    "base": 99.998,
-    "max": 175.876,
+    "base": 99.999,
+    "max": 176.058,
     "potenziale": 1.76
    },
    "balance": {
     "topControl": "Stati Uniti",
     "topControlShare": 0.192,
-    "effectiveProducers": 7.55,
+    "effectiveProducers": 7.58,
     "controls": 19
    }
   },
@@ -4822,8 +4837,8 @@
   },
   "P_AUT_STYRIA": {
    "iron_ore": {
-    "base": 6.135,
-    "max": 17.73
+    "base": 6.124,
+    "max": 17.7
    }
   },
   "P_AUT_UPPER_AUSTRIA": {
@@ -4979,7 +4994,7 @@
   "P_BGR_SOFIA": {
    "iron_ore": {
     "base": 0.162,
-    "max": 0.469
+    "max": 0.468
    }
   },
   "P_BGR_STARA_ZAGORA": {
@@ -5055,7 +5070,7 @@
   "P_BRA_AMAPA": {
    "iron_ore": {
     "base": 0.138,
-    "max": 0.399
+    "max": 0.398
    },
    "manganese": {
     "base": 3.737,
@@ -5065,7 +5080,7 @@
   "P_BRA_MINAS_GERAIS": {
    "iron_ore": {
     "base": 0.138,
-    "max": 0.399
+    "max": 0.398
    },
    "manganese": {
     "base": 3.737,
@@ -5212,8 +5227,8 @@
   },
   "P_CHL_COQUIMBO": {
    "iron_ore": {
-    "base": 2.303,
-    "max": 6.657
+    "base": 2.3,
+    "max": 6.646
    }
   },
   "P_CHL_O_HIGGINS": {
@@ -5312,8 +5327,8 @@
   },
   "P_CUB_GUANTANAMO": {
    "iron_ore": {
-    "base": 0.452,
-    "max": 1.305
+    "base": 0.451,
+    "max": 1.303
    },
    "nickel": {
     "base": 1.242,
@@ -5322,8 +5337,8 @@
   },
   "P_CUB_HOLGUIN": {
    "iron_ore": {
-    "base": 0.452,
-    "max": 1.305
+    "base": 0.451,
+    "max": 1.303
    },
    "nickel": {
     "base": 1.242,
@@ -5332,8 +5347,8 @@
   },
   "P_CUB_SANTIAGO_DE_CUBA": {
    "iron_ore": {
-    "base": 0.452,
-    "max": 1.305
+    "base": 0.451,
+    "max": 1.303
    },
    "nickel": {
     "base": 1.242,
@@ -5346,8 +5361,8 @@
     "max": 8.379
    },
    "iron_ore": {
-    "base": 1.152,
-    "max": 3.329
+    "base": 1.15,
+    "max": 3.323
    },
    "mercury": {
     "base": 1.966,
@@ -5368,8 +5383,8 @@
   },
   "P_CZE_MORAVIAN_SILESIAN_COUNTRY": {
    "iron_ore": {
-    "base": 1.152,
-    "max": 3.329
+    "base": 1.15,
+    "max": 3.323
    },
    "wheat": {
     "base": 0.422,
@@ -5568,8 +5583,8 @@
   },
   "P_DEU_SACHSEN": {
    "iron_ore": {
-    "base": 2.219,
-    "max": 6.413
+    "base": 2.215,
+    "max": 6.402
    },
    "manganese": {
     "base": 0.761,
@@ -5620,8 +5635,8 @@
   },
   "P_DEU_THUERINGEN": {
    "iron_ore": {
-    "base": 2.219,
-    "max": 6.413
+    "base": 2.215,
+    "max": 6.402
    },
    "manganese": {
     "base": 0.761,
@@ -5798,8 +5813,8 @@
   },
   "P_ESP_ASTURIAS": {
    "iron_ore": {
-    "base": 0.768,
-    "max": 2.219
+    "base": 0.767,
+    "max": 2.215
    },
    "tungsten": {
     "base": 0.451,
@@ -6034,8 +6049,8 @@
   },
   "P_ESP_SANTANDER": {
    "iron_ore": {
-    "base": 0.768,
-    "max": 2.219
+    "base": 0.767,
+    "max": 2.215
    },
    "wheat": {
     "base": 0.116,
@@ -6100,8 +6115,8 @@
   },
   "P_ESP_VIZCAYA": {
    "iron_ore": {
-    "base": 0.768,
-    "max": 2.219
+    "base": 0.767,
+    "max": 2.215
    },
    "wheat": {
     "base": 0.116,
@@ -6622,8 +6637,8 @@
     "max": 6.209
    },
    "iron_ore": {
-    "base": 5.659,
-    "max": 9.619
+    "base": 5.649,
+    "max": 9.604
    },
    "wheat": {
     "base": 0.104,
@@ -6648,8 +6663,8 @@
     "max": 6.209
    },
    "iron_ore": {
-    "base": 5.659,
-    "max": 9.619
+    "base": 5.649,
+    "max": 9.604
    },
    "wheat": {
     "base": 0.104,
@@ -7210,8 +7225,8 @@
   },
   "P_GBR_NORTHAMPTONSHIRE": {
    "iron_ore": {
-    "base": 5.659,
-    "max": 9.619
+    "base": 5.649,
+    "max": 9.604
    },
    "wheat": {
     "base": 0.018,
@@ -7410,8 +7425,8 @@
     "max": 2.111
    },
    "iron_ore": {
-    "base": 5.659,
-    "max": 9.619
+    "base": 5.649,
+    "max": 9.604
    },
    "wheat": {
     "base": 0.018,
@@ -7437,7 +7452,7 @@
    },
    "iron_ore": {
     "base": 0.156,
-    "max": 0.452
+    "max": 0.451
    },
    "wheat": {
     "base": 0.097,
@@ -7465,7 +7480,7 @@
   "P_GRC_NOTIO_AIGAIO": {
    "iron_ore": {
     "base": 0.156,
-    "max": 0.452
+    "max": 0.451
    },
    "wheat": {
     "base": 0.097,
@@ -7479,7 +7494,7 @@
    },
    "iron_ore": {
     "base": 0.156,
-    "max": 0.452
+    "max": 0.451
    }
   },
   "P_HUN_BACS_KISKUN": {
@@ -7502,8 +7517,8 @@
   },
   "P_HUN_BORSOD_ABAUJ_ZEMPLEN": {
    "iron_ore": {
-    "base": 0.469,
-    "max": 1.355
+    "base": 0.468,
+    "max": 1.353
    },
    "wheat": {
     "base": 0.084,
@@ -8167,6 +8182,10 @@
     "base": 0.632,
     "max": 1.826
    },
+   "iron_ore": {
+    "base": 0.081,
+    "max": 0.234
+   },
    "oil": {
     "base": 0.198,
     "max": 0.572
@@ -8199,6 +8218,10 @@
    }
   },
   "P_JPN_IWATE_PREFECTURE": {
+   "iron_ore": {
+    "base": 0.081,
+    "max": 0.234
+   },
    "sulphur": {
     "base": 1.869,
     "max": 5.402
@@ -8760,14 +8783,14 @@
   },
   "P_MEX_COLIMA": {
    "iron_ore": {
-    "base": 0.768,
-    "max": 2.219
+    "base": 0.767,
+    "max": 2.215
    }
   },
   "P_MEX_DURANGO": {
    "iron_ore": {
-    "base": 0.768,
-    "max": 2.219
+    "base": 0.767,
+    "max": 2.215
    }
   },
   "P_MEX_HIDALGO": {
@@ -8778,8 +8801,8 @@
   },
   "P_MEX_MICHOACAN": {
    "iron_ore": {
-    "base": 0.768,
-    "max": 2.219
+    "base": 0.767,
+    "max": 2.215
    }
   },
   "P_MEX_NUEVO_LEON": {
@@ -8858,8 +8881,8 @@
   },
   "P_NFL_NEWFOUNDLAND_AND_LABRADOR": {
    "iron_ore": {
-    "base": 2.303,
-    "max": 6.657
+    "base": 2.3,
+    "max": 6.646
    }
   },
   "P_NGA_PLATEAU_STATE": {
@@ -9080,26 +9103,26 @@
   },
   "P_NOR_FINNMARK": {
    "iron_ore": {
-    "base": 0.339,
-    "max": 0.979
+    "base": 0.338,
+    "max": 0.977
    }
   },
   "P_NOR_NORDLAND": {
    "iron_ore": {
-    "base": 0.339,
-    "max": 0.979
+    "base": 0.338,
+    "max": 0.977
    }
   },
   "P_NOR_NORD_TRONDELAG": {
    "iron_ore": {
-    "base": 0.339,
-    "max": 0.979
+    "base": 0.338,
+    "max": 0.977
    }
   },
   "P_NOR_SOR_TRONDELAG": {
    "iron_ore": {
-    "base": 0.339,
-    "max": 0.979
+    "base": 0.338,
+    "max": 0.977
    }
   },
   "P_NOR_VEST_AGDER": {
@@ -9178,8 +9201,8 @@
     "max": 7.036
    },
    "iron_ore": {
-    "base": 0.797,
-    "max": 2.303
+    "base": 0.796,
+    "max": 2.3
    },
    "wheat": {
     "base": 0.106,
@@ -9491,7 +9514,7 @@
   "P_ROM_CARAS_SEVERIN": {
    "iron_ore": {
     "base": 0.092,
-    "max": 0.266
+    "max": 0.265
    },
    "wheat": {
     "base": 0.064,
@@ -9559,7 +9582,7 @@
   "P_ROM_HUNEDOARA": {
    "iron_ore": {
     "base": 0.092,
-    "max": 0.266
+    "max": 0.265
    },
    "wheat": {
     "base": 0.064,
@@ -9657,7 +9680,7 @@
   "P_ROM_TIMIS": {
    "iron_ore": {
     "base": 0.092,
-    "max": 0.266
+    "max": 0.265
    },
    "wheat": {
     "base": 0.064,
@@ -9703,7 +9726,7 @@
   "P_SLE_NORTHERN": {
    "iron_ore": {
     "base": 0.162,
-    "max": 0.469
+    "max": 0.468
    }
   },
   "P_SUR_MAROWIJNE": {
@@ -9774,8 +9797,8 @@
   },
   "P_SWE_NORRBOTTEN": {
    "iron_ore": {
-    "base": 11.317,
-    "max": 19.238
+    "base": 11.298,
+    "max": 19.207
    },
    "wheat": {
     "base": 0.028,
@@ -10216,8 +10239,8 @@
   },
   "P_USA_MINNESOTA": {
    "iron_ore": {
-    "base": 19.238,
-    "max": 19.238
+    "base": 19.207,
+    "max": 19.207
    }
   },
   "P_USA_MONTANA": {
@@ -10312,8 +10335,8 @@
   },
   "P_USSR_CHELYABINSK": {
    "iron_ore": {
-    "base": 9.619,
-    "max": 9.619
+    "base": 9.604,
+    "max": 9.604
    }
   },
   "P_USSR_DNIPROPETROVSK": {
@@ -10322,8 +10345,8 @@
     "max": 1.475
    },
    "iron_ore": {
-    "base": 9.619,
-    "max": 9.619
+    "base": 9.604,
+    "max": 9.604
    },
    "manganese": {
     "base": 20.808,

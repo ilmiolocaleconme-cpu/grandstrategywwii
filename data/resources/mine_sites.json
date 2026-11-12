@@ -51,12 +51,12 @@
     },
     "P_AUT_STYRIA": {
       "iron_ore": {
-        "base": 6.135,
-        "max": 17.73,
+        "base": 6.124,
+        "max": 17.7,
         "extraPerDay": [
-          445.6,
-          891.2,
-          1336.8
+          444.867,
+          889.733,
+          1334.6
         ]
       }
     },
@@ -139,11 +139,11 @@
     "P_BGR_SOFIA": {
       "iron_ore": {
         "base": 0.162,
-        "max": 0.469,
+        "max": 0.468,
         "extraPerDay": [
-          11.797,
-          23.593,
-          35.39
+          11.76,
+          23.52,
+          35.28
         ]
       }
     },
@@ -172,22 +172,22 @@
     "P_BRA_AMAPA": {
       "iron_ore": {
         "base": 0.138,
-        "max": 0.399,
+        "max": 0.398,
         "extraPerDay": [
-          10.03,
-          20.06,
-          30.09
+          9.993,
+          19.987,
+          29.98
         ]
       }
     },
     "P_BRA_MINAS_GERAIS": {
       "iron_ore": {
         "base": 0.138,
-        "max": 0.399,
+        "max": 0.398,
         "extraPerDay": [
-          10.03,
-          20.06,
-          30.09
+          9.993,
+          19.987,
+          29.98
         ]
       }
     },
@@ -237,12 +237,12 @@
     },
     "P_CHL_COQUIMBO": {
       "iron_ore": {
-        "base": 2.303,
-        "max": 6.657,
+        "base": 2.3,
+        "max": 6.646,
         "extraPerDay": [
-          167.323,
-          334.647,
-          501.97
+          167.02,
+          334.04,
+          501.06
         ]
       }
     },
@@ -314,45 +314,45 @@
     },
     "P_CUB_GUANTANAMO": {
       "iron_ore": {
-        "base": 0.452,
-        "max": 1.305,
+        "base": 0.451,
+        "max": 1.303,
         "extraPerDay": [
-          32.783,
-          65.567,
-          98.35
+          32.743,
+          65.487,
+          98.23
         ]
       }
     },
     "P_CUB_HOLGUIN": {
       "iron_ore": {
-        "base": 0.452,
-        "max": 1.305,
+        "base": 0.451,
+        "max": 1.303,
         "extraPerDay": [
-          32.783,
-          65.567,
-          98.35
+          32.743,
+          65.487,
+          98.23
         ]
       }
     },
     "P_CUB_SANTIAGO_DE_CUBA": {
       "iron_ore": {
-        "base": 0.452,
-        "max": 1.305,
+        "base": 0.451,
+        "max": 1.303,
         "extraPerDay": [
-          32.783,
-          65.567,
-          98.35
+          32.743,
+          65.487,
+          98.23
         ]
       }
     },
     "P_CZE_BOHEMIA": {
       "iron_ore": {
-        "base": 1.152,
-        "max": 3.329,
+        "base": 1.15,
+        "max": 3.323,
         "extraPerDay": [
-          83.663,
-          167.327,
-          250.99
+          83.51,
+          167.02,
+          250.53
         ],
         "legacy": true
       },
@@ -369,14 +369,14 @@
     },
     "P_CZE_BOHEMIA_SP1": {
       "iron_ore": {
-        "base": 1.152,
-        "max": 3.329,
+        "base": 1.15,
+        "max": 3.323,
         "share": 0.172,
         "province": "P_CZE_BOHEMIA",
         "extraPerDay": [
-          14.36,
-          28.719,
-          43.079
+          14.333,
+          28.666,
+          43
         ]
       },
       "tin": {
@@ -393,14 +393,14 @@
     },
     "P_CZE_BOHEMIA_SP2": {
       "iron_ore": {
-        "base": 1.152,
-        "max": 3.329,
+        "base": 1.15,
+        "max": 3.323,
         "share": 0.828,
         "province": "P_CZE_BOHEMIA",
         "extraPerDay": [
-          69.304,
-          138.608,
-          207.911
+          69.177,
+          138.354,
+          207.53
         ]
       },
       "tin": {
@@ -417,12 +417,12 @@
     },
     "P_CZE_MORAVIAN_SILESIAN_COUNTRY": {
       "iron_ore": {
-        "base": 1.152,
-        "max": 3.329,
+        "base": 1.15,
+        "max": 3.323,
         "extraPerDay": [
-          83.663,
-          167.327,
-          250.99
+          83.51,
+          167.02,
+          250.53
         ]
       }
     },
@@ -515,12 +515,12 @@
     },
     "P_DEU_SACHSEN": {
       "iron_ore": {
-        "base": 2.219,
-        "max": 6.413,
+        "base": 2.215,
+        "max": 6.402,
         "extraPerDay": [
-          161.177,
-          322.353,
-          483.53
+          160.907,
+          321.813,
+          482.72
         ],
         "legacy": true
       },
@@ -537,14 +537,14 @@
     },
     "P_DEU_SACHSEN_SP1": {
       "iron_ore": {
-        "base": 2.219,
-        "max": 6.413,
+        "base": 2.215,
+        "max": 6.402,
         "share": 0.277,
         "province": "P_DEU_SACHSEN",
         "extraPerDay": [
-          44.617,
-          89.234,
-          133.851
+          44.542,
+          89.084,
+          133.627
         ]
       },
       "tin": {
@@ -561,14 +561,14 @@
     },
     "P_DEU_SACHSEN_SP2": {
       "iron_ore": {
-        "base": 2.219,
-        "max": 6.413,
+        "base": 2.215,
+        "max": 6.402,
         "share": 0.723,
         "province": "P_DEU_SACHSEN",
         "extraPerDay": [
-          116.56,
-          233.119,
-          349.679
+          116.364,
+          232.729,
+          349.093
         ]
       },
       "tin": {
@@ -647,12 +647,12 @@
     },
     "P_DEU_THUERINGEN": {
       "iron_ore": {
-        "base": 2.219,
-        "max": 6.413,
+        "base": 2.215,
+        "max": 6.402,
         "extraPerDay": [
-          161.177,
-          322.353,
-          483.53
+          160.907,
+          321.813,
+          482.72
         ]
       }
     },
@@ -713,12 +713,12 @@
     },
     "P_ESP_ASTURIAS": {
       "iron_ore": {
-        "base": 0.768,
-        "max": 2.219,
+        "base": 0.767,
+        "max": 2.215,
         "extraPerDay": [
-          55.763,
-          111.527,
-          167.29
+          55.65,
+          111.3,
+          166.95
         ]
       }
     },
@@ -860,39 +860,39 @@
     },
     "P_ESP_SANTANDER": {
       "iron_ore": {
-        "base": 0.768,
-        "max": 2.219,
+        "base": 0.767,
+        "max": 2.215,
         "extraPerDay": [
-          55.763,
-          111.527,
-          167.29
+          55.65,
+          111.3,
+          166.95
         ],
         "legacy": true
       }
     },
     "P_ESP_SANTANDER_SP1": {
       "iron_ore": {
-        "base": 0.768,
-        "max": 2.219,
+        "base": 0.767,
+        "max": 2.215,
         "share": 0.873,
         "province": "P_ESP_SANTANDER",
         "extraPerDay": [
-          48.666,
-          97.332,
-          145.997
+          48.567,
+          97.134,
+          145.701
         ]
       }
     },
     "P_ESP_SANTANDER_SP2": {
       "iron_ore": {
-        "base": 0.768,
-        "max": 2.219,
+        "base": 0.767,
+        "max": 2.215,
         "share": 0.127,
         "province": "P_ESP_SANTANDER",
         "extraPerDay": [
-          7.098,
-          14.195,
-          21.293
+          7.083,
+          14.166,
+          21.249
         ]
       }
     },
@@ -936,12 +936,12 @@
     },
     "P_ESP_VIZCAYA": {
       "iron_ore": {
-        "base": 0.768,
-        "max": 2.219,
+        "base": 0.767,
+        "max": 2.215,
         "extraPerDay": [
-          55.763,
-          111.527,
-          167.29
+          55.65,
+          111.3,
+          166.95
         ]
       }
     },
@@ -1032,12 +1032,12 @@
         ]
       },
       "iron_ore": {
-        "base": 5.659,
-        "max": 9.619,
+        "base": 5.649,
+        "max": 9.604,
         "extraPerDay": [
-          164.063,
-          328.127,
-          492.19
+          163.847,
+          327.693,
+          491.54
         ]
       }
     },
@@ -1052,12 +1052,12 @@
         ]
       },
       "iron_ore": {
-        "base": 5.659,
-        "max": 9.619,
+        "base": 5.649,
+        "max": 9.604,
         "extraPerDay": [
-          164.063,
-          328.127,
-          492.19
+          163.847,
+          327.693,
+          491.54
         ]
       }
     },
@@ -1189,12 +1189,12 @@
     },
     "P_GBR_NORTHAMPTONSHIRE": {
       "iron_ore": {
-        "base": 5.659,
-        "max": 9.619,
+        "base": 5.649,
+        "max": 9.604,
         "extraPerDay": [
-          164.063,
-          328.127,
-          492.19
+          163.847,
+          327.693,
+          491.54
         ]
       }
     },
@@ -1243,12 +1243,12 @@
         "legacy": true
       },
       "iron_ore": {
-        "base": 5.659,
-        "max": 9.619,
+        "base": 5.649,
+        "max": 9.604,
         "extraPerDay": [
-          164.063,
-          328.127,
-          492.19
+          163.847,
+          327.693,
+          491.54
         ],
         "legacy": true
       }
@@ -1266,14 +1266,14 @@
         ]
       },
       "iron_ore": {
-        "base": 5.659,
-        "max": 9.619,
+        "base": 5.649,
+        "max": 9.604,
         "share": 0.465,
         "province": "P_GBR_YORKSHIRE",
         "extraPerDay": [
-          76.253,
-          152.505,
-          228.758
+          76.152,
+          152.304,
+          228.456
         ]
       }
     },
@@ -1290,14 +1290,14 @@
         ]
       },
       "iron_ore": {
-        "base": 5.659,
-        "max": 9.619,
+        "base": 5.649,
+        "max": 9.604,
         "share": 0.535,
         "province": "P_GBR_YORKSHIRE",
         "extraPerDay": [
-          87.811,
-          175.621,
-          263.432
+          87.695,
+          175.39,
+          263.084
         ]
       }
     },
@@ -1314,11 +1314,11 @@
       },
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "extraPerDay": [
-          11.373,
-          22.747,
-          34.12
+          11.337,
+          22.673,
+          34.01
         ],
         "legacy": true
       }
@@ -1337,13 +1337,13 @@
       },
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.787,
         "province": "P_GRC_ATTIKI",
         "extraPerDay": [
-          8.951,
-          17.902,
-          26.854
+          8.922,
+          17.845,
+          26.767
         ]
       }
     },
@@ -1361,13 +1361,13 @@
       },
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.14,
         "province": "P_GRC_ATTIKI",
         "extraPerDay": [
-          1.589,
-          3.178,
-          4.767
+          1.584,
+          3.168,
+          4.752
         ]
       }
     },
@@ -1385,24 +1385,24 @@
       },
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.073,
         "province": "P_GRC_ATTIKI",
         "extraPerDay": [
-          0.833,
-          1.666,
-          2.499
+          0.83,
+          1.661,
+          2.491
         ]
       }
     },
     "P_GRC_NOTIO_AIGAIO": {
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "extraPerDay": [
-          11.373,
-          22.747,
-          34.12
+          11.337,
+          22.673,
+          34.01
         ],
         "legacy": true
       }
@@ -1410,91 +1410,91 @@
     "P_GRC_NOTIO_AIGAIO_SP1": {
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.153,
         "province": "P_GRC_NOTIO_AIGAIO",
         "extraPerDay": [
-          1.742,
-          3.483,
-          5.225
+          1.736,
+          3.472,
+          5.208
         ]
       }
     },
     "P_GRC_NOTIO_AIGAIO_SP10": {
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.172,
         "province": "P_GRC_NOTIO_AIGAIO",
         "extraPerDay": [
-          1.959,
-          3.919,
-          5.878
+          1.953,
+          3.906,
+          5.859
         ]
       }
     },
     "P_GRC_NOTIO_AIGAIO_SP15": {
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.121,
         "province": "P_GRC_NOTIO_AIGAIO",
         "extraPerDay": [
-          1.375,
-          2.749,
-          4.124
+          1.37,
+          2.741,
+          4.111
         ]
       }
     },
     "P_GRC_NOTIO_AIGAIO_SP16": {
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.189,
         "province": "P_GRC_NOTIO_AIGAIO",
         "extraPerDay": [
-          2.145,
-          4.289,
-          6.434
+          2.138,
+          4.275,
+          6.413
         ]
       }
     },
     "P_GRC_NOTIO_AIGAIO_SP4": {
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.157,
         "province": "P_GRC_NOTIO_AIGAIO",
         "extraPerDay": [
-          1.782,
-          3.563,
-          5.345
+          1.776,
+          3.552,
+          5.328
         ]
       }
     },
     "P_GRC_NOTIO_AIGAIO_SP7": {
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.118,
         "province": "P_GRC_NOTIO_AIGAIO",
         "extraPerDay": [
-          1.342,
-          2.685,
-          4.027
+          1.338,
+          2.676,
+          4.014
         ]
       }
     },
     "P_GRC_NOTIO_AIGAIO_SP9": {
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.09,
         "province": "P_GRC_NOTIO_AIGAIO",
         "extraPerDay": [
-          1.029,
-          2.058,
-          3.087
+          1.026,
+          2.051,
+          3.077
         ]
       }
     },
@@ -1511,11 +1511,11 @@
       },
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "extraPerDay": [
-          11.373,
-          22.747,
-          34.12
+          11.337,
+          22.673,
+          34.01
         ],
         "legacy": true
       }
@@ -1534,13 +1534,13 @@
       },
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.014,
         "province": "P_GRC_STEREA_ELLADA",
         "extraPerDay": [
-          0.154,
-          0.307,
-          0.461
+          0.153,
+          0.306,
+          0.46
         ]
       }
     },
@@ -1558,13 +1558,13 @@
       },
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.75,
         "province": "P_GRC_STEREA_ELLADA",
         "extraPerDay": [
-          8.529,
-          17.059,
-          25.588
+          8.502,
+          17.004,
+          25.505
         ]
       }
     },
@@ -1582,24 +1582,24 @@
       },
       "iron_ore": {
         "base": 0.156,
-        "max": 0.452,
+        "max": 0.451,
         "share": 0.237,
         "province": "P_GRC_STEREA_ELLADA",
         "extraPerDay": [
-          2.69,
-          5.381,
-          8.071
+          2.682,
+          5.363,
+          8.045
         ]
       }
     },
     "P_HUN_BORSOD_ABAUJ_ZEMPLEN": {
       "iron_ore": {
-        "base": 0.469,
-        "max": 1.355,
+        "base": 0.468,
+        "max": 1.353,
         "extraPerDay": [
-          34.05,
-          68.1,
-          102.15
+          34.01,
+          68.02,
+          102.03
         ]
       }
     },
@@ -2027,6 +2027,15 @@
           172.075
         ]
       },
+      "iron_ore": {
+        "base": 0.081,
+        "max": 0.234,
+        "extraPerDay": [
+          5.88,
+          11.76,
+          17.64
+        ]
+      },
       "oil": {
         "base": 0.198,
         "max": 0.572,
@@ -2047,6 +2056,15 @@
       }
     },
     "P_JPN_IWATE_PREFECTURE": {
+      "iron_ore": {
+        "base": 0.081,
+        "max": 0.234,
+        "extraPerDay": [
+          5.88,
+          11.76,
+          17.64
+        ]
+      },
       "sulphur": {
         "base": 1.869,
         "max": 5.402,
@@ -2249,34 +2267,34 @@
     },
     "P_MEX_COLIMA": {
       "iron_ore": {
-        "base": 0.768,
-        "max": 2.219,
+        "base": 0.767,
+        "max": 2.215,
         "extraPerDay": [
-          55.763,
-          111.527,
-          167.29
+          55.65,
+          111.3,
+          166.95
         ]
       }
     },
     "P_MEX_DURANGO": {
       "iron_ore": {
-        "base": 0.768,
-        "max": 2.219,
+        "base": 0.767,
+        "max": 2.215,
         "extraPerDay": [
-          55.763,
-          111.527,
-          167.29
+          55.65,
+          111.3,
+          166.95
         ]
       }
     },
     "P_MEX_MICHOACAN": {
       "iron_ore": {
-        "base": 0.768,
-        "max": 2.219,
+        "base": 0.767,
+        "max": 2.215,
         "extraPerDay": [
-          55.763,
-          111.527,
-          167.29
+          55.65,
+          111.3,
+          166.95
         ]
       }
     },
@@ -2337,12 +2355,12 @@
     },
     "P_NFL_NEWFOUNDLAND_AND_LABRADOR": {
       "iron_ore": {
-        "base": 2.303,
-        "max": 6.657,
+        "base": 2.3,
+        "max": 6.646,
         "extraPerDay": [
-          167.323,
-          334.647,
-          501.97
+          167.02,
+          334.04,
+          501.06
         ]
       }
     },
@@ -2682,322 +2700,322 @@
     },
     "P_NOR_FINNMARK": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "extraPerDay": [
-          24.597,
-          49.193,
-          73.79
+          24.557,
+          49.113,
+          73.67
         ],
         "legacy": true
       }
     },
     "P_NOR_FINNMARK_SP11": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.017,
         "province": "P_NOR_FINNMARK",
         "extraPerDay": [
-          0.422,
-          0.844,
-          1.266
+          0.421,
+          0.843,
+          1.264
         ]
       }
     },
     "P_NOR_FINNMARK_SP2": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.009,
         "province": "P_NOR_FINNMARK",
         "extraPerDay": [
           0.213,
-          0.427,
-          0.64
+          0.426,
+          0.639
         ]
       }
     },
     "P_NOR_FINNMARK_SP4": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.016,
         "province": "P_NOR_FINNMARK",
         "extraPerDay": [
           0.389,
-          0.778,
-          1.168
+          0.777,
+          1.166
         ]
       }
     },
     "P_NOR_FINNMARK_SP5": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.007,
         "province": "P_NOR_FINNMARK",
         "extraPerDay": [
           0.161,
-          0.322,
-          0.483
+          0.321,
+          0.482
         ]
       }
     },
     "P_NOR_FINNMARK_SP6": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.012,
         "province": "P_NOR_FINNMARK",
         "extraPerDay": [
           0.298,
-          0.596,
-          0.895
+          0.595,
+          0.893
         ]
       }
     },
     "P_NOR_FINNMARK_SP8": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.005,
         "province": "P_NOR_FINNMARK",
         "extraPerDay": [
           0.121,
-          0.242,
-          0.363
+          0.241,
+          0.362
         ]
       }
     },
     "P_NOR_FINNMARK_SP9": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.935,
         "province": "P_NOR_FINNMARK",
         "extraPerDay": [
-          22.992,
-          45.984,
-          68.976
+          22.955,
+          45.909,
+          68.864
         ]
       }
     },
     "P_NOR_NORDLAND": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "extraPerDay": [
-          24.597,
-          49.193,
-          73.79
+          24.557,
+          49.113,
+          73.67
         ],
         "legacy": true
       }
     },
     "P_NOR_NORDLAND_SP1": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.013,
         "province": "P_NOR_NORDLAND",
         "extraPerDay": [
-          0.32,
-          0.64,
-          0.96
+          0.319,
+          0.639,
+          0.958
         ]
       }
     },
     "P_NOR_NORDLAND_SP11": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.012,
         "province": "P_NOR_NORDLAND",
         "extraPerDay": [
-          0.299,
-          0.598,
-          0.897
+          0.298,
+          0.597,
+          0.895
         ]
       }
     },
     "P_NOR_NORDLAND_SP15": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.008,
         "province": "P_NOR_NORDLAND",
         "extraPerDay": [
           0.189,
-          0.378,
-          0.567
+          0.377,
+          0.566
         ]
       }
     },
     "P_NOR_NORDLAND_SP19": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.871,
         "province": "P_NOR_NORDLAND",
         "extraPerDay": [
-          21.433,
-          42.867,
-          64.3
+          21.398,
+          42.797,
+          64.195
         ]
       }
     },
     "P_NOR_NORDLAND_SP25": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.011,
         "province": "P_NOR_NORDLAND",
         "extraPerDay": [
           0.272,
-          0.545,
-          0.817
+          0.544,
+          0.816
         ]
       }
     },
     "P_NOR_NORDLAND_SP3": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.027,
         "province": "P_NOR_NORDLAND",
         "extraPerDay": [
-          0.666,
-          1.332,
-          1.998
+          0.665,
+          1.33,
+          1.995
         ]
       }
     },
     "P_NOR_NORDLAND_SP4": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.041,
         "province": "P_NOR_NORDLAND",
         "extraPerDay": [
-          1.018,
-          2.036,
-          3.054
+          1.016,
+          2.032,
+          3.049
         ]
       }
     },
     "P_NOR_NORDLAND_SP8": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.016,
         "province": "P_NOR_NORDLAND",
         "extraPerDay": [
-          0.399,
-          0.798,
-          1.197
+          0.398,
+          0.797,
+          1.195
         ]
       }
     },
     "P_NOR_NORD_TRONDELAG": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "extraPerDay": [
-          24.597,
-          49.193,
-          73.79
+          24.557,
+          49.113,
+          73.67
         ],
         "legacy": true
       }
     },
     "P_NOR_NORD_TRONDELAG_SP5": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.174,
         "province": "P_NOR_NORD_TRONDELAG",
         "extraPerDay": [
-          4.282,
-          8.564,
-          12.845
+          4.275,
+          8.55,
+          12.824
         ]
       }
     },
     "P_NOR_NORD_TRONDELAG_SP8": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.011,
         "province": "P_NOR_NORD_TRONDELAG",
         "extraPerDay": [
           0.27,
-          0.541,
-          0.811
+          0.54,
+          0.809
         ]
       }
     },
     "P_NOR_NORD_TRONDELAG_SP9": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.815,
         "province": "P_NOR_NORD_TRONDELAG",
         "extraPerDay": [
-          20.045,
-          40.089,
-          60.134
+          20.012,
+          40.024,
+          60.036
         ]
       }
     },
     "P_NOR_SOR_TRONDELAG": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "extraPerDay": [
-          24.597,
-          49.193,
-          73.79
+          24.557,
+          49.113,
+          73.67
         ],
         "legacy": true
       }
     },
     "P_NOR_SOR_TRONDELAG_SP2": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.158,
         "province": "P_NOR_SOR_TRONDELAG",
         "extraPerDay": [
-          3.879,
-          7.758,
-          11.637
+          3.873,
+          7.746,
+          11.618
         ]
       }
     },
     "P_NOR_SOR_TRONDELAG_SP5": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.041,
         "province": "P_NOR_SOR_TRONDELAG",
         "extraPerDay": [
-          1.019,
-          2.037,
-          3.056
+          1.017,
+          2.034,
+          3.051
         ]
       }
     },
     "P_NOR_SOR_TRONDELAG_SP6": {
       "iron_ore": {
-        "base": 0.339,
-        "max": 0.979,
+        "base": 0.338,
+        "max": 0.977,
         "share": 0.801,
         "province": "P_NOR_SOR_TRONDELAG",
         "extraPerDay": [
-          19.699,
-          39.398,
-          59.097
+          19.667,
+          39.334,
+          59.001
         ]
       }
     },
@@ -3034,12 +3052,12 @@
         ]
       },
       "iron_ore": {
-        "base": 0.797,
-        "max": 2.303,
+        "base": 0.796,
+        "max": 2.3,
         "extraPerDay": [
-          57.877,
-          115.753,
-          173.63
+          57.8,
+          115.6,
+          173.4
         ]
       }
     },
@@ -3144,11 +3162,11 @@
     "P_ROM_CARAS_SEVERIN": {
       "iron_ore": {
         "base": 0.092,
-        "max": 0.266,
+        "max": 0.265,
         "extraPerDay": [
-          6.687,
-          13.373,
-          20.06
+          6.65,
+          13.3,
+          19.95
         ]
       }
     },
@@ -3166,11 +3184,11 @@
     "P_ROM_HUNEDOARA": {
       "iron_ore": {
         "base": 0.092,
-        "max": 0.266,
+        "max": 0.265,
         "extraPerDay": [
-          6.687,
-          13.373,
-          20.06
+          6.65,
+          13.3,
+          19.95
         ]
       }
     },
@@ -3188,11 +3206,11 @@
     "P_ROM_TIMIS": {
       "iron_ore": {
         "base": 0.092,
-        "max": 0.266,
+        "max": 0.265,
         "extraPerDay": [
-          6.687,
-          13.373,
-          20.06
+          6.65,
+          13.3,
+          19.95
         ]
       }
     },
@@ -3221,11 +3239,11 @@
     "P_SLE_NORTHERN": {
       "iron_ore": {
         "base": 0.162,
-        "max": 0.469,
+        "max": 0.468,
         "extraPerDay": [
-          11.797,
-          23.593,
-          35.39
+          11.76,
+          23.52,
+          35.28
         ]
       }
     },
@@ -3253,39 +3271,39 @@
     },
     "P_SWE_NORRBOTTEN": {
       "iron_ore": {
-        "base": 11.317,
-        "max": 19.238,
+        "base": 11.298,
+        "max": 19.207,
         "extraPerDay": [
-          328.16,
-          656.32,
-          984.48
+          327.657,
+          655.313,
+          982.97
         ],
         "legacy": true
       }
     },
     "P_SWE_NORRBOTTEN_SP2": {
       "iron_ore": {
-        "base": 11.317,
-        "max": 19.238,
+        "base": 11.298,
+        "max": 19.207,
         "share": 0.98,
         "province": "P_SWE_NORRBOTTEN",
         "extraPerDay": [
-          321.75,
-          643.499,
-          965.249
+          321.256,
+          642.512,
+          963.768
         ]
       }
     },
     "P_SWE_NORRBOTTEN_SP3": {
       "iron_ore": {
-        "base": 11.317,
-        "max": 19.238,
+        "base": 11.298,
+        "max": 19.207,
         "share": 0.02,
         "province": "P_SWE_NORRBOTTEN",
         "extraPerDay": [
-          6.41,
-          12.821,
-          19.231
+          6.401,
+          12.801,
+          19.202
         ]
       }
     },
@@ -3368,12 +3386,12 @@
     },
     "P_USA_MINNESOTA": {
       "iron_ore": {
-        "base": 19.238,
-        "max": 19.238,
+        "base": 19.207,
+        "max": 19.207,
         "extraPerDay": [
-          64.127,
-          128.253,
-          192.38
+          64.023,
+          128.047,
+          192.07
         ]
       }
     },
@@ -3492,39 +3510,39 @@
     },
     "P_USSR_CHELYABINSK": {
       "iron_ore": {
-        "base": 9.619,
-        "max": 9.619,
+        "base": 9.604,
+        "max": 9.604,
         "extraPerDay": [
-          32.063,
-          64.127,
-          96.19
+          32.013,
+          64.027,
+          96.04
         ],
         "legacy": true
       }
     },
     "P_USSR_CHELYABINSK_SP1": {
       "iron_ore": {
-        "base": 9.619,
-        "max": 9.619,
+        "base": 9.604,
+        "max": 9.604,
         "share": 0.991,
         "province": "P_USSR_CHELYABINSK",
         "extraPerDay": [
-          31.766,
-          63.532,
-          95.299
+          31.717,
+          63.433,
+          95.15
         ]
       }
     },
     "P_USSR_CHELYABINSK_SP2": {
       "iron_ore": {
-        "base": 9.619,
-        "max": 9.619,
+        "base": 9.604,
+        "max": 9.604,
         "share": 0.009,
         "province": "P_USSR_CHELYABINSK",
         "extraPerDay": [
           0.297,
-          0.594,
-          0.891
+          0.593,
+          0.89
         ]
       }
     },
@@ -3539,12 +3557,12 @@
         ]
       },
       "iron_ore": {
-        "base": 9.619,
-        "max": 9.619,
+        "base": 9.604,
+        "max": 9.604,
         "extraPerDay": [
-          32.063,
-          64.127,
-          96.19
+          32.013,
+          64.027,
+          96.04
         ]
       }
     },

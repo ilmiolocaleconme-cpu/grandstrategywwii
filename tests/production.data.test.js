@@ -19,7 +19,7 @@ test('produzione: il rame è nel catalogo risorse come materia prima', () => {
 
 const tin = [
   ...parseCsv(readFileSync(url('data/resources/produzione_stagno_1936.csv'), 'utf8'), { name: 'produzione_stagno_1936.csv' }),
-  ...parseCsv(readFileSync(url('data/resources/produzione_corea_1936.csv'), 'utf8'), { name: 'produzione_corea_1936.csv' }), // 12/11/2026
+  ...parseCsv(readFileSync(url('data/resources/produzione_impero_giapponese_1936.csv'), 'utf8'), { name: 'produzione_impero_giapponese_1936.csv' }), // 12/11/2026
 ];
 
 test('produzione: il file generato coincide con la fusione dei CSV (primo, completo, stagno, Corea)', () => {
@@ -87,4 +87,10 @@ test('Corea 1936 (ricerca del 12/11/2026): carbone circa 2,1 Mt e ferro circa 0,
   assert.ok(kor.every((r) => r.source === 'ricerca'));
   assert.ok(Math.abs(kor.find((r) => r.resource === 'coal').mt - 2.075) < 0.001);
   assert.ok(Math.abs(kor.find((r) => r.resource === 'iron_ore').mt - 0.234) < 0.001);
+});
+
+test('Giappone 1936 (ricerca del 12/11/2026): ferro circa 0,75 Mt (Kamaishi, Kutchan)', () => {
+  const jp = doc.rows.find((r) => r.prefix === 'JPN' && r.resource === 'iron_ore');
+  assert.equal(jp.source, 'ricerca');
+  assert.ok(Math.abs(jp.mt - 0.754) < 0.001);
 });

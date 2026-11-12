@@ -1686,6 +1686,7 @@
   "P_JPN_HOKKAIDO": [
    "oil",
    "coal",
+   "iron_ore",
    "wheat",
    "sulphur"
   ],
@@ -1699,6 +1700,7 @@
    "wheat"
   ],
   "P_JPN_IWATE_PREFECTURE": [
+   "iron_ore",
    "wheat",
    "sulphur"
   ],

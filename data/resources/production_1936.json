@@ -2,7 +2,7 @@
   "schema": "production-1936-v1",
   "quality": "USER_ESTIMATE",
   "unit": "Mt/anno",
-  "note": "Stime 1936 fornite dall'utente (non verificate su fonti primarie; il ferro di USA, Francia, URSS, Regno Unito, Germania e Belgio coincide con US Bureau of Mines e NBER). Il file «completo» prevale sul primo dove si sovrappongono; le righe del primo che il completo non ha si aggiungono. Generato da scripts/build-production.js: non modificare a mano. Dal 29/10/2026 lo stagno (5 territori) viene da una terza sorgente, produzione_stagno_1936.csv: cifre dell'International Tin Research and Development Council (Statistical Year Book 1937) riassunte in Nature 140, 176, in tonnellate lunghe, controllo incrociato col totale mondiale USGS (182.000 t metriche); NON sono stime dell'utente e non sono verificate su fonti primarie. Riga con source «ricerca». Dal 12/11/2026 anche carbone e ferro della Corea (produzione_corea_1936.csv: Statistisches Jahrbuch 1938 e British Geological Survey 1936-38, ricerca web, non verificati su fonti primarie).",
+  "note": "Stime 1936 fornite dall'utente (non verificate su fonti primarie; il ferro di USA, Francia, URSS, Regno Unito, Germania e Belgio coincide con US Bureau of Mines e NBER). Il file «completo» prevale sul primo dove si sovrappongono; le righe del primo che il completo non ha si aggiungono. Generato da scripts/build-production.js: non modificare a mano. Dal 29/10/2026 lo stagno (5 territori) viene da una terza sorgente, produzione_stagno_1936.csv: cifre dell'International Tin Research and Development Council (Statistical Year Book 1937) riassunte in Nature 140, 176, in tonnellate lunghe, controllo incrociato col totale mondiale USGS (182.000 t metriche); NON sono stime dell'utente e non sono verificate su fonti primarie. Riga con source «ricerca». Dal 12/11/2026 anche carbone e ferro della Corea e ferro del Giappone (produzione_impero_giapponese_1936.csv: Statistisches Jahrbuch 1938 e British Geological Survey 1936-38, ricerca web, non verificati su fonti primarie).",
   "conversion": {
     "realPerGame": 43.8,
     "quality": "DESIGN_DEFAULT",
@@ -342,6 +342,15 @@
       "mt": 0.8,
       "context": "Minerale esportato sia nel Regno Unito sia in Germania prima del blocco.",
       "source": "completo"
+    },
+    {
+      "resource": "iron_ore",
+      "territory": "Giappone",
+      "prefix": "JPN",
+      "region": "Kamaishi, Kutchan",
+      "mt": 0.754415,
+      "context": "Madrepatria: Kamaishi (Iwate) e Kutchan (Hokkaido). British Geological Survey, Statistical Summary of the Mineral Industry 1936-1938: Giappone 1936 = 742.500 t lunghe di minerale (allineamento delle colonne incerto). Ricerca web di Claude del 12/11/2026, non verificata su fonti primarie.",
+      "source": "ricerca"
     },
     {
       "resource": "iron_ore",
