@@ -354,7 +354,8 @@ const rifleAverage = (state, nation) => {
   if (!state.forces) return 0;
   let men = RIFLE_MEN.get(state.forces);
   if (!men) { men = plannedMenByNation(state.forces, (id) => unitOf(state, id, UNITS_BY_ID)?.nation); RIFLE_MEN.set(state.forces, men); }
-  return averageQuality(smallArmsFile, state.nations?.[nation]?.rifles?.points ?? 0, men[nation] ?? 0);
+  const r = state.nations?.[nation]?.rifles;
+  return averageQuality(smallArmsFile, r?.points ?? 0, men[nation] ?? 0, r?.count ?? 0);
 };
 const rifleTotalBonus = (state, nation, category) => rifleBonus(smallArmsFile, category, rifleAverage(state, nation)) + rifleTechBonus(smallArmsFile, category, techsOf(state.nations?.[nation]));
 // fucili persi in battaglia: tolgono punti alla qualità della nazione (le voci di template equivalenti a un fucile prodotto contano come fucili)

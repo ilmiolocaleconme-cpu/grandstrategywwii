@@ -32,12 +32,23 @@ test('miglior fucile producibile: ripetizione = 0, Garand = 1, G43 = 1,25, VG1-5
   assert.equal(bestRifleQuality(doc, 'DEU', 1943, ALL), 1.25);
   assert.equal(modelQuality(doc, doc.models.find((m) => m.id === 'MDL-DEU-VG1-5')), 0.5);
   assert.equal(bestRifleQuality(doc, 'ITA', 1945, new Set()), 0, 'senza tecnologie solo Carcano');
+  // modelli a produzione limitata: solo il 20% dell'eccedenza (13/11/2026)
+  assert.equal(bestRifleQuality(doc, 'USSR', 1936, new Set(['TECH-INF-SELECT'])), 0.25, 'AVS-36 limitato: Mosin 0 + 0,2 × 1,25');
+  assert.equal(bestRifleQuality(doc, 'USSR', 1940, new Set(['TECH-INF-SELECT', 'TECH-INF-SEMI1'])), 1.05, 'SVT-40 standard 1 + 0,2 × 0,25');
+  assert.equal(bestRifleQuality(doc, 'DEU', 1941, new Set(['TECH-INF-SEMI1'])), 0.2, 'G41 limitato');
+  assert.equal(bestRifleQuality(doc, 'ITA', 1939, new Set(['TECH-INF-SEMI1'])), 0.2, 'Armaguerra limitato');
 });
 
 test('punti, qualità media sugli uomini PREVISTI (con tetto) e bonus solo per le categorie che combattono col fucile', () => {
   const n = addRiflePoints({ balance: 1 }, 1000, 1);
   assert.equal(n.rifles.points, 1000);
-  assert.equal(addRiflePoints(n, 50, 0), n, 'fucili a ripetizione: nessun punto, stesso oggetto');
+  assert.deepEqual(n.rifles, { points: 1000, count: 1000 });
+  assert.deepEqual(addRiflePoints(n, 1000, 0).rifles, { points: 1000, count: 2000 }, 'i fucili a ripetizione prodotti dopo diluiscono la media');
+  const none = { balance: 1 };
+  assert.equal(addRiflePoints(none, 50, 0), none, 'solo fucili a ripetizione dall\'inizio: nessun conto, stesso oggetto');
+  // la media non supera mai la qualità dei fucili prodotti (13/11/2026): 868.000 Garand (qualità 1) per 45.735 uomini = 1, non 1,25
+  assert.equal(averageQuality(doc, 868000, 45735, 868000), 1);
+  assert.equal(averageQuality(doc, 1000, 10000, 2000), 0.1, 'denominatore: uomini, se più dei fucili');
   assert.equal(averageQuality(doc, 5000, 10000), 0.5);
   assert.equal(averageQuality(doc, 1e9, 10000), 1.25, 'tetto');
   assert.equal(averageQuality(doc, 5000, 0), 0);
