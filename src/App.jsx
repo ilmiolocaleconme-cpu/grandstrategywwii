@@ -62,6 +62,10 @@ import { commandsByProvince, mergeCommandsIntoProvinceUnits } from './rules/hqPo
 import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
+import { createDefenseMultiplier, validateDefenseModifiers } from './rules/defenseModifiers.js';
+import defenseFile from '../data/combat/defense_modifiers.json';
+import terrainClassFile from '../data/combat/terrain_class.json';
+import presenceFile from '../data/military/province_presence.json';
 import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, provinceController, isFighter, moveIntent, playerToggleEntrench, entrenchOf } from './game/theaterState.js';
 import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
@@ -325,7 +329,13 @@ const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
 const ENTRENCH_ERRORS = validateEntrenchConfig(entrenchFile);
 if (ENTRENCH_ERRORS.length) console.error('Trinceramento: configurazione non valida, uso i valori predefiniti.', ENTRENCH_ERRORS);
-const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+// Terreno e fortificazioni (ipotesi di bilanciamento, data/combat/defense_modifiers.json) nella difesa; se il file è invalido, nessun effetto (moltiplicatore 1)
+const DEFENSE_ERRORS = validateDefenseModifiers(defenseFile);
+const DEFENSE_MULT = DEFENSE_ERRORS.length ? undefined : createDefenseMultiplier({
+  cfg: defenseFile, terrainOf: (id) => terrainClassFile.classes[id] ?? null, fortificationOf: (id) => presenceFile.byProvince[id]?.fortifications ?? null,
+  isCity: (id, st, net) => net?.isCity?.(id) === true,
+});
+const THEATER_CTX = { getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, defenseMultiplier: DEFENSE_MULT, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   createMobilizationSystem({ units: unitsFile.units, laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } }), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi

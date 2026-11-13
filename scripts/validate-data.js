@@ -46,6 +46,7 @@ import { validateEquipmentCatalog, mergeEquipmentCatalogs } from '../src/data/eq
 import { validateUpgradeMap } from '../src/rules/templateUpgrade.js';
 import { validateMobilizationLaws } from '../src/game/mobilizationState.js';
 import { validateShipyards } from '../src/data/shipyards.js';
+import { validateDefenseModifiers } from '../src/rules/defenseModifiers.js';
 import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipmentProduction.js';
 import { templatesBuilt } from './build-templates.js';
 import { validateDeployment } from '../src/data/deployment.js';
@@ -246,6 +247,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     for (const f of ['carri_tedeschi_1934_1945.json', 'carri_cecoslovacchi_1935_1938.json']) errors.push(...validateTankModels(JSON.parse(await text(`units/models/${f}`))));
     errors.push(...validateReadiness(JSON.parse(await text('units/readiness.json'))));
     errors.push(...validateMobilizationLaws(JSON.parse(await text('units/mobilization_laws.json')), { nationIds: catalog.nations.map((n) => n.id), provinceIds: new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id)) }));
+    errors.push(...validateDefenseModifiers(JSON.parse(await text('combat/defense_modifiers.json'))));
     errors.push(...validateShipyards(JSON.parse(await text('naval/shipyards_1936.json')), { coastal: JSON.parse(await text('ports/coastal_cities.json')).cities }));
     // Template di divisione (previsto/effettivo, basi e fonti)
     for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {
