@@ -3,7 +3,24 @@
   "status": "BOZZA_DA_CONFERMARE",
   "basis": "ipotesi",
   "note": "Moltiplicatori della potenza dei DIFENSORI in una provincia (non nelle zone urbane, che hanno regole proprie). TUTTI i numeri sono IPOTESI DI BILANCIAMENTO di Claude, non dati storici, da approvare. Motivazione: il terreno rende costoso attaccare ma non cambia l'ordine di grandezza (montagna 1,4×); le fortificazioni permanenti pesano di più del terreno (livello 3 = linea Maginot: 1,6×). Si compongono a prodotto, con tetto, e sono distinte dal trinceramento (bonus separato che cresce con i giorni di sosta). Un livello o un terreno sconosciuto vale 1 (nessun effetto, mai inventato).",
-  "terrain": { "pianura": 1.0, "collina": 1.15, "montagna": 1.4, "foresta": 1.2, "palude": 1.25, "deserto": 1.0, "tundra": 1.0 },
-  "fortification": { "0": 1.0, "1": 1.15, "2": 1.35, "3": 1.6 },
-  "cap": 2.5
+  "terrain": {
+    "pianura": 1.0,
+    "collina": 1.15,
+    "montagna": 1.4,
+    "foresta": 1.2,
+    "palude": 1.25,
+    "deserto": 1.0,
+    "tundra": 1.0
+  },
+  "fortification": {
+    "0": 1.0,
+    "1": 1.15,
+    "2": 1.35,
+    "3": 1.6
+  },
+  "cap": 2.5,
+  "river": {
+    "crossing": 1.3,
+    "note": "IPOTESI: bonus dei difensori contro chi ha forzato un fiume (sbarca da un'altra sponda della stessa provincia) nel primo giorno di assalto; si annulla se c'è un ponte (data/crossings.json) integro. Si somma in proporzione alla quota di attaccanti che ha attraversato."
+  }
 }

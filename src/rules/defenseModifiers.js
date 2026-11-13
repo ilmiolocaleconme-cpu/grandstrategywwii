@@ -18,6 +18,7 @@ export function validateDefenseModifiers(doc) {
   for (const k of Object.keys(doc.fortification ?? {})) if (!LEVELS.includes(k)) errors.push(`difesa: livello sconosciuto ${k}`);
   for (let i = 1; i < LEVELS.length; i += 1) if (doc.fortification?.[LEVELS[i]] < doc.fortification?.[LEVELS[i - 1]]) errors.push('difesa: le fortificazioni non possono diminuire con il livello');
   if (!ok(doc.cap)) errors.push('difesa: tetto non valido');
+  if (doc.river !== undefined && !ok(doc.river?.crossing)) errors.push('difesa: bonus fiume deve essere un numero tra 1 e 5');
   return errors;
 }
 
@@ -38,4 +39,14 @@ export function createDefenseMultiplier({ cfg, terrainOf, fortificationOf, isCit
     const m = motherOf(province) ?? province;
     return defenseMultiplier(cfg, { terrain: terrainOf(province) ?? terrainOf(m), fortification: fortificationOf(province) ?? fortificationOf(m) });
   };
+}
+
+/**
+ * Fattore dei difensori contro chi ha forzato un fiume: 1 + (bonus−1)×quota di attaccanti che ha attraversato (0-1).
+ * Con un ponte integro non c'è bonus (si attraversa senza combattere sull'acqua). Senza configurazione vale 1.
+ */
+export function riverFactor(cfg, { crossedShare = 0, bridge = false } = {}) {
+  const bonus = cfg?.river?.crossing;
+  if (!bonus || bridge || !(crossedShare > 0)) return 1;
+  return 1 + (bonus - 1) * Math.min(1, crossedShare);
 }

@@ -76,7 +76,8 @@ import { commandsByProvince, mergeCommandsIntoProvinceUnits } from './rules/hqPo
 import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
-import { createDefenseMultiplier, validateDefenseModifiers } from './rules/defenseModifiers.js';
+import { createDefenseMultiplier, validateDefenseModifiers, riverFactor } from './rules/defenseModifiers.js';
+import { crossingExistsAt, crossingProvinces } from './data/crossings.js';
 import defenseFile from '../data/combat/defense_modifiers.json';
 import terrainClassFile from '../data/combat/terrain_class.json';
 import presenceFile from '../data/military/province_presence.json';
@@ -380,7 +381,9 @@ const DEFENSE_MULT = DEFENSE_ERRORS.length ? undefined : createDefenseMultiplier
   cfg: defenseFile, terrainOf: (id) => terrainClassFile.classes[id] ?? null, fortificationOf: (id) => presenceFile.byProvince[id]?.fortifications ?? null,
   isCity: (id, st, net) => net?.isCity?.(id) === true,
 });
-const THEATER_CTX = { defenseMultiplier: DEFENSE_MULT, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+// Fiume forzato: il bonus si annulla se nella provincia c'è un attraversamento integro alla data (solo dato statico: non esiste ancora stato di danni/distruzione)
+const RIVER_FACTOR = DEFENSE_ERRORS.length ? undefined : (mother, st, share) => riverFactor(defenseFile, { crossedShare: share, bridge: crossings.some((c) => c.state === 'intact' && crossingExistsAt(c, st.date) && crossingProvinces(c).includes(mother)) });
+const THEATER_CTX = { defenseMultiplier: DEFENSE_MULT, riverFactor: RIVER_FACTOR, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse)

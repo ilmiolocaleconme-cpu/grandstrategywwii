@@ -8,7 +8,7 @@
 //  3. incarichi: le unità senza ordine si dirigono verso l'obiettivo più vicino (attacco: province da prendere; difesa: province da tenere);
 //     l'incarico di attacco si chiude quando tutti gli obiettivi sono dell'incaricante.
 // PROVVISORIO / MANCANTE: l'IA non dichiara guerra, non attacca e non assegna incarichi (i difensori restano e combattono dove sono);
-// terreno e fortificazioni entrano nella battaglia solo tramite `ctx.defenseMultiplier(provincia, stato, rete)` (src/rules/defenseModifiers.js; senza, vale 1); fiumi e ponti ancora no; niente rifornimenti, morale
+// terreno e fortificazioni entrano nella battaglia solo tramite `ctx.defenseMultiplier(provincia, stato, rete)` (src/rules/defenseModifiers.js; senza, vale 1); il fiume forzato si applica con `ctx.riverFactor(madre, stato, quota)` (src/rules/defenseModifiers.js); niente rifornimenti, morale
 // o comandanti nell'esito; nessun dato storico di guerra: la guerra si dichiara a mano.
 import { createWar, declareWar, atWar, enemiesOf } from '../rules/war.js';
 import { unitOf } from '../rules/unitRegistry.js';
@@ -142,6 +142,23 @@ function logBattle(state, entry) {
   return { ...state, combat: { schema: COMBAT_SCHEMA, log } };
 }
 
+/** Quota (0-1) di attaccanti arrivati oggi dall'altra sponda della stessa provincia: hanno forzato un fiume. */
+function crossedShare(state, net, p, attackers) {
+  const from = state.movement?.arrivedFrom;
+  if (!from || !net.isBank?.(p) || attackers.length === 0) return 0;
+  const crossed = attackers.filter((u) => { const q = from[u.id]; return q && q !== p && net.isBank(q) && net.provinceOf(q) === net.provinceOf(p); });
+  return crossed.length / attackers.length;
+}
+
+/** La provenienza vale solo per il giorno dell'assalto: chi ha combattuto o è entrato la consuma. */
+function consumeArrivals(state, ids) {
+  const from = state.movement?.arrivedFrom;
+  if (!from || !ids.some((id) => id in from)) return state;
+  const next = { ...from };
+  for (const id of ids) delete next[id];
+  return { ...state, movement: { ...state.movement, arrivedFrom: next } };
+}
+
 function battlePhase(state, ctx, net) {
   let s = state;
   const by = combatantsByProvince(s, ctx);
@@ -158,7 +175,9 @@ function battlePhase(state, ctx, net) {
     if (defenders.length === 0 || attackers.length === 0) continue;
     // nel nodo di una zona urbana si combatte con le regole urbane (imboscate, difesa rafforzata, mezzi penalizzati)
     const solve = net.isCity?.(p) === true ? resolveUrbanBattleDay : resolveBattleDay;
-    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s, net) ?? 1 });
+    const river = ctx.riverFactor ? ctx.riverFactor(net.provinceOf?.(p) ?? p, s, crossedShare(s, net, p, attackers)) : 1;
+    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle })), defenders, defenseMultiplier: (ctx.defenseMultiplier?.(p, s, net) ?? 1) * river });
+    s = consumeArrivals(s, attackers.map((u) => u.id));
     for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l, ctx);
     for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l, ctx);
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));
@@ -198,6 +217,7 @@ function capturePhase(state, ctx, net) {
     const native = controllerOf(net.owner(p), s.control);
     s = patchProvinceState(s, p, taker === native ? { controller: null, occupation: 'none' } : { controller: taker, occupation: 'occupied' });
     s = stopUnits(s, units.filter((u) => u.nation === taker).map((u) => u.id));
+    s = consumeArrivals(s, units.map((u) => u.id));
     s = logBattle(s, { day: s.day, date: s.date, province: p, controller: c, attackers: units.filter((u) => u.nation === taker).map((u) => u.id), defenders: [], attackerLoss: 0, defenderLoss: 0, outcome: `conquistata da ${taker}` });
   }
   return s;

@@ -95,18 +95,20 @@ export function tickMovement(movement, kmBetween) {
   const ids = Object.keys(movement.orders);
   if (ids.length === 0) return movement;
   const positions = { ...movement.positions };
+  const arrivedFrom = { ...(movement.arrivedFrom ?? {}) }; // da dove è arrivata l'ultima volta (serve al combattimento: forzare un fiume); lo consuma la battaglia
   const orders = {};
   for (const id of ids.sort()) {
     const o = movement.orders[id];
     const daysLeft = o.daysLeft - 1;
     if (daysLeft > 0) { orders[id] = { ...o, daysLeft }; continue; }
     const leg = o.leg + 1;
+    arrivedFrom[id] = o.path[leg - 1];
     positions[id] = o.path[leg];
     if (leg < o.path.length - 1) {
       orders[id] = { ...o, leg, daysLeft: hopDays(kmBetween(o.path[leg], o.path[leg + 1]), o.category) };
     }
   }
-  return { ...movement, positions, orders };
+  return { ...movement, positions, orders, arrivedFrom };
 }
 
 /** Errori di forma (lista vuota = valido). */
@@ -116,6 +118,10 @@ export function validateMovement(m) {
   if (m.schema !== MOVEMENT_SCHEMA) errors.push(`movimento: schema ${JSON.stringify(m.schema)}`);
   if (m.positions === null || typeof m.positions !== 'object') errors.push('movimento: positions mancante');
   else for (const [k, v] of Object.entries(m.positions)) if (typeof v !== 'string' || v === '') errors.push(`movimento: posizione di ${k} non valida`);
+  if (m.arrivedFrom !== undefined) {
+    if (m.arrivedFrom === null || typeof m.arrivedFrom !== 'object' || Array.isArray(m.arrivedFrom)) errors.push('movimento: arrivedFrom non è un oggetto');
+    else for (const [k, v] of Object.entries(m.arrivedFrom)) if (typeof v !== 'string' || v === '') errors.push(`movimento: provenienza di ${k} non valida`);
+  }
   if (m.orders === null || typeof m.orders !== 'object') return [...errors, 'movimento: orders mancante'];
   for (const [k, o] of Object.entries(m.orders)) {
     if (!Array.isArray(o?.path) || o.path.length < 2 || !o.path.every((p) => typeof p === 'string')) errors.push(`movimento: percorso di ${k} non valido`);
