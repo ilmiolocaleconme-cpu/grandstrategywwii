@@ -57,6 +57,18 @@ export function netDeficit(forces, divisionId, item) {
 }
 
 /**
+ * La divisione può cambiare qualcosa nel piano di oggi? Sì se ha merce già in viaggio (conta nelle riserve) oppure, essendo attiva (non quadro, rinforzi accesi),
+ * ha una carenza netta. Altrimenti planReinforcements non produce per lei né invii né riserve: calcolarle il percorso è lavoro inutile.
+ */
+export function mayNeedReinforcement(forces, divisionId) {
+  const d = forces.divisions?.[divisionId];
+  if (!d) return false;
+  if (transfersOf(forces).some((t) => t.divisionId === divisionId)) return true;
+  if (isCadre(d) || !isEnabled(d)) return false;
+  return Object.keys(d.items ?? {}).some((item) => netDeficit(forces, divisionId, item) > 0);
+}
+
+/**
  * Assegna i rinforzi di una nazione. ctx: { units, nation, date, poolAvailable, stocks = {}, requests = {}, transitDays(divisionId) }.
  * poolAvailable = uomini disponibili nel pool (nationManpowerPool.available); i rinforzi già in viaggio sono sottratti. stocks = { voce: quantità }.
  * Ordine: prima le divisioni con richiesta, poi la più scoperta (effettivo/previsto più basso), poi per id. Non si assegna più della carenza né delle risorse.
@@ -88,6 +100,7 @@ export function planReinforcements(forces, { units, nation, date, poolAvailable,
     const qty = Math.min(need, available);
     if (qty <= 0) { skipped.push({ divisionId: id, item, reason: 'no_resources' }); continue; }
     const days = transitDays(id);
+    if (days === null) { skipped.push({ divisionId: id, item, reason: 'no_route' }); continue; } // nessun percorso dal deposito: nessun tempo inventato
     if (!Number.isInteger(days) || days < 0) throw new RangeError(`giorni di trasferimento non validi per ${id}: ${days}`);
     const base = { divisionId: id, item, sentOn: date, arrivesOn: addDays(date, days) };
     if (item === MANPOWER_ITEM) { pool -= qty; transfers.push({ id: `${id}|${item}|${date}`, ...base, qty, from: 'pool' }); continue; }

@@ -73,3 +73,14 @@ test('se il giocatore è ostile (rapporto <= -40) l\'IA lo sabota; se è neutral
   assert.ok(!securityOf(t.nations.DEU).log.some((l) => l.targetNation === 'FRA'), 'rapporto sopra la soglia: nessuna azione');
   assert.ok(t.nations.FRA.facilities.every((f) => (f.damage ?? 0) === 0));
 });
+
+test('velocità: gli ostili si ricordano, ma un cambio di guerre o di diplomazia li aggiorna e chi li riceve non può alterare il ricordo', () => {
+  const g = game();
+  const a = dip.hostilesOf(g, 'DEU');
+  a.push('XXX'); a.length = 0; // modificare il risultato non deve toccare le chiamate successive
+  assert.deepEqual(dip.hostilesOf(g, 'DEU'), ['FRA', 'USSR']);
+  const war = dip.declareWar(g, 'ITA', 'POL').state;
+  assert.deepEqual(dip.hostilesOf(war, 'POL'), ['ITA'], 'nuova guerra: lista aggiornata');
+  assert.deepEqual(dip.hostilesOf(g, 'POL'), dip.hostilesOf(g, 'POL'), 'lo stato precedente resta com\'era');
+  assert.deepEqual(dip.hostilesOf(g, 'DEU'), ['FRA', 'USSR'], 'tornando allo stato di prima, risposta di prima');
+});

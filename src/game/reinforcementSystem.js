@@ -3,7 +3,7 @@
 // giorni di trasferimento (via terra: km / TRANSIT_KM_PER_DAY; i giorni di mare si aggiungono SOLO se il percorso attraversa il mare, vedi depotRoute).
 // Sistema giornaliero PURO per GAME_SYSTEMS: stato in ingresso → nuovo stato. Ordine del giorno: 1) arrivi (l'eccedenza torna in scorta), 2) nuovi invii (la merce lascia la scorta).
 // Limiti dichiarati: le divisioni senza deposito della nazione o senza percorso (né terra né mare con porti propri) restano senza rinforzi (nessun tempo inventato); i quadri (`cadre`) non ricevono.
-import { applyArrivals, dispatch, inTransitFromStock, stockKeyOf, planReinforcements, priorityRequests, setPriority, setReinforcement } from '../rules/reinforcements.js';
+import { applyArrivals, dispatch, inTransitFromStock, stockKeyOf, planReinforcements, priorityRequests, setPriority, setReinforcement, mayNeedReinforcement } from '../rules/reinforcements.js';
 import { transitDaysFromRoute } from '../rules/reinforcementTransit.js';
 import { findPath } from '../rules/movement.js';
 import { findSeaRoute } from '../data/seaRoutes.js';
@@ -92,18 +92,20 @@ export function createReinforcementSystem({ units, poolOf, routeOf, sourcesOf = 
     // 2) nuovi invii, per nazione in ordine di id
     const owners = [...new Set(Object.keys(forces.divisions).map((id) => nationOfUnit.get(id)).filter((n) => n && nations[n]))].sort();
     for (const nation of owners) {
-      const days = new Map();
       const ids = Object.keys(forces.divisions).filter((id) => nationOfUnit.get(id) === nation);
-      for (const id of ids) {
-        const route = routeOf(state, nation, id);
-        if (route) days.set(id, Math.max(1, transitDaysFromRoute(route)));
-      }
-      if (days.size === 0) continue;
+      // i percorsi (ricerca su tutta la mappa) si calcolano SOLO quando il piano ha davvero qualcosa da spedire a quella divisione, e una volta sola per divisione
+      const days = new Map();
+      const transitDays = (id) => {
+        if (!days.has(id)) { const route = routeOf(state, nation, id); days.set(id, route ? Math.max(1, transitDaysFromRoute(route)) : null); }
+        return days.get(id);
+      };
+      const candidates = ids.filter((id) => mayNeedReinforcement(forces, id)); // niente carenza e niente merce in viaggio: nulla da pianificare
+      if (candidates.length === 0) continue;
       // la merce in viaggio ha già lasciato la scorta, ma planReinforcements la sottrae di nuovo dalle scorte che riceve: gliela si somma, così il netto è la scorta reale
       const stocks = Object.fromEntries(Object.entries(nations[nation].stocks).filter(([k]) => isStockItem(k)).map(([k, v]) => [k, Math.floor(v + 1e-9) + inTransitFromStock(forces, ids, k)]));
       const plan = planReinforcements(forces, {
-        units: units.filter((u) => u.nation === nation && days.has(u.id)), nation, date: state.date,
-        poolAvailable: Math.max(0, Math.floor(poolOf(state, nation))), stocks, requests: priorityRequests(forces), transitDays: (id) => days.get(id),
+        units: units.filter((u) => u.nation === nation && candidates.includes(u.id)), nation, date: state.date,
+        poolAvailable: Math.max(0, Math.floor(poolOf(state, nation))), stocks, requests: priorityRequests(forces), transitDays,
         sourcesOf: sourcesOf ? (item) => sourcesOf(nation, item) : null, // fucili prodotti come INW-DEU-RIFLE-1939 riforniscono anche la voce «fucili» del 1936
       });
       if (plan.transfers.length === 0) continue;

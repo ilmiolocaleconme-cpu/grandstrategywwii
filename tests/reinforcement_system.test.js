@@ -159,3 +159,28 @@ test('via mare: con più porti sulla stessa zona di mare si sceglie quello più 
   const r = depotRoute(isl(ctx, 'D'), 'FRA', 'd');
   assert.deepEqual(r, { landKm: 120, seaDays: 4 }, 'A→B 120 km + 0 km (la divisione è nel porto D, non in C che ha più costa)');
 });
+
+test('velocità: il percorso si calcola solo per le divisioni a cui il piano spedisce davvero qualcosa', () => {
+  const calls = [];
+  const spy = (s, n, id) => { calls.push(id); return routes[id] ?? null; };
+  // nessuna risorsa (scorta 0, pool 0): nulla da spedire, nessun percorso calcolato
+  createReinforcementSystem({ units, poolOf: () => 0, routeOf: spy })(game(0));
+  assert.deepEqual(calls, [], 'senza risorse non si cerca nessun percorso');
+  // divisione già al completo: nemmeno per lei
+  const full = game();
+  full.forces.divisions['FRA-1'].items[KEY].effective = 24; full.forces.divisions['FRA-1'].items['manpower.war'].effective = 100;
+  full.forces.divisions['FRA-2'].items[KEY].effective = 24;
+  createReinforcementSystem({ units, poolOf: () => 40, routeOf: spy })(full);
+  assert.deepEqual(calls, [], 'divisioni complete: nessun percorso');
+  // con risorse: un solo calcolo per divisione anche se ha più voci in carenza
+  calls.length = 0;
+  const s1 = createReinforcementSystem({ units, poolOf: () => 40, routeOf: spy })(game());
+  assert.equal(calls.length, new Set(calls).size, 'un percorso per divisione, non uno per voce');
+  assert.ok(s1.forces.transfers.length > 0);
+});
+
+test('divisione senza percorso dal deposito: resta senza rinforzi e senza errori (nessun tempo inventato)', () => {
+  const s = createReinforcementSystem({ units, poolOf: () => 40, routeOf: (st, n, id) => (id === 'FRA-2' ? null : routes[id]) })(game());
+  assert.ok(s.forces.transfers.every((t) => t.divisionId !== 'FRA-2'));
+  assert.ok(s.forces.transfers.some((t) => t.divisionId === 'FRA-1'));
+});

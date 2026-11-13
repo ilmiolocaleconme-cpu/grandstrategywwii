@@ -2,7 +2,7 @@
 import { atWar } from '../rules/war.js';
 import { hasAccess } from '../rules/diplomacy.js';
 import { categoryPower } from '../rules/combat.js';
-import { provinceStateOf } from './provinceState.js';
+import { provinceStateOf, ownControllerOf } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
 
 /** Controllore effettivo di una provincia madre: quello della provincia se occupata, altrimenti quello della nazione proprietaria. */
@@ -10,7 +10,7 @@ import { controllerOf } from '../map/geo.js';
 // Sponde (11/11/2026): una sponda ha il suo controllo; senza, segue quello scritto sulla provincia madre e poi la nazione proprietaria.
 // La provincia madre divisa, chiesta per nome, vale come la sua sponda principale (incarichi e salvataggi scritti per madre).
 export function provinceController(state, net, id) {
-  const own = provinceStateOf(state, id).controller;
+  const own = ownControllerOf(state, id);
   if (own) return own;
   const canon = net.canon?.(id) ?? id;
   if (canon !== id) return provinceController(state, net, canon);
