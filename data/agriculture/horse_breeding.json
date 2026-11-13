@@ -11,8 +11,57 @@
   },
   "initialPool": {
     "asOf": "1936-01-01",
-    "status": "MISSING_DATA",
-    "note": "Nessun numero nel repository. L'utente ha scelto di fornirli (risposta del 29/10/2026). Forma di ogni voce: { \"horses\": numero intero di capi disponibili nel pool all'inizio (non assegnati a divisioni), \"basis\": \"utente\" | \"ipotesi\", \"referenceYear\": \"AAAA\", \"source\": \"...\" }. Finché la tabella è vuota nessuna nazione parte con cavalli nel pool.",
-    "byNation": {}
+    "status": "USER_ESTIMATE",
+    "note": "Cavalli iniziali del pool per nazione (13/11/2026): stima di Claude richiesta dall'utente, da sostituire con dati veri quando ci sono. Forma di ogni voce: { horses, basis, referenceYear, source }.",
+    "byNation": {
+      "DEU": {
+        "horses": 50000,
+        "basis": "ipotesi",
+        "referenceYear": "1936",
+        "source": "Stima di Claude [Ipotesi] richiesta dall'utente il 13/11/2026: NON un dato storico. Il pool è la riserva disponibile per i rinforzi (non i cavalli già nelle divisioni né il patrimonio equino nazionale), dimensionata sul mangime: con un mangimificio (100 t/giorno) il pool mangia al massimo 45 t e lascia almeno 40 t all'allevamento. Nazioni con poco frumento proprio (GBR, POL, JPN) hanno un pool più piccolo, che il mangime nazionale regge anche dopo la scorta iniziale di frumento."
+      },
+      "FRA": {
+        "horses": 50000,
+        "basis": "ipotesi",
+        "referenceYear": "1936",
+        "source": "Stima di Claude [Ipotesi] richiesta dall'utente il 13/11/2026: NON un dato storico. Il pool è la riserva disponibile per i rinforzi (non i cavalli già nelle divisioni né il patrimonio equino nazionale), dimensionata sul mangime: con un mangimificio (100 t/giorno) il pool mangia al massimo 45 t e lascia almeno 40 t all'allevamento. Nazioni con poco frumento proprio (GBR, POL, JPN) hanno un pool più piccolo, che il mangime nazionale regge anche dopo la scorta iniziale di frumento."
+      },
+      "GBR": {
+        "horses": 15000,
+        "basis": "ipotesi",
+        "referenceYear": "1936",
+        "source": "Stima di Claude [Ipotesi] richiesta dall'utente il 13/11/2026: NON un dato storico. Il pool è la riserva disponibile per i rinforzi (non i cavalli già nelle divisioni né il patrimonio equino nazionale), dimensionata sul mangime: con un mangimificio (100 t/giorno) il pool mangia al massimo 45 t e lascia almeno 40 t all'allevamento. Nazioni con poco frumento proprio (GBR, POL, JPN) hanno un pool più piccolo, che il mangime nazionale regge anche dopo la scorta iniziale di frumento."
+      },
+      "ITA": {
+        "horses": 50000,
+        "basis": "ipotesi",
+        "referenceYear": "1936",
+        "source": "Stima di Claude [Ipotesi] richiesta dall'utente il 13/11/2026: NON un dato storico. Il pool è la riserva disponibile per i rinforzi (non i cavalli già nelle divisioni né il patrimonio equino nazionale), dimensionata sul mangime: con un mangimificio (100 t/giorno) il pool mangia al massimo 45 t e lascia almeno 40 t all'allevamento. Nazioni con poco frumento proprio (GBR, POL, JPN) hanno un pool più piccolo, che il mangime nazionale regge anche dopo la scorta iniziale di frumento."
+      },
+      "JPN": {
+        "horses": 10000,
+        "basis": "ipotesi",
+        "referenceYear": "1936",
+        "source": "Stima di Claude [Ipotesi] richiesta dall'utente il 13/11/2026: NON un dato storico. Il pool è la riserva disponibile per i rinforzi (non i cavalli già nelle divisioni né il patrimonio equino nazionale), dimensionata sul mangime: con un mangimificio (100 t/giorno) il pool mangia al massimo 45 t e lascia almeno 40 t all'allevamento. Nazioni con poco frumento proprio (GBR, POL, JPN) hanno un pool più piccolo, che il mangime nazionale regge anche dopo la scorta iniziale di frumento."
+      },
+      "POL": {
+        "horses": 30000,
+        "basis": "ipotesi",
+        "referenceYear": "1936",
+        "source": "Stima di Claude [Ipotesi] richiesta dall'utente il 13/11/2026: NON un dato storico. Il pool è la riserva disponibile per i rinforzi (non i cavalli già nelle divisioni né il patrimonio equino nazionale), dimensionata sul mangime: con un mangimificio (100 t/giorno) il pool mangia al massimo 45 t e lascia almeno 40 t all'allevamento. Nazioni con poco frumento proprio (GBR, POL, JPN) hanno un pool più piccolo, che il mangime nazionale regge anche dopo la scorta iniziale di frumento."
+      },
+      "USA": {
+        "horses": 50000,
+        "basis": "ipotesi",
+        "referenceYear": "1936",
+        "source": "Stima di Claude [Ipotesi] richiesta dall'utente il 13/11/2026: NON un dato storico. Il pool è la riserva disponibile per i rinforzi (non i cavalli già nelle divisioni né il patrimonio equino nazionale), dimensionata sul mangime: con un mangimificio (100 t/giorno) il pool mangia al massimo 45 t e lascia almeno 40 t all'allevamento. Nazioni con poco frumento proprio (GBR, POL, JPN) hanno un pool più piccolo, che il mangime nazionale regge anche dopo la scorta iniziale di frumento."
+      },
+      "USSR": {
+        "horses": 50000,
+        "basis": "ipotesi",
+        "referenceYear": "1936",
+        "source": "Stima di Claude [Ipotesi] richiesta dall'utente il 13/11/2026: NON un dato storico. Il pool è la riserva disponibile per i rinforzi (non i cavalli già nelle divisioni né il patrimonio equino nazionale), dimensionata sul mangime: con un mangimificio (100 t/giorno) il pool mangia al massimo 45 t e lascia almeno 40 t all'allevamento. Nazioni con poco frumento proprio (GBR, POL, JPN) hanno un pool più piccolo, che il mangime nazionale regge anche dopo la scorta iniziale di frumento."
+      }
+    }
   }
 }

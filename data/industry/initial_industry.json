@@ -231,6 +231,21 @@
           "count": 1
         },
         {
+          "factory": "FCT-FEED",
+          "recipeId": "REC-FEED-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-STUD",
+          "recipeId": "REC-HORSES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-PHARMA",
+          "recipeId": "REC-PHARMA-001",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 4
@@ -318,6 +333,21 @@
           "count": 1
         },
         {
+          "factory": "FCT-FEED",
+          "recipeId": "REC-FEED-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-STUD",
+          "recipeId": "REC-HORSES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-PHARMA",
+          "recipeId": "REC-PHARMA-001",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 3
@@ -386,6 +416,21 @@
         {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-GBR-FIELD",
+          "count": 1
+        },
+        {
+          "factory": "FCT-FEED",
+          "recipeId": "REC-FEED-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-STUD",
+          "recipeId": "REC-HORSES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-PHARMA",
+          "recipeId": "REC-PHARMA-001",
           "count": 1
         },
         {
@@ -480,6 +525,21 @@
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-ITA-GUN75-1940",
           "count": 1
+        },
+        {
+          "factory": "FCT-FEED",
+          "recipeId": "REC-FEED-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-STUD",
+          "recipeId": "REC-HORSES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-PHARMA",
+          "recipeId": "REC-PHARMA-001",
+          "count": 1
         }
       ]
     },
@@ -545,6 +605,21 @@
         {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-JPN-GUN75-DIV-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-FEED",
+          "recipeId": "REC-FEED-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-STUD",
+          "recipeId": "REC-HORSES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-PHARMA",
+          "recipeId": "REC-PHARMA-001",
           "count": 1
         },
         {
@@ -639,6 +714,21 @@
         {
           "factory": "FCT-ENGINE",
           "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-FEED",
+          "recipeId": "REC-FEED-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-STUD",
+          "recipeId": "REC-HORSES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-PHARMA",
+          "recipeId": "REC-PHARMA-001",
           "count": 1
         },
         {
@@ -781,6 +871,21 @@
           "count": 1
         },
         {
+          "factory": "FCT-FEED",
+          "recipeId": "REC-FEED-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-STUD",
+          "recipeId": "REC-HORSES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-PHARMA",
+          "recipeId": "REC-PHARMA-001",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 1
@@ -849,6 +954,21 @@
         {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-USSR-GUN76-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-FEED",
+          "recipeId": "REC-FEED-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-STUD",
+          "recipeId": "REC-HORSES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-PHARMA",
+          "recipeId": "REC-PHARMA-001",
           "count": 1
         }
       ]

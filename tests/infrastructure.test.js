@@ -21,7 +21,7 @@ const json = (p) => JSON.parse(text(p));
 const config = json('infrastructure/infrastructure.json'); const edgesFile = json('infrastructure/link_edges.json'); const linksFile = json('links.json');
 const provinces = await loadProvinces(); const props = provinces.features.map((f) => f.properties);
 const index = createInfraIndex(edgesFile);
-const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
 const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId, levels: json('industry/factory_levels.json') };
 const political = json('political_1936.json'); const nationIds = json('nations.json').map((n) => n.id); const entityIds = political.map((e) => e.id);
 const population = json('population/population.json'); const economy = json('economy/economy.json');

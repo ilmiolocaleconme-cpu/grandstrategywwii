@@ -89,7 +89,7 @@ test('validatore idro: errori rilevati', () => {
 });
 
 test('idro e centrale a carbone: nessun autoconsumo, idro senza ingressi', () => {
-  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
   const rec = json('industry/recipes.json');
   const power = rec.recipes.find((r) => r.factory === 'FCT-POWER');
   assert.equal(cat.byId.get('FCT-POWER').energy_consumption, 25, 'il Pack resta intatto');

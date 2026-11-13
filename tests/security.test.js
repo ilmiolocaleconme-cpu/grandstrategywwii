@@ -161,7 +161,7 @@ test('riparazione lenta: il danno cala di 0,004 al giorno fino a zero', () => {
 });
 
 test('effetto economico: un impianto sabotato produce meno (stesso sistema economico, solo il danno cambia)', () => {
-  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
   const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId, levels: json('industry/factory_levels.json') };
   const eco = createEconomySystem({ catalog, economy, baseline: json('resources/extraction_baseline.json'), hydro: json('resources/hydro_plants.json'), political, cash: start.cash, sites: json('resources/mine_sites.json') });
   const s0 = fresh(); const dmg = (d) => withNation(s0, 'DEU', { facilities: s0.nations.DEU.facilities.map((f) => (f.type === 'FCT-STEEL' ? { ...f, damage: d } : f)) });

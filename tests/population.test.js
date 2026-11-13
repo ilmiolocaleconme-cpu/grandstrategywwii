@@ -12,7 +12,7 @@ import { parseSave, SAVE_FORMAT } from '../src/game/save.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
-const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
 const political = json('political_1936.json');
 const nationIds = json('nations.json').map((n) => n.id);
 const population = json('population/population.json');

@@ -47,7 +47,7 @@ test('dati reali: ogni centrale idroelettrica e ogni sito minerario risale a un\
 });
 
 test('costruzioni: le province di MAR_ES, NLD_EI e JPN_MANDATE sono del controllore, non più «non controllate»', () => {
-  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
   const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId };
   const population = json('population/population.json'); const economy = json('economy/economy.json'); const sites = json('resources/mine_sites.json');
   const nationIds = json('nations.json').map((n) => n.id);

@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import { resourceExtraction, totalByPrefix } from '../src/data/extraction.js';
 import { fullCapacityFlows } from '../src/data/recipes.js';
-import { loadIndustryCatalog } from '../src/data/industry.js';
+import { loadIndustryCatalogFrom } from '../src/data/industry.js';
 import { dailyIncome } from '../src/rules/treasury.js';
 import { buildNations } from '../src/game/economyState.js';
 
@@ -12,7 +12,7 @@ export const DAYS = 30;
 export const FLOOR = 200;
 const t = (p) => fs.readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const j = (p) => JSON.parse(t(p));
-const cat = loadIndustryCatalog({ factoriesCsv: t('industry/factories.csv'), structuresCsv: t('infrastructure/structures.csv'), categoriesCsv: t('industry/production_categories.csv') });
+const cat = loadIndustryCatalogFrom(t); // con le fabbriche del repo (mangimificio, allevamento...)
 const recipes = new Map(j('industry/recipes.json').recipes.map((r) => [r.id, r]));
 const ctx = { production: j('resources/production_1936.json'), factors: j('resources/extraction_factors.json'), scaleFile: j('resources/extraction_scale.json'), pointsByProvince: j('resources/resource_points.json').byProvince, extra: j('resources/resource_locations_extra.json') };
 const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper', 'wheat', 'tin']; // il frumento estratto vale entrata come le altre materie (dal 29/10/2026)

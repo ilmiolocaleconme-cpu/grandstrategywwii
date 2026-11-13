@@ -116,18 +116,23 @@ test('rinforzi: il pool dei cavalli dà quantità intere e non si duplica', () =
 
 test('buildNations: tabella vuota non cambia nulla, con numeri li somma al proprietario, entità sconosciuta è un errore', () => {
   const base = buildNations({ political, ...start });
-  assert.deepEqual(buildNations({ political, ...start, horses }), base);
+  const empty = clone(horses); empty.initialPool.status = 'MISSING_DATA'; empty.initialPool.byNation = {};
+  assert.deepEqual(buildNations({ political, ...start, horses: empty }), base);
+  // stima di Claude del 13/11/2026 (richiesta dell'utente): pool iniziali delle grandi potenze
+  assert.equal(buildNations({ political, ...start, horses }).DEU.stocks.horses, 50000);
   const filled = clone(horses); filled.initialPool.status = 'USER_DATA';
   filled.initialPool.byNation = { USA: { horses: 1000, basis: 'utente', referenceYear: '1936', source: 'prova' } };
   assert.equal(buildNations({ political, ...start, horses: filled }).USA.stocks.horses, 1000);
   filled.initialPool.byNation = { XXX: { horses: 5, basis: 'utente', referenceYear: '1936', source: 'prova' } };
   assert.throws(() => buildNations({ political, ...start, horses: filled }), /XXX/);
-  assert.deepEqual(initialHorseStocks(horses), {});
+  assert.deepEqual(initialHorseStocks(empty), {});
+  assert.deepEqual(Object.keys(initialHorseStocks(horses)).sort(), ['DEU', 'FRA', 'GBR', 'ITA', 'JPN', 'POL', 'USA', 'USSR']);
 });
 
 test('ciclo giornaliero: senza "livestock" il comportamento è quello di prima (nessun cavallo, nessun fertilizzante)', () => {
   const s0 = fresh();
-  const s1 = advanceDay({ ...s0, nations: { ...s0.nations, USA: { ...s0.nations.USA, stocks: { ...s0.nations.USA.stocks, horses: 100, fertilizer: 100, feed: 10 } } } }, [without]);
+  // senza impianti (dal 13/11/2026 gli USA hanno un allevamento iniziale, che produrrebbe cavalli)
+  const s1 = advanceDay({ ...s0, nations: { ...s0.nations, USA: { ...s0.nations.USA, facilities: [], stocks: { ...s0.nations.USA.stocks, horses: 100, fertilizer: 100, feed: 10 } } } }, [without]);
   assert.equal(s1.nations.USA.stocks.horses, 100); assert.equal(s1.nations.USA.stocks.fertilizer, 100); assert.equal(s1.nations.USA.stocks.feed, 10);
 });
 
@@ -164,11 +169,33 @@ test('validatori: dati reali validi, errori espliciti sui casi sbagliati', () =>
   const f = clone(fert); f.yieldBonusMax = 2; f.input = 'wheat';
   assert.equal(validateFertilizerEffect(f, { resources }).length, 2);
   assert.match(validateFertilizerEffect({ schema: 'x' }, { resources })[0], /schema/);
-  const h = clone(horses); h.initialPool.byNation = { USA: { horses: 1.5, basis: '?', referenceYear: '36', source: '' } };
+  const h = clone(horses); h.initialPool.status = 'MISSING_DATA'; h.initialPool.byNation = { USA: { horses: 1.5, basis: '?', referenceYear: '36', source: '' } };
   const errs = validateHorseBreeding(h, { resources, recipes: recipesDoc, entityIds });
   assert.ok(errs.some((e) => /MISSING_DATA/.test(e)) && errs.some((e) => /capi/.test(e)) && errs.some((e) => /basis/.test(e)) && errs.some((e) => /anno/.test(e)) && errs.some((e) => /fonte/.test(e)));
-  const e2 = clone(horses); e2.initialPool.status = 'USER_DATA';
+  const e2 = clone(horses); e2.initialPool.status = 'USER_DATA'; e2.initialPool.byNation = {};
   assert.ok(validateHorseBreeding(e2, { resources, recipes: recipesDoc, entityIds }).some((e) => /vuota/.test(e)));
   const e3 = clone(recipesDoc); e3.recipes.find((r) => r.id === 'REC-HORSES-001').outputUnit = 't/day';
   assert.ok(validateHorseBreeding(horses, { resources, recipes: e3, entityIds }).some((e) => /head\/day/.test(e)));
+});
+
+test('partita reale (13/11/2026): le 8 grandi potenze partono con pool, mangimificio e allevamento; in 200 giorni il pool cresce e nessuno muore di fame', () => {
+  let s = newGame({ nation: 'USA', political, ownersWithProvinces: nationIds, start: { ...start, horses } }).state;
+  const big = ['DEU', 'FRA', 'GBR', 'ITA', 'JPN', 'POL', 'USA', 'USSR'];
+  const h0 = Object.fromEntries(big.map((n) => [n, s.nations[n].stocks.horses]));
+  for (const n of big) {
+    assert.ok(h0[n] > 0, `${n} senza cavalli iniziali`);
+    for (const f of ['FCT-FEED', 'FCT-STUD']) assert.ok(s.nations[n].facilities.some((x) => x.type === f), `${n} senza ${f}`);
+  }
+  for (let d = 0; d < 200; d += 1) s = advanceDay(s, [withLivestock]);
+  for (const n of big) assert.ok(s.nations[n].stocks.horses > h0[n] + 2000, `${n}: ${h0[n]} → ${s.nations[n].stocks.horses}`);
+});
+
+test('precedenza del pool (13/11/2026): se il mangime basta solo per i cavalli già nati, l\'allevamento si ferma e il pool non muore di fame', () => {
+  const s0 = fresh();
+  // un mangimificio (100 t/giorno) e un allevamento; pool che mangia esattamente 99 t/giorno; medicina abbondante
+  let s = { ...s0, nations: { ...s0.nations, USA: { ...s0.nations.USA, facilities: [fac('M', 'FCT-FEED', 'REC-FEED-001'), fac('S', 'FCT-STUD', 'REC-HORSES-001')], stocks: { horses: 110000, feed: 99, medicine: 1000 } } } };
+  for (let d = 0; d < 30; d += 1) s = advanceDay(s, [withLivestock]);
+  const h = s.nations.USA.stocks.horses;
+  assert.ok(h >= 110000, `pool calato a ${h}`);
+  assert.ok(h <= 110000 + 30 * 2, 'all\'allevamento resta solo l\'eccedenza (circa 1 t al giorno)');
 });

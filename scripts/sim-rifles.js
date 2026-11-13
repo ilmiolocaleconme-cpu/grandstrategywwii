@@ -28,7 +28,7 @@ const DAYS = Number(process.argv.slice(2).find((a) => /^\d+$/.test(a)) ?? 1095);
 const TRADE = !process.argv.includes('--senza-commercio');
 const POWERS = ['DEU', 'FRA', 'GBR', 'ITA', 'USSR', 'USA', 'JPN'];
 
-const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
 const edir = new URL('data/units/equipment/', root);
 const eqCatalog = mergeEquipmentCatalogs(readdirSync(edir).filter((n) => /^catalog.*\.json$/.test(n)).sort().map((f) => JSON.parse(readFileSync(new URL(f, edir), 'utf8'))));
 const recipes = [...json('industry/recipes.json').recipes, ...buildEquipmentRecipes(eqCatalog, json('units/equipment/equipment_production.json'))];

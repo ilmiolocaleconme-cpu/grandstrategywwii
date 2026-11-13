@@ -69,7 +69,7 @@ const js = (p) => JSON.parse(txt(p));
 const eqTable = js('units/equipment/equipment_production.json');
 const eqCatalog = mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_gbr', 'catalog_ita', 'catalog_ussr', 'catalog_jpn', 'catalog_usa'].map((n) => js(`units/equipment/${n}.json`)));
 const eqRecipes = buildEquipmentRecipes(eqCatalog, eqTable);
-const ind = loadIndustryCatalog({ factoriesCsv: txt('industry/factories.csv'), structuresCsv: txt('infrastructure/structures.csv'), categoriesCsv: txt('industry/production_categories.csv') });
+const ind = loadIndustryCatalog({ factoriesCsv: txt('industry/factories.csv'), structuresCsv: txt('infrastructure/structures.csv'), categoriesCsv: txt('industry/production_categories.csv'), extraFactoriesCsv: txt('industry/factories_extra.csv'), extraStructuresCsv: txt('infrastructure/structures_extra.csv') });
 const realCatalog = { recipes: new Map([...js('industry/recipes.json').recipes, ...eqRecipes].map((r) => [r.id, r])), factories: ind.byId };
 const political = js('political_1936.json'); const nationIds = js('nations.json').map((n) => n.id);
 const sites = js('resources/mine_sites.json'); const economy = js('economy/economy.json'); const population = js('population/population.json');

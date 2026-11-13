@@ -13,7 +13,7 @@ import { advanceDays } from '../src/game/engine.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
-const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
 const edir = new URL('../data/units/equipment/', import.meta.url);
 const eqCatalog = mergeEquipmentCatalogs(readdirSync(edir).filter((n) => /^catalog.*\.json$/.test(n)).sort().map((f) => JSON.parse(readFileSync(new URL(f, edir), 'utf8'))));
 const table = json('units/equipment/equipment_production.json');

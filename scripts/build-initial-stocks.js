@@ -2,7 +2,7 @@
 // Uso: npm run build:stocks   (dopo build:industry)
 import fs from 'node:fs';
 import { resourceExtraction, totalByPrefix } from '../src/data/extraction.js';
-import { loadIndustryCatalog } from '../src/data/industry.js';
+import { loadIndustryCatalogFrom } from '../src/data/industry.js';
 import { computeInitialStocks } from '../src/data/initialStocks.js';
 import { mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
 import { buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipmentProduction.js';
@@ -14,7 +14,7 @@ export const DAYS = 150;
 export const UTILISATION = 1;
 const t = (p) => fs.readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const j = (p) => JSON.parse(t(p));
-const cat = loadIndustryCatalog({ factoriesCsv: t('industry/factories.csv'), structuresCsv: t('infrastructure/structures.csv'), categoriesCsv: t('industry/production_categories.csv') });
+const cat = loadIndustryCatalogFrom(t); // con le fabbriche del repo (mangimificio, allevamento...)
 const ctx = { production: j('resources/production_1936.json'), factors: j('resources/extraction_factors.json'), scaleFile: j('resources/extraction_scale.json'), pointsByProvince: j('resources/resource_points.json').byProvince, extra: j('resources/resource_locations_extra.json') };
 const industry = j('industry/initial_industry.json');
 const RAW = ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur', 'copper', 'wheat', 'tin'];
@@ -28,6 +28,14 @@ const unitsFile = j('units/units.json');
 const reserveDivisions = activeDivisions(Array.isArray(unitsFile) ? unitsFile : unitsFile.units, j('military/ammo_consumption.json'));
 for (const [nation, row] of Object.entries(militaryReserve({ divisions: reserveDivisions, factories: {}, days: RESERVE_DAYS }))) {
   if (row.reserve > 0) stocks[nation] = { ...(stocks[nation] ?? {}), [MUNITIONS_ID]: row.reserve };
+}
+// Mangime per il pool dei cavalli (13/11/2026): 30 giorni del mantenimento dei cavalli iniziali (horse_breeding.json), perché il pool mangia prima
+// che il mangimificio produca: senza, il primo giorno muore l'1% del pool. Valore di progetto.
+const HORSE_FEED_DAYS = 30;
+const breeding = j('agriculture/horse_breeding.json');
+for (const [nation, e] of Object.entries(breeding.initialPool?.byNation ?? {})) {
+  const feed = Math.round(e.horses * breeding.upkeep.feedPerHorsePerDay * HORSE_FEED_DAYS);
+  if (feed > 0) stocks[nation] = { ...(stocks[nation] ?? {}), feed: (stocks[nation]?.feed ?? 0) + feed };
 }
 const cashFloor = j('industry/initial_cash.json').floor;
 const steelPerEcv = j('economy/economy.json').construction.steelPerEcv;

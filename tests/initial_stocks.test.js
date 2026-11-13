@@ -9,10 +9,11 @@ import { computeInitialStocks, validateInitialStocks } from '../src/data/initial
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
-const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
 const fileFull = json('industry/initial_stocks.json');
-// la riserva militare di munizioni (regola del 04/11/2026) ha il suo test in military_reserve.test.js: qui si confronta solo la regola dell'industria
-const withoutReserve = (stocks) => Object.fromEntries(Object.entries(stocks).map(([n, v]) => [n, Object.fromEntries(Object.entries(v).filter(([r]) => r !== 'munitions'))]).filter(([, v]) => Object.keys(v).length > 0));
+// la riserva militare di munizioni (regola del 04/11/2026) ha il suo test in military_reserve.test.js e il mangime del pool dei cavalli (13/11/2026) il suo
+// test qui sotto: qui si confronta solo la regola dell'industria
+const withoutReserve = (stocks) => Object.fromEntries(Object.entries(stocks).map(([n, v]) => [n, Object.fromEntries(Object.entries(v).filter(([r]) => r !== 'munitions' && r !== 'feed'))]).filter(([, v]) => Object.keys(v).length > 0));
 const file = { ...fileFull, stocks: withoutReserve(fileFull.stocks) };
 const industry = json('industry/initial_industry.json');
 const recipes = { ...json('industry/recipes.json'), recipes: allRecipeList() };
@@ -61,4 +62,9 @@ test('riserva minima: 500 t di acciaio = 200 ECV di cassa minima × 2,5 t/ECV, v
   assert.match(bad({ electricity: 5 })[0], /flusso/);
   assert.match(bad({ steel: 0 })[0], /non valida/);
   assert.match(bad({ steel: 1.5 })[0], /non valida/);
+});
+
+test('mangime del pool dei cavalli (13/11/2026): 30 giorni di mantenimento dei cavalli iniziali', () => {
+  const b = json('agriculture/horse_breeding.json');
+  for (const [n, e] of Object.entries(b.initialPool.byNation)) assert.equal(fileFull.stocks[n].feed, Math.round(e.horses * b.upkeep.feedPerHorsePerDay * 30), n);
 });

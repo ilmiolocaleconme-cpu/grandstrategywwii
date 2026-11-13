@@ -7,7 +7,7 @@ import { loadIndustryCatalog } from '../src/data/industry.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
-const catalog = () => loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const catalog = () => loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
 
 test('munizioni: file valido, 8 categorie, un colpo = 1/40000 di tonnellata, unità che non combatte a zero', () => {
   const f = json('military/ammo_consumption.json');

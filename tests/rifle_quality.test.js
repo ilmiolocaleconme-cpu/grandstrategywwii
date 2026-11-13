@@ -61,7 +61,7 @@ test('punti, qualità media sugli uomini PREVISTI (con tetto) e bonus solo per l
 test('economia: i fucili prodotti aggiungono punti alla nazione (solo con un modello migliore della ripetizione)', () => {
   assert.ok(isRifleProduct('equipment.INW-FRA-RIFLE-1939'));
   assert.ok(!isRifleProduct('equipment.INW-FRA-PISTOL-1939'));
-  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
   const edir = new URL('../data/units/equipment/', import.meta.url);
   const eqCatalog = mergeEquipmentCatalogs(readdirSync(edir).filter((n) => /^catalog.*\.json$/.test(n)).sort().map((f) => JSON.parse(readFileSync(new URL(f, edir), 'utf8'))));
   const recipes = [...json('industry/recipes.json').recipes, ...buildEquipmentRecipes(eqCatalog, json('units/equipment/equipment_production.json'))];

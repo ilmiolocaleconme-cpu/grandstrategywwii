@@ -44,10 +44,12 @@
       "iron_ore": 227010,
       "bauxite": 84000,
       "rubber": 16200,
-      "sulphur": 22500,
+      "sulphur": 22650,
       "copper": 29700,
       "tin": 1785,
-      "munitions": 8100
+      "chemicals": 2250,
+      "munitions": 8100,
+      "feed": 1350
     },
     "ESP": {
       "coal": 21000
@@ -55,21 +57,25 @@
     "FRA": {
       "oil": 16500,
       "rubber": 16200,
-      "sulphur": 15000,
+      "sulphur": 15150,
       "copper": 19800,
       "tin": 1200,
       "steel": 6503,
-      "munitions": 6030
+      "chemicals": 2250,
+      "munitions": 6030,
+      "feed": 1350
     },
     "GBR": {
       "iron_ore": 70020,
       "oil": 16500,
       "bauxite": 42000,
       "rubber": 16200,
-      "sulphur": 14250,
+      "sulphur": 14400,
       "copper": 14850,
+      "wheat": 11025,
       "tin": 900,
-      "munitions": 1200
+      "munitions": 1200,
+      "feed": 405
     },
     "HUN": {
       "coal": 9000
@@ -80,12 +86,13 @@
     "ITA": {
       "iron_ore": 24000,
       "coal": 6195,
-      "sulphur": 3585,
+      "sulphur": 3735,
       "copper": 14850,
       "tin": 900,
       "steel": 42502,
       "processed_rubber": 1200,
-      "munitions": 960
+      "munitions": 960,
+      "feed": 1350
     },
     "JPN": {
       "iron_ore": 88920,
@@ -93,11 +100,13 @@
       "oil": 12045,
       "bauxite": 42000,
       "rubber": 16200,
-      "sulphur": 16260,
+      "sulphur": 16410,
       "copper": 19320,
+      "wheat": 14400,
       "tin": 1500,
       "steel": 15501,
-      "munitions": 3600
+      "munitions": 3600,
+      "feed": 270
     },
     "MAL": {
       "coal": 9000
@@ -107,10 +116,12 @@
     },
     "POL": {
       "iron_ore": 12060,
-      "sulphur": 6000,
+      "sulphur": 6150,
+      "wheat": 11520,
       "steel": 12000,
       "aluminium": 5100,
-      "processed_rubber": 1200
+      "processed_rubber": 1200,
+      "feed": 810
     },
     "ROM": {
       "coal": 9000
@@ -129,14 +140,18 @@
       "iron_ore": 250875,
       "rubber": 16200,
       "tin": 1800,
-      "munitions": 720
+      "chemicals": 2250,
+      "munitions": 720,
+      "feed": 1350
     },
     "USSR": {
       "rubber": 16200,
-      "sulphur": 22500,
+      "sulphur": 22650,
       "copper": 24135,
       "tin": 1800,
-      "munitions": 3600
+      "chemicals": 2250,
+      "munitions": 3600,
+      "feed": 1350
     },
     "VEN": {
       "coal": 9000

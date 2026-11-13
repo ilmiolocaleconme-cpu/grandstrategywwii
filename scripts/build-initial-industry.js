@@ -15,11 +15,15 @@ const hy = {};
 for (const p of hydro.plants ?? []) if ((p.era ?? 'pre1936') !== 'event') { const n = (p.provinceId ?? '').split('_')[1]; if (n) hy[n] = (hy[n] ?? 0) + (p.megawatts ?? 0); }
 
 const A = { USA: 30, DEU: 12, USSR: 10, GBR: 8, FRA: 4, JPN: 4, BEL: 2, ITA: 1, CZE: 1, POL: 1, CAN: 1, SWE: 1 }; // acciaierie
-const MW = { tank: 24, art: 15, steel: 12, alu: 18, chem: 14, ref: 10, syn: 20, rub: 9, mach: 14, comp: 12, eng: 18, mun: 12, wpn: 8 };
-const FACT = { steel: ['FCT-STEEL', 'REC-STEEL-001'], alu: ['FCT-ALUMINIUM', 'REC-ALU-001'], ref: ['FCT-REFINERY', 'REC-FUEL-OIL-001'], syn: ['FCT-SYNFUEL', 'REC-FUEL-COAL-001'], rub: ['FCT-RUBBER', 'REC-RUBBER-001'], chem: ['FCT-CHEMICAL', 'REC-CHEM-001'], mach: ['FCT-MACHINERY', 'REC-MACHINERY-001'], comp: ['FCT-COMPONENTS', 'REC-COMPONENTS-001'], eng: ['FCT-ENGINE', 'REC-ENGINES-001'], mun: ['FCT-MUNITIONS', 'REC-MUNITIONS-001'], therm: ['FCT-POWER', 'REC-ELECTRIC-COAL-001'], tank: ['FCT-TANKS', 'REC-TANK-CZE-LT35'], art: ['FCT-ARTILLERY', 'REC-ARTILLERY-001'], wpn: ['FCT-WEAPONS', null] };
+const MW = { feed: 6, stud: 2, pharma: 10, tank: 24, art: 15, steel: 12, alu: 18, chem: 14, ref: 10, syn: 20, rub: 9, mach: 14, comp: 12, eng: 18, mun: 12, wpn: 8 };
+const FACT = { steel: ['FCT-STEEL', 'REC-STEEL-001'], alu: ['FCT-ALUMINIUM', 'REC-ALU-001'], ref: ['FCT-REFINERY', 'REC-FUEL-OIL-001'], syn: ['FCT-SYNFUEL', 'REC-FUEL-COAL-001'], rub: ['FCT-RUBBER', 'REC-RUBBER-001'], chem: ['FCT-CHEMICAL', 'REC-CHEM-001'], mach: ['FCT-MACHINERY', 'REC-MACHINERY-001'], comp: ['FCT-COMPONENTS', 'REC-COMPONENTS-001'], eng: ['FCT-ENGINE', 'REC-ENGINES-001'], mun: ['FCT-MUNITIONS', 'REC-MUNITIONS-001'], therm: ['FCT-POWER', 'REC-ELECTRIC-COAL-001'], tank: ['FCT-TANKS', 'REC-TANK-CZE-LT35'], art: ['FCT-ARTILLERY', 'REC-ARTILLERY-001'], wpn: ['FCT-WEAPONS', null], feed: ['FCT-FEED', 'REC-FEED-001'], stud: ['FCT-STUD', 'REC-HORSES-001'], pharma: ['FCT-PHARMA', 'REC-PHARMA-001'] };
 // Fabbriche di carri e di artiglieria: oggi solo la Cecoslovacchia (richiesta dell'utente del 29/10/2026; Škoda e ČKD). Le altre nazioni non le hanno ancora: mancano le ricette per i loro modelli.
 // Carri (decisione dell'utente del 12/11/2026): una fabbrica di carri anche per DEU, FRA, GBR, ITA, JPN e USA, con il carro del proprio catalogo
 // (il più leggero, il più adatto al 1936); la URSS dal 12/11/2026 col T-26 (template della divisione carri 1940).
+// Cavalli (decisione dell'utente del 13/11/2026: «tutte le grandi potenze»): un mangimificio e un allevamento iniziali per DEU, FRA, GBR, ITA, JPN, POL, USA, URSS.
+// Senza, all'inizio nessuna nazione produce cavalli. Il mangimificio usa il frumento nazionale. Industria farmaceutica (scelta dell'utente del 14/11/2026):
+// senza, la medicina finisce al giorno 150 e gli allevamenti si fermano; serve anche agli ospedali.
+const HORSES = ['DEU', 'FRA', 'GBR', 'ITA', 'JPN', 'POL', 'USA', 'USSR'];
 const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 1, tank: 1 }, FRA: { wpn: 1, art: 1, tank: 1 }, GBR: { wpn: 1, art: 1, tank: 1 }, ITA: { wpn: 1, art: 1, tank: 1 }, USSR: { wpn: 1, art: 1, tank: 1 }, JPN: { wpn: 1, art: 1, tank: 1 }, USA: { wpn: 1, art: 1, tank: 1 } };
 // Armi leggere e artiglieria (richiesta dell'utente del 10/11/2026): un impianto di ciascun tipo per le nazioni che hanno voci nel catalogo equipaggiamenti (USSR e JPN da fonti web del 10/11/2026, provvisorie)
 // (data/units/equipment/catalog*.json). Ricetta di default = prodotto REC-<equipment_id> generato da equipment_production.json: valore di gioco, non storico;
@@ -52,10 +56,11 @@ for (const n of [...candidates].sort()) {
     k.chem = Math.max(1, Math.ceil(k.mun / 2));
   }
   Object.assign(k, ARMS[n] ?? {});
+  if (HORSES.includes(n)) { k.feed = 1; k.stud = 1; k.pharma = 1; }
   const demand = Object.entries(k).reduce((s, [f, c]) => s + (c || 0) * MW[f], 0);
   k.therm = demand > (hy[n] ?? 0) ? Math.ceil((demand - (hy[n] ?? 0)) / 120) : 0;
   if (!Object.values(k).some(Boolean)) continue;
-  const order = ['steel', 'alu', 'ref', 'syn', 'rub', 'chem', 'mach', 'comp', 'eng', 'mun', 'wpn', 'tank', 'art', 'therm'];
+  const order = ['steel', 'alu', 'ref', 'syn', 'rub', 'chem', 'mach', 'comp', 'eng', 'mun', 'wpn', 'tank', 'art', 'feed', 'stud', 'pharma', 'therm'];
   nations[n] = { tier, owner: entities.get(n).owner, facilities: order.filter((f) => k[f] > 0).map((f) => ({ factory: FACT[f][0], recipeId: EQUIP[n]?.[f] ?? FACT[f][1], count: k[f] })) };
 }
 const doc = {

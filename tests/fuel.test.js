@@ -20,7 +20,7 @@ test('consumi: file valido, 7 categorie, unità ferma al 10%', () => {
 
 test('una raffineria del Pack regge 8 divisioni corazzate, il sintetico 5; la fanteria a piedi quasi nulla', () => {
   const f = json('military/fuel_consumption.json');
-  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
   const ref = cat.byId.get('FCT-REFINERY').base_capacity_per_day; const syn = cat.byId.get('FCT-SYNFUEL').base_capacity_per_day;
   assert.equal(Math.floor(unitsSupported(f, 'armor', ref)), 8);
   assert.equal(Math.floor(unitsSupported(f, 'armor', syn)), 5);

@@ -9,7 +9,7 @@ import { buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipme
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(text(p));
-const catalog = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const catalog = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
 const file = json('industry/initial_industry.json');
 const equipmentRecipes = buildEquipmentRecipes(mergeEquipmentCatalogs(['catalog', 'catalog_deu', 'catalog_fra', 'catalog_gbr', 'catalog_ita', 'catalog_ussr', 'catalog_jpn', 'catalog_usa'].map((n) => json(`units/equipment/${n}.json`))), json('units/equipment/equipment_production.json'));
 const ctx = () => ({ factoriesById: catalog.byId, recipes: withEquipmentRecipes(json('industry/recipes.json'), equipmentRecipes), entityIds: new Set(json('political_1936.json').map((e) => e.id)), nationIds: json('nations.json').map((n) => n.id) });

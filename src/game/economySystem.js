@@ -12,6 +12,11 @@ import { applyLevy, economicOwner, puppetsOf } from '../rules/puppetLevy.js';
 import { produceDay } from '../rules/production.js';
 import { fertilizerEffect } from '../rules/fertilizer.js';
 import { horseUpkeep } from '../rules/horsePool.js';
+
+// Allevamenti prima di tutte le altre fabbriche (13/11/2026): usano solo il mangime rimasto in scorta DOPO il mantenimento del pool, mentre il mangime
+// prodotto oggi entra in scorta per domani. Così i cavalli già nati hanno la precedenza e il pool non muore di fame quando il mangime non basta per entrambi
+// (prima l'allevamento consumava la produzione del giorno e il pool restava senza). Copia per il solo calcolo: l'ordine salvato non cambia.
+const studsFirst = (facilities) => (facilities.some((f) => f.type === 'FCT-STUD') ? facilities.map((f) => (f.type === 'FCT-STUD' ? { ...f, priority: -1 } : f)) : facilities);
 import { dailyIncome } from '../rules/treasury.js';
 import { bestRifleQuality, addRiflePoints } from '../rules/rifleQuality.js';
 import { techsOf } from './research.js';
@@ -83,7 +88,7 @@ export function createEconomySystem({ catalog, economy, baseline, hydro, politic
       let apCoverage = n.apCoverage;
       let produced = {}; let consumed = {}; let after = stock; let facilities = n.facilities;
       if (n.facilities.length > 0) {
-        const r = produceDay({ facilities: n.facilities, stock, hydroMw: (hydroNow[id] ?? 0) + n.baseGridMw, date: state.date }, { ...catalog, techs: techsOf(n) });
+        const r = produceDay({ facilities: studsFirst(n.facilities), stock, hydroMw: (hydroNow[id] ?? 0) + n.baseGridMw, date: state.date }, { ...catalog, techs: techsOf(n) });
         after = r.stock; produced = r.balance.produced; consumed = r.balance.consumed;
         // copertura del tungsteno dei proiettili perforanti (13/11/2026): ricevuto / richiesto oggi; senza richiesta resta il valore di ieri
         const ap = r.facilities.reduce((t, x) => { const o = x.optional?.tungsten; return o ? { need: t.need + o.need, got: t.got + o.got } : t; }, { need: 0, got: 0 });

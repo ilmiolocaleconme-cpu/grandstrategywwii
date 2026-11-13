@@ -7,7 +7,7 @@ import { produceDay, checkBalance } from '../src/rules/production.js';
 
 const text = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8');
 const recipesFile = JSON.parse(text('industry/recipes.json'));
-const fact = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+const fact = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
 const catalog = { recipes: new Map(recipesFile.recipes.map((r) => [r.id, r])), factories: fact.byId };
 const mill = (extra = {}) => ({ id: 'M1', type: 'FCT-STEEL', recipeId: 'REC-STEEL-001', ...extra });
 const power = (extra = {}) => ({ id: 'P1', type: 'FCT-POWER', recipeId: 'REC-ELECTRIC-COAL-001', ...extra });

@@ -92,7 +92,7 @@ test('validazione: id duplicato, scorta negativa, danno fuori scala, player asse
 });
 
 test('integrazione: produceDay legge gli impianti e le scorte iniziali della Germania senza errori e rispetta il bilancio', () => {
-  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
   const catalog = { recipes: new Map(allRecipeList().map((r) => [r.id, r])), factories: cat.byId };
   const d = nations.DEU;
   // le scorte iniziali coprono solo il DEFICIT: ciò che la nazione estrae in casa arriva ogni giorno dalle miniere (passo di estrazione, non ancora in SYSTEMS)
@@ -125,7 +125,7 @@ test('riserva minima di acciaio (29/10/2026): ogni nazione parte con almeno 500 
 
 test('riserva minima: scala con la difficoltà e basta all\'ordine più economico in ognuna', () => {
   const economy = json('economy/economy.json');
-  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
+  const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv'), extraFactoriesCsv: text('industry/factories_extra.csv'), extraStructuresCsv: text('infrastructure/structures_extra.csv') });
   const expected = { facile: 1890, media: 1260, reale: 882 }; // (500 riserva + 760 scorta artiglieria della fascia C) × moltiplicatore di difficoltà
   for (const d of ['facile', 'media', 'reale']) {
     const n = buildNations({ political, ...start, economy, difficulty: d });
