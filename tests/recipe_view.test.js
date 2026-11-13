@@ -94,3 +94,15 @@ test('dati reali: il riepilogo separa i pezzi in magazzino dalle tonnellate e dÃ
   assert.ok(!s.stocks.some((x) => x.id.startsWith('equipment.')), 'nessun pezzo tra le tonnellate');
   assert.deepEqual(s.equipmentStocks.map((e) => [e.pieces, e.unknown]), [[40, false]]);
 });
+
+test('defaultEquipmentRecipe: una fabbrica di armi nuova parte dal fucile, non dalla pistola', () => {
+  const recipes = new Map([
+    ['REC-INW-XXX-PISTOL', { id: 'REC-INW-XXX-PISTOL', equipmentId: 'INW-XXX-PISTOL-1939', factory: 'FCT-WEAPONS', group: 'g', role: 'officer_and_specialist_sidearm' }],
+    ['REC-INW-XXX-RIFLE', { id: 'REC-INW-XXX-RIFLE', equipmentId: 'INW-XXX-RIFLE-1939', factory: 'FCT-WEAPONS', group: 'g', role: 'individual_infantry_weapon' }],
+  ]);
+  const table = { groups: { g: { requires: null } } };
+  assert.equal(defaultEquipmentRecipe(recipes, 'XXX', 'FCT-WEAPONS', table).id, 'REC-INW-XXX-RIFLE');
+  // se resta solo la pistola, meglio la pistola di nessuna ricetta
+  recipes.delete('REC-INW-XXX-RIFLE');
+  assert.equal(defaultEquipmentRecipe(recipes, 'XXX', 'FCT-WEAPONS', table).id, 'REC-INW-XXX-PISTOL');
+});

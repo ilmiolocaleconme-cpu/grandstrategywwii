@@ -55,7 +55,7 @@ export function buildEquipmentRecipes(catalog, table) {
       ...((ov.capacityShare ?? cat.capacityShare ?? 1) < 1 ? { capacityShare: ov.capacityShare ?? cat.capacityShare } : {}),
       inputs: [{ resource: 'steel', perUnit: r6(table.inputsPerTonne.steel * mass) }, { resource: 'components', perUnit: r6(table.inputsPerTonne.components * mass) }],
       output: { product: `${EQUIPMENT_PREFIX}${e.equipment_id}`, perUnit: 1 },
-      quality: 'DESIGN_DEFAULT', equipmentId: e.equipment_id, group: cat.group,
+      quality: 'DESIGN_DEFAULT', equipmentId: e.equipment_id, group: cat.group, ...(e.role ? { role: e.role } : {}),
       rationale: `Generata dalla tabella per categoria ${e.category} (${table.quality}): peso ${mass} t, tempi di lotto e ingressi per t di peso sono valori di bilanciamento, non dati storici su ${e.designation ?? e.equipment_id}.`,
     });
   }
