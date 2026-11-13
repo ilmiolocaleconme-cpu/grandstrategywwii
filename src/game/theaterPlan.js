@@ -23,16 +23,24 @@ export const DEFENSE_MARGIN = 1.2;
 export const MIN_GARRISON = 10000;
 export const DIVISION_POWER_REF = 10000; // una divisione ≈ 10000 di potenza: serve solo a dire "mancano circa N divisioni" nell'avviso
 
-export function powerOfUnit(state, unit) {
+// ctx (facoltativo, 13/11/2026): stessi fattori della battaglia (createTheaterSystem) — ctx.equipmentFactor (dotazione d'armi) e ctx.rifleBonus
+// (qualità e tecnologie dei fucili). Senza ctx la stima è quella di prima (solo uomini e categoria).
+const extrasOf = (state, unit, ctx) => ({ rifle: ctx?.rifleBonus?.(state, unit) ?? 0, equipment: ctx?.equipmentFactor?.(state, unit) ?? 1 });
+
+export function powerOfUnit(state, unit, ctx = null) {
   const m = effectiveOf(state, unit.id);
-  return m ? divisionPower({ category: unit.category, effective: m.effective }) : 0;
+  if (!m) return 0;
+  const x = extrasOf(state, unit, ctx);
+  return divisionPower({ category: unit.category, effective: m.effective, bonus: x.rifle, equipment: x.equipment });
 }
 
 /** Potenza IN DIFESA: come powerOfUnit ma col bonus di trinceramento attuale dell'unità (src/rules/entrench.js). */
-export function defensivePowerOf(state, unit, cfg = DEFAULT_ENTRENCH) {
+export function defensivePowerOf(state, unit, cfg = DEFAULT_ENTRENCH, ctx = null) {
   const m = effectiveOf(state, unit.id);
+  if (!m) return 0;
   const dug = state.entrench?.dig?.[unit.id] === true;
-  return m ? divisionPower({ category: unit.category, effective: m.effective, bonus: dug ? entrenchBonus(state.entrench.days?.[unit.id] ?? 0, cfg) : 0 }) : 0;
+  const x = extrasOf(state, unit, ctx);
+  return divisionPower({ category: unit.category, effective: m.effective, bonus: (dug ? entrenchBonus(state.entrench.days?.[unit.id] ?? 0, cfg) : 0) + x.rifle, equipment: x.equipment });
 }
 
 /** Potenza nemica per provincia (Map): le divisioni in grado di combattere delle nazioni in guerra con `nation`. `defending`: con il loro trinceramento (serve a calcolare quanti ne servono per attaccarle). */
@@ -47,7 +55,7 @@ export function enemyPowerMap(state, ctx, nation, { defending = false } = {}) {
     if (!u || u.nation === nation || !atWar(state.war, u.nation, nation) || !isFighter(state, u)) continue;
     const at = positionOf(state.movement, ctx.initial, u.id);
     const pos = at ? provOf(at) : null;
-    if (pos) map.set(pos, (map.get(pos) ?? 0) + (defending ? defensivePowerOf(state, u, ctx.entrenchCfg) : powerOfUnit(state, u)));
+    if (pos) map.set(pos, (map.get(pos) ?? 0) + (defending ? defensivePowerOf(state, u, ctx.entrenchCfg, ctx) : powerOfUnit(state, u, ctx)));
   }
   return map;
 }
@@ -77,7 +85,7 @@ function fightersOf(state, ctx, a, { defending = false } = {}) {
     if (!at) continue;
     const pos = provOf(at);
     const order = state.movement?.orders?.[id];
-    out.push({ id, u, pos, power: defending ? defensivePowerOf(state, u, ctx.entrenchCfg) : powerOfUnit(state, u), moving: Boolean(order), dest: order ? provOf(order.path[order.path.length - 1]) : null });
+    out.push({ id, u, pos, power: defending ? defensivePowerOf(state, u, ctx.entrenchCfg, ctx) : powerOfUnit(state, u, ctx), moving: Boolean(order), dest: order ? provOf(order.path[order.path.length - 1]) : null });
   }
   return out.sort((x, y) => cmpId(x.id, y.id));
 }

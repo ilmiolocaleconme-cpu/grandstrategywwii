@@ -108,3 +108,13 @@ test('corazzate: un template per ognuna delle 6 potenze con corazzate nei dati; 
     assert.ok(tanks.length >= 2, `${n}: carri riconosciuti`);
   }
 });
+
+test('IA che pianifica: stima la forza con gli stessi fattori della battaglia (dotazione d\'armi e fucili), 13/11/2026', async () => {
+  const { powerOfUnit, defensivePowerOf } = await import('../src/game/theaterPlan.js');
+  const state = { forces: { divisions: { A: { items: { 'manpower.war': { planned: 10000, effective: 10000 } } } } }, entrench: { dig: { A: true }, days: { A: 14 } } };
+  const u = { id: 'A', nation: 'DEU', category: 'infantry' };
+  assert.equal(powerOfUnit(state, u), 10000, 'senza ctx: come prima');
+  const ctx = { equipmentFactor: () => 0.75, rifleBonus: () => 0.1 };
+  assert.equal(powerOfUnit(state, u, ctx), 10000 * 1.1 * 0.75);
+  assert.equal(defensivePowerOf(state, u, undefined, ctx), 10000 * 1.6 * 0.75, 'trinceramento + fucili, per la dotazione');
+});

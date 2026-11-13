@@ -15,10 +15,9 @@
 import { createAssignment, cancelAssignment, activeAssignments } from '../rules/theater.js';
 import { unitOf } from '../rules/unitRegistry.js';
 import { enemiesOf } from '../rules/war.js';
-import { divisionPower } from '../rules/combat.js';
 import { positionOf } from '../rules/movement.js';
 import { provinceController, isFighter } from './warCommon.js';
-import { ATTACK_RATIO } from './theaterPlan.js';
+import { ATTACK_RATIO, powerOfUnit } from './theaterPlan.js';
 
 export const PERIOD = 7;
 export const MAX_DEPTH = 6;
@@ -57,7 +56,7 @@ function snapshot(state, ctx, nation, enemies, net) {
     const at = positionOf(state.movement, ctx.initial, u.id);
     if (!at) continue;
     const pos = provOf(at);
-    const power = divisionPower({ category: u.category, effective: state.forces.divisions[u.id].items['manpower.war'].effective });
+    const power = powerOfUnit(state, u, ctx); // 13/11/2026: con dotazione d'armi e fucili, come in battaglia
     if (u.nation === nation) mine.push({ id: u.id, pos, power });
     else if (enemies.has(u.nation)) enemyPower.set(pos, (enemyPower.get(pos) ?? 0) + power);
   }
