@@ -94,3 +94,55 @@ test('azioni del giocatore: serve un\'unità propria su una sponda; ripristino e
   assert.equal(canStepOver(w.net.bridgeIndex, done.bridges, 'W', 'E'), true);
   assert.equal(sys(w.state), w.state, 'senza ripristini lo stato non cambia');
 });
+
+import { bridgeRows } from '../src/ui/bridgeView.js';
+import { loadProvinces } from '../scripts/load-provinces.js';
+
+test('ponti ipotetici: l\'indice li unisce a quelli dei dati; distrutti, il fiume principale si blocca; senza dati restano passabili', () => {
+  const inferred = { bridges: [{ id: 'LB_INF_001', a: 'W', b: 'F', riverId: 'R_MAIN', widthClass: 'medium' }] };
+  const ix = buildBridgeIndex(FILE, IDS, (id) => RIVERS[id], inferred);
+  assert.equal(pairState(ix, createBridgeState(), 'W', 'F').main, true);
+  const bs = destroyPair(createBridgeState(), ix, 'W', 'F', { day: 1 }).bridges;
+  assert.equal(canStepOver(ix, bs, 'W', 'F'), false);
+  assert.equal(ix.byId.get('LB_INF_001').inferred, true);
+  assert.equal(canStepOver(index(), createBridgeState(), 'W', 'F'), true, 'senza il ponte ipotetico la coppia non ha ponti');
+});
+
+test('dati reali: i ponti ipotetici sono ipotesi, su coppie di sponde della stessa provincia, senza duplicati e senza toccare coppie già con ponte', async () => {
+  const inf = JSON.parse(readFileSync(new URL('../data/bridges_inferred.json', import.meta.url), 'utf8'));
+  const links = JSON.parse(readFileSync(new URL('../data/links.json', import.meta.url), 'utf8'));
+  const rivers = new Map(JSON.parse(readFileSync(new URL('../data/rivers.json', import.meta.url), 'utf8')).map((r) => [r.id, r]));
+  const prov = await loadProvinces();
+  const ids = prov.features.map((f) => f.properties.id);
+  const mother = new Map(prov.features.map((f) => [f.properties.id, f.properties.parentProvince ?? null]));
+  const lk = new Map(links.links.map((l) => [l.id, l]));
+  const real = new Set(links.bridges.map((b) => [ids[lk.get(b.link).a], ids[lk.get(b.link).b]].sort().join('|')));
+  assert.equal(inf.basis, 'ipotesi');
+  assert.ok(inf.bridges.length >= 100, `ponti ipotetici: ${inf.bridges.length}`);
+  const seen = new Set(); const names = new Set();
+  for (const b of inf.bridges) {
+    const k = [b.a, b.b].sort().join('|');
+    assert.ok(!seen.has(k) && !real.has(k), `${b.id}: coppia duplicata o già con ponte`);
+    seen.add(k);
+    assert.ok(!names.has(b.id)); names.add(b.id);
+    assert.ok(mother.get(b.a) && mother.get(b.a) === mother.get(b.b), `${b.id}: non sono sponde della stessa provincia`);
+    assert.equal(rivers.get(b.riverId)?.class, 'main', `${b.id}: fiume non principale`);
+    assert.ok(b.distKm <= 2, `${b.id}: fiume troppo lontano`);
+  }
+  assert.ok(inf.unresolved.length > 0 && inf.unresolved.every((u) => u.a && u.b && u.reason), 'le coppie non risolte sono dichiarate');
+});
+
+test('vista dei ponti di un posto: righe, stato, blocco e azioni', () => {
+  const ix = index();
+  let bs = createBridgeState();
+  const rows = bridgeRows(ix, bs, 'E', { nameOf: (x) => `n-${x}`, repairCfg: cfg, day: 0 });
+  assert.deepEqual(rows.map((r) => [r.other, r.main, r.status, r.canDestroy, r.canRepair]), [['W', true, 'intact', true, false], ['F', false, 'intact', true, false]]);
+  bs = destroyPair(bs, ix, 'W', 'E', { day: 2 }).bridges;
+  const d = bridgeRows(ix, bs, 'W', { repairCfg: cfg, day: 2 })[0];
+  assert.deepEqual([d.status, d.blocked, d.canDestroy, d.canRepair, d.repairDays], ['destroyed', true, false, true, cfg.repairDays.large]);
+  bs = startRepair(bs, ix, 'W', 'E', { day: 2, cfg }).bridges;
+  const r = bridgeRows(ix, bs, 'E', { repairCfg: cfg, day: 12 })[0];
+  assert.deepEqual([r.status, r.daysLeft], ['repairing', cfg.repairDays.large - 10]);
+  assert.deepEqual(bridgeRows(null, bs, 'E'), []);
+  assert.deepEqual(bridgeRows(ix, bs, 'Z'), []);
+});

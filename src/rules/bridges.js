@@ -14,8 +14,9 @@ export function createBridgeState() {
 /**
  * Indice dei ponti: { byPair: Map chiave → { ids, main }, byId: Map id → { key, riverId, width, main } }.
  * file: data/links.json; provinceIds: id delle province nell'ordine della collezione; riverOf(riverId) → { class, widthClass } o null.
+ * inferred (facoltativo): data/bridges_inferred.json, ponti IPOTETICI (id LB_INF_*) dove una sponda e l'altra di un fiume principale non hanno ponti nei dati.
  */
-export function buildBridgeIndex(file, provinceIds, riverOf) {
+export function buildBridgeIndex(file, provinceIds, riverOf, inferred = null) {
   const links = new Map((file?.links ?? []).map((l) => [l.id, l]));
   const byPair = new Map(); const byId = new Map();
   for (const b of file?.bridges ?? []) {
@@ -29,6 +30,13 @@ export function buildBridgeIndex(file, provinceIds, riverOf) {
     e.ids.push(b.id); e.main = e.main || main;
     byPair.set(key, e);
     byId.set(b.id, { key, riverId: b.riverId, width: river?.widthClass ?? 'small', main });
+  }
+  for (const b of inferred?.bridges ?? []) {
+    const key = bridgeKey(b.a, b.b);
+    const e = byPair.get(key) ?? { ids: [], main: false };
+    e.ids.push(b.id); e.main = true; // l'inferenza riguarda solo fiumi principali
+    byPair.set(key, e);
+    byId.set(b.id, { key, riverId: b.riverId, width: b.widthClass ?? 'small', main: true, inferred: true });
   }
   return { byPair, byId };
 }

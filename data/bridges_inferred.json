@@ -1,0 +1,1286 @@
+{
+ "schema": "bridges-inferred-v1",
+ "basis": "ipotesi",
+ "quality": "hypothesis",
+ "method": "un ponte per coppia di sponde divise da un fiume principale senza ponti in links.json; posto sul confine comune, fiume = il più vicino entro 2 km (scripts/infer-bridges.js)",
+ "note": "Ponti IPOTETICI, non storici: servono perché la regola unica (fiume main = si passa solo su un ponte agibile) non trasformi una lacuna della rete moderna in una barriera assoluta.",
+ "unresolved": [
+  {
+   "a": "P_NLD_ZEELAND_SP1",
+   "b": "P_NLD_ZEELAND_SP3",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_ITA_PISA_SP1",
+   "b": "P_ITA_PISA_SP2",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_YUG_KARLOVAC_SP2",
+   "b": "P_YUG_KARLOVAC_SP3",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_YUG_KARLOVAC_SP3",
+   "b": "P_YUG_KARLOVAC_SP5",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_YUG_DUBROVNIK_SP2",
+   "b": "P_YUG_DUBROVNIK_SP5",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_YUG_DUBROVNIK_SP5",
+   "b": "P_YUG_DUBROVNIK_SP6",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_GRC_STEREA_ELLADA_SP3",
+   "b": "P_GRC_STEREA_ELLADA_SP4",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_GBR_HIGHLAND_SP1",
+   "b": "P_GBR_HIGHLAND_SP3",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_GBR_ARGYLL_AND_BUTE_SP7",
+   "b": "P_GBR_ARGYLL_AND_BUTE_SP11",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_GBR_ARGYLL_AND_BUTE_SP9",
+   "b": "P_GBR_ARGYLL_AND_BUTE_SP11",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_GBR_EILEAN_SIAR_EBRIDI_ESTERNE_SP2",
+   "b": "P_GBR_EILEAN_SIAR_EBRIDI_ESTERNE_SP3",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_GBR_EILEAN_SIAR_EBRIDI_ESTERNE_SP3",
+   "b": "P_GBR_EILEAN_SIAR_EBRIDI_ESTERNE_SP5",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_EGY_AL_MINYA_SP1",
+   "b": "P_EGY_AL_MINYA_SP3",
+   "reason": "nessun fiume entro 2 km (più vicino R_NILE a 6.4 km)"
+  },
+  {
+   "a": "P_EGY_QINA_SP1",
+   "b": "P_EGY_QINA_SP3",
+   "reason": "nessun fiume entro 2 km (più vicino R_NILE a 4.6 km)"
+  },
+  {
+   "a": "P_TUR_ISTANBUL_SP1",
+   "b": "P_TUR_ISTANBUL_SP2",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_EST_SAARE_SP1",
+   "b": "P_EST_SAARE_SP2",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_DNK_SYDDANMARK_SP2",
+   "b": "P_DNK_SYDDANMARK_SP3",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_DNK_SYDDANMARK_SP2",
+   "b": "P_DNK_SYDDANMARK_SP4",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_DNK_SJAELLAND_SP1",
+   "b": "P_DNK_SJAELLAND_SP2",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_DNK_SJAELLAND_SP1",
+   "b": "P_DNK_SJAELLAND_SP3",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_DNK_NORDJYLLAND_SP2",
+   "b": "P_DNK_NORDJYLLAND_SP3",
+   "reason": "nessun fiume entro 2 km (più vicino R_VERKSELV a 177.2 km)"
+  },
+  {
+   "a": "P_NOR_FINNMARK_SP2",
+   "b": "P_NOR_FINNMARK_SP9",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_FINNMARK_SP5",
+   "b": "P_NOR_FINNMARK_SP9",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_FINNMARK_SP6",
+   "b": "P_NOR_FINNMARK_SP9",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_TROMS_SP9",
+   "b": "P_NOR_TROMS_SP12",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_TROMS_SP12",
+   "b": "P_NOR_TROMS_SP15",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_TROMS_SP15",
+   "b": "P_NOR_TROMS_SP18",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_HORDALAND_SP2",
+   "b": "P_NOR_HORDALAND_SP4",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_HORDALAND_SP4",
+   "b": "P_NOR_HORDALAND_SP8",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_MORE_OG_ROMSDAL_SP2",
+   "b": "P_NOR_MORE_OG_ROMSDAL_SP10",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_MORE_OG_ROMSDAL_SP7",
+   "b": "P_NOR_MORE_OG_ROMSDAL_SP10",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_MORE_OG_ROMSDAL_SP10",
+   "b": "P_NOR_MORE_OG_ROMSDAL_SP15",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_NORDLAND_SP4",
+   "b": "P_NOR_NORDLAND_SP8",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_NORDLAND_SP4",
+   "b": "P_NOR_NORDLAND_SP19",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_NORDLAND_SP8",
+   "b": "P_NOR_NORDLAND_SP11",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_NORDLAND_SP19",
+   "b": "P_NOR_NORDLAND_SP25",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_NORD_TRONDELAG_SP5",
+   "b": "P_NOR_NORD_TRONDELAG_SP8",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_NOR_NORD_TRONDELAG_SP8",
+   "b": "P_NOR_NORD_TRONDELAG_SP9",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_FIN_FINLAND_PROPER_SP2",
+   "b": "P_FIN_FINLAND_PROPER_SP19",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_USSR_SAKHA_YAKUTIA_SP5",
+   "b": "P_USSR_SAKHA_YAKUTIA_SP26",
+   "reason": "nessun fiume entro 2 km (più vicino R_TROFIMOVSKAYA_PROTOKA a 354.4 km)"
+  },
+  {
+   "a": "P_USSR_ARKHANGELSK_SP5",
+   "b": "P_USSR_ARKHANGELSK_SP7",
+   "reason": "nessun fiume entro 2 km (più vicino R_NIZHNYAYA_TAYMYRA a 932.2 km)"
+  },
+  {
+   "a": "P_USSR_ARKHANGELSK_SP14",
+   "b": "P_USSR_ARKHANGELSK_SP17",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_USSR_ARKHANGELSK_SP16",
+   "b": "P_USSR_ARKHANGELSK_SP18",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_USSR_ARKHANGELSK_SP16",
+   "b": "P_USSR_ARKHANGELSK_SP19",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_USSR_ARKHANGELSK_SP38",
+   "b": "P_USSR_ARKHANGELSK_SP39",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_USSR_ARKHANGELSK_SP46",
+   "b": "P_USSR_ARKHANGELSK_SP48",
+   "reason": "confine comune non trovato"
+  },
+  {
+   "a": "P_USSR_CHUKCHI_AUTONOMOUS_OKRUG_SP6",
+   "b": "P_USSR_CHUKCHI_AUTONOMOUS_OKRUG_SP9",
+   "reason": "confine comune non trovato"
+  }
+ ],
+ "bridges": [
+  {
+   "id": "LB_INF_001",
+   "a": "P_ITA_UDINE_SP1",
+   "b": "P_ITA_UDINE_SP2",
+   "riverId": "R_PIAVE",
+   "widthClass": "small",
+   "lon": 12.3065,
+   "lat": 46.2592,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_002",
+   "a": "P_ITA_VERONA_SP1",
+   "b": "P_ITA_VERONA_SP2",
+   "riverId": "R_PIAVE",
+   "widthClass": "small",
+   "lon": 12.1926,
+   "lat": 45.8515,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_003",
+   "a": "P_ITA_VENEZIA_SP1",
+   "b": "P_ITA_VENEZIA_SP2",
+   "riverId": "R_PIAVE",
+   "widthClass": "small",
+   "lon": 12.7053,
+   "lat": 45.5697,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_004",
+   "a": "P_ITA_BOLOGNA_SP1",
+   "b": "P_ITA_BOLOGNA_SP2",
+   "riverId": "R_RENO",
+   "widthClass": "small",
+   "lon": 11.264,
+   "lat": 44.4116,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_005",
+   "a": "P_ITA_RAVENNA_SP1",
+   "b": "P_ITA_RAVENNA_SP2",
+   "riverId": "R_RENO",
+   "widthClass": "small",
+   "lon": 11.9605,
+   "lat": 44.5766,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_006",
+   "a": "P_ITA_BARI_SP1",
+   "b": "P_ITA_BARI_SP2",
+   "riverId": "R_OFANTO",
+   "widthClass": "small",
+   "lon": 16.2006,
+   "lat": 41.3366,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_007",
+   "a": "P_ITA_CASERTA_SP1",
+   "b": "P_ITA_CASERTA_SP2",
+   "riverId": "R_VOLTURNO",
+   "widthClass": "small",
+   "lon": 14.7151,
+   "lat": 41.2072,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_008",
+   "a": "P_YUG_BITOLJ_SP1",
+   "b": "P_YUG_BITOLJ_SP2",
+   "riverId": "R_TRESKA",
+   "widthClass": "small",
+   "lon": 22.2192,
+   "lat": 41.4337,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_009",
+   "a": "P_YUG_SKOPJE_SP1",
+   "b": "P_YUG_SKOPJE_SP2",
+   "riverId": "R_TRESKA",
+   "widthClass": "small",
+   "lon": 21.3005,
+   "lat": 41.9567,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_010",
+   "a": "P_YUG_MOSTAR_SP1",
+   "b": "P_YUG_MOSTAR_SP4",
+   "riverId": "R_NERETVA",
+   "widthClass": "small",
+   "lon": 18.0532,
+   "lat": 43.582,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_011",
+   "a": "P_YUG_MOSTAR_SP2",
+   "b": "P_YUG_MOSTAR_SP4",
+   "riverId": "R_NERETVA",
+   "widthClass": "small",
+   "lon": 17.8574,
+   "lat": 43.4262,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_012",
+   "a": "P_FRA_SOMME_SP1",
+   "b": "P_FRA_SOMME_SP2",
+   "riverId": "R_SOMME",
+   "widthClass": "small",
+   "lon": 2.6804,
+   "lat": 49.9287,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_013",
+   "a": "P_FRA_LOZERE_SP1",
+   "b": "P_FRA_LOZERE_SP2",
+   "riverId": "R_TARN",
+   "widthClass": "small",
+   "lon": 3.4897,
+   "lat": 44.3497,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_014",
+   "a": "P_FRA_AUDE_SP2",
+   "b": "P_FRA_AUDE_SP3",
+   "riverId": "R_AUDE",
+   "widthClass": "small",
+   "lon": 2.2449,
+   "lat": 43.0449,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_015",
+   "a": "P_FRA_TARN_SP1",
+   "b": "P_FRA_TARN_SP2",
+   "riverId": "R_TARN",
+   "widthClass": "small",
+   "lon": 1.9066,
+   "lat": 43.8917,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_016",
+   "a": "P_FRA_AVEYRON_SP1",
+   "b": "P_FRA_AVEYRON_SP3",
+   "riverId": "R_LOT",
+   "widthClass": "small",
+   "lon": 2.6734,
+   "lat": 44.5591,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_017",
+   "a": "P_FRA_AVEYRON_SP3",
+   "b": "P_FRA_AVEYRON_SP4",
+   "riverId": "R_TARN",
+   "widthClass": "small",
+   "lon": 2.9052,
+   "lat": 44.0749,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_018",
+   "a": "P_FRA_LOT_SP1",
+   "b": "P_FRA_LOT_SP2",
+   "riverId": "R_LOT",
+   "widthClass": "small",
+   "lon": 1.4059,
+   "lat": 44.4945,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_019",
+   "a": "P_HUN_VAS_SP1",
+   "b": "P_HUN_VAS_SP2",
+   "riverId": "R_ZALA",
+   "widthClass": "small",
+   "lon": 16.3514,
+   "lat": 46.8766,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_020",
+   "a": "P_HUN_ZALA_SP1",
+   "b": "P_HUN_ZALA_SP2",
+   "riverId": "R_ZALA",
+   "widthClass": "small",
+   "lon": 16.9055,
+   "lat": 46.8896,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_021",
+   "a": "P_ROM_BACAU_SP1",
+   "b": "P_ROM_BACAU_SP2",
+   "riverId": "R_TROTU",
+   "widthClass": "small",
+   "lon": 26.4951,
+   "lat": 46.3906,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_022",
+   "a": "P_ROM_VRANCEA_SP1",
+   "b": "P_ROM_VRANCEA_SP2",
+   "riverId": "R_TROTU",
+   "widthClass": "small",
+   "lon": 27.2078,
+   "lat": 46.072,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_023",
+   "a": "P_ROM_NEAMT_SP1",
+   "b": "P_ROM_NEAMT_SP2",
+   "riverId": "R_SIRET",
+   "widthClass": "small",
+   "lon": 26.9696,
+   "lat": 46.9016,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_024",
+   "a": "P_ROM_IASI_SP1",
+   "b": "P_ROM_IASI_SP2",
+   "riverId": "R_SIRET",
+   "widthClass": "small",
+   "lon": 26.7922,
+   "lat": 47.1623,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_025",
+   "a": "P_ROM_BRAILA_SP1",
+   "b": "P_ROM_BRAILA_SP2",
+   "riverId": "R_BUZU",
+   "widthClass": "small",
+   "lon": 27.4295,
+   "lat": 45.2626,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_026",
+   "a": "P_ROM_BUZAU_SP1",
+   "b": "P_ROM_BUZAU_SP2",
+   "riverId": "R_BUZU",
+   "widthClass": "small",
+   "lon": 26.4989,
+   "lat": 45.2563,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_027",
+   "a": "P_BGR_BLAGOEVGRAD_SP1",
+   "b": "P_BGR_BLAGOEVGRAD_SP2",
+   "riverId": "R_NESTOS",
+   "widthClass": "small",
+   "lon": 23.5791,
+   "lat": 41.8777,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_028",
+   "a": "P_BGR_BLAGOEVGRAD_SP2",
+   "b": "P_BGR_BLAGOEVGRAD_SP3",
+   "riverId": "R_STRUMA",
+   "widthClass": "small",
+   "lon": 23.1904,
+   "lat": 41.6417,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_029",
+   "a": "P_BGR_KYUSTENDIL_SP1",
+   "b": "P_BGR_KYUSTENDIL_SP2",
+   "riverId": "R_STRUMA",
+   "widthClass": "small",
+   "lon": 22.8888,
+   "lat": 42.2503,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_030",
+   "a": "P_BGR_BURGAS_SP1",
+   "b": "P_BGR_BURGAS_SP2",
+   "riverId": "R_KAMCHIYA",
+   "widthClass": "small",
+   "lon": 26.9777,
+   "lat": 42.8842,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_031",
+   "a": "P_BGR_VARNA_SP1",
+   "b": "P_BGR_VARNA_SP2",
+   "riverId": "R_KAMCHIYA",
+   "widthClass": "small",
+   "lon": 27.5078,
+   "lat": 43.0443,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_032",
+   "a": "P_BGR_PERNIK_SP1",
+   "b": "P_BGR_PERNIK_SP2",
+   "riverId": "R_STRUMA",
+   "widthClass": "small",
+   "lon": 22.9468,
+   "lat": 42.5762,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_033",
+   "a": "P_GRC_IPEIROS_SP1",
+   "b": "P_GRC_IPEIROS_SP2",
+   "riverId": "R_VJOS",
+   "widthClass": "small",
+   "lon": 20.7258,
+   "lat": 40.0382,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_034",
+   "a": "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI_SP1",
+   "b": "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI_SP2",
+   "riverId": "R_NESTOS",
+   "widthClass": "small",
+   "lon": 24.5488,
+   "lat": 41.2671,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_035",
+   "a": "P_GRC_DYTIKI_ELLADA_SP2",
+   "b": "P_GRC_DYTIKI_ELLADA_SP3",
+   "riverId": "R_ACHELOUS",
+   "widthClass": "small",
+   "lon": 21.2649,
+   "lat": 38.5983,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_036",
+   "a": "P_GRC_THESSALIA_SP1",
+   "b": "P_GRC_THESSALIA_SP2",
+   "riverId": "R_ACHELOUS",
+   "widthClass": "small",
+   "lon": 21.2681,
+   "lat": 39.4145,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_037",
+   "a": "P_GRC_THESSALIA_SP1",
+   "b": "P_GRC_THESSALIA_SP3",
+   "riverId": "R_PINEIOS",
+   "widthClass": "small",
+   "lon": 22.1963,
+   "lat": 39.598,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_038",
+   "a": "P_ALB_KORCE_SP1",
+   "b": "P_ALB_KORCE_SP2",
+   "riverId": "R_DEVOLL",
+   "widthClass": "small",
+   "lon": 20.8357,
+   "lat": 40.7502,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_039",
+   "a": "P_ALB_ELBASAN_SP1",
+   "b": "P_ALB_ELBASAN_SP2",
+   "riverId": "R_DEVOLL",
+   "widthClass": "small",
+   "lon": 20.0311,
+   "lat": 40.9908,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_040",
+   "a": "P_ALB_FIER_SP1",
+   "b": "P_ALB_FIER_SP2",
+   "riverId": "R_DEVOLL",
+   "widthClass": "small",
+   "lon": 19.6188,
+   "lat": 40.9512,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_041",
+   "a": "P_ALB_GJIROKASTER_SP1",
+   "b": "P_ALB_GJIROKASTER_SP2",
+   "riverId": "R_VJOS",
+   "widthClass": "small",
+   "lon": 20.0713,
+   "lat": 40.2971,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_042",
+   "a": "P_ALB_DIBER_SP1",
+   "b": "P_ALB_DIBER_SP2",
+   "riverId": "R_DRIN",
+   "widthClass": "small",
+   "lon": 20.3473,
+   "lat": 41.6794,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_043",
+   "a": "P_ALB_SHKODER_SP1",
+   "b": "P_ALB_SHKODER_SP2",
+   "riverId": "R_DRIN",
+   "widthClass": "small",
+   "lon": 19.6675,
+   "lat": 42.0721,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_044",
+   "a": "P_ESP_ALBACETE_SP1",
+   "b": "P_ESP_ALBACETE_SP2",
+   "riverId": "R_JUCAR_XUQUER",
+   "widthClass": "small",
+   "lon": -1.753,
+   "lat": 39.1521,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_045",
+   "a": "P_ESP_ALBACETE_SP2",
+   "b": "P_ESP_ALBACETE_SP3",
+   "riverId": "R_SEGURA",
+   "widthClass": "small",
+   "lon": -2.0753,
+   "lat": 38.4185,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_046",
+   "a": "P_ESP_MURCIA_SP1",
+   "b": "P_ESP_MURCIA_SP3",
+   "riverId": "R_SEGURA",
+   "widthClass": "small",
+   "lon": -1.2871,
+   "lat": 38.113,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_047",
+   "a": "P_ESP_VALENCIA_SP3",
+   "b": "P_ESP_VALENCIA_SP4",
+   "riverId": "R_TURIA",
+   "widthClass": "small",
+   "lon": -0.8533,
+   "lat": 39.6164,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_048",
+   "a": "P_ESP_VALENCIA_SP4",
+   "b": "P_ESP_VALENCIA_SP5",
+   "riverId": "R_JUCAR_XUQUER",
+   "widthClass": "small",
+   "lon": -0.6637,
+   "lat": 39.1623,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_049",
+   "a": "P_ESP_SANTANDER_SP1",
+   "b": "P_ESP_SANTANDER_SP2",
+   "riverId": "R_EBRO",
+   "widthClass": "large",
+   "lon": -4.2276,
+   "lat": 43.0269,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_050",
+   "a": "P_ESP_LERIDA_SP1",
+   "b": "P_ESP_LERIDA_SP2",
+   "riverId": "R_CARDENER",
+   "widthClass": "small",
+   "lon": 1.5764,
+   "lat": 42.088,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_051",
+   "a": "P_ESP_ORENSE_SP1",
+   "b": "P_ESP_ORENSE_SP2",
+   "riverId": "R_MINHO",
+   "widthClass": "small",
+   "lon": -8.0081,
+   "lat": 42.35,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_052",
+   "a": "P_PRT_BEJA_SP2",
+   "b": "P_PRT_BEJA_SP3",
+   "riverId": "R_SADO",
+   "widthClass": "small",
+   "lon": -8.0244,
+   "lat": 37.8874,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_053",
+   "a": "P_PRT_SETUBAL_SP1",
+   "b": "P_PRT_SETUBAL_SP2",
+   "riverId": "R_SADO",
+   "widthClass": "small",
+   "lon": -8.4675,
+   "lat": 38.3088,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_054",
+   "a": "P_PRT_SANTAREM_SP2",
+   "b": "P_PRT_SANTAREM_SP3",
+   "riverId": "R_SORRAIA",
+   "widthClass": "small",
+   "lon": -8.5295,
+   "lat": 38.9614,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_055",
+   "a": "P_MAR_MEKNES___TAFILALET_SP1",
+   "b": "P_MAR_MEKNES___TAFILALET_SP2",
+   "riverId": "R_MOULOUYA",
+   "widthClass": "small",
+   "lon": -5.0321,
+   "lat": 32.7279,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_056",
+   "a": "P_MAR_TAZA___AL_HOCEIMA___TAOUNATE_SP1",
+   "b": "P_MAR_TAZA___AL_HOCEIMA___TAOUNATE_SP2",
+   "riverId": "R_MOULOUYA",
+   "widthClass": "small",
+   "lon": -3.3703,
+   "lat": 34.1533,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_057",
+   "a": "P_MAR_FES___BOULEMANE_SP2",
+   "b": "P_MAR_FES___BOULEMANE_SP3",
+   "riverId": "R_MOULOUYA",
+   "widthClass": "small",
+   "lon": -3.6659,
+   "lat": 33.3513,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_058",
+   "a": "P_MAR_TADLA___AZILAL_SP3",
+   "b": "P_MAR_TADLA___AZILAL_SP4",
+   "riverId": "R_OUM_ER_RBIA",
+   "widthClass": "small",
+   "lon": -6.4444,
+   "lat": 32.5167,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_059",
+   "a": "P_MAR_DOUKKALA___ABDA_SP1",
+   "b": "P_MAR_DOUKKALA___ABDA_SP2",
+   "riverId": "R_OUM_ER_RBIA",
+   "widthClass": "small",
+   "lon": -8.3028,
+   "lat": 33.2639,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_060",
+   "a": "P_MAR_ES_PROTETTORATO_NORD_SP1",
+   "b": "P_MAR_ES_PROTETTORATO_NORD_SP2",
+   "riverId": "R_MOULOUYA",
+   "widthClass": "small",
+   "lon": -2.8194,
+   "lat": 34.7257,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_061",
+   "a": "P_GBR_BEDFORDSHIRE_SP1",
+   "b": "P_GBR_BEDFORDSHIRE_SP2",
+   "riverId": "R_GREAT_OUSE",
+   "widthClass": "small",
+   "lon": -0.5258,
+   "lat": 52.1516,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_062",
+   "a": "P_GBR_CAMBRIDGESHIRE_SP1",
+   "b": "P_GBR_CAMBRIDGESHIRE_SP2",
+   "riverId": "R_GREAT_OUSE",
+   "widthClass": "small",
+   "lon": -0.115,
+   "lat": 52.3403,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_063",
+   "a": "P_GBR_NORFOLK_SP1",
+   "b": "P_GBR_NORFOLK_SP2",
+   "riverId": "R_GREAT_OUSE",
+   "widthClass": "small",
+   "lon": 0.368,
+   "lat": 52.6965,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_064",
+   "a": "P_GBR_SCOTTISH_BORDERS_SP1",
+   "b": "P_GBR_SCOTTISH_BORDERS_SP2",
+   "riverId": "R_TWEED",
+   "widthClass": "small",
+   "lon": -2.972,
+   "lat": 55.6304,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_065",
+   "a": "P_GBR_YORKSHIRE_SP1",
+   "b": "P_GBR_YORKSHIRE_SP2",
+   "riverId": "R_SWALE",
+   "widthClass": "small",
+   "lon": -1.3627,
+   "lat": 54.1732,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_066",
+   "a": "P_GBR_HEREFORDSHIRE_SP1",
+   "b": "P_GBR_HEREFORDSHIRE_SP2",
+   "riverId": "R_WYE",
+   "widthClass": "small",
+   "lon": -2.6428,
+   "lat": 52.0341,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_067",
+   "a": "P_SYR_AR_RAQQAH_SP1",
+   "b": "P_SYR_AR_RAQQAH_SP2",
+   "riverId": "R_EUPHRATES",
+   "widthClass": "large",
+   "lon": 39.1165,
+   "lat": 35.8849,
+   "distKm": 0.08
+  },
+  {
+   "id": "LB_INF_068",
+   "a": "P_TUR_IZMIR_SP1",
+   "b": "P_TUR_IZMIR_SP2",
+   "riverId": "R_GEDIZ",
+   "widthClass": "small",
+   "lon": 27.0331,
+   "lat": 38.6508,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_069",
+   "a": "P_TUR_ELAZIG_SP1",
+   "b": "P_TUR_ELAZIG_SP2",
+   "riverId": "R_EUPHRATES",
+   "widthClass": "large",
+   "lon": 38.7164,
+   "lat": 38.7805,
+   "distKm": 0.06
+  },
+  {
+   "id": "LB_INF_070",
+   "a": "P_LVA_PIERIGA_SP2",
+   "b": "P_LVA_PIERIGA_SP3",
+   "riverId": "R_MA",
+   "widthClass": "small",
+   "lon": 23.7704,
+   "lat": 56.9516,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_071",
+   "a": "P_LVA_KURZEME_SP1",
+   "b": "P_LVA_KURZEME_SP2",
+   "riverId": "R_VENTA",
+   "widthClass": "small",
+   "lon": 21.9772,
+   "lat": 56.9853,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_072",
+   "a": "P_LVA_ZEMGALE_SP1",
+   "b": "P_LVA_ZEMGALE_SP2",
+   "riverId": "R_MA",
+   "widthClass": "small",
+   "lon": 23.9977,
+   "lat": 56.5363,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_073",
+   "a": "P_LTU_SIAULIAI_SP1",
+   "b": "P_LTU_SIAULIAI_SP2",
+   "riverId": "R_VENTA",
+   "widthClass": "small",
+   "lon": 22.9348,
+   "lat": 55.9104,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_074",
+   "a": "P_NOR_OPPLAND_SP1",
+   "b": "P_NOR_OPPLAND_SP2",
+   "riverId": "R_BEGNA",
+   "widthClass": "small",
+   "lon": 9.1338,
+   "lat": 60.9892,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_075",
+   "a": "P_NOR_AUST_AGDER_SP1",
+   "b": "P_NOR_AUST_AGDER_SP2",
+   "riverId": "R_VERKSELV",
+   "widthClass": "small",
+   "lon": 8.5379,
+   "lat": 58.7319,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_076",
+   "a": "P_NOR_VESTFOLD_SP1",
+   "b": "P_NOR_VESTFOLD_SP2",
+   "riverId": "R_NUMEDALSLAGEN",
+   "widthClass": "small",
+   "lon": 9.8939,
+   "lat": 59.3152,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_077",
+   "a": "P_NOR_NORD_TRONDELAG_SP5",
+   "b": "P_NOR_NORD_TRONDELAG_SP9",
+   "riverId": "R_NAMSEN",
+   "widthClass": "small",
+   "lon": 12.4353,
+   "lat": 64.5552,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_078",
+   "a": "P_SWE_KALMAR_SP1",
+   "b": "P_SWE_KALMAR_SP2",
+   "riverId": "R_EMAN",
+   "widthClass": "small",
+   "lon": 15.9539,
+   "lat": 57.2186,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_079",
+   "a": "P_SWE_OREBRO_SP1",
+   "b": "P_SWE_OREBRO_SP2",
+   "riverId": "R_ARBOGA",
+   "widthClass": "small",
+   "lon": 15.218,
+   "lat": 59.6269,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_080",
+   "a": "P_FIN_NORTHERN_OSTROBOTHNIA_SP3",
+   "b": "P_FIN_NORTHERN_OSTROBOTHNIA_SP4",
+   "riverId": "R_SIIKAJOKI",
+   "widthClass": "small",
+   "lon": 25.9727,
+   "lat": 64.3462,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_081",
+   "a": "P_FIN_NORTHERN_OSTROBOTHNIA_SP4",
+   "b": "P_FIN_NORTHERN_OSTROBOTHNIA_SP5",
+   "riverId": "R_KALAJOKI",
+   "widthClass": "small",
+   "lon": 24.8015,
+   "lat": 63.973,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_082",
+   "a": "P_FIN_SOUTHERN_OSTROBOTHNIA_SP3",
+   "b": "P_FIN_SOUTHERN_OSTROBOTHNIA_SP4",
+   "riverId": "R_KYRONJOKI",
+   "widthClass": "small",
+   "lon": 22.4373,
+   "lat": 62.5947,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_083",
+   "a": "P_FIN_OSTROBOTHNIA_SP2",
+   "b": "P_FIN_OSTROBOTHNIA_SP3",
+   "riverId": "R_ESSE",
+   "widthClass": "small",
+   "lon": 23.1079,
+   "lat": 63.5942,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_084",
+   "a": "P_FIN_OSTROBOTHNIA_SP3",
+   "b": "P_FIN_OSTROBOTHNIA_SP8",
+   "riverId": "R_LAPUANJOKI",
+   "widthClass": "small",
+   "lon": 22.552,
+   "lat": 63.4679,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_085",
+   "a": "P_FIN_OSTROBOTHNIA_SP8",
+   "b": "P_FIN_OSTROBOTHNIA_SP11",
+   "riverId": "R_KYRONJOKI",
+   "widthClass": "small",
+   "lon": 21.966,
+   "lat": 63.0778,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_086",
+   "a": "P_FIN_NORTH_KARELIA_SP1",
+   "b": "P_FIN_NORTH_KARELIA_SP2",
+   "riverId": "R_JANISJOKI",
+   "widthClass": "small",
+   "lon": 30.5593,
+   "lat": 62.4592,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_087",
+   "a": "P_USSR_ATYRAU_SP1",
+   "b": "P_USSR_ATYRAU_SP3",
+   "riverId": "R_ZHEM",
+   "widthClass": "small",
+   "lon": 54.0239,
+   "lat": 47.0376,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_088",
+   "a": "P_USSR_SAMEGRELO_ZEMO_SVANETI_SP1",
+   "b": "P_USSR_SAMEGRELO_ZEMO_SVANETI_SP2",
+   "riverId": "R_RIONI",
+   "widthClass": "small",
+   "lon": 41.9558,
+   "lat": 42.2227,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_089",
+   "a": "P_USSR_KRASNODAR_SP1",
+   "b": "P_USSR_KRASNODAR_SP2",
+   "riverId": "R_BEYSUG",
+   "widthClass": "small",
+   "lon": 39.5855,
+   "lat": 46.1191,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_090",
+   "a": "P_USSR_KOTAYK_SP1",
+   "b": "P_USSR_KOTAYK_SP2",
+   "riverId": "R_HRAZDAN",
+   "widthClass": "small",
+   "lon": 44.6019,
+   "lat": 40.3856,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_091",
+   "a": "P_USSR_KAKHETI_SP1",
+   "b": "P_USSR_KAKHETI_SP2",
+   "riverId": "R_SULAK",
+   "widthClass": "small",
+   "lon": 45.5417,
+   "lat": 42.403,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_092",
+   "a": "P_USSR_KAKHETI_SP2",
+   "b": "P_USSR_KAKHETI_SP3",
+   "riverId": "R_ALAZANI",
+   "widthClass": "small",
+   "lon": 45.5882,
+   "lat": 41.9983,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_093",
+   "a": "P_USSR_DAGESTAN_SP1",
+   "b": "P_USSR_DAGESTAN_SP3",
+   "riverId": "R_TEREK",
+   "widthClass": "small",
+   "lon": 46.992,
+   "lat": 43.7842,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_094",
+   "a": "P_USSR_DAGESTAN_SP3",
+   "b": "P_USSR_DAGESTAN_SP4",
+   "riverId": "R_SULAK",
+   "widthClass": "small",
+   "lon": 46.8137,
+   "lat": 42.8217,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_095",
+   "a": "P_USSR_IMERETI_SP1",
+   "b": "P_USSR_IMERETI_SP2",
+   "riverId": "R_RIONI",
+   "widthClass": "small",
+   "lon": 42.7096,
+   "lat": 42.1623,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_096",
+   "a": "P_USSR_RACHA_LECHKHUMI_KVEMO_SVANETI_SP1",
+   "b": "P_USSR_RACHA_LECHKHUMI_KVEMO_SVANETI_SP2",
+   "riverId": "R_RIONI",
+   "widthClass": "small",
+   "lon": 43.4095,
+   "lat": 42.5873,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_097",
+   "a": "P_USSR_CHECHNYA_SP1",
+   "b": "P_USSR_CHECHNYA_SP2",
+   "riverId": "R_TEREK",
+   "widthClass": "small",
+   "lon": 45.7515,
+   "lat": 43.5346,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_098",
+   "a": "P_USSR_MTSKHETA_MTIANETI_SP1",
+   "b": "P_USSR_MTSKHETA_MTIANETI_SP2",
+   "riverId": "R_TEREK",
+   "widthClass": "small",
+   "lon": 44.4736,
+   "lat": 42.5858,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_099",
+   "a": "P_USSR_NORTH_OSSETIA_SP1",
+   "b": "P_USSR_NORTH_OSSETIA_SP2",
+   "riverId": "R_TEREK",
+   "widthClass": "small",
+   "lon": 44.6525,
+   "lat": 43.7327,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_100",
+   "a": "P_USSR_NORTH_OSSETIA_SP2",
+   "b": "P_USSR_NORTH_OSSETIA_SP3",
+   "riverId": "R_TEREK",
+   "widthClass": "small",
+   "lon": 44.5568,
+   "lat": 43.1662,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_101",
+   "a": "P_USSR_KABARDIN_BALKAR_SP1",
+   "b": "P_USSR_KABARDIN_BALKAR_SP2",
+   "riverId": "R_TEREK",
+   "widthClass": "small",
+   "lon": 44.0978,
+   "lat": 43.6029,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_102",
+   "a": "P_USSR_KHABAROVSK_SP1",
+   "b": "P_USSR_KHABAROVSK_SP2",
+   "riverId": "R_KUKHTUY",
+   "widthClass": "medium",
+   "lon": 143.0435,
+   "lat": 60.5565,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_103",
+   "a": "P_IRL_ULSTER_SP3",
+   "b": "P_IRL_ULSTER_SP4",
+   "riverId": "R_ANNALEE",
+   "widthClass": "small",
+   "lon": -7.2421,
+   "lat": 54.0615,
+   "distKm": 0
+  },
+  {
+   "id": "LB_INF_104",
+   "a": "P_IRL_MUNSTER_SP2",
+   "b": "P_IRL_MUNSTER_SP3",
+   "riverId": "R_SUIR",
+   "widthClass": "small",
+   "lon": -7.9656,
+   "lat": 52.5221,
+   "distKm": 0
+  }
+ ]
+}

@@ -76,11 +76,15 @@ import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
 import { buildBridgeIndex } from './rules/bridges.js';
+import inferredBridges from '../data/bridges_inferred.json';
 import { createBridgeSystem } from './game/bridgeState.js';
 import { createDefenseMultiplier, validateDefenseModifiers, riverFactor } from './rules/defenseModifiers.js';
 import defenseFile from '../data/combat/defense_modifiers.json';
+import bridgesCfg from '../data/combat/bridges.json';
+import { bridgeRows } from './ui/bridgeView.js';
+import BridgeSection from './ui/BridgeSection.jsx';
+import { playerDestroyBridge, playerRepairBridge } from './game/bridgeState.js';
 import terrainClassFile from '../data/combat/terrain_class.json';
-import presenceFile from '../data/military/province_presence.json';
 import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, provinceController, isFighter, moveIntent, playerToggleEntrench, entrenchOf } from './game/theaterState.js';
 import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
@@ -658,6 +662,17 @@ export default function App() {
     const id = selectedItem?.props?.id;
     return game && id ? provinceBuildOptions(game, game.player, id, BUILD_CTX) : null;
   }, [game, selectedItem]);
+  // ponti del posto selezionato (stato in state.bridges, indice sulla rete di movimento)
+  const bridgeRowsSel = useMemo(() => {
+    const id = selectedItem?.props?.id;
+    return game && id && moveNet?.bridgeIndex ? bridgeRows(moveNet.bridgeIndex, game.bridges, id, { nameOf: provinceName, repairCfg: bridgesCfg, day: game.day }) : [];
+  }, [game, selectedItem, moveNet, moveNet?.bridgeIndex, provinceName]); // eslint-disable-line react-hooks/exhaustive-deps
+  const bridgeAction = (fn) => (row) => {
+    const id = selectedItem?.props?.id;
+    try {
+      setGame((g) => fn(g, { a: id, b: row.other, ctx: { unitsById: unitsView(g, UNITS_BY_ID), initial: INITIAL_POSITIONS }, net: moveNet, cfg: bridgesCfg }).state);
+    } catch (e) { setArmyNotice(e.message); }
+  };
   // provincia intera (somma delle sponde) per il pulsante «Provincia» del pannello della sponda
   const provinceTotal = useMemo(() => {
     const id = selectedItem?.props?.id;
@@ -845,7 +860,7 @@ export default function App() {
   useEffect(() => {
     if (!moveNet || !linksRaw || !provinces || !rivers) return;
     const byId = new Map(rivers.map((r) => [r.id, r]));
-    moveNet.bridgeIndex = buildBridgeIndex(linksRaw, provinces.features.map((f) => f.properties.id), (id) => byId.get(id) ?? null);
+    moveNet.bridgeIndex = buildBridgeIndex(linksRaw, provinces.features.map((f) => f.properties.id), (id) => byId.get(id) ?? null, inferredBridges);
   }, [moveNet, linksRaw, provinces, rivers]);
   // rotte marittime: servono le zone di mare e le province (stesso ordine di data/sea_zones.json); i porti vengono da data/ports e da state.ports
   useEffect(() => {
@@ -1101,7 +1116,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel sum={provinceTotal} hqs={selectedItem ? (estimatedHqs.get(selectedItem.props.id) ?? estimatedHqs.get(selectedItem.props.parentProvince ?? selectedItem.props.id) ?? null) : null} onOpenHq={(id) => { setHqId(id); setInfoOpen(false); }} item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} ports={provincePorts} focusPortId={selectedItem.id} /> : null} />
+            <ProvincePanel sum={provinceTotal} hqs={selectedItem ? (estimatedHqs.get(selectedItem.props.id) ?? estimatedHqs.get(selectedItem.props.parentProvince ?? selectedItem.props.id) ?? null) : null} onOpenHq={(id) => { setHqId(id); setInfoOpen(false); }} item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={<>{bridgeRowsSel.length ? <BridgeSection rows={bridgeRowsSel} onDestroy={bridgeAction(playerDestroyBridge)} onRepair={bridgeAction(playerRepairBridge)} /> : null}{buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} ports={provincePorts} focusPortId={selectedItem.id} /> : null}</>} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>
