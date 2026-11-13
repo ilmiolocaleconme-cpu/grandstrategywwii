@@ -29,9 +29,14 @@ export const PROVINCE_STATE_FIELDS = Object.freeze({
 });
 
 /** Stato completo di una provincia: i default più quanto salvato. */
+const STATE_DEFAULTS = Object.freeze(Object.fromEntries(Object.entries(PROVINCE_STATE_FIELDS).map(([k, f]) => [k, f.default]))); // calcolati una volta sola: la funzione sotto gira migliaia di volte al giorno
 export function provinceStateOf(state, id) {
-  const defaults = Object.fromEntries(Object.entries(PROVINCE_STATE_FIELDS).map(([k, f]) => [k, f.default]));
-  return { ...defaults, ...(state?.provinces?.[id] ?? {}) };
+  return { ...STATE_DEFAULTS, ...(state?.provinces?.[id] ?? {}) };
+}
+
+/** Controllore scritto sulla provincia (null se non ne ha uno proprio): come provinceStateOf(...).controller, senza costruire l'oggetto. */
+export function ownControllerOf(state, id) {
+  return state?.provinces?.[id]?.controller ?? STATE_DEFAULTS.controller;
 }
 
 /**

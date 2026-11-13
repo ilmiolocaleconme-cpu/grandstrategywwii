@@ -5,7 +5,7 @@
 // - react/react-dom si leggono da /opt/npm-tools/node_modules (npm non raggiunge la rete).
 // Serve solo alle misure (scripts/bench/measure.mjs): non tocca la build di produzione (`npm run build`).
 import { createRequire } from 'node:module';
-import { readdirSync, mkdirSync, writeFileSync } from 'node:fs';
+import { readdirSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -25,6 +25,19 @@ const plugin = {
   setup(b) {
     b.onResolve({ filter: /^virtual:pwa-register$/ }, () => ({ path: 'pwa-stub', namespace: 'stub' }));
     b.onLoad({ filter: /.*/, namespace: 'stub' }, () => ({ contents: 'export const registerSW = () => () => {};', loader: 'js' }));
+    // import 'x.csv?raw' (Vite): il file come testo
+    b.onResolve({ filter: /\?raw$/ }, (a) => ({ path: path.resolve(a.resolveDir, a.path.replace(/\?raw$/, '')), namespace: 'raw-text' }));
+    b.onLoad({ filter: /.*/, namespace: 'raw-text' }, (a) => ({ contents: readFileSync(a.path, 'utf8'), loader: 'text' }));
+    // import.meta.glob eager dei cataloghi di equipaggiamento in App.jsx: import espliciti
+    b.onLoad({ filter: /src[\\/]App\.jsx$/ }, () => {
+      const dir = path.join(root, 'data/units/equipment');
+      const cats = readdirSync(dir).filter((f) => /^catalog.*\.json$/.test(f)).sort();
+      let src = readFileSync(path.join(root, 'src/App.jsx'), 'utf8');
+      const glob = /Object\.values\(import\.meta\.glob\('\.\.\/data\/units\/equipment\/catalog\*\.json'[^)]*\)\)/;
+      if (!glob.test(src)) throw new Error('bench: glob dei cataloghi non trovato in App.jsx');
+      src = cats.map((f, i) => `import __cat${i} from '../data/units/equipment/${f}';\n`).join('') + src.replace(glob, `[${cats.map((_, i) => `__cat${i}`).join(', ')}]`);
+      return { contents: src, loader: 'jsx', resolveDir: path.join(root, 'src') };
+    });
     b.onLoad({ filter: /src[\\/]data[\\/]loadProvinces\.js$/ }, () => ({
       resolveDir: path.join(root, 'src/data'),
       loader: 'js',

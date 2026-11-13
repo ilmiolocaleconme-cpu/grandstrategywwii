@@ -49,7 +49,14 @@ export function createDiplomacyGame({ config, start, political = [] }) {
   }
 
   /** Nazioni ostili a `id` (guerra o rapporto <= soglia di sabotaggio). Sostituisce il vecchio file provvisorio dei rivali. */
-  const hostilesOf = (state, id) => rawHostiles(state.diplomacy, state.war, id, nationIds(state), hostileLimit);
+  // la diplomazia dell'IA chiede gli ostili di ogni nazione migliaia di volte nello stesso giorno: si ricordano finché diplomazia, guerre e nazioni sono gli stessi oggetti (lo stato è immutabile)
+  let memo = { diplomacy: null, war: null, nations: null, byId: new Map() };
+  const hostilesOf = (state, id) => {
+    if (memo.diplomacy !== state.diplomacy || memo.war !== state.war || memo.nations !== state.nations) memo = { diplomacy: state.diplomacy, war: state.war, nations: state.nations, byId: new Map() };
+    let list = memo.byId.get(id);
+    if (!list) { list = rawHostiles(state.diplomacy, state.war, id, nationIds(state), hostileLimit); memo.byId.set(id, list); }
+    return [...list];
+  };
 
   function pay(state, nationId, ecv) {
     const n = state.nations?.[nationId];
