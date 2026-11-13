@@ -87,7 +87,7 @@ test('scala di estrazione: valida, copre ogni materia prima consumata, null = N/
   assert.deepEqual(validateExtractionScale(scale, { recipes: rec, resources }), []);
   for (const id of RESOURCE_ORDER) assert.ok(id in scale.unitsPerPoint, id);
   assert.equal(pointsToUnits(10, 'coal', scale), 1250);
-  assert.equal(pointsToUnits(10, 'tungsten', scale), null, 'senza scala: N/D, non zero');
+  assert.equal(pointsToUnits(10, 'molybdenum', scale), null, 'senza scala: N/D, non zero');
   assert.equal(pointsToUnits(0, 'coal', scale), 0);
   const s2 = clone(scale); s2.unitsPerPoint.coal = null;
   assert.ok(validateExtractionScale(s2, { recipes: rec, resources }).some((e) => e.includes('coal') && e.includes('senza scala')));

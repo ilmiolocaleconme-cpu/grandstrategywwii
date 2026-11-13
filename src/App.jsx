@@ -371,7 +371,11 @@ const onEquipmentLost = (state, unitId, lost) => {
   if (rifles <= 0) return state;
   return { ...state, nations: { ...state.nations, [nation]: removeRiflePoints(n, rifles, rifleAverage(state, nation)) } };
 };
-const THEATER_CTX = { equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+// proiettili perforanti (TECH-AMMO-AP, 13/11/2026): massimo dalla tecnologia, copertura del tungsteno dall'economia (nation.apCoverage, assente = 0: niente munizioni prodotte con tungsteno)
+const AP_TECH = (technologiesFile.technologies ?? []).find((t) => t.id === 'TECH-AMMO-AP');
+const AP_MAX = AP_TECH?.unlocks?.find((x) => x.kind === 'ap_rounds')?.vsArmorMax ?? 0;
+const apRounds = (state, nation) => { const n = state.nations?.[nation]; return n && AP_MAX > 0 && techsOf(n).has('TECH-AMMO-AP') ? { max: AP_MAX, coverage: n.apCoverage ?? 0 } : null; };
+const THEATER_CTX = { apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse); guarnigione Maginot

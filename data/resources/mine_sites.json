@@ -156,6 +156,15 @@
           2.305,
           3.457
         ]
+      },
+      "tungsten": {
+        "base": 3.913,
+        "max": 11.309,
+        "extraPerDay": [
+          0.171,
+          0.341,
+          0.512
+        ]
       }
     },
     "P_BOL_POTOSI": {
@@ -166,6 +175,15 @@
           1.152,
           2.305,
           3.457
+        ]
+      },
+      "tungsten": {
+        "base": 3.913,
+        "max": 11.309,
+        "extraPerDay": [
+          0.171,
+          0.341,
+          0.512
         ]
       }
     },
@@ -213,6 +231,17 @@
         ]
       }
     },
+    "P_BUR_KAYAH_STATE": {
+      "tungsten": {
+        "base": 0.797,
+        "max": 2.302,
+        "extraPerDay": [
+          0.035,
+          0.069,
+          0.104
+        ]
+      }
+    },
     "P_BUR_MAGWAY": {
       "oil": {
         "base": 0.504,
@@ -221,6 +250,17 @@
           18.348,
           36.697,
           55.045
+        ]
+      }
+    },
+    "P_BUR_SHAN_STATE": {
+      "tungsten": {
+        "base": 0.797,
+        "max": 2.302,
+        "extraPerDay": [
+          0.035,
+          0.069,
+          0.104
         ]
       }
     },
@@ -243,6 +283,39 @@
           167.02,
           334.04,
           501.06
+        ]
+      }
+    },
+    "P_CHN_GUANGDONG": {
+      "tungsten": {
+        "base": 21.787,
+        "max": 21.787,
+        "extraPerDay": [
+          0.044,
+          0.087,
+          0.131
+        ]
+      }
+    },
+    "P_CHN_HUNAN": {
+      "tungsten": {
+        "base": 21.787,
+        "max": 21.787,
+        "extraPerDay": [
+          0.044,
+          0.087,
+          0.131
+        ]
+      }
+    },
+    "P_CHN_JIANGXI": {
+      "tungsten": {
+        "base": 21.787,
+        "max": 21.787,
+        "extraPerDay": [
+          0.044,
+          0.087,
+          0.131
         ]
       }
     },
@@ -720,6 +793,15 @@
           111.3,
           166.95
         ]
+      },
+      "tungsten": {
+        "base": 0.451,
+        "max": 1.304,
+        "extraPerDay": [
+          0.02,
+          0.039,
+          0.059
+        ]
       }
     },
     "P_ESP_CORDOBA": {
@@ -757,6 +839,17 @@
           0.266,
           0.533,
           0.799
+        ]
+      }
+    },
+    "P_ESP_CORUNA": {
+      "tungsten": {
+        "base": 0.451,
+        "max": 1.304,
+        "extraPerDay": [
+          0.02,
+          0.039,
+          0.059
         ]
       }
     },
@@ -820,6 +913,28 @@
         ]
       }
     },
+    "P_ESP_LEON": {
+      "tungsten": {
+        "base": 0.451,
+        "max": 1.304,
+        "extraPerDay": [
+          0.02,
+          0.039,
+          0.059
+        ]
+      }
+    },
+    "P_ESP_LUGO": {
+      "tungsten": {
+        "base": 0.451,
+        "max": 1.304,
+        "extraPerDay": [
+          0.02,
+          0.039,
+          0.059
+        ]
+      }
+    },
     "P_ESP_MURCIA": {
       "sulphur": {
         "base": 0.471,
@@ -855,6 +970,55 @@
           0.512,
           1.024,
           1.536
+        ]
+      }
+    },
+    "P_ESP_ORENSE": {
+      "tungsten": {
+        "base": 0.451,
+        "max": 1.304,
+        "extraPerDay": [
+          0.02,
+          0.039,
+          0.059
+        ],
+        "legacy": true
+      }
+    },
+    "P_ESP_ORENSE_SP1": {
+      "tungsten": {
+        "base": 0.451,
+        "max": 1.304,
+        "share": 0.148,
+        "province": "P_ESP_ORENSE",
+        "extraPerDay": [
+          0.003,
+          0.006,
+          0.009
+        ]
+      }
+    },
+    "P_ESP_ORENSE_SP2": {
+      "tungsten": {
+        "base": 0.451,
+        "max": 1.304,
+        "share": 0.852,
+        "province": "P_ESP_ORENSE",
+        "extraPerDay": [
+          0.017,
+          0.034,
+          0.05
+        ]
+      }
+    },
+    "P_ESP_PONTEVEDRA": {
+      "tungsten": {
+        "base": 0.451,
+        "max": 1.304,
+        "extraPerDay": [
+          0.02,
+          0.039,
+          0.059
         ]
       }
     },
@@ -2108,6 +2272,17 @@
         ]
       }
     },
+    "P_KOR_GANGWON": {
+      "tungsten": {
+        "base": 4.603,
+        "max": 13.304,
+        "extraPerDay": [
+          0.201,
+          0.401,
+          0.602
+        ]
+      }
+    },
     "P_KOR_NORTH_HAMGYONG": {
       "coal": {
         "base": 0.045,
@@ -3110,6 +3285,28 @@
         ]
       }
     },
+    "P_PRT_CASTELO_BRANCO": {
+      "tungsten": {
+        "base": 6.652,
+        "max": 19.224,
+        "extraPerDay": [
+          0.29,
+          0.58,
+          0.87
+        ]
+      }
+    },
+    "P_PRT_VILA_REAL": {
+      "tungsten": {
+        "base": 6.652,
+        "max": 19.224,
+        "extraPerDay": [
+          0.29,
+          0.58,
+          0.87
+        ]
+      }
+    },
     "P_ROM_BIHOR": {
       "bauxite": {
         "base": 0.623,
@@ -3362,6 +3559,17 @@
         ]
       }
     },
+    "P_USA_IDAHO": {
+      "tungsten": {
+        "base": 1.534,
+        "max": 4.435,
+        "extraPerDay": [
+          0.067,
+          0.134,
+          0.201
+        ]
+      }
+    },
     "P_USA_ILLINOIS": {
       "coal": {
         "base": 7.036,
@@ -3392,6 +3600,28 @@
           64.023,
           128.047,
           192.07
+        ]
+      }
+    },
+    "P_USA_MONTANA": {
+      "tungsten": {
+        "base": 1.534,
+        "max": 4.435,
+        "extraPerDay": [
+          0.067,
+          0.134,
+          0.201
+        ]
+      }
+    },
+    "P_USA_NEVADA": {
+      "tungsten": {
+        "base": 1.534,
+        "max": 4.435,
+        "extraPerDay": [
+          0.067,
+          0.134,
+          0.201
         ]
       }
     },

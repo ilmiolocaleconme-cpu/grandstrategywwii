@@ -580,6 +580,60 @@
       "mt": 0.009682,
       "context": "Produttore minore (circa 5%). Stessa fonte (ITRDC 1937 via Nature). Tonnellate lunghe.",
       "source": "ricerca"
+    },
+    {
+      "resource": "tungsten",
+      "territory": "Cina (Nazionalista)",
+      "prefix": "CHN",
+      "region": "Jiangxi, Hunan, Guangdong",
+      "mt": 0.00705,
+      "context": "Primo produttore mondiale (esportazioni di minerale). British Geological Survey, Statistical Summary of the Mineral Industry 1936-1938, p. 416. Ricerca web di Claude del 13/11/2026, non verificata su fonti primarie.",
+      "source": "ricerca"
+    },
+    {
+      "resource": "tungsten",
+      "territory": "Birmania",
+      "prefix": "BUR",
+      "region": "Stati Shan, Tavoy",
+      "mt": 0.004625,
+      "context": "Concentrati, colonia britannica. BGS 1936-1938, p. 416. Ricerca web di Claude del 13/11/2026.",
+      "source": "ricerca"
+    },
+    {
+      "resource": "tungsten",
+      "territory": "Stati Uniti",
+      "prefix": "USA",
+      "region": "Nevada, California, Colorado",
+      "mt": 0.002369,
+      "context": "Concentrati. BGS 1936-1938, p. 416. Ricerca web di Claude del 13/11/2026.",
+      "source": "ricerca"
+    },
+    {
+      "resource": "tungsten",
+      "territory": "Bolivia",
+      "prefix": "BOL",
+      "region": "Oruro, Potosí",
+      "mt": 0.001712,
+      "context": "Esportazioni di concentrati. BGS 1936-1938, p. 416. Ricerca web di Claude del 13/11/2026.",
+      "source": "ricerca"
+    },
+    {
+      "resource": "tungsten",
+      "territory": "Corea",
+      "prefix": "KOR",
+      "region": "Sangdong, Gangwon",
+      "mt": 0.001707,
+      "context": "Minerale, colonia giapponese. BGS 1936-1938, p. 416. Ricerca web di Claude del 13/11/2026.",
+      "source": "ricerca"
+    },
+    {
+      "resource": "tungsten",
+      "territory": "Portogallo",
+      "prefix": "PRT",
+      "region": "Panasqueira, Beira",
+      "mt": 0.001413,
+      "context": "Concentrati (1.282) e minerali di stagno e tungsteno (109). BGS 1936-1938, p. 416. Ricerca web di Claude del 13/11/2026.",
+      "source": "ricerca"
     }
   ],
   "conflicts": [

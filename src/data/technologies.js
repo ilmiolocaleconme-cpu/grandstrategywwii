@@ -24,7 +24,7 @@ export function validateTechnologies(file, { consumers = null } = {}) {
     if (!Array.isArray(t.prerequisites)) errors.push(`tecnologie: ${t.id} senza elenco prerequisiti`);
     if (!Array.isArray(t.unlocks) || t.unlocks.length === 0) errors.push(`tecnologie: ${t.id} non sblocca nulla`);
     for (const u of t.unlocks ?? []) {
-      if (u.kind === 'factory_level' ? !Number.isInteger(u.level) : u.kind === 'security' ? typeof u.capability !== 'string' : u.kind === 'port_level' ? !Number.isInteger(u.level) : u.kind === 'small_arms' ? false : true) errors.push(`tecnologie: ${t.id} con sblocco non valido`);
+      if (u.kind === 'factory_level' ? !Number.isInteger(u.level) : u.kind === 'security' ? typeof u.capability !== 'string' : u.kind === 'port_level' ? !Number.isInteger(u.level) : u.kind === 'small_arms' ? false : u.kind === 'ap_rounds' ? !(u.vsArmorMax > 0 && u.vsArmorMax <= 1) : true) errors.push(`tecnologie: ${t.id} con sblocco non valido`);
     }
   }
   for (const t of byId.values()) for (const p of t.prerequisites ?? []) if (!byId.has(p)) errors.push(`tecnologie: ${t.id} richiede ${p}, che non esiste`);
@@ -54,8 +54,9 @@ export function validateTechnologies(file, { consumers = null } = {}) {
 export const techIndex = (file) => new Map((file?.technologies ?? []).map((t) => [t.id, t]));
 
 /** Id richiesti dalle regole: livelli fabbrica (`requires`), capacità di sicurezza (`requires` per capacità in security.json), livelli dei porti, modelli di fucile. */
-export function consumersOf({ levels = null, security = null, ports = null, smallArms = null } = {}) {
+export function consumersOf({ levels = null, security = null, ports = null, smallArms = null, recipes = null } = {}) {
   const s = new Set();
+  for (const r of recipes?.recipes ?? []) for (const i of r.inputs ?? []) if (i.requiresTech) s.add(i.requiresTech); // ingressi delle ricette legati a una tecnologia (es. tungsteno dei perforanti)
   for (const m of smallArms?.models ?? []) if (m.requires) s.add(m.requires); // modelli di fucile (data/units/models/fucili_1930_1945.json)
   for (const l of levels?.levels ?? []) if (l.requires) s.add(l.requires);
   for (const r of Object.values(security?.capabilities ?? {})) if (r) s.add(r);

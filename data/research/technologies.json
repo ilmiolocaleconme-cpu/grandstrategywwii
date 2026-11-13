@@ -1,7 +1,7 @@
 {
   "schema": "technologies-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Prime cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE. 12/11/2026: ramo «Armi della fanteria» con 5 tecnologie CONDIVISE da tutte le nazioni (decisione dell'utente): sbloccano i modelli di fucile di data/units/models/fucili_1930_1945.json (campo `requires`). initialResearch = tecnologie già possedute il 1/1/1936 (USA: Garand adottato nel 1936; URSS: AVS-36 e fucili da cecchino dal 1932): scelta storica di Claude, da confermare.",
+  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Prime cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE. 12/11/2026: ramo «Armi della fanteria» con 5 tecnologie CONDIVISE da tutte le nazioni (decisione dell'utente): sbloccano i modelli di fucile di data/units/models/fucili_1930_1945.json (campo `requires`). initialResearch = tecnologie già possedute il 1/1/1936 (USA: Garand adottato nel 1936; URSS: AVS-36 e fucili da cecchino dal 1932): scelta storica di Claude, da confermare. Il 13/11/2026 (decisione dell'utente) il ramo Munizioni con TECH-AMMO-AP: bonus contro i carri e consumo di tungsteno nelle munizioni (data/industry/recipes.json, ingresso con requiresTech). Costo, durata e +15% sono valori di bilanciamento di Claude.",
   "branches": [
     {
       "id": "industry",
@@ -18,6 +18,10 @@
     {
       "id": "infantry",
       "name_it": "Armi della fanteria"
+    },
+    {
+      "id": "ammunition",
+      "name_it": "Munizioni"
     }
   ],
   "technologies": [
@@ -169,6 +173,21 @@
       "unlocks": [
         {
           "kind": "small_arms"
+        }
+      ]
+    },
+    {
+      "id": "TECH-AMMO-AP",
+      "branch": "ammunition",
+      "name_it": "Proiettili perforanti al tungsteno",
+      "description": "Nuclei duri al carburo di tungsteno per i proiettili controcarro (decisione dell'utente 13/11/2026). Le divisioni hanno un bonus che cresce con la quota di corazzati nemici in battaglia, fino al +15% contro un nemico tutto corazzato; da quel momento le munizioni consumano tungsteno (0,005 t per t, facoltativo): se ne arriva meno, il bonus scende in proporzione.",
+      "prerequisites": [],
+      "cost_ecv": 70,
+      "days": 120,
+      "unlocks": [
+        {
+          "kind": "ap_rounds",
+          "vsArmorMax": 0.15
         }
       ]
     }

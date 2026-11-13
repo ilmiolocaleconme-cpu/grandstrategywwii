@@ -113,3 +113,16 @@ export function resolveUrbanBattleDay({ attackers, defenders, defenseMultiplier 
     attackerRetreats: shouldRetreat(a, r.attackerPower, r.defenderPower), defenderRetreats: shouldRetreat(d, r.defenderPower, r.attackerPower),
   };
 }
+
+/**
+ * Proiettili perforanti al tungsteno (TECH-AMMO-AP, decisione dell'utente 13/11/2026): bonus di potenza contro i corazzati.
+ * enemies: [{ category, effective }] della parte avversaria nella battaglia; max: bonus con un nemico tutto corazzato (vsArmorMax);
+ * coverage: quota del tungsteno richiesto dalle munizioni effettivamente ricevuta (0..1). Bonus = max × quota corazzata nemica × coverage.
+ */
+export function apRoundsBonus(enemies, max, coverage = 1) {
+  if (!(max > 0) || !(coverage > 0)) return 0;
+  let all = 0; let armored = 0;
+  for (const e of enemies ?? []) { const m = Math.max(0, e.effective ?? 0); all += m; if (e.category === 'armored') armored += m; }
+  if (all <= 0 || armored <= 0) return 0;
+  return Math.round(max * (armored / all) * Math.min(1, coverage) * 10000) / 10000;
+}

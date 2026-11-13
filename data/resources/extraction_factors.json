@@ -39,6 +39,11 @@
       "status": "PROVISIONAL",
       "rationale": "Provvisorio, tarato il 28/10/2026 su richiesta dell'utente dopo l'ingresso del rame nella ricetta delle munizioni (REC-MUNITIONS-001, 0,33 t per t): il rame mondiale (7 territori con produzione storica 1936, posizioni extra approvate) copre circa il 99% delle 20 fabbriche di munizioni a pieno regime (prima 1000, copertura circa 1%). Da tarare con le fasce B e C."
     },
+    "tungsten": {
+      "realPerGame": 4.8,
+      "status": "PROVISIONAL",
+      "rationale": "Provvisorio, tarato il 13/11/2026 con l'ingresso del tungsteno nelle munizioni perforanti (0,005 t per t, solo dopo la tecnologia TECH-AMMO-AP; ipotesi di Claude): la Cina (6.939 t lunghe nel 1936, circa 19,3 t reali al giorno) dà circa 4 t di gioco al giorno, cioè circa 8 impianti di munizioni a pieno regime (regola di taratura: il primo produttore alimenta 5-10 impianti). Da tarare con le fasce B e C."
+    },
     "tin": {
       "realPerGame": 11.6,
       "status": "PROVISIONAL",

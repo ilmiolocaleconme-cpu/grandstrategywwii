@@ -20,7 +20,7 @@ export function createAiSecurity({ research, security, hostilesOf, options = {} 
     // 1. ricerca: chi ha rivali parte dalla sicurezza, gli altri dall'industria
     if (!my().research?.active) {
       const list = research.listFor(s, id).filter((x) => x.status === 'available' && x.cost.ecv <= spendable());
-      const rank = (x) => (x.tech.branch === 'security') === involved ? 0 : 1;
+      const rank = (x) => (involved ? (x.tech.branch === 'security' ? 0 : 1) : ({ industry: 0, security: 2 }[x.tech.branch] ?? 1)); // senza rivali: prima l'industria (13/11/2026: TECH-AMMO-AP veniva prima per ordine alfabetico)
       const pick = [...list].sort((a, b) => rank(a) - rank(b) || (a.tech.id < b.tech.id ? -1 : 1))[0];
       if (pick) s = research.start(s, id, pick.tech.id).state;
     }

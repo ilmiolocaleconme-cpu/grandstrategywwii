@@ -6,7 +6,7 @@ export const PRODUCTION_SCHEMA = 'production-1936-v1';
 export const LONG_TON_TO_MT = 1.016047e-6;
 
 export const RESOURCE_IDS = Object.freeze({
-  Carbone: 'coal', Petrolio: 'oil', 'Minerale di Ferro': 'iron_ore', 'Gomma Naturale': 'rubber', Rame: 'copper', Bauxite: 'bauxite', Zolfo: 'sulphur', Stagno: 'tin',
+  Carbone: 'coal', Petrolio: 'oil', 'Minerale di Ferro': 'iron_ore', 'Gomma Naturale': 'rubber', Rame: 'copper', Bauxite: 'bauxite', Zolfo: 'sulphur', Stagno: 'tin', Tungsteno: 'tungsten',
 });
 
 /**
@@ -21,7 +21,7 @@ export const TERRITORIES = Object.freeze({
   'Algeria (Colonia Francese)': { prefix: 'ALG' }, 'Malesia Britannica': { prefix: 'MAL' }, Liberia: { prefix: 'LBR' }, Cile: { prefix: 'CHL' },
   'Rhodesia Settentrionale': { prefix: 'ZAM' }, 'Congo Belga': { prefix: 'COD' }, Giappone: { prefix: 'JPN' }, Ungheria: { prefix: 'HUN' }, Italia: { prefix: 'ITA' },
   Suriname: { prefix: 'SUR' }, Bolivia: { prefix: 'BOL' }, 'Nigeria Britannica': { prefix: 'NGA' }, Siam: { prefix: 'SIA' }, Ceylon: { prefix: 'CEY' }, 'Indocina Francese': { prefix: 'INDO' }, Brasile: { prefix: 'BRA' }, Svezia: { prefix: 'SWE' }, Romania: { prefix: 'ROM' },
-  'Stati Uniti (Terranova)': { prefix: 'NFL' }, Australia: { prefix: 'AUS' }, Corea: { prefix: 'KOR' },
+  'Stati Uniti (Terranova)': { prefix: 'NFL' }, Australia: { prefix: 'AUS' }, Corea: { prefix: 'KOR' }, Portogallo: { prefix: 'PRT' }, Birmania: { prefix: 'BUR' },
 });
 const SKIP = new Set(['Belgio / Congo Belga']);
 

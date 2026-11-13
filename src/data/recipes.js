@@ -50,6 +50,9 @@ export function validateRecipes(file, { factoriesById, resources, equipmentIds =
       if (seen.has(i.resource)) errors.push(`ricette: ${r.id} con ingresso duplicato ${i.resource}`);
       seen.add(i.resource);
       if (!(i.perUnit > 0)) errors.push(`ricette: ${r.id} con perUnit non valido per ${i.resource}`);
+      if (i.requiresTech !== undefined && (typeof i.requiresTech !== 'string' || !i.requiresTech)) errors.push(`ricette: ${r.id} con requiresTech non valido per ${i.resource}`);
+      if (i.optional !== undefined && typeof i.optional !== 'boolean') errors.push(`ricette: ${r.id} con optional non booleano per ${i.resource}`);
+      if (i.optional && !i.requiresTech) errors.push(`ricette: ${r.id}: un ingresso facoltativo deve dipendere da una tecnologia (${i.resource})`);
     }
     if (isFlow) {
       if (!known.has(r.source)) errors.push(`ricette: ${r.id} con fonte ${r.source} inesistente`);
@@ -114,15 +117,19 @@ export function validateRecipes(file, { factoriesById, resources, equipmentIds =
  * Per un prodotto `outputPerDay` è in t al giorno (in pezzi al giorno se la ricetta ha outputUnit "pieces/day": capacità / massTonnes, ingressi in t per pezzo); per la centrale (outputUnit = MW) è la potenza in MW e gli ingressi sono t/giorno per MW in funzione.
  * `energyMw` = MW assorbiti dalla fabbrica (energy_consumption del Pack letto come MW).
  */
-export function fullCapacityFlows(recipe, factory, mult = null) {
+export function fullCapacityFlows(recipe, factory, mult = null, techs = null) {
   const pieceRecipe = recipe.outputUnit === 'pieces/day';
   const cap = mult?.capacity ?? 1; // livello della fabbrica (data/industry/factory_levels.json): moltiplica produzione, materie ed energia
   // capacityShare (facoltativo, solo pezzi, 0-1): quota della capacità della fabbrica che la ricetta usa. Riduce in proporzione pezzi/giorno E consumo di materie al giorno (energia invariata).
   const share = pieceRecipe ? (recipe.capacityShare ?? 1) : 1;
   const outputPerDay = round((pieceRecipe ? (factory.base_capacity_per_day * share) / recipe.massTonnes : (recipe.nominalOutputMw ?? factory.base_capacity_per_day)) * cap);
-  const inputsPerDay = Object.fromEntries(recipe.inputs.map((i) => [i.resource, round(i.perUnit * outputPerDay / recipe.output.perUnit)]));
+  // ingressi con `requiresTech` (13/11/2026): valgono solo se la nazione ha la tecnologia (techs: Set); `optional`: non fanno da collo di bottiglia
+  const active = recipe.inputs.filter((i) => !i.requiresTech || techs?.has(i.requiresTech) === true);
+  const perDay = (i) => [i.resource, round(i.perUnit * outputPerDay / recipe.output.perUnit)];
+  const inputsPerDay = Object.fromEntries(active.filter((i) => !i.optional).map(perDay));
+  const optionalPerDay = Object.fromEntries(active.filter((i) => i.optional).map(perDay));
   // noSelfConsumption: la centrale non consuma energia propria (il Pack le assegna un consumo che qui si ignora)
-  return { outputPerDay, outputUnit: recipe.outputUnit ?? 't/day', inputsPerDay, energyMw: recipe.noSelfConsumption ? 0 : factory.energy_consumption * (mult?.energy ?? 1) };
+  return { outputPerDay, outputUnit: recipe.outputUnit ?? 't/day', inputsPerDay, ...(Object.keys(optionalPerDay).length ? { optionalPerDay } : {}), energyMw: recipe.noSelfConsumption ? 0 : factory.energy_consumption * (mult?.energy ?? 1) };
 }
 
 const round = (v) => Math.round(v * 1000) / 1000;

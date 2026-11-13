@@ -92,6 +92,13 @@ Suite `node --test` 1132/1132. Build: confermata dall'anteprima Vercel del commi
 - Ferro del Manciukuò 2,6 Mt tramite `data/resources/correzioni_produzione_1936.csv` (i file ricevuti restano invariati, sha256).
 - Limiti: Terranova non è una nazione del gioco (il pannello non la mostra); rapporto iniziale Giappone–Manciukuò 0 (manca nei dati del 1936); l'IA non usa ancora le quote.
 
+### Tungsteno e proiettili perforanti (decisioni dell'utente 13/11/2026)
+- Tungsteno = materia prima nuova. Produzione 1936 in `data/resources/produzione_tungsteno_1936.csv` (BGS 1936-1938, tonnellate lunghe): Cina 6939, Birmania 4552, USA 2332, Bolivia 1685, Corea 1680, Portogallo 1391. Fattore `realPerGame` 4,8 PROVVISORIO; scala 0,06 unità/punto; prezzo 0,13.
+- Consumatore: munizioni (opzione A), 0,005 t per t di munizioni, SOLO dopo la tecnologia TECH-AMMO-AP «Proiettili perforanti al tungsteno» (ramo nuovo «Munizioni», 70 ECV, 120 giorni, nessun prerequisito).
+- Ingresso FACOLTATIVO (`optional: true` + `requiresTech` in `recipes.json`): senza tungsteno le munizioni escono lo stesso; la fabbrica prende quanto c'è e la quota coperta finisce in `nation.apCoverage`.
+- Bonus (opzione B): solo contro i corazzati, fino a +15% = 0,15 × quota di forza nemica corazzata × copertura di tungsteno (`apRoundsBonus` in `src/rules/combat.js`, applicato in `battlePhase` tramite `ctx.apRounds`).
+- Limiti: la Spagna ha punti di tungsteno ma nessuna riga di produzione; l'IA (`aiSecurity.js`) senza rivali ricerca prima l'industria, poi gli altri rami (anche TECH-AMMO-AP), la sicurezza per ultima; non valuta se ha tungsteno.
+
 **Sponde, fase 2: economia per sponda (12/11/2026, decisioni dell'utente)**
 - Slot: 14 per OGNI sponda (sostituisce la regola del 22/10); la provincia madre è l'ACCUMULATORE (`byMother` in `src/rules/slots.js`, `src/rules/provinceSum.js`). `province_industry.csv` rigenerato: 3085 posti (+486 × 14 slot).
 - Miniere: giacimento DIVISO fra le sponde per area (`share` in `mine_sites.json`, schema v2); la voce della madre resta `legacy` per le miniere dei salvataggi vecchi; costruire sulla madre divisa → `use_bank`. Tetto ×1,1 per tutti (`economy.mines.capFactor`), così crescono anche i siti dove la base era già il massimo (carbone USA).

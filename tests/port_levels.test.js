@@ -31,7 +31,7 @@ const finish = (s, days) => { let x = s; for (let i = 0; i < days; i += 1) x = b
 test('dati: livelli validi, la tecnologia richiesta esiste ed è usata; difetti segnalati', () => {
   const techs = json('research/technologies.json'); const ids = new Set(techs.technologies.map((t) => t.id));
   assert.deepEqual(validatePortLevels(levels, { techIds: ids }), []);
-  assert.deepEqual(validateTechnologies(techs, { consumers: consumersOf({ levels: json('industry/factory_levels.json'), security: json('security/security.json'), ports: levels, smallArms: json('units/models/fucili_1930_1945.json') }) }), []);
+  assert.deepEqual(validateTechnologies(techs, { consumers: consumersOf({ levels: json('industry/factory_levels.json'), security: json('security/security.json'), ports: levels, smallArms: json('units/models/fucili_1930_1945.json'), recipes: json('industry/recipes.json') }) }), []);
   const bad = structuredClone(levels); bad.levels[2].ecv = 10; bad.levels[1].requires = 'TECH-NO';
   const errors = validatePortLevels(bad, { techIds: ids });
   assert.ok(errors.some((e) => /costa meno/.test(e)) && errors.some((e) => /TECH-NO/.test(e)));

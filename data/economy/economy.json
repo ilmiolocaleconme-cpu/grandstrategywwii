@@ -1,7 +1,7 @@
 {
   "schema": "economy-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Economia di base: PROPOSTA di design, non dati storici (deciso in chat 26/10/2026). Una sola valuta di gioco; l'entrata giornaliera di una nazione è il valore delle merci prodotte o estratte più una quota fissa per i territori controllati. I prezzi sono tarati perché un'acciaieria a pieno regime si ripaghi in circa 75 giorni. Nessuna popolazione: il repository non ha quel dato. Il bilanciamento definitivo va rivisto quando esisteranno i consumatori (unità, carburante militare, munizioni). Il 29/10/2026 sono entrati frumento (0,008), mangime, fertilizzanti, medicinali e cavalli: i prezzi dei quattro prodotti sono appena sopra il valore degli ingressi, per non regalare denaro (il cavallo, in particolare, non è una fonte di entrate: serve alle divisioni).",
+  "note": "Economia di base: PROPOSTA di design, non dati storici (deciso in chat 26/10/2026). Una sola valuta di gioco; l'entrata giornaliera di una nazione è il valore delle merci prodotte o estratte più una quota fissa per i territori controllati. I prezzi sono tarati perché un'acciaieria a pieno regime si ripaghi in circa 75 giorni. Nessuna popolazione: il repository non ha quel dato. Il bilanciamento definitivo va rivisto quando esisteranno i consumatori (unità, carburante militare, munizioni). Il 29/10/2026 sono entrati frumento (0,008), mangime, fertilizzanti, medicinali e cavalli: i prezzi dei quattro prodotti sono appena sopra il valore degli ingressi, per non regalare denaro (il cavallo, in particolare, non è una fonte di entrate: serve alle divisioni). Il 13/11/2026 è entrato il tungsteno (0,13, ipotesi: prezzo dei concentrati di wolframio del 1936 simile a quello dello stagno), consumato dalle munizioni perforanti dopo la tecnologia TECH-AMMO-AP.",
   "currency": {
     "id": "ECV",
     "name_it": "Valore economico di costruzione",
@@ -25,7 +25,7 @@
     "munitions": 0.057, "tanks": 0.6, "artillery": 0.16,
     "electricity": null,
     "wheat": 0.008,
-    "tungsten": null,
+    "tungsten": 0.13,
     "tin": 0.11,
     "manganese": null,
     "chromium": null,

@@ -28,7 +28,8 @@
       "wheat": 26
     },
     "BOL": {
-      "tin": 5.8
+      "tin": 5.8,
+      "tungsten": 1
     },
     "BRA": {
       "iron_ore": 27.6,
@@ -36,7 +37,8 @@
       "rubber": 30
     },
     "BUR": {
-      "oil": 25.2
+      "oil": 25.2,
+      "tungsten": 2.6
     },
     "CAN": {
       "coal": 135.2,
@@ -59,7 +61,8 @@
       "iron_ore": 21.9,
       "coal": 270.4,
       "oil": 17.4,
-      "tin": 2.6
+      "tin": 2.6,
+      "tungsten": 3.9
     },
     "COD": {
       "copper": 46.4
@@ -160,7 +163,8 @@
     "KOR": {
       "iron_ore": 14.7,
       "coal": 23.2,
-      "wheat": 6
+      "wheat": 6,
+      "tungsten": 1
     },
     "LBR": {
       "rubber": 24
@@ -218,7 +222,8 @@
       "wheat": 43.2
     },
     "PRT": {
-      "wheat": 15.3
+      "wheat": 15.3,
+      "tungsten": 0.8
     },
     "ROM": {
       "iron_ore": 27.6,
@@ -259,7 +264,8 @@
       "bauxite": 779.7,
       "sulphur": 418.2,
       "copper": 255.3,
-      "wheat": 353
+      "wheat": 353,
+      "tungsten": 1.5
     },
     "USSR": {
       "iron_ore": 1720.2,

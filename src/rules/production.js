@@ -37,7 +37,7 @@ export function produceDay({ facilities, stock, hydroMw = 0, date = null }, cata
     if (!(throttle >= 0 && throttle <= 1)) throw new RangeError(`produzione: ${f.id} con limitazione ${throttle} fuori da 0-1`);
     const mult = levelMult(catalog.levels, f.level);
     if (mult.capacity !== 1 && factory.factory_class !== 'industry') throw new Error(`produzione: ${f.id}, solo le fabbriche industriali hanno livelli (${f.type})`);
-    return { recipe, factory, flows: fullCapacityFlows(recipe, factory, mult), damage, throttle };
+    return { recipe, factory, flows: fullCapacityFlows(recipe, factory, mult, catalog.techs ?? null), damage, throttle };
   };
   const ratioFor = (flows) => {
     let ratio = 1; let bottleneck = null; const inputRatios = {};
@@ -81,6 +81,16 @@ export function produceDay({ facilities, stock, hydroMw = 0, date = null }, cata
     const eff = base * (1 - damage);
     const fConsumed = {}; for (const [res, need] of Object.entries(flows.inputsPerDay)) fConsumed[res] = r3(need * eff);
     consume(flows, eff);
+    // ingressi facoltativi (es. tungsteno dei perforanti): si prende quello che c'è, senza fermare la produzione; optional = { risorsa: { need, got } }
+    let optional;
+    for (const [res, perDay] of Object.entries(flows.optionalPerDay ?? {})) {
+      const need = r3(perDay * eff);
+      if (need <= 0) continue;
+      const got = r3(Math.min(need, Math.max(0, next[res] ?? 0)));
+      next[res] = r3((next[res] ?? 0) - got);
+      if (got > 0) { add(consumed, res, got); fConsumed[res] = got; }
+      (optional ??= {})[res] = { need, got };
+    }
     let out = r3(flows.outputPerDay * eff * recipe.output.perUnit);
     let progress;
     if (recipe.releaseEveryDays) { // pezzi a LOTTI (Fase 4): il lavoro si accumula, ogni releaseEveryDays si chiude un lotto di pezzi interi, consegnato dopo buildDays − releaseEveryDays giorni
@@ -88,7 +98,7 @@ export function produceDay({ facilities, stock, hydroMw = 0, date = null }, cata
     }
     next[recipe.output.product] = r3((next[recipe.output.product] ?? 0) + out);
     add(produced, recipe.output.product, out);
-    report.push({ id: f.id, kind: 'factory', efficiency: r3(eff), bottleneck: base < throttle ? limitedBy : null, inputRatios, energyRatio: r3(energyRatio), produced: { [recipe.output.product]: out }, consumed: fConsumed, state: stateOf(eff, damage, throttle), ...(progress ? { progress } : {}) });
+    report.push({ id: f.id, kind: 'factory', efficiency: r3(eff), bottleneck: base < throttle ? limitedBy : null, inputRatios, energyRatio: r3(energyRatio), produced: { [recipe.output.product]: out }, consumed: fConsumed, state: stateOf(eff, damage, throttle), ...(progress ? { progress } : {}), ...(optional ? { optional } : {}) });
   }
   return { stock: next, powerMw: { supply, demand, ratio: r3(energyRatio) }, facilities: report, balance: { initial, produced, consumed, final: next } };
 }

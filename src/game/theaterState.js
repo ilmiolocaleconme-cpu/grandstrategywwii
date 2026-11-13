@@ -13,7 +13,7 @@
 import { createWar, declareWar, atWar, enemiesOf } from '../rules/war.js';
 import { unitOf } from '../rules/unitRegistry.js';
 import { createTheaters, createAssignment, cancelAssignment, completeAssignment, dropUnits, activeAssignments } from '../rules/theater.js';
-import { resolveBattleDay, resolveUrbanBattleDay, categoryPower, equipmentLosses } from '../rules/combat.js';
+import { resolveBattleDay, resolveUrbanBattleDay, categoryPower, equipmentLosses, apRoundsBonus } from '../rules/combat.js';
 import { positionOf, issueMove, cancelMove } from '../rules/movement.js';
 import { provinceStateOf, patchProvinceState } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
@@ -158,7 +158,9 @@ function battlePhase(state, ctx, net) {
     if (defenders.length === 0 || attackers.length === 0) continue;
     // nel nodo di una zona urbana si combatte con le regole urbane (imboscate, difesa rafforzata, mezzi penalizzati)
     const solve = net.isCity?.(p) === true ? resolveUrbanBattleDay : resolveBattleDay;
-    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
+    // proiettili perforanti (13/11/2026): bonus contro la quota di corazzati dell'altra parte, se la nazione ha la tecnologia (ctx.apRounds → { max, coverage })
+    const ap = (u, enemies) => { const a = ctx.apRounds?.(s, u.nation); return a ? apRoundsBonus(enemies, a.max, a.coverage) : 0; };
+    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle + ap(u, defenders) })), defenders: defenders.map((u) => ({ ...u, bonus: u.bonus + ap(u, attackers) })), defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
     for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l, ctx);
     for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l, ctx);
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));

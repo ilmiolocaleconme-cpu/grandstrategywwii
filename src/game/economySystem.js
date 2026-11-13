@@ -80,10 +80,14 @@ export function createEconomySystem({ catalog, economy, baseline, hydro, politic
         stock.feed = r3((stock.feed ?? 0) - u.feedUsed);
         if (u.feedUsed > 0) upfront.feed = u.feedUsed;
       }
+      let apCoverage = n.apCoverage;
       let produced = {}; let consumed = {}; let after = stock; let facilities = n.facilities;
       if (n.facilities.length > 0) {
-        const r = produceDay({ facilities: n.facilities, stock, hydroMw: (hydroNow[id] ?? 0) + n.baseGridMw, date: state.date }, catalog);
+        const r = produceDay({ facilities: n.facilities, stock, hydroMw: (hydroNow[id] ?? 0) + n.baseGridMw, date: state.date }, { ...catalog, techs: techsOf(n) });
         after = r.stock; produced = r.balance.produced; consumed = r.balance.consumed;
+        // copertura del tungsteno dei proiettili perforanti (13/11/2026): ricevuto / richiesto oggi; senza richiesta resta il valore di ieri
+        const ap = r.facilities.reduce((t, x) => { const o = x.optional?.tungsten; return o ? { need: t.need + o.need, got: t.got + o.got } : t; }, { need: 0, got: 0 });
+        if (ap.need > 0) apCoverage = r3(ap.got / ap.need);
         const progressOf = new Map(r.facilities.filter((x) => x.progress).map((x) => [x.id, x.progress])); // lotti in lavorazione (pezzi): si salvano nell'impianto
         if (progressOf.size > 0) facilities = n.facilities.map((f) => (progressOf.has(f.id) ? { ...f, ...progressOf.get(f.id) } : f));
       }
@@ -91,7 +95,7 @@ export function createEconomySystem({ catalog, economy, baseline, hydro, politic
       const goods = { ...extracted };
       for (const [res, t] of Object.entries(produced)) goods[res] = r3((goods[res] ?? 0) + t);
       const income = dailyIncome({ goods, inputs: consumed, territory: { provinces: cash.nations[id]?.provinces ?? 0, cities: 0, capitals: 1 } }, economy, state.difficulty).total;
-      nations[id] = { ...n, facilities, stocks: after, balance: r3(n.balance + income) };
+      nations[id] = { ...n, facilities, stocks: after, balance: r3(n.balance + income), ...(apCoverage !== undefined ? { apCoverage } : {}) };
       if (smallArms) { // fase 2 fucili: ogni fucile prodotto vale la qualità del miglior modello producibile oggi
         const rifles = Object.entries(produced).reduce((s, [k, v]) => (isRifleProduct(k) ? s + v : s), 0);
         if (rifles > 0) nations[id] = addRiflePoints(nations[id], rifles, bestRifleQuality(smallArms, id, Number(String(state.date).slice(0, 4)), techsOf(n)));

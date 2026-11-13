@@ -20,9 +20,10 @@ test('produzione: il rame è nel catalogo risorse come materia prima', () => {
 const tin = [
   ...parseCsv(readFileSync(url('data/resources/produzione_stagno_1936.csv'), 'utf8'), { name: 'produzione_stagno_1936.csv' }),
   ...parseCsv(readFileSync(url('data/resources/produzione_impero_giapponese_1936.csv'), 'utf8'), { name: 'produzione_impero_giapponese_1936.csv' }), // 12/11/2026
+  ...parseCsv(readFileSync(url('data/resources/produzione_tungsteno_1936.csv'), 'utf8'), { name: 'produzione_tungsteno_1936.csv' }), // 13/11/2026
 ];
 
-test('produzione: il file generato coincide con la fusione dei CSV (primo, completo, stagno, Corea)', () => {
+test('produzione: il file generato coincide con la fusione dei CSV (primo, completo, stagno, Corea, tungsteno)', () => {
   const corrections = parseCsv(readFileSync(url('data/resources/correzioni_produzione_1936.csv'), 'utf8'), { name: 'correzioni_produzione_1936.csv' });
   const { rows } = mergeProduction(first, complete, tin, corrections);
   assert.deepEqual(doc.rows, rows);
@@ -84,7 +85,7 @@ test('produzione: conversione Mt/anno → t/giorno di gioco', () => {
 
 test('Corea 1936 (ricerca del 12/11/2026): carbone circa 2,1 Mt e ferro circa 0,23 Mt, nelle province del Pyongan, dell\'Hamgyong e dell\'Hwanghae', () => {
   const kor = doc.rows.filter((r) => r.prefix === 'KOR');
-  assert.deepEqual(kor.map((r) => r.resource).sort(), ['coal', 'iron_ore']);
+  assert.deepEqual(kor.map((r) => r.resource).sort(), ['coal', 'iron_ore', 'tungsten']);
   assert.ok(kor.every((r) => r.source === 'ricerca'));
   assert.ok(Math.abs(kor.find((r) => r.resource === 'coal').mt - 2.075) < 0.001);
   assert.ok(Math.abs(kor.find((r) => r.resource === 'iron_ore').mt - 0.234) < 0.001);
