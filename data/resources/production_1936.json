@@ -634,6 +634,15 @@
       "mt": 0.001413,
       "context": "Concentrati (1.282) e minerali di stagno e tungsteno (109). BGS 1936-1938, p. 416. Ricerca web di Claude del 13/11/2026.",
       "source": "ricerca"
+    },
+    {
+      "resource": "tungsten",
+      "territory": "Spagna",
+      "prefix": "ESP",
+      "region": "Galizia, Salamanca, Zamora, Extremadura",
+      "mt": 0.000049,
+      "context": "Dato del 1934 (49 t metriche di concentrati al 60% WO3 = 48 tonnellate lunghe): il 1935-1937 manca nelle statistiche per la guerra civile. U.S. Bureau of Mines, Minerals Yearbook 1938, p. 573 (tabella della produzione mondiale); il BGS 1936-1938 dice solo che la Spagna produceva. Ricerca web di Claude del 13/11/2026, non verificata su fonti primarie.",
+      "source": "ricerca"
     }
   ],
   "conflicts": [

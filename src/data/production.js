@@ -21,7 +21,7 @@ export const TERRITORIES = Object.freeze({
   'Algeria (Colonia Francese)': { prefix: 'ALG' }, 'Malesia Britannica': { prefix: 'MAL' }, Liberia: { prefix: 'LBR' }, Cile: { prefix: 'CHL' },
   'Rhodesia Settentrionale': { prefix: 'ZAM' }, 'Congo Belga': { prefix: 'COD' }, Giappone: { prefix: 'JPN' }, Ungheria: { prefix: 'HUN' }, Italia: { prefix: 'ITA' },
   Suriname: { prefix: 'SUR' }, Bolivia: { prefix: 'BOL' }, 'Nigeria Britannica': { prefix: 'NGA' }, Siam: { prefix: 'SIA' }, Ceylon: { prefix: 'CEY' }, 'Indocina Francese': { prefix: 'INDO' }, Brasile: { prefix: 'BRA' }, Svezia: { prefix: 'SWE' }, Romania: { prefix: 'ROM' },
-  'Stati Uniti (Terranova)': { prefix: 'NFL' }, Australia: { prefix: 'AUS' }, Corea: { prefix: 'KOR' }, Portogallo: { prefix: 'PRT' }, Birmania: { prefix: 'BUR' },
+  'Stati Uniti (Terranova)': { prefix: 'NFL' }, Australia: { prefix: 'AUS' }, Corea: { prefix: 'KOR' }, Portogallo: { prefix: 'PRT' }, Birmania: { prefix: 'BUR' }, Spagna: { prefix: 'ESP' },
 });
 const SKIP = new Set(['Belgio / Congo Belga']);
 
