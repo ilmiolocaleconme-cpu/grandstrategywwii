@@ -35,6 +35,7 @@ export function validateEquipmentProduction(file, { factoriesById = null, techId
     if (o.massTonnes !== undefined && !(o.massTonnes > 0)) errors.push(`produzione equipaggiamenti: override ${id} con peso non valido`);
     if (o.capacityShare !== undefined && !(o.capacityShare > 0 && o.capacityShare <= 1)) errors.push(`produzione equipaggiamenti: override ${id} con capacityShare non valido`);
     for (const k of ['buildDays', 'releaseEveryDays']) if (o[k] !== undefined && !(Number.isInteger(o[k]) && o[k] >= 1)) errors.push(`produzione equipaggiamenti: override ${id} con ${k} non valido`);
+    if (o.availableFrom !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(o.availableFrom)) errors.push(`produzione equipaggiamenti: override ${id} con availableFrom non valido (AAAA-MM-GG)`);
   }
   return errors;
 }
@@ -58,6 +59,8 @@ export function buildEquipmentRecipes(catalog, table) {
       inputs: Object.entries(cat.inputsPerTonne ?? table.inputsPerTonne).map(([resource, t]) => ({ resource, perUnit: r6(t * mass) })),
       output: { product: `${EQUIPMENT_PREFIX}${e.equipment_id}`, perUnit: 1 },
       quality: 'DESIGN_DEFAULT', equipmentId: e.equipment_id, group: cat.group, ...(e.role ? { role: e.role } : {}),
+      // data di inizio produzione (13/11/2026, scelta dell'utente: modelli futuri disponibili dall'anno di inizio produzione, stessa regola per tutte le nazioni)
+      ...(ov.availableFrom ? { availableFrom: ov.availableFrom } : {}),
       rationale: `Generata dalla tabella per categoria ${e.category} (${table.quality}): peso ${mass} t, tempi di lotto e ingressi per t di peso sono valori di bilanciamento, non dati storici su ${e.designation ?? e.equipment_id}.`,
     });
   }
@@ -74,9 +77,18 @@ export function groupUnlocked(table, group, researched = new Set()) {
   return def.requires === null || researched.has(def.requires);
 }
 
+/**
+ * La ricetta si può scegliere ORA? Gruppo sbloccato (tecnologia) e, se la ricetta ha `availableFrom`, data di partita >= inizio produzione.
+ * Senza data (date null) il controllo della data non si applica: compatibilità con chi non la passa.
+ */
+export function recipeUnlocked(table, recipe, researched = new Set(), date = null) {
+  if (!groupUnlocked(table, recipe.group, researched)) return false;
+  return !recipe.availableFrom || !date || date >= recipe.availableFrom;
+}
+
 /** Ricette che una nazione può usare ora (equipaggiamenti della sua nazione, gruppo sbloccato). */
-export function recipesAvailable(generated, table, nation, researched = new Set()) {
-  return generated.filter((r) => r.equipmentId.split('-')[1] === nation && groupUnlocked(table, r.group, researched));
+export function recipesAvailable(generated, table, nation, researched = new Set(), date = null) {
+  return generated.filter((r) => r.equipmentId.split('-')[1] === nation && recipeUnlocked(table, r, researched, date));
 }
 
 /**

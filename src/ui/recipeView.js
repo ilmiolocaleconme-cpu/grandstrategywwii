@@ -1,6 +1,6 @@
 // Vista della produzione di equipaggiamenti: quali impianti possono cambiare ricetta, con quali scelte, e a che punto sono i lotti.
 // Funzioni PURE (nessun React). I valori di lotto (giorni di costruzione e consegna) sono valori di gioco DESIGN_DEFAULT, non dati storici.
-import { groupUnlocked } from '../data/equipmentProduction.js';
+import { groupUnlocked, recipeUnlocked } from '../data/equipmentProduction.js';
 import { setFacilityRecipe } from '../game/facilityRecipe.js';
 
 const nationOfEquipment = (equipmentId) => equipmentId.split('-')[1];
@@ -14,8 +14,8 @@ export function equipmentRecipesFor(recipes, nation, factoryType) {
 const FALLBACK_ROLES = new Set(['officer_and_specialist_sidearm']);
 
 /** Ricetta di default per una NUOVA fabbrica: la prima sbloccata per id, ma le armi di ripiego (pistole) passano per ultime. null se la nazione non ne ha. */
-export function defaultEquipmentRecipe(recipes, nation, factoryType, table, researched = new Set()) {
-  const unlocked = equipmentRecipesFor(recipes, nation, factoryType).filter((r) => groupUnlocked(table, r.group, researched));
+export function defaultEquipmentRecipe(recipes, nation, factoryType, table, researched = new Set(), date = null) {
+  const unlocked = equipmentRecipesFor(recipes, nation, factoryType).filter((r) => recipeUnlocked(table, r, researched, date));
   return unlocked.find((r) => !FALLBACK_ROLES.has(r.role)) ?? unlocked[0] ?? null;
 }
 
@@ -51,6 +51,7 @@ export function facilityRecipeRows(state, nation, { catalog, table, researched =
     for (const r of candidates) {
       const label = nameOf(r.equipmentId);
       if (!groupUnlocked(table, r.group, researched)) { locked.push({ recipeId: r.id, label, requires: techName(table.groups?.[r.group]?.requires) }); continue; }
+      if (!recipeUnlocked(table, r, researched, state.date ?? null)) { locked.push({ recipeId: r.id, label, requires: `in produzione dal ${r.availableFrom}` }); continue; }
       let ok = true; let message = '';
       try { setFacilityRecipe(state, nation, f.id, r.id, { catalog, table, researched }); } catch (e) { ok = false; message = e.message; }
       options.push({ recipeId: r.id, label, current: r.id === f.recipeId, ok, message });

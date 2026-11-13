@@ -1,7 +1,7 @@
 {
   "schema": "equipment-production-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, veicoli, ecc.) NON sono producibili con questa tabella (MISSING_DATA). CARRI (12/11/2026): categoria TANK nella fabbrica FCT-TANKS, come le ricette REC-TANK-* cecoslovacche (acciaio 1,2, componenti 0,10 e motori 0,08 t per t di peso: `inputsPerTonne` della categoria); pesi per modello in `overrides` = valori approssimati da Claude, da verificare. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data. TEMPI (decisione dell'utente 03/11/2026: la quantità per peso va bene, ma i pezzi non escono tutti in un giorno): ogni categoria ha buildDays (giorni per costruire un lotto) e releaseEveryDays (ogni quanti giorni si chiude e si consegna un lotto): es. armi leggere 14 giorni, consegna settimanale. I giorni sono scelti da Claude (DESIGN_DEFAULT), non storici. I lotti NON riducono il volume: ritardano soltanto la consegna; per cambiare il volume si cambia il peso. CAPACITÀ (richiesta dell'utente 03/11/2026: troppo ferro al giorno per i fucili): `capacityShare` = quota della capacità della fabbrica usata dalla categoria; riduce in proporzione pezzi al giorno e acciaio/componenti consumati al giorno. Fucili 0,04: una fabbrica di armi leggere (100 t/giorno) usa 4,8 t di acciaio al giorno e fa 800 fucili al giorno (circa 290.000 l'anno). Calibrato sull'ordine di grandezza di un testo fornito dall'utente il 03/11/2026 (Mauser Oberndorf ~270.000 fucili/anno nel 1936): cifra NON verificata da Claude con fonti proprie, ricerca web senza numeri utili. DESIGN_DEFAULT da tarare. BILANCIAMENTO (richiesta dell'utente 03/11/2026: l'acciaio serve a carri, infrastrutture, navi e costruzioni; le armi non devono pesarci): quote scelte per avere per fabbrica circa: fucili 800/giorno (4,8 t acciaio), mitragliatrici 100 (3,6 t), lanciagranate 167 (0,6 t), mortai 15 (1,1 t), cannoni controcarro 5 (2,9 t), cannoni da campagna 3 (5 t), obici 2 (5,9 t). Con 12 acciaierie da 100 t/giorno la Germania produce 1200 t/giorno: una fabbrica per ciascuna delle 7 categorie consuma 24 t, circa il 2%. Tutti DESIGN_DEFAULT, nessun dato storico verificato. PREZZI (decisione dell'utente 03/11/2026, opzione D): il prezzo di un pezzo è priceFactor × costo dei materiali ai prezzi di economy.json, la stessa regola dei carri e dell'artiglieria esistenti (rapporto 1,22-1,32). Calcolato a runtime, non scritto in economy.json. Ogni equipaggiamento è quindi commerciabile.",
+  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, veicoli, ecc.) NON sono producibili con questa tabella (MISSING_DATA). CARRI (12/11/2026): categoria TANK nella fabbrica FCT-TANKS, come le ricette REC-TANK-* cecoslovacche (acciaio 1,2, componenti 0,10 e motori 0,08 t per t di peso: `inputsPerTonne` della categoria); pesi per modello in `overrides` = valori approssimati da Claude, da verificare. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data. TEMPI (decisione dell'utente 03/11/2026: la quantità per peso va bene, ma i pezzi non escono tutti in un giorno): ogni categoria ha buildDays (giorni per costruire un lotto) e releaseEveryDays (ogni quanti giorni si chiude e si consegna un lotto): es. armi leggere 14 giorni, consegna settimanale. I giorni sono scelti da Claude (DESIGN_DEFAULT), non storici. I lotti NON riducono il volume: ritardano soltanto la consegna; per cambiare il volume si cambia il peso. CAPACITÀ (richiesta dell'utente 03/11/2026: troppo ferro al giorno per i fucili): `capacityShare` = quota della capacità della fabbrica usata dalla categoria; riduce in proporzione pezzi al giorno e acciaio/componenti consumati al giorno. Fucili 0,04: una fabbrica di armi leggere (100 t/giorno) usa 4,8 t di acciaio al giorno e fa 800 fucili al giorno (circa 290.000 l'anno). Calibrato sull'ordine di grandezza di un testo fornito dall'utente il 03/11/2026 (Mauser Oberndorf ~270.000 fucili/anno nel 1936): cifra NON verificata da Claude con fonti proprie, ricerca web senza numeri utili. DESIGN_DEFAULT da tarare. BILANCIAMENTO (richiesta dell'utente 03/11/2026: l'acciaio serve a carri, infrastrutture, navi e costruzioni; le armi non devono pesarci): quote scelte per avere per fabbrica circa: fucili 800/giorno (4,8 t acciaio), mitragliatrici 100 (3,6 t), lanciagranate 167 (0,6 t), mortai 15 (1,1 t), cannoni controcarro 5 (2,9 t), cannoni da campagna 3 (5 t), obici 2 (5,9 t). Con 12 acciaierie da 100 t/giorno la Germania produce 1200 t/giorno: una fabbrica per ciascuna delle 7 categorie consuma 24 t, circa il 2%. Tutti DESIGN_DEFAULT, nessun dato storico verificato. PREZZI (decisione dell'utente 03/11/2026, opzione D): il prezzo di un pezzo è priceFactor × costo dei materiali ai prezzi di economy.json, la stessa regola dei carri e dell'artiglieria esistenti (rapporto 1,22-1,32). Calcolato a runtime, non scritto in economy.json. Ogni equipaggiamento è quindi commerciabile. ARTIGLIERIA PER MODELLO (13/11/2026, approvato dall'utente «S»): peso in batteria di ogni pezzo in `overrides` (ricordi di Claude [Probabile], non verificati con fonti). La quota di capacità della categoria resta quella di prima, quindi l'acciaio consumato al giorno da una fabbrica NON cambia: cambia solo il numero di pezzi (es. leFH 18 2 t ≈ 2,5 al giorno, sFH 18 5,5 t ≈ 0,9). Mortai leggeri (50/45/60 mm) con quota ridotta per restare intorno ai 20 pezzi al giorno. DATE DI PRODUZIONE (13/11/2026, scelta dell'utente «A»): `availableFrom` in `overrides` = primo giorno dell'anno di inizio produzione; prima di quella data il modello non si può scegliere per un impianto (stessa regola per tutte le nazioni; src/data/equipmentProduction.js recipeUnlocked). Anni dai ricordi di Claude [Probabile], per i Panzer dalla tabella dell'utente. Senza availableFrom = disponibile dal 1936. Voci che coprono una famiglia: H39 = Hotchkiss H35/H39 (1936), carro leggero USA = serie M2 (1935). Carri tedeschi per modello (Pz I…Tiger II) aggiunti al catalogo il 13/11/2026; il carro generico TNK-DEU-TANK resta per i salvataggi di prima.",
   "inputsPerTonne": {
     "steel": 1.2,
     "components": 0.1
@@ -100,7 +100,8 @@
       "massTonnes": 7
     },
     "TNK-FRA-B1BIS-1940": {
-      "massTonnes": 31.5
+      "massTonnes": 31.5,
+      "availableFrom": "1937-01-01"
     },
     "TNK-FRA-H39-1940": {
       "massTonnes": 12
@@ -109,10 +110,12 @@
       "massTonnes": 5.2
     },
     "TNK-GBR-CRUISER-1939": {
-      "massTonnes": 14
+      "massTonnes": 14,
+      "availableFrom": "1937-01-01"
     },
     "TNK-ITA-M13-1940": {
-      "massTonnes": 14
+      "massTonnes": 14,
+      "availableFrom": "1939-01-01"
     },
     "TNK-ITA-L3-ARM-1940": {
       "massTonnes": 3.2
@@ -121,25 +124,234 @@
       "massTonnes": 12.7
     },
     "TNK-USA-MEDIUM-TANK-1940": {
-      "massTonnes": 27
+      "massTonnes": 27,
+      "availableFrom": "1939-01-01"
     },
     "TNK-JPN-TYPE97-1942": {
-      "massTonnes": 15
+      "massTonnes": 15,
+      "availableFrom": "1938-01-01"
     },
     "TNK-JPN-TYPE95-1942": {
       "massTonnes": 7.4
     },
     "TNK-USSR-KV-1940": {
-      "massTonnes": 45
+      "massTonnes": 45,
+      "availableFrom": "1939-01-01"
     },
     "TNK-USSR-T34-1940": {
-      "massTonnes": 26.5
+      "massTonnes": 26.5,
+      "availableFrom": "1940-01-01"
     },
     "TNK-USSR-BT-1940": {
       "massTonnes": 13.8
     },
     "TNK-USSR-T26-1940": {
       "massTonnes": 9.4
+    },
+    "ART-DEU-GRW36": {
+      "massTonnes": 0.014,
+      "capacityShare": 0.004
+    },
+    "ART-DEU-MOR-50": {
+      "massTonnes": 0.014,
+      "capacityShare": 0.004
+    },
+    "ART-DEU-GRW34": {
+      "massTonnes": 0.057
+    },
+    "ART-DEU-MOR-81": {
+      "massTonnes": 0.057
+    },
+    "ART-DEU-LEIG18": {
+      "massTonnes": 0.4
+    },
+    "ART-DEU-INFGUN-75": {
+      "massTonnes": 0.4
+    },
+    "ART-DEU-SIG33": {
+      "massTonnes": 1.75
+    },
+    "ART-DEU-INFGUN-150": {
+      "massTonnes": 1.75
+    },
+    "ART-DEU-PAK36": {
+      "massTonnes": 0.43
+    },
+    "ART-DEU-AT-37": {
+      "massTonnes": 0.43
+    },
+    "ART-DEU-LEFH18": {
+      "massTonnes": 2.0
+    },
+    "ART-DEU-HOW-105": {
+      "massTonnes": 2.0
+    },
+    "ART-DEU-SFH18": {
+      "massTonnes": 5.5
+    },
+    "ART-DEU-HOW-150": {
+      "massTonnes": 5.5
+    },
+    "ART-DEU-K18-105": {
+      "massTonnes": 5.6
+    },
+    "ART-DEU-GUN-105": {
+      "massTonnes": 5.6
+    },
+    "ART-FRA-MORTAR60": {
+      "massTonnes": 0.02,
+      "capacityShare": 0.006
+    },
+    "ART-FRA-MORTAR81": {
+      "massTonnes": 0.06
+    },
+    "ART-FRA-AT25": {
+      "massTonnes": 0.48
+    },
+    "ART-FRA-ART75M1897": {
+      "massTonnes": 1.14
+    },
+    "ART-FRA-HOW155C": {
+      "massTonnes": 3.3
+    },
+    "ART-FRA-HOW105-ARM-1940": {
+      "massTonnes": 1.7
+    },
+    "ART-FRA-AT47-ARM-1940": {
+      "massTonnes": 1.05,
+      "availableFrom": "1937-01-01"
+    },
+    "ART-GBR-MORTAR": {
+      "massTonnes": 0.057
+    },
+    "ART-GBR-AT": {
+      "massTonnes": 0.81
+    },
+    "ART-GBR-FIELD": {
+      "massTonnes": 1.63
+    },
+    "ART-GBR-25PDR-ARM-1939": {
+      "massTonnes": 1.63,
+      "availableFrom": "1940-01-01"
+    },
+    "ART-GBR-2PDR-ARM-1939": {
+      "massTonnes": 0.81,
+      "availableFrom": "1937-01-01"
+    },
+    "ART-ITA-MORTAR81-1940": {
+      "massTonnes": 0.059
+    },
+    "ART-ITA-BRIXIA45-1940": {
+      "massTonnes": 0.0155,
+      "capacityShare": 0.0045
+    },
+    "ART-ITA-AT47-1940": {
+      "massTonnes": 0.28
+    },
+    "ART-ITA-GUN75-1940": {
+      "massTonnes": 1.0
+    },
+    "ART-ITA-HOW75-1940": {
+      "massTonnes": 0.61
+    },
+    "ART-ITA-HOW100-1940": {
+      "massTonnes": 1.4
+    },
+    "ART-ITA-GUN75-27-ARM-1940": {
+      "massTonnes": 1.0
+    },
+    "ART-ITA-AT47-ARM-1940": {
+      "massTonnes": 0.28
+    },
+    "ART-JPN-AT37-1939": {
+      "massTonnes": 0.33
+    },
+    "ART-JPN-GUN75-REG-1939": {
+      "massTonnes": 0.54
+    },
+    "ART-JPN-GUN75-DIV-1939": {
+      "massTonnes": 1.0
+    },
+    "ART-JPN-GUN75-ARM-1942": {
+      "massTonnes": 1.0
+    },
+    "ART-JPN-AT47-ARM-1942": {
+      "massTonnes": 0.8,
+      "availableFrom": "1941-01-01"
+    },
+    "ART-USA-MORTAR81-1940": {
+      "massTonnes": 0.062
+    },
+    "ART-USA-AT37-1940": {
+      "massTonnes": 0.41,
+      "availableFrom": "1940-01-01"
+    },
+    "ART-USA-HOW105-1940": {
+      "massTonnes": 2.26,
+      "availableFrom": "1940-01-01"
+    },
+    "ART-USA-HOW155-1940": {
+      "massTonnes": 5.8,
+      "availableFrom": "1942-01-01"
+    },
+    "ART-USA-GUN75-1940": {
+      "massTonnes": 1.2
+    },
+    "ART-USA-HOW105-ARM-1940": {
+      "massTonnes": 2.26,
+      "availableFrom": "1940-01-01"
+    },
+    "ART-USA-AT37-ARM-1940": {
+      "massTonnes": 0.41,
+      "availableFrom": "1940-01-01"
+    },
+    "ART-USSR-AT45-1939": {
+      "massTonnes": 0.56,
+      "availableFrom": "1937-01-01"
+    },
+    "ART-USSR-GUN76-1939": {
+      "massTonnes": 1.1
+    },
+    "ART-USSR-HOW122-1939": {
+      "massTonnes": 2.45,
+      "availableFrom": "1939-01-01"
+    },
+    "ART-USSR-HOW152-1939": {
+      "massTonnes": 4.15,
+      "availableFrom": "1938-01-01"
+    },
+    "ART-USSR-HOW122-ARM-1940": {
+      "massTonnes": 2.45,
+      "availableFrom": "1939-01-01"
+    },
+    "ART-USSR-HOW152-ARM-1940": {
+      "massTonnes": 4.15,
+      "availableFrom": "1938-01-01"
+    },
+    "TNK-DEU-PZ-I": {
+      "massTonnes": 5.4
+    },
+    "TNK-DEU-PZ-II": {
+      "massTonnes": 8.9
+    },
+    "TNK-DEU-PZ-III": {
+      "massTonnes": 19.5,
+      "availableFrom": "1937-01-01"
+    },
+    "TNK-DEU-PZ-IV": {
+      "massTonnes": 20
+    },
+    "TNK-DEU-PZ-V": {
+      "massTonnes": 44.8,
+      "availableFrom": "1943-01-01"
+    },
+    "TNK-DEU-PZ-VI": {
+      "massTonnes": 57,
+      "availableFrom": "1942-01-01"
+    },
+    "TNK-DEU-PZ-VIB": {
+      "massTonnes": 69.8,
+      "availableFrom": "1944-01-01"
     }
   },
   "priceFactor": 1.25

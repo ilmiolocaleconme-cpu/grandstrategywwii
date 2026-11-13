@@ -44,8 +44,8 @@ test('una ricetta per ogni equipaggiamento producibile, di ogni nazione, con la 
   assert.deepEqual(b1.inputs, [{ resource: 'steel', perUnit: 37.8 }, { resource: 'components', perUnit: 3.15 }, { resource: 'engines', perUnit: 2.52 }]);
   for (const n of ['DEU', 'FRA', 'GBR', 'ITA', 'USA', 'JPN', 'USSR']) assert.ok(generated.some((r) => r.factory === 'FCT-TANKS' && r.equipmentId.split('-')[1] === n), `carri di ${n}`);
   const how = generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C');
-  assert.deepEqual([how.factory, how.massTonnes, how.output.product], ['FCT-ARTILLERY', 2.5, 'equipment.ART-FRA-HOW155C']);
-  assert.deepEqual(how.inputs, [{ resource: 'steel', perUnit: 3 }, { resource: 'components', perUnit: 0.25 }]);
+  assert.deepEqual([how.factory, how.massTonnes, how.output.product], ['FCT-ARTILLERY', 3.3, 'equipment.ART-FRA-HOW155C']);
+  assert.deepEqual(how.inputs, [{ resource: 'steel', perUnit: 3.96 }, { resource: 'components', perUnit: 0.33 }]);
 });
 
 test('errori espliciti: prodotto fuori catalogo, categoria o gruppo sconosciuti, override orfano', () => {
@@ -128,7 +128,7 @@ test('lotti: il volume non cambia (solo ritardo) e senza data è un errore, non 
   const rec = generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C');
   const { delivered, f } = run(rec, 70);
   const total = delivered.reduce((a, b) => a + b, 0);
-  assert.ok(Math.abs(total + f.batches.reduce((t, b) => t + b.qty, 0) + f.wip - 70 * 1.96) < 0.01, '1,96 pezzi/giorno anche con i lotti: consegnato + in lavorazione = lavoro svolto');
+  assert.ok(Math.abs(total + f.batches.reduce((t, b) => t + b.qty, 0) + f.wip - 70 * 1.485) < 0.01, '1,485 pezzi/giorno (obice da 3,3 t) anche con i lotti: consegnato + in lavorazione = lavoro svolto');
   assert.equal(delivered.findIndex((x) => x > 0), 55, 'obice: primo lotto chiuso al giorno 14, consegnato dopo altri 42 giorni');
   const cat = { recipes: new Map([[rec.id, rec]]), factories: industry.byId, levels: json('industry/factory_levels.json') };
   assert.throws(() => produceDay({ facilities: [{ id: 'F1', type: rec.factory, recipeId: rec.id }], stock: { steel: 100, components: 100 }, hydroMw: 100 }, cat), /manca la data/);
@@ -142,14 +142,14 @@ test('catena completa: fabbrica a lotti → scorta equipment.<id> → rinforzi �
   const { stock, delivered } = run(rec, 60);
   const item = 'equipment.ART-FRA-HOW155C';
   const made = stock[item];
-  assert.equal(made, 27, 'primo lotto: 14 giorni × 1,96 obici = 27,44 → 27 pezzi interi');
+  assert.equal(made, 20, 'primo lotto: 14 giorni × 1,485 obici = 20,79 → 20 pezzi interi');
   assert.equal(delivered.filter((x) => x > 0).length, 1);
   const units = [{ id: 'FRA-1', nation: 'FRA' }, { id: 'FRA-2', nation: 'FRA' }];
-  let forces = { divisions: { 'FRA-1': { items: { [item]: { planned: 24, effective: 4 } } }, 'FRA-2': { items: { [item]: { planned: 24, effective: 0 } } } } };
+  let forces = { divisions: { 'FRA-1': { items: { [item]: { planned: 24, effective: 4 } } }, 'FRA-2': { items: { [item]: { planned: 17, effective: 0 } } } } };
   const route = { 'FRA-1': { landKm: 250 }, 'FRA-2': { landKm: 250, seaDays: 4 } };
   const plan = planReinforcements(forces, { units, nation: 'FRA', date: '1939-09-10', poolAvailable: 0, stocks: { [item]: made }, transitDays: makeTransitDays((id) => route[id]) });
   const by = Object.fromEntries(plan.transfers.map((t) => [t.divisionId, t]));
-  assert.deepEqual([by['FRA-2'].qty, by['FRA-1'].qty], [24, 3], 'la più scoperta prima; i 27 pezzi non bastano per tutti');
+  assert.deepEqual([by['FRA-2'].qty, by['FRA-1'].qty], [17, 3], 'la più scoperta prima; i 20 pezzi non bastano per tutti');
   assert.deepEqual([by['FRA-1'].arrivesOn, by['FRA-2'].arrivesOn], ['1939-09-13', '1939-09-17']);
   assert.equal(plan.remaining.stocks[item], 0);
   forces = dispatch(forces, plan.transfers);
@@ -157,7 +157,7 @@ test('catena completa: fabbrica a lotti → scorta equipment.<id> → rinforzi �
   assert.equal(a.forces.divisions['FRA-1'].items[item].effective, 7);
   assert.equal(a.forces.divisions['FRA-2'].items[item].effective, 0, 'via mare arriva dopo');
   const b = applyArrivals(a.forces, '1939-09-17');
-  assert.equal(b.forces.divisions['FRA-2'].items[item].effective, 24);
+  assert.equal(b.forces.divisions['FRA-2'].items[item].effective, 17);
   assert.equal(b.forces.transfers.length, 0);
 });
 
@@ -168,7 +168,7 @@ test('capacityShare: i fucili usano il 4% della fabbrica — 4,8 t di acciaio e 
   const f = fullCapacityFlows(rifle, industry.byId.get('FCT-WEAPONS'));
   assert.equal(f.outputPerDay, 800);
   assert.equal(f.inputsPerDay.steel, 4.8);
-  assert.equal(fullCapacityFlows(generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C'), industry.byId.get('FCT-ARTILLERY')).inputsPerDay.steel, 5.88, 'obici: 70 t × 7% × 1,2');
+  assert.equal(fullCapacityFlows(generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C'), industry.byId.get('FCT-ARTILLERY')).inputsPerDay.steel, 5.881, 'obici: 70 t × 7% × 1,2 (5,88; arrotondamento dei pezzi al giorno)');
   const bad = structuredClone(withEquipmentRecipes(recipesDoc, generated)); bad.recipes.find((r) => r.id === rifle.id).capacityShare = 1.5;
   assert.ok(validateRecipes(bad, ctx()).some((e) => /capacityShare non valido/.test(e)));
 });
@@ -179,7 +179,7 @@ const priced = withEquipmentPrices(economyFile, generated, table.priceFactor);
 
 test('prezzi: 1,25 × costo dei materiali, stessa regola di carri e artiglieria; i prezzi esistenti non cambiano', () => {
   const how = generated.find((r) => r.equipmentId === 'ART-FRA-HOW155C');
-  const mat = 3 * economyFile.prices.steel + 0.25 * economyFile.prices.components;
+  const mat = 3.96 * economyFile.prices.steel + 0.33 * economyFile.prices.components;
   assert.equal(priced.prices['equipment.ART-FRA-HOW155C'], Math.round(mat * 1.25 * 1e6) / 1e6);
   assert.ok(priced.prices['equipment.INW-FRA-RIFLE-1939'] > 0);
   for (const [k, v] of Object.entries(economyFile.prices)) assert.equal(priced.prices[k], v, k);

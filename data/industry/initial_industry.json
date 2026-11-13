@@ -222,7 +222,7 @@
         },
         {
           "factory": "FCT-TANKS",
-          "recipeId": "REC-TNK-DEU-TANK",
+          "recipeId": "REC-TNK-DEU-PZ-I",
           "count": 1
         },
         {
@@ -777,7 +777,7 @@
         },
         {
           "factory": "FCT-ARTILLERY",
-          "recipeId": "REC-ART-USA-HOW105-1940",
+          "recipeId": "REC-ART-USA-GUN75-1940",
           "count": 1
         },
         {

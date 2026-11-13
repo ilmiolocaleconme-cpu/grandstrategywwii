@@ -16,7 +16,6 @@ const mines = j('economy/economy.json').mines;
 const parts = mines.gapParts;
 const capFactor = mines.capFactor ?? 1;
 const round = (v) => Math.round(v * 1000) / 1000;
-const NOT_MINEABLE = new Set(['wheat']);
 
 const collection = await loadProvinces();
 const banks = bankIndex(collection.features);
@@ -33,7 +32,7 @@ for (const [pid, res] of Object.entries(points).sort()) {
   for (const [r, v] of Object.entries(res).sort()) {
     const k = scale[r];
     if (typeof k !== 'number') continue; // senza scala (rame, metalli rari...) non si costruiscono miniere
-    if (NOT_MINEABLE.has(r)) continue; // il frumento ha una scala ma non è una miniera: l'espansione agricola verrà con il modello agricolo
+    // frumento (13/11/2026, scelta dell'utente «A»): l'azienda agricola è la «miniera» del frumento, stessi 3 livelli e stesso tetto (+10%)
     if (!banks.isSplit(pid)) { (byProvince[pid] ??= {})[r] = { base: v.base, max: v.max, extraPerDay: extraFor(v, k) }; continue; }
     (byProvince[pid] ??= {})[r] = { base: v.base, max: v.max, extraPerDay: extraFor(v, k), legacy: true };
     for (const [bid, share] of shareOf(pid)) (byProvince[bid] ??= {})[r] = { base: v.base, max: v.max, share: round(share), province: pid, extraPerDay: extraFor(v, k, share) };

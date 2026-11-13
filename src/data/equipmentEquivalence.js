@@ -21,6 +21,8 @@ export function buildEquivalence({ catalog, upgradeMap = null, generic = null, c
   const link = (nation, a, b) => { const ka = `${nation}|${a}`; const kb = `${nation}|${b}`; add(ka); add(kb); union(ka, kb); };
   for (const a of catalog?.aliases ?? []) if (a.nation && a.templateKey && a.equipment_id) link(a.nation, a.templateKey, a.equipment_id);
   for (const e of upgradeMap?.entries ?? []) if (e.nation && e.from && e.to) link(e.nation, e.from, e.to);
+  // sameAs (13/11/2026): un modello del catalogo che rifornisce la voce di classe (es. Pz.Kpfw. II → TNK-DEU-TANK, la voce dei template tedeschi)
+  for (const e of catalog?.entries ?? []) if (e.nation && e.sameAs && e.equipment_id) link(e.nation, e.sameAs, e.equipment_id);
   const groups = new Map();
   for (const k of parent.keys()) { const r = find(k); if (!groups.has(r)) groups.set(r, []); groups.get(r).push(k); }
   const members = new Map();

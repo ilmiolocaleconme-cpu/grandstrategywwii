@@ -24,9 +24,9 @@ const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 1, tank: 1 }, FRA: 
 // Armi leggere e artiglieria (richiesta dell'utente del 10/11/2026): un impianto di ciascun tipo per le nazioni che hanno voci nel catalogo equipaggiamenti (USSR e JPN da fonti web del 10/11/2026, provvisorie)
 // (data/units/equipment/catalog*.json). Ricetta di default = prodotto REC-<equipment_id> generato da equipment_production.json: valore di gioco, non storico;
 // il giocatore la cambia dall'impianto. USA dal T/O 70 del 1940 (scheda fornita dall'utente, 11/11/2026).
-const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-HOW-105', tank: 'REC-TNK-DEU-TANK' }, FRA: { wpn: 'REC-INW-FRA-RIFLE-1939', art: 'REC-ART-FRA-ART75M1897', tank: 'REC-TNK-FRA-H39-1940' }, GBR: { wpn: 'REC-INW-GBR-RIFLE', art: 'REC-ART-GBR-FIELD', tank: 'REC-TNK-GBR-LIGHT-TANK-1939' }, ITA: { wpn: 'REC-INW-ITA-RIFLE-1940', art: 'REC-ART-ITA-GUN75-1940', tank: 'REC-TNK-ITA-L3-ARM-1940' },
+const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-HOW-105', tank: 'REC-TNK-DEU-PZ-I' }, FRA: { wpn: 'REC-INW-FRA-RIFLE-1939', art: 'REC-ART-FRA-ART75M1897', tank: 'REC-TNK-FRA-H39-1940' }, GBR: { wpn: 'REC-INW-GBR-RIFLE', art: 'REC-ART-GBR-FIELD', tank: 'REC-TNK-GBR-LIGHT-TANK-1939' }, ITA: { wpn: 'REC-INW-ITA-RIFLE-1940', art: 'REC-ART-ITA-GUN75-1940', tank: 'REC-TNK-ITA-L3-ARM-1940' },
   USSR: { wpn: 'REC-INW-USSR-RIFLE-1939', art: 'REC-ART-USSR-GUN76-1939', tank: 'REC-TNK-USSR-T26-1940' }, JPN: { wpn: 'REC-INW-JPN-RIFLE-1939', art: 'REC-ART-JPN-GUN75-DIV-1939', tank: 'REC-TNK-JPN-TYPE95-1942' },
-  USA: { wpn: 'REC-INW-USA-RIFLE-1940', art: 'REC-ART-USA-HOW105-1940', tank: 'REC-TNK-USA-LIGHT-TANK-1940' } };
+  USA: { wpn: 'REC-INW-USA-RIFLE-1940', art: 'REC-ART-USA-GUN75-1940', tank: 'REC-TNK-USA-LIGHT-TANK-1940' } };
 // Fabbriche di munizioni per nazione (decisione dell'utente del 04/11/2026, «per equilibrare il gioco»): copertura della domanda di
 // attacco continuo di tutte le divisioni del catalogo (348 divisioni, data/military/ammo_consumption.json) con almeno il 100 %.
 // 100 t/giorno per fabbrica. Le nazioni senza divisioni nel catalogo non ne ricevono. Il vecchio calcolo (un quinto delle acciaierie) è

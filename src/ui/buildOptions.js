@@ -57,7 +57,7 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
     const r = build.start(state, nationId, order);
     const gain = Math.round((site.extraPerDay[level - 1] - (site.extraPerDay[level - 2] ?? 0)) * 10) / 10;
     if (!r.ok && r.reason === 'no_gain') continue; // non mostrare miniere inutili
-    out.mines.push({ order, label: `${resourceLabel(resource)}: miniera livello ${level}`, detail: `+${gain} t/giorno`, cost: mineCost(economy, level, state.difficulty), ok: r.ok, message: describeBuildFailure(r) });
+    out.mines.push({ order, label: `${resourceLabel(resource)}: ${resource === 'wheat' ? 'azienda agricola' : 'miniera'} livello ${level}`, detail: `+${gain} t/giorno`, cost: mineCost(economy, level, state.difficulty), ok: r.ok, message: describeBuildFailure(r) });
   }
   const seen = new Set();
   const researched = techsOf(nation);
@@ -67,7 +67,7 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
     // ricette di equipaggiamento: solo quelle della propria nazione e sbloccate, UNA riga per tipo di fabbrica (la ricetta si cambia poi dall'impianto)
     if (recipe.equipmentId) {
       if (recipe.equipmentId.split('-')[1] !== nationId) continue;
-      if (equipmentTable) { const def = defaultEquipmentRecipe(catalog.recipes, nationId, recipe.factory, equipmentTable, researched); if (!def || def.id !== recipe.id) continue; }
+      if (equipmentTable) { const def = defaultEquipmentRecipe(catalog.recipes, nationId, recipe.factory, equipmentTable, researched, state.date ?? null); if (!def || def.id !== recipe.id) continue; }
     }
     const key = recipe.equipmentId ? `${recipe.factory}/equipment` : `${recipe.factory}/${recipe.id}`;
     if (seen.has(key)) continue;

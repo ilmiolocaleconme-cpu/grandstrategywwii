@@ -74,7 +74,15 @@ export function validateEquipmentCatalog(doc, { templates } = {}) {
     if (!e) errors.push(`${p}: equipment_id inesistente ${a?.equipment_id}`);
     else if (e.nation !== a.nation) errors.push(`${p}: la voce ${e.equipment_id} è di un'altra nazione (${e.nation})`);
   }
-  for (const e of byId.values()) if (!(doc.aliases ?? []).some((a) => a.equipment_id === e.equipment_id)) errors.push(`equipaggiamento ${e.equipment_id}: nessun alias (voce non collegata a un template)`);
+  // sameAs (13/11/2026): un modello collegato alla voce di classe della stessa nazione e categoria (es. Pz.Kpfw. II → TNK-DEU-TANK) è collegato al template tramite essa
+  for (const e of byId.values()) {
+    if (e.sameAs === undefined) continue;
+    const t = byId.get(e.sameAs);
+    if (!t) errors.push(`equipaggiamento ${e.equipment_id}: sameAs inesistente ${e.sameAs}`);
+    else if (t.nation !== e.nation || t.category !== e.category) errors.push(`equipaggiamento ${e.equipment_id}: sameAs ${e.sameAs} di altra nazione o categoria`);
+  }
+  const linked = (e) => (doc.aliases ?? []).some((a) => a.equipment_id === e.equipment_id);
+  for (const e of byId.values()) if (!linked(e) && !(e.sameAs && byId.get(e.sameAs) && linked(byId.get(e.sameAs)))) errors.push(`equipaggiamento ${e.equipment_id}: nessun alias (voce non collegata a un template)`);
   // Le chiavi con value null ("da definire", es. fanteria francese 1936) non hanno quantità da risolvere: l'alias serve quando il dato arriva.
   for (const t of templates ?? []) {
     const nation = t?.appliesTo?.nation;
