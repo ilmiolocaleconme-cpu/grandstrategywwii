@@ -1,0 +1,7 @@
+{
+  "schema": "bridges-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "basis": "ipotesi",
+  "note": "Tempi di ripristino di un ponte distrutto, in giorni di gioco, per larghezza del fiume. IPOTESI di bilanciamento di Claude, non dati storici, da approvare: un ponte su un fiume largo costa molto più lavoro. Il ripristino lo ordina il giocatore; il genio e le sue risorse non sono ancora modellati (nessun costo).",
+  "repairDays": { "small": 10, "medium": 25, "large": 50 }
+}

@@ -15,6 +15,8 @@ import { unitOf } from '../rules/unitRegistry.js';
 import { createTheaters, createAssignment, cancelAssignment, completeAssignment, dropUnits, activeAssignments } from '../rules/theater.js';
 import { resolveBattleDay, resolveUrbanBattleDay, categoryPower, equipmentLosses } from '../rules/combat.js';
 import { positionOf, issueMove, cancelMove } from '../rules/movement.js';
+import { pairState } from '../rules/bridges.js';
+import { canStepFor } from './movementState.js';
 import { provinceStateOf, patchProvinceState } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
@@ -142,11 +144,11 @@ function logBattle(state, entry) {
   return { ...state, combat: { schema: COMBAT_SCHEMA, log } };
 }
 
-/** Quota (0-1) di attaccanti arrivati oggi dall'altra sponda della stessa provincia SENZA un ponte fra le due sponde (ctx.bridgeBetween): hanno forzato un fiume. */
+/** Quota (0-1) di attaccanti arrivati oggi dall'altra sponda della stessa provincia SENZA un ponte agibile fra le due sponde (net.bridgeIndex + state.bridges): hanno forzato un fiume. */
 function crossedShare(state, net, p, attackers, ctx) {
   const from = state.movement?.arrivedFrom;
   if (!from || !net.isBank?.(p) || attackers.length === 0) return 0;
-  const crossed = attackers.filter((u) => { const q = from[u.id]; return q && q !== p && net.isBank(q) && net.provinceOf(q) === net.provinceOf(p) && !ctx.bridgeBetween?.(q, p, state); });
+  const crossed = attackers.filter((u) => { const q = from[u.id]; return q && q !== p && net.isBank(q) && net.provinceOf(q) === net.provinceOf(p) && !(net.bridgeIndex && pairState(net.bridgeIndex, state.bridges, q, p).intact > 0); });
   return crossed.length / attackers.length;
 }
 
@@ -284,7 +286,7 @@ function assignmentPhase(state, ctx, net) {
     const canEnter = canEnterWar(s, net, cur.nation);
     for (const o of planAssignment(s, ctx, net, cur).orders) {
       const u = unitOf(state, o.unit, ctx.unitsById);
-      const r = issueMove(s.movement ?? { schema: 'movement-v1', positions: {}, orders: {} }, { id: o.unit, category: u.category }, o.to, { initial: ctx.initial, net, canEnter });
+      const r = issueMove(s.movement ?? { schema: 'movement-v1', positions: {}, orders: {} }, { id: o.unit, category: u.category }, o.to, { initial: ctx.initial, net, canEnter, canStep: canStepFor(s, net) });
       if (r.ok) s = { ...s, movement: r.movement };
     }
   }

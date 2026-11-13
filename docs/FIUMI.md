@@ -106,7 +106,7 @@ A vista d'insieme tutti i 540 fiumi coprivano la mappa. `riverRankLimit` (in `sr
 
 Il file curato `data/crossings.json` (9 attraversamenti pilota Reno/Mosa) con `src/data/crossings.js` e `src/rules/crossings.js` è stato **eliminato** su richiesta dell'utente: troppo poco per un mondo con moltissimi fiumi. **I ponti che contano sono quelli del grafo dei collegamenti** (`data/links.json`: 3602 ponti dove la linea di un collegamento incrocia un fiume `medium`/`large`, rete moderna, tutto `hypothesis`). `bridgedPairs()` (`src/data/links.js`) ne ricava le coppie di province unite da un ponte (2773, di cui 216 fra sponde della stessa provincia); nel combattimento, chi passa fra due sponde senza ponte «forza il fiume» e i difensori hanno un bonus il primo giorno (`data/combat/defense_modifiers.json`, ipotesi).
 
-**Mancano ancora** (erano nel file eliminato e non esistono altrove): stato dinamico di un ponte (integro, danneggiato, distrutto, temporaneo), controllore, riparazione e ponte del genio, date di costruzione/distruzione, guadi e traghetti con condizioni. Vanno riprogettati sul grafo dei ponti (`LB_*`), non su una lista curata.
+**Stato dei ponti** (`src/rules/bridges.js`, `state.bridges`): integro, distrutto, in ripristino (durata per larghezza del fiume in `data/combat/bridges.json`, ipotesi). Su un fiume `main` con tutti i ponti inagibili il passo fra i due posti è impossibile (anche per le marce in corso); sui fiumi minori si forza e i difensori hanno il bonus. **Mancano ancora:** controllore del ponte, danneggiato/ponte temporaneo del genio (e le sue risorse), interfaccia e IA che demoliscono o ripristinano, guadi e traghetti con condizioni, gelo e piene.
 
 ## Prossimi passi, in ordine di dipendenza
 

@@ -2,6 +2,7 @@
 // nessuna migrazione dello schema (come `provinces`). Le regole sono in src/rules/movement.js; qui: posizioni correnti,
 // ordine del giocatore e sistema giornaliero.
 import { createMovementState, issueMove, cancelMove, tickMovement, positionOf, validateMovement } from '../rules/movement.js';
+import { canStepOver } from '../rules/bridges.js';
 import { atWar } from '../rules/war.js';
 import { hasAccess } from '../rules/diplomacy.js';
 import { provinceController } from './warCommon.js';
@@ -20,6 +21,11 @@ export function initialPositions(deploymentDoc) {
 export function currentDeployment(deploymentDoc, state) {
   const pos = state?.movement?.positions ?? {};
   return { ...deploymentDoc, entries: deploymentDoc.entries.map((e) => { const at = pos[e.unit] ?? e.bank ?? e.province; return at === e.province ? e : { ...e, province: at }; }) };
+}
+
+/** Passo a → b consentito? Falso solo se i ponti fra i due posti (state.bridges, net.bridgeIndex) sono tutti inagibili su un fiume principale. null se non ci sono ponti caricati. */
+export function canStepFor(state, net) {
+  return net.bridgeIndex ? (a, b) => canStepOver(net.bridgeIndex, state.bridges, a, b) : null;
 }
 
 /** Può entrare nella provincia `m`? Province proprie (controllo effettivo, anche per occupazione), di nazioni in guerra con la propria e di chi ha concesso accesso o alleanza. */
@@ -42,7 +48,7 @@ export function orderMove(state, { units, to, nation, deploymentDoc, net }) {
   const moved = [];
   const failed = [];
   for (const u of units) {
-    const r = issueMove(movement, u, to, { initial, net, canEnter });
+    const r = issueMove(movement, u, to, { initial, net, canEnter, canStep: canStepFor(state, net) });
     if (r.ok) { movement = r.movement; moved.push({ unit: u.id, days: r.days, path: r.path }); } else failed.push({ unit: u.id, reason: r.reason });
   }
   return { state: moved.length ? { ...state, movement } : state, moved, failed };
@@ -57,7 +63,7 @@ export function cancelOrders(state, unitIds) {
 
 /** Sistema giornaliero (si aggiunge a GAME_SYSTEMS). */
 export function createMovementSystem(net) {
-  return (state) => (state.movement && Object.keys(state.movement.orders).length ? { ...state, movement: tickMovement(state.movement, net.km) } : state);
+  return (state) => (state.movement && Object.keys(state.movement.orders).length ? { ...state, movement: tickMovement(state.movement, net.km, canStepFor(state, net)) } : state);
 }
 
 export { positionOf };

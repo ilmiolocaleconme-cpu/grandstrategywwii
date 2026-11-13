@@ -75,7 +75,8 @@ import { commandsByProvince, mergeCommandsIntoProvinceUnits } from './rules/hqPo
 import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
-import { bridgedPairs, bridgeKey } from './data/links.js';
+import { buildBridgeIndex } from './rules/bridges.js';
+import { createBridgeSystem } from './game/bridgeState.js';
 import { createDefenseMultiplier, validateDefenseModifiers, riverFactor } from './rules/defenseModifiers.js';
 import defenseFile from '../data/combat/defense_modifiers.json';
 import terrainClassFile from '../data/combat/terrain_class.json';
@@ -380,12 +381,9 @@ const DEFENSE_MULT = DEFENSE_ERRORS.length ? undefined : createDefenseMultiplier
   cfg: defenseFile, terrainOf: (id) => terrainClassFile.classes[id] ?? null, fortificationOf: (id) => presenceFile.byProvince[id]?.fortifications ?? null,
   isCity: (id, st, net) => net?.isCity?.(id) === true,
 });
-// Fiume forzato: il bonus dei difensori vale solo per chi passa fra due sponde SENZA un ponte del grafo dei collegamenti (data/links.json, ipotesi).
-// I ponti sono dato fisso: non esiste ancora stato di danni/distruzione. Finché links.json non è caricato nessun ponte (bonus pieno).
-const BRIDGES = { pairs: null };
+// Fiume forzato: il bonus dei difensori vale per chi passa fra due sponde senza un ponte agibile (net.bridgeIndex, state.bridges). I ponti vengono da data/links.json (ipotesi).
 const RIVER_FACTOR = DEFENSE_ERRORS.length ? undefined : (mother, st, share) => riverFactor(defenseFile, { crossedShare: share });
-const BRIDGE_BETWEEN = (a, b) => BRIDGES.pairs?.has(bridgeKey(a, b)) === true;
-const THEATER_CTX = { defenseMultiplier: DEFENSE_MULT, riverFactor: RIVER_FACTOR, bridgeBetween: BRIDGE_BETWEEN, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+const THEATER_CTX = { defenseMultiplier: DEFENSE_MULT, riverFactor: RIVER_FACTOR, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse)
@@ -395,6 +393,7 @@ const GAME_SYSTEMS = [
   (state) => completeFormations(state, { date: state.date, catalog: UNITS_BY_ID }), // comandi creati dal giocatore: completano alla data prevista
   (state) => createCommandDistanceSystem({ net: gameNet(state), orbat: state.orbat ?? createOrbatState(), unitsById: unitsView(state, UNITS_BY_ID), initial: INITIAL_POSITIONS, cfg: conditionConfig })(state), // distanza dal comando: prontezza persa e recuperata (src/rules/commandDistance.js)
   createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
+  createBridgeSystem(), // ripristino dei ponti distrutti
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
   GAME_BUILD.constructionDay,
@@ -842,11 +841,12 @@ export default function App() {
     }).catch(() => { if (alive) setArmyNotice('Movimento non disponibile: file di adiacenza non caricato.'); });
     return () => { alive = false; };
   }, [!!game, !!provinces, !!citiesRaw, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
-  // ponti del grafo dei collegamenti: servono nel combattimento (fiume forzato); si calcolano quando link e province sono pronti
+  // ponti del grafo dei collegamenti: indice sulla rete di movimento (blocco dei fiumi principali e fiume forzato); si calcola quando rete, link, fiumi e province sono pronti
   useEffect(() => {
-    if (!linksRaw || !provinces) return;
-    BRIDGES.pairs = bridgedPairs(linksRaw, provinces.features.map((f) => f.properties.id));
-  }, [linksRaw, provinces]);
+    if (!moveNet || !linksRaw || !provinces || !rivers) return;
+    const byId = new Map(rivers.map((r) => [r.id, r]));
+    moveNet.bridgeIndex = buildBridgeIndex(linksRaw, provinces.features.map((f) => f.properties.id), (id) => byId.get(id) ?? null);
+  }, [moveNet, linksRaw, provinces, rivers]);
   // rotte marittime: servono le zone di mare e le province (stesso ordine di data/sea_zones.json); i porti vengono da data/ports e da state.ports
   useEffect(() => {
     if (!game || GAME_SEA.sea || !seaFile || !provinces) return;

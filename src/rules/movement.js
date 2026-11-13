@@ -36,7 +36,7 @@ export function positionOf(movement, initial, unitId) {
  * Percorso più corto (meno passi, a parità meno km) da `from` a `to` entrando solo dove `canEnter(id)`.
  * net: { neighbors(id) → ids, km(a, b) }. Ritorna [from, ..., to] oppure null.
  */
-export function findPath(net, from, to, canEnter) {
+export function findPath(net, from, to, canEnter, canStep = null) {
   if (from === to) return [from];
   if (!canEnter(to)) return null;
   const dist = new Map([[from, 0]]);
@@ -48,6 +48,7 @@ export function findPath(net, from, to, canEnter) {
     const cur = queue[i];
     for (const n of net.neighbors(cur)) {
       if (!canEnter(n)) continue;
+      if (canStep && !canStep(cur, n)) continue; // fiume principale senza ponti agibili
       const h = hops.get(cur) + 1;
       const d = dist.get(cur) + net.km(cur, n);
       if (better(n, h, d)) {
@@ -67,7 +68,7 @@ export function findPath(net, from, to, canEnter) {
  * Dà l'ordine di muoversi. unit: { id, category }. initial: Map unità → provincia. net/canEnter come findPath.
  * Ritorna { ok, movement, path, days, reason }; reason: 'unknown_position' | 'same_province' | 'no_route'.
  */
-export function issueMove(movement, unit, toAsked, { initial, net, canEnter }) {
+export function issueMove(movement, unit, toAsked, { initial, net, canEnter, canStep = null }) {
   // sponde (11/11/2026): una provincia madre divisa vale come la sua sponda principale, sia in partenza sia in arrivo
   const canon = net.canon ?? ((x) => x);
   const at = positionOf(movement, initial, unit.id);
@@ -75,7 +76,7 @@ export function issueMove(movement, unit, toAsked, { initial, net, canEnter }) {
   const from = canon(at);
   const to = canon(toAsked);
   if (from === to) return { ok: false, movement, reason: 'same_province' };
-  const path = findPath(net, from, to, canEnter);
+  const path = findPath(net, from, to, canEnter, canStep);
   if (!path) return { ok: false, movement, reason: 'no_route' };
   const firstDays = hopDays(net.km(path[0], path[1]), unit.category);
   const days = path.slice(1).reduce((s, id, i) => s + hopDays(net.km(path[i], id), unit.category), 0);
@@ -91,7 +92,7 @@ export function cancelMove(movement, unitId) {
 }
 
 /** Un giorno di marcia. `kmBetween(a, b)` per i passi successivi al primo. */
-export function tickMovement(movement, kmBetween) {
+export function tickMovement(movement, kmBetween, canStep = null) {
   const ids = Object.keys(movement.orders);
   if (ids.length === 0) return movement;
   const positions = { ...movement.positions };
@@ -102,6 +103,7 @@ export function tickMovement(movement, kmBetween) {
     const daysLeft = o.daysLeft - 1;
     if (daysLeft > 0) { orders[id] = { ...o, daysLeft }; continue; }
     const leg = o.leg + 1;
+    if (canStep && !canStep(o.path[leg - 1], o.path[leg])) continue; // il ponte è saltato durante la marcia: l'unità resta dov'è e l'ordine cade
     arrivedFrom[id] = o.path[leg - 1];
     positions[id] = o.path[leg];
     if (leg < o.path.length - 1) {
