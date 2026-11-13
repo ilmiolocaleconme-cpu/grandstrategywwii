@@ -4,12 +4,13 @@
 //  - ogni `period` giorni si confrontano le scorte con quelle del controllo precedente (state.aiTrade.snap): calo medio al giorno = consumo netto;
 //  - se una merce scambiabile cala e basta per meno di `coverDays` giorni, e la nazione non ha già un contratto attivo da compratore per quella merce,
 //    apre un contratto di `contractDays` giorni per il calo × `margin` (arrotondato all'intero per le merci a pezzi);
-//  - venditore: la nazione che ha più scorta di quella merce, purché la sua scorta non stia calando e copra tutto il contratto con margine;
-//    si prova in ordine di scorta finché un contratto si apre (percorso, diplomazia e guerra come per il giocatore, via openTradeContract);
+//  - venditore (purché la sua scorta non stia calando e copra tutto il contratto con margine), in quest'ordine (13/11/2026, richiesta dell'utente):
+//    prima gli ALLEATI, poi il rapporto diplomatico migliore, poi la scorta più grande; si prova in quest'ordine finché un contratto si apre (percorso, diplomazia e guerra come per il giocatore, via openTradeContract);
 //  - il giocatore non è mai venditore né compratore (non si spende o vende la sua merce senza un suo ordine).
-// NON MODELLATO: vendite decise dall'IA per guadagnare, prezzi variabili, preferenza per gli alleati.
+// NON MODELLATO: vendite decise dall'IA per guadagnare, prezzi variabili.
 import { openTradeContract } from './tradeState.js';
 import { tradableGoods } from '../rules/trade.js';
+import { areAllied, relationOf } from '../rules/diplomacy.js';
 
 export const AI_TRADE_DEFAULTS = Object.freeze({ period: 10, coverDays: 60, contractDays: 90, margin: 1.2, sellerCover: 1.5 });
 
@@ -39,7 +40,8 @@ export function createAiTrade({ ctxOf, options = {} }) {
         perDay = pieces.has(g) || g.startsWith('equipment.') ? Math.ceil(perDay) : Math.ceil(perDay * 1000) / 1000;
         const need = perDay * o.contractDays * o.sellerCover;
         const sellers = Object.keys(s.nations).filter((id) => id !== buyer && id !== state.player && (s.nations[id].stocks?.[g] ?? 0) >= need && trend(id, g) >= 0)
-          .sort((a, b) => (s.nations[b].stocks[g] - s.nations[a].stocks[g]) || (a < b ? -1 : 1));
+          .sort((a, b) => (areAllied(s.diplomacy, buyer, b) - areAllied(s.diplomacy, buyer, a)) || (relationOf(s.diplomacy, buyer, b) - relationOf(s.diplomacy, buyer, a))
+            || (s.nations[b].stocks[g] - s.nations[a].stocks[g]) || (a < b ? -1 : 1));
         for (const seller of sellers) {
           const r = openTradeContract(s, { seller, buyer, good: g, perDay, days: o.contractDays, mode: 'auto' }, ctx);
           if (r.ok) { s = r.state; break; }

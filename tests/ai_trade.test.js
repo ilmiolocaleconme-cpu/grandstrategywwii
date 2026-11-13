@@ -56,3 +56,21 @@ test('il giocatore non compra mai in automatico', () => {
   const s = ai.aiTradeDay({ ...first, day: 20, nations: { ...first.nations, ITA: nation(500) } });
   assert.equal(s.trade.contracts.length, 0);
 });
+
+test('preferenza: prima gli alleati, poi il rapporto migliore, poi la scorta più grande (richiesta dell\'utente, 13/11/2026)', async () => {
+  const { createDiplomacy, addAlliance, setRelation } = await import('../src/rules/diplomacy.js');
+  // quattro nazioni attorno all'Italia; il giocatore è la Gran Bretagna (esclusa)
+  const O = { I: 'ITA', D: 'DEU', F: 'FRA', S: 'ESP', G: 'GBR' };
+  const A = { I: ['D', 'F', 'S'], D: ['I'], F: ['I'], S: ['I'], G: [] };
+  const n4 = { provinces: () => Object.keys(O), has: (m) => m in O, neighbors: (m) => A[m] ?? [], km: () => 200, owner: (m) => O[m], name: (m) => m };
+  const ai = createAiTrade({ ctxOf: () => ({ economy, resources, net: n4, sea: null }) });
+  const run = (diplomacy) => {
+    const nations = { ITA: nation(1000), DEU: nation(20000), FRA: nation(90000), ESP: nation(40000), GBR: nation(1) };
+    let s = ai.aiTradeDay({ day: 10, date: '1936-01-11', player: 'GBR', trade: createTradeState(), diplomacy, nations });
+    s = ai.aiTradeDay({ ...s, day: 20, date: '1936-01-21', nations: { ...s.nations, ITA: nation(500) } });
+    return s.trade.contracts[0]?.seller;
+  };
+  assert.equal(run(createDiplomacy()), 'FRA', 'senza diplomazia: la scorta più grande');
+  assert.equal(run(setRelation(createDiplomacy(), 'ITA', 'ESP', 50)), 'ESP', 'rapporto migliore prima della scorta');
+  assert.equal(run(addAlliance(setRelation(createDiplomacy(), 'ITA', 'ESP', 50), 'ITA', 'DEU', '1936-01-01')), 'DEU', 'alleato prima di tutti, anche con meno scorta');
+});
