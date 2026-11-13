@@ -393,7 +393,8 @@ const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi it
 const BUILD_CTX = { equipmentTable: equipmentProductionTable, build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
 
 const NATIONS_WITH_UNITS = new Set(unitsFile.units.map((u) => u.nation)); // nazioni con unità nel catalogo: i possibili avversari
-const NATION_NAMES = Object.fromEntries(political.map((e) => [e.id, e.name]));
+// nomi: prima l'elenco delle nazioni (comprende chi nasce dopo il 1/1/1936, es. il Mengjiang), poi i territori del 1936
+const NATION_NAMES = { ...Object.fromEntries(nations.map((n) => [n.id, n.name])), ...Object.fromEntries(political.map((e) => [e.id, e.name])) };
 // chi controlla ogni territorio nel 1936 (colonie, protettorati, mandati): decide il colore politico
 const NATION_CONTROL = Object.fromEntries(political.map((e) => [e.id, e.controller ?? e.id]));
 
