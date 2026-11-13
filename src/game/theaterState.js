@@ -8,7 +8,7 @@
 //  3. incarichi: le unità senza ordine si dirigono verso l'obiettivo più vicino (attacco: province da prendere; difesa: province da tenere);
 //     l'incarico di attacco si chiude quando tutti gli obiettivi sono dell'incaricante.
 // PROVVISORIO / MANCANTE: l'IA non dichiara guerra, non attacca e non assegna incarichi (i difensori restano e combattono dove sono);
-// terreno, fiumi e ponti non modificano ancora la battaglia (defenseMultiplier = 1 salvo `ctx.defenseMultiplier`); niente rifornimenti, morale
+// terreno e fortificazioni entrano nella battaglia solo tramite `ctx.defenseMultiplier(provincia, stato, rete)` (src/rules/defenseModifiers.js; senza, vale 1); fiumi e ponti ancora no; niente rifornimenti, morale
 // o comandanti nell'esito; nessun dato storico di guerra: la guerra si dichiara a mano.
 import { createWar, declareWar, atWar, enemiesOf } from '../rules/war.js';
 import { unitOf } from '../rules/unitRegistry.js';
@@ -158,7 +158,7 @@ function battlePhase(state, ctx, net) {
     if (defenders.length === 0 || attackers.length === 0) continue;
     // nel nodo di una zona urbana si combatte con le regole urbane (imboscate, difesa rafforzata, mezzi penalizzati)
     const solve = net.isCity?.(p) === true ? resolveUrbanBattleDay : resolveBattleDay;
-    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
+    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle })), defenders, defenseMultiplier: ctx.defenseMultiplier?.(p, s, net) ?? 1 });
     for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l, ctx);
     for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l, ctx);
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));
