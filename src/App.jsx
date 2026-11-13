@@ -75,6 +75,7 @@ import { commandsByProvince, mergeCommandsIntoProvinceUnits } from './rules/hqPo
 import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
+import { createAiBridges } from './game/aiBridges.js';
 import { buildBridgeIndex } from './rules/bridges.js';
 import inferredBridges from '../data/bridges_inferred.json';
 import { createBridgeSystem } from './game/bridgeState.js';
@@ -397,6 +398,7 @@ const GAME_SYSTEMS = [
   (state) => completeFormations(state, { date: state.date, catalog: UNITS_BY_ID }), // comandi creati dal giocatore: completano alla data prevista
   (state) => createCommandDistanceSystem({ net: gameNet(state), orbat: state.orbat ?? createOrbatState(), unitsById: unitsView(state, UNITS_BY_ID), initial: INITIAL_POSITIONS, cfg: conditionConfig })(state), // distanza dal comando: prontezza persa e recuperata (src/rules/commandDistance.js)
   createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
+  createAiBridges(THEATER_CTX, bridgesCfg), // IA dei ponti: demolisce sui fiumi principali se non regge la linea, ripristina in sicurezza
   createBridgeSystem(), // ripristino dei ponti distrutti
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio

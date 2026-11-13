@@ -13,26 +13,26 @@ export function createBridgeSystem() {
 }
 
 /** Il giocatore ha un'unità propria in uno dei due posti? (serve per demolire o ripristinare: nessun genio/risorse ancora modellati). */
-function hasOwnUnitAt(state, ctx, places) {
-  for (const u of ctx.unitsById.values()) if (u.nation === state.player && places.includes(positionOf(state.movement, ctx.initial, u.id))) return true;
+function hasOwnUnitAt(state, ctx, places, nation = state.player) {
+  for (const u of ctx.unitsById.values()) if (u.nation === nation && places.includes(positionOf(state.movement, ctx.initial, u.id))) return true;
   return false;
 }
 
-function guard(state, ctx, net, a, b) {
+function guard(state, ctx, net, a, b, nation = state.player) {
   if (!net.bridgeIndex) throw new Error('ponti non caricati');
-  if (!hasOwnUnitAt(state, ctx, [a, b])) throw new Error('serve un\'unità tua su una delle due sponde');
+  if (!hasOwnUnitAt(state, ctx, [a, b], nation)) throw new Error('serve un\'unità tua su una delle due sponde');
 }
 
-/** Demolisce i ponti agibili fra i posti a e b. Lancia un Error se non si può. */
-export function playerDestroyBridge(state, { a, b, ctx, net }) {
-  guard(state, ctx, net, a, b);
+/** Demolisce i ponti agibili (`nation` = chi ordina: il giocatore, o una nazione dell'IA che passa la propria sigla) fra i posti a e b. Lancia un Error se non si può. */
+export function playerDestroyBridge(state, { a, b, ctx, net, nation = state.player }) {
+  guard(state, ctx, net, a, b, nation);
   const r = destroyPair(state.bridges ?? createBridgeState(), net.bridgeIndex, a, b, { day: state.day });
   return { state: { ...state, bridges: r.bridges }, destroyed: r.destroyed };
 }
 
 /** Avvia il ripristino dei ponti distrutti fra a e b (durata da data/combat/bridges.json). */
-export function playerRepairBridge(state, { a, b, ctx, net, cfg }) {
-  guard(state, ctx, net, a, b);
+export function playerRepairBridge(state, { a, b, ctx, net, cfg, nation = state.player }) {
+  guard(state, ctx, net, a, b, nation);
   const r = startRepair(state.bridges ?? createBridgeState(), net.bridgeIndex, a, b, { day: state.day, cfg });
   return { state: { ...state, bridges: r.bridges }, started: r.started };
 }
