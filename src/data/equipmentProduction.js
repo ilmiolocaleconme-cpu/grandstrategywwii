@@ -57,7 +57,7 @@ export function buildEquipmentRecipes(catalog, table) {
       // ingressi per t di peso: quelli della categoria (es. i carri hanno anche i motori) o quelli generali della tabella
       inputs: Object.entries(cat.inputsPerTonne ?? table.inputsPerTonne).map(([resource, t]) => ({ resource, perUnit: r6(t * mass) })),
       output: { product: `${EQUIPMENT_PREFIX}${e.equipment_id}`, perUnit: 1 },
-      quality: 'DESIGN_DEFAULT', equipmentId: e.equipment_id, group: cat.group,
+      quality: 'DESIGN_DEFAULT', equipmentId: e.equipment_id, group: cat.group, ...(e.role ? { role: e.role } : {}),
       rationale: `Generata dalla tabella per categoria ${e.category} (${table.quality}): peso ${mass} t, tempi di lotto e ingressi per t di peso sono valori di bilanciamento, non dati storici su ${e.designation ?? e.equipment_id}.`,
     });
   }

@@ -10,9 +10,13 @@ export function equipmentRecipesFor(recipes, nation, factoryType) {
   return [...recipes.values()].filter((r) => r.equipmentId && r.factory === factoryType && nationOfEquipment(r.equipmentId) === nation).sort((a, b) => (a.id < b.id ? -1 : 1));
 }
 
-/** Ricetta di default per una NUOVA fabbrica: la prima sbloccata per id. null se la nazione non ne ha. */
+// Ruoli di ripiego: un'arma da ufficiali/specialisti non è la scelta ovvia per una fabbrica nuova (una fabbrica di armi parte dal fucile, non dalla pistola).
+const FALLBACK_ROLES = new Set(['officer_and_specialist_sidearm']);
+
+/** Ricetta di default per una NUOVA fabbrica: la prima sbloccata per id, ma le armi di ripiego (pistole) passano per ultime. null se la nazione non ne ha. */
 export function defaultEquipmentRecipe(recipes, nation, factoryType, table, researched = new Set()) {
-  return equipmentRecipesFor(recipes, nation, factoryType).find((r) => groupUnlocked(table, r.group, researched)) ?? null;
+  const unlocked = equipmentRecipesFor(recipes, nation, factoryType).filter((r) => groupUnlocked(table, r.group, researched));
+  return unlocked.find((r) => !FALLBACK_ROLES.has(r.role)) ?? unlocked[0] ?? null;
 }
 
 /** Stato dei lotti di un impianto: pezzi in lavorazione, giorni al prossimo lotto, pezzi già chiusi in consegna. Tollera i campi assenti (salvataggi vecchi). */
