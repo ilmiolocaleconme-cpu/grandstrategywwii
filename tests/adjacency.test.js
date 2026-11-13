@@ -9,7 +9,7 @@ import { grafoFamiglie, madreId } from './famiglie.js';
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
 const file = read('adjacency.json');
 const overrides = read('adjacency_overrides.json');
-const crossings = read('crossings.json');
+const links = read('links.json');
 const collection = await loadProvinces();
 const ids = collection.features.map((f) => f.properties.id);
 const graph = buildAdjacency(collection, file);
@@ -101,10 +101,14 @@ test('adiacenza: raggiungibilità via terra', () => {
   assert.equal(isolated.length, 120, `isolate: ${isolated.join(', ')}`);
 });
 
-test('adiacenza: ogni ponte tra due province diverse collega province adiacenti', () => {
-  const checked = crossings.filter((c) => c.sideA !== c.sideB);
-  assert.ok(checked.length >= 3);
-  for (const c of checked) assert.ok(graph.areAdjacent(c.sideA, c.sideB), `${c.id}: ${c.sideA} / ${c.sideB} non adiacenti`);
+test('adiacenza: ogni ponte del grafo dei collegamenti unisce province adiacenti (esclusi i traghetti marittimi)', async () => {
+  const { bridgedPairs } = await import('../src/data/links.js');
+  const seaLinks = new Set(links.links.filter((l) => l.via === 'sea').map((l) => l.id));
+  const ids = collection.features.map((f) => f.properties.id);
+  const pairs = bridgedPairs({ ...links, bridges: links.bridges.filter((b) => !seaLinks.has(b.link)) }, ids);
+  assert.ok(pairs.size > 1000);
+  const bad = [...pairs].filter((k) => { const [a, b] = k.split('|'); return !graph.areAdjacent(a, b); });
+  assert.deepEqual(bad.slice(0, 5), []);
 });
 
 test('adiacenza: validazione, casi negativi', () => {

@@ -25,7 +25,7 @@ const withFixture = (mutate) => {
   mutate?.(f);
   return {
     nations: [{ id: 'AAA', name: 'Alfa', capital: 'X' }],
-    resources: [], rivers: [], crossings: [],
+    resources: [], rivers: [],
     political: [{ id: 'AAA', name: 'Alfa', type: 'country', owner: 'AAA', controller: 'AAA', status: 'independent', playable: true }],
     provinces: { type: 'FeatureCollection', features: [f] },
   };

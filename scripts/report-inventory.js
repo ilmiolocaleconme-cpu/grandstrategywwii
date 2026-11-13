@@ -67,7 +67,6 @@ lines.push(`| Province | \`data/provinces/*.json\` | ${total} in ${perOwner.size
 lines.push(`| Risorse | \`data/resources.json\` | ${count('data/resources.json')} |`);
 lines.push(`| Fiumi | \`data/rivers.json\` | ${count('data/rivers.json')} |`);
 lines.push(`| Laghi | \`data/lakes.json\` | ${count('data/lakes.json', (j) => j.features.length)} |`);
-lines.push(`| Attraversamenti (ponti, guadi, traghetti) | \`data/crossings.json\` | ${count('data/crossings.json')} |`);
 lines.push(`| Zone marittime | \`data/sea_zones.json\` | ${count('data/sea_zones.json', (j) => j.zones.length)} |`);
 lines.push(`| Adiacenze terrestri | \`data/adjacency.json\` | ${count('data/adjacency.json', (j) => j.edges.length)} |`);
 lines.push(`| Collegamenti tra province | \`data/links.json\` | non contati qui (vedi \`npm run validate:data\`) |`);

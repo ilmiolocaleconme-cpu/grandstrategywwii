@@ -27,7 +27,7 @@ const inLake = (f, x, y) => f.geometry.coordinates.some((poly) => poly.reduce((n
 test('laghi URSS: 433 laghi, catalogo valido, id unici, fonte e licenza', () => {
   assert.equal(added.length, 433); // 435 meno i due Aral moderni (L_ARAL_SEA ha fonte lakes_historic)
   assert.equal(new Set(lakes.features.map((f) => f.properties.id)).size, lakes.features.length);
-  const v = validateCatalog({ nations: read('nations.json'), resources: read('resources.json'), rivers: read('rivers.json'), crossings: read('crossings.json'), political: read('political_1936.json'), provinces, riversGeo: read('rivers_geo.json'), lakes });
+  const v = validateCatalog({ nations: read('nations.json'), resources: read('resources.json'), rivers: read('rivers.json'), political: read('political_1936.json'), provinces, riversGeo: read('rivers_geo.json'), lakes });
   assert.equal(v.ok, true, v.errors.join('|'));
   for (const f of added) {
     const p = f.properties;

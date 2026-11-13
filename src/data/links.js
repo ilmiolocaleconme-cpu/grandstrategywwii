@@ -296,3 +296,23 @@ export function validateLinks(file, { provinceIds, riverIds } = {}) {
   if (file?.counts && (file.counts.links !== file.links?.length || file.counts.segments !== file.segments?.length || file.counts.bridges !== file.bridges?.length)) errors.push('intestazione: conteggi diversi dal contenuto');
   return errors;
 }
+
+/**
+ * Coppie di province unite da almeno un ponte del grafo (data/links.json): Set di chiavi `bridgeKey(a, b)`.
+ * provinceIds: id delle province nello stesso ordine della collezione (come adjacency.json). È il dato che conta nel gioco: i ponti
+ * sono quelli dove la linea di un collegamento incrocia un fiume importante (ipotesi, rete moderna). Stato dinamico (danni, distruzione) non c'è ancora.
+ */
+export function bridgeKey(a, b) {
+  return a < b ? `${a}|${b}` : `${b}|${a}`;
+}
+export function bridgedPairs(file, provinceIds) {
+  const byLink = new Map((file?.links ?? []).map((l) => [l.id, l]));
+  const out = new Set();
+  for (const b of file?.bridges ?? []) {
+    const l = byLink.get(b.link);
+    if (!l) continue;
+    const pa = provinceIds[l.a]; const pb = provinceIds[l.b];
+    if (pa && pb && pa !== pb) out.add(bridgeKey(pa, pb));
+  }
+  return out;
+}

@@ -9,7 +9,6 @@ Stato: **dati reali ma approssimati** (Natural Earth, corso moderno). Le regole 
 | `data/rivers.json` | Catalogo: 1200 fiumi (540 dell'Europa e dell'URSS, 660 del resto del mondo) con classe, `flowsInto`, navigabilità, larghezza, lunghezza | Natural Earth 10m `rivers_lake_centerlines` + `rivers_europe` v5.0.0 (area originale) e `rivers_lake_centerlines_scale_rank` + `rivers_europe` v5.1.1 (fiumi aggiunti), pubblico dominio |
 | `data/rivers_geo.json` | 4444 tratti `LineString` (`riverId`, `segment`, `inLake`) | idem; Douglas-Peucker 0,002°, 4 decimali |
 | `data/lakes.json` | 2484 laghi (895 di Europa e URSS, 1589 del resto del mondo; per l'Europa e l'URSS area ≥ 25 km² o con nome ≥ 8 km²) | Natural Earth 10m `lakes` + `lakes_europe` v5.0.0 (119 originali) e v5.1.1 (342 aggiunti), pubblico dominio |
-| `data/crossings.json` | **Pilota Reno/Mosa**: 9 attraversamenti (8 sul Reno, 1 sulla Mosa), tutti `approximate`, nessuno `verified`, senza coordinate (vedi «Attraversamenti» sotto) | Wikipedia (fatti: anno, tipo, località) e inventario cantonale argoviese; licenza da accertare per quest'ultimo |
 
 La mappa e le regole leggono gli stessi file (`src/map/geo.js`, `src/data/rivers.js`): nessuna discrepanza tra grafica e simulazione.
 
@@ -103,49 +102,15 @@ A vista d'insieme tutti i 540 fiumi coprivano la mappa. `riverRankLimit` (in `sr
 - Nessun dato su piene, gelo, disgelo, profondità e guadi. Ponti e traghetti: solo il pilota Reno/Mosa (9 voci).
 - Nel catalogo il **Waal olandese è tracciato come parte di `R_RHINE`** (Natural Earth): `R_WAAL` copre solo 54 km vicino alla Mosa. Il Nederrijn ad Arnhem non è nel catalogo, quindi il ponte di Arnhem (1935) non si può inserire.
 
-## Attraversamenti (ponti, ponti di barche, traghetti, guadi)
+## Ponti (13/11/2026)
 
-Schema di ogni voce di `data/crossings.json` (validato da `src/data/validate.js`):
+Il file curato `data/crossings.json` (9 attraversamenti pilota Reno/Mosa) con `src/data/crossings.js` e `src/rules/crossings.js` è stato **eliminato** su richiesta dell'utente: troppo poco per un mondo con moltissimi fiumi. **I ponti che contano sono quelli del grafo dei collegamenti** (`data/links.json`: 3602 ponti dove la linea di un collegamento incrocia un fiume `medium`/`large`, rete moderna, tutto `hypothesis`). `bridgedPairs()` (`src/data/links.js`) ne ricava le coppie di province unite da un ponte (2773, di cui 216 fra sponde della stessa provincia); nel combattimento, chi passa fra due sponde senza ponte «forza il fiume» e i difensori hanno un bonus il primo giorno (`data/combat/defense_modifiers.json`, ipotesi).
 
-- `id` (es. `X_RHINE_MAXAU_PONTONE`), `name`, `type` (`bridge_road`, `bridge_rail`, `bridge_pontoon`, `ford`, `ferry`), `carries` (elenco esplicito del traffico: `road`, `rail` o entrambi; il tipo da solo non basta, il ponte di barche di Maxau portava strada e ferrovia), `riverId`, `state` (stato iniziale: `intact`, `damaged`, `destroyed`, `temporary`), `controller` (nazione o `null` per un ponte di frontiera), `approximate`.
-- `place` (testo) e **`sideA` / `sideB`**: le province delle due rive. Possono coincidere (ponte dentro una provincia: Colonia, Remagen, Nimega, Maastricht). **Non ci sono coordinate**: non si inventano; la posizione è il luogo più le province delle rive.
-- `validFrom` / `validTo` (inizio incluso, fine esclusa; `9999-12-31` = senza fine), `dateBasis` (`source` o `assumed`). Un attraversamento può nascere dopo il 1/1/1936 (Maxau fisso 1938, Waalbrug 16/6/1936): non c'è alla partenza e comparirà per evento (il sistema di eventi non esiste ancora).
-- `dataQuality` (`verified`, `approximate`, `hypothesis`; oggi nessuna voce è `verified`), `source`, `license`, `knownIssues`, `notes`. Le distruzioni storiche (1940, 1945) sono scritte in `notes` come informazione: **non** sono eventi di gioco né cambiano `state`.
-
-Controlli: il validatore verifica campi, tipi, date (ISO, `validFrom <= validTo`), fiume e controllore esistenti e, se le province sono nel catalogo, che `sideA`/`sideB` esistano. `tests/crossings.test.js` verifica con la geometria che le rive siano coerenti: stessa provincia attraversata dal fiume, oppure coppia di province **affacciate** (`riverBanks`).
-
-Funzioni pure sui dati: `src/data/crossings.js` (`crossingExistsAt`, `crossingsAt`, `crossingProvinces`) e `riverBanks` in `src/data/rivers.js`.
-
-### Regola di attraversamento (`src/rules/crossings.js`)
-
-Funzioni pure, testate in `tests/crossing_rules.test.js`. Lo stato di partita di ogni attraversamento è `{ state, controller }` (`initialCrossingState`, `buildCrossingStates` lo ricavano dal dato; il dato non viene mai modificato).
-
-**`canCross(crossing, runtime, { date, traffic, actor, access })`** → `{ ok, capacity, reason }`. Controlli in quest'ordine: esistenza alla data (`not_built_yet`, `no_longer_exists`), traffico trasportato (`wrong_traffic`), stato (`destroyed`; con passaggio temporaneo la ferrovia è negata: `temporary_road_only`), controllore (`controller_denied` se il controllore non è `null`, non è l'attore e non è in `access`). Capacità qualitativa: intatto = `full`, danneggiato o temporaneo = `reduced`, distrutto = `none`.
-
-**`applyCrossingAction(crossing, runtime, azione, { engineers, by })`** → `{ ok, runtime, reason }` con uno stato nuovo (quello dato non cambia):
-
-| Azione | Da → a | Requisiti |
-|---|---|---|
-| `damage` | intatto → danneggiato; temporaneo → distrutto | — |
-| `destroy` | intatto, danneggiato, temporaneo → distrutto | — |
-| `repair` | danneggiato → intatto | genio |
-| `build_temporary` | distrutto → temporaneo | genio; solo ponti (non guadi né traghetti) |
-| `rebuild` | distrutto, temporaneo → intatto | genio |
-| `capture` | cambia il controllore, lo stato non cambia | `by` = nazione |
-
-**Scelte di progetto provvisorie** (da rivedere con le regole di movimento): il passaggio temporaneo porta solo strada, anche se l'originale portava la ferrovia; `access` (chi ha diritto di passare) lo fornisce il chiamante perché la diplomazia non esiste; un controllore `null` (ponte di frontiera) non limita nessuno.
-
-**Non implementato:** tempi di attraversamento, portata, costi e durata dei lavori del genio (mancano il modello di movimento, i rifornimenti e l'economia: qualsiasi numero oggi sarebbe inventato), stagioni, piene, gelo e disgelo, guadi e traghetti con condizioni (nei dati non ce ne sono), diplomazia e accesso. Le funzioni non sono ancora collegate a nessun ciclo di partita né all'interfaccia.
-
-Lacune del pilota: sulla Mosa c'è un solo ponte (Maastricht), nessun traghetto o guado sul Reno e sulla Mosa, nessun ponte tra Belgio e Paesi Bassi o tra Francia e Belgio. Limite delle fonti: dati raccolti da Wikipedia e da un solo inventario cantonale, nessuna fonte storica primaria; per questo nessuna voce è `verified`.
-
-### Punti di passaggio calcolati: rimossi (23/10/2026)
-
-I punti di passaggio calcolati dai confini delle province (`crossing_points.json`) e il pulsante ⊓ sono stati tolti: i ponti stanno già nel grafo dei collegamenti (`data/links.json`, vedi `docs/STRADE_FERROVIE.md`). Restano i 9 attraversamenti del pilota (`data/crossings.json`), che portano stato, controllore e date per le regole.
+**Mancano ancora** (erano nel file eliminato e non esistono altrove): stato dinamico di un ponte (integro, danneggiato, distrutto, temporaneo), controllore, riparazione e ponte del genio, date di costruzione/distruzione, guadi e traghetti con condizioni. Vanno riprogettati sul grafo dei ponti (`LB_*`), non su una lista curata.
 
 ## Prossimi passi, in ordine di dipendenza
 
-1. **Estendere i ponti oltre il pilota Reno/Mosa** (`data/crossings.json`, 9 voci oggi; schema e controlli: sezione «Attraversamenti»). Mancano le coordinate (non vanno inventate). Fonte da provare per l'inventario di massa: OpenHistoricalMap (storica) con una richiesta Overpass che l'utente scarica dal telefono, come per le province (non provata da qui):
+1. **Stato dinamico dei ponti** sul grafo `links.json` (vedi «Ponti»); in precedenza: estendere il pilota Reno/Mosa (eliminato). Mancano le coordinate (non vanno inventate). Fonte da provare per l'inventario di massa: OpenHistoricalMap (storica) con una richiesta Overpass che l'utente scarica dal telefono, come per le province (non provata da qui):
    ```
    [out:json][timeout:180];
    (way["bridge"]["highway"~"motorway|trunk|primary|secondary|tertiary"](43.5,5.5,55.5,24.5);

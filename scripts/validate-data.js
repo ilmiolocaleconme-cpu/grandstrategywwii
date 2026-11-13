@@ -82,7 +82,6 @@ export async function loadCatalog(baseUrl = dataDir) {
     nations: await read('nations.json'),
     resources: await read('resources.json'),
     rivers: await read('rivers.json'),
-    crossings: await read('crossings.json'),
     political: await read('political_1936.json'),
     provinces: await loadProvinces(new URL('provinces/', baseUrl)),
     riversGeo: await read('rivers_geo.json'),
@@ -339,7 +338,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   errors.forEach((e) => console.error(`ERRORE ${e}`));
   console.log(
     `${ok ? 'OK' : 'FALLITO'}: ${catalog.nations.length} nazioni, ${catalog.resources.length} risorse, ` +
-      `${catalog.rivers.length} fiumi (${catalog.riversGeo.features.length} tratti), ${catalog.lakes.features.length} laghi, ${catalog.crossings.length} attraversamenti, ` +
+      `${catalog.rivers.length} fiumi (${catalog.riversGeo.features.length} tratti), ${catalog.lakes.features.length} laghi, ` +
       `${catalog.political.length} entità politiche (1936), ${catalog.provinces.features.length} province, ${catalog.adjacency.edges.length} adiacenze, ${catalog.sea.zones.length} zone marittime, ${catalog.labels.nations.length + catalog.labels.provinces.length + catalog.labels.seas.length} nomi in mappa, ${catalog.links.counts.links} collegamenti (${catalog.links.counts.bridges} ponti nel grafo), ${catalog.cityLinks.counts.nodes} nodi urbani (${catalog.cityLinks.counts.part} collegamenti fra parti di città)`,
   );
   process.exit(ok ? 0 : 1);

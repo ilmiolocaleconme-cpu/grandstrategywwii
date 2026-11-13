@@ -277,7 +277,7 @@ function checkLakes(lakes, errors) {
 }
 
 /**
- * Valida un catalogo { nations, resources, rivers, crossings, political? }.
+ * Valida un catalogo { nations, resources, rivers, political? } (i ponti sono nel grafo dei collegamenti: data/links.json).
  * `provinces` (FeatureCollection) è opzionale e richiede `political` per i controlli sugli owner. `political` è opzionale: se assente, la sua validazione e i controlli incrociati
  * con nations vengono saltati. Ritorna { ok, errors, warnings }. Non modifica l'input.
  */
@@ -292,15 +292,6 @@ export function validateCatalog(catalog) {
     'rivers',
     input.rivers,
     ['id', 'name', 'class', 'navigable', 'approximate'],
-    errors,
-  );
-  const crossings = checkCollection(
-    'crossings',
-    input.crossings,
-    [
-      'id', 'type', 'carries', 'riverId', 'state', 'approximate', 'place', 'sideA', 'sideB',
-      'validFrom', 'validTo', 'dateBasis', 'dataQuality', 'source', 'license',
-    ],
     errors,
   );
   // Identificativi delle province, per verificare le rive (solo se le province sono nel catalogo).
@@ -342,72 +333,6 @@ export function validateCatalog(catalog) {
     approximateRivers.forEach((id) => warnings.push(`rivers: "${id}" è marcato come approssimazione`));
   }
   checkRiverGraph(rivers, errors);
-
-  for (const crossing of crossings.values()) {
-    if (!CROSSING_TYPES.includes(crossing.type)) {
-      errors.push(`crossings: "${crossing.id}" ha un tipo non valido "${crossing.type}"`);
-    }
-    if (!CROSSING_STATES.includes(crossing.state)) {
-      errors.push(`crossings: "${crossing.id}" ha uno stato non valido "${crossing.state}"`);
-    }
-    if (!rivers.has(crossing.riverId)) {
-      errors.push(`crossings: "${crossing.id}" riferisce il fiume inesistente "${crossing.riverId}"`);
-    }
-    if (crossing.controller != null && !nations.has(crossing.controller)) {
-      errors.push(
-        `crossings: "${crossing.id}" ha un controllore inesistente "${crossing.controller}"`,
-      );
-    }
-    if (typeof crossing.approximate !== 'boolean') {
-      errors.push(`crossings: "${crossing.id}" approximate deve essere booleano`);
-    }
-    // carries: elenco non vuoto, senza duplicati, solo strada/ferrovia, coerente con il tipo.
-    if (crossing.carries != null) {
-      const c = crossing.carries;
-      if (!Array.isArray(c) || c.length === 0 || c.some((t) => !CROSSING_TRAFFIC.includes(t)) || new Set(c).size !== c.length) {
-        errors.push(`crossings: "${crossing.id}" carries deve essere un elenco non vuoto, senza duplicati, di ${CROSSING_TRAFFIC.join('/')}`);
-      } else {
-        if (crossing.type === 'bridge_road' && !c.includes('road')) {
-          errors.push(`crossings: "${crossing.id}" è un ponte stradale ma carries non include "road"`);
-        }
-        if (crossing.type === 'bridge_rail' && !c.includes('rail')) {
-          errors.push(`crossings: "${crossing.id}" è un ponte ferroviario ma carries non include "rail"`);
-        }
-        if ((crossing.type === 'ford' || crossing.type === 'ferry') && c.includes('rail')) {
-          errors.push(`crossings: "${crossing.id}" ${crossing.type} non può portare la ferrovia`);
-        }
-      }
-    }
-    // Date: ISO, validFrom <= validTo. Un attraversamento può nascere dopo il 1/1/1936 (evento).
-    const fromOk = isIsoDate(crossing.validFrom);
-    const toOk = isIsoDate(crossing.validTo);
-    if (crossing.validFrom != null && !fromOk) {
-      errors.push(`crossings: "${crossing.id}" validFrom non è una data AAAA-MM-GG valida`);
-    }
-    if (crossing.validTo != null && !toOk) {
-      errors.push(`crossings: "${crossing.id}" validTo non è una data AAAA-MM-GG valida`);
-    }
-    if (fromOk && toOk && crossing.validFrom > crossing.validTo) {
-      errors.push(`crossings: "${crossing.id}" ha validFrom successivo a validTo`);
-    }
-    if (crossing.dateBasis != null && !CROSSING_DATE_BASES.includes(crossing.dateBasis)) {
-      errors.push(`crossings: "${crossing.id}" ha un dateBasis non valido "${crossing.dateBasis}"`);
-    }
-    if (crossing.dataQuality != null && !BORDER_QUALITIES.includes(crossing.dataQuality)) {
-      errors.push(`crossings: "${crossing.id}" ha un dataQuality non valido "${crossing.dataQuality}"`);
-    }
-    for (const field of ['place', 'source', 'license']) {
-      if (crossing[field] != null && (typeof crossing[field] !== 'string' || crossing[field].trim() === '')) {
-        errors.push(`crossings: "${crossing.id}" ${field} deve essere un testo non vuoto`);
-      }
-    }
-    // Rive: due province (anche la stessa, per un ponte dentro una provincia), esistenti nel catalogo.
-    for (const side of ['sideA', 'sideB']) {
-      if (provinceIds && crossing[side] != null && !provinceIds.has(crossing[side])) {
-        errors.push(`crossings: "${crossing.id}" ${side} riferisce la provincia inesistente "${crossing[side]}"`);
-      }
-    }
-  }
 
   return { ok: errors.length === 0, errors, warnings };
 }

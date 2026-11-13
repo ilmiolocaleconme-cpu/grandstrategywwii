@@ -3,7 +3,6 @@ import { unitOf, unitsView, unitsList } from './rules/unitRegistry.js';
 import resources from '../data/resources.json';
 import political from '../data/political_1936.json';
 import nations from '../data/nations.json';
-import crossings from '../data/crossings.json';
 import { validateCatalog } from './data/validate.js';
 import { loadProvinces, unwatchProvinces } from './data/loadProvinces.js';
 import { initPwa } from './pwa.js';
@@ -76,8 +75,8 @@ import { commandsByProvince, mergeCommandsIntoProvinceUnits } from './rules/hqPo
 import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
+import { bridgedPairs, bridgeKey } from './data/links.js';
 import { createDefenseMultiplier, validateDefenseModifiers, riverFactor } from './rules/defenseModifiers.js';
-import { crossingExistsAt, crossingProvinces } from './data/crossings.js';
 import defenseFile from '../data/combat/defense_modifiers.json';
 import terrainClassFile from '../data/combat/terrain_class.json';
 import presenceFile from '../data/military/province_presence.json';
@@ -381,9 +380,12 @@ const DEFENSE_MULT = DEFENSE_ERRORS.length ? undefined : createDefenseMultiplier
   cfg: defenseFile, terrainOf: (id) => terrainClassFile.classes[id] ?? null, fortificationOf: (id) => presenceFile.byProvince[id]?.fortifications ?? null,
   isCity: (id, st, net) => net?.isCity?.(id) === true,
 });
-// Fiume forzato: il bonus si annulla se nella provincia c'è un attraversamento integro alla data (solo dato statico: non esiste ancora stato di danni/distruzione)
-const RIVER_FACTOR = DEFENSE_ERRORS.length ? undefined : (mother, st, share) => riverFactor(defenseFile, { crossedShare: share, bridge: crossings.some((c) => c.state === 'intact' && crossingExistsAt(c, st.date) && crossingProvinces(c).includes(mother)) });
-const THEATER_CTX = { defenseMultiplier: DEFENSE_MULT, riverFactor: RIVER_FACTOR, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+// Fiume forzato: il bonus dei difensori vale solo per chi passa fra due sponde SENZA un ponte del grafo dei collegamenti (data/links.json, ipotesi).
+// I ponti sono dato fisso: non esiste ancora stato di danni/distruzione. Finché links.json non è caricato nessun ponte (bonus pieno).
+const BRIDGES = { pairs: null };
+const RIVER_FACTOR = DEFENSE_ERRORS.length ? undefined : (mother, st, share) => riverFactor(defenseFile, { crossedShare: share });
+const BRIDGE_BETWEEN = (a, b) => BRIDGES.pairs?.has(bridgeKey(a, b)) === true;
+const THEATER_CTX = { defenseMultiplier: DEFENSE_MULT, riverFactor: RIVER_FACTOR, bridgeBetween: BRIDGE_BETWEEN, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse)
@@ -840,6 +842,11 @@ export default function App() {
     }).catch(() => { if (alive) setArmyNotice('Movimento non disponibile: file di adiacenza non caricato.'); });
     return () => { alive = false; };
   }, [!!game, !!provinces, !!citiesRaw, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
+  // ponti del grafo dei collegamenti: servono nel combattimento (fiume forzato); si calcolano quando link e province sono pronti
+  useEffect(() => {
+    if (!linksRaw || !provinces) return;
+    BRIDGES.pairs = bridgedPairs(linksRaw, provinces.features.map((f) => f.properties.id));
+  }, [linksRaw, provinces]);
   // rotte marittime: servono le zone di mare e le province (stesso ordine di data/sea_zones.json); i porti vengono da data/ports e da state.ports
   useEffect(() => {
     if (!game || GAME_SEA.sea || !seaFile || !provinces) return;
@@ -912,7 +919,7 @@ export default function App() {
   useEffect(() => { if (game && game.day > 0 && game.day % 30 === 0) saveTo('auto', 'automatico'); }, [game, saveTo]);
 
   const validation = useMemo(
-    () => (rivers ? validateCatalog({ nations, resources, rivers, crossings }) : null),
+    () => (rivers ? validateCatalog({ nations, resources, rivers }) : null),
     [rivers],
   );
 
@@ -962,7 +969,7 @@ export default function App() {
       <ul className="status">
         <li>
           Dati: {!validation ? (waterStatus === 'error' ? 'fiumi e laghi non caricati' : 'caricamento di fiumi e laghi…') : validation.ok ? 'validi' : `${validation.errors.length} errori`} ({nations.length} nazioni,{' '}
-          {resources.length} risorse, {rivers?.length ?? '…'} fiumi, {lakes?.features.length ?? '…'} laghi, {crossings.length} attraversamenti, {provinces?.features.length ?? '…'} province)
+          {resources.length} risorse, {rivers?.length ?? '…'} fiumi, {lakes?.features.length ?? '…'} laghi, {provinces?.features.length ?? '…'} province)
         </li>
         <li>Offline: {pwa.offlineReady ? 'pronto' : 'non ancora confermato'}</li>
         <li>Schermo intero: {{ installed: 'attivo (app installata)', api: 'disponibile col pulsante ⛶ nella barra', none: 'non disponibile in questo browser; su iPhone: Condividi → Aggiungi alla schermata Home' }[fullscreenSupport(window)]}</li>

@@ -112,7 +112,7 @@ test('integrazione: chi forza il fiume (da una sponda all\'altra della stessa pr
   const run = ({ from, bridge }) => {
     const DEPLOY = { entries: [{ unit: 'G1', province: from }, { unit: 'F1', province: 'P_SP2' }] };
     const initial = new Map(DEPLOY.entries.map((e) => [e.unit, e.province]));
-    const ctx = { getNet: () => net, unitsById, deploymentDoc: DEPLOY, initial, riverFactor: (m, st, share) => riverFactor(cfg, { crossedShare: share, bridge }) };
+    const ctx = { getNet: () => net, unitsById, deploymentDoc: DEPLOY, initial, riverFactor: (m, st, share) => riverFactor(cfg, { crossedShare: share }), bridgeBetween: (a, b) => bridge && a === 'P_SP1' && b === 'P_SP2' };
     let s = { schema: 7, startDate: '1936-01-01', date: '1936-01-01', day: 0, player: 'GER', control: { GER: 'GER', FRA: 'FRA' }, difficulty: 'normal', forces: { schema: 'forces-v1', initialized: true, divisions: { G1: div(10000), F1: div(10000) } } };
     s = playerDeclareWar(s, 'FRA');
     const r = issueMove({ schema: 'movement-v1', positions: {}, orders: {} }, { id: 'G1', category: 'infantry' }, 'P_SP2', { initial, net, canEnter: () => true });

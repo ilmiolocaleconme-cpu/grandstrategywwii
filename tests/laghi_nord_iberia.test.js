@@ -25,7 +25,7 @@ const inLake = (f, x, y) => f.geometry.coordinates.some((poly) => poly.reduce((n
 
 test('catalogo valido: 895 laghi (senza il mondo), 342 aggiunti, id e wikidata senza duplicati', () => {
   const v = validateCatalog({
-    nations: read('nations.json'), resources: read('resources.json'), rivers: read('rivers.json'), crossings: read('crossings.json'),
+    nations: read('nations.json'), resources: read('resources.json'), rivers: read('rivers.json'),
     political: read('political_1936.json'), riversGeo: read('rivers_geo.json'), lakes,
   });
   assert.equal(v.ok, true, v.errors.join('|'));

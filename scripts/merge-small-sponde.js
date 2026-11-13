@@ -209,11 +209,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     }
     await writeFile(dataUrl('sources/citta_base.json'), `${dump(base)}\n`);
     console.log(`data/sources/citta_base.json: ${moved} parti di città aggiornate`);
-    // attraversamenti: le rive puntano alla provincia che ha assorbito la sponda
-    let cr = await readFile(dataUrl('crossings.json'), 'utf8');
-    let n = 0;
-    for (const [from, to] of allIds) { const q = `"${from}"`; if (cr.includes(q)) { n += cr.split(q).length - 1; cr = cr.split(q).join(`"${to}"`); } }
-    await writeFile(dataUrl('crossings.json'), cr);
-    console.log(`data/crossings.json: ${n} riferimenti aggiornati`);
   }
 }

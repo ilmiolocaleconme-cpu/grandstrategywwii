@@ -12,7 +12,7 @@ import { loadProvinces } from '../scripts/load-provinces.js';
 const read = (n) => JSON.parse(readFileSync(new URL(`../data/${n}`, import.meta.url), 'utf8'));
 const catalog = {
   nations: read('nations.json'), resources: read('resources.json'), rivers: read('rivers.json'),
-  crossings: read('crossings.json'), political: read('political_1936.json'), provinces: await loadProvinces(),
+  political: read('political_1936.json'), provinces: await loadProvinces(),
   riversGeo: read('rivers_geo.json'), lakes: read('lakes.json'),
 };
 const model = buildRiverModel(catalog.rivers, catalog.riversGeo);

@@ -44,7 +44,7 @@ dal proprietario senza essere occupato; l'occupazione è un flag esplicito.
   sarebbe una formula arbitraria.
 - **Energia**: solo l'idroelettrico di `hydro_plants.json` per provincia madre; il pool in MW resta per nazione (`rules/production.js`).
 - **Slot industriali**: 14 per provincia, 10 per zona urbana (`rules/slots.js`).
-- **Ponti e guadi**: restano in `crossings.json`; il pannello rimanda lì.
+- **Ponti e guadi**: sono nel grafo dei collegamenti (`links.json`); il pannello rimanda lì.
 
 ## Interfaccia (mobile-first)
 Intestazione sempre visibile (nome, proprietario, controllo, stato, 5 indicatori) → avviso dinamico → schede espandibili (`<details>`, area

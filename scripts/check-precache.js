@@ -19,7 +19,7 @@ export function precacheUrls(swText) {
 /**
  * Il testo di un chunk contiene la sentinella? Una sentinella è una stringa oppure un elenco di stringhe
  * (devono esserci TUTTE). Per i file delle province l'elenco sono tutti gli id delle sue province: un altro dato
- * che ne cita solo alcune (es. sideA/sideB in data/crossings.json, nel bundle principale) non è "il file delle
+ * che ne cita solo alcune (es. un elenco di rive nel bundle principale) non è "il file delle
  * province". Non dipende dalla forma del codice generato (JSON.parse, oggetto minificato, ecc.).
  * Limite noto: un file con poche province (es. una sola) citate TUTTE da un altro dato verrebbe visto in due chunk.
  */

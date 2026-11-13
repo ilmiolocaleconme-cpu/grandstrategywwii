@@ -13,7 +13,6 @@ Conta ciò che è nei file di `data/`; non dice se i dati sono storicamente corr
 | Risorse | `data/resources.json` | 38 |
 | Fiumi | `data/rivers.json` | 1200 |
 | Laghi | `data/lakes.json` | 2484 |
-| Attraversamenti (ponti, guadi, traghetti) | `data/crossings.json` | 9 |
 | Zone marittime | `data/sea_zones.json` | 202 |
 | Adiacenze terrestri | `data/adjacency.json` | 7423 |
 | Collegamenti tra province | `data/links.json` | non contati qui (vedi `npm run validate:data`) |

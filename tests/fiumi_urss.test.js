@@ -25,7 +25,7 @@ test('fiumi URSS: 211 fiumi nuovi, fonte e licenza, stime dichiarate, lunghezza 
     assert.ok(r.knownIssues.includes('modern_course_not_1936') && r.knownIssues.includes('clipped_to_territory'), r.id);
     assert.ok(r.lengthKm >= 25, `${r.id} ${r.lengthKm}`);
   }
-  const v = validateCatalog({ nations: read('nations.json'), resources: read('resources.json'), rivers, crossings: read('crossings.json'), political: read('political_1936.json'), provinces, riversGeo: geo, lakes: read('lakes.json') });
+  const v = validateCatalog({ nations: read('nations.json'), resources: read('resources.json'), rivers, political: read('political_1936.json'), provinces, riversGeo: geo, lakes: read('lakes.json') });
   assert.equal(v.ok, true, v.errors.join('|'));
 });
 

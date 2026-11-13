@@ -18,26 +18,6 @@ const base = () => ({
       approximate: false,
     },
   ],
-  crossings: [
-    {
-      id: 'c1',
-      type: 'bridge_road',
-      carries: ['road'],
-      riverId: 'r_main',
-      state: 'intact',
-      controller: 'AAA',
-      approximate: false,
-      place: 'Luogo di prova',
-      sideA: 'P_AAA_NORD',
-      sideB: 'P_AAA_SUD',
-      validFrom: '1900-01-01',
-      validTo: '9999-12-31',
-      dateBasis: 'assumed',
-      dataQuality: 'hypothesis',
-      source: 'fixture di test',
-      license: 'nessuna: dato sintetico',
-    },
-  ],
 });
 
 test('i dati reali in data/ sono validi', async () => {
@@ -62,33 +42,6 @@ test('rileva campi obbligatori mancanti', () => {
   const c = base();
   delete c.nations[0].capital;
   assert.match(validateCatalog(c).errors.join('\n'), /"capital"/);
-});
-
-test('un attraversamento deve riferire un fiume esistente', () => {
-  const c = base();
-  c.crossings[0].riverId = 'inesistente';
-  assert.match(validateCatalog(c).errors.join('\n'), /fiume inesistente/);
-});
-
-test('il controllore di un attraversamento deve essere una nazione esistente', () => {
-  const c = base();
-  c.crossings[0].controller = 'ZZZ';
-  assert.match(validateCatalog(c).errors.join('\n'), /controllore inesistente/);
-});
-
-test('un attraversamento senza controllore (null) è ammesso', () => {
-  const c = base();
-  c.crossings[0].controller = null;
-  assert.equal(validateCatalog(c).ok, true);
-});
-
-test('rileva stato e tipo di attraversamento non validi', () => {
-  const c = base();
-  c.crossings[0].state = 'esploso';
-  c.crossings[0].type = 'teleferica';
-  const text = validateCatalog(c).errors.join('\n');
-  assert.match(text, /stato non valido/);
-  assert.match(text, /tipo non valido/);
 });
 
 test("un affluente deve confluire in un fiume esistente", () => {

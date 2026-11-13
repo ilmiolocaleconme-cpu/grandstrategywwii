@@ -142,11 +142,11 @@ function logBattle(state, entry) {
   return { ...state, combat: { schema: COMBAT_SCHEMA, log } };
 }
 
-/** Quota (0-1) di attaccanti arrivati oggi dall'altra sponda della stessa provincia: hanno forzato un fiume. */
-function crossedShare(state, net, p, attackers) {
+/** Quota (0-1) di attaccanti arrivati oggi dall'altra sponda della stessa provincia SENZA un ponte fra le due sponde (ctx.bridgeBetween): hanno forzato un fiume. */
+function crossedShare(state, net, p, attackers, ctx) {
   const from = state.movement?.arrivedFrom;
   if (!from || !net.isBank?.(p) || attackers.length === 0) return 0;
-  const crossed = attackers.filter((u) => { const q = from[u.id]; return q && q !== p && net.isBank(q) && net.provinceOf(q) === net.provinceOf(p); });
+  const crossed = attackers.filter((u) => { const q = from[u.id]; return q && q !== p && net.isBank(q) && net.provinceOf(q) === net.provinceOf(p) && !ctx.bridgeBetween?.(q, p, state); });
   return crossed.length / attackers.length;
 }
 
@@ -175,7 +175,7 @@ function battlePhase(state, ctx, net) {
     if (defenders.length === 0 || attackers.length === 0) continue;
     // nel nodo di una zona urbana si combatte con le regole urbane (imboscate, difesa rafforzata, mezzi penalizzati)
     const solve = net.isCity?.(p) === true ? resolveUrbanBattleDay : resolveBattleDay;
-    const river = ctx.riverFactor ? ctx.riverFactor(net.provinceOf?.(p) ?? p, s, crossedShare(s, net, p, attackers)) : 1;
+    const river = ctx.riverFactor ? ctx.riverFactor(net.provinceOf?.(p) ?? p, s, crossedShare(s, net, p, attackers, ctx)) : 1;
     const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle })), defenders, defenseMultiplier: (ctx.defenseMultiplier?.(p, s, net) ?? 1) * river });
     s = consumeArrivals(s, attackers.map((u) => u.id));
     for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l, ctx);

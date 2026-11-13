@@ -182,7 +182,7 @@ export function buildProvinceView(input) {
         { label: 'Installazioni', value: military?.installations ? String(military.installations.length) : ND },
       ],
       modifiers: modifiers([st.bombing > 0, `Bombardamenti ${pct(st.bombing)}`]),
-      details: [{ label: 'Ponti e guadi', value: 'stato in data/crossings.json (nessun dato qui: una sola fonte)' }],
+      details: [{ label: 'Ponti e guadi', value: 'ponti nel grafo dei collegamenti (data/links.json); stato dei ponti non ancora in partita' }],
     },
     population: {
       id: 'population', level: 'C', title: 'Popolazione',
