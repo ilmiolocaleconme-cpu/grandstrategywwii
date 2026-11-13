@@ -78,3 +78,11 @@ test('rinforzi: Roma → Cagliari via terra non esiste, via mare sì (giorni di 
   const land = net.has('P_ITA_NAPOLI') ? depotRoute(ctx('P_ITA_NAPOLI'), 'ITA', 'u') : { landKm: 1 };
   assert.equal(land.seaDays, undefined, 'stessa terraferma: nessun giorno di mare');
 });
+
+test('Königsberg: porto reale di livello 2 sul Baltico meridionale, scalo proprio accanto a quello della Pomerania (non nascosto dal «una provincia per zona»)', () => {
+  const s = newGame({ nation: 'DEU', political, ownersWithProvinces: nationIds, start }).state; const ctx = mk().at(s);
+  assert.deepEqual(ctx.portsOf('DEU').filter((p) => p.zone === 'SZ_BALTICO_SUD').map((p) => p.province), ['P_DEU_POMMERN'], 'rotte commerciali: una provincia per zona (invariato)');
+  const all = ctx.allPortsOf('DEU').filter((p) => p.zone === 'SZ_BALTICO_SUD').map((p) => p.province);
+  assert.ok(all.includes('P_DEU_OSTPREUSSEN') && all.includes('P_DEU_POMMERN'), all.join(','));
+  assert.equal(base.ports.P_DEU_KONIGSBERG_CITTA.level, 2);
+});

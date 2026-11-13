@@ -3695,6 +3695,7 @@ P_DEU_STOCCARDA_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_DEU_STOCCARDA_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
 P_DEU_WIESBADEN_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_DEU_WIESBADEN_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
+P_DEU_WILHELMSHAVEN_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_DEU_WUPPERTAL_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_DJI_GIBUTI_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_DNK_AARHUS_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -3764,6 +3765,8 @@ P_FIN_TAMPERE_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FJI_SUVA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_BORDEAUX_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_BORDEAUX_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
+P_FRA_BREST_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
+P_FRA_CHERBOURG_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_CLERMONT_FERRAND_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_CLERMONT_FERRAND_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_GRENOBLE_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -3774,6 +3777,7 @@ P_FRA_LILLA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_LIONE_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_LIONE_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_LIONE_CITTA_P3,city_part,10,10,provisional_uniform,PROVISIONAL
+P_FRA_LORIENT_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_MARSIGLIA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_MELUN_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_MELUN_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -3795,6 +3799,7 @@ P_FRA_RENNES_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_ROUEN_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_ROUEN_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_SAINT_ETIENNE_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
+P_FRA_SAINT_NAZAIRE_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_STRASBURGO_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_STRASBURGO_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_STRASBURGO_CITTA_P3,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -3806,6 +3811,7 @@ P_FRA_TOURS_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_TOURS_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
 P_FRA_TOURS_CITTA_P3,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GAB_LIBREVILLE_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
+P_GBR_BARROW_IN_FURNESS_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_BELFAST_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_BIRMINGHAM_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_BLACKPOOL_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -3814,6 +3820,7 @@ P_GBR_BRADFORD_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_BRIGHTON_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_BRISTOL_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_CARDIFF_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
+P_GBR_CHATHAM_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_COVENTRY_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_EDIMBURGO_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_GBR_GLASGOW_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -4139,8 +4146,10 @@ P_ITA_COMO_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_ITA_FIRENZE_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_ITA_FIRENZE_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
 P_ITA_GENOVA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
+P_ITA_LA_SPEZIA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_ITA_MESSINA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_ITA_MILANO_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
+P_ITA_MONFALCONE_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_ITA_NAPOLI_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_ITA_PALERMO_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_ITA_PESCARA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -4180,6 +4189,7 @@ P_JPN_KOBE_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_KOCHI_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_KORIYAMA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_KUMAMOTO_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
+P_JPN_KURE_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_KYOTO_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_MAEBASHI_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_MAEBASHI_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -4197,6 +4207,7 @@ P_JPN_OSAKA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_OTSU_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_SAPPORO_CITTA_P1,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_SAPPORO_CITTA_P2,city_part,10,10,provisional_uniform,PROVISIONAL
+P_JPN_SASEBO_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_SENDAI_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_SHIZUOKA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_TAKAMATSU_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
@@ -4207,6 +4218,7 @@ P_JPN_TSU_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_UTSUNOMIYA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_WAKAYAMA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_JPN_YOKOHAMA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
+P_JPN_YOKOSUKA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_KEN_ELDORET_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_KEN_KISUMU_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL
 P_KEN_MOMBASA_CITTA,city_part,10,10,provisional_uniform,PROVISIONAL

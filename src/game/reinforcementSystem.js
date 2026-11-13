@@ -61,9 +61,11 @@ export function depotRoute(ctx, nation, unitId) {
   if (!ctx.sea) return null;
   const fromLand = landDistances(ctx.net, depot, canEnter);
   const toLand = landDistances(ctx.net, at, canEnter);
-  const ports = ctx.sea.context.portsOf(nation).map((p) => ({ ...p, mother: ctx.sea.motherOf(p.province) }));
-  const fromPorts = ports.filter((p) => fromLand.has(p.mother));
-  const toPorts = ports.filter((p) => toLand.has(p.mother));
+  // tutti i porti propri (anche più di uno sulla stessa zona di mare, p. es. Königsberg e Stettino sul Baltico), il più vicino per via di terra per primo
+  const ports = (ctx.sea.context.allPortsOf ?? ctx.sea.context.portsOf)(nation).map((p) => ({ ...p, mother: ctx.sea.motherOf(p.province) }));
+  const nearest = (land) => ports.filter((p) => land.has(p.mother)).sort((a, b) => (land.get(a.mother) - land.get(b.mother)) || (a.province < b.province ? -1 : 1));
+  const fromPorts = nearest(fromLand);
+  const toPorts = nearest(toLand);
   const graph = ctx.sea.context.graph;
   const route = findSeaRoute(graph, fromPorts, toPorts, { closedZones: new Set(graph.params.closedZones ?? []) });
   if (!route.ok) return null;

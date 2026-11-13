@@ -9,11 +9,12 @@ const Msg = ({ msg }) => (msg ? <p className={msg.ok ? 'muted' : 'warn'} role="s
  * goods: tradeGoods(...); partners: [{ id, name }]; rows: tradeRows(...). onPreview(order) → previewTrade; onOpen(order) → { ok, text }; onCancel(id) → { ok, text }.
  * Il giocatore è sempre una delle due parti: `direction` 'sell' (vende) o 'buy' (compra).
  */
-export function TradePanel({ goods, partners, rows, onPreview, onOpen, onCancel }) {
+export function TradePanel({ goods, partners, rows, onPreview, onOpen, onCancel, myPorts = [], portChoices = () => [], portLabel = (x) => x }) {
   const [msg, setMsg] = useState(null);
-  const [form, setForm] = useState({ partner: '', direction: 'sell', good: '', perDay: '10', days: '30', mode: 'auto' });
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
-  const order = useMemo(() => (form.partner && form.good ? { partner: form.partner, direction: form.direction, good: form.good, perDay: Number(form.perDay), days: Number(form.days), mode: form.mode } : null), [form]);
+  const [form, setForm] = useState({ partner: '', direction: 'sell', good: '', perDay: '10', days: '30', mode: 'auto', myPort: '', partnerPort: '' });
+  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value, ...(k === 'partner' ? { partnerPort: '' } : {}) }));
+  const partnerPorts = useMemo(() => portChoices(form.partner), [portChoices, form.partner]);
+  const order = useMemo(() => (form.partner && form.good ? { partner: form.partner, direction: form.direction, good: form.good, perDay: Number(form.perDay), days: Number(form.days), mode: form.mode, myPort: form.myPort, partnerPort: form.partnerPort } : null), [form]);
   const preview = useMemo(() => (order ? onPreview(order) : null), [order, onPreview]);
   if (!goods || goods.length === 0) return null;
   const unit = goods.find((g) => g.id === form.good)?.unit ?? 't';
@@ -40,11 +41,23 @@ export function TradePanel({ goods, partners, rows, onPreview, onOpen, onCancel 
         <label className="small">Trasporto{' '}
           <select value={form.mode} onChange={set('mode')}><option value="auto">La via più rapida</option><option value="land">Via terra</option><option value="sea">Via mare</option></select>
         </label>
+        {myPorts.length > 0 ? (
+          <div>
+            <label className="small">Il tuo porto{' '}
+              <select value={form.myPort} onChange={set('myPort')}><option value="">Il più adatto</option>{myPorts.map((x) => <option key={x.province} value={x.province}>{x.label}</option>)}</select>
+            </label>{' '}
+            <label className="small">Porto della controparte{' '}
+              <select value={form.partnerPort} onChange={set('partnerPort')} disabled={!form.partner}><option value="">Il più adatto</option>{partnerPorts.map((x) => <option key={x.province} value={x.province}>{x.label}</option>)}</select>
+            </label>
+            {form.myPort || form.partnerPort ? <p className="muted small">Scegliendo un porto il trasporto è via mare.</p> : null}
+          </div>
+        ) : null}
       </div>
       {preview ? (
         preview.ok ? (
           <div className="small">
             <p className="muted">Percorso {preview.route.kind === 'sea' ? 'via mare' : 'via terra'}: {fmt(preview.route.km)} km, {preview.route.days} giorni di viaggio · {fmt(preview.valuePerDay)} ECV al giorno, {fmt(preview.totalValue)} ECV in tutto.</p>
+            {preview.route.kind === 'sea' && preview.route.ports?.from && preview.route.ports?.to ? <p className="muted">Dal porto di {portLabel(preview.route.ports.from.province)} al porto di {portLabel(preview.route.ports.to.province)}.</p> : null}
             {preview.warnings.map((w) => <p key={w} className="warn">{w}</p>)}
           </div>
         ) : <p className="warn small">{preview.message}</p>

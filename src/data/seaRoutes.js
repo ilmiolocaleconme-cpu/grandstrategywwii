@@ -81,7 +81,17 @@ export function buildSeaGraph(seaFile, params) {
  * ownerOf(idProvincia) → proprietario; portFilter(idProvincia, idZona) facoltativo per restringere ai porti reali.
  * Ritorna [{ province, zone, coastKm }] ordinato per zona.
  */
-export function nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm = 0, portFilter = null } = {}) {
+export function nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm = 0, portFilter = null, allPerZone = false } = {}) {
+  if (allPerZone) {
+    // TUTTE le province con un porto su ogni zona (non solo quella con più costa): serve ai rinforzi, che scelgono il porto più vicino per via di terra
+    const all = [];
+    for (const z of seaFile.zones) for (const [p, km] of z.coastal) {
+      const id = provinceIds[p];
+      if (km < minCoastKm || ownerOf(id) !== nation || (portFilter && !portFilter(id, z.id))) continue;
+      all.push({ province: id, zone: z.id, coastKm: km });
+    }
+    return all.sort((a, b) => (a.zone < b.zone ? -1 : a.zone > b.zone ? 1 : (b.coastKm - a.coastKm) || (a.province < b.province ? -1 : 1)));
+  }
   const best = new Map();
   for (const z of seaFile.zones) {
     for (const [p, km] of z.coastal) {
@@ -114,8 +124,10 @@ export function findSeaRoute(graph, fromPorts, toPorts, { seller = null, buyer =
   if (fromPorts.length === 0) return { ok: false, reason: 'no_port_seller' };
   if (toPorts.length === 0) return { ok: false, reason: 'no_port_buyer' };
   const open = (id) => graph.has(id) && !closedZones.has(id) && !straitClosed(graph, id, blocked, seller, buyer);
-  const targets = new Map(toPorts.filter((p) => open(p.zone)).map((p) => [p.zone, p]));
-  const starts = new Map(fromPorts.filter((p) => open(p.zone)).map((p) => [p.zone, p]));
+  // un porto per zona: vale il PRIMO dell'elenco (con un porto per zona è lo stesso di prima; i rinforzi passano i porti già ordinati per vicinanza)
+  const firstPerZone = (ports) => { const m = new Map(); for (const p of ports) if (open(p.zone) && !m.has(p.zone)) m.set(p.zone, p); return m; };
+  const targets = firstPerZone(toPorts);
+  const starts = firstPerZone(fromPorts);
   if (targets.size === 0 || starts.size === 0) return { ok: false, reason: 'no_route' };
   const dist = new Map(); const km = new Map(); const prev = new Map(); const done = new Set();
   for (const id of starts.keys()) { dist.set(id, 0); km.set(id, 0); }
@@ -151,7 +163,13 @@ export function createSeaContext({ seaFile, params, provinceIds, ownerOf, portFi
   const graph = buildSeaGraph(seaFile, params);
   const get = (v) => (typeof v === 'function' ? v() : v);
   const portsOf = (nation) => nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm: params.minCoastKm, portFilter });
+  const allPortsOf = (nation) => nationPorts(seaFile, provinceIds, ownerOf, nation, { minCoastKm: params.minCoastKm, portFilter, allPerZone: true });
   const baseClosed = params.closedZones ?? [];
-  const route = (seller, buyer) => findSeaRoute(graph, portsOf(seller), portsOf(buyer), { seller, buyer, blocked: get(blocked), closedZones: new Set([...baseClosed, ...get(closedZones)]) });
-  return { graph, portsOf, route };
+  // scelta dei porti (facoltativa): fromProvince/toProvince = provincia del porto del venditore/compratore. Una provincia può affacciarsi su più zone di mare: valgono tutte.
+  // Una provincia che non è un porto della nazione dà 'no_port_seller'/'no_port_buyer' (non si ripiega su un altro porto).
+  const route = (seller, buyer, choice = null) => {
+    const pick = (nation, province) => (province ? allPortsOf(nation).filter((p) => p.province === province) : portsOf(nation));
+    return findSeaRoute(graph, pick(seller, choice?.fromProvince ?? null), pick(buyer, choice?.toProvince ?? null), { seller, buyer, blocked: get(blocked), closedZones: new Set([...baseClosed, ...get(closedZones)]) });
+  };
+  return { graph, portsOf, allPortsOf, route };
 }

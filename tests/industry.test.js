@@ -55,7 +55,7 @@ test('corrispondenza paesi: GER→DEU, SOV→USSR, OTHER senza controparte, tutt
   for (const c of cw) if (c.repo_political_id) assert.ok(repo.has(c.repo_political_id), c.repo_political_id);
 });
 
-test('province_industry: coerente con il catalogo slot (3085 posti: province e sponde, 2089 parti di città, 10/14/14), capacità ≤ potenziale, provvisoria', async () => {
+test('province_industry: coerente con il catalogo slot (3085 posti: province e sponde, 2101 parti di città, 10/14/14), capacità ≤ potenziale, provvisoria', async () => {
   const slotCat = buildSlotCatalog({ provinces: await loadProvinces(), zones: json('citta_grandi.json').features, nations: json('nations.json') });
   const rows = parseCsv(text('industry/province_industry.csv'));
   const ctx = { motherIds: new Set(Object.keys(slotCat.provinces)), cityPartIds: new Set(Object.keys(slotCat.cityParts)) };
@@ -63,9 +63,9 @@ test('province_industry: coerente con il catalogo slot (3085 posti: province e s
   const prov = rows.filter((r) => r.unit_kind === 'province');
   const parts = rows.filter((r) => r.unit_kind === 'city_part');
   assert.equal(prov.length, 3085); // 12/11/2026: 2599 province, ma le 306 divise da un fiume valgono 792 sponde da 14 slot ciascuna (2599 - 306 + 792)
-  assert.equal(parts.length, 2089);
+  assert.equal(parts.length, 2101); // 13/11/2026: + 12 città extra dei cantieri
   assert.ok(prov.every((r) => Number(r.potential_slots) === SLOT_CAPACITY.province && r.basis === BASIS_PROVISIONAL_UNIFORM && r.status === 'PROVISIONAL'));
-  assert.equal(prov.reduce((s, r) => s + Number(r.potential_slots), 0) + parts.reduce((s, r) => s + Number(r.potential_slots), 0), 57616 + (792 - 306) * 14); // sponde (12/11/2026): +486 posti × 14; prima: (+322 slot: 23 province di isole x 14) 43576 (prima delle città del mondo: 22324 + 1418 province del resto del mondo x 14 slot (uniformi e provvisorie, come tutte)) + 1357 parti di città del resto del mondo (13718 slot)
+  assert.equal(prov.reduce((s, r) => s + Number(r.potential_slots), 0) + parts.reduce((s, r) => s + Number(r.potential_slots), 0), 57616 + (792 - 306) * 14 + 120); // sponde (12/11/2026): +486 posti × 14; 12 città extra dei cantieri: +120 slot (12 x 10); prima: (+322 slot: 23 province di isole x 14) 43576 (prima delle città del mondo: 22324 + 1418 province del resto del mondo x 14 slot (uniformi e provvisorie, come tutte)) + 1357 parti di città del resto del mondo (13718 slot)
   // le 3 province-città (Budapest, Riga, Bucarest) non hanno slot di provincia: nessuna riga "province" per le loro madri
   for (const [id, n] of Object.entries(slotCat.provinces)) assert.equal(rows.some((r) => r.unit_kind === 'province' && r.unit_id === id), n > 0, id);
 });

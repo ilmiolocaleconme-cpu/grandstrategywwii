@@ -34,20 +34,29 @@ export function portPins(ports, state) {
 }
 
 /**
- * Cantieri navali costruiti (state.nations[*].facilities di tipo FCT-SHIPYARD con provinceId), uno per provincia: [{ provinceId, cittaId, name, count }].
- * La posizione è quella del porto principale della provincia (livello più alto); senza porti, della prima città costiera. Province senza coste: nessun segno.
- * Nei dati non esiste la posizione del cantiere dentro la provincia: è un'approssimazione.
+ * Cantieri navali sulla mappa, uno per provincia: [{ provinceId, cittaId, name, count }].
+ * - costruiti: state.nations[*].facilities di tipo FCT-SHIPYARD con provinceId; la posizione è quella del porto principale della provincia (livello più alto), senza porti della prima città costiera;
+ * - storici 1936 (`initial` = data/naval/shipyards_1936.json, facoltativo): ciascuno sulla sua città del catalogo; se la provincia ha anche cantieri costruiti, i conteggi si sommano e vince la città storica.
+ * Province senza coste: nessun segno. Nei dati non esiste la posizione del cantiere dentro la provincia: è un'approssimazione.
  */
-export function shipyardPins(ports, state) {
+export function shipyardPins(ports, state, initial = null) {
+  if (!ports?.coastal) return [];
   const counts = new Map();
   for (const n of Object.values(state?.nations ?? {})) {
     for (const f of n.facilities ?? []) if (f.type === SHIPYARD_ID && typeof f.provinceId === 'string') counts.set(f.provinceId, (counts.get(f.provinceId) ?? 0) + 1);
   }
-  if (!counts.size || !ports?.coastal) return [];
+  const historic = new Map(); // provincia → { cittaId, name }
+  for (const y of initial?.shipyards ?? []) {
+    const c = ports.coastal[y.cittaId];
+    if (!c?.parentProvince) continue;
+    counts.set(c.parentProvince, (counts.get(c.parentProvince) ?? 0) + 1);
+    if (!historic.has(c.parentProvince)) historic.set(c.parentProvince, { cittaId: y.cittaId, name: c.name });
+  }
+  if (!counts.size) return [];
   const pins = portPins(ports, state);
   const out = [];
   for (const [provinceId, count] of [...counts].sort()) {
-    const host = pins.find((p) => p.province === provinceId)
+    const host = historic.get(provinceId) ?? pins.find((p) => p.province === provinceId)
       ?? Object.entries(ports.coastal).filter(([, c]) => c.parentProvince === provinceId).sort(([a], [b]) => (a < b ? -1 : 1)).map(([cittaId, c]) => ({ cittaId, name: c.name }))[0];
     if (host) out.push({ provinceId, cittaId: host.cittaId, name: host.name, count });
   }
@@ -63,6 +72,28 @@ export function shortName(name, max = MAX_NAME_CHARS) {
 /** Descrizione del distintivo di un porto: { level, diameter, label, title }. */
 export function pinSpec(p) {
   return { level: p.level, diameter: PORT_DIAMETER[p.level] ?? PORT_DIAMETER[1], label: shortName(p.name), title: `${p.name} (livello ${p.level})` };
+}
+
+// La città di un porto sulla mappa: per id esatto, altrimenti la parte più grande tra i poligoni della città (ids «…_CITTA_P1», «_P2»... con props.cittaId = id del porto).
+// Prima della correzione del 12/11/2026 si cercava solo l'id esatto: i porti di città divise in parti (Königsberg, Amburgo, Brema, Stettino...) non venivano disegnati.
+const partsCache = new WeakMap();
+export function cityItemOf(model, cittaId) {
+  const exact = model.byId.get(cittaId);
+  if (exact) return exact;
+  const n = model.items?.length ?? 0;
+  let c = partsCache.get(model.byId);
+  if (!c || c.n !== n) {
+    const best = new Map();
+    for (const it of model.items ?? []) {
+      const key = it.props?.cittaId;
+      if (!key) continue;
+      const cur = best.get(key);
+      if (!cur || (it.props.areaKm2 ?? 0) > (cur.props.areaKm2 ?? 0)) best.set(key, it);
+    }
+    c = { n, best };
+    partsCache.set(model.byId, c);
+  }
+  return c.best.get(cittaId) ?? null;
 }
 
 const overlaps = (boxes, b) => boxes.some((o) => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
@@ -130,7 +161,7 @@ export function drawPorts(ctx, { pins, yards = [], a, dpr, copies, boxes, model,
   const showName = k >= PORT_NAME_ZOOM;
   if (showName) ctx.font = `bold ${NAME_PX}px sans-serif`;
   for (const p of pins ?? []) {
-    const city = model.byId.get(p.cittaId);
+    const city = cityItemOf(model, p.cittaId);
     if (!city) continue;
     const spec = pinSpec(p);
     const pt = anchorOf(model, city);
@@ -169,7 +200,7 @@ export function drawPorts(ctx, { pins, yards = [], a, dpr, copies, boxes, model,
   }
   // cantieri navali: attaccati in basso a sinistra del distintivo del porto (o, senza porto, sul punto della città costiera)
   for (const y of yards ?? []) {
-    const city = model.byId.get(y.cittaId);
+    const city = cityItemOf(model, y.cittaId);
     if (!city) continue;
     const pt = anchorOf(model, city);
     const yr = YARD_DIAMETER / 2;

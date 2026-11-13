@@ -48,8 +48,8 @@ test('pinSpec: diametro dal livello, nome accorciato', () => {
   assert.equal(shortName('Roma'), 'Roma');
 });
 
-test('il livello «Porti» è tra i livelli della mappa', () => {
-  assert.ok(LAYERS.some((l) => l.id === 'ports' && l.label === 'Porti'));
+test('«Porti» non è più un livello di base: è un\'opzione sulla mappa, indipendente dal livello', () => {
+  assert.ok(!LAYERS.some((l) => l.id === 'ports' || l.label === 'Porti'));
 });
 
 test('drawPorts: un distintivo per porto, sul punto della città, senza linee; nome da zoom e solo con spazio', () => {
@@ -106,4 +106,70 @@ test('dati reali: ogni porto del 1936 ha una città costiera con provincia madre
   const total = portPins({ coastal, base: { ports: base.ports } }, null).length;
   assert.ok(total >= Object.keys(base.ports).filter((id) => base.ports[id].level >= 1).length * 0.9, 'quasi tutti i porti compaiono');
   assert.ok(total > 20);
+});
+
+// --- 12/11/2026: porti di città divise in parti (Königsberg, Amburgo...) non venivano disegnati ---
+import { cityItemOf } from '../src/map/portIcons.js';
+
+test('cityItemOf: id esatto, altrimenti la parte più grande della città; città assente: null', () => {
+  const mk = (id, cittaId, area) => ({ id, props: { id, cittaId, areaKm2: area }, anchor: { x: 1, y: 1 } });
+  const items = [mk('C_X_P1', 'C_X', 115), mk('C_X_P2', 'C_X', 13), mk('C_Y', 'C_Y', 5)];
+  const m = { items, byId: new Map(items.map((i) => [i.id, i])) };
+  assert.equal(cityItemOf(m, 'C_Y').id, 'C_Y', 'id esatto');
+  assert.equal(cityItemOf(m, 'C_X').id, 'C_X_P1', 'parte più grande');
+  assert.equal(cityItemOf(m, 'C_Z'), null);
+});
+
+test('dati reali: ogni porto del 1936 e ogni città costiera ha una città disegnabile sulla mappa (nessun porto saltato in silenzio)', () => {
+  const feats = json('citta_grandi.json').features;
+  const items = feats.map((f) => ({ id: f.properties.id, props: f.properties, anchor: { x: 0, y: 0 } }));
+  const m = { items, byId: new Map(items.map((i) => [i.id, i])) };
+  const missing = Object.keys(json('ports/ports_1936.json').ports).filter((id) => !cityItemOf(m, id));
+  assert.deepEqual(missing, [], `porti senza città sulla mappa: ${missing.join(', ')}`);
+  assert.equal(cityItemOf(m, 'P_DEU_KONIGSBERG_CITTA').id, 'P_DEU_KONIGSBERG_CITTA_P1');
+});
+
+test('drawPorts: un porto la cui città è divisa in parti viene disegnato (Königsberg)', () => {
+  const items = [{ id: 'P_K_CITTA_P1', props: { id: 'P_K_CITTA_P1', cittaId: 'P_K_CITTA', areaKm2: 60 }, anchor: { x: 50, y: 50 } }];
+  const m = { items, byId: new Map(items.map((i) => [i.id, i])) };
+  const pk = { coastal: { P_K_CITTA: { name: 'Königsberg', parentProvince: 'P_K' } }, base: { ports: { P_K_CITTA: { level: 2 } } } };
+  const hits = [];
+  drawPorts(fakeCtx(), { pins: portPins(pk, null), a: { sx: 1, tx: 0, ty: 0 }, dpr: 1, copies: [0], boxes: [], model: m, hits, k: 1 });
+  assert.equal(hits.length, 1);
+  assert.equal(hits[0].cittaId, 'P_K_CITTA');
+});
+
+test('drawPorts: i cantieri si disegnano e si possono toccare anche senza i porti (opzioni indipendenti)', () => {
+  const m = model();
+  const yards = [{ provinceId: 'P_1', cittaId: 'C_A', name: 'Alfa', count: 1 }];
+  const hits = [];
+  drawPorts(fakeCtx(), args(m, { pins: null, yards, hits }));
+  assert.equal(hits.length, 1);
+  assert.equal(hits[0].yard, true);
+  assert.equal(hits[0].province, 'P_1');
+  const none = [];
+  drawPorts(fakeCtx(), args(m, { pins: null, yards: null, hits: none }));
+  assert.equal(none.length, 0, 'senza porti né cantieri non si disegna nulla');
+});
+
+test('cantieri storici 1936 (bozza): dati validi, una voce per città, e compaiono sulla mappa dall\'inizio senza costruire nulla', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { validateShipyards } = await import('../src/data/shipyards.js');
+  const rd = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
+  const doc = rd('naval/shipyards_1936.json');
+  const coastal = rd('ports/coastal_cities.json').cities;
+  assert.deepEqual(validateShipyards(doc, { coastal }), []);
+  assert.ok(doc.shipyards.length >= 47 && doc.shipyards.every((y) => y.basis === 'ipotesi'), 'bozza: tutte ipotesi da confermare');
+  const bad = (patch) => validateShipyards({ ...doc, shipyards: [{ ...doc.shipyards[0], ...patch }, ...doc.shipyards.slice(1)] }, { coastal }).join();
+  assert.match(bad({ cittaId: 'P_XXX_NO_CITTA' }), /città costiera/);
+  assert.match(bad({ nation: 'ZZZ' }), /diversa dal proprietario/);
+  assert.match(bad({ basis: 'certo' }), /basis/);
+  assert.match(validateShipyards({ ...doc, shipyards: [doc.shipyards[0], doc.shipyards[0]] }, { coastal }).join(), /duplicato/);
+  const ports = { coastal, base: rd('ports/ports_1936.json'), levels: rd('ports/port_levels.json') };
+  const pins = shipyardPins(ports, null, doc);
+  assert.ok(pins.length > 0 && pins.length <= doc.shipyards.length);
+  assert.ok(pins.some((p) => p.cittaId === 'P_DEU_KIEL_CITTA' && p.provinceId === 'P_DEU_SCHLESWIG_HOLSTEIN'));
+  assert.deepEqual(shipyardPins(ports, null, null), [], 'senza elenco storico né costruiti: nessun segno');
+  const st = { nations: { DEU: { facilities: [{ type: 'FCT-SHIPYARD', provinceId: 'P_DEU_SCHLESWIG_HOLSTEIN' }] } } };
+  assert.equal(shipyardPins(ports, st, doc).find((p) => p.provinceId === 'P_DEU_SCHLESWIG_HOLSTEIN').count, 2, 'storico + costruito si sommano');
 });

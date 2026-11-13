@@ -126,6 +126,7 @@ import portsBaseFile from '../data/ports/ports_1936.json';
 import coastalCitiesFile from '../data/ports/coastal_cities.json';
 import { provincePortRows, portSummary } from './ui/portView.js';
 import { portPins, shipyardPins } from './map/portIcons.js';
+import shipyardsFile from '../data/naval/shipyards_1936.json';
 import linkEdgesFile from '../data/infrastructure/link_edges.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
 import hydroPlants from '../data/resources/hydro_plants.json';
@@ -373,7 +374,7 @@ const onEquipmentLost = (state, unitId, lost) => {
 const THEATER_CTX = { equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
-  (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse)
+  (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse); guarnigione Maginot
   (state) => commandersSystem({ units: unitsList(state, unitsFile.units), officers: officersFile.officers })(state), // comandi creati dal giocatore inclusi
   createConditionSystem(conditionConfig),
   (state) => (MOVE_NET.net ? createMovementSystem(gameNet(state))(state) : state),
@@ -431,6 +432,8 @@ export default function App() {
   const { file: seaFile, status: seaStatus } = useSeaData(true);
   const linksRaw = useLinks(USE_CANVAS);
   const [showTransport, setShowTransport] = useState(false);
+  const [showYards, setShowYards] = useState(false); // cantieri navali sulla mappa: opzione propria, accendibile anche senza i porti
+  const [showPorts, setShowPorts] = useState(false); // porti e cantieri sulla mappa: opzione indipendente dal livello, come le strade
   // collegamenti con i gradini della PARTITA (livello di partenza o migliorato): la mappa e le regole usano lo stesso dato. Se le province non corrispondono al grafo non si applica nulla.
   const links = useMemo(() => {
     if (!linksRaw || !provinces) return linksRaw;
@@ -588,7 +591,19 @@ export default function App() {
   // commercio: il giocatore è una delle due parti; il percorso usa la rete di movimento e le rotte marittime con i porti reali (se già caricate)
   const tradeGoodList = useMemo(() => tradeGoods(economyData, resources), []);
   const tradeCtx = () => ({ economy: economyData, resources, net: gameNet(game), sea: GAME_SEA.sea ? GAME_SEA.sea.at(game) : null, consent: GAME_DIPLOMACY.tradeConsent });
-  const orderOf = (o) => (o.direction === 'sell' ? { seller: game.player, buyer: o.partner } : { seller: o.partner, buyer: game.player });
+  // porti scelti: «myPort» è del giocatore, «partnerPort» della controparte; chi vende parte da fromPort, chi compra arriva a toPort
+  const orderOf = (o) => {
+    const sell = o.direction === 'sell';
+    return { seller: sell ? game.player : o.partner, buyer: sell ? o.partner : game.player, fromPort: (sell ? o.myPort : o.partnerPort) || null, toPort: (sell ? o.partnerPort : o.myPort) || null };
+  };
+  const portChoices = useCallback((nationId) => {
+    const ctx = GAME_SEA.sea && game ? GAME_SEA.sea.at(game) : null;
+    if (!ctx || !nationId) return [];
+    const seen = new Map();
+    for (const p of ctx.allPortsOf(nationId)) if (!seen.has(p.province)) seen.set(p.province, { province: p.province, label: provinceName(p.province) });
+    return [...seen.values()].sort((a, b) => a.label.localeCompare(b.label, 'it'));
+  }, [game, seaFile, provinceName]); // eslint-disable-line react-hooks/exhaustive-deps
+  const myPortList = useMemo(() => portChoices(game?.player), [portChoices]); // eslint-disable-line react-hooks/exhaustive-deps
   const previewTradeOrder = useCallback((o) => previewTrade(game, { ...orderOf(o), good: o.good, perDay: o.perDay, days: o.days, mode: o.mode }, tradeCtx()), [game, moveNet, seaFile]); // eslint-disable-line react-hooks/exhaustive-deps
   const openTrade = (o) => {
     const r = openTradeContract(game, { ...orderOf(o), good: o.good, perDay: o.perDay, days: o.days, mode: o.mode }, tradeCtx());
@@ -665,7 +680,7 @@ export default function App() {
   }, [game, selectedItem, techName]);
   const harbours = useMemo(() => (game ? portSummary(game, game.player, { ports: GAME_PORTS, entityOf: entityOfProvince }) : null), [game]);
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
-  const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri navali costruiti, accanto al porto
+  const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game, shipyardsFile), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri storici 1936 (bozza) e costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
   const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName }) : []), [game, techName]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
@@ -989,7 +1004,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
             <DiplomacyPanel levy={puppetLevyView} onLevy={setPuppetLevy} partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
-            <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
+            <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} myPorts={myPortList} portChoices={portChoices} portLabel={provinceName} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
             <ResearchPanel rows={researchRows} onStart={startResearch} unlocksFor={(id) => modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation)} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} rifleInfo={{ quality: rifleAverage(game, game.player), bonus: rifleTotalBonus(game, game.player, 'infantry') }} techBonusOf={(id) => smallArmsFile.rifleQuality.techBonus?.[id] ?? 0} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
@@ -1019,7 +1034,7 @@ export default function App() {
               name: NATION_NAMES[game.player] ?? game.player,
               flag: flagsFile.flags[game.player],
               steps: [
-                ...(layer === 'political' || layer === 'ports' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
+                ...(layer === 'political' ? [] : [{ label: layer === 'terrain' ? 'Terreno' : 'Risorse', done: layerReady }]),
                 { label: 'Fiumi e laghi', done: waterStatus !== 'loading' },
                 { label: 'Mari e rotte', done: seaStatus !== 'loading' },
                 { label: 'Città', done: citiesRaw !== null },
@@ -1030,7 +1045,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={orderIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} chain={radialChain} onInfo={() => setInfoSheet(true)} onAttach={() => { if (radialChain.enabled) setInfoSheet({ unitId: radialChain.unitId, attach: true }); }} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} provincePorts={portPinList} portYards={portYardList} onSelectPort={selectPort} />
+        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={orderIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} chain={radialChain} onInfo={() => setInfoSheet(true)} onAttach={() => { if (radialChain.enabled) setInfoSheet({ unitId: radialChain.unitId, attach: true }); }} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} showPorts={showPorts} onTogglePorts={() => setShowPorts((v) => !v)} provincePorts={showPorts ? portPinList : null} showYards={showYards} onToggleYards={() => setShowYards((v) => !v)} portYards={showYards ? portYardList : null} onSelectPort={selectPort} />
         {orderTo && !command ? (
           <div className="order-bar" role="status">
             <span>{orderTo.note ?? `Tocca sulla mappa la destinazione per ${orderTo.ids.length} ${orderTo.ids.length === 1 ? 'divisione' : 'divisioni'}: territorio tuo = marcia, nemico (in guerra) = attacco.`}</span>
