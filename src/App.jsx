@@ -148,6 +148,7 @@ import { entityOfProvinceId } from './data/provinceOwner.js';
 import { provinceLinkRows, infraSummary } from './ui/infraView.js';
 import { createSecurity } from './game/security.js';
 import { createAiSecurity } from './game/aiSecurity.js';
+import { createAiTrade } from './game/aiTrade.js';
 import { createDiplomacyGame } from './game/diplomacyState.js';
 import { createAiDiplomacy } from './game/aiDiplomacy.js';
 import { DiplomacyPanel } from './ui/DiplomacyPanel.jsx';
@@ -337,6 +338,8 @@ const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyD
 const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: diplomacyStart, political });
 const GAME_AI_DIPLOMACY = createAiDiplomacy({ diplomacy: GAME_DIPLOMACY }); // IA diplomatica: alleanze e rapporti (accessi, commercio e guerra: mancanti)
 const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf });
+// IA del commercio (13/11/2026): compra ciò che sta per finire (game/aiTrade.js); percorsi e diplomazia come per il giocatore
+const GAME_AI_TRADE = createAiTrade({ ctxOf: (s) => ({ economy: economyData, resources, net: gameNet(s), sea: GAME_SEA.sea ? GAME_SEA.sea.at(s) : null, consent: GAME_DIPLOMACY.tradeConsent }) });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
 const FORCES_CTX = { units: unitsFile.units, templates: completeTemplates([tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry, tplDeuInfantry1939, tplFraInfantry1939, tplItaInfantry1940, tplJpnInfantry1939, tplUsaInfantry1940, tplUssrInfantry1939, tplFraArmored1940, tplGbrArmored1939, tplItaArmored1940, tplUsaArmored1940, tplJpnArmored1942, tplUssrArmored1940]), ratio: readiness.initialFillRatio.value, upgradeMap: equipmentUpgradeMap };
 const withForces = (state) => GAME_DIPLOMACY.init(initForcesState(state, FORCES_CTX).state); // anche la diplomazia: stato iniziale 1936 se manca
@@ -387,6 +390,7 @@ const GAME_SYSTEMS = [
   GAME_RESEARCH.researchDay,
   GAME_SECURITY.securityDay,
   GAME_AI.aiDay,
+  GAME_AI_TRADE.aiTradeDay,
 ];
 
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)

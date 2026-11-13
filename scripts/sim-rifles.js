@@ -1,7 +1,8 @@
 // Simulazione della qualità dei fucili (13/11/2026): 3 anni (1/1/1936 → 31/12/1938) per le 7 potenze, senza guerra né commercio.
 // Sistemi usati: economia (produzione dei fucili con i punti di qualità), ricerca con la scelta dell'IA (ordine alfabetico fra le tecnologie
 // disponibili, come in src/game/aiSecurity.js, senza la parte di sicurezza). Uomini previsti: divisioni attive alla data (initForcesState).
-// Uso: node scripts/sim-rifles.js [giorni]   → tabella ogni 90 giorni. Solo lettura: non scrive file.
+// Dal 13/11/2026 anche commercio e IA del commercio (rete via terra e rotte marittime reali); --senza-commercio per escluderli.
+// Uso: node scripts/sim-rifles.js [giorni] [--senza-commercio]   → tabella ogni 90 giorni. Solo lettura: non scrive file.
 import { readFileSync, readdirSync } from 'node:fs';
 import { loadIndustryCatalog } from '../src/data/industry.js';
 import { mergeEquipmentCatalogs } from '../src/data/equipmentCatalog.js';
@@ -12,12 +13,19 @@ import { advanceDay } from '../src/game/engine.js';
 import { createResearch, techsOf } from '../src/game/research.js';
 import { initForcesState } from '../src/game/forcesState.js';
 import { completeTemplates } from '../src/rules/forces.js';
+import { loadProvinces } from './load-provinces.js';
+import { buildMoveNet } from '../src/data/moveNet.js';
+import { createGameSea } from '../src/game/seaState.js';
+import { entityOfProvinceId } from '../src/data/provinceOwner.js';
+import { createTradeSystem } from '../src/game/tradeState.js';
+import { createAiTrade } from '../src/game/aiTrade.js';
 import { averageQuality, rifleBonus, rifleTechBonus, bestRifleQuality, plannedMenByNation } from '../src/rules/rifleQuality.js';
 
 const root = new URL('../', import.meta.url);
 const text = (p) => readFileSync(new URL(`data/${p}`, root), 'utf8');
 const json = (p) => JSON.parse(text(p));
-const DAYS = Number(process.argv[2] ?? 1095);
+const DAYS = Number(process.argv.slice(2).find((a) => /^\d+$/.test(a)) ?? 1095);
+const TRADE = !process.argv.includes('--senza-commercio');
 const POWERS = ['DEU', 'FRA', 'GBR', 'ITA', 'USSR', 'USA', 'JPN'];
 
 const cat = loadIndustryCatalog({ factoriesCsv: text('industry/factories.csv'), structuresCsv: text('infrastructure/structures.csv'), categoriesCsv: text('industry/production_categories.csv') });
@@ -49,6 +57,17 @@ const aiResearch = (s) => { // come aiSecurity: ordine alfabetico fra le disponi
   return st;
 };
 const systems = [economySystem, (s) => research.researchDay(s), aiResearch];
+if (TRADE) {
+  const resources = json('resources.json');
+  const collection = await loadProvinces();
+  const net = buildMoveNet(collection, json('adjacency.json'));
+  const props = collection.features.map((f) => f.properties);
+  const motherById = new Map(props.map((p) => [p.id, p.parentProvince ?? p.id]));
+  const entityIds = political.map((e) => e.id);
+  const sea = createGameSea({ seaFile: json('sea_zones.json'), params: json('sea_routes_params.json'), provinceIds: props.map((p) => p.id), motherOf: (id) => motherById.get(id) ?? id, entityOf: (id) => entityOfProvinceId(id, entityIds), ports: { coastal: json('ports/coastal_cities.json').cities, base: json('ports/ports_1936.json') } });
+  systems.push(createTradeSystem({ resources, getNet: () => net, getSea: (st) => sea.at(st) }));
+  systems.push(createAiTrade({ ctxOf: (st) => ({ economy, resources, net, sea: sea.at(st) }) }).aiTradeDay);
+}
 
 let s = newGame({ nation: 'DEU', political, ownersWithProvinces: nationIds, start }).state;
 const menAt = (date) => {
@@ -68,6 +87,6 @@ const row = (st) => {
   });
 };
 for (let d = 0; d <= DAYS; d += 1) {
-  if (d % 90 === 0 || d === DAYS) { console.log(`\n== ${s.date} (giorno ${d})`); console.table(row(s)); }
+  if (d % 90 === 0 || d === DAYS) { console.log(`\n== ${s.date} (giorno ${d})${TRADE ? ` — contratti IA: ${s.trade?.contracts.length ?? 0}` : ''}`); console.table(row(s)); }
   if (d < DAYS) s = advanceDay(s, systems);
 }
