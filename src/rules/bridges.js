@@ -29,14 +29,14 @@ export function buildBridgeIndex(file, provinceIds, riverOf, inferred = null) {
     const e = byPair.get(key) ?? { ids: [], main: false };
     e.ids.push(b.id); e.main = e.main || main;
     byPair.set(key, e);
-    byId.set(b.id, { key, riverId: b.riverId, width: river?.widthClass ?? 'small', main });
+    byId.set(b.id, { key, riverId: b.riverId, width: river?.widthClass ?? 'small', main, lon: b.lon ?? null, lat: b.lat ?? null });
   }
   for (const b of inferred?.bridges ?? []) {
     const key = bridgeKey(b.a, b.b);
     const e = byPair.get(key) ?? { ids: [], main: false };
     e.ids.push(b.id); e.main = true; // l'inferenza riguarda solo fiumi principali
     byPair.set(key, e);
-    byId.set(b.id, { key, riverId: b.riverId, width: b.widthClass ?? 'small', main: true, inferred: true });
+    byId.set(b.id, { key, riverId: b.riverId, width: b.widthClass ?? 'small', main: true, inferred: true, lon: b.lon ?? null, lat: b.lat ?? null });
   }
   return { byPair, byId };
 }

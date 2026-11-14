@@ -146,3 +146,29 @@ test('vista dei ponti di un posto: righe, stato, blocco e azioni', () => {
   assert.deepEqual(bridgeRows(null, bs, 'E'), []);
   assert.deepEqual(bridgeRows(ix, bs, 'Z'), []);
 });
+
+import { bridgeMarks, drawBridgeMarks } from '../src/map/bridgeIcons.js';
+import { project } from '../src/map/geo.js';
+
+test('segnalini dei ponti: solo distrutti e in ripristino, con posizione proiettata; il disegno evita i nomi e non fallisce', () => {
+  const file = { links: [{ id: 'L1', a: 0, b: 1 }], bridges: [{ id: 'LB_A', link: 'L1', riverId: 'R_MAIN', lon: 10, lat: 48 }, { id: 'LB_B', link: 'L1', riverId: 'R_MAIN', lon: 11, lat: 48.5 }] };
+  const ix = buildBridgeIndex(file, ['W', 'E'], (id) => RIVERS[id], { bridges: [{ id: 'LB_INF_001', a: 'W', b: 'E', riverId: 'R_MAIN', widthClass: 'large', lon: 12, lat: 49 }] });
+  assert.deepEqual(bridgeMarks(ix, createBridgeState()), []);
+  assert.deepEqual(bridgeMarks(null, createBridgeState()), []);
+  let bs = destroyPair(createBridgeState(), ix, 'W', 'E', { day: 1 }).bridges;
+  let marks = bridgeMarks(ix, bs, (x) => `n-${x}`);
+  assert.deepEqual(marks.map((m) => [m.id, m.status, m.inferred]), [['LB_A', 'destroyed', false], ['LB_B', 'destroyed', false], ['LB_INF_001', 'destroyed', true]]);
+  assert.deepEqual([marks[0].x, marks[0].y], project(10, 48));
+  assert.match(marks[0].title, /distrutto: n-E – n-W/);
+  bs = startRepair(bs, ix, 'W', 'E', { day: 1, cfg }).bridges;
+  assert.ok(bridgeMarks(ix, bs).every((m) => m.status === 'repairing'));
+  const bare = buildBridgeIndex({ links: [{ id: 'L1', a: 0, b: 1 }], bridges: [{ id: 'LB_A', link: 'L1', riverId: 'R_MAIN' }] }, ['W', 'E'], (id) => RIVERS[id]);
+  assert.equal(bridgeMarks(bare, destroyPair(createBridgeState(), bare, 'W', 'E', { day: 1 }).bridges).length, 0, 'senza posizione nei dati: nessun segnalino');
+  const calls = []; const ctx = new Proxy({ canvas: { width: 800, height: 600 } }, { get: (t, k) => (k in t ? t[k] : (...a) => { calls.push(String(k)); }), set: () => true });
+  const boxes = [];
+  drawBridgeMarks(ctx, { marks, a: { sx: 10, tx: 0, ty: 600 }, dpr: 1, copies: [0], boxes });
+  assert.equal(boxes.length, marks.length, 'ogni segnalino visibile occupa un riquadro');
+  assert.ok(calls.includes('arc') && calls.includes('stroke'));
+  const none = []; drawBridgeMarks(ctx, { marks, a: { sx: 10, tx: 99999, ty: 0 }, dpr: 1, copies: [0], boxes: none });
+  assert.equal(none.length, 0, 'fuori schermo: niente');
+});

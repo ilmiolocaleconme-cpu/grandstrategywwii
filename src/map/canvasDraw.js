@@ -10,6 +10,7 @@ import { drawTransport } from './transportView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 import { drawProvinceResources } from './resourceIcons.js';
 import { drawPorts } from './portIcons.js';
+import { drawBridgeMarks } from './bridgeIcons.js';
 import { drawProvinceUnits } from './unitIcons.js';
 import { RESOURCE_NEUTRAL } from '../data/provinceResources.js';
 
@@ -465,7 +466,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, commandLinks, unitHits, provincePorts, portYards, portHits, seas, selectedSeaId, marks } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, commandLinks, unitHits, provincePorts, portYards, portHits, bridgeMarks, seas, selectedSeaId, marks } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -532,6 +533,11 @@ export function drawOverlay(ctx, p) {
   if (layer === 'ports' && provincePorts) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawPorts(ctx, { pins: provincePorts, yards: portYards, a, dpr, copies, boxes: cityBoxes, model, hits: portHits, k: view.k });
+  }
+  // ponti distrutti o in ripristino: sempre visibili (in ogni livello), prima dei nomi come le unità
+  if (bridgeMarks?.length) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawBridgeMarks(ctx, { marks: bridgeMarks, a, dpr, copies, boxes: cityBoxes });
   }
   const nomi = cityNamesAt(model.items, view.k);
   if (nomi.length) {
