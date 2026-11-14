@@ -5,7 +5,7 @@
 // Usa le stesse azioni del giocatore (bridgeState.js): serve un'unità propria su una delle due sponde. Nessun costo né genio (non modellati).
 // IPOTESI di bilanciamento di Claude, da approvare. NON FATTO: demolizione preventiva prima di una ritirata decisa dai teatri, ponti dei fiumi minori,
 // demolizione di ponti sul territorio nemico in avanzata, ripristino dei ponti dopo una conquista, bilancio fra rifornimenti e difesa (un'IA che distrugge
-// i propri ponti può tagliarsi la logistica: i rifornimenti non usano ancora i ponti).
+// i propri ponti può tagliarsi la linea di rifornimento (src/rules/supply.js): l'IA non controlla se la demolizione taglia le proprie divisioni dalla capitale).
 import { enemiesOf } from '../rules/war.js';
 import { unitOf } from '../rules/unitRegistry.js';
 import { positionOf } from '../rules/movement.js';

@@ -50,6 +50,7 @@ import { validateUpgradeMap } from '../src/rules/templateUpgrade.js';
 import { validateMobilizationLaws } from '../src/game/mobilizationState.js';
 import { validateDefenseModifiers } from '../src/rules/defenseModifiers.js';
 import { validateBridgeConfig } from '../src/rules/bridges.js';
+import { validateSupplyConfig } from '../src/rules/supply.js';
 import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipmentProduction.js';
 import { templatesBuilt } from './build-templates.js';
 import { validateDeployment } from '../src/data/deployment.js';
@@ -257,6 +258,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateMobilizationLaws(JSON.parse(await text('units/mobilization_laws.json')), { nationIds: catalog.nations.map((n) => n.id) }));
     errors.push(...validateDefenseModifiers(JSON.parse(await text('combat/defense_modifiers.json'))));
     errors.push(...validateBridgeConfig(JSON.parse(await text('combat/bridges.json'))));
+    errors.push(...validateSupplyConfig(JSON.parse(await text('combat/supply.json'))));
     // Template di divisione (previsto/effettivo, basi e fonti)
     for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {
       errors.push(...validateTemplate(JSON.parse(await text(`units/templates/${f}`))).map((e) => `template ${f}: ${e}`));

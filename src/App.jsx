@@ -82,6 +82,8 @@ import { createBridgeSystem } from './game/bridgeState.js';
 import { createDefenseMultiplier, validateDefenseModifiers, riverFactor } from './rules/defenseModifiers.js';
 import defenseFile from '../data/combat/defense_modifiers.json';
 import bridgesCfg from '../data/combat/bridges.json';
+import supplyCfg from '../data/combat/supply.json';
+import { createSupplySystem, supplyFactorOf } from './game/supplyState.js';
 import { bridgeRows } from './ui/bridgeView.js';
 import BridgeSection from './ui/BridgeSection.jsx';
 import { playerDestroyBridge, playerRepairBridge } from './game/bridgeState.js';
@@ -389,7 +391,7 @@ const DEFENSE_MULT = DEFENSE_ERRORS.length ? undefined : createDefenseMultiplier
 });
 // Fiume forzato: il bonus dei difensori vale per chi passa fra due sponde senza un ponte agibile (net.bridgeIndex, state.bridges). I ponti vengono da data/links.json (ipotesi).
 const RIVER_FACTOR = DEFENSE_ERRORS.length ? undefined : (mother, st, share) => riverFactor(defenseFile, { crossedShare: share });
-const THEATER_CTX = { defenseMultiplier: DEFENSE_MULT, riverFactor: RIVER_FACTOR, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+const THEATER_CTX = { defenseMultiplier: DEFENSE_MULT, riverFactor: RIVER_FACTOR, supplyFactor: (state, u) => supplyFactorOf(state, u, supplyCfg), portProvinces: (state) => [...new Set(portPins(GAME_PORTS, state).map((p) => p.province))], equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse)
@@ -399,6 +401,7 @@ const GAME_SYSTEMS = [
   (state) => completeFormations(state, { date: state.date, catalog: UNITS_BY_ID }), // comandi creati dal giocatore: completano alla data prevista
   (state) => createCommandDistanceSystem({ net: gameNet(state), orbat: state.orbat ?? createOrbatState(), unitsById: unitsView(state, UNITS_BY_ID), initial: INITIAL_POSITIONS, cfg: conditionConfig })(state), // distanza dal comando: prontezza persa e recuperata (src/rules/commandDistance.js)
   createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
+  createSupplySystem(THEATER_CTX, supplyCfg), // rifornimenti: chi è tagliato fuori combatte peggio (src/rules/supply.js)
   createAiBridges(THEATER_CTX, bridgesCfg), // IA dei ponti: demolisce sui fiumi principali se non regge la linea, ripristina in sicurezza
   createBridgeSystem(), // ripristino dei ponti distrutti
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
@@ -860,6 +863,14 @@ export default function App() {
     }).catch(() => { if (alive) setArmyNotice('Movimento non disponibile: file di adiacenza non caricato.'); });
     return () => { alive = false; };
   }, [!!game, !!provinces, !!citiesRaw, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
+  // capitali (fonte dei rifornimenti): provincia madre della città capitale di ogni nazione
+  useEffect(() => {
+    if (!moveNet || !cities?.length) return;
+    const cap = new Map(nations.map((n) => [n.id, n.capital]));
+    const out = new Map();
+    for (const f of cities) { const pr = f.properties; if (pr?.parentProvince && cap.get(pr.owner) === pr.name) out.set(pr.owner, [...(out.get(pr.owner) ?? []), pr.parentProvince]); }
+    moveNet.supplyCapitals = out;
+  }, [moveNet, cities]);
   // ponti del grafo dei collegamenti: indice sulla rete di movimento (blocco dei fiumi principali e fiume forzato); si calcola quando rete, link, fiumi e province sono pronti
   useEffect(() => {
     if (!moveNet || !linksRaw || !provinces || !rivers) return;

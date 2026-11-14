@@ -1,0 +1,9 @@
+{
+  "schema": "supply-v1",
+  "status": "BOZZA_DA_CONFERMARE",
+  "basis": "ipotesi",
+  "note": "Linea di rifornimento delle divisioni di terra. IPOTESI di bilanciamento di Claude, non dati storici, da approvare. Fonti: capitale e porti controllati dalla nazione (il mare conta come rifornimento: il trasporto navale non è modellato). Il rifornimento corre su territorio controllato dalla nazione e può spingersi `reachBeyond` posti oltre (zona di guerra); un passo su un fiume principale senza ponti agibili lo interrompe. Alleati: per ora il loro territorio non conta.",
+  "reachBeyond": 2,
+  "graceDays": 3,
+  "unsuppliedFactor": 0.7
+}

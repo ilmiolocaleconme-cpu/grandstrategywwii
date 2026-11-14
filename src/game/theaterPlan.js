@@ -25,7 +25,7 @@ export const DIVISION_POWER_REF = 10000; // una divisione ≈ 10000 di potenza: 
 
 // ctx (facoltativo, 13/11/2026): stessi fattori della battaglia (createTheaterSystem) — ctx.equipmentFactor (dotazione d'armi) e ctx.rifleBonus
 // (qualità e tecnologie dei fucili). Senza ctx la stima è quella di prima (solo uomini e categoria).
-const extrasOf = (state, unit, ctx) => ({ rifle: ctx?.rifleBonus?.(state, unit) ?? 0, equipment: ctx?.equipmentFactor?.(state, unit) ?? 1 });
+const extrasOf = (state, unit, ctx) => ({ rifle: ctx?.rifleBonus?.(state, unit) ?? 0, equipment: (ctx?.equipmentFactor?.(state, unit) ?? 1) * (ctx?.supplyFactor?.(state, unit) ?? 1) });
 
 export function powerOfUnit(state, unit, ctx = null) {
   const m = effectiveOf(state, unit.id);

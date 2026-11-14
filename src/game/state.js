@@ -3,6 +3,7 @@
 // controllo dei territori: `control` mappa ogni id di `political_1936.json` al suo controllore.
 
 import { validateBridgeState } from '../rules/bridges.js';
+import { validateSupplyState } from '../rules/supply.js';
 import { START_DATE, addDays, daysBetween, isValidDate } from './calendar.js';
 import { createUnitRegistry, validateUnitRegistry } from '../rules/unitRegistry.js';
 import { DIFFICULTIES, DEFAULT_DIFFICULTY, buildNations, validateNations } from './economyState.js';
@@ -104,6 +105,7 @@ export function validateState(state) {
   errors.push(...validateInfrastructureShape(state.infrastructure)); // opzionale: assente = tutti i collegamenti al livello di partenza
   errors.push(...validatePortsShape(state.ports)); // opzionale: assente = porti del 1936
   errors.push(...validateWar(state.war), ...validateTheaters(state.theaters), ...validateCombat(state.combat), ...validateEntrench(state.entrench)); // opzionali: guerra, incarichi di teatro, registro battaglie, trinceramento
+  errors.push(...validateSupplyState(state.supply)); // opzionale: assente = tutti riforniti
   errors.push(...validateBridgeState(state.bridges)); // opzionale: assente = tutti i ponti integri
   errors.push(...validateDiplomacy(state.diplomacy)); // opzionale: assente = nessun rapporto
   errors.push(...validateMobilizationShape(state.mobilization)); // opzionale: assente = nessuna legge di mobilitazione scattata
