@@ -49,8 +49,8 @@ test('segnalazioni di revisione e righe aggiunte da Claude', () => {
   assert.equal(flagged('duplicate_value').length, 3);
   assert.ok(flagged('value_suspect').length >= 10);
   const added = locations.filter((l) => l.source === 'claude_note');
-  assert.equal(added.length, 8 + 36 + 3, 'petrolio tedesco + 4 alluminio + 2 ferro + stagno cinese + 36 paesi del frumento (USDA 1933-36) + carbone e ferro della Corea e ferro del Giappone (12/11/2026)');
-  assert.equal(added.filter((l) => l.resource_id === 'wheat').length, 36);
+  assert.equal(added.length, 8 + 37 + 3, 'petrolio tedesco + 4 alluminio + 2 ferro + stagno cinese + 37 paesi del frumento (USDA 1933-36, Manciukuò dal 15/11/2026) + carbone e ferro della Corea e ferro del Giappone (12/11/2026)');
+  assert.equal(added.filter((l) => l.resource_id === 'wheat').length, 37);
   const de = added.filter((l) => l.resource_id === 'oil');
   assert.equal(de.length, 1);
   assert.equal(de[0].country_id, 'DEU');

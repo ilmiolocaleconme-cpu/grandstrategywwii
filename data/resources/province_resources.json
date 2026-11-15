@@ -1924,9 +1924,16 @@
    "rubber",
    "tin"
   ],
+  "P_MAN_HEILONGJIANG": [
+   "wheat"
+  ],
+  "P_MAN_JILIN": [
+   "wheat"
+  ],
   "P_MAN_LIAONING": [
    "coal",
-   "iron_ore"
+   "iron_ore",
+   "wheat"
   ],
   "P_MAR_CHAOUIA___OUARDIGHA": [
    "wheat"

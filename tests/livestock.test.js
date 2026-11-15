@@ -140,7 +140,7 @@ test('ciclo giornaliero: il fertilizzante dà più frumento, i cavalli mangiano 
   const s0 = fresh();
   const setUsa = (stocks) => ({ ...s0, nations: { ...s0.nations, USA: { ...s0.nations.USA, facilities: [], stocks } } });
   const wheat = baseline.byTerritory.USA.wheat;
-  assert.equal(wheat, 353, 'USA: 9 punti-punteggio su 100 punti mondiali × 25 t/giorno (USDA 1933-36)');
+  assert.equal(wheat, 350.5, 'USA: quota dei punti mondiali × 25 t/giorno (USDA 1933-36; 350,5 dal 15/11/2026 con il Manciukuò nel totale mondiale)');
   const plain = advanceDay(setUsa({}), [withLivestock]).nations.USA.stocks;
   assert.equal(plain.wheat, wheat);
   const fed = advanceDay(setUsa({ fertilizer: 100 }), [withLivestock]);

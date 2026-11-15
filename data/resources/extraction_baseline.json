@@ -10,10 +10,10 @@
     },
     "ARG": {
       "oil": 50.4,
-      "wheat": 122.1
+      "wheat": 121.5
     },
     "AUS": {
-      "wheat": 122.4
+      "wheat": 121.6
     },
     "AUT": {
       "iron_ore": 612.4,
@@ -25,7 +25,7 @@
     },
     "BGR": {
       "iron_ore": 16.2,
-      "wheat": 26
+      "wheat": 24
     },
     "BOL": {
       "tin": 5.8,
@@ -44,7 +44,7 @@
       "coal": 135.2,
       "oil": 29.7,
       "copper": 88.2,
-      "wheat": 207.6
+      "wheat": 206.4
     },
     "CEY": {
       "rubber": 134
@@ -132,7 +132,7 @@
       "coal": 259.2,
       "oil": 25.2,
       "bauxite": 37.4,
-      "wheat": 207.6
+      "wheat": 206.4
     },
     "INDO": {
       "rubber": 84
@@ -150,7 +150,7 @@
       "coal": 38.7,
       "bauxite": 312.6,
       "sulphur": 71.1,
-      "wheat": 208
+      "wheat": 204
     },
     "JPN": {
       "iron_ore": 47.2,
@@ -181,7 +181,8 @@
     },
     "MAN": {
       "iron_ore": 162.6,
-      "coal": 140.9
+      "coal": 140.9,
+      "wheat": 14.7
     },
     "MAR": {
       "wheat": 14.4
@@ -219,7 +220,7 @@
     "POL": {
       "iron_ore": 79.6,
       "coal": 338.1,
-      "wheat": 43.2
+      "wheat": 41.6
     },
     "PRT": {
       "wheat": 15.3,
@@ -264,7 +265,7 @@
       "bauxite": 779.7,
       "sulphur": 418.2,
       "copper": 255.3,
-      "wheat": 353,
+      "wheat": 350.5,
       "tungsten": 1.5
     },
     "USSR": {
@@ -273,7 +274,7 @@
       "oil": 503.2,
       "bauxite": 421.2,
       "copper": 37.1,
-      "wheat": 207.9
+      "wheat": 206.1
     },
     "VEN": {
       "oil": 422.6

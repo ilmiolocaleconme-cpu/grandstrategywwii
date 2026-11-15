@@ -106,7 +106,7 @@
       "tin": 1500,
       "steel": 15501,
       "munitions": 3600,
-      "feed": 270
+      "feed": 1350
     },
     "MAL": {
       "coal": 9000
@@ -117,7 +117,7 @@
     "POL": {
       "iron_ore": 12060,
       "sulphur": 6150,
-      "wheat": 11520,
+      "wheat": 11760,
       "steel": 12000,
       "aluminium": 5100,
       "processed_rubber": 1200,

@@ -13,8 +13,8 @@ const terrain = JSON.parse(text('terrain.json')).province;
 const usa = rows.find((r) => r.id === 'USA');
 
 test('tabella sorgente: media dei tre raccolti e punteggio = 9 + ln(media / USA) / ln 1,7, da 1 a 10', () => {
-  assert.equal(rows.length, 40);
-  assert.equal(new Set(rows.map((r) => r.id)).size, 40, 'nessun paese doppio');
+  assert.equal(rows.length, 41); // + Manciukuò (15/11/2026, fonte USDA a parte)
+  assert.equal(new Set(rows.map((r) => r.id)).size, 41, 'nessun paese doppio');
   for (const r of rows) {
     const avg = (Number(r.raccolto_1933_34_kbu) + Number(r.raccolto_1934_35_kbu) + Number(r.raccolto_1935_36_kbu)) / 3;
     assert.equal(Number(r.media_kbu), Math.round(avg), r.id);
@@ -39,7 +39,7 @@ test('ogni paese della tabella ha una riga di luogo e un punteggio finale uguale
 
 test('province del frumento: mai a maggioranza di montagna, deserto o tundra (righe generate dal terreno)', () => {
   const generated = locations.filter((l) => l.source === 'claude_note' && l.place_text === 'Pianure e colline cerealicole');
-  assert.equal(generated.length, 36);
+  assert.equal(generated.length, 37);
   for (const l of generated) {
     const mine = links.filter((k) => k.location_id === l.location_id);
     assert.ok(mine.length > 0, l.country_id);

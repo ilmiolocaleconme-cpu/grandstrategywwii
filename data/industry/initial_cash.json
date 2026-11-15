@@ -23,14 +23,14 @@
       "cash": 231.5
     },
     "ARG": {
-      "incomePerDay": 7.13,
+      "incomePerDay": 7.12,
       "provinces": 23,
-      "cash": 413.9
+      "cash": 413.6
     },
     "AUS": {
-      "incomePerDay": 5.03,
+      "incomePerDay": 5.02,
       "provinces": 15,
-      "cash": 350.9
+      "cash": 350.6
     },
     "AUT": {
       "incomePerDay": 8.28,
@@ -43,9 +43,9 @@
       "cash": 778.4
     },
     "BGR": {
-      "incomePerDay": 8.15,
+      "incomePerDay": 8.14,
       "provinces": 34,
-      "cash": 444.5
+      "cash": 444.2
     },
     "BOL": {
       "incomePerDay": 3.49,
@@ -58,9 +58,9 @@
       "cash": 421.1
     },
     "CAN": {
-      "incomePerDay": 17.42,
+      "incomePerDay": 17.41,
       "provinces": 12,
-      "cash": 722.6
+      "cash": 722.3
     },
     "CHE": {
       "incomePerDay": 6.29,
@@ -148,9 +148,9 @@
       "cash": 4714.7
     },
     "GBR": {
-      "incomePerDay": 173.99,
+      "incomePerDay": 173.98,
       "provinces": 390,
-      "cash": 5419.7
+      "cash": 5419.4
     },
     "GRC": {
       "incomePerDay": 10.71,
@@ -193,9 +193,9 @@
       "cash": 237.5
     },
     "ITA": {
-      "incomePerDay": 48.02,
+      "incomePerDay": 47.99,
       "provinces": 110,
-      "cash": 1640.6
+      "cash": 1639.7
     },
     "JPN": {
       "incomePerDay": 56.98,
@@ -228,9 +228,9 @@
       "cash": 298.7
     },
     "MAN": {
-      "incomePerDay": 3.33,
+      "incomePerDay": 3.45,
       "provinces": 3,
-      "cash": 299.9
+      "cash": 303.5
     },
     "MCO": {
       "incomePerDay": 1.05,
@@ -283,9 +283,9 @@
       "cash": 396.5
     },
     "POL": {
-      "incomePerDay": 19.03,
+      "incomePerDay": 19.01,
       "provinces": 20,
-      "cash": 770.9
+      "cash": 770.3
     },
     "PRT": {
       "incomePerDay": 14.77,
@@ -338,14 +338,14 @@
       "cash": 345.5
     },
     "USA": {
-      "incomePerDay": 249.69,
+      "incomePerDay": 249.67,
       "provinces": 72,
-      "cash": 7690.7
+      "cash": 7690.1
     },
     "USSR": {
-      "incomePerDay": 149.62,
+      "incomePerDay": 149.6,
       "provinces": 334,
-      "cash": 4688.6
+      "cash": 4688
     },
     "VAT": {
       "incomePerDay": 1.05,

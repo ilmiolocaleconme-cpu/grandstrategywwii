@@ -2984,8 +2984,8 @@
      "punteggio": 4,
      "periodoBase": "1933-35",
      "punteggioMax": 6,
-     "punti": 0.994,
-     "puntiMax": 2.872,
+     "punti": 0.988,
+     "puntiMax": 2.855,
      "province": [
       "P_ALG_ALGER",
       "P_ALG_BONE",
@@ -3009,8 +3009,8 @@
      "punteggio": 7,
      "periodoBase": "1935-45",
      "punteggioMax": 9,
-     "punti": 4.882,
-     "puntiMax": 14.108,
+     "punti": 4.853,
+     "puntiMax": 14.026,
      "province": [
       "P_ARG_BUENOS_AIRES",
       "P_ARG_CORDOBA",
@@ -3025,8 +3025,8 @@
      "punteggio": 7,
      "periodoBase": "1933-35",
      "punteggioMax": 9,
-     "punti": 4.882,
-     "puntiMax": 14.108,
+     "punti": 4.853,
+     "puntiMax": 14.026,
      "province": [
       "P_AUS_NEW_SOUTH_WALES",
       "P_AUS_NORFOLK",
@@ -3046,8 +3046,8 @@
      "punteggio": 2,
      "periodoBase": "1933-35",
      "punteggioMax": 4,
-     "punti": 0.344,
-     "puntiMax": 0.994,
+     "punti": 0.342,
+     "puntiMax": 0.988,
      "province": [
       "P_AUT_BURGENLAND",
       "P_AUT_LOWER_AUSTRIA",
@@ -3062,8 +3062,8 @@
      "punteggio": 2,
      "periodoBase": "1933-35",
      "punteggioMax": 4,
-     "punti": 0.344,
-     "puntiMax": 0.994,
+     "punti": 0.342,
+     "puntiMax": 0.988,
      "province": [
       "P_BEL_ANTWERP",
       "P_BEL_BRABANT",
@@ -3084,8 +3084,8 @@
      "punteggio": 4,
      "periodoBase": "1933-35",
      "punteggioMax": 6,
-     "punti": 0.994,
-     "puntiMax": 2.872,
+     "punti": 0.988,
+     "puntiMax": 2.855,
      "province": [
       "P_BGR_BURGAS",
       "P_BGR_GABROVO",
@@ -3117,8 +3117,8 @@
      "punteggio": 8,
      "periodoBase": "1935-45",
      "punteggioMax": 10,
-     "punti": 8.299,
-     "puntiMax": 23.984,
+     "punti": 8.251,
+     "puntiMax": 23.845,
      "province": [
       "P_CAN_ALBERTA",
       "P_CAN_MANITOBA",
@@ -3133,8 +3133,8 @@
      "punteggio": 5,
      "periodoBase": "1933-35",
      "punteggioMax": 7,
-     "punti": 1.689,
-     "puntiMax": 4.882,
+     "punti": 1.679,
+     "puntiMax": 4.853,
      "province": [
       "P_CZE_BOHEMIA",
       "P_CZE_MORAVIAN_SILESIAN_COUNTRY",
@@ -3150,8 +3150,8 @@
      "punteggio": 1,
      "periodoBase": "1933-35",
      "punteggioMax": 3,
-     "punti": 0.202,
-     "puntiMax": 0.584,
+     "punti": 0.201,
+     "puntiMax": 0.581,
      "province": [
       "P_KOR_DAEGU",
       "P_KOR_GANGWON",
@@ -3183,8 +3183,8 @@
      "punteggio": 2,
      "periodoBase": "1933-35",
      "punteggioMax": 4,
-     "punti": 0.344,
-     "puntiMax": 0.994,
+     "punti": 0.342,
+     "puntiMax": 0.988,
      "province": [
       "P_DNK_HOVEDSTADEN",
       "P_DNK_MIDTJYLLAND",
@@ -3201,8 +3201,8 @@
      "punteggio": 4,
      "periodoBase": "1933-35",
      "punteggioMax": 6,
-     "punti": 0.994,
-     "puntiMax": 2.872,
+     "punti": 0.988,
+     "puntiMax": 2.855,
      "province": [
       "P_EGY_AD_DAQAHLIYAH",
       "P_EGY_AL_BUHAYRAH",
@@ -3224,8 +3224,8 @@
      "punteggio": 1,
      "periodoBase": "1933-35",
      "punteggioMax": 3,
-     "punti": 0.202,
-     "puntiMax": 0.584,
+     "punti": 0.201,
+     "puntiMax": 0.581,
      "province": [
       "P_EST_HARJU",
       "P_EST_JARVA",
@@ -3247,8 +3247,8 @@
      "punteggio": 1,
      "periodoBase": "1933-35",
      "punteggioMax": 3,
-     "punti": 0.202,
-     "puntiMax": 0.584,
+     "punti": 0.201,
+     "puntiMax": 0.581,
      "province": [
       "P_FIN_ALAND",
       "P_FIN_CENTRAL_FINLAND",
@@ -3279,8 +3279,8 @@
      "punteggio": 8,
      "periodoBase": "1933-35",
      "punteggioMax": 10,
-     "punti": 8.299,
-     "puntiMax": 23.984,
+     "punti": 8.251,
+     "puntiMax": 23.845,
      "province": [
       "P_FRA_AIN",
       "P_FRA_AISNE",
@@ -3372,8 +3372,8 @@
      "punteggio": 7,
      "periodoBase": "1933-35",
      "punteggioMax": 9,
-     "punti": 4.882,
-     "puntiMax": 14.108,
+     "punti": 4.853,
+     "puntiMax": 14.026,
      "province": [
       "P_DEU_BADEN",
       "P_DEU_BAYERISCHE_OSTMARK",
@@ -3417,8 +3417,8 @@
      "punteggio": 4,
      "periodoBase": "1933-35",
      "punteggioMax": 6,
-     "punti": 0.994,
-     "puntiMax": 2.872,
+     "punti": 0.988,
+     "puntiMax": 2.855,
      "province": [
       "P_JPN_AICHI_PREFECTURE",
       "P_JPN_AKITA_PREFECTURE",
@@ -3470,8 +3470,8 @@
      "punteggio": 3,
      "periodoBase": "1933-35",
      "punteggioMax": 5,
-     "punti": 0.584,
-     "puntiMax": 1.689,
+     "punti": 0.581,
+     "puntiMax": 1.679,
      "province": [
       "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI",
       "P_GRC_ATTIKI",
@@ -3489,8 +3489,8 @@
      "punteggio": 8,
      "periodoBase": "1935-45",
      "punteggioMax": 10,
-     "punti": 8.299,
-     "puntiMax": 23.984,
+     "punti": 8.251,
+     "puntiMax": 23.845,
      "province": [
       "P_IND_PUNJAB",
       "P_IND_PUNJAB_PB",
@@ -3505,8 +3505,8 @@
      "punteggio": 1,
      "periodoBase": "1933-35",
      "punteggioMax": 3,
-     "punti": 0.202,
-     "puntiMax": 0.584,
+     "punti": 0.201,
+     "puntiMax": 0.581,
      "province": [
       "P_IRL_CONNACHT",
       "P_IRL_DUBLINO",
@@ -3523,8 +3523,8 @@
      "punteggio": 8,
      "periodoBase": "1933-35",
      "punteggioMax": 10,
-     "punti": 8.299,
-     "puntiMax": 23.984,
+     "punti": 8.251,
+     "puntiMax": 23.845,
      "province": [
       "P_ITA_AGRIGENTO",
       "P_ITA_ANCONA",
@@ -3576,8 +3576,8 @@
      "punteggio": 5,
      "periodoBase": "1933-35",
      "punteggioMax": 7,
-     "punti": 1.689,
-     "puntiMax": 4.882,
+     "punti": 1.679,
+     "puntiMax": 4.853,
      "province": [
       "P_YUG_BANJA_LUKA",
       "P_YUG_BEOGRAD",
@@ -3612,8 +3612,8 @@
      "punteggio": 1,
      "periodoBase": "1933-35",
      "punteggioMax": 3,
-     "punti": 0.202,
-     "puntiMax": 0.584,
+     "punti": 0.201,
+     "puntiMax": 0.581,
      "province": [
       "P_LVA_KURZEME",
       "P_LVA_LATGALE",
@@ -3631,8 +3631,8 @@
      "punteggio": 1,
      "periodoBase": "1933-35",
      "punteggioMax": 3,
-     "punti": 0.202,
-     "puntiMax": 0.584,
+     "punti": 0.201,
+     "puntiMax": 0.581,
      "province": [
       "P_LTU_ALYTUS",
       "P_LTU_KAUNAS",
@@ -3648,6 +3648,22 @@
      ]
     },
     {
+     "id": "wheat|Manciukuo|pianure",
+     "controllo": "Giappone",
+     "paese": "Manciukuo",
+     "luogo": "Pianure e colline cerealicole",
+     "punteggio": 3,
+     "periodoBase": "1933-35",
+     "punteggioMax": 5,
+     "punti": 0.581,
+     "puntiMax": 1.679,
+     "province": [
+      "P_MAN_HEILONGJIANG",
+      "P_MAN_JILIN",
+      "P_MAN_LIAONING"
+     ]
+    },
+    {
      "id": "wheat|Marocco francese|pianure",
      "controllo": "Francia",
      "paese": "Marocco francese",
@@ -3655,8 +3671,8 @@
      "punteggio": 3,
      "periodoBase": "1933-35",
      "punteggioMax": 5,
-     "punti": 0.584,
-     "puntiMax": 1.689,
+     "punti": 0.581,
+     "puntiMax": 1.679,
      "province": [
       "P_MAR_CHAOUIA___OUARDIGHA",
       "P_MAR_DOUKKALA___ABDA",
@@ -3676,8 +3692,8 @@
      "punteggio": 2,
      "periodoBase": "1933-35",
      "punteggioMax": 4,
-     "punti": 0.344,
-     "puntiMax": 0.994,
+     "punti": 0.342,
+     "puntiMax": 0.988,
      "province": [
       "P_MEX_BAJA_CALIFORNIA",
       "P_MEX_BAJA_CALIFORNIA_SUR",
@@ -3700,8 +3716,8 @@
      "punteggio": 2,
      "periodoBase": "1933-35",
      "punteggioMax": 4,
-     "punti": 0.344,
-     "puntiMax": 0.994,
+     "punti": 0.342,
+     "puntiMax": 0.988,
      "province": [
       "P_NLD_DRENTHE",
       "P_NLD_FRIESLAND",
@@ -3724,8 +3740,8 @@
      "punteggio": 1,
      "periodoBase": "1933-35",
      "punteggioMax": 3,
-     "punti": 0.202,
-     "puntiMax": 0.584,
+     "punti": 0.201,
+     "puntiMax": 0.581,
      "province": [
       "P_PAL_HAIFA",
       "P_PAL_HAZAFON",
@@ -3741,8 +3757,8 @@
      "punteggio": 5,
      "periodoBase": "1933-35",
      "punteggioMax": 7,
-     "punti": 1.689,
-     "puntiMax": 4.882,
+     "punti": 1.679,
+     "puntiMax": 4.853,
      "province": [
       "P_POL_BIAYSTOK_VOIVODESHIP",
       "P_POL_KIELCE_VOIVODESHIP",
@@ -3770,8 +3786,8 @@
      "punteggio": 3,
      "periodoBase": "1933-35",
      "punteggioMax": 5,
-     "punti": 0.584,
-     "puntiMax": 1.689,
+     "punti": 0.581,
+     "puntiMax": 1.679,
      "province": [
       "P_PRT_ANGRA_DO_HEROISMO",
       "P_PRT_AVEIRO",
@@ -3800,8 +3816,8 @@
      "punteggio": 5,
      "periodoBase": "1933-35",
      "punteggioMax": 7,
-     "punti": 1.689,
-     "puntiMax": 4.882,
+     "punti": 1.679,
+     "puntiMax": 4.853,
      "province": [
       "P_GBR_ABERDEEN",
       "P_GBR_ABERDEENSHIRE",
@@ -3906,8 +3922,8 @@
      "punteggio": 6,
      "periodoBase": "1933-35",
      "punteggioMax": 8,
-     "punti": 2.872,
-     "puntiMax": 8.299,
+     "punti": 2.855,
+     "puntiMax": 8.251,
      "province": [
       "P_ROM_ALBA",
       "P_ROM_ARAD",
@@ -3964,8 +3980,8 @@
      "punteggio": 2,
      "periodoBase": "1933-35",
      "punteggioMax": 4,
-     "punti": 0.344,
-     "puntiMax": 0.994,
+     "punti": 0.342,
+     "puntiMax": 0.988,
      "province": [
       "P_SYR_ALEPPO",
       "P_SYR_AR_RAQQAH",
@@ -3987,8 +4003,8 @@
      "punteggio": 7,
      "periodoBase": "1933-35",
      "punteggioMax": 9,
-     "punti": 4.882,
-     "puntiMax": 14.108,
+     "punti": 4.853,
+     "puntiMax": 14.026,
      "province": [
       "P_ESP_ALAVA",
       "P_ESP_ALBACETE",
@@ -4042,8 +4058,8 @@
      "punteggio": 9,
      "periodoBase": "1935-45",
      "punteggioMax": 10,
-     "punti": 14.108,
-     "puntiMax": 23.984,
+     "punti": 14.026,
+     "puntiMax": 23.845,
      "province": [
       "P_USA_KANSAS",
       "P_USA_MONTANA",
@@ -4060,8 +4076,8 @@
      "punteggio": 2,
      "periodoBase": "1933-35",
      "punteggioMax": 4,
-     "punti": 0.344,
-     "puntiMax": 0.994,
+     "punti": 0.342,
+     "puntiMax": 0.988,
      "province": [
       "P_ZAF_EASTERN_CAPE",
       "P_ZAF_FREE_STATE",
@@ -4082,8 +4098,8 @@
      "punteggio": 3,
      "periodoBase": "1933-35",
      "punteggioMax": 5,
-     "punti": 0.584,
-     "puntiMax": 1.689,
+     "punti": 0.581,
+     "puntiMax": 1.679,
      "province": [
       "P_SWE_BLEKINGE",
       "P_SWE_DALARNA",
@@ -4116,8 +4132,8 @@
      "punteggio": 1,
      "periodoBase": "1933-35",
      "punteggioMax": 3,
-     "punti": 0.202,
-     "puntiMax": 0.584,
+     "punti": 0.201,
+     "puntiMax": 0.581,
      "province": [
       "P_CHE_AARGAU",
       "P_CHE_APPENZELL_AUSSERRHODEN",
@@ -4139,8 +4155,8 @@
      "punteggio": 2,
      "periodoBase": "1933-35",
      "punteggioMax": 4,
-     "punti": 0.344,
-     "puntiMax": 0.994,
+     "punti": 0.342,
+     "puntiMax": 0.988,
      "province": [
       "P_TUN_BEJA",
       "P_TUN_BEN_AROUS_TUNIS_SUD",
@@ -4169,8 +4185,8 @@
      "punteggio": 6,
      "periodoBase": "1933-35",
      "punteggioMax": 8,
-     "punti": 2.872,
-     "puntiMax": 8.299,
+     "punti": 2.855,
+     "puntiMax": 8.251,
      "province": [
       "P_TUR_BALIKESIR",
       "P_TUR_BILECIK",
@@ -4204,8 +4220,8 @@
      "punteggio": 8,
      "periodoBase": "1935-45",
      "punteggioMax": 10,
-     "punti": 8.299,
-     "puntiMax": 23.984,
+     "punti": 8.251,
+     "puntiMax": 23.845,
      "province": [
       "P_USSR_DNIPROPETROVSK",
       "P_USSR_DONETSK",
@@ -4226,8 +4242,8 @@
      "punteggio": 5,
      "periodoBase": "1933-35",
      "punteggioMax": 7,
-     "punti": 1.689,
-     "puntiMax": 4.882,
+     "punti": 1.679,
+     "puntiMax": 4.853,
      "province": [
       "P_HUN_BACS_KISKUN",
       "P_HUN_BARANYA",
@@ -4254,147 +4270,147 @@
    ],
    "byControl": {
     "Regno Unito": {
-     "base": 18.489,
-     "max": 53.434
+     "base": 18.382,
+     "max": 53.124
     },
     "Stati Uniti": {
-     "base": 14.108,
-     "max": 23.984
+     "base": 14.026,
+     "max": 23.845
     },
     "Francia": {
-     "base": 10.565,
-     "max": 30.533
+     "base": 10.504,
+     "max": 30.355
     },
     "Italia": {
-     "base": 8.299,
-     "max": 23.984
+     "base": 8.251,
+     "max": 23.845
     },
     "URSS": {
-     "base": 8.299,
-     "max": 23.984
+     "base": 8.251,
+     "max": 23.845
     },
     "Argentina": {
-     "base": 4.882,
-     "max": 14.108
+     "base": 4.853,
+     "max": 14.026
     },
     "Australia": {
-     "base": 4.882,
-     "max": 14.108
+     "base": 4.853,
+     "max": 14.026
     },
     "Germania": {
-     "base": 4.882,
-     "max": 14.108
+     "base": 4.853,
+     "max": 14.026
     },
     "Spagna": {
-     "base": 4.882,
-     "max": 14.108
+     "base": 4.853,
+     "max": 14.026
     },
     "Romania": {
-     "base": 2.872,
-     "max": 8.299
+     "base": 2.855,
+     "max": 8.251
     },
     "Turchia": {
-     "base": 2.872,
-     "max": 8.299
-    },
-    "Cecoslovacchia": {
-     "base": 1.689,
-     "max": 4.882
-    },
-    "Jugoslavia": {
-     "base": 1.689,
-     "max": 4.882
-    },
-    "Polonia": {
-     "base": 1.689,
-     "max": 4.882
-    },
-    "Ungheria": {
-     "base": 1.689,
-     "max": 4.882
+     "base": 2.855,
+     "max": 8.251
     },
     "Giappone": {
-     "base": 1.196,
-     "max": 3.456
+     "base": 1.77,
+     "max": 5.115
+    },
+    "Cecoslovacchia": {
+     "base": 1.679,
+     "max": 4.853
+    },
+    "Jugoslavia": {
+     "base": 1.679,
+     "max": 4.853
+    },
+    "Polonia": {
+     "base": 1.679,
+     "max": 4.853
+    },
+    "Ungheria": {
+     "base": 1.679,
+     "max": 4.853
     },
     "Bulgaria": {
-     "base": 0.994,
-     "max": 2.872
+     "base": 0.988,
+     "max": 2.855
     },
     "Egitto": {
-     "base": 0.994,
-     "max": 2.872
+     "base": 0.988,
+     "max": 2.855
     },
     "Grecia": {
-     "base": 0.584,
-     "max": 1.689
+     "base": 0.581,
+     "max": 1.679
     },
     "Portogallo": {
-     "base": 0.584,
-     "max": 1.689
+     "base": 0.581,
+     "max": 1.679
     },
     "Svezia": {
-     "base": 0.584,
-     "max": 1.689
+     "base": 0.581,
+     "max": 1.679
     },
     "Austria": {
-     "base": 0.344,
-     "max": 0.994
+     "base": 0.342,
+     "max": 0.988
     },
     "Belgio": {
-     "base": 0.344,
-     "max": 0.994
+     "base": 0.342,
+     "max": 0.988
     },
     "Danimarca": {
-     "base": 0.344,
-     "max": 0.994
+     "base": 0.342,
+     "max": 0.988
     },
     "Messico": {
-     "base": 0.344,
-     "max": 0.994
+     "base": 0.342,
+     "max": 0.988
     },
     "Paesi Bassi": {
-     "base": 0.344,
-     "max": 0.994
+     "base": 0.342,
+     "max": 0.988
     },
     "Sudafrica": {
-     "base": 0.344,
-     "max": 0.994
+     "base": 0.342,
+     "max": 0.988
     },
     "Estonia": {
-     "base": 0.202,
-     "max": 0.584
+     "base": 0.201,
+     "max": 0.581
     },
     "Finlandia": {
-     "base": 0.202,
-     "max": 0.584
+     "base": 0.201,
+     "max": 0.581
     },
     "Irlanda": {
-     "base": 0.202,
-     "max": 0.584
+     "base": 0.201,
+     "max": 0.581
     },
     "Lettonia": {
-     "base": 0.202,
-     "max": 0.584
+     "base": 0.201,
+     "max": 0.581
     },
     "Lituania": {
-     "base": 0.202,
-     "max": 0.584
+     "base": 0.201,
+     "max": 0.581
     },
     "Svizzera": {
-     "base": 0.202,
-     "max": 0.584
+     "base": 0.201,
+     "max": 0.581
     }
    },
    "totale": {
-    "base": 100,
-    "max": 272.212,
+    "base": 99.999,
+    "max": 272.308,
     "potenziale": 2.72
    },
    "balance": {
     "topControl": "Regno Unito",
-    "topControlShare": 0.185,
-    "effectiveProducers": 10.88,
+    "topControlShare": 0.184,
+    "effectiveProducers": 10.99,
     "controls": 33
    }
   }
@@ -4653,8 +4669,8 @@
  "byProvince": {
   "P_ALG_ALGER": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_AURES": {
@@ -4665,14 +4681,14 @@
   },
   "P_ALG_BONE": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_CHELIFF": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_CONSTANTINE": {
@@ -4681,62 +4697,62 @@
     "max": 1.45
    },
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_HODNA": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_MOSTAGANEM": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_ORAN": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_SETIF": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_TEBESSA": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_TIARET": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_TITTERI": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ALG_TLEMCEN": {
    "wheat": {
-    "base": 0.083,
-    "max": 0.239
+    "base": 0.082,
+    "max": 0.238
    }
   },
   "P_ARG_BUENOS_AIRES": {
    "wheat": {
-    "base": 1.627,
-    "max": 4.703
+    "base": 1.618,
+    "max": 4.675
    }
   },
   "P_ARG_CHUBUT": {
@@ -4747,8 +4763,8 @@
   },
   "P_ARG_CORDOBA": {
    "wheat": {
-    "base": 1.627,
-    "max": 4.703
+    "base": 1.618,
+    "max": 4.675
    }
   },
   "P_ARG_MENDOZA": {
@@ -4771,68 +4787,68 @@
   },
   "P_ARG_SANTA_FE": {
    "wheat": {
-    "base": 1.627,
-    "max": 4.703
+    "base": 1.618,
+    "max": 4.675
    }
   },
   "P_AUS_NEW_SOUTH_WALES": {
    "wheat": {
-    "base": 0.61,
-    "max": 1.764
+    "base": 0.607,
+    "max": 1.753
    }
   },
   "P_AUS_NORFOLK": {
    "wheat": {
-    "base": 0.61,
-    "max": 1.764
+    "base": 0.607,
+    "max": 1.753
    }
   },
   "P_AUS_NORTHERN_TERRITORY": {
    "wheat": {
-    "base": 0.61,
-    "max": 1.764
+    "base": 0.607,
+    "max": 1.753
    }
   },
   "P_AUS_QUEENSLAND": {
    "wheat": {
-    "base": 0.61,
-    "max": 1.764
+    "base": 0.607,
+    "max": 1.753
    }
   },
   "P_AUS_SOUTH_AUSTRALIA": {
    "wheat": {
-    "base": 0.61,
-    "max": 1.764
+    "base": 0.607,
+    "max": 1.753
    }
   },
   "P_AUS_TASMANIA": {
    "wheat": {
-    "base": 0.61,
-    "max": 1.764
+    "base": 0.607,
+    "max": 1.753
    }
   },
   "P_AUS_VICTORIA": {
    "wheat": {
-    "base": 0.61,
-    "max": 1.764
+    "base": 0.607,
+    "max": 1.753
    }
   },
   "P_AUS_WESTERN_AUSTRALIA": {
    "wheat": {
-    "base": 0.61,
-    "max": 1.764
+    "base": 0.607,
+    "max": 1.753
    }
   },
   "P_AUT_BURGENLAND": {
    "wheat": {
-    "base": 0.115,
-    "max": 0.331
+    "base": 0.114,
+    "max": 0.329
    }
   },
   "P_AUT_LOWER_AUSTRIA": {
    "wheat": {
-    "base": 0.115,
-    "max": 0.331
+    "base": 0.114,
+    "max": 0.329
    }
   },
   "P_AUT_STYRIA": {
@@ -4843,8 +4859,8 @@
   },
   "P_AUT_UPPER_AUSTRIA": {
    "wheat": {
-    "base": 0.115,
-    "max": 0.331
+    "base": 0.114,
+    "max": 0.329
    }
   },
   "P_BEL_ANTWERP": {
@@ -4915,80 +4931,80 @@
   },
   "P_BGR_BURGAS": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_GABROVO": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_HASKOVO": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_KARDZHALI": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_LOVECH": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_MONTANA": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_PERNIK": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_PLEVEN": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_PLOVDIV": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_RAZGRAD": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_RUSE": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_SHUMEN": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_SLIVEN": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_SOFIA": {
@@ -4999,44 +5015,44 @@
   },
   "P_BGR_STARA_ZAGORA": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_TARGOVISHTE": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_VARNA": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_VELIKO_TARNOVO": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_VIDIN": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_VRATSA": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BGR_YAMBOL": {
    "wheat": {
-    "base": 0.05,
-    "max": 0.144
+    "base": 0.049,
+    "max": 0.143
    }
   },
   "P_BOL_ORURO": {
@@ -5127,14 +5143,14 @@
     "max": 1.716
    },
    "wheat": {
-    "base": 2.766,
-    "max": 7.995
+    "base": 2.75,
+    "max": 7.948
    }
   },
   "P_CAN_MANITOBA": {
    "wheat": {
-    "base": 2.766,
-    "max": 7.995
+    "base": 2.75,
+    "max": 7.948
    }
   },
   "P_CAN_NORTHWEST_TERRITORIES": {
@@ -5155,8 +5171,8 @@
   },
   "P_CAN_SASKATCHEWAN": {
    "wheat": {
-    "base": 2.766,
-    "max": 7.995
+    "base": 2.75,
+    "max": 7.948
    }
   },
   "P_CHE_AARGAU": {
@@ -5377,8 +5393,8 @@
     "max": 5.821
    },
    "wheat": {
-    "base": 0.422,
-    "max": 1.221
+    "base": 0.42,
+    "max": 1.213
    }
   },
   "P_CZE_MORAVIAN_SILESIAN_COUNTRY": {
@@ -5387,26 +5403,26 @@
     "max": 3.323
    },
    "wheat": {
-    "base": 0.422,
-    "max": 1.221
+    "base": 0.42,
+    "max": 1.213
    }
   },
   "P_CZE_SLOVAKIA": {
    "wheat": {
-    "base": 0.422,
-    "max": 1.221
+    "base": 0.42,
+    "max": 1.213
    }
   },
   "P_CZE_SUBCARPATHIAN_RUS": {
    "wheat": {
-    "base": 0.422,
-    "max": 1.221
+    "base": 0.42,
+    "max": 1.213
    }
   },
   "P_DEU_BADEN": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_BAYERISCHE_OSTMARK": {
@@ -5415,14 +5431,14 @@
     "max": 0.631
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_BERLIN": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_DUESSELDORF": {
@@ -5435,8 +5451,8 @@
     "max": 0.631
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_ESSEN": {
@@ -5445,8 +5461,8 @@
     "max": 7.036
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_FRANKEN": {
@@ -5455,26 +5471,26 @@
     "max": 0.631
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_HALLE_MERSEBURG": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_HAMBURG": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_HESSEN_NASSAU": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_KOBLENZ_TRIER": {
@@ -5483,8 +5499,8 @@
     "max": 0.631
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_KOELN_AACHEN": {
@@ -5493,26 +5509,26 @@
     "max": 0.631
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_KURHESSEN": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_KURMARK": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_MAGDEBURG_ANHALT": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_MAINFRANKEN": {
@@ -5521,14 +5537,14 @@
     "max": 0.631
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_MECKLENBURG_LUEBECK": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_MUENCHEN_OBERBAYERN": {
@@ -5537,38 +5553,38 @@
     "max": 0.631
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_NIEDERSCHLESIEN": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_OBERSCHLESIEN": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_OSTPREUSSEN": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_OST_HANNOVER": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_POMMERN": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_SAARPFALZ": {
@@ -5577,8 +5593,8 @@
     "max": 7.304
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_SACHSEN": {
@@ -5599,8 +5615,8 @@
     "max": 0.633
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_SCHLESWIG_HOLSTEIN": {
@@ -5609,8 +5625,8 @@
     "max": 0.858
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_SCHWABEN": {
@@ -5619,8 +5635,8 @@
     "max": 0.631
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG": {
@@ -5629,8 +5645,8 @@
     "max": 0.858
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_THUERINGEN": {
@@ -5643,20 +5659,20 @@
     "max": 2.198
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_WESER_EMS": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_WESTFALEN_NORD": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_WESTFALEN_SUED": {
@@ -5665,44 +5681,44 @@
     "max": 7.036
    },
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DEU_WUERTTEMBERG_HOHENZOLLERN": {
    "wheat": {
-    "base": 0.153,
-    "max": 0.441
+    "base": 0.152,
+    "max": 0.438
    }
   },
   "P_DNK_HOVEDSTADEN": {
    "wheat": {
-    "base": 0.069,
-    "max": 0.199
+    "base": 0.068,
+    "max": 0.198
    }
   },
   "P_DNK_MIDTJYLLAND": {
    "wheat": {
-    "base": 0.069,
-    "max": 0.199
+    "base": 0.068,
+    "max": 0.198
    }
   },
   "P_DNK_NORDJYLLAND": {
    "wheat": {
-    "base": 0.069,
-    "max": 0.199
+    "base": 0.068,
+    "max": 0.198
    }
   },
   "P_DNK_SJAELLAND": {
    "wheat": {
-    "base": 0.069,
-    "max": 0.199
+    "base": 0.068,
+    "max": 0.198
    }
   },
   "P_DNK_SYDDANMARK": {
    "wheat": {
-    "base": 0.069,
-    "max": 0.199
+    "base": 0.068,
+    "max": 0.198
    }
   },
   "P_ECU_SANTA_ELENA": {
@@ -5714,7 +5730,7 @@
   "P_EGY_AD_DAQAHLIYAH": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_AL_BAHR_AL_AHMAR": {
@@ -5726,37 +5742,37 @@
   "P_EGY_AL_BUHAYRAH": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_AL_GHARBIYAH": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_AL_ISKANDARIYAH": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_AL_MINUFIYAH": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_AL_QALYUBIYAH": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_ASH_SHARQIYAH": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_AS_SUWAYS": {
@@ -5768,37 +5784,37 @@
   "P_EGY_BUR_SA_ID": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_DUMYAT": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_EGY_KAFR_ASH_SHAYKH": {
    "wheat": {
     "base": 0.099,
-    "max": 0.287
+    "max": 0.286
    }
   },
   "P_ESP_ALAVA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_ALBACETE": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_ALICANTE": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_ALMERIA": {
@@ -5824,43 +5840,43 @@
   "P_ESP_BADAJOZ": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_BALEARES": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_BARCELONA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_BURGOS": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_CACERES": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_CADIZ": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_CASTELLON": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_CIUDAD_REAL": {
@@ -5870,7 +5886,7 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_CORDOBA": {
@@ -5884,7 +5900,7 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_CORUNA": {
@@ -5894,19 +5910,19 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_CUENCA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_GERONA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_GRANADA": {
@@ -5922,13 +5938,13 @@
   "P_ESP_GUADALAJARA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_GUIPUZCOA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_HUELVA": {
@@ -5942,13 +5958,13 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_HUESCA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_JAEN": {
@@ -5962,13 +5978,13 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_LAS_PALMAS": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_LEON": {
@@ -5980,7 +5996,7 @@
   "P_ESP_LOGRONO": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_LUGO": {
@@ -5990,13 +6006,13 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_MADRID": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_MURCIA": {
@@ -6006,13 +6022,13 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_NAVARRA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_ORENSE": {
@@ -6022,13 +6038,13 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_PALENCIA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_PONTEVEDRA": {
@@ -6038,13 +6054,13 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_SALAMANCA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_SANTANDER": {
@@ -6054,13 +6070,13 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_SEGOVIA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_SEVILLA": {
@@ -6074,43 +6090,43 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_SORIA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_TARRAGONA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_TERUEL": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_TOLEDO": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_VALENCIA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_VALLADOLID": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_VIZCAYA": {
@@ -6120,19 +6136,19 @@
    },
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_ZAMORA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_ESP_ZARAGOZA": {
    "wheat": {
     "base": 0.116,
-    "max": 0.336
+    "max": 0.334
    }
   },
   "P_EST_HARJU": {
@@ -6311,32 +6327,32 @@
   },
   "P_FRA_AIN": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_AISNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_ALLIER": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_ARDECHE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_ARDENNES": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_ARIEGE": {
@@ -6347,26 +6363,26 @@
   },
   "P_FRA_AUBE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_AUDE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_AVEYRON": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_BAS_RHIN": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_BOUCHES_DU_RHONE": {
@@ -6375,260 +6391,260 @@
     "max": 14.493
    },
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_CALVADOS": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_CANTAL": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_CHARENTE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_CHARENTE_MARITIME": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_CHER": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_CORREZE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_COTES_D_ARMOR": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_COTE_D_OR": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_CREUSE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_DEUX_SEVRES": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_DORDOGNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_DOUBS": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_DROME": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_EURE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_EURE_ET_LOIR": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_FINISTERE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_GARD": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_GERS": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_GIRONDE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_HAUTE_GARONNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_HAUTE_LOIRE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_HAUTE_MARNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_HAUTE_SAONE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_HAUTE_VIENNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_HAUT_RHIN": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_HERAULT": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_ILLE_ET_VILAINE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_INDRE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_INDRE_ET_LOIRE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_JURA": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_LANDES": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_LOIRE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_LOIRET": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_LOIRE_ATLANTIQUE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_LOIR_ET_CHER": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_LOT": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_LOT_ET_GARONNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_LOZERE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_MAINE_ET_LOIRE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_MANCHE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_MARNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_MAYENNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_MEURTHE_ET_MOSELLE": {
@@ -6641,20 +6657,20 @@
     "max": 9.604
    },
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_MEUSE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_MORBIHAN": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_MOSELLE": {
@@ -6667,14 +6683,14 @@
     "max": 9.604
    },
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_NIEVRE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_NORD": {
@@ -6683,20 +6699,20 @@
     "max": 6.209
    },
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_OISE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_ORNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_PAS_DE_CALAIS": {
@@ -6705,86 +6721,86 @@
     "max": 6.209
    },
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_PUY_DE_DOME": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_PYRENEES_ATLANTIQUES": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_RHONE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_SAONE_ET_LOIRE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_SARTHE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_SEINE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_SEINE_ET_MARNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_SEINE_ET_OISE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_SEINE_MARITIME": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_SOMME": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_TARN": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_TARN_ET_GARONNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_TERRITOIRE_DE_BELFORT": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_VAR": {
@@ -6793,38 +6809,38 @@
     "max": 14.493
    },
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_VAUCLUSE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_VENDEE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_VIENNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_VOSGES": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_FRA_YONNE": {
    "wheat": {
-    "base": 0.104,
-    "max": 0.3
+    "base": 0.103,
+    "max": 0.298
    }
   },
   "P_GBR_ABERDEEN": {
@@ -7442,7 +7458,7 @@
   "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI": {
    "wheat": {
     "base": 0.097,
-    "max": 0.282
+    "max": 0.28
    }
   },
   "P_GRC_ATTIKI": {
@@ -7456,25 +7472,25 @@
    },
    "wheat": {
     "base": 0.097,
-    "max": 0.282
+    "max": 0.28
    }
   },
   "P_GRC_AYION_OROS": {
    "wheat": {
     "base": 0.097,
-    "max": 0.282
+    "max": 0.28
    }
   },
   "P_GRC_IONIOI_NISOI": {
    "wheat": {
     "base": 0.097,
-    "max": 0.282
+    "max": 0.28
    }
   },
   "P_GRC_KENTRIKI_MAKEDONIA": {
    "wheat": {
     "base": 0.097,
-    "max": 0.282
+    "max": 0.28
    }
   },
   "P_GRC_NOTIO_AIGAIO": {
@@ -7484,7 +7500,7 @@
    },
    "wheat": {
     "base": 0.097,
-    "max": 0.282
+    "max": 0.28
    }
   },
   "P_GRC_STEREA_ELLADA": {
@@ -7500,19 +7516,19 @@
   "P_HUN_BACS_KISKUN": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_BARANYA": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_BEKES": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_BORSOD_ABAUJ_ZEMPLEN": {
@@ -7522,19 +7538,19 @@
    },
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_BUDAPEST": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_CSONGRAD": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_FEJER": {
@@ -7544,31 +7560,31 @@
    },
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_GYOR_MOSON_SOPRON": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_HAJDU_BIHAR": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_HEVES": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_JASZ_NAGYKUN_SZOLNOK": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_KOMAROM_ESZTERGOM": {
@@ -7578,43 +7594,43 @@
    },
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_NOGRAD": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_PEST": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_SOMOGY": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_SZABOLCS_SZATMAR_BEREG": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_TOLNA": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_VAS": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_VESZPREM": {
@@ -7624,13 +7640,13 @@
    },
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_HUN_ZALA": {
    "wheat": {
     "base": 0.084,
-    "max": 0.244
+    "max": 0.243
    }
   },
   "P_IND_ASSAM": {
@@ -7675,20 +7691,20 @@
   },
   "P_IND_PUNJAB": {
    "wheat": {
-    "base": 2.766,
-    "max": 7.995
+    "base": 2.75,
+    "max": 7.948
    }
   },
   "P_IND_PUNJAB_PB": {
    "wheat": {
-    "base": 2.766,
-    "max": 7.995
+    "base": 2.75,
+    "max": 7.948
    }
   },
   "P_IND_UTTAR_PRADESH": {
    "wheat": {
-    "base": 2.766,
-    "max": 7.995
+    "base": 2.75,
+    "max": 7.948
    }
   },
   "P_IND_WEST_BENGAL": {
@@ -7700,31 +7716,31 @@
   "P_IRL_CONNACHT": {
    "wheat": {
     "base": 0.04,
-    "max": 0.117
+    "max": 0.116
    }
   },
   "P_IRL_DUBLINO": {
    "wheat": {
     "base": 0.04,
-    "max": 0.117
+    "max": 0.116
    }
   },
   "P_IRL_LEINSTER": {
    "wheat": {
     "base": 0.04,
-    "max": 0.117
+    "max": 0.116
    }
   },
   "P_IRL_MUNSTER": {
    "wheat": {
     "base": 0.04,
-    "max": 0.117
+    "max": 0.116
    }
   },
   "P_IRL_ULSTER": {
    "wheat": {
     "base": 0.04,
-    "max": 0.117
+    "max": 0.116
    }
   },
   "P_IRN_KHUZESTAN": {
@@ -7749,26 +7765,26 @@
     "max": 9.183
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_ANCONA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_ASCOLI_PICENO": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_ASTI": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_BARI": {
@@ -7777,14 +7793,14 @@
     "max": 2.508
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_BOLOGNA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_CAGLIARI": {
@@ -7797,8 +7813,8 @@
     "max": 0.83
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_CALTANISSETTA": {
@@ -7811,26 +7827,26 @@
     "max": 9.183
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_CASERTA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_CATANIA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_DODECANESO": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_ENNA": {
@@ -7843,8 +7859,8 @@
     "max": 9.183
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_FIRENZE": {
@@ -7861,8 +7877,8 @@
     "max": 13.446
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_FOGGIA": {
@@ -7871,8 +7887,8 @@
     "max": 2.508
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_GENOVA": {
@@ -7897,8 +7913,8 @@
     "max": 0.83
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_LECCE": {
@@ -7907,32 +7923,32 @@
     "max": 2.508
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_MACERATA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_MATERA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_MILANO": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_NAPOLI": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_NUORO": {
@@ -7945,26 +7961,26 @@
     "max": 0.83
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_PARMA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_PERUGIA_NORD": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_PESCARA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_PISA": {
@@ -7981,8 +7997,8 @@
     "max": 13.446
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_POLA": {
@@ -7995,32 +8011,32 @@
     "max": 13.446
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_POTENZA_NORD": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_RAGUSA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_RAVENNA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_ROMA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_SASSARI": {
@@ -8033,8 +8049,8 @@
     "max": 0.83
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_SAVONA": {
@@ -8057,26 +8073,26 @@
     "max": 13.446
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_SIRACUSA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_TERNI": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_TRAPANI": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_TRIESTE": {
@@ -8089,38 +8105,38 @@
     "max": 13.446
    },
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_VENEZIA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_VERONA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_VITERBO": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_ITA_ZARA": {
    "wheat": {
-    "base": 0.207,
-    "max": 0.6
+    "base": 0.206,
+    "max": 0.596
    }
   },
   "P_JPN_AICHI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_AKITA_PREFECTURE": {
@@ -8130,7 +8146,7 @@
    },
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_AOMORI_PREFECTURE": {
@@ -8140,19 +8156,19 @@
    },
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_CHIBA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_FUKUI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_FUKUOKA_PREFECTURE": {
@@ -8162,19 +8178,19 @@
    },
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_FUKUSHIMA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_HIROSHIMA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_HOKKAIDO": {
@@ -8196,25 +8212,25 @@
    },
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_HYOGO_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_IBARAKI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_ISHIKAWA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_IWATE_PREFECTURE": {
@@ -8228,61 +8244,61 @@
    },
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_KAGAWA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_KAGOSHIMA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_KANAGAWA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_KOCHI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_KUMAMOTO_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_KYOTO_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_MIE_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_MIYAGI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_MIYAZAKI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_NAGASAKI_PREFECTURE": {
@@ -8292,7 +8308,7 @@
    },
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_NIIGATA_PREFECTURE": {
@@ -8302,37 +8318,37 @@
    },
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_OGASAWARA": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_OITA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_OKAYAMA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_OKINAWA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_OSAKA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_SAGA_PREFECTURE": {
@@ -8342,67 +8358,67 @@
    },
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_SAITAMA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_SHIGA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_SHIMANE_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_TOCHIGI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_TOKYO": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_TOTTORI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_TOYAMA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_WAKAYAMA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_YAMAGATA_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_JPN_YAMAGUCHI_PREFECTURE": {
    "wheat": {
     "base": 0.025,
-    "max": 0.072
+    "max": 0.071
    }
   },
   "P_KOR_DAEGU": {
@@ -8687,52 +8703,68 @@
     "max": 25.981
    }
   },
+  "P_MAN_HEILONGJIANG": {
+   "wheat": {
+    "base": 0.194,
+    "max": 0.56
+   }
+  },
+  "P_MAN_JILIN": {
+   "wheat": {
+    "base": 0.194,
+    "max": 0.56
+   }
+  },
   "P_MAN_LIAONING": {
    "coal": {
     "base": 4.297,
     "max": 12.417
+   },
+   "wheat": {
+    "base": 0.194,
+    "max": 0.56
    }
   },
   "P_MAR_CHAOUIA___OUARDIGHA": {
    "wheat": {
     "base": 0.073,
-    "max": 0.211
+    "max": 0.21
    }
   },
   "P_MAR_DOUKKALA___ABDA": {
    "wheat": {
     "base": 0.073,
-    "max": 0.211
+    "max": 0.21
    }
   },
   "P_MAR_GHARB___CHRARDA___BENI_HSSEN": {
    "wheat": {
     "base": 0.073,
-    "max": 0.211
+    "max": 0.21
    }
   },
   "P_MAR_GRAND_CASABLANCA": {
    "wheat": {
     "base": 0.073,
-    "max": 0.211
+    "max": 0.21
    }
   },
   "P_MAR_MARRAKECH___TENSIFT___AL_HAOUZ": {
    "wheat": {
     "base": 0.073,
-    "max": 0.211
+    "max": 0.21
    }
   },
   "P_MAR_ORIENTAL": {
    "wheat": {
     "base": 0.073,
-    "max": 0.211
+    "max": 0.21
    }
   },
   "P_MAR_RABAT___SALE___ZEMMOUR___ZAER": {
    "wheat": {
     "base": 0.073,
-    "max": 0.211
+    "max": 0.21
    }
   },
   "P_MAR_SOUSS___MASSA___DRAA": {
@@ -8744,7 +8776,7 @@
   "P_MAR_TAZA___AL_HOCEIMA___TAOUNATE": {
    "wheat": {
     "base": 0.073,
-    "max": 0.211
+    "max": 0.21
    }
   },
   "P_MEX_BAJA_CALIFORNIA": {
@@ -9133,26 +9165,26 @@
   },
   "P_PAL_HAIFA": {
    "wheat": {
-    "base": 0.051,
-    "max": 0.146
+    "base": 0.05,
+    "max": 0.145
    }
   },
   "P_PAL_HAZAFON": {
    "wheat": {
-    "base": 0.051,
-    "max": 0.146
+    "base": 0.05,
+    "max": 0.145
    }
   },
   "P_PAL_TEL_AVIV": {
    "wheat": {
-    "base": 0.051,
-    "max": 0.146
+    "base": 0.05,
+    "max": 0.145
    }
   },
   "P_PAL_WEST_BANK": {
    "wheat": {
-    "base": 0.051,
-    "max": 0.146
+    "base": 0.05,
+    "max": 0.145
    }
   },
   "P_PER_JUNIN": {
@@ -9191,8 +9223,8 @@
   },
   "P_POL_BIAYSTOK_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_KIELCE_VOIVODESHIP": {
@@ -9205,8 +9237,8 @@
     "max": 2.3
    },
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_KRAKOW_VOIVODESHIP": {
@@ -9215,50 +9247,50 @@
     "max": 7.036
    },
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_LUBLIN_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_LWOW_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_NOWOGRODEK_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_ODZ_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_POLESIE_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_POMERANIAN_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_POZNAN_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_SILESIAN_VOIVODESHIP": {
@@ -9267,38 +9299,38 @@
     "max": 7.036
    },
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_STANISAWOW_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_TARNOPOL_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_VOLHYNIAN_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_WARSAW_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_POL_WILNO_VOIVODESHIP": {
    "wheat": {
-    "base": 0.106,
-    "max": 0.305
+    "base": 0.105,
+    "max": 0.303
    }
   },
   "P_PRT_ANGRA_DO_HEROISMO": {
@@ -9415,32 +9447,32 @@
   },
   "P_ROM_ALBA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_ARAD": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_ARGES": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BACAU": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BASARABIA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BIHOR": {
@@ -9449,44 +9481,44 @@
     "max": 1.801
    },
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BISTRITA_NASAUD": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BOTOSANI": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BRAILA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BRASOV": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BUCOVINA_DE_NORD": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BUCURESTI": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_BUZAU": {
@@ -9495,20 +9527,20 @@
     "max": 8.122
    },
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_CADRILATER": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_CALARASI": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_CARAS_SEVERIN": {
@@ -9517,26 +9549,26 @@
     "max": 0.265
    },
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_CLUJ": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_CONSTANTA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_COVASNA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_DAMBOVITA": {
@@ -9545,38 +9577,38 @@
     "max": 8.122
    },
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_DOLJ": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_GALATI": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_GIURGIU": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_GORJ": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_HARGHITA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_HUNEDOARA": {
@@ -9585,56 +9617,56 @@
     "max": 0.265
    },
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_IALOMITA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_IASI": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_ILFOV": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_MARAMURES": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_MEHEDINTI": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_MURES": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_NEAMT": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_OLT": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_PRAHOVA": {
@@ -9643,38 +9675,38 @@
     "max": 8.122
    },
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_SALAJ": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_SATU_MARE": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_SIBIU": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_SUCEAVA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_TELEORMAN": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_TIMIS": {
@@ -9683,32 +9715,32 @@
     "max": 0.265
    },
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_TULCEA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_VALCEA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_VASLUI": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_ROM_VRANCEA": {
    "wheat": {
-    "base": 0.064,
-    "max": 0.184
+    "base": 0.063,
+    "max": 0.183
    }
   },
   "P_SAU_EASTERN": {
@@ -10035,38 +10067,38 @@
   },
   "P_TUR_BALIKESIR": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_BILECIK": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_BURSA": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_CANAKKALE": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_DIYARBAKIR": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_EDIRNE": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_ELAZIG": {
@@ -10077,92 +10109,92 @@
   },
   "P_TUR_ESKISEHIR": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_GAZIANTEP": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_ISTANBUL": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_KILIS": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_KIRKLARELI": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_KIRSEHIR": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_KOCAELI": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_KONYA": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_MARDIN": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_OSMANIYE": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_SAMSUN": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_SANLIURFA": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_TEKIRDAG": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_USAK": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_YOZGAT": {
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_TUR_ZINGULDAK": {
@@ -10171,8 +10203,8 @@
     "max": 2.527
    },
    "wheat": {
-    "base": 0.131,
-    "max": 0.377
+    "base": 0.13,
+    "max": 0.375
    }
   },
   "P_USA_ALABAMA": {
@@ -10227,8 +10259,8 @@
   },
   "P_USA_KANSAS": {
    "wheat": {
-    "base": 2.822,
-    "max": 4.797
+    "base": 2.805,
+    "max": 4.769
    }
   },
   "P_USA_LOUISIANA": {
@@ -10249,14 +10281,14 @@
     "max": 4.435
    },
    "wheat": {
-    "base": 2.822,
-    "max": 4.797
+    "base": 2.805,
+    "max": 4.769
    }
   },
   "P_USA_NEBRASKA": {
    "wheat": {
-    "base": 2.822,
-    "max": 4.797
+    "base": 2.805,
+    "max": 4.769
    }
   },
   "P_USA_NEVADA": {
@@ -10267,8 +10299,8 @@
   },
   "P_USA_NORTH_DAKOTA": {
    "wheat": {
-    "base": 2.822,
-    "max": 4.797
+    "base": 2.805,
+    "max": 4.769
    }
   },
   "P_USA_OKLAHOMA": {
@@ -10285,8 +10317,8 @@
   },
   "P_USA_SOUTH_DAKOTA": {
    "wheat": {
-    "base": 2.822,
-    "max": 4.797
+    "base": 2.805,
+    "max": 4.769
    }
   },
   "P_USA_TEXAS": {
@@ -10353,8 +10385,8 @@
     "max": 20.808
    },
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_USSR_DONETSK": {
@@ -10367,8 +10399,8 @@
     "max": 10.555
    },
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_USSR_IMERETI": {
@@ -10397,8 +10429,8 @@
   },
   "P_USSR_KRASNODAR": {
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_USSR_LUHANSK": {
@@ -10425,8 +10457,8 @@
     "max": 1.475
    },
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_USSR_SAKHALIN": {
@@ -10441,14 +10473,14 @@
     "max": 3.046
    },
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_USSR_SARATOV": {
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_USSR_SVERDLOVSK": {
@@ -10465,14 +10497,14 @@
   },
   "P_USSR_ULYANOVSK": {
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_USSR_VOLGOGRAD": {
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_USSR_ZAPORIZHZHYA": {
@@ -10485,8 +10517,8 @@
     "max": 20.808
    },
    "wheat": {
-    "base": 0.922,
-    "max": 2.665
+    "base": 0.917,
+    "max": 2.649
    }
   },
   "P_VEN_ZULIA": {
@@ -10506,13 +10538,13 @@
    },
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_BEOGRAD": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_BIHAC": {
@@ -10526,7 +10558,7 @@
    },
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_CETINJE": {
@@ -10538,7 +10570,7 @@
   "P_YUG_CUPRIJA": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_DUBROVNIK": {
@@ -10548,37 +10580,37 @@
    },
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_KARLOVAC": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_KRAGUJEVAC": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_KRUSEVAC": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_LJUBLJANA": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_MARIBOR": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_MOSTAR": {
@@ -10590,31 +10622,31 @@
   "P_YUG_NIS": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_NOVI_SAD": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_OSIJEK": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_POZAREVAC": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_PRISTINA": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_SABAC": {
@@ -10624,7 +10656,7 @@
    },
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_SARAJEVO": {
@@ -10640,7 +10672,7 @@
   "P_YUG_SMEDEREVO": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_SPLIT": {
@@ -10650,7 +10682,7 @@
    },
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_TRAVNIK": {
@@ -10674,7 +10706,7 @@
    },
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_VALJEVO": {
@@ -10684,25 +10716,25 @@
    },
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_VUKOVAR": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_ZAGREB": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_YUG_ZAJECAR": {
    "wheat": {
     "base": 0.073,
-    "max": 0.212
+    "max": 0.211
    }
   },
   "P_ZAF_EASTERN_CAPE": {
