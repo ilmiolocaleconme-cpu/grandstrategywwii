@@ -17,7 +17,7 @@ import { unitOf } from '../rules/unitRegistry.js';
 import { enemiesOf } from '../rules/war.js';
 import { positionOf } from '../rules/movement.js';
 import { provinceController, isFighter } from './warCommon.js';
-import { ATTACK_RATIO, powerOfUnit } from './theaterPlan.js';
+import { ATTACK_RATIO, powerOfUnit, groundDefenseOf } from './theaterPlan.js';
 
 export const PERIOD = 7;
 export const MAX_DEPTH = 6;
@@ -112,7 +112,7 @@ function planNation(state, nation, ctx, net) {
   for (const q of targets.sort()) {
     const dist = bfs(net, q, (n) => ownProvince(n) || n === q, MAX_DEPTH);
     const near = idle.filter((u) => dist.has(u.pos) && u.pos !== q).sort((a, b) => dist.get(a.pos) - dist.get(b.pos) || (a.id < b.id ? -1 : 1));
-    const D = enemyPower.get(q) ?? 0;
+    const D = (enemyPower.get(q) ?? 0) * groundDefenseOf(ctx, net, q); // difesa pesata dal terreno (16/11/2026)
     const A = near.reduce((t, u) => t + u.power, 0);
     if (near.length && A >= ATTACK_RATIO * D) scored.push({ q, D, near, ratio: D === 0 ? Infinity : A / D });
   }

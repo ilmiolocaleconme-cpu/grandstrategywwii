@@ -84,6 +84,9 @@ import depotsFile from '../data/units/depots.json';
 import { createReinforcementSystem, setDivisionReinforcement, setDivisionPriority, depotRoute } from './game/reinforcementSystem.js';
 import { buildEquivalence } from './data/equipmentEquivalence.js';
 import combatEquipmentCfg from '../data/units/combat_equipment.json';
+import terrainCombatFile from '../data/units/terrain_combat.json';
+import { validateTerrainCombat } from './rules/terrainCombat.js';
+import { createRiverIndex } from './data/riverCrossings.js';
 import { buildCategoryOf, equipmentFill } from './rules/equipmentFill.js';
 import conditionConfig from '../data/units/condition_config.json';
 import commandTemplates from '../data/units/command_templates.json';
@@ -375,7 +378,11 @@ const onEquipmentLost = (state, unitId, lost) => {
 const AP_TECH = (technologiesFile.technologies ?? []).find((t) => t.id === 'TECH-AMMO-AP');
 const AP_MAX = AP_TECH?.unlocks?.find((x) => x.kind === 'ap_rounds')?.vsArmorMax ?? 0;
 const apRounds = (state, nation) => { const n = state.nations?.[nation]; return n && AP_MAX > 0 && techsOf(n).has('TECH-AMMO-AP') ? { max: AP_MAX, coverage: n.apCoverage ?? 0 } : null; };
-const THEATER_CTX = { apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+// Terreno e fiumi in battaglia (16/11/2026): numeri in data/units/terrain_combat.json (ipotesi di bilanciamento); il terreno (data/terrain.json) e i fiumi tra
+// posti confinanti (data/military/river_crossings.json) si caricano insieme alla rete di movimento. Finché mancano, la battaglia vale come prima (tutto ×1).
+const GAME_GROUND = { terrain: null, rivers: null };
+const TERRAIN_COMBAT_ERRORS = validateTerrainCombat(terrainCombatFile);
+const THEATER_CTX = { terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse); guarnigione Maginot
@@ -846,6 +853,14 @@ export default function App() {
     }).catch(() => { if (alive) setArmyNotice('Movimento non disponibile: file di adiacenza non caricato.'); });
     return () => { alive = false; };
   }, [!!game, !!provinces, !!citiesRaw, moveNet]); // eslint-disable-line react-hooks/exhaustive-deps
+  // terreno e fiumi per la battaglia: blocchi a parte (nel precache), caricati a partita aperta; un errore lascia la battaglia senza terreno
+  useEffect(() => {
+    if (!game || (GAME_GROUND.terrain && GAME_GROUND.rivers)) return undefined;
+    let alive = true;
+    withRetry(() => import('../data/terrain.json')).then((m) => { if (alive) GAME_GROUND.terrain = m.default; }).catch(() => {});
+    withRetry(() => import('../data/military/river_crossings.json')).then((m) => { if (alive) GAME_GROUND.rivers = createRiverIndex(m.default); }).catch(() => {});
+    return () => { alive = false; };
+  }, [!!game]); // eslint-disable-line react-hooks/exhaustive-deps
   // rotte marittime: servono le zone di mare e le province (stesso ordine di data/sea_zones.json); i porti vengono da data/ports e da state.ports
   useEffect(() => {
     if (!game || GAME_SEA.sea || !seaFile || !provinces) return;

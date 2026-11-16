@@ -70,7 +70,7 @@ export default function TheaterPanel({ draft, unitCount, cards, alerts, onForce,
           <h3>Ultime battaglie</h3>
           {log.length === 0 ? <p className="muted">Nessuna battaglia.</p> : (
             <ul className="th-log">
-              {log.map((e, i) => <li key={`${e.day}-${i}`}><strong>{e.date}</strong> {nameOf(e.province)}: {e.outcome}{e.defenders.length ? ` · perdite ${e.attackerLoss} att. / ${e.defenderLoss} dif.` : ''}</li>)}
+              {log.map((e, i) => <li key={`${e.day}-${i}`}><strong>{e.date}</strong> {nameOf(e.province)}: {e.outcome}{e.defenders.length ? ` · perdite ${e.attackerLoss} att. / ${e.defenderLoss} dif.` : ''}{e.defense ? ` · terreno: difesa +${Math.round((e.defense - 1) * 100)}%` : ''}{e.crossing ? ` · ${e.crossing} div. oltre il fiume` : ''}</li>)}
             </ul>
           )}
         </div>

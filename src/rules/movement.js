@@ -7,7 +7,8 @@
 //  - MARCH_KM_PER_DAY: velocità di marcia per categoria, valori di partenza di bilanciamento, NON dati storici;
 //  - la distanza è tra i centri dei riquadri delle province (approssimazione);
 //  - si entra solo in province della propria nazione (nessuna guerra, diplomazia o accesso modellati: vedi `canEnter`).
-// NON MODELLATI: fiumi e attraversamenti (ponti, guadi), terreno, stagione, rifornimenti, combattimento, mare, ferrovia.
+// `from` (facoltativo): per ogni unità l'ultimo posto da cui è arrivata con un passo di marcia; lo legge la battaglia (fiume attraversato).
+// NON MODELLATI: tempi di attraversamento di fiumi (ponti, guadi), terreno, stagione, rifornimenti, mare, ferrovia.
 
 export const MOVEMENT_SCHEMA = 'movement-v1';
 export const MARCH_KM_PER_DAY = Object.freeze({ infantry: 20, mountain: 15, airborne: 20, cavalry: 35, motorized: 50, mechanized: 40, armored: 35, command: 20 });
@@ -95,6 +96,7 @@ export function tickMovement(movement, kmBetween) {
   const ids = Object.keys(movement.orders);
   if (ids.length === 0) return movement;
   const positions = { ...movement.positions };
+  const from = { ...movement.from }; // ultimo posto da cui l'unità è arrivata marciando (16/11/2026): serve alla battaglia per l'attraversamento dei fiumi
   const orders = {};
   for (const id of ids.sort()) {
     const o = movement.orders[id];
@@ -102,11 +104,12 @@ export function tickMovement(movement, kmBetween) {
     if (daysLeft > 0) { orders[id] = { ...o, daysLeft }; continue; }
     const leg = o.leg + 1;
     positions[id] = o.path[leg];
+    from[id] = o.path[o.leg];
     if (leg < o.path.length - 1) {
       orders[id] = { ...o, leg, daysLeft: hopDays(kmBetween(o.path[leg], o.path[leg + 1]), o.category) };
     }
   }
-  return { ...movement, positions, orders };
+  return { ...movement, positions, orders, from };
 }
 
 /** Errori di forma (lista vuota = valido). */
@@ -116,6 +119,10 @@ export function validateMovement(m) {
   if (m.schema !== MOVEMENT_SCHEMA) errors.push(`movimento: schema ${JSON.stringify(m.schema)}`);
   if (m.positions === null || typeof m.positions !== 'object') errors.push('movimento: positions mancante');
   else for (const [k, v] of Object.entries(m.positions)) if (typeof v !== 'string' || v === '') errors.push(`movimento: posizione di ${k} non valida`);
+  if (m.from !== undefined) { // facoltativo: assente nei salvataggi precedenti al 16/11/2026
+    if (m.from === null || typeof m.from !== 'object' || Array.isArray(m.from)) errors.push('movimento: from non valido');
+    else for (const [k, v] of Object.entries(m.from)) if (typeof v !== 'string' || v === '') errors.push(`movimento: provenienza di ${k} non valida`);
+  }
   if (m.orders === null || typeof m.orders !== 'object') return [...errors, 'movimento: orders mancante'];
   for (const [k, o] of Object.entries(m.orders)) {
     if (!Array.isArray(o?.path) || o.path.length < 2 || !o.path.every((p) => typeof p === 'string')) errors.push(`movimento: percorso di ${k} non valido`);

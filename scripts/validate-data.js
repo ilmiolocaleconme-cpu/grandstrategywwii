@@ -14,6 +14,8 @@ import { idsChecksum } from '../src/data/adjacency.js';
 import { loadProvinces } from './load-provinces.js';
 import { readFile as readFileTerrain } from 'node:fs/promises';
 import { validateTerrain } from '../src/data/terrain.js';
+import { validateTerrainCombat } from '../src/rules/terrainCombat.js';
+import { validateRiverCrossings } from '../src/data/riverCrossings.js';
 import { parseCsv } from '../src/data/csv.js';
 import { loadIndustryCatalog, validateIndustryCatalog, validateProvinceIndustry } from '../src/data/industry.js';
 import { buildSlotCatalog } from '../src/rules/slots.js';
@@ -155,6 +157,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const smallArmsDoc = JSON.parse(await text('units/models/fucili_1930_1945.json'));
     errors.push(...validateSmallArms(smallArmsDoc, { techIds, nationIds: new Set(catalog.nations.map((n) => n.id)) }));
     errors.push(...validateRifleQuality(smallArmsDoc, { techIds }));
+    errors.push(...validateTerrainCombat(JSON.parse(await text('units/terrain_combat.json'))));
+    errors.push(...validateRiverCrossings(JSON.parse(await text('military/river_crossings.json')), { placeIds: new Set(provinceIds), riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
     errors.push(...validateCombatEquipment(JSON.parse(await text('units/combat_equipment.json')), { categories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK']) }));
     for (const [n] of Object.entries(techDoc.initialResearch ?? {})) if (!catalog.nations.some((x) => x.id === n)) errors.push(`tecnologie: initialResearch per la nazione inesistente ${n}`);
     errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ levels: levelsDoc, security: securityDoc, ports: JSON.parse(await text('ports/port_levels.json')), smallArms: smallArmsDoc, recipes: JSON.parse(await text('industry/recipes.json')) }) }));

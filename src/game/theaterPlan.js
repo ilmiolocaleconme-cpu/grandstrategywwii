@@ -16,9 +16,16 @@ import { unitOf } from '../rules/unitRegistry.js';
 import { atWar } from '../rules/war.js';
 import { positionOf, findPath } from '../rules/movement.js';
 import { entrenchBonus, DEFAULT_ENTRENCH } from '../rules/entrench.js';
+import { terrainDefense } from '../rules/terrainCombat.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
 
 export const ATTACK_RATIO = 1.5;
+
+/** Moltiplicatore di difesa del terreno del posto `p` (1 senza dati, nelle zone urbane o senza configurazione): i piani d'attacco lo contano nella superiorità richiesta. */
+export function groundDefenseOf(ctx, net, p) {
+  if (!ctx?.terrainCfg || !ctx.terrainOf || net.isCity?.(p) === true) return 1;
+  return terrainDefense(ctx.terrainOf(net.provinceOf?.(p) ?? p) ?? null, ctx.terrainCfg);
+}
 export const DEFENSE_MARGIN = 1.2;
 export const MIN_GARRISON = 10000;
 export const DIVISION_POWER_REF = 10000; // una divisione ≈ 10000 di potenza: serve solo a dire "mancano circa N divisioni" nell'avviso
@@ -135,7 +142,7 @@ function planAttack(state, ctx, net, a) {
   const pending = a.provinces.filter((p) => provinceController(state, net, p) !== a.nation);
   if (pending.length === 0) return { orders: [], alerts: [] };
   const enemy = enemyPowerMap(state, ctx, a.nation, { defending: true });
-  const needOf = (q) => ((enemy.get(q) ?? 0) > 0 ? ATTACK_RATIO * enemy.get(q) : 0);
+  const needOf = (q) => ((enemy.get(q) ?? 0) > 0 ? ATTACK_RATIO * enemy.get(q) * groundDefenseOf(ctx, net, q) : 0); // il terreno alza la superiorità richiesta
   const focus = [...pending].sort((x, y) => needOf(x) - needOf(y) || cmpId(x, y))[0];
   const need = needOf(focus);
   const canEnter = canEnterWar(state, net, a.nation);

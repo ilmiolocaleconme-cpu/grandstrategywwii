@@ -8,8 +8,10 @@
 //  3. incarichi: le unità senza ordine si dirigono verso l'obiettivo più vicino (attacco: province da prendere; difesa: province da tenere);
 //     l'incarico di attacco si chiude quando tutti gli obiettivi sono dell'incaricante.
 // PROVVISORIO / MANCANTE: l'IA non dichiara guerra, non attacca e non assegna incarichi (i difensori restano e combattono dove sono);
-// terreno, fiumi e ponti non modificano ancora la battaglia (defenseMultiplier = 1 salvo `ctx.defenseMultiplier`); niente rifornimenti, morale
-// o comandanti nell'esito; nessun dato storico di guerra: la guerra si dichiara a mano.
+// TERRENO E FIUMI (16/11/2026): con `ctx.terrainOf` e `ctx.terrainCfg` il terreno della provincia moltiplica la difesa e pesa sulla potenza di
+// ogni divisione secondo la categoria; con `ctx.riverBetween` un attaccante arrivato attraversando un fiume medio o grande combatte ridotto
+// finché resta in quel posto (src/rules/terrainCombat.js; provenienza da state.movement.from). Lo stato dei ponti non conta ancora.
+// Niente rifornimenti, morale o comandanti nell'esito; nessun dato storico di guerra: la guerra si dichiara a mano.
 import { createWar, declareWar, atWar, enemiesOf } from '../rules/war.js';
 import { unitOf } from '../rules/unitRegistry.js';
 import { createTheaters, createAssignment, cancelAssignment, completeAssignment, dropUnits, activeAssignments } from '../rules/theater.js';
@@ -19,6 +21,7 @@ import { provinceStateOf, patchProvinceState } from './provinceState.js';
 import { controllerOf } from '../map/geo.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
 import { planAssignment } from './theaterPlan.js';
+import { terrainDefense, terrainCategoryFactor, riverFactor } from '../rules/terrainCombat.js';
 import { createEntrench, entrenchBonus, setDig, tickEntrench, validateEntrench, DEFAULT_ENTRENCH } from '../rules/entrench.js';
 export { provinceController, canEnterWar, isFighter };
 
@@ -122,7 +125,35 @@ function applyLoss(state, id, loss, ctx = {}) {
 function setPosition(state, unitId, province, ctx) {
   const mv = state.movement ?? { schema: 'movement-v1', positions: {}, orders: {} };
   const { [unitId]: _gone, ...orders } = mv.orders;
-  return { ...state, movement: { ...mv, positions: { ...mv.positions, [unitId]: province }, orders } };
+  const next = { ...mv, positions: { ...mv.positions, [unitId]: province }, orders };
+  if (mv.from && unitId in mv.from) { const { [unitId]: _from, ...from } = mv.from; next.from = from; } // una ritirata non è un attraversamento
+  return { ...state, movement: next };
+}
+
+/**
+ * Terreno e fiumi di una battaglia nel posto `p`: { defense, attackers, defenders, crossing }. `defense` moltiplica la potenza dei difensori;
+ * le due liste sono le unità con `mult` (terreno per categoria; per gli attaccanti anche il fiume attraversato); `crossing` = id degli
+ * attaccanti penalizzati dal fiume. Senza `ctx.terrainOf` / `ctx.riverBetween` tutto vale 1.
+ */
+export function battleGround(state, ctx, net, p, attackers, defenders) {
+  const cfg = ctx.terrainCfg ?? null;
+  const terrain = cfg && net.isCity?.(p) !== true ? ctx.terrainOf?.(net.provinceOf?.(p) ?? p) ?? null : null;
+  const canon = net.canon ?? ((x) => x);
+  const crossing = [];
+  const river = (u) => {
+    const from = state.movement?.from?.[u.id];
+    if (!cfg || !ctx.riverBetween || !from || canon(from) === p) return 1;
+    const f = riverFactor(ctx.riverBetween(canon(from), p)?.widthClass, cfg);
+    if (f < 1) crossing.push(u.id);
+    return f;
+  };
+  const ground = (u) => terrainCategoryFactor(u.category, terrain, cfg);
+  return {
+    defense: terrainDefense(terrain, cfg),
+    attackers: attackers.map((u) => ({ ...u, mult: ground(u) * river(u) })),
+    defenders: defenders.map((u) => ({ ...u, mult: ground(u) })),
+    crossing,
+  };
 }
 
 function stopUnits(state, ids) {
@@ -160,7 +191,8 @@ function battlePhase(state, ctx, net) {
     const solve = net.isCity?.(p) === true ? resolveUrbanBattleDay : resolveBattleDay;
     // proiettili perforanti (13/11/2026): bonus contro la quota di corazzati dell'altra parte, se la nazione ha la tecnologia (ctx.apRounds → { max, coverage })
     const ap = (u, enemies) => { const a = ctx.apRounds?.(s, u.nation); return a ? apRoundsBonus(enemies, a.max, a.coverage) : 0; };
-    const r = solve({ attackers: attackers.map((u) => ({ ...u, bonus: u.rifle + ap(u, defenders) })), defenders: defenders.map((u) => ({ ...u, bonus: u.bonus + ap(u, attackers) })), defenseMultiplier: ctx.defenseMultiplier?.(p, s) ?? 1 });
+    const g = battleGround(s, ctx, net, p, attackers, defenders); // terreno della provincia e fiume attraversato dagli attaccanti
+    const r = solve({ attackers: g.attackers.map((u) => ({ ...u, bonus: u.rifle + ap(u, defenders) })), defenders: g.defenders.map((u) => ({ ...u, bonus: u.bonus + ap(u, attackers) })), defenseMultiplier: (ctx.defenseMultiplier?.(p, s) ?? 1) * g.defense });
     for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l, ctx);
     for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l, ctx);
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));
@@ -183,6 +215,7 @@ function battlePhase(state, ctx, net) {
       day: s.day, date: s.date, province: p, controller: c,
       attackers: attackers.map((u) => u.id), defenders: defenders.map((u) => u.id),
       attackerLoss: sum(r.attackerLoss), defenderLoss: sum(r.defenderLoss), outcome,
+      ...(g.defense !== 1 ? { defense: g.defense } : {}), ...(g.crossing.length ? { crossing: g.crossing.length } : {}), // solo se contano: i registri di prima restano uguali
     });
   }
   return s;
@@ -290,7 +323,8 @@ export function playerForceAttack(state, id, force = true) {
 }
 
 /**
- * Sistema giornaliero. ctx: { getNet(state) → rete di movimento, unitsById, deploymentDoc, initial (Map unità → provincia), defenseMultiplier? }.
+ * Sistema giornaliero. ctx: { getNet(state) → rete di movimento, unitsById, deploymentDoc, initial (Map unità → provincia), defenseMultiplier?,
+ * terrainCfg? (data/units/terrain_combat.json), terrainOf?(provincia madre) → voce di terrain.json, riverBetween?(a, b) → { widthClass } | null }.
  * Senza guerra né incarichi non fa nulla (stato restituito identico).
  */
 export function createTheaterSystem(ctx) {
