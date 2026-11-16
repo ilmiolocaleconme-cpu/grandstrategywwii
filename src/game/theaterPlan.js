@@ -17,6 +17,7 @@ import { atWar } from '../rules/war.js';
 import { positionOf, findPath } from '../rules/movement.js';
 import { entrenchBonus, DEFAULT_ENTRENCH } from '../rules/entrench.js';
 import { terrainDefense } from '../rules/terrainCombat.js';
+import { firepowerBase, cohesionOf, cohesionPower, experiencePower } from '../rules/battleV2.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
 
 export const ATTACK_RATIO = 1.5;
@@ -34,11 +35,22 @@ export const DIVISION_POWER_REF = 10000; // una divisione ≈ 10000 di potenza: 
 // (qualità e tecnologie dei fucili). Senza ctx la stima è quella di prima (solo uomini e categoria).
 const extrasOf = (state, unit, ctx) => ({ rifle: ctx?.rifleBonus?.(state, unit) ?? 0, equipment: ctx?.equipmentFactor?.(state, unit) ?? 1 });
 
+// Battaglia v2 (16/11/2026): con ctx.battleCfg la stima usa la stessa potenza di fuoco della battaglia (contro fanteria, rifornimenti pieni),
+// con coesione ed esperienza attuali. Ritorna { base, mult } oppure null (regola di prima).
+function v2Of(state, unit, m, ctx) {
+  const cfg = ctx?.battleCfg;
+  if (!cfg) return null;
+  const mult = cohesionPower(cohesionOf(state.cohesion, unit.id), cfg) * experiencePower(ctx.conditionOf?.(state, unit)?.experience, cfg);
+  const raw = ctx.rawFirepower?.(state, unit);
+  return { mult, base: raw?.recognized ? firepowerBase(raw, 0, { effective: m.effective, planned: m.planned, category: unit.category }, cfg) : undefined };
+}
+
 export function powerOfUnit(state, unit, ctx = null) {
   const m = effectiveOf(state, unit.id);
   if (!m) return 0;
   const x = extrasOf(state, unit, ctx);
-  return divisionPower({ category: unit.category, effective: m.effective, bonus: x.rifle, equipment: x.equipment });
+  const v = v2Of(state, unit, m, ctx);
+  return divisionPower({ category: unit.category, effective: m.effective, bonus: x.rifle, equipment: x.equipment, ...(v ? { mult: v.mult, base: v.base } : {}) });
 }
 
 /** Potenza IN DIFESA: come powerOfUnit ma col bonus di trinceramento attuale dell'unità (src/rules/entrench.js). */
@@ -47,7 +59,8 @@ export function defensivePowerOf(state, unit, cfg = DEFAULT_ENTRENCH, ctx = null
   if (!m) return 0;
   const dug = state.entrench?.dig?.[unit.id] === true;
   const x = extrasOf(state, unit, ctx);
-  return divisionPower({ category: unit.category, effective: m.effective, bonus: (dug ? entrenchBonus(state.entrench.days?.[unit.id] ?? 0, cfg) : 0) + x.rifle, equipment: x.equipment });
+  const v = v2Of(state, unit, m, ctx);
+  return divisionPower({ category: unit.category, effective: m.effective, bonus: (dug ? entrenchBonus(state.entrench.days?.[unit.id] ?? 0, cfg) : 0) + x.rifle, equipment: x.equipment, ...(v ? { mult: v.mult, base: v.base } : {}) });
 }
 
 /** Potenza nemica per provincia (Map): le divisioni in grado di combattere delle nazioni in guerra con `nation`. `defending`: con il loro trinceramento (serve a calcolare quanti ne servono per attaccarle). */

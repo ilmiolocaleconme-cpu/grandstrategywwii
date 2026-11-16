@@ -22,6 +22,8 @@ import { controllerOf } from '../map/geo.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
 import { planAssignment } from './theaterPlan.js';
 import { terrainDefense, terrainCategoryFactor, riverFactor } from '../rules/terrainCombat.js';
+import { firepowerBase, sideHardness, cohesionOf, cohesionLoss, cohesionPower, experiencePower, sideBreaks, recoverCohesion, frontageOf, splitLine, drawSupply, splitCasualties, mobileShare, retreatPrisoners, addCasualties, createCohesion, seasonFactor, COHESION_SCHEMA, CASUALTIES_SCHEMA } from '../rules/battleV2.js';
+import { RETREAT_BELOW } from '../rules/combat.js';
 import { createEntrench, entrenchBonus, setDig, tickEntrench, validateEntrench, DEFAULT_ENTRENCH } from '../rules/entrench.js';
 export { provinceController, canEnterWar, isFighter };
 
@@ -104,7 +106,7 @@ function combatantsByProvince(state, ctx) {
     if (!map.has(pos)) map.set(pos, []);
     const rifle = ctx.rifleBonus?.(s0, u) ?? 0; // qualità dei fucili della nazione (src/rules/rifleQuality.js): vale in attacco e in difesa
     const equipment = ctx.equipmentFactor?.(s0, u) ?? 1; // dotazione d'armi della divisione (src/rules/equipmentFill.js)
-    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, rifle, equipment, bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) + rifle });
+    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, rifle, equipment, dug: Math.min(1, (s0.entrench?.days?.[u.id] ?? 0) / ((ctx.entrenchCfg ?? DEFAULT_ENTRENCH).rampDays || 1)), bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) + rifle });
   }
   return map;
 }
@@ -170,7 +172,87 @@ function retreatProvince(state, net, from, nation, hostile) {
 
 function logBattle(state, entry) {
   const log = [...(state.combat?.log ?? []), entry].slice(-LOG_LIMIT);
-  return { ...state, combat: { schema: COMBAT_SCHEMA, log } };
+  return { ...state, combat: { ...(state.combat ?? {}), schema: COMBAT_SCHEMA, log } };
+}
+
+// ---- BATTAGLIA v2 (16/11/2026, src/rules/battleV2.js + data/units/battle_v2.json): attiva solo con `ctx.battleCfg` ----------------------
+// Per ogni battaglia: 1) larghezza del fronte (linea e riserva); 2) munizioni e carburante dalle scorte nazionali; 3) potenza di fuoco dalle armi
+// (ctx.rawFirepower) contro la quota corazzata del nemico, con preparazione d'artiglieria il primo giorno; 4) coesione, esperienza, stagione.
+// Senza `ctx.rawFirepower` (o per una divisione senza armi riconosciute) la potenza resta quella di prima, per uomini e categoria.
+function prepareV2(state, ctx, net, p, attackers, defenders, g) {
+  const cfg = ctx.battleCfg;
+  let s = state;
+  const isCity = net.isCity?.(p) === true;
+  const terrain = isCity ? null : ctx.terrainOf?.(net.provinceOf?.(p) ?? p) ?? null;
+  const width = frontageOf(terrain, isCity, cfg);
+  const withCoh = (list) => list.map((u) => ({ ...u, cohesion: cohesionOf(s.cohesion, u.id) }));
+  const A = splitLine(withCoh(g.attackers), width); const D = splitLine(withCoh(g.defenders), width);
+  // rifornimenti: fabbisogno del giorno delle divisioni IN LINEA, prelevato dalle scorte della nazione (assente lo stato delle nazioni: copertura piena)
+  const need = new Map();
+  const addNeed = (u, phase) => {
+    const n = need.get(u.nation) ?? { ammo: 0, fuel: 0 };
+    n.ammo += ctx.ammoNeed?.(u, phase) ?? 0;
+    if (cfg.supply.fuelCategories.includes(u.category)) n.fuel += ctx.fuelNeed?.(u) ?? 0;
+    need.set(u.nation, n);
+  };
+  A.line.forEach((u) => addNeed(u, 'attack')); D.line.forEach((u) => addNeed(u, 'defense'));
+  const supply = new Map();
+  for (const nation of [...need.keys()].sort()) {
+    const n = s.nations?.[nation];
+    if (!n) { supply.set(nation, { ammo: 1, fuel: 1 }); continue; }
+    const am = drawSupply(n.stocks?.munitions, need.get(nation).ammo); const fu = drawSupply(n.stocks?.fuel, need.get(nation).fuel);
+    supply.set(nation, { ammo: am.coverage, fuel: fu.coverage });
+    if (am.used > 0 || fu.used > 0) s = { ...s, nations: { ...s.nations, [nation]: { ...n, stocks: { ...n.stocks, ...(am.used > 0 ? { munitions: am.left } : {}), ...(fu.used > 0 ? { fuel: fu.left } : {}) } } } };
+  }
+  // battaglia nuova (nessuno scontro qui ieri) = giorno di preparazione d'artiglieria
+  const prev = s.combat?.battles?.[p];
+  const since = prev && prev.last >= s.day - 1 ? prev.since : s.day;
+  const prep = s.day - since < cfg.phases.prepDays;
+  const fuelOf = (u) => supply.get(u.nation)?.fuel ?? 1;
+  const hA = sideHardness(A.line.map((u) => ({ ...u, fuel: fuelOf(u) })), cfg); const hD = sideHardness(D.line.map((u) => ({ ...u, fuel: fuelOf(u) })), cfg);
+  const centre = net.centre?.(p) ?? null;
+  const ready = (u, enemyH, attacking) => {
+    const sup = supply.get(u.nation) ?? { ammo: 1, fuel: 1 };
+    const cond = ctx.conditionOf?.(s, u) ?? null;
+    const raw = ctx.rawFirepower?.(s, u) ?? null;
+    let mult = (u.mult ?? 1) * cohesionPower(u.cohesion, cfg) * experiencePower(cond?.experience, cfg) * (attacking ? seasonFactor(s.date, centre, u.category, cfg) : 1);
+    const out = { ...u, cond };
+    if (raw?.recognized) {
+      out.base = firepowerBase(raw, enemyH, { effective: u.effective, planned: u.planned, category: u.category, ammo: sup.ammo, fuel: sup.fuel, prep: attacking && prep && sup.ammo >= cfg.phases.prepMinAmmo }, cfg);
+    } else { // regola di prima, ma munizioni e carburante contano lo stesso (media delle classi leggera e artiglieria)
+      const af = cfg.supply.ammoFloor;
+      const floor = (af.small + af.artillery) / 2;
+      mult *= (floor + (1 - floor) * sup.ammo) * (cfg.supply.fuelCategories.includes(u.category) ? cfg.supply.fuelFloor + (1 - cfg.supply.fuelFloor) * sup.fuel : 1);
+    }
+    out.mult = mult;
+    return out;
+  };
+  return {
+    state: s, width, prep, since, supply,
+    lineA: A.line.map((u) => ready(u, hD, true)), lineD: D.line.map((u) => ready(u, hA, false)), reserveA: A.reserve, reserveD: D.reserve,
+  };
+}
+
+const setCohesion = (state, values) => {
+  const byUnit = { ...(state.cohesion?.byUnit ?? {}) };
+  for (const [id, v] of Object.entries(values)) { if (v >= 100) delete byUnit[id]; else byUnit[id] = Math.max(0, Math.round(v * 100) / 100); }
+  return { ...state, cohesion: { schema: COHESION_SCHEMA, byUnit } };
+};
+
+/** Errori di forma di `state.cohesion` e `state.casualties` (opzionali). */
+export function validateBattleExtras(state) {
+  const errors = [];
+  const c = state.cohesion;
+  if (c !== undefined) {
+    if (c === null || typeof c !== 'object' || c.schema !== COHESION_SCHEMA || c.byUnit === null || typeof c.byUnit !== 'object') errors.push('coesione: forma non valida');
+    else for (const [id, v] of Object.entries(c.byUnit)) if (!(v >= 0 && v <= 100)) errors.push(`coesione: valore di ${id} fuori da 0..100`);
+  }
+  const k = state.casualties;
+  if (k !== undefined) {
+    if (k === null || typeof k !== 'object' || k.schema !== CASUALTIES_SCHEMA || k.byNation === null || typeof k.byNation !== 'object') errors.push('perdite: forma non valida');
+    else for (const [n, row] of Object.entries(k.byNation)) for (const [f, v] of Object.entries(row ?? {})) if (!(v >= 0)) errors.push(`perdite: ${n}.${f} non valido`);
+  }
+  return errors;
 }
 
 function battlePhase(state, ctx, net) {
@@ -192,30 +274,77 @@ function battlePhase(state, ctx, net) {
     // proiettili perforanti (13/11/2026): bonus contro la quota di corazzati dell'altra parte, se la nazione ha la tecnologia (ctx.apRounds → { max, coverage })
     const ap = (u, enemies) => { const a = ctx.apRounds?.(s, u.nation); return a ? apRoundsBonus(enemies, a.max, a.coverage) : 0; };
     const g = battleGround(s, ctx, net, p, attackers, defenders); // terreno della provincia e fiume attraversato dagli attaccanti
-    const r = solve({ attackers: g.attackers.map((u) => ({ ...u, bonus: u.rifle + ap(u, defenders) })), defenders: g.defenders.map((u) => ({ ...u, bonus: u.bonus + ap(u, attackers) })), defenseMultiplier: (ctx.defenseMultiplier?.(p, s) ?? 1) * g.defense });
-    for (const [id, l] of Object.entries(r.attackerLoss)) s = applyLoss(s, id, l, ctx);
-    for (const [id, l] of Object.entries(r.defenderLoss)) s = applyLoss(s, id, l, ctx);
+    const cfg2 = ctx.battleCfg ?? null;
+    const v2 = cfg2 ? prepareV2(s, ctx, net, p, attackers, defenders, g) : null;
+    if (v2) s = v2.state;
+    const lineA = v2 ? v2.lineA : g.attackers; const lineD = v2 ? v2.lineD : g.defenders;
+    const r = solve({ attackers: lineA.map((u) => ({ ...u, bonus: u.rifle + ap(u, defenders) })), defenders: lineD.map((u) => ({ ...u, bonus: u.bonus + ap(u, attackers) })), defenseMultiplier: (ctx.defenseMultiplier?.(p, s) ?? 1) * g.defense, ...(cfg2 ? { lossBase: cfg2.losses.base, lossCap: cfg2.losses.cap } : {}) });
+    const tally = { a: { killed: 0, wounded: 0, missing: 0, prisoners: 0 }, d: { killed: 0, wounded: 0, missing: 0, prisoners: 0 } };
+    const nationOf = new Map([...attackers, ...defenders].map((u) => [u.id, u.nation]));
+    const lose = (id, l, side) => {
+      s = applyLoss(s, id, l, ctx);
+      if (!cfg2 || !(l > 0)) return;
+      const parts = splitCasualties(l, cfg2);
+      s = { ...s, casualties: addCasualties(s.casualties, nationOf.get(id), parts) };
+      for (const k of ['killed', 'wounded', 'missing']) tally[side][k] += parts[k];
+    };
+    for (const [id, l] of Object.entries(r.attackerLoss)) lose(id, l, 'a');
+    for (const [id, l] of Object.entries(r.defenderLoss)) lose(id, l, 'd');
     s = stopUnits(s, [...attackers, ...defenders].map((u) => u.id));
     const sum = (o) => Object.values(o).reduce((x, y) => x + y, 0);
+    let aRetreats = r.attackerRetreats; let dRetreats = r.defenderRetreats;
+    if (v2) {
+      // coesione: chi è in linea la perde secondo la pressione nemica; la riserva recupera piano. Cede chi scende alla soglia (o sotto il 25% degli uomini)
+      const next = {};
+      const drain = (line, own, other, defending) => line.map((u) => {
+        const loss = cohesionLoss({ ratio: own > 0 ? other / own : Infinity, cond: u.cond, commander: ctx.hasCommander?.(s, u.id) === true, defending, entrench: defending ? u.dug : 0 }, cfg2);
+        next[u.id] = Math.max(0, u.cohesion - loss);
+        return { effective: effectiveOf(s, u.id)?.effective ?? 0, planned: u.planned, cohesion: next[u.id] };
+      });
+      const afterA = drain(lineA, r.attackerPower, r.defenderPower, false); const afterD = drain(lineD, r.defenderPower, r.attackerPower, true);
+      for (const u of [...v2.reserveA, ...v2.reserveD]) next[u.id] = recoverCohesion(u.cohesion, 'reserve', cfg2);
+      s = setCohesion(s, next);
+      const spent = (list) => { const e = list.reduce((t, u) => t + u.effective, 0); const pl = list.reduce((t, u) => t + u.planned, 0); return pl > 0 && e / pl < RETREAT_BELOW; };
+      aRetreats = sideBreaks(afterA, cfg2) || spent(afterA) || r.attackerPower === 0;
+      dRetreats = !aRetreats && (sideBreaks(afterD, cfg2) || spent(afterD) || r.defenderPower === 0); // se cedono entrambi, cede chi attacca
+      s = { ...s, combat: { ...(s.combat ?? { schema: COMBAT_SCHEMA, log: [] }), battles: { ...Object.fromEntries(Object.entries(s.combat?.battles ?? {}).filter(([, b]) => b.last >= s.day - 1)), [p]: { since: v2.since, last: s.day } } } };
+    }
     let outcome = 'in corso';
-    const retreat = (side, nation) => {
+    // v2: chi si ritira lascia prigionieri (di più se inseguito da truppe mobili); chi non ha dove ritirarsi si arrende
+    const capture = (side, winners, key, all) => {
+      if (!cfg2) return;
+      const mobile = mobileShare(winners.map((u) => ({ ...u, effective: effectiveOf(s, u.id)?.effective ?? 0 })), cfg2);
+      for (const u of side) {
+        const men = effectiveOf(s, u.id)?.effective ?? 0;
+        const n = all ? men : retreatPrisoners(men, mobile, cfg2);
+        if (!(n > 0)) continue;
+        s = applyLoss(s, u.id, n, ctx);
+        s = { ...s, casualties: addCasualties(s.casualties, u.nation, { prisoners: n }) };
+        tally[key].prisoners += n;
+      }
+    };
+    const retreat = (side, nation, winners, key) => {
       const to = retreatProvince(s, net, p, nation, hostileProvinces);
+      capture(side, winners, key, !to);
       if (to) for (const u of side) s = setPosition(s, u.id, to, ctx);
       return to;
     };
-    if (r.defenderRetreats && !r.attackerRetreats) { outcome = retreat(defenders, c) ? 'difensori in ritirata' : 'difensori circondati'; }
-    else if (r.attackerRetreats && !r.defenderRetreats) {
+    const surrounded = cfg2 ? ': resa' : '';
+    if (dRetreats && !aRetreats) { outcome = retreat(defenders, c, lineA, 'd') ? 'difensori in ritirata' : `difensori circondati${surrounded}`; }
+    else if (aRetreats && !dRetreats) {
       const byNation = new Map();
       for (const u of attackers) byNation.set(u.nation, [...(byNation.get(u.nation) ?? []), u]);
       let moved = false;
-      for (const [n, side] of byNation) moved = Boolean(retreat(side, n)) || moved;
-      outcome = moved ? 'attaccanti respinti' : 'attaccanti circondati';
+      for (const [n, side] of byNation) moved = Boolean(retreat(side, n, lineD, 'a')) || moved;
+      outcome = moved ? 'attaccanti respinti' : `attaccanti circondati${surrounded}`;
     }
+    const low = (k) => (v2 ? [...v2.supply].filter(([, x]) => x[k] < 1).map(([n]) => n) : []);
     s = logBattle(s, {
       day: s.day, date: s.date, province: p, controller: c,
       attackers: attackers.map((u) => u.id), defenders: defenders.map((u) => u.id),
-      attackerLoss: sum(r.attackerLoss), defenderLoss: sum(r.defenderLoss), outcome,
+      attackerLoss: sum(r.attackerLoss) + tally.a.prisoners, defenderLoss: sum(r.defenderLoss) + tally.d.prisoners, outcome,
       ...(g.defense !== 1 ? { defense: g.defense } : {}), ...(g.crossing.length ? { crossing: g.crossing.length } : {}), // solo se contano: i registri di prima restano uguali
+      ...(v2 ? { split: tally, ...(v2.reserveA.length || v2.reserveD.length ? { reserve: [v2.reserveA.length, v2.reserveD.length] } : {}), ...(v2.prep ? { prep: true } : {}), ...(low('ammo').length ? { lowAmmo: low('ammo') } : {}), ...(low('fuel').length ? { lowFuel: low('fuel') } : {}) } : {}),
     });
   }
   return s;
@@ -253,6 +382,20 @@ function entrenchPhase(state, ctx) {
   }
   return { ...state, entrench: tickEntrench(base, candidates, cfg) };
 }
+
+// Recupero della coesione (v2): chi oggi non era in una battaglia recupera, più piano se è in marcia. A 100 la voce si toglie (stato piccolo).
+function cohesionPhase(state, ctx) {
+  const cfg = ctx.battleCfg;
+  const byUnit = state.cohesion?.byUnit;
+  if (!cfg || !byUnit || Object.keys(byUnit).length === 0) return state;
+  const fought = new Set((state.combat?.log ?? []).filter((e) => e.day === state.day).flatMap((e) => [...e.attackers, ...e.defenders]));
+  const next = {};
+  for (const id of Object.keys(byUnit).sort()) if (!fought.has(id)) next[id] = recoverCohesion(byUnit[id], state.movement?.orders?.[id] ? 'moving' : 'idle', cfg);
+  return Object.keys(next).length ? setCohesion(state, next) : state;
+}
+
+/** Coesione di una unità (0..100; 100 se mai intaccata). */
+export const unitCohesion = (state, unitId) => cohesionOf(state.cohesion, unitId);
 
 /** Trinceramento di una unità: { digging, days, bonus } (bonus 0 se non si sta trincerando). */
 export function entrenchOf(state, unitId, cfg = DEFAULT_ENTRENCH) {
@@ -324,7 +467,8 @@ export function playerForceAttack(state, id, force = true) {
 
 /**
  * Sistema giornaliero. ctx: { getNet(state) → rete di movimento, unitsById, deploymentDoc, initial (Map unità → provincia), defenseMultiplier?,
- * terrainCfg? (data/units/terrain_combat.json), terrainOf?(provincia madre) → voce di terrain.json, riverBetween?(a, b) → { widthClass } | null }.
+ * battleCfg? (data/units/battle_v2.json: accende la battaglia v2) con rawFirepower?(state, u), conditionOf?(state, u) → { morale, experience },
+ * hasCommander?(state, id), ammoNeed?(u, fase) e fuelNeed?(u) in t/giorno; terrainCfg? (data/units/terrain_combat.json), terrainOf?(provincia madre) → voce di terrain.json, riverBetween?(a, b) → { widthClass } | null }.
  * Senza guerra né incarichi non fa nulla (stato restituito identico).
  */
 export function createTheaterSystem(ctx) {
@@ -332,11 +476,13 @@ export function createTheaterSystem(ctx) {
     const hasWar = state.war && Object.keys(state.war.pairs).length > 0;
     const hasAssign = state.theaters && activeAssignments(state.theaters).length > 0;
     const hasDig = state.entrench && Object.keys(state.entrench.dig).length > 0;
-    if (!hasWar && !hasAssign && !hasDig) return state;
+    const hasCoh = Boolean(ctx.battleCfg) && state.cohesion && Object.keys(state.cohesion.byUnit).length > 0;
+    if (!hasWar && !hasAssign && !hasDig && !hasCoh) return state;
     const net = ctx.getNet(state);
     if (!net) return state;
     let s = state;
     if (hasWar) { s = battlePhase(s, ctx, net); s = capturePhase(s, ctx, net); }
+    if (hasCoh || s.cohesion) s = cohesionPhase(s, ctx);
     if (hasAssign) s = assignmentPhase(s, ctx, net);
     s = entrenchPhase(s, ctx); // dopo gli ordini del giorno: chi parte non guadagna un giorno
     return s;

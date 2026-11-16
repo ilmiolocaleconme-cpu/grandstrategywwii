@@ -1,0 +1,72 @@
+{
+  "schema": "battle-v2",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-16",
+  "note": "Battaglia terrestre v2 (16/11/2026): potenza di fuoco dalle armi, coesione, larghezza del fronte, munizioni e carburante, perdite divise, preparazione d'artiglieria, inseguimento, stagione, comandanti. TUTTI i numeri sono IPOTESI DI BILANCIAMENTO di Claude, non dati storici, da approvare. Regole in src/rules/battleV2.js; aggancio in src/game/theaterState.js. Dove un dato manca (divisione senza armi riconosciute, nazione senza scorte) vale la regola di prima: i dati mancanti non penalizzano.",
+  "firepower": {
+    "weights": {
+      "INDIVIDUAL_WEAPON": { "soft": 0.5, "hard": 0, "class": "small" },
+      "MACHINE_GUN": { "soft": 12, "hard": 0.2, "class": "small" },
+      "GRENADE_LAUNCHER": { "soft": 5, "hard": 0, "class": "small" },
+      "MORTAR": { "soft": 30, "hard": 0.5, "class": "artillery" },
+      "FIELD_GUN": { "soft": 100, "hard": 15, "class": "artillery" },
+      "HOWITZER": { "soft": 200, "hard": 10, "class": "artillery" },
+      "ANTI_TANK_GUN": { "soft": 4, "hard": 40, "class": "direct" },
+      "ANTI_AIRCRAFT_GUN": { "soft": 8, "hard": 12, "class": "direct" },
+      "TANK": { "soft": 45, "hard": 35, "class": "direct" }
+    },
+    "defaults": { "rifleSoftPerMan": 0.475, "mgSoftPerMan": 0.36, "artillerySoftPerMan": 0.5, "artilleryHardPerMan": 0.03 },
+    "defaultsRationale": "Buchi dei dati: molti template non riportano il numero di fucili o di mitragliatrici (Francia, Italia, URSS, USA, divisioni corazzate). Per le armi individuali, le mitragliatrici o l'intera classe artiglieria senza NESSUNA quantità nota si usa un valore per uomo effettivo: fucili e mitragliatrici come nella fanteria tedesca 1936 (0,95 fucili e 0,03 mitragliatrici per uomo), artiglieria a circa il 60% di quella tedesca. Da sostituire con i numeri veri quando i template saranno completati.",
+    "scale": 0.6,
+    "crewFullAt": 0.8,
+    "hardness": { "infantry": 0, "mountain": 0, "airborne": 0, "cavalry": 0, "motorized": 0.1, "mechanized": 0.4, "armored": 0.7 },
+    "rationale": "Ogni pezzo effettivo della divisione dà attacco contro bersagli non corazzati (soft) e corazzati (hard). La potenza contro un nemico con quota corazzata H è soft × (1 − H) + hard × H. I pesi fanno sì che in una divisione di fanteria tipo l'artiglieria (mortai, cannoni, obici) dia più di metà del fuoco. `scale` riporta il totale alla scala di prima (una divisione di fanteria tedesca 1936 al completo vale circa i suoi uomini), così rapporto d'attacco, trincea e avvisi restano confrontabili. `crewFullAt`: le armi restano servite finché gli uomini sono almeno l'80% del previsto, poi calano in proporzione. I pesi sono per CATEGORIA d'arma: un Panzer I e un Panzer IV oggi valgono uguale (limite dichiarato)."
+  },
+  "cohesion": {
+    "lossBase": 8,
+    "lossCap": 3,
+    "breakAt": 20,
+    "recoverIdle": 10,
+    "recoverMoving": 3,
+    "recoverReserve": 4,
+    "powerFloor": 0.6,
+    "resilience": { "base": 0.5, "morale": 0.5, "experience": 0.3, "commander": 0.1 },
+    "defenderShield": 0.2,
+    "entrenchShield": 0.5,
+    "experiencePower": { "min": 0.9, "max": 1.1 },
+    "rationale": "Coesione 0–100 per divisione (assente = 100). In linea cala ogni giorno di lossBase × min(lossCap, potenza nemica / propria) / tenuta, dove tenuta = base + morale × quota + esperienza × quota (+ comandante se il corpo o l'armata sopra la divisione ne ha uno); chi difende cala il 20% in meno (defenderShield) e il trinceramento pieno dimezza ancora il calo: a forze pari cede prima chi attacca. Una parte cede quando la coesione media in linea scende a breakAt: a forze pari una divisione con morale 70 regge circa 10 giorni, sotto 3:1 circa 3. La coesione pesa anche sulla potenza (da powerFloor a 1). Si recupera fuori dalla battaglia: recoverIdle al giorno da fermi, recoverMoving in marcia, recoverReserve in riserva dietro la linea. L'esperienza dà da −10% a +10% di potenza. Morale ed esperienza si LEGGONO soltanto: come crescono e calano resta da decidere (docs/DA_FARE.md, sezione A)."
+  },
+  "losses": {
+    "base": 0.01,
+    "cap": 2.5,
+    "rationale": "Perdite di uomini in linea: 1% al giorno a forze pari, fino al 2,5% per chi è nettamente inferiore (prima 2% e fino al 6%). Con la coesione l'esito non viene più dall'annientamento: le perdite restano dell'ordine di quelle storiche e la decisione arriva da cedimento, prigionieri e resa."
+  },
+  "frontage": {
+    "pianura": 8, "deserto": 8, "collina": 6, "tundra": 6, "foresta": 5, "palude": 4, "montagna": 4, "urbano": 3,
+    "rationale": "Divisioni in linea per parte in un posto (media pesata sulle frazioni del terreno, arrotondata, almeno 1). Le altre restano in riserva: non sparano, non subiscono perdite, recuperano coesione piano. In linea vanno le più coese: il ricambio nasce da solo."
+  },
+  "supply": {
+    "ammoFloor": { "small": 0.6, "artillery": 0.2, "direct": 0.3 },
+    "fuelFloor": 0.4,
+    "fuelCategories": ["motorized", "mechanized", "armored"],
+    "rationale": "Ogni divisione in linea consuma dalle scorte della nazione le munizioni (data/military/ammo_consumption.json, attacco o difesa) e, se motorizzata o corazzata, il carburante (data/military/fuel_consumption.json). Copertura = scorta / fabbisogno del giorno. Senza munizioni l'artiglieria spara al 20%, le armi leggere al 60%; senza carburante i mezzi rendono il 40% e la quota corazzata si azzera. Il consumo fuori dalla battaglia non è ancora modellato."
+  },
+  "casualties": {
+    "killed": 0.22, "wounded": 0.66, "missing": 0.12,
+    "retreatPrisoners": 0.03,
+    "pursuit": 0.08,
+    "mobileCategories": ["cavalry", "motorized", "mechanized", "armored"],
+    "rationale": "Ogni perdita si divide in morti, feriti e dispersi (circa 1 morto ogni 3 feriti). Chi si ritira lascia il 3% degli uomini rimasti come prigionieri, più fino all'8% secondo la quota di truppe mobili del vincitore (inseguimento). Chi cede senza una provincia amica dove ritirarsi si arrende: tutti prigionieri. I feriti entrano negli ospedali della nazione (src/rules/hospitals.js): i guariti tornano al pool di uomini; morti, dispersi e prigionieri no."
+  },
+  "phases": {
+    "prepDays": 1,
+    "prepArtilleryBonus": 0.5,
+    "prepMinAmmo": 0.5,
+    "rationale": "Il primo giorno di una battaglia l'artiglieria dell'attaccante vale +50% (preparazione), se le munizioni coprono almeno metà del fabbisogno."
+  },
+  "season": {
+    "winter": { "months": [12, 1, 2], "minLat": 45, "attacker": 0.85 },
+    "mud": { "months": [3, 4, 10, 11], "minLat": 48, "minLon": 18, "attackerMobile": 0.7 },
+    "rationale": "Senza un sistema del meteo: d'inverno sopra il 45° parallelo nord l'attaccante vale l'85%; nei mesi del fango, a nord del 48° e a est del 18° meridiano (Europa orientale), le truppe mobili che attaccano valgono il 70%. Regola grossolana per data e posizione, non meteo reale."
+  }
+}

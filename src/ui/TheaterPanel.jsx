@@ -70,7 +70,7 @@ export default function TheaterPanel({ draft, unitCount, cards, alerts, onForce,
           <h3>Ultime battaglie</h3>
           {log.length === 0 ? <p className="muted">Nessuna battaglia.</p> : (
             <ul className="th-log">
-              {log.map((e, i) => <li key={`${e.day}-${i}`}><strong>{e.date}</strong> {nameOf(e.province)}: {e.outcome}{e.defenders.length ? ` · perdite ${e.attackerLoss} att. / ${e.defenderLoss} dif.` : ''}{e.defense ? ` · terreno: difesa +${Math.round((e.defense - 1) * 100)}%` : ''}{e.crossing ? ` · ${e.crossing} div. oltre il fiume` : ''}</li>)}
+              {log.map((e, i) => <li key={`${e.day}-${i}`}><strong>{e.date}</strong> {nameOf(e.province)}: {e.outcome}{e.defenders.length ? ` · perdite ${e.attackerLoss} att. / ${e.defenderLoss} dif.` : ''}{e.defense ? ` · terreno: difesa +${Math.round((e.defense - 1) * 100)}%` : ''}{e.crossing ? ` · ${e.crossing} div. oltre il fiume` : ''}{e.split ? ` · morti ${e.split.a.killed}/${e.split.d.killed}, feriti ${e.split.a.wounded}/${e.split.d.wounded}, prigionieri ${e.split.a.prisoners}/${e.split.d.prisoners}` : ''}{e.reserve ? ` · in riserva ${e.reserve[0]}/${e.reserve[1]}` : ''}{e.prep ? ' · preparazione d’artiglieria' : ''}{e.lowAmmo ? ` · munizioni scarse: ${e.lowAmmo.join(', ')}` : ''}{e.lowFuel ? ` · carburante scarso: ${e.lowFuel.join(', ')}` : ''}</li>)}
             </ul>
           )}
         </div>

@@ -38,7 +38,9 @@ export const categoryPower = (category) => CATEGORY_POWER[category] ?? 0;
 // `factor` (facoltativo) sostituisce il fattore della categoria: serve al combattimento urbano.
 // equipment (facoltativo, 12/11/2026) = moltiplicatore della dotazione d'armi (src/rules/equipmentFill.js); assente = 1.
 // mult (facoltativo, 16/11/2026) = moltiplicatore di terreno e fiume della divisione (src/rules/terrainCombat.js); assente = 1.
-export function divisionPower({ category, effective, bonus = 0, factor, equipment = 1, mult = 1 }) {
+// base (facoltativo, battaglia v2) = potenza di fuoco già calcolata dalle armi (src/rules/battleV2.js): sostituisce uomini × categoria × dotazione.
+export function divisionPower({ category, effective, bonus = 0, factor, equipment = 1, mult = 1, base }) {
+  if (base !== undefined) return (effective > 0 ? Math.max(0, base) : 0) * (1 + Math.max(0, bonus)) * Math.max(0, mult);
   return Math.max(0, effective) * (factor ?? categoryPower(category)) * (1 + Math.max(0, bonus)) * Math.max(0, equipment) * Math.max(0, mult);
 }
 
@@ -47,11 +49,12 @@ export function divisionPower({ category, effective, bonus = 0, factor, equipmen
  * { attackerLoss: { id: n }, defenderLoss: { id: n }, attackerPower, defenderPower, attackerRetreats, defenderRetreats }.
  * Le perdite sono interi >= 0 e mai oltre gli uomini effettivi.
  */
-export function resolveBattleDay({ attackers, defenders, defenseMultiplier = 1 }) {
+// lossBase / lossCap (facoltativi, battaglia v2): quota giornaliera di perdite e tetto del rapporto di forze; assenti = LOSS_BASE e LOSS_CAP.
+export function resolveBattleDay({ attackers, defenders, defenseMultiplier = 1, lossBase = LOSS_BASE, lossCap = LOSS_CAP }) {
   const aPow = attackers.reduce((s, u) => s + divisionPower(u), 0);
   const dPow = defenders.reduce((s, u) => s + divisionPower(u), 0) * defenseMultiplier;
-  const rateA = aPow > 0 ? LOSS_BASE * Math.min(LOSS_CAP, dPow / aPow) : 0;
-  const rateD = dPow > 0 ? LOSS_BASE * Math.min(LOSS_CAP, aPow / dPow) : 0;
+  const rateA = aPow > 0 ? lossBase * Math.min(lossCap, dPow / aPow) : 0;
+  const rateD = dPow > 0 ? lossBase * Math.min(lossCap, aPow / dPow) : 0;
   const loss = (units, rate) => {
     const out = {};
     for (const u of units) {
@@ -95,9 +98,10 @@ function ambushLoss(effective, rate) {
 }
 
 /** Un giorno di combattimento in città. Stessa forma di resolveBattleDay, più le imboscate; la ritirata è ricalcolata dopo le perdite. */
-export function resolveUrbanBattleDay({ attackers, defenders, defenseMultiplier = 1 }) {
-  const urban = (units) => units.map((u) => ({ ...u, factor: urbanFactor(u.category) }));
-  const r = resolveBattleDay({ attackers: urban(attackers), defenders: urban(defenders), defenseMultiplier: defenseMultiplier * URBAN_DEFENSE });
+export function resolveUrbanBattleDay({ attackers, defenders, defenseMultiplier = 1, lossBase, lossCap }) {
+  // con la potenza di fuoco (base) la penalità urbana si applica in proporzione: fattore urbano / fattore normale della categoria
+  const urban = (units) => units.map((u) => (u.base !== undefined ? { ...u, base: u.base * (categoryPower(u.category) > 0 ? urbanFactor(u.category) / categoryPower(u.category) : 1) } : { ...u, factor: urbanFactor(u.category) }));
+  const r = resolveBattleDay({ attackers: urban(attackers), defenders: urban(defenders), defenseMultiplier: defenseMultiplier * URBAN_DEFENSE, ...(lossBase !== undefined ? { lossBase } : {}), ...(lossCap !== undefined ? { lossCap } : {}) });
   const addAmbush = (units, lossMap, rate) => {
     const out = { ...lossMap };
     for (const u of units) {

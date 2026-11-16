@@ -81,6 +81,7 @@ export default function ArmyPanel({ orderCount, childOptions, onAttachChild, tem
                     const max = en.bonus >= 0.4999;
                     return <span className={`ap-dig${max ? ' max' : ''}`} title="Bonus difensivo: cresce ogni giorno fermo e senza battaglia">⛏ +{Math.round(en.bonus * 100)}%{max ? ' max' : ` · giorno ${en.days}`}</span>;
                   })()}
+                  {game?.cohesion?.byUnit?.[u.id] !== undefined && <span className="ap-dig" title="Coesione: cala in battaglia, si recupera a riposo. Sotto il 20% la divisione cede.">Coesione {Math.round(game.cohesion.byUnit[u.id])}%</span>}
                 </button>
                 <div className="ap-acts" role="group" aria-label={`Azioni per ${u.name}`}>
                   <button type="button" aria-label={`Scheda di ${u.name}`} title="Scheda" aria-expanded={openId === u.id} onClick={() => setOpenId(u.id === openId ? null : u.id)}><InfoIcon /></button>

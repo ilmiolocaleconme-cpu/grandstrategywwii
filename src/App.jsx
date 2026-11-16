@@ -85,6 +85,15 @@ import { createReinforcementSystem, setDivisionReinforcement, setDivisionPriorit
 import { buildEquivalence } from './data/equipmentEquivalence.js';
 import combatEquipmentCfg from '../data/units/combat_equipment.json';
 import terrainCombatFile from '../data/units/terrain_combat.json';
+import battleV2File from '../data/units/battle_v2.json';
+import ammoConsumptionFile from '../data/military/ammo_consumption.json';
+import fuelConsumptionFile from '../data/military/fuel_consumption.json';
+import { validateBattleV2, rawFirepower, casualtyDrain } from './rules/battleV2.js';
+import { createCasualtySystem } from './game/casualtyState.js';
+import { DIVISION_AMMO_CATEGORY } from './rules/militaryReserve.js';
+import { dailyAmmo } from './data/ammo.js';
+import { conditionOf as unitConditionOf } from './rules/divisionCondition.js';
+import { chainOf } from './rules/orbat.js';
 import { validateTerrainCombat } from './rules/terrainCombat.js';
 import { createRiverIndex } from './data/riverCrossings.js';
 import { buildCategoryOf, equipmentFill } from './rules/equipmentFill.js';
@@ -333,7 +342,8 @@ const entityOfProvince = (id) => entityOfProvinceId(id, ENTITY_IDS);
 const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.index, infraConfig, state) : null); // rete con la velocità delle strade del momento
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 // Ospedali (data/medical/hospital_care.json): il personale esce dal pool reclutabile; la regola delle retrovie (rules/hospitals.js isRear) non è applicata finché non esiste lo stato di guerra.
-const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsFile.units, population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available;
+// battaglia v2 (16/11/2026): morti, dispersi, prigionieri e feriti ancora in ospedale escono dal pool reclutabile (state.casualties)
+const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsFile.units, population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available - casualtyDrain(state.casualties, nationId);
 export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, isSplit: (id) => (MOVE_NET.net ? MOVE_NET.net.canon(id) !== id : false), catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I nemici dell'IA vengono dalla diplomazia (guerra o rapporto <= soglia), giocatore compreso.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
@@ -382,7 +392,20 @@ const apRounds = (state, nation) => { const n = state.nations?.[nation]; return 
 // posti confinanti (data/military/river_crossings.json) si caricano insieme alla rete di movimento. Finché mancano, la battaglia vale come prima (tutto ×1).
 const GAME_GROUND = { terrain: null, rivers: null };
 const TERRAIN_COMBAT_ERRORS = validateTerrainCombat(terrainCombatFile);
-const THEATER_CTX = { terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+// Battaglia v2 (16/11/2026, data/units/battle_v2.json: ipotesi di bilanciamento): potenza di fuoco dalle armi, coesione, fronte, rifornimenti, perdite divise.
+// Con un file non valido la battaglia resta quella di prima.
+const BATTLE_V2_ERRORS = validateBattleV2(battleV2File);
+const FUEL_OF_CATEGORY = { motorized: 'infantry_motorized', mechanized: 'infantry_motorized', armored: 'armor' };
+const fuelTonnes = (id) => fuelConsumptionFile.categories.find((c) => c.id === id)?.operational ?? 0;
+const BATTLE_V2_CTX = BATTLE_V2_ERRORS.length ? {} : {
+  battleCfg: battleV2File,
+  rawFirepower: (state, u) => rawFirepower(state.forces?.divisions?.[u.id]?.items, (k) => CATEGORY_OF(u.nation, k), battleV2File, state.forces?.divisions?.[u.id]?.items?.['manpower.war']?.effective ?? 0),
+  conditionOf: (state, u) => unitConditionOf(state.conditions, u.id, conditionConfig, u.nation),
+  hasCommander: (state, id) => chainOf(state.orbat ?? createOrbatState(), id).some((c) => Boolean(state.commanders?.assignments?.[c])),
+  ammoNeed: (u, phase) => dailyAmmo(ammoConsumptionFile, DIVISION_AMMO_CATEGORY[u.category], phase) ?? 0,
+  fuelNeed: (u) => fuelTonnes(FUEL_OF_CATEGORY[u.category]),
+};
+const THEATER_CTX = { ...BATTLE_V2_CTX, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse); guarnigione Maginot
@@ -393,6 +416,7 @@ const GAME_SYSTEMS = [
   (state) => createCommandDistanceSystem({ net: gameNet(state), orbat: state.orbat ?? createOrbatState(), unitsById: unitsView(state, UNITS_BY_ID), initial: INITIAL_POSITIONS, cfg: conditionConfig })(state), // distanza dal comando: prontezza persa e recuperata (src/rules/commandDistance.js)
   createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
+  createCasualtySystem({ params: hospitalCare }), // feriti di battaglia negli ospedali: guariti al pool, morti ai caduti (battaglia v2)
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
   GAME_BUILD.constructionDay,
   createEconomySystem({ nationIds: START_ECONOMY.nationIds, catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding }, smallArms: smallArmsFile }),
