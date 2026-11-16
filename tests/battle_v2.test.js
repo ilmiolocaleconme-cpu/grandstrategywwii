@@ -4,29 +4,33 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import {
-  validateBattleV2, rawFirepower, firepowerBase, artilleryShare, crewFactor, sideHardness, ammoFactors, fuelFactor, resilience, cohesionLoss, cohesionPower,
+  validateBattleV2, rawFirepower, weaponWeight, firepowerBase, artilleryShare, crewFactor, sideHardness, ammoFactors, fuelFactor, resilience, cohesionLoss, cohesionPower,
   experiencePower, sideBreaks, recoverCohesion, frontageOf, splitLine, drawSupply, splitCasualties, mobileShare, retreatPrisoners, addCasualties,
   casualtiesOf, casualtyDrain, seasonFactor, cohesionOf,
 } from '../src/rules/battleV2.js';
 import { divisionPower, resolveBattleDay, resolveUrbanBattleDay } from '../src/rules/combat.js';
-import { buildCategoryOf } from '../src/rules/equipmentFill.js';
+import { buildCategoryOf, buildWeaponOf } from '../src/rules/equipmentFill.js';
 import { createTheaterSystem, playerDeclareWar, validateBattleExtras, unitCohesion } from '../src/game/theaterState.js';
 import { createMovementSystem } from '../src/game/movementState.js';
 import { createMovementState, issueMove } from '../src/rules/movement.js';
 import { createCasualtySystem } from '../src/game/casualtyState.js';
 import { powerOfUnit } from '../src/game/theaterPlan.js';
 import { validateState } from '../src/game/state.js';
+import { conditionOf } from '../src/rules/divisionCondition.js';
 
 const read = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
 const cfg = read('units/battle_v2.json');
 const hospitalCare = read('medical/hospital_care.json');
 const catalogs = readdirSync(new URL('../data/units/equipment/', import.meta.url)).filter((f) => f.startsWith('catalog')).map((f) => read(`units/equipment/${f}`));
-const CATEGORY_OF = buildCategoryOf({ entries: catalogs.flatMap((c) => c.entries), aliases: catalogs.flatMap((c) => c.aliases ?? []) });
+const CATALOG = { entries: catalogs.flatMap((c) => c.entries), aliases: catalogs.flatMap((c) => c.aliases ?? []) };
+const CATEGORY_OF = buildCategoryOf(CATALOG);
+const WEAPON_OF = buildWeaponOf(CATALOG);
+const conditionCfg = read('units/condition_config.json');
 const tplRaw = (file, fill = 1) => {
   const t = read(`units/templates/${file}.json`);
   const items = Object.fromEntries(Object.entries(t.equipment ?? {}).map(([k, v]) => [`equipment.${k}`, { planned: v.value, effective: v.value === null ? null : v.value * fill }]));
   const men = t.manpower?.war?.value ?? 0;
-  return { men, category: t.appliesTo?.category, raw: rawFirepower(items, (k) => CATEGORY_OF(t.appliesTo?.nation, k), cfg, men), items, nation: t.appliesTo?.nation };
+  return { men, category: t.appliesTo?.category, raw: rawFirepower(items, (k) => WEAPON_OF(t.appliesTo?.nation, k), cfg, men), items, nation: t.appliesTo?.nation };
 };
 const baseOf = (x, h = 0, extra = {}) => firepowerBase(x.raw, h, { effective: x.men, planned: x.men, category: x.category, ...extra }, cfg);
 
@@ -55,7 +59,7 @@ test('potenza di fuoco: più obici = più potenza (prima due divisioni «complet
 
 test('potenza di fuoco: contro i corazzati conta l’anticarro, contro la fanteria no', () => {
   const deu = tplRaw('divisione_fanteria_germania_1939');
-  const noAt = { ...deu, raw: rawFirepower(Object.fromEntries(Object.entries(deu.items).filter(([k]) => CATEGORY_OF('DEU', k) !== 'ANTI_TANK_GUN')), (k) => CATEGORY_OF('DEU', k), cfg, deu.men) };
+  const noAt = { ...deu, raw: rawFirepower(Object.fromEntries(Object.entries(deu.items).filter(([k]) => CATEGORY_OF('DEU', k) !== 'ANTI_TANK_GUN')), (k) => WEAPON_OF('DEU', k), cfg, deu.men) };
   assert.ok(baseOf(deu, 0.7) < baseOf(deu, 0) * 0.5, 'la fanteria rende meno della metà contro una divisione corazzata');
   assert.ok(baseOf(noAt, 0.7) < baseOf(deu, 0.7) * 0.85, 'senza cannoni anticarro ancora meno');
   assert.ok(baseOf(noAt, 0) > baseOf(deu, 0) * 0.98, 'contro la fanteria l’anticarro quasi non conta');
@@ -329,4 +333,55 @@ test('stato: coesione e perdite sono campi facoltativi validi; forme sbagliate r
   assert.ok(validateBattleExtras({ cohesion: { schema: 'cohesion-v1', byUnit: { U: 120 } } }).length > 0);
   assert.ok(validateBattleExtras({ casualties: { schema: 'casualties-v1', byNation: { GER: { killed: -1 } } } }).length > 0);
   assert.equal(typeof validateState, 'function');
+});
+
+// ---- 17/11/2026: calibro e tipo di carro; morale ed esperienza mossi dalla battaglia ----
+test('pesi per calibro e per tipo di carro; senza dato vale il peso medio della categoria', () => {
+  assert.equal(weaponWeight({ category: 'HOWITZER', caliber: 150 }, cfg).soft, 300);
+  assert.equal(weaponWeight({ category: 'HOWITZER', caliber: 75 }, cfg).soft, 100);
+  assert.equal(weaponWeight({ category: 'HOWITZER', caliber: null }, cfg).soft, cfg.firepower.weights.HOWITZER.soft);
+  assert.equal(weaponWeight('HOWITZER', cfg).soft, cfg.firepower.weights.HOWITZER.soft);
+  assert.ok(weaponWeight({ category: 'ANTI_TANK_GUN', caliber: 75 }, cfg).hard > weaponWeight({ category: 'ANTI_TANK_GUN', caliber: 37 }, cfg).hard * 3);
+  assert.ok(weaponWeight({ category: 'MORTAR', caliber: 50 }, cfg).soft < weaponWeight({ category: 'MORTAR', caliber: 81 }, cfg).soft);
+  const l3 = weaponWeight({ category: 'TANK', role: 'tankette' }, cfg); const heavy = weaponWeight({ category: 'TANK', role: 'heavy_tank' }, cfg);
+  assert.ok(heavy.hard > l3.hard * 20 && heavy.armor > l3.armor * 4);
+  assert.deepEqual(weaponWeight({ category: 'TANK', role: null }, cfg), { ...cfg.firepower.weights.TANK, armor: 1 });
+  assert.equal(weaponWeight({ category: 'BICYCLE' }, cfg), null);
+  assert.equal(WEAPON_OF('DEU', 'equipment.ART-DEU-HOW-150').caliber, 150);
+  assert.equal(WEAPON_OF('DEU', 'manpower.war'), null);
+  // ogni ruolo di carro del catalogo ha un peso
+  for (const e of CATALOG.entries) if (e.category === 'TANK' && e.role) assert.ok(cfg.firepower.tankRoles[e.role], `ruolo ${e.role} di ${e.equipment_id} senza peso`);
+});
+
+test('corazza dei carri: una divisione di tankette è un bersaglio quasi non corazzato', () => {
+  const tanks = (role) => rawFirepower({ 'equipment.t': { planned: 100, effective: 100 } }, () => ({ category: 'TANK', role }), cfg, 5000);
+  assert.equal(tanks('tankette').armor, cfg.firepower.tankRoles.tankette.armor);
+  assert.equal(tanks(null).armor, 1);
+  const h = (armor) => sideHardness([{ category: 'armored', effective: 10000, armor }], cfg);
+  assert.ok(h(0.3) < h(1) * 0.35);
+  assert.ok(h(1.35) <= 0.95);
+  const ita = tplRaw('divisione_corazzata_italia_1940'); const urss = tplRaw('divisione_corazzata_urss_1940');
+  assert.ok(ita.raw.armor < urss.raw.armor);
+});
+
+test('sistema: la battaglia muove morale ed esperienza; a riposo il morale risale fino al valore di partenza', () => {
+  const w = world({
+    units: [mk('G1', 'GER'), mk('G2', 'GER'), mk('G3', 'GER'), mk('F1', 'FRA')], deploy: { G1: 'A', G2: 'A', G3: 'A', F1: 'B' },
+    divisions: { G1: infantry(), G2: infantry(), G3: infantry(), F1: infantry() }, moves: [['G1', 'B'], ['G2', 'B'], ['G3', 'B']], extra: { conditionCfg, conditionOf: undefined },
+  });
+  const base = (id, nation) => conditionOf({ schema: 'conditions-v1', byUnit: {} }, id, conditionCfg, nation);
+  const of = (s, id, nation) => conditionOf(s.conditions ?? { schema: 'conditions-v1', byUnit: {} }, id, conditionCfg, nation);
+  let s = w.s;
+  for (let i = 0; i < 20 && !(s.combat?.log ?? []).some((e) => e.outcome === 'difensori in ritirata'); i += 1) s = w.day(s);
+  const days = s.combat.log.filter((e) => e.defenders.length).length;
+  assert.ok(Math.abs(of(s, 'G1', 'GER').experience - (base('G1', 'GER').experience + days * cfg.condition.experiencePerDay)) < 0.01, 'esperienza: un passo per giorno in linea');
+  assert.ok(of(s, 'F1', 'FRA').morale <= base('F1', 'FRA').morale - cfg.condition.moraleRetreat, 'chi si ritira perde morale');
+  assert.ok(of(s, 'G1', 'GER').morale >= base('G1', 'GER').morale, 'chi vince non lo perde');
+  assert.deepEqual(validateState.length >= 0 && validateBattleExtras(s), []);
+  const low = of(s, 'F1', 'FRA').morale;
+  for (let i = 0; i < 3; i += 1) s = w.day({ ...s, movement: { ...s.movement, orders: {} } });
+  const later = of(s, 'F1', 'FRA').morale;
+  assert.ok(later > low && later <= base('F1', 'FRA').morale);
+  let t = s; for (let i = 0; i < 40; i += 1) t = { ...createTheaterSystem(w.ctx)({ ...t, day: t.day + 1, war: t.war }) };
+  assert.ok(of(t, 'F1', 'FRA').morale <= base('F1', 'FRA').morale, 'mai oltre il valore di partenza');
 });

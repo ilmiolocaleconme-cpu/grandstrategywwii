@@ -18,6 +18,7 @@ import { positionOf, findPath } from '../rules/movement.js';
 import { entrenchBonus, DEFAULT_ENTRENCH } from '../rules/entrench.js';
 import { terrainDefense } from '../rules/terrainCombat.js';
 import { firepowerBase, cohesionOf, cohesionPower, experiencePower } from '../rules/battleV2.js';
+import { conditionOf, createConditionState } from '../rules/divisionCondition.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
 
 export const ATTACK_RATIO = 1.5;
@@ -40,7 +41,7 @@ const extrasOf = (state, unit, ctx) => ({ rifle: ctx?.rifleBonus?.(state, unit) 
 function v2Of(state, unit, m, ctx) {
   const cfg = ctx?.battleCfg;
   if (!cfg) return null;
-  const mult = cohesionPower(cohesionOf(state.cohesion, unit.id), cfg) * experiencePower(ctx.conditionOf?.(state, unit)?.experience, cfg);
+  const mult = cohesionPower(cohesionOf(state.cohesion, unit.id), cfg) * experiencePower((ctx.conditionCfg ? conditionOf(state.conditions ?? createConditionState(), unit.id, ctx.conditionCfg, unit.nation) : ctx.conditionOf?.(state, unit))?.experience, cfg);
   const raw = ctx.rawFirepower?.(state, unit);
   return { mult, base: raw?.recognized ? firepowerBase(raw, 0, { effective: m.effective, planned: m.planned, category: unit.category }, cfg) : undefined };
 }

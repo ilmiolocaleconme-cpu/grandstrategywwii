@@ -92,11 +92,10 @@ import { validateBattleV2, rawFirepower, casualtyDrain } from './rules/battleV2.
 import { createCasualtySystem } from './game/casualtyState.js';
 import { DIVISION_AMMO_CATEGORY } from './rules/militaryReserve.js';
 import { dailyAmmo } from './data/ammo.js';
-import { conditionOf as unitConditionOf } from './rules/divisionCondition.js';
 import { chainOf } from './rules/orbat.js';
 import { validateTerrainCombat } from './rules/terrainCombat.js';
 import { createRiverIndex } from './data/riverCrossings.js';
-import { buildCategoryOf, equipmentFill } from './rules/equipmentFill.js';
+import { buildCategoryOf, buildWeaponOf, equipmentFill } from './rules/equipmentFill.js';
 import conditionConfig from '../data/units/condition_config.json';
 import commandTemplates from '../data/units/command_templates.json';
 import { startFormation, completeFormations, availableManpower } from './rules/commandFormation.js';
@@ -323,6 +322,7 @@ function useProvinces() {
 // Dati iniziali dell'economia (pochi kB, nel bundle: funzionano offline). Stato economico per nazione: vedi game/economyState.js
 // Ricette degli equipaggiamenti (Fase 4): una per voce di OGNI catalogo data/units/equipment/catalog*.json, generate dalla tabella per categoria (nessun elenco per nazione qui)
 const EQUIPMENT_CATALOG = mergeEquipmentCatalogs(Object.values(import.meta.glob('../data/units/equipment/catalog*.json', { eager: true, import: 'default' })));
+const WEAPON_OF = buildWeaponOf(EQUIPMENT_CATALOG); // voce di divisione → arma con calibro e ruolo (battaglia v2)
 const CATEGORY_OF = buildCategoryOf(EQUIPMENT_CATALOG); // voce di divisione → categoria d'arma (dotazione in battaglia)
 const fillOf = (state, unitId, nation) => equipmentFill(state.forces?.divisions?.[unitId]?.items, (k) => CATEGORY_OF(nation, k), combatEquipmentCfg);
 const EQUIPMENT_SOURCES = buildEquivalence({ catalog: EQUIPMENT_CATALOG, upgradeMap: equipmentUpgradeMap, generic: { TANK: 'tanks' }, categoryOf: CATEGORY_OF }); // pezzi prodotti → voci dei template delle divisioni
@@ -399,8 +399,8 @@ const FUEL_OF_CATEGORY = { motorized: 'infantry_motorized', mechanized: 'infantr
 const fuelTonnes = (id) => fuelConsumptionFile.categories.find((c) => c.id === id)?.operational ?? 0;
 const BATTLE_V2_CTX = BATTLE_V2_ERRORS.length ? {} : {
   battleCfg: battleV2File,
-  rawFirepower: (state, u) => rawFirepower(state.forces?.divisions?.[u.id]?.items, (k) => CATEGORY_OF(u.nation, k), battleV2File, state.forces?.divisions?.[u.id]?.items?.['manpower.war']?.effective ?? 0),
-  conditionOf: (state, u) => unitConditionOf(state.conditions, u.id, conditionConfig, u.nation),
+  rawFirepower: (state, u) => rawFirepower(state.forces?.divisions?.[u.id]?.items, (k) => WEAPON_OF(u.nation, k), battleV2File, state.forces?.divisions?.[u.id]?.items?.['manpower.war']?.effective ?? 0),
+  conditionCfg: conditionConfig, // morale ed esperienza: letti da state.conditions e mossi dalla battaglia
   hasCommander: (state, id) => chainOf(state.orbat ?? createOrbatState(), id).some((c) => Boolean(state.commanders?.assignments?.[c])),
   ammoNeed: (u, phase) => dailyAmmo(ammoConsumptionFile, DIVISION_AMMO_CATEGORY[u.category], phase) ?? 0,
   fuelNeed: (u) => fuelTonnes(FUEL_OF_CATEGORY[u.category]),

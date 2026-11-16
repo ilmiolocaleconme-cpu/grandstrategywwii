@@ -12,24 +12,46 @@ const r2 = (x) => Math.round(x * 100) / 100;
 // ---- 1. potenza di fuoco ------------------------------------------------------------------------------------------------------------------
 
 /**
- * Fuoco grezzo di una divisione dalle sue armi effettive. items: voci della divisione; categoryOf(voce) → categoria d'arma | null;
- * men: uomini effettivi (per colmare i BUCHI DEI DATI: vedi `defaults`). Ritorna { recognized, small: { soft, hard }, artillery, direct, filled }
+ * Peso di un'arma: { soft, hard, class, armor }. weapon: categoria (stringa) oppure { category, caliber, role }.
+ * Con il calibro si usa la fascia di `byCaliber` (prima fascia con max >= calibro); per i carri il `role` del catalogo sceglie `tankRoles`
+ * (anche la corazza relativa `armor`); senza calibro né ruolo noti vale il peso medio della categoria.
+ */
+export function weaponWeight(weapon, cfg) {
+  const w = typeof weapon === 'string' ? { category: weapon } : weapon;
+  const base = cfg.firepower.weights[w?.category];
+  if (!base) return null;
+  if (w.category === 'TANK') {
+    const r = cfg.firepower.tankRoles?.[w.role];
+    return r ? { soft: r.soft, hard: r.hard, class: base.class, armor: r.armor } : { ...base, armor: 1 };
+  }
+  const band = typeof w.caliber === 'number' ? (cfg.firepower.byCaliber?.[w.category] ?? []).find((x) => w.caliber <= x.max) : null;
+  return band ? { soft: band.soft, hard: band.hard, class: base.class, armor: 1 } : { ...base, armor: 1 };
+}
+
+/**
+ * Fuoco grezzo di una divisione dalle sue armi effettive. items: voci della divisione; weaponOf(voce) → categoria | { category, caliber, role } | null;
+ * men: uomini effettivi (per colmare i BUCHI DEI DATI: vedi `defaults`). Ritorna { recognized, small: { soft, hard }, artillery, direct, armor, filled }
  * (somme dei pezzi × peso); recognized = false se nessuna voce ha una quantità nota (allora vale la regola di prima, per uomini).
+ * armor = corazza media dei carri effettivi (1 = carro medio; 1 anche senza carri noti): scala la quota corazzata della divisione.
  * Buchi: molti template non hanno il numero di fucili o di mitragliatrici (quantità ignota). Una divisione riconosciuta senza NESSUNA quantità
  * nota di armi individuali, di mitragliatrici o dell'intera classe artiglieria riceve per quella voce il valore medio per uomo di `defaults`:
  * un dato mancante non deve valere zero. `filled` elenca le voci colmate.
  */
-export function rawFirepower(items, categoryOf, cfg, men = 0) {
-  const out = { recognized: false, small: { soft: 0, hard: 0 }, artillery: { soft: 0, hard: 0 }, direct: { soft: 0, hard: 0 }, filled: [] };
+export function rawFirepower(items, weaponOf, cfg, men = 0) {
+  const out = { recognized: false, small: { soft: 0, hard: 0 }, artillery: { soft: 0, hard: 0 }, direct: { soft: 0, hard: 0 }, armor: 1, filled: [] };
   const known = new Set();
+  let tanks = 0; let armor = 0;
   for (const [k, v] of Object.entries(items ?? {})) {
-    const c = categoryOf(k);
-    const w = cfg.firepower.weights[c];
+    const weapon = weaponOf(k);
+    const c = typeof weapon === 'string' ? weapon : weapon?.category;
+    const w = weaponWeight(weapon, cfg);
     if (!w || !(v?.planned > 0)) continue;
     out.recognized = true; known.add(c); known.add(`class:${w.class}`);
     const n = Math.max(0, v.effective ?? 0);
     out[w.class].soft += n * w.soft; out[w.class].hard += n * w.hard;
+    if (c === 'TANK') { tanks += n; armor += n * w.armor; }
   }
+  if (tanks > 0) out.armor = armor / tanks;
   const d = cfg.firepower.defaults; const m = Math.max(0, men);
   if (out.recognized && d && m > 0) {
     if (!known.has('INDIVIDUAL_WEAPON')) { out.small.soft += m * d.rifleSoftPerMan; out.filled.push('INDIVIDUAL_WEAPON'); }
@@ -45,13 +67,13 @@ export function crewFactor(effective, planned, cfg) {
   return clamp(effective / planned / cfg.firepower.crewFullAt, 0, 1);
 }
 
-/** Quota corazzata (0..1) di una parte: media delle categorie pesata sugli uomini; `fuel` (copertura 0..1) la riduce per chi dipende dal carburante. */
+/** Quota corazzata (0..1) di una parte: media delle categorie pesata sugli uomini, scalata dalla corazza dei carri (`armor`); `fuel` (copertura 0..1) la riduce per chi dipende dal carburante. */
 export function sideHardness(units, cfg) {
   let men = 0; let hard = 0;
   for (const u of units) {
     const m = Math.max(0, u.effective ?? 0);
     const fuel = cfg.supply.fuelCategories.includes(u.category) ? clamp(u.fuel ?? 1, 0, 1) : 1;
-    men += m; hard += m * (cfg.firepower.hardness[u.category] ?? 0) * fuel;
+    men += m; hard += m * clamp((cfg.firepower.hardness[u.category] ?? 0) * (u.armor ?? 1), 0, 0.95) * fuel;
   }
   return men > 0 ? hard / men : 0;
 }
@@ -221,6 +243,16 @@ export function validateBattleV2(cfg, { weaponCategories = null } = {}) {
     if (!(w.soft >= 0) || !(w.hard >= 0) || !WEAPON_CLASSES.includes(w.class)) e.push(`battaglia v2: peso di ${c} non valido`);
   }
   if (!Object.keys(cfg.firepower?.weights ?? {}).length) e.push('battaglia v2: nessun peso');
+  for (const [c, bands] of Object.entries(cfg.firepower?.byCaliber ?? {})) {
+    if (!cfg.firepower.weights?.[c]) e.push(`battaglia v2: byCaliber di ${c} senza peso di categoria`);
+    let prev = 0;
+    for (const b of bands ?? []) { if (!(b.max > prev) || !(b.soft >= 0) || !(b.hard >= 0)) e.push(`battaglia v2: fascia di calibro di ${c} non valida`); prev = b.max; }
+  }
+  for (const [r, v] of Object.entries(cfg.firepower?.tankRoles ?? {})) if (!(v.soft >= 0) || !(v.hard >= 0) || !(v.armor > 0 && v.armor <= 2)) e.push(`battaglia v2: tipo di carro ${r} non valido`);
+  const cd = cfg.condition ?? {};
+  if (!(cd.experiencePerDay >= 0) || !(cd.experienceCap > 0 && cd.experienceCap <= 100)) e.push('battaglia v2: esperienza sul campo non valida');
+  for (const k of ['moraleWin', 'moraleRetreat', 'moraleHeavyLoss', 'moraleRecoverPerDay']) if (!(cd[k] >= 0)) e.push(`battaglia v2: ${k} non valido`);
+  if (!(cd.heavyLossShare > 0 && cd.heavyLossShare < 1)) e.push('battaglia v2: heavyLossShare fuori da 0..1');
   if (!(cfg.firepower?.scale > 0)) e.push('battaglia v2: scale non valido');
   for (const k of ['rifleSoftPerMan', 'mgSoftPerMan', 'artillerySoftPerMan', 'artilleryHardPerMan']) if (!(cfg.firepower?.defaults?.[k] >= 0)) e.push(`battaglia v2: defaults.${k} non valido`);
   if (!(cfg.firepower?.crewFullAt > 0 && cfg.firepower.crewFullAt <= 1)) e.push('battaglia v2: crewFullAt fuori da 0..1');

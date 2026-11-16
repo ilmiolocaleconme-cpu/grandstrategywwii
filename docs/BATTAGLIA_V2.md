@@ -1,6 +1,6 @@
 # Battaglia terrestre v2 (16/11/2026, branch `test`)
 
-Stato: **implementata e testata nelle regole e nel sistema giornaliero** (`tests/battle_v2.test.js`, 24 test); **non verificata** con `vite build`, nel browser, su telefono e offline (compilazione di prova con esbuild riuscita). **Tutti i numeri sono ipotesi di bilanciamento di Claude, da approvare**: `data/units/battle_v2.json` (ogni blocco ha il suo `rationale`).
+Stato: **implementata e testata nelle regole e nel sistema giornaliero** (`tests/battle_v2.test.js`, 27 test); **non verificata** con `vite build`, nel browser, su telefono e offline (compilazione di prova con esbuild riuscita). **Tutti i numeri sono ipotesi di bilanciamento di Claude, da approvare**: `data/units/battle_v2.json` (ogni blocco ha il suo `rationale`).
 
 File: `src/rules/battleV2.js` (regole pure), `src/game/theaterState.js` (`prepareV2`, `battlePhase`, `cohesionPhase`), `src/game/casualtyState.js` (ospedali), `src/game/theaterPlan.js` (stima dei piani), `src/App.jsx` (`BATTLE_V2_CTX`). Si accende con `ctx.battleCfg`: senza, vale la battaglia v1 (i test v1 restano invariati).
 
@@ -12,18 +12,25 @@ File: `src/rules/battleV2.js` (regole pure), `src/game/theaterState.js` (`prepar
 5. **Perdite divise.** Morti 22%, feriti 66%, dispersi 12%; prigionieri in ritirata (3% + fino all'8% per l'inseguimento di truppe mobili); resa di chi cede senza via di ritirata. Registro `state.casualties`; i feriti passano dagli ospedali (guariti al pool); morti, dispersi, prigionieri e ricoverati escono dal pool reclutabile.
 6. **Fasi e contesto.** Preparazione d'artiglieria il primo giorno (+50% all'artiglieria dell'attaccante); inseguimento; stagione (inverno a nord, fango a est) per data e posizione; comandante = bonus di tenuta. Perdite giornaliere ridotte all'1% (tetto 2,5%).
 
+## Aggiunte del 17/11/2026
+- **Calibro e tipo di carro.** Dove il catalogo dà il calibro, mortai, cannoni, obici e anticarro pesano per fascia (`firepower.byCaliber`); i carri per ruolo (`firepower.tankRoles`: tankette 12/3 … pesante 80/80), con una corazza relativa che scala la quota corazzata della divisione. Senza dato vale il peso medio della categoria.
+- **Morale ed esperienza si muovono** (`condition`): esperienza +0,15 per giorno in linea (tetto 90); morale +3 a chi vince, −5 a chi si ritira, −1 nei giorni con oltre il 2% di perdite; a riposo risale di 0,5 al giorno fino al valore di partenza della nazione. Scritti in `state.conditions`, come le altre regole di condizione.
+- **Chi difende** perde il 20% in meno di coesione: a forze pari cede prima chi attacca.
+
 ## Confronto su battaglie tipo (template reali, morale 70, esperienza 45)
 | Scontro | v1 | v2 |
 |---|---|---|
-| 1 DEU contro 1 FRA, pianura | 60+ giorni, −66% / −74% | 9 giorni, difensori in ritirata, −6% / −14% |
+| 1 DEU contro 1 FRA, pianura | 60+ giorni, −66% / −74% | 10 giorni, difensori in ritirata, −8% / −15% |
+| 1 DEU contro 1 FRA trincerata | — | 8 giorni, attaccanti respinti, −14% / −6% |
 | 3 DEU contro 1 FRA, pianura | 1 giorno, −1% / −6% | 5 giorni, −1% / −15% |
-| 3 DEU contro 1 FRA trincerata in montagna | 24 giorni, −23% / −61% | 14 giorni, −7% / −26% |
+| 3 DEU contro 1 FRA trincerata in montagna | 24 giorni, −23% / −61% | 15 giorni, −9% / −25% |
 | 1 corazzata URSS contro 1 fanteria DEU | 43 giorni, −43% / −76% | 5 giorni, −2% / −22% (1.667 prigionieri) |
-| 2 ITA contro 1 FRA in montagna | 56 giorni, vince chi attacca, −61% / −75% | 10 giorni, attaccanti respinti, −12% / −10% |
+| 2 ITA contro 1 FRA in montagna | 56 giorni, vince chi attacca, −61% / −75% | 8 giorni, attaccanti respinti, −13% / −6% |
+| 2 GIA contro 1 URSS, pianura | 8 giorni, vince chi attacca | 11 giorni, attaccanti respinti, −12% / −12% |
 
 ## Limiti dichiarati
-- Pesi per CATEGORIA d'arma: Panzer I e Panzer IV valgono uguale; nessuna differenza fra calibri.
-- Morale ed esperienza si leggono soltanto: crescita e calo restano da decidere (`docs/DA_FARE.md`, A.2–A.4). Gli ufficiali non hanno un valore: conta solo averne uno.
+- I carri tedeschi stanno nelle divisioni come classe generica («carri armati»): Panzer I e Panzer IV restano indistinti finché le divisioni non terranno i carri per modello. Voci aggregate (artiglieria britannica) = peso medio.
+- Morale ed esperienza: i numeri sono ipotesi di Claude sulle regole qualitative dell'utente; mancano rimpiazzi inesperti, morte o cattura dei comandanti, prestigio nazionale. Gli ufficiali non hanno un valore: conta solo averne uno.
 - Munizioni e carburante: consumo solo in battaglia; nessuna rete logistica (la scorta nazionale arriva ovunque).
 - Stagione: regola per data e posizione, non meteo. Ponti distrutti, aviazione e artiglieria di corpo d'armata non modellati.
 - Guarigione dei feriti senza posto in ospedale (1% al giorno): ipotesi di Claude, senza la quale una nazione senza ospedali perderebbe tutti i feriti.
