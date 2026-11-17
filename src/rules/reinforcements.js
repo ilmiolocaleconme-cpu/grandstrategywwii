@@ -131,6 +131,22 @@ export function dispatch(forces, transfers) {
   return { ...forces, transfers: [...transfersOf(forces), ...transfers] };
 }
 
+// Modelli dentro una voce di classe (17/11/2026): quando i pezzi arrivano da una scorta EQUIVALENTE (t.stockKey = 'equipment.<modello>', es. un
+// Pz.Kpfw. IV che rifornisce la voce «carri» del template tedesco) la voce ricorda quanti pezzi ha di ogni modello in `models`. I pezzi persi si
+// tolgono dai modelli già registrati in proporzione (i registrati non superano mai gli effettivi), poi si aggiunge l'arrivo. Lo legge la battaglia
+// (src/rules/battleV2.js → tankParts). Arrivi dalla voce stessa o da una scorta generica non si registrano.
+const EQUIPMENT_PATH = 'equipment.';
+function modelsAfter(it, t, taken) {
+  if (!(taken > 0) || typeof t.stockKey !== 'string' || !t.stockKey.startsWith(EQUIPMENT_PATH)) return {};
+  const id = t.stockKey.slice(EQUIPMENT_PATH.length);
+  const old = Object.entries(it.models ?? {}).filter(([, q]) => q > 0);
+  const total = old.reduce((s, [, q]) => s + q, 0);
+  const scale = total > it.effective && total > 0 ? it.effective / total : 1;
+  const models = Object.fromEntries(old.map(([k, q]) => [k, Math.round(q * scale * 1000) / 1000]));
+  models[id] = Math.round(((models[id] ?? 0) + taken) * 1000) / 1000;
+  return { models };
+}
+
 /** Integra i trasferimenti arrivati alla data. L'effettivo non supera il previsto: l'eccedenza torna indietro (returned). Ritorna { forces, arrived, returned }. */
 export function applyArrivals(forces, date) {
   const due = transfersOf(forces).filter((t) => t.arrivesOn <= date);
@@ -143,7 +159,7 @@ export function applyArrivals(forces, date) {
     if (!it) { returned.push({ ...t, returnedQty: t.qty }); continue; }
     const room = it.planned - it.effective;
     const taken = Math.min(t.qty, room);
-    divisions[t.divisionId] = { ...d, items: { ...d.items, [t.item]: { ...it, effective: it.effective + taken } } };
+    divisions[t.divisionId] = { ...d, items: { ...d.items, [t.item]: { ...it, effective: it.effective + taken, ...modelsAfter(it, t, taken) } } };
     arrived.push({ ...t, taken });
     if (taken < t.qty) returned.push({ ...t, returnedQty: t.qty - taken });
   }
@@ -156,6 +172,11 @@ export function validateReinforcementFields(forces) {
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'reinforce' in d && typeof d.reinforce !== 'boolean') errors.push(`forze: ${id} reinforce non booleano`);
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'cadre' in d && typeof d.cadre !== 'boolean') errors.push(`forze: ${id} cadre non booleano`);
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'priority' in d && typeof d.priority !== 'boolean') errors.push(`forze: ${id} priority non booleano`);
+  for (const [id, d] of Object.entries(forces.divisions ?? {})) for (const [k, it] of Object.entries(d?.items ?? {})) {
+    if (it?.models === undefined) continue; // facoltativo: modelli registrati dentro una voce di classe
+    if (it.models === null || typeof it.models !== 'object' || Array.isArray(it.models)) { errors.push(`forze: ${id} ${k} models non valido`); continue; }
+    for (const [m, q] of Object.entries(it.models)) if (!(q >= 0)) errors.push(`forze: ${id} ${k} modello ${m} con quantità non valida`);
+  }
   if (forces.transfers !== undefined) {
     if (!Array.isArray(forces.transfers)) return [...errors, 'forze: transfers non è un array'];
     const seen = new Set();

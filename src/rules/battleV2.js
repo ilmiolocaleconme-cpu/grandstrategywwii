@@ -12,7 +12,8 @@ const r2 = (x) => Math.round(x * 100) / 100;
 // ---- 1. potenza di fuoco ------------------------------------------------------------------------------------------------------------------
 
 /**
- * Peso di un'arma: { soft, hard, class, armor }. weapon: categoria (stringa) oppure { category, caliber, role }.
+ * Peso di un'arma: { soft, hard, class, armor }. weapon: categoria (stringa) oppure { id, category, caliber, role }. Per i carri vale prima il
+ * peso del modello (`tankModels`, per id), poi quello del ruolo.
  * Con il calibro si usa la fascia di `byCaliber` (prima fascia con max >= calibro); per i carri il `role` del catalogo sceglie `tankRoles`
  * (anche la corazza relativa `armor`); senza calibro né ruolo noti vale il peso medio della categoria.
  */
@@ -21,6 +22,8 @@ export function weaponWeight(weapon, cfg) {
   const base = cfg.firepower.weights[w?.category];
   if (!base) return null;
   if (w.category === 'TANK') {
+    const m = cfg.firepower.tankModels?.[w.id]; // peso proprio del modello (es. i Panzer tedeschi), prima del ruolo
+    if (m) return { soft: m.soft, hard: m.hard, class: base.class, armor: m.armor };
     const r = cfg.firepower.tankRoles?.[w.role];
     return r ? { soft: r.soft, hard: r.hard, class: base.class, armor: r.armor } : { ...base, armor: 1 };
   }
@@ -37,7 +40,28 @@ export function weaponWeight(weapon, cfg) {
  * nota di armi individuali, di mitragliatrici o dell'intera classe artiglieria riceve per quella voce il valore medio per uomo di `defaults`:
  * un dato mancante non deve valere zero. `filled` elenca le voci colmate.
  */
-export function rawFirepower(items, weaponOf, cfg, men = 0) {
+/**
+ * Parti di una voce di carri: [{ n, weapon }]. La voce può essere una CLASSE generica (i «carri armati» dei template tedeschi) che contiene modelli
+ * diversi: `item.models` = { id del modello: pezzi } registra i carri arrivati dalla produzione per modello (src/rules/reinforcements.js); se
+ * superano gli effettivi si riducono in proporzione. Il resto (carri mai tracciati: la dotazione iniziale) si divide secondo `fleetMix` della
+ * classe per l'anno `year` (anno di nascita della divisione); senza `fleetMix` vale la voce così com'è.
+ */
+export function tankParts(item, weapon, n, year, cfg, resolve) {
+  const model = (id) => resolve?.(id) ?? { id, category: 'TANK', role: null };
+  const tracked = Object.entries(item?.models ?? {}).filter(([, q]) => q > 0);
+  const total = tracked.reduce((s, [, q]) => s + q, 0);
+  const scale = total > n && total > 0 ? n / total : 1;
+  const parts = tracked.map(([id, q]) => ({ n: q * scale, weapon: model(id) }));
+  const rest = Math.max(0, n - total * scale);
+  if (!(rest > 0)) return parts;
+  const fleet = cfg.firepower.fleetMix?.[weapon?.id];
+  if (!fleet?.length) return [...parts, { n: rest, weapon }];
+  const row = [...fleet].reverse().find((r) => r.from <= year) ?? fleet[0];
+  return [...parts, ...Object.entries(row.mix).map(([id, share]) => ({ n: rest * share, weapon: model(id) }))];
+}
+
+// opts: { year (anno di nascita della divisione, per `fleetMix`), resolve(id del modello) → arma del catalogo }
+export function rawFirepower(items, weaponOf, cfg, men = 0, opts = {}) {
   const out = { recognized: false, small: { soft: 0, hard: 0 }, artillery: { soft: 0, hard: 0 }, direct: { soft: 0, hard: 0 }, armor: 1, filled: [] };
   const known = new Set();
   let tanks = 0; let armor = 0;
@@ -48,6 +72,14 @@ export function rawFirepower(items, weaponOf, cfg, men = 0) {
     if (!w || !(v?.planned > 0)) continue;
     out.recognized = true; known.add(c); known.add(`class:${w.class}`);
     const n = Math.max(0, v.effective ?? 0);
+    if (c === 'TANK' && typeof weapon === 'object') { // una voce di carri può contenere più modelli
+      for (const part of tankParts(v, weapon, n, opts.year ?? 0, cfg, opts.resolve)) {
+        const pw = weaponWeight(part.weapon, cfg) ?? w;
+        out[w.class].soft += part.n * pw.soft; out[w.class].hard += part.n * pw.hard;
+        tanks += part.n; armor += part.n * pw.armor;
+      }
+      continue;
+    }
     out[w.class].soft += n * w.soft; out[w.class].hard += n * w.hard;
     if (c === 'TANK') { tanks += n; armor += n * w.armor; }
   }
@@ -234,7 +266,7 @@ export function seasonFactor(date, centre, category, cfg) {
 
 // ---- validazione --------------------------------------------------------------------------------------------------------------------------
 
-export function validateBattleV2(cfg, { weaponCategories = null } = {}) {
+export function validateBattleV2(cfg, { weaponCategories = null, catalogIds = null } = {}) {
   if (cfg?.schema !== BATTLE_V2_SCHEMA) return [`battaglia v2: schema ${JSON.stringify(cfg?.schema)}`];
   const e = [];
   const unit = (v) => v >= 0 && v <= 1;
@@ -248,6 +280,19 @@ export function validateBattleV2(cfg, { weaponCategories = null } = {}) {
     let prev = 0;
     for (const b of bands ?? []) { if (!(b.max > prev) || !(b.soft >= 0) || !(b.hard >= 0)) e.push(`battaglia v2: fascia di calibro di ${c} non valida`); prev = b.max; }
   }
+  for (const [id, v] of Object.entries(cfg.firepower?.tankModels ?? {})) if (!(v.soft >= 0) || !(v.hard >= 0) || !(v.armor > 0 && v.armor <= 2)) e.push(`battaglia v2: modello di carro ${id} non valido`);
+  for (const [id, rows] of Object.entries(cfg.firepower?.fleetMix ?? {})) {
+    let prev = -Infinity;
+    for (const row of rows ?? []) {
+      if (!(row.from > prev)) e.push(`battaglia v2: fleetMix di ${id} non in ordine di anno`);
+      prev = row.from;
+      const sum = Object.values(row.mix ?? {}).reduce((a, b) => a + b, 0);
+      if (Math.abs(sum - 1) > 1e-6) e.push(`battaglia v2: fleetMix di ${id} dal ${row.from} non somma a 1`);
+      if (catalogIds) for (const m of Object.keys(row.mix ?? {})) if (!catalogIds.has(m)) e.push(`battaglia v2: fleetMix di ${id}, modello ${m} inesistente`);
+    }
+    if (catalogIds && !catalogIds.has(id)) e.push(`battaglia v2: fleetMix di ${id} inesistente nel catalogo`);
+  }
+  if (catalogIds) for (const id of Object.keys(cfg.firepower?.tankModels ?? {})) if (!catalogIds.has(id)) e.push(`battaglia v2: modello di carro ${id} inesistente nel catalogo`);
   for (const [r, v] of Object.entries(cfg.firepower?.tankRoles ?? {})) if (!(v.soft >= 0) || !(v.hard >= 0) || !(v.armor > 0 && v.armor <= 2)) e.push(`battaglia v2: tipo di carro ${r} non valido`);
   const cd = cfg.condition ?? {};
   if (!(cd.experiencePerDay >= 0) || !(cd.experienceCap > 0 && cd.experienceCap <= 100)) e.push('battaglia v2: esperienza sul campo non valida');

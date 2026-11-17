@@ -2,7 +2,7 @@
   "schema": "unit-template-v1",
   "id": "TPL-DEU-PZ-1936",
   "status": "BOZZA_DA_CONFERMARE",
-  "note": "Template della divisione corazzata tedesca al 1/1/1936: MODELLO TEORICO 1935-37 fornito dall'utente. Non indica i mezzi realmente disponibili: le prime divisioni corazzate non erano pienamente operative fino alle grandi manovre del 1937. Solo la struttura ha una fonte; uomini, cavalli, armi e veicoli sono da definire (null, non inventati). Mobilità per componente indicata dall'utente (fanteria, ricognizione e artiglieria motorizzate). Dotazione effettiva: ogni voce numerica ha 'effective' (null finché non c'è un dato con data e fonte).",
+  "note": "Template della divisione corazzata tedesca al 1/1/1936: MODELLO TEORICO 1935-37 fornito dall'utente. Non indica i mezzi realmente disponibili: le prime divisioni corazzate non erano pienamente operative fino alle grandi manovre del 1937. Solo la struttura ha una fonte; uomini, cavalli, armi e veicoli sono da definire (null, non inventati). Mobilità per componente indicata dall'utente (fanteria, ricognizione e artiglieria motorizzate). Dotazione effettiva: ogni voce numerica ha 'effective' (null finché non c'è un dato con data e fonte). AGGIORNAMENTO 17/11/2026: uomini, armi leggere, mitragliatrici, obici da 105, anticarro e mortai stimati da Claude (reliability ESTIMATED, basis ipotesi) perché la divisione senza uomini non entrava in battaglia; struttura e 416 carri restano quelli dell'utente.",
   "appliesTo": {
     "nation": "DEU",
     "category": "armored",
@@ -70,10 +70,18 @@
   },
   "manpower": {
     "war": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
+      "value": 11800,
+      "basis": "ipotesi",
+      "referenceYear": "1935-1937",
+      "source": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti: organico teorico della Panzer-Division 1935-37 (brigata carri, brigata di fanteria motorizzata, reggimento d'artiglieria su 2 gruppi, gruppo anticarro, ricognizione, pionieri). Serve perché senza uomini la divisione non combatte; da sostituire con dati documentati.",
+      "reliability": "ESTIMATED",
+      "note": "Uomini in guerra, circa 11.800.",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
     },
     "peace": {
       "value": null,
@@ -103,22 +111,94 @@
       }
     },
     "armiLeggere": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
+      "value": 9000,
+      "basis": "ipotesi",
+      "referenceYear": "1935-1937",
+      "source": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti: organico teorico della Panzer-Division 1935-37 (brigata carri, brigata di fanteria motorizzata, reggimento d'artiglieria su 2 gruppi, gruppo anticarro, ricognizione, pionieri). Serve perché senza uomini la divisione non combatte; da sostituire con dati documentati.",
+      "reliability": "ESTIMATED",
+      "note": "Fucili, pistole e pistole mitragliatrici della divisione, circa 9.000.",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
     },
     "mitragliatrici": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
+      "value": 420,
+      "basis": "ipotesi",
+      "referenceYear": "1935-1937",
+      "source": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti: organico teorico della Panzer-Division 1935-37 (brigata carri, brigata di fanteria motorizzata, reggimento d'artiglieria su 2 gruppi, gruppo anticarro, ricognizione, pionieri). Serve perché senza uomini la divisione non combatte; da sostituire con dati documentati.",
+      "reliability": "ESTIMATED",
+      "note": "Mitragliatrici leggere e pesanti della fanteria e della ricognizione (non quelle sui carri), circa 420.",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
     },
     "artiglieria": {
       "value": null,
       "basis": "da_definire",
       "referenceYear": null,
       "source": null
+    },
+    "obiciLeggeri105mm": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1935-1937",
+      "source": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti: organico teorico della Panzer-Division 1935-37 (brigata carri, brigata di fanteria motorizzata, reggimento d'artiglieria su 2 gruppi, gruppo anticarro, ricognizione, pionieri). Serve perché senza uomini la divisione non combatte; da sostituire con dati documentati.",
+      "reliability": "ESTIMATED",
+      "note": "2 gruppi su 3 batterie da 4 le.FH 18.",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "controcarro37mm": {
+      "value": 48,
+      "basis": "ipotesi",
+      "referenceYear": "1935-1937",
+      "source": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti: organico teorico della Panzer-Division 1935-37 (brigata carri, brigata di fanteria motorizzata, reggimento d'artiglieria su 2 gruppi, gruppo anticarro, ricognizione, pionieri). Serve perché senza uomini la divisione non combatte; da sostituire con dati documentati.",
+      "reliability": "ESTIMATED",
+      "note": "Gruppo anticarro e compagnie anticarro dei reggimenti, 3,7 cm PaK.",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "mortaiPesanti81mm": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1935-1937",
+      "source": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti: organico teorico della Panzer-Division 1935-37 (brigata carri, brigata di fanteria motorizzata, reggimento d'artiglieria su 2 gruppi, gruppo anticarro, ricognizione, pionieri). Serve perché senza uomini la divisione non combatte; da sostituire con dati documentati.",
+      "reliability": "ESTIMATED",
+      "note": "Mortai da 8 cm della fanteria motorizzata.",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "mortaiLeggeri50mm": {
+      "value": 27,
+      "basis": "ipotesi",
+      "referenceYear": "1935-1937",
+      "source": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti: organico teorico della Panzer-Division 1935-37 (brigata carri, brigata di fanteria motorizzata, reggimento d'artiglieria su 2 gruppi, gruppo anticarro, ricognizione, pionieri). Serve perché senza uomini la divisione non combatte; da sostituire con dati documentati.",
+      "reliability": "ESTIMATED",
+      "note": "Mortai da 5 cm delle compagnie fucilieri.",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
     },
     "veicoli": {
       "value": null,

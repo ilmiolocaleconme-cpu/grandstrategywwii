@@ -29,11 +29,11 @@ export function buildCategoryOf(catalog) {
 }
 
 /**
- * Come buildCategoryOf, ma ritorna l'arma intera: (nation, percorso) → { category, caliber (mm | null), role (ruolo del catalogo | null) } | null.
+ * Come buildCategoryOf, ma ritorna l'arma intera: (nation, percorso) → { id, category, caliber (mm | null), role (ruolo del catalogo | null) } | null.
  * Serve alla battaglia v2 per pesare i pezzi secondo calibro e tipo di carro (src/rules/battleV2.js).
  */
 export function buildWeaponOf(catalog) {
-  const byId = new Map((catalog?.entries ?? []).map((e) => [e.equipment_id, { category: e.category ?? null, caliber: typeof e.caliber_mm === 'number' ? e.caliber_mm : null, role: e.role ?? null }]));
+  const byId = new Map((catalog?.entries ?? []).map((e) => [e.equipment_id, { id: e.equipment_id, category: e.category ?? null, caliber: typeof e.caliber_mm === 'number' ? e.caliber_mm : null, role: e.role ?? null }]));
   const alias = new Map((catalog?.aliases ?? []).map((a) => [`${a.nation}|${a.templateKey}`, a.equipment_id]));
   return (nation, path) => {
     if (!path.startsWith('equipment.')) return null;

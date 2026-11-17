@@ -229,7 +229,11 @@ test('template corazzata tedesca 1936: modello teorico 1935-37, 416 carri previs
   assert.equal(t.equipment.carri.effective.value, null, 'i carri effettivi non sono noti: non inventati');
   assert.deepEqual(Object.keys(t.mobility).sort(), ['artiglieria', 'fanteria', 'ricognizione']);
   assert.ok(Object.values(t.mobility).every((m) => m.value === 'motorizzata' && m.basis === 'utente'));
-  assert.equal(t.manpower.war.value, null); assert.equal(t.equipment.artiglieria.value, null); assert.equal(t.effectiveSupply.value, null);
+  // 17/11/2026: uomini e armi stimati da Claude, dichiarati come tali; gli effettivi restano ignoti
+  for (const leaf of [t.manpower.war, t.equipment.armiLeggere, t.equipment.mitragliatrici, t.equipment.obiciLeggeri105mm, t.equipment.controcarro37mm]) {
+    assert.ok(leaf.value > 0); assert.equal(leaf.basis, 'ipotesi'); assert.equal(leaf.reliability, 'ESTIMATED'); assert.match(leaf.source, /NON verificata/); assert.equal(leaf.effective.value, null);
+  }
+  assert.equal(t.manpower.peace.value, null); assert.equal(t.equipment.artiglieria.value, null); assert.equal(t.effectiveSupply.value, null);
   assert.equal(t.costs.resources, null);
 });
 

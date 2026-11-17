@@ -399,7 +399,7 @@ const FUEL_OF_CATEGORY = { motorized: 'infantry_motorized', mechanized: 'infantr
 const fuelTonnes = (id) => fuelConsumptionFile.categories.find((c) => c.id === id)?.operational ?? 0;
 const BATTLE_V2_CTX = BATTLE_V2_ERRORS.length ? {} : {
   battleCfg: battleV2File,
-  rawFirepower: (state, u) => rawFirepower(state.forces?.divisions?.[u.id]?.items, (k) => WEAPON_OF(u.nation, k), battleV2File, state.forces?.divisions?.[u.id]?.items?.['manpower.war']?.effective ?? 0),
+  rawFirepower: (state, u) => { const d = state.forces?.divisions?.[u.id]; return rawFirepower(d?.items, (k) => WEAPON_OF(u.nation, k), battleV2File, d?.items?.['manpower.war']?.effective ?? 0, { year: Number(String(d?.since ?? state.startDate ?? '').slice(0, 4)) || 0, resolve: (id) => WEAPON_OF(u.nation, `equipment.${id}`) }); },
   conditionCfg: conditionConfig, // morale ed esperienza: letti da state.conditions e mossi dalla battaglia
   hasCommander: (state, id) => chainOf(state.orbat ?? createOrbatState(), id).some((c) => Boolean(state.commanders?.assignments?.[c])),
   ammoNeed: (u, phase) => dailyAmmo(ammoConsumptionFile, DIVISION_AMMO_CATEGORY[u.category], phase) ?? 0,

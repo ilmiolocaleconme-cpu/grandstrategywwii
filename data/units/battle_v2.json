@@ -173,6 +173,121 @@
         "armor": 0.6
       }
     },
+    "tankModels": {
+      "TNK-DEU-PZ-I": {
+        "soft": 18,
+        "hard": 2,
+        "armor": 0.4
+      },
+      "TNK-DEU-PZ-II": {
+        "soft": 25,
+        "hard": 10,
+        "armor": 0.5
+      },
+      "TNK-DEU-PZ-III": {
+        "soft": 40,
+        "hard": 50,
+        "armor": 1
+      },
+      "TNK-DEU-PZ-IV": {
+        "soft": 65,
+        "hard": 45,
+        "armor": 1.05
+      },
+      "TNK-DEU-PZ-V": {
+        "soft": 70,
+        "hard": 95,
+        "armor": 1.5
+      },
+      "TNK-DEU-PZ-VI": {
+        "soft": 85,
+        "hard": 100,
+        "armor": 1.6
+      },
+      "TNK-DEU-PZ-VIB": {
+        "soft": 90,
+        "hard": 120,
+        "armor": 1.9
+      }
+    },
+    "fleetMix": {
+      "TNK-DEU-TANK": [
+        {
+          "from": 1936,
+          "mix": {
+            "TNK-DEU-PZ-I": 1
+          }
+        },
+        {
+          "from": 1937,
+          "mix": {
+            "TNK-DEU-PZ-I": 0.8,
+            "TNK-DEU-PZ-II": 0.2
+          }
+        },
+        {
+          "from": 1938,
+          "mix": {
+            "TNK-DEU-PZ-I": 0.6,
+            "TNK-DEU-PZ-II": 0.35,
+            "TNK-DEU-PZ-III": 0.02,
+            "TNK-DEU-PZ-IV": 0.03
+          }
+        },
+        {
+          "from": 1939,
+          "mix": {
+            "TNK-DEU-PZ-I": 0.45,
+            "TNK-DEU-PZ-II": 0.4,
+            "TNK-DEU-PZ-III": 0.05,
+            "TNK-DEU-PZ-IV": 0.1
+          }
+        },
+        {
+          "from": 1940,
+          "mix": {
+            "TNK-DEU-PZ-I": 0.2,
+            "TNK-DEU-PZ-II": 0.35,
+            "TNK-DEU-PZ-III": 0.25,
+            "TNK-DEU-PZ-IV": 0.2
+          }
+        },
+        {
+          "from": 1941,
+          "mix": {
+            "TNK-DEU-PZ-II": 0.2,
+            "TNK-DEU-PZ-III": 0.5,
+            "TNK-DEU-PZ-IV": 0.3
+          }
+        },
+        {
+          "from": 1942,
+          "mix": {
+            "TNK-DEU-PZ-III": 0.55,
+            "TNK-DEU-PZ-IV": 0.45
+          }
+        },
+        {
+          "from": 1943,
+          "mix": {
+            "TNK-DEU-PZ-III": 0.25,
+            "TNK-DEU-PZ-IV": 0.6,
+            "TNK-DEU-PZ-V": 0.1,
+            "TNK-DEU-PZ-VI": 0.05
+          }
+        },
+        {
+          "from": 1944,
+          "mix": {
+            "TNK-DEU-PZ-IV": 0.5,
+            "TNK-DEU-PZ-V": 0.4,
+            "TNK-DEU-PZ-VI": 0.07,
+            "TNK-DEU-PZ-VIB": 0.03
+          }
+        }
+      ]
+    },
+    "panzerRationale": "Panzer tedeschi (17/11/2026). Le divisioni tedesche tengono la voce generica «carri armati»: ora i carri che arrivano dalla produzione vi restano registrati per modello (campo `models` della voce) e ogni modello ha il suo peso (`tankModels`: Panzer I 18/2 con corazza 0,4 … Tiger II 90/120 con 1,9). I carri mai tracciati (la dotazione con cui la divisione nasce) si dividono secondo `fleetMix`, la composizione approssimata del parco tedesco nell'anno di nascita della divisione (1936: solo Panzer I; settembre 1939: circa 45% Panzer I, 40% Panzer II, 5% Panzer III, 10% Panzer IV). Pesi e quote sono IPOTESI di Claude a memoria, non verificate su fonti: i carri cechi (Pz 35(t), Pz 38(t)) non sono nel catalogo e non compaiono.",
     "modelRationale": "Calibro e tipo di carro (17/11/2026): dove il catalogo dà il calibro, mortai, cannoni, obici e anticarro pesano per fascia (un obice da 150 vale 300, uno da 75 vale 100; un anticarro da 25 mm 20, da 47 mm 50, da 75 mm 110). I carri pesano per ruolo del catalogo: una tankette L3 vale 12/3 con corazza 0,3, un carro medio 55/45 con corazza 1, un pesante 80/80 con 1,35. La corazza media dei carri scala la quota corazzata della divisione (una divisione di tankette è quasi un bersaglio non corazzato). Senza calibro o ruolo (voci aggregate, classe generica «carri armati» tedesca) vale il peso medio della categoria: i Panzer tedeschi restano indistinti finché le divisioni non terranno i carri per modello.",
     "defaults": {
       "rifleSoftPerMan": 0.475,

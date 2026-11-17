@@ -1,6 +1,6 @@
 # Battaglia terrestre v2 (16/11/2026, branch `test`)
 
-Stato: **implementata e testata nelle regole e nel sistema giornaliero** (`tests/battle_v2.test.js`, 27 test); **non verificata** con `vite build`, nel browser, su telefono e offline (compilazione di prova con esbuild riuscita). **Tutti i numeri sono ipotesi di bilanciamento di Claude, da approvare**: `data/units/battle_v2.json` (ogni blocco ha il suo `rationale`).
+Stato: **implementata e testata nelle regole e nel sistema giornaliero** (`tests/battle_v2.test.js`, 30 test); **non verificata** con `vite build`, nel browser, su telefono e offline (compilazione di prova con esbuild riuscita). **Tutti i numeri sono ipotesi di bilanciamento di Claude, da approvare**: `data/units/battle_v2.json` (ogni blocco ha il suo `rationale`).
 
 File: `src/rules/battleV2.js` (regole pure), `src/game/theaterState.js` (`prepareV2`, `battlePhase`, `cohesionPhase`), `src/game/casualtyState.js` (ospedali), `src/game/theaterPlan.js` (stima dei piani), `src/App.jsx` (`BATTLE_V2_CTX`). Si accende con `ctx.battleCfg`: senza, vale la battaglia v1 (i test v1 restano invariati).
 
@@ -17,6 +17,13 @@ File: `src/rules/battleV2.js` (regole pure), `src/game/theaterState.js` (`prepar
 - **Morale ed esperienza si muovono** (`condition`): esperienza +0,15 per giorno in linea (tetto 90); morale +3 a chi vince, −5 a chi si ritira, −1 nei giorni con oltre il 2% di perdite; a riposo risale di 0,5 al giorno fino al valore di partenza della nazione. Scritti in `state.conditions`, come le altre regole di condizione.
 - **Chi difende** perde il 20% in meno di coesione: a forze pari cede prima chi attacca.
 
+## Panzer tedeschi (17/11/2026)
+- **Le Panzer-Division non combattevano**: il template del 1936 aveva solo i 416 carri, senza uomini, e la battaglia scarta le divisioni senza uomini. Ora il template ha uomini (11.800), armi leggere (9.000), mitragliatrici (420), 24 obici da 105, 48 anticarro da 37 mm e 45 mortai: **stime di Claude** (reliability ESTIMATED), struttura e 416 carri restano quelli dell'utente.
+- **Ogni Panzer ha il suo peso** (`firepower.tankModels`): Panzer I 18/2 corazza 0,4; Panzer II 25/10 0,5; Panzer III 40/50 1; Panzer IV 65/45 1,05; Panther 70/95 1,5; Tiger I 85/100 1,6; Tiger II 90/120 1,9.
+- **I carri prodotti restano registrati per modello** dentro la voce «carri» (`models`, in `src/rules/reinforcements.js`); i pezzi persi si tolgono in proporzione.
+- **La dotazione iniziale** (carri mai tracciati) segue il parco tedesco dell'anno di nascita della divisione (`firepower.fleetMix`): 1936 solo Panzer I; 1939 45% I, 40% II, 5% III, 10% IV; 1941 20% II, 50% III, 30% IV; 1944 50% IV, 40% Panther, 10% Tiger. Quote a memoria, non verificate. Carri cechi (Pz 35(t), 38(t)) assenti dal catalogo.
+- Esiti simulati (Panzer-Division contro 1 divisione): fanteria FRA 11 giorni (parco 1936), 6 giorni (1940); corazzata FRA 8 giorni; corazzata URSS respinta nel 1941, vittoria nel 1943.
+
 ## Confronto su battaglie tipo (template reali, morale 70, esperienza 45)
 | Scontro | v1 | v2 |
 |---|---|---|
@@ -29,7 +36,7 @@ File: `src/rules/battleV2.js` (regole pure), `src/game/theaterState.js` (`prepar
 | 2 GIA contro 1 URSS, pianura | 8 giorni, vince chi attacca | 11 giorni, attaccanti respinti, −12% / −12% |
 
 ## Limiti dichiarati
-- I carri tedeschi stanno nelle divisioni come classe generica («carri armati»): Panzer I e Panzer IV restano indistinti finché le divisioni non terranno i carri per modello. Voci aggregate (artiglieria britannica) = peso medio.
+- Voci aggregate (artiglieria britannica) = peso medio. I carri delle ricette generiche (`tanks`, senza modello) contano secondo il parco dell'anno di nascita della divisione.
 - Morale ed esperienza: i numeri sono ipotesi di Claude sulle regole qualitative dell'utente; mancano rimpiazzi inesperti, morte o cattura dei comandanti, prestigio nazionale. Gli ufficiali non hanno un valore: conta solo averne uno.
 - Munizioni e carburante: consumo solo in battaglia; nessuna rete logistica (la scorta nazionale arriva ovunque).
 - Stagione: regola per data e posizione, non meteo. Ponti distrutti, aviazione e artiglieria di corpo d'armata non modellati.

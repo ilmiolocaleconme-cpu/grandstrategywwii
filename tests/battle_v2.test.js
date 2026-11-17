@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import {
-  validateBattleV2, rawFirepower, weaponWeight, firepowerBase, artilleryShare, crewFactor, sideHardness, ammoFactors, fuelFactor, resilience, cohesionLoss, cohesionPower,
+  validateBattleV2, rawFirepower, weaponWeight, tankParts, firepowerBase, artilleryShare, crewFactor, sideHardness, ammoFactors, fuelFactor, resilience, cohesionLoss, cohesionPower,
   experiencePower, sideBreaks, recoverCohesion, frontageOf, splitLine, drawSupply, splitCasualties, mobileShare, retreatPrisoners, addCasualties,
   casualtiesOf, casualtyDrain, seasonFactor, cohesionOf,
 } from '../src/rules/battleV2.js';
@@ -17,6 +17,7 @@ import { createCasualtySystem } from '../src/game/casualtyState.js';
 import { powerOfUnit } from '../src/game/theaterPlan.js';
 import { validateState } from '../src/game/state.js';
 import { conditionOf } from '../src/rules/divisionCondition.js';
+import { applyArrivals, validateReinforcementFields } from '../src/rules/reinforcements.js';
 
 const read = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
 const cfg = read('units/battle_v2.json');
@@ -384,4 +385,66 @@ test('sistema: la battaglia muove morale ed esperienza; a riposo il morale risal
   assert.ok(later > low && later <= base('F1', 'FRA').morale);
   let t = s; for (let i = 0; i < 40; i += 1) t = { ...createTheaterSystem(w.ctx)({ ...t, day: t.day + 1, war: t.war }) };
   assert.ok(of(t, 'F1', 'FRA').morale <= base('F1', 'FRA').morale, 'mai oltre il valore di partenza');
+});
+
+// ---- 17/11/2026: Panzer tedeschi per modello ----
+const DEU_TANK = WEAPON_OF('DEU', 'equipment.carri');
+const resolveDeu = (id) => WEAPON_OF('DEU', `equipment.${id}`);
+const panzer = (item, year) => rawFirepower({ 'equipment.carri': item }, (k) => WEAPON_OF('DEU', k), cfg, 0, { year, resolve: resolveDeu });
+const hardOf = (raw) => raw.direct.hard;
+
+test('Panzer: ogni modello ha il suo peso; la voce generica dei template è la classe TNK-DEU-TANK', () => {
+  assert.equal(DEU_TANK.id, 'TNK-DEU-TANK');
+  const w = (id) => weaponWeight(resolveDeu(id), cfg);
+  const ids = ['TNK-DEU-PZ-I', 'TNK-DEU-PZ-II', 'TNK-DEU-PZ-III', 'TNK-DEU-PZ-IV', 'TNK-DEU-PZ-V', 'TNK-DEU-PZ-VI', 'TNK-DEU-PZ-VIB'];
+  for (const id of ids) assert.deepEqual({ soft: w(id).soft, hard: w(id).hard, armor: w(id).armor }, cfg.firepower.tankModels[id]);
+  for (let i = 1; i < ids.length; i += 1) assert.ok(w(ids[i]).armor >= w(ids[i - 1]).armor, 'corazza crescente dal Panzer I al Tiger II');
+  assert.ok(w('TNK-DEU-PZ-IV').soft > w('TNK-DEU-PZ-I').soft * 3 && w('TNK-DEU-PZ-III').hard > w('TNK-DEU-PZ-I').hard * 20);
+  assert.deepEqual(validateBattleV2(cfg, { catalogIds: new Set(CATALOG.entries.map((e) => e.equipment_id)) }), []);
+  assert.ok(validateBattleV2(cfg, { catalogIds: new Set(['TNK-DEU-TANK']) }).length > 0);
+  assert.ok(validateBattleV2({ ...cfg, firepower: { ...cfg.firepower, fleetMix: { 'TNK-DEU-TANK': [{ from: 1936, mix: { 'TNK-DEU-PZ-I': 0.5 } }] } } }).length > 0);
+});
+
+test('Panzer: la dotazione iniziale segue il parco dell’anno di nascita della divisione', () => {
+  const item = { planned: 400, effective: 400 };
+  assert.deepEqual(tankParts(item, DEU_TANK, 400, 1936, cfg, resolveDeu).map((p) => [p.weapon.id, p.n]), [['TNK-DEU-PZ-I', 400]]);
+  assert.deepEqual(tankParts(item, DEU_TANK, 400, 1900, cfg, resolveDeu).map((p) => p.weapon.id), ['TNK-DEU-PZ-I'], 'prima del primo anno vale la prima riga');
+  const y39 = tankParts(item, DEU_TANK, 400, 1939, cfg, resolveDeu);
+  assert.ok(Math.abs(y39.reduce((s, p) => s + p.n, 0) - 400) < 1e-9);
+  assert.equal(y39.find((p) => p.weapon.id === 'TNK-DEU-PZ-IV').n, 40);
+  assert.equal(panzer(item, 1936).direct.soft, 400 * 18);
+  assert.equal(panzer(item, 1936).armor, 0.4);
+  assert.ok(hardOf(panzer(item, 1941)) > hardOf(panzer(item, 1939)) * 3 && hardOf(panzer(item, 1939)) > hardOf(panzer(item, 1936)) * 3);
+  assert.ok(panzer(item, 1944).armor > 1.2);
+  // una voce senza fleetMix (altre nazioni) resta com'era
+  const fra = WEAPON_OF('FRA', 'equipment.TNK-FRA-B1BIS-1940');
+  assert.deepEqual(tankParts(item, fra, 400, 1940, cfg, null), [{ n: 400, weapon: fra }]);
+});
+
+test('Panzer: i carri arrivati dalla produzione restano registrati per modello e sostituiscono i persi', () => {
+  const t = (qty, model, day) => ({ id: `P|c|${day}|${model}`, divisionId: 'P', item: 'equipment.carri', qty, sentOn: '1940-01-01', arrivesOn: `1940-01-${day}`, from: 'stock', stockKey: `equipment.${model}` });
+  let f = { schema: 'forces-v1', initialized: true, divisions: { P: { templateId: 't', since: '1936-01-01', items: { 'equipment.carri': { planned: 400, effective: 300, source: 'template' } } } }, transfers: [t(60, 'TNK-DEU-PZ-IV', '02'), t(80, 'TNK-DEU-PZ-III', '03')] };
+  f = applyArrivals(f, '1940-01-02').forces;
+  assert.deepEqual(f.divisions.P.items['equipment.carri'].models, { 'TNK-DEU-PZ-IV': 60 });
+  f = applyArrivals(f, '1940-01-03').forces;
+  const it = f.divisions.P.items['equipment.carri'];
+  assert.equal(it.effective, 400, 'non oltre il previsto: 40 Panzer III presi su 80');
+  assert.deepEqual(it.models, { 'TNK-DEU-PZ-IV': 60, 'TNK-DEU-PZ-III': 40 });
+  assert.deepEqual(validateReinforcementFields(f), []);
+  // 300 Panzer I della dotazione 1936 + 60 Panzer IV + 40 Panzer III
+  const parts = Object.fromEntries(tankParts(it, DEU_TANK, 400, 1936, cfg, resolveDeu).map((p) => [p.weapon.id, p.n]));
+  assert.deepEqual(parts, { 'TNK-DEU-PZ-IV': 60, 'TNK-DEU-PZ-III': 40, 'TNK-DEU-PZ-I': 300 });
+  assert.ok(hardOf(panzer(it, 1936)) > hardOf(panzer({ planned: 400, effective: 400 }, 1936)) * 5);
+  // perdite pesanti: restano 50 carri, poi arrivano 100 Tiger → i registrati di prima si riducono a 50 in proporzione
+  const hit = { ...f, divisions: { P: { ...f.divisions.P, items: { 'equipment.carri': { ...it, effective: 50 } } } }, transfers: [t(100, 'TNK-DEU-PZ-VI', '09')] };
+  const after = applyArrivals(hit, '1940-01-09').forces.divisions.P.items['equipment.carri'];
+  assert.equal(after.effective, 150);
+  assert.deepEqual(after.models, { 'TNK-DEU-PZ-IV': 30, 'TNK-DEU-PZ-III': 20, 'TNK-DEU-PZ-VI': 100 });
+  // registrati oltre gli effettivi (perdite non ancora rimpiazzate): in battaglia contano in proporzione
+  const worn = tankParts({ ...it, effective: 100 }, DEU_TANK, 100, 1936, cfg, resolveDeu);
+  assert.deepEqual(Object.fromEntries(worn.map((p) => [p.weapon.id, p.n])), { 'TNK-DEU-PZ-IV': 60, 'TNK-DEU-PZ-III': 40 });
+  // arrivo dalla voce stessa o da scorta generica: nessun modello registrato
+  const plain = applyArrivals({ ...f, divisions: { Q: { templateId: 't', since: '1936-01-01', items: { 'equipment.carri': { planned: 10, effective: 0, source: 'template' } } } }, transfers: [{ id: 'x', divisionId: 'Q', item: 'equipment.carri', qty: 5, sentOn: '1940-01-01', arrivesOn: '1940-01-02', from: 'stock' }, { id: 'y', divisionId: 'Q', item: 'equipment.carri', qty: 2, sentOn: '1940-01-01', arrivesOn: '1940-01-02', from: 'stock', stockKey: 'tanks' }] }, '1940-01-02').forces;
+  assert.equal('models' in plain.divisions.Q.items['equipment.carri'], false);
+  assert.ok(validateReinforcementFields({ divisions: { P: { items: { a: { models: { x: -1 } } } } } }).length > 0);
 });

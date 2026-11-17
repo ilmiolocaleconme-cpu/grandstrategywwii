@@ -158,7 +158,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const smallArmsDoc = JSON.parse(await text('units/models/fucili_1930_1945.json'));
     errors.push(...validateSmallArms(smallArmsDoc, { techIds, nationIds: new Set(catalog.nations.map((n) => n.id)) }));
     errors.push(...validateRifleQuality(smallArmsDoc, { techIds }));
-    errors.push(...validateBattleV2(JSON.parse(await text('units/battle_v2.json')), { weaponCategories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK']) }));
+    errors.push(...validateBattleV2(JSON.parse(await text('units/battle_v2.json')), { weaponCategories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK']), catalogIds: new Set(JSON.parse(await text('units/equipment/catalog.json')).entries.map((x) => x.equipment_id)) }));
     errors.push(...validateTerrainCombat(JSON.parse(await text('units/terrain_combat.json'))));
     errors.push(...validateRiverCrossings(JSON.parse(await text('military/river_crossings.json')), { placeIds: new Set(provinceIds), riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
     errors.push(...validateCombatEquipment(JSON.parse(await text('units/combat_equipment.json')), { categories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK']) }));
