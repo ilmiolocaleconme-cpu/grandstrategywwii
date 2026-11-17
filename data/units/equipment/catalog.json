@@ -257,6 +257,36 @@
       "sameAs": "TNK-DEU-TANK"
     },
     {
+      "equipment_id": "TNK-DEU-PZ-35T",
+      "nation": "DEU",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Pz.Kpfw. 35(t)",
+      "name_it": "Carro Pz.Kpfw. 35(t)",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti. Carro progettato e costruito in Cecoslovacchia (Škoda, Plzeň); producibile solo da chi controlla la Boemia (P_CZE_BOHEMIA). Nome tedesco del LT vz. 35.",
+      "sameAs": "TNK-DEU-TANK"
+    },
+    {
+      "equipment_id": "TNK-DEU-PZ-38T",
+      "nation": "DEU",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Pz.Kpfw. 38(t)",
+      "name_it": "Carro Pz.Kpfw. 38(t)",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (17/11/2026), NON verificata su fonti. Carro progettato e costruito in Cecoslovacchia (ČKD, Praga); producibile solo da chi controlla la Boemia (P_CZE_BOHEMIA). Nome tedesco del LT vz. 38.",
+      "sameAs": "TNK-DEU-TANK"
+    },
+    {
       "equipment_id": "INW-DEU-LIGHT",
       "nation": "DEU",
       "category": "INDIVIDUAL_WEAPON",

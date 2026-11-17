@@ -411,7 +411,8 @@ test('Panzer: la dotazione iniziale segue il parco dell’anno di nascita della 
   assert.deepEqual(tankParts(item, DEU_TANK, 400, 1900, cfg, resolveDeu).map((p) => p.weapon.id), ['TNK-DEU-PZ-I'], 'prima del primo anno vale la prima riga');
   const y39 = tankParts(item, DEU_TANK, 400, 1939, cfg, resolveDeu);
   assert.ok(Math.abs(y39.reduce((s, p) => s + p.n, 0) - 400) < 1e-9);
-  assert.equal(y39.find((p) => p.weapon.id === 'TNK-DEU-PZ-IV').n, 40);
+  assert.equal(y39.find((p) => p.weapon.id === 'TNK-DEU-PZ-IV').n, 24); // settembre 1939: 6% Panzer IV (parco con i carri cechi, 17/11/2026)
+  assert.equal(y39.find((p) => p.weapon.id === 'TNK-DEU-PZ-35T').n, 24);
   assert.equal(panzer(item, 1936).direct.soft, 400 * 18);
   assert.equal(panzer(item, 1936).armor, 0.4);
   assert.ok(hardOf(panzer(item, 1941)) > hardOf(panzer(item, 1939)) * 3 && hardOf(panzer(item, 1939)) > hardOf(panzer(item, 1936)) * 3);

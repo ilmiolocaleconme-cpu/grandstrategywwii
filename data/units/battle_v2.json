@@ -208,6 +208,16 @@
         "soft": 90,
         "hard": 120,
         "armor": 1.9
+      },
+      "TNK-DEU-PZ-35T": {
+        "soft": 28,
+        "hard": 28,
+        "armor": 0.6
+      },
+      "TNK-DEU-PZ-38T": {
+        "soft": 30,
+        "hard": 32,
+        "armor": 0.7
       }
     },
     "fleetMix": {
@@ -238,33 +248,41 @@
           "from": 1939,
           "mix": {
             "TNK-DEU-PZ-I": 0.45,
-            "TNK-DEU-PZ-II": 0.4,
-            "TNK-DEU-PZ-III": 0.05,
-            "TNK-DEU-PZ-IV": 0.1
+            "TNK-DEU-PZ-II": 0.38,
+            "TNK-DEU-PZ-35T": 0.06,
+            "TNK-DEU-PZ-38T": 0.02,
+            "TNK-DEU-PZ-III": 0.03,
+            "TNK-DEU-PZ-IV": 0.06
           }
         },
         {
           "from": 1940,
           "mix": {
-            "TNK-DEU-PZ-I": 0.2,
-            "TNK-DEU-PZ-II": 0.35,
-            "TNK-DEU-PZ-III": 0.25,
-            "TNK-DEU-PZ-IV": 0.2
+            "TNK-DEU-PZ-I": 0.21,
+            "TNK-DEU-PZ-II": 0.39,
+            "TNK-DEU-PZ-35T": 0.04,
+            "TNK-DEU-PZ-38T": 0.09,
+            "TNK-DEU-PZ-III": 0.15,
+            "TNK-DEU-PZ-IV": 0.12
           }
         },
         {
           "from": 1941,
           "mix": {
+            "TNK-DEU-PZ-I": 0.05,
             "TNK-DEU-PZ-II": 0.2,
-            "TNK-DEU-PZ-III": 0.5,
-            "TNK-DEU-PZ-IV": 0.3
+            "TNK-DEU-PZ-35T": 0.05,
+            "TNK-DEU-PZ-38T": 0.2,
+            "TNK-DEU-PZ-III": 0.35,
+            "TNK-DEU-PZ-IV": 0.15
           }
         },
         {
           "from": 1942,
           "mix": {
-            "TNK-DEU-PZ-III": 0.55,
-            "TNK-DEU-PZ-IV": 0.45
+            "TNK-DEU-PZ-38T": 0.15,
+            "TNK-DEU-PZ-III": 0.5,
+            "TNK-DEU-PZ-IV": 0.35
           }
         },
         {
@@ -287,7 +305,7 @@
         }
       ]
     },
-    "panzerRationale": "Panzer tedeschi (17/11/2026). Le divisioni tedesche tengono la voce generica «carri armati»: ora i carri che arrivano dalla produzione vi restano registrati per modello (campo `models` della voce) e ogni modello ha il suo peso (`tankModels`: Panzer I 18/2 con corazza 0,4 … Tiger II 90/120 con 1,9). I carri mai tracciati (la dotazione con cui la divisione nasce) si dividono secondo `fleetMix`, la composizione approssimata del parco tedesco nell'anno di nascita della divisione (1936: solo Panzer I; settembre 1939: circa 45% Panzer I, 40% Panzer II, 5% Panzer III, 10% Panzer IV). Pesi e quote sono IPOTESI di Claude a memoria, non verificate su fonti: i carri cechi (Pz 35(t), Pz 38(t)) non sono nel catalogo e non compaiono.",
+    "panzerRationale": "Panzer tedeschi (17/11/2026). Le divisioni tedesche tengono la voce generica «carri armati»: ora i carri che arrivano dalla produzione vi restano registrati per modello (campo `models` della voce) e ogni modello ha il suo peso (`tankModels`: Panzer I 18/2 con corazza 0,4 … Tiger II 90/120 con 1,9). I carri mai tracciati (la dotazione con cui la divisione nasce) si dividono secondo `fleetMix`, la composizione approssimata del parco tedesco nell'anno di nascita della divisione (1936: solo Panzer I; settembre 1939: circa 45% Panzer I, 40% Panzer II, 5% Panzer III, 10% Panzer IV). Pesi e quote sono IPOTESI di Claude a memoria, non verificate su fonti: i carri cechi (Pz 35(t), Pz 38(t)) non sono nel catalogo e non compaiono. La Cecoslovacchia non ha template corazzati: le sue versioni (LT vz. 35 e 38) entreranno con un template ceco.",
     "modelRationale": "Calibro e tipo di carro (17/11/2026): dove il catalogo dà il calibro, mortai, cannoni, obici e anticarro pesano per fascia (un obice da 150 vale 300, uno da 75 vale 100; un anticarro da 25 mm 20, da 47 mm 50, da 75 mm 110). I carri pesano per ruolo del catalogo: una tankette L3 vale 12/3 con corazza 0,3, un carro medio 55/45 con corazza 1, un pesante 80/80 con 1,35. La corazza media dei carri scala la quota corazzata della divisione (una divisione di tankette è quasi un bersaglio non corazzato). Senza calibro o ruolo (voci aggregate, classe generica «carri armati» tedesca) vale il peso medio della categoria: i Panzer tedeschi restano indistinti finché le divisioni non terranno i carri per modello.",
     "defaults": {
       "rifleSoftPerMan": 0.475,

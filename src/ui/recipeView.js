@@ -1,6 +1,6 @@
 // Vista della produzione di equipaggiamenti: quali impianti possono cambiare ricetta, con quali scelte, e a che punto sono i lotti.
 // Funzioni PURE (nessun React). I valori di lotto (giorni di costruzione e consegna) sono valori di gioco DESIGN_DEFAULT, non dati storici.
-import { groupUnlocked, recipeUnlocked } from '../data/equipmentProduction.js';
+import { groupUnlocked, recipeUnlocked, recipeLockReason } from '../data/equipmentProduction.js';
 import { setFacilityRecipe } from '../game/facilityRecipe.js';
 
 const nationOfEquipment = (equipmentId) => equipmentId.split('-')[1];
@@ -14,8 +14,8 @@ export function equipmentRecipesFor(recipes, nation, factoryType) {
 const FALLBACK_ROLES = new Set(['officer_and_specialist_sidearm']);
 
 /** Ricetta di default per una NUOVA fabbrica: la prima sbloccata per id, ma le armi di ripiego (pistole) passano per ultime. null se la nazione non ne ha. */
-export function defaultEquipmentRecipe(recipes, nation, factoryType, table, researched = new Set(), date = null) {
-  const unlocked = equipmentRecipesFor(recipes, nation, factoryType).filter((r) => recipeUnlocked(table, r, researched, date));
+export function defaultEquipmentRecipe(recipes, nation, factoryType, table, researched = new Set(), date = null, controllerOf = null) {
+  const unlocked = equipmentRecipesFor(recipes, nation, factoryType).filter((r) => recipeUnlocked(table, r, researched, date, controllerOf));
   return unlocked.find((r) => !FALLBACK_ROLES.has(r.role)) ?? unlocked[0] ?? null;
 }
 
@@ -35,11 +35,12 @@ export function batchView(facility, recipe) {
 
 /**
  * Righe degli impianti che producono equipaggiamenti (o che potrebbero, per tipo di fabbrica).
- * ctx: { catalog: { recipes: Map, factories: Map }, table, researched: Set, nameOf(equipmentId) → nome, groupName(group) → nome, techName(id) → nome }
+ * ctx: { catalog: { recipes: Map, factories: Map }, table, researched: Set, nameOf(equipmentId) → nome, groupName(group) → nome, techName(id) → nome,
+ *   placeName(provincia) → nome, controllerOf?(provincia) → nazione }
  * Ogni riga: { facilityId, factory, current, batches, options: [{ recipeId, label, current, ok, message }], locked: [{ recipeId, label, requires }] }.
  * `ok`/`message` vengono dalla prova a secco di setFacilityRecipe: il motivo è quello vero della regola.
  */
-export function facilityRecipeRows(state, nation, { catalog, table, researched = new Set(), nameOf = (x) => x, techName = (x) => x }) {
+export function facilityRecipeRows(state, nation, { catalog, table, researched = new Set(), nameOf = (x) => x, techName = (x) => x, placeName = (x) => x, controllerOf = null }) {
   const n = state.nations?.[nation];
   if (!n) return [];
   const rows = [];
@@ -51,9 +52,10 @@ export function facilityRecipeRows(state, nation, { catalog, table, researched =
     for (const r of candidates) {
       const label = nameOf(r.equipmentId);
       if (!groupUnlocked(table, r.group, researched)) { locked.push({ recipeId: r.id, label, requires: techName(table.groups?.[r.group]?.requires) }); continue; }
-      if (!recipeUnlocked(table, r, researched, state.date ?? null)) { locked.push({ recipeId: r.id, label, requires: `in produzione dal ${r.availableFrom}` }); continue; }
+      const lock = recipeLockReason(r, state.date ?? null, controllerOf);
+      if (lock) { locked.push({ recipeId: r.id, label, requires: lock.kind === 'control' ? `serve il controllo di ${placeName(r.requiresControl)}` : lock.text }); continue; }
       let ok = true; let message = '';
-      try { setFacilityRecipe(state, nation, f.id, r.id, { catalog, table, researched }); } catch (e) { ok = false; message = e.message; }
+      try { setFacilityRecipe(state, nation, f.id, r.id, { catalog, table, researched, controllerOf }); } catch (e) { ok = false; message = e.message; }
       options.push({ recipeId: r.id, label, current: r.id === f.recipeId, ok, message });
     }
     rows.push({

@@ -31,9 +31,9 @@ test('artiglieria: ogni pezzo producibile ha il suo peso; l\'acciaio al giorno d
   assert.ok(fullCapacityFlows(rec('ART-DEU-GRW36'), fab).outputPerDay <= 25, 'mortai leggeri con quota ridotta');
 });
 
-test('carri tedeschi per modello: 7 Panzer con peso, collegati alla voce dei template (carri) come la voce di classe', () => {
+test('carri tedeschi per modello: 9 Panzer (7 tedeschi + 35(t) e 38(t) dal 17/11/2026) con peso, collegati alla voce dei template (carri) come la voce di classe', () => {
   const pz = generated.filter((r) => /^TNK-DEU-PZ-/.test(r.equipmentId));
-  assert.equal(pz.length, 7);
+  assert.equal(pz.length, 9);
   assert.deepEqual(validateEquipmentProduction(table, { factoriesById: industry.byId, catalog }), []);
   const sources = buildEquivalence({ catalog })('DEU', 'equipment.TNK-DEU-TANK');
   for (const r of pz) assert.ok(sources.includes(r.output.product), `${r.equipmentId} rifornisce le divisioni`);

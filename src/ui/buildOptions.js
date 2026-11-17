@@ -43,7 +43,7 @@ export function describeBuildFailure(r, techName = (id) => id) {
  * Cosa può costruire `nationId` in una provincia madre. ctx: { build (createConstruction), catalog, sites, economy, resourceLabel(id) }.
  * Ogni voce: { order, label, cost, ok, message } — `ok` dice se l'ordine sarebbe accettato ORA (prova a secco, lo stato non cambia).
  */
-export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id, hospitals = null, equipmentTable = null }) {
+export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id, hospitals = null, equipmentTable = null, controllerOf = null }) {
   const nation = state.nations?.[nationId];
   const out = { mines: [], factories: [], hospitals: [] };
   if (!nation) return out;
@@ -67,7 +67,7 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
     // ricette di equipaggiamento: solo quelle della propria nazione e sbloccate, UNA riga per tipo di fabbrica (la ricetta si cambia poi dall'impianto)
     if (recipe.equipmentId) {
       if (recipe.equipmentId.split('-')[1] !== nationId) continue;
-      if (equipmentTable) { const def = defaultEquipmentRecipe(catalog.recipes, nationId, recipe.factory, equipmentTable, researched, state.date ?? null); if (!def || def.id !== recipe.id) continue; }
+      if (equipmentTable) { const def = defaultEquipmentRecipe(catalog.recipes, nationId, recipe.factory, equipmentTable, researched, state.date ?? null, controllerOf?.(state) ?? null); if (!def || def.id !== recipe.id) continue; }
     }
     const key = recipe.equipmentId ? `${recipe.factory}/equipment` : `${recipe.factory}/${recipe.id}`;
     if (seen.has(key)) continue;

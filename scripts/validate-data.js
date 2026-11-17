@@ -277,7 +277,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       const mergedCatalog = mergeEquipmentCatalogs(catalogDocs);
       errors.push(...validateUpgradeMap(JSON.parse(await text('units/equipment/upgrade_map.json')), { catalog: mergedCatalog, templates: divisionTemplates }));
       const prodTable = JSON.parse(await text('units/equipment/equipment_production.json'));
-      errors.push(...validateEquipmentProduction(prodTable, { factoriesById: industry.byId, techIds, catalog: mergedCatalog }));
+      errors.push(...validateEquipmentProduction(prodTable, { factoriesById: industry.byId, techIds, catalog: mergedCatalog, provinceIds: new Set([...provinceIds, ...catalog.provinces.features.map((f) => f.properties.parentProvince).filter(Boolean)]) })); // province e province madri divise in sponde;
       errors.push(...validateRecipes(withEquipmentRecipes(recipesDoc, buildEquipmentRecipes(mergedCatalog, prodTable)), { factoriesById: industry.byId, resources: catalog.resources, equipmentIds: new Set(mergedCatalog.entries.map((e) => e.equipment_id)) }));
       // Template e cataloghi generati dai CSV (Fase 6): i file su disco devono coincidere con quelli ricostruiti dai CSV
       const built = await templatesBuilt();

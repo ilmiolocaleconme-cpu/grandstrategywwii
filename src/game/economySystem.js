@@ -10,6 +10,7 @@
 // NON ancora presenti: spese di mantenimento, limiti di magazzino, commercio, cambi di proprietà dei territori (proprietà e province sono quelle del 1936). Le scorte quindi possono crescere senza limite dove la produzione supera i consumi.
 import { applyLevy, economicOwner, puppetsOf } from '../rules/puppetLevy.js';
 import { produceDay } from '../rules/production.js';
+import { recipeLockReason } from '../data/equipmentProduction.js';
 import { fertilizerEffect } from '../rules/fertilizer.js';
 import { horseUpkeep } from '../rules/horsePool.js';
 
@@ -44,7 +45,7 @@ export function hydroMwByOwner(hydroFile, date, ownerOf) {
  * ctx: { sites (mine_sites.json, opzionale), catalog: { recipes: Map, factories: Map }, economy, baseline (extraction_baseline.json), hydro (hydro_plants.json), political, cash (initial_cash.json: province per proprietario),
  *        livestock (opzionale): { fertilizer: contenuto di fertilizer_effect.json, horses: contenuto di horse_breeding.json } }
  */
-export function createEconomySystem({ catalog, economy, baseline, hydro, political, cash, sites = { byProvince: {} }, livestock = null, smallArms = null, nationIds = null }) {
+export function createEconomySystem({ catalog, economy, baseline, hydro, political, cash, sites = { byProvince: {} }, livestock = null, smallArms = null, nationIds = null, controllerOf = null }) {
   const nationSet = nationIds ? new Set(nationIds) : null;
   // mandati della Società delle Nazioni e fantocci che non sono nazioni del gioco (Terranova) → chi li amministra
   const ownerOf = new Map(political.map((e) => [e.id, economicOwner(e, nationSet)]));
@@ -88,7 +89,12 @@ export function createEconomySystem({ catalog, economy, baseline, hydro, politic
       let apCoverage = n.apCoverage;
       let produced = {}; let consumed = {}; let after = stock; let facilities = n.facilities;
       if (n.facilities.length > 0) {
-        const r = produceDay({ facilities: studsFirst(n.facilities), stock, hydroMw: (hydroNow[id] ?? 0) + n.baseGridMw, date: state.date }, { ...catalog, techs: techsOf(n) });
+        // 17/11/2026: le linee di un modello fuori produzione o senza il controllo della provincia della fabbrica storica (requiresControl) si fermano
+        // per il giorno (la ricetta resta: riprendono se la provincia torna). Gli altri impianti non cambiano.
+        const where = controllerOf ? (p) => controllerOf(state, p) : null;
+        const halted = (f) => { const rc = catalog.recipes.get(f.recipeId); return Boolean(rc && (rc.availableTo || rc.requiresControl) && recipeLockReason({ ...rc, availableFrom: undefined }, state.date ?? null, where)); };
+        const runnable = n.facilities.some(halted) ? n.facilities.map((f) => (halted(f) ? { ...f, active: false } : f)) : n.facilities;
+        const r = produceDay({ facilities: studsFirst(runnable), stock, hydroMw: (hydroNow[id] ?? 0) + n.baseGridMw, date: state.date }, { ...catalog, techs: techsOf(n) });
         after = r.stock; produced = r.balance.produced; consumed = r.balance.consumed;
         // copertura del tungsteno dei proiettili perforanti (13/11/2026): ricevuto / richiesto oggi; senza richiesta resta il valore di ieri
         const ap = r.facilities.reduce((t, x) => { const o = x.optional?.tungsten; return o ? { need: t.need + o.need, got: t.got + o.got } : t; }, { need: 0, got: 0 });

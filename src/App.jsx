@@ -14,7 +14,7 @@ import { markCapitals, markCapitalsInCollection, withCities } from './map/citta.
 import ProvincePanel from './map/ProvincePanel.jsx';
 import { provinceLinkStats } from './rules/provinceView.js';
 import { SeaPanel, useSeaIndex } from './map/SeaLayer.jsx';
-import { buildMapModel, ownerColor } from './map/geo.js';
+import { buildMapModel, ownerColor, controllerOf } from './map/geo.js';
 import { withTerrain } from './data/terrain.js';
 import { buildCanvasModel } from './map/canvasModel.js';
 import initialIndustry from '../data/industry/initial_industry.json';
@@ -89,6 +89,7 @@ import battleV2File from '../data/units/battle_v2.json';
 import ammoConsumptionFile from '../data/military/ammo_consumption.json';
 import fuelConsumptionFile from '../data/military/fuel_consumption.json';
 import { validateBattleV2, rawFirepower, casualtyDrain } from './rules/battleV2.js';
+import { ownerFromPlaceId } from './data/equipmentProduction.js';
 import { createCasualtySystem } from './game/casualtyState.js';
 import { DIVISION_AMMO_CATEGORY } from './rules/militaryReserve.js';
 import { dailyAmmo } from './data/ammo.js';
@@ -405,6 +406,10 @@ const BATTLE_V2_CTX = BATTLE_V2_ERRORS.length ? {} : {
   ammoNeed: (u, phase) => dailyAmmo(ammoConsumptionFile, DIVISION_AMMO_CATEGORY[u.category], phase) ?? 0,
   fuelNeed: (u) => fuelTonnes(FUEL_OF_CATEGORY[u.category]),
 };
+// Chi controlla un posto (17/11/2026): per le ricette legate a una provincia (carri cechi: Boemia). Con la rete del movimento vale la regola delle
+// sponde (provinceController); prima che la rete sia caricata, il controllo scritto nello stato e poi il proprietario del 1936.
+const placeControllerOf = (state, p) => (MOVE_NET.net ? provinceController(state, MOVE_NET.net, p) : state.provinces?.[p]?.controller ?? controllerOf(ownerFromPlaceId(p), state.control));
+const controlFn = (state) => (p) => placeControllerOf(state, p);
 const THEATER_CTX = { ...BATTLE_V2_CTX, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
@@ -419,7 +424,7 @@ const GAME_SYSTEMS = [
   createCasualtySystem({ params: hospitalCare }), // feriti di battaglia negli ospedali: guariti al pool, morti ai caduti (battaglia v2)
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
   GAME_BUILD.constructionDay,
-  createEconomySystem({ nationIds: START_ECONOMY.nationIds, catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding }, smallArms: smallArmsFile }),
+  createEconomySystem({ controllerOf: placeControllerOf, nationIds: START_ECONOMY.nationIds, catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding }, smallArms: smallArmsFile }),
   // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
   (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
@@ -430,7 +435,7 @@ const GAME_SYSTEMS = [
 ];
 
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)
-const BUILD_CTX = { equipmentTable: equipmentProductionTable, build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
+const BUILD_CTX = { controllerOf: controlFn, equipmentTable: equipmentProductionTable, build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
 
 const NATIONS_WITH_UNITS = new Set(unitsFile.units.map((u) => u.nation)); // nazioni con unità nel catalogo: i possibili avversari
 // nomi: prima l'elenco delle nazioni (comprende chi nasce dopo il 1/1/1936, es. il Mengjiang), poi i territori del 1936
@@ -604,7 +609,7 @@ export default function App() {
   // produzione di equipaggiamenti: la regola è setFacilityRecipe (pura, lancia un Error col motivo); qui si applica il risultato
   const changeRecipe = (facilityId, recipeId) => {
     try {
-      setGame(setFacilityRecipe(game, game.player, facilityId, recipeId, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]) }));
+      setGame(setFacilityRecipe(game, game.player, facilityId, recipeId, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), controllerOf: controlFn(game) }));
       return { ok: true, text: 'Ricetta cambiata: la produzione riparte da zero.' };
     } catch (e) { return { ok: false, text: e.message }; }
   };
@@ -717,7 +722,7 @@ export default function App() {
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
   const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game, shipyardsFile), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri storici 1936 (bozza) e costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
-  const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName }) : []), [game, techName]);
+  const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName, placeName: (p) => provinceName.get(p) ?? p, controllerOf: controlFn(game) }) : []), [game, techName, provinceName]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const estimatedHqs = useMemo(() => {

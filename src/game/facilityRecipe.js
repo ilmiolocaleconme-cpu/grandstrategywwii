@@ -2,12 +2,13 @@
 // Funzione PURA: ritorna il nuovo stato o lancia un Error col motivo (mai un cambio silenzioso).
 // Regole: la ricetta deve essere della stessa fabbrica; se è un equipaggiamento il suo gruppo deve essere sbloccato (groupUnlocked); i lotti già chiusi non si perdono,
 // quindi il cambio è rifiutato finché l'impianto ha lotti in consegna; i pezzi in lavorazione (wip) non finiti si perdono, e l'impianto riparte da zero.
-import { groupUnlocked, recipeUnlocked } from '../data/equipmentProduction.js';
+import { groupUnlocked, recipeLockReason } from '../data/equipmentProduction.js';
 
 /**
- * ctx: { catalog: { recipes: Map, factories: Map }, table (equipment_production.json), researched?: Set(id tecnologie della nazione) }
+ * ctx: { catalog: { recipes: Map, factories: Map }, table (equipment_production.json), researched?: Set(id tecnologie della nazione),
+ *   controllerOf?(provincia) → nazione che la controlla (ricette con requiresControl; senza, vale il proprietario del 1936) }
  */
-export function setFacilityRecipe(state, nation, facilityId, recipeId, { catalog, table, researched = new Set() }) {
+export function setFacilityRecipe(state, nation, facilityId, recipeId, { catalog, table, researched = new Set(), controllerOf = null }) {
   const n = state.nations?.[nation];
   if (!n) throw new Error(`nazione sconosciuta: ${nation}`);
   const f = n.facilities.find((x) => x.id === facilityId);
@@ -18,7 +19,8 @@ export function setFacilityRecipe(state, nation, facilityId, recipeId, { catalog
   if (recipe.equipmentId) {
     if (recipe.equipmentId.split('-')[1] !== nation) throw new Error(`${recipeId} è di un'altra nazione`);
     if (!groupUnlocked(table, recipe.group, researched)) throw new Error(`${recipeId}: gruppo ${recipe.group} non ancora sbloccato`);
-    if (!recipeUnlocked(table, recipe, researched, state.date ?? null)) throw new Error(`${recipeId}: modello in produzione solo dal ${recipe.availableFrom}`);
+    const lock = recipeLockReason(recipe, state.date ?? null, controllerOf); // data d'inizio e di fine, controllo della provincia della fabbrica storica
+    if (lock) throw new Error(lock.kind === 'from' ? `${recipeId}: modello in produzione solo dal ${recipe.availableFrom}` : `${recipeId}: ${lock.text}`);
   }
   if (f.recipeId === recipeId) return state;
   if ((f.batches ?? []).length > 0) throw new Error(`${facilityId} ha lotti in consegna: aspettare la consegna prima di cambiare ricetta`);
