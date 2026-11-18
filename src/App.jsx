@@ -736,7 +736,7 @@ export default function App() {
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
   const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game, shipyardsFile), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri storici 1936 (bozza) e costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
-  const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName, placeName: (p) => provinceName.get(p) ?? p, controllerOf: controlFn(game) }) : []), [game, techName, provinceName]);
+  const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName, placeName: provinceName, controllerOf: controlFn(game) }) : []), [game, techName, provinceName]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const estimatedHqs = useMemo(() => {

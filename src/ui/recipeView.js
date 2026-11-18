@@ -54,7 +54,7 @@ export function facilityRecipeRows(state, nation, { catalog, table, researched =
       if (!groupUnlocked(table, r.group, researched)) { locked.push({ recipeId: r.id, label, requires: `richiede ${techName(table.groups?.[r.group]?.requires)}` }); continue; }
       // tutti i motivi insieme (es. «richiede Corazza inclinata · dal 01/01/1943»): il giocatore vede subito cosa manca
       const reasons = recipeLockReasons(r, { date: state.date ?? null, controllerOf, researched });
-      if (reasons.length) { locked.push({ recipeId: r.id, label, requires: reasons.map((x) => (x.kind === 'tech' ? `richiede ${techName(x.tech)}` : x.kind === 'control' ? `serve il controllo di ${placeName(r.requiresControl)}` : x.text)).join(' · ') }); continue; }
+      if (reasons.length) { locked.push({ recipeId: r.id, label, requires: reasons.map((x) => (x.kind === 'tech' ? `richiede ${(x.missing ?? [x.tech]).map(techName).join(' + ')}` : x.kind === 'control' ? `serve il controllo di ${placeName(r.requiresControl)}` : x.text)).join(' · ') }); continue; }
       let ok = true; let message = '';
       try { setFacilityRecipe(state, nation, f.id, r.id, { catalog, table, researched, controllerOf }); } catch (e) { ok = false; message = e.message; }
       options.push({ recipeId: r.id, label, current: r.id === f.recipeId, ok, message });
