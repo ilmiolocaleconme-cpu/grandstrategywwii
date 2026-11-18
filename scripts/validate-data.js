@@ -16,7 +16,7 @@ import { readFile as readFileTerrain } from 'node:fs/promises';
 import { validateTerrain } from '../src/data/terrain.js';
 import { validateTerrainCombat } from '../src/rules/terrainCombat.js';
 import { validateBattleV2 } from '../src/rules/battleV2.js';
-import { validateModules, templateFromComposition } from '../src/data/modules.js';
+import { validateModules, templateFromComposition, validateEditorRules } from '../src/data/modules.js';
 import { validateEvents } from '../src/game/eventsState.js';
 import { validateRiverCrossings } from '../src/data/riverCrossings.js';
 import { parseCsv } from '../src/data/csv.js';
@@ -293,6 +293,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
             if (!onDisk || JSON.stringify(onDisk) !== JSON.stringify(templateFromComposition(mdoc, comp))) errors.push(`${f}: il template ${comp.templateId} non corrisponde ai moduli (rigenerare con node scripts/build-module-templates.js)`);
           }
         }
+        errors.push(...validateEditorRules(JSON.parse(await text('units/modules/editor_rules.json')))); // limiti storici dell'editor (18/11/2026)
       }
       // Fase 4: tabella di produzione per categoria + ricette generate per ogni equipaggiamento del catalogo (prodotto equipment.<id>)
       const mergedCatalog = mergeEquipmentCatalogs(catalogDocs);

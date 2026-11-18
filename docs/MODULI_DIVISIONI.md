@@ -39,3 +39,13 @@ Tecnologie nuove nel ramo Corazzati: **TECH-ARM-ASSAULT** (cannone d'assalto, do
 Battaglioni tedeschi (`modules_deu.json`): MOD-DEU-STUG, STUG-G, PZJG-SP (Marder), JPZ, HETZER (compagnia), JAGDPANTHER. Nessuna composizione li usa ancora: entreranno con l'editor.
 
 Brigate: `echelon: 'brigade'` ora ha istanza nelle forze se esiste un template di brigata per la nazione. Template: TPL-USSR-TBR-1935 (160 carri BT/T-26, 2 700 uomini) e TPL-USSR-TBR-1941 (47 carri, 1 300 uomini). Le 3 brigate aviotrasportate sovietiche restano senza template. In battaglia una brigata occupa **mezzo posto** nel fronte e consuma metà munizioni e carburante. Le brigate sovietiche non sono nello schieramento del 1936 (come quasi tutta l'Armata Rossa), quindi non compaiono ancora sulla mappa.
+
+## Editor a moduli (18/11/2026)
+
+Menu → **Divisioni**. Decisioni dell'utente: **limiti storici** e **riorganizzazione graduale**.
+
+- *Nuovo*: battaglioni della nazione con − / +, disponibili solo se ricercati e dalla loro data; si può partire da un modello (`presets` e composizioni storiche). Limiti in `data/units/modules/editor_rules.json`: 18.000 uomini, 30 battaglioni, massimi per tipo (carri 4, artiglieria 6, anticarro 3, supporto 4, fanteria 12), almeno 3 battaglioni di combattimento, esattamente un reparto di servizi divisionali (`divisional: true`).
+- *Modelli*: elenco, divisioni che lo usano, eliminazione solo se non usato.
+- *Riorganizza*: la divisione passa subito al modello (`src/game/designsState.js`, riusa `upgradeDivision` con la mappa delle voci); ciò che ha si porta, ciò che manca arriva coi rinforzi (scorte e produzione), ciò che avanza (equipaggiamenti del catalogo e cavalli) torna in magazzino, gli uomini in più tornano al bacino. La categoria dell'unità segue il modello (carri → corazzata, semicingolati → meccanizzata, tutto motorizzato → motorizzata).
+- Stato: `state.designs` (facoltativo, `division-designs-v1`), salvato con la partita.
+- Battaglioni ippotrainati aggiunti per la fanteria a piedi (artiglieria leggera e pesante, compagnie pesanti, servizi). Solo Germania: le altre nazioni non hanno ancora battaglioni. L'IA non usa l'editor.

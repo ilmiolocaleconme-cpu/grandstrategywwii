@@ -31,7 +31,12 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
     if (m.requiresTech !== undefined && !(typeof m.requiresTech === 'string' || (Array.isArray(m.requiresTech) && m.requiresTech.length))) e.push(`${p}: requiresTech non valido`);
     else if (m.requiresTech !== undefined && techIds) for (const t of [m.requiresTech].flat()) if (!techIds.has(t)) e.push(`${p}: tecnologia ${t} inesistente`);
     if (m.availableFrom !== undefined && !DATE_RE.test(m.availableFrom)) e.push(`${p}: availableFrom non valido`);
+    if (m.divisional !== undefined && m.divisional !== true) e.push(`${p}: divisional ammesso solo come true`);
     if (m.mobility === 'motorized' && !Object.keys(m.equipment ?? {}).some((k) => k.startsWith('VEH-'))) e.push(`${p}: motorizzato senza veicoli`);
+  }
+  for (const pr of doc.presets ?? []) { // punti di partenza dell'editor (18/11/2026)
+    if (!/^PRE-[A-Z]{3,4}-[A-Z0-9-]+$/.test(pr?.id ?? '') || !pr.name) e.push(`modello di partenza ${pr?.id ?? '?'}: id o nome non validi`);
+    for (const [id, n] of pr?.modules ?? []) if (!(doc.modules ?? []).some((m) => m.id === id) || !(Number.isInteger(n) && n > 0)) e.push(`modello di partenza ${pr.id}: ${id} non valido`);
   }
   const tpl = new Set();
   for (const c of doc.compositions ?? []) {
@@ -101,4 +106,75 @@ export function vehicleMarchSpeed(items, foot, motor) {
   }
   if (!(planned > 0) || !(motor > foot)) return null;
   return Math.round(foot + (motor - foot) * (effective / planned));
+}
+
+// ---- Editor a moduli (18/11/2026, decisioni dell'utente: limiti storici; riorganizzazione graduale) ----------------------------------------
+export const EDITOR_RULES_SCHEMA = 'division-editor-rules-v1';
+export const DESIGN_CATEGORIES = Object.freeze(['infantry', 'motorized', 'mechanized', 'armored']);
+
+/** Errori del file delle regole dell'editor (data/units/modules/editor_rules.json). */
+export function validateEditorRules(r) {
+  if (r?.schema !== EDITOR_RULES_SCHEMA) return [`editor: schema ${JSON.stringify(r?.schema)}`];
+  const e = [];
+  for (const k of ['maxMen', 'maxModules', 'minCombat', 'nameMax']) if (!(Number.isInteger(r[k]) && r[k] > 0)) e.push(`editor: ${k} non valido`);
+  if (!(Number.isInteger(r.divisional) && r.divisional >= 0)) e.push('editor: divisional non valido');
+  for (const [t, n] of Object.entries(r.maxPerType ?? {})) {
+    if (!MODULE_TYPES.includes(t)) e.push(`editor: tipo ${t} sconosciuto`);
+    if (!(Number.isInteger(n) && n > 0)) e.push(`editor: massimo di ${t} non valido`);
+  }
+  if (!Array.isArray(r.combatTypes) || !r.combatTypes.every((t) => MODULE_TYPES.includes(t))) e.push('editor: combatTypes non valido');
+  return e;
+}
+
+/** Modulo disponibile per la nazione alla data con le tecnologie ricercate (Set). */
+export function moduleAvailable(m, { nation, date, researched }) {
+  if (m.nation !== nation) return false;
+  if (m.availableFrom && date && date < m.availableFrom) return false;
+  return [m.requiresTech ?? []].flat().every((t) => researched?.has(t));
+}
+
+/** Categoria della divisione dai suoi battaglioni: carri → corazzata; fanteria su semicingolati → meccanizzata; tutta motorizzata → motorizzata; altrimenti fanteria. */
+export function designCategory(list, modules) {
+  const byId = new Map(modules.map((m) => [m.id, m]));
+  const ms = list.map(([id]) => byId.get(id)).filter(Boolean);
+  if (ms.some((m) => m.type === 'tank')) return 'armored';
+  if (ms.some((m) => m.type === 'mechanized_infantry')) return 'mechanized';
+  if (ms.length && ms.every((m) => m.mobility !== 'foot')) return 'motorized';
+  return 'infantry';
+}
+
+/**
+ * Motivi per cui una composizione NON si può approvare (lista vuota = valida). list: [[idModulo, quanti]]; ctx: { modules, rules, nation, date, researched }.
+ * Limiti storici: uomini e battaglioni massimi, massimo per tipo, battaglioni di combattimento minimi, esattamente `divisional` reparti divisionali
+ * (servizi), solo battaglioni della nazione disponibili alla data e ricercati.
+ */
+export function designProblems(list, { modules, rules, nation, date, researched }) {
+  const out = [];
+  const byId = new Map(modules.map((m) => [m.id, m]));
+  const perType = {}; let total = 0; let men = 0; let combat = 0; let divisional = 0;
+  const seen = new Set();
+  for (const [id, n] of list) {
+    const m = byId.get(id);
+    if (!m) { out.push(`battaglione ${id} inesistente`); continue; }
+    if (seen.has(id)) out.push(`${m.name_it}: elencato due volte`);
+    seen.add(id);
+    if (!(Number.isInteger(n) && n > 0)) { out.push(`${m.name_it}: quantità non valida`); continue; }
+    if (!moduleAvailable(m, { nation, date, researched })) out.push(`${m.name_it}: non disponibile (data o tecnologia)`);
+    perType[m.type] = (perType[m.type] ?? 0) + n; total += n; men += m.men * n;
+    if (rules.combatTypes.includes(m.type)) combat += n;
+    if (m.divisional) divisional += n;
+  }
+  if (total > rules.maxModules) out.push(`troppi battaglioni: ${total} (massimo ${rules.maxModules})`);
+  if (men > rules.maxMen) out.push(`troppi uomini: ${men} (massimo ${rules.maxMen})`);
+  for (const [t, n] of Object.entries(perType)) if (rules.maxPerType?.[t] && n > rules.maxPerType[t]) out.push(`troppi battaglioni di tipo ${t}: ${n} (massimo ${rules.maxPerType[t]})`);
+  if (combat < rules.minCombat) out.push(`servono almeno ${rules.minCombat} battaglioni di combattimento`);
+  if (divisional !== rules.divisional) out.push(`serve ${rules.divisional === 1 ? 'un reparto' : `${rules.divisional} reparti`} di servizi divisionali (ne hai ${divisional})`);
+  return out;
+}
+
+/** Template di divisione (formato di data/units/templates) da un modello del giocatore: { id, nation, name, category, modules, createdOn }. */
+export function designTemplate(design, modules) {
+  const doc = { modules };
+  const t = templateFromComposition(doc, { templateId: design.id.replace(/^DSG-([A-Z]+)-(\d+)$/, 'TPL-$1-DSG-$2'), category: design.category, activeFrom: design.createdOn, formation: design.name, modules: design.modules });
+  return { ...t, id: design.id, status: 'PLAYER_DESIGN', note: `Modello di divisione creato dal giocatore il ${design.createdOn} con l'editor a moduli.` };
 }

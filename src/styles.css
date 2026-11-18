@@ -634,3 +634,31 @@ h2 {
 .tech-node.sel { background: #7d3471; border-color: #ffffff; opacity: 1; }
 .tech-detail { margin: 6px 0; padding: 8px; border: 1px solid #5a4a2e; border-radius: 4px; background: rgba(0, 0, 0, 0.2); }
 @media (max-width: 600px) { .tech-tree { max-height: 60vh; } }
+
+/* Pannello Divisioni (editor a moduli, 18/11/2026) */
+.de-tabs { padding: 0 12px; }
+.de-panel .th-body { gap: 6px; }
+.de-name { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+.de-name input, .de-name select { min-height: 40px; background: #1d2418; color: var(--ink); border: 1px solid #4a553f; border-radius: 8px; padding: 0 10px; font: inherit; }
+.de-presets { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; }
+.de-presets button, .de-panel .th-row button { min-height: 36px; padding: 0 10px; border-radius: 8px; border: 1px solid #4a553f; background: transparent; color: var(--ink); font: inherit; font-size: 13px; }
+.de-panel .th-row button.danger { border-color: #b3261e; color: #ff8d83; }
+.de-panel .th-row button:disabled { opacity: .4; }
+.de-mods, .de-divs, .de-needs, .de-problems { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.de-mods li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px; border: 1px solid #3a4432; border-radius: 8px; }
+.de-mods li.off { opacity: .55; }
+.de-mod-name { display: flex; flex-direction: column; font-size: 14px; min-width: 0; }
+.de-step { display: flex; align-items: center; gap: 6px; flex: none; }
+.de-step button { width: 40px; height: 40px; border-radius: 8px; border: 1px solid #4a553f; background: rgba(0,0,0,.25); color: var(--ink); font-size: 20px; line-height: 1; }
+.de-step button:disabled { opacity: .3; }
+.de-n { min-width: 22px; text-align: center; font-weight: 600; }
+.de-sum { border-top: 1px solid #3a4432; padding-top: 6px; }
+.de-sum p { margin: 4px 0; font-size: 14px; }
+.de-problems li { color: #f0b27a; font-size: 13px; }
+.de-divs label { display: flex; gap: 8px; align-items: center; min-height: 40px; font-size: 14px; }
+.de-divs label.off { opacity: .5; }
+.de-divs input { width: 20px; height: 20px; flex: none; }
+.de-needs li { font-size: 13px; }
+.de-needs li.short { color: #f0b27a; }
+.de-tabs button { min-height: 34px; white-space: nowrap; }
+@media (orientation: landscape) and (max-height: 600px) { .de-panel .ap-notice { margin: 0 12px; padding: 4px 8px; font-size: 13px; } }

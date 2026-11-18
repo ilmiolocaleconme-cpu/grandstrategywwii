@@ -1,0 +1,26 @@
+{
+  "schema": "division-editor-rules-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-18",
+  "note": "Limiti storici dell'editor a moduli (decisione dell'utente del 18/11/2026). Valori di Claude: una divisione tedesca 1939-43 aveva 13.000-17.000 uomini, al massimo 9 battaglioni di fanteria, 4 di artiglieria e 2-4 di carri. NON verificati.",
+  "maxMen": 18000,
+  "maxModules": 30,
+  "minCombat": 3,
+  "divisional": 1,
+  "nameMax": 40,
+  "combatTypes": [
+    "infantry",
+    "motorized_infantry",
+    "mechanized_infantry",
+    "tank"
+  ],
+  "maxPerType": {
+    "infantry": 12,
+    "motorized_infantry": 12,
+    "mechanized_infantry": 12,
+    "tank": 4,
+    "artillery": 6,
+    "anti_tank": 3,
+    "support": 4
+  }
+}

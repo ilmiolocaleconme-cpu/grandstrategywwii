@@ -47,6 +47,9 @@ import tplDeuLeichte1938 from '../data/units/templates/divisione_meccanizzata_ge
 import tplUssrTankBrigade1935 from '../data/units/templates/brigata_carri_urss_1935.json'; // brigate carri sovietiche, 18/11/2026
 import tplUssrTankBrigade1941 from '../data/units/templates/brigata_carri_urss_1941.json';
 import { vehicleMarchSpeed } from './data/modules.js';
+const MODULE_DOCS = [modulesDeuFile]; // battaglioni per nazione (per ora solo la Germania)
+const ALL_MODULES = MODULE_DOCS.flatMap((d) => d.modules);
+const MODULE_PRESETS = MODULE_DOCS.flatMap((d) => [...(d.presets ?? []).map((p) => ({ ...p, nation: p.id.split('-')[1] })), ...(d.compositions ?? []).map((c) => ({ id: c.templateId, nation: c.templateId.split('-')[1], name: `${c.formation.split(':')[0].split(' (')[0]} (${c.activeFrom.slice(0, 4)})`, modules: c.modules }))]);
 import eventsFile from '../data/events/events.json';
 import { createEventsSystem } from './game/eventsState.js';
 import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';
@@ -72,6 +75,11 @@ import { bankIndex, buildMoveNet } from './data/moveNet.js';
 import { orderMove, cancelOrders, createMovementSystem, currentDeployment, initialPositions } from './game/movementState.js';
 import ArmyPanel from './ui/ArmyPanel.jsx';
 import TheaterPanel from './ui/TheaterPanel.jsx';
+import DivisionEditor from './ui/DivisionEditor.jsx'; // editor a moduli (18/11/2026)
+import { createDesign, deleteDesign, reorganizeDivision, reorganizePreview, designsOf, designTemplates, divisionsUsing, designTotals } from './game/designsState.js';
+import { divisionRows, reorgNeeds, CATEGORY_LABEL as DESIGN_CATEGORY_LABEL } from './ui/designView.js';
+import modulesDeuFile from '../data/units/modules/modules_deu.json';
+import editorRulesFile from '../data/units/modules/editor_rules.json';
 import CommandPanel from './ui/CommandPanel.jsx';
 import UnitRadial from './ui/UnitRadial.jsx';
 import { chainAction, sheetTarget } from './ui/unitActions.js';
@@ -422,6 +430,8 @@ const placeControllerOf = (state, p) => (MOVE_NET.net ? provinceController(state
 const controlFn = (state) => (p) => placeControllerOf(state, p);
 // Velocità di marcia secondo i veicoli effettivi (18/11/2026): una divisione motorizzata senza autocarri marcia a piedi (20 km/g), con tutti
 // gli autocarri previsti alla velocità della sua categoria; divisioni senza veicoli nel template: velocità della categoria, come prima.
+// riorganizzazione sui modelli dell'editor: voci rimaste fuori tornano in magazzino solo se sono equipaggiamenti del catalogo o cavalli
+const designCtx = (state, id) => ({ modules: ALL_MODULES, unit: unitOf(state, id, UNITS_BY_ID), upgradeMap: equipmentUpgradeMap, isStockItem: (p) => p === 'horses' || (p.startsWith('equipment.') && EQUIPMENT_NAMES.has(p.slice('equipment.'.length))) });
 const marchSpeedOfUnit = (state, u) => vehicleMarchSpeed(state.forces?.divisions?.[u.id]?.items, DEFAULT_MARCH, marchSpeed(u.category));
 const THEATER_CTX = { ...BATTLE_V2_CTX, marchSpeedOf: marchSpeedOfUnit, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
@@ -543,6 +553,7 @@ export default function App() {
   const [moveMode, setMoveMode] = useState(false); // true dopo «Muovi» nel menu radiale: il prossimo tocco su una provincia è la destinazione
   const [infoSheet, setInfoSheet] = useState(false); // scheda completa: true = unità del segnalino; { unitId, attach } = una unità, con «Inquadra in…» aperto se attach
   const [command, setCommand] = useState(null); // { selected, notice } quando il pannello Comando (catena di comando) è aperto
+  const [editor, setEditor] = useState(null); // { notice } quando il pannello Divisioni (editor a moduli) è aperto
   const [theater, setTheater] = useState(null); // { draft: null | { kind, provinces: [], units: [] }, notice } quando il pannello Teatro è aperto
   const [orderTo, setOrderTo] = useState(null); // { ids, back, note }: ordine di marcia dallo Stato maggiore in attesa della destinazione sulla mappa
   // Marcia (o attacco, se la destinazione è nemica) di un insieme di unità verso la provincia o città toccata, ognuna dalla propria posizione.
@@ -1003,11 +1014,12 @@ export default function App() {
             onBack={() => pressClock(pressBack)} onPause={() => pressClock(pressPause)} onForward={() => pressClock(pressForward)} onStep={() => setGame((g) => advanceDay(g, GAME_SYSTEMS))} />
         ) : null}
         {game && tab === 'map' ? (
-          <Popover label="Menu" align="right" active={Boolean(command || theater)} badge={alerts.filter((al) => al.level === 'short').length ? `⚠${alerts.filter((al) => al.level === 'short').length}` : null} title="Comando, Teatro, Partita">
+          <Popover label="Menu" align="right" active={Boolean(command || theater || editor)} badge={alerts.filter((al) => al.level === 'short').length ? `⚠${alerts.filter((al) => al.level === 'short').length}` : null} title="Comando, Teatro, Partita">
             {(close) => (
               <PopSection title="Menu">
-                <PopItem checked={Boolean(command)} onClick={() => { setOrderTo(null); setCommand((c) => (c ? null : { selected: null, notice: null })); setTheater(null); setArmySel(null); close(); }}>Comando</PopItem>
-                <PopItem checked={Boolean(theater)} onClick={() => { setOrderTo(null); setTheater((t) => (t ? null : { draft: null, notice: null })); setCommand(null); close(); }}>Teatro{alerts.filter((al) => al.level === 'short').length ? ` ⚠${alerts.filter((al) => al.level === 'short').length}` : ''}</PopItem>
+                <PopItem checked={Boolean(command)} onClick={() => { setOrderTo(null); setCommand((c) => (c ? null : { selected: null, notice: null })); setTheater(null); setEditor(null); setArmySel(null); close(); }}>Comando</PopItem>
+                <PopItem checked={Boolean(theater)} onClick={() => { setOrderTo(null); setTheater((t) => (t ? null : { draft: null, notice: null })); setCommand(null); setEditor(null); close(); }}>Teatro{alerts.filter((al) => al.level === 'short').length ? ` ⚠${alerts.filter((al) => al.level === 'short').length}` : ''}</PopItem>
+                <PopItem checked={Boolean(editor)} onClick={() => { setOrderTo(null); setEditor((x) => (x ? null : { notice: null })); setCommand(null); setTheater(null); setArmySel(null); close(); }}>Divisioni</PopItem>
                 <PopItem onClick={() => { setTab('game'); close(); }}>Partita</PopItem>
               </PopSection>
             )}
@@ -1125,6 +1137,22 @@ export default function App() {
             onEntrench={(ids, on) => { try { const list = on ? fightersAmong(ids) : ids; setGame(playerToggleEntrench(game, { unitIds: list, on, ctx: THEATER_CTX })); setCommand((c) => ({ ...c, notice: on ? `${list.length} ${list.length === 1 ? 'divisione si trincera' : 'divisioni si trincerano'}.` : 'Le divisioni smettono di trincerarsi.' })); } catch (e) { setCommand((c) => ({ ...c, notice: e.message })); } }}
             onClose={() => setCommand(null)} />
         ) : null}
+        {editor && game ? (
+          <DivisionEditor modules={ALL_MODULES.filter((m) => m.nation === game.player)} rules={editorRulesFile} nation={game.player} date={game.date} researched={techsOf(game.nations?.[game.player])} techName={techName}
+            designs={designsOf(game, game.player).map((d) => { const t = designTotals(d.modules, ALL_MODULES); return { ...d, men: t.men, battalions: d.modules.reduce((x, [, n]) => x + n, 0), used: divisionsUsing(game, d.id).length }; })}
+            presets={MODULE_PRESETS.filter((p) => p.nation === game.player)} divisions={divisionRows(game, game.player, unitsList(game, unitsFile.units), designsOf(game, game.player))}
+            needsOf={(ids, designId) => reorgNeeds(game, game.player, ids, (id) => reorganizePreview(game, id, designId, designCtx(game, id)), (k) => EQUIPMENT_NAMES.get(k) ?? k)}
+            notice={editor.notice} onClose={() => setEditor(null)}
+            onCreate={(name, list) => { try { const r = createDesign(game, { nation: game.player, name, modules: list }, { modules: ALL_MODULES, rules: editorRulesFile, researched: techsOf(game.nations?.[game.player]) }); setGame(r.state); setEditor({ notice: `Modello «${name.trim()}» salvato.` }); return true; } catch (e) { setEditor({ notice: e.message }); return false; } }}
+            onDelete={(id) => { try { setGame((g) => deleteDesign(g, id)); setEditor({ notice: 'Modello eliminato.' }); } catch (e) { setEditor({ notice: e.message }); } }}
+            onReorg={(ids, designId) => {
+              let s = game; const done = []; const fail = [];
+              for (const id of ids) { try { s = reorganizeDivision(s, id, designId, designCtx(s, id)).state; done.push(id); } catch (e) { fail.push(`${unitOf(game, id, UNITS_BY_ID)?.name ?? id}: ${e.message}`); } }
+              setGame(s);
+              setEditor({ notice: `${done.length} ${done.length === 1 ? 'divisione riorganizzata' : 'divisioni riorganizzate'}: i pezzi mancanti arrivano con i rinforzi.${fail.length ? ` Non riuscite: ${fail.join('; ')}` : ''}` });
+              return done.length > 0;
+            }} />
+        ) : null}
         {theater && game ? (
           <TheaterPanel alerts={alerts} onForce={(id, f) => { try { setGame((g) => playerForceAttack(g, id, f)); } catch (e) { setTheater((t) => ({ ...t, notice: e.message })); } }} draft={theater.draft} unitCount={theater.draft?.units.length ?? 0} cards={theaterCards} enemies={enemiesOf(game.war, game.player).map((n) => NATION_NAMES[n] ?? n)}
             candidates={[...NATIONS_WITH_UNITS].filter((n) => n !== game.player && !enemiesOf(game.war, game.player).includes(n)).map((n) => ({ id: n, name: NATION_NAMES[n] ?? n })).sort((a, b) => a.name.localeCompare(b.name, 'it'))}
@@ -1136,9 +1164,9 @@ export default function App() {
             onDeclareWar={(n) => { const r = GAME_DIPLOMACY.declareWar(game, game.player, n); if (r.ok) { setGame(r.state); setTheater((t) => ({ ...t, notice: `Guerra dichiarata a ${NATION_NAMES[n] ?? n}.` })); } else setTheater((t) => ({ ...t, notice: describeDiplomacyFailure(r.reason, r) })); }}
             onClose={() => setTheater(null)} />
         ) : hqId && game && unitOf(game, hqId, UNITS_BY_ID) ? (
-          <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates, sourcesOf: EQUIPMENT_SOURCES, fillOf })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
+          <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: [...FORCES_CTX.templates, ...designTemplates(game, ALL_MODULES)], sourcesOf: EQUIPMENT_SOURCES, fillOf })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
         ) : sheet && armyGroup && game ? (
-          <UnitSheet openAttach={sheet.attach} infos={sheet.ids.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: FORCES_CTX.templates, sourcesOf: EQUIPMENT_SOURCES, fillOf }))}
+          <UnitSheet openAttach={sheet.attach} infos={sheet.ids.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: [...FORCES_CTX.templates, ...designTemplates(game, ALL_MODULES)], sourcesOf: EQUIPMENT_SOURCES, fillOf }))}
             canSetPolicy={radialOwn} onFormCommand={armySel.nation === game.player ? formCommand : undefined} onAttachTo={radialOwn ? attachCommand : undefined} onDetach={radialOwn ? detachCommand : undefined} parentOptions={radialOwn ? parentOptions : undefined} childOptions={radialOwn ? childOptions : undefined} onAttachChild={radialOwn ? attachChild : undefined} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
         ) : armyGroup && game ? (
           armyGroup.units.length > 1 ? (

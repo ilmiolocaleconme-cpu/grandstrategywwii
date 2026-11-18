@@ -440,3 +440,5 @@ Campo opzionale `state.diplomacy` (nessuna migrazione; inizializzato alla partit
 - **Test**: `tests/unit_sheet.test.js` (composizione, nessun livello Esercito, collegamenti del menu). Il comportamento del menu (clic, ancora che segue lo zoom) è stato provato solo nel browser a mano; non c'è un test automatico.
 
 - 18/11/2026 — Cacciacarri e cannoni d'assalto tedeschi (7 modelli, 2 tecnologie, 6 battaglioni), brigate carri sovietiche (2 template, mezzo posto nel fronte): **implementato e testato** (tests/tank_destroyers.test.js). Battaglioni non ancora usati da composizioni (editor da fare); brigate non schierate sulla mappa. Valori stimati, non verificati su fonti.
+- 18/11/2026 — Editor a moduli (pannello Divisioni: nuovo modello, modelli, riorganizzazione graduale): **implementato e testato** (tests/division_editor.test.js, prova nel browser). Solo Germania; IA esclusa; organici stimati.
+- 18/11/2026 — Corretto lo schermo nero all'avvio con la Germania (nome della provincia nelle ricette bloccate dalla Boemia).

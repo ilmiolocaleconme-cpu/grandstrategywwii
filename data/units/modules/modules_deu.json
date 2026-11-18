@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-18",
-  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored). 18/11/2026: gruppi di cannoni d'assalto e di cacciacarri (non ancora usati da nessuna composizione: si inseriranno con l'editor).",
+  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored). 18/11/2026: gruppi di cannoni d'assalto e di cacciacarri (non ancora usati da nessuna composizione: si inseriranno con l'editor). 18/11/2026 (editor): battaglioni ippotrainati per la fanteria a piedi (artiglieria, compagnie pesanti, servizi); `divisional: true` = servizi divisionali (uno per divisione). `presets`: punti di partenza dell'editor (non generano template).",
   "modules": [
     {
       "id": "MOD-DEU-INF",
@@ -18,6 +18,68 @@
         "MG-DEU-MG34-S": 12,
         "ART-DEU-GRW36": 9,
         "ART-DEU-GRW34": 6
+      },
+      "mobility": "foot"
+    },
+    {
+      "id": "MOD-DEU-ART",
+      "nation": "DEU",
+      "type": "artillery",
+      "name_it": "Gruppo d'artiglieria leggera (ippotrainato)",
+      "men": 420,
+      "horses": 480,
+      "equipment": {
+        "ART-DEU-LEFH18": 12,
+        "INW-DEU-RIFLE-1939": 260,
+        "MG-DEU-MG34-L": 6
+      },
+      "mobility": "foot"
+    },
+    {
+      "id": "MOD-DEU-ART-HVY",
+      "nation": "DEU",
+      "type": "artillery",
+      "name_it": "Gruppo d'artiglieria pesante (ippotrainato)",
+      "men": 480,
+      "horses": 600,
+      "equipment": {
+        "ART-DEU-SFH18": 12,
+        "INW-DEU-RIFLE-1939": 290,
+        "MG-DEU-MG34-L": 6
+      },
+      "mobility": "foot"
+    },
+    {
+      "id": "MOD-DEU-REGT-HVY",
+      "nation": "DEU",
+      "type": "support",
+      "name_it": "Compagnie pesanti di reggimento (ippotrainate)",
+      "men": 380,
+      "horses": 220,
+      "equipment": {
+        "ART-DEU-LEIG18": 6,
+        "ART-DEU-SIG33": 2,
+        "ART-DEU-PAK36": 12,
+        "INW-DEU-RIFLE-1939": 220,
+        "INW-DEU-PISTOL-1939": 60,
+        "MG-DEU-MG34-L": 6
+      },
+      "mobility": "foot"
+    },
+    {
+      "id": "MOD-DEU-SUPPORT",
+      "nation": "DEU",
+      "type": "support",
+      "name_it": "Servizi divisionali (ippotrainati)",
+      "men": 4500,
+      "horses": 1900,
+      "divisional": true,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 3100,
+        "INW-DEU-PISTOL-1939": 600,
+        "MG-DEU-MG34-L": 150,
+        "MG-DEU-MG34-S": 12,
+        "VEH-DEU-TRUCK": 150
       },
       "mobility": "foot"
     },
@@ -157,7 +219,8 @@
         "VEH-DEU-TRUCK": 600
       },
       "mobility": "motorized",
-      "requiresTech": "TECH-MOT-INF"
+      "requiresTech": "TECH-MOT-INF",
+      "divisional": true
     },
     {
       "id": "MOD-DEU-STUG",
@@ -330,6 +393,64 @@
         ],
         [
           "MOD-DEU-TANK",
+          1
+        ],
+        [
+          "MOD-DEU-ART-MOT",
+          2
+        ],
+        [
+          "MOD-DEU-AT-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT-MOT",
+          1
+        ]
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "id": "PRE-DEU-INF-1936",
+      "name": "Divisione di fanteria",
+      "modules": [
+        [
+          "MOD-DEU-INF",
+          9
+        ],
+        [
+          "MOD-DEU-REGT-HVY",
+          3
+        ],
+        [
+          "MOD-DEU-ART",
+          3
+        ],
+        [
+          "MOD-DEU-ART-HVY",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "PRE-DEU-PZ-1939",
+      "name": "Panzer-Division (1939)",
+      "modules": [
+        [
+          "MOD-DEU-TANK",
+          4
+        ],
+        [
+          "MOD-DEU-MOT-INF",
+          3
+        ],
+        [
+          "MOD-DEU-REGT-HVY-MOT",
           1
         ],
         [
