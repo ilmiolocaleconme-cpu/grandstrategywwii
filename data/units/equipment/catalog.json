@@ -445,6 +445,33 @@
       "name_it": "Radio, voce aggregata (Regno Unito)",
       "durable": true,
       "models": []
+    },
+    {
+      "equipment_id": "VEH-DEU-TRUCK",
+      "nation": "DEU",
+      "category": "TRUCK",
+      "granularity": "class",
+      "caliber_mm": null,
+      "name_it": "Autocarri da 3 t (Opel Blitz e simili)",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Classe funzionale: autocarri medi per trasportare fanteria, artiglieria e rifornimenti."
+    },
+    {
+      "equipment_id": "VEH-DEU-SDKFZ251",
+      "nation": "DEU",
+      "category": "HALF_TRACK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Sd.Kfz. 251",
+      "name_it": "Semicingolato Sd.Kfz. 251",
+      "role": "armored_personnel_carrier",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Trasporto truppe corazzato a semicingoli della fanteria corazzata (Panzergrenadiere), dal giugno 1939."
     }
   ],
   "aliases": [
@@ -582,6 +609,21 @@
       "nation": "GBR",
       "templateKey": "radio",
       "equipment_id": "COM-GBR-RADIO"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "VEH-DEU-TRUCK",
+      "equipment_id": "VEH-DEU-TRUCK"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "VEH-DEU-SDKFZ251",
+      "equipment_id": "VEH-DEU-SDKFZ251"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "TNK-DEU-TANK",
+      "equipment_id": "TNK-DEU-TANK"
     }
   ]
 }

@@ -23,9 +23,10 @@ export function marchSpeed(category) {
 }
 
 /** Giorni per un passo di `km` chilometri (almeno 1). */
-export function hopDays(km, category) {
+// speed (facoltativo, 18/11/2026): km/giorno della singola divisione (veicoli effettivi, src/data/modules.js → vehicleMarchSpeed); senza, vale la categoria
+export function hopDays(km, category, speed = null) {
   if (!(km >= 0)) throw new RangeError('hopDays: km non valido');
-  return Math.max(1, Math.ceil(km / marchSpeed(category)));
+  return Math.max(1, Math.ceil(km / (speed > 0 ? speed : marchSpeed(category))));
 }
 
 /** Provincia in cui si trova l'unità: posizione di partita, altrimenti dislocazione iniziale (Map unità → provincia), altrimenti null. */
@@ -78,9 +79,10 @@ export function issueMove(movement, unit, toAsked, { initial, net, canEnter }) {
   if (from === to) return { ok: false, movement, reason: 'same_province' };
   const path = findPath(net, from, to, canEnter);
   if (!path) return { ok: false, movement, reason: 'no_route' };
-  const firstDays = hopDays(net.km(path[0], path[1]), unit.category);
-  const days = path.slice(1).reduce((s, id, i) => s + hopDays(net.km(path[i], id), unit.category), 0);
-  const order = { path, leg: 0, daysLeft: firstDays, category: unit.category, totalDays: days };
+  const speed = unit.speed > 0 ? unit.speed : null; // velocità propria della divisione (autocarri effettivi), se data
+  const firstDays = hopDays(net.km(path[0], path[1]), unit.category, speed);
+  const days = path.slice(1).reduce((s, id, i) => s + hopDays(net.km(path[i], id), unit.category, speed), 0);
+  const order = { path, leg: 0, daysLeft: firstDays, category: unit.category, totalDays: days, ...(speed ? { speed } : {}) };
   return { ok: true, movement: { ...movement, orders: { ...movement.orders, [unit.id]: order } }, path, days };
 }
 
@@ -106,7 +108,7 @@ export function tickMovement(movement, kmBetween) {
     positions[id] = o.path[leg];
     from[id] = o.path[o.leg];
     if (leg < o.path.length - 1) {
-      orders[id] = { ...o, leg, daysLeft: hopDays(kmBetween(o.path[leg], o.path[leg + 1]), o.category) };
+      orders[id] = { ...o, leg, daysLeft: hopDays(kmBetween(o.path[leg], o.path[leg + 1]), o.category, o.speed ?? null) };
     }
   }
   return { ...movement, positions, orders, from };

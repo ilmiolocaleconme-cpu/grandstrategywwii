@@ -65,6 +65,7 @@ export const EQUIPMENT_GROUP_LABEL = Object.freeze({
   non_classificati: 'Non classificati',
 });
 export const EQUIPMENT_GROUP = Object.freeze({
+  'VEH-DEU-TRUCK': 'veicoli', 'VEH-DEU-SDKFZ251': 'veicoli', 'TNK-DEU-TANK': 'corazzati', // divisioni a battaglioni (18/11/2026)
   fucili: 'individuali', pistole: 'individuali', 'INW-DEU-RIFLE-1939': 'individuali', 'INW-DEU-PISTOL-1939': 'individuali',
   'INW-FRA-RIFLE-1939': 'individuali', 'INW-FRA-PISTOL-1939': 'individuali', 'INW-ITA-RIFLE-1940': 'individuali', 'INW-ITA-PISTOL-1940': 'individuali',
   'INW-USSR-RIFLE-1939': 'individuali', 'INW-JPN-RIFLE-1939': 'individuali', 'INW-USA-RIFLE-1940': 'individuali',

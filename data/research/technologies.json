@@ -1,7 +1,7 @@
 {
   "schema": "technologies-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Prime cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE. 12/11/2026: ramo «Armi della fanteria» con 5 tecnologie CONDIVISE da tutte le nazioni (decisione dell'utente): sbloccano i modelli di fucile di data/units/models/fucili_1930_1945.json (campo `requires`). initialResearch = tecnologie già possedute il 1/1/1936 (USA: Garand adottato nel 1936; URSS: AVS-36 e fucili da cecchino dal 1932): scelta storica di Claude, da confermare. Il 13/11/2026 (decisione dell'utente) il ramo Munizioni con TECH-AMMO-AP: bonus contro i carri e consumo di tungsteno nelle munizioni (data/industry/recipes.json, ingresso con requiresTech). Costo, durata e +15% sono valori di bilanciamento di Claude. 18/11/2026: ramo Corazzati (decisione dell'utente: ricerca più data minima, versioni separate, prima la Germania). Le tecnologie sono comuni; i modelli nazionali si legano con `requiresTech` in data/units/equipment/equipment_production.json. Ricerca iniziale dei cannoni da carro nel 1936 (Francia e URSS anche il 75 corto: Char B1, T-28): stima di Claude. 18/11/2026 (decisione dell'utente): la Germania parte con TECH-ARM-RADIO, perché i carri tedeschi avevano la radio di bordo fin dal 1935.",
+  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Prime cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE. 12/11/2026: ramo «Armi della fanteria» con 5 tecnologie CONDIVISE da tutte le nazioni (decisione dell'utente): sbloccano i modelli di fucile di data/units/models/fucili_1930_1945.json (campo `requires`). initialResearch = tecnologie già possedute il 1/1/1936 (USA: Garand adottato nel 1936; URSS: AVS-36 e fucili da cecchino dal 1932): scelta storica di Claude, da confermare. Il 13/11/2026 (decisione dell'utente) il ramo Munizioni con TECH-AMMO-AP: bonus contro i carri e consumo di tungsteno nelle munizioni (data/industry/recipes.json, ingresso con requiresTech). Costo, durata e +15% sono valori di bilanciamento di Claude. 18/11/2026: ramo Corazzati (decisione dell'utente: ricerca più data minima, versioni separate, prima la Germania). Le tecnologie sono comuni; i modelli nazionali si legano con `requiresTech` in data/units/equipment/equipment_production.json. Ricerca iniziale dei cannoni da carro nel 1936 (Francia e URSS anche il 75 corto: Char B1, T-28): stima di Claude. 18/11/2026 (decisione dell'utente): la Germania parte con TECH-ARM-RADIO, perché i carri tedeschi avevano la radio di bordo fin dal 1935. 18/11/2026: ramo Motorizzazione (fanteria motorizzata, semicingolati). Fanteria motorizzata già acquisita nel 1936 da Germania, Regno Unito, Francia e USA (stima di Claude).",
   "branches": [
     {
       "id": "industry",
@@ -26,6 +26,10 @@
     {
       "id": "armor",
       "name_it": "Corazzati"
+    },
+    {
+      "id": "mobility",
+      "name_it": "Motorizzazione"
     }
   ],
   "technologies": [
@@ -363,11 +367,45 @@
           "value": 0.02
         }
       ]
+    },
+    {
+      "id": "TECH-MOT-INF",
+      "branch": "mobility",
+      "name_it": "Fanteria motorizzata",
+      "description": "Battaglioni di fanteria trasportati su autocarri, con artiglieria e servizi a traino meccanico: sblocca i battaglioni motorizzati delle divisioni. Costo e durata sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [],
+      "cost_ecv": 70,
+      "days": 150,
+      "unlocks": [
+        {
+          "kind": "modules"
+        }
+      ]
+    },
+    {
+      "id": "TECH-MECH-HT",
+      "branch": "mobility",
+      "name_it": "Semicingolati per la fanteria",
+      "description": "Trasporti truppe corazzati a semicingoli che seguono i carri sotto il fuoco. Germania: Sd.Kfz. 251 (dal giugno 1939) e battaglioni di fanteria meccanizzata (Panzergrenadiere). Costo e durata sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [
+        "TECH-MOT-INF"
+      ],
+      "cost_ecv": 90,
+      "days": 210,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        },
+        {
+          "kind": "modules"
+        }
+      ]
     }
   ],
   "initialResearch": {
     "USA": [
-      "TECH-INF-SEMI1"
+      "TECH-INF-SEMI1",
+      "TECH-MOT-INF"
     ],
     "USSR": [
       "TECH-INF-OPTICS",
@@ -377,14 +415,17 @@
     ],
     "DEU": [
       "TECH-ARM-GUN-3750",
-      "TECH-ARM-RADIO"
+      "TECH-ARM-RADIO",
+      "TECH-MOT-INF"
     ],
     "FRA": [
       "TECH-ARM-GUN-3750",
-      "TECH-ARM-GUN-75S"
+      "TECH-ARM-GUN-75S",
+      "TECH-MOT-INF"
     ],
     "GBR": [
-      "TECH-ARM-GUN-3750"
+      "TECH-ARM-GUN-3750",
+      "TECH-MOT-INF"
     ],
     "JPN": [
       "TECH-ARM-GUN-3750"

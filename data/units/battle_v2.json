@@ -49,6 +49,11 @@
         "soft": 45,
         "hard": 35,
         "class": "direct"
+      },
+      "HALF_TRACK": {
+        "soft": 6,
+        "hard": 0.3,
+        "class": "small"
       }
     },
     "byCaliber": {
@@ -404,7 +409,8 @@
       "armored": 0.7
     },
     "rationale": "Ogni pezzo effettivo della divisione dà attacco contro bersagli non corazzati (soft) e corazzati (hard). La potenza contro un nemico con quota corazzata H è soft × (1 − H) + hard × H. I pesi fanno sì che in una divisione di fanteria tipo l'artiglieria (mortai, cannoni, obici) dia più di metà del fuoco. `scale` riporta il totale alla scala di prima (una divisione di fanteria tedesca 1936 al completo vale circa i suoi uomini), così rapporto d'attacco, trincea e avvisi restano confrontabili. `crewFullAt`: le armi restano servite finché gli uomini sono almeno l'80% del previsto, poi calano in proporzione. I pesi sono per CATEGORIA d'arma: un Panzer I e un Panzer IV oggi valgono uguale (limite dichiarato).",
-    "sovietFleetRationale": "Corazzate sovietiche (18/11/2026, decisione dell'utente): il template TPL-USSR-ARM-1940 è l'organico teorico (63 KV, 210 T-34). I carri con cui una divisione NASCE seguono il parco reale dell'anno: nel giugno 1941 i T-34 e i KV erano circa 1.400 su oltre 20.000 carri, quindi nei posti di T-34 e KV la divisione del 1941 ha in maggioranza BT e T-26 (25% T-34, 30% KV). I carri arrivati dopo dalla produzione restano registrati per modello (un T-34 prodotto è un T-34). Quote a memoria, da verificare."
+    "sovietFleetRationale": "Corazzate sovietiche (18/11/2026, decisione dell'utente): il template TPL-USSR-ARM-1940 è l'organico teorico (63 KV, 210 T-34). I carri con cui una divisione NASCE seguono il parco reale dell'anno: nel giugno 1941 i T-34 e i KV erano circa 1.400 su oltre 20.000 carri, quindi nei posti di T-34 e KV la divisione del 1941 ha in maggioranza BT e T-26 (25% T-34, 30% KV). I carri arrivati dopo dalla produzione restano registrati per modello (un T-34 prodotto è un T-34). Quote a memoria, da verificare.",
+    "vehicleRationale": "Veicoli (18/11/2026): gli autocarri non sparano (nessun peso) ma decidono la velocità di marcia; il semicingolato Sd.Kfz. 251 vale 6/0,3 per la mitragliatrice di bordo. La quota corazzata resta quella della categoria (meccanizzata 0,4)."
   },
   "cohesion": {
     "lossBase": 8,

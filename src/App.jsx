@@ -42,6 +42,9 @@ import tplItaArmored1940 from '../data/units/templates/divisione_corazzata_itali
 import tplUsaArmored1940 from '../data/units/templates/divisione_corazzata_usa_1940.json';
 import tplJpnArmored1942 from '../data/units/templates/divisione_corazzata_giappone_1942.json';
 import tplUssrArmored1940 from '../data/units/templates/divisione_corazzata_urss_1940.json';
+import tplDeuMotorized1937 from '../data/units/templates/divisione_motorizzata_germania_1937.json'; // dai battaglioni (data/units/modules), 18/11/2026
+import tplDeuLeichte1938 from '../data/units/templates/divisione_meccanizzata_germania_1938.json';
+import { vehicleMarchSpeed } from './data/modules.js';
 import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';
 import { TradePanel } from './ui/TradePanel.jsx';
 import { tradeGoods, tradeRows, previewTrade, describeTradeFailure } from './ui/tradeView.js';
@@ -79,7 +82,7 @@ import { createAiWarSystem } from './game/aiWarSystem.js';
 import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, provinceController, isFighter, moveIntent, playerToggleEntrench, entrenchOf } from './game/theaterState.js';
 import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
-import { positionOf } from './rules/movement.js';
+import { positionOf, marchSpeed, DEFAULT_MARCH } from './rules/movement.js';
 import depotsFile from '../data/units/depots.json';
 import { createReinforcementSystem, setDivisionReinforcement, setDivisionPriority, depotRoute } from './game/reinforcementSystem.js';
 import { buildEquivalence } from './data/equipmentEquivalence.js';
@@ -358,7 +361,7 @@ const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECUR
 // IA del commercio (13/11/2026): compra ciò che sta per finire (game/aiTrade.js); percorsi e diplomazia come per il giocatore
 const GAME_AI_TRADE = createAiTrade({ ctxOf: (s) => ({ economy: economyData, resources, net: gameNet(s), sea: GAME_SEA.sea ? GAME_SEA.sea.at(s) : null, consent: GAME_DIPLOMACY.tradeConsent }) });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
-const FORCES_CTX = { units: unitsFile.units, templates: completeTemplates([tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry, tplDeuInfantry1939, tplFraInfantry1939, tplItaInfantry1940, tplJpnInfantry1939, tplUsaInfantry1940, tplUssrInfantry1939, tplFraArmored1940, tplGbrArmored1939, tplItaArmored1940, tplUsaArmored1940, tplJpnArmored1942, tplUssrArmored1940]), ratio: readiness.initialFillRatio.value, upgradeMap: equipmentUpgradeMap };
+const FORCES_CTX = { units: unitsFile.units, templates: completeTemplates([tplDeuMotorized1937, tplDeuLeichte1938, tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry, tplDeuInfantry1939, tplFraInfantry1939, tplItaInfantry1940, tplJpnInfantry1939, tplUsaInfantry1940, tplUssrInfantry1939, tplFraArmored1940, tplGbrArmored1939, tplItaArmored1940, tplUsaArmored1940, tplJpnArmored1942, tplUssrArmored1940]), ratio: readiness.initialFillRatio.value, upgradeMap: equipmentUpgradeMap };
 const withForces = (state) => GAME_DIPLOMACY.init(initForcesState(state, FORCES_CTX).state); // anche la diplomazia: stato iniziale 1936 se manca
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };
@@ -413,7 +416,10 @@ const BATTLE_V2_CTX = BATTLE_V2_ERRORS.length ? {} : {
 // sponde (provinceController); prima che la rete sia caricata, il controllo scritto nello stato e poi il proprietario del 1936.
 const placeControllerOf = (state, p) => (MOVE_NET.net ? provinceController(state, MOVE_NET.net, p) : state.provinces?.[p]?.controller ?? controllerOf(ownerFromPlaceId(p), state.control));
 const controlFn = (state) => (p) => placeControllerOf(state, p);
-const THEATER_CTX = { ...BATTLE_V2_CTX, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+// Velocità di marcia secondo i veicoli effettivi (18/11/2026): una divisione motorizzata senza autocarri marcia a piedi (20 km/g), con tutti
+// gli autocarri previsti alla velocità della sua categoria; divisioni senza veicoli nel template: velocità della categoria, come prima.
+const marchSpeedOfUnit = (state, u) => vehicleMarchSpeed(state.forces?.divisions?.[u.id]?.items, DEFAULT_MARCH, marchSpeed(u.category));
+const THEATER_CTX = { ...BATTLE_V2_CTX, marchSpeedOf: marchSpeedOfUnit, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse); guarnigione Maginot
@@ -549,7 +555,7 @@ export default function App() {
         return { done: true, msg: `Attacco a ${moveNet.name(to)} (${a.id}): ${ids.length} ${ids.length === 1 ? 'unità si muove' : 'unità si muovono'}; parte quando le forze bastano (vedi «Teatro»).` };
       } catch (e) { return { done: false, msg: e.message }; }
     }
-    const movers = unitIds.map((uid) => unitOf(game, uid, UNITS_BY_ID)).filter(Boolean).map((u) => ({ id: u.id, category: u.category }));
+    const movers = unitIds.map((uid) => unitOf(game, uid, UNITS_BY_ID)).filter(Boolean).map((u) => ({ id: u.id, category: u.category, speed: marchSpeedOfUnit(game, u) }));
     const r = orderMove(game, { units: movers, to, nation: game.player, deploymentDoc: deploymentFile, net: infraNet(moveNet, GAME_INFRA.index, infraConfig, game) });
     if (r.moved.length) setGame(r.state);
     const slowest = r.moved.reduce((m, x) => Math.max(m, x.days), 0);

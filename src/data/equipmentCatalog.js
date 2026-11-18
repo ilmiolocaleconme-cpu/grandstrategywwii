@@ -8,7 +8,7 @@ export const EQUIPMENT_SCHEMA = 'equipment-catalog-v1';
 
 export const CATEGORIES = [
   'INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'GRENADE_LAUNCHER', 'MORTAR', 'ANTI_TANK_GUN', 'FIELD_GUN', 'HOWITZER', 'ANTI_AIRCRAFT_GUN',
-  'HEAVY_ARTILLERY', 'TRUCK', 'ARTILLERY_TRACTOR', 'ARMORED_CAR', 'TANK', 'TANK_DESTROYER', 'SELF_PROPELLED_ARTILLERY', 'SPECIAL_VEHICLE',
+  'HEAVY_ARTILLERY', 'TRUCK', 'HALF_TRACK', 'ARTILLERY_TRACTOR', 'ARMORED_CAR', 'TANK', 'TANK_DESTROYER', 'SELF_PROPELLED_ARTILLERY', 'SPECIAL_VEHICLE',
   'LOGISTICS_EQUIPMENT',
 ];
 // Granularità: 'class' = classe funzionale (nessun modello noto), 'model' = modello con designazione, 'aggregate' = voce aggregata non dettagliata.
@@ -19,7 +19,7 @@ export const GRANULARITY = ['class', 'aggregate', 'model'];
 /** Prefisso dell'id per categoria. Estendere qui, in un solo punto, quando compare una nuova categoria. */
 export const ID_PREFIX = {
   INDIVIDUAL_WEAPON: 'INW', MACHINE_GUN: 'MG', GRENADE_LAUNCHER: 'GL', MORTAR: 'ART', ANTI_TANK_GUN: 'ART', FIELD_GUN: 'ART', HOWITZER: 'ART',
-  ANTI_AIRCRAFT_GUN: 'ART', HEAVY_ARTILLERY: 'ART', SELF_PROPELLED_ARTILLERY: 'ART', TANK: 'TNK', TANK_DESTROYER: 'TD', TRUCK: 'VEH',
+  ANTI_AIRCRAFT_GUN: 'ART', HEAVY_ARTILLERY: 'ART', SELF_PROPELLED_ARTILLERY: 'ART', TANK: 'TNK', TANK_DESTROYER: 'TD', TRUCK: 'VEH', HALF_TRACK: 'VEH',
   ARTILLERY_TRACTOR: 'VEH', ARMORED_CAR: 'VEH', SPECIAL_VEHICLE: 'VEH', LOGISTICS_EQUIPMENT: 'LOG',
 };
 

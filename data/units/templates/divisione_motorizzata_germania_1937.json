@@ -1,0 +1,250 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-DEU-MOT-1937",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "DEU",
+    "category": "motorized",
+    "echelon": "division",
+    "activeFrom": "1937-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fanteria motorizzata (Infanterie-Division (mot.)): 3 reggimenti su 3 battaglioni motorizzati, artiglieria e servizi motorizzati.",
+  "formation": {
+    "value": "divisione di fanteria motorizzata (Infanterie-Division (mot.)): 3 reggimenti su 3 battaglioni motorizzati, artiglieria e servizi motorizzati",
+    "basis": "ipotesi",
+    "referenceYear": "1937",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-DEU-MOT-INF",
+      "count": 9
+    },
+    {
+      "id": "MOD-DEU-REGT-HVY-MOT",
+      "count": 3
+    },
+    {
+      "id": "MOD-DEU-ART-MOT",
+      "count": 3
+    },
+    {
+      "id": "MOD-DEU-ART-HVY-MOT",
+      "count": 1
+    },
+    {
+      "id": "MOD-DEU-AT-MOT",
+      "count": 1
+    },
+    {
+      "id": "MOD-DEU-SUPPORT-MOT",
+      "count": 1
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 15250,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 0,
+    "basis": "ipotesi",
+    "referenceYear": "1937",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-DEU-GRW34": {
+      "value": 54,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-GRW36": {
+      "value": 81,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-LEFH18": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-LEIG18": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-PAK36": {
+      "value": 72,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-SFH18": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-SIG33": {
+      "value": 6,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-DEU-PISTOL-1939": {
+      "value": 1860,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-DEU-RIFLE-1939": {
+      "value": 10700,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-DEU-MG34-L": {
+      "value": 477,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-DEU-MG34-S": {
+      "value": 120,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-DEU-TRUCK": {
+      "value": 1595,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-MOT-INF, 3× MOD-DEU-REGT-HVY-MOT, 3× MOD-DEU-ART-MOT, 1× MOD-DEU-ART-HVY-MOT, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-SUPPORT-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

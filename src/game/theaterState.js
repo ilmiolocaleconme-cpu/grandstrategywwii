@@ -482,7 +482,7 @@ function assignmentPhase(state, ctx, net) {
     const canEnter = canEnterWar(s, net, cur.nation);
     for (const o of planAssignment(s, ctx, net, cur).orders) {
       const u = unitOf(state, o.unit, ctx.unitsById);
-      const r = issueMove(s.movement ?? { schema: 'movement-v1', positions: {}, orders: {} }, { id: o.unit, category: u.category }, o.to, { initial: ctx.initial, net, canEnter });
+      const r = issueMove(s.movement ?? { schema: 'movement-v1', positions: {}, orders: {} }, { id: o.unit, category: u.category, speed: ctx.marchSpeedOf?.(s, u) ?? null }, o.to, { initial: ctx.initial, net, canEnter });
       if (r.ok) s = { ...s, movement: r.movement };
     }
   }
@@ -507,6 +507,7 @@ export function playerForceAttack(state, id, force = true) {
 
 /**
  * Sistema giornaliero. ctx: { getNet(state) → rete di movimento, unitsById, deploymentDoc, initial (Map unità → provincia), defenseMultiplier?,
+ * marchSpeedOf?(state, u) → km/giorno della divisione secondo i veicoli effettivi (18/11/2026);
  * battleCfg? (data/units/battle_v2.json: accende la battaglia v2) con rawFirepower?(state, u), conditionCfg? (condition_config.json: morale ed
  * esperienza letti da state.conditions e mossi dalla battaglia) oppure conditionOf?(state, u) → { morale, experience } in sola lettura,
  * hasCommander?(state, id), ammoNeed?(u, fase) e fuelNeed?(u) in t/giorno; terrainCfg? (data/units/terrain_combat.json), terrainOf?(provincia madre) → voce di terrain.json, riverBetween?(a, b) → { widthClass } | null }.

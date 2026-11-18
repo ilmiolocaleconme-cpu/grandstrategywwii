@@ -16,6 +16,7 @@ import { readFile as readFileTerrain } from 'node:fs/promises';
 import { validateTerrain } from '../src/data/terrain.js';
 import { validateTerrainCombat } from '../src/rules/terrainCombat.js';
 import { validateBattleV2 } from '../src/rules/battleV2.js';
+import { validateModules, templateFromComposition } from '../src/data/modules.js';
 import { validateRiverCrossings } from '../src/data/riverCrossings.js';
 import { parseCsv } from '../src/data/csv.js';
 import { loadIndustryCatalog, validateIndustryCatalog, validateProvinceIndustry } from '../src/data/industry.js';
@@ -158,12 +159,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const smallArmsDoc = JSON.parse(await text('units/models/fucili_1930_1945.json'));
     errors.push(...validateSmallArms(smallArmsDoc, { techIds, nationIds: new Set(catalog.nations.map((n) => n.id)) }));
     errors.push(...validateRifleQuality(smallArmsDoc, { techIds }));
-    errors.push(...validateBattleV2(JSON.parse(await text('units/battle_v2.json')), { weaponCategories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK']), catalogIds: new Set((await Promise.all((await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).map(async (n) => JSON.parse(await text(`units/equipment/${n}`))))).flatMap((d) => d.entries.map((x) => x.equipment_id))) })); // tutti i cataloghi nazionali
+    errors.push(...validateBattleV2(JSON.parse(await text('units/battle_v2.json')), { weaponCategories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK', 'HALF_TRACK']), catalogIds: new Set((await Promise.all((await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).map(async (n) => JSON.parse(await text(`units/equipment/${n}`))))).flatMap((d) => d.entries.map((x) => x.equipment_id))) })); // tutti i cataloghi nazionali
     errors.push(...validateTerrainCombat(JSON.parse(await text('units/terrain_combat.json'))));
     errors.push(...validateRiverCrossings(JSON.parse(await text('military/river_crossings.json')), { placeIds: new Set(provinceIds), riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
     errors.push(...validateCombatEquipment(JSON.parse(await text('units/combat_equipment.json')), { categories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK']) }));
     for (const [n] of Object.entries(techDoc.initialResearch ?? {})) if (!catalog.nations.some((x) => x.id === n)) errors.push(`tecnologie: initialResearch per la nazione inesistente ${n}`);
-    errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ equipment: JSON.parse(await text('units/equipment/equipment_production.json')), technologies: techDoc, levels: levelsDoc, security: securityDoc, ports: JSON.parse(await text('ports/port_levels.json')), smallArms: smallArmsDoc, recipes: JSON.parse(await text('industry/recipes.json')) }) }));
+    errors.push(...validateTechnologies(techDoc, { consumers: consumersOf({ modules: await Promise.all((await readdir(new URL('../data/units/modules/', import.meta.url))).filter((n) => /^modules_.*\.json$/.test(n)).map(async (n) => JSON.parse(await text(`units/modules/${n}`)))), equipment: JSON.parse(await text('units/equipment/equipment_production.json')), technologies: techDoc, levels: levelsDoc, security: securityDoc, ports: JSON.parse(await text('ports/port_levels.json')), smallArms: smallArmsDoc, recipes: JSON.parse(await text('industry/recipes.json')) }) }));
     for (const l of levelsDoc.levels) if (l.requires && !techIds.has(l.requires)) errors.push(`livelli fabbriche: L${l.level} richiede ${l.requires}, che non esiste`);
     errors.push(...validateSecurityConfig(securityDoc, { techIds }));
     // Porti 1936 (ipotesi): elenco valido, ogni porto è una città costiera, file derivato coerente
@@ -273,6 +274,19 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       const catalogDocs = [];
       for (const f of (await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).sort()) catalogDocs.push(JSON.parse(await text(`units/equipment/${f}`)));
       errors.push(...validateEquipmentCatalog(mergeEquipmentCatalogs(catalogDocs), { templates: divisionTemplates }));
+      // battaglioni (moduli) delle divisioni, 18/11/2026: armi nel catalogo, tecnologie esistenti, template generati identici al file
+      {
+        const catalogIds = new Set(mergeEquipmentCatalogs(catalogDocs).entries.map((x) => x.equipment_id));
+        const techIdsForModules = new Set(JSON.parse(await text('research/technologies.json')).technologies.map((x) => x.id));
+        for (const f of (await readdir(new URL('../data/units/modules/', import.meta.url))).filter((n) => /^modules_.*\.json$/.test(n)).sort()) {
+          const mdoc = JSON.parse(await text(`units/modules/${f}`));
+          errors.push(...validateModules(mdoc, { catalogIds, techIds: techIdsForModules }).map((x) => `${f}: ${x}`));
+          for (const comp of mdoc.compositions ?? []) {
+            const onDisk = divisionTemplates.find((t) => t.id === comp.templateId);
+            if (!onDisk || JSON.stringify(onDisk) !== JSON.stringify(templateFromComposition(mdoc, comp))) errors.push(`${f}: il template ${comp.templateId} non corrisponde ai moduli (rigenerare con node scripts/build-module-templates.js)`);
+          }
+        }
+      }
       // Fase 4: tabella di produzione per categoria + ricette generate per ogni equipaggiamento del catalogo (prodotto equipment.<id>)
       const mergedCatalog = mergeEquipmentCatalogs(catalogDocs);
       errors.push(...validateUpgradeMap(JSON.parse(await text('units/equipment/upgrade_map.json')), { catalog: mergedCatalog, templates: divisionTemplates }));

@@ -1,0 +1,231 @@
+{
+  "schema": "battalion-modules-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-18",
+  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored).",
+  "modules": [
+    {
+      "id": "MOD-DEU-INF",
+      "nation": "DEU",
+      "type": "infantry",
+      "name_it": "Battaglione di fanteria (a piedi)",
+      "men": 860,
+      "horses": 200,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 640,
+        "INW-DEU-PISTOL-1939": 120,
+        "MG-DEU-MG34-L": 27,
+        "MG-DEU-MG34-S": 12,
+        "ART-DEU-GRW36": 9,
+        "ART-DEU-GRW34": 6
+      },
+      "mobility": "foot"
+    },
+    {
+      "id": "MOD-DEU-MOT-INF",
+      "nation": "DEU",
+      "type": "motorized_infantry",
+      "name_it": "Battaglione di fanteria motorizzata",
+      "men": 850,
+      "horses": 0,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 630,
+        "INW-DEU-PISTOL-1939": 120,
+        "MG-DEU-MG34-L": 27,
+        "MG-DEU-MG34-S": 12,
+        "ART-DEU-GRW36": 9,
+        "ART-DEU-GRW34": 6,
+        "VEH-DEU-TRUCK": 70
+      },
+      "mobility": "motorized",
+      "requiresTech": "TECH-MOT-INF"
+    },
+    {
+      "id": "MOD-DEU-MECH-INF",
+      "nation": "DEU",
+      "type": "mechanized_infantry",
+      "name_it": "Battaglione di fanteria meccanizzata (Sd.Kfz. 251)",
+      "men": 900,
+      "horses": 0,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 640,
+        "INW-DEU-PISTOL-1939": 150,
+        "MG-DEU-MG34-L": 60,
+        "MG-DEU-MG34-S": 12,
+        "ART-DEU-GRW36": 9,
+        "ART-DEU-GRW34": 6,
+        "VEH-DEU-SDKFZ251": 85,
+        "VEH-DEU-TRUCK": 20
+      },
+      "mobility": "mechanized",
+      "requiresTech": "TECH-MECH-HT",
+      "availableFrom": "1939-06-01"
+    },
+    {
+      "id": "MOD-DEU-ART-MOT",
+      "nation": "DEU",
+      "type": "artillery",
+      "name_it": "Gruppo d'artiglieria leggera motorizzato (12 obici da 105)",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "ART-DEU-LEFH18": 12,
+        "INW-DEU-RIFLE-1939": 250,
+        "MG-DEU-MG34-L": 6,
+        "VEH-DEU-TRUCK": 45
+      },
+      "mobility": "motorized",
+      "requiresTech": "TECH-MOT-INF"
+    },
+    {
+      "id": "MOD-DEU-ART-HVY-MOT",
+      "nation": "DEU",
+      "type": "artillery",
+      "name_it": "Gruppo d'artiglieria pesante motorizzato (12 obici da 150)",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "ART-DEU-SFH18": 12,
+        "INW-DEU-RIFLE-1939": 280,
+        "MG-DEU-MG34-L": 6,
+        "VEH-DEU-TRUCK": 55
+      },
+      "mobility": "motorized",
+      "requiresTech": "TECH-MOT-INF"
+    },
+    {
+      "id": "MOD-DEU-AT-MOT",
+      "nation": "DEU",
+      "type": "anti_tank",
+      "name_it": "Gruppo anticarro motorizzato (36 cannoni da 37 mm)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "ART-DEU-PAK36": 36,
+        "INW-DEU-RIFLE-1939": 400,
+        "MG-DEU-MG34-L": 12,
+        "VEH-DEU-TRUCK": 55
+      },
+      "mobility": "motorized",
+      "requiresTech": "TECH-MOT-INF"
+    },
+    {
+      "id": "MOD-DEU-REGT-HVY-MOT",
+      "nation": "DEU",
+      "type": "support",
+      "name_it": "Compagnie pesanti di reggimento motorizzate (6 leIG 18, 2 sIG 33, 12 PaK 36)",
+      "men": 350,
+      "horses": 0,
+      "equipment": {
+        "ART-DEU-LEIG18": 6,
+        "ART-DEU-SIG33": 2,
+        "ART-DEU-PAK36": 12,
+        "INW-DEU-RIFLE-1939": 200,
+        "INW-DEU-PISTOL-1939": 60,
+        "MG-DEU-MG34-L": 6,
+        "VEH-DEU-TRUCK": 40
+      },
+      "mobility": "motorized",
+      "requiresTech": "TECH-MOT-INF"
+    },
+    {
+      "id": "MOD-DEU-TANK",
+      "nation": "DEU",
+      "type": "tank",
+      "name_it": "Battaglione carri",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "TNK-DEU-TANK": 80,
+        "INW-DEU-PISTOL-1939": 350,
+        "VEH-DEU-TRUCK": 40
+      },
+      "mobility": "armored"
+    },
+    {
+      "id": "MOD-DEU-SUPPORT-MOT",
+      "nation": "DEU",
+      "type": "support",
+      "name_it": "Servizi, ricognizione, genio e trasmissioni motorizzati",
+      "men": 4300,
+      "horses": 0,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 3000,
+        "INW-DEU-PISTOL-1939": 600,
+        "MG-DEU-MG34-L": 180,
+        "MG-DEU-MG34-S": 12,
+        "VEH-DEU-TRUCK": 600
+      },
+      "mobility": "motorized",
+      "requiresTech": "TECH-MOT-INF"
+    }
+  ],
+  "compositions": [
+    {
+      "templateId": "TPL-DEU-MOT-1937",
+      "file": "divisione_motorizzata_germania_1937.json",
+      "category": "motorized",
+      "activeFrom": "1937-01-01",
+      "formation": "divisione di fanteria motorizzata (Infanterie-Division (mot.)): 3 reggimenti su 3 battaglioni motorizzati, artiglieria e servizi motorizzati",
+      "modules": [
+        [
+          "MOD-DEU-MOT-INF",
+          9
+        ],
+        [
+          "MOD-DEU-REGT-HVY-MOT",
+          3
+        ],
+        [
+          "MOD-DEU-ART-MOT",
+          3
+        ],
+        [
+          "MOD-DEU-ART-HVY-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-AT-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-DEU-LEICHTE-1938",
+      "file": "divisione_meccanizzata_germania_1938.json",
+      "category": "mechanized",
+      "activeFrom": "1938-01-01",
+      "formation": "divisione leggera (leichte Division): 4 battaglioni di fucilieri motorizzati, 1 battaglione carri, artiglieria e servizi motorizzati",
+      "modules": [
+        [
+          "MOD-DEU-MOT-INF",
+          4
+        ],
+        [
+          "MOD-DEU-REGT-HVY-MOT",
+          2
+        ],
+        [
+          "MOD-DEU-TANK",
+          1
+        ],
+        [
+          "MOD-DEU-ART-MOT",
+          2
+        ],
+        [
+          "MOD-DEU-AT-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT-MOT",
+          1
+        ]
+      ]
+    }
+  ]
+}
