@@ -124,3 +124,12 @@ test('vista del pannello: gruppi, contatori, riepilogo, divisioni e fabbisogno',
   const tank = n.rows.find((r) => r.item === 'equipment.TNK-DEU-TANK');
   assert.deepEqual([tank.need, tank.stock], [160, 50]);
 });
+
+test('riepilogo: potenza di fuoco a dotazione piena dalla funzione della battaglia', () => {
+  let seen = null;
+  const firepowerOf = (equipment, men) => { seen = { equipment, men }; return { small: { soft: 10, hard: 1 }, artillery: { soft: 5, hard: 2 }, direct: { soft: 3, hard: 7 }, armor: 0.9 }; };
+  const s = designSummary(PZ, { ...ctx, nation: 'DEU', date: '1940-06-01', firepowerOf });
+  assert.deepEqual(s.firepower, { soft: 18, hard: 10, armor: 0.9 });
+  assert.equal(seen.equipment['TNK-DEU-TANK'], 160); assert.equal(seen.men, s.men);
+  assert.equal(designSummary([], { ...ctx, nation: 'DEU', date: '1940-06-01', firepowerOf }).firepower, null);
+});

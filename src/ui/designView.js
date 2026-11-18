@@ -39,17 +39,20 @@ export function designSummary(list, ctx) {
     { label: 'Pezzi d\'artiglieria e anticarro', qty: pick(/^ART-DEU-(LEFH|SFH|LEIG|SIG|PAK|K18)|^ART-.*-(AT|GUN|HOW)/) },
     { label: 'Semicingolati', qty: pick(/SDKFZ/) }, { label: 'Autocarri', qty: pick(/TRUCK/) },
   ].filter((h) => h.qty > 0);
+  // potenza di fuoco a dotazione piena (src/rules/battleV2.js → rawFirepower, passata da App.jsx): contro fanteria, contro corazzati, corazza media
+  const fp = ctx.firepowerOf && valid.length ? ctx.firepowerOf(sum.equipment, sum.men) : null;
+  const firepower = fp ? { soft: Math.round(fp.small.soft + fp.artillery.soft + fp.direct.soft), hard: Math.round(fp.small.hard + fp.artillery.hard + fp.direct.hard), armor: fp.armor } : null;
   return {
     men: sum.men, horses: sum.horses, battalions: valid.reduce((s, [, n]) => s + n, 0), category: designCategory(valid, ctx.modules),
-    highlights, problems: designProblems(valid, ctx),
+    highlights, firepower, problems: designProblems(valid, ctx),
   };
 }
 
 /** Divisioni del giocatore riorganizzabili: [{ id, name, category, template, designId }] (solo divisioni con istanza). */
-export function divisionRows(state, nation, units, designs) {
+export function divisionRows(state, nation, units, designs, templateLabel = (id) => id) {
   const names = new Map(designs.map((d) => [d.id, d.name]));
   return units.filter((u) => u.nation === nation && u.echelon === 'division' && state.forces?.divisions?.[u.id])
-    .map((u) => { const d = state.forces.divisions[u.id]; return { id: u.id, name: u.name, category: u.category, template: names.get(d.templateId) ?? d.templateId, designId: names.has(d.templateId) ? d.templateId : null }; })
+    .map((u) => { const d = state.forces.divisions[u.id]; return { id: u.id, name: u.name, category: u.category, template: names.get(d.templateId) ?? templateLabel(d.templateId), designId: names.has(d.templateId) ? d.templateId : null }; })
     .sort((a, b) => a.name.localeCompare(b.name, 'it', { numeric: true }));
 }
 

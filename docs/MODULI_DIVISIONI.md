@@ -44,6 +44,7 @@ Brigate: `echelon: 'brigade'` ora ha istanza nelle forze se esiste un template d
 
 Menu → **Divisioni**. Decisioni dell'utente: **limiti storici** e **riorganizzazione graduale**.
 
+- Schermata a tutto schermo (19/11/2026, richiesta dell'utente con un esempio): la partita va in pausa all'apertura e riprende alla chiusura se correva; colonne modelli / composizione / riepilogo (con potenza di fuoco), icone e illustrazioni SVG originali (`src/ui/unitIcons.jsx`); in verticale una colonna sola.
 - *Nuovo*: battaglioni della nazione con − / +, disponibili solo se ricercati e dalla loro data; si può partire da un modello (`presets` e composizioni storiche). Limiti in `data/units/modules/editor_rules.json`: 18.000 uomini, 30 battaglioni, massimi per tipo (carri 4, artiglieria 6, anticarro 3, supporto 4, fanteria 12), almeno 3 battaglioni di combattimento, esattamente un reparto di servizi divisionali (`divisional: true`).
 - *Modelli*: elenco, divisioni che lo usano, eliminazione solo se non usato.
 - *Riorganizza*: la divisione passa subito al modello (`src/game/designsState.js`, riusa `upgradeDivision` con la mappa delle voci); ciò che ha si porta, ciò che manca arriva coi rinforzi (scorte e produzione), ciò che avanza (equipaggiamenti del catalogo e cavalli) torna in magazzino, gli uomini in più tornano al bacino. La categoria dell'unità segue il modello (carri → corazzata, semicingolati → meccanizzata, tutto motorizzato → motorizzata).

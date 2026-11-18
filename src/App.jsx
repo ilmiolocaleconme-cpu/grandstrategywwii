@@ -46,10 +46,12 @@ import tplDeuMotorized1937 from '../data/units/templates/divisione_motorizzata_g
 import tplDeuLeichte1938 from '../data/units/templates/divisione_meccanizzata_germania_1938.json';
 import tplUssrTankBrigade1935 from '../data/units/templates/brigata_carri_urss_1935.json'; // brigate carri sovietiche, 18/11/2026
 import tplUssrTankBrigade1941 from '../data/units/templates/brigata_carri_urss_1941.json';
-import { vehicleMarchSpeed } from './data/modules.js';
+import { vehicleMarchSpeed, designCategory, sumComposition } from './data/modules.js';
 const MODULE_DOCS = [modulesDeuFile]; // battaglioni per nazione (per ora solo la Germania)
+const templateLabel = (id) => { const t = FORCES_CTX.templates.find((x) => x.id === id); const f = t?.formation?.value; return f ? `modello ${String(f).split(':')[0].split(' (')[0]}${t.appliesTo?.activeFrom ? ` ${t.appliesTo.activeFrom.slice(0, 4)}` : ''}` : id; }; // nome leggibile del template storico
 const ALL_MODULES = MODULE_DOCS.flatMap((d) => d.modules);
-const MODULE_PRESETS = MODULE_DOCS.flatMap((d) => [...(d.presets ?? []).map((p) => ({ ...p, nation: p.id.split('-')[1] })), ...(d.compositions ?? []).map((c) => ({ id: c.templateId, nation: c.templateId.split('-')[1], name: `${c.formation.split(':')[0].split(' (')[0]} (${c.activeFrom.slice(0, 4)})`, modules: c.modules }))]);
+const MODULE_PRESETS = MODULE_DOCS.flatMap((d) => [...(d.presets ?? []).map((p) => ({ ...p, nation: p.id.split('-')[1] })), ...(d.compositions ?? []).map((c) => ({ id: c.templateId, nation: c.templateId.split('-')[1], name: `${c.formation.split(':')[0].split(' (')[0]} (${c.activeFrom.slice(0, 4)})`, modules: c.modules }))])
+  .map((p) => { const t = sumComposition(ALL_MODULES, p.modules); return { ...p, category: designCategory(p.modules, ALL_MODULES), men: t.men, horses: t.horses }; });
 import eventsFile from '../data/events/events.json';
 import { createEventsSystem } from './game/eventsState.js';
 import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';
@@ -553,7 +555,9 @@ export default function App() {
   const [moveMode, setMoveMode] = useState(false); // true dopo «Muovi» nel menu radiale: il prossimo tocco su una provincia è la destinazione
   const [infoSheet, setInfoSheet] = useState(false); // scheda completa: true = unità del segnalino; { unitId, attach } = una unità, con «Inquadra in…» aperto se attach
   const [command, setCommand] = useState(null); // { selected, notice } quando il pannello Comando (catena di comando) è aperto
-  const [editor, setEditor] = useState(null); // { notice } quando il pannello Divisioni (editor a moduli) è aperto
+  const [editor, setEditor] = useState(null); // { notice, resume } quando la schermata Divisioni (editor a moduli) è aperta: la partita è in pausa
+  const openEditor = () => { setOrderTo(null); setCommand(null); setTheater(null); setArmySel(null); setEditor({ notice: null, resume: clock.running }); setRunning(false); };
+  const closeEditor = () => { const resume = editor?.resume; setEditor(null); if (resume) setRunning(true); };
   const [theater, setTheater] = useState(null); // { draft: null | { kind, provinces: [], units: [] }, notice } quando il pannello Teatro è aperto
   const [orderTo, setOrderTo] = useState(null); // { ids, back, note }: ordine di marcia dallo Stato maggiore in attesa della destinazione sulla mappa
   // Marcia (o attacco, se la destinazione è nemica) di un insieme di unità verso la provincia o città toccata, ognuna dalla propria posizione.
@@ -1019,7 +1023,7 @@ export default function App() {
               <PopSection title="Menu">
                 <PopItem checked={Boolean(command)} onClick={() => { setOrderTo(null); setCommand((c) => (c ? null : { selected: null, notice: null })); setTheater(null); setEditor(null); setArmySel(null); close(); }}>Comando</PopItem>
                 <PopItem checked={Boolean(theater)} onClick={() => { setOrderTo(null); setTheater((t) => (t ? null : { draft: null, notice: null })); setCommand(null); setEditor(null); close(); }}>Teatro{alerts.filter((al) => al.level === 'short').length ? ` ⚠${alerts.filter((al) => al.level === 'short').length}` : ''}</PopItem>
-                <PopItem checked={Boolean(editor)} onClick={() => { setOrderTo(null); setEditor((x) => (x ? null : { notice: null })); setCommand(null); setTheater(null); setArmySel(null); close(); }}>Divisioni</PopItem>
+                <PopItem checked={Boolean(editor)} onClick={() => { if (editor) closeEditor(); else openEditor(); close(); }}>Divisioni</PopItem>
                 <PopItem onClick={() => { setTab('game'); close(); }}>Partita</PopItem>
               </PopSection>
             )}
@@ -1140,16 +1144,17 @@ export default function App() {
         {editor && game ? (
           <DivisionEditor modules={ALL_MODULES.filter((m) => m.nation === game.player)} rules={editorRulesFile} nation={game.player} date={game.date} researched={techsOf(game.nations?.[game.player])} techName={techName}
             designs={designsOf(game, game.player).map((d) => { const t = designTotals(d.modules, ALL_MODULES); return { ...d, men: t.men, battalions: d.modules.reduce((x, [, n]) => x + n, 0), used: divisionsUsing(game, d.id).length }; })}
-            presets={MODULE_PRESETS.filter((p) => p.nation === game.player)} divisions={divisionRows(game, game.player, unitsList(game, unitsFile.units), designsOf(game, game.player))}
+            presets={MODULE_PRESETS.filter((p) => p.nation === game.player)} divisions={divisionRows(game, game.player, unitsList(game, unitsFile.units), designsOf(game, game.player), templateLabel)}
             needsOf={(ids, designId) => reorgNeeds(game, game.player, ids, (id) => reorganizePreview(game, id, designId, designCtx(game, id)), (k) => EQUIPMENT_NAMES.get(k) ?? k)}
-            notice={editor.notice} onClose={() => setEditor(null)}
-            onCreate={(name, list) => { try { const r = createDesign(game, { nation: game.player, name, modules: list }, { modules: ALL_MODULES, rules: editorRulesFile, researched: techsOf(game.nations?.[game.player]) }); setGame(r.state); setEditor({ notice: `Modello «${name.trim()}» salvato.` }); return true; } catch (e) { setEditor({ notice: e.message }); return false; } }}
-            onDelete={(id) => { try { setGame((g) => deleteDesign(g, id)); setEditor({ notice: 'Modello eliminato.' }); } catch (e) { setEditor({ notice: e.message }); } }}
+            notice={editor.notice} onClose={closeEditor} nationName={NATION_NAMES[game.player] ?? game.player}
+            firepowerOf={(equipment, men) => rawFirepower(Object.fromEntries(Object.entries(equipment).map(([k, v]) => [`equipment.${k}`, { planned: v, effective: v }])), (k) => WEAPON_OF(game.player, k), battleV2File, men, { year: Number(game.date.slice(0, 4)), resolve: (id) => WEAPON_OF(game.player, `equipment.${id}`) })}
+            onCreate={(name, list) => { try { const r = createDesign(game, { nation: game.player, name, modules: list }, { modules: ALL_MODULES, rules: editorRulesFile, researched: techsOf(game.nations?.[game.player]) }); setGame(r.state); setEditor((x) => ({ ...x, notice: `Modello «${name.trim()}» salvato.` })); return r.id; } catch (e) { setEditor((x) => ({ ...x, notice: e.message })); return false; } }}
+            onDelete={(id) => { try { setGame((g) => deleteDesign(g, id)); setEditor((x) => ({ ...x, notice: 'Modello eliminato.' })); } catch (e) { setEditor((x) => ({ ...x, notice: e.message })); } }}
             onReorg={(ids, designId) => {
               let s = game; const done = []; const fail = [];
               for (const id of ids) { try { s = reorganizeDivision(s, id, designId, designCtx(s, id)).state; done.push(id); } catch (e) { fail.push(`${unitOf(game, id, UNITS_BY_ID)?.name ?? id}: ${e.message}`); } }
               setGame(s);
-              setEditor({ notice: `${done.length} ${done.length === 1 ? 'divisione riorganizzata' : 'divisioni riorganizzate'}: i pezzi mancanti arrivano con i rinforzi.${fail.length ? ` Non riuscite: ${fail.join('; ')}` : ''}` });
+              setEditor((x) => ({ ...x, notice: `${done.length} ${done.length === 1 ? 'divisione riorganizzata' : 'divisioni riorganizzate'}: i pezzi mancanti arrivano con i rinforzi.${fail.length ? ` Non riuscite: ${fail.join('; ')}` : ''}` }));
               return done.length > 0;
             }} />
         ) : null}
