@@ -1,9 +1,10 @@
+import { validateEventsState } from './eventsState.js';
 // Stato di una partita. Contiene solo ciò che serve a riprodurla: niente geometrie né cataloghi
 // (quelli restano nei file di data/ e si ricaricano). Qui nasce l'unica fonte di verità sul
 // controllo dei territori: `control` mappa ogni id di `political_1936.json` al suo controllore.
 
 import { START_DATE, addDays, daysBetween, isValidDate } from './calendar.js';
-import { createUnitRegistry, validateUnitRegistry } from '../rules/unitRegistry.js';
+import { createUnitRegistry, validateUnitRegistry, validateUnitChanges } from '../rules/unitRegistry.js';
 import { DIFFICULTIES, DEFAULT_DIFFICULTY, buildNations, validateNations } from './economyState.js';
 import { populationOf } from '../data/nationPopulation.js';
 import { validateProvinceStates } from './provinceState.js';
@@ -99,6 +100,7 @@ export function validateState(state) {
   errors.push(...validateForcesShape(state.forces));
   errors.push(...validateTradeShape(state.trade));
   errors.push(...validateUnitRegistry(state.unitRegistry)); // schema 8: registro delle unità create in partita
+  errors.push(...validateUnitChanges(state.unitChanges), ...validateEventsState(state.events)); // facoltativi: riorganizzazioni ed eventi eseguiti (18/11/2026)
   errors.push(...validateConditionShape(state)); // opzionale: assente = condizioni iniziali
   errors.push(...validateInfrastructureShape(state.infrastructure)); // opzionale: assente = tutti i collegamenti al livello di partenza
   errors.push(...validatePortsShape(state.ports)); // opzionale: assente = porti del 1936

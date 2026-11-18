@@ -17,6 +17,7 @@ import { validateTerrain } from '../src/data/terrain.js';
 import { validateTerrainCombat } from '../src/rules/terrainCombat.js';
 import { validateBattleV2 } from '../src/rules/battleV2.js';
 import { validateModules, templateFromComposition } from '../src/data/modules.js';
+import { validateEvents } from '../src/game/eventsState.js';
 import { validateRiverCrossings } from '../src/data/riverCrossings.js';
 import { parseCsv } from '../src/data/csv.js';
 import { loadIndustryCatalog, validateIndustryCatalog, validateProvinceIndustry } from '../src/data/industry.js';
@@ -159,6 +160,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const smallArmsDoc = JSON.parse(await text('units/models/fucili_1930_1945.json'));
     errors.push(...validateSmallArms(smallArmsDoc, { techIds, nationIds: new Set(catalog.nations.map((n) => n.id)) }));
     errors.push(...validateRifleQuality(smallArmsDoc, { techIds }));
+    { // eventi storici (18/11/2026): unità, nazioni e voci esistenti
+      const evFile = JSON.parse(await text('events/events.json'));
+      const unitIds = new Set(JSON.parse(await text('units/units.json')).units.map((u) => u.id));
+      const eqIds = (await Promise.all((await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).map(async (n) => JSON.parse(await text(`units/equipment/${n}`))))).flatMap((d) => d.entries.map((x) => `equipment.${x.equipment_id}`));
+      errors.push(...validateEvents(evFile, { unitIds, itemIds: new Set(eqIds), nationIds: new Set(JSON.parse(await text('nations.json')).map((n) => n.id)) }));
+    }
     errors.push(...validateBattleV2(JSON.parse(await text('units/battle_v2.json')), { weaponCategories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK', 'HALF_TRACK']), catalogIds: new Set((await Promise.all((await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).map(async (n) => JSON.parse(await text(`units/equipment/${n}`))))).flatMap((d) => d.entries.map((x) => x.equipment_id))) })); // tutti i cataloghi nazionali
     errors.push(...validateTerrainCombat(JSON.parse(await text('units/terrain_combat.json'))));
     errors.push(...validateRiverCrossings(JSON.parse(await text('military/river_crossings.json')), { placeIds: new Set(provinceIds), riverIds: new Set(catalog.rivers.map((r) => r.id)) }));

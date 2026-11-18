@@ -45,6 +45,8 @@ import tplUssrArmored1940 from '../data/units/templates/divisione_corazzata_urss
 import tplDeuMotorized1937 from '../data/units/templates/divisione_motorizzata_germania_1937.json'; // dai battaglioni (data/units/modules), 18/11/2026
 import tplDeuLeichte1938 from '../data/units/templates/divisione_meccanizzata_germania_1938.json';
 import { vehicleMarchSpeed } from './data/modules.js';
+import eventsFile from '../data/events/events.json';
+import { createEventsSystem } from './game/eventsState.js';
 import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';
 import { TradePanel } from './ui/TradePanel.jsx';
 import { tradeGoods, tradeRows, previewTrade, describeTradeFailure } from './ui/tradeView.js';
@@ -421,6 +423,7 @@ const controlFn = (state) => (p) => placeControllerOf(state, p);
 const marchSpeedOfUnit = (state, u) => vehicleMarchSpeed(state.forces?.divisions?.[u.id]?.items, DEFAULT_MARCH, marchSpeed(u.category));
 const THEATER_CTX = { ...BATTLE_V2_CTX, marchSpeedOf: marchSpeedOfUnit, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
+  createEventsSystem({ events: eventsFile }), // eventi storici (18/11/2026): prima dell'attivazione, così una riorganizzazione cambia subito il template
   createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse); guarnigione Maginot
   (state) => commandersSystem({ units: unitsList(state, unitsFile.units), officers: officersFile.officers })(state), // comandi creati dal giocatore inclusi

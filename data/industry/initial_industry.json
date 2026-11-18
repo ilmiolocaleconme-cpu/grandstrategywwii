@@ -226,6 +226,11 @@
           "count": 1
         },
         {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-DEU-TRUCK",
+          "count": 3
+        },
+        {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-DEU-HOW-105",
           "count": 1
@@ -248,7 +253,7 @@
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 4
+          "count": 5
         }
       ]
     },

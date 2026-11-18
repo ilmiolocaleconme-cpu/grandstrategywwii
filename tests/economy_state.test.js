@@ -100,8 +100,12 @@ test('integrazione: produceDay legge gli impianti e le scorte iniziali della Ger
   const stock = { ...d.stocks };
   for (const r of ['iron_ore', 'coal', 'oil', 'bauxite', 'rubber', 'sulphur']) stock[r] = (stock[r] ?? 0) + totalByPrefix(resourceExtraction(r, ctx), 'DEU');
   const without = produceDay({ facilities: d.facilities, stock: d.stocks, hydroMw: 0, date: '1936-01-01' }, catalog);
-  assert.ok((without.stock.steel ?? 0) <= stocks.floor.steel, 'senza il passo di estrazione il giorno 1 non produce acciaio: resta al più la riserva minima');
   const out = produceDay({ facilities: d.facilities, stock, hydroMw: 0, date: '1936-01-01' }, catalog);
+  // 18/11/2026: con le 3 fabbriche di veicoli la Germania ha un piccolo deficit di carbone e quindi una scorta (regola dei 150 giorni): senza estrazione
+  // produce un po' di acciaio, ma meno che con l'estrazione
+  // produce acciaio anche senza estrazione il giorno 1; la scorta di carbone però copre SOLO il deficit: meno di 5 giorni di estrazione nazionale
+  assert.ok((without.stock.steel ?? 0) <= (out.stock.steel ?? 0));
+  assert.ok((d.stocks.coal ?? 0) < 5 * totalByPrefix(resourceExtraction('coal', ctx), 'DEU'), 'la scorta di carbone è solo il deficit dei 150 giorni');
   assert.ok(out.facilities.length === d.facilities.length);
   assert.ok(Object.values(out.stock).every((v) => v >= 0), 'nessuna scorta negativa');
   assert.ok(out.stock.steel > 0, 'le acciaierie tedesche hanno prodotto acciaio dalle scorte iniziali');

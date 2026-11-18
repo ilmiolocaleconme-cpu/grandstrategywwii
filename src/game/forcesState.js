@@ -1,3 +1,4 @@
+import { unitOf } from '../rules/unitRegistry.js';
 // Forze nello stato della partita (schema 6, 29/10/2026): istanze di divisione con dotazione previsto/effettivo.
 // La logica è in src/rules/forces.js; qui: forma dello stato, migrazione 5→6, inizializzazione e pool di uomini della nazione.
 import { FORCES_SCHEMA, createForcesState, initForces, enlistedManpower, templateFor } from '../rules/forces.js';
@@ -72,7 +73,7 @@ export function createForcesActivationSystem(ctx) {
     let nations = state.nations;
     let divisions = forces.divisions;
     for (const id of Object.keys(divisions).sort()) {
-      const unit = unitsById.get(id);
+      const unit = unitOf(state, id, unitsById); // con le riorganizzazioni da eventi (categoria cambiata)
       const next = unit ? upgradeTarget(divisions[id], unit, ctx.templates, state.date, templateFor) : null;
       if (!next) continue;
       const up = upgradeDivision(divisions[id], next, { nation: unit.nation, map: ctx.upgradeMap, date: state.date });

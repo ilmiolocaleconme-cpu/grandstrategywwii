@@ -1,0 +1,40 @@
+{
+  "schema": "events-v1",
+  "note": "Eventi storici (18/11/2026). Date ed effetti: stime di Claude dove non indicato, da verificare. Ogni evento si esegue una sola volta per partita.",
+  "events": [
+    {
+      "id": "EV-DEU-MOT-1937",
+      "date": "1937-10-01",
+      "title_it": "Motorizzazione di quattro divisioni di fanteria tedesche",
+      "description_it": "La 2., 13., 20. e 29. Infanterie-Division diventano divisioni motorizzate (Infanterie-Division (mot.)): passano al template motorizzato e l'esercito consegna i primi autocarri. Decisione dell'utente del 18/11/2026; storicamente la conversione avvenne fra l'autunno 1936 e il 1937 (data unica approssimata).",
+      "effects": [
+        {
+          "kind": "reorganize",
+          "unit": "U00073",
+          "category": "motorized"
+        },
+        {
+          "kind": "reorganize",
+          "unit": "U00066",
+          "category": "motorized"
+        },
+        {
+          "kind": "reorganize",
+          "unit": "U00075",
+          "category": "motorized"
+        },
+        {
+          "kind": "reorganize",
+          "unit": "U00084",
+          "category": "motorized"
+        },
+        {
+          "kind": "grant_stock",
+          "nation": "DEU",
+          "item": "equipment.VEH-DEU-TRUCK",
+          "qty": 3800
+        }
+      ]
+    }
+  ]
+}

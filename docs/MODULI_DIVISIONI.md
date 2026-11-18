@@ -15,8 +15,9 @@ Stato: dati, regole e test pronti; **l'editor (interfaccia per comporre le divis
 ## Esiti simulati (contro 1 fanteria francese 1939, 16.400 uomini)
 Divisione motorizzata 1937: vince in 9 giorni, 1.590 prigionieri (inseguimento motorizzato). leichte Division 1938: respinta in 10 giorni (formazione esplorante più piccola). Fanteria tedesca 1939: vince in 10 giorni.
 
-## Limiti
-- Nessuna divisione dei dati usa il template motorizzato: le 4 divisioni motorizzate storiche (2., 13., 20., 29.) sono fanteria in `units.json`. La 4. leichte Division usa il template leggero dal 1938.
-- Nessuna nazione possiede una fabbrica di veicoli all'inizio: gli autocarri si producono solo costruendola.
+## Aggiunte del 18/11/2026 (decisioni dell'utente)
+- **Sistema degli eventi** (`src/game/eventsState.js`, `data/events/events.json`): eventi con data ed effetti `reorganize` (cambio di categoria di un'unità, in `state.unitChanges`, letto da `unitOf`/`unitsView`/`unitsList`; il catalogo non cambia) e `grant_stock` (materiale alla scorta nazionale). Ogni evento si esegue una volta (`state.events`).
+- **Evento EV-DEU-MOT-1937** (1/10/1937, data unica approssimata): 2., 13., 20. e 29. Infanterie-Division diventano motorizzate → il gioco le porta al template motorizzato; 3.800 autocarri alla scorta tedesca (circa il 60% del previsto), che i rinforzi automatici portano alle divisioni. Finché i camion non arrivano marciano a piedi.
+- **3 fabbriche di veicoli tedesche all'inizio** (Opel, Daimler-Benz, Büssing; `scripts/build-initial-industry.js`): producono autocarri. Effetti: una centrale termica in più, piccola scorta di carbone (regola dei 150 giorni), 42 t di acciaio al giorno, entrate −0,3/giorno.
 - La quota corazzata in battaglia resta quella della categoria, non dipende ancora dai semicingolati.
 - Le altre nazioni non hanno battaglioni.

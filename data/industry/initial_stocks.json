@@ -42,6 +42,7 @@
     },
     "DEU": {
       "iron_ore": 227010,
+      "coal": 5895,
       "bauxite": 84000,
       "rubber": 16200,
       "sulphur": 22650,
