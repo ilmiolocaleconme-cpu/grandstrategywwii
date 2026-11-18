@@ -23,8 +23,7 @@ const generated = buildEquipmentRecipes(eqCatalog, table);
 const rec = (id) => generated.find((r) => r.id === id);
 const P35 = rec('REC-TNK-DEU-PZ-35T'); const P38 = rec('REC-TNK-DEU-PZ-38T');
 const cfg = json('units/battle_v2.json');
-const all = new Set(); // tecnologie: tutte, per isolare data e controllo
-for (const g of Object.values(table.groups)) if (g.requires) all.add(g.requires);
+const all = new Set(json('research/technologies.json').technologies.map((t) => t.id)); // tecnologie: tutte, per isolare data e controllo (dal 18/11 il 38(t) richiede anche il cannone da 37–50 mm)
 
 test('ricette generate: fabbrica di carri, date di inizio e fine, Boemia richiesta', () => {
   assert.deepEqual([P35.factory, P35.availableFrom, P35.availableTo, P35.requiresControl], ['FCT-TANKS', '1936-12-01', '1940-06-30', 'P_CZE_BOHEMIA']);

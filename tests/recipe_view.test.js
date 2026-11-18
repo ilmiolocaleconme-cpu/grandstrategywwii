@@ -21,7 +21,7 @@ test('righe: solo impianti con ricette di equipaggiamento; gruppo bloccato indic
   assert.equal(rows.length, 1, "l'acciaieria non compare");
   assert.equal(rows[0].current.label, 'N:INW-DEU-RIFLE');
   assert.deepEqual(rows[0].options.map((o) => [o.recipeId, o.ok, o.current]), [['REC-A', true, true], ['REC-B', true, false]]);
-  assert.deepEqual(rows[0].locked.map((l) => [l.recipeId, l.requires]), [['REC-C', 'T:TECH-ART']]);
+  assert.deepEqual(rows[0].locked.map((l) => [l.recipeId, l.requires]), [['REC-C', 'richiede T:TECH-ART']]);
   assert.equal(facilityRecipeRows(mk({}), 'DEU', { ...ctx, researched: new Set(['TECH-ART']) })[0].locked.length, 0);
 });
 

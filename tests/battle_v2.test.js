@@ -398,7 +398,10 @@ test('Panzer: ogni modello ha il suo peso; la voce generica dei template è la c
   const w = (id) => weaponWeight(resolveDeu(id), cfg);
   const ids = ['TNK-DEU-PZ-I', 'TNK-DEU-PZ-II', 'TNK-DEU-PZ-III', 'TNK-DEU-PZ-IV', 'TNK-DEU-PZ-V', 'TNK-DEU-PZ-VI', 'TNK-DEU-PZ-VIB'];
   for (const id of ids) assert.deepEqual({ soft: w(id).soft, hard: w(id).hard, armor: w(id).armor }, cfg.firepower.tankModels[id]);
-  for (let i = 1; i < ids.length; i += 1) assert.ok(w(ids[i]).armor >= w(ids[i - 1]).armor, 'corazza crescente dal Panzer I al Tiger II');
+  // corazza crescente lungo le generazioni (18/11/2026: il Pz IV a canna corta, 14–30 mm, è meno corazzato del Pz III: si confrontano le generazioni)
+  const chain = [['TNK-DEU-PZ-I'], ['TNK-DEU-PZ-II'], ['TNK-DEU-PZ-III', 'TNK-DEU-PZ-IV'], ['TNK-DEU-PZ-III-J', 'TNK-DEU-PZ-IV-G'], ['TNK-DEU-PZ-V'], ['TNK-DEU-PZ-VI'], ['TNK-DEU-PZ-VIB']];
+  for (let i = 1; i < chain.length; i += 1) assert.ok(Math.min(...chain[i].map((id) => w(id).armor)) >= Math.max(...chain[i - 1].map((id) => w(id).armor)), `corazza: ${chain[i]} contro ${chain[i - 1]}`);
+  assert.ok(w('TNK-DEU-PZ-IV-G').armor > w('TNK-DEU-PZ-IV').armor && w('TNK-DEU-PZ-III-J').armor > w('TNK-DEU-PZ-III').armor);
   assert.ok(w('TNK-DEU-PZ-IV').soft > w('TNK-DEU-PZ-I').soft * 3 && w('TNK-DEU-PZ-III').hard > w('TNK-DEU-PZ-I').hard * 20);
   assert.deepEqual(validateBattleV2(cfg, { catalogIds: new Set(CATALOG.entries.map((e) => e.equipment_id)) }), []);
   assert.ok(validateBattleV2(cfg, { catalogIds: new Set(['TNK-DEU-TANK']) }).length > 0);
@@ -415,7 +418,7 @@ test('Panzer: la dotazione iniziale segue il parco dell’anno di nascita della 
   assert.equal(y39.find((p) => p.weapon.id === 'TNK-DEU-PZ-35T').n, 24);
   assert.equal(panzer(item, 1936).direct.soft, 400 * 18);
   assert.equal(panzer(item, 1936).armor, 0.4);
-  assert.ok(hardOf(panzer(item, 1941)) > hardOf(panzer(item, 1939)) * 3 && hardOf(panzer(item, 1939)) > hardOf(panzer(item, 1936)) * 3);
+  assert.ok(hardOf(panzer(item, 1941)) > hardOf(panzer(item, 1939)) * 2.5 && hardOf(panzer(item, 1939)) > hardOf(panzer(item, 1936)) * 3); // 18/11: Pz IV corto più debole contro i carri
   assert.ok(panzer(item, 1944).armor > 1.2);
   // una voce senza fleetMix (altre nazioni) resta com'era
   const fra = WEAPON_OF('FRA', 'equipment.TNK-FRA-B1BIS-1940');
@@ -435,7 +438,7 @@ test('Panzer: i carri arrivati dalla produzione restano registrati per modello e
   // 300 Panzer I della dotazione 1936 + 60 Panzer IV + 40 Panzer III
   const parts = Object.fromEntries(tankParts(it, DEU_TANK, 400, 1936, cfg, resolveDeu).map((p) => [p.weapon.id, p.n]));
   assert.deepEqual(parts, { 'TNK-DEU-PZ-IV': 60, 'TNK-DEU-PZ-III': 40, 'TNK-DEU-PZ-I': 300 });
-  assert.ok(hardOf(panzer(it, 1936)) > hardOf(panzer({ planned: 400, effective: 400 }, 1936)) * 5);
+  assert.ok(hardOf(panzer(it, 1936)) > hardOf(panzer({ planned: 400, effective: 400 }, 1936)) * 4);
   // perdite pesanti: restano 50 carri, poi arrivano 100 Tiger → i registrati di prima si riducono a 50 in proporzione
   const hit = { ...f, divisions: { P: { ...f.divisions.P, items: { 'equipment.carri': { ...it, effective: 50 } } } }, transfers: [t(100, 'TNK-DEU-PZ-VI', '09')] };
   const after = applyArrivals(hit, '1940-01-09').forces.divisions.P.items['equipment.carri'];

@@ -39,6 +39,8 @@ export function validateEquipmentProduction(file, { factoriesById = null, techId
     if (o.availableTo !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(o.availableTo)) errors.push(`produzione equipaggiamenti: override ${id} con availableTo non valido (AAAA-MM-GG)`);
     if (o.availableTo !== undefined && o.availableFrom !== undefined && o.availableTo < o.availableFrom) errors.push(`produzione equipaggiamenti: override ${id} con fine prima dell'inizio`);
     if (o.requiresControl !== undefined && !(typeof o.requiresControl === 'string' && /^P_[A-Z]{3}_/.test(o.requiresControl))) errors.push(`produzione equipaggiamenti: override ${id} con requiresControl non valido (id di provincia)`);
+    if (o.requiresTech !== undefined && typeof o.requiresTech !== 'string') errors.push(`produzione equipaggiamenti: override ${id} con requiresTech non valido`);
+    if (o.requiresTech !== undefined && techIds && !techIds.has(o.requiresTech)) errors.push(`produzione equipaggiamenti: override ${id} richiede la tecnologia ${o.requiresTech}, che non esiste`);
     if (o.requiresControl !== undefined && provinceIds && !provinceIds.has(o.requiresControl)) errors.push(`produzione equipaggiamenti: override ${id} richiede il controllo di ${o.requiresControl}, provincia inesistente`);
   }
   return errors;
@@ -69,6 +71,7 @@ export function buildEquipmentRecipes(catalog, table) {
       // `requiresControl` (es. i carri cechi: chi tiene la Boemia, dove stavano Škoda e ČKD). Stessa regola per tutte le nazioni.
       ...(ov.availableTo ? { availableTo: ov.availableTo } : {}),
       ...(ov.requiresControl ? { requiresControl: ov.requiresControl } : {}),
+      ...(ov.requiresTech ? { requiresTech: ov.requiresTech } : {}), // tecnologia del modello (18/11/2026), oltre a quella del gruppo; la data resta come minimo storico
       rationale: `Generata dalla tabella per categoria ${e.category} (${table.quality}): peso ${mass} t, tempi di lotto e ingressi per t di peso sono valori di bilanciamento, non dati storici su ${e.designation ?? e.equipment_id}.`,
     });
   }
@@ -91,28 +94,38 @@ export function groupUnlocked(table, group, researched = new Set()) {
  */
 export function recipeUnlocked(table, recipe, researched = new Set(), date = null, controllerOf = null) {
   if (!groupUnlocked(table, recipe.group, researched)) return false;
-  return recipeLockReason(recipe, date, controllerOf) === null;
+  return recipeLockReasons(recipe, { date, controllerOf, researched }).length === 0;
 }
 
 /** Proprietario 1936 di un posto dal suo id (P_<NAZIONE>_...): ripiego quando chi chiama non sa chi controlla la provincia. */
 export const ownerFromPlaceId = (id) => String(id).split('_')[1] ?? null;
 
+const itDate = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
+
 /**
- * Perché la ricetta non si può usare ORA (data e controllo; la tecnologia la guarda groupUnlocked): null se si può, altrimenti
- * { kind: 'from' | 'to' | 'control', text }. controllerOf(provincia) → nazione che la controlla; senza, vale il proprietario del 1936.
+ * Tutti i motivi per cui la ricetta non si può usare ORA (lista vuota = si può), nell'ordine tecnologia, inizio, fine, controllo:
+ * [{ kind: 'tech' | 'from' | 'to' | 'control', text, tech? }]. La tecnologia del GRUPPO la guarda groupUnlocked.
+ * researched: Set delle tecnologie della nazione; se assente (null) la tecnologia del modello non si controlla (es. linee già avviate).
+ * controllerOf(provincia) → nazione che la controlla; senza, vale il proprietario del 1936.
  */
-export function recipeLockReason(recipe, date = null, controllerOf = null) {
-  if (recipe.availableFrom && date && date < recipe.availableFrom) return { kind: 'from', text: `in produzione dal ${recipe.availableFrom}` };
-  if (recipe.availableTo && date && date > recipe.availableTo) return { kind: 'to', text: `produzione cessata il ${recipe.availableTo}` };
+export function recipeLockReasons(recipe, { date = null, controllerOf = null, researched = null } = {}) {
+  const out = [];
+  if (recipe.requiresTech && researched && !researched.has(recipe.requiresTech)) out.push({ kind: 'tech', tech: recipe.requiresTech, text: `richiede ${recipe.requiresTech}` });
+  if (recipe.availableFrom && date && date < recipe.availableFrom) out.push({ kind: 'from', text: `dal ${itDate(recipe.availableFrom)}` });
+  if (recipe.availableTo && date && date > recipe.availableTo) out.push({ kind: 'to', text: `fuori produzione dal ${itDate(recipe.availableTo)}` });
   if (recipe.requiresControl) {
     const nation = recipe.equipmentId?.split('-')[1];
     const who = controllerOf ? controllerOf(recipe.requiresControl) : ownerFromPlaceId(recipe.requiresControl);
-    if (who !== nation) return { kind: 'control', text: `serve il controllo di ${recipe.requiresControl}` };
+    if (who !== nation) out.push({ kind: 'control', text: `serve il controllo di ${recipe.requiresControl}` });
   }
-  return null;
+  return out;
 }
 
-/** Ricette che una nazione può usare ora (equipaggiamenti della sua nazione, gruppo sbloccato). */
+/** Il primo motivo di blocco (null = si può). Senza `researched` non controlla la tecnologia del modello (compatibilità). */
+export function recipeLockReason(recipe, date = null, controllerOf = null, researched = null) {
+  return recipeLockReasons(recipe, { date, controllerOf, researched })[0] ?? null;
+}
+
 export function recipesAvailable(generated, table, nation, researched = new Set(), date = null, controllerOf = null) {
   return generated.filter((r) => r.equipmentId.split('-')[1] === nation && recipeUnlocked(table, r, researched, date, controllerOf));
 }

@@ -24,7 +24,7 @@ export function validateTechnologies(file, { consumers = null } = {}) {
     if (!Array.isArray(t.prerequisites)) errors.push(`tecnologie: ${t.id} senza elenco prerequisiti`);
     if (!Array.isArray(t.unlocks) || t.unlocks.length === 0) errors.push(`tecnologie: ${t.id} non sblocca nulla`);
     for (const u of t.unlocks ?? []) {
-      if (u.kind === 'factory_level' ? !Number.isInteger(u.level) : u.kind === 'security' ? typeof u.capability !== 'string' : u.kind === 'port_level' ? !Number.isInteger(u.level) : u.kind === 'small_arms' ? false : u.kind === 'ap_rounds' ? !(u.vsArmorMax > 0 && u.vsArmorMax <= 1) : true) errors.push(`tecnologie: ${t.id} con sblocco non valido`);
+      if (u.kind === 'factory_level' ? !Number.isInteger(u.level) : u.kind === 'security' ? typeof u.capability !== 'string' : u.kind === 'port_level' ? !Number.isInteger(u.level) : u.kind === 'small_arms' ? false : u.kind === 'equipment' ? false : u.kind === 'battle_bonus' ? !(Array.isArray(u.categories) && u.categories.length > 0 && u.value > 0 && u.value <= 0.5) : u.kind === 'ap_rounds' ? !(u.vsArmorMax > 0 && u.vsArmorMax <= 1) : true) errors.push(`tecnologie: ${t.id} con sblocco non valido`);
     }
   }
   for (const t of byId.values()) for (const p of t.prerequisites ?? []) if (!byId.has(p)) errors.push(`tecnologie: ${t.id} richiede ${p}, che non esiste`);
@@ -53,9 +53,11 @@ export function validateTechnologies(file, { consumers = null } = {}) {
 
 export const techIndex = (file) => new Map((file?.technologies ?? []).map((t) => [t.id, t]));
 
-/** Id richiesti dalle regole: livelli fabbrica (`requires`), capacità di sicurezza (`requires` per capacità in security.json), livelli dei porti, modelli di fucile. */
-export function consumersOf({ levels = null, security = null, ports = null, smallArms = null, recipes = null } = {}) {
+/** Id richiesti dalle regole: modelli d'equipaggiamento (`requiresTech`), bonus in battaglia, livelli fabbrica (`requires`), capacità di sicurezza (`requires` per capacità in security.json), livelli dei porti, modelli di fucile. */
+export function consumersOf({ levels = null, security = null, ports = null, smallArms = null, recipes = null, equipment = null, technologies = null } = {}) {
   const s = new Set();
+  for (const o of Object.values(equipment?.overrides ?? {})) if (o.requiresTech) s.add(o.requiresTech); // modelli d'equipaggiamento (carri) legati a una tecnologia
+  for (const t of technologies?.technologies ?? []) if ((t.unlocks ?? []).some((u) => u.kind === 'battle_bonus')) s.add(t.id); // il bonus lo legge la battaglia
   for (const r of recipes?.recipes ?? []) for (const i of r.inputs ?? []) if (i.requiresTech) s.add(i.requiresTech); // ingressi delle ricette legati a una tecnologia (es. tungsteno dei perforanti)
   for (const m of smallArms?.models ?? []) if (m.requires) s.add(m.requires); // modelli di fucile (data/units/models/fucili_1930_1945.json)
   for (const l of levels?.levels ?? []) if (l.requires) s.add(l.requires);
@@ -68,4 +70,20 @@ export function consumersOf({ levels = null, security = null, ports = null, smal
 export function techCost(economy, tech, difficultyId) {
   const d = difficulty(economy, difficultyId);
   return { ecv: Math.round(tech.cost_ecv * d.costMul * 1000) / 1000, days: Math.ceil(tech.days * d.timeMul) };
+}
+
+/** Bonus in battaglia (frazione) delle tecnologie acquisite per una categoria di divisione: somma degli sblocchi `battle_bonus` che la comprendono. */
+export function techBattleBonus(file, category, techs) {
+  let b = 0;
+  for (const t of file?.technologies ?? []) {
+    if (!techs?.has?.(t.id)) continue;
+    for (const u of t.unlocks ?? []) if (u.kind === 'battle_bonus' && u.categories.includes(category)) b += u.value;
+  }
+  return Math.round(b * 1000) / 1000;
+}
+
+/** Bonus in battaglia di UNA tecnologia (per la scheda dell'albero): { value, categories } | null. */
+export function battleBonusOf(tech) {
+  const u = (tech?.unlocks ?? []).find((x) => x.kind === 'battle_bonus');
+  return u ? { value: u.value, categories: u.categories } : null;
 }

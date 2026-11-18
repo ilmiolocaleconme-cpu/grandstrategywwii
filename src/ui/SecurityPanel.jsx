@@ -97,7 +97,7 @@ export function ResearchPanel({ rows, onStart, branches = [], active = null, unl
   );
 }
 
-const BRANCH_ICON = { industry: '⚙', security: '◉', logistics: '⚓', infantry: '✛', ammunition: '◆' };
+const BRANCH_ICON = { industry: '⚙', security: '◉', logistics: '⚓', infantry: '✛', ammunition: '◆', armor: '▣' };
 
 /**
  * summary: securitySummary(...). Azioni (ognuna ritorna { ok, text }): onTrain(role), onPolice(place), onDeploy(targetId), onSabotage(targetId, facilityId).

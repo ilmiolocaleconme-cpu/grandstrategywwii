@@ -1,7 +1,7 @@
 {
   "schema": "technologies-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Prime cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE. 12/11/2026: ramo «Armi della fanteria» con 5 tecnologie CONDIVISE da tutte le nazioni (decisione dell'utente): sbloccano i modelli di fucile di data/units/models/fucili_1930_1945.json (campo `requires`). initialResearch = tecnologie già possedute il 1/1/1936 (USA: Garand adottato nel 1936; URSS: AVS-36 e fucili da cecchino dal 1932): scelta storica di Claude, da confermare. Il 13/11/2026 (decisione dell'utente) il ramo Munizioni con TECH-AMMO-AP: bonus contro i carri e consumo di tungsteno nelle munizioni (data/industry/recipes.json, ingresso con requiresTech). Costo, durata e +15% sono valori di bilanciamento di Claude.",
+  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Prime cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE. 12/11/2026: ramo «Armi della fanteria» con 5 tecnologie CONDIVISE da tutte le nazioni (decisione dell'utente): sbloccano i modelli di fucile di data/units/models/fucili_1930_1945.json (campo `requires`). initialResearch = tecnologie già possedute il 1/1/1936 (USA: Garand adottato nel 1936; URSS: AVS-36 e fucili da cecchino dal 1932): scelta storica di Claude, da confermare. Il 13/11/2026 (decisione dell'utente) il ramo Munizioni con TECH-AMMO-AP: bonus contro i carri e consumo di tungsteno nelle munizioni (data/industry/recipes.json, ingresso con requiresTech). Costo, durata e +15% sono valori di bilanciamento di Claude. 18/11/2026: ramo Corazzati (decisione dell'utente: ricerca più data minima, versioni separate, prima la Germania). Le tecnologie sono comuni; i modelli nazionali si legano con `requiresTech` in data/units/equipment/equipment_production.json. Ricerca iniziale dei cannoni da carro nel 1936 (Francia e URSS anche il 75 corto: Char B1, T-28): stima di Claude.",
   "branches": [
     {
       "id": "industry",
@@ -22,6 +22,10 @@
     {
       "id": "ammunition",
       "name_it": "Munizioni"
+    },
+    {
+      "id": "armor",
+      "name_it": "Corazzati"
     }
   ],
   "technologies": [
@@ -190,6 +194,175 @@
           "vsArmorMax": 0.15
         }
       ]
+    },
+    {
+      "id": "TECH-ARM-GUN-3750",
+      "branch": "armor",
+      "name_it": "Cannone da carro 37–50 mm",
+      "description": "Cannoni anticarro in torretta per carri medi e leggeri. Germania: Pz.Kpfw. III (dal 1937) e Pz.Kpfw. 38(t) (dal 1938). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [],
+      "cost_ecv": 80,
+      "days": 180,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-GUN-75S",
+      "branch": "armor",
+      "name_it": "Cannone corto da 75 mm per carri",
+      "description": "Obice corto in torretta per il carro d'appoggio. Germania: Pz.Kpfw. IV a canna corta (dall'ottobre 1937). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [],
+      "cost_ecv": 90,
+      "days": 210,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-RADIO",
+      "branch": "armor",
+      "name_it": "Radio di bordo e torretta a tre uomini",
+      "description": "Un apparato radio per ogni carro e un capocarro libero di osservare: comando e coordinamento dei reparti. Vale per tutti i carri della nazione (gli apparati si montano anche sui carri esistenti): +5% alle divisioni corazzate. Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [],
+      "cost_ecv": 60,
+      "days": 120,
+      "unlocks": [
+        {
+          "kind": "battle_bonus",
+          "categories": [
+            "armored"
+          ],
+          "value": 0.05
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-OPTICS",
+      "branch": "armor",
+      "name_it": "Ottiche di puntamento e telemetri",
+      "description": "Cannocchiali di puntamento migliori e addestramento al tiro: +3% alle divisioni corazzate; base per i cannoni lunghi. Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [
+        "TECH-ARM-GUN-3750"
+      ],
+      "cost_ecv": 70,
+      "days": 150,
+      "unlocks": [
+        {
+          "kind": "battle_bonus",
+          "categories": [
+            "armored"
+          ],
+          "value": 0.03
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-GUN-50L",
+      "branch": "armor",
+      "name_it": "Cannone lungo da 50 mm (L/60)",
+      "description": "Cannone ad alta velocità per il carro medio. Germania: Pz.Kpfw. III Ausf. J–L (dal dicembre 1941), versione separata: i Pz III già costruiti restano col cannone vecchio. Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [
+        "TECH-ARM-GUN-3750",
+        "TECH-ARM-OPTICS"
+      ],
+      "cost_ecv": 90,
+      "days": 180,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-GUN-75L",
+      "branch": "armor",
+      "name_it": "Cannone lungo da 75 mm (L/43–48)",
+      "description": "Cannone anticarro ad alta velocità sul carro d'appoggio. Germania: Pz.Kpfw. IV Ausf. F2–H (dal marzo 1942), versione separata: i Pz IV già costruiti restano a canna corta. Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [
+        "TECH-ARM-GUN-75S",
+        "TECH-ARM-OPTICS"
+      ],
+      "cost_ecv": 110,
+      "days": 240,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-SLOPED",
+      "branch": "armor",
+      "name_it": "Corazza inclinata",
+      "description": "Piastre inclinate che moltiplicano lo spessore efficace. Germania: Pz.Kpfw. V Panther (dal 1943). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [
+        "TECH-ARM-GUN-75L"
+      ],
+      "cost_ecv": 140,
+      "days": 300,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-HEAVY",
+      "branch": "armor",
+      "name_it": "Carro pesante e cannone da 88 mm",
+      "description": "Scafo pesante, sospensioni e trasmissione per oltre 50 tonnellate, con l'88 mm L/56. Germania: Pz.Kpfw. VI Tiger (dall'agosto 1942). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [
+        "TECH-ARM-GUN-75L"
+      ],
+      "cost_ecv": 140,
+      "days": 300,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-GUN-88L",
+      "branch": "armor",
+      "name_it": "Cannone da 88 mm L/71",
+      "description": "Il cannone anticarro più potente della guerra su un carro pesante a corazza inclinata. Germania: Pz.Kpfw. VI Ausf. B Tiger II (dal 1944). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [
+        "TECH-ARM-SLOPED",
+        "TECH-ARM-HEAVY"
+      ],
+      "cost_ecv": 160,
+      "days": 300,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-IR",
+      "branch": "armor",
+      "name_it": "Visori notturni a infrarossi",
+      "description": "Proiettori e visori all'infrarosso per il combattimento notturno: +2% alle divisioni corazzate. Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "prerequisites": [
+        "TECH-ARM-SLOPED"
+      ],
+      "cost_ecv": 100,
+      "days": 240,
+      "unlocks": [
+        {
+          "kind": "battle_bonus",
+          "categories": [
+            "armored"
+          ],
+          "value": 0.02
+        }
+      ]
     }
   ],
   "initialResearch": {
@@ -198,7 +371,22 @@
     ],
     "USSR": [
       "TECH-INF-OPTICS",
-      "TECH-INF-SELECT"
+      "TECH-INF-SELECT",
+      "TECH-ARM-GUN-3750",
+      "TECH-ARM-GUN-75S"
+    ],
+    "DEU": [
+      "TECH-ARM-GUN-3750"
+    ],
+    "FRA": [
+      "TECH-ARM-GUN-3750",
+      "TECH-ARM-GUN-75S"
+    ],
+    "GBR": [
+      "TECH-ARM-GUN-3750"
+    ],
+    "JPN": [
+      "TECH-ARM-GUN-3750"
     ]
   }
 }

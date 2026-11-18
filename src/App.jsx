@@ -122,6 +122,7 @@ import { mergeEquipmentCatalogs } from './data/equipmentCatalog.js';
 import { buildEquipmentRecipes, withEquipmentPrices } from './data/equipmentProduction.js';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
+import { techBattleBonus, battleBonusOf, techIndex } from './data/technologies.js';
 import smallArmsFile from '../data/units/models/fucili_1930_1945.json';
 import { modelsUnlockedBy, producibleModels } from './data/smallArmsModels.js';
 import { averageQuality, rifleBonus, rifleTechBonus, plannedMenByNation, removeRiflePoints } from './rules/rifleQuality.js';
@@ -348,6 +349,7 @@ const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId
 export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, isSplit: (id) => (MOVE_NET.net ? MOVE_NET.net.canon(id) !== id : false), catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I nemici dell'IA vengono dalla diplomazia (guerra o rapporto <= soglia), giocatore compreso.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
+const TECH_INDEX = techIndex(technologiesFile);
 const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyData, political, presence: presenceFromEstimate(garrisonEstimateFile) });
 // Diplomazia minima (30/10/2026): parametri DESIGN_DEFAULT, situazione 1936 hypothesis. Rapporti, alleanze, accessi, costi di guerra, consenso al commercio.
 const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: diplomacyStart, political });
@@ -375,7 +377,8 @@ const rifleAverage = (state, nation) => {
   const r = state.nations?.[nation]?.rifles;
   return averageQuality(smallArmsFile, r?.points ?? 0, men[nation] ?? 0, r?.count ?? 0);
 };
-const rifleTotalBonus = (state, nation, category) => rifleBonus(smallArmsFile, category, rifleAverage(state, nation)) + rifleTechBonus(smallArmsFile, category, techsOf(state.nations?.[nation]));
+// bonus in battaglia per categoria: fucili (qualità e tecnologie) + tecnologie con `battle_bonus` (radio, ottiche, infrarossi dei corazzati, 18/11/2026)
+const rifleTotalBonus = (state, nation, category) => rifleBonus(smallArmsFile, category, rifleAverage(state, nation)) + rifleTechBonus(smallArmsFile, category, techsOf(state.nations?.[nation])) + techBattleBonus(technologiesFile, category, techsOf(state.nations?.[nation]));
 // fucili persi in battaglia: tolgono punti alla qualità della nazione (le voci di template equivalenti a un fucile prodotto contano come fucili)
 const onEquipmentLost = (state, unitId, lost) => {
   const nation = unitOf(state, unitId, UNITS_BY_ID)?.nation;
@@ -1053,7 +1056,7 @@ export default function App() {
             <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
             <DiplomacyPanel levy={puppetLevyView} onLevy={setPuppetLevy} partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} myPorts={myPortList} portChoices={portChoices} portLabel={provinceName} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
-            <ResearchPanel rows={researchRows} onStart={startResearch} branches={technologiesFile.branches} active={game.nations?.[game.player]?.research?.active ?? null} unlocksFor={(id) => modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation)} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} rifleInfo={{ quality: rifleAverage(game, game.player), bonus: rifleTotalBonus(game, game.player, 'infantry') }} techBonusOf={(id) => smallArmsFile.rifleQuality.techBonus?.[id] ?? 0} />
+            <ResearchPanel rows={researchRows} onStart={startResearch} branches={technologiesFile.branches} active={game.nations?.[game.player]?.research?.active ?? null} unlocksFor={(id) => [...modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation), ...Object.entries(equipmentProductionTable.overrides ?? {}).filter(([eq, o]) => o.requiresTech === id && eq.split('-')[1] === game.player).map(([eq]) => EQUIPMENT_NAMES.get(eq) ?? eq)]} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} rifleInfo={{ quality: rifleAverage(game, game.player), bonus: rifleTotalBonus(game, game.player, 'infantry') }} techBonusOf={(id) => (smallArmsFile.rifleQuality.techBonus?.[id] ?? 0) + (battleBonusOf(TECH_INDEX.get(id))?.value ?? 0)} />
             <SecurityPanel summary={securityView} onTrain={trainAgent} onPolice={trainPolice} onDeploy={deploySpy} onSabotage={launchSabotage} rowsFor={(t) => sabotageRows(game, game.player, t, secCtx)} />
             {infoSection}
             {statusSection}

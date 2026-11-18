@@ -31,23 +31,24 @@ test('artiglieria: ogni pezzo producibile ha il suo peso; l\'acciaio al giorno d
   assert.ok(fullCapacityFlows(rec('ART-DEU-GRW36'), fab).outputPerDay <= 25, 'mortai leggeri con quota ridotta');
 });
 
-test('carri tedeschi per modello: 9 Panzer (7 tedeschi + 35(t) e 38(t) dal 17/11/2026) con peso, collegati alla voce dei template (carri) come la voce di classe', () => {
+test('carri tedeschi per modello: 11 Panzer (7 + 35(t) e 38(t) dal 17/11 + Pz III e IV col cannone lungo dal 18/11/2026) con peso, collegati alla voce dei template (carri) come la voce di classe', () => {
   const pz = generated.filter((r) => /^TNK-DEU-PZ-/.test(r.equipmentId));
-  assert.equal(pz.length, 9);
+  assert.equal(pz.length, 11);
   assert.deepEqual(validateEquipmentProduction(table, { factoriesById: industry.byId, catalog }), []);
   const sources = buildEquivalence({ catalog })('DEU', 'equipment.TNK-DEU-TANK');
   for (const r of pz) assert.ok(sources.includes(r.output.product), `${r.equipmentId} rifornisce le divisioni`);
 });
 
 test('date di inizio produzione: nessun modello futuro prima della sua data, stessa regola per tutte le nazioni', () => {
-  assert.equal(recipeUnlocked(table, rec('TNK-DEU-PZ-V'), new Set(), '1936-01-01'), false);
-  assert.equal(recipeUnlocked(table, rec('TNK-DEU-PZ-V'), new Set(), '1943-01-01'), true);
+  const SLOPED = new Set(['TECH-ARM-SLOPED']); // dal 18/11/2026 il Panther richiede anche la ricerca: qui si isola la data
+  assert.equal(recipeUnlocked(table, rec('TNK-DEU-PZ-V'), SLOPED, '1936-01-01'), false);
+  assert.equal(recipeUnlocked(table, rec('TNK-DEU-PZ-V'), SLOPED, '1943-01-01'), true);
   assert.equal(recipeUnlocked(table, rec('TNK-USSR-T34-1940'), new Set(), '1939-12-31'), false);
   assert.equal(recipeUnlocked(table, rec('TNK-DEU-PZ-I'), new Set(), '1936-01-01'), true);
-  assert.equal(recipeUnlocked(table, rec('TNK-DEU-PZ-V'), new Set(), null), true, 'senza data: nessun blocco (compatibilità)');
+  assert.equal(recipeUnlocked(table, rec('TNK-DEU-PZ-V'), SLOPED, null), true, 'senza data: nessun blocco di data (compatibilità)');
   const state = { date: '1936-01-01', nations: { DEU: { facilities: [{ id: 'T1', type: 'FCT-TANKS', recipeId: 'REC-TNK-DEU-PZ-I' }] } } };
   const cat = { recipes, factories: industry.byId };
-  assert.throws(() => setFacilityRecipe(state, 'DEU', 'T1', 'REC-TNK-DEU-PZ-VI', { catalog: cat, table }), /solo dal 1942-01-01/);
+  assert.throws(() => setFacilityRecipe(state, 'DEU', 'T1', 'REC-TNK-DEU-PZ-VI', { catalog: cat, table, researched: new Set(['TECH-ARM-HEAVY']) }), /solo dal 1942-08-01/); // Tiger: data corretta il 18/11/2026
   assert.ok(setFacilityRecipe(state, 'DEU', 'T1', 'REC-TNK-DEU-PZ-II', { catalog: cat, table }));
   assert.equal(defaultEquipmentRecipe(recipes, 'USA', 'FCT-ARTILLERY', table, new Set(), '1936-01-01').equipmentId, 'ART-USA-GUN75-1940');
   // le ricette iniziali di tutte le nazioni sono disponibili al 1/1/1936

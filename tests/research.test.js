@@ -18,7 +18,7 @@ const research = createResearch({ technologies, economy });
 const rich = (s) => ({ ...s, nations: { ...s.nations, ITA: { ...s.nations.ITA, balance: 1e5 } } });
 
 test('dati: albero valido, senza cicli, e ogni tecnologia ha un\'utilità reale nelle regole', () => {
-  assert.deepEqual(validateTechnologies(technologies, { consumers: consumersOf({ levels, security, ports: json('ports/port_levels.json'), smallArms: json('units/models/fucili_1930_1945.json'), recipes: json('industry/recipes.json') }) }), []);
+  assert.deepEqual(validateTechnologies(technologies, { consumers: consumersOf({ equipment: json('units/equipment/equipment_production.json'), technologies, levels, security, ports: json('ports/port_levels.json'), smallArms: json('units/models/fucili_1930_1945.json'), recipes: json('industry/recipes.json') }) }), []);
   assert.equal(technologies.quality, 'DESIGN_DEFAULT');
   const cyc = structuredClone(technologies); cyc.technologies[0].prerequisites = ['TECH-IND-MASS'];
   assert.ok(validateTechnologies(cyc).some((e) => /ciclo/.test(e)));
@@ -56,7 +56,7 @@ test('difficoltà: Reale costa e dura di più, Facile di meno; elenco con stati 
   assert.ok(techCost(economy, t, 'facile').days < techCost(economy, t, 'media').days);
   const s = research.start(rich(fresh()), 'ITA', 'TECH-IND-SERIES').state;
   const st = Object.fromEntries(research.listFor(s, 'ITA').map((x) => [x.tech.id, x.status]));
-  assert.deepEqual(st, { 'TECH-IND-SERIES': 'active', 'TECH-IND-MASS': 'locked', 'TECH-SEC-INTEL': 'busy', 'TECH-SEC-CI': 'locked', 'TECH-LOG-HARBOUR': 'busy', 'TECH-INF-OPTICS': 'busy', 'TECH-INF-SEMI1': 'busy', 'TECH-INF-SEMI2': 'locked', 'TECH-INF-SELECT': 'busy', 'TECH-INF-EMERG': 'busy', 'TECH-AMMO-AP': 'busy' });
+  assert.deepEqual(st, { 'TECH-IND-SERIES': 'active', 'TECH-IND-MASS': 'locked', 'TECH-SEC-INTEL': 'busy', 'TECH-SEC-CI': 'locked', 'TECH-LOG-HARBOUR': 'busy', 'TECH-INF-OPTICS': 'busy', 'TECH-INF-SEMI1': 'busy', 'TECH-INF-SEMI2': 'locked', 'TECH-INF-SELECT': 'busy', 'TECH-INF-EMERG': 'busy', 'TECH-ARM-GUN-3750': 'busy', 'TECH-ARM-GUN-75S': 'busy', 'TECH-ARM-RADIO': 'busy', 'TECH-ARM-OPTICS': 'locked', 'TECH-ARM-GUN-50L': 'locked', 'TECH-ARM-GUN-75L': 'locked', 'TECH-ARM-SLOPED': 'locked', 'TECH-ARM-HEAVY': 'locked', 'TECH-ARM-GUN-88L': 'locked', 'TECH-ARM-IR': 'locked', 'TECH-AMMO-AP': 'busy' });
 });
 
 test('salvataggio: ricerca malformata o con tecnologie sconosciute viene rifiutata', () => {

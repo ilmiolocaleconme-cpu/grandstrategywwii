@@ -1,6 +1,6 @@
 // Vista della produzione di equipaggiamenti: quali impianti possono cambiare ricetta, con quali scelte, e a che punto sono i lotti.
 // Funzioni PURE (nessun React). I valori di lotto (giorni di costruzione e consegna) sono valori di gioco DESIGN_DEFAULT, non dati storici.
-import { groupUnlocked, recipeUnlocked, recipeLockReason } from '../data/equipmentProduction.js';
+import { groupUnlocked, recipeUnlocked, recipeLockReasons } from '../data/equipmentProduction.js';
 import { setFacilityRecipe } from '../game/facilityRecipe.js';
 
 const nationOfEquipment = (equipmentId) => equipmentId.split('-')[1];
@@ -51,9 +51,10 @@ export function facilityRecipeRows(state, nation, { catalog, table, researched =
     const options = []; const locked = [];
     for (const r of candidates) {
       const label = nameOf(r.equipmentId);
-      if (!groupUnlocked(table, r.group, researched)) { locked.push({ recipeId: r.id, label, requires: techName(table.groups?.[r.group]?.requires) }); continue; }
-      const lock = recipeLockReason(r, state.date ?? null, controllerOf);
-      if (lock) { locked.push({ recipeId: r.id, label, requires: lock.kind === 'control' ? `serve il controllo di ${placeName(r.requiresControl)}` : lock.text }); continue; }
+      if (!groupUnlocked(table, r.group, researched)) { locked.push({ recipeId: r.id, label, requires: `richiede ${techName(table.groups?.[r.group]?.requires)}` }); continue; }
+      // tutti i motivi insieme (es. «richiede Corazza inclinata · dal 01/01/1943»): il giocatore vede subito cosa manca
+      const reasons = recipeLockReasons(r, { date: state.date ?? null, controllerOf, researched });
+      if (reasons.length) { locked.push({ recipeId: r.id, label, requires: reasons.map((x) => (x.kind === 'tech' ? `richiede ${techName(x.tech)}` : x.kind === 'control' ? `serve il controllo di ${placeName(r.requiresControl)}` : x.text)).join(' · ') }); continue; }
       let ok = true; let message = '';
       try { setFacilityRecipe(state, nation, f.id, r.id, { catalog, table, researched, controllerOf }); } catch (e) { ok = false; message = e.message; }
       options.push({ recipeId: r.id, label, current: r.id === f.recipeId, ok, message });

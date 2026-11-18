@@ -150,7 +150,7 @@ export function FacilityList({ rows, onChange }) {
                   }}>
                     {r.current ? null : <option value="">Scegli…</option>}
                     {r.options.map((o) => <option key={o.recipeId} value={o.recipeId} disabled={!o.ok && !o.current}>{o.label}</option>)}
-                    {r.locked.map((o) => <option key={o.recipeId} value={o.recipeId} disabled>{o.label} (richiede {o.requires})</option>)}
+                    {r.locked.map((o) => <option key={o.recipeId} value={o.recipeId} disabled>{o.label} ({o.requires})</option>)}
                   </select>
                 </label>
                 {blocked ? <div className="muted small">{blocked.message}</div> : null}
