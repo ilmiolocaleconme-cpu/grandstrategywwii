@@ -20,7 +20,7 @@ export function setFacilityRecipe(state, nation, facilityId, recipeId, { catalog
     if (recipe.equipmentId.split('-')[1] !== nation) throw new Error(`${recipeId} è di un'altra nazione`);
     if (!groupUnlocked(table, recipe.group, researched)) throw new Error(`${recipeId}: gruppo ${recipe.group} non ancora sbloccato`);
     const lock = recipeLockReason(recipe, state.date ?? null, controllerOf, researched); // tecnologia del modello, data d'inizio e di fine, controllo della provincia
-    if (lock) throw new Error(lock.kind === 'from' ? `${recipeId}: modello in produzione solo dal ${recipe.availableFrom}` : lock.kind === 'tech' ? `${recipeId}: richiede la tecnologia ${recipe.requiresTech}` : `${recipeId}: ${lock.text}`);
+    if (lock) throw new Error(lock.kind === 'from' ? `${recipeId}: modello in produzione solo dal ${recipe.availableFrom}` : lock.kind === 'tech' ? `${recipeId}: richiede la tecnologia ${(lock.missing ?? [lock.tech]).join(' + ')}` : `${recipeId}: ${lock.text}`);
   }
   if (f.recipeId === recipeId) return state;
   if ((f.batches ?? []).length > 0) throw new Error(`${facilityId} ha lotti in consegna: aspettare la consegna prima di cambiare ricetta`);

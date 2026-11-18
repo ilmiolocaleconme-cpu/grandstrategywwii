@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-18",
-  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored).",
+  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored). 18/11/2026: gruppi di cannoni d'assalto e di cacciacarri (non ancora usati da nessuna composizione: si inseriranno con l'editor).",
   "modules": [
     {
       "id": "MOD-DEU-INF",
@@ -158,6 +158,125 @@
       },
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF"
+    },
+    {
+      "id": "MOD-DEU-STUG",
+      "nation": "DEU",
+      "type": "anti_tank",
+      "name_it": "Gruppo cannoni d'assalto (StuG III corto)",
+      "men": 500,
+      "horses": 0,
+      "equipment": {
+        "TD-DEU-STUG-III": 30,
+        "INW-DEU-PISTOL-1939": 300,
+        "MG-DEU-MG34-L": 10,
+        "VEH-DEU-TRUCK": 60
+      },
+      "mobility": "armored",
+      "requiresTech": "TECH-ARM-ASSAULT",
+      "availableFrom": "1940-02-01"
+    },
+    {
+      "id": "MOD-DEU-STUG-G",
+      "nation": "DEU",
+      "type": "anti_tank",
+      "name_it": "Gruppo cannoni d'assalto (StuG III lungo)",
+      "men": 500,
+      "horses": 0,
+      "equipment": {
+        "TD-DEU-STUG-III-G": 31,
+        "INW-DEU-PISTOL-1939": 300,
+        "MG-DEU-MG34-L": 10,
+        "VEH-DEU-TRUCK": 60
+      },
+      "mobility": "armored",
+      "requiresTech": [
+        "TECH-ARM-ASSAULT",
+        "TECH-ARM-GUN-75L"
+      ],
+      "availableFrom": "1942-03-01"
+    },
+    {
+      "id": "MOD-DEU-PZJG-SP",
+      "nation": "DEU",
+      "type": "anti_tank",
+      "name_it": "Gruppo cacciacarri semoventi (Marder III)",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "TD-DEU-MARDER-III": 27,
+        "INW-DEU-RIFLE-1939": 250,
+        "INW-DEU-PISTOL-1939": 120,
+        "MG-DEU-MG34-L": 12,
+        "VEH-DEU-TRUCK": 50
+      },
+      "mobility": "armored",
+      "requiresTech": [
+        "TECH-ARM-TD",
+        "TECH-ARM-GUN-75L"
+      ],
+      "availableFrom": "1942-04-01"
+    },
+    {
+      "id": "MOD-DEU-JPZ",
+      "nation": "DEU",
+      "type": "anti_tank",
+      "name_it": "Gruppo cacciacarri corazzati (Jagdpanzer IV)",
+      "men": 480,
+      "horses": 0,
+      "equipment": {
+        "TD-DEU-JPZ-IV": 31,
+        "INW-DEU-PISTOL-1939": 300,
+        "MG-DEU-MG34-L": 10,
+        "VEH-DEU-TRUCK": 55
+      },
+      "mobility": "armored",
+      "requiresTech": [
+        "TECH-ARM-TD",
+        "TECH-ARM-SLOPED"
+      ],
+      "availableFrom": "1944-01-01"
+    },
+    {
+      "id": "MOD-DEU-HETZER",
+      "nation": "DEU",
+      "type": "anti_tank",
+      "name_it": "Compagnia cacciacarri Hetzer",
+      "men": 160,
+      "horses": 0,
+      "equipment": {
+        "TD-DEU-HETZER": 14,
+        "INW-DEU-PISTOL-1939": 80,
+        "MG-DEU-MG34-L": 4,
+        "VEH-DEU-TRUCK": 15
+      },
+      "mobility": "armored",
+      "requiresTech": [
+        "TECH-ARM-TD",
+        "TECH-ARM-SLOPED"
+      ],
+      "availableFrom": "1944-04-01"
+    },
+    {
+      "id": "MOD-DEU-JAGDPANTHER",
+      "nation": "DEU",
+      "type": "anti_tank",
+      "name_it": "Gruppo cacciacarri pesanti (Jagdpanther)",
+      "men": 550,
+      "horses": 0,
+      "equipment": {
+        "TD-DEU-JAGDPANTHER": 45,
+        "INW-DEU-PISTOL-1939": 350,
+        "MG-DEU-MG34-L": 12,
+        "VEH-DEU-TRUCK": 70
+      },
+      "mobility": "armored",
+      "requiresTech": [
+        "TECH-ARM-TD",
+        "TECH-ARM-HEAVY",
+        "TECH-ARM-SLOPED"
+      ],
+      "availableFrom": "1944-06-01"
     }
   ],
   "compositions": [

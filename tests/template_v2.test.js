@@ -62,7 +62,7 @@ test('templateFor con data: sceglie la versione valida più recente; senza data 
 
 test('i template reali (v1) restano validi con il validatore esteso', () => {
   const dir = new URL('../data/units/templates/', import.meta.url);
-  for (const f of readdirSync(dir).filter((n) => /^divisione_.*\.json$/.test(n))) { // stesso filtro di scripts/validate-data.js
+  for (const f of readdirSync(dir).filter((n) => /^(divisione|brigata)_.*\.json$/.test(n))) { // stesso filtro di scripts/validate-data.js
     const d = JSON.parse(readFileSync(new URL(f, dir), 'utf8'));
     if (d.schema === 'unit-template-v1') assert.deepEqual(validateTemplate(d), [], f);
   }

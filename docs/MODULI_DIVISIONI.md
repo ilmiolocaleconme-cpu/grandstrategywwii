@@ -21,3 +21,21 @@ Divisione motorizzata 1937: vince in 9 giorni, 1.590 prigionieri (inseguimento m
 - **3 fabbriche di veicoli tedesche all'inizio** (Opel, Daimler-Benz, Büssing; `scripts/build-initial-industry.js`): producono autocarri. Effetti: una centrale termica in più, piccola scorta di carbone (regola dei 150 giorni), 42 t di acciaio al giorno, entrate −0,3/giorno.
 - La quota corazzata in battaglia resta quella della categoria, non dipende ancora dai semicingolati.
 - Le altre nazioni non hanno battaglioni.
+
+## Cacciacarri, cannoni d'assalto e brigate (18/11/2026)
+
+Tecnologie nuove nel ramo Corazzati: **TECH-ARM-ASSAULT** (cannone d'assalto, dopo il 75 corto) e **TECH-ARM-TD** (cacciacarri semoventi, dopo il 37/50). `requiresTech` di modelli e battaglioni può essere un elenco: servono tutte.
+
+| Modello | Dal | Tecnologie | Altro |
+|---|---|---|---|
+| StuG III (75 corto) | 02/1940 | cannone d'assalto | |
+| Panzerjäger I | 03/1940 | cacciacarri | fino al 02/1941 |
+| StuG III G (75 lungo) | 03/1942 | cannone d'assalto + 75 lungo | |
+| Marder III | 04/1942 | cacciacarri + 75 lungo | Boemia, fino al 05/1944 |
+| Jagdpanzer IV | 01/1944 | cacciacarri + corazza inclinata | |
+| Hetzer | 04/1944 | cacciacarri + corazza inclinata | Boemia |
+| Jagdpanther | 01/1944 | cacciacarri + carro pesante + corazza inclinata | |
+
+Battaglioni tedeschi (`modules_deu.json`): MOD-DEU-STUG, STUG-G, PZJG-SP (Marder), JPZ, HETZER (compagnia), JAGDPANTHER. Nessuna composizione li usa ancora: entreranno con l'editor.
+
+Brigate: `echelon: 'brigade'` ora ha istanza nelle forze se esiste un template di brigata per la nazione. Template: TPL-USSR-TBR-1935 (160 carri BT/T-26, 2 700 uomini) e TPL-USSR-TBR-1941 (47 carri, 1 300 uomini). Le 3 brigate aviotrasportate sovietiche restano senza template. In battaglia una brigata occupa **mezzo posto** nel fronte e consuma metà munizioni e carburante. Le brigate sovietiche non sono nello schieramento del 1936 (come quasi tutta l'Armata Rossa), quindi non compaiono ancora sulla mappa.

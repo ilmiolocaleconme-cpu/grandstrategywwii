@@ -21,8 +21,8 @@ const armor = techs.technologies.filter((t) => t.branch === 'armor');
 const cfg = json('units/battle_v2.json');
 const ids = (...xs) => new Set(xs);
 
-test('ramo Corazzati: 10 tecnologie valide, senza cicli, ognuna con un uso reale', () => {
-  assert.equal(armor.length, 10);
+test('ramo Corazzati: 12 tecnologie valide, senza cicli, ognuna con un uso reale', () => {
+  assert.equal(armor.length, 12); // + cannone d'assalto e cacciacarri (18/11/2026)
   assert.ok(techs.branches.some((b) => b.id === 'armor'));
   assert.deepEqual(validateTechnologies(techs), [], 'albero valido (l’uso di tutte le tecnologie lo controlla tests/research.test.js)');
   const used = consumersOf({ equipment: table, technologies: techs });

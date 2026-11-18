@@ -21,7 +21,7 @@ export function weaponWeight(weapon, cfg) {
   const w = typeof weapon === 'string' ? { category: weapon } : weapon;
   const base = cfg.firepower.weights[w?.category];
   if (!base) return null;
-  if (w.category === 'TANK') {
+  if (w.category === 'TANK' || w.category === 'TANK_DESTROYER') { // cacciacarri e cannoni d'assalto: pesati per modello come i carri (18/11/2026)
     const m = cfg.firepower.tankModels?.[w.id]; // peso proprio del modello (es. i Panzer tedeschi), prima del ruolo
     if (m) return { soft: m.soft, hard: m.hard, class: base.class, armor: m.armor };
     const r = cfg.firepower.tankRoles?.[w.role];
@@ -81,7 +81,7 @@ export function rawFirepower(items, weaponOf, cfg, men = 0, opts = {}) {
       continue;
     }
     out[w.class].soft += n * w.soft; out[w.class].hard += n * w.hard;
-    if (c === 'TANK') { tanks += n; armor += n * w.armor; }
+    if (c === 'TANK' || c === 'TANK_DESTROYER') { tanks += n; armor += n * w.armor; } // i cacciacarri entrano nella corazza media
   }
   if (tanks > 0) out.armor = armor / tanks;
   const d = cfg.firepower.defaults; const m = Math.max(0, men);
@@ -194,10 +194,23 @@ export function frontageOf(terrain, isCity, cfg) {
   return Math.max(1, Math.round(w > 0 ? sum / w : f.pianura));
 }
 
-/** Divide una parte in linea e riserva: in linea le `width` più coese (a parità più uomini, poi id). Ritorna { line, reserve }. */
-export function splitLine(units, width) {
+/** Posti occupati nel fronte: 1 per una divisione, `frontage.brigadeSlot` (0.5) per una brigata (18/11/2026). */
+export function unitSlot(u, cfg) {
+  return u?.echelon === 'brigade' ? (cfg?.frontage?.brigadeSlot ?? 0.5) : 1;
+}
+
+/**
+ * Divide una parte in linea e riserva: in linea le più coese (a parità più uomini, poi id) finché i posti occupati non superano `width`.
+ * slot(u) → posti dell'unità (predefinito 1: allora entrano esattamente `width` unità). Ritorna { line, reserve }.
+ */
+export function splitLine(units, width, slot = () => 1) {
   const sorted = [...units].sort((a, b) => (b.cohesion - a.cohesion) || (b.effective - a.effective) || (a.id < b.id ? -1 : 1));
-  return { line: sorted.slice(0, width), reserve: sorted.slice(width) };
+  const line = []; const reserve = []; let used = 0;
+  for (const u of sorted) {
+    const s = slot(u);
+    if (used + s <= width + 1e-9) { line.push(u); used += s; } else reserve.push(u);
+  }
+  return { line, reserve };
 }
 
 // ---- 4. rifornimenti ----------------------------------------------------------------------------------------------------------------------

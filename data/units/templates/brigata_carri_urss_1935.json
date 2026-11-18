@@ -1,0 +1,139 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-USSR-TBR-1935",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "USSR",
+    "category": "armored",
+    "echelon": "brigade",
+    "activeFrom": "1935-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Brigata carri sovietica (18/11/2026, decisione dell'utente). Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+  "formation": {
+    "value": "brigata carri leggeri (1935)",
+    "basis": "ipotesi",
+    "referenceYear": "1935",
+    "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+    "reliability": "ESTIMATED"
+  },
+  "manpower": {
+    "war": {
+      "value": 2700,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": null,
+    "basis": "da_definire",
+    "referenceYear": null,
+    "source": null
+  },
+  "equipment": {
+    "TNK-USSR-BT-1940": {
+      "value": 110,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-USSR-T26-1940": {
+      "value": 50,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-RIFLE-1939": {
+      "value": 1400,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-LMG-1939": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-HMG-1939": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-AT45-1939": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire."
+  }
+}

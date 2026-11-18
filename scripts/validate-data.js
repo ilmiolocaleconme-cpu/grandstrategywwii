@@ -166,7 +166,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       const eqIds = (await Promise.all((await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).map(async (n) => JSON.parse(await text(`units/equipment/${n}`))))).flatMap((d) => d.entries.map((x) => `equipment.${x.equipment_id}`));
       errors.push(...validateEvents(evFile, { unitIds, itemIds: new Set(eqIds), nationIds: new Set(JSON.parse(await text('nations.json')).map((n) => n.id)) }));
     }
-    errors.push(...validateBattleV2(JSON.parse(await text('units/battle_v2.json')), { weaponCategories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK', 'HALF_TRACK']), catalogIds: new Set((await Promise.all((await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).map(async (n) => JSON.parse(await text(`units/equipment/${n}`))))).flatMap((d) => d.entries.map((x) => x.equipment_id))) })); // tutti i cataloghi nazionali
+    errors.push(...validateBattleV2(JSON.parse(await text('units/battle_v2.json')), { weaponCategories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK', 'HALF_TRACK', 'TANK_DESTROYER']), catalogIds: new Set((await Promise.all((await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).map(async (n) => JSON.parse(await text(`units/equipment/${n}`))))).flatMap((d) => d.entries.map((x) => x.equipment_id))) })); // tutti i cataloghi nazionali
     errors.push(...validateTerrainCombat(JSON.parse(await text('units/terrain_combat.json'))));
     errors.push(...validateRiverCrossings(JSON.parse(await text('military/river_crossings.json')), { placeIds: new Set(provinceIds), riverIds: new Set(catalog.rivers.map((r) => r.id)) }));
     errors.push(...validateCombatEquipment(JSON.parse(await text('units/combat_equipment.json')), { categories: new Set(['INDIVIDUAL_WEAPON', 'MACHINE_GUN', 'MORTAR', 'GRENADE_LAUNCHER', 'FIELD_GUN', 'HOWITZER', 'ANTI_TANK_GUN', 'ANTI_AIRCRAFT_GUN', 'TANK']) }));
@@ -271,13 +271,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     errors.push(...validateMobilizationLaws(JSON.parse(await text('units/mobilization_laws.json')), { nationIds: catalog.nations.map((n) => n.id), provinceIds: new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id)) }));
     errors.push(...validateShipyards(JSON.parse(await text('naval/shipyards_1936.json')), { coastal: JSON.parse(await text('ports/coastal_cities.json')).cities }));
     // Template di divisione (previsto/effettivo, basi e fonti)
-    for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) {
+    for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^(divisione|brigata)_.*\.json$/.test(n)).sort()) {
       errors.push(...validateTemplate(JSON.parse(await text(`units/templates/${f}`))).map((e) => `template ${f}: ${e}`));
     }
     // Catalogo degli equipaggiamenti (Fase 3): coerenza e copertura delle chiavi equipment dei template di divisione
     {
       const divisionTemplates = [];
-      for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n)).sort()) divisionTemplates.push(JSON.parse(await text(`units/templates/${f}`)));
+      for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^(divisione|brigata)_.*\.json$/.test(n)).sort()) divisionTemplates.push(JSON.parse(await text(`units/templates/${f}`)));
       const catalogDocs = [];
       for (const f of (await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).sort()) catalogDocs.push(JSON.parse(await text(`units/equipment/${f}`)));
       errors.push(...validateEquipmentCatalog(mergeEquipmentCatalogs(catalogDocs), { templates: divisionTemplates }));
@@ -308,7 +308,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     // Quadri di divisione (template per nazione, espansione in divisione tramite mobilitazione)
     {
       const divisionIds = new Set();
-      for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^divisione_.*\.json$/.test(n))) divisionIds.add(JSON.parse(await text(`units/templates/${f}`)).id);
+      for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^(divisione|brigata)_.*\.json$/.test(n))) divisionIds.add(JSON.parse(await text(`units/templates/${f}`)).id);
       errors.push(...validateCadreTemplates(JSON.parse(await text('units/templates/quadri_1936.json')), { nationIds: new Set(catalog.political.map((p) => p.id)), templateIds: divisionIds }).map((e) => `quadri: ${e}`));
     }
     // Centrali idroelettriche (CSV dell'utente): copia non modificata, provincia ricavata dalle coordinate

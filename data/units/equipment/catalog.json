@@ -472,6 +472,104 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Trasporto truppe corazzato a semicingoli della fanteria corazzata (Panzergrenadiere), dal giugno 1939."
+    },
+    {
+      "equipment_id": "TD-DEU-STUG-III",
+      "nation": "DEU",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Sturmgeschütz III Ausf. A–F",
+      "name_it": "Cannone d'assalto StuG III (75 mm corto)",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-DEU-STUG-III-G",
+      "nation": "DEU",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Sturmgeschütz III Ausf. F/8–G",
+      "name_it": "Cannone d'assalto StuG III (75 mm lungo)",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-DEU-PZJG-I",
+      "nation": "DEU",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Panzerjäger I",
+      "name_it": "Cacciacarri Panzerjäger I (47 mm)",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-DEU-MARDER-III",
+      "nation": "DEU",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Marder III",
+      "name_it": "Cacciacarri Marder III (75 mm)",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-DEU-JPZ-IV",
+      "nation": "DEU",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Jagdpanzer IV",
+      "name_it": "Cacciacarri Jagdpanzer IV",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-DEU-HETZER",
+      "nation": "DEU",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Jagdpanzer 38(t) Hetzer",
+      "name_it": "Cacciacarri Hetzer",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-DEU-JAGDPANTHER",
+      "nation": "DEU",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Jagdpanther",
+      "name_it": "Cacciacarri Jagdpanther (88 mm)",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti."
     }
   ],
   "aliases": [
@@ -624,6 +722,41 @@
       "nation": "DEU",
       "templateKey": "TNK-DEU-TANK",
       "equipment_id": "TNK-DEU-TANK"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "TD-DEU-STUG-III",
+      "equipment_id": "TD-DEU-STUG-III"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "TD-DEU-STUG-III-G",
+      "equipment_id": "TD-DEU-STUG-III-G"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "TD-DEU-PZJG-I",
+      "equipment_id": "TD-DEU-PZJG-I"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "TD-DEU-MARDER-III",
+      "equipment_id": "TD-DEU-MARDER-III"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "TD-DEU-JPZ-IV",
+      "equipment_id": "TD-DEU-JPZ-IV"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "TD-DEU-HETZER",
+      "equipment_id": "TD-DEU-HETZER"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "TD-DEU-JAGDPANTHER",
+      "equipment_id": "TD-DEU-JAGDPANTHER"
     }
   ]
 }

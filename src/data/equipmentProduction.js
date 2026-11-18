@@ -39,8 +39,8 @@ export function validateEquipmentProduction(file, { factoriesById = null, techId
     if (o.availableTo !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(o.availableTo)) errors.push(`produzione equipaggiamenti: override ${id} con availableTo non valido (AAAA-MM-GG)`);
     if (o.availableTo !== undefined && o.availableFrom !== undefined && o.availableTo < o.availableFrom) errors.push(`produzione equipaggiamenti: override ${id} con fine prima dell'inizio`);
     if (o.requiresControl !== undefined && !(typeof o.requiresControl === 'string' && /^P_[A-Z]{3}_/.test(o.requiresControl))) errors.push(`produzione equipaggiamenti: override ${id} con requiresControl non valido (id di provincia)`);
-    if (o.requiresTech !== undefined && typeof o.requiresTech !== 'string') errors.push(`produzione equipaggiamenti: override ${id} con requiresTech non valido`);
-    if (o.requiresTech !== undefined && techIds && !techIds.has(o.requiresTech)) errors.push(`produzione equipaggiamenti: override ${id} richiede la tecnologia ${o.requiresTech}, che non esiste`);
+    if (o.requiresTech !== undefined && !(typeof o.requiresTech === 'string' || (Array.isArray(o.requiresTech) && o.requiresTech.length && o.requiresTech.every((x) => typeof x === 'string')))) errors.push(`produzione equipaggiamenti: override ${id} con requiresTech non valido`);
+    else if (o.requiresTech !== undefined && techIds) for (const t of techList(o.requiresTech)) if (!techIds.has(t)) errors.push(`produzione equipaggiamenti: override ${id} richiede la tecnologia ${t}, che non esiste`);
     if (o.requiresControl !== undefined && provinceIds && !provinceIds.has(o.requiresControl)) errors.push(`produzione equipaggiamenti: override ${id} richiede il controllo di ${o.requiresControl}, provincia inesistente`);
   }
   return errors;
@@ -97,6 +97,9 @@ export function recipeUnlocked(table, recipe, researched = new Set(), date = nul
   return recipeLockReasons(recipe, { date, controllerOf, researched }).length === 0;
 }
 
+/** Tecnologie richieste come elenco: `requiresTech` può essere un id o un elenco di id (servono tutte, 18/11/2026). */
+export const techList = (x) => (x == null ? [] : Array.isArray(x) ? x : [x]);
+
 /** Proprietario 1936 di un posto dal suo id (P_<NAZIONE>_...): ripiego quando chi chiama non sa chi controlla la provincia. */
 export const ownerFromPlaceId = (id) => String(id).split('_')[1] ?? null;
 
@@ -110,7 +113,8 @@ const itDate = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4
  */
 export function recipeLockReasons(recipe, { date = null, controllerOf = null, researched = null } = {}) {
   const out = [];
-  if (recipe.requiresTech && researched && !researched.has(recipe.requiresTech)) out.push({ kind: 'tech', tech: recipe.requiresTech, text: `richiede ${recipe.requiresTech}` });
+  const missing = researched ? techList(recipe.requiresTech).filter((t) => !researched.has(t)) : [];
+  if (missing.length) out.push({ kind: 'tech', tech: missing[0], missing, text: `richiede ${missing.join(' + ')}` });
   if (recipe.availableFrom && date && date < recipe.availableFrom) out.push({ kind: 'from', text: `dal ${itDate(recipe.availableFrom)}` });
   if (recipe.availableTo && date && date > recipe.availableTo) out.push({ kind: 'to', text: `fuori produzione dal ${itDate(recipe.availableTo)}` });
   if (recipe.requiresControl) {

@@ -22,7 +22,7 @@ import { controllerOf } from '../map/geo.js';
 import { provinceController, canEnterWar, isFighter, effectiveOf } from './warCommon.js';
 import { planAssignment } from './theaterPlan.js';
 import { terrainDefense, terrainCategoryFactor, riverFactor } from '../rules/terrainCombat.js';
-import { firepowerBase, sideHardness, cohesionOf, cohesionLoss, cohesionPower, experiencePower, sideBreaks, recoverCohesion, frontageOf, splitLine, drawSupply, splitCasualties, mobileShare, retreatPrisoners, addCasualties, createCohesion, seasonFactor, COHESION_SCHEMA, CASUALTIES_SCHEMA } from '../rules/battleV2.js';
+import { firepowerBase, sideHardness, cohesionOf, cohesionLoss, cohesionPower, experiencePower, sideBreaks, recoverCohesion, frontageOf, splitLine, unitSlot, drawSupply, splitCasualties, mobileShare, retreatPrisoners, addCasualties, createCohesion, seasonFactor, COHESION_SCHEMA, CASUALTIES_SCHEMA } from '../rules/battleV2.js';
 import { RETREAT_BELOW } from '../rules/combat.js';
 import { conditionOf, createConditionState, clamp as clampCondition } from '../rules/divisionCondition.js';
 import { createEntrench, entrenchBonus, setDig, tickEntrench, validateEntrench, DEFAULT_ENTRENCH } from '../rules/entrench.js';
@@ -107,7 +107,7 @@ function combatantsByProvince(state, ctx) {
     if (!map.has(pos)) map.set(pos, []);
     const rifle = ctx.rifleBonus?.(s0, u) ?? 0; // qualità dei fucili della nazione (src/rules/rifleQuality.js): vale in attacco e in difesa
     const equipment = ctx.equipmentFactor?.(s0, u) ?? 1; // dotazione d'armi della divisione (src/rules/equipmentFill.js)
-    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, effective: m.effective, planned: m.planned, rifle, equipment, dug: Math.min(1, (s0.entrench?.days?.[u.id] ?? 0) / ((ctx.entrenchCfg ?? DEFAULT_ENTRENCH).rampDays || 1)), bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) + rifle });
+    map.get(pos).push({ id: u.id, nation: u.nation, category: u.category, echelon: u.echelon ?? 'division', effective: m.effective, planned: m.planned, rifle, equipment, dug: Math.min(1, (s0.entrench?.days?.[u.id] ?? 0) / ((ctx.entrenchCfg ?? DEFAULT_ENTRENCH).rampDays || 1)), bonus: entrenchBonus(s0.entrench?.days?.[u.id] ?? 0, ctx.entrenchCfg ?? DEFAULT_ENTRENCH) + rifle });
   }
   return map;
 }
@@ -187,13 +187,14 @@ function prepareV2(state, ctx, net, p, attackers, defenders, g) {
   const terrain = isCity ? null : ctx.terrainOf?.(net.provinceOf?.(p) ?? p) ?? null;
   const width = frontageOf(terrain, isCity, cfg);
   const withCoh = (list) => list.map((u) => ({ ...u, cohesion: cohesionOf(s.cohesion, u.id) }));
-  const A = splitLine(withCoh(g.attackers), width); const D = splitLine(withCoh(g.defenders), width);
+  const slot = (u) => unitSlot(u, cfg); // una brigata occupa mezzo posto (18/11/2026)
+  const A = splitLine(withCoh(g.attackers), width, slot); const D = splitLine(withCoh(g.defenders), width, slot);
   // rifornimenti: fabbisogno del giorno delle divisioni IN LINEA, prelevato dalle scorte della nazione (assente lo stato delle nazioni: copertura piena)
   const need = new Map();
   const addNeed = (u, phase) => {
     const n = need.get(u.nation) ?? { ammo: 0, fuel: 0 };
-    n.ammo += ctx.ammoNeed?.(u, phase) ?? 0;
-    if (cfg.supply.fuelCategories.includes(u.category)) n.fuel += ctx.fuelNeed?.(u) ?? 0;
+    n.ammo += (ctx.ammoNeed?.(u, phase) ?? 0) * slot(u); // il consumo è per divisione: una brigata ne usa la quota del suo posto
+    if (cfg.supply.fuelCategories.includes(u.category)) n.fuel += (ctx.fuelNeed?.(u) ?? 0) * slot(u);
     need.set(u.nation, n);
   };
   A.line.forEach((u) => addNeed(u, 'attack')); D.line.forEach((u) => addNeed(u, 'defense'));

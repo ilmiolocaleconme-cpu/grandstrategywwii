@@ -1,7 +1,7 @@
 {
   "schema": "technologies-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Prime cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE. 12/11/2026: ramo «Armi della fanteria» con 5 tecnologie CONDIVISE da tutte le nazioni (decisione dell'utente): sbloccano i modelli di fucile di data/units/models/fucili_1930_1945.json (campo `requires`). initialResearch = tecnologie già possedute il 1/1/1936 (USA: Garand adottato nel 1936; URSS: AVS-36 e fucili da cecchino dal 1932): scelta storica di Claude, da confermare. Il 13/11/2026 (decisione dell'utente) il ramo Munizioni con TECH-AMMO-AP: bonus contro i carri e consumo di tungsteno nelle munizioni (data/industry/recipes.json, ingresso con requiresTech). Costo, durata e +15% sono valori di bilanciamento di Claude. 18/11/2026: ramo Corazzati (decisione dell'utente: ricerca più data minima, versioni separate, prima la Germania). Le tecnologie sono comuni; i modelli nazionali si legano con `requiresTech` in data/units/equipment/equipment_production.json. Ricerca iniziale dei cannoni da carro nel 1936 (Francia e URSS anche il 75 corto: Char B1, T-28): stima di Claude. 18/11/2026 (decisione dell'utente): la Germania parte con TECH-ARM-RADIO, perché i carri tedeschi avevano la radio di bordo fin dal 1935. 18/11/2026: ramo Motorizzazione (fanteria motorizzata, semicingolati). Fanteria motorizzata già acquisita nel 1936 da Germania, Regno Unito, Francia e USA (stima di Claude).",
+  "note": "Albero tecnologico INIZIALE e piccolo (decisione dell'utente 29/10/2026). Prime cinque tecnologie, ognuna con un uso reale nelle regole: due sbloccano i livelli delle fabbriche (data/industry/factory_levels.json, campo `requires`), due sbloccano spionaggio, sabotaggio e controspionaggio (data/security/security.json), una sblocca il grande porto (data/ports/port_levels.json). Costi (ECV) e durate (giorni) sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), non dati storici; i nomi richiamano concetti dell'epoca ma non sono date storiche di introduzione. Si ricerca una tecnologia per volta per nazione; il costo si paga all'avvio. Tutte le nazioni partono senza tecnologie. L'albero completo (unità terrestri, navali, aeree) è MANCANTE. 12/11/2026: ramo «Armi della fanteria» con 5 tecnologie CONDIVISE da tutte le nazioni (decisione dell'utente): sbloccano i modelli di fucile di data/units/models/fucili_1930_1945.json (campo `requires`). initialResearch = tecnologie già possedute il 1/1/1936 (USA: Garand adottato nel 1936; URSS: AVS-36 e fucili da cecchino dal 1932): scelta storica di Claude, da confermare. Il 13/11/2026 (decisione dell'utente) il ramo Munizioni con TECH-AMMO-AP: bonus contro i carri e consumo di tungsteno nelle munizioni (data/industry/recipes.json, ingresso con requiresTech). Costo, durata e +15% sono valori di bilanciamento di Claude. 18/11/2026: ramo Corazzati (decisione dell'utente: ricerca più data minima, versioni separate, prima la Germania). Le tecnologie sono comuni; i modelli nazionali si legano con `requiresTech` in data/units/equipment/equipment_production.json. Ricerca iniziale dei cannoni da carro nel 1936 (Francia e URSS anche il 75 corto: Char B1, T-28): stima di Claude. 18/11/2026 (decisione dell'utente): la Germania parte con TECH-ARM-RADIO, perché i carri tedeschi avevano la radio di bordo fin dal 1935. 18/11/2026: ramo Motorizzazione (fanteria motorizzata, semicingolati). Fanteria motorizzata già acquisita nel 1936 da Germania, Regno Unito, Francia e USA (stima di Claude). 18/11/2026: cannone d'assalto e cacciacarri semoventi (decisione dell'utente: cacciacarri e brigate prima dell'editor).",
   "branches": [
     {
       "id": "industry",
@@ -392,6 +392,44 @@
       ],
       "cost_ecv": 90,
       "days": 210,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        },
+        {
+          "kind": "modules"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-ASSAULT",
+      "branch": "armor",
+      "name_it": "Cannone d'assalto",
+      "description": "Cannone su scafo di carro, in casamatta fissa, per appoggiare la fanteria e, col cannone lungo, combattere i carri. Germania: StuG III (dal febbraio 1940); con il 75 lungo StuG III Ausf. F/8–G (dal marzo 1942). Costo e durata: stime di Claude (18/11/2026).",
+      "prerequisites": [
+        "TECH-ARM-GUN-75S"
+      ],
+      "cost_ecv": 80,
+      "days": 180,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        },
+        {
+          "kind": "modules"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ARM-TD",
+      "branch": "armor",
+      "name_it": "Cacciacarri semoventi",
+      "description": "Cannoni anticarro su scafi di carri superati o su scafi bassi corazzati. Germania: Panzerjäger I (1940), Marder III (1942, col 75 lungo), Jagdpanzer IV e Hetzer (1944, con la corazza inclinata), Jagdpanther (1944, col carro pesante). Costo e durata: stime di Claude (18/11/2026).",
+      "prerequisites": [
+        "TECH-ARM-GUN-3750"
+      ],
+      "cost_ecv": 70,
+      "days": 150,
       "unlocks": [
         {
           "kind": "equipment"

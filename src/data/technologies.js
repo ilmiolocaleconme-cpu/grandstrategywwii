@@ -56,8 +56,8 @@ export const techIndex = (file) => new Map((file?.technologies ?? []).map((t) =>
 /** Id richiesti dalle regole: modelli d'equipaggiamento (`requiresTech`), bonus in battaglia, livelli fabbrica (`requires`), capacità di sicurezza (`requires` per capacità in security.json), livelli dei porti, modelli di fucile. */
 export function consumersOf({ levels = null, security = null, ports = null, smallArms = null, recipes = null, equipment = null, technologies = null, modules = null } = {}) {
   const s = new Set();
-  for (const doc of modules ?? []) for (const m of doc.modules ?? []) if (m.requiresTech) s.add(m.requiresTech); // battaglioni delle divisioni (18/11/2026)
-  for (const o of Object.values(equipment?.overrides ?? {})) if (o.requiresTech) s.add(o.requiresTech); // modelli d'equipaggiamento (carri) legati a una tecnologia
+  for (const doc of modules ?? []) for (const m of doc.modules ?? []) for (const t of [m.requiresTech ?? []].flat()) s.add(t); // battaglioni delle divisioni (18/11/2026)
+  for (const o of Object.values(equipment?.overrides ?? {})) for (const t of [o.requiresTech ?? []].flat()) s.add(t); // modelli d'equipaggiamento (carri) legati a una tecnologia
   for (const t of technologies?.technologies ?? []) if ((t.unlocks ?? []).some((u) => u.kind === 'battle_bonus')) s.add(t.id); // il bonus lo legge la battaglia
   for (const r of recipes?.recipes ?? []) for (const i of r.inputs ?? []) if (i.requiresTech) s.add(i.requiresTech); // ingressi delle ricette legati a una tecnologia (es. tungsteno dei perforanti)
   for (const m of smallArms?.models ?? []) if (m.requires) s.add(m.requires); // modelli di fucile (data/units/models/fucili_1930_1945.json)

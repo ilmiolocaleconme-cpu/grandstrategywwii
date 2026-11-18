@@ -28,7 +28,8 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
       if (catalogIds && !catalogIds.has(k)) e.push(`${p}: ${k} non è nel catalogo`);
       if (k.split('-')[1] !== m.nation) e.push(`${p}: ${k} è di un'altra nazione`);
     }
-    if (m.requiresTech !== undefined && techIds && !techIds.has(m.requiresTech)) e.push(`${p}: tecnologia ${m.requiresTech} inesistente`);
+    if (m.requiresTech !== undefined && !(typeof m.requiresTech === 'string' || (Array.isArray(m.requiresTech) && m.requiresTech.length))) e.push(`${p}: requiresTech non valido`);
+    else if (m.requiresTech !== undefined && techIds) for (const t of [m.requiresTech].flat()) if (!techIds.has(t)) e.push(`${p}: tecnologia ${t} inesistente`);
     if (m.availableFrom !== undefined && !DATE_RE.test(m.availableFrom)) e.push(`${p}: availableFrom non valido`);
     if (m.mobility === 'motorized' && !Object.keys(m.equipment ?? {}).some((k) => k.startsWith('VEH-'))) e.push(`${p}: motorizzato senza veicoli`);
   }

@@ -10,7 +10,7 @@ const json = (p) => JSON.parse(readFileSync(new URL(p, root), 'utf8'));
 const edir = new URL('data/units/equipment/', root);
 const catalog = mergeEquipmentCatalogs(readdirSync(edir).filter((n) => /^catalog.*\.json$/.test(n)).sort().map((f) => JSON.parse(readFileSync(new URL(f, edir), 'utf8'))));
 const tdir = new URL('data/units/templates/', root);
-const templates = readdirSync(tdir).filter((n) => /^divisione_.*\.json$/.test(n)).map((f) => JSON.parse(readFileSync(new URL(f, tdir), 'utf8')));
+const templates = readdirSync(tdir).filter((n) => /^(divisione|brigata)_.*\.json$/.test(n)).map((f) => JSON.parse(readFileSync(new URL(f, tdir), 'utf8')));
 
 test('il catalogo reale è valido e copre tutte le chiavi equipment dei template di divisione', () => {
   assert.deepEqual(validateEquipmentCatalog(catalog, { templates }), []);

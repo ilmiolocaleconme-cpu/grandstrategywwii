@@ -44,7 +44,7 @@ export function completeTemplates(templates) {
 }
 
 export function templateFor(unit, templates, date = null) {
-  if (unit.echelon !== 'division') return null;
+  if (unit.echelon !== 'division' && unit.echelon !== 'brigade') return null; // brigate con template proprio (18/11/2026)
   return templateForCategory(unit, unit.category, templates, date) ?? (CATEGORY_FALLBACK[unit.category] ? templateForCategory(unit, CATEGORY_FALLBACK[unit.category], templates, date) : null);
 }
 
@@ -61,7 +61,8 @@ export function initForces(forces, { units, templates, ratio, date }) {
   const withoutTemplate = [];
   let created = 0;
   for (const u of [...units].sort((a, b) => (a.id < b.id ? -1 : 1))) {
-    if (u.echelon !== 'division' || !isActiveAt(u, date) || divisions[u.id]) continue;
+    if ((u.echelon !== 'division' && u.echelon !== 'brigade') || !isActiveAt(u, date) || divisions[u.id]) continue;
+    if (u.echelon === 'brigade' && !templates.some((t) => t.appliesTo?.echelon === 'brigade' && t.appliesTo?.nation === u.nation)) continue; // brigate senza template: non ancora modellate
     const t = templateFor(u, templates, date);
     if (!t) { withoutTemplate.push(u.id); continue; }
     divisions[u.id] = buildDivision(t, ratio, date);
@@ -88,7 +89,7 @@ export function validateForcesState(forces, units) {
   for (const [id, d] of Object.entries(forces.divisions)) {
     const u = byId.get(id);
     if (!u) { errors.push(`forze: unità inesistente ${id}`); continue; }
-    if (u.echelon !== 'division') errors.push(`forze: ${id} non è una divisione`);
+    if (u.echelon !== 'division' && u.echelon !== 'brigade') errors.push(`forze: ${id} non è una divisione né una brigata`);
     for (const [k, it] of Object.entries(d.items)) {
       if (it.effective > it.planned) errors.push(`forze: ${id} ${k} effettivo ${it.effective} supera il previsto ${it.planned}`);
     }

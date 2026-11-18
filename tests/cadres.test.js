@@ -8,7 +8,7 @@ import { NATION_IDS } from '../src/data/units.js';
 const json = (p) => JSON.parse(readFileSync(new URL(`../data/${p}`, import.meta.url), 'utf8'));
 const doc = json('units/templates/quadri_1936.json');
 const nationIds = new Set(json('political_1936.json').map((e) => e.id));
-const divisionIds = new Set(readdirSync(new URL('../data/units/templates/', import.meta.url)).filter((n) => /^divisione_.*\.json$/.test(n)).map((n) => json(`units/templates/${n}`).id));
+const divisionIds = new Set(readdirSync(new URL('../data/units/templates/', import.meta.url)).filter((n) => /^(divisione|brigata)_.*\.json$/.test(n)).map((n) => json(`units/templates/${n}`).id));
 const opts = { nationIds, templateIds: divisionIds };
 
 test('quadri 1936: un template per ciascuna delle 8 nazioni del catalogo unità, tutto valido', () => {
