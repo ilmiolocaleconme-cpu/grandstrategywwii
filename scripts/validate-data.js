@@ -294,6 +294,17 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
           }
         }
         errors.push(...validateEditorRules(JSON.parse(await text('units/modules/editor_rules.json')))); // limiti storici dell'editor (18/11/2026)
+        { // illustrazioni delle unità (18/11/2026): ogni file elencato esiste, ogni battaglione punta a un'illustrazione nota
+          const art = JSON.parse(await text('assets/unit_illustrations.json'));
+          const ids = new Set();
+          for (const it of art.items ?? []) {
+            if (ids.has(it.id)) errors.push(`illustrazioni: id ${it.id} duplicato`);
+            ids.add(it.id);
+            try { await readFile(new URL(`../${art.folder}/${it.file}`, import.meta.url)); } catch { errors.push(`illustrazioni: manca il file ${it.file}`); }
+          }
+          const modFiles = (await readdir(new URL('../data/units/modules/', import.meta.url))).filter((n) => /^modules_.*\.json$/.test(n));
+          for (const f of modFiles) for (const m of JSON.parse(await text(`units/modules/${f}`)).modules ?? []) if (m.illustration !== undefined && !ids.has(m.illustration)) errors.push(`${f}: ${m.id} con illustrazione ${m.illustration} inesistente`);
+        }
       }
       // Fase 4: tabella di produzione per categoria + ricette generate per ogni equipaggiamento del catalogo (prodotto equipment.<id>)
       const mergedCatalog = mergeEquipmentCatalogs(catalogDocs);

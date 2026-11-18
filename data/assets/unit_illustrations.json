@@ -1,0 +1,130 @@
+{
+  "schema": "unit-illustrations-v1",
+  "status": "PRELIMINARY",
+  "source": "Fornite dall'utente il 18/11/2026 (archivio grandstrategywwii_military_assets_png.zip): 24 PNG ritagliati da una tavola generata.",
+  "license": "Dell'utente, per questo progetto.",
+  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori.",
+  "folder": "src/assets/units",
+  "items": [
+    {
+      "id": "fanteria",
+      "file": "01_fanteria.png",
+      "description": "Fante in marcia d'assalto con fucile"
+    },
+    {
+      "id": "fanteria_motorizzata",
+      "file": "02_fanteria_motorizzata.png",
+      "description": "Fante con pistola mitragliatrice"
+    },
+    {
+      "id": "fanteria_meccanizzata",
+      "file": "03_fanteria_meccanizzata.png",
+      "description": "Fante davanti a un veicolo cingolato"
+    },
+    {
+      "id": "carro_leggero",
+      "file": "04_carro_leggero.png",
+      "description": "Carro armato leggero"
+    },
+    {
+      "id": "carro_medio",
+      "file": "05_carro_medio.png",
+      "description": "Carro armato medio con mimetica"
+    },
+    {
+      "id": "carro_pesante",
+      "file": "06_carro_pesante.png",
+      "description": "Carro armato pesante con mimetica"
+    },
+    {
+      "id": "cacciacarri",
+      "file": "07_cacciacarri.png",
+      "description": "Cacciacarri in casamatta"
+    },
+    {
+      "id": "cacciacarri_variante",
+      "file": "08_cacciacarri_variante.png",
+      "description": "Cacciacarri in casamatta (variante)"
+    },
+    {
+      "id": "artiglieria_trainata",
+      "file": "09_artiglieria_trainata.png",
+      "description": "Pezzo d'artiglieria da campagna"
+    },
+    {
+      "id": "artiglieria_ippotrainata",
+      "file": "10_artiglieria_ippotrainata.png",
+      "description": "Pezzo d'artiglieria trainato da cavalli"
+    },
+    {
+      "id": "contraerea",
+      "file": "11_contraerea.png",
+      "description": "Cannone contraereo binato su carrello"
+    },
+    {
+      "id": "anticarro",
+      "file": "12_anticarro.png",
+      "description": "Cannone anticarro con serventi"
+    },
+    {
+      "id": "cavalleria",
+      "file": "13_cavalleria.png",
+      "description": "Cavaliere"
+    },
+    {
+      "id": "paracadutisti",
+      "file": "14_paracadutisti.png",
+      "description": "Paracadutista"
+    },
+    {
+      "id": "alpini",
+      "file": "15_alpini.png",
+      "description": "Truppa da montagna sugli sci"
+    },
+    {
+      "id": "genio",
+      "file": "16_genio.png",
+      "description": "Geniere che posa una mina"
+    },
+    {
+      "id": "ricognizione_motocicletta",
+      "file": "17_ricognizione_motocicletta.png",
+      "description": "Esploratore in motocicletta"
+    },
+    {
+      "id": "autoblindo",
+      "file": "18_autoblindo.png",
+      "description": "Autoblindo"
+    },
+    {
+      "id": "logistica_camion",
+      "file": "19_logistica_camion.png",
+      "description": "Autocarro logistico a tre assi"
+    },
+    {
+      "id": "trasporto_camion",
+      "file": "20_trasporto_camion.png",
+      "description": "Autocarro da trasporto"
+    },
+    {
+      "id": "semicingolato",
+      "file": "21_semicingolato.png",
+      "description": "Semicingolato"
+    },
+    {
+      "id": "trasporto_ippotrainato",
+      "file": "22_trasporto_ippotrainato.png",
+      "description": "Carro da trasporto trainato da cavalli"
+    },
+    {
+      "id": "carro_munizioni_ippotrainato",
+      "file": "23_carro_munizioni_ippotrainato.png",
+      "description": "Carro munizioni trainato da cavalli"
+    },
+    {
+      "id": "ambulanza",
+      "file": "24_ambulanza.png",
+      "description": "Autoambulanza"
+    }
+  ]
+}

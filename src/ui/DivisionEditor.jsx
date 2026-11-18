@@ -6,6 +6,30 @@ import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { moduleGroups, bump, designSummary, CATEGORY_LABEL } from './designView.js';
 import { Icon, Banner } from './unitIcons.jsx';
+import { unitArt, CATEGORY_ART, BANNER_ART } from './unitArt.js';
+
+/** Illustrazione dell'utente (data/assets/unit_illustrations.json) o, se manca, l'icona disegnata. */
+function Art({ id, fallback, size = 34, locked = false }) {
+  const art = id ? unitArt(id) : null;
+  if (!art?.url) return <Icon name={locked ? 'lock' : fallback} size={size} />;
+  return (
+    <>
+      <img src={art.url} alt="" title={art.description} draggable="false" />
+      {locked ? <span className="de-lock"><Icon name="lock" size={16} /></span> : null}
+    </>
+  );
+}
+
+/** Testata: cielo e rovine disegnati, sopra le illustrazioni della categoria. */
+function HeroArt({ category }) {
+  const figs = BANNER_ART[category] ?? BANNER_ART.infantry;
+  return (
+    <div className="de-banner-wrap">
+      <Banner category={category} figures={figs.every((f) => !unitArt(f.id)?.url)} />
+      {figs.map((f, i) => { const a = unitArt(f.id); return a?.url ? <img key={`${f.id}${i}`} src={a.url} alt="" className="de-fig" style={{ left: `${f.x}%`, height: `${f.h}%`, zIndex: i + 1 }} draggable="false" /> : null; })}
+    </div>
+  );
+}
 
 const fmt = (n) => Number(n).toLocaleString('it-IT');
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
@@ -19,7 +43,7 @@ const statIcon = (label) => (/Carri/.test(label) ? 'tank' : /Cacciacarri/.test(l
 function ModelCard({ active, category, title, sub, badge, onClick }) {
   return (
     <button type="button" className={`de-card${active ? ' on' : ''}`} onClick={onClick}>
-      <span className="de-card-art"><Icon name={category} size={34} /></span>
+      <span className="de-card-art"><Art id={CATEGORY_ART[category]} fallback={category} /></span>
       <span className="de-card-text"><b>{title}</b><span>{sub}</span></span>
       {badge ? <span className="de-badge">{badge}</span> : null}
     </button>
@@ -94,7 +118,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                   </div>
                   {design ? <button type="button" className="de-chip" onClick={() => openReorg(design.id)}><Icon name="swap" size={18} /> Riorganizza</button> : null}
                 </div>
-                <Banner category={sum.category} />
+                <HeroArt category={sum.category} />
               </section>
               <section className="de-box">
                 <h3>Composizione <span className="de-muted">· {sum.battalions} battaglioni</span></h3>
@@ -105,7 +129,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                       const share = sum.men > 0 ? (r.men * r.count) / sum.men : 0;
                       return (
                         <div key={r.id} className={`de-row${r.available ? '' : ' off'}${r.count ? ' has' : ''}`}>
-                          <span className="de-row-icon"><Icon name={r.available ? r.type : 'lock'} size={24} /></span>
+                          <span className="de-row-icon"><Art id={r.illustration} fallback={r.type} size={24} locked={!r.available} /></span>
                           <span className="de-row-name"><b>{r.name}</b><span>{r.available ? `${fmt(r.men)} uomini${r.divisional ? ' · uno per divisione' : ''}` : r.reason}</span></span>
                           <span className="de-step">
                             <button type="button" aria-label={`Togli ${r.name}`} disabled={r.count === 0} onClick={() => setList((l) => bump(l, r.id, -1))}>−</button>

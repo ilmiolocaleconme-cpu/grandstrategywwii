@@ -62,7 +62,7 @@ const truck = (x, y, s = 1, k = 0) => (
 );
 const ruins = <path d="M0 140V96h18v-12h10v12h14V70h8v-8h6v8h10v70zM420 140V88h12V72h10v16h20v-26h8v10h10v80z" opacity="0.35" />;
 
-export function Banner({ category }) {
+export function Banner({ category, figures = true }) {
   const fig = category === 'armored' ? [tank(140, 118, 1.25, 1), tank(300, 112, 0.9, 2), soldier(410, 120, 0.9, 3), soldier(436, 122, 0.85, 4)]
     : category === 'motorized' ? [truck(120, 120, 1.2, 1), truck(260, 116, 0.95, 2), soldier(380, 122, 0.95, 3), soldier(410, 124, 0.9, 4), soldier(440, 121, 0.9, 5)]
       : category === 'mechanized' ? [tank(130, 118, 1.0, 1), truck(280, 118, 1.0, 2), soldier(390, 122, 0.95, 3), soldier(420, 124, 0.9, 4)]
@@ -77,7 +77,7 @@ export function Banner({ category }) {
       <rect width="520" height="140" fill="url(#de-smoke)" />
       <g fill="#2b2619">{ruins}</g>
       <path d="M0 128c80-8 160 6 260-2s180 6 260-4v18H0z" fill="#2b2619" />
-      <g fill="#1d1a12">{fig}</g>
+      {figures ? <g fill="#1d1a12">{fig}</g> : null}
     </svg>
   );
 }

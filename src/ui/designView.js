@@ -16,7 +16,7 @@ export function moduleGroups(modules, list, { nation, date, researched, techName
     const ok = moduleAvailable(m, { nation, date, researched });
     const missing = [m.requiresTech ?? []].flat().filter((t) => !researched?.has(t));
     const reason = ok ? null : [missing.length ? `richiede ${missing.map(techName).join(' + ')}` : null, m.availableFrom && date < m.availableFrom ? `dal ${itDate(m.availableFrom)}` : null].filter(Boolean).join(' · ');
-    return { id: m.id, type: m.type, name: m.name_it, men: m.men, divisional: m.divisional === true, count: count.get(m.id) ?? 0, available: ok, reason };
+    return { id: m.id, type: m.type, illustration: m.illustration ?? null, name: m.name_it, men: m.men, divisional: m.divisional === true, count: count.get(m.id) ?? 0, available: ok, reason };
   });
   return TYPE_ORDER.map((type) => ({ type, label: TYPE_LABEL[type], rows: rows.filter((r) => r.type === type) })).filter((g) => g.rows.length);
 }

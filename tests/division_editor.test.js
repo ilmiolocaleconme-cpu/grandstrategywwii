@@ -133,3 +133,15 @@ test('riepilogo: potenza di fuoco a dotazione piena dalla funzione della battagl
   assert.equal(seen.equipment['TNK-DEU-TANK'], 160); assert.equal(seen.men, s.men);
   assert.equal(designSummary([], { ...ctx, nation: 'DEU', date: '1940-06-01', firepowerOf }).firepower, null);
 });
+
+test('illustrazioni: ogni battaglione ne ha una esistente, ogni file c\'è ed è un PNG trasparente', () => {
+  const art = json('assets/unit_illustrations.json');
+  const ids = new Set(art.items.map((x) => x.id));
+  assert.equal(ids.size, art.items.length);
+  for (const m of modules) assert.ok(ids.has(m.illustration), `${m.id} senza illustrazione`);
+  for (const it of art.items) {
+    const buf = readFileSync(new URL(`../${art.folder}/${it.file}`, import.meta.url));
+    assert.equal(buf.subarray(1, 4).toString(), 'PNG', it.file);
+    assert.ok(buf.length < 120000, `${it.file} troppo pesante`);
+  }
+});

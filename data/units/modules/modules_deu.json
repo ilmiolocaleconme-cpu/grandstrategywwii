@@ -19,7 +19,8 @@
         "ART-DEU-GRW36": 9,
         "ART-DEU-GRW34": 6
       },
-      "mobility": "foot"
+      "mobility": "foot",
+      "illustration": "fanteria"
     },
     {
       "id": "MOD-DEU-ART",
@@ -33,7 +34,8 @@
         "INW-DEU-RIFLE-1939": 260,
         "MG-DEU-MG34-L": 6
       },
-      "mobility": "foot"
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata"
     },
     {
       "id": "MOD-DEU-ART-HVY",
@@ -47,7 +49,8 @@
         "INW-DEU-RIFLE-1939": 290,
         "MG-DEU-MG34-L": 6
       },
-      "mobility": "foot"
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata"
     },
     {
       "id": "MOD-DEU-REGT-HVY",
@@ -64,7 +67,8 @@
         "INW-DEU-PISTOL-1939": 60,
         "MG-DEU-MG34-L": 6
       },
-      "mobility": "foot"
+      "mobility": "foot",
+      "illustration": "anticarro"
     },
     {
       "id": "MOD-DEU-SUPPORT",
@@ -81,7 +85,8 @@
         "MG-DEU-MG34-S": 12,
         "VEH-DEU-TRUCK": 150
       },
-      "mobility": "foot"
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato"
     },
     {
       "id": "MOD-DEU-MOT-INF",
@@ -100,7 +105,8 @@
         "VEH-DEU-TRUCK": 70
       },
       "mobility": "motorized",
-      "requiresTech": "TECH-MOT-INF"
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "fanteria_motorizzata"
     },
     {
       "id": "MOD-DEU-MECH-INF",
@@ -121,7 +127,8 @@
       },
       "mobility": "mechanized",
       "requiresTech": "TECH-MECH-HT",
-      "availableFrom": "1939-06-01"
+      "availableFrom": "1939-06-01",
+      "illustration": "semicingolato"
     },
     {
       "id": "MOD-DEU-ART-MOT",
@@ -137,7 +144,8 @@
         "VEH-DEU-TRUCK": 45
       },
       "mobility": "motorized",
-      "requiresTech": "TECH-MOT-INF"
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "artiglieria_trainata"
     },
     {
       "id": "MOD-DEU-ART-HVY-MOT",
@@ -153,7 +161,8 @@
         "VEH-DEU-TRUCK": 55
       },
       "mobility": "motorized",
-      "requiresTech": "TECH-MOT-INF"
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "artiglieria_trainata"
     },
     {
       "id": "MOD-DEU-AT-MOT",
@@ -169,7 +178,8 @@
         "VEH-DEU-TRUCK": 55
       },
       "mobility": "motorized",
-      "requiresTech": "TECH-MOT-INF"
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "anticarro"
     },
     {
       "id": "MOD-DEU-REGT-HVY-MOT",
@@ -188,7 +198,8 @@
         "VEH-DEU-TRUCK": 40
       },
       "mobility": "motorized",
-      "requiresTech": "TECH-MOT-INF"
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "anticarro"
     },
     {
       "id": "MOD-DEU-TANK",
@@ -202,7 +213,8 @@
         "INW-DEU-PISTOL-1939": 350,
         "VEH-DEU-TRUCK": 40
       },
-      "mobility": "armored"
+      "mobility": "armored",
+      "illustration": "carro_medio"
     },
     {
       "id": "MOD-DEU-SUPPORT-MOT",
@@ -220,7 +232,8 @@
       },
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
-      "divisional": true
+      "divisional": true,
+      "illustration": "logistica_camion"
     },
     {
       "id": "MOD-DEU-STUG",
@@ -237,7 +250,8 @@
       },
       "mobility": "armored",
       "requiresTech": "TECH-ARM-ASSAULT",
-      "availableFrom": "1940-02-01"
+      "availableFrom": "1940-02-01",
+      "illustration": "cacciacarri"
     },
     {
       "id": "MOD-DEU-STUG-G",
@@ -257,7 +271,8 @@
         "TECH-ARM-ASSAULT",
         "TECH-ARM-GUN-75L"
       ],
-      "availableFrom": "1942-03-01"
+      "availableFrom": "1942-03-01",
+      "illustration": "cacciacarri"
     },
     {
       "id": "MOD-DEU-PZJG-SP",
@@ -278,7 +293,8 @@
         "TECH-ARM-TD",
         "TECH-ARM-GUN-75L"
       ],
-      "availableFrom": "1942-04-01"
+      "availableFrom": "1942-04-01",
+      "illustration": "cacciacarri_variante"
     },
     {
       "id": "MOD-DEU-JPZ",
@@ -298,7 +314,8 @@
         "TECH-ARM-TD",
         "TECH-ARM-SLOPED"
       ],
-      "availableFrom": "1944-01-01"
+      "availableFrom": "1944-01-01",
+      "illustration": "cacciacarri_variante"
     },
     {
       "id": "MOD-DEU-HETZER",
@@ -318,7 +335,8 @@
         "TECH-ARM-TD",
         "TECH-ARM-SLOPED"
       ],
-      "availableFrom": "1944-04-01"
+      "availableFrom": "1944-04-01",
+      "illustration": "cacciacarri_variante"
     },
     {
       "id": "MOD-DEU-JAGDPANTHER",
@@ -339,7 +357,8 @@
         "TECH-ARM-HEAVY",
         "TECH-ARM-SLOPED"
       ],
-      "availableFrom": "1944-06-01"
+      "availableFrom": "1944-06-01",
+      "illustration": "cacciacarri"
     }
   ],
   "compositions": [
