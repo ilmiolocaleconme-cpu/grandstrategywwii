@@ -317,6 +317,70 @@
             "TNK-DEU-PZ-VIB": 0.03
           }
         }
+      ],
+      "TNK-USSR-T34-1940": [
+        {
+          "from": 1940,
+          "mix": {
+            "TNK-USSR-T34-1940": 0.05,
+            "TNK-USSR-BT-1940": 0.55,
+            "TNK-USSR-T26-1940": 0.4
+          }
+        },
+        {
+          "from": 1941,
+          "mix": {
+            "TNK-USSR-T34-1940": 0.25,
+            "TNK-USSR-BT-1940": 0.45,
+            "TNK-USSR-T26-1940": 0.3
+          }
+        },
+        {
+          "from": 1942,
+          "mix": {
+            "TNK-USSR-T34-1940": 0.7,
+            "TNK-USSR-BT-1940": 0.15,
+            "TNK-USSR-T26-1940": 0.15
+          }
+        },
+        {
+          "from": 1943,
+          "mix": {
+            "TNK-USSR-T34-1940": 1
+          }
+        }
+      ],
+      "TNK-USSR-KV-1940": [
+        {
+          "from": 1940,
+          "mix": {
+            "TNK-USSR-KV-1940": 0.1,
+            "TNK-USSR-BT-1940": 0.4,
+            "TNK-USSR-T26-1940": 0.5
+          }
+        },
+        {
+          "from": 1941,
+          "mix": {
+            "TNK-USSR-KV-1940": 0.3,
+            "TNK-USSR-BT-1940": 0.35,
+            "TNK-USSR-T26-1940": 0.35
+          }
+        },
+        {
+          "from": 1942,
+          "mix": {
+            "TNK-USSR-KV-1940": 0.6,
+            "TNK-USSR-T34-1940": 0.4
+          }
+        },
+        {
+          "from": 1943,
+          "mix": {
+            "TNK-USSR-KV-1940": 0.4,
+            "TNK-USSR-T34-1940": 0.6
+          }
+        }
       ]
     },
     "panzerRationale": "Panzer tedeschi (17/11/2026). Le divisioni tedesche tengono la voce generica «carri armati»: ora i carri che arrivano dalla produzione vi restano registrati per modello (campo `models` della voce) e ogni modello ha il suo peso (`tankModels`: Panzer I 18/2 con corazza 0,4 … Tiger II 90/120 con 1,9). I carri mai tracciati (la dotazione con cui la divisione nasce) si dividono secondo `fleetMix`, la composizione approssimata del parco tedesco nell'anno di nascita della divisione (1936: solo Panzer I; settembre 1939: circa 45% Panzer I, 40% Panzer II, 5% Panzer III, 10% Panzer IV). Pesi e quote sono IPOTESI di Claude a memoria, non verificate su fonti: i carri cechi (Pz 35(t), Pz 38(t)) non sono nel catalogo e non compaiono. La Cecoslovacchia non ha template corazzati: le sue versioni (LT vz. 35 e 38) entreranno con un template ceco. Versioni separate (18/11/2026): Pz III 37/50 mm corto 40/45 corazza 0,95 e Ausf. J–L col 50 mm L/60 42/60 1,05; Pz IV a canna corta 60/25 0,9 (prima 65/45, media delle versioni) e Ausf. F2–H col 75 mm lungo 65/70 1,1.",
@@ -339,7 +403,8 @@
       "mechanized": 0.4,
       "armored": 0.7
     },
-    "rationale": "Ogni pezzo effettivo della divisione dà attacco contro bersagli non corazzati (soft) e corazzati (hard). La potenza contro un nemico con quota corazzata H è soft × (1 − H) + hard × H. I pesi fanno sì che in una divisione di fanteria tipo l'artiglieria (mortai, cannoni, obici) dia più di metà del fuoco. `scale` riporta il totale alla scala di prima (una divisione di fanteria tedesca 1936 al completo vale circa i suoi uomini), così rapporto d'attacco, trincea e avvisi restano confrontabili. `crewFullAt`: le armi restano servite finché gli uomini sono almeno l'80% del previsto, poi calano in proporzione. I pesi sono per CATEGORIA d'arma: un Panzer I e un Panzer IV oggi valgono uguale (limite dichiarato)."
+    "rationale": "Ogni pezzo effettivo della divisione dà attacco contro bersagli non corazzati (soft) e corazzati (hard). La potenza contro un nemico con quota corazzata H è soft × (1 − H) + hard × H. I pesi fanno sì che in una divisione di fanteria tipo l'artiglieria (mortai, cannoni, obici) dia più di metà del fuoco. `scale` riporta il totale alla scala di prima (una divisione di fanteria tedesca 1936 al completo vale circa i suoi uomini), così rapporto d'attacco, trincea e avvisi restano confrontabili. `crewFullAt`: le armi restano servite finché gli uomini sono almeno l'80% del previsto, poi calano in proporzione. I pesi sono per CATEGORIA d'arma: un Panzer I e un Panzer IV oggi valgono uguale (limite dichiarato).",
+    "sovietFleetRationale": "Corazzate sovietiche (18/11/2026, decisione dell'utente): il template TPL-USSR-ARM-1940 è l'organico teorico (63 KV, 210 T-34). I carri con cui una divisione NASCE seguono il parco reale dell'anno: nel giugno 1941 i T-34 e i KV erano circa 1.400 su oltre 20.000 carri, quindi nei posti di T-34 e KV la divisione del 1941 ha in maggioranza BT e T-26 (25% T-34, 30% KV). I carri arrivati dopo dalla produzione restano registrati per modello (un T-34 prodotto è un T-34). Quote a memoria, da verificare."
   },
   "cohesion": {
     "lossBase": 8,

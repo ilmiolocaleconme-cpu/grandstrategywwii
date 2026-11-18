@@ -50,7 +50,16 @@
         "DEU": 95,
         "ITA": 95,
         "JPN": 95
-      }
+      },
+      "experienceByNation": {
+        "DEU": 55,
+        "GBR": 50,
+        "JPN": 50,
+        "ITA": 40,
+        "USA": 40,
+        "USSR": 35
+      },
+      "experienceNote": "Esperienza iniziale per nazione (decisione dell'utente del 18/11/2026; valori STIMATI da Claude, da approvare): Germania 55 (addestramento e dottrina, tattica per missioni), Regno Unito e Giappone 50 (esercito professionale; Giappone in Manciuria), Italia e USA 40, URSS 35 (addestramento scarso, purghe in arrivo). Le nazioni non elencate restano a 45. Livelli: 20–39 Addestrata, 40–59 Esperta."
     },
     "newUnit": {
       "experience": 10,

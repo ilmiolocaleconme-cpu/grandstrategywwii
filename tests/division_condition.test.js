@@ -78,7 +78,7 @@ test('tick idempotenti e deterministici: stessa data due volte = stesso stato; i
 test('politica d\'impiego: viene memorizzata e NON cambia esperienza né morale; valori non validi rifiutati', () => {
   const s = playerSetPolicy({ date: '1936-01-01' }, 'U1', 'aggressive', cfg, 'DEU');
   const c = conditionOf(s.conditions, 'U1', cfg, 'DEU');
-  assert.deepEqual([c.policy, c.experience, c.morale, c.readiness], ['aggressive', 45, 95, 80], 'scegliere la politica non cambia il morale nazionale');
+  assert.deepEqual([c.policy, c.experience, c.morale, c.readiness], ['aggressive', 55, 95, 80], 'scegliere la politica non cambia il morale nazionale (esperienza tedesca 55 dal 18/11/2026)');
   assert.throws(() => setPolicy(createConditionState(), 'U1', 'folle', cfg), RangeError);
 });
 
@@ -155,9 +155,18 @@ test('scheda unità: esperienza con livello, morale, prontezza con causa e stato
     forces: { divisions: { D1: { templateId: 'T', items: { 'manpower.war': { planned: 1000, effective: 900 }, 'equipment.carri': { planned: 100, effective: 40 } } } } },
   };
   const info = unitInfo(state, units[0], { unitsById: new Map(units.map((u) => [u.id, u])), officersById: new Map(), initial: new Map([['D1', 'P_A']]), conditionConfig: cfg });
-  assert.deepEqual([info.condition.experience, info.condition.experienceLevel.name, info.condition.morale], [45, 'Esperta', 95]);
+  assert.deepEqual([info.condition.experience, info.condition.experienceLevel.name, info.condition.morale], [55, 'Esperta', 95]); // esperienza tedesca 55 dal 18/11/2026
   assert.deepEqual(info.condition.material, { value: 40, cause: 'carri' });
   assert.deepEqual([info.condition.readiness, info.condition.readinessBand, info.condition.moraleBand], [80, 'Buono', 'Eccellente']);
   assert.deepEqual([info.condition.operational.id, info.condition.operational.cause], ['inefficient', 'equipaggiamento 40']);
   assert.equal(info.condition.policy, 'normal');
+});
+
+test('esperienza iniziale per nazione (18/11/2026): Germania 55, URSS 35, nazioni non elencate 45; valori fuori scala rifiutati', () => {
+  assert.equal(conditionOf(createConditionState(), 'X', cfg, 'DEU').experience, 55);
+  assert.equal(conditionOf(createConditionState(), 'X', cfg, 'USSR').experience, 35);
+  assert.equal(conditionOf(createConditionState(), 'X', cfg, 'FRA').experience, 45);
+  assert.equal(conditionOf(createConditionState(), 'X', cfg, 'USSR').morale, 70, 'il morale non cambia');
+  const bad = structuredClone(cfg); bad.initial.existing1936.experienceByNation.USSR = 120;
+  assert.ok(validateConditionConfig(bad).some((e) => /experienceByNation di USSR/.test(e)));
 });

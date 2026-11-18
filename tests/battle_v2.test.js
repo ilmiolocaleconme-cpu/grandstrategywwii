@@ -452,3 +452,14 @@ test('Panzer: i carri arrivati dalla produzione restano registrati per modello e
   assert.equal('models' in plain.divisions.Q.items['equipment.carri'], false);
   assert.ok(validateReinforcementFields({ divisions: { P: { items: { a: { models: { x: -1 } } } } } }).length > 0);
 });
+
+test('corazzate sovietiche (18/11/2026): nei posti di T-34 e KV la divisione nata nel 1941 ha in maggioranza BT e T-26; i T-34 prodotti contano come T-34', () => {
+  const W = (id) => WEAPON_OF('USSR', `equipment.${id}`);
+  const t34 = W('TNK-USSR-T34-1940');
+  const mix = (item, year) => { const o = {}; for (const p of tankParts(item, t34, item.effective, year, cfg, W)) o[p.weapon.id] = Math.round(((o[p.weapon.id] ?? 0) + p.n) * 100) / 100; return o; };
+  assert.deepEqual(mix({ planned: 210, effective: 200 }, 1941), { 'TNK-USSR-T34-1940': 50, 'TNK-USSR-BT-1940': 90, 'TNK-USSR-T26-1940': 60 });
+  assert.deepEqual(mix({ planned: 210, effective: 200 }, 1943), { 'TNK-USSR-T34-1940': 200 });
+  assert.deepEqual(mix({ planned: 210, effective: 200, models: { 'TNK-USSR-T34-1940': 100 } }, 1941), { 'TNK-USSR-T34-1940': 125, 'TNK-USSR-BT-1940': 45, 'TNK-USSR-T26-1940': 30 }, '100 prodotti + 25% dei 100 iniziali');
+  const raw = (y) => rawFirepower({ 'equipment.TNK-USSR-T34-1940': { planned: 210, effective: 210 }, 'equipment.TNK-USSR-KV-1940': { planned: 63, effective: 63 } }, (k) => WEAPON_OF('USSR', k), cfg, 0, { year: y, resolve: W });
+  assert.ok(raw(1941).armor < raw(1943).armor * 0.85 && raw(1941).direct.hard < raw(1943).direct.hard * 0.75);
+});

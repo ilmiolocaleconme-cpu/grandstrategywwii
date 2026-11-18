@@ -33,6 +33,7 @@ export function validateConditionConfig(cfg) {
       if (!(v >= 0 && v <= 100)) errors.push(`condizione: iniziale ${k}.${f} fuori da 0–100`);
     }
   }
+  for (const k of ['moraleByNation', 'experienceByNation']) for (const [n, v] of Object.entries(cfg?.initial?.existing1936?.[k] ?? {})) if (!(v >= 0 && v <= 100)) errors.push(`condizione: ${k} di ${n} fuori da 0–100`);
   if (!(cfg?.training?.perMonth > 0) || !(cfg?.training?.newUnitCap >= 0 && cfg.training.newUnitCap <= 100)) errors.push('condizione: addestramento non valido');
   if (cfg?.initial?.newUnit?.experience > cfg?.training?.newUnitCap) errors.push('condizione: le unità nuove partono sopra il tetto di addestramento');
   const mt = cfg?.training?.morale;
@@ -55,7 +56,8 @@ export function experienceLevel(value, cfg) {
 /** Condizione di un'unità: valori memorizzati, altrimenti iniziali (il morale iniziale del 1936 dipende dalla nazione `nation`). Ritorna { experience, morale, policy, isNew, stored }. */
 export function conditionOf(conditions, unitId, cfg, nation = null) {
   const e = conditions?.byUnit?.[unitId];
-  const base = e?.isNew ? cfg.initial.newUnit : { ...cfg.initial.existing1936, morale: cfg.initial.existing1936.moraleByNation?.[nation] ?? cfg.initial.existing1936.morale };
+  const ex = cfg.initial.existing1936; // morale ed esperienza iniziali possono variare per nazione (esperienza: 18/11/2026)
+  const base = e?.isNew ? cfg.initial.newUnit : { ...ex, morale: ex.moraleByNation?.[nation] ?? ex.morale, experience: ex.experienceByNation?.[nation] ?? ex.experience };
   const penalty = Number.isFinite(e?.distancePenalty) ? e.distancePenalty : 0; // perdita di prontezza per distanza dal comando (commandDistance.js)
   return {
     experience: clamp(e?.experience ?? base.experience), morale: clamp(e?.morale ?? base.morale), readiness: clamp((e?.readiness ?? base.readiness) - penalty),
