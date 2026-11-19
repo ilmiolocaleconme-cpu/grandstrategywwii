@@ -1,0 +1,29 @@
+{
+  "schema": "division-raise-rules-v1",
+  "status": "USER_DECISION",
+  "asOf": "2026-11-19",
+  "note": "Formazione di divisioni nuove (decisioni dell'utente del 19/11/2026: nasce come quadro, stesse regole per le storiche, addestramento per tipo). Giorni e quota minima: stime di Claude.",
+  "trainingDays": {
+    "infantry": 90,
+    "motorized": 120,
+    "mechanized": 150,
+    "armored": 150,
+    "mountain": 120,
+    "cavalry": 90,
+    "airborne": 150
+  },
+  "minManpowerShare": 0.3,
+  "minManpowerNote": "Per ordinare una divisione servono liberi nel bacino almeno il 30% dei suoi uomini; ne prende fino all'organico pieno, il resto arriva coi rinforzi.",
+  "names": {
+    "DEU": {
+      "infantry": "{n}. Infanterie-Division",
+      "motorized": "{n}. Infanterie-Division (mot.)",
+      "mechanized": "{n}. leichte Division",
+      "armored": "{n}. Panzer-Division",
+      "mountain": "{n}. Gebirgs-Division",
+      "cavalry": "{n}. Kavallerie-Division",
+      "airborne": "{n}. Fallschirmjäger-Division"
+    }
+  },
+  "defaultName": "{n}ª Divisione"
+}

@@ -69,3 +69,15 @@ Richiesta dell'utente: nomi tedeschi. Ogni battaglione ha `name_de` (mostrato in
 | Sanitäts-Kompanie (mot.) | supporto | nessun effetto oltre a uomini e autocarri |
 
 La categoria segue i battaglioni: metà o più della fanteria da montagna, paracadutista o a cavallo → quella categoria. Modelli di partenza: Infanterie-Division (1936, con Aufklärung e Pioniere), Panzer-Division (1939), Gebirgs-Division (1938), Kavallerie-Brigade (1939), Fallschirmjäger-Division (1940). Nuove armi producibili: 8,8 cm Flak, 7,5 cm GebG 36, Sd.Kfz. 222, Kraftrad; contraerea (anche la 2 cm tedesca e quella britannica) ora producibile.
+
+## Formare divisioni nuove (19/11/2026)
+
+Decisioni dell'utente: **nasce come quadro**, **stesse regole** per le storiche, **addestramento per tipo**.
+
+- Divisioni → scegli un tuo modello → **Forma**: modello, provincia (deposito della nazione o province delle sue divisioni nel 1936, se ancora sue), quante (1–10). A destra: magazzino / necessari per ogni arma.
+- La divisione nasce subito nel registro della partita (id `X#####`), nella provincia scelta, con gli uomini liberi del bacino (servono almeno il 30% dell'organico); armi, mezzi e cavalli partono da zero e li portano i rinforzi giornalieri dal deposito.
+- Nome tedesco col primo numero libero (`data/units/modules/raise_rules.json`), es. «37. Infanterie-Division».
+- Addestramento: fanteria e cavalleria 90 giorni, motorizzata e montagna 120, meccanizzata, corazzata e paracadutisti 150. Intanto non combatte (`isFighter`); esperienza e morale da unità nuova (`markNew`).
+- Stesse regole: le divisioni storiche che si formano DOPO l'inizio della partita prendono uomini e dotazione dal bacino e dal magazzino (`drawOnActivation`); quelle già esistenti all'inizio restano come prima.
+- Corretto: gli uomini delle divisioni create in partita ora contano come arruolati (prima il bacino non scendeva).
+- Limiti: solo il giocatore (l'IA non forma divisioni); solo la Germania ha battaglioni.

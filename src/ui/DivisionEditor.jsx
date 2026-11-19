@@ -36,6 +36,7 @@ const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const TITLE = { infantry: 'Infanterie-Division', motorized: 'Infanterie-Division (mot.)', mechanized: 'leichte Division', armored: 'Panzer-Division', mountain: 'Gebirgs-Division', cavalry: 'Kavallerie-Division', airborne: 'Fallschirmjäger-Division' }; // nomi tedeschi: per ora l'editor c'è solo per la Germania
 const HINT = {
   edit: 'Aggiungi o togli battaglioni: i limiti seguono gli organici storici. Serve un reparto di servizi divisionali.',
+  raise: 'La divisione nasce subito con gli uomini del bacino; i pezzi arrivano coi rinforzi mentre si addestra.',
   reorg: 'Le divisioni passano subito al modello: tengono ciò che hanno, il resto arriva coi rinforzi, l\'avanzo torna in magazzino.',
 };
 const statIcon = (label) => (/^Carri/.test(label) ? 'tank' : /Cacciacarri/.test(label) ? 'anti_tank' : /artiglieria/.test(label) ? 'artillery' : /Contraerei/.test(label) ? 'anti_air' : /Semicingolati/.test(label) ? 'mechanized_infantry' : /Autoblindo|Motociclette/.test(label) ? 'recon' : 'truck');
@@ -50,7 +51,7 @@ function ModelCard({ active, category, title, sub, badge, onClick }) {
   );
 }
 
-export default function DivisionEditor({ modules, rules, nation, nationName, date, researched, techName, designs, presets, divisions, firepowerOf, onCreate, onDelete, onReorg, needsOf, notice, onClose }) {
+export default function DivisionEditor({ modules, rules, nation, nationName, date, researched, techName, designs, presets, divisions, firepowerOf, onCreate, onDelete, onReorg, needsOf, raise, onRaise, notice, onClose }) {
   const first = designs[0] ? { kind: 'design', id: designs[0].id } : presets[0] ? { kind: 'preset', id: presets[0].id } : { kind: 'new', id: null };
   const listOf = (s) => (s.kind === 'design' ? designs.find((d) => d.id === s.id)?.modules : s.kind === 'preset' ? presets.find((p) => p.id === s.id)?.modules : null) ?? [];
   const [src, setSrc] = useState(first);
@@ -59,6 +60,8 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
   const [name, setName] = useState('');
   const [checked, setChecked] = useState(() => new Set());
   const [targetId, setTargetId] = useState(designs[0]?.id ?? '');
+  const [province, setProvince] = useState(raise?.provinces?.[0]?.id ?? '');
+  const [count, setCount] = useState(1);
 
   const ctx = { modules, rules, nation, date, researched, firepowerOf };
   const groups = useMemo(() => moduleGroups(modules, list, { nation, date, researched, techName }), [modules, list, nation, date, researched, techName]);
@@ -81,6 +84,8 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
   };
   const toggle = (id) => setChecked((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   const openReorg = (id) => { setTargetId(id); setMode('reorg'); };
+  const openRaise = (id) => { setTargetId(id); setMode('raise'); setCount(1); };
+  const rp = mode === 'raise' && target ? raise?.previewOf(target.id) : null;
   // a tutto schermo: la schermata va sopra al resto del documento e il gioco sotto si nasconde (niente pagina più larga dello schermo)
   useEffect(() => { document.body.classList.add('de-open'); return () => document.body.classList.remove('de-open'); }, []);
 
@@ -88,7 +93,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
     <div className="de-screen" role="dialog" aria-modal="true" aria-label="Creazione divisioni">
       <header className="de-top">
         <button type="button" className="de-back" aria-label="Torna alla mappa" onClick={onClose}><Icon name="back" size={26} /></button>
-        <div className="de-top-title"><h2>{mode === 'reorg' ? 'Riorganizza divisioni' : 'Creazione divisioni'}</h2><p>{mode === 'reorg' ? 'Porta le divisioni sul nuovo modello' : 'Configura il modello di divisione'}</p></div>
+        <div className="de-top-title"><h2>{mode === 'reorg' ? 'Riorganizza divisioni' : mode === 'raise' ? 'Forma nuove divisioni' : 'Creazione divisioni'}</h2><p>{mode === 'reorg' ? 'Porta le divisioni sul nuovo modello' : mode === 'raise' ? 'Uomini dal bacino, armi e mezzi dal magazzino' : 'Configura il modello di divisione'}</p></div>
         <div className="de-top-info"><span>{nationName}</span><span className="de-paused"><Icon name="pause" size={14} /> in pausa · {date.split('-').reverse().join('/')}</span></div>
       </header>
       {notice ? <p className="de-notice" role="status">{notice}</p> : null}
@@ -116,6 +121,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                     <input className="de-title-input" value={name} maxLength={rules.nameMax} onChange={(e) => setName(e.target.value)} placeholder={title} aria-label="Nome del modello" />
                     <p>{`Divisione ${CATEGORY_LABEL[sum.category] ?? ''}`}{design ? ` · modello salvato${design.used ? `, usato da ${design.used} divisioni` : ''}` : preset ? ' · modello di partenza' : ' · nuovo'}{changed && src.kind !== 'new' ? ' · modificato' : ''}</p>
                   </div>
+                  {design ? <button type="button" className="de-chip go" onClick={() => openRaise(design.id)}><Icon name="plus" size={18} /> Forma</button> : null}
                   {design ? <button type="button" className="de-chip" onClick={() => openReorg(design.id)}><Icon name="swap" size={18} /> Riorganizza</button> : null}
                 </div>
                 <HeroArt category={sum.category} />
@@ -144,6 +150,41 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                 ))}
               </section>
             </>
+          ) : mode === 'raise' ? (
+            <section className="de-box">
+              <label className="de-field">Modello
+                <select value={target?.id ?? ''} onChange={(e) => setTargetId(e.target.value)}>{designs.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}</select>
+              </label>
+              <label className="de-field">Dove si forma
+                <select value={province} onChange={(e) => setProvince(e.target.value)}>{(raise?.provinces ?? []).map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
+              </label>
+              <div className="de-tools">
+                <span className="de-muted">Quante</span>
+                <span className="de-step">
+                  <button type="button" aria-label="Una in meno" disabled={count <= 1} onClick={() => setCount((c) => c - 1)}>−</button>
+                  <span className="de-n">{count}</span>
+                  <button type="button" aria-label="Una in più" disabled={count >= 10} onClick={() => setCount((c) => c + 1)}>+</button>
+                </span>
+              </div>
+              {rp ? (
+                <dl className="de-stats">
+                  <div><dt><Icon name="men" size={20} /> Uomini per divisione</dt><dd>{fmt(rp.men)}</dd></div>
+                  <div><dt><Icon name="men" size={20} /> Liberi nel bacino</dt><dd className={rp.ok ? '' : 'bad'}>{fmt(rp.available)}</dd></div>
+                  <div><dt><Icon name="horse" size={20} /> Cavalli</dt><dd>{fmt(rp.horses)}</dd></div>
+                  <div><dt><Icon name="support" size={20} /> Addestramento</dt><dd>{rp.trainingDays} giorni</dd></div>
+                </dl>
+              ) : null}
+              {rp && !rp.ok ? <p className="de-warn-text">{rp.reason}</p> : null}
+              <p className="de-muted small">Nasce subito come quadro con gli uomini che ci sono; armi, mezzi e cavalli arrivano dal magazzino coi rinforzi. Finché si addestra non combatte.</p>
+              {raise?.training?.length ? (
+                <>
+                  <h3>In formazione</h3>
+                  <ul className="de-divs">{raise.training.map((t) => (
+                    <li key={t.id}><label><Icon name={t.category} size={22} /><span><b>{t.name}</b><span className="de-muted"> · pronta il {t.until.split('-').reverse().join('/')} · dotazione {t.fill}%</span></span></label></li>
+                  ))}</ul>
+                </>
+              ) : null}
+            </section>
           ) : (
             <section className="de-box">
               <label className="de-field">Modello
@@ -202,12 +243,25 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                   <h3>Modello salvato</h3>
                   <p className="de-muted small">Creato il {design.createdOn.split('-').reverse().join('/')} · usato da {design.used} divisioni.</p>
                   <div className="de-tools">
+                    <button type="button" onClick={() => openRaise(design.id)}>Forma nuove divisioni</button>
                     <button type="button" onClick={() => openReorg(design.id)}>Riorganizza divisioni</button>
                     <button type="button" className="danger" disabled={design.used > 0} onClick={() => { onDelete(design.id); pick(presets[0] ? { kind: 'preset', id: presets[0].id } : { kind: 'new', id: null }); }}>Elimina</button>
                   </div>
                 </section>
               ) : null}
             </>
+          ) : mode === 'raise' ? (
+            <section className="de-box">
+              <h3>Magazzino per {count} {count === 1 ? 'divisione' : 'divisioni'}</h3>
+              {rp?.equipment?.length ? (
+                <>
+                  <ul className="de-needs">{[...rp.equipment].map((r) => ({ ...r, need: r.need * count })).sort((a, b) => a.stock / a.need - b.stock / b.need).slice(0, 16).map((r) => (
+                    <li key={r.item} className={r.stock < r.need ? 'short' : ''}><span>{raise.nameOf(r.item.slice('equipment.'.length))}</span><span>{fmt(r.stock)} / {fmt(r.need)}</span><span className="de-bar"><i style={{ width: `${Math.min(100, (r.stock / r.need) * 100)}%` }} /></span></li>
+                  ))}</ul>
+                  <p className="de-muted small">In magazzino / necessari. In arancione ciò che va prodotto: Menu → Economia, fabbriche e ricette.</p>
+                </>
+              ) : <p className="de-muted">Scegli un modello.</p>}
+            </section>
           ) : (
             <section className="de-box">
               <h3>Da colmare con i rinforzi</h3>
@@ -231,6 +285,11 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
           <>
             <button type="button" className="de-btn blue" disabled={!changed && !name} onClick={() => { setList(base.map(([id, n]) => [id, n])); setName(''); }}><Icon name="reset" size={20} /> Ripristina</button>
             <button type="button" className="de-btn green" disabled={!canSave} onClick={save}><Icon name="check" size={20} /> {src.kind === 'design' ? 'Salva come nuovo' : 'Conferma creazione'}</button>
+          </>
+        ) : mode === 'raise' ? (
+          <>
+            <button type="button" className="de-btn blue" onClick={() => setMode('edit')}><Icon name="back" size={20} /> Modello</button>
+            <button type="button" className="de-btn green" disabled={!target || !rp?.ok || !province} onClick={() => onRaise(target.id, province, count)}><Icon name="check" size={20} /> Forma {count > 1 ? count : ''}</button>
           </>
         ) : (
           <>

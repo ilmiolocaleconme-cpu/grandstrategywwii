@@ -32,6 +32,8 @@ export const effectiveOf = (state, id) => state.forces?.divisions?.[id]?.items?.
 
 /** Divisione in grado di combattere: ha una dotazione con uomini effettivi e una categoria con potenza > 0. */
 export function isFighter(state, unit) {
+  const tr = state.forces?.divisions?.[unit.id]?.training; // divisione nuova in addestramento (19/11/2026): non combatte fino alla data
+  if (tr && state.date < tr.until) return false;
   const m = effectiveOf(state, unit.id);
   return Boolean(m) && m.effective > 0 && categoryPower(unit.category) > 0;
 }

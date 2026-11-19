@@ -82,6 +82,8 @@ import { createDesign, deleteDesign, reorganizeDivision, reorganizePreview, desi
 import { divisionRows, reorgNeeds, CATEGORY_LABEL as DESIGN_CATEGORY_LABEL } from './ui/designView.js';
 import modulesDeuFile from '../data/units/modules/modules_deu.json';
 import editorRulesFile from '../data/units/modules/editor_rules.json';
+import raiseRulesFile from '../data/units/modules/raise_rules.json'; // formazione di divisioni nuove (19/11/2026)
+import { raiseDivision, raisePreview } from './game/raiseState.js';
 import CommandPanel from './ui/CommandPanel.jsx';
 import UnitRadial from './ui/UnitRadial.jsx';
 import { chainAction, sheetTarget } from './ui/unitActions.js';
@@ -362,7 +364,7 @@ const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.ind
 // Costruzioni (game/construction.js): `GAME_BUILD.start(stato, nazione, ordine)` ordina; UI: ui/BuildPanel.jsx
 // Ospedali (data/medical/hospital_care.json): il personale esce dal pool reclutabile; la regola delle retrovie (rules/hospitals.js isRear) non è applicata finché non esiste lo stato di guerra.
 // battaglia v2 (16/11/2026): morti, dispersi, prigionieri e feriti ancora in ospedale escono dal pool reclutabile (state.casualties)
-const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsFile.units, population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available - casualtyDrain(state.casualties, nationId);
+const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsList(state, unitsFile.units), /* con le divisioni formate in partita (19/11/2026) */ population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available - casualtyDrain(state.casualties, nationId);
 export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, isSplit: (id) => (MOVE_NET.net ? MOVE_NET.net.canon(id) !== id : false), catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I nemici dell'IA vengono dalla diplomazia (guerra o rapporto <= soglia), giocatore compreso.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
@@ -434,6 +436,20 @@ const controlFn = (state) => (p) => placeControllerOf(state, p);
 // gli autocarri previsti alla velocità della sua categoria; divisioni senza veicoli nel template: velocità della categoria, come prima.
 // genio (19/11/2026): le divisioni dei modelli storici hanno il loro Pionier-Bataillon; quelle dei modelli del giocatore solo se lo comprendono
 const ENGINEER_MODULES = new Set(ALL_MODULES.filter((m) => m.type === 'engineer').map((m) => m.id));
+// formazione di divisioni (19/11/2026): province dove formarle = deposito della nazione e province delle sue divisioni nel 1936, se ancora sue
+const homeProvinces = (state, nation, nameOf) => {
+  const ids = []; const dep = depotsFile.nations?.[nation]?.province; if (dep) ids.push(dep);
+  for (const u of unitsFile.units) if (u.nation === nation) { const p = INITIAL_POSITIONS.get(u.id); if (p && !ids.includes(p)) ids.push(p); }
+  const mine = ids.filter((p) => placeControllerOf(state, p) === nation);
+  return mine.map((id, i) => ({ id, name: `${nameOf(id)}${i === 0 && id === dep ? ' (deposito)' : ''}` })).sort((a, b) => (a.id === dep ? -1 : b.id === dep ? 1 : a.name.localeCompare(b.name, 'it')));
+};
+const raisePool = (state, nation) => availableManpower(state, nation, hospitalManpower(state, nation));
+const raiseCtx = (state, nation) => ({ modules: ALL_MODULES, rules: raiseRulesFile, pool: raisePool(state, nation), units: unitsList(state, unitsFile.units), conditionCfg: conditionConfig });
+const trainingList = (state, nation) => Object.entries(state.forces?.divisions ?? {}).filter(([, d]) => d.training && state.date < d.training.until).map(([id, d]) => {
+  const u = unitOf(state, id, UNITS_BY_ID); if (!u || u.nation !== nation) return null;
+  let p = 0; let e = 0; for (const [k, it] of Object.entries(d.items)) if (k.startsWith('equipment.')) { p += it.planned; e += it.effective; }
+  return { id, name: u.name, category: u.category, until: d.training.until, fill: p > 0 ? Math.round((e / p) * 100) : 100 };
+}).filter(Boolean).sort((a, b) => (a.until < b.until ? -1 : 1));
 const divisionHasEngineers = (state, u) => { const d = state.designs?.byId?.[state.forces?.divisions?.[u.id]?.templateId]; return d ? d.modules.some(([id]) => ENGINEER_MODULES.has(id)) : true; };
 // riorganizzazione sui modelli dell'editor: voci rimaste fuori tornano in magazzino solo se sono equipaggiamenti del catalogo o cavalli
 const designCtx = (state, id) => ({ modules: ALL_MODULES, unit: unitOf(state, id, UNITS_BY_ID), upgradeMap: equipmentUpgradeMap, isStockItem: (p) => p === 'horses' || (p.startsWith('equipment.') && EQUIPMENT_NAMES.has(p.slice('equipment.'.length))) });
@@ -441,7 +457,7 @@ const marchSpeedOfUnit = (state, u) => vehicleMarchSpeed(state.forces?.divisions
 const THEATER_CTX = { ...BATTLE_V2_CTX, marchSpeedOf: marchSpeedOfUnit, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, hasEngineers: divisionHasEngineers, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createEventsSystem({ events: eventsFile }), // eventi storici (18/11/2026): prima dell'attivazione, così una riorganizzazione cambia subito il template
-  createForcesActivationSystem(FORCES_CTX), // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
+  createForcesActivationSystem({ ...FORCES_CTX, poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)) }), // «stesse regole» (19/11/2026): le divisioni formate dopo l'inizio prendono dal bacino e dal magazzino; // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
   (state) => createMobilizationSystem({ units: unitsList(state, unitsFile.units), laws: mobilizationLaws, movement: { net: (st) => (MOVE_NET.net ? gameNet(st) : null), deploymentDoc: deploymentFile } })(state), // 04/11/2026: la mobilitazione francese scatta con la guerra Germania-Polonia; i quadri ricevono rinforzi (unità del giocatore incluse); guarnigione Maginot
   (state) => commandersSystem({ units: unitsList(state, unitsFile.units), officers: officersFile.officers })(state), // comandi creati dal giocatore inclusi
   createConditionSystem(conditionConfig),
@@ -1153,6 +1169,13 @@ export default function App() {
             firepowerOf={(equipment, men) => rawFirepower(Object.fromEntries(Object.entries(equipment).map(([k, v]) => [`equipment.${k}`, { planned: v, effective: v }])), (k) => WEAPON_OF(game.player, k), battleV2File, men, { year: Number(game.date.slice(0, 4)), resolve: (id) => WEAPON_OF(game.player, `equipment.${id}`) })}
             onCreate={(name, list) => { try { const r = createDesign(game, { nation: game.player, name, modules: list }, { modules: ALL_MODULES, rules: editorRulesFile, researched: techsOf(game.nations?.[game.player]) }); setGame(r.state); setEditor((x) => ({ ...x, notice: `Modello «${name.trim()}» salvato.` })); return r.id; } catch (e) { setEditor((x) => ({ ...x, notice: e.message })); return false; } }}
             onDelete={(id) => { try { setGame((g) => deleteDesign(g, id)); setEditor((x) => ({ ...x, notice: 'Modello eliminato.' })); } catch (e) { setEditor((x) => ({ ...x, notice: e.message })); } }}
+            raise={{ provinces: homeProvinces(game, game.player, provinceName), previewOf: (designId) => raisePreview(game, { nation: game.player, designId }, raiseCtx(game, game.player)), training: trainingList(game, game.player), nameOf: (k) => EQUIPMENT_NAMES.get(k) ?? k }}
+            onRaise={(designId, province, count) => {
+              let s = game; const names = []; let err = null;
+              for (let i = 0; i < count; i++) { try { const r = raiseDivision(s, { nation: game.player, designId, province }, raiseCtx(s, game.player)); s = r.state; names.push(r.name); } catch (e) { err = e.message; break; } }
+              if (names.length) setGame(s);
+              setEditor((x) => ({ ...x, notice: `${names.length ? `In formazione: ${names.join(', ')}.` : ''}${err ? ` ${names.length ? 'Le altre no: ' : 'Non formata: '}${err}` : ''}`.trim() }));
+            }}
             onReorg={(ids, designId) => {
               let s = game; const done = []; const fail = [];
               for (const id of ids) { try { s = reorganizeDivision(s, id, designId, designCtx(s, id)).state; done.push(id); } catch (e) { fail.push(`${unitOf(game, id, UNITS_BY_ID)?.name ?? id}: ${e.message}`); } }

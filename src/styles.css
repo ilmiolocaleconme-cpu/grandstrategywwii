@@ -778,3 +778,9 @@ body.de-open #root { display: none; } /* schermata Divisioni aperta: il gioco so
 @media (max-height: 520px) { .de-banner-wrap { height: 84px; } .de-row-icon { width: 54px; height: 38px; } .de-row { grid-template-columns: 54px minmax(0, 1fr) auto 64px; } }
 @media (max-width: 760px) { .de-row { grid-template-columns: 54px minmax(0, 1fr) auto; } .de-row-icon { width: 54px; height: 40px; } }
 .de-row-name i { font-style: italic; color: #cfc3a0; font-size: 12px; } /* traduzione sotto il nome tedesco (19/11/2026) */
+
+/* formazione di divisioni (19/11/2026) */
+.de-chip.go { border-color: #84c26a; background: #2f5a22; }
+.de-stats dd.bad { color: #f08a7a; }
+.de-warn-text { color: #f0b27a; font-size: 13px; margin: 6px 0; }
+.de-center .de-box h3 + .de-divs, .de-box > h3:not(:first-child) { margin-top: 10px; }

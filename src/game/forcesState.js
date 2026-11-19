@@ -6,6 +6,8 @@ import { upgradeTarget, upgradeDivision } from '../rules/templateUpgrade.js';
 import { manpowerPoolState } from '../rules/manpowerPool.js';
 import { hospitalStaff } from '../rules/hospitals.js';
 import { validateReinforcementFields } from '../rules/reinforcements.js';
+import { isActiveAt } from '../data/units.js';
+import { drawOnActivation } from './raiseState.js';
 
 /** Errori di forma (non conosce il catalogo: per quello validateForcesState di rules/forces.js). */
 export function validateForcesShape(f) {
@@ -27,6 +29,7 @@ export function validateForcesShape(f) {
       else if (it.effective > it.planned) errors.push(`forze: ${id} ${k} effettivo ${it.effective} supera il previsto ${it.planned}`);
       if (!['template', 'ratio', 'upgrade'].includes(it?.source)) errors.push(`forze: ${id} ${k} con origine ${JSON.stringify(it?.source)}`);
     }
+    if (v.training !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(v.training?.until ?? '')) errors.push(`forze: ${id} addestramento non valido`); // divisioni formate in partita (19/11/2026)
     // campo opzionale `upgrade` (aggiornamento di template, 03/11/2026): { from, on, surplus?, dropped? }
     if (v.upgrade !== undefined) {
       const u = v.upgrade;
@@ -72,6 +75,19 @@ export function createForcesActivationSystem(ctx) {
     let forces = r.created === 0 ? state.forces : r.state;
     let nations = state.nations;
     let divisions = forces.divisions;
+    // «stesse regole» (19/11/2026): una divisione storica che si forma DOPO l'inizio della partita prende uomini e dotazione dal bacino e dal
+    // magazzino, non gratis. Quelle che esistevano già all'inizio (ma ricevono ora il loro template) restano come prima.
+    if (r.created > 0 && ctx.poolOf && state.startDate) {
+      const pools = {};
+      for (const id of Object.keys(divisions).filter((k) => !state.forces.divisions[k]).sort()) {
+        const unit = unitOf(state, id, unitsById);
+        if (!unit || isActiveAt(unit, state.startDate)) continue;
+        pools[unit.nation] ??= ctx.poolOf(state, unit.nation);
+        const d = drawOnActivation(divisions[id].items, unit.nation, nations, pools[unit.nation]);
+        divisions = { ...divisions, [id]: { ...divisions[id], items: d.items } };
+        nations = d.nations; pools[unit.nation] = d.pool;
+      }
+    }
     for (const id of Object.keys(divisions).sort()) {
       const unit = unitOf(state, id, unitsById); // con le riorganizzazioni da eventi (categoria cambiata)
       const next = unit ? upgradeTarget(divisions[id], unit, ctx.templates, state.date, templateFor) : null;
