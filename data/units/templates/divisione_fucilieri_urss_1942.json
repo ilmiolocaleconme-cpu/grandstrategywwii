@@ -207,6 +207,19 @@
         "source": null
       }
     },
+    "ART-USSR-PTRD": {
+      "value": 243,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
     "INW-USSR-PISTOL-TT33": {
       "value": 1130,
       "basis": "ipotesi",

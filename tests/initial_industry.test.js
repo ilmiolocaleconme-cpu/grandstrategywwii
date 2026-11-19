@@ -27,7 +27,9 @@ test('numeri approvati: USA 30 acciaierie e 20 raffinerie, Germania 12 e 2 sinte
   assert.equal(facilityCounts(file, 'USA')['FCT-REFINERY'], 20);
   assert.equal(facilityCounts(file, 'DEU')['FCT-STEEL'], 12);
   assert.equal(facilityCounts(file, 'DEU')['FCT-SYNFUEL'], 2);
-  assert.equal(facilityCounts(file, 'USSR')['FCT-POWER'], undefined);
+  // 20/11/2026: con le fabbriche d'armi dei battaglioni sovietici e le linee riservate ai modelli futuri la domanda (606 MW) supera l'idroelettrico
+  // dei CSV (558 MW): serve UNA centrale a carbone (prima nessuna). Approvata dall'utente il 20/11/2026.
+  assert.equal(facilityCounts(file, 'USSR')['FCT-POWER'], 1);
   assert.equal(file.nations.MAL.owner, 'GBR');
   assert.equal(facilityCounts(file, 'MAL')['FCT-RUBBER'], 6);
 });
@@ -57,8 +59,9 @@ test('armi leggere e artiglieria (10/11/2026): una fabbrica di ciascun tipo per 
   for (const n of ['DEU', 'FRA', 'GBR', 'ITA', 'USSR', 'JPN', 'USA']) {
     const c = facilityCounts(file, n);
     // 19/11/2026: la Germania ha un impianto per ogni arma delle divisioni (4 di armi leggere, 7 di artiglieria); l'URSS (stesso giorno, battaglioni
-    // sovietici) 4 di armi leggere (fucile, TT-33, DT, Maxim) e 6 di artiglieria (76, mortaio da 82, 76 reggimentale, AT 45, obice da 122, contraerea da 76); le altre ancora uno
-    const [w, a] = n === 'DEU' ? [4, 7] : n === 'USSR' ? [4, 6] : [1, 1];
+    // sovietici) 4 di armi leggere (fucile, TT-33, DT, Maxim) e 11 di artiglieria (76, mortaio da 82, 76 reggimentale, AT 45, obici da 122 e 152, contraerea da 76; dal 20/11/2026 anche 4 linee riservate
+    // ai mortai da 50 e 120, alla contraerea da 37 e ai fucili anticarro, src/game/retoolSystem.js); le altre ancora uno
+    const [w, a] = n === 'DEU' ? [4, 7] : n === 'USSR' ? [4, 11] : [1, 1];
     assert.equal(c['FCT-WEAPONS'], w, n); assert.equal(c['FCT-ARTILLERY'], a, n);
     for (const f of file.nations[n].facilities.filter((x) => x.factory === 'FCT-WEAPONS' || x.factory === 'FCT-ARTILLERY')) assert.ok(f.recipeId.split('-').includes(n), `${n}: ${f.recipeId}`);
   }

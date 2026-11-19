@@ -924,6 +924,48 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-PTRD",
+      "nation": "USSR",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "caliber_mm": 14.5,
+      "designation": "Fucili anticarro PTRD-41 e PTRS-41 da 14,5 mm",
+      "name_it": "Fucile anticarro da 14,5 mm (PTRD/PTRS)",
+      "role": "anti_tank_rifle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-MOR107",
+      "nation": "USSR",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 107,
+      "designation": "Mortaio da montagna da 107 mm PBHM-38",
+      "name_it": "Mortaio da montagna da 107 mm",
+      "role": "regimental_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-GUN76-GORN",
+      "nation": "USSR",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 76.2,
+      "designation": "Cannone da montagna da 76 mm mod. 1938",
+      "name_it": "Cannone da montagna da 76 mm",
+      "role": "mountain_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -1236,6 +1278,21 @@
       "nation": "USSR",
       "templateKey": "ART-USSR-AA76",
       "equipment_id": "ART-USSR-AA76"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-PTRD",
+      "equipment_id": "ART-USSR-PTRD"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-MOR107",
+      "equipment_id": "ART-USSR-MOR107"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-GUN76-GORN",
+      "equipment_id": "ART-USSR-GUN76-GORN"
     }
   ]
 }

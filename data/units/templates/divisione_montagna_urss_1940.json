@@ -9,12 +9,12 @@
     "activeFrom": "1940-01-01"
   },
   "orgLevel": "war",
-  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fucilieri da montagna (gornostrelkovaja divizija) 1940: 8 battaglioni da montagna, artiglieria someggiata, servizi leggeri.",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fucilieri da montagna (gornostrelkovaja divizija) 1940: 8 battaglioni da montagna, artiglieria e mortai da 107 someggiati, servizi leggeri.",
   "formation": {
-    "value": "divisione di fucilieri da montagna (gornostrelkovaja divizija) 1940: 8 battaglioni da montagna, artiglieria someggiata, servizi leggeri",
+    "value": "divisione di fucilieri da montagna (gornostrelkovaja divizija) 1940: 8 battaglioni da montagna, artiglieria e mortai da 107 someggiati, servizi leggeri",
     "basis": "ipotesi",
     "referenceYear": "1940",
-    "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+    "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
     "reliability": "ESTIMATED"
   },
   "modules": [
@@ -25,6 +25,10 @@
     {
       "id": "MOD-USSR-GORN-ART",
       "count": 3
+    },
+    {
+      "id": "MOD-USSR-GORN-MIN",
+      "count": 1
     },
     {
       "id": "MOD-USSR-PTO",
@@ -41,10 +45,10 @@
   ],
   "manpower": {
     "war": {
-      "value": 8670,
+      "value": 8970,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -61,10 +65,10 @@
     }
   },
   "horses": {
-    "value": 3650,
+    "value": 3900,
     "basis": "ipotesi",
     "referenceYear": "1940",
-    "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+    "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
     "reliability": "ESTIMATED",
     "effective": {
       "value": null,
@@ -78,7 +82,7 @@
       "value": 18,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -87,11 +91,24 @@
         "source": null
       }
     },
-    "ART-USSR-GUN76-REGT": {
+    "ART-USSR-GUN76-GORN": {
       "value": 36,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR107": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -104,7 +121,7 @@
       "value": 48,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -117,7 +134,7 @@
       "value": 48,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -127,10 +144,10 @@
       }
     },
     "INW-USSR-PISTOL-TT33": {
-      "value": 660,
+      "value": 690,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -140,10 +157,10 @@
       }
     },
     "INW-USSR-RIFLE-1939": {
-      "value": 6040,
+      "value": 6190,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -156,7 +173,7 @@
       "value": 64,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -169,7 +186,7 @@
       "value": 153,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -182,7 +199,7 @@
       "value": 40,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -195,7 +212,7 @@
       "value": 10,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-USSR-GORN-STRELK, 3× MOD-USSR-GORN-ART, 1× MOD-USSR-GORN-MIN, 1× MOD-USSR-PTO, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,

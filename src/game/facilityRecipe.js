@@ -24,6 +24,6 @@ export function setFacilityRecipe(state, nation, facilityId, recipeId, { catalog
   }
   if (f.recipeId === recipeId) return state;
   if ((f.batches ?? []).length > 0) throw new Error(`${facilityId} ha lotti in consegna: aspettare la consegna prima di cambiare ricetta`);
-  const { wip, runDays, batches, ...rest } = f;
+  const { wip, runDays, batches, plannedRecipe, ...rest } = f; // la scelta del giocatore annulla il piano storico (src/game/retoolSystem.js, 20/11/2026)
   return { ...state, nations: { ...state.nations, [nation]: { ...n, facilities: n.facilities.map((x) => (x.id === facilityId ? { ...rest, recipeId } : x)) } } };
 }

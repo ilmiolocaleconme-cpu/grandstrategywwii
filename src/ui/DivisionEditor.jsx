@@ -9,8 +9,8 @@ import { Icon, Banner } from './unitIcons.jsx';
 import { unitArt, CATEGORY_ART, BANNER_ART } from './unitArt.js';
 
 /** Illustrazione dell'utente (data/assets/unit_illustrations.json) o, se manca, l'icona disegnata. */
-function Art({ id, fallback, size = 34, locked = false }) {
-  const art = id ? unitArt(id) : null;
+function Art({ id, fallback, size = 34, locked = false, nation = null }) {
+  const art = id ? unitArt(id, nation) : null;
   if (!art?.url) return <Icon name={locked ? 'lock' : fallback} size={size} />;
   return (
     <>
@@ -21,19 +21,23 @@ function Art({ id, fallback, size = 34, locked = false }) {
 }
 
 /** Testata: cielo e rovine disegnati, sopra le illustrazioni della categoria. */
-function HeroArt({ category }) {
+function HeroArt({ category, nation = null }) {
   const figs = BANNER_ART[category] ?? BANNER_ART.infantry;
   return (
     <div className="de-banner-wrap">
-      <Banner category={category} figures={figs.every((f) => !unitArt(f.id)?.url)} />
-      {figs.map((f, i) => { const a = unitArt(f.id); return a?.url ? <img key={`${f.id}${i}`} src={a.url} alt="" className="de-fig" style={{ left: `${f.x}%`, height: `${f.h}%`, zIndex: i + 1 }} draggable="false" /> : null; })}
+      <Banner category={category} figures={figs.every((f) => !unitArt(f.id, nation)?.url)} />
+      {figs.map((f, i) => { const a = unitArt(f.id, nation); return a?.url ? <img key={`${f.id}${i}`} src={a.url} alt="" className="de-fig" style={{ left: `${f.x}%`, height: `${f.h}%`, zIndex: i + 1 }} draggable="false" /> : null; })}
     </div>
   );
 }
 
 const fmt = (n) => Number(n).toLocaleString('it-IT');
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-const TITLE = { infantry: 'Infanterie-Division', motorized: 'Infanterie-Division (mot.)', mechanized: 'leichte Division', armored: 'Panzer-Division', mountain: 'Gebirgs-Division', cavalry: 'Kavallerie-Division', airborne: 'Fallschirmjäger-Division' }; // nomi tedeschi: per ora l'editor c'è solo per la Germania
+const TITLES = { // titolo di una composizione nuova, nella lingua della nazione (URSS dal 20/11/2026)
+  DEU: { infantry: 'Infanterie-Division', motorized: 'Infanterie-Division (mot.)', mechanized: 'leichte Division', armored: 'Panzer-Division', mountain: 'Gebirgs-Division', cavalry: 'Kavallerie-Division', airborne: 'Fallschirmjäger-Division' },
+  USSR: { infantry: 'Strelkovaja divizija', motorized: 'Motorizovannaja divizija', mechanized: 'Mechanizirovannaja divizija', armored: 'Tankovaja divizija', mountain: 'Gornostrelkovaja divizija', cavalry: 'Kavalerijskaja divizija', airborne: 'Vozdushno-desantnaja divizija' },
+};
+const DEFAULT_TITLE = { infantry: 'Divisione di fanteria', motorized: 'Divisione motorizzata', mechanized: 'Divisione meccanizzata', armored: 'Divisione corazzata', mountain: 'Divisione da montagna', cavalry: 'Divisione di cavalleria', airborne: 'Divisione paracadutisti' };
 const HINT = {
   edit: 'Aggiungi o togli battaglioni: i limiti seguono gli organici storici. Serve un reparto di servizi divisionali.',
   raise: 'La divisione nasce subito con gli uomini del bacino; i pezzi arrivano coi rinforzi mentre si addestra.',
@@ -41,10 +45,10 @@ const HINT = {
 };
 const statIcon = (label) => (/^Carri/.test(label) ? 'tank' : /Cacciacarri/.test(label) ? 'anti_tank' : /artiglieria/.test(label) ? 'artillery' : /Contraerei/.test(label) ? 'anti_air' : /Semicingolati/.test(label) ? 'mechanized_infantry' : /Autoblindo|Motociclette/.test(label) ? 'recon' : 'truck');
 
-function ModelCard({ active, category, title, sub, badge, onClick }) {
+function ModelCard({ active, category, title, sub, badge, onClick, nation = null }) {
   return (
     <button type="button" className={`de-card${active ? ' on' : ''}`} onClick={onClick}>
-      <span className="de-card-art"><Art id={CATEGORY_ART[category]} fallback={category} /></span>
+      <span className="de-card-art"><Art id={CATEGORY_ART[category]} fallback={category} nation={nation} /></span>
       <span className="de-card-text"><b>{title}</b><span>{sub}</span></span>
       {badge ? <span className="de-badge">{badge}</span> : null}
     </button>
@@ -70,7 +74,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
   const design = src.kind === 'design' ? designs.find((d) => d.id === src.id) : null;
   const preset = src.kind === 'preset' ? presets.find((p) => p.id === src.id) : null;
   const changed = !same(list, base);
-  const title = design && !changed ? design.name : preset && !changed ? preset.name : TITLE[sum.category];
+  const title = design && !changed ? design.name : preset && !changed ? preset.name : (TITLES[nation] ?? DEFAULT_TITLE)[sum.category];
   const target = designs.find((d) => d.id === targetId) ?? designs[0] ?? null;
   const ids = [...checked].filter((id) => divisions.some((d) => d.id === id && d.designId !== target?.id));
   const needs = useMemo(() => (mode === 'reorg' && target && ids.length ? needsOf(ids, target.id) : null), [mode, target, ids.join(','), needsOf]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -78,7 +82,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
 
   const pick = (s) => { setSrc(s); setMode('edit'); setList(listOf(s).map(([id, n]) => [id, n])); setName(''); };
   const save = () => {
-    const fallback = design ? `${design.name} (variante)` : preset ? preset.name : TITLE[sum.category];
+    const fallback = design ? `${design.name} (variante)` : preset ? preset.name : (TITLES[nation] ?? DEFAULT_TITLE)[sum.category];
     const id = onCreate(name.trim() || fallback, list);
     if (id) { setSrc({ kind: 'design', id }); setName(''); setTargetId(id); }
   };
@@ -102,11 +106,11 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
         <nav className="de-col de-left" aria-label="Modelli">
           <h3>I tuoi modelli</h3>
           {designs.length === 0 ? <p className="de-muted">Nessuno ancora: parti da un modello qui sotto.</p> : designs.map((d) => (
-            <ModelCard key={d.id} active={src.kind === 'design' && src.id === d.id} category={d.category} title={d.name} sub={`${fmt(d.men)} uomini · ${d.battalions} btg.`} badge={d.used ? `${d.used} div.` : null} onClick={() => pick({ kind: 'design', id: d.id })} />
+            <ModelCard key={d.id} active={src.kind === 'design' && src.id === d.id} category={d.category} title={d.name} sub={`${fmt(d.men)} uomini · ${d.battalions} btg.`} badge={d.used ? `${d.used} div.` : null} onClick={() => pick({ kind: 'design', id: d.id })} nation={nation} />
           ))}
           <h3>Modelli di partenza</h3>
           {presets.length === 0 ? <p className="de-muted">Per questa nazione i battaglioni non sono ancora definiti: per ora l'editor c'è solo per la Germania.</p> : presets.map((p) => (
-            <ModelCard key={p.id} active={src.kind === 'preset' && src.id === p.id} category={p.category} title={p.name} sub={`${fmt(p.men)} uomini${p.horses ? ` · ${fmt(p.horses)} cavalli` : ''}`} onClick={() => pick({ kind: 'preset', id: p.id })} />
+            <ModelCard key={p.id} active={src.kind === 'preset' && src.id === p.id} category={p.category} title={p.name} sub={`${fmt(p.men)} uomini${p.horses ? ` · ${fmt(p.horses)} cavalli` : ''}`} onClick={() => pick({ kind: 'preset', id: p.id })} nation={nation} />
           ))}
           {modules.length ? <button type="button" className="de-new" onClick={() => pick({ kind: 'new', id: null })}><Icon name="plus" size={20} /> Nuovo modello vuoto</button> : null}
         </nav>
@@ -124,7 +128,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                   {design ? <button type="button" className="de-chip go" onClick={() => openRaise(design.id)}><Icon name="plus" size={18} /> Forma</button> : null}
                   {design ? <button type="button" className="de-chip" onClick={() => openReorg(design.id)}><Icon name="swap" size={18} /> Riorganizza</button> : null}
                 </div>
-                <HeroArt category={sum.category} />
+                <HeroArt category={sum.category} nation={nation} />
               </section>
               <section className="de-box">
                 <h3>Composizione <span className="de-muted">· {sum.battalions} battaglioni</span></h3>
@@ -135,7 +139,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                       const share = sum.men > 0 ? (r.men * r.count) / sum.men : 0;
                       return (
                         <div key={r.id} className={`de-row${r.available ? '' : ' off'}${r.count ? ' has' : ''}`}>
-                          <span className="de-row-icon"><Art id={r.illustration} fallback={r.type} size={24} locked={!r.available} /></span>
+                          <span className="de-row-icon"><Art id={r.illustration} fallback={r.type} size={24} locked={!r.available} nation={nation} /></span>
                           <span className="de-row-name"><b lang={r.gloss ? 'de' : undefined}>{r.name}</b>{r.gloss ? <i>{r.gloss}</i> : null}<span>{r.available ? `${fmt(r.men)} uomini${r.divisional ? ' · uno per divisione' : ''}` : r.reason}</span></span>
                           <span className="de-step">
                             <button type="button" aria-label={`Togli ${r.name}`} disabled={r.count === 0} onClick={() => setList((l) => bump(l, r.id, -1))}>−</button>

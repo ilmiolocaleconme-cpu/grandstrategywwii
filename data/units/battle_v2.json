@@ -115,6 +115,11 @@
       ],
       "ANTI_TANK_GUN": [
         {
+          "max": 15,
+          "soft": 1,
+          "hard": 6
+        },
+        {
           "max": 30,
           "soft": 3,
           "hard": 20
@@ -530,7 +535,8 @@
     "vehicleRationale": "Veicoli (18/11/2026): gli autocarri non sparano (nessun peso) ma decidono la velocità di marcia; il semicingolato Sd.Kfz. 251 vale 6/0,3 per la mitragliatrice di bordo. La quota corazzata resta quella della categoria (meccanizzata 0,4).",
     "tankDestroyerRationale": "Cacciacarri e cannoni d'assalto (18/11/2026): pesati per modello come i carri (`tankModels`). Lo StuG corto vale come un Pz IV corto; i cacciacarri aperti (Panzerjäger I, Marder) colpiscono forte ma sono poco corazzati. Nelle divisioni corazzate entrano nella corazza media insieme ai carri. Valori: stime di Claude.",
     "antiAirRationale": "19/11/2026: la contraerea pesante (8,8 cm) usata anche contro i carri; quella leggera resta come prima. Autoblindo: armi leggere su ruote. Stime di Claude.",
-    "ussrRationale": "19/11/2026: modelli sovietici pesati per modello come i panzer (stime di Claude). T-34 e KV come prima per ruolo (medio 55/45/1,0, pesante 80/80/1,35) ma con la corazza inclinata (T-34 1,25) e la corazza spessa (KV 1,6)."
+    "ussrRationale": "19/11/2026: modelli sovietici pesati per modello come i panzer (stime di Claude). T-34 e KV come prima per ruolo (medio 55/45/1,0, pesante 80/80/1,35) ma con la corazza inclinata (T-34 1,25) e la corazza spessa (KV 1,6).",
+    "atRifleRationale": "20/11/2026: fucili anticarro (calibro fino a 15 mm, PTRD/PTRS sovietici) pesano 1/6 per pezzo: un decimo di un anticarro da 45 mm contro i carri, molto poco contro la fanteria. Stima di Claude."
   },
   "cohesion": {
     "lossBase": 8,

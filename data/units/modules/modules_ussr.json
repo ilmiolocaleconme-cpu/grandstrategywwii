@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-19",
-  "note": "Battaglioni sovietici (19/11/2026, decisione dell'utente «Tutto dai battaglioni»: anche i template dei fucilieri sono la somma dei battaglioni). Nomi russi traslitterati (name_ru) con traduzione italiana. Organici STIMATI da Claude dalla memoria, NON verificati; la divisione di fucilieri del 1939 è tarata sui numeri con fonte del vecchio CSV (ww2-weapons.com). Mancano: fucili anticarro PTRD/PTRS e mortai da 107 mm (non nel catalogo). Illustrazioni generiche con insegne tedesche.",
+  "note": "Battaglioni sovietici (19/11/2026, decisione dell'utente «Tutto dai battaglioni»: anche i template dei fucilieri sono la somma dei battaglioni). Nomi russi traslitterati (name_ru) con traduzione italiana. Organici STIMATI da Claude dalla memoria, NON verificati; la divisione di fucilieri del 1939 è tarata sui numeri con fonte del vecchio CSV (ww2-weapons.com). Dal 20/11/2026: fucili anticarro PTRD/PTRS nei battaglioni del 1942, mortai da 107 e cannone da montagna da 76 mod. 1938 nella divisione da montagna.",
   "modules": [
     {
       "id": "MOD-USSR-STRELK-1936",
@@ -85,7 +85,8 @@
         "MG-USSR-HMG-1939": 6,
         "ART-USSR-MOR50": 6,
         "ART-USSR-MOR82": 9,
-        "ART-USSR-AT45-1939": 2
+        "ART-USSR-AT45-1939": 2,
+        "ART-USSR-PTRD": 27
       },
       "mobility": "foot",
       "illustration": "fanteria",
@@ -567,10 +568,29 @@
       "equipment": {
         "INW-USSR-RIFLE-1939": 220,
         "INW-USSR-PISTOL-TT33": 50,
-        "ART-USSR-GUN76-REGT": 12
+        "ART-USSR-GUN76-GORN": 12
       },
       "mobility": "foot",
       "illustration": "artiglieria_ippotrainata",
+      "availableFrom": "1939-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-GORN-MIN",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Gornyj minomëtnyj divizion",
+      "name_it": "Gruppo mortai da montagna da 107 mm (someggiato)",
+      "men": 300,
+      "horses": 250,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 150,
+        "INW-USSR-PISTOL-TT33": 30,
+        "ART-USSR-MOR107": 12
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "availableFrom": "1939-01-01",
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     },
     {
@@ -827,7 +847,7 @@
       "file": "divisione_montagna_urss_1940.json",
       "category": "mountain",
       "activeFrom": "1940-01-01",
-      "formation": "divisione di fucilieri da montagna (gornostrelkovaja divizija) 1940: 8 battaglioni da montagna, artiglieria someggiata, servizi leggeri",
+      "formation": "divisione di fucilieri da montagna (gornostrelkovaja divizija) 1940: 8 battaglioni da montagna, artiglieria e mortai da 107 someggiati, servizi leggeri",
       "modules": [
         [
           "MOD-USSR-GORN-STRELK",
@@ -836,6 +856,10 @@
         [
           "MOD-USSR-GORN-ART",
           3
+        ],
+        [
+          "MOD-USSR-GORN-MIN",
+          1
         ],
         [
           "MOD-USSR-PTO",
@@ -1002,6 +1026,10 @@
         [
           "MOD-USSR-GORN-ART",
           3
+        ],
+        [
+          "MOD-USSR-GORN-MIN",
+          1
         ],
         [
           "MOD-USSR-PTO",

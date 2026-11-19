@@ -15,7 +15,13 @@ export function validateInitialIndustry(file, { factoriesById, recipes, entityId
     if (!Array.isArray(n.facilities) || n.facilities.length === 0) errors.push(`industria iniziale: ${id} senza impianti`);
     const seen = new Set();
     for (const f of n.facilities ?? []) {
-      const key = `${f.factory}/${f.recipeId}`;
+      const key = `${f.factory}/${f.recipeId}${f.plannedRecipe ? `>${f.plannedRecipe.recipeId}` : ''}`; // linee riservate a un modello futuro (20/11/2026)
+      if (f.plannedRecipe !== undefined) {
+        const pr = recipeById.get(f.plannedRecipe?.recipeId);
+        if (!pr) errors.push(`industria iniziale: ${id}, piano verso la ricetta inesistente ${f.plannedRecipe?.recipeId}`);
+        else if (pr.factory !== f.factory) errors.push(`industria iniziale: ${id}, il piano ${pr.id} non è di ${f.factory}`);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(f.plannedRecipe?.from ?? '')) errors.push(`industria iniziale: ${id}, data del piano non valida per ${key}`);
+      }
       if (seen.has(key)) errors.push(`industria iniziale: ${id} con ${key} duplicato`);
       seen.add(key);
       if (!factoriesById.has(f.factory)) errors.push(`industria iniziale: ${id} usa la fabbrica inesistente ${f.factory}`);

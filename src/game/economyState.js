@@ -41,7 +41,9 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
     for (const f of industry.nations[territory].facilities) {
       for (let k = 1; k <= f.count; k += 1) {
         const list = nations[owner].facilities;
-        list.push({ id: `${owner}:${territory}:${f.factory}:${f.recipeId}:${k}`, type: f.factory, recipeId: f.recipeId, territory, damage: 0, priority: list.length + 1, active: true });
+        // plannedRecipe (20/11/2026): linea riservata a un modello futuro, riconvertita alla data da src/game/retoolSystem.js; l'id porta il modello del piano
+        const tag = f.plannedRecipe ? `${f.recipeId}>${f.plannedRecipe.recipeId}` : f.recipeId;
+        list.push({ id: `${owner}:${territory}:${f.factory}:${tag}:${k}`, type: f.factory, recipeId: f.recipeId, territory, damage: 0, priority: list.length + 1, active: true, ...(f.plannedRecipe ? { plannedRecipe: { ...f.plannedRecipe } } : {}) });
       }
     }
   }
@@ -114,6 +116,8 @@ export function validateNations(nations, { player } = {}) {
       if (typeof f.type !== 'string' || typeof f.recipeId !== 'string') errors.push(`stato: ${f.id}, tipo o ricetta mancanti`);
       if (f.wip !== undefined && !(num(f.wip) && f.wip >= 0)) errors.push(`stato: ${f.id}, pezzi in lavorazione non validi`);
       if (f.runDays !== undefined && (!Number.isInteger(f.runDays) || f.runDays < 0)) errors.push(`stato: ${f.id}, giorni di lotto non validi`);
+      if (f.plannedRecipe !== undefined && (typeof f.plannedRecipe?.recipeId !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(f.plannedRecipe?.from ?? ''))) errors.push(`stato: ${f.id}, piano di riconversione non valido`);
+      if (f.retooledOn !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(f.retooledOn)) errors.push(`stato: ${f.id}, data di riconversione non valida`);
       if (f.batches !== undefined && (!Array.isArray(f.batches) || f.batches.some((b) => !Number.isInteger(b?.qty) || b.qty < 1 || !/^\d{4}-\d{2}-\d{2}$/.test(b?.readyOn ?? '')))) errors.push(`stato: ${f.id}, lotti non validi`);
     }
     if (!Array.isArray(n.mines)) errors.push(`stato: ${id}, miniere mancanti`);

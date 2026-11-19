@@ -3,128 +3,200 @@
   "status": "PRELIMINARY",
   "source": "Fornite dall'utente il 18/11/2026 (archivio grandstrategywwii_military_assets_png.zip): 24 PNG ritagliati da una tavola generata.",
   "license": "Dell'utente, per questo progetto.",
-  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori.",
+  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026, richiesta dell'utente): ricavate da Claude dalle stesse immagini, ricolorate in verde russo (mezzi) e kaki-oliva (uniformi) con la stella rossa al posto della croce; la sagoma degli elmetti e dei carri resta tedesca. Provvisorie, da sostituire con illustrazioni sovietiche vere.",
   "folder": "src/assets/units",
   "items": [
     {
       "id": "fanteria",
       "file": "01_fanteria.png",
-      "description": "Fante in marcia d'assalto con fucile"
+      "description": "Fante in marcia d'assalto con fucile",
+      "byNation": {
+        "USSR": "01_fanteria_ussr.png"
+      }
     },
     {
       "id": "fanteria_motorizzata",
       "file": "02_fanteria_motorizzata.png",
-      "description": "Fante con pistola mitragliatrice"
+      "description": "Fante con pistola mitragliatrice",
+      "byNation": {
+        "USSR": "02_fanteria_motorizzata_ussr.png"
+      }
     },
     {
       "id": "fanteria_meccanizzata",
       "file": "03_fanteria_meccanizzata.png",
-      "description": "Fante davanti a un veicolo cingolato"
+      "description": "Fante davanti a un veicolo cingolato",
+      "byNation": {
+        "USSR": "03_fanteria_meccanizzata_ussr.png"
+      }
     },
     {
       "id": "carro_leggero",
       "file": "04_carro_leggero.png",
-      "description": "Carro armato leggero"
+      "description": "Carro armato leggero",
+      "byNation": {
+        "USSR": "04_carro_leggero_ussr.png"
+      }
     },
     {
       "id": "carro_medio",
       "file": "05_carro_medio.png",
-      "description": "Carro armato medio con mimetica"
+      "description": "Carro armato medio con mimetica",
+      "byNation": {
+        "USSR": "05_carro_medio_ussr.png"
+      }
     },
     {
       "id": "carro_pesante",
       "file": "06_carro_pesante.png",
-      "description": "Carro armato pesante con mimetica"
+      "description": "Carro armato pesante con mimetica",
+      "byNation": {
+        "USSR": "06_carro_pesante_ussr.png"
+      }
     },
     {
       "id": "cacciacarri",
       "file": "07_cacciacarri.png",
-      "description": "Cacciacarri in casamatta"
+      "description": "Cacciacarri in casamatta",
+      "byNation": {
+        "USSR": "07_cacciacarri_ussr.png"
+      }
     },
     {
       "id": "cacciacarri_variante",
       "file": "08_cacciacarri_variante.png",
-      "description": "Cacciacarri in casamatta (variante)"
+      "description": "Cacciacarri in casamatta (variante)",
+      "byNation": {
+        "USSR": "08_cacciacarri_variante_ussr.png"
+      }
     },
     {
       "id": "artiglieria_trainata",
       "file": "09_artiglieria_trainata.png",
-      "description": "Pezzo d'artiglieria da campagna"
+      "description": "Pezzo d'artiglieria da campagna",
+      "byNation": {
+        "USSR": "09_artiglieria_trainata_ussr.png"
+      }
     },
     {
       "id": "artiglieria_ippotrainata",
       "file": "10_artiglieria_ippotrainata.png",
-      "description": "Pezzo d'artiglieria trainato da cavalli"
+      "description": "Pezzo d'artiglieria trainato da cavalli",
+      "byNation": {
+        "USSR": "10_artiglieria_ippotrainata_ussr.png"
+      }
     },
     {
       "id": "contraerea",
       "file": "11_contraerea.png",
-      "description": "Cannone contraereo binato su carrello"
+      "description": "Cannone contraereo binato su carrello",
+      "byNation": {
+        "USSR": "11_contraerea_ussr.png"
+      }
     },
     {
       "id": "anticarro",
       "file": "12_anticarro.png",
-      "description": "Cannone anticarro con serventi"
+      "description": "Cannone anticarro con serventi",
+      "byNation": {
+        "USSR": "12_anticarro_ussr.png"
+      }
     },
     {
       "id": "cavalleria",
       "file": "13_cavalleria.png",
-      "description": "Cavaliere"
+      "description": "Cavaliere",
+      "byNation": {
+        "USSR": "13_cavalleria_ussr.png"
+      }
     },
     {
       "id": "paracadutisti",
       "file": "14_paracadutisti.png",
-      "description": "Paracadutista"
+      "description": "Paracadutista",
+      "byNation": {
+        "USSR": "14_paracadutisti_ussr.png"
+      }
     },
     {
       "id": "alpini",
       "file": "15_alpini.png",
-      "description": "Truppa da montagna sugli sci"
+      "description": "Truppa da montagna sugli sci",
+      "byNation": {
+        "USSR": "15_alpini_ussr.png"
+      }
     },
     {
       "id": "genio",
       "file": "16_genio.png",
-      "description": "Geniere che posa una mina"
+      "description": "Geniere che posa una mina",
+      "byNation": {
+        "USSR": "16_genio_ussr.png"
+      }
     },
     {
       "id": "ricognizione_motocicletta",
       "file": "17_ricognizione_motocicletta.png",
-      "description": "Esploratore in motocicletta"
+      "description": "Esploratore in motocicletta",
+      "byNation": {
+        "USSR": "17_ricognizione_motocicletta_ussr.png"
+      }
     },
     {
       "id": "autoblindo",
       "file": "18_autoblindo.png",
-      "description": "Autoblindo"
+      "description": "Autoblindo",
+      "byNation": {
+        "USSR": "18_autoblindo_ussr.png"
+      }
     },
     {
       "id": "logistica_camion",
       "file": "19_logistica_camion.png",
-      "description": "Autocarro logistico a tre assi"
+      "description": "Autocarro logistico a tre assi",
+      "byNation": {
+        "USSR": "19_logistica_camion_ussr.png"
+      }
     },
     {
       "id": "trasporto_camion",
       "file": "20_trasporto_camion.png",
-      "description": "Autocarro da trasporto"
+      "description": "Autocarro da trasporto",
+      "byNation": {
+        "USSR": "20_trasporto_camion_ussr.png"
+      }
     },
     {
       "id": "semicingolato",
       "file": "21_semicingolato.png",
-      "description": "Semicingolato"
+      "description": "Semicingolato",
+      "byNation": {
+        "USSR": "21_semicingolato_ussr.png"
+      }
     },
     {
       "id": "trasporto_ippotrainato",
       "file": "22_trasporto_ippotrainato.png",
-      "description": "Carro da trasporto trainato da cavalli"
+      "description": "Carro da trasporto trainato da cavalli",
+      "byNation": {
+        "USSR": "22_trasporto_ippotrainato_ussr.png"
+      }
     },
     {
       "id": "carro_munizioni_ippotrainato",
       "file": "23_carro_munizioni_ippotrainato.png",
-      "description": "Carro munizioni trainato da cavalli"
+      "description": "Carro munizioni trainato da cavalli",
+      "byNation": {
+        "USSR": "23_carro_munizioni_ippotrainato_ussr.png"
+      }
     },
     {
       "id": "ambulanza",
       "file": "24_ambulanza.png",
-      "description": "Autoambulanza"
+      "description": "Autoambulanza",
+      "byNation": {
+        "USSR": "24_ambulanza_ussr.png"
+      }
     }
   ]
 }

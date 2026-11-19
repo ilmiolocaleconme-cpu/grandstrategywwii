@@ -1052,6 +1052,47 @@
           "count": 1
         },
         {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-HOW152-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-MOR82",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-USSR-MOR50",
+            "from": "1938-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-MOR82",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-USSR-MOR120",
+            "from": "1939-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-AA76",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-USSR-AA37",
+            "from": "1939-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-AT45-1939",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-USSR-PTRD",
+            "from": "1941-09-01"
+          }
+        },
+        {
           "factory": "FCT-FEED",
           "recipeId": "REC-FEED-001",
           "count": 1
@@ -1064,6 +1105,11 @@
         {
           "factory": "FCT-PHARMA",
           "recipeId": "REC-PHARMA-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-POWER",
+          "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 1
         }
       ]

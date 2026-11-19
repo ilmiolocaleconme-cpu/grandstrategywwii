@@ -305,6 +305,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
             if (ids.has(it.id)) errors.push(`illustrazioni: id ${it.id} duplicato`);
             ids.add(it.id);
             try { await readFile(new URL(`../${art.folder}/${it.file}`, import.meta.url)); } catch { errors.push(`illustrazioni: manca il file ${it.file}`); }
+            for (const [n, file] of Object.entries(it.byNation ?? {})) { try { await readFile(new URL(`../${art.folder}/${file}`, import.meta.url)); } catch { errors.push(`illustrazioni: manca la variante ${n} ${file}`); } } // varianti per nazione (20/11/2026)
           }
           const modFiles = (await readdir(new URL('../data/units/modules/', import.meta.url))).filter((n) => /^modules_.*\.json$/.test(n));
           for (const f of modFiles) for (const m of JSON.parse(await text(`units/modules/${f}`)).modules ?? []) if (m.illustration !== undefined && !ids.has(m.illustration)) errors.push(`${f}: ${m.id} con illustrazione ${m.illustration} inesistente`);

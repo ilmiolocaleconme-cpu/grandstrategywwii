@@ -184,6 +184,7 @@ import { securitySummary, sabotageRows, describeOrderFailure } from './ui/securi
 import { createResearch, techsOf } from './game/research.js';
 import historicalTechFile from '../data/research/historical_tech_dates.json';
 import { createHistoricalTechSystem } from './game/historicalTech.js';
+import { createRetoolSystem } from './game/retoolSystem.js'; // riconversione degli impianti: piani storici e IA (20/11/2026)
 import { setFacilityRecipe } from './game/facilityRecipe.js';
 import { facilityRecipeRows } from './ui/recipeView.js';
 import { createInfraIndex, infraNet, applyLinkLevels } from './data/infrastructure.js';
@@ -486,6 +487,8 @@ const GAME_SYSTEMS = [
   (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
+  createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES,
+    divisionsOf: (s, nation) => { const ids = new Set(unitsList(s, unitsFile.units).filter((u) => u.nation === nation).map((u) => u.id)); return Object.entries(s.forces?.divisions ?? {}).filter(([id]) => ids.has(id)).map(([, d]) => d); } }), // linee riservate ai modelli futuri; IA: riconversione mensile (20/11/2026)
   createHistoricalTechSystem(historicalTechFile), // nazioni dell'IA: tecnologie alle date storiche (19/11/2026); il giocatore le ricerca
   GAME_SECURITY.securityDay,
   GAME_AI.aiDay,

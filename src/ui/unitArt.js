@@ -3,10 +3,10 @@
 import meta from '../../data/assets/unit_illustrations.json';
 
 const FILES = import.meta.glob('../assets/units/*.png', { eager: true, import: 'default' });
-const BY_ID = new Map(meta.items.map((it) => [it.id, { ...it, url: FILES[`../assets/units/${it.file}`] ?? null }]));
+const BY_ID = new Map(meta.items.map((it) => [it.id, { ...it, url: FILES[`../assets/units/${it.file}`] ?? null, urlBy: Object.fromEntries(Object.entries(it.byNation ?? {}).map(([n, file]) => [n, FILES[`../assets/units/${file}`] ?? null])) }]));
 
-/** { id, file, description, url } dell'illustrazione, o null. */
-export const unitArt = (id) => BY_ID.get(id) ?? null;
+/** { id, file, description, url } dell'illustrazione, o null. Con `nation`: la variante della nazione se c'è (URSS dal 20/11/2026), altrimenti quella generica. */
+export const unitArt = (id, nation = null) => { const it = BY_ID.get(id); if (!it) return null; const v = nation ? it.urlBy[nation] : null; return v ? { ...it, url: v } : it; };
 
 /** Illustrazione rappresentativa di una categoria di divisione (schede dei modelli). */
 export const CATEGORY_ART = Object.freeze({ infantry: 'fanteria', motorized: 'trasporto_camion', mechanized: 'semicingolato', armored: 'carro_medio', mountain: 'alpini', cavalry: 'cavalleria', airborne: 'paracadutisti' });
