@@ -221,6 +221,21 @@
           "count": 1
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-DEU-PISTOL-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-DEU-MG34-L",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-DEU-MG34-S",
+          "count": 1
+        },
+        {
           "factory": "FCT-TANKS",
           "recipeId": "REC-TNK-DEU-PZ-I",
           "count": 1
@@ -232,7 +247,32 @@
         },
         {
           "factory": "FCT-ARTILLERY",
-          "recipeId": "REC-ART-DEU-HOW-105",
+          "recipeId": "REC-ART-DEU-LEFH18",
+          "count": 2
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-DEU-SFH18",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-DEU-GRW34",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-DEU-GRW36",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-DEU-PAK36",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-DEU-LEIG18",
           "count": 1
         },
         {
@@ -253,7 +293,7 @@
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 5
+          "count": 6
         }
       ]
     },

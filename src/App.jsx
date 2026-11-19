@@ -447,8 +447,9 @@ const raisePool = (state, nation) => availableManpower(state, nation, hospitalMa
 const raiseCtx = (state, nation) => ({ modules: ALL_MODULES, rules: raiseRulesFile, pool: raisePool(state, nation), units: unitsList(state, unitsFile.units), conditionCfg: conditionConfig });
 const trainingList = (state, nation) => Object.entries(state.forces?.divisions ?? {}).filter(([, d]) => d.training && state.date < d.training.until).map(([id, d]) => {
   const u = unitOf(state, id, UNITS_BY_ID); if (!u || u.nation !== nation) return null;
-  let p = 0; let e = 0; for (const [k, it] of Object.entries(d.items)) if (k.startsWith('equipment.')) { p += it.planned; e += it.effective; }
-  return { id, name: u.name, category: u.category, until: d.training.until, fill: p > 0 ? Math.round((e / p) * 100) : 100 };
+  // dotazione: media delle quote di ogni arma (un pezzo d'artiglieria pesa come un tipo, non come un fucile)
+  const r = Object.entries(d.items).filter(([k, it]) => k.startsWith('equipment.') && it.planned > 0).map(([, it]) => Math.min(1, it.effective / it.planned));
+  return { id, name: u.name, category: u.category, until: d.training.until, fill: r.length ? Math.round((r.reduce((x, y) => x + y, 0) / r.length) * 100) : 100 };
 }).filter(Boolean).sort((a, b) => (a.until < b.until ? -1 : 1));
 const divisionHasEngineers = (state, u) => { const d = state.designs?.byId?.[state.forces?.divisions?.[u.id]?.templateId]; return d ? d.modules.some(([id]) => ENGINEER_MODULES.has(id)) : true; };
 // riorganizzazione sui modelli dell'editor: voci rimaste fuori tornano in magazzino solo se sono equipaggiamenti del catalogo o cavalli

@@ -81,3 +81,20 @@ Decisioni dell'utente: **nasce come quadro**, **stesse regole** per le storiche,
 - Stesse regole: le divisioni storiche che si formano DOPO l'inizio della partita prendono uomini e dotazione dal bacino e dal magazzino (`drawOnActivation`); quelle già esistenti all'inizio restano come prima.
 - Corretto: gli uomini delle divisioni create in partita ora contano come arruolati (prima il bacino non scendeva).
 - Limiti: solo il giocatore (l'IA non forma divisioni); solo la Germania ha battaglioni.
+
+## Armi delle divisioni tedesche: fabbriche iniziali (19/11/2026)
+
+Prima la Germania aveva un solo impianto di armi leggere (fucili) e uno d'artiglieria (obici da 105): mortai, mitragliatrici, pistole, anticarro, cannoni di fanteria e obici pesanti restavano a zero e le divisioni nuove non si completavano. Ora (`scripts/build-initial-industry.js`, `EXTRA`), stime di Claude:
+
+| impianto | ricetta | pezzi/giorno | giorni per una Infanterie-Division |
+|---|---|---|---|
+| armi leggere | fucili (già c'era) | 800 | 14 |
+| armi leggere | pistole | 800 | 2,5 |
+| armi leggere | MG 34 leggera / pesante | 100 / 100 | 4,8 / 1,2 |
+| artiglieria ×2 | leFH 18 (obice 10,5 cm) | 2,45 ciascuno | 7,3 |
+| artiglieria | sFH 18 (obice 15 cm) | 0,89 | 13,5 |
+| artiglieria | GrW 34 / GrW 36 (mortai) | 15 / 20 | 3,5 / 4 |
+| artiglieria | PaK 36 | 5,7 | 6,8 |
+| artiglieria | leIG 18 | 10,5 | 1,9 |
+
+Costo: 33 t di acciaio al giorno in più e una centrale a carbone in più (6). Il sIG 33 non ha impianto proprio: si ottiene cambiando la ricetta di un impianto. Prova nel browser: due Infanterie-Division formate il 1/1/1936 al 54–58% della dotazione dopo 30 giorni (media per arma). Le altre grandi potenze: ancora un impianto per tipo.

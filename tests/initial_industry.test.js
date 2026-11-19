@@ -56,7 +56,9 @@ test('rete di base: 40 MW (MISSING_DATA) solo per la fascia C', () => {
 test('armi leggere e artiglieria (10/11/2026): una fabbrica di ciascun tipo per DEU, FRA, GBR, ITA, USSR, JPN, USA con ricetta della propria nazione', () => {
   for (const n of ['DEU', 'FRA', 'GBR', 'ITA', 'USSR', 'JPN', 'USA']) {
     const c = facilityCounts(file, n);
-    assert.equal(c['FCT-WEAPONS'], 1, n); assert.equal(c['FCT-ARTILLERY'], 1, n);
+    // 19/11/2026: la Germania ha un impianto per ogni arma delle divisioni (4 di armi leggere, 7 di artiglieria); le altre ancora uno
+    const [w, a] = n === 'DEU' ? [4, 7] : [1, 1];
+    assert.equal(c['FCT-WEAPONS'], w, n); assert.equal(c['FCT-ARTILLERY'], a, n);
     for (const f of file.nations[n].facilities.filter((x) => x.factory === 'FCT-WEAPONS' || x.factory === 'FCT-ARTILLERY')) assert.ok(f.recipeId.split('-').includes(n), `${n}: ${f.recipeId}`);
   }
 });
