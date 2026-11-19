@@ -612,6 +612,37 @@
       "massTonnes": 5.1,
       "availableFrom": "1938-01-01",
       "availableTo": "1941-12-31"
+    },
+    "INW-USSR-SMG-PPD": {
+      "availableTo": "1941-12-31"
+    },
+    "INW-USSR-SMG-PPSH41": {
+      "availableFrom": "1941-01-01",
+      "requiresTech": "TECH-INF-EMERG"
+    },
+    "ART-USSR-MOR50": {
+      "massTonnes": 0.012,
+      "availableFrom": "1938-01-01"
+    },
+    "ART-USSR-MOR82": {
+      "massTonnes": 0.056,
+      "availableFrom": "1936-01-01"
+    },
+    "ART-USSR-MOR120": {
+      "massTonnes": 0.28,
+      "availableFrom": "1939-01-01"
+    },
+    "ART-USSR-GUN76-REGT": {
+      "massTonnes": 0.78
+    },
+    "VEH-USSR-GAZAA": {
+      "massTonnes": 1.8
+    },
+    "VEH-USSR-ZIS5": {
+      "massTonnes": 3.1
+    },
+    "VEH-USSR-MOTO": {
+      "massTonnes": 0.35
     }
   },
   "priceFactor": 1.25

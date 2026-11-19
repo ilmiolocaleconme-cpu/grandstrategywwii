@@ -756,6 +756,146 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-USSR-PISTOL-TT33",
+      "nation": "USSR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.62,
+      "designation": "Pistola TT-33 (e revolver Nagant M1895)",
+      "name_it": "Pistola TT-33",
+      "role": "officer_and_specialist_sidearm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-USSR-SMG-PPD",
+      "nation": "USSR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.62,
+      "designation": "PPD-34/38/40",
+      "name_it": "Pistola mitragliatrice PPD",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-USSR-SMG-PPSH41",
+      "nation": "USSR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.62,
+      "designation": "PPSh-41",
+      "name_it": "Pistola mitragliatrice PPSh-41",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-MOR50",
+      "nation": "USSR",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 50,
+      "designation": "Mortaio da 50 mm 50-PM 38/40",
+      "name_it": "Mortaio leggero da 50 mm",
+      "role": "close_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-MOR82",
+      "nation": "USSR",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 82,
+      "designation": "Mortaio da 82 mm BM-36/37",
+      "name_it": "Mortaio da battaglione da 82 mm",
+      "role": "battalion_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-MOR120",
+      "nation": "USSR",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 120,
+      "designation": "Mortaio da 120 mm PM-38",
+      "name_it": "Mortaio reggimentale da 120 mm",
+      "role": "regimental_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-GUN76-REGT",
+      "nation": "USSR",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 76,
+      "designation": "Cannone reggimentale da 76 mm mod. 1927",
+      "name_it": "Cannone reggimentale da 76 mm",
+      "role": "regimental_infantry_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USSR-GAZAA",
+      "nation": "USSR",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "GAZ-AA (e GAZ-MM)",
+      "name_it": "Autocarro leggero GAZ-AA (1,5 t)",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USSR-ZIS5",
+      "nation": "USSR",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "ZIS-5 «Tryokhtonka»",
+      "name_it": "Autocarro medio ZIS-5 (3 t)",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USSR-MOTO",
+      "nation": "USSR",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "PMZ-A-750, poi M-72 (dal 1941)",
+      "name_it": "Motocicletta militare (PMZ-A-750, M-72)",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -1008,6 +1148,56 @@
       "nation": "USSR",
       "templateKey": "VEH-USSR-BA10",
       "equipment_id": "VEH-USSR-BA10"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "INW-USSR-PISTOL-TT33",
+      "equipment_id": "INW-USSR-PISTOL-TT33"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "INW-USSR-SMG-PPD",
+      "equipment_id": "INW-USSR-SMG-PPD"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "INW-USSR-SMG-PPSH41",
+      "equipment_id": "INW-USSR-SMG-PPSH41"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-MOR50",
+      "equipment_id": "ART-USSR-MOR50"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-MOR82",
+      "equipment_id": "ART-USSR-MOR82"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-MOR120",
+      "equipment_id": "ART-USSR-MOR120"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-GUN76-REGT",
+      "equipment_id": "ART-USSR-GUN76-REGT"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "VEH-USSR-GAZAA",
+      "equipment_id": "VEH-USSR-GAZAA"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "VEH-USSR-ZIS5",
+      "equipment_id": "VEH-USSR-ZIS5"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "VEH-USSR-MOTO",
+      "equipment_id": "VEH-USSR-MOTO"
     }
   ]
 }
