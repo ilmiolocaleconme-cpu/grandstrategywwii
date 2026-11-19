@@ -626,6 +626,136 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TNK-USSR-T60-1941",
+      "nation": "USSR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 20,
+      "designation": "Carro leggero T-60",
+      "name_it": "Carro leggero T-60",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "sameAs": "TNK-USSR-T26-1940"
+    },
+    {
+      "equipment_id": "TNK-USSR-T70-1942",
+      "nation": "USSR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 45,
+      "designation": "Carro leggero T-70",
+      "name_it": "Carro leggero T-70",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "sameAs": "TNK-USSR-T26-1940"
+    },
+    {
+      "equipment_id": "TNK-USSR-T34-85-1944",
+      "nation": "USSR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 85,
+      "designation": "Carro medio T-34/85",
+      "name_it": "Carro medio T-34/85",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "sameAs": "TNK-USSR-T34-1940"
+    },
+    {
+      "equipment_id": "TNK-USSR-IS2-1944",
+      "nation": "USSR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 122,
+      "designation": "Carro pesante IS-2",
+      "name_it": "Carro pesante IS-2",
+      "role": "heavy_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
+      "sameAs": "TNK-USSR-KV-1940"
+    },
+    {
+      "equipment_id": "TD-USSR-SU76-1943",
+      "nation": "USSR",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": 76.2,
+      "designation": "Semovente SU-76",
+      "name_it": "Semovente SU-76",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TD-USSR-SU85-1943",
+      "nation": "USSR",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": 85,
+      "designation": "Cacciacarri SU-85",
+      "name_it": "Cacciacarri SU-85",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TD-USSR-SU100-1944",
+      "nation": "USSR",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": 100,
+      "designation": "Cacciacarri SU-100",
+      "name_it": "Cacciacarri SU-100",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TD-USSR-ISU152-1943",
+      "nation": "USSR",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": 152,
+      "designation": "Semovente pesante ISU-152",
+      "name_it": "Semovente pesante ISU-152",
+      "role": "assault_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USSR-BA10",
+      "nation": "USSR",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": 45,
+      "designation": "Autoblindo BA-10",
+      "name_it": "Autoblindo BA-10",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -833,6 +963,51 @@
       "nation": "DEU",
       "templateKey": "ART-DEU-GEBG36",
       "equipment_id": "ART-DEU-GEBG36"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TNK-USSR-T60-1941",
+      "equipment_id": "TNK-USSR-T60-1941"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TNK-USSR-T70-1942",
+      "equipment_id": "TNK-USSR-T70-1942"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TNK-USSR-T34-85-1944",
+      "equipment_id": "TNK-USSR-T34-85-1944"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TNK-USSR-IS2-1944",
+      "equipment_id": "TNK-USSR-IS2-1944"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TD-USSR-SU76-1943",
+      "equipment_id": "TD-USSR-SU76-1943"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TD-USSR-SU85-1943",
+      "equipment_id": "TD-USSR-SU85-1943"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TD-USSR-SU100-1944",
+      "equipment_id": "TD-USSR-SU100-1944"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "TD-USSR-ISU152-1943",
+      "equipment_id": "TD-USSR-ISU152-1943"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "VEH-USSR-BA10",
+      "equipment_id": "VEH-USSR-BA10"
     }
   ]
 }

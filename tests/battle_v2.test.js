@@ -362,7 +362,10 @@ test('corazza dei carri: una divisione di tankette è un bersaglio quasi non cor
   assert.ok(h(0.3) < h(1) * 0.35);
   assert.ok(h(1.35) <= 0.95);
   const ita = tplRaw('divisione_corazzata_italia_1940'); const urss = tplRaw('divisione_corazzata_urss_1940');
-  assert.ok(ita.raw.armor < urss.raw.armor);
+  // 19/11/2026: i carri sovietici hanno ora il loro peso per modello. Nel 1940 la divisione sovietica è fatta soprattutto di BT e T-26 (flotta mista):
+  // corazza media sotto quella italiana (M13); dal 1942, con i T-34 e i KV, molto sopra.
+  const urss42 = rawFirepower(urss.items, (k) => WEAPON_OF('USSR', k), cfg, urss.men, { year: 1942, resolve: (id) => WEAPON_OF('USSR', `equipment.${id}`) });
+  assert.ok(urss.raw.armor < ita.raw.armor && ita.raw.armor < urss42.armor);
 });
 
 test('sistema: la battaglia muove morale ed esperienza; a riposo il morale risale fino al valore di partenza', () => {

@@ -303,7 +303,7 @@
       "id": "TECH-ARM-SLOPED",
       "branch": "armor",
       "name_it": "Corazza inclinata",
-      "description": "Piastre inclinate che moltiplicano lo spessore efficace. Germania: Pz.Kpfw. V Panther (dal 1943). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "description": "Piastre inclinate che moltiplicano lo spessore efficace. Germania: Pz.Kpfw. V Panther (dal 1943). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare. URSS: T-34 (dal 1940), T-34/85, SU-85, SU-100.",
       "prerequisites": [
         "TECH-ARM-GUN-75L"
       ],
@@ -319,7 +319,7 @@
       "id": "TECH-ARM-HEAVY",
       "branch": "armor",
       "name_it": "Carro pesante e cannone da 88 mm",
-      "description": "Scafo pesante, sospensioni e trasmissione per oltre 50 tonnellate, con l'88 mm L/56. Germania: Pz.Kpfw. VI Tiger (dall'agosto 1942). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare.",
+      "description": "Scafo pesante, sospensioni e trasmissione per oltre 50 tonnellate, con l'88 mm L/56. Germania: Pz.Kpfw. VI Tiger (dall'agosto 1942). Costo, durata e anni sono stime di Claude (18/11/2026), da approvare. URSS: KV-1 (dal 1939), IS-2, SU-100, ISU-152.",
       "prerequisites": [
         "TECH-ARM-GUN-75L"
       ],
@@ -405,7 +405,7 @@
       "id": "TECH-ARM-ASSAULT",
       "branch": "armor",
       "name_it": "Cannone d'assalto",
-      "description": "Cannone su scafo di carro, in casamatta fissa, per appoggiare la fanteria e, col cannone lungo, combattere i carri. Germania: StuG III (dal febbraio 1940); con il 75 lungo StuG III Ausf. F/8–G (dal marzo 1942). Costo e durata: stime di Claude (18/11/2026).",
+      "description": "Cannone su scafo di carro, in casamatta fissa, per appoggiare la fanteria e, col cannone lungo, combattere i carri. Germania: StuG III (dal febbraio 1940); con il 75 lungo StuG III Ausf. F/8–G (dal marzo 1942). Costo e durata: stime di Claude (18/11/2026). URSS: ISU-152 (con il carro pesante).",
       "prerequisites": [
         "TECH-ARM-GUN-75S"
       ],
@@ -424,7 +424,7 @@
       "id": "TECH-ARM-TD",
       "branch": "armor",
       "name_it": "Cacciacarri semoventi",
-      "description": "Cannoni anticarro su scafi di carri superati o su scafi bassi corazzati. Germania: Panzerjäger I (1940), Marder III (1942, col 75 lungo), Jagdpanzer IV e Hetzer (1944, con la corazza inclinata), Jagdpanther (1944, col carro pesante). Costo e durata: stime di Claude (18/11/2026).",
+      "description": "Cannoni anticarro su scafi di carri superati o su scafi bassi corazzati. Germania: Panzerjäger I (1940), Marder III (1942, col 75 lungo), Jagdpanzer IV e Hetzer (1944, con la corazza inclinata), Jagdpanther (1944, col carro pesante). Costo e durata: stime di Claude (18/11/2026). URSS: SU-76 (dal 1942), SU-85, SU-100.",
       "prerequisites": [
         "TECH-ARM-GUN-3750"
       ],

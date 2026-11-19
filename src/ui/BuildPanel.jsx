@@ -19,7 +19,7 @@ export function UpgradeList({ upgrades, onOrder, title = 'Miglioramenti' }) {
       {msg ? <p className={msg.ok ? 'muted' : 'warn'} role="status">{msg.text}</p> : null}
       <ul className="build-list">
         {upgrades.map((u) => (
-          <li key={u.label} className="build-row">
+          <li key={u.key ?? u.label} className="build-row">
             <div>
               <strong>{u.label}</strong> · {u.detail}
               <div className="muted small">{u.cost ? upCostText(u.cost) : 'costo non disponibile'} · capacità e consumi crescono nello stesso slot</div>

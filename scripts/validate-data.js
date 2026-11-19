@@ -18,6 +18,7 @@ import { validateTerrainCombat } from '../src/rules/terrainCombat.js';
 import { validateBattleV2 } from '../src/rules/battleV2.js';
 import { validateModules, templateFromComposition, validateEditorRules } from '../src/data/modules.js';
 import { validateRaiseRules } from '../src/game/raiseState.js';
+import { validateHistoricalTechDates } from '../src/game/historicalTech.js';
 import { validateEvents } from '../src/game/eventsState.js';
 import { validateRiverCrossings } from '../src/data/riverCrossings.js';
 import { parseCsv } from '../src/data/csv.js';
@@ -296,6 +297,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
         }
         errors.push(...validateEditorRules(JSON.parse(await text('units/modules/editor_rules.json')))); // limiti storici dell'editor (18/11/2026)
         errors.push(...validateRaiseRules(JSON.parse(await text('units/modules/raise_rules.json')))); // formazione di divisioni (19/11/2026)
+        errors.push(...validateHistoricalTechDates(JSON.parse(await text('research/historical_tech_dates.json')), JSON.parse(await text('research/technologies.json')))); // tecnologie dell'IA alle date storiche (19/11/2026)
         { // illustrazioni delle unità (18/11/2026): ogni file elencato esiste, ogni battaglione punta a un'illustrazione nota
           const art = JSON.parse(await text('assets/unit_illustrations.json'));
           const ids = new Set();

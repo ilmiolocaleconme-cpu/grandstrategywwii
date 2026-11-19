@@ -290,6 +290,66 @@
         "soft": 70,
         "hard": 120,
         "armor": 1.6
+      },
+      "TNK-USSR-T26-1940": {
+        "soft": 30,
+        "hard": 15,
+        "armor": 0.6
+      },
+      "TNK-USSR-BT-1940": {
+        "soft": 35,
+        "hard": 30,
+        "armor": 0.6
+      },
+      "TNK-USSR-T34-1940": {
+        "soft": 60,
+        "hard": 55,
+        "armor": 1.25
+      },
+      "TNK-USSR-KV-1940": {
+        "soft": 65,
+        "hard": 55,
+        "armor": 1.6
+      },
+      "TNK-USSR-T60-1941": {
+        "soft": 15,
+        "hard": 4,
+        "armor": 0.4
+      },
+      "TNK-USSR-T70-1942": {
+        "soft": 25,
+        "hard": 18,
+        "armor": 0.6
+      },
+      "TNK-USSR-T34-85-1944": {
+        "soft": 65,
+        "hard": 85,
+        "armor": 1.3
+      },
+      "TNK-USSR-IS2-1944": {
+        "soft": 90,
+        "hard": 100,
+        "armor": 1.8
+      },
+      "TD-USSR-SU76-1943": {
+        "soft": 40,
+        "hard": 35,
+        "armor": 0.35
+      },
+      "TD-USSR-SU85-1943": {
+        "soft": 30,
+        "hard": 80,
+        "armor": 1.1
+      },
+      "TD-USSR-SU100-1944": {
+        "soft": 35,
+        "hard": 105,
+        "armor": 1.2
+      },
+      "TD-USSR-ISU152-1943": {
+        "soft": 95,
+        "hard": 90,
+        "armor": 1.5
       }
     },
     "fleetMix": {
@@ -469,7 +529,8 @@
     "sovietFleetRationale": "Corazzate sovietiche (18/11/2026, decisione dell'utente): il template TPL-USSR-ARM-1940 è l'organico teorico (63 KV, 210 T-34). I carri con cui una divisione NASCE seguono il parco reale dell'anno: nel giugno 1941 i T-34 e i KV erano circa 1.400 su oltre 20.000 carri, quindi nei posti di T-34 e KV la divisione del 1941 ha in maggioranza BT e T-26 (25% T-34, 30% KV). I carri arrivati dopo dalla produzione restano registrati per modello (un T-34 prodotto è un T-34). Quote a memoria, da verificare.",
     "vehicleRationale": "Veicoli (18/11/2026): gli autocarri non sparano (nessun peso) ma decidono la velocità di marcia; il semicingolato Sd.Kfz. 251 vale 6/0,3 per la mitragliatrice di bordo. La quota corazzata resta quella della categoria (meccanizzata 0,4).",
     "tankDestroyerRationale": "Cacciacarri e cannoni d'assalto (18/11/2026): pesati per modello come i carri (`tankModels`). Lo StuG corto vale come un Pz IV corto; i cacciacarri aperti (Panzerjäger I, Marder) colpiscono forte ma sono poco corazzati. Nelle divisioni corazzate entrano nella corazza media insieme ai carri. Valori: stime di Claude.",
-    "antiAirRationale": "19/11/2026: la contraerea pesante (8,8 cm) usata anche contro i carri; quella leggera resta come prima. Autoblindo: armi leggere su ruote. Stime di Claude."
+    "antiAirRationale": "19/11/2026: la contraerea pesante (8,8 cm) usata anche contro i carri; quella leggera resta come prima. Autoblindo: armi leggere su ruote. Stime di Claude.",
+    "ussrRationale": "19/11/2026: modelli sovietici pesati per modello come i panzer (stime di Claude). T-34 e KV come prima per ruolo (medio 55/45/1,0, pesante 80/80/1,35) ma con la corazza inclinata (T-34 1,25) e la corazza spessa (KV 1,6)."
   },
   "cohesion": {
     "lossBase": 8,

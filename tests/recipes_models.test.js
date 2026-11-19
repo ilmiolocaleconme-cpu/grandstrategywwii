@@ -53,9 +53,10 @@ test('date di inizio produzione: nessun modello futuro prima della sua data, ste
   assert.equal(defaultEquipmentRecipe(recipes, 'USA', 'FCT-ARTILLERY', table, new Set(), '1936-01-01').equipmentId, 'ART-USA-GUN75-1940');
   // le ricette iniziali di tutte le nazioni sono disponibili al 1/1/1936
   const ind = json('industry/initial_industry.json');
+  const initial = json('research/technologies.json').initialResearch; // 19/11/2026: T-26 e BT richiedono il 45 mm, che l'URSS ha già all'inizio
   for (const [n, v] of Object.entries(ind.nations)) for (const f of v.facilities ?? []) {
     const r = recipes.get(f.recipeId);
-    if (r) assert.ok(recipeUnlocked(table, r, new Set(), '1936-01-01'), `${n}: ${f.recipeId} non disponibile nel 1936`);
+    if (r) assert.ok(recipeUnlocked(table, r, new Set(initial[n] ?? []), '1936-01-01'), `${n}: ${f.recipeId} non disponibile nel 1936`);
   }
 });
 

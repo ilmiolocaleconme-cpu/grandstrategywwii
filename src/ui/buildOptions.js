@@ -129,14 +129,18 @@ export function upgradeOptions(state, nationId, { build, catalog, economy, provi
     const level = f.level ?? 1;
     if (level >= max) continue;
     const key = `${f.type}|${f.recipeId}|${level}`;
-    const g = groups.get(key) ?? { factory, level, count: 0, first: null };
+    const g = groups.get(key) ?? { key, factory, level, recipeId: f.recipeId, count: 0, first: null };
     g.count += 1;
     if (!g.first && !queued.has(f.id)) g.first = f;
     groups.set(key, g);
   }
   const out = [];
+  // più gruppi della stessa fabbrica e livello (impianti con ricette diverse, 19/11/2026): l'etichetta dice anche cosa producono
+  const same = new Map();
+  for (const g of groups.values()) same.set(`${g.factory.factory_id ?? g.factory.name_it}|${g.level}`, (same.get(`${g.factory.factory_id ?? g.factory.name_it}|${g.level}`) ?? 0) + 1);
   for (const g of groups.values()) {
-    const base = { label: `${g.factory.name_it}: ${levelName(catalog, g.level)} → ${levelName(catalog, g.level + 1)}`, detail: `${g.count} ${g.count === 1 ? 'impianto' : 'impianti'} a questo livello`, count: g.count };
+    const what = same.get(`${g.factory.factory_id ?? g.factory.name_it}|${g.level}`) > 1 ? ` (${catalog.recipeName?.(g.recipeId) || String(g.recipeId ?? '').replace(/^REC-/, '')})` : '';
+    const base = { key: g.key, label: `${g.factory.name_it}${what}: ${levelName(catalog, g.level)} → ${levelName(catalog, g.level + 1)}`, detail: `${g.count} ${g.count === 1 ? 'impianto' : 'impianti'} a questo livello`, count: g.count };
     const cost = upgradeCost(economy, g.factory, g.level, catalog.levels, state.difficulty);
     if (!g.first) { out.push({ ...base, order: null, cost, ok: false, message: 'Tutti questi impianti sono già in lavori' }); continue; }
     const order = { kind: 'upgrade', facilityId: g.first.id };

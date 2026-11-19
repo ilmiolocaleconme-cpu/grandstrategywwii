@@ -173,6 +173,8 @@ import { ProvinceBuild, EconomyPanel } from './ui/BuildPanel.jsx';
 import { ResearchPanel, SecurityPanel } from './ui/SecurityPanel.jsx';
 import { securitySummary, sabotageRows, describeOrderFailure } from './ui/securityView.js';
 import { createResearch, techsOf } from './game/research.js';
+import historicalTechFile from '../data/research/historical_tech_dates.json';
+import { createHistoricalTechSystem } from './game/historicalTech.js';
 import { setFacilityRecipe } from './game/facilityRecipe.js';
 import { facilityRecipeRows } from './ui/recipeView.js';
 import { createInfraIndex, infraNet, applyLinkLevels } from './data/infrastructure.js';
@@ -354,7 +356,7 @@ const economyData = withEquipmentPrices(economyFile, EQUIPMENT_RECIPES, equipmen
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding, research: technologiesFile.initialResearch ?? null };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-const GAME_CATALOG = { levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
+const GAME_CATALOG = { recipeName: (id) => EQUIPMENT_NAMES.get(String(id).replace(/^REC-/, "")) ?? null, levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Strade e ferrovie in partita (data/infrastructure.js): collegamenti tra province madri, livello di partenza e massimo; i miglioramenti sono ordini di costruzione 'infra'.
 const GAME_PORTS = { levels: portLevelsFile, coastal: coastalCitiesFile.cities, base: portsBaseFile };
 const GAME_INFRA = { config: infraConfig, index: createInfraIndex(linkEdgesFile) };
@@ -475,6 +477,7 @@ const GAME_SYSTEMS = [
   (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
+  createHistoricalTechSystem(historicalTechFile), // nazioni dell'IA: tecnologie alle date storiche (19/11/2026); il giocatore le ricerca
   GAME_SECURITY.securityDay,
   GAME_AI.aiDay,
   GAME_AI_TRADE.aiTradeDay,
