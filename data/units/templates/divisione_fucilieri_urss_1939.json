@@ -1,113 +1,331 @@
 {
-  "schema": "unit-template-v2",
+  "schema": "unit-template-v1",
   "id": "TPL-USSR-INF-1939",
   "status": "RECONSTRUCTED_TEMPLATE",
-  "note": "Generato da CSV (source/ussr_inf_template_1939.csv, source/ussr_inf_equipment_1939.csv, source/land_equipment_catalog_ussr_1939.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (USSR infantry division, serie Divisione di fucilieri); Divisione di fucilieri (generica, 1939) è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
   "appliesTo": {
     "nation": "USSR",
     "category": "infantry",
     "echelon": "division",
-    "validFrom": "1939-01-01"
+    "activeFrom": "1939-09-01"
   },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fucilieri (strelkovaja divizija) organico 1939: 3 reggimenti su 3 battaglioni con mortai e armi reggimentali, 2 reggimenti d'artiglieria (76, 122 e 152 mm), anticarro, contraerea, esplorante, genio e servizi; tarata sui numeri di ww2-weapons.com (243 DT, 174 Maxim, 72 AT 45, 42 cannoni da 76, 28 obici da 122, 12 da 152).",
   "formation": {
-    "value": "triangular"
+    "value": "divisione di fucilieri (strelkovaja divizija) organico 1939: 3 reggimenti su 3 battaglioni con mortai e armi reggimentali, 2 reggimenti d'artiglieria (76, 122 e 152 mm), anticarro, contraerea, esplorante, genio e servizi; tarata sui numeri di ww2-weapons.com (243 DT, 174 Maxim, 72 AT 45, 42 cannoni da 76, 28 obici da 122, 12 da 152)",
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "regimentsInfantry": {
-    "value": 3
-  },
+  "modules": [
+    {
+      "id": "MOD-USSR-STRELK",
+      "count": 9
+    },
+    {
+      "id": "MOD-USSR-POLK",
+      "count": 3
+    },
+    {
+      "id": "MOD-USSR-ART",
+      "count": 2
+    },
+    {
+      "id": "MOD-USSR-GAUB",
+      "count": 2
+    },
+    {
+      "id": "MOD-USSR-GAUB-HVY",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-PTO",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-ZENIT",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-RAZVED",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-SAPER",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-TYL",
+      "count": 1
+    }
+  ],
   "manpower": {
     "war": {
-      "value": 19000,
+      "value": 17970,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
     }
   },
   "horses": {
-    "value": null,
-    "reliability": "MISSING_DATA"
+    "value": 7650,
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
   },
   "equipment": {
-    "INW-USSR-RIFLE-1939": {
-      "value": null,
-      "reliability": "MISSING_DATA",
-      "note": "Nessuna quantità nelle righe di organico. Numero e modello dei fucili non indicati dalla fonte; non dedurre un fucile per ogni uomo."
-    },
-    "MG-USSR-HMG-1939": {
-      "value": 174,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fucilieri",
-      "note": "174 mitragliatrici pesanti Maxim da 7,62 mm. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+    "ART-USSR-AA37": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
-    "MG-USSR-LMG-1939": {
-      "value": 243,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fucilieri",
-      "note": "243 mitragliatrici leggere DT da 7,62 mm. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+    "ART-USSR-AA76": {
+      "value": 4,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-USSR-AT45-1939": {
       "value": 72,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fucilieri",
-      "note": "72 cannoni anticarro da 45 mm. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-USSR-GUN76-1939": {
-      "value": 42,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fucilieri",
-      "note": "42 pezzi da 76 mm; la fonte non distingue cannoni reggimentali da divisionali né il modello. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-GUN76-REGT": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-USSR-HOW122-1939": {
       "value": 28,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fucilieri",
-      "note": "28 obici da 122 mm; modello non indicato dalla fonte. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-USSR-HOW152-1939": {
       "value": 12,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fucilieri",
-      "note": "12 obici da 152 mm; modello non indicato dalla fonte. Fonte: https://www.ww2-weapons.com/red-army-1939 (tabella «Basic Red Army units», consultata il 10/11/2026).",
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR120": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR50": {
+      "value": 81,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR82": {
+      "value": 54,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-PISTOL-TT33": {
+      "value": 1550,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-RIFLE-1939": {
+      "value": 12170,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-SMG-PPD": {
+      "value": 90,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-HMG-1939": {
+      "value": 178,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-LMG-1939": {
+      "value": 273,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-GAZAA": {
+      "value": 150,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-ZIS5": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK, 3× MOD-USSR-POLK, 2× MOD-USSR-ART, 2× MOD-USSR-GAUB, 1× MOD-USSR-GAUB-HVY, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     }
   },
-  "metadata": {
-    "sourceTemplateId": "TPL-USSR-INF-RIFLE-1939",
-    "series": "Divisione di fucilieri",
-    "referenceDivision": "Divisione di fucilieri (generica, 1939)",
-    "referenceDate": "1939-01",
-    "sourceQuality": "SECONDARY_SINGLE_SOURCE",
-    "sourceNote": "Divisione di riferimento GENERICA (nessuna divisione numerata) della tabella 1939 di ww2-weapons.com: 3 reggimenti di fanteria da 2.900 uomini; totale 19.000 uomini (valore della tabella, usato come organico massimo). Organico iniziale e cavalli NON trovati: lasciati vuoti. Numero di fucili e modello NON indicati dalla fonte: non dedotti. Fonte unica e secondaria, non verificata su tabelle d'organico originali. Data: la pagina indica solo «1939», non il mese: si usa gennaio.",
-    "sourceFiles": [
-      {
-        "file": "source/ussr_inf_template_1939.csv",
-        "sha256": "8421dc7bde74f193a50cf26d6deb6ef929de92927600853c154bc1c87fd69cd2"
-      },
-      {
-        "file": "source/ussr_inf_equipment_1939.csv",
-        "sha256": "de69eb2faccdf366b61085ed3182d680c433c2fb8fba02c7ad5c80d4fad7529d"
-      },
-      {
-        "file": "source/land_equipment_catalog_ussr_1939.csv",
-        "sha256": "a0b1a52a5fb02f1481c877b5a22cd770c96897d0d703e3c55d023b755ac89899"
-      }
-    ]
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
   }
 }

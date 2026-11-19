@@ -896,6 +896,34 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-AA37",
+      "nation": "USSR",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 37,
+      "designation": "Cannone contraereo da 37 mm mod. 1939 (61-K)",
+      "name_it": "Contraerea leggera da 37 mm 61-K",
+      "role": "light_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-AA76",
+      "nation": "USSR",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 76.2,
+      "designation": "Cannone contraereo da 76 mm mod. 1931/1938 (3-K)",
+      "name_it": "Contraerea da 76 mm 3-K",
+      "role": "heavy_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -1198,6 +1226,16 @@
       "nation": "USSR",
       "templateKey": "VEH-USSR-MOTO",
       "equipment_id": "VEH-USSR-MOTO"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-AA37",
+      "equipment_id": "ART-USSR-AA37"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-AA76",
+      "equipment_id": "ART-USSR-AA76"
     }
   ]
 }

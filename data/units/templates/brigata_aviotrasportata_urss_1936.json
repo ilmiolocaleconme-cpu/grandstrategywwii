@@ -1,0 +1,182 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-USSR-ABN-1936",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "USSR",
+    "category": "airborne",
+    "echelon": "brigade",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. brigata aviotrasportata (aviadesantnaja brigada) 1936: 4 battaglioni paracadutisti e servizi leggeri; il lancio non è simulato, combattono come fanteria leggera.",
+  "formation": {
+    "value": "brigata aviotrasportata (aviadesantnaja brigada) 1936: 4 battaglioni paracadutisti e servizi leggeri; il lancio non è simulato, combattono come fanteria leggera",
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-USSR-DESANT",
+      "count": 4
+    },
+    {
+      "id": "MOD-USSR-TYL-LEGK",
+      "count": 1
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 3500,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 700,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-USSR-MOR82": {
+      "value": 16,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-PISTOL-TT33": {
+      "value": 360,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-RIFLE-1939": {
+      "value": 2450,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-SMG-PPD": {
+      "value": 160,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-HMG-1939": {
+      "value": 16,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-LMG-1939": {
+      "value": 120,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-GAZAA": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-ZIS5": {
+      "value": 10,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-DESANT, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

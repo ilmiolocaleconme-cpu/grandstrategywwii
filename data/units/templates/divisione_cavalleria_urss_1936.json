@@ -1,0 +1,250 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-USSR-CAV-1936",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "USSR",
+    "category": "cavalry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di cavalleria (kavalerijskaja divizija) 1936: 4 reggimenti di cavalleria, un battaglione di carri BT, artiglieria a cavallo.",
+  "formation": {
+    "value": "divisione di cavalleria (kavalerijskaja divizija) 1936: 4 reggimenti di cavalleria, un battaglione di carri BT, artiglieria a cavallo",
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-USSR-KAV-POLK",
+      "count": 4
+    },
+    {
+      "id": "MOD-USSR-TANK-BT",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-KONNO-ART",
+      "count": 2
+    },
+    {
+      "id": "MOD-USSR-ZENIT-1936",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-SAPER",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-TYL-LEGK",
+      "count": 1
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 7350,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 6660,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-USSR-AA76": {
+      "value": 4,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-AT45-1939": {
+      "value": 16,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-GUN76-1939": {
+      "value": 16,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-GUN76-REGT": {
+      "value": 16,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-HOW122-1939": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-PISTOL-TT33": {
+      "value": 810,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-RIFLE-1939": {
+      "value": 5030,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-HMG-1939": {
+      "value": 76,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-LMG-1939": {
+      "value": 105,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-USSR-BT-1940": {
+      "value": 54,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-GAZAA": {
+      "value": 65,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-ZIS5": {
+      "value": 10,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-USSR-KAV-POLK, 1× MOD-USSR-TANK-BT, 2× MOD-USSR-KONNO-ART, 1× MOD-USSR-ZENIT-1936, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-LEGK). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

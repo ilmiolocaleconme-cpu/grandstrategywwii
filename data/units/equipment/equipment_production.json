@@ -643,6 +643,13 @@
     },
     "VEH-USSR-MOTO": {
       "massTonnes": 0.35
+    },
+    "ART-USSR-AA37": {
+      "massTonnes": 2.1,
+      "availableFrom": "1939-01-01"
+    },
+    "ART-USSR-AA76": {
+      "massTonnes": 3.65
     }
   },
   "priceFactor": 1.25

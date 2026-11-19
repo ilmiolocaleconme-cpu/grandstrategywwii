@@ -1,0 +1,314 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-USSR-INF-1942",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "USSR",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1942-03-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fucilieri organico 1942 (dopo le perdite del 1941): battaglioni ridotti con PPSh-41 e più mortai, un solo reggimento d'artiglieria, servizi ridotti.",
+  "formation": {
+    "value": "divisione di fucilieri organico 1942 (dopo le perdite del 1941): battaglioni ridotti con PPSh-41 e più mortai, un solo reggimento d'artiglieria, servizi ridotti",
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-USSR-STRELK-1942",
+      "count": 9
+    },
+    {
+      "id": "MOD-USSR-POLK",
+      "count": 3
+    },
+    {
+      "id": "MOD-USSR-ART",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-GAUB",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-PTO",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-ZENIT",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-RAZVED",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-SAPER",
+      "count": 1
+    },
+    {
+      "id": "MOD-USSR-TYL-1942",
+      "count": 1
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 13630,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 4960,
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-USSR-AA37": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-AA76": {
+      "value": 4,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-AT45-1939": {
+      "value": 54,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-GUN76-1939": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-GUN76-REGT": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-HOW122-1939": {
+      "value": 14,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR120": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR50": {
+      "value": 54,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR82": {
+      "value": 81,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-PISTOL-TT33": {
+      "value": 1130,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-RIFLE-1939": {
+      "value": 8490,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-SMG-PPSH41": {
+      "value": 900,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-HMG-1939": {
+      "value": 124,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-LMG-1939": {
+      "value": 243,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-GAZAA": {
+      "value": 90,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-ZIS5": {
+      "value": 15,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USSR-STRELK-1942, 3× MOD-USSR-POLK, 1× MOD-USSR-ART, 1× MOD-USSR-GAUB, 1× MOD-USSR-PTO, 1× MOD-USSR-ZENIT, 1× MOD-USSR-RAZVED, 1× MOD-USSR-SAPER, 1× MOD-USSR-TYL-1942). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

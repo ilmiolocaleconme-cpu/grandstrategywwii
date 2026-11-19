@@ -168,9 +168,12 @@ test('segnaposto fucilieri URSS: 46 divisioni anonime inattive, 2 per corpo, tem
   assert.equal(ph.filter((u) => u.corps === '1° Corpo fucilieri').length, 2);
   assert.equal(new Set(ph.map((u) => u.corps)).size, 23);
   assert.equal(countActive(doc.units, '1936-01-01').USSR.infantry, 15, 'i segnaposto non entrano nel conteggio');
+  // 19/11/2026 (decisione dell'utente «Tutto dai battaglioni»): il template 1936 non è più un segnaposto DA_DEFINIRE ma la somma dei battaglioni
+  // di data/units/modules/modules_ussr.json; i numeri sono stime dichiarate (ESTIMATED, basis «ipotesi»), non dati presentati come certi.
   const tpl = json('units/templates/divisione_fucilieri_urss_1936.json');
-  assert.equal(tpl.status, 'DA_DEFINIRE');
-  assert.ok([tpl.manpowerPeace, tpl.manpowerWar, tpl.regimentsInfantry, ...Object.values(tpl.equipmentCategories)].every((v) => v === null), 'nessun valore inventato');
+  assert.equal(tpl.id, 'TPL-USSR-RIFLE-1936', 'stesso id: i salvataggi e i quadri del 1936 restano validi');
+  assert.equal(tpl.status, 'RECONSTRUCTED_TEMPLATE');
+  assert.ok(Object.values(tpl.equipment).every((v) => v.reliability === 'ESTIMATED' && v.basis === 'ipotesi'), 'stime dichiarate come tali');
   const two = makeDivisionPlaceholders({ nation: 'USSR', idPrefix: 'S36-USSR-F', namePrefix: 'X', category: 'infantry', variant: 'rifle', corps: ['a', 'b'], perCorps: 3, startYear: 1936, reason: 'r' });
   assert.deepEqual(two.map((u) => u.corps), ['a', 'a', 'a', 'b', 'b', 'b']);
   assert.equal(two[5].id, 'S36-USSR-F-006');

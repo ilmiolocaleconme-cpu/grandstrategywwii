@@ -41,6 +41,8 @@
       "lines": "ussr_inf_equipment_1939.csv",
       "catalog": "land_equipment_catalog_ussr_1939.csv",
       "output": "divisione_fucilieri_urss_1939.json",
+      "templateOutput": false,
+      "templateOutputNote": "19/11/2026, decisione dell'utente «Tutto dai battaglioni»: il CSV genera solo il catalogo sovietico; il template TPL-USSR-INF-1939 (stesso id) è la somma dei battaglioni di data/units/modules/modules_ussr.json, tarata sui numeri di questo CSV.",
       "granularityOverrides": {
         "USSR-RIFLE-1939": "class"
       }

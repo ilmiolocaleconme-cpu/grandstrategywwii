@@ -24,7 +24,8 @@ export async function templatesBuilt() {
     const [template, lines, catalog] = [await read(set.template), await read(set.lines), await read(set.catalog)];
     const built = buildDivisionSet({ template, lines, catalog, overrides: set.granularityOverrides ?? {}, sourceFiles: files });
     if (templates[set.output]) throw new Error(`manifesto: output duplicato ${set.output}`);
-    templates[set.output] = built.template;
+    // templateOutput: false (19/11/2026, URSS «tutto dai battaglioni»): il set genera solo il catalogo; il template lo scrive scripts/build-module-templates.js
+    if (set.templateOutput !== false) templates[set.output] = built.template;
     const nation = built.template.appliesTo.nation;
     if (!byNation.has(nation)) byNation.set(nation, { sets: [], files: [] });
     byNation.get(nation).sets.push(built); byNation.get(nation).files.push(...files);

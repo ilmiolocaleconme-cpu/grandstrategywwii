@@ -1,0 +1,1051 @@
+{
+  "schema": "battalion-modules-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-19",
+  "note": "Battaglioni sovietici (19/11/2026, decisione dell'utente «Tutto dai battaglioni»: anche i template dei fucilieri sono la somma dei battaglioni). Nomi russi traslitterati (name_ru) con traduzione italiana. Organici STIMATI da Claude dalla memoria, NON verificati; la divisione di fucilieri del 1939 è tarata sui numeri con fonte del vecchio CSV (ww2-weapons.com). Mancano: fucili anticarro PTRD/PTRS e mortai da 107 mm (non nel catalogo). Illustrazioni generiche con insegne tedesche.",
+  "modules": [
+    {
+      "id": "MOD-USSR-STRELK-1936",
+      "nation": "USSR",
+      "type": "infantry",
+      "name_ru": "Strelkovyj batal'on (1936)",
+      "name_it": "Battaglione fucilieri (1936)",
+      "men": 780,
+      "horses": 60,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 600,
+        "INW-USSR-PISTOL-TT33": 40,
+        "MG-USSR-LMG-1939": 18,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-AT45-1939": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-STRELK",
+      "nation": "USSR",
+      "type": "infantry",
+      "name_ru": "Strelkovyj batal'on",
+      "name_it": "Battaglione fucilieri (organico 1939)",
+      "men": 820,
+      "horses": 70,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 620,
+        "INW-USSR-PISTOL-TT33": 50,
+        "INW-USSR-SMG-PPD": 10,
+        "MG-USSR-LMG-1939": 27,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-MOR50": 9,
+        "ART-USSR-MOR82": 6,
+        "ART-USSR-AT45-1939": 4
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-STRELK-1941",
+      "nation": "USSR",
+      "type": "infantry",
+      "name_ru": "Strelkovyj batal'on (1941)",
+      "name_it": "Battaglione fucilieri (organico aprile 1941)",
+      "men": 750,
+      "horses": 50,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 520,
+        "INW-USSR-PISTOL-TT33": 50,
+        "INW-USSR-SMG-PPD": 50,
+        "MG-USSR-LMG-1939": 27,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-MOR50": 9,
+        "ART-USSR-MOR82": 6,
+        "ART-USSR-AT45-1939": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1941-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-STRELK-1942",
+      "nation": "USSR",
+      "type": "infantry",
+      "name_ru": "Strelkovyj batal'on (1942)",
+      "name_it": "Battaglione fucilieri (organico 1942)",
+      "men": 650,
+      "horses": 40,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 400,
+        "INW-USSR-PISTOL-TT33": 40,
+        "INW-USSR-SMG-PPSH41": 100,
+        "MG-USSR-LMG-1939": 24,
+        "MG-USSR-HMG-1939": 6,
+        "ART-USSR-MOR50": 6,
+        "ART-USSR-MOR82": 9,
+        "ART-USSR-AT45-1939": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1942-01-01",
+      "requiresTech": "TECH-INF-EMERG",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-POLK-1936",
+      "nation": "USSR",
+      "type": "support",
+      "name_ru": "Polkovye batarei (1936)",
+      "name_it": "Armi reggimentali e servizi di reggimento (1936)",
+      "men": 900,
+      "horses": 450,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 600,
+        "INW-USSR-PISTOL-TT33": 80,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-GUN76-REGT": 6,
+        "ART-USSR-AT45-1939": 6
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-POLK",
+      "nation": "USSR",
+      "type": "support",
+      "name_ru": "Polkovye batarei",
+      "name_it": "Armi reggimentali e servizi di reggimento (organico 1939)",
+      "men": 1100,
+      "horses": 550,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 700,
+        "INW-USSR-PISTOL-TT33": 100,
+        "MG-USSR-HMG-1939": 18,
+        "ART-USSR-GUN76-REGT": 6,
+        "ART-USSR-AT45-1939": 6,
+        "ART-USSR-MOR120": 4
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "availableFrom": "1939-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-ART",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Legkij artillerijskij divizion",
+      "name_it": "Gruppo di artiglieria leggera (76 mm, ippotrainato)",
+      "men": 500,
+      "horses": 520,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 250,
+        "INW-USSR-PISTOL-TT33": 60,
+        "ART-USSR-GUN76-1939": 12
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-GAUB",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Gaubichnyj divizion",
+      "name_it": "Gruppo di obici da 122 mm (ippotrainato)",
+      "men": 560,
+      "horses": 600,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 270,
+        "INW-USSR-PISTOL-TT33": 60,
+        "ART-USSR-HOW122-1939": 14
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-GAUB-HVY",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Tjazhelyj gaubichnyj divizion",
+      "name_it": "Gruppo di obici pesanti da 152 mm",
+      "men": 600,
+      "horses": 700,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 280,
+        "INW-USSR-PISTOL-TT33": 60,
+        "ART-USSR-HOW152-1939": 12
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-PTO",
+      "nation": "USSR",
+      "type": "anti_tank",
+      "name_ru": "Otdel'nyj protivotankovyj divizion",
+      "name_it": "Gruppo anticarro divisionale (45 mm)",
+      "men": 300,
+      "horses": 150,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 150,
+        "INW-USSR-PISTOL-TT33": 30,
+        "ART-USSR-AT45-1939": 18
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-ZENIT-1936",
+      "nation": "USSR",
+      "type": "anti_air",
+      "name_ru": "Zenitnyj divizion (1936)",
+      "name_it": "Gruppo contraereo (1936)",
+      "men": 250,
+      "horses": 60,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 120,
+        "INW-USSR-PISTOL-TT33": 30,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-AA76": 4,
+        "VEH-USSR-GAZAA": 10
+      },
+      "mobility": "foot",
+      "illustration": "contraerea",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-ZENIT",
+      "nation": "USSR",
+      "type": "anti_air",
+      "name_ru": "Zenitnyj divizion",
+      "name_it": "Gruppo contraereo (37 e 76 mm)",
+      "men": 350,
+      "horses": 80,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 170,
+        "INW-USSR-PISTOL-TT33": 40,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-AA37": 8,
+        "ART-USSR-AA76": 4,
+        "VEH-USSR-GAZAA": 20
+      },
+      "mobility": "foot",
+      "illustration": "contraerea",
+      "availableFrom": "1939-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-RAZVED",
+      "nation": "USSR",
+      "type": "recon",
+      "name_ru": "Razvedyvatel'nyj batal'on",
+      "name_it": "Battaglione esplorante (squadrone a cavallo)",
+      "men": 450,
+      "horses": 300,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 330,
+        "INW-USSR-PISTOL-TT33": 40,
+        "MG-USSR-LMG-1939": 12,
+        "MG-USSR-HMG-1939": 4
+      },
+      "mobility": "foot",
+      "illustration": "cavalleria",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-SAPER",
+      "nation": "USSR",
+      "type": "engineer",
+      "name_ru": "Sapernyj batal'on",
+      "name_it": "Battaglione genio",
+      "men": 520,
+      "horses": 100,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 420,
+        "INW-USSR-PISTOL-TT33": 40,
+        "MG-USSR-LMG-1939": 9,
+        "VEH-USSR-GAZAA": 10
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TYL",
+      "nation": "USSR",
+      "type": "support",
+      "name_ru": "Tylovye sluzhby i svjaz'",
+      "name_it": "Servizi divisionali e collegamenti (ippotrainati)",
+      "men": 2950,
+      "horses": 1800,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 2100,
+        "INW-USSR-PISTOL-TT33": 350,
+        "MG-USSR-LMG-1939": 9,
+        "VEH-USSR-GAZAA": 120,
+        "VEH-USSR-ZIS5": 30
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TYL-1942",
+      "nation": "USSR",
+      "type": "support",
+      "name_ru": "Tylovye sluzhby i svjaz' (1942)",
+      "name_it": "Servizi divisionali ridotti (1942)",
+      "men": 1800,
+      "horses": 1200,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 1200,
+        "INW-USSR-PISTOL-TT33": 200,
+        "MG-USSR-LMG-1939": 6,
+        "VEH-USSR-GAZAA": 60,
+        "VEH-USSR-ZIS5": 15
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "availableFrom": "1942-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TYL-LEGK",
+      "nation": "USSR",
+      "type": "support",
+      "name_ru": "Tylovye sluzhby (legkie)",
+      "name_it": "Servizi leggeri (montagna, cavalleria, aviotrasportati)",
+      "men": 900,
+      "horses": 700,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 650,
+        "INW-USSR-PISTOL-TT33": 120,
+        "VEH-USSR-GAZAA": 30,
+        "VEH-USSR-ZIS5": 10
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-MOT-STRELK",
+      "nation": "USSR",
+      "type": "motorized_infantry",
+      "name_ru": "Motostrelkovyj batal'on",
+      "name_it": "Battaglione fucilieri motorizzato",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 600,
+        "INW-USSR-PISTOL-TT33": 50,
+        "INW-USSR-SMG-PPD": 20,
+        "MG-USSR-LMG-1939": 27,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-MOR50": 9,
+        "ART-USSR-MOR82": 6,
+        "ART-USSR-AT45-1939": 4,
+        "VEH-USSR-ZIS5": 55
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-ART-MOT",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Artillerijskij divizion (mech. tjaga)",
+      "name_it": "Gruppo di artiglieria a traino meccanico",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 230,
+        "INW-USSR-PISTOL-TT33": 60,
+        "ART-USSR-GUN76-1939": 12,
+        "VEH-USSR-ZIS5": 30
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-GAUB-MOT",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Gaubichnyj divizion (mech. tjaga)",
+      "name_it": "Gruppo di obici a traino meccanico (122 e 152 mm)",
+      "men": 500,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 250,
+        "INW-USSR-PISTOL-TT33": 60,
+        "ART-USSR-HOW122-1939": 8,
+        "ART-USSR-HOW152-1939": 4,
+        "VEH-USSR-ZIS5": 40
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-PTO-MOT",
+      "nation": "USSR",
+      "type": "anti_tank",
+      "name_ru": "Protivotankovyj divizion (mech. tjaga)",
+      "name_it": "Gruppo anticarro motorizzato (45 mm)",
+      "men": 300,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 150,
+        "INW-USSR-PISTOL-TT33": 30,
+        "ART-USSR-AT45-1939": 18,
+        "VEH-USSR-GAZAA": 24
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-RAZVED-MOT",
+      "nation": "USSR",
+      "type": "recon",
+      "name_ru": "Razvedyvatel'nyj batal'on (mot.)",
+      "name_it": "Battaglione esplorante motorizzato (autoblindo BA-10)",
+      "men": 350,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 220,
+        "INW-USSR-PISTOL-TT33": 40,
+        "MG-USSR-LMG-1939": 12,
+        "VEH-USSR-BA10": 10,
+        "VEH-USSR-MOTO": 30,
+        "VEH-USSR-GAZAA": 20
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-MOTOCIKL",
+      "nation": "USSR",
+      "type": "motorized_infantry",
+      "name_ru": "Motociklnyj batal'on",
+      "name_it": "Battaglione motociclisti",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 420,
+        "INW-USSR-PISTOL-TT33": 50,
+        "MG-USSR-LMG-1939": 27,
+        "MG-USSR-HMG-1939": 6,
+        "ART-USSR-MOR50": 6,
+        "VEH-USSR-MOTO": 150,
+        "VEH-USSR-GAZAA": 15
+      },
+      "mobility": "motorized",
+      "illustration": "ricognizione_motocicletta",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-SAPER-MOT",
+      "nation": "USSR",
+      "type": "engineer",
+      "name_ru": "Sapernyj batal'on (mot.)",
+      "name_it": "Battaglione genio motorizzato",
+      "men": 520,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 420,
+        "INW-USSR-PISTOL-TT33": 40,
+        "MG-USSR-LMG-1939": 9,
+        "VEH-USSR-ZIS5": 30
+      },
+      "mobility": "motorized",
+      "illustration": "genio",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TYL-MOT",
+      "nation": "USSR",
+      "type": "support",
+      "name_ru": "Tylovye sluzhby (mot.)",
+      "name_it": "Servizi divisionali motorizzati",
+      "men": 2000,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 1400,
+        "INW-USSR-PISTOL-TT33": 250,
+        "VEH-USSR-GAZAA": 150,
+        "VEH-USSR-ZIS5": 250
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "divisional": true,
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TANK-BT",
+      "nation": "USSR",
+      "type": "tank",
+      "name_ru": "Tankovyj batal'on (BT)",
+      "name_it": "Battaglione carri veloci BT",
+      "men": 380,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-PISTOL-TT33": 200,
+        "TNK-USSR-BT-1940": 54,
+        "VEH-USSR-GAZAA": 15
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TANK-T26",
+      "nation": "USSR",
+      "type": "tank",
+      "name_ru": "Tankovyj batal'on (T-26)",
+      "name_it": "Battaglione carri leggeri T-26",
+      "men": 380,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-PISTOL-TT33": 200,
+        "TNK-USSR-T26-1940": 54,
+        "VEH-USSR-GAZAA": 15
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-GORN-STRELK",
+      "nation": "USSR",
+      "type": "mountain_infantry",
+      "name_ru": "Gorno-strelkovyj batal'on",
+      "name_it": "Battaglione fucilieri da montagna",
+      "men": 700,
+      "horses": 150,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 520,
+        "INW-USSR-PISTOL-TT33": 40,
+        "MG-USSR-LMG-1939": 18,
+        "MG-USSR-HMG-1939": 8,
+        "ART-USSR-MOR50": 6,
+        "ART-USSR-MOR82": 6
+      },
+      "mobility": "foot",
+      "illustration": "alpini",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-GORN-ART",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Gornyj artillerijskij divizion",
+      "name_it": "Gruppo di artiglieria da montagna (someggiato)",
+      "men": 450,
+      "horses": 500,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 220,
+        "INW-USSR-PISTOL-TT33": 50,
+        "ART-USSR-GUN76-REGT": 12
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-KAV-POLK",
+      "nation": "USSR",
+      "type": "cavalry",
+      "name_ru": "Kavalerijskij polk",
+      "name_it": "Reggimento di cavalleria",
+      "men": 1100,
+      "horses": 1150,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 850,
+        "INW-USSR-PISTOL-TT33": 80,
+        "MG-USSR-LMG-1939": 24,
+        "MG-USSR-HMG-1939": 16,
+        "ART-USSR-AT45-1939": 4,
+        "ART-USSR-GUN76-REGT": 4
+      },
+      "mobility": "foot",
+      "illustration": "cavalleria",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-KONNO-ART",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Konno-artillerijskij divizion",
+      "name_it": "Gruppo di artiglieria a cavallo",
+      "men": 450,
+      "horses": 600,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 220,
+        "INW-USSR-PISTOL-TT33": 50,
+        "ART-USSR-GUN76-1939": 8,
+        "ART-USSR-HOW122-1939": 4
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-DESANT",
+      "nation": "USSR",
+      "type": "airborne_infantry",
+      "name_ru": "Parashjutno-desantnyj batal'on",
+      "name_it": "Battaglione paracadutisti",
+      "men": 650,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 450,
+        "INW-USSR-PISTOL-TT33": 60,
+        "INW-USSR-SMG-PPD": 40,
+        "MG-USSR-LMG-1939": 30,
+        "MG-USSR-HMG-1939": 4,
+        "ART-USSR-MOR82": 4
+      },
+      "mobility": "foot",
+      "illustration": "paracadutisti",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    }
+  ],
+  "compositions": [
+    {
+      "templateId": "TPL-USSR-RIFLE-1936",
+      "file": "divisione_fucilieri_urss_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione di fucilieri (strelkovaja divizija) 1936: 3 reggimenti su 3 battaglioni, un reggimento d'artiglieria (76 e 122 mm), anticarro, contraerea, esplorante, genio e servizi ippotrainati",
+      "modules": [
+        [
+          "MOD-USSR-STRELK-1936",
+          9
+        ],
+        [
+          "MOD-USSR-POLK-1936",
+          3
+        ],
+        [
+          "MOD-USSR-ART",
+          1
+        ],
+        [
+          "MOD-USSR-GAUB",
+          1
+        ],
+        [
+          "MOD-USSR-PTO",
+          1
+        ],
+        [
+          "MOD-USSR-ZENIT-1936",
+          1
+        ],
+        [
+          "MOD-USSR-RAZVED",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-INF-1939",
+      "file": "divisione_fucilieri_urss_1939.json",
+      "category": "infantry",
+      "activeFrom": "1939-09-01",
+      "formation": "divisione di fucilieri (strelkovaja divizija) organico 1939: 3 reggimenti su 3 battaglioni con mortai e armi reggimentali, 2 reggimenti d'artiglieria (76, 122 e 152 mm), anticarro, contraerea, esplorante, genio e servizi; tarata sui numeri di ww2-weapons.com (243 DT, 174 Maxim, 72 AT 45, 42 cannoni da 76, 28 obici da 122, 12 da 152)",
+      "modules": [
+        [
+          "MOD-USSR-STRELK",
+          9
+        ],
+        [
+          "MOD-USSR-POLK",
+          3
+        ],
+        [
+          "MOD-USSR-ART",
+          2
+        ],
+        [
+          "MOD-USSR-GAUB",
+          2
+        ],
+        [
+          "MOD-USSR-GAUB-HVY",
+          1
+        ],
+        [
+          "MOD-USSR-PTO",
+          1
+        ],
+        [
+          "MOD-USSR-ZENIT",
+          1
+        ],
+        [
+          "MOD-USSR-RAZVED",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-INF-1941",
+      "file": "divisione_fucilieri_urss_1941.json",
+      "category": "infantry",
+      "activeFrom": "1941-04-01",
+      "formation": "divisione di fucilieri organico aprile 1941 (shtat 04/400): battaglioni più leggeri con più pistole mitragliatrici, artiglieria come nel 1939",
+      "modules": [
+        [
+          "MOD-USSR-STRELK-1941",
+          9
+        ],
+        [
+          "MOD-USSR-POLK",
+          3
+        ],
+        [
+          "MOD-USSR-ART",
+          2
+        ],
+        [
+          "MOD-USSR-GAUB",
+          1
+        ],
+        [
+          "MOD-USSR-GAUB-HVY",
+          1
+        ],
+        [
+          "MOD-USSR-PTO",
+          1
+        ],
+        [
+          "MOD-USSR-ZENIT",
+          1
+        ],
+        [
+          "MOD-USSR-RAZVED",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-INF-1942",
+      "file": "divisione_fucilieri_urss_1942.json",
+      "category": "infantry",
+      "activeFrom": "1942-03-01",
+      "formation": "divisione di fucilieri organico 1942 (dopo le perdite del 1941): battaglioni ridotti con PPSh-41 e più mortai, un solo reggimento d'artiglieria, servizi ridotti",
+      "modules": [
+        [
+          "MOD-USSR-STRELK-1942",
+          9
+        ],
+        [
+          "MOD-USSR-POLK",
+          3
+        ],
+        [
+          "MOD-USSR-ART",
+          1
+        ],
+        [
+          "MOD-USSR-GAUB",
+          1
+        ],
+        [
+          "MOD-USSR-PTO",
+          1
+        ],
+        [
+          "MOD-USSR-ZENIT",
+          1
+        ],
+        [
+          "MOD-USSR-RAZVED",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL-1942",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-MTN-1940",
+      "file": "divisione_montagna_urss_1940.json",
+      "category": "mountain",
+      "activeFrom": "1940-01-01",
+      "formation": "divisione di fucilieri da montagna (gornostrelkovaja divizija) 1940: 8 battaglioni da montagna, artiglieria someggiata, servizi leggeri",
+      "modules": [
+        [
+          "MOD-USSR-GORN-STRELK",
+          8
+        ],
+        [
+          "MOD-USSR-GORN-ART",
+          3
+        ],
+        [
+          "MOD-USSR-PTO",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL-LEGK",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-CAV-1936",
+      "file": "divisione_cavalleria_urss_1936.json",
+      "category": "cavalry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione di cavalleria (kavalerijskaja divizija) 1936: 4 reggimenti di cavalleria, un battaglione di carri BT, artiglieria a cavallo",
+      "modules": [
+        [
+          "MOD-USSR-KAV-POLK",
+          4
+        ],
+        [
+          "MOD-USSR-TANK-BT",
+          1
+        ],
+        [
+          "MOD-USSR-KONNO-ART",
+          2
+        ],
+        [
+          "MOD-USSR-ZENIT-1936",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL-LEGK",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-MOT-1940",
+      "file": "divisione_motorizzata_urss_1940.json",
+      "category": "motorized",
+      "activeFrom": "1940-06-01",
+      "formation": "divisione motorizzata (motorizovannaja divizija) 1940: 2 reggimenti di fucilieri motorizzati, un reggimento carri BT, artiglieria a traino meccanico, esplorante con BA-10",
+      "modules": [
+        [
+          "MOD-USSR-MOT-STRELK",
+          6
+        ],
+        [
+          "MOD-USSR-TANK-BT",
+          4
+        ],
+        [
+          "MOD-USSR-ART-MOT",
+          2
+        ],
+        [
+          "MOD-USSR-GAUB-MOT",
+          1
+        ],
+        [
+          "MOD-USSR-RAZVED-MOT",
+          1
+        ],
+        [
+          "MOD-USSR-PTO-MOT",
+          1
+        ],
+        [
+          "MOD-USSR-ZENIT",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER-MOT",
+          1
+        ],
+        [
+          "MOD-USSR-TYL-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-ABN-1936",
+      "file": "brigata_aviotrasportata_urss_1936.json",
+      "category": "airborne",
+      "echelon": "brigade",
+      "activeFrom": "1936-01-01",
+      "formation": "brigata aviotrasportata (aviadesantnaja brigada) 1936: 4 battaglioni paracadutisti e servizi leggeri; il lancio non è simulato, combattono come fanteria leggera",
+      "modules": [
+        [
+          "MOD-USSR-DESANT",
+          4
+        ],
+        [
+          "MOD-USSR-TYL-LEGK",
+          1
+        ]
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "id": "PRE-USSR-STRELK-1936",
+      "name": "Strelkovaja divizija (1936)",
+      "modules": [
+        [
+          "MOD-USSR-STRELK-1936",
+          9
+        ],
+        [
+          "MOD-USSR-POLK-1936",
+          3
+        ],
+        [
+          "MOD-USSR-ART",
+          1
+        ],
+        [
+          "MOD-USSR-GAUB",
+          1
+        ],
+        [
+          "MOD-USSR-PTO",
+          1
+        ],
+        [
+          "MOD-USSR-ZENIT-1936",
+          1
+        ],
+        [
+          "MOD-USSR-RAZVED",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "PRE-USSR-GORN-1940",
+      "name": "Gornostrelkovaja divizija (1940)",
+      "modules": [
+        [
+          "MOD-USSR-GORN-STRELK",
+          8
+        ],
+        [
+          "MOD-USSR-GORN-ART",
+          3
+        ],
+        [
+          "MOD-USSR-PTO",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL-LEGK",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "PRE-USSR-KAV-1936",
+      "name": "Kavalerijskaja divizija (1936)",
+      "modules": [
+        [
+          "MOD-USSR-KAV-POLK",
+          4
+        ],
+        [
+          "MOD-USSR-TANK-BT",
+          1
+        ],
+        [
+          "MOD-USSR-KONNO-ART",
+          2
+        ],
+        [
+          "MOD-USSR-ZENIT-1936",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER",
+          1
+        ],
+        [
+          "MOD-USSR-TYL-LEGK",
+          1
+        ]
+      ]
+    }
+  ]
+}

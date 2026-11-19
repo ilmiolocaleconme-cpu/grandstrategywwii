@@ -98,3 +98,20 @@ Prima la Germania aveva un solo impianto di armi leggere (fucili) e uno d'artigl
 | artiglieria | leIG 18 | 10,5 | 1,9 |
 
 Costo: 33 t di acciaio al giorno in più e una centrale a carbone in più (6). Il sIG 33 non ha impianto proprio: si ottiene cambiando la ricetta di un impianto. Prova nel browser: due Infanterie-Division formate il 1/1/1936 al 54–58% della dotazione dopo 30 giorni (media per arma). Le altre grandi potenze: ancora un impianto per tipo.
+
+## URSS dai battaglioni (19/11/2026)
+
+Decisione dell'utente «Tutto dai battaglioni»: anche i template dei fucilieri sovietici sono la somma dei battaglioni (`data/units/modules/modules_ussr.json`, nomi russi traslitterati in `name_ru` + `name_it`). Stessi id di prima per 1936 e 1939 (TPL-USSR-RIFLE-1936, TPL-USSR-INF-1939): il set CSV `USSR-INF-1939` del manifesto ha `templateOutput: false` e genera ormai solo il catalogo. Organici: stime di Claude (ESTIMATED); il 1939 è tarato sui numeri con fonte del vecchio CSV.
+
+| template | uomini | note |
+|---|---|---|
+| TPL-USSR-RIFLE-1936 | 15.250 | 9 battaglioni senza mortai, un reggimento d'artiglieria |
+| TPL-USSR-INF-1939 (dal 1/9/1939) | 17.970 | 243+ DT, 178 Maxim, 72 AT 45, 42 cannoni da 76, 28 obici da 122, 12 da 152 |
+| TPL-USSR-INF-1941 (dal 1/4/1941) | 16.780 | più PPD, un gruppo da 122 in meno |
+| TPL-USSR-INF-1942 (dal 1/3/1942) | 13.630 | PPSh-41 (richiede TECH-INF-EMERG), servizi ridotti |
+| TPL-USSR-MTN-1940 | 8.670 | artiglieria da montagna = cannone reggimentale da 76 (approssimazione) |
+| TPL-USSR-CAV-1936 | 7.350 | 4 reggimenti di cavalleria, un battaglione BT |
+| TPL-USSR-MOT-1940 | 11.240 | 216 BT, 710 ZIS-5, 274 GAZ-AA |
+| TPL-USSR-ABN-1936 (brigata) | 3.500 | dà l'istanza alle 3 brigate aviotrasportate |
+
+Codice: `templateFromComposition` accetta `echelon: 'brigade'` (file `brigata_*`); `name_ru` mostrato nell'editor come `name_de`. Fabbriche iniziali URSS: 2 di veicoli (ZIS-5, GAZ-AA) e un impianto per pistola, DT, Maxim, mortaio da 82, 76 reggimentale, contraerea da 76. Anticarro da 45 e obici da 122 restano senza impianto proprio perché il catalogo li rende producibili solo dal 1937 e dal 1939 (test delle ricette iniziali). Mancano: fucili anticarro PTRD/PTRS, mortai da 107 mm, illustrazioni sovietiche (oggi generiche con insegne tedesche).

@@ -2,7 +2,7 @@
   "schema": "division-raise-rules-v1",
   "status": "USER_DECISION",
   "asOf": "2026-11-19",
-  "note": "Formazione di divisioni nuove (decisioni dell'utente del 19/11/2026: nasce come quadro, stesse regole per le storiche, addestramento per tipo). Giorni e quota minima: stime di Claude.",
+  "note": "Formazione di divisioni nuove (decisioni dell'utente del 19/11/2026: nasce come quadro, stesse regole per le storiche, addestramento per tipo). Giorni e quota minima: stime di Claude. Nomi sovietici in russo traslitterato (19/11/2026).",
   "trainingDays": {
     "infantry": 90,
     "motorized": 120,
@@ -23,6 +23,15 @@
       "mountain": "{n}. Gebirgs-Division",
       "cavalry": "{n}. Kavallerie-Division",
       "airborne": "{n}. Fallschirmjäger-Division"
+    },
+    "USSR": {
+      "infantry": "{n}-ja strelkovaja divizija",
+      "motorized": "{n}-ja motorizovannaja divizija",
+      "mechanized": "{n}-ja mechanizirovannaja divizija",
+      "armored": "{n}-ja tankovaja divizija",
+      "mountain": "{n}-ja gornostrelkovaja divizija",
+      "cavalry": "{n}-ja kavalerijskaja divizija",
+      "airborne": "{n}-ja vozdushno-desantnaja divizija"
     }
   },
   "defaultName": "{n}ª Divisione"

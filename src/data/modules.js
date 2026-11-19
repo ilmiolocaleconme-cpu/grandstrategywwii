@@ -32,7 +32,7 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
     else if (m.requiresTech !== undefined && techIds) for (const t of [m.requiresTech].flat()) if (!techIds.has(t)) e.push(`${p}: tecnologia ${t} inesistente`);
     if (m.availableFrom !== undefined && !DATE_RE.test(m.availableFrom)) e.push(`${p}: availableFrom non valido`);
     if (m.divisional !== undefined && m.divisional !== true) e.push(`${p}: divisional ammesso solo come true`);
-    if (m.name_de !== undefined && (typeof m.name_de !== 'string' || !m.name_de.trim())) e.push(`${p}: name_de non valido`);
+    for (const k of ['name_de', 'name_ru']) if (m[k] !== undefined && (typeof m[k] !== 'string' || !m[k].trim())) e.push(`${p}: ${k} non valido`); // nome nella lingua della nazione (URSS: russo traslitterato, 19/11/2026)
     if (m.mobility === 'motorized' && !Object.keys(m.equipment ?? {}).some((k) => k.startsWith('VEH-'))) e.push(`${p}: motorizzato senza veicoli`);
   }
   for (const pr of doc.presets ?? []) { // punti di partenza dell'editor (18/11/2026)
@@ -46,7 +46,9 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
     if (tpl.has(c.templateId)) e.push(`${p}: duplicata`);
     tpl.add(c.templateId);
     if (!DATE_RE.test(c.activeFrom ?? '')) e.push(`${p}: activeFrom non valido`);
-    if (!/^divisione_[a-z_]+_\d{4}\.json$/.test(c.file ?? '')) e.push(`${p}: nome del file non valido`);
+    if (!/^(divisione|brigata)_[a-z_]+_\d{4}\.json$/.test(c.file ?? '')) e.push(`${p}: nome del file non valido`);
+    if (c.echelon !== undefined && c.echelon !== 'division' && c.echelon !== 'brigade') e.push(`${p}: echelon ${JSON.stringify(c.echelon)}`);
+    if ((c.echelon === 'brigade') !== /^brigata_/.test(c.file ?? '')) e.push(`${p}: file e scaglione non concordano (brigata_ ↔ echelon brigade)`);
     if (!(c.modules ?? []).length) e.push(`${p}: nessun modulo`);
     for (const [id, n] of c.modules ?? []) {
       const m = (doc.modules ?? []).find((x) => x.id === id);
@@ -81,7 +83,7 @@ export function templateFromComposition(doc, comp) {
   const plain = (value) => ({ value, basis: 'ipotesi', referenceYear: comp.activeFrom.slice(0, 4), source: src, reliability: 'ESTIMATED' });
   return {
     schema: 'unit-template-v1', id: comp.templateId, status: 'RECONSTRUCTED_TEMPLATE',
-    appliesTo: { nation, category: comp.category, echelon: 'division', activeFrom: comp.activeFrom },
+    appliesTo: { nation, category: comp.category, echelon: comp.echelon ?? 'division', activeFrom: comp.activeFrom }, // brigate composte da battaglioni (19/11/2026)
     orgLevel: 'war',
     note: `Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. ${comp.formation}.`,
     formation: plain(comp.formation),

@@ -992,13 +992,53 @@
           "count": 1
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-USSR-PISTOL-TT33",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-USSR-LMG-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-USSR-HMG-1939",
+          "count": 1
+        },
+        {
           "factory": "FCT-TANKS",
           "recipeId": "REC-TNK-USSR-T26-1940",
           "count": 1
         },
         {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-USSR-ZIS5",
+          "count": 1
+        },
+        {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-USSR-GAZAA",
+          "count": 1
+        },
+        {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-USSR-GUN76-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-MOR82",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-GUN76-REGT",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-AA76",
           "count": 1
         },
         {
