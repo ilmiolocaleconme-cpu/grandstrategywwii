@@ -3,7 +3,7 @@
 // Una composizione = { templateId, file, category, activeFrom, formation, modules: [[idModulo, quanti], ...] }: il template della divisione è la
 // SOMMA dei suoi moduli, nello stesso formato degli altri template (data/units/templates), così forze, rinforzi e battaglia non cambiano.
 export const MODULES_SCHEMA = 'battalion-modules-v1';
-export const MODULE_TYPES = Object.freeze(['infantry', 'motorized_infantry', 'mechanized_infantry', 'artillery', 'anti_tank', 'tank', 'support']);
+export const MODULE_TYPES = Object.freeze(['infantry', 'motorized_infantry', 'mechanized_infantry', 'mountain_infantry', 'airborne_infantry', 'cavalry', 'artillery', 'anti_tank', 'anti_air', 'tank', 'recon', 'engineer', 'support']); // 19/11/2026: + montagna, paracadutisti, cavalleria, contraerea, esplorazione, genio
 export const MOBILITY = Object.freeze(['foot', 'motorized', 'mechanized', 'armored']);
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -32,6 +32,7 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
     else if (m.requiresTech !== undefined && techIds) for (const t of [m.requiresTech].flat()) if (!techIds.has(t)) e.push(`${p}: tecnologia ${t} inesistente`);
     if (m.availableFrom !== undefined && !DATE_RE.test(m.availableFrom)) e.push(`${p}: availableFrom non valido`);
     if (m.divisional !== undefined && m.divisional !== true) e.push(`${p}: divisional ammesso solo come true`);
+    if (m.name_de !== undefined && (typeof m.name_de !== 'string' || !m.name_de.trim())) e.push(`${p}: name_de non valido`);
     if (m.mobility === 'motorized' && !Object.keys(m.equipment ?? {}).some((k) => k.startsWith('VEH-'))) e.push(`${p}: motorizzato senza veicoli`);
   }
   for (const pr of doc.presets ?? []) { // punti di partenza dell'editor (18/11/2026)
@@ -110,7 +111,7 @@ export function vehicleMarchSpeed(items, foot, motor) {
 
 // ---- Editor a moduli (18/11/2026, decisioni dell'utente: limiti storici; riorganizzazione graduale) ----------------------------------------
 export const EDITOR_RULES_SCHEMA = 'division-editor-rules-v1';
-export const DESIGN_CATEGORIES = Object.freeze(['infantry', 'motorized', 'mechanized', 'armored']);
+export const DESIGN_CATEGORIES = Object.freeze(['infantry', 'motorized', 'mechanized', 'armored', 'mountain', 'cavalry', 'airborne']);
 
 /** Errori del file delle regole dell'editor (data/units/modules/editor_rules.json). */
 export function validateEditorRules(r) {
@@ -133,12 +134,19 @@ export function moduleAvailable(m, { nation, date, researched }) {
   return [m.requiresTech ?? []].flat().every((t) => researched?.has(t));
 }
 
-/** Categoria della divisione dai suoi battaglioni: carri → corazzata; fanteria su semicingolati → meccanizzata; tutta motorizzata → motorizzata; altrimenti fanteria. */
+/**
+ * Categoria della divisione dai suoi battaglioni: carri → corazzata; fanteria su semicingolati → meccanizzata; almeno metà dei battaglioni
+ * di fanteria paracadutisti, da montagna o di cavalleria → paracadutisti, montagna, cavalleria (19/11/2026); tutta motorizzata → motorizzata;
+ * altrimenti fanteria. La categoria decide il terreno in battaglia (data/units/terrain_combat.json).
+ */
 export function designCategory(list, modules) {
   const byId = new Map(modules.map((m) => [m.id, m]));
   const ms = list.map(([id]) => byId.get(id)).filter(Boolean);
   if (ms.some((m) => m.type === 'tank')) return 'armored';
   if (ms.some((m) => m.type === 'mechanized_infantry')) return 'mechanized';
+  const n = (t) => list.reduce((s, [id, k]) => s + (byId.get(id)?.type === t ? k : 0), 0);
+  const foot = ['infantry', 'motorized_infantry', 'mountain_infantry', 'airborne_infantry', 'cavalry'].reduce((s, t) => s + n(t), 0);
+  for (const [t, cat] of [['airborne_infantry', 'airborne'], ['mountain_infantry', 'mountain'], ['cavalry', 'cavalry']]) if (foot > 0 && n(t) * 2 >= foot) return cat;
   if (ms.length && ms.every((m) => m.mobility !== 'foot')) return 'motorized';
   return 'infantry';
 }

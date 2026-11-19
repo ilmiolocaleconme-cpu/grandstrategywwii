@@ -51,3 +51,21 @@ Menu → **Divisioni**. Decisioni dell'utente: **limiti storici** e **riorganizz
 - Stato: `state.designs` (facoltativo, `division-designs-v1`), salvato con la partita.
 - Illustrazioni (18/11/2026): 24 PNG fornite dall'utente in `src/assets/units` (pulite, 256 px, 256 colori, ~380 kB in tutto), metadati in `data/assets/unit_illustrations.json`, campo `illustration` di ogni battaglione; usate nelle schede, nelle righe e nella testata. Generiche, non identificazioni storiche: da sostituire per nazione.
 - Battaglioni ippotrainati aggiunti per la fanteria a piedi (artiglieria leggera e pesante, compagnie pesanti, servizi). Solo Germania: le altre nazioni non hanno ancora battaglioni. L'IA non usa l'editor.
+
+## Battaglioni con nomi tedeschi (19/11/2026)
+
+Richiesta dell'utente: nomi tedeschi. Ogni battaglione ha `name_de` (mostrato in grande) e `name_it` (traduzione sotto). Nuovi battaglioni, tutti stime di Claude:
+
+| name_de | tipo | effetto reale in gioco |
+|---|---|---|
+| leichte Panzer-Abteilung | carri | 70 Pz I |
+| Kradschützen-Bataillon | fanteria motorizzata | motociclette (contano come veicoli per la marcia) |
+| Aufklärungs-Abteilung / (mot.) | esplorazione | solo le sue armi (autoblindo Sd.Kfz. 222) |
+| Pionier-Bataillon / (mot.) | genio | senza genio, una divisione di un modello del giocatore subisce la penalità del fiume 1,5 volte (`noEngineerRiverPenalty`) |
+| Flak-Abteilung (mot.), leichte Flak-Kompanie | contraerea | 8,8 cm forte anche contro i carri; aerei non ancora simulati |
+| Gebirgsjäger-Bataillon, Gebirgs-Artillerie-Abteilung | montagna | divisione «mountain»: +30% in montagna |
+| Reiter-Abteilung | cavalleria | divisione «cavalry» (terreno della cavalleria) |
+| Fallschirmjäger-Bataillon | paracadutisti | richiede TECH-INF-AIRBORNE (ricercata dal 1936 da Germania e URSS); lancio non simulato |
+| Sanitäts-Kompanie (mot.) | supporto | nessun effetto oltre a uomini e autocarri |
+
+La categoria segue i battaglioni: metà o più della fanteria da montagna, paracadutista o a cavallo → quella categoria. Modelli di partenza: Infanterie-Division (1936, con Aufklärung e Pioniere), Panzer-Division (1939), Gebirgs-Division (1938), Kavallerie-Brigade (1939), Fallschirmjäger-Division (1940). Nuove armi producibili: 8,8 cm Flak, 7,5 cm GebG 36, Sd.Kfz. 222, Kraftrad; contraerea (anche la 2 cm tedesca e quella britannica) ora producibile.

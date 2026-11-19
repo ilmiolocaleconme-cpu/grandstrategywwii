@@ -17,7 +17,7 @@ const rules = json('units/modules/editor_rules.json');
 const map = json('units/equipment/upgrade_map.json');
 const units = json('units/units.json').units;
 const tplInf = json('units/templates/divisione_fanteria_germania_1936.json');
-const researched = new Set(['TECH-MOT-INF', 'TECH-ARM-GUN-3750', 'TECH-ARM-GUN-75S', 'TECH-ARM-RADIO']);
+const researched = new Set(['TECH-MOT-INF', 'TECH-ARM-GUN-3750', 'TECH-ARM-GUN-75S', 'TECH-ARM-RADIO', 'TECH-INF-AIRBORNE']);
 const ctx = { modules, rules, researched };
 const PZ = [['MOD-DEU-TANK', 2], ['MOD-DEU-MOT-INF', 4], ['MOD-DEU-ART-MOT', 3], ['MOD-DEU-AT-MOT', 1], ['MOD-DEU-REGT-HVY-MOT', 2], ['MOD-DEU-SUPPORT-MOT', 1]];
 const INF = [['MOD-DEU-INF', 9], ['MOD-DEU-REGT-HVY', 3], ['MOD-DEU-ART', 3], ['MOD-DEU-ART-HVY', 1], ['MOD-DEU-AT-MOT', 1], ['MOD-DEU-SUPPORT', 1]];
@@ -36,6 +36,7 @@ test('regole e battaglioni validi; composizioni storiche e modelli di partenza d
   assert.deepEqual(validateModules(doc), []);
   for (const c of doc.compositions) assert.deepEqual(designProblems(c.modules, { ...ctx, nation: 'DEU', date: c.activeFrom, researched: new Set([...researched, 'TECH-MECH-HT']) }), [], c.templateId);
   assert.equal(modules.filter((m) => m.divisional).length, 2);
+  for (const m of modules) assert.ok(m.name_de, `${m.id} senza nome tedesco`);
 });
 
 test('limiti storici: servizi, combattimento, massimi, data e tecnologia', () => {
@@ -144,4 +145,30 @@ test('illustrazioni: ogni battaglione ne ha una esistente, ogni file c\'è ed è
     assert.equal(buf.subarray(1, 4).toString(), 'PNG', it.file);
     assert.ok(buf.length < 120000, `${it.file} troppo pesante`);
   }
+});
+
+test('battaglioni del 19/11/2026: categorie montagna, cavalleria, paracadutisti; modelli di partenza validi', () => {
+  assert.equal(designCategory([['MOD-DEU-GEB-JAEGER', 6], ['MOD-DEU-GEB-ART', 3], ['MOD-DEU-SUPPORT', 1]], modules), 'mountain');
+  assert.equal(designCategory([['MOD-DEU-REITER', 6], ['MOD-DEU-INF', 2], ['MOD-DEU-SUPPORT', 1]], modules), 'cavalry');
+  assert.equal(designCategory([['MOD-DEU-FJ', 9], ['MOD-DEU-SUPPORT', 1]], modules), 'airborne');
+  assert.equal(designCategory([['MOD-DEU-INF', 9], ['MOD-DEU-GEB-JAEGER', 2], ['MOD-DEU-SUPPORT', 1]], modules), 'infantry', 'pochi alpini: resta fanteria');
+  assert.equal(designCategory([['MOD-DEU-KRADSCHUETZEN', 2], ['MOD-DEU-SUPPORT-MOT', 1]], modules), 'motorized');
+  const all = new Set([...researched, 'TECH-MECH-HT']);
+  for (const pr of doc.presets) assert.deepEqual(designProblems(pr.modules, { ...ctx, nation: 'DEU', date: '1940-06-01', researched: all }), [], pr.id);
+  const fj = designProblems([['MOD-DEU-FJ', 9], ['MOD-DEU-SUPPORT', 1]], { ...ctx, nation: 'DEU', date: '1940-06-01', researched: new Set() });
+  assert.ok(fj.some((x) => /non disponibile/.test(x)), 'paracadutisti solo con la tecnologia');
+});
+
+test('genio: senza Pionier-Bataillon la penalità del fiume cresce; i modelli storici restano come prima', async () => {
+  const { battleGround } = await import('../src/game/theaterState.js');
+  const tc = json('units/terrain_combat.json');
+  const state = { movement: { from: { A: 'X', B: 'X' } } };
+  const net = { canon: (x) => x };
+  const att = [{ id: 'A', category: 'infantry' }, { id: 'B', category: 'infantry' }];
+  const base = { terrainCfg: tc, riverBetween: () => ({ widthClass: 'large' }) };
+  const g0 = battleGround(state, base, net, 'Y', att, []);
+  assert.deepEqual(g0.attackers.map((u) => u.mult), [tc.river.large, tc.river.large], 'senza informazione sul genio: come prima');
+  const g1 = battleGround(state, { ...base, hasEngineers: (s, u) => u.id === 'A' }, net, 'Y', att, []);
+  assert.equal(g1.attackers[0].mult, tc.river.large);
+  assert.ok(Math.abs(g1.attackers[1].mult - (1 - (1 - tc.river.large) * tc.noEngineerRiverPenalty)) < 1e-9);
 });

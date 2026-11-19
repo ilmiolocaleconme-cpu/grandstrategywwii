@@ -12,7 +12,10 @@
     "infantry",
     "motorized_infantry",
     "mechanized_infantry",
-    "tank"
+    "tank",
+    "mountain_infantry",
+    "cavalry",
+    "airborne_infantry"
   ],
   "maxPerType": {
     "infantry": 12,
@@ -21,6 +24,12 @@
     "tank": 4,
     "artillery": 6,
     "anti_tank": 3,
-    "support": 4
+    "support": 4,
+    "engineer": 2,
+    "recon": 2,
+    "anti_air": 2,
+    "mountain_infantry": 12,
+    "cavalry": 9,
+    "airborne_infantry": 12
   }
 }

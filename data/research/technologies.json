@@ -438,6 +438,20 @@
           "kind": "modules"
         }
       ]
+    },
+    {
+      "id": "TECH-INF-AIRBORNE",
+      "branch": "infantry",
+      "name_it": "Fanteria paracadutista",
+      "description": "Addestramento al lancio e reparti di paracadutisti: sblocca i Fallschirmjäger-Bataillone. Germania e URSS avevano i primi reparti già nel 1936. Il lancio dagli aerei non è ancora simulato: in battaglia combattono come fanteria leggera. Costo e durata: stime di Claude (19/11/2026).",
+      "prerequisites": [],
+      "cost_ecv": 50,
+      "days": 150,
+      "unlocks": [
+        {
+          "kind": "modules"
+        }
+      ]
     }
   ],
   "initialResearch": {
@@ -449,12 +463,14 @@
       "TECH-INF-OPTICS",
       "TECH-INF-SELECT",
       "TECH-ARM-GUN-3750",
-      "TECH-ARM-GUN-75S"
+      "TECH-ARM-GUN-75S",
+      "TECH-INF-AIRBORNE"
     ],
     "DEU": [
       "TECH-ARM-GUN-3750",
       "TECH-ARM-RADIO",
-      "TECH-MOT-INF"
+      "TECH-MOT-INF",
+      "TECH-INF-AIRBORNE"
     ],
     "FRA": [
       "TECH-ARM-GUN-3750",

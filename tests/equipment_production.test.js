@@ -37,7 +37,8 @@ test('una ricetta per ogni equipaggiamento producibile, di ogni nazione, con la 
   for (const n of ['DEU', 'GBR', 'FRA']) assert.ok(generated.some((r) => r.equipmentId.split('-')[1] === n), n);
   const ids = generated.map((r) => r.equipmentId);
   assert.ok(!ids.includes('ART-FRA-AT47M1937'), 'variante datata: nessuna produzione');
-  assert.ok(!catalog.entries.some((e) => e.category === 'ANTI_AIRCRAFT_GUN' && ids.includes(e.equipment_id)), 'categorie fuori tabella: MISSING_DATA, non producibili');
+  assert.ok(!catalog.entries.some((e) => e.category === 'HEAVY_ARTILLERY' && ids.includes(e.equipment_id)), 'categorie fuori tabella: MISSING_DATA, non producibili');
+  assert.ok(ids.includes('ART-DEU-FLAK88') && ids.includes('VEH-DEU-KRAD') && ids.includes('VEH-DEU-SDKFZ222'), 'contraerea, motociclette e autoblindo producibili dal 19/11/2026');
   // carri (12/11/2026): prodotti nella fabbrica carri con i motori, peso per modello
   const b1 = generated.find((r) => r.equipmentId === 'TNK-FRA-B1BIS-1940');
   assert.deepEqual([b1.factory, b1.massTonnes, b1.output.product], ['FCT-TANKS', 31.5, 'equipment.TNK-FRA-B1BIS-1940']);

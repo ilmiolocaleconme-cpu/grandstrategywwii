@@ -146,7 +146,9 @@ export function battleGround(state, ctx, net, p, attackers, defenders) {
   const river = (u) => {
     const from = state.movement?.from?.[u.id];
     if (!cfg || !ctx.riverBetween || !from || canon(from) === p) return 1;
-    const f = riverFactor(ctx.riverBetween(canon(from), p)?.widthClass, cfg);
+    let f = riverFactor(ctx.riverBetween(canon(from), p)?.widthClass, cfg);
+    // senza genio (solo divisioni dei modelli del giocatore che non l'hanno, 19/11/2026) la penalità cresce
+    if (f < 1 && ctx.hasEngineers && !ctx.hasEngineers(state, u) && cfg.noEngineerRiverPenalty > 1) f = Math.max(0.1, 1 - (1 - f) * cfg.noEngineerRiverPenalty);
     if (f < 1) crossing.push(u.id);
     return f;
   };

@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-18",
-  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored). 18/11/2026: gruppi di cannoni d'assalto e di cacciacarri (non ancora usati da nessuna composizione: si inseriranno con l'editor). 18/11/2026 (editor): battaglioni ippotrainati per la fanteria a piedi (artiglieria, compagnie pesanti, servizi); `divisional: true` = servizi divisionali (uno per divisione). `presets`: punti di partenza dell'editor (non generano template).",
+  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored). 18/11/2026: gruppi di cannoni d'assalto e di cacciacarri (non ancora usati da nessuna composizione: si inseriranno con l'editor). 18/11/2026 (editor): battaglioni ippotrainati per la fanteria a piedi (artiglieria, compagnie pesanti, servizi); `divisional: true` = servizi divisionali (uno per divisione). `presets`: punti di partenza dell'editor (non generano template). 19/11/2026: nomi tedeschi (`name_de`, richiesta dell'utente) e nuovi battaglioni: carri leggeri, motociclisti, esplorazione, genio, contraerea, montagna, cavalleria, paracadutisti, sanità.",
   "modules": [
     {
       "id": "MOD-DEU-INF",
@@ -20,7 +20,8 @@
         "ART-DEU-GRW34": 6
       },
       "mobility": "foot",
-      "illustration": "fanteria"
+      "illustration": "fanteria",
+      "name_de": "Infanterie-Bataillon"
     },
     {
       "id": "MOD-DEU-ART",
@@ -35,7 +36,8 @@
         "MG-DEU-MG34-L": 6
       },
       "mobility": "foot",
-      "illustration": "artiglieria_ippotrainata"
+      "illustration": "artiglieria_ippotrainata",
+      "name_de": "leichte Artillerie-Abteilung (bespannt)"
     },
     {
       "id": "MOD-DEU-ART-HVY",
@@ -50,7 +52,8 @@
         "MG-DEU-MG34-L": 6
       },
       "mobility": "foot",
-      "illustration": "artiglieria_ippotrainata"
+      "illustration": "artiglieria_ippotrainata",
+      "name_de": "schwere Artillerie-Abteilung (bespannt)"
     },
     {
       "id": "MOD-DEU-REGT-HVY",
@@ -68,7 +71,8 @@
         "MG-DEU-MG34-L": 6
       },
       "mobility": "foot",
-      "illustration": "anticarro"
+      "illustration": "anticarro",
+      "name_de": "Infanteriegeschütz- und Panzerjäger-Kompanien"
     },
     {
       "id": "MOD-DEU-SUPPORT",
@@ -86,7 +90,8 @@
         "VEH-DEU-TRUCK": 150
       },
       "mobility": "foot",
-      "illustration": "trasporto_ippotrainato"
+      "illustration": "trasporto_ippotrainato",
+      "name_de": "Divisionsnachschubführer und Dienste (bespannt)"
     },
     {
       "id": "MOD-DEU-MOT-INF",
@@ -106,7 +111,8 @@
       },
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
-      "illustration": "fanteria_motorizzata"
+      "illustration": "fanteria_motorizzata",
+      "name_de": "Infanterie-Bataillon (mot.)"
     },
     {
       "id": "MOD-DEU-MECH-INF",
@@ -128,7 +134,8 @@
       "mobility": "mechanized",
       "requiresTech": "TECH-MECH-HT",
       "availableFrom": "1939-06-01",
-      "illustration": "semicingolato"
+      "illustration": "semicingolato",
+      "name_de": "Schützen-Bataillon (gp.)"
     },
     {
       "id": "MOD-DEU-ART-MOT",
@@ -145,7 +152,8 @@
       },
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
-      "illustration": "artiglieria_trainata"
+      "illustration": "artiglieria_trainata",
+      "name_de": "leichte Artillerie-Abteilung (mot.)"
     },
     {
       "id": "MOD-DEU-ART-HVY-MOT",
@@ -162,7 +170,8 @@
       },
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
-      "illustration": "artiglieria_trainata"
+      "illustration": "artiglieria_trainata",
+      "name_de": "schwere Artillerie-Abteilung (mot.)"
     },
     {
       "id": "MOD-DEU-AT-MOT",
@@ -179,7 +188,8 @@
       },
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
-      "illustration": "anticarro"
+      "illustration": "anticarro",
+      "name_de": "Panzerabwehr-Abteilung (mot.)"
     },
     {
       "id": "MOD-DEU-REGT-HVY-MOT",
@@ -199,7 +209,8 @@
       },
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
-      "illustration": "anticarro"
+      "illustration": "anticarro",
+      "name_de": "Infanteriegeschütz- und Panzerjäger-Kompanien (mot.)"
     },
     {
       "id": "MOD-DEU-TANK",
@@ -214,7 +225,8 @@
         "VEH-DEU-TRUCK": 40
       },
       "mobility": "armored",
-      "illustration": "carro_medio"
+      "illustration": "carro_medio",
+      "name_de": "Panzer-Abteilung"
     },
     {
       "id": "MOD-DEU-SUPPORT-MOT",
@@ -233,7 +245,8 @@
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
       "divisional": true,
-      "illustration": "logistica_camion"
+      "illustration": "logistica_camion",
+      "name_de": "Divisionsdienste (mot.)"
     },
     {
       "id": "MOD-DEU-STUG",
@@ -251,7 +264,8 @@
       "mobility": "armored",
       "requiresTech": "TECH-ARM-ASSAULT",
       "availableFrom": "1940-02-01",
-      "illustration": "cacciacarri"
+      "illustration": "cacciacarri",
+      "name_de": "Sturmgeschütz-Abteilung"
     },
     {
       "id": "MOD-DEU-STUG-G",
@@ -272,7 +286,8 @@
         "TECH-ARM-GUN-75L"
       ],
       "availableFrom": "1942-03-01",
-      "illustration": "cacciacarri"
+      "illustration": "cacciacarri",
+      "name_de": "Sturmgeschütz-Abteilung (lang)"
     },
     {
       "id": "MOD-DEU-PZJG-SP",
@@ -294,7 +309,8 @@
         "TECH-ARM-GUN-75L"
       ],
       "availableFrom": "1942-04-01",
-      "illustration": "cacciacarri_variante"
+      "illustration": "cacciacarri_variante",
+      "name_de": "Panzerjäger-Abteilung (Sfl.)"
     },
     {
       "id": "MOD-DEU-JPZ",
@@ -315,7 +331,8 @@
         "TECH-ARM-SLOPED"
       ],
       "availableFrom": "1944-01-01",
-      "illustration": "cacciacarri_variante"
+      "illustration": "cacciacarri_variante",
+      "name_de": "Panzerjäger-Abteilung (Jagdpanzer IV)"
     },
     {
       "id": "MOD-DEU-HETZER",
@@ -336,7 +353,8 @@
         "TECH-ARM-SLOPED"
       ],
       "availableFrom": "1944-04-01",
-      "illustration": "cacciacarri_variante"
+      "illustration": "cacciacarri_variante",
+      "name_de": "Panzerjäger-Kompanie (Hetzer)"
     },
     {
       "id": "MOD-DEU-JAGDPANTHER",
@@ -358,7 +376,263 @@
         "TECH-ARM-SLOPED"
       ],
       "availableFrom": "1944-06-01",
-      "illustration": "cacciacarri"
+      "illustration": "cacciacarri",
+      "name_de": "schwere Panzerjäger-Abteilung (Jagdpanther)"
+    },
+    {
+      "id": "MOD-DEU-PZ-LEICHT",
+      "name_de": "leichte Panzer-Abteilung",
+      "name_it": "Battaglione carri leggeri (Pz I)",
+      "type": "tank",
+      "mobility": "armored",
+      "men": 420,
+      "horses": 0,
+      "equipment": {
+        "TNK-DEU-PZ-I": 70,
+        "INW-DEU-PISTOL-1939": 250,
+        "INW-DEU-RIFLE-1939": 120,
+        "MG-DEU-MG34-L": 10,
+        "VEH-DEU-TRUCK": 45
+      },
+      "illustration": "carro_leggero",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-KRADSCHUETZEN",
+      "name_de": "Kradschützen-Bataillon",
+      "name_it": "Battaglione motociclisti",
+      "type": "motorized_infantry",
+      "mobility": "motorized",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "VEH-DEU-KRAD": 250,
+        "VEH-DEU-TRUCK": 40,
+        "INW-DEU-RIFLE-1939": 600,
+        "INW-DEU-PISTOL-1939": 120,
+        "MG-DEU-MG34-L": 45,
+        "MG-DEU-MG34-S": 12,
+        "ART-DEU-GRW34": 6,
+        "ART-DEU-PAK36": 3
+      },
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "ricognizione_motocicletta",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-AUFKL",
+      "name_de": "Aufklärungs-Abteilung",
+      "name_it": "Gruppo esplorante (a cavallo e in bicicletta)",
+      "type": "recon",
+      "mobility": "foot",
+      "men": 620,
+      "horses": 260,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 480,
+        "INW-DEU-PISTOL-1939": 90,
+        "MG-DEU-MG34-L": 25,
+        "ART-DEU-PAK36": 3,
+        "ART-DEU-LEIG18": 2,
+        "VEH-DEU-SDKFZ222": 3,
+        "VEH-DEU-TRUCK": 25
+      },
+      "illustration": "cavalleria",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-AUFKL-MOT",
+      "name_de": "Aufklärungs-Abteilung (mot.)",
+      "name_it": "Gruppo esplorante motorizzato (autoblindo e motociclisti)",
+      "type": "recon",
+      "mobility": "motorized",
+      "men": 650,
+      "horses": 0,
+      "equipment": {
+        "VEH-DEU-SDKFZ222": 24,
+        "VEH-DEU-KRAD": 120,
+        "VEH-DEU-TRUCK": 60,
+        "INW-DEU-RIFLE-1939": 400,
+        "INW-DEU-PISTOL-1939": 150,
+        "MG-DEU-MG34-L": 40,
+        "ART-DEU-PAK36": 3
+      },
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "autoblindo",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-PIONIER",
+      "name_de": "Pionier-Bataillon",
+      "name_it": "Battaglione del genio",
+      "type": "engineer",
+      "mobility": "foot",
+      "men": 520,
+      "horses": 120,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 400,
+        "INW-DEU-PISTOL-1939": 80,
+        "MG-DEU-MG34-L": 18,
+        "VEH-DEU-TRUCK": 20
+      },
+      "illustration": "genio",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-PIONIER-MOT",
+      "name_de": "Pionier-Bataillon (mot.)",
+      "name_it": "Battaglione del genio motorizzato",
+      "type": "engineer",
+      "mobility": "motorized",
+      "men": 520,
+      "horses": 0,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 400,
+        "INW-DEU-PISTOL-1939": 80,
+        "MG-DEU-MG34-L": 18,
+        "VEH-DEU-TRUCK": 100
+      },
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "genio",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-FLAK",
+      "name_de": "Flak-Abteilung (mot.)",
+      "name_it": "Gruppo contraereo (8,8 cm e 2 cm)",
+      "type": "anti_air",
+      "mobility": "motorized",
+      "men": 560,
+      "horses": 0,
+      "equipment": {
+        "ART-DEU-FLAK88": 8,
+        "ART-DEU-AA-20": 12,
+        "VEH-DEU-TRUCK": 80,
+        "INW-DEU-RIFLE-1939": 300,
+        "INW-DEU-PISTOL-1939": 100,
+        "MG-DEU-MG34-L": 8
+      },
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "contraerea",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-FLAK-LEICHT",
+      "name_de": "leichte Flak-Kompanie",
+      "name_it": "Compagnia contraerea leggera (2 cm)",
+      "type": "anti_air",
+      "mobility": "motorized",
+      "men": 180,
+      "horses": 0,
+      "equipment": {
+        "ART-DEU-AA-20": 12,
+        "VEH-DEU-TRUCK": 25,
+        "INW-DEU-RIFLE-1939": 120,
+        "INW-DEU-PISTOL-1939": 30
+      },
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "contraerea",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-GEB-JAEGER",
+      "name_de": "Gebirgsjäger-Bataillon",
+      "name_it": "Battaglione cacciatori da montagna",
+      "type": "mountain_infantry",
+      "mobility": "foot",
+      "men": 900,
+      "horses": 150,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 680,
+        "INW-DEU-PISTOL-1939": 70,
+        "MG-DEU-MG34-L": 40,
+        "MG-DEU-MG34-S": 12,
+        "ART-DEU-GRW36": 9,
+        "ART-DEU-GRW34": 6
+      },
+      "illustration": "alpini",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-GEB-ART",
+      "name_de": "Gebirgs-Artillerie-Abteilung",
+      "name_it": "Gruppo d'artiglieria da montagna (someggiato)",
+      "type": "artillery",
+      "mobility": "foot",
+      "men": 450,
+      "horses": 400,
+      "equipment": {
+        "ART-DEU-GEBG36": 12,
+        "INW-DEU-RIFLE-1939": 280,
+        "MG-DEU-MG34-L": 6
+      },
+      "availableFrom": "1938-01-01",
+      "illustration": "artiglieria_ippotrainata",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-REITER",
+      "name_de": "Reiter-Abteilung",
+      "name_it": "Gruppo di cavalleria (squadroni)",
+      "type": "cavalry",
+      "mobility": "foot",
+      "men": 700,
+      "horses": 760,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 580,
+        "INW-DEU-PISTOL-1939": 60,
+        "MG-DEU-MG34-L": 30,
+        "MG-DEU-MG34-S": 8
+      },
+      "illustration": "cavalleria",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-FJ",
+      "name_de": "Fallschirmjäger-Bataillon",
+      "name_it": "Battaglione paracadutisti",
+      "type": "airborne_infantry",
+      "mobility": "foot",
+      "men": 700,
+      "horses": 0,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 450,
+        "INW-DEU-PISTOL-1939": 250,
+        "MG-DEU-MG34-L": 40,
+        "ART-DEU-GRW36": 6,
+        "ART-DEU-GRW34": 4
+      },
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "illustration": "paracadutisti",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-SANITAET",
+      "name_de": "Sanitäts-Kompanie (mot.)",
+      "name_it": "Compagnia di sanità motorizzata",
+      "type": "support",
+      "mobility": "motorized",
+      "men": 220,
+      "horses": 0,
+      "equipment": {
+        "INW-DEU-PISTOL-1939": 60,
+        "VEH-DEU-TRUCK": 30
+      },
+      "requiresTech": "TECH-MOT-INF",
+      "illustration": "ambulanza",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     }
   ],
   "compositions": [
@@ -432,7 +706,7 @@
   "presets": [
     {
       "id": "PRE-DEU-INF-1936",
-      "name": "Divisione di fanteria",
+      "name": "Infanterie-Division (1936)",
       "modules": [
         [
           "MOD-DEU-INF",
@@ -448,6 +722,14 @@
         ],
         [
           "MOD-DEU-ART-HVY",
+          1
+        ],
+        [
+          "MOD-DEU-AUFKL",
+          1
+        ],
+        [
+          "MOD-DEU-PIONIER",
           1
         ],
         [
@@ -469,6 +751,10 @@
           3
         ],
         [
+          "MOD-DEU-KRADSCHUETZEN",
+          1
+        ],
+        [
           "MOD-DEU-REGT-HVY-MOT",
           1
         ],
@@ -478,6 +764,96 @@
         ],
         [
           "MOD-DEU-AT-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-AUFKL-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-PIONIER-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "PRE-DEU-GEB-1938",
+      "name": "Gebirgs-Division (1938)",
+      "modules": [
+        [
+          "MOD-DEU-GEB-JAEGER",
+          6
+        ],
+        [
+          "MOD-DEU-GEB-ART",
+          3
+        ],
+        [
+          "MOD-DEU-AT-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-AUFKL",
+          1
+        ],
+        [
+          "MOD-DEU-PIONIER",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "PRE-DEU-KAV-1939",
+      "name": "Kavallerie-Brigade (1939)",
+      "modules": [
+        [
+          "MOD-DEU-REITER",
+          6
+        ],
+        [
+          "MOD-DEU-ART",
+          1
+        ],
+        [
+          "MOD-DEU-AUFKL",
+          1
+        ],
+        [
+          "MOD-DEU-PIONIER",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "PRE-DEU-FJ-1940",
+      "name": "Fallschirmjäger-Division (1940)",
+      "modules": [
+        [
+          "MOD-DEU-FJ",
+          9
+        ],
+        [
+          "MOD-DEU-FLAK-LEICHT",
+          1
+        ],
+        [
+          "MOD-DEU-PIONIER-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-SANITAET",
           1
         ],
         [

@@ -777,3 +777,4 @@ body.de-open #root { display: none; } /* schermata Divisioni aperta: il gioco so
 .de-fig { position: absolute; bottom: 4%; transform: translateX(-50%); width: auto; max-width: 40%; object-fit: contain; filter: drop-shadow(0 3px 3px rgba(0,0,0,.55)) sepia(.15); }
 @media (max-height: 520px) { .de-banner-wrap { height: 84px; } .de-row-icon { width: 54px; height: 38px; } .de-row { grid-template-columns: 54px minmax(0, 1fr) auto 64px; } }
 @media (max-width: 760px) { .de-row { grid-template-columns: 54px minmax(0, 1fr) auto; } .de-row-icon { width: 54px; height: 40px; } }
+.de-row-name i { font-style: italic; color: #cfc3a0; font-size: 12px; } /* traduzione sotto il nome tedesco (19/11/2026) */

@@ -33,12 +33,12 @@ function HeroArt({ category }) {
 
 const fmt = (n) => Number(n).toLocaleString('it-IT');
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-const TITLE = { infantry: 'Divisione di fanteria', motorized: 'Divisione motorizzata', mechanized: 'Divisione meccanizzata', armored: 'Divisione corazzata' };
+const TITLE = { infantry: 'Infanterie-Division', motorized: 'Infanterie-Division (mot.)', mechanized: 'leichte Division', armored: 'Panzer-Division', mountain: 'Gebirgs-Division', cavalry: 'Kavallerie-Division', airborne: 'Fallschirmjäger-Division' }; // nomi tedeschi: per ora l'editor c'è solo per la Germania
 const HINT = {
   edit: 'Aggiungi o togli battaglioni: i limiti seguono gli organici storici. Serve un reparto di servizi divisionali.',
   reorg: 'Le divisioni passano subito al modello: tengono ciò che hanno, il resto arriva coi rinforzi, l\'avanzo torna in magazzino.',
 };
-const statIcon = (label) => (/Carri/.test(label) ? 'tank' : /Cacciacarri/.test(label) ? 'anti_tank' : /artiglieria/.test(label) ? 'artillery' : /Semicingolati/.test(label) ? 'mechanized_infantry' : 'truck');
+const statIcon = (label) => (/^Carri/.test(label) ? 'tank' : /Cacciacarri/.test(label) ? 'anti_tank' : /artiglieria/.test(label) ? 'artillery' : /Contraerei/.test(label) ? 'anti_air' : /Semicingolati/.test(label) ? 'mechanized_infantry' : /Autoblindo|Motociclette/.test(label) ? 'recon' : 'truck');
 
 function ModelCard({ active, category, title, sub, badge, onClick }) {
   return (
@@ -114,7 +114,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                   <span className="de-emblem"><Icon name={sum.category} size={30} /></span>
                   <div className="de-hero-text">
                     <input className="de-title-input" value={name} maxLength={rules.nameMax} onChange={(e) => setName(e.target.value)} placeholder={title} aria-label="Nome del modello" />
-                    <p>{`Divisione ${CATEGORY_LABEL[sum.category]}`}{design ? ` · modello salvato${design.used ? `, usato da ${design.used} divisioni` : ''}` : preset ? ' · modello di partenza' : ' · nuovo'}{changed && src.kind !== 'new' ? ' · modificato' : ''}</p>
+                    <p>{`Divisione ${CATEGORY_LABEL[sum.category] ?? ''}`}{design ? ` · modello salvato${design.used ? `, usato da ${design.used} divisioni` : ''}` : preset ? ' · modello di partenza' : ' · nuovo'}{changed && src.kind !== 'new' ? ' · modificato' : ''}</p>
                   </div>
                   {design ? <button type="button" className="de-chip" onClick={() => openReorg(design.id)}><Icon name="swap" size={18} /> Riorganizza</button> : null}
                 </div>
@@ -130,7 +130,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
                       return (
                         <div key={r.id} className={`de-row${r.available ? '' : ' off'}${r.count ? ' has' : ''}`}>
                           <span className="de-row-icon"><Art id={r.illustration} fallback={r.type} size={24} locked={!r.available} /></span>
-                          <span className="de-row-name"><b>{r.name}</b><span>{r.available ? `${fmt(r.men)} uomini${r.divisional ? ' · uno per divisione' : ''}` : r.reason}</span></span>
+                          <span className="de-row-name"><b lang={r.gloss ? 'de' : undefined}>{r.name}</b>{r.gloss ? <i>{r.gloss}</i> : null}<span>{r.available ? `${fmt(r.men)} uomini${r.divisional ? ' · uno per divisione' : ''}` : r.reason}</span></span>
                           <span className="de-step">
                             <button type="button" aria-label={`Togli ${r.name}`} disabled={r.count === 0} onClick={() => setList((l) => bump(l, r.id, -1))}>−</button>
                             <span className="de-n">{r.count}</span>

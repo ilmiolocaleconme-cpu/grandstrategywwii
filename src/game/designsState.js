@@ -3,7 +3,7 @@
 // al nuovo modello, la dotazione che c'è si porta (anche con la mappa delle voci vecchie, data/units/equipment/upgrade_map.json), quello che manca
 // lo portano i rinforzi dalle scorte e dalla produzione; quello che avanza torna alla scorta nazionale. Niente pezzi gratis, niente perso in silenzio.
 // Stato (OPZIONALE, assente = nessun modello): state.designs = { schema, byId: { 'DSG-DEU-001': { id, nation, name, category, modules: [[id, n]], createdOn } } }.
-import { designProblems, designCategory, designTemplate, sumComposition } from '../data/modules.js';
+import { designProblems, designCategory, designTemplate, sumComposition, DESIGN_CATEGORIES } from '../data/modules.js';
 import { upgradeDivision } from '../rules/templateUpgrade.js';
 import { applyUnitChange } from '../rules/unitRegistry.js';
 
@@ -100,7 +100,7 @@ export function validateDesignsState(d) {
     if (!ID_RE.test(id) || x?.id !== id) e.push(`modelli di divisione: id ${id} non valido`);
     if (typeof x?.name !== 'string' || !x.name) e.push(`modelli di divisione: ${id} senza nome`);
     if (id.split('-')[1] !== x?.nation) e.push(`modelli di divisione: ${id} nazione incoerente`);
-    if (!['infantry', 'motorized', 'mechanized', 'armored'].includes(x?.category)) e.push(`modelli di divisione: ${id} categoria non valida`);
+    if (!DESIGN_CATEGORIES.includes(x?.category)) e.push(`modelli di divisione: ${id} categoria non valida`);
     if (!Array.isArray(x?.modules) || !x.modules.length || !x.modules.every((m) => Array.isArray(m) && typeof m[0] === 'string' && Number.isInteger(m[1]) && m[1] > 0)) e.push(`modelli di divisione: ${id} battaglioni non validi`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(x?.createdOn ?? '')) e.push(`modelli di divisione: ${id} senza data`);
   }

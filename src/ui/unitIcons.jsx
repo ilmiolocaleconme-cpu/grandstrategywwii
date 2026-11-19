@@ -18,6 +18,17 @@ const PATHS = {
   artillery: <><path d="M3 9l11 5" {...S} strokeWidth={2.6} /><circle cx="14" cy="16" r="3.2" {...S} /><path d="M14 16l7 3M11 18l-3 3" {...S} /></>,
   // chiave inglese: supporto e servizi
   support: <><path d="M14.5 4a4.5 4.5 0 0 0-4.2 6.1L4 16.4 7.6 20l6.3-6.3A4.5 4.5 0 0 0 20 9.5l-2.7 2.7-3.2-.8-.8-3.2L16 5.5a4.5 4.5 0 0 0-1.5-1.5z" {...S} /></>,
+  // vette: montagna
+  mountain_infantry: <path d="M2 20l7-12 4 6 3-4 6 10z" {...S} />,
+  // paracadute
+  airborne_infantry: <><path d="M3 10a9 7 0 0 1 18 0z" {...S} /><path d="M3 10l9 9 9-9M12 10v9" {...S} /></>,
+  cavalry: <path d="M5 20v-6c0-3 2-5 5-5h3l2-4 1 2 3 1-1 3h-2l-1 2v7M9 20v-5" {...S} />,
+  // canna alzata: contraerea
+  anti_air: <><path d="M6 17l12-12M9 17l11-9" {...S} /><circle cx="7" cy="18" r="2.2" {...S} /><path d="M3 20h10" {...S} /></>,
+  // binocolo: esplorazione
+  recon: <><circle cx="7" cy="15" r="3.6" {...S} /><circle cx="17" cy="15" r="3.6" {...S} /><path d="M9.5 12.5L11 6h2l1.5 6.5M10.6 15h2.8" {...S} /></>,
+  // pala: genio
+  engineer: <><path d="M14 3l7 7-2 2-7-7zM15 9l-9 9" {...S} /><path d="M3 21l3-3 2 2-3 3z" fill="currentColor" stroke="none" /></>,
   men: <><circle cx="9" cy="7" r="3" {...S} /><path d="M3 20c0-4 2.7-6.5 6-6.5s6 2.5 6 6.5" {...S} /><circle cx="17" cy="8" r="2.4" {...S} /><path d="M16 13.6c3 .2 5 2.4 5 6" {...S} /></>,
   horse: <><path d="M5 20v-6c0-3 2-5 5-5h3l2-4 1 2 3 1-1 3h-2l-1 2v7M9 20v-5" {...S} /></>,
   truck: <><path d="M2 7h11v9H2zM13 10h4.5l3 3v3H13z" {...S} /><circle cx="6" cy="17.5" r="1.8" fill="currentColor" /><circle cx="17" cy="17.5" r="1.8" fill="currentColor" /></>,
@@ -31,7 +42,7 @@ const PATHS = {
   swap: <><path d="M4 8h14l-3-3M20 16H6l3 3" {...S} /></>,
   pause: <><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" /><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" /></>,
 };
-const CATEGORY_ICON = { infantry: 'infantry', motorized: 'motorized_infantry', mechanized: 'mechanized_infantry', armored: 'tank' };
+const CATEGORY_ICON = { infantry: 'infantry', motorized: 'motorized_infantry', mechanized: 'mechanized_infantry', armored: 'tank', mountain: 'mountain_infantry', cavalry: 'cavalry', airborne: 'airborne_infantry' };
 
 export function Icon({ name, size = 22, title, className }) {
   const key = PATHS[name] ? name : (CATEGORY_ICON[name] ?? 'infantry');

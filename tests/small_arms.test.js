@@ -20,7 +20,7 @@ test('dati: catalogo dei fucili valido per le cinque nazioni', () => {
 });
 
 test('le cinque tecnologie della fanteria sono usate tutte dai modelli', () => {
-  const inf = techs.technologies.filter((t) => t.branch === 'infantry').map((t) => t.id);
+  const inf = techs.technologies.filter((t) => t.branch === 'infantry' && t.id !== 'TECH-INF-AIRBORNE').map((t) => t.id); // i paracadutisti (19/11/2026) servono ai battaglioni, non alle armi
   assert.equal(inf.length, 5);
   const used = smallArmsConsumers(doc);
   for (const id of inf) assert.ok(used.has(id), id);

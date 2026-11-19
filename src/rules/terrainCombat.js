@@ -46,6 +46,7 @@ export function validateTerrainCombat(cfg) {
   if (cfg === null || typeof cfg !== 'object') return ['terreno in battaglia: configurazione mancante'];
   const errors = [];
   if (cfg.schema !== TERRAIN_COMBAT_SCHEMA) errors.push(`terreno in battaglia: schema ${JSON.stringify(cfg.schema)}`);
+  if (cfg.noEngineerRiverPenalty !== undefined && !(cfg.noEngineerRiverPenalty >= 1 && cfg.noEngineerRiverPenalty <= 3)) errors.push('terreno in battaglia: noEngineerRiverPenalty deve stare tra 1 e 3');
   for (const k of TERRAIN_CLASSES) if (!(cfg.defense?.[k] >= 1 && cfg.defense[k] <= 3)) errors.push(`terreno in battaglia: difesa di «${k}» deve stare tra 1 e 3`);
   for (const k of Object.keys(cfg.defense ?? {})) if (!TERRAIN_CLASSES.includes(k)) errors.push(`terreno in battaglia: classe «${k}» sconosciuta`);
   for (const [cat, row] of Object.entries(cfg.category ?? {})) {

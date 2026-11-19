@@ -2,10 +2,11 @@
 import { moduleAvailable, designCategory, designProblems, sumComposition } from '../data/modules.js';
 
 export const TYPE_LABEL = Object.freeze({
-  infantry: 'Fanteria', motorized_infantry: 'Fanteria motorizzata', mechanized_infantry: 'Fanteria meccanizzata', tank: 'Carri',
-  anti_tank: 'Anticarro e cacciacarri', artillery: 'Artiglieria', support: 'Supporto e servizi',
+  infantry: 'Fanteria', motorized_infantry: 'Fanteria motorizzata', mechanized_infantry: 'Fanteria meccanizzata', mountain_infantry: 'Truppe da montagna',
+  airborne_infantry: 'Paracadutisti', cavalry: 'Cavalleria', tank: 'Carri', anti_tank: 'Anticarro e cacciacarri', artillery: 'Artiglieria',
+  anti_air: 'Contraerea', recon: 'Esplorazione', engineer: 'Genio', support: 'Supporto e servizi',
 });
-export const CATEGORY_LABEL = Object.freeze({ infantry: 'fanteria', motorized: 'motorizzata', mechanized: 'meccanizzata', armored: 'corazzata' });
+export const CATEGORY_LABEL = Object.freeze({ infantry: 'fanteria', motorized: 'motorizzata', mechanized: 'meccanizzata', armored: 'corazzata', mountain: 'da montagna', cavalry: 'di cavalleria', airborne: 'paracadutisti' });
 const TYPE_ORDER = Object.keys(TYPE_LABEL);
 const itDate = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
 
@@ -16,7 +17,7 @@ export function moduleGroups(modules, list, { nation, date, researched, techName
     const ok = moduleAvailable(m, { nation, date, researched });
     const missing = [m.requiresTech ?? []].flat().filter((t) => !researched?.has(t));
     const reason = ok ? null : [missing.length ? `richiede ${missing.map(techName).join(' + ')}` : null, m.availableFrom && date < m.availableFrom ? `dal ${itDate(m.availableFrom)}` : null].filter(Boolean).join(' · ');
-    return { id: m.id, type: m.type, illustration: m.illustration ?? null, name: m.name_it, men: m.men, divisional: m.divisional === true, count: count.get(m.id) ?? 0, available: ok, reason };
+    return { id: m.id, type: m.type, illustration: m.illustration ?? null, name: m.name_de ?? m.name_it, gloss: m.name_de ? m.name_it : null, men: m.men, divisional: m.divisional === true, count: count.get(m.id) ?? 0, available: ok, reason };
   });
   return TYPE_ORDER.map((type) => ({ type, label: TYPE_LABEL[type], rows: rows.filter((r) => r.type === type) })).filter((g) => g.rows.length);
 }
@@ -36,8 +37,8 @@ export function designSummary(list, ctx) {
   const pick = (re) => Object.entries(sum.equipment).filter(([k]) => re.test(k)).reduce((s, [, v]) => s + v, 0);
   const highlights = [
     { label: 'Carri', qty: pick(/^TNK-/) }, { label: 'Cacciacarri e cannoni d\'assalto', qty: pick(/^TD-/) },
-    { label: 'Pezzi d\'artiglieria e anticarro', qty: pick(/^ART-DEU-(LEFH|SFH|LEIG|SIG|PAK|K18)|^ART-.*-(AT|GUN|HOW)/) },
-    { label: 'Semicingolati', qty: pick(/SDKFZ/) }, { label: 'Autocarri', qty: pick(/TRUCK/) },
+    { label: 'Pezzi d\'artiglieria e anticarro', qty: pick(/^ART-(?!.*(GRW|MOR|AA-|FLAK))/) }, { label: 'Contraerei', qty: pick(/^ART-.*(AA-|FLAK)/) },
+    { label: 'Semicingolati', qty: pick(/SDKFZ251/) }, { label: 'Autoblindo', qty: pick(/SDKFZ222/) }, { label: 'Motociclette', qty: pick(/KRAD/) }, { label: 'Autocarri', qty: pick(/TRUCK/) },
   ].filter((h) => h.qty > 0);
   // potenza di fuoco a dotazione piena (src/rules/battleV2.js → rawFirepower, passata da App.jsx): contro fanteria, contro corazzati, corazza media
   const fp = ctx.firepowerOf && valid.length ? ctx.firepowerOf(sum.equipment, sum.men) : null;

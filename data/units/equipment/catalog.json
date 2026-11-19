@@ -570,6 +570,62 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "VEH-DEU-KRAD",
+      "nation": "DEU",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Kraftrad (BMW R 12, R 75; Zündapp KS 750)",
+      "name_it": "Motocicletta militare (Kraftrad)",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "VEH-DEU-SDKFZ222",
+      "nation": "DEU",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "leichter Panzerspähwagen Sd.Kfz. 222 (e 8-Rad Sd.Kfz. 231)",
+      "name_it": "Autoblindo Sd.Kfz. 222",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "ART-DEU-FLAK88",
+      "nation": "DEU",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 88,
+      "designation": "8,8 cm Flak 18/36/37",
+      "name_it": "Cannone contraereo da 88 mm (Flak 18/36)",
+      "role": "heavy_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "ART-DEU-GEBG36",
+      "nation": "DEU",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "7,5 cm Gebirgsgeschütz 36",
+      "name_it": "Cannone da montagna da 75 mm (GebG 36)",
+      "role": "mountain_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     }
   ],
   "aliases": [
@@ -757,6 +813,26 @@
       "nation": "DEU",
       "templateKey": "TD-DEU-JAGDPANTHER",
       "equipment_id": "TD-DEU-JAGDPANTHER"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "VEH-DEU-KRAD",
+      "equipment_id": "VEH-DEU-KRAD"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "VEH-DEU-SDKFZ222",
+      "equipment_id": "VEH-DEU-SDKFZ222"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-FLAK88",
+      "equipment_id": "ART-DEU-FLAK88"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-GEBG36",
+      "equipment_id": "ART-DEU-GEBG36"
     }
   ]
 }
