@@ -1038,6 +1038,16 @@
         },
         {
           "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-AT45-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USSR-HOW122-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-USSR-AA76",
           "count": 1
         },

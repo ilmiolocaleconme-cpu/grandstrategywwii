@@ -57,8 +57,8 @@ test('armi leggere e artiglieria (10/11/2026): una fabbrica di ciascun tipo per 
   for (const n of ['DEU', 'FRA', 'GBR', 'ITA', 'USSR', 'JPN', 'USA']) {
     const c = facilityCounts(file, n);
     // 19/11/2026: la Germania ha un impianto per ogni arma delle divisioni (4 di armi leggere, 7 di artiglieria); l'URSS (stesso giorno, battaglioni
-    // sovietici) 4 di armi leggere (fucile, TT-33, DT, Maxim) e 4 di artiglieria (76, mortaio da 82, 76 reggimentale, contraerea da 76); le altre ancora uno
-    const [w, a] = n === 'DEU' ? [4, 7] : n === 'USSR' ? [4, 4] : [1, 1];
+    // sovietici) 4 di armi leggere (fucile, TT-33, DT, Maxim) e 6 di artiglieria (76, mortaio da 82, 76 reggimentale, AT 45, obice da 122, contraerea da 76); le altre ancora uno
+    const [w, a] = n === 'DEU' ? [4, 7] : n === 'USSR' ? [4, 6] : [1, 1];
     assert.equal(c['FCT-WEAPONS'], w, n); assert.equal(c['FCT-ARTILLERY'], a, n);
     for (const f of file.nations[n].facilities.filter((x) => x.factory === 'FCT-WEAPONS' || x.factory === 'FCT-ARTILLERY')) assert.ok(f.recipeId.split('-').includes(n), `${n}: ${f.recipeId}`);
   }

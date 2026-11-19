@@ -43,10 +43,10 @@ const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-LEFH18', tank
 // uno per arma, con la ricetta del modello usato dai battaglioni (data/units/modules/modules_deu.json). Obici leggeri: 2 impianti (il collo di bottiglia,
 // ~2,45 al giorno ciascuno). Stime di Claude, non dati storici per impianto. Le altre grandi potenze: da fare (i loro template usano voci di classe).
 // URSS (19/11/2026, «tutto dai battaglioni»): un impianto per ogni arma dei battaglioni del 1936 (data/units/modules/modules_ussr.json) più il mortaio da 82
-// (dal 1936, serve all'organico 1939). Anticarro da 45 (dal 1937), obici da 122 (dal 1939) e 152, mortai da 50 e 120, contraerea da 37 NON hanno un
-// impianto iniziale: il catalogo li dà producibili solo da dopo il 1936 (tests/recipes_models.test.js); da
+// (dal 1936, serve all'organico 1939). AT 45 e obici da 122 senza data d'inizio (scelta dell'utente del 19/11/2026). Obici da 152, mortai da 50 e 120,
+// contraerea da 37 NON hanno un impianto iniziale: il catalogo li dà producibili solo da dopo il 1936 (tests/recipes_models.test.js); da
 // ottenere cambiando ricetta. Stime di Claude, non dati storici per impianto.
-const EXTRA = { USSR: [['wpn', 'REC-INW-USSR-PISTOL-TT33'], ['wpn', 'REC-MG-USSR-LMG-1939'], ['wpn', 'REC-MG-USSR-HMG-1939'], ['art', 'REC-ART-USSR-MOR82'], ['art', 'REC-ART-USSR-GUN76-REGT'], ['art', 'REC-ART-USSR-AA76'], ['veh', 'REC-VEH-USSR-GAZAA']], DEU: [['wpn', 'REC-INW-DEU-PISTOL-1939'], ['wpn', 'REC-MG-DEU-MG34-L'], ['wpn', 'REC-MG-DEU-MG34-S'], ['art', 'REC-ART-DEU-SFH18'], ['art', 'REC-ART-DEU-GRW34'], ['art', 'REC-ART-DEU-GRW36'], ['art', 'REC-ART-DEU-PAK36'], ['art', 'REC-ART-DEU-LEIG18']] };
+const EXTRA = { USSR: [['wpn', 'REC-INW-USSR-PISTOL-TT33'], ['wpn', 'REC-MG-USSR-LMG-1939'], ['wpn', 'REC-MG-USSR-HMG-1939'], ['art', 'REC-ART-USSR-MOR82'], ['art', 'REC-ART-USSR-GUN76-REGT'], ['art', 'REC-ART-USSR-AT45-1939'], ['art', 'REC-ART-USSR-HOW122-1939'], ['art', 'REC-ART-USSR-AA76'], ['veh', 'REC-VEH-USSR-GAZAA']], DEU: [['wpn', 'REC-INW-DEU-PISTOL-1939'], ['wpn', 'REC-MG-DEU-MG34-L'], ['wpn', 'REC-MG-DEU-MG34-S'], ['art', 'REC-ART-DEU-SFH18'], ['art', 'REC-ART-DEU-GRW34'], ['art', 'REC-ART-DEU-GRW36'], ['art', 'REC-ART-DEU-PAK36'], ['art', 'REC-ART-DEU-LEIG18']] };
 const MUN = { USA: 6, GBR: 3, DEU: 6, USSR: 6, ITA: 3, FRA: 4, JPN: 5, BEL: 0, CAN: 0, CZE: 0, POL: 0, SWE: 0 };
 
 const candidates = new Set(Object.keys(A));
