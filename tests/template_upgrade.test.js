@@ -88,7 +88,7 @@ test('dati reali: dal 1/9/1939 le divisioni tedesche e francesi già create pass
       if (!['infantry', ...Object.keys(CATEGORY_FALLBACK)].includes(unitOf(id).category)) { assert.deepEqual(d, old, `${id}: non di fanteria, nessuna versione più recente`); continue; }
       assert.equal(d.templateId, `TPL-${nation}-INF-1939`, id);
       assert.equal(d.since, old.since); assert.equal(d.upgrade.from, old.templateId); assert.equal(d.upgrade.on, '1939-09-01');
-      assert.equal(d.items['manpower.war'].planned, nation === 'DEU' ? 17200 : 16400);
+      assert.equal(d.items['manpower.war'].planned, nation === 'DEU' ? 16860 : 16400); // DEU dal 20/11/2026: somma dei battaglioni (schema unico)
       assert.equal(d.items['manpower.war'].effective, Math.min(old.items['manpower.war'].effective, d.items['manpower.war'].planned), 'uomini portati, non creati');
       for (const [k, it] of Object.entries(d.items)) assert.ok(it.effective <= it.planned, `${id} ${k}`);
       if (nation === 'DEU') upgradedDeu += 1; else upgradedFra += 1;
@@ -100,16 +100,18 @@ test('dati reali: dal 1/9/1939 le divisioni tedesche e francesi già create pass
   assert.equal(sys(c), c, 'idempotente: nessuna nuova modifica, stesso oggetto');
 });
 
-test('dati reali Germania: dotazione dal vecchio template alla voce 1939 mappata (fucili → INW-DEU-RIFLE-1939); antiaerei senza corrispondenza registrati come persi; voci nuove da 0', () => {
+// 20/11/2026 (schema unico): i template tedeschi 1936 e 1939 sono somme di battaglioni con le STESSE chiavi (id dei modelli), quindi la mappa delle
+// chiavi vecchie (fucili → INW-DEU-RIFLE-1939) non serve più per la Germania: la dotazione passa voce per voce, senza perdite.
+test('dati reali Germania: dal 1936 al 1939 la dotazione passa con le stesse chiavi; nessuna voce persa', () => {
   const sys = createForcesActivationSystem(ctx);
   const s0 = { ...start(), date: '1939-08-31' };
   const [id, old] = of(s0, 'DEU').find(([i, d]) => d.templateId === 'TPL-DEU-INF-1936');
   const after = advanceDays(s0, 1, [sys]).forces.divisions[id];
   assert.equal(after.templateId, 'TPL-DEU-INF-1939');
-  assert.equal(after.items['equipment.INW-DEU-RIFLE-1939'].effective, Math.min(old.items['equipment.fucili'].effective, 12609));
-  assert.equal(after.items['equipment.ART-DEU-GRW34'].effective, Math.min(old.items['equipment.mortaiPesanti81mm'].effective, 58));
-  assert.equal(after.upgrade.dropped['equipment.antiaerei20mm'], old.items['equipment.antiaerei20mm'].effective);
-  assert.equal(after.items['equipment.fucili'], undefined, 'le chiavi vecchie non restano');
+  const t39 = templates.find((t) => t.id === 'TPL-DEU-INF-1939');
+  assert.equal(after.items['equipment.INW-DEU-RIFLE-1939'].effective, Math.min(old.items['equipment.INW-DEU-RIFLE-1939'].effective, t39.equipment['INW-DEU-RIFLE-1939'].value));
+  assert.equal(after.items['equipment.ART-DEU-GRW34'].effective, Math.min(old.items['equipment.ART-DEU-GRW34'].effective, t39.equipment['ART-DEU-GRW34'].value));
+  assert.equal(after.upgrade.dropped, undefined, 'nessuna voce senza corrispondenza');
   assert.deepEqual(Object.keys(after.items).filter((k) => k.startsWith('equipment.')).sort(), templates.find((t) => t.id === 'TPL-DEU-INF-1939') && Object.keys(templates.find((t) => t.id === 'TPL-DEU-INF-1939').equipment).map((k) => `equipment.${k}`).sort());
 });
 
@@ -145,7 +147,7 @@ test('effetto reale: prima dell\'aggiornamento una scorta di fucili 1939 non arr
   const s0 = { ...start(), date: '1939-08-31' };
   const [id] = of(s0, 'DEU').find(([i, d]) => d.templateId === 'TPL-DEU-INF-1936');
   const plan = (s) => planReinforcements(s.forces, { units: units.filter((u) => u.id === id), nation: 'DEU', date: s.date, poolAvailable: 0, stocks: { 'equipment.INW-DEU-RIFLE-1939': 500 }, transitDays: () => 3 });
-  assert.equal(plan(s0).transfers.filter((t) => t.item === 'equipment.INW-DEU-RIFLE-1939').length, 0, 'prima: la divisione non ha quella voce');
+  assert.equal(plan(s0).transfers.filter((t) => t.item === 'equipment.INW-DEU-RIFLE-1939').length, 1, 'dal 20/11/2026 anche il template 1936 usa la voce del modello: i fucili arrivano già prima');
   const after = advanceDays(s0, 1, [sys]);
   const t = plan(after).transfers.filter((x) => x.item === 'equipment.INW-DEU-RIFLE-1939');
   assert.equal(t.length, 1);
@@ -157,15 +159,16 @@ test('l\'eccedenza troncata torna nella scorta della nazione (stato delle nazion
   const sys = createForcesActivationSystem(ctx);
   const s0 = { ...start(), date: '1939-08-31' };
   const [id] = of(s0, 'DEU').find(([i, d]) => d.templateId === 'TPL-DEU-INF-1936');
-  // dotazione artificiale: 15000 fucili effettivi (previsto 1936 13500 è il tetto di validità, quindi si alza anche il previsto del solo test) contro 12609 del 1939
+  // dotazione artificiale: 15000 fucili effettivi (si alza anche il previsto del solo test) contro il previsto del 1939 (somma dei battaglioni, 20/11/2026)
+  const cap = templates.find((t) => t.id === 'TPL-DEU-INF-1939').equipment['INW-DEU-RIFLE-1939'].value;
   const d = s0.forces.divisions[id];
-  s0.forces = { ...s0.forces, divisions: { ...s0.forces.divisions, [id]: { ...d, items: { ...d.items, 'equipment.fucili': { planned: 15000, effective: 15000, source: 'template' } } } } };
+  s0.forces = { ...s0.forces, divisions: { ...s0.forces.divisions, [id]: { ...d, items: { ...d.items, 'equipment.INW-DEU-RIFLE-1939': { planned: 15000, effective: 15000, source: 'template' } } } } };
   s0.nations = { DEU: { stocks: { 'equipment.INW-DEU-RIFLE-1939': 7 } } };
   const before = 7;
   const after = advanceDays(s0, 1, [sys]);
-  assert.equal(after.forces.divisions[id].items['equipment.INW-DEU-RIFLE-1939'].effective, 12609);
-  assert.equal(after.forces.divisions[id].upgrade.surplus['equipment.INW-DEU-RIFLE-1939'], 15000 - 12609);
-  assert.equal(after.nations.DEU.stocks['equipment.INW-DEU-RIFLE-1939'], before + 15000 - 12609);
+  assert.equal(after.forces.divisions[id].items['equipment.INW-DEU-RIFLE-1939'].effective, cap);
+  assert.equal(after.forces.divisions[id].upgrade.surplus['equipment.INW-DEU-RIFLE-1939'], 15000 - cap);
+  assert.equal(after.nations.DEU.stocks['equipment.INW-DEU-RIFLE-1939'], before + 15000 - cap);
   assert.deepEqual(validateForcesShape(after.forces), []);
 });
 

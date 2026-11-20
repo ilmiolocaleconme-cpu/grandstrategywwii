@@ -1369,6 +1369,11 @@
       "nation": "DEU",
       "templateKey": "ART-DEU-PZW42",
       "equipment_id": "ART-DEU-PZW42"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-AA-20",
+      "equipment_id": "ART-DEU-AA-20"
     }
   ]
 }

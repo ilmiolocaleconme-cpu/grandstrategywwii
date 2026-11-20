@@ -20,27 +20,39 @@
   "modules": [
     {
       "id": "MOD-DEU-MOT-INF",
-      "count": 4
+      "count": 4,
+      "name": "Infanterie-Bataillon (mot.)",
+      "name_it": "Battaglione di fanteria motorizzata"
     },
     {
       "id": "MOD-DEU-REGT-HVY-MOT",
-      "count": 2
+      "count": 2,
+      "name": "Infanteriegeschütz- und Panzerjäger-Kompanien (mot.)",
+      "name_it": "Compagnie pesanti di reggimento motorizzate (6 leIG 18, 2 sIG 33, 12 PaK 36)"
     },
     {
       "id": "MOD-DEU-TANK",
-      "count": 1
+      "count": 1,
+      "name": "Panzer-Abteilung",
+      "name_it": "Battaglione carri"
     },
     {
       "id": "MOD-DEU-ART-MOT",
-      "count": 2
+      "count": 2,
+      "name": "leichte Artillerie-Abteilung (mot.)",
+      "name_it": "Gruppo d'artiglieria leggera motorizzato (12 obici da 105)"
     },
     {
       "id": "MOD-DEU-AT-MOT",
-      "count": 1
+      "count": 1,
+      "name": "Panzerabwehr-Abteilung (mot.)",
+      "name_it": "Gruppo anticarro motorizzato (36 cannoni da 37 mm)"
     },
     {
       "id": "MOD-DEU-SUPPORT-MOT",
-      "count": 1
+      "count": 1,
+      "name": "Divisionsdienste (mot.)",
+      "name_it": "Servizi, ricognizione, genio e trasmissioni motorizzati"
     }
   ],
   "manpower": {

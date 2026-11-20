@@ -20,27 +20,39 @@
   "modules": [
     {
       "id": "MOD-USSR-KAV-POLK",
-      "count": 4
+      "count": 4,
+      "name": "Kavalerijskij polk",
+      "name_it": "Reggimento di cavalleria"
     },
     {
       "id": "MOD-USSR-TANK-BT",
-      "count": 1
+      "count": 1,
+      "name": "Tankovyj batal'on (BT)",
+      "name_it": "Battaglione carri veloci BT"
     },
     {
       "id": "MOD-USSR-KONNO-ART",
-      "count": 2
+      "count": 2,
+      "name": "Konno-artillerijskij divizion",
+      "name_it": "Gruppo di artiglieria a cavallo"
     },
     {
       "id": "MOD-USSR-ZENIT-1936",
-      "count": 1
+      "count": 1,
+      "name": "Zenitnyj divizion (1936)",
+      "name_it": "Gruppo contraereo (1936)"
     },
     {
       "id": "MOD-USSR-SAPER",
-      "count": 1
+      "count": 1,
+      "name": "Sapernyj batal'on",
+      "name_it": "Battaglione genio"
     },
     {
       "id": "MOD-USSR-TYL-LEGK",
-      "count": 1
+      "count": 1,
+      "name": "Tylovye sluzhby (legkie)",
+      "name_it": "Servizi leggeri (montagna, cavalleria, aviotrasportati)"
     }
   ],
   "manpower": {

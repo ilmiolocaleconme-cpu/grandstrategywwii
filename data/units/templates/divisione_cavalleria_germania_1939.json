@@ -1,0 +1,217 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-DEU-KAV-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "DEU",
+    "category": "cavalry",
+    "echelon": "division",
+    "activeFrom": "1939-10-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di cavalleria (1. Kavallerie-Brigade, poi Division) 1939-41: 8 gruppi di squadroni a cavallo, 2 gruppi d'artiglieria ippotrainata, esplorante, genio e servizi.",
+  "formation": {
+    "value": "divisione di cavalleria (1. Kavallerie-Brigade, poi Division) 1939-41: 8 gruppi di squadroni a cavallo, 2 gruppi d'artiglieria ippotrainata, esplorante, genio e servizi",
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-DEU-REITER",
+      "count": 8,
+      "name": "Reiter-Abteilung",
+      "name_it": "Gruppo di cavalleria (squadroni)"
+    },
+    {
+      "id": "MOD-DEU-ART",
+      "count": 2,
+      "name": "leichte Artillerie-Abteilung (bespannt)",
+      "name_it": "Gruppo d'artiglieria leggera (ippotrainato)"
+    },
+    {
+      "id": "MOD-DEU-AUFKL",
+      "count": 1,
+      "name": "Aufklärungs-Abteilung",
+      "name_it": "Gruppo esplorante (a cavallo e in bicicletta)"
+    },
+    {
+      "id": "MOD-DEU-PIONIER",
+      "count": 1,
+      "name": "Pionier-Bataillon",
+      "name_it": "Battaglione del genio"
+    },
+    {
+      "id": "MOD-DEU-SUPPORT",
+      "count": 1,
+      "name": "Divisionsnachschubführer und Dienste (bespannt)",
+      "name_it": "Servizi divisionali (ippotrainati)"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 12080,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 9320,
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-DEU-LEFH18": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-LEIG18": {
+      "value": 2,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-PAK36": {
+      "value": 3,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-DEU-PISTOL-1939": {
+      "value": 2250,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-DEU-RIFLE-1939": {
+      "value": 9140,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-DEU-MG34-L": {
+      "value": 445,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-DEU-MG34-S": {
+      "value": 76,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-DEU-SDKFZ222": {
+      "value": 3,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-DEU-TRUCK": {
+      "value": 195,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-DEU-REITER, 2× MOD-DEU-ART, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

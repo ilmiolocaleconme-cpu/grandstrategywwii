@@ -46,7 +46,9 @@ test('configurazione reale valida; errori riconosciuti', () => {
 
 test('potenza di fuoco: la fanteria tedesca 1936 al completo vale circa i suoi uomini e metà del fuoco è artiglieria', () => {
   const deu = tplRaw('divisione_fanteria_germania_1936');
-  assert.ok(Math.abs(baseOf(deu) / deu.men - 1) < 0.03, `scala: ${baseOf(deu)} contro ${deu.men} uomini`);
+  // 20/11/2026 (schema unico): la fanteria 1936 è la somma dei battaglioni tarati sul 1939 (più MG 34 e mortai del vecchio template a mano) e vale
+  // il 9% in più dei suoi uomini. Scala NON cambiata: a 0,55 la fanteria giapponese scendeva sotto il minimo del test sui buchi dei dati.
+  assert.ok(baseOf(deu) / deu.men > 0.97 && baseOf(deu) / deu.men < 1.12, `scala: ${baseOf(deu)} contro ${deu.men} uomini`);
   assert.ok(artilleryShare(deu.raw) >= 0.45 && artilleryShare(deu.raw) <= 0.6);
   assert.deepEqual(deu.raw.filled, []);
 });

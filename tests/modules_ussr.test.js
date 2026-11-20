@@ -15,7 +15,7 @@ const templates = completeTemplates(readdirSync(tdir).filter((n) => /^(divisione
 
 test('modules_ussr: valido, armi nel catalogo, nomi russi e italiani', () => {
   assert.deepEqual(validateModules(doc, { catalogIds: new Set(catalog.entries.map((e) => e.equipment_id)), techIds }), []);
-  assert.ok(doc.modules.every((m) => m.nation === 'USSR' && m.name_ru && m.name_it));
+  assert.ok(doc.modules.every((m) => m.nation === 'USSR' && m.name_native && m.name_it));
 });
 
 test('ogni composizione coincide col file su disco (stesso id dei template del CSV per 1936 e 1939)', () => {

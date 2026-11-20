@@ -59,7 +59,10 @@ test('dopo l’evento il gioco porta le divisioni al template motorizzato: nient
     const d = s.forces.divisions[id];
     assert.equal(d.templateId, 'TPL-DEU-MOT-1937', id);
     assert.equal(d.items['equipment.VEH-DEU-TRUCK'].planned, 1595);
-    assert.equal(vehicleMarchSpeed(d.items, 20, 50), 20, 'senza autocarri consegnati marcia a piedi');
+    // 20/11/2026: la fanteria 1936 (dai battaglioni) ha già 195 autocarri nei servizi: passano alla motorizzata, che marcia un po' più veloce dei 20 km a piedi
+    const tr = d.items['equipment.VEH-DEU-TRUCK'];
+    assert.equal(vehicleMarchSpeed(d.items, 20, 50), Math.round(20 + 30 * (tr.effective / tr.planned)), 'velocità in proporzione agli autocarri consegnati');
+    assert.ok(vehicleMarchSpeed(d.items, 20, 50) < 30, 'finché mancano quasi tutti gli autocarri resta lenta');
   }
   assert.equal(s.forces.divisions.U00073.items.horses?.planned ?? 0, 0, 'la divisione motorizzata non ha più cavalli previsti');
   assert.equal(templateFor(unitOf(s, 'U00073', new Map(de.map((u) => [u.id, u]))), templates, '1940-01-01').id, 'TPL-DEU-MOT-1937', 'non torna fanteria nel 1939');

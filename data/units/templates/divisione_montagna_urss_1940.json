@@ -20,27 +20,39 @@
   "modules": [
     {
       "id": "MOD-USSR-GORN-STRELK",
-      "count": 8
+      "count": 8,
+      "name": "Gorno-strelkovyj batal'on",
+      "name_it": "Battaglione fucilieri da montagna"
     },
     {
       "id": "MOD-USSR-GORN-ART",
-      "count": 3
+      "count": 3,
+      "name": "Gornyj artillerijskij divizion",
+      "name_it": "Gruppo di artiglieria da montagna (someggiato)"
     },
     {
       "id": "MOD-USSR-GORN-MIN",
-      "count": 1
+      "count": 1,
+      "name": "Gornyj minomëtnyj divizion",
+      "name_it": "Gruppo mortai da montagna da 107 mm (someggiato)"
     },
     {
       "id": "MOD-USSR-PTO",
-      "count": 1
+      "count": 1,
+      "name": "Otdel'nyj protivotankovyj divizion",
+      "name_it": "Gruppo anticarro divisionale (45 mm)"
     },
     {
       "id": "MOD-USSR-SAPER",
-      "count": 1
+      "count": 1,
+      "name": "Sapernyj batal'on",
+      "name_it": "Battaglione genio"
     },
     {
       "id": "MOD-USSR-TYL-LEGK",
-      "count": 1
+      "count": 1,
+      "name": "Tylovye sluzhby (legkie)",
+      "name_it": "Servizi leggeri (montagna, cavalleria, aviotrasportati)"
     }
   ],
   "manpower": {

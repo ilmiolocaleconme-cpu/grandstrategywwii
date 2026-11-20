@@ -1,8 +1,7 @@
 {
   "schema": "unit-template-v1",
   "id": "TPL-DEU-INF-1936",
-  "status": "BOZZA_DA_CONFERMARE",
-  "note": "Template della fanteria tedesca al 1/1/1936. Scelta dell'utente (29/10/2026): organico di GUERRA. I valori sono la ricostruzione 1937-38 fornita dall'utente (basis 'utente'): NON sono un organico documentato del 1/1/1936 (la ricostruzione dell'esercito era in corso). Sono l'organico PREVISTO, non la dotazione effettiva di ogni divisione. null = da definire, non inventato. Dotazione effettiva: ogni voce numerica ha 'effective' (null finché non c'è un dato con data e fonte).",
+  "status": "RECONSTRUCTED_TEMPLATE",
   "appliesTo": {
     "nation": "DEU",
     "category": "infantry",
@@ -10,36 +9,71 @@
     "activeFrom": "1936-01-01"
   },
   "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fanteria (Infanterie-Division) 1936: 3 reggimenti su 3 battaglioni, artiglieria ippotrainata (36 obici da 10,5, 8 da 15, 4 cannoni da 10,5), gruppo anticarro motorizzato, esplorante, genio e servizi.",
   "formation": {
-    "value": "triangular",
-    "basis": "utente",
-    "referenceYear": "1937-1938",
-    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata). Dedotta dai 3 reggimenti di fanteria."
-  },
-  "mobility": {
-    "value": "trainata",
+    "value": "divisione di fanteria (Infanterie-Division) 1936: 3 reggimenti su 3 battaglioni, artiglieria ippotrainata (36 obici da 10,5, 8 da 15, 4 cannoni da 10,5), gruppo anticarro motorizzato, esplorante, genio e servizi",
     "basis": "ipotesi",
-    "referenceYear": null,
-    "source": "Ipotesi coerente con i 4.465 cavalli, non dichiarata dalla fonte"
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "regimentsInfantry": {
-    "value": 3,
-    "basis": "utente",
-    "referenceYear": "1937-1938",
-    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
-  },
-  "battalionsPerRegiment": {
-    "value": 3,
-    "basis": "utente",
-    "referenceYear": "1937-1938",
-    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
-  },
+  "modules": [
+    {
+      "id": "MOD-DEU-INF",
+      "count": 9,
+      "name": "Infanterie-Bataillon",
+      "name_it": "Battaglione di fanteria (a piedi)"
+    },
+    {
+      "id": "MOD-DEU-REGT-HVY",
+      "count": 3,
+      "name": "Infanteriegeschütz- und Panzerjäger-Kompanien",
+      "name_it": "Compagnie pesanti di reggimento (ippotrainate)"
+    },
+    {
+      "id": "MOD-DEU-ART",
+      "count": 3,
+      "name": "leichte Artillerie-Abteilung (bespannt)",
+      "name_it": "Gruppo d'artiglieria leggera (ippotrainato)"
+    },
+    {
+      "id": "MOD-DEU-ART-HVY",
+      "count": 1,
+      "name": "schwere Artillerie-Abteilung (bespannt)",
+      "name_it": "Gruppo d'artiglieria pesante (ippotrainato)"
+    },
+    {
+      "id": "MOD-DEU-AT-MOT",
+      "count": 1,
+      "name": "Panzerabwehr-Abteilung (mot.)",
+      "name_it": "Gruppo anticarro motorizzato (36 cannoni da 37 mm)"
+    },
+    {
+      "id": "MOD-DEU-AUFKL",
+      "count": 1,
+      "name": "Aufklärungs-Abteilung",
+      "name_it": "Gruppo esplorante (a cavallo e in bicicletta)"
+    },
+    {
+      "id": "MOD-DEU-PIONIER",
+      "count": 1,
+      "name": "Pionier-Bataillon",
+      "name_it": "Battaglione del genio"
+    },
+    {
+      "id": "MOD-DEU-SUPPORT",
+      "count": 1,
+      "name": "Divisionsnachschubführer und Dienste (bespannt)",
+      "name_it": "Servizi divisionali (ippotrainati)"
+    }
+  ],
   "manpower": {
     "war": {
-      "value": 17263,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "value": 16860,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
         "value": null,
         "asOf": null,
@@ -55,10 +89,11 @@
     }
   },
   "horses": {
-    "value": 4465,
-    "basis": "utente",
-    "referenceYear": "1937-1938",
-    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+    "value": 6780,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
     "effective": {
       "value": null,
       "asOf": null,
@@ -67,71 +102,12 @@
     }
   },
   "equipment": {
-    "fucili": {
-      "value": 13500,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "pistole": {
-      "value": 3000,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "mitragliatriciLeggere": {
-      "value": 355,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "mitragliatriciPesanti": {
-      "value": 133,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "mortaiLeggeri50mm": {
-      "value": 37,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "mortaiPesanti81mm": {
+    "ART-DEU-GRW34": {
       "value": 54,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
         "value": null,
         "asOf": null,
@@ -139,11 +115,12 @@
         "source": null
       }
     },
-    "cannoniFanteria75mm": {
-      "value": 20,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+    "ART-DEU-GRW36": {
+      "value": 81,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
         "value": null,
         "asOf": null,
@@ -151,59 +128,12 @@
         "source": null
       }
     },
-    "cannoniFanteriaPesanti150mm": {
-      "value": 6,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "controcarro37mm": {
-      "value": 75,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "obiciLeggeri105mm": {
-      "value": 36,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "obiciPesanti150mm": {
-      "value": 8,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "cannoni105mm": {
+    "ART-DEU-K18-105": {
       "value": 4,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
         "value": null,
         "asOf": null,
@@ -211,13 +141,12 @@
         "source": null
       }
     },
-    "antiaerei20mm": {
-      "value": 16,
-      "basis": "utente",
-      "referenceYear": "1937-1938",
-      "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata).",
-      "aggregated": "Luftwaffe",
-      "note": "La fonte indica che il reparto antiaereo poteva essere aggregato dalla Luftwaffe: non conta come dotazione organica certa.",
+    "ART-DEU-LEFH18": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
         "value": null,
         "asOf": null,
@@ -225,43 +154,147 @@
         "source": null
       }
     },
-    "veicoli": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
+    "ART-DEU-LEIG18": {
+      "value": 20,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
     },
-    "radio": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
+    "ART-DEU-PAK36": {
+      "value": 75,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-SFH18": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-DEU-SIG33": {
+      "value": 6,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-DEU-PISTOL-1939": {
+      "value": 3030,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-DEU-RIFLE-1939": {
+      "value": 11870,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-DEU-MG34-L": {
+      "value": 490,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-DEU-MG34-S": {
+      "value": 120,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-DEU-SDKFZ222": {
+      "value": 3,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-DEU-TRUCK": {
+      "value": 250,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-DEU-INF, 3× MOD-DEU-REGT-HVY, 3× MOD-DEU-ART, 1× MOD-DEU-ART-HVY, 1× MOD-DEU-AT-MOT, 1× MOD-DEU-AUFKL, 1× MOD-DEU-PIONIER, 1× MOD-DEU-SUPPORT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
     }
-  },
-  "organicSupport": {
-    "value": [
-      "quartier generale e staff",
-      "artiglieria campale e componente pesante",
-      "battaglione esplorante",
-      "battaglione controcarro",
-      "battaglione genio",
-      "battaglione trasmissioni",
-      "servizi: logistica, sanità, veterinaria, trasporti, manutenzione"
-    ],
-    "basis": "utente",
-    "referenceYear": "1937-1938",
-    "source": "Testo allegato dall'utente il 29/10/2026: ricostruzione dell'organico 1937-38 dal rapporto di A. C. Wedemeyer (via dokumen.pub). Fonte secondaria, non verificata da me (la ricerca web non l'ha confermata)."
   },
   "effectiveSupply": {
     "value": null,
     "basis": "da_definire",
-    "note": "Dotazione effettiva (carenze, mezzi da consegnare) per data: non definita. La produzione dovrà colmare la differenza fra organico previsto e dotazione reale."
+    "note": "Dotazione effettiva per data: non definita."
   },
   "costs": {
     "resources": null,
     "manpower": null,
     "buildDays": null,
     "upkeep": null,
-    "note": "Da definire con l'utente quando si passa a caserme e produzione."
+    "note": "Da definire con l'editor a moduli."
   }
 }

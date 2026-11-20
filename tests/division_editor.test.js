@@ -36,7 +36,7 @@ test('regole e battaglioni validi; composizioni storiche e modelli di partenza d
   assert.deepEqual(validateModules(doc), []);
   for (const c of doc.compositions) assert.deepEqual(designProblems(c.modules, { ...ctx, nation: 'DEU', date: c.activeFrom, researched: new Set([...researched, 'TECH-MECH-HT']) }), [], c.templateId);
   assert.equal(modules.filter((m) => m.divisional).length, 2);
-  for (const m of modules) assert.ok(m.name_de, `${m.id} senza nome tedesco`);
+  for (const m of modules) assert.ok(m.name_native, `${m.id} senza nome tedesco`); // name_native dal 20/11/2026 (schema unico)
 });
 
 test('limiti storici: servizi, combattimento, massimi, data e tecnologia', () => {
@@ -84,7 +84,7 @@ test('riorganizzazione graduale: si tiene ciò che c\'è, manca il resto, l\'ecc
   let s = game();
   s = createDesign(s, { nation: 'DEU', name: 'Panzer', modules: PZ }, ctx).state;
   const before = s.forces.divisions[infUnit.id];
-  const rifles = before.items['equipment.fucili'].effective;
+  const rifles = before.items['equipment.INW-DEU-RIFLE-1939'].effective; // 20/11/2026: anche la fanteria 1936 usa la voce del modello (schema unico)
   const prev = reorganizePreview(s, infUnit.id, 'DSG-DEU-001', reCtx(s, infUnit.id));
   assert.equal(prev.missing['equipment.TNK-DEU-TANK'], 160, 'i carri non arrivano gratis');
   const r = reorganizeDivision(s, infUnit.id, 'DSG-DEU-001', reCtx(s, infUnit.id));

@@ -20,43 +20,63 @@
   "modules": [
     {
       "id": "MOD-USSR-STRELK",
-      "count": 9
+      "count": 9,
+      "name": "Strelkovyj batal'on",
+      "name_it": "Battaglione fucilieri (organico 1939)"
     },
     {
       "id": "MOD-USSR-POLK",
-      "count": 3
+      "count": 3,
+      "name": "Polkovye batarei",
+      "name_it": "Armi reggimentali e servizi di reggimento (organico 1939)"
     },
     {
       "id": "MOD-USSR-ART",
-      "count": 2
+      "count": 2,
+      "name": "Legkij artillerijskij divizion",
+      "name_it": "Gruppo di artiglieria leggera (76 mm, ippotrainato)"
     },
     {
       "id": "MOD-USSR-GAUB",
-      "count": 2
+      "count": 2,
+      "name": "Gaubichnyj divizion",
+      "name_it": "Gruppo di obici da 122 mm (ippotrainato)"
     },
     {
       "id": "MOD-USSR-GAUB-HVY",
-      "count": 1
+      "count": 1,
+      "name": "Tjazhelyj gaubichnyj divizion",
+      "name_it": "Gruppo di obici pesanti da 152 mm"
     },
     {
       "id": "MOD-USSR-PTO",
-      "count": 1
+      "count": 1,
+      "name": "Otdel'nyj protivotankovyj divizion",
+      "name_it": "Gruppo anticarro divisionale (45 mm)"
     },
     {
       "id": "MOD-USSR-ZENIT",
-      "count": 1
+      "count": 1,
+      "name": "Zenitnyj divizion",
+      "name_it": "Gruppo contraereo (37 e 76 mm)"
     },
     {
       "id": "MOD-USSR-RAZVED",
-      "count": 1
+      "count": 1,
+      "name": "Razvedyvatel'nyj batal'on",
+      "name_it": "Battaglione esplorante (squadrone a cavallo)"
     },
     {
       "id": "MOD-USSR-SAPER",
-      "count": 1
+      "count": 1,
+      "name": "Sapernyj batal'on",
+      "name_it": "Battaglione genio"
     },
     {
       "id": "MOD-USSR-TYL",
-      "count": 1
+      "count": 1,
+      "name": "Tylovye sluzhby i svjaz'",
+      "name_it": "Servizi divisionali e collegamenti (ippotrainati)"
     }
   ],
   "manpower": {

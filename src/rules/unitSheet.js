@@ -69,7 +69,7 @@ export const EQUIPMENT_GROUP = Object.freeze({
   'VEH-DEU-KRAD': 'veicoli', 'VEH-DEU-SDKFZ222': 'veicoli', 'ART-DEU-FLAK88': 'artiglieria', 'ART-DEU-GEBG36': 'artiglieria', // battaglioni del 19/11/2026
   'INW-USSR-PISTOL-TT33': 'individuali', 'INW-USSR-SMG-PPD': 'individuali', 'INW-USSR-SMG-PPSH41': 'individuali', 'ART-USSR-MOR50': 'mortai', 'ART-USSR-MOR82': 'mortai', 'ART-USSR-MOR120': 'mortai', // battaglioni sovietici (19/11/2026)
   'ART-USSR-GUN76-REGT': 'artiglieria', 'ART-USSR-AA37': 'contraerea', 'ART-USSR-AA76': 'contraerea', 'VEH-USSR-GAZAA': 'veicoli', 'VEH-USSR-ZIS5': 'veicoli', 'VEH-USSR-MOTO': 'veicoli', 'VEH-USSR-BA10': 'veicoli',
-  'ART-USSR-PTRD': 'anticarro', 'ART-USSR-BM13': 'artiglieria', 'ART-DEU-NBW41': 'artiglieria', 'ART-DEU-PZW42': 'artiglieria', 'ART-USA-CALLIOPE': 'artiglieria', 'ART-USSR-MOR107': 'mortai', 'ART-USSR-GUN76-GORN': 'artiglieria', // 20/11/2026
+  'ART-USSR-PTRD': 'anticarro', 'ART-USSR-BM13': 'artiglieria', 'ART-DEU-NBW41': 'artiglieria', 'ART-DEU-PZW42': 'artiglieria', 'ART-DEU-AA-20': 'contraerea', 'ART-USA-CALLIOPE': 'artiglieria', 'ART-USSR-MOR107': 'mortai', 'ART-USSR-GUN76-GORN': 'artiglieria', // 20/11/2026
   'TD-DEU-STUG-III': 'corazzati', 'TD-DEU-STUG-III-G': 'corazzati', 'TD-DEU-PZJG-I': 'corazzati', 'TD-DEU-MARDER-III': 'corazzati', 'TD-DEU-JPZ-IV': 'corazzati', 'TD-DEU-HETZER': 'corazzati', 'TD-DEU-JAGDPANTHER': 'corazzati', // cacciacarri
   fucili: 'individuali', pistole: 'individuali', 'INW-DEU-RIFLE-1939': 'individuali', 'INW-DEU-PISTOL-1939': 'individuali',
   'INW-FRA-RIFLE-1939': 'individuali', 'INW-FRA-PISTOL-1939': 'individuali', 'INW-ITA-RIFLE-1940': 'individuali', 'INW-ITA-PISTOL-1940': 'individuali',

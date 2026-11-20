@@ -30,30 +30,6 @@ import { advanceDay } from './game/engine.js';
 import { initForcesState, nationManpowerPool, createForcesActivationSystem } from './game/forcesState.js';
 import { completeTemplates } from './rules/forces.js'; // armi del template successivo per i template senza numeri (Francia 1936)
 import { createMobilizationSystem } from './game/mobilizationState.js';
-import tplFraInfantry1939 from '../data/units/templates/divisione_fanteria_francia_1939.json';
-import tplDeuInfantry1939 from '../data/units/templates/divisione_fanteria_germania_1939.json';
-import tplItaInfantry1940 from '../data/units/templates/divisione_fanteria_italia_1940.json';
-import tplJpnInfantry1939 from '../data/units/templates/divisione_fanteria_giappone_1939.json';
-import tplUsaInfantry1940 from '../data/units/templates/divisione_fanteria_usa_1940.json';
-import tplUssrInfantry1939 from '../data/units/templates/divisione_fucilieri_urss_1939.json';
-import tplFraArmored1940 from '../data/units/templates/divisione_corazzata_francia_1940.json';
-import tplGbrArmored1939 from '../data/units/templates/divisione_corazzata_gran_bretagna_1939.json';
-import tplItaArmored1940 from '../data/units/templates/divisione_corazzata_italia_1940.json';
-import tplUsaArmored1940 from '../data/units/templates/divisione_corazzata_usa_1940.json';
-import tplJpnArmored1942 from '../data/units/templates/divisione_corazzata_giappone_1942.json';
-import tplUssrArmored1940 from '../data/units/templates/divisione_corazzata_urss_1940.json';
-import tplDeuMotorized1937 from '../data/units/templates/divisione_motorizzata_germania_1937.json'; // dai battaglioni (data/units/modules), 18/11/2026
-import tplDeuLeichte1938 from '../data/units/templates/divisione_meccanizzata_germania_1938.json';
-import tplUssrTankBrigade1935 from '../data/units/templates/brigata_carri_urss_1935.json'; // brigate carri sovietiche, 18/11/2026
-import tplUssrTankBrigade1941 from '../data/units/templates/brigata_carri_urss_1941.json';
-// URSS dai battaglioni (data/units/modules/modules_ussr.json, 19/11/2026): fucilieri 1936/1941/1942, montagna, cavalleria, motorizzata, brigata aviotrasportata
-import tplUssrRifle1936 from '../data/units/templates/divisione_fucilieri_urss_1936.json';
-import tplUssrRifle1941 from '../data/units/templates/divisione_fucilieri_urss_1941.json';
-import tplUssrRifle1942 from '../data/units/templates/divisione_fucilieri_urss_1942.json';
-import tplUssrMountain1940 from '../data/units/templates/divisione_montagna_urss_1940.json';
-import tplUssrCavalry1936 from '../data/units/templates/divisione_cavalleria_urss_1936.json';
-import tplUssrMotorized1940 from '../data/units/templates/divisione_motorizzata_urss_1940.json';
-import tplUssrAirborne1936 from '../data/units/templates/brigata_aviotrasportata_urss_1936.json';
 import { vehicleMarchSpeed, designCategory, sumComposition } from './data/modules.js';
 const MODULE_DOCS = [modulesDeuFile, modulesUssrFile]; // battaglioni per nazione (Germania; URSS dal 19/11/2026)
 const templateLabel = (id) => { const t = FORCES_CTX.templates.find((x) => x.id === id); const f = t?.formation?.value; return f ? `modello ${String(f).split(':')[0].split(' (')[0]}${t.appliesTo?.activeFrom ? ` ${t.appliesTo.activeFrom.slice(0, 4)}` : ''}` : id; }; // nome leggibile del template storico
@@ -134,10 +110,6 @@ import { Popover, PopItem, PopSection } from './ui/TopMenu.jsx';
 import { createConditionSystem, playerSetPolicy } from './game/conditionState.js';
 import { createCommandDistanceSystem, orderCommandMove, commandPosition } from './game/commandDistanceState.js';
 import readiness from '../data/units/readiness.json';
-import tplDeuInfantry from '../data/units/templates/divisione_fanteria_germania_1936.json';
-import tplDeuArmored from '../data/units/templates/divisione_corazzata_germania_1936.json';
-import tplGbrInfantry from '../data/units/templates/divisione_fanteria_gran_bretagna_1936.json';
-import tplFraInfantry from '../data/units/templates/divisione_fanteria_francia_1936.json';
 import { createEconomySystem } from './game/economySystem.js';
 import { createConstruction } from './game/construction.js';
 import mineSites from '../data/resources/mine_sites.json';
@@ -389,7 +361,10 @@ const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECUR
 // IA del commercio (13/11/2026): compra ciò che sta per finire (game/aiTrade.js); percorsi e diplomazia come per il giocatore
 const GAME_AI_TRADE = createAiTrade({ ctxOf: (s) => ({ economy: economyData, resources, net: gameNet(s), sea: GAME_SEA.sea ? GAME_SEA.sea.at(s) : null, consent: GAME_DIPLOMACY.tradeConsent }) });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
-const FORCES_CTX = { units: unitsFile.units, templates: completeTemplates([tplDeuMotorized1937, tplDeuLeichte1938, tplUssrTankBrigade1935, tplUssrTankBrigade1941, tplUssrRifle1936, tplUssrRifle1941, tplUssrRifle1942, tplUssrMountain1940, tplUssrCavalry1936, tplUssrMotorized1940, tplUssrAirborne1936, tplDeuInfantry, tplDeuArmored, tplGbrInfantry, tplFraInfantry, tplDeuInfantry1939, tplFraInfantry1939, tplItaInfantry1940, tplJpnInfantry1939, tplUsaInfantry1940, tplUssrInfantry1939, tplFraArmored1940, tplGbrArmored1939, tplItaArmored1940, tplUsaArmored1940, tplJpnArmored1942, tplUssrArmored1940]), ratio: readiness.initialFillRatio.value, upgradeMap: equipmentUpgradeMap };
+// Tutti i template di divisione e di brigata (20/11/2026, schema unico e scalabile: una nazione nuova non richiede di toccare questo file)
+const ALL_TEMPLATES = [...Object.values(import.meta.glob('../data/units/templates/divisione_*.json', { eager: true, import: 'default' })), ...Object.values(import.meta.glob('../data/units/templates/brigata_*.json', { eager: true, import: 'default' }))]
+  .filter((t) => t?.appliesTo).sort((a, b) => (a.id < b.id ? -1 : 1));
+const FORCES_CTX = { units: unitsFile.units, templates: completeTemplates(ALL_TEMPLATES), ratio: readiness.initialFillRatio.value, upgradeMap: equipmentUpgradeMap };
 const withForces = (state) => GAME_DIPLOMACY.init(initForcesState(state, FORCES_CTX).state); // anche la diplomazia: stato iniziale 1936 se manca
 // Rete di movimento (province + adiacenza): si carica a partita aperta; finché manca, nessun ordine può esistere, quindi il sistema non fa nulla.
 const MOVE_NET = { net: null };

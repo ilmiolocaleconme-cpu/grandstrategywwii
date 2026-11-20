@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-18",
-  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored). 18/11/2026: gruppi di cannoni d'assalto e di cacciacarri (non ancora usati da nessuna composizione: si inseriranno con l'editor). 18/11/2026 (editor): battaglioni ippotrainati per la fanteria a piedi (artiglieria, compagnie pesanti, servizi); `divisional: true` = servizi divisionali (uno per divisione). `presets`: punti di partenza dell'editor (non generano template). 19/11/2026: nomi tedeschi (`name_de`, richiesta dell'utente) e nuovi battaglioni: carri leggeri, motociclisti, esplorazione, genio, contraerea, montagna, cavalleria, paracadutisti, sanità.",
+  "note": "Battaglioni (moduli) con cui si compongono le divisioni: base dell'editor a moduli scelto dall'utente il 18/11/2026. Ogni modulo ha uomini, cavalli, armi e veicoli; un template di divisione è la somma dei suoi moduli (src/data/modules.js, scripts/build-module-templates.js). Organici STIMATI da Claude dalla memoria sugli organici tedeschi 1937-43, NON verificati: da sostituire con dati documentati. mobility: come si muove il battaglione (foot, motorized, mechanized, armored). 18/11/2026: gruppi di cannoni d'assalto e di cacciacarri (non ancora usati da nessuna composizione: si inseriranno con l'editor). 18/11/2026 (editor): battaglioni ippotrainati per la fanteria a piedi (artiglieria, compagnie pesanti, servizi); `divisional: true` = servizi divisionali (uno per divisione). `presets`: punti di partenza dell'editor (non generano template). 19/11/2026: nomi tedeschi (`name_de`, richiesta dell'utente) e nuovi battaglioni: carri leggeri, motociclisti, esplorazione, genio, contraerea, montagna, cavalleria, paracadutisti, sanità. 20/11/2026 (schema unico per tutte le nazioni, decisione dell'utente): TUTTI i template tedeschi sono somme di battaglioni, con gli stessi id di prima; i modelli di partenza sono i template storici (niente preset doppioni); nome nella lingua della nazione in `name_native`.",
   "modules": [
     {
       "id": "MOD-DEU-INF",
@@ -21,7 +21,7 @@
       },
       "mobility": "foot",
       "illustration": "fanteria",
-      "name_de": "Infanterie-Bataillon"
+      "name_native": "Infanterie-Bataillon"
     },
     {
       "id": "MOD-DEU-ART",
@@ -37,7 +37,7 @@
       },
       "mobility": "foot",
       "illustration": "artiglieria_ippotrainata",
-      "name_de": "leichte Artillerie-Abteilung (bespannt)"
+      "name_native": "leichte Artillerie-Abteilung (bespannt)"
     },
     {
       "id": "MOD-DEU-ART-HVY",
@@ -47,13 +47,14 @@
       "men": 480,
       "horses": 600,
       "equipment": {
-        "ART-DEU-SFH18": 12,
+        "ART-DEU-SFH18": 8,
+        "ART-DEU-K18-105": 4,
         "INW-DEU-RIFLE-1939": 290,
         "MG-DEU-MG34-L": 6
       },
       "mobility": "foot",
       "illustration": "artiglieria_ippotrainata",
-      "name_de": "schwere Artillerie-Abteilung (bespannt)"
+      "name_native": "schwere Artillerie-Abteilung (bespannt)"
     },
     {
       "id": "MOD-DEU-REGT-HVY",
@@ -72,7 +73,7 @@
       },
       "mobility": "foot",
       "illustration": "anticarro",
-      "name_de": "Infanteriegeschütz- und Panzerjäger-Kompanien"
+      "name_native": "Infanteriegeschütz- und Panzerjäger-Kompanien"
     },
     {
       "id": "MOD-DEU-SUPPORT",
@@ -84,14 +85,15 @@
       "divisional": true,
       "equipment": {
         "INW-DEU-RIFLE-1939": 3100,
-        "INW-DEU-PISTOL-1939": 600,
+        "INW-DEU-PISTOL-1939": 1600,
         "MG-DEU-MG34-L": 150,
         "MG-DEU-MG34-S": 12,
         "VEH-DEU-TRUCK": 150
       },
       "mobility": "foot",
       "illustration": "trasporto_ippotrainato",
-      "name_de": "Divisionsnachschubführer und Dienste (bespannt)"
+      "name_native": "Divisionsnachschubführer und Dienste (bespannt)",
+      "note": "Stima di Claude (18-20/11/2026), tarata sul CSV del 1939 (pistole)."
     },
     {
       "id": "MOD-DEU-MOT-INF",
@@ -112,7 +114,7 @@
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
       "illustration": "fanteria_motorizzata",
-      "name_de": "Infanterie-Bataillon (mot.)"
+      "name_native": "Infanterie-Bataillon (mot.)"
     },
     {
       "id": "MOD-DEU-MECH-INF",
@@ -135,7 +137,7 @@
       "requiresTech": "TECH-MECH-HT",
       "availableFrom": "1939-06-01",
       "illustration": "semicingolato",
-      "name_de": "Schützen-Bataillon (gp.)"
+      "name_native": "Schützen-Bataillon (gp.)"
     },
     {
       "id": "MOD-DEU-ART-MOT",
@@ -153,7 +155,7 @@
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
       "illustration": "artiglieria_trainata",
-      "name_de": "leichte Artillerie-Abteilung (mot.)"
+      "name_native": "leichte Artillerie-Abteilung (mot.)"
     },
     {
       "id": "MOD-DEU-ART-HVY-MOT",
@@ -171,7 +173,7 @@
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
       "illustration": "artiglieria_trainata",
-      "name_de": "schwere Artillerie-Abteilung (mot.)"
+      "name_native": "schwere Artillerie-Abteilung (mot.)"
     },
     {
       "id": "MOD-DEU-AT-MOT",
@@ -189,7 +191,7 @@
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
       "illustration": "anticarro",
-      "name_de": "Panzerabwehr-Abteilung (mot.)"
+      "name_native": "Panzerabwehr-Abteilung (mot.)"
     },
     {
       "id": "MOD-DEU-REGT-HVY-MOT",
@@ -210,7 +212,7 @@
       "mobility": "motorized",
       "requiresTech": "TECH-MOT-INF",
       "illustration": "anticarro",
-      "name_de": "Infanteriegeschütz- und Panzerjäger-Kompanien (mot.)"
+      "name_native": "Infanteriegeschütz- und Panzerjäger-Kompanien (mot.)"
     },
     {
       "id": "MOD-DEU-TANK",
@@ -226,7 +228,7 @@
       },
       "mobility": "armored",
       "illustration": "carro_medio",
-      "name_de": "Panzer-Abteilung"
+      "name_native": "Panzer-Abteilung"
     },
     {
       "id": "MOD-DEU-SUPPORT-MOT",
@@ -246,7 +248,7 @@
       "requiresTech": "TECH-MOT-INF",
       "divisional": true,
       "illustration": "logistica_camion",
-      "name_de": "Divisionsdienste (mot.)"
+      "name_native": "Divisionsdienste (mot.)"
     },
     {
       "id": "MOD-DEU-STUG",
@@ -265,7 +267,7 @@
       "requiresTech": "TECH-ARM-ASSAULT",
       "availableFrom": "1940-02-01",
       "illustration": "cacciacarri",
-      "name_de": "Sturmgeschütz-Abteilung"
+      "name_native": "Sturmgeschütz-Abteilung"
     },
     {
       "id": "MOD-DEU-STUG-G",
@@ -287,7 +289,7 @@
       ],
       "availableFrom": "1942-03-01",
       "illustration": "cacciacarri",
-      "name_de": "Sturmgeschütz-Abteilung (lang)"
+      "name_native": "Sturmgeschütz-Abteilung (lang)"
     },
     {
       "id": "MOD-DEU-PZJG-SP",
@@ -310,7 +312,7 @@
       ],
       "availableFrom": "1942-04-01",
       "illustration": "cacciacarri_variante",
-      "name_de": "Panzerjäger-Abteilung (Sfl.)"
+      "name_native": "Panzerjäger-Abteilung (Sfl.)"
     },
     {
       "id": "MOD-DEU-JPZ",
@@ -332,7 +334,7 @@
       ],
       "availableFrom": "1944-01-01",
       "illustration": "cacciacarri_variante",
-      "name_de": "Panzerjäger-Abteilung (Jagdpanzer IV)"
+      "name_native": "Panzerjäger-Abteilung (Jagdpanzer IV)"
     },
     {
       "id": "MOD-DEU-HETZER",
@@ -354,7 +356,7 @@
       ],
       "availableFrom": "1944-04-01",
       "illustration": "cacciacarri_variante",
-      "name_de": "Panzerjäger-Kompanie (Hetzer)"
+      "name_native": "Panzerjäger-Kompanie (Hetzer)"
     },
     {
       "id": "MOD-DEU-JAGDPANTHER",
@@ -377,11 +379,11 @@
       ],
       "availableFrom": "1944-06-01",
       "illustration": "cacciacarri",
-      "name_de": "schwere Panzerjäger-Abteilung (Jagdpanther)"
+      "name_native": "schwere Panzerjäger-Abteilung (Jagdpanther)"
     },
     {
       "id": "MOD-DEU-PZ-LEICHT",
-      "name_de": "leichte Panzer-Abteilung",
+      "name_native": "leichte Panzer-Abteilung",
       "name_it": "Battaglione carri leggeri (Pz I)",
       "type": "tank",
       "mobility": "armored",
@@ -400,7 +402,7 @@
     },
     {
       "id": "MOD-DEU-KRADSCHUETZEN",
-      "name_de": "Kradschützen-Bataillon",
+      "name_native": "Kradschützen-Bataillon",
       "name_it": "Battaglione motociclisti",
       "type": "motorized_infantry",
       "mobility": "motorized",
@@ -423,7 +425,7 @@
     },
     {
       "id": "MOD-DEU-AUFKL",
-      "name_de": "Aufklärungs-Abteilung",
+      "name_native": "Aufklärungs-Abteilung",
       "name_it": "Gruppo esplorante (a cavallo e in bicicletta)",
       "type": "recon",
       "mobility": "foot",
@@ -444,7 +446,7 @@
     },
     {
       "id": "MOD-DEU-AUFKL-MOT",
-      "name_de": "Aufklärungs-Abteilung (mot.)",
+      "name_native": "Aufklärungs-Abteilung (mot.)",
       "name_it": "Gruppo esplorante motorizzato (autoblindo e motociclisti)",
       "type": "recon",
       "mobility": "motorized",
@@ -466,7 +468,7 @@
     },
     {
       "id": "MOD-DEU-PIONIER",
-      "name_de": "Pionier-Bataillon",
+      "name_native": "Pionier-Bataillon",
       "name_it": "Battaglione del genio",
       "type": "engineer",
       "mobility": "foot",
@@ -484,7 +486,7 @@
     },
     {
       "id": "MOD-DEU-PIONIER-MOT",
-      "name_de": "Pionier-Bataillon (mot.)",
+      "name_native": "Pionier-Bataillon (mot.)",
       "name_it": "Battaglione del genio motorizzato",
       "type": "engineer",
       "mobility": "motorized",
@@ -503,7 +505,7 @@
     },
     {
       "id": "MOD-DEU-FLAK",
-      "name_de": "Flak-Abteilung (mot.)",
+      "name_native": "Flak-Abteilung (mot.)",
       "name_it": "Gruppo contraereo (8,8 cm e 2 cm)",
       "type": "anti_air",
       "mobility": "motorized",
@@ -524,7 +526,7 @@
     },
     {
       "id": "MOD-DEU-FLAK-LEICHT",
-      "name_de": "leichte Flak-Kompanie",
+      "name_native": "leichte Flak-Kompanie",
       "name_it": "Compagnia contraerea leggera (2 cm)",
       "type": "anti_air",
       "mobility": "motorized",
@@ -543,7 +545,7 @@
     },
     {
       "id": "MOD-DEU-GEB-JAEGER",
-      "name_de": "Gebirgsjäger-Bataillon",
+      "name_native": "Gebirgsjäger-Bataillon",
       "name_it": "Battaglione cacciatori da montagna",
       "type": "mountain_infantry",
       "mobility": "foot",
@@ -563,7 +565,7 @@
     },
     {
       "id": "MOD-DEU-GEB-ART",
-      "name_de": "Gebirgs-Artillerie-Abteilung",
+      "name_native": "Gebirgs-Artillerie-Abteilung",
       "name_it": "Gruppo d'artiglieria da montagna (someggiato)",
       "type": "artillery",
       "mobility": "foot",
@@ -581,7 +583,7 @@
     },
     {
       "id": "MOD-DEU-REITER",
-      "name_de": "Reiter-Abteilung",
+      "name_native": "Reiter-Abteilung",
       "name_it": "Gruppo di cavalleria (squadroni)",
       "type": "cavalry",
       "mobility": "foot",
@@ -599,7 +601,7 @@
     },
     {
       "id": "MOD-DEU-FJ",
-      "name_de": "Fallschirmjäger-Bataillon",
+      "name_native": "Fallschirmjäger-Bataillon",
       "name_it": "Battaglione paracadutisti",
       "type": "airborne_infantry",
       "mobility": "foot",
@@ -619,7 +621,7 @@
     },
     {
       "id": "MOD-DEU-SANITAET",
-      "name_de": "Sanitäts-Kompanie (mot.)",
+      "name_native": "Sanitäts-Kompanie (mot.)",
       "name_it": "Compagnia di sanità motorizzata",
       "type": "support",
       "mobility": "motorized",
@@ -636,7 +638,7 @@
     },
     {
       "id": "MOD-DEU-WERFER",
-      "name_de": "Werfer-Abteilung (mot.)",
+      "name_native": "Werfer-Abteilung (mot.)",
       "name_it": "Gruppo lanciarazzi motorizzato (Nebelwerfer)",
       "type": "artillery",
       "mobility": "motorized",
@@ -657,7 +659,7 @@
     },
     {
       "id": "MOD-DEU-PZWERFER",
-      "name_de": "Panzerwerfer-Abteilung",
+      "name_native": "Panzerwerfer-Abteilung",
       "name_it": "Gruppo lanciarazzi semoventi (Panzerwerfer 42 su Maultier)",
       "type": "artillery",
       "mobility": "mechanized",
@@ -681,6 +683,136 @@
     }
   ],
   "compositions": [
+    {
+      "templateId": "TPL-DEU-INF-1936",
+      "name": "Infanterie-Division (1936)",
+      "file": "divisione_fanteria_germania_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione di fanteria (Infanterie-Division) 1936: 3 reggimenti su 3 battaglioni, artiglieria ippotrainata (36 obici da 10,5, 8 da 15, 4 cannoni da 10,5), gruppo anticarro motorizzato, esplorante, genio e servizi",
+      "modules": [
+        [
+          "MOD-DEU-INF",
+          9
+        ],
+        [
+          "MOD-DEU-REGT-HVY",
+          3
+        ],
+        [
+          "MOD-DEU-ART",
+          3
+        ],
+        [
+          "MOD-DEU-ART-HVY",
+          1
+        ],
+        [
+          "MOD-DEU-AT-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-AUFKL",
+          1
+        ],
+        [
+          "MOD-DEU-PIONIER",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-DEU-INF-1939",
+      "name": "Infanterie-Division (1939)",
+      "file": "divisione_fanteria_germania_1939.json",
+      "category": "infantry",
+      "activeFrom": "1939-09-01",
+      "formation": "divisione di fanteria (Infanterie-Division, 1. Welle) 1939: stessa struttura del 1936, tarata sul CSV del 1939 (75 PaK 36, 36 leFH 18, 8 sFH 18, 4 K 18)",
+      "modules": [
+        [
+          "MOD-DEU-INF",
+          9
+        ],
+        [
+          "MOD-DEU-REGT-HVY",
+          3
+        ],
+        [
+          "MOD-DEU-ART",
+          3
+        ],
+        [
+          "MOD-DEU-ART-HVY",
+          1
+        ],
+        [
+          "MOD-DEU-AT-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-AUFKL",
+          1
+        ],
+        [
+          "MOD-DEU-PIONIER",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-DEU-PZ-1936",
+      "name": "Panzer-Division (1936)",
+      "file": "divisione_corazzata_germania_1936.json",
+      "category": "armored",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione corazzata (Panzer-Division) 1936-39: brigata carri su 4 Abteilungen, brigata fucilieri motorizzata con motociclisti, artiglieria motorizzata, anticarro, esplorante, genio e servizi",
+      "modules": [
+        [
+          "MOD-DEU-TANK",
+          4
+        ],
+        [
+          "MOD-DEU-MOT-INF",
+          3
+        ],
+        [
+          "MOD-DEU-KRADSCHUETZEN",
+          1
+        ],
+        [
+          "MOD-DEU-REGT-HVY-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-ART-MOT",
+          2
+        ],
+        [
+          "MOD-DEU-AT-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-AUFKL-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-PIONIER-MOT",
+          1
+        ],
+        [
+          "MOD-DEU-SUPPORT-MOT",
+          1
+        ]
+      ]
+    },
     {
       "templateId": "TPL-DEU-MOT-1937",
       "name": "Infanterie-Division (mot.) (1937)",
@@ -748,88 +880,14 @@
           1
         ]
       ]
-    }
-  ],
-  "presets": [
-    {
-      "id": "PRE-DEU-INF-1936",
-      "name": "Infanterie-Division (1936)",
-      "modules": [
-        [
-          "MOD-DEU-INF",
-          9
-        ],
-        [
-          "MOD-DEU-REGT-HVY",
-          3
-        ],
-        [
-          "MOD-DEU-ART",
-          3
-        ],
-        [
-          "MOD-DEU-ART-HVY",
-          1
-        ],
-        [
-          "MOD-DEU-AUFKL",
-          1
-        ],
-        [
-          "MOD-DEU-PIONIER",
-          1
-        ],
-        [
-          "MOD-DEU-SUPPORT",
-          1
-        ]
-      ]
     },
     {
-      "id": "PRE-DEU-PZ-1939",
-      "name": "Panzer-Division (1939)",
-      "modules": [
-        [
-          "MOD-DEU-TANK",
-          4
-        ],
-        [
-          "MOD-DEU-MOT-INF",
-          3
-        ],
-        [
-          "MOD-DEU-KRADSCHUETZEN",
-          1
-        ],
-        [
-          "MOD-DEU-REGT-HVY-MOT",
-          1
-        ],
-        [
-          "MOD-DEU-ART-MOT",
-          2
-        ],
-        [
-          "MOD-DEU-AT-MOT",
-          1
-        ],
-        [
-          "MOD-DEU-AUFKL-MOT",
-          1
-        ],
-        [
-          "MOD-DEU-PIONIER-MOT",
-          1
-        ],
-        [
-          "MOD-DEU-SUPPORT-MOT",
-          1
-        ]
-      ]
-    },
-    {
-      "id": "PRE-DEU-GEB-1938",
+      "templateId": "TPL-DEU-GEB-1938",
       "name": "Gebirgs-Division (1938)",
+      "file": "divisione_montagna_germania_1938.json",
+      "category": "mountain",
+      "activeFrom": "1938-01-01",
+      "formation": "divisione da montagna (Gebirgs-Division) 1938: 6 battaglioni di cacciatori da montagna, artiglieria someggiata, anticarro, esplorante, genio e servizi",
       "modules": [
         [
           "MOD-DEU-GEB-JAEGER",
@@ -858,16 +916,20 @@
       ]
     },
     {
-      "id": "PRE-DEU-KAV-1939",
-      "name": "Kavallerie-Brigade (1939)",
+      "templateId": "TPL-DEU-KAV-1939",
+      "name": "Kavallerie-Division (1939)",
+      "file": "divisione_cavalleria_germania_1939.json",
+      "category": "cavalry",
+      "activeFrom": "1939-10-01",
+      "formation": "divisione di cavalleria (1. Kavallerie-Brigade, poi Division) 1939-41: 8 gruppi di squadroni a cavallo, 2 gruppi d'artiglieria ippotrainata, esplorante, genio e servizi",
       "modules": [
         [
           "MOD-DEU-REITER",
-          6
+          8
         ],
         [
           "MOD-DEU-ART",
-          1
+          2
         ],
         [
           "MOD-DEU-AUFKL",
@@ -884,8 +946,12 @@
       ]
     },
     {
-      "id": "PRE-DEU-FJ-1940",
+      "templateId": "TPL-DEU-FJ-1940",
       "name": "Fallschirmjäger-Division (1940)",
+      "file": "divisione_paracadutisti_germania_1940.json",
+      "category": "airborne",
+      "activeFrom": "1940-05-01",
+      "formation": "divisione paracadutisti (7. Flieger-Division / Fallschirmjäger-Division) 1940: 9 battaglioni paracadutisti, contraerea leggera, genio, sanità e servizi motorizzati",
       "modules": [
         [
           "MOD-DEU-FJ",
@@ -909,5 +975,6 @@
         ]
       ]
     }
-  ]
+  ],
+  "presets": []
 }

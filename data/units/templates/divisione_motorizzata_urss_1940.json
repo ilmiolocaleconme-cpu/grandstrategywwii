@@ -20,39 +20,57 @@
   "modules": [
     {
       "id": "MOD-USSR-MOT-STRELK",
-      "count": 6
+      "count": 6,
+      "name": "Motostrelkovyj batal'on",
+      "name_it": "Battaglione fucilieri motorizzato"
     },
     {
       "id": "MOD-USSR-TANK-BT",
-      "count": 4
+      "count": 4,
+      "name": "Tankovyj batal'on (BT)",
+      "name_it": "Battaglione carri veloci BT"
     },
     {
       "id": "MOD-USSR-ART-MOT",
-      "count": 2
+      "count": 2,
+      "name": "Artillerijskij divizion (mech. tjaga)",
+      "name_it": "Gruppo di artiglieria a traino meccanico"
     },
     {
       "id": "MOD-USSR-GAUB-MOT",
-      "count": 1
+      "count": 1,
+      "name": "Gaubichnyj divizion (mech. tjaga)",
+      "name_it": "Gruppo di obici a traino meccanico (122 e 152 mm)"
     },
     {
       "id": "MOD-USSR-RAZVED-MOT",
-      "count": 1
+      "count": 1,
+      "name": "Razvedyvatel'nyj batal'on (mot.)",
+      "name_it": "Battaglione esplorante motorizzato (autoblindo BA-10)"
     },
     {
       "id": "MOD-USSR-PTO-MOT",
-      "count": 1
+      "count": 1,
+      "name": "Protivotankovyj divizion (mech. tjaga)",
+      "name_it": "Gruppo anticarro motorizzato (45 mm)"
     },
     {
       "id": "MOD-USSR-ZENIT",
-      "count": 1
+      "count": 1,
+      "name": "Zenitnyj divizion",
+      "name_it": "Gruppo contraereo (37 e 76 mm)"
     },
     {
       "id": "MOD-USSR-SAPER-MOT",
-      "count": 1
+      "count": 1,
+      "name": "Sapernyj batal'on (mot.)",
+      "name_it": "Battaglione genio motorizzato"
     },
     {
       "id": "MOD-USSR-TYL-MOT",
-      "count": 1
+      "count": 1,
+      "name": "Tylovye sluzhby (mot.)",
+      "name_it": "Servizi divisionali motorizzati"
     }
   ],
   "manpower": {

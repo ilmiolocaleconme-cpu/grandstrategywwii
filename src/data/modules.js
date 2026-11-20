@@ -32,7 +32,8 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
     else if (m.requiresTech !== undefined && techIds) for (const t of [m.requiresTech].flat()) if (!techIds.has(t)) e.push(`${p}: tecnologia ${t} inesistente`);
     if (m.availableFrom !== undefined && !DATE_RE.test(m.availableFrom)) e.push(`${p}: availableFrom non valido`);
     if (m.divisional !== undefined && m.divisional !== true) e.push(`${p}: divisional ammesso solo come true`);
-    for (const k of ['name_de', 'name_ru']) if (m[k] !== undefined && (typeof m[k] !== 'string' || !m[k].trim())) e.push(`${p}: ${k} non valido`); // nome nella lingua della nazione (URSS: russo traslitterato, 19/11/2026)
+    if (typeof m.name_native !== 'string' || !m.name_native.trim()) e.push(`${p}: name_native (nome nella lingua della nazione) mancante`); // schema unico (20/11/2026)
+    if (m.name_de !== undefined || m.name_ru !== undefined) e.push(`${p}: usare name_native, non name_de o name_ru`);
     if (m.mobility === 'motorized' && !Object.keys(m.equipment ?? {}).some((k) => k.startsWith('VEH-'))) e.push(`${p}: motorizzato senza veicoli`);
   }
   for (const pr of doc.presets ?? []) { // punti di partenza dell'editor (18/11/2026)
@@ -87,7 +88,7 @@ export function templateFromComposition(doc, comp) {
     orgLevel: 'war',
     note: `Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. ${comp.formation}.`,
     formation: plain(comp.formation),
-    modules: comp.modules.map(([id, count]) => ({ id, count })),
+    modules: comp.modules.map(([id, count]) => { const m = doc.modules.find((x) => x.id === id); return { id, count, ...(m ? { name: m.name_native ?? m.name_it, name_it: m.name_it } : {}) }; }), // nomi per la scheda dell'unità (20/11/2026)
     manpower: { war: leaf(sum.men), peace: { value: null, basis: 'da_definire', referenceYear: null, source: null } },
     horses: leaf(sum.horses),
     equipment: Object.fromEntries(Object.entries(sum.equipment).map(([k, v]) => [k, leaf(v)])),

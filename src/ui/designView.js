@@ -18,7 +18,7 @@ export function moduleGroups(modules, list, { nation, date, researched, techName
     const missing = [m.requiresTech ?? []].flat().filter((t) => !researched?.has(t));
     const reason = ok ? null : [missing.length ? `richiede ${missing.map(techName).join(' + ')}` : null, m.availableFrom && date < m.availableFrom ? `dal ${itDate(m.availableFrom)}` : null].filter(Boolean).join(' · ');
     // 20/11/2026: l'artiglieria a traino meccanico e i lanciarazzi hanno un gruppo proprio
-    return { id: m.id, type: m.type === 'artillery' && m.mobility !== 'foot' ? 'artillery_motorized' : m.type, illustration: m.illustration ?? null, name: m.name_de ?? m.name_ru ?? m.name_it, gloss: (m.name_de ?? m.name_ru) ? m.name_it : null, men: m.men, divisional: m.divisional === true, count: count.get(m.id) ?? 0, available: ok, reason };
+    return { id: m.id, type: m.type === 'artillery' && m.mobility !== 'foot' ? 'artillery_motorized' : m.type, illustration: m.illustration ?? null, name: m.name_native ?? m.name_it, gloss: m.name_native ? m.name_it : null, men: m.men, divisional: m.divisional === true, count: count.get(m.id) ?? 0, available: ok, reason };
   });
   return TYPE_ORDER.map((type) => ({ type, label: TYPE_LABEL[type], rows: rows.filter((r) => r.type === type) })).filter((g) => g.rows.length);
 }

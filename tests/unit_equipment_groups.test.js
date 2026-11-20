@@ -11,7 +11,7 @@ const realKeys = [...new Set(templates.flatMap((t) => Object.keys(t.equipment ??
 
 test('ogni chiave di template reale è classificata oppure dichiarata non classificata (nessuna sparisce)', () => {
   const unclassified = realKeys.filter((k) => !EQUIPMENT_GROUP[k]);
-  assert.deepEqual(unclassified, ['GL-FRA-VB1916', 'armiLeggere'], 'solo le due voci ambigue restano fuori dalla tabella');
+  assert.deepEqual(unclassified, ['GL-FRA-VB1916'], 'solo la voce ambigua resta fuori dalla tabella'); // 20/11/2026: «armiLeggere» sparita con la Panzer-Division dai battaglioni
   const rows = realKeys.map((item) => ({ item, planned: 1, effective: 1, ratio: 1 }));
   const grouped = equipmentGroups(rows);
   assert.equal(grouped.reduce((s, g) => s + g.rows.length, 0), realKeys.length, 'nessuna voce scartata');

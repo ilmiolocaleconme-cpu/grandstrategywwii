@@ -50,11 +50,12 @@ test('istanze al 1/1/1936: Germania 30 fanterie + 3 Panzer con dotazione 0,915; 
   assert.equal(inf.length, 30); assert.equal(pz.length, 3);
   assert.equal(r.created, 33);
   assert.ok(deu(r.state).every(([u]) => u.nation === 'DEU'), 'solo la Germania ha template');
-  assert.deepEqual(inf[0][1].items['manpower.war'], { planned: 17263, effective: Math.round(17263 * ratio), source: 'ratio' });
-  assert.equal(inf[0][1].items['manpower.war'].effective, 15796);
+  // 20/11/2026 (schema unico): fanteria e Panzer-Division tedesche sono somme di battaglioni
+  assert.deepEqual(inf[0][1].items['manpower.war'], { planned: 16860, effective: Math.round(16860 * ratio), source: 'ratio' });
+  assert.equal(inf[0][1].items['manpower.war'].effective, 15427);
   // 17/11/2026: organico della corazzata STIMATO da Claude (reliability ESTIMATED nel template), altrimenti la divisione non combatteva
-  assert.deepEqual(pz[0][1].items['manpower.war'], { planned: 11800, effective: Math.round(11800 * ratio), source: 'ratio' });
-  assert.deepEqual(pz[0][1].items['equipment.carri'], { planned: 416, effective: 381, source: 'ratio' });
+  assert.deepEqual(pz[0][1].items['manpower.war'], { planned: 12970, effective: Math.round(12970 * ratio), source: 'ratio' });
+  assert.deepEqual(pz[0][1].items['equipment.TNK-DEU-TANK'], { planned: 320, effective: Math.round(320 * ratio), source: 'ratio' });
   assert.equal(r.withoutTemplate.length, 67, 'altre nazioni e tipi senza template non hanno istanza');
   assert.ok(r.withoutTemplate.every((id) => !r.state.forces.divisions[id]));
   assert.equal(r.state.forces.initialized, true);
@@ -72,16 +73,16 @@ test('inizializzazione idempotente e deterministica; il dato reale del template 
   const real = structuredClone(templates[0]); real.horses.effective = { value: 4000, asOf: '1936-01-01', basis: 'utente', source: 'prova' };
   const r = initForces(createForcesState(), { units, templates: [real, templates[1]], ratio, date: '1936-01-01' });
   const first = Object.values(r.state.divisions).find((d) => d.templateId === real.id);
-  assert.deepEqual(first.items.horses, { planned: 4465, effective: 4000, source: 'template' });
+  assert.deepEqual(first.items.horses, { planned: templates[0].horses.value, effective: 4000, source: 'template' });
   assert.equal(templateFor(units.find((u) => u.nation === 'FRA' && u.echelon === 'division'), templates), null);
   assert.equal(templateFor(units.find((u) => u.category === 'command'), templates), null);
 });
 
 test('pool di uomini della Germania dallo stato: 5% della popolazione meno gli uomini arruolati nelle divisioni', () => {
   const s = initForcesState(newState('DEU'), ctx).state;
-  assert.equal(enlistedManpower(s.forces, units, 'DEU'), 30 * 15796 + 3 * Math.round(11800 * ratio));
+  assert.equal(enlistedManpower(s.forces, units, 'DEU'), 30 * 15427 + 3 * Math.round(12970 * ratio));
   const pool = nationManpowerPool(s, 'DEU', { units, population: pop.nations.DEU.population, baseShare: pop.recruitment.baseShare });
-  assert.deepEqual([pool.capacity, pool.enlisted, pool.available, pool.overdrawn], [3425000, 506271, 2918729, false]);
+  assert.deepEqual([pool.capacity, pool.enlisted, pool.available, pool.overdrawn], [3425000, 498414, 2926586, false]);
   assert.equal(enlistedManpower(s.forces, units, 'FRA'), 0, 'nessun dato per la Francia: non inventato');
   const mods = [{ id: 'SYN-MOB', kind: 'add', value: 0.04, source: 'esempio di prova' }];
   assert.equal(nationManpowerPool(s, 'DEU', { units, population: pop.nations.DEU.population, baseShare: 0.05, modifiers: mods }).capacity, 6165000);

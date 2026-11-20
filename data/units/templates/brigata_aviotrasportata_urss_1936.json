@@ -20,11 +20,15 @@
   "modules": [
     {
       "id": "MOD-USSR-DESANT",
-      "count": 4
+      "count": 4,
+      "name": "Parashjutno-desantnyj batal'on",
+      "name_it": "Battaglione paracadutisti"
     },
     {
       "id": "MOD-USSR-TYL-LEGK",
-      "count": 1
+      "count": 1,
+      "name": "Tylovye sluzhby (legkie)",
+      "name_it": "Servizi leggeri (montagna, cavalleria, aviotrasportati)"
     }
   ],
   "manpower": {

@@ -44,6 +44,8 @@ export function compositionOf(unit, templates, templateId = null) {
   for (const k of ['regimentsInfantry', 'battalionsPerRegiment']) add(k, t[k]);
   for (const [k, v] of Object.entries(t.structure ?? {})) add(k, v);
   add('mobility', t.mobility);
+  // template composti da battaglioni (schema unico, 20/11/2026): una riga per battaglione, con il nome nazionale e quanti sono
+  for (const m of Array.isArray(t.modules) ? t.modules : []) if (m?.id && Number.isInteger(m.count)) rows.push({ key: m.id, label: m.name_it && m.name && m.name !== m.name_it ? `${m.name} (${m.name_it})` : (m.name ?? m.id), value: m.count, basis: 'ipotesi', module: true });
   add('horses', t.horses);
   const support = Array.isArray(t.organicSupport?.value) ? t.organicSupport.value : [];
   // voci del template ancora non definite (value null): si contano e si segnalano, mai si riempiono

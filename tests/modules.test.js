@@ -43,7 +43,7 @@ test('il template è la somma dei battaglioni e coincide col file generato', asy
   assert.equal(mot.equipment['VEH-DEU-TRUCK'].value, 9 * 70 + 3 * 40 + 3 * 45 + 55 + 55 + 600);
   assert.equal(mot.equipment['ART-DEU-LEIG18'].value, 18, 'cannoni di fanteria dei reggimenti');
   assert.equal(mot.horses.value, 0, 'la divisione motorizzata non ha cavalli');
-  assert.deepEqual(mot.modules[0], { id: 'MOD-DEU-MOT-INF', count: 9 });
+  assert.deepEqual(mot.modules[0], { id: 'MOD-DEU-MOT-INF', count: 9, name: 'Infanterie-Bataillon (mot.)', name_it: 'Battaglione di fanteria motorizzata' }); // nomi dal 20/11/2026
 });
 
 test('la 4. leichte Division (meccanizzata, 1938) usa ora il template a battaglioni con carri e autocarri', () => {

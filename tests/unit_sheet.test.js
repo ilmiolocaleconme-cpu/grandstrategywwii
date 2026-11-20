@@ -17,9 +17,10 @@ test('composizione: dalla scheda del template, senza valori nulli; basi e suppor
   assert.ok(c);
   assert.equal(c.templateId, tplDeu.id);
   const by = Object.fromEntries(c.rows.map((r) => [r.key, r]));
-  assert.equal(by.regimentsInfantry.value, 3); assert.equal(by.battalionsPerRegiment.value, 3); assert.equal(by.regimentsInfantry.label, 'Reggimenti di fanteria');
+  // 20/11/2026 (schema unico): la fanteria tedesca è composta da battaglioni; la scheda mostra una riga per battaglione, nome tedesco e italiano
+  assert.equal(by['MOD-DEU-INF'].value, 9); assert.equal(by['MOD-DEU-INF'].label, 'Infanterie-Bataillon (Battaglione di fanteria (a piedi))');
+  assert.equal(by['MOD-DEU-SUPPORT'].value, 1);
   assert.ok(c.rows.every((r) => r.value !== null && r.value !== undefined));
-  assert.ok(c.support.length > 0);
   const f = unitsFile.find((x) => x.nation === 'FRA' && x.category === 'infantry' && x.echelon === 'division');
   assert.ok(compositionOf(f, [tplDeu, tplFra]).rows.some((r) => r.key === 'reggimentiFanteria' && r.value === 3));
   assert.equal(compositionOf(unitsFile.find((x) => x.nation === 'ITA' && x.echelon === 'division') ?? { nation: 'ITA', category: 'infantry', echelon: 'division' }, [tplDeu, tplFra]), null, 'senza template: nessuna composizione inventata');
