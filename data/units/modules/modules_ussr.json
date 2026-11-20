@@ -652,6 +652,181 @@
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-USSR-TANK-KV",
+      "nation": "USSR",
+      "type": "tank",
+      "name_native": "Tjazhëlyj tankovyj batal'on (KV)",
+      "name_it": "Battaglione carri pesanti KV",
+      "men": 300,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-PISTOL-TT33": 250,
+        "TNK-USSR-KV-1940": 31,
+        "VEH-USSR-GAZAA": 12
+      },
+      "mobility": "armored",
+      "illustration": "carro_pesante",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TANK-T34",
+      "nation": "USSR",
+      "type": "tank",
+      "name_native": "Srednij tankovyj batal'on (T-34)",
+      "name_it": "Battaglione carri medi T-34",
+      "men": 330,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-PISTOL-TT33": 270,
+        "TNK-USSR-T34-1940": 52,
+        "VEH-USSR-GAZAA": 15
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "availableFrom": "1940-06-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-RAZVED-TANK",
+      "nation": "USSR",
+      "type": "recon",
+      "name_native": "Razvedyvatel'nyj batal'on (tankovoj divizii)",
+      "name_it": "Battaglione esplorante della divisione carri (BT, T-26, BA-10)",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 150,
+        "INW-USSR-PISTOL-TT33": 200,
+        "MG-USSR-LMG-1939": 12,
+        "TNK-USSR-BT-1940": 26,
+        "TNK-USSR-T26-1940": 22,
+        "VEH-USSR-BA10": 10,
+        "VEH-USSR-MOTO": 30,
+        "VEH-USSR-GAZAA": 20
+      },
+      "mobility": "armored",
+      "illustration": "autoblindo",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-GAUB-TD",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_native": "Gaubichnyj artillerijskij polk (tankovoj divizii)",
+      "name_it": "Reggimento obici della divisione carri (122 e 152 mm, trainati)",
+      "men": 900,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 450,
+        "INW-USSR-PISTOL-TT33": 120,
+        "ART-USSR-HOW122-ARM-1940": 12,
+        "ART-USSR-HOW152-ARM-1940": 12,
+        "VEH-USSR-ZIS5": 60
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-REMONT",
+      "nation": "USSR",
+      "type": "support",
+      "name_native": "Remontno-vosstanovitel'nyj batal'on",
+      "name_it": "Battaglione riparazioni e recupero mezzi",
+      "men": 900,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 600,
+        "INW-USSR-PISTOL-TT33": 150,
+        "VEH-USSR-GAZAA": 60,
+        "VEH-USSR-ZIS5": 20
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TYL-BRIG",
+      "nation": "USSR",
+      "type": "support",
+      "name_native": "Tylovye sluzhby brigady",
+      "name_it": "Servizi della brigata carri",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 400,
+        "INW-USSR-PISTOL-TT33": 120,
+        "VEH-USSR-GAZAA": 50,
+        "VEH-USSR-ZIS5": 20
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TANK-1941-TJAZH",
+      "nation": "USSR",
+      "type": "tank",
+      "name_native": "Tankovyj batal'on (KV i T-34, 1941)",
+      "name_it": "Battaglione carri della brigata 1941 (KV e T-34)",
+      "men": 150,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-PISTOL-TT33": 120,
+        "TNK-USSR-KV-1940": 7,
+        "TNK-USSR-T34-1940": 10,
+        "VEH-USSR-GAZAA": 6
+      },
+      "mobility": "armored",
+      "illustration": "carro_pesante",
+      "availableFrom": "1941-09-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-TANK-1941-LEGK",
+      "nation": "USSR",
+      "type": "tank",
+      "name_native": "Tankovyj batal'on (T-34 i lëgkie, 1941)",
+      "name_it": "Battaglione carri della brigata 1941 (T-34 e leggeri)",
+      "men": 150,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-PISTOL-TT33": 120,
+        "TNK-USSR-T34-1940": 10,
+        "TNK-USSR-BT-1940": 20,
+        "VEH-USSR-GAZAA": 6
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "availableFrom": "1941-09-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-MSPB",
+      "nation": "USSR",
+      "type": "motorized_infantry",
+      "name_native": "Motostrelkovo-pulemëtnyj batal'on",
+      "name_it": "Battaglione fucilieri e mitraglieri motorizzato della brigata carri",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 300,
+        "INW-USSR-PISTOL-TT33": 30,
+        "MG-USSR-LMG-1939": 12,
+        "MG-USSR-HMG-1939": 4,
+        "ART-USSR-AT45-1939": 4,
+        "VEH-USSR-ZIS5": 20
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
       "id": "MOD-USSR-DESANT",
       "nation": "USSR",
       "type": "airborne_infantry",
@@ -976,6 +1151,110 @@
         ],
         [
           "MOD-USSR-TYL-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-ARM-1940",
+      "name": "Tankovaja divizija (1940)",
+      "file": "divisione_corazzata_urss_1940.json",
+      "category": "armored",
+      "activeFrom": "1940-07-01",
+      "formation": "divisione carri (tankovaja divizija) 1940-41: 2 reggimenti carri (battaglioni KV, T-34 e T-26), reggimento di fucilieri motorizzati, reggimento obici, esplorante, contraerea, genio, riparazioni e servizi; tarata sui carri del vecchio CSV (63 KV, 210 T-34, 26 BT, 76 T-26)",
+      "modules": [
+        [
+          "MOD-USSR-TANK-KV",
+          2
+        ],
+        [
+          "MOD-USSR-TANK-T34",
+          4
+        ],
+        [
+          "MOD-USSR-TANK-T26",
+          1
+        ],
+        [
+          "MOD-USSR-RAZVED-TANK",
+          1
+        ],
+        [
+          "MOD-USSR-MOT-STRELK",
+          3
+        ],
+        [
+          "MOD-USSR-GAUB-TD",
+          1
+        ],
+        [
+          "MOD-USSR-ZENIT",
+          1
+        ],
+        [
+          "MOD-USSR-SAPER-MOT",
+          1
+        ],
+        [
+          "MOD-USSR-REMONT",
+          1
+        ],
+        [
+          "MOD-USSR-TYL-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-TBR-1935",
+      "name": "Lëgkotankovaja brigada (1935)",
+      "file": "brigata_carri_urss_1935.json",
+      "category": "armored",
+      "echelon": "brigade",
+      "activeFrom": "1935-01-01",
+      "formation": "brigata carri leggeri (lëgkotankovaja brigada) 1935: 2 battaglioni BT, 1 di T-26, battaglione fucilieri motorizzato e servizi",
+      "modules": [
+        [
+          "MOD-USSR-TANK-BT",
+          2
+        ],
+        [
+          "MOD-USSR-TANK-T26",
+          1
+        ],
+        [
+          "MOD-USSR-MSPB",
+          2
+        ],
+        [
+          "MOD-USSR-TYL-BRIG",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USSR-TBR-1941",
+      "name": "Tankovaja brigada (1941)",
+      "file": "brigata_carri_urss_1941.json",
+      "category": "armored",
+      "echelon": "brigade",
+      "activeFrom": "1941-09-01",
+      "formation": "brigata carri (tankovaja brigada) dell'autunno 1941: 2 battaglioni carri misti (7 KV, 20 T-34, 20 leggeri), battaglione fucilieri e mitraglieri motorizzato e servizi",
+      "modules": [
+        [
+          "MOD-USSR-TANK-1941-TJAZH",
+          1
+        ],
+        [
+          "MOD-USSR-TANK-1941-LEGK",
+          1
+        ],
+        [
+          "MOD-USSR-MSPB",
+          1
+        ],
+        [
+          "MOD-USSR-TYL-BRIG",
           1
         ]
       ]

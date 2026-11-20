@@ -9,20 +9,46 @@
     "activeFrom": "1935-01-01"
   },
   "orgLevel": "war",
-  "note": "Brigata carri sovietica (18/11/2026, decisione dell'utente). Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. brigata carri leggeri (lëgkotankovaja brigada) 1935: 2 battaglioni BT, 1 di T-26, battaglione fucilieri motorizzato e servizi.",
   "formation": {
-    "value": "brigata carri leggeri (1935)",
+    "value": "brigata carri leggeri (lëgkotankovaja brigada) 1935: 2 battaglioni BT, 1 di T-26, battaglione fucilieri motorizzato e servizi",
     "basis": "ipotesi",
     "referenceYear": "1935",
-    "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+    "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
     "reliability": "ESTIMATED"
   },
+  "modules": [
+    {
+      "id": "MOD-USSR-TANK-BT",
+      "count": 2,
+      "name": "Tankovyj batal'on (BT)",
+      "name_it": "Battaglione carri veloci BT"
+    },
+    {
+      "id": "MOD-USSR-TANK-T26",
+      "count": 1,
+      "name": "Tankovyj batal'on (T-26)",
+      "name_it": "Battaglione carri leggeri T-26"
+    },
+    {
+      "id": "MOD-USSR-MSPB",
+      "count": 2,
+      "name": "Motostrelkovo-pulemëtnyj batal'on",
+      "name_it": "Battaglione fucilieri e mitraglieri motorizzato della brigata carri"
+    },
+    {
+      "id": "MOD-USSR-TYL-BRIG",
+      "count": 1,
+      "name": "Tylovye sluzhby brigady",
+      "name_it": "Servizi della brigata carri"
+    }
+  ],
   "manpower": {
     "war": {
-      "value": 2700,
+      "value": 2540,
       "basis": "ipotesi",
       "referenceYear": "1935",
-      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -39,17 +65,24 @@
     }
   },
   "horses": {
-    "value": null,
-    "basis": "da_definire",
-    "referenceYear": null,
-    "source": null
+    "value": 0,
+    "basis": "ipotesi",
+    "referenceYear": "1935",
+    "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
   },
   "equipment": {
-    "TNK-USSR-BT-1940": {
-      "value": 110,
+    "ART-USSR-AT45-1939": {
+      "value": 8,
       "basis": "ipotesi",
       "referenceYear": "1935",
-      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -58,11 +91,11 @@
         "source": null
       }
     },
-    "TNK-USSR-T26-1940": {
-      "value": 50,
+    "INW-USSR-PISTOL-TT33": {
+      "value": 780,
       "basis": "ipotesi",
       "referenceYear": "1935",
-      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -72,23 +105,10 @@
       }
     },
     "INW-USSR-RIFLE-1939": {
-      "value": 1400,
+      "value": 1000,
       "basis": "ipotesi",
       "referenceYear": "1935",
-      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
-      "reliability": "ESTIMATED",
-      "effective": {
-        "value": null,
-        "asOf": null,
-        "basis": "da_definire",
-        "source": null
-      }
-    },
-    "MG-USSR-LMG-1939": {
-      "value": 40,
-      "basis": "ipotesi",
-      "referenceYear": "1935",
-      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -98,10 +118,10 @@
       }
     },
     "MG-USSR-HMG-1939": {
-      "value": 12,
+      "value": 8,
       "basis": "ipotesi",
       "referenceYear": "1935",
-      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -110,11 +130,63 @@
         "source": null
       }
     },
-    "ART-USSR-AT45-1939": {
-      "value": 8,
+    "MG-USSR-LMG-1939": {
+      "value": 24,
       "basis": "ipotesi",
       "referenceYear": "1935",
-      "source": "Stima di Claude dalla memoria (18/11/2026), NON verificata su fonti. Brigata carri leggeri 1935: 4 battaglioni di carri BT e T-26 con ricognizione e fucilieri motorizzati.",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-USSR-BT-1940": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-USSR-T26-1940": {
+      "value": 54,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-GAZAA": {
+      "value": 95,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-ZIS5": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1935",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-BT, 1× MOD-USSR-TANK-T26, 2× MOD-USSR-MSPB, 1× MOD-USSR-TYL-BRIG). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -134,6 +206,6 @@
     "manpower": null,
     "buildDays": null,
     "upkeep": null,
-    "note": "Da definire."
+    "note": "Da definire con l'editor a moduli."
   }
 }

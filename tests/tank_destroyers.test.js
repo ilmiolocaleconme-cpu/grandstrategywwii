@@ -105,7 +105,7 @@ test('brigate carri sovietiche: template validi, istanza nelle forze; le aviotra
   assert.equal(templateFor(brig, tpls, '1942-01-01').id, 'TPL-USSR-TBR-1941');
   const r = initForces({ divisions: {} }, { units: [brig, air], templates: tpls, ratio: 1, date: '1936-01-01' });
   assert.ok(r.state.divisions.U00267);
-  assert.equal(r.state.divisions.U00267.items['equipment.TNK-USSR-BT-1940'].planned, 110);
-  assert.ok(!r.state.divisions['S36-USSR-047']);
+  assert.equal(r.state.divisions.U00267.items['equipment.TNK-USSR-BT-1940'].planned, 108); // 20/11/2026: 2 battaglioni BT da 54 (schema unico; prima 110 scritti a mano)
+  assert.ok(!r.state.divisions['S36-USSR-047'], 'qui si passano solo i template carri: l\'aviotrasportata ha il suo (TPL-USSR-ABN-1936)');
   assert.deepEqual(validateForcesState(r.state, [brig, air]), []);
 });

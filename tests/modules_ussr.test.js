@@ -80,7 +80,7 @@ test('battaglioni legati alla ricerca: motorizzati con TECH-MOT-INF, paracadutis
 test('20/11/2026: nomi russi dei template storici, niente doppioni; categorie: motorizzata e cavalleria restano tali; lanciarazzi Katjuša', async () => {
   const { designCategory } = await import('../src/data/modules.js');
   assert.deepEqual(doc.presets, [], 'i modelli di partenza sono i template storici, senza doppioni');
-  assert.ok(doc.compositions.every((c) => /^[A-Z][a-z]+(aja|naja)? ?/.test(c.name) && /\(\d{4}\)$/.test(c.name)), 'nome russo con anno');
+  assert.ok(doc.compositions.every((c) => /^[A-ZËa-zë]+ (divizija|brigada) \(\d{4}\)$/.test(c.name)), 'nome russo con anno');
   const comp = (id) => doc.compositions.find((c) => c.templateId === id).modules;
   assert.equal(doc.compositions.find((c) => c.templateId === 'TPL-USSR-MOT-1940').category, 'motorized', 'categoria dichiarata, mostrata dall\'editor per il modello di partenza');
   assert.equal(designCategory(comp('TPL-USSR-CAV-1936'), doc.modules), 'cavalry');

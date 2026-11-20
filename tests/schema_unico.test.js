@@ -9,7 +9,6 @@ const dir = new URL('../data/units/templates/', import.meta.url);
 const all = readdirSync(dir).filter((f) => /^(divisione|brigata)_.*\.json$/.test(f)).map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8'))).filter((t) => t.appliesTo);
 
 const DA_CONVERTIRE = new Set([
-  'TPL-USSR-ARM-1940', 'TPL-USSR-TBR-1935', 'TPL-USSR-TBR-1941', // URSS: corazzati (prossimo passo)
   'TPL-GBR-INF-1936', 'TPL-GBR-ARM-1939',
   'TPL-USA-INF-1940', 'TPL-USA-ARM-1940',
   'TPL-FRA-INF-1936', 'TPL-FRA-INF-1939', 'TPL-FRA-ARM-1940',
@@ -24,8 +23,8 @@ test('schema unico: ogni template è composto da battaglioni, salvo quelli ancor
   assert.deepEqual([...DA_CONVERTIRE].filter((id) => !odd.includes(id)), [], 'template già convertiti: toglierli dalla lista');
 });
 
-test('schema unico: Germania e URSS (fanteria e reparti speciali) già interamente dai battaglioni; ogni nazione con battaglioni ha il nome nazionale', () => {
-  for (const t of all.filter((x) => x.appliesTo.nation === 'DEU')) assert.ok(Array.isArray(t.modules), t.id);
+test('schema unico: Germania e URSS interamente dai battaglioni (URSS corazzati dal 20/11/2026); ogni nazione con battaglioni ha il nome nazionale', () => {
+  for (const t of all.filter((x) => x.appliesTo.nation === 'DEU' || x.appliesTo.nation === 'USSR')) assert.ok(Array.isArray(t.modules), t.id);
   for (const f of readdirSync(new URL('../data/units/modules/', import.meta.url)).filter((n) => /^modules_.*\.json$/.test(n))) {
     const doc = JSON.parse(readFileSync(new URL(`../data/units/modules/${f}`, import.meta.url), 'utf8'));
     for (const m of doc.modules) assert.ok(m.name_native && m.name_it, `${f}: ${m.id}`);

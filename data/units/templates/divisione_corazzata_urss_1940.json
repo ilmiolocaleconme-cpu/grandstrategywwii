@@ -1,110 +1,390 @@
 {
-  "schema": "unit-template-v2",
+  "schema": "unit-template-v1",
   "id": "TPL-USSR-ARM-1940",
   "status": "RECONSTRUCTED_TEMPLATE",
-  "note": "Generato da CSV (source/ussr_arm_template_1940.csv, source/ussr_arm_equipment_1940.csv, source/land_equipment_catalog_ussr_arm_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (USSR armored division, serie Divisione carri); Divisione carri sovietica (tankovaya diviziya) 1940, generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
   "appliesTo": {
     "nation": "USSR",
     "category": "armored",
     "echelon": "division",
-    "validFrom": "1940-07-01"
+    "activeFrom": "1940-07-01"
   },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione carri (tankovaja divizija) 1940-41: 2 reggimenti carri (battaglioni KV, T-34 e T-26), reggimento di fucilieri motorizzati, reggimento obici, esplorante, contraerea, genio, riparazioni e servizi; tarata sui carri del vecchio CSV (63 KV, 210 T-34, 26 BT, 76 T-26).",
   "formation": {
-    "value": "armored"
+    "value": "divisione carri (tankovaja divizija) 1940-41: 2 reggimenti carri (battaglioni KV, T-34 e T-26), reggimento di fucilieri motorizzati, reggimento obici, esplorante, contraerea, genio, riparazioni e servizi; tarata sui carri del vecchio CSV (63 KV, 210 T-34, 26 BT, 76 T-26)",
+    "basis": "ipotesi",
+    "referenceYear": "1940",
+    "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "regimentsInfantry": {
-    "value": 1
-  },
+  "modules": [
+    {
+      "id": "MOD-USSR-TANK-KV",
+      "count": 2,
+      "name": "Tjazhëlyj tankovyj batal'on (KV)",
+      "name_it": "Battaglione carri pesanti KV"
+    },
+    {
+      "id": "MOD-USSR-TANK-T34",
+      "count": 4,
+      "name": "Srednij tankovyj batal'on (T-34)",
+      "name_it": "Battaglione carri medi T-34"
+    },
+    {
+      "id": "MOD-USSR-TANK-T26",
+      "count": 1,
+      "name": "Tankovyj batal'on (T-26)",
+      "name_it": "Battaglione carri leggeri T-26"
+    },
+    {
+      "id": "MOD-USSR-RAZVED-TANK",
+      "count": 1,
+      "name": "Razvedyvatel'nyj batal'on (tankovoj divizii)",
+      "name_it": "Battaglione esplorante della divisione carri (BT, T-26, BA-10)"
+    },
+    {
+      "id": "MOD-USSR-MOT-STRELK",
+      "count": 3,
+      "name": "Motostrelkovyj batal'on",
+      "name_it": "Battaglione fucilieri motorizzato"
+    },
+    {
+      "id": "MOD-USSR-GAUB-TD",
+      "count": 1,
+      "name": "Gaubichnyj artillerijskij polk (tankovoj divizii)",
+      "name_it": "Reggimento obici della divisione carri (122 e 152 mm, trainati)"
+    },
+    {
+      "id": "MOD-USSR-ZENIT",
+      "count": 1,
+      "name": "Zenitnyj divizion",
+      "name_it": "Gruppo contraereo (37 e 76 mm)"
+    },
+    {
+      "id": "MOD-USSR-SAPER-MOT",
+      "count": 1,
+      "name": "Sapernyj batal'on (mot.)",
+      "name_it": "Battaglione genio motorizzato"
+    },
+    {
+      "id": "MOD-USSR-REMONT",
+      "count": 1,
+      "name": "Remontno-vosstanovitel'nyj batal'on",
+      "name_it": "Battaglione riparazioni e recupero mezzi"
+    },
+    {
+      "id": "MOD-USSR-TYL-MOT",
+      "count": 1,
+      "name": "Tylovye sluzhby (mot.)",
+      "name_it": "Servizi divisionali motorizzati"
+    }
+  ],
   "manpower": {
     "war": {
-      "value": 10940,
+      "value": 9820,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
     }
   },
   "horses": {
-    "value": 0,
+    "value": 80,
+    "basis": "ipotesi",
+    "referenceYear": "1940",
+    "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
     "effective": {
-      "value": null
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
     }
   },
   "equipment": {
-    "TNK-USSR-KV-1940": {
-      "value": 63,
+    "ART-USSR-AA37": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione carri",
-      "note": "63 (Carro pesante KV-1). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
-    "TNK-USSR-T34-1940": {
-      "value": 210,
+    "ART-USSR-AA76": {
+      "value": 4,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione carri",
-      "note": "210 (Carro medio T-34). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
-    "TNK-USSR-BT-1940": {
-      "value": 26,
+    "ART-USSR-AT45-1939": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione carri",
-      "note": "26 (Carro veloce BT-7). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
-      }
-    },
-    "TNK-USSR-T26-1940": {
-      "value": 76,
-      "reliability": "ESTIMATED",
-      "unit": "Divisione carri",
-      "note": "76 (Carro leggero T-26 (anche lanciafiamme)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
-      "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-USSR-HOW122-ARM-1940": {
       "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione carri",
-      "note": "12 (Obice da 122 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-USSR-HOW152-ARM-1940": {
       "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione carri",
-      "note": "12 (Obice da 152 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR50": {
+      "value": 27,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USSR-MOR82": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-PISTOL-TT33": {
+      "value": 2730,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-RIFLE-1939": {
+      "value": 4990,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USSR-SMG-PPD": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-HMG-1939": {
+      "value": 48,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USSR-LMG-1939": {
+      "value": 102,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-USSR-BT-1940": {
+      "value": 26,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-USSR-KV-1940": {
+      "value": 62,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-USSR-T26-1940": {
+      "value": 76,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-USSR-T34-1940": {
+      "value": 208,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-BA10": {
+      "value": 10,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-GAZAA": {
+      "value": 349,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-MOTO": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USSR-ZIS5": {
+      "value": 525,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-USSR-TANK-KV, 4× MOD-USSR-TANK-T34, 1× MOD-USSR-TANK-T26, 1× MOD-USSR-RAZVED-TANK, 3× MOD-USSR-MOT-STRELK, 1× MOD-USSR-GAUB-TD, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-REMONT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     }
   },
-  "metadata": {
-    "sourceTemplateId": "TPL-USSR-TD-1940",
-    "series": "Divisione carri",
-    "referenceDivision": "Divisione carri sovietica (tankovaya diviziya) 1940, generica",
-    "referenceDate": "1940-07",
-    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
-    "sourceNote": "Divisione carri dei corpi meccanizzati del 1940: due reggimenti carri, un reggimento motorizzato, un reggimento di artiglieria. Organico previsto: 375 carri (63 KV, 210 T-34, 26 BT, 76 T-26 compresi i lanciafiamme). Nel 1936 la URSS non aveva divisioni carri (brigate e corpi meccanizzati). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
-    "sourceFiles": [
-      {
-        "file": "source/ussr_arm_template_1940.csv",
-        "sha256": "319507c59a969e1e6f31dcb0d0cdca73536d351210988a4122a78e969d75f2d4"
-      },
-      {
-        "file": "source/ussr_arm_equipment_1940.csv",
-        "sha256": "c76ca5bc884c110ffc10d13d0b7a20b14096fae169dc18ff0a9a85656ff59578"
-      },
-      {
-        "file": "source/land_equipment_catalog_ussr_arm_1940.csv",
-        "sha256": "622dec8501a43e777e10322a6ccdb796f3a6fe848ec8cd0b2112d584ef64b4ce"
-      }
-    ]
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
   }
 }

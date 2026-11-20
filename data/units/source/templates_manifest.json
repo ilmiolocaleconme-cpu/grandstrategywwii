@@ -109,7 +109,9 @@
       "template": "ussr_arm_template_1940.csv",
       "lines": "ussr_arm_equipment_1940.csv",
       "catalog": "land_equipment_catalog_ussr_arm_1940.csv",
-      "output": "divisione_corazzata_urss_1940.json"
+      "output": "divisione_corazzata_urss_1940.json",
+      "templateOutput": false,
+      "templateOutputNote": "20/11/2026, schema unico: TPL-USSR-ARM-1940 (stesso id) è la somma dei battaglioni di modules_ussr.json, tarata sui carri di questo CSV; il CSV genera solo il catalogo."
     }
   ]
 }
