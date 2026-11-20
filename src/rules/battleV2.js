@@ -47,7 +47,7 @@ export function weaponWeight(weapon, cfg) {
  * classe per l'anno `year` (anno di nascita della divisione); senza `fleetMix` vale la voce così com'è.
  */
 export function tankParts(item, weapon, n, year, cfg, resolve) {
-  const model = (id) => resolve?.(id) ?? { id, category: 'TANK', role: null };
+  const model = (id) => resolve?.(id) ?? { id, category: weapon?.category ?? 'TANK', role: null }; // 21/11/2026: vale per ogni categoria (predecessori), non solo per i carri
   const tracked = Object.entries(item?.models ?? {}).filter(([, q]) => q > 0);
   const total = tracked.reduce((s, [, q]) => s + q, 0);
   const scale = total > n && total > 0 ? n / total : 1;
@@ -72,11 +72,14 @@ export function rawFirepower(items, weaponOf, cfg, men = 0, opts = {}) {
     if (!w || !(v?.planned > 0)) continue;
     out.recognized = true; known.add(c); known.add(`class:${w.class}`);
     const n = Math.max(0, v.effective ?? 0);
-    if (c === 'TANK' && typeof weapon === 'object') { // una voce di carri può contenere più modelli
+    // una voce può contenere più modelli: i carri (fleetMix, scorte equivalenti) e, dal 21/11/2026, qualsiasi arma coperta da un modello
+    // precedente (data/units/equipment/replacements.json): ogni pezzo vale come il proprio modello
+    const tracked = Object.values(v.models ?? {}).some((q) => q > 0);
+    if (typeof weapon === 'object' && (c === 'TANK' || tracked)) {
       for (const part of tankParts(v, weapon, n, opts.year ?? 0, cfg, opts.resolve)) {
         const pw = weaponWeight(part.weapon, cfg) ?? w;
         out[w.class].soft += part.n * pw.soft; out[w.class].hard += part.n * pw.hard;
-        tanks += part.n; armor += part.n * pw.armor;
+        if (c === 'TANK' || c === 'TANK_DESTROYER') { tanks += part.n; armor += part.n * pw.armor; }
       }
       continue;
     }

@@ -103,3 +103,70 @@ export function equipmentIdForPath(doc, nation, path) {
   const m = /^equipment\.([^.]+)/.exec(path);
   return m ? resolveEquipment(doc, nation, m[1])?.equipment_id ?? null : null;
 }
+
+export const REPLACEMENTS_SCHEMA = 'equipment-replacements-v1';
+
+/**
+ * Errori di data/units/equipment/replacements.json (21/11/2026, logica delle dotazioni, fase 1): ogni riga { id, replaces, basis } dice che il modello
+ * `replaces` precede `id`. Stessa nazione e categoria, predecessore mai più recente del nuovo (production = equipment_production.json), un solo
+ * predecessore per modello, nessun ciclo. catalog = catalogo unito.
+ */
+export function validateReplacements(doc, { catalog, production = null }) {
+  const errors = [];
+  if (doc?.schema !== REPLACEMENTS_SCHEMA) return [`sostituzioni: schema ${JSON.stringify(doc?.schema)}`];
+  if (!Array.isArray(doc.entries)) return ['sostituzioni: entries non è un array'];
+  const byId = new Map((catalog?.entries ?? []).map((e) => [e.equipment_id, e]));
+  const fromOf = (id) => production?.overrides?.[id]?.availableFrom ?? null;
+  const pred = new Map();
+  for (const r of doc.entries) {
+    const p = `sostituzione ${r?.id} → ${r?.replaces}`;
+    const a = byId.get(r?.id); const b = byId.get(r?.replaces);
+    if (!a) { errors.push(`${p}: modello nuovo inesistente`); continue; }
+    if (!b) { errors.push(`${p}: predecessore inesistente`); continue; }
+    if (!['utente', 'ipotesi', 'fonte'].includes(r.basis)) errors.push(`${p}: basis ${JSON.stringify(r.basis)}`);
+    if (a.equipment_id === b.equipment_id) errors.push(`${p}: sé stesso`);
+    else if (a.nation !== b.nation || a.category !== b.category) errors.push(`${p}: nazione o categoria diversa`);
+    else if (fromOf(a.equipment_id) && fromOf(b.equipment_id) && fromOf(b.equipment_id) > fromOf(a.equipment_id)) errors.push(`${p}: il predecessore è più recente (${fromOf(b.equipment_id)})`);
+    if (pred.has(a.equipment_id)) errors.push(`${p}: il modello ha già un predecessore`);
+    pred.set(a.equipment_id, b.equipment_id);
+  }
+  for (const start of pred.keys()) {
+    const seen = new Set([start]);
+    for (let c = pred.get(start); c !== undefined; c = pred.get(c)) {
+      if (seen.has(c)) { errors.push(`sostituzione ${start}: catena circolare`); break; }
+      seen.add(c);
+    }
+  }
+  return errors;
+}
+
+/**
+ * Predecessori di una voce di divisione (21/11/2026, logica delle dotazioni, fase 1): (nazione, percorso `equipment.<chiave>`) → percorsi di scorta
+ * dei modelli precedenti, dal più recente al più vecchio (catena di data/units/equipment/replacements.json). Servono ai rinforzi come ultima fonte: un pezzo vecchio
+ * copre il posto finché il nuovo non c'è e combatte con i propri valori (src/rules/battleV2.js). Non entrano nelle equivalenze: il fabbisogno
+ * delle fabbriche resta quello del modello nuovo.
+ */
+export function buildPredecessors(doc, replacements) {
+  const byId = new Map((doc?.entries ?? []).map((e) => [e.equipment_id, e]));
+  const alias = new Map((doc?.aliases ?? []).map((a) => [`${a.nation}|${a.templateKey}`, a.equipment_id]));
+  const pred = new Map((replacements?.entries ?? []).map((r) => [r.id, r.replaces]));
+  const cache = new Map();
+  return function predecessorsOf(nation, path) {
+    const k = `${nation}|${path}`;
+    if (cache.has(k)) return cache.get(k);
+    const m = /^equipment\.(.+)$/.exec(path ?? '');
+    const out = [];
+    if (m) {
+      const seen = new Set();
+      let e = byId.get(alias.get(`${nation}|${m[1]}`) ?? m[1]);
+      while (e && pred.has(e.equipment_id) && !seen.has(pred.get(e.equipment_id))) {
+        seen.add(pred.get(e.equipment_id));
+        e = byId.get(pred.get(e.equipment_id));
+        if (!e || e.nation !== nation) break;
+        out.push(`equipment.${e.equipment_id}`);
+      }
+    }
+    cache.set(k, out);
+    return out;
+  };
+}

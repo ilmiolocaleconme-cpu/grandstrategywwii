@@ -1,0 +1,56 @@
+{
+  "schema": "equipment-replacements-v1",
+  "note": "Catene dei modelli (21/11/2026, logica delle dotazioni, fase 1): `id` è il modello nuovo, `replaces` il precedente. Il precedente copre il posto del nuovo nei rinforzi quando il nuovo manca in magazzino e combatte con i propri valori; non riduce il fabbisogno delle fabbriche del modello nuovo. Stessa nazione e categoria, mai più recente del nuovo (equipment_production.json). Una catena per tutte le nazioni; le coppie sono stime di Claude.",
+  "entries": [
+    {
+      "id": "ART-DEU-PAK38",
+      "replaces": "ART-DEU-PAK36",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "TD-DEU-MARDER-III",
+      "replaces": "TD-DEU-PZJG-I",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "TD-DEU-HETZER",
+      "replaces": "TD-DEU-MARDER-III",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "TD-DEU-STUG-III-G",
+      "replaces": "TD-DEU-STUG-III",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "INW-USSR-SMG-PPSH41",
+      "replaces": "INW-USSR-SMG-PPD",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "TD-USSR-SU100-1944",
+      "replaces": "TD-USSR-SU85-1943",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "ART-USA-AT57",
+      "replaces": "ART-USA-AT37-1940",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "INW-USA-SMG-M3",
+      "replaces": "INW-USA-SMG-THOMPSON",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "VEH-USA-GMC-CCKW",
+      "replaces": "VEH-USA-TRUCK15",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "VEH-USA-M8",
+      "replaces": "VEH-USA-M3-SCOUT",
+      "basis": "ipotesi"
+    }
+  ]
+}

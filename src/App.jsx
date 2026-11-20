@@ -123,8 +123,9 @@ import { loadIndustryCatalog } from './data/industry.js';
 import recipesFile from '../data/industry/recipes.json';
 import equipmentProductionTable from '../data/units/equipment/equipment_production.json';
 import equipmentUpgradeMap from '../data/units/equipment/upgrade_map.json';
+import equipmentReplacements from '../data/units/equipment/replacements.json';
 import mobilizationLaws from '../data/units/mobilization_laws.json';
-import { mergeEquipmentCatalogs } from './data/equipmentCatalog.js';
+import { mergeEquipmentCatalogs, buildPredecessors } from './data/equipmentCatalog.js';
 import { buildEquipmentRecipes, withEquipmentPrices } from './data/equipmentProduction.js';
 import factoryLevelsFile from '../data/industry/factory_levels.json';
 import technologiesFile from '../data/research/technologies.json';
@@ -337,6 +338,7 @@ const WEAPON_OF = buildWeaponOf(EQUIPMENT_CATALOG); // voce di divisione → arm
 const CATEGORY_OF = buildCategoryOf(EQUIPMENT_CATALOG); // voce di divisione → categoria d'arma (dotazione in battaglia)
 const fillOf = (state, unitId, nation) => equipmentFill(state.forces?.divisions?.[unitId]?.items, (k) => CATEGORY_OF(nation, k), combatEquipmentCfg);
 const EQUIPMENT_SOURCES = buildEquivalence({ catalog: EQUIPMENT_CATALOG, upgradeMap: equipmentUpgradeMap, generic: { TANK: 'tanks' }, categoryOf: CATEGORY_OF }); // pezzi prodotti → voci dei template delle divisioni
+const EQUIPMENT_PREDECESSORS = buildPredecessors(EQUIPMENT_CATALOG, equipmentReplacements); // modelli precedenti che coprono il posto del nuovo (data/units/equipment/replacements.json, 21/11/2026)
 const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProductionTable);
 const EQUIPMENT_NAMES = new Map(EQUIPMENT_CATALOG.entries.map((e) => [e.equipment_id, e.name_it ?? e.designation ?? e.equipment_id]));
 // Prezzi dei pezzi (opzione D): priceFactor × costo dei materiali; ogni equipaggiamento diventa commerciabile
@@ -475,7 +477,7 @@ const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ controllerOf: placeControllerOf, nationIds: START_ECONOMY.nationIds, catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding }, smallArms: smallArmsFile }),
   // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
-  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, priorityOf: (nation) => servicePriority(servicesFile, unitsList(state, unitsFile.units), nation, state), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, originsOf: (n) => barracksOrigins(s, barracksFile, n, placeControllerOf), sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
+  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, fallbackOf: EQUIPMENT_PREDECESSORS, priorityOf: (nation) => servicePriority(servicesFile, unitsList(state, unitsFile.units), nation, state), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, originsOf: (n) => barracksOrigins(s, barracksFile, n, placeControllerOf), sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES,

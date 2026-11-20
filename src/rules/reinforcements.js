@@ -75,7 +75,9 @@ export function mayNeedReinforcement(forces, divisionId) {
  * Ritorna { transfers (nuovi), remaining: { pool, stocks }, skipped: [{ divisionId, item, reason }] }; reason: 'disabled' | 'no_resources'.
  */
 // sourcesOf(item) (facoltativo, 12/11/2026) → voci di scorta che possono rifornire `item` (src/data/equipmentEquivalence.js); assente = solo la voce stessa.
-export function planReinforcements(forces, { units, nation, date, poolAvailable, stocks = {}, requests = {}, transitDays, sourcesOf = null }) {
+// fallbackOf (facoltativo, 21/11/2026, logica delle dotazioni fase 1): item → percorsi di scorta dei modelli PRECEDENTI (data/units/equipment/replacements.json),
+// usati solo dopo la voce stessa e le equivalenti; l'arrivo si registra in `models` (modelsAfter) e in battaglia il pezzo vale come il suo modello.
+export function planReinforcements(forces, { units, nation, date, poolAvailable, stocks = {}, requests = {}, transitDays, sourcesOf = null, fallbackOf = null }) {
   if (typeof transitDays !== 'function') throw new TypeError('transitDays è obbligatorio: il tempo di trasferimento non è inventato qui');
   const owned = new Set(units.filter((u) => u.nation === nation).map((u) => u.id));
   const ids = Object.keys(forces.divisions).filter((id) => owned.has(id));
@@ -83,7 +85,10 @@ export function planReinforcements(forces, { units, nation, date, poolAvailable,
   let pool = Math.max(0, poolAvailable - reservedPool);
   const left = {};
   for (const [k, v] of Object.entries(stocks)) left[k] = Math.max(0, v - inTransitFromStock(forces, ids, k));
-  const sources = (item) => (sourcesOf ? sourcesOf(item) : [item]);
+  const sources = (item) => {
+    const own = sourcesOf ? sourcesOf(item) : [item];
+    return fallbackOf ? [...own, ...fallbackOf(item).filter((k) => !own.includes(k))] : own;
+  };
   const transfers = [];
   const skipped = [];
   const itemsOf = (id) => Object.keys(forces.divisions[id].items);
