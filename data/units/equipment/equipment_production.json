@@ -691,6 +691,53 @@
         "TECH-ART-ROCKET",
         "TECH-MECH-HT"
       ]
+    },
+    "INW-USA-SMG-THOMPSON": {
+      "availableTo": "1944-02-29"
+    },
+    "INW-USA-SMG-M3": {
+      "availableFrom": "1943-01-01",
+      "requiresTech": "TECH-INF-EMERG"
+    },
+    "ART-USA-MOR60": {
+      "massTonnes": 0.019,
+      "availableFrom": "1940-01-01"
+    },
+    "ART-USA-HOW75-PACK": {
+      "massTonnes": 0.65,
+      "availableFrom": "1940-01-01"
+    },
+    "ART-USA-AT57": {
+      "massTonnes": 1.15,
+      "availableFrom": "1942-05-01"
+    },
+    "ART-USA-AA40": {
+      "massTonnes": 2.0,
+      "availableFrom": "1941-01-01"
+    },
+    "VEH-USA-TRUCK15": {
+      "massTonnes": 2.6
+    },
+    "VEH-USA-GMC-CCKW": {
+      "massTonnes": 4.5,
+      "availableFrom": "1941-01-01"
+    },
+    "VEH-USA-JEEP": {
+      "massTonnes": 1.1,
+      "availableFrom": "1941-07-01"
+    },
+    "VEH-USA-M3-SCOUT": {
+      "massTonnes": 5.6,
+      "availableFrom": "1939-01-01"
+    },
+    "VEH-USA-M3-HT": {
+      "massTonnes": 9.1,
+      "availableFrom": "1941-01-01",
+      "requiresTech": "TECH-MECH-HT"
+    },
+    "VEH-USA-M8": {
+      "massTonnes": 7.9,
+      "availableFrom": "1943-03-01"
     }
   },
   "priceFactor": 1.25

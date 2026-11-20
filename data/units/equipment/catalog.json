@@ -1022,6 +1022,188 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-USA-PISTOL-M1911",
+      "nation": "USA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 11.43,
+      "designation": "Pistola Colt M1911A1 cal. .45",
+      "name_it": "Pistola M1911A1",
+      "role": "officer_and_specialist_sidearm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-USA-SMG-THOMPSON",
+      "nation": "USA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 11.43,
+      "designation": "Thompson M1928A1 / M1 / M1A1 cal. .45",
+      "name_it": "Pistola mitragliatrice Thompson",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-USA-SMG-M3",
+      "nation": "USA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 11.43,
+      "designation": "M3 «Grease Gun» cal. .45",
+      "name_it": "Pistola mitragliatrice M3",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USA-MOR60",
+      "nation": "USA",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 60,
+      "designation": "Mortaio M2 da 60 mm",
+      "name_it": "Mortaio leggero da 60 mm",
+      "role": "close_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USA-HOW75-PACK",
+      "nation": "USA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Obice someggiabile M1A1 da 75 mm",
+      "name_it": "Obice someggiato da 75 mm",
+      "role": "mountain_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USA-AT57",
+      "nation": "USA",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "caliber_mm": 57,
+      "designation": "Cannone anticarro M1 da 57 mm (6 libbre)",
+      "name_it": "Cannone anticarro da 57 mm",
+      "role": "anti_tank_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USA-AA40",
+      "nation": "USA",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 40,
+      "designation": "Cannone contraereo M1 da 40 mm (Bofors)",
+      "name_it": "Contraerea da 40 mm Bofors",
+      "role": "light_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USA-TRUCK15",
+      "nation": "USA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Autocarro da 1½ t (Chevrolet / Dodge)",
+      "name_it": "Autocarro leggero da 1,5 t",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USA-GMC-CCKW",
+      "nation": "USA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "GMC CCKW 353 da 2½ t",
+      "name_it": "Autocarro GMC da 2,5 t",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USA-JEEP",
+      "nation": "USA",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Willys MB / Ford GPW da ¼ t",
+      "name_it": "Jeep",
+      "role": "light_utility",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USA-M3-SCOUT",
+      "nation": "USA",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Scout car M3A1",
+      "name_it": "Autoblinda da ricognizione M3A1",
+      "role": "scout_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USA-M3-HT",
+      "nation": "USA",
+      "category": "HALF_TRACK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Semicingolato M3",
+      "name_it": "Semicingolato M3",
+      "role": "armored_personnel_carrier",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-USA-M8",
+      "nation": "USA",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": 37,
+      "designation": "Autoblinda M8 Greyhound",
+      "name_it": "Autoblinda M8",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -1374,6 +1556,71 @@
       "nation": "DEU",
       "templateKey": "ART-DEU-AA-20",
       "equipment_id": "ART-DEU-AA-20"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "INW-USA-PISTOL-M1911",
+      "equipment_id": "INW-USA-PISTOL-M1911"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "INW-USA-SMG-THOMPSON",
+      "equipment_id": "INW-USA-SMG-THOMPSON"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "INW-USA-SMG-M3",
+      "equipment_id": "INW-USA-SMG-M3"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-MOR60",
+      "equipment_id": "ART-USA-MOR60"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-HOW75-PACK",
+      "equipment_id": "ART-USA-HOW75-PACK"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-AT57",
+      "equipment_id": "ART-USA-AT57"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-AA40",
+      "equipment_id": "ART-USA-AA40"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "VEH-USA-TRUCK15",
+      "equipment_id": "VEH-USA-TRUCK15"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "VEH-USA-GMC-CCKW",
+      "equipment_id": "VEH-USA-GMC-CCKW"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "VEH-USA-JEEP",
+      "equipment_id": "VEH-USA-JEEP"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "VEH-USA-M3-SCOUT",
+      "equipment_id": "VEH-USA-M3-SCOUT"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "VEH-USA-M3-HT",
+      "equipment_id": "VEH-USA-M3-HT"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "VEH-USA-M8",
+      "equipment_id": "VEH-USA-M8"
     }
   ]
 }
