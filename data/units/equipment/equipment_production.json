@@ -756,6 +756,26 @@
     },
     "VEH-USA-MOTO": {
       "massTonnes": 0.25
+    },
+    "INW-DEU-G43": {
+      "massTonnes": 0.0044,
+      "availableFrom": "1943-04-01",
+      "requiresTech": "TECH-INF-SEMI2"
+    },
+    "INW-USSR-SVT40": {
+      "massTonnes": 0.0039,
+      "availableFrom": "1940-07-01",
+      "requiresTech": "TECH-INF-SEMI1"
+    },
+    "INW-USA-GARAND": {
+      "massTonnes": 0.0044,
+      "availableFrom": "1937-01-01",
+      "requiresTech": "TECH-INF-SEMI1"
+    },
+    "INW-USA-CARBINE-M1": {
+      "massTonnes": 0.0025,
+      "availableFrom": "1941-10-01",
+      "requiresTech": "TECH-INF-SELECT"
     }
   },
   "priceFactor": 1.25

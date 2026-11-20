@@ -85,6 +85,7 @@ import { enemiesOf } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
 import { positionOf, marchSpeed, DEFAULT_MARCH } from './rules/movement.js';
 import depotsFile from '../data/units/depots.json';
+import { createModernizationSystem } from './game/modernizationSystem.js';
 import { createReinforcementSystem, setDivisionReinforcement, setDivisionPriority, depotRoute } from './game/reinforcementSystem.js';
 import { buildEquivalence } from './data/equipmentEquivalence.js';
 import combatEquipmentCfg from '../data/units/combat_equipment.json';
@@ -93,7 +94,7 @@ import battleV2File from '../data/units/battle_v2.json';
 import ammoConsumptionFile from '../data/military/ammo_consumption.json';
 import fuelConsumptionFile from '../data/military/fuel_consumption.json';
 import { validateBattleV2, rawFirepower, casualtyDrain } from './rules/battleV2.js';
-import { ownerFromPlaceId } from './data/equipmentProduction.js';
+import { ownerFromPlaceId, groupUnlocked, recipeLockReasons } from './data/equipmentProduction.js';
 import { createCasualtySystem } from './game/casualtyState.js';
 import { DIVISION_AMMO_CATEGORY } from './rules/militaryReserve.js';
 import { dailyAmmo } from './data/ammo.js';
@@ -132,8 +133,7 @@ import technologiesFile from '../data/research/technologies.json';
 import { techBattleBonus, battleBonusOf, techIndex } from './data/technologies.js';
 import smallArmsFile from '../data/units/models/fucili_1930_1945.json';
 import { modelsUnlockedBy, producibleModels } from './data/smallArmsModels.js';
-import { averageQuality, rifleBonus, rifleTechBonus, plannedMenByNation, removeRiflePoints } from './rules/rifleQuality.js';
-import { isRifleProduct } from './game/economySystem.js';
+import { rifleTechBonus } from './rules/rifleQuality.js';
 import securityFile from '../data/security/security.json';
 import diplomacyConfig from '../data/diplomacy/diplomacy.json';
 import diplomacyStart from '../data/diplomacy/relations_1936.json';
@@ -340,6 +340,7 @@ const fillOf = (state, unitId, nation) => equipmentFill(state.forces?.divisions?
 const EQUIPMENT_SOURCES = buildEquivalence({ catalog: EQUIPMENT_CATALOG, upgradeMap: equipmentUpgradeMap, generic: { TANK: 'tanks' }, categoryOf: CATEGORY_OF }); // pezzi prodotti → voci dei template delle divisioni
 const EQUIPMENT_PREDECESSORS = buildPredecessors(EQUIPMENT_CATALOG, equipmentReplacements); // modelli precedenti che coprono il posto del nuovo (data/units/equipment/replacements.json, 21/11/2026)
 const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProductionTable);
+const EQUIPMENT_RECIPE_BY_EQ = new Map(EQUIPMENT_RECIPES.map((r) => [r.equipmentId, r])); // arma → ricetta (modernizzazione: armi nuove producibili)
 const EQUIPMENT_NAMES = new Map(EQUIPMENT_CATALOG.entries.map((e) => [e.equipment_id, e.name_it ?? e.designation ?? e.equipment_id]));
 // Prezzi dei pezzi (opzione D): priceFactor × costo dei materiali; ogni equipaggiamento diventa commerciabile
 const economyData = withEquipmentPrices(economyFile, EQUIPMENT_RECIPES, equipmentProductionTable.priceFactor);
@@ -386,26 +387,11 @@ const UNITS_BY_ID = new Map(unitsFile.units.map((u) => [u.id, u]));
 const OFFICERS_BY_ID = new Map(officersFile.officers.map((o) => [o.id, o]));
 const ENTRENCH_ERRORS = validateEntrenchConfig(entrenchFile);
 if (ENTRENCH_ERRORS.length) console.error('Trinceramento: configurazione non valida, uso i valori predefiniti.', ENTRENCH_ERRORS);
-// Fucili (fase 2): qualità media della nazione = punti dei fucili prodotti / uomini previsti delle sue divisioni; calcolata una volta per stato
-const RIFLE_MEN = new WeakMap();
-const rifleAverage = (state, nation) => {
-  if (!state.forces) return 0;
-  let men = RIFLE_MEN.get(state.forces);
-  if (!men) { men = plannedMenByNation(state.forces, (id) => unitOf(state, id, UNITS_BY_ID)?.nation); RIFLE_MEN.set(state.forces, men); }
-  const r = state.nations?.[nation]?.rifles;
-  return averageQuality(smallArmsFile, r?.points ?? 0, men[nation] ?? 0, r?.count ?? 0);
-};
-// bonus in battaglia per categoria: fucili (qualità e tecnologie) + tecnologie con `battle_bonus` (radio, ottiche, infrarossi dei corazzati, 18/11/2026)
-const rifleTotalBonus = (state, nation, category) => rifleBonus(smallArmsFile, category, rifleAverage(state, nation)) + rifleTechBonus(smallArmsFile, category, techsOf(state.nations?.[nation])) + techBattleBonus(technologiesFile, category, techsOf(state.nations?.[nation]));
-// fucili persi in battaglia: tolgono punti alla qualità della nazione (le voci di template equivalenti a un fucile prodotto contano come fucili)
-const onEquipmentLost = (state, unitId, lost) => {
-  const nation = unitOf(state, unitId, UNITS_BY_ID)?.nation;
-  const n = nation && state.nations?.[nation];
-  if (!n?.rifles) return state;
-  const rifles = Object.entries(lost).reduce((s, [k, q]) => (EQUIPMENT_SOURCES(nation, k).some(isRifleProduct) ? s + q : s), 0);
-  if (rifles <= 0) return state;
-  return { ...state, nations: { ...state.nations, [nation]: removeRiflePoints(n, rifles, rifleAverage(state, nation)) } };
-};
+// bonus in battaglia per categoria: dottrina dei fucili (tecnologie) + tecnologie con `battle_bonus` (radio, ottiche, infrarossi dei corazzati, 18/11/2026)
+// 21/11/2026 (fucili nello schema unico, scelte 1A-2A-3B dell'utente): niente più qualità media nazionale; il fucile semiautomatico vale per pezzo in battaglia
+// (battle_v2.json → byRole). Resta il bonus di dottrina delle tecnologie dei fucili (techBonus).
+const rifleTotalBonus = (state, nation, category) => rifleTechBonus(smallArmsFile, category, techsOf(state.nations?.[nation])) + techBattleBonus(technologiesFile, category, techsOf(state.nations?.[nation]));
+const onEquipmentLost = (state) => state; // 21/11/2026: la qualità media nazionale dei fucili non esiste più (le perdite stanno nelle voci delle divisioni)
 // proiettili perforanti (TECH-AMMO-AP, 13/11/2026): massimo dalla tecnologia, copertura del tungsteno dall'economia (nation.apCoverage, assente = 0: niente munizioni prodotte con tungsteno)
 const AP_TECH = (technologiesFile.technologies ?? []).find((t) => t.id === 'TECH-AMMO-AP');
 const AP_MAX = AP_TECH?.unlocks?.find((x) => x.kind === 'ap_rounds')?.vsArmorMax ?? 0;
@@ -475,7 +461,11 @@ const GAME_SYSTEMS = [
   createPromotionSystem({ doc: servicesFile, unitsOf: (state) => unitsList(state, unitsFile.units), conditionCfg: conditionConfig }), // Guardie: 3 vittorie dal 18/9/1941 (20/11/2026) // feriti di battaglia negli ospedali: guariti al pool, morti ai caduti (battaglia v2)
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
   GAME_BUILD.constructionDay,
-  createEconomySystem({ controllerOf: placeControllerOf, nationIds: START_ECONOMY.nationIds, catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding }, smallArms: smallArmsFile }),
+  createEconomySystem({ controllerOf: placeControllerOf, nationIds: START_ECONOMY.nationIds, catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding } }),
+  // Modernizzazione dei battaglioni (21/11/2026, logica delle dotazioni fase 2): versione più recente con data, tecnologia e armi nuove producibili;
+  // prima dei rinforzi, che portano i pezzi nuovi dal magazzino e riportano i vecchi
+  createModernizationSystem({ units: unitsFile.units, templates: FORCES_CTX.templates, modules: ALL_MODULES, predecessorsOf: EQUIPMENT_PREDECESSORS,
+    researchedOf: (s, nation) => techsOf(s.nations?.[nation]), producible: (s, nation, id) => { const r = EQUIPMENT_RECIPE_BY_EQ.get(id); const t = techsOf(s.nations?.[nation]); return Boolean(r) && groupUnlocked(equipmentProductionTable, r.group, t) && recipeLockReasons(r, { date: s.date, researched: t }).length === 0; } }),
   // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
   (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, fallbackOf: EQUIPMENT_PREDECESSORS, priorityOf: (nation) => servicePriority(servicesFile, unitsList(state, unitsFile.units), nation, state), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, originsOf: (n) => barracksOrigins(s, barracksFile, n, placeControllerOf), sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora

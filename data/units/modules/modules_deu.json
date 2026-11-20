@@ -24,6 +24,30 @@
       "name_native": "Infanterie-Bataillon"
     },
     {
+      "id": "MOD-DEU-INF-1943",
+      "nation": "DEU",
+      "type": "infantry",
+      "name_it": "Battaglione granatieri (1943)",
+      "men": 860,
+      "horses": 200,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 600,
+        "INW-DEU-PISTOL-1939": 120,
+        "MG-DEU-MG34-L": 27,
+        "MG-DEU-MG34-S": 12,
+        "ART-DEU-GRW36": 9,
+        "ART-DEU-GRW34": 6,
+        "INW-DEU-G43": 40,
+        "GL-DEU-PANZERFAUST": 36
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "name_native": "Grenadier-Bataillon (1943)",
+      "availableFrom": "1943-10-01",
+      "supersedes": "MOD-DEU-INF",
+      "note": "Versione del battaglione (logica delle dotazioni, 21/11/2026): organici stimati da Claude, NON verificati."
+    },
+    {
       "id": "MOD-DEU-ART",
       "nation": "DEU",
       "type": "artillery",
@@ -74,6 +98,29 @@
       "mobility": "foot",
       "illustration": "anticarro",
       "name_native": "Infanteriegeschütz- und Panzerjäger-Kompanien"
+    },
+    {
+      "id": "MOD-DEU-REGT-HVY-1943",
+      "nation": "DEU",
+      "type": "support",
+      "name_it": "Compagnie pesanti di reggimento (1943)",
+      "men": 380,
+      "horses": 220,
+      "equipment": {
+        "ART-DEU-LEIG18": 6,
+        "ART-DEU-SIG33": 2,
+        "INW-DEU-RIFLE-1939": 220,
+        "INW-DEU-PISTOL-1939": 60,
+        "MG-DEU-MG34-L": 6,
+        "ART-DEU-PAK38": 12,
+        "GL-DEU-PANZERSCHRECK": 36
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "name_native": "Infanteriegeschütz- und Panzerjäger-Kompanien (1943)",
+      "availableFrom": "1943-10-01",
+      "supersedes": "MOD-DEU-REGT-HVY",
+      "note": "Versione del battaglione (logica delle dotazioni, 21/11/2026): organici stimati da Claude, NON verificati."
     },
     {
       "id": "MOD-DEU-SUPPORT",

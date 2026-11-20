@@ -50,15 +50,16 @@ test('upgradeDivision sintetico: porta la dotazione con la mappa, tronca al nuov
   assert.equal(d.since, '1936-01-01'); assert.equal(d.reinforce, false, 'interruttore dei rinforzi conservato');
   assert.deepEqual(d.items['manpower.war'], { planned: 1000, effective: 850, source: 'upgrade' });
   assert.deepEqual(d.items.horses, { planned: 100, effective: 100, source: 'upgrade' }, 'effettivo troncato al nuovo previsto');
-  assert.deepEqual(r.surplus, { horses: 10, 'equipment.NEW_A': 14 }, 'eccedenza: cavalli 110−100, voce A 64−50');
+  // 21/11/2026 (scelta 3A dell'utente: la dotazione vecchia torna in magazzino): anche la voce senza corrispondenza (lost: 4) va alla scorta, non si perde
+  assert.deepEqual(r.surplus, { horses: 10, 'equipment.NEW_A': 14, 'equipment.lost': 4 }, 'eccedenza: cavalli 110−100, voce A 64−50, voce senza corrispondenza 4');
   assert.deepEqual(d.items['equipment.NEW_B'], { planned: 30, effective: 27, source: 'upgrade' }, 'due voci vecchie sulla stessa nuova si sommano');
   assert.deepEqual(d.items['equipment.ONLY_NEW'], { planned: 10, effective: 0, source: 'upgrade' }, 'voce nuova: da 0, non creata');
-  assert.deepEqual(r.dropped, { 'equipment.lost': 4 });
-  assert.deepEqual(d.upgrade, { from: 'TPL-XXX-INF-1936', on: '1939-09-01', surplus: { horses: 10, 'equipment.NEW_A': 14 }, dropped: { 'equipment.lost': 4 } });
+  assert.deepEqual(r.dropped, {});
+  assert.deepEqual(d.upgrade, { from: 'TPL-XXX-INF-1936', on: '1939-09-01', surplus: { horses: 10, 'equipment.NEW_A': 14, 'equipment.lost': 4 } });
   // conservazione: ciò che entra nelle voci nuove + eccedenza + perso = ciò che c'era (uomini esclusi, il pool è derivato)
   const oldTotal = ['horses', 'equipment.old_a', 'equipment.old_b1', 'equipment.old_b2', 'equipment.lost'].reduce((s, k) => s + division.items[k].effective, 0);
   const newTotal = ['horses', 'equipment.NEW_A', 'equipment.NEW_B', 'equipment.ONLY_NEW'].reduce((s, k) => s + d.items[k].effective, 0);
-  assert.equal(newTotal + 10 + 14 + 4, oldTotal, 'nessuna dotazione creata o duplicata');
+  assert.equal(newTotal + 10 + 14 + 4, oldTotal, 'nessuna dotazione creata o duplicata'); // 4 ora in magazzino, prima perso
   assert.deepEqual(division.items['manpower.war'], { planned: 900, effective: 850, source: 'ratio' }, 'input non modificato');
 });
 

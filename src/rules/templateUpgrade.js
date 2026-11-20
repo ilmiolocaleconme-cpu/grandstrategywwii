@@ -79,10 +79,18 @@ export function upgradeDivision(division, template, { nation, map = { entries: [
     const carried = (sources.get(path) ?? []).reduce((s, p) => s + division.items[p].effective, 0);
     const effective = Math.min(carried, it.planned);
     items[path] = { planned: it.planned, effective, source: 'upgrade' };
+    // modelli registrati nella voce (carri, predecessori): restano, al massimo quanti gli effettivi (21/11/2026)
+    const kept = division.items[path]?.models;
+    if (kept) { const tot = Object.values(kept).reduce((s, q) => s + q, 0); const f = tot > effective && tot > 0 ? effective / tot : 1; items[path].models = Object.fromEntries(Object.entries(kept).map(([k, q]) => [k, Math.round(q * f * 1000) / 1000]).filter(([, q]) => q > 0)); }
     if (carried > effective && isStockPath(path)) surplus[path] = carried - effective;
   }
+  // 21/11/2026 (logica delle dotazioni, scelta 3A dell'utente: «la dotazione vecchia torna in magazzino»): le voci di dotazione senza corrispondenza
+  // tornano alla scorta nazionale (prima andavano perse come `dropped`); `dropped` resta solo per ciò che non è magazzino.
   const dropped = {};
-  for (const [path, it] of Object.entries(division.items)) if (!used.has(path) && it.effective > 0) dropped[path] = it.effective;
+  for (const [path, it] of Object.entries(division.items)) {
+    if (used.has(path) || !(it.effective > 0)) continue;
+    if (isStockPath(path)) surplus[path] = (surplus[path] ?? 0) + it.effective; else dropped[path] = it.effective;
+  }
   const record = { from: division.templateId, on: date, ...(Object.keys(surplus).length ? { surplus } : {}), ...(Object.keys(dropped).length ? { dropped } : {}) };
   return { division: { ...division, templateId: template.id, items, upgrade: record }, surplus, dropped };
 }

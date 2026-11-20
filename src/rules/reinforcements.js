@@ -36,8 +36,14 @@ export function priorityRequests(forces) {
 }
 
 /** Quantità già in viaggio per una divisione e una voce (riservata: non si assegna due volte). */
+// gli scambi (swap, 21/11/2026) non colmano carenze: sostituiscono pezzi vecchi già presenti, quindi non contano qui
 export function inTransit(forces, divisionId, item) {
-  return transfersOf(forces).filter((t) => t.divisionId === divisionId && t.item === item).reduce((s, t) => s + t.qty, 0);
+  return transfersOf(forces).filter((t) => t.divisionId === divisionId && t.item === item && !t.swap).reduce((s, t) => s + t.qty, 0);
+}
+
+/** Pezzi in viaggio per SCAMBIARE modelli vecchi di una voce (trasferimenti swap). */
+export function swapsInTransit(forces, divisionId, item) {
+  return transfersOf(forces).filter((t) => t.divisionId === divisionId && t.item === item && t.swap).reduce((s, t) => s + t.qty, 0);
 }
 
 /** Voce di scorta da cui è partito un trasferimento (campo facoltativo `stockKey`, assente = la voce stessa). */
@@ -65,7 +71,8 @@ export function mayNeedReinforcement(forces, divisionId) {
   if (!d) return false;
   if (transfersOf(forces).some((t) => t.divisionId === divisionId)) return true;
   if (isCadre(d) || !isEnabled(d)) return false;
-  return Object.keys(d.items ?? {}).some((item) => netDeficit(forces, divisionId, item) > 0);
+  // anche con modelli registrati in una voce: forse ci sono pezzi vecchi da scambiare (modernizzazione, 21/11/2026)
+  return Object.keys(d.items ?? {}).some((item) => netDeficit(forces, divisionId, item) > 0 || Object.values(d.items[item]?.models ?? {}).some((q) => q >= 1));
 }
 
 /**
@@ -118,6 +125,35 @@ export function planReinforcements(forces, { units, nation, date, poolAvailable,
       if (rest === 0) break;
     }
   }
+  // Modernizzazione graduale (21/11/2026, logica delle dotazioni fase 2, scelte 4A e 5A): con il magazzino che resta, i pezzi nuovi sostituiscono i
+  // modelli PRECEDENTI già presenti nella voce (registrati in `models`, catena fallbackOf). Prima le carenze (sopra), poi gli scambi, stesso ordine
+  // (precedenza, poi riempimento). All'arrivo il pezzo vecchio torna al magazzino (applyArrivals). Solo armi del modello nuovo o equivalenti, mai predecessori.
+  if (fallbackOf) {
+    for (const id of order) {
+      const d = forces.divisions[id];
+      if (isCadre(d) || !isEnabled(d)) continue;
+      for (const item of itemsOf(id).sort()) {
+        const it = d.items[item];
+        const olds = fallbackOf(item).map((k) => k.slice('equipment.'.length)).filter((m) => (it.models?.[m] ?? 0) > 0);
+        if (!olds.length) continue;
+        const want = Math.floor(olds.reduce((s, m) => s + it.models[m], 0) + 1e-9) - swapsInTransit(forces, id, item);
+        if (want <= 0) continue;
+        const own = sourcesOf ? sourcesOf(item) : [item];
+        let rest = want;
+        const days = (() => { for (const k of own) if ((left[k] ?? 0) > 0) return transitDays(id); return undefined; })();
+        if (days === undefined) continue;
+        if (days === null) { skipped.push({ divisionId: id, item, reason: 'no_route' }); continue; }
+        for (const k of own) {
+          const take = Math.min(rest, Math.floor(left[k] ?? 0));
+          if (take <= 0) continue;
+          left[k] -= take; rest -= take;
+          transfers.push({ id: `${id}|${item}|${date}|swap${k === item ? '' : `|${k}`}`, divisionId: id, item, sentOn: date, arrivesOn: addDays(date, days), qty: take, from: 'stock',
+            ...(k === item ? {} : { stockKey: k }), swap: true, replacesModels: olds });
+          if (rest === 0) break;
+        }
+      }
+    }
+  }
   return { transfers, remaining: { pool, stocks: left }, skipped };
 }
 
@@ -164,9 +200,26 @@ export function applyArrivals(forces, date) {
     if (!it) { returned.push({ ...t, returnedQty: t.qty }); continue; }
     const room = it.planned - it.effective;
     const taken = Math.min(t.qty, room);
-    divisions[t.divisionId] = { ...d, items: { ...d.items, [t.item]: { ...it, effective: it.effective + taken, ...modelsAfter(it, t, taken) } } };
-    arrived.push({ ...t, taken });
-    if (taken < t.qty) returned.push({ ...t, returnedQty: t.qty - taken });
+    let next = { ...it, effective: it.effective + taken, ...modelsAfter(it, t, taken) };
+    let swapped = 0;
+    if (t.swap) { // scambio (21/11/2026): il pezzo nuovo prende il posto di un modello vecchio, che torna al magazzino; prima il più vecchio della catena
+      let rest = t.qty - taken;
+      const models = { ...(next.models ?? {}) };
+      for (const m of [...(t.replacesModels ?? [])].reverse()) {
+        const q = Math.min(rest, Math.floor((models[m] ?? 0) + 1e-9));
+        if (q <= 0) continue;
+        models[m] = Math.round((models[m] - q) * 1000) / 1000;
+        if (models[m] <= 0) delete models[m];
+        rest -= q; swapped += q;
+        returned.push({ ...t, stockKey: `equipment.${m}`, returnedQty: q, swappedOut: true });
+      }
+      if (t.stockKey) { const id = t.stockKey.slice('equipment.'.length); if (swapped > 0) models[id] = Math.round(((models[id] ?? 0) + swapped) * 1000) / 1000; } // arrivato da una scorta equivalente: si registra
+      next = { ...next, models };
+      if (!Object.keys(models).length) delete next.models;
+    }
+    divisions[t.divisionId] = { ...d, items: { ...d.items, [t.item]: next } };
+    arrived.push({ ...t, taken: taken + swapped });
+    if (taken + swapped < t.qty) returned.push({ ...t, returnedQty: t.qty - taken - swapped });
   }
   return { forces: { ...forces, divisions, transfers: transfersOf(forces).filter((t) => t.arrivesOn > date) }, arrived, returned };
 }
@@ -177,6 +230,11 @@ export function validateReinforcementFields(forces) {
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'reinforce' in d && typeof d.reinforce !== 'boolean') errors.push(`forze: ${id} reinforce non booleano`);
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'cadre' in d && typeof d.cadre !== 'boolean') errors.push(`forze: ${id} cadre non booleano`);
   for (const [id, d] of Object.entries(forces.divisions ?? {})) if (d && typeof d === 'object' && 'priority' in d && typeof d.priority !== 'boolean') errors.push(`forze: ${id} priority non booleano`);
+  // modernizzazione dei battaglioni (21/11/2026): versions = { battaglione: versione }, modernize = 'hold' (sospesa dal giocatore)
+  for (const [id, d] of Object.entries(forces.divisions ?? {})) {
+    if (d?.versions !== undefined && (d.versions === null || typeof d.versions !== 'object' || Array.isArray(d.versions) || !Object.entries(d.versions).every(([a, b]) => /^MOD-/.test(a) && /^MOD-/.test(b)))) errors.push(`forze: ${id} versions non valido`);
+    if (d?.modernize !== undefined && d.modernize !== 'hold') errors.push(`forze: ${id} modernize ${JSON.stringify(d.modernize)}`);
+  }
   for (const [id, d] of Object.entries(forces.divisions ?? {})) for (const [k, it] of Object.entries(d?.items ?? {})) {
     if (it?.models === undefined) continue; // facoltativo: modelli registrati dentro una voce di classe
     if (it.models === null || typeof it.models !== 'object' || Array.isArray(it.models)) { errors.push(`forze: ${id} ${k} models non valido`); continue; }
@@ -192,6 +250,7 @@ export function validateReinforcementFields(forces) {
       if (!Number.isInteger(t?.qty) || t.qty <= 0) errors.push(`forze: trasferimento ${t?.id} con quantità non valida`);
       if (!['pool', 'stock'].includes(t?.from)) errors.push(`forze: trasferimento ${t?.id} con origine ${JSON.stringify(t?.from)}`);
       if (t && 'stockKey' in t && (t.from !== 'stock' || typeof t.stockKey !== 'string' || t.stockKey === '')) errors.push(`forze: trasferimento ${t?.id} con voce di scorta non valida`);
+      if (t && 'swap' in t && (t.swap !== true || t.from !== 'stock' || !Array.isArray(t.replacesModels) || !t.replacesModels.every((m) => typeof m === 'string' && m))) errors.push(`forze: trasferimento ${t?.id} di scambio non valido`);
       if (!/^\d{4}-\d{2}-\d{2}$/.test(t?.sentOn ?? '') || !/^\d{4}-\d{2}-\d{2}$/.test(t?.arrivesOn ?? '') || t.arrivesOn < t.sentOn) errors.push(`forze: trasferimento ${t?.id} con date non valide`);
     }
   }

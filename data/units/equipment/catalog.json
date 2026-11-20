@@ -1260,6 +1260,62 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-DEU-G43",
+      "nation": "DEU",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.92,
+      "designation": "Gewehr 43 / Karabiner 43",
+      "name_it": "Fucile semiautomatico G43",
+      "role": "semi_automatic_rifle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Modello del file data/units/models/fucili_1930_1945.json portato nel catalogo (schema unico dei fucili, scelta 3B dell'utente)."
+    },
+    {
+      "equipment_id": "INW-USSR-SVT40",
+      "nation": "USSR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.62,
+      "designation": "Tokarev SVT-40",
+      "name_it": "Fucile semiautomatico SVT-40",
+      "role": "semi_automatic_rifle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Modello del file data/units/models/fucili_1930_1945.json portato nel catalogo (schema unico dei fucili, scelta 3B dell'utente)."
+    },
+    {
+      "equipment_id": "INW-USA-GARAND",
+      "nation": "USA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.62,
+      "designation": "M1 Garand cal. .30-06",
+      "name_it": "Fucile semiautomatico M1 Garand",
+      "role": "semi_automatic_rifle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Modello del file data/units/models/fucili_1930_1945.json portato nel catalogo (schema unico dei fucili, scelta 3B dell'utente)."
+    },
+    {
+      "equipment_id": "INW-USA-CARBINE-M1",
+      "nation": "USA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.62,
+      "designation": "M1 Carbine cal. .30 Carbine",
+      "name_it": "Carabina M1",
+      "role": "carbine",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Modello del file data/units/models/fucili_1930_1945.json portato nel catalogo (schema unico dei fucili, scelta 3B dell'utente)."
     }
   ],
   "aliases": [
@@ -1697,6 +1753,26 @@
       "nation": "USA",
       "templateKey": "VEH-USA-MOTO",
       "equipment_id": "VEH-USA-MOTO"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "INW-DEU-G43",
+      "equipment_id": "INW-DEU-G43"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "INW-USSR-SVT40",
+      "equipment_id": "INW-USSR-SVT40"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "INW-USA-GARAND",
+      "equipment_id": "INW-USA-GARAND"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "INW-USA-CARBINE-M1",
+      "equipment_id": "INW-USA-CARBINE-M1"
     }
   ]
 }

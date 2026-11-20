@@ -27,6 +27,8 @@ export function weaponWeight(weapon, cfg) {
     const r = cfg.firepower.tankRoles?.[w.role];
     return r ? { soft: r.soft, hard: r.hard, class: base.class, armor: r.armor } : { ...base, armor: 1 };
   }
+  const byRole = w.role ? cfg.firepower.byRole?.[w.role] : null; // peso per ruolo, prima del calibro (21/11/2026: fucile semiautomatico, carabina)
+  if (byRole) return { soft: byRole.soft, hard: byRole.hard, class: base.class, armor: 1 };
   const band = typeof w.caliber === 'number' ? (cfg.firepower.byCaliber?.[w.category] ?? []).find((x) => w.caliber <= x.max) : null;
   return band ? { soft: band.soft, hard: band.hard, class: base.class, armor: 1 } : { ...base, armor: 1 };
 }

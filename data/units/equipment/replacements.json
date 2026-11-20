@@ -51,6 +51,21 @@
       "id": "VEH-USA-M8",
       "replaces": "VEH-USA-M3-SCOUT",
       "basis": "ipotesi"
+    },
+    {
+      "id": "INW-DEU-G43",
+      "replaces": "INW-DEU-RIFLE-1939",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "INW-USSR-SVT40",
+      "replaces": "INW-USSR-RIFLE-1939",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "INW-USA-GARAND",
+      "replaces": "INW-USA-RIFLE-1940",
+      "basis": "ipotesi"
     }
   ]
 }

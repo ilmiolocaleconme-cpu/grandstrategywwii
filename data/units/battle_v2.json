@@ -565,7 +565,18 @@
     "ussrRationale": "19/11/2026: modelli sovietici pesati per modello come i panzer (stime di Claude). T-34 e KV come prima per ruolo (medio 55/45/1,0, pesante 80/80/1,35) ma con la corazza inclinata (T-34 1,25) e la corazza spessa (KV 1,6).",
     "atRifleRationale": "20/11/2026: fucili anticarro (calibro fino a 15 mm, PTRD/PTRS sovietici) pesano 1/6 per pezzo: un decimo di un anticarro da 45 mm contro i carri, molto poco contro la fanteria. Stima di Claude.",
     "rocketRationale": "20/11/2026: lanciarazzi (Katjuša, Nebelwerfer, Calliope) come un obice medio contro la fanteria (salva su un'area), quasi nulli contro i corazzati. Stima di Claude.",
-    "infantryAntiTankRationale": "20/11/2026: armi anticarro della fanteria nella categoria dei lanciagranate, per calibro. Fino a 55 mm: lanciagranate da fucile, peso di categoria invariato (5/0). Bazooka (60 mm) 1/12, Panzerschreck (88 mm) 1/16: rispettivamente circa un terzo e la metà di un anticarro da 37 mm contro i carri, a corto raggio. Panzerfaust (149 mm) 1/10: carica più potente ma un solo colpo e gittata di 30-60 m. Stima di Claude."
+    "infantryAntiTankRationale": "20/11/2026: armi anticarro della fanteria nella categoria dei lanciagranate, per calibro. Fino a 55 mm: lanciagranate da fucile, peso di categoria invariato (5/0). Bazooka (60 mm) 1/12, Panzerschreck (88 mm) 1/16: rispettivamente circa un terzo e la metà di un anticarro da 37 mm contro i carri, a corto raggio. Panzerfaust (149 mm) 1/10: carica più potente ma un solo colpo e gittata di 30-60 m. Stima di Claude.",
+    "byRole": {
+      "semi_automatic_rifle": {
+        "soft": 0.75,
+        "hard": 0
+      },
+      "carbine": {
+        "soft": 0.6,
+        "hard": 0
+      }
+    },
+    "rifleRoleRationale": "21/11/2026 (fucili nello schema unico, scelta 1A dell'utente): il semiautomatico vale 0,75 contro 0,5 del fucile a ripetizione, tarato perché una divisione di fanteria tutta a semiautomatici guadagni circa l'8% di potenza come col vecchio bonus nazionale (calcolo sui template 1939/40: fattore 1,46 Germania, 1,44 URSS, 1,56 USA → 1,5). Carabina M1 0,6: cartuccia più debole del Garand, più efficace di una pistola. Stime di Claude."
   },
   "cohesion": {
     "lossBase": 8,

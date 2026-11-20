@@ -47,6 +47,31 @@
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-USSR-STRELK-SVT",
+      "nation": "USSR",
+      "type": "infantry",
+      "name_native": "Strelkovyj batal'on (SVT)",
+      "name_it": "Battaglione fucilieri (con SVT-40)",
+      "men": 820,
+      "horses": 70,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 420,
+        "INW-USSR-PISTOL-TT33": 50,
+        "INW-USSR-SMG-PPD": 10,
+        "MG-USSR-LMG-1939": 27,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-MOR50": 9,
+        "ART-USSR-MOR82": 6,
+        "ART-USSR-AT45-1939": 4,
+        "INW-USSR-SVT40": 200
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1940-07-01",
+      "note": "Versione del battaglione (logica delle dotazioni, 21/11/2026): organici stimati da Claude, NON verificati.",
+      "supersedes": "MOD-USSR-STRELK"
+    },
+    {
       "id": "MOD-USSR-STRELK-1941",
       "nation": "USSR",
       "type": "infantry",
@@ -68,6 +93,31 @@
       "illustration": "fanteria",
       "availableFrom": "1941-01-01",
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USSR-STRELK-1941-SVT",
+      "nation": "USSR",
+      "type": "infantry",
+      "name_native": "Strelkovyj batal'on (1941, SVT)",
+      "name_it": "Battaglione fucilieri 1941 (con SVT-40)",
+      "men": 750,
+      "horses": 50,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 350,
+        "INW-USSR-PISTOL-TT33": 50,
+        "INW-USSR-SMG-PPD": 50,
+        "MG-USSR-LMG-1939": 27,
+        "MG-USSR-HMG-1939": 12,
+        "ART-USSR-MOR50": 9,
+        "ART-USSR-MOR82": 6,
+        "ART-USSR-AT45-1939": 2,
+        "INW-USSR-SVT40": 170
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1941-01-01",
+      "note": "Versione del battaglione (logica delle dotazioni, 21/11/2026): organici stimati da Claude, NON verificati.",
+      "supersedes": "MOD-USSR-STRELK-1941"
     },
     {
       "id": "MOD-USSR-STRELK-1942",

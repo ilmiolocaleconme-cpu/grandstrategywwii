@@ -36,6 +36,27 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
     if (m.name_de !== undefined || m.name_ru !== undefined) e.push(`${p}: usare name_native, non name_de o name_ru`);
     if (m.mobility === 'motorized' && !Object.keys(m.equipment ?? {}).some((k) => k.startsWith('VEH-'))) e.push(`${p}: motorizzato senza veicoli`);
   }
+  // versioni dei battaglioni (21/11/2026, logica delle dotazioni fase 2): `supersedes` = il battaglione che questa versione modernizza
+  // (stessa nazione e tipo, data mai precedente, una sola versione successiva per battaglione, nessun ciclo)
+  const byId = new Map((doc.modules ?? []).map((m) => [m.id, m]));
+  const next = new Map();
+  for (const m of doc.modules ?? []) {
+    if (m?.supersedes === undefined) continue;
+    const p = `modulo ${m.id}: supersedes`;
+    const b = byId.get(m.supersedes);
+    if (!b) { e.push(`${p} ${m.supersedes} inesistente`); continue; }
+    if (b.id === m.id) e.push(`${p} sé stesso`);
+    else if (b.nation !== m.nation || b.type !== m.type) e.push(`${p} ${b.id} di altra nazione o tipo`);
+    if (!m.availableFrom) e.push(`${p}: una versione deve dichiarare availableFrom`);
+    else if (b.availableFrom && b.availableFrom > m.availableFrom) e.push(`${p} ${b.id} è più recente`);
+    if (next.has(b.id)) e.push(`${p}: ${b.id} ha già la versione ${next.get(b.id)}`);
+    next.set(b.id, m.id);
+    if ((doc.compositions ?? []).some((c) => (c.modules ?? []).some(([id]) => id === m.id))) e.push(`${p}: una versione non entra direttamente nelle composizioni (le divisioni la ricevono modernizzandosi)`);
+  }
+  for (const start of next.keys()) {
+    const seen = new Set([start]);
+    for (let c = next.get(start); c !== undefined; c = next.get(c)) { if (seen.has(c)) { e.push(`modulo ${start}: versioni circolari`); break; } seen.add(c); }
+  }
   for (const pr of doc.presets ?? []) { // punti di partenza dell'editor (18/11/2026)
     if (!/^PRE-[A-Z]{3,4}-[A-Z0-9-]+$/.test(pr?.id ?? '') || !pr.name) e.push(`modello di partenza ${pr?.id ?? '?'}: id o nome non validi`);
     for (const [id, n] of pr?.modules ?? []) if (!(doc.modules ?? []).some((m) => m.id === id) || !(Number.isInteger(n) && n > 0)) e.push(`modello di partenza ${pr.id}: ${id} non valido`);
@@ -194,4 +215,32 @@ export function designTemplate(design, modules) {
   const doc = { modules };
   const t = templateFromComposition(doc, { templateId: design.id.replace(/^DSG-([A-Z]+)-(\d+)$/, 'TPL-$1-DSG-$2'), category: design.category, activeFrom: design.createdOn, formation: design.name, modules: design.modules });
   return { ...t, id: design.id, status: 'PLAYER_DESIGN', note: `Modello di divisione creato dal giocatore il ${design.createdOn} con l'editor a moduli.` };
+}
+
+/**
+ * Versioni dei battaglioni (21/11/2026, logica delle dotazioni fase 2). Per ogni battaglione della composizione, la versione più recente
+ * applicabile: data e tecnologia del battaglione (moduleAvailable) e TUTTE le armi nuove (assenti nella versione precedente) producibili oggi
+ * dalla nazione (`producible(id)` → true/false). Mai indietro: si parte dalla versione già raggiunta (`current`). Ritorna { battaglione base:
+ * versione } solo per i battaglioni modernizzati. modules = tutti i battaglioni (anche di altre nazioni).
+ */
+export function targetVersions({ composition, modules, nation, date, researched, producible = () => true, current = {} }) {
+  const byId = new Map(modules.map((m) => [m.id, m]));
+  const next = new Map(modules.filter((m) => m.supersedes).map((m) => [m.supersedes, m]));
+  const out = {};
+  for (const { id } of composition ?? []) {
+    let cur = byId.get(current[id] ?? id);
+    let best = current[id] ?? null;
+    for (let v = cur && next.get(cur.id); v; v = next.get(v.id)) {
+      const fresh = Object.keys(v.equipment ?? {}).filter((k) => !(k in (cur.equipment ?? {})));
+      if (!moduleAvailable(v, { nation, date, researched }) || !fresh.every((k) => producible(k))) break;
+      best = v.id; cur = v;
+    }
+    if (best && best !== id) out[id] = best;
+  }
+  return out;
+}
+
+/** Composizione [[id, n]] con le versioni applicate (versions = { base: versione }). */
+export function compositionWithVersions(list, versions = {}) {
+  return (list ?? []).map(({ id, count }) => [versions[id] ?? id, count]);
 }
