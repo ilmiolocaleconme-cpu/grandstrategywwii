@@ -64,7 +64,11 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
   const [name, setName] = useState('');
   const [checked, setChecked] = useState(() => new Set());
   const [targetId, setTargetId] = useState(designs[0]?.id ?? '');
-  const [province, setProvince] = useState(raise?.provinces?.[0]?.id ?? '');
+  const [province, setProvince] = useState((raise?.provinces?.find((p) => !p.disabled) ?? raise?.provinces?.[0])?.id ?? '');
+  // caserme (20/11/2026): se la caserma scelta si riempie (o si perde), si passa alla prima libera
+  const firstFree = raise?.provinces?.find((p) => !p.disabled)?.id ?? null;
+  const chosenOff = raise?.provinces?.find((p) => p.id === province)?.disabled ?? false;
+  useEffect(() => { if (chosenOff && firstFree) setProvince(firstFree); }, [chosenOff, firstFree]);
   const [count, setCount] = useState(1);
 
   const ctx = { modules, rules, nation, date, researched, firepowerOf, techName };
@@ -90,7 +94,7 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
   const toggle = (id) => setChecked((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   const openReorg = (id) => { setTargetId(id); setMode('reorg'); };
   const openRaise = (id) => { setTargetId(id); setMode('raise'); setCount(1); };
-  const rp = mode === 'raise' && target ? raise?.previewOf(target.id) : null;
+  const rp = mode === 'raise' && target ? raise?.previewOf(target.id, province) : null;
   // a tutto schermo: la schermata va sopra al resto del documento e il gioco sotto si nasconde (niente pagina più larga dello schermo)
   useEffect(() => { document.body.classList.add('de-open'); return () => document.body.classList.remove('de-open'); }, []);
 
@@ -160,8 +164,8 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
               <label className="de-field">Modello
                 <select value={target?.id ?? ''} onChange={(e) => setTargetId(e.target.value)}>{designs.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}</select>
               </label>
-              <label className="de-field">Dove si forma
-                <select value={province} onChange={(e) => setProvince(e.target.value)}>{(raise?.provinces ?? []).map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
+              <label className="de-field">{rp?.barracks ? 'Caserma' : 'Dove si forma'}
+                <select value={province} onChange={(e) => setProvince(e.target.value)}>{(raise?.provinces ?? []).map((p) => <option key={p.id} value={p.id} disabled={p.disabled}>{p.name}</option>)}</select>
               </label>
               <div className="de-tools">
                 <span className="de-muted">Quante</span>
@@ -174,13 +178,15 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
               {rp ? (
                 <dl className="de-stats">
                   <div><dt><Icon name="men" size={20} /> Uomini per divisione</dt><dd>{fmt(rp.men)}</dd></div>
-                  <div><dt><Icon name="men" size={20} /> Liberi nel bacino</dt><dd className={rp.ok ? '' : 'bad'}>{fmt(rp.available)}</dd></div>
+                  <div><dt><Icon name="men" size={20} /> Liberi nel bacino</dt><dd className={rp.available >= rp.minMen ? '' : 'bad'}>{fmt(rp.available)}</dd></div>
                   <div><dt><Icon name="horse" size={20} /> Cavalli</dt><dd>{fmt(rp.horses)}</dd></div>
                   <div><dt><Icon name="support" size={20} /> Addestramento</dt><dd>{rp.trainingDays} giorni</dd></div>
+                  {rp.barracks ? <div><dt><Icon name="support" size={20} /> Caserme libere</dt><dd className={rp.barracks.free ? '' : 'bad'}>{rp.barracks.free}</dd></div> : null}
+                  {rp.barracks?.experienceBonus ? <div><dt><Icon name="support" size={20} /> Esperienza in più</dt><dd>+{rp.barracks.experienceBonus}</dd></div> : null}
                 </dl>
               ) : null}
               {rp && !rp.ok ? <p className="de-warn-text">{rp.reason}</p> : null}
-              <p className="de-muted small">Nasce subito come quadro con gli uomini che ci sono; armi, mezzi e cavalli arrivano dal magazzino coi rinforzi. Finché si addestra non combatte.</p>
+              <p className="de-muted small">Nasce subito come quadro con gli uomini che ci sono; armi, mezzi e cavalli arrivano dal magazzino coi rinforzi. Finché si addestra non combatte.{rp?.barracks ? ' Ogni caserma addestra una divisione alla volta; una caserma di livello più alto addestra prima e meglio. Nuove caserme e miglioramenti: Costruzioni, nella provincia.' : ''}</p>
               {raise?.training?.length ? (
                 <>
                   <h3>In formazione</h3>

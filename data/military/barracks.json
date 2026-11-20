@@ -1,0 +1,257 @@
+{
+  "schema": "barracks-v1",
+  "quality": "DESIGN_DEFAULT",
+  "asOf": "2026-11-20",
+  "note": "Caserme (decisione dell'utente del 20/11/2026: prima Germania e URSS; una caserma per distretto militare all'inizio, nella provincia del comando; ogni caserma addestra 1 divisione alla volta). Effetti: 1) una divisione nuova si forma solo in una caserma libera; 2) nasce nella provincia della caserma; 3) il livello della caserma accorcia l'addestramento e alza l'esperienza iniziale; 4) i rinforzi partono dalla caserma più vicina (o dal deposito della capitale se è più vicino). Livelli, costi e bonus: valori di PROGETTO di Claude, non storici. Le nazioni non elencate in `nations` formano le divisioni come prima (nessuna caserma richiesta).",
+  "nations": [
+    "DEU",
+    "USSR"
+  ],
+  "capacityDivisions": 1,
+  "maxPerProvince": 1,
+  "levels": [
+    {
+      "level": 1,
+      "name": "Caserma",
+      "experienceBonus": 0,
+      "trainingFactor": 1
+    },
+    {
+      "level": 2,
+      "name": "Caserma ampliata",
+      "experienceBonus": 5,
+      "trainingFactor": 0.9
+    },
+    {
+      "level": 3,
+      "name": "Centro di addestramento",
+      "experienceBonus": 10,
+      "trainingFactor": 0.8
+    }
+  ],
+  "build": {
+    "1": {
+      "ecv": 20,
+      "steel": 10,
+      "days": 60
+    },
+    "2": {
+      "ecv": 15,
+      "steel": 5,
+      "days": 45
+    },
+    "3": {
+      "ecv": 25,
+      "steel": 10,
+      "days": 60
+    }
+  },
+  "buildNote": "build[N] = costo per arrivare al livello N (1 = caserma nuova). Si paga tutto all'ordine, come gli ospedali; nessun lavoratore occupato.",
+  "initial": {
+    "DEU": [
+      {
+        "id": "DEU-WK-01",
+        "name": "Wehrkreis I",
+        "district": "S36-DEU-001",
+        "province": "P_DEU_OSTPREUSSEN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-02",
+        "name": "Wehrkreis II",
+        "district": "S36-DEU-002",
+        "province": "P_DEU_POMMERN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-03",
+        "name": "Wehrkreis III",
+        "district": "S36-DEU-003",
+        "province": "P_DEU_BERLIN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-04",
+        "name": "Wehrkreis IV",
+        "district": "S36-DEU-004",
+        "province": "P_DEU_SACHSEN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-05",
+        "name": "Wehrkreis V",
+        "district": "S36-DEU-005",
+        "province": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-06",
+        "name": "Wehrkreis VI",
+        "district": "S36-DEU-006",
+        "province": "P_DEU_WESTFALEN_NORD",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-07",
+        "name": "Wehrkreis VII",
+        "district": "S36-DEU-007",
+        "province": "P_DEU_MUENCHEN_OBERBAYERN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-08",
+        "name": "Wehrkreis VIII",
+        "district": "S36-DEU-008",
+        "province": "P_DEU_NIEDERSCHLESIEN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-09",
+        "name": "Wehrkreis IX",
+        "district": "S36-DEU-009",
+        "province": "P_DEU_KURHESSEN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-10",
+        "name": "Wehrkreis X",
+        "district": "S36-DEU-010",
+        "province": "P_DEU_HAMBURG",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-11",
+        "name": "Wehrkreis XI",
+        "district": "S36-DEU-011",
+        "province": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-12",
+        "name": "Wehrkreis XII",
+        "district": "S36-DEU-012",
+        "province": "P_DEU_HESSEN_NASSAU",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "DEU-WK-13",
+        "name": "Wehrkreis XIII",
+        "district": "S36-DEU-013",
+        "province": "P_DEU_FRANKEN",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      }
+    ],
+    "USSR": [
+      {
+        "id": "USSR-VO-01",
+        "name": "Distretto militare di Leningrado",
+        "district": "S36-USSR-001",
+        "province": "P_USSR_LENINGRAD",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "USSR-VO-02",
+        "name": "Distretto militare bielorusso",
+        "district": "S36-USSR-002",
+        "province": "P_USSR_SMOLENSK",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Smolensk); il distretto non ha luogo in deployment_1936.json. [Probabile] sede del comando nel 1936 a Smolensk, poi Minsk"
+      },
+      {
+        "id": "USSR-VO-03",
+        "name": "Distretto militare di Kiev",
+        "district": "S36-USSR-003",
+        "province": "P_USSR_KIEV",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "USSR-VO-04",
+        "name": "Distretto militare di Mosca",
+        "district": "S36-USSR-004",
+        "province": "P_USSR_MOSKOVSKAYA",
+        "level": 1,
+        "basis": "deployment_1936.json (sede del comando del distretto)"
+      },
+      {
+        "id": "USSR-VO-05",
+        "name": "Distretto militare del Volga",
+        "district": "S36-USSR-005",
+        "province": "P_USSR_SAMARA",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Kujbyšev (Samara)); il distretto non ha luogo in deployment_1936.json. [Probabile]"
+      },
+      {
+        "id": "USSR-VO-06",
+        "name": "Distretto militare degli Urali",
+        "district": "S36-USSR-006",
+        "province": "P_USSR_SVERDLOVSK",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Sverdlovsk); il distretto non ha luogo in deployment_1936.json. [Probabile]"
+      },
+      {
+        "id": "USSR-VO-07",
+        "name": "Distretto militare del Caucaso Settentrionale",
+        "district": "S36-USSR-007",
+        "province": "P_USSR_ROSTOV",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Rostov sul Don); il distretto non ha luogo in deployment_1936.json. [Probabile]"
+      },
+      {
+        "id": "USSR-VO-08",
+        "name": "Distretto militare transcaucasico",
+        "district": "S36-USSR-008",
+        "province": "P_USSR_KVEMO_KARTLI",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Tiflis); il distretto non ha luogo in deployment_1936.json. [Probabile] Tiflis è nella provincia madre Kvemo Kartli del catalogo"
+      },
+      {
+        "id": "USSR-VO-09",
+        "name": "Distretto militare dell'Asia Centrale",
+        "district": "S36-USSR-009",
+        "province": "P_USSR_TASHKENT",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Taškent); il distretto non ha luogo in deployment_1936.json. [Probabile]"
+      },
+      {
+        "id": "USSR-VO-10",
+        "name": "Distretto militare siberiano",
+        "district": "S36-USSR-010",
+        "province": "P_USSR_NOVOSIBIRSK",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Novosibirsk); il distretto non ha luogo in deployment_1936.json. [Probabile]"
+      },
+      {
+        "id": "USSR-VO-11",
+        "name": "Distretto militare transbaikalico",
+        "district": "S36-USSR-011",
+        "province": "P_USSR_CHITA",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Čita); il distretto non ha luogo in deployment_1936.json. [Probabile]"
+      },
+      {
+        "id": "USSR-VO-12",
+        "name": "Armata speciale del Distretto dell'Estremo Oriente",
+        "district": "S36-USSR-012",
+        "province": "P_USSR_KHABAROVSK",
+        "level": 1,
+        "basis": "ESTIMATED: città sede del comando (Chabarovsk); il distretto non ha luogo in deployment_1936.json. [Probabile]"
+      }
+    ]
+  },
+  "initialNote": "Tutte al livello 1 all'inizio (scelta di Claude, da confermare). Wehrkreis XIII: formato storicamente nel 1937, presente perché è già nell'ordine di battaglia del 1936 dei dati (S36-DEU-013)."
+}

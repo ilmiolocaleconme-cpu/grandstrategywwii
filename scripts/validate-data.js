@@ -298,6 +298,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
         errors.push(...validateEditorRules(JSON.parse(await text('units/modules/editor_rules.json')))); // limiti storici dell'editor (18/11/2026)
         errors.push(...validateRaiseRules(JSON.parse(await text('units/modules/raise_rules.json')))); // formazione di divisioni (19/11/2026)
         { const { validateServices } = await import('../src/data/services.js'); const us = JSON.parse(await text('units/units.json')).units; errors.push(...validateServices(JSON.parse(await text('units/services.json')), { unitsById: new Map(us.map((u) => [u.id, u])) })); } // servizi dei reparti (20/11/2026)
+        { const { validateBarracksData } = await import('../src/data/barracks.js'); const known = new Set(catalog.provinces.features.flatMap((f) => [f.properties.id, f.properties.parentProvince].filter(Boolean))); errors.push(...validateBarracksData(JSON.parse(await text('military/barracks.json')), { provinceExists: (id) => known.has(id) })); } // caserme (20/11/2026)
         errors.push(...validateHistoricalTechDates(JSON.parse(await text('research/historical_tech_dates.json')), JSON.parse(await text('research/technologies.json')))); // tecnologie dell'IA alle date storiche (19/11/2026)
         { // illustrazioni delle unità (18/11/2026): ogni file elencato esiste, ogni battaglione punta a un'illustrazione nota
           const art = JSON.parse(await text('assets/unit_illustrations.json'));

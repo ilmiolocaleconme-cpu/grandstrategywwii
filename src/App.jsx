@@ -103,6 +103,9 @@ import { createRiverIndex } from './data/riverCrossings.js';
 import { buildCategoryOf, buildWeaponOf, equipmentFill } from './rules/equipmentFill.js';
 import conditionConfigFile from '../data/units/condition_config.json';
 import servicesFile from '../data/units/services.json'; // servizi dei reparti: Waffen-SS, Guardie… (20/11/2026)
+import barracksFile from '../data/military/barracks.json'; // caserme: Germania e URSS (20/11/2026)
+import { barracksEnabled } from './data/barracks.js';
+import { barracksRows, barracksOrigins, pickBarracks, barracksBuildOption } from './game/barracksState.js';
 import { withServiceExperience, servicePriority } from './data/services.js';
 import { createPromotionSystem, serviceOfUnit } from './game/honorsState.js'; // promozioni (Guardie sovietiche, 20/11/2026)
 import commandTemplates from '../data/units/command_templates.json';
@@ -352,7 +355,10 @@ const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.ind
 // Ospedali (data/medical/hospital_care.json): il personale esce dal pool reclutabile; la regola delle retrovie (rules/hospitals.js isRear) non è applicata finché non esiste lo stato di guerra.
 // battaglia v2 (16/11/2026): morti, dispersi, prigionieri e feriti ancora in ospedale escono dal pool reclutabile (state.casualties)
 const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsList(state, unitsFile.units), /* con le divisioni formate in partita (19/11/2026) */ population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available - casualtyDrain(state.casualties, nationId);
-export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, isSplit: (id) => (MOVE_NET.net ? MOVE_NET.net.canon(id) !== id : false), catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS });
+function GAME_BUILD_MOTHER(id) { const n = MOVE_NET.net; if (!n) return id; return n.isCity(id) ? (n.parentOf(id) ?? id) : (n.provinceOf(id) ?? id); }
+export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, isSplit: (id) => (MOVE_NET.net ? MOVE_NET.net.canon(id) !== id : false), catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS,
+  // caserme (20/11/2026): nella provincia madre (una sponda o una città cliccata portano alla loro provincia madre)
+  barracks: { params: barracksFile, motherOf: (id) => GAME_BUILD_MOTHER(id), provinceName: (id) => MOVE_NET.net?.name(id) ?? id } });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I nemici dell'IA vengono dalla diplomazia (guerra o rapporto <= soglia), giocatore compreso.
 const GAME_RESEARCH = createResearch({ technologies: technologiesFile, economy: economyData });
 const TECH_INDEX = techIndex(technologiesFile);
@@ -429,13 +435,18 @@ const controlFn = (state) => (p) => placeControllerOf(state, p);
 const ENGINEER_MODULES = new Set(ALL_MODULES.filter((m) => m.type === 'engineer').map((m) => m.id));
 // formazione di divisioni (19/11/2026): province dove formarle = deposito della nazione e province delle sue divisioni nel 1936, se ancora sue
 const homeProvinces = (state, nation, nameOf) => {
+  // caserme (20/11/2026): per le nazioni con caserme si sceglie la caserma; le occupate o perse restano in elenco ma non si possono scegliere
+  if (barracksEnabled(barracksFile, nation)) return barracksRows(state, barracksFile, nation, placeControllerOf).map((b) => ({ id: b.provinceId, disabled: b.free === 0,
+    name: `${b.name} · ${nameOf(b.provinceId)} · ${b.levelName}${!b.controlled ? ' · persa' : b.free === 0 ? ` · occupata fino al ${b.busy[0].until.split('-').reverse().join('/')}` : ''}` })).sort((a, b) => (a.disabled - b.disabled) || ((b.id === depotsFile.nations?.[nation]?.province) - (a.id === depotsFile.nations?.[nation]?.province)) || a.name.localeCompare(b.name, 'it')); // prima la caserma della capitale
   const ids = []; const dep = depotsFile.nations?.[nation]?.province; if (dep) ids.push(dep);
   for (const u of unitsFile.units) if (u.nation === nation) { const p = INITIAL_POSITIONS.get(u.id); if (p && !ids.includes(p)) ids.push(p); }
   const mine = ids.filter((p) => placeControllerOf(state, p) === nation);
   return mine.map((id, i) => ({ id, name: `${nameOf(id)}${i === 0 && id === dep ? ' (deposito)' : ''}` })).sort((a, b) => (a.id === dep ? -1 : b.id === dep ? 1 : a.name.localeCompare(b.name, 'it')));
 };
 const raisePool = (state, nation) => availableManpower(state, nation, hospitalManpower(state, nation));
-const raiseCtx = (state, nation) => ({ modules: ALL_MODULES, rules: raiseRulesFile, pool: raisePool(state, nation), units: unitsList(state, unitsFile.units), conditionCfg: conditionConfig });
+const raiseCtx = (state, nation) => ({ modules: ALL_MODULES, rules: raiseRulesFile, pool: raisePool(state, nation), units: unitsList(state, unitsFile.units), conditionCfg: conditionConfig, barracks: { params: barracksFile, controllerOf: placeControllerOf } });
+// più divisioni in una volta (caserme): la prima nella caserma scelta, le altre nella prima caserma libera
+const raiseProvinceFor = (state, nation, province) => (barracksEnabled(barracksFile, nation) ? (pickBarracks(barracksRows(state, barracksFile, nation, placeControllerOf), province, { anywhere: true })?.provinceId ?? province) : province);
 const trainingList = (state, nation) => Object.entries(state.forces?.divisions ?? {}).filter(([, d]) => d.training && state.date < d.training.until).map(([id, d]) => {
   const u = unitOf(state, id, UNITS_BY_ID); if (!u || u.nation !== nation) return null;
   // dotazione: media delle quote di ogni arma (un pezzo d'artiglieria pesa come un tipo, non come un fucile)
@@ -464,7 +475,7 @@ const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ controllerOf: placeControllerOf, nationIds: START_ECONOMY.nationIds, catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding }, smallArms: smallArmsFile }),
   // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
-  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, priorityOf: (nation) => servicePriority(servicesFile, unitsList(state, unitsFile.units), nation, state), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
+  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, priorityOf: (nation) => servicePriority(servicesFile, unitsList(state, unitsFile.units), nation, state), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, originsOf: (n) => barracksOrigins(s, barracksFile, n, placeControllerOf), sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES,
@@ -476,7 +487,7 @@ const GAME_SYSTEMS = [
 ];
 
 const RESOURCE_NAMES = new Map(resources.map((r) => [r.id, r.name])); // nomi italiani anche dei prodotti (acciaio, gomma lavorata, ...)
-const BUILD_CTX = { controllerOf: controlFn, equipmentTable: equipmentProductionTable, build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
+const BUILD_CTX = { controllerOf: controlFn, equipmentTable: equipmentProductionTable, build: GAME_BUILD, catalog: GAME_CATALOG, sites: mineSites, economy: economyData, hospitals: hospitalCare, barracks: { enabled: (n) => barracksEnabled(barracksFile, n), option: (st, n, p) => barracksBuildOption(st, barracksFile, n, p, GAME_BUILD_MOTHER) }, resourceLabel: (id) => RESOURCE_META[id]?.label ?? RESOURCE_NAMES.get(id) ?? id };
 
 const NATIONS_WITH_UNITS = new Set(unitsFile.units.map((u) => u.nation)); // nazioni con unità nel catalogo: i possibili avversari
 // nomi: prima l'elenco delle nazioni (comprende chi nasce dopo il 1/1/1936, es. il Mengjiang), poi i territori del 1936
@@ -1165,10 +1176,10 @@ export default function App() {
             firepowerOf={(equipment, men) => rawFirepower(Object.fromEntries(Object.entries(equipment).map(([k, v]) => [`equipment.${k}`, { planned: v, effective: v }])), (k) => WEAPON_OF(game.player, k), battleV2File, men, { year: Number(game.date.slice(0, 4)), resolve: (id) => WEAPON_OF(game.player, `equipment.${id}`) })}
             onCreate={(name, list) => { try { const r = createDesign(game, { nation: game.player, name, modules: list }, { modules: ALL_MODULES, rules: editorRulesFile, researched: techsOf(game.nations?.[game.player]) }); setGame(r.state); setEditor((x) => ({ ...x, notice: `Modello «${name.trim()}» salvato.` })); return r.id; } catch (e) { setEditor((x) => ({ ...x, notice: e.message })); return false; } }}
             onDelete={(id) => { try { setGame((g) => deleteDesign(g, id)); setEditor((x) => ({ ...x, notice: 'Modello eliminato.' })); } catch (e) { setEditor((x) => ({ ...x, notice: e.message })); } }}
-            raise={{ provinces: homeProvinces(game, game.player, provinceName), previewOf: (designId) => raisePreview(game, { nation: game.player, designId }, raiseCtx(game, game.player)), training: trainingList(game, game.player), nameOf: (k) => EQUIPMENT_NAMES.get(k) ?? k }}
+            raise={{ provinces: homeProvinces(game, game.player, provinceName), previewOf: (designId, province) => raisePreview(game, { nation: game.player, designId, province: province || null }, raiseCtx(game, game.player)), training: trainingList(game, game.player), nameOf: (k) => EQUIPMENT_NAMES.get(k) ?? k }}
             onRaise={(designId, province, count) => {
               let s = game; const names = []; let err = null;
-              for (let i = 0; i < count; i++) { try { const r = raiseDivision(s, { nation: game.player, designId, province }, raiseCtx(s, game.player)); s = r.state; names.push(r.name); } catch (e) { err = e.message; break; } }
+              for (let i = 0; i < count; i++) { try { const r = raiseDivision(s, { nation: game.player, designId, province: raiseProvinceFor(s, game.player, province) }, raiseCtx(s, game.player)); s = r.state; names.push(r.name); } catch (e) { err = e.message; break; } }
               if (names.length) setGame(s);
               setEditor((x) => ({ ...x, notice: `${names.length ? `In formazione: ${names.join(', ')}.` : ''}${err ? ` ${names.length ? 'Le altre no: ' : 'Non formata: '}${err}` : ''}`.trim() }));
             }}

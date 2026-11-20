@@ -12,6 +12,13 @@ import { initialEffective } from '../rules/readiness.js';
 import { registerUnit, createUnitRegistry } from '../rules/unitRegistry.js';
 import { createMovementState } from '../rules/movement.js';
 import { markNew, createConditionState } from '../rules/divisionCondition.js';
+import { barracksEnabled, barracksLevelDef } from '../data/barracks.js';
+import { barracksRows, pickBarracks } from './barracksState.js';
+
+// Caserme (20/11/2026, decisione dell'utente): per le nazioni elencate in data/military/barracks.json una divisione si forma solo in una caserma
+// libera della provincia scelta, nasce lì, e il livello della caserma accorcia l'addestramento (trainingFactor) e alza l'esperienza iniziale
+// (experienceBonus, entro il tetto di addestramento delle unità nuove). ctx.barracks = { params, controllerOf(state, provincia) }; senza, come prima.
+const barracksCtx = (ctx, nation) => (ctx.barracks && barracksEnabled(ctx.barracks.params, nation) ? ctx.barracks : null);
 
 export const RAISE_RULES_SCHEMA = 'division-raise-rules-v1';
 const CATS = ['infantry', 'motorized', 'mechanized', 'armored', 'mountain', 'cavalry', 'airborne'];
@@ -48,7 +55,7 @@ export function divisionName(rules, nation, category, units) {
  * Cosa serve per formare una divisione dal modello: { men, available, minMen, ok, reason, equipment: [{ item, need, stock }] }.
  * pool = uomini liberi del bacino (già al netto delle altre formazioni).
  */
-export function raisePreview(state, { nation, designId }, { modules, rules, pool }) {
+export function raisePreview(state, { nation, designId, province = null }, { modules, rules, pool, barracks = null }) {
   const design = state.designs?.byId?.[designId];
   if (!design || design.nation !== nation) return { ok: false, reason: 'modello inesistente' };
   const t = designTemplate(design, modules);
@@ -57,8 +64,22 @@ export function raisePreview(state, { nation, designId }, { modules, rules, pool
   const stocks = state.nations?.[nation]?.stocks ?? {};
   const equipment = Object.entries(t.equipment).map(([k, l]) => ({ item: `equipment.${k}`, need: l.value, stock: Math.floor(stocks[`equipment.${k}`] ?? 0) }));
   const horses = t.horses?.value ?? 0;
-  const ok = pool >= minMen;
-  return { ok, reason: ok ? null : `servono almeno ${minMen} uomini liberi nel bacino (ne hai ${Math.floor(pool)})`, men, available: Math.floor(pool), minMen, horses, equipment, trainingDays: rules.trainingDays[design.category], category: design.category };
+  let ok = pool >= minMen;
+  let reason = ok ? null : `servono almeno ${minMen} uomini liberi nel bacino (ne hai ${Math.floor(pool)})`;
+  let trainingDays = rules.trainingDays[design.category];
+  let barracksInfo = null;
+  const bk = barracksCtx({ barracks }, nation);
+  if (bk) {
+    const rows = barracksRows(state, bk.params, nation, bk.controllerOf);
+    const free = rows.reduce((x, r) => x + r.free, 0);
+    const pick = province ? pickBarracks(rows, province) : pickBarracks(rows, null, { anywhere: true });
+    const lv = pick ? barracksLevelDef(bk.params, pick.level) : null;
+    if (lv) trainingDays = Math.max(1, Math.round(trainingDays * lv.trainingFactor));
+    barracksInfo = { free, id: pick?.id ?? null, name: pick?.name ?? null, level: pick?.level ?? null, experienceBonus: lv?.experienceBonus ?? 0 };
+    if (ok && free === 0) { ok = false; reason = 'nessuna caserma libera: aspetta che finisca un addestramento o costruisci una caserma (Costruzioni, nella provincia)'; }
+    else if (ok && province && !pick) { ok = false; reason = 'in questa provincia non c\'è una caserma libera'; }
+  }
+  return { ok, reason, men, available: Math.floor(pool), minMen, horses, equipment, trainingDays, category: design.category, barracks: barracksInfo };
 }
 
 /**
@@ -67,21 +88,21 @@ export function raisePreview(state, { nation, designId }, { modules, rules, pool
  * Lancia un Error se non si può. Ritorna { state, id, name }.
  */
 export function raiseDivision(state, { nation, designId, province }, ctx) {
-  const pre = raisePreview(state, { nation, designId }, ctx);
-  if (!pre.ok) throw new Error(pre.reason);
   if (!province) throw new Error('scegli la provincia dove formarla');
+  const pre = raisePreview(state, { nation, designId, province }, ctx);
+  if (!pre.ok) throw new Error(pre.reason);
   const design = state.designs.byId[designId];
   const template = designTemplate(design, ctx.modules);
   const items = {};
   for (const [path, it] of Object.entries(initialEffective(template, 1))) items[path] = { planned: it.planned, effective: 0, source: 'ratio' };
   items['manpower.war'] = { ...items['manpower.war'], effective: Math.min(items['manpower.war'].planned, Math.floor(ctx.pool)) };
   const name = divisionName(ctx.rules, nation, design.category, ctx.units);
-  const until = addDays(state.date, ctx.rules.trainingDays[design.category]);
+  const until = addDays(state.date, pre.trainingDays); // con la caserma: giorni ridotti dal suo livello
   const reg = registerUnit(state.unitRegistry ?? createUnitRegistry(), {
     nation, branch: null, echelon: 'division', category: design.category, variant: null, name, startYear: Number(state.date.slice(0, 4)), endYear: null,
     origin: 'player', formedOn: state.date, design: designId,
   });
-  const division = { templateId: designId, since: state.date, items, training: { until } };
+  const division = { templateId: designId, since: state.date, items, training: pre.barracks?.id ? { until, barracksId: pre.barracks.id } : { until } };
   const movement = state.movement ?? createMovementState();
   let s = {
     ...state,
@@ -89,7 +110,12 @@ export function raiseDivision(state, { nation, designId, province }, ctx) {
     forces: { ...state.forces, divisions: { ...state.forces.divisions, [reg.id]: division } },
     movement: { ...movement, positions: { ...movement.positions, [reg.id]: province } },
   };
-  if (ctx.conditionCfg) s = { ...s, conditions: markNew(s.conditions ?? createConditionState(), [reg.id], ctx.conditionCfg, state.date) };
+  if (ctx.conditionCfg) {
+    const conditions = markNew(s.conditions ?? createConditionState(), [reg.id], ctx.conditionCfg, state.date);
+    const bonus = pre.barracks?.experienceBonus ?? 0;
+    if (bonus > 0) { const e = conditions.byUnit[reg.id]; conditions.byUnit[reg.id] = { ...e, experience: Math.min(ctx.conditionCfg.training.newUnitCap, e.experience + bonus) }; }
+    s = { ...s, conditions };
+  }
   return { state: s, id: reg.id, name };
 }
 

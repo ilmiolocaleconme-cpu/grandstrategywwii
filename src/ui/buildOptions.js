@@ -22,7 +22,7 @@ export function describeBuildFailure(r, techName = (id) => id) {
     case 'no_site': return 'Qui non c\'è un giacimento di questa risorsa';
     case 'use_bank': return 'La provincia è divisa da un fiume: si costruisce su una sponda';
     case 'no_gain': return 'Qui la miniera non produrrebbe di più (base uguale al massimo)';
-    case 'already_building': return 'C\'è già una miniera in costruzione qui';
+    case 'already_building': return 'C\'è già un lavoro dello stesso tipo in corso qui';
     case 'max_level': return 'Già al livello massimo';
     case 'no_facility': return 'Impianto non trovato';
     case 'no_edge': case 'no_infrastructure_data': return 'Collegamento non disponibile';
@@ -34,6 +34,7 @@ export function describeBuildFailure(r, techName = (id) => id) {
     case 'hospital_exists': return 'C\'è già un ospedale in questa provincia';
     case 'not_rear': return 'Un ospedale da campo va nelle retrovie: qui confina una provincia nemica';
     case 'no_hospital_data': case 'unknown_hospital': return 'Ospedale non disponibile';
+    case 'no_barracks_data': case 'barracks_disabled': return 'Caserme non disponibili per questa nazione';
     case 'unknown_factory': case 'recipe_mismatch': case 'unknown_kind': return 'Ordine non valido';
     default: return `Ordine rifiutato (${r.reason})`;
   }
@@ -43,9 +44,9 @@ export function describeBuildFailure(r, techName = (id) => id) {
  * Cosa può costruire `nationId` in una provincia madre. ctx: { build (createConstruction), catalog, sites, economy, resourceLabel(id) }.
  * Ogni voce: { order, label, cost, ok, message } — `ok` dice se l'ordine sarebbe accettato ORA (prova a secco, lo stato non cambia).
  */
-export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id, hospitals = null, equipmentTable = null, controllerOf = null }) {
+export function provinceBuildOptions(state, nationId, provinceId, { build, catalog, sites, economy, resourceLabel = (id) => id, hospitals = null, equipmentTable = null, controllerOf = null, barracks = null }) {
   const nation = state.nations?.[nationId];
-  const out = { mines: [], factories: [], hospitals: [] };
+  const out = { mines: [], factories: [], hospitals: [], barracks: [] };
   if (!nation) return out;
   if (state.control[entityOfProvinceId(provinceId, Object.keys(state.control))] !== nationId) return { ...out, reason: 'not_controlled' };
   for (const [resource, site] of Object.entries(sites.byProvince[provinceId] ?? {})) {
@@ -81,6 +82,10 @@ export function provinceBuildOptions(state, nationId, provinceId, { build, catal
     const r = build.start(state, nationId, order);
     out.hospitals.push({ order, label: def.name, detail: def.placement === 'rear' ? 'nelle retrovie' : 'copre la provincia', cost: { ...def.build }, ok: r.ok, message: describeBuildFailure(r) });
   }
+  if (barracks?.enabled?.(nationId)) { // caserma (20/11/2026): nuova o miglioramento di quella che c'è; barracks.option(state, nation, provincia) → { label, detail, cost } | null
+    const opt = barracks.option(state, nationId, provinceId);
+    if (opt) { const order = { kind: 'barracks', provinceId }; const r = build.start(state, nationId, order); out.barracks.push({ order, ...opt, ok: r.ok, message: describeBuildFailure(r) }); }
+  }
   return out;
 }
 
@@ -94,6 +99,7 @@ export function economySummary(state, nationId, { build, catalog, workersShare, 
   const label = (kind, c) => (kind === 'mine' ? `Miniera ${resourceLabel(c.resource)} L${c.level}`
     : kind === 'infra' ? `${infra ? levelName2(infra, c.level) : `Livello ${c.level}`} (collegamento)`
     : kind === 'hospital' ? (hospitalKinds[c.hospitalKind]?.name ?? 'Ospedale')
+    : kind === 'barracks' ? (c.level > 1 ? `${c.name} → livello ${c.level}` : 'Caserma nuova')
     : kind === 'port' ? `${portLevels?.levels?.find((l) => l.level === c.level)?.name_it ?? `Porto livello ${c.level}`} (porto)`
     : kind === 'upgrade' ? `${catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId} → ${levelName(catalog, c.level)}`
       : (catalog.factories.get(c.factoryId)?.name_it ?? c.factoryId));

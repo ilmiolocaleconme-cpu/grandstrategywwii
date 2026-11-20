@@ -89,7 +89,7 @@ export function ProvinceBuild({ options, onOrder, upgrades = null, links = null,
   const [msg, setMsg] = useState(null);
   if (!options) return null;
   if (options.reason === 'not_controlled') return <><section aria-label="Costruzioni"><h3>Costruzioni</h3><p className="muted small">Puoi costruire solo nelle province che controlli.</p></section><PortList rows={ports} readOnly focusId={focusPortId} /></>;
-  if (options.mines.length === 0 && options.factories.length === 0 && !(options.hospitals?.length > 0) && !(ports && ports.length > 0)) return null;
+  if (options.mines.length === 0 && options.factories.length === 0 && !(options.hospitals?.length > 0) && !(options.barracks?.length > 0) && !(ports && ports.length > 0)) return null;
   const row = (o) => (
     <li key={JSON.stringify(o.order)} className="build-row">
       <div>
@@ -108,6 +108,11 @@ export function ProvinceBuild({ options, onOrder, upgrades = null, links = null,
       {options.hospitals?.length > 0 ? <><h4>Ospedali</h4><ul className="build-list">{options.hospitals.map((o) => (
         <li key={JSON.stringify(o.order)} className="build-row">
           <div><strong>{o.label}</strong> · {o.detail}<div className="muted small">{hospitalCostText(o.cost)}</div>{!o.ok ? <div className="warn small">{o.message}</div> : null}</div>
+          <button type="button" className="nation-btn" disabled={!o.ok} onClick={() => setMsg(onOrder(o.order))}>Costruisci</button>
+        </li>))}</ul></> : null}
+      {options.barracks?.length > 0 ? <><h4>Caserma</h4><ul className="build-list">{options.barracks.map((o) => (
+        <li key={JSON.stringify(o.order)} className="build-row">
+          <div><strong>{o.label}</strong> · {o.detail}<div className="muted small">{`${fmt(o.cost.ecv)} ECV · ${fmt(o.cost.steel)} t acciaio · ${o.cost.days} giorni`}</div>{!o.ok ? <div className="warn small">{o.message}</div> : null}</div>
           <button type="button" className="nation-btn" disabled={!o.ok} onClick={() => setMsg(onOrder(o.order))}>Costruisci</button>
         </li>))}</ul></> : null}
       <UpgradeList upgrades={upgrades} onOrder={onOrder} title="Miglioramenti qui" />

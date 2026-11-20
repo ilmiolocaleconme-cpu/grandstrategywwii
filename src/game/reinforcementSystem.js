@@ -39,6 +39,25 @@ function landDistances(net, from, canEnter) {
   }
 }
 
+/** Fra `origins` quella più vicina a `at` per via di terra (meno passaggi, poi meno km, poi id): null se nessuna è raggiungibile. */
+function nearestOrigin(net, at0, origins, canEnter) {
+  const canon = net.canon ?? ((x) => x); // province madri divise: si confronta il posto canonico (sponda principale)
+  const at = canon(at0);
+  const want = new Set(origins.map(canon));
+  if (want.has(at)) return origins.find((o) => canon(o) === at);
+  const hops = new Map([[at, 0]]); const dist = new Map([[at, 0]]); const queue = [at];
+  for (let i = 0; i < queue.length; i += 1) {
+    const cur = queue[i];
+    for (const n of net.neighbors(cur)) {
+      if (!canEnter(n) && !want.has(n)) continue;
+      const h = hops.get(cur) + 1; const d = dist.get(cur) + net.km(cur, n);
+      if (!hops.has(n)) { hops.set(n, h); dist.set(n, d); if (!want.has(n)) queue.push(n); } else if (h === hops.get(n) && d < dist.get(n)) dist.set(n, d);
+    }
+  }
+  const found = origins.filter((o) => hops.has(canon(o))).sort((a, b) => hops.get(canon(a)) - hops.get(canon(b)) || dist.get(canon(a)) - dist.get(canon(b)) || (a < b ? -1 : 1));
+  return found[0] ?? null;
+}
+
 /**
  * Percorso dal deposito alla divisione. ctx: { net, depots (depots.json), positionOf(unitId), canEnter(nation) → (provincia) => bool,
  *   sea?: { context: contesto di rotte marittime legato allo stato (GAME_SEA.sea.at(state)), motherOf(idProvincia) → provincia madre } }.
@@ -47,10 +66,15 @@ function landDistances(net, from, canEnter) {
  * LIMITI: gli stretti controllati da nemici e i blocchi navali non sono modellati per i convogli di rinforzo; il porto è scelto dal percorso di mare più rapido, non dal totale.
  */
 export function depotRoute(ctx, nation, unitId) {
-  const depot = ctx.depots.nations?.[nation]?.province;
+  const capital = ctx.depots.nations?.[nation]?.province;
   const at = ctx.positionOf(unitId);
-  if (!depot || !at || !ctx.net.has(depot) || !ctx.net.has(at)) return null;
+  if (!at || !ctx.net.has(at)) return null;
   const canEnter = ctx.canEnter(nation);
+  // caserme (20/11/2026): ctx.originsOf?(nation) → province delle caserme controllate; i rinforzi partono dal punto più vicino per via di terra
+  // (meno passaggi, poi meno km, come findPath) fra il deposito della capitale e le caserme. Senza via di terra si usa il deposito per il mare.
+  const extra = (ctx.originsOf?.(nation) ?? []).filter((p) => ctx.net.has(p));
+  const depot = extra.length ? nearestOrigin(ctx.net, at, [...(capital && ctx.net.has(capital) ? [capital] : []), ...extra], canEnter) ?? capital : capital;
+  if (!depot || !ctx.net.has(depot)) return null;
   const passable = (m) => m === depot || m === at || canEnter(m);
   const path = findPath(ctx.net, depot, at, passable);
   if (path) {

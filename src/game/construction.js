@@ -18,6 +18,8 @@ import { levelDef, levelMult, maxFactoryLevel, upgradeCost } from '../data/facto
 import { hydroMwByOwner } from './economySystem.js';
 import { entityOfProvinceId } from '../data/provinceOwner.js';
 import { hospitalBuildCost } from '../rules/hospitals.js';
+import { barracksEnabled, barracksBuildCost, maxBarracksLevel } from '../data/barracks.js';
+import { barracksOf, completeBarracks } from './barracksState.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
@@ -27,9 +29,10 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
  *        isSplit?: (id) => boolean (provincia madre divisa da un fiume: fabbriche, miniere e ospedali si costruiscono sulle sponde, 12/11/2026),
  *        infra?: { index (createInfraIndex), config (infrastructure.json) }: senza, gli ordini 'infra' sono rifiutati,
  *        hospitals?: { params (hospital_care.json), manpowerAvailable(state, nationId) → uomini liberi del pool reclutabile, isRear?(state, nationId, provinceId) }: senza, gli ordini 'hospital' sono rifiutati
- *        ports?: { levels (port_levels.json), coastal (coastal_cities.json → cities), base (ports_1936.json) }: senza, gli ordini 'port' sono rifiutati }
+ *        ports?: { levels (port_levels.json), coastal (coastal_cities.json → cities), base (ports_1936.json) }: senza, gli ordini 'port' sono rifiutati
+ *        barracks?: { params (data/military/barracks.json), motherOf?(id) → provincia madre, provinceName?(id) }: senza, gli ordini 'barracks' sono rifiutati (20/11/2026) }
  */
-export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, isCity = null, isSplit = null, infra = null, hospitals = null, ports = null }) {
+export function createConstruction({ catalog, economy, sites, hydro, political, workersShare, provinceExists = null, isCity = null, isSplit = null, infra = null, hospitals = null, ports = null, barracks = null }) {
   const entityIds = political.map((e) => e.id);
   const entityOf = (provinceId) => entityOfProvinceId(provinceId, entityIds); // anche MAR_ES, NLD_EI, JPN_MANDATE
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
@@ -67,7 +70,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       if (provinceExists && !provinceExists(provinceId)) return fail('unknown_province');
       entity = entityOf(provinceId);
       if (state.control[entity] !== nationId) return fail('not_controlled');
-      if (isSplit?.(provinceId) === true) return fail('use_bank');
+      if (isSplit?.(provinceId) === true && order.kind !== 'barracks') return fail('use_bank'); // la caserma sta nella provincia madre (come i comandi di distretto)
     }
     let cost; let entry; let requiredEnergy = 0; let requires = null;
     if (order.kind === 'upgrade') {
@@ -111,6 +114,18 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
       const b = hospitalBuildCost(order.hospitalKind, hospitals.params);
       cost = { ecv: b.ecv, steel: b.steel, workers: 0, manpower: b.staff, days: b.days };
       entry = { kind: 'hospital', hospitalKind: order.hospitalKind, provinceId, territory: entity, staff: b.staff };
+    } else if (order.kind === 'barracks') {
+      // caserma (20/11/2026): nuova (livello 1) o, se ce n'è già una nella provincia, miglioramento al livello successivo; un lavoro per provincia
+      if (!barracks) return fail('no_barracks_data');
+      if (!barracksEnabled(barracks.params, nationId)) return fail('barracks_disabled');
+      const mother = barracks.motherOf?.(provinceId) ?? provinceId;
+      if (nation.construction.some((c) => c.kind === 'barracks' && c.provinceId === mother)) return fail('already_building');
+      const here = barracksOf(state, barracks.params, nationId).find((b) => b.provinceId === mother);
+      const level = here ? here.level + 1 : 1;
+      if (level > maxBarracksLevel(barracks.params)) return fail('max_level');
+      const b = barracksBuildCost(barracks.params, level);
+      cost = { ecv: b.ecv, steel: b.steel, workers: 0, days: b.days };
+      entry = { kind: 'barracks', provinceId: mother, territory: entityOf(mother), level, name: here?.name ?? `Caserma di ${barracks.provinceName?.(mother) ?? mother}` };
     } else if (order.kind === 'port') {
       // porto in una città costiera: costruzione (0 → 1) o miglioramento; serve il controllo della provincia madre della città, un lavoro per città
       if (!ports) return fail('no_port_data');
@@ -165,7 +180,7 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
   function constructionDay(state) {
     if (!state.nations) return state;
     let nations = null;
-    const infraDone = {}; const portDone = {};
+    const infraDone = {}; const portDone = {}; const barracksDone = [];
     for (const id of Object.keys(state.nations).sort()) {
       const n = state.nations[id];
       if (n.construction.length === 0) continue;
@@ -179,6 +194,8 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
           hospitalList.push({ id: `${id}:${c.provinceId}:${c.hospitalKind}:d${state.day}:${hospitalList.length}`, kind: c.hospitalKind, provinceId: c.provinceId, territory: c.territory, staff: c.staff, builtOn: state.date });
         } else if (c.kind === 'port') {
           portDone[c.cittaId] = c.level;
+        } else if (c.kind === 'barracks') {
+          barracksDone.push({ nation: id, provinceId: c.provinceId, level: c.level, name: c.name });
         } else if (c.kind === 'upgrade') {
           const i = facilities.findIndex((f) => f.id === c.facilityId);
           if (i >= 0) facilities[i] = { ...facilities[i], level: c.level };
@@ -196,7 +213,8 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
     }
     if (!nations) return state;
     const done = Object.keys(infraDone).length > 0; const portsDone = Object.keys(portDone).length > 0;
-    return { ...state, nations, ...(done ? { infrastructure: { ...state.infrastructure, levels: { ...state.infrastructure?.levels, ...infraDone } } } : {}), ...(portsDone ? { ports: { ...state.ports, levels: { ...state.ports?.levels, ...portDone } } } : {}) };
+    const base = barracksDone.length && barracks ? completeBarracks(state, barracks.params, barracksDone, state.date) : state;
+    return { ...base, nations, ...(done ? { infrastructure: { ...state.infrastructure, levels: { ...state.infrastructure?.levels, ...infraDone } } } : {}), ...(portsDone ? { ports: { ...state.ports, levels: { ...state.ports?.levels, ...portDone } } } : {}) };
   }
 
   return { start, constructionDay, quoteFactory, powerBalance };

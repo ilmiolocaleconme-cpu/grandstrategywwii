@@ -36,7 +36,7 @@ test('opzioni in una provincia italiana con carbone: miniera L1 con guadagno e c
 
 test('opzioni vuote se la provincia non è tua; nessuna miniera inutile; i rifiuti hanno una frase in italiano', () => {
   const foreign = Object.keys(sites.byProvince).find((p) => p.startsWith('P_FRA_'));
-  assert.deepEqual(provinceBuildOptions(state, 'ITA', foreign, ctx), { mines: [], factories: [], hospitals: [], reason: 'not_controlled' });
+  assert.deepEqual(provinceBuildOptions(state, 'ITA', foreign, ctx), { mines: [], factories: [], hospitals: [], barracks: [], reason: 'not_controlled' }); // + caserme (20/11/2026)
   // provincia madre divisa da un fiume: nessuna miniera proposta sulla madre (si costruisce sulle sponde, 12/11/2026)
   const legacy = Object.entries(sites.byProvince).find(([p, r]) => p.startsWith('P_ITA_') && Object.values(r).some((v) => v.legacy));
   if (legacy) assert.equal(provinceBuildOptions(state, 'ITA', legacy[0], ctx).mines.length, 0);
