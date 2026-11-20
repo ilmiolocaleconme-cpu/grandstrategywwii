@@ -76,7 +76,7 @@ export function depotRoute(ctx, nation, unitId) {
  * ctx: { units (unitsFile.units), poolOf(state, nation) → uomini disponibili nel pool, routeOf(state, nation, unitId) → { landKm, seaDays? } | null }.
  * Senza forze inizializzate non fa nulla.
  */
-export function createReinforcementSystem({ units, poolOf, routeOf, sourcesOf = null }) {
+export function createReinforcementSystem({ units, poolOf, routeOf, sourcesOf = null, priorityOf = null }) { // priorityOf(nation) → { id: true }: precedenza per servizio (20/11/2026)
   const nationOfUnit = new Map(units.map((u) => [u.id, u.nation]));
   return function reinforcementDay(state) {
     if (!state.forces?.initialized || !state.nations) return state;
@@ -105,7 +105,7 @@ export function createReinforcementSystem({ units, poolOf, routeOf, sourcesOf = 
       const stocks = Object.fromEntries(Object.entries(nations[nation].stocks).filter(([k]) => isStockItem(k)).map(([k, v]) => [k, Math.floor(v + 1e-9) + inTransitFromStock(forces, ids, k)]));
       const plan = planReinforcements(forces, {
         units: units.filter((u) => u.nation === nation && candidates.includes(u.id)), nation, date: state.date,
-        poolAvailable: Math.max(0, Math.floor(poolOf(state, nation))), stocks, requests: priorityRequests(forces), transitDays,
+        poolAvailable: Math.max(0, Math.floor(poolOf(state, nation))), stocks, requests: { ...(priorityOf ? priorityOf(nation) : {}), ...priorityRequests(forces) }, transitDays,
         sourcesOf: sourcesOf ? (item) => sourcesOf(nation, item) : null, // fucili prodotti come INW-DEU-RIFLE-1939 riforniscono anche la voce «fucili» del 1936
       });
       if (plan.transfers.length === 0) continue;

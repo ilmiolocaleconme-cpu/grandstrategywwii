@@ -1,0 +1,130 @@
+{
+  "schema": "unit-services-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-20",
+  "note": "Servizio (corpo d'appartenenza) dei reparti, schema comune a tutte le nazioni (decisione dell'utente del 20/11/2026: «sistema scalabile, con le differenze storiche delle nazioni»). Effetti uguali per tutti, solo su meccaniche già esistenti: esperienza iniziale in più rispetto alla nazione (experienceBonus) e precedenza nei rinforzi (reinforcementPriority). `origin`: formation = si forma normalmente, promotion = nasce per promozione (Guardie sovietiche: regola da fare), event = da evento storico. `units`: reparti storici del catalogo che appartengono al servizio; gli altri hanno il servizio di default della nazione. Nessun bonus in battaglia diretto: l'esperienza agisce già sulla battaglia (battle_v2).",
+  "services": [
+    {
+      "id": "DEU-HEER",
+      "nation": "DEU",
+      "name_native": "Heer",
+      "name_it": "Esercito tedesco",
+      "default": true,
+      "experienceBonus": 0,
+      "reinforcementPriority": false,
+      "origin": "formation"
+    },
+    {
+      "id": "DEU-WAFFEN-SS",
+      "nation": "DEU",
+      "name_native": "Waffen-SS",
+      "name_it": "Waffen-SS",
+      "experienceBonus": 5,
+      "reinforcementPriority": true,
+      "origin": "formation",
+      "availableFrom": "1939-10-01",
+      "units": [
+        "U00116",
+        "U00118",
+        "U00119"
+      ],
+      "note": "Divisioni SS: volontari selezionati, dotazione privilegiata (precedenza nei rinforzi). Valori STIMATI da Claude (20/11/2026), da approvare."
+    },
+    {
+      "id": "USSR-RKKA",
+      "nation": "USSR",
+      "name_native": "RKKA",
+      "name_it": "Armata Rossa",
+      "default": true,
+      "experienceBonus": 0,
+      "reinforcementPriority": false,
+      "origin": "formation"
+    },
+    {
+      "id": "USSR-GVARDIJA",
+      "nation": "USSR",
+      "name_native": "Gvardija",
+      "name_it": "Guardia sovietica",
+      "experienceBonus": 10,
+      "reinforcementPriority": true,
+      "origin": "promotion",
+      "availableFrom": "1941-09-18",
+      "units": [
+        "U00286",
+        "U00287",
+        "U00291",
+        "U00292",
+        "U00293",
+        "U00294",
+        "U00295",
+        "U00296"
+      ],
+      "note": "Titolo di Guardia dal 18/9/1941 alle unità distinte in battaglia: più esperienza e precedenza nei rinforzi. La promozione in partita è il passo successivo. Valori STIMATI da Claude (20/11/2026), da approvare."
+    },
+    {
+      "id": "JPN-IJA",
+      "nation": "JPN",
+      "name_native": "Rikugun",
+      "name_it": "Esercito imperiale",
+      "default": true,
+      "experienceBonus": 0,
+      "reinforcementPriority": false,
+      "origin": "formation"
+    },
+    {
+      "id": "JPN-KONOE",
+      "nation": "JPN",
+      "name_native": "Konoe",
+      "name_it": "Guardia imperiale",
+      "experienceBonus": 5,
+      "reinforcementPriority": true,
+      "origin": "formation",
+      "units": [
+        "U00171",
+        "U00172",
+        "U00178"
+      ],
+      "note": "Divisioni della Guardia imperiale. Valori STIMATI da Claude (20/11/2026), da approvare."
+    },
+    {
+      "id": "GBR-ARMY",
+      "nation": "GBR",
+      "name_native": "British Army",
+      "name_it": "Esercito britannico",
+      "default": true,
+      "experienceBonus": 0,
+      "reinforcementPriority": false,
+      "origin": "formation"
+    },
+    {
+      "id": "USA-ARMY",
+      "nation": "USA",
+      "name_native": "US Army",
+      "name_it": "Esercito degli Stati Uniti",
+      "default": true,
+      "experienceBonus": 0,
+      "reinforcementPriority": false,
+      "origin": "formation"
+    },
+    {
+      "id": "FRA-ARMEE",
+      "nation": "FRA",
+      "name_native": "Armée de terre",
+      "name_it": "Esercito francese",
+      "default": true,
+      "experienceBonus": 0,
+      "reinforcementPriority": false,
+      "origin": "formation"
+    },
+    {
+      "id": "ITA-REGIO-ESERCITO",
+      "nation": "ITA",
+      "name_native": "Regio Esercito",
+      "name_it": "Regio Esercito",
+      "default": true,
+      "experienceBonus": 0,
+      "reinforcementPriority": false,
+      "origin": "formation"
+    }
+  ]
+}

@@ -57,7 +57,7 @@ export function experienceLevel(value, cfg) {
 export function conditionOf(conditions, unitId, cfg, nation = null) {
   const e = conditions?.byUnit?.[unitId];
   const ex = cfg.initial.existing1936; // morale ed esperienza iniziali possono variare per nazione (esperienza: 18/11/2026)
-  const base = e?.isNew ? cfg.initial.newUnit : { ...ex, morale: ex.moraleByNation?.[nation] ?? ex.morale, experience: ex.experienceByNation?.[nation] ?? ex.experience };
+  const base = e?.isNew ? cfg.initial.newUnit : { ...ex, morale: ex.moraleByNation?.[nation] ?? ex.morale, experience: ex.experienceByUnit?.[unitId] ?? ex.experienceByNation?.[nation] ?? ex.experience }; // per reparto: servizio (Waffen-SS, Guardie…, src/data/services.js, 20/11/2026)
   const penalty = Number.isFinite(e?.distancePenalty) ? e.distancePenalty : 0; // perdita di prontezza per distanza dal comando (commandDistance.js)
   return {
     experience: clamp(e?.experience ?? base.experience), morale: clamp(e?.morale ?? base.morale), readiness: clamp((e?.readiness ?? base.readiness) - penalty),

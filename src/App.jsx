@@ -101,7 +101,9 @@ import { chainOf } from './rules/orbat.js';
 import { validateTerrainCombat } from './rules/terrainCombat.js';
 import { createRiverIndex } from './data/riverCrossings.js';
 import { buildCategoryOf, buildWeaponOf, equipmentFill } from './rules/equipmentFill.js';
-import conditionConfig from '../data/units/condition_config.json';
+import conditionConfigFile from '../data/units/condition_config.json';
+import servicesFile from '../data/units/services.json'; // servizi dei reparti: Waffen-SS, Guardie… (20/11/2026)
+import { withServiceExperience, servicePriority, serviceOf } from './data/services.js';
 import commandTemplates from '../data/units/command_templates.json';
 import { startFormation, completeFormations, availableManpower } from './rules/commandFormation.js';
 import { commandSummary } from './rules/commandSummary.js';
@@ -362,6 +364,7 @@ const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECUR
 const GAME_AI_TRADE = createAiTrade({ ctxOf: (s) => ({ economy: economyData, resources, net: gameNet(s), sea: GAME_SEA.sea ? GAME_SEA.sea.at(s) : null, consent: GAME_DIPLOMACY.tradeConsent }) });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.
 // Tutti i template di divisione e di brigata (20/11/2026, schema unico e scalabile: una nazione nuova non richiede di toccare questo file)
+const conditionConfig = withServiceExperience(conditionConfigFile, servicesFile, unitsFile.units); // esperienza iniziale per servizio
 const ALL_TEMPLATES = [...Object.values(import.meta.glob('../data/units/templates/divisione_*.json', { eager: true, import: 'default' })), ...Object.values(import.meta.glob('../data/units/templates/brigata_*.json', { eager: true, import: 'default' }))]
   .filter((t) => t?.appliesTo).sort((a, b) => (a.id < b.id ? -1 : 1));
 const FORCES_CTX = { units: unitsFile.units, templates: completeTemplates(ALL_TEMPLATES), ratio: readiness.initialFillRatio.value, upgradeMap: equipmentUpgradeMap };
@@ -459,7 +462,7 @@ const GAME_SYSTEMS = [
   GAME_BUILD.constructionDay,
   createEconomySystem({ controllerOf: placeControllerOf, nationIds: START_ECONOMY.nationIds, catalog: GAME_CATALOG, economy: economyData, baseline: extractionBaseline, hydro: hydroPlants, political, cash: initialCash, sites: mineSites, livestock: { fertilizer: fertilizerData, horses: horseBreeding }, smallArms: smallArmsFile }),
   // Rinforzi automatici (03/11/2026): dal pool e dalle scorte alle divisioni con rinforzo attivo; partenza dal deposito (capitale), solo via terra su province proprie. Senza rete caricata non fa nulla.
-  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
+  (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, priorityOf: (nation) => servicePriority(servicesFile, unitsList(state, unitsFile.units), nation), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES,
@@ -1186,9 +1189,9 @@ export default function App() {
             onDeclareWar={(n) => { const r = GAME_DIPLOMACY.declareWar(game, game.player, n); if (r.ok) { setGame(r.state); setTheater((t) => ({ ...t, notice: `Guerra dichiarata a ${NATION_NAMES[n] ?? n}.` })); } else setTheater((t) => ({ ...t, notice: describeDiplomacyFailure(r.reason, r) })); }}
             onClose={() => setTheater(null)} />
         ) : hqId && game && unitOf(game, hqId, UNITS_BY_ID) ? (
-          <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: [...FORCES_CTX.templates, ...designTemplates(game, ALL_MODULES)], sourcesOf: EQUIPMENT_SOURCES, fillOf })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
+          <UnitSheet infos={[unitInfo(game, unitOf(game, hqId, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: [...FORCES_CTX.templates, ...designTemplates(game, ALL_MODULES)], sourcesOf: EQUIPMENT_SOURCES, fillOf, serviceOf: (u) => serviceOf(servicesFile, u) })]} canSetPolicy={false} onClose={() => setHqId(null)} onMoveHq={unitOf(game, hqId, UNITS_BY_ID)?.nation === game.player ? (uid) => { setHqMove(uid); setHqId(null); setArmyNotice('Tocca la provincia di destinazione del comando.'); } : undefined} />
         ) : sheet && armyGroup && game ? (
-          <UnitSheet openAttach={sheet.attach} infos={sheet.ids.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: [...FORCES_CTX.templates, ...designTemplates(game, ALL_MODULES)], sourcesOf: EQUIPMENT_SOURCES, fillOf }))}
+          <UnitSheet openAttach={sheet.attach} infos={sheet.ids.map((id) => unitInfo(game, unitOf(game, id, UNITS_BY_ID), { unitsById: unitsView(game, UNITS_BY_ID), officersById: OFFICERS_BY_ID, initial: INITIAL_POSITIONS, provinceName, conditionConfig, templates: [...FORCES_CTX.templates, ...designTemplates(game, ALL_MODULES)], sourcesOf: EQUIPMENT_SOURCES, fillOf, serviceOf: (u) => serviceOf(servicesFile, u) }))}
             canSetPolicy={radialOwn} onFormCommand={armySel.nation === game.player ? formCommand : undefined} onAttachTo={radialOwn ? attachCommand : undefined} onDetach={radialOwn ? detachCommand : undefined} parentOptions={radialOwn ? parentOptions : undefined} childOptions={radialOwn ? childOptions : undefined} onAttachChild={radialOwn ? attachChild : undefined} onPolicy={(uid, p) => setGame((g) => playerSetPolicy(g, uid, p, conditionConfig, unitOf(game, uid, UNITS_BY_ID)?.nation))} onReinforce={radialOwn ? (uid, on) => setGame((g) => setDivisionReinforcement(g, uid, on)) : undefined} onClose={() => setInfoSheet(false)} />
         ) : armyGroup && game ? (
           armyGroup.units.length > 1 ? (
