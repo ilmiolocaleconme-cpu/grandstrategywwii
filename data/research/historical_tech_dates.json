@@ -24,7 +24,8 @@
       "TECH-ARM-IR": "1944-06-01",
       "TECH-MECH-HT": "1939-03-01",
       "TECH-ARM-ASSAULT": "1940-01-01",
-      "TECH-ARM-TD": "1940-02-01"
+      "TECH-ARM-TD": "1940-02-01",
+      "TECH-ART-ROCKET": "1940-10-01"
     },
     "USSR": {
       "TECH-IND-SERIES": "1937-01-01",
@@ -43,7 +44,8 @@
       "TECH-ARM-GUN-88L": "1944-01-01",
       "TECH-MOT-INF": "1938-01-01",
       "TECH-ARM-ASSAULT": "1942-12-01",
-      "TECH-ARM-TD": "1942-12-01"
+      "TECH-ARM-TD": "1942-12-01",
+      "TECH-ART-ROCKET": "1941-06-01"
     },
     "USA": {
       "TECH-IND-SERIES": "1940-06-01",
@@ -67,7 +69,8 @@
       "TECH-MECH-HT": "1941-03-01",
       "TECH-ARM-ASSAULT": "1944-01-01",
       "TECH-ARM-TD": "1942-09-01",
-      "TECH-INF-AIRBORNE": "1941-06-01"
+      "TECH-INF-AIRBORNE": "1941-06-01",
+      "TECH-ART-ROCKET": "1944-01-01"
     },
     "GBR": {
       "TECH-IND-SERIES": "1939-06-01",

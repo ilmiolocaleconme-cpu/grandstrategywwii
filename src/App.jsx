@@ -58,8 +58,8 @@ import { vehicleMarchSpeed, designCategory, sumComposition } from './data/module
 const MODULE_DOCS = [modulesDeuFile, modulesUssrFile]; // battaglioni per nazione (Germania; URSS dal 19/11/2026)
 const templateLabel = (id) => { const t = FORCES_CTX.templates.find((x) => x.id === id); const f = t?.formation?.value; return f ? `modello ${String(f).split(':')[0].split(' (')[0]}${t.appliesTo?.activeFrom ? ` ${t.appliesTo.activeFrom.slice(0, 4)}` : ''}` : id; }; // nome leggibile del template storico
 const ALL_MODULES = MODULE_DOCS.flatMap((d) => d.modules);
-const MODULE_PRESETS = MODULE_DOCS.flatMap((d) => [...(d.presets ?? []).map((p) => ({ ...p, nation: p.id.split('-')[1] })), ...(d.compositions ?? []).map((c) => ({ id: c.templateId, nation: c.templateId.split('-')[1], name: `${c.formation.split(':')[0].split(' (')[0]} (${c.activeFrom.slice(0, 4)})`, modules: c.modules }))])
-  .map((p) => { const t = sumComposition(ALL_MODULES, p.modules); return { ...p, category: designCategory(p.modules, ALL_MODULES), men: t.men, horses: t.horses }; });
+const MODULE_PRESETS = MODULE_DOCS.flatMap((d) => [...(d.presets ?? []).map((p) => ({ ...p, nation: p.id.split('-')[1] })), ...(d.compositions ?? []).map((c) => ({ id: c.templateId, nation: c.templateId.split('-')[1], name: c.name ?? `${c.formation.split(':')[0].split(' (')[0]} (${c.activeFrom.slice(0, 4)})`, category: c.category, modules: c.modules }))]) // 20/11/2026: nome nella lingua della nazione e categoria dichiarata dei template storici
+  .map((p) => { const t = sumComposition(ALL_MODULES, p.modules); return { ...p, category: p.category ?? designCategory(p.modules, ALL_MODULES), men: t.men, horses: t.horses }; });
 import eventsFile from '../data/events/events.json';
 import { createEventsSystem } from './game/eventsState.js';
 import { createTradeSystem, openTradeContract, cancelTradeContract } from './game/tradeState.js';

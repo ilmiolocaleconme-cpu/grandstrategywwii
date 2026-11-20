@@ -42,7 +42,7 @@ const PATHS = {
   swap: <><path d="M4 8h14l-3-3M20 16H6l3 3" {...S} /></>,
   pause: <><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" /><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" /></>,
 };
-const CATEGORY_ICON = { infantry: 'infantry', motorized: 'motorized_infantry', mechanized: 'mechanized_infantry', armored: 'tank', mountain: 'mountain_infantry', cavalry: 'cavalry', airborne: 'airborne_infantry' };
+const CATEGORY_ICON = { artillery_motorized: 'artillery', infantry: 'infantry', motorized: 'motorized_infantry', mechanized: 'mechanized_infantry', armored: 'tank', mountain: 'mountain_infantry', cavalry: 'cavalry', airborne: 'airborne_infantry' };
 
 export function Icon({ name, size = 22, title, className }) {
   const key = PATHS[name] ? name : (CATEGORY_ICON[name] ?? 'infantry');

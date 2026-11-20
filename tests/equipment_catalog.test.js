@@ -62,5 +62,5 @@ test('validatore: errori su id duplicato, nazione incoerente, categoria, alias o
   c = ok(); c.aliases = c.aliases.filter((a) => a.templateKey !== 'radio' || a.nation !== 'GBR'); has(c, /nessun alias|non ha un alias/, { templates });
   const orphan = structuredClone(templates[0]); orphan.equipment.nuovaArma = { value: 1 }; has(ok(), /nuovaArma/, { templates: [orphan] });
   assert.equal(validateEquipmentCatalog({ schema: 'x' }).length, 1);
-  assert.equal(CATEGORIES.length, 18); // + HALF_TRACK (semicingolati, 18/11/2026)
+  assert.equal(CATEGORIES.length, 19); // + HALF_TRACK (semicingolati, 18/11/2026), + ROCKET_ARTILLERY (lanciarazzi, 20/11/2026)
 });

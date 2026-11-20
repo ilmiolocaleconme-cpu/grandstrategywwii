@@ -30,6 +30,10 @@
     {
       "id": "mobility",
       "name_it": "Motorizzazione"
+    },
+    {
+      "id": "artillery",
+      "name_it": "Artiglieria"
     }
   ],
   "technologies": [
@@ -450,6 +454,20 @@
       "unlocks": [
         {
           "kind": "modules"
+        }
+      ]
+    },
+    {
+      "id": "TECH-ART-ROCKET",
+      "branch": "artillery",
+      "name_it": "Artiglieria a razzi",
+      "description": "Lanciarazzi multipli: Katjuša sovietica (estate 1941), Nebelwerfer tedesco (1941), Calliope americano (1944). Sblocca i lanciarazzi e i loro battaglioni. Costo e durata: stime di Claude (20/11/2026).",
+      "prerequisites": [],
+      "cost_ecv": 90,
+      "days": 180,
+      "unlocks": [
+        {
+          "kind": "equipment"
         }
       ]
     }

@@ -47,9 +47,10 @@ test('limiti storici: servizi, combattimento, massimi, data e tecnologia', () =>
   assert.ok(p([['MOD-DEU-ART', 3], ['MOD-DEU-SUPPORT', 1]]).some((x) => /combattimento/.test(x)));
   assert.ok(p([['MOD-DEU-TANK', 5], ['MOD-DEU-SUPPORT-MOT', 1]]).some((x) => /tank/.test(x)));
   assert.ok(p([['MOD-DEU-INF', 12], ['MOD-DEU-ART', 6], ['MOD-DEU-REGT-HVY', 4], ['MOD-DEU-SUPPORT', 1]]).some((x) => /troppi uomini/.test(x)));
-  assert.ok(p([...PZ, ['MOD-DEU-STUG', 1]], '1940-06-01').some((x) => /non disponibile/.test(x)), 'StuG senza tecnologia');
+  // 20/11/2026: il motivo è preciso («ricerca …», «disponibile dal …») invece di «non disponibile (data o tecnologia)»
+  assert.ok(p([...PZ, ['MOD-DEU-STUG', 1]], '1940-06-01').some((x) => /ricerca «TECH-ARM-ASSAULT»/.test(x)), 'StuG senza tecnologia');
   assert.deepEqual(p([...PZ, ['MOD-DEU-STUG', 1]], '1940-06-01', new Set([...researched, 'TECH-ARM-ASSAULT'])), []);
-  assert.ok(p([...PZ, ['MOD-DEU-STUG', 1]], '1939-12-01', new Set([...researched, 'TECH-ARM-ASSAULT'])).some((x) => /non disponibile/.test(x)), 'prima del 1940');
+  assert.ok(p([...PZ, ['MOD-DEU-STUG', 1]], '1939-12-01', new Set([...researched, 'TECH-ARM-ASSAULT'])).some((x) => /disponibile dal 01\/02\/1940/.test(x)), 'prima del 1940');
   assert.ok(!moduleAvailable(modules.find((m) => m.id === 'MOD-DEU-MOT-INF'), { nation: 'DEU', date: '1936-01-01', researched: new Set() }));
 });
 
@@ -156,7 +157,10 @@ test('battaglioni del 19/11/2026: categorie montagna, cavalleria, paracadutisti;
   const all = new Set([...researched, 'TECH-MECH-HT']);
   for (const pr of doc.presets) assert.deepEqual(designProblems(pr.modules, { ...ctx, nation: 'DEU', date: '1940-06-01', researched: all }), [], pr.id);
   const fj = designProblems([['MOD-DEU-FJ', 9], ['MOD-DEU-SUPPORT', 1]], { ...ctx, nation: 'DEU', date: '1940-06-01', researched: new Set() });
-  assert.ok(fj.some((x) => /non disponibile/.test(x)), 'paracadutisti solo con la tecnologia');
+  assert.ok(fj.some((x) => /ricerca «TECH-INF-AIRBORNE»/.test(x)), 'paracadutisti solo con la tecnologia');
+  // 20/11/2026: pochi carri non trasformano una divisione di cavalleria in corazzata
+  assert.equal(designCategory([['MOD-DEU-REITER', 6], ['MOD-DEU-TANK', 1], ['MOD-DEU-SUPPORT', 1]], modules), 'cavalry');
+  assert.equal(designCategory([['MOD-DEU-REITER', 2], ['MOD-DEU-TANK', 3], ['MOD-DEU-SUPPORT', 1]], modules), 'armored');
 });
 
 test('genio: senza Pionier-Bataillon la penalità del fiume cresce; i modelli storici restano come prima', async () => {

@@ -966,6 +966,48 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USSR-BM13",
+      "nation": "USSR",
+      "category": "ROCKET_ARTILLERY",
+      "granularity": "model",
+      "caliber_mm": 132,
+      "designation": "BM-13 «Katjuša» (16 guide da 132 mm su autocarro ZIS-6)",
+      "name_it": "Lanciarazzi BM-13 Katjuša",
+      "role": "rocket_artillery",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-DEU-NBW41",
+      "nation": "DEU",
+      "category": "ROCKET_ARTILLERY",
+      "granularity": "model",
+      "caliber_mm": 150,
+      "designation": "15 cm Nebelwerfer 41 (sei canne, trainato)",
+      "name_it": "Lanciarazzi Nebelwerfer 41",
+      "role": "rocket_artillery",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-USA-CALLIOPE",
+      "nation": "USA",
+      "category": "ROCKET_ARTILLERY",
+      "granularity": "model",
+      "caliber_mm": 114.3,
+      "designation": "Lanciarazzi T34 «Calliope» (60 tubi da 4,5 in su carro M4 Sherman)",
+      "name_it": "Lanciarazzi T34 Calliope",
+      "role": "rocket_artillery",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -1293,6 +1335,21 @@
       "nation": "USSR",
       "templateKey": "ART-USSR-GUN76-GORN",
       "equipment_id": "ART-USSR-GUN76-GORN"
+    },
+    {
+      "nation": "USSR",
+      "templateKey": "ART-USSR-BM13",
+      "equipment_id": "ART-USSR-BM13"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-NBW41",
+      "equipment_id": "ART-DEU-NBW41"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-CALLIOPE",
+      "equipment_id": "ART-USA-CALLIOPE"
     }
   ]
 }

@@ -76,3 +76,16 @@ test('battaglioni legati alla ricerca: motorizzati con TECH-MOT-INF, paracadutis
   assert.equal(at('MOD-USSR-STRELK-1942', ['TECH-INF-EMERG']), true);
   assert.equal(moduleAvailable(m('MOD-USSR-STRELK'), { nation: 'DEU', date: '1943-01-01', researched: new Set() }), false, 'solo per l\'URSS');
 });
+
+test('20/11/2026: nomi russi dei template storici, niente doppioni; categorie: motorizzata e cavalleria restano tali; lanciarazzi Katjuša', async () => {
+  const { designCategory } = await import('../src/data/modules.js');
+  assert.deepEqual(doc.presets, [], 'i modelli di partenza sono i template storici, senza doppioni');
+  assert.ok(doc.compositions.every((c) => /^[A-Z][a-z]+(aja|naja)? ?/.test(c.name) && /\(\d{4}\)$/.test(c.name)), 'nome russo con anno');
+  const comp = (id) => doc.compositions.find((c) => c.templateId === id).modules;
+  assert.equal(doc.compositions.find((c) => c.templateId === 'TPL-USSR-MOT-1940').category, 'motorized', 'categoria dichiarata, mostrata dall\'editor per il modello di partenza');
+  assert.equal(designCategory(comp('TPL-USSR-CAV-1936'), doc.modules), 'cavalry');
+  const k = doc.modules.find((m) => m.id === 'MOD-USSR-KATJUSHA');
+  assert.equal(k.equipment['ART-USSR-BM13'], 12);
+  assert.equal(k.requiresTech, 'TECH-ART-ROCKET');
+  assert.equal(json('research/historical_tech_dates.json').byNation.USSR['TECH-ART-ROCKET'], '1941-06-01');
+});

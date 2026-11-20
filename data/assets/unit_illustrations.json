@@ -213,6 +213,14 @@
       "byNation": {
         "USSR": "26_mitragliatrice_ussr.png"
       }
+    },
+    {
+      "id": "lanciarazzi",
+      "file": "09_artiglieria_trainata.png",
+      "description": "Lanciarazzi multiplo (per ora l'immagine generica del cannone trainato; sovietica: Katjuša BM-13 dalla tavola dell'utente)",
+      "byNation": {
+        "USSR": "27_lanciarazzi_ussr.png"
+      }
     }
   ]
 }

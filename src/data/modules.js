@@ -144,10 +144,13 @@ export function moduleAvailable(m, { nation, date, researched }) {
 export function designCategory(list, modules) {
   const byId = new Map(modules.map((m) => [m.id, m]));
   const ms = list.map(([id]) => byId.get(id)).filter(Boolean);
-  if (ms.some((m) => m.type === 'tank')) return 'armored';
-  if (ms.some((m) => m.type === 'mechanized_infantry')) return 'mechanized';
   const n = (t) => list.reduce((s, [id, k]) => s + (byId.get(id)?.type === t ? k : 0), 0);
   const foot = ['infantry', 'motorized_infantry', 'mountain_infantry', 'airborne_infantry', 'cavalry'].reduce((s, t) => s + n(t), 0);
+  // 20/11/2026: una divisione di cavalleria (o da montagna, paracadutisti) con qualche carro di appoggio resta di cavalleria, se i suoi reparti
+  // speciali sono almeno metà della fanteria e più numerosi dei battaglioni carri (es. Kavalerijskaja divizija sovietica: 4 reggimenti e 1 battaglione BT)
+  for (const [t, cat] of [['cavalry', 'cavalry'], ['mountain_infantry', 'mountain'], ['airborne_infantry', 'airborne']]) if (foot > 0 && n(t) * 2 >= foot && n(t) > n('tank')) return cat;
+  if (ms.some((m) => m.type === 'tank')) return 'armored'; // con i carri resta corazzata (Panzer-Division 1940: 2 battaglioni carri e 4 di fanteria); i template storici usano la loro categoria dichiarata (App.jsx)
+  if (ms.some((m) => m.type === 'mechanized_infantry')) return 'mechanized';
   for (const [t, cat] of [['airborne_infantry', 'airborne'], ['mountain_infantry', 'mountain'], ['cavalry', 'cavalry']]) if (foot > 0 && n(t) * 2 >= foot) return cat;
   if (ms.length && ms.every((m) => m.mobility !== 'foot')) return 'motorized';
   return 'infantry';
@@ -158,7 +161,7 @@ export function designCategory(list, modules) {
  * Limiti storici: uomini e battaglioni massimi, massimo per tipo, battaglioni di combattimento minimi, esattamente `divisional` reparti divisionali
  * (servizi), solo battaglioni della nazione disponibili alla data e ricercati.
  */
-export function designProblems(list, { modules, rules, nation, date, researched }) {
+export function designProblems(list, { modules, rules, nation, date, researched, techName = null }) {
   const out = [];
   const byId = new Map(modules.map((m) => [m.id, m]));
   const perType = {}; let total = 0; let men = 0; let combat = 0; let divisional = 0;
@@ -169,7 +172,10 @@ export function designProblems(list, { modules, rules, nation, date, researched 
     if (seen.has(id)) out.push(`${m.name_it}: elencato due volte`);
     seen.add(id);
     if (!(Number.isInteger(n) && n > 0)) { out.push(`${m.name_it}: quantità non valida`); continue; }
-    if (!moduleAvailable(m, { nation, date, researched })) out.push(`${m.name_it}: non disponibile (data o tecnologia)`);
+    if (!moduleAvailable(m, { nation, date, researched })) { // motivo preciso (20/11/2026): tecnologia da ricercare e/o data d'introduzione
+      const why = [[m.requiresTech ?? []].flat().filter((t) => !researched?.has(t)).map((t) => `ricerca «${techName ? techName(t) : t}»`).join(' e '), m.availableFrom && date && date < m.availableFrom ? `disponibile dal ${m.availableFrom.split('-').reverse().join('/')}` : ''].filter(Boolean).join('; ');
+      out.push(`${m.name_it}: ${why || 'non disponibile'}`);
+    }
     perType[m.type] = (perType[m.type] ?? 0) + n; total += n; men += m.men * n;
     if (rules.combatTypes.includes(m.type)) combat += n;
     if (m.divisional) divisional += n;

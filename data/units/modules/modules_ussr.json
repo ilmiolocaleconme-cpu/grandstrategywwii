@@ -632,6 +632,26 @@
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-USSR-KATJUSHA",
+      "nation": "USSR",
+      "type": "artillery",
+      "name_ru": "Gvardejskij minomëtnyj divizion (BM-13)",
+      "name_it": "Gruppo lanciarazzi Katjuša (BM-13)",
+      "men": 250,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 150,
+        "INW-USSR-PISTOL-TT33": 40,
+        "ART-USSR-BM13": 12,
+        "VEH-USSR-ZIS5": 12
+      },
+      "mobility": "motorized",
+      "illustration": "lanciarazzi",
+      "requiresTech": "TECH-ART-ROCKET",
+      "availableFrom": "1941-07-01",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
       "id": "MOD-USSR-DESANT",
       "nation": "USSR",
       "type": "airborne_infantry",
@@ -656,6 +676,7 @@
   "compositions": [
     {
       "templateId": "TPL-USSR-RIFLE-1936",
+      "name": "Strelkovaja divizija (1936)",
       "file": "divisione_fucilieri_urss_1936.json",
       "category": "infantry",
       "activeFrom": "1936-01-01",
@@ -701,6 +722,7 @@
     },
     {
       "templateId": "TPL-USSR-INF-1939",
+      "name": "Strelkovaja divizija (1939)",
       "file": "divisione_fucilieri_urss_1939.json",
       "category": "infantry",
       "activeFrom": "1939-09-01",
@@ -750,6 +772,7 @@
     },
     {
       "templateId": "TPL-USSR-INF-1941",
+      "name": "Strelkovaja divizija (1941)",
       "file": "divisione_fucilieri_urss_1941.json",
       "category": "infantry",
       "activeFrom": "1941-04-01",
@@ -799,6 +822,7 @@
     },
     {
       "templateId": "TPL-USSR-INF-1942",
+      "name": "Strelkovaja divizija (1942)",
       "file": "divisione_fucilieri_urss_1942.json",
       "category": "infantry",
       "activeFrom": "1942-03-01",
@@ -844,6 +868,7 @@
     },
     {
       "templateId": "TPL-USSR-MTN-1940",
+      "name": "Gornostrelkovaja divizija (1940)",
       "file": "divisione_montagna_urss_1940.json",
       "category": "mountain",
       "activeFrom": "1940-01-01",
@@ -877,6 +902,7 @@
     },
     {
       "templateId": "TPL-USSR-CAV-1936",
+      "name": "Kavalerijskaja divizija (1936)",
       "file": "divisione_cavalleria_urss_1936.json",
       "category": "cavalry",
       "activeFrom": "1936-01-01",
@@ -910,6 +936,7 @@
     },
     {
       "templateId": "TPL-USSR-MOT-1940",
+      "name": "Motorizovannaja divizija (1940)",
       "file": "divisione_motorizzata_urss_1940.json",
       "category": "motorized",
       "activeFrom": "1940-06-01",
@@ -955,6 +982,7 @@
     },
     {
       "templateId": "TPL-USSR-ABN-1936",
+      "name": "Aviadesantnaja brigada (1936)",
       "file": "brigata_aviotrasportata_urss_1936.json",
       "category": "airborne",
       "echelon": "brigade",
@@ -972,108 +1000,5 @@
       ]
     }
   ],
-  "presets": [
-    {
-      "id": "PRE-USSR-STRELK-1936",
-      "name": "Strelkovaja divizija (1936)",
-      "modules": [
-        [
-          "MOD-USSR-STRELK-1936",
-          9
-        ],
-        [
-          "MOD-USSR-POLK-1936",
-          3
-        ],
-        [
-          "MOD-USSR-ART",
-          1
-        ],
-        [
-          "MOD-USSR-GAUB",
-          1
-        ],
-        [
-          "MOD-USSR-PTO",
-          1
-        ],
-        [
-          "MOD-USSR-ZENIT-1936",
-          1
-        ],
-        [
-          "MOD-USSR-RAZVED",
-          1
-        ],
-        [
-          "MOD-USSR-SAPER",
-          1
-        ],
-        [
-          "MOD-USSR-TYL",
-          1
-        ]
-      ]
-    },
-    {
-      "id": "PRE-USSR-GORN-1940",
-      "name": "Gornostrelkovaja divizija (1940)",
-      "modules": [
-        [
-          "MOD-USSR-GORN-STRELK",
-          8
-        ],
-        [
-          "MOD-USSR-GORN-ART",
-          3
-        ],
-        [
-          "MOD-USSR-GORN-MIN",
-          1
-        ],
-        [
-          "MOD-USSR-PTO",
-          1
-        ],
-        [
-          "MOD-USSR-SAPER",
-          1
-        ],
-        [
-          "MOD-USSR-TYL-LEGK",
-          1
-        ]
-      ]
-    },
-    {
-      "id": "PRE-USSR-KAV-1936",
-      "name": "Kavalerijskaja divizija (1936)",
-      "modules": [
-        [
-          "MOD-USSR-KAV-POLK",
-          4
-        ],
-        [
-          "MOD-USSR-TANK-BT",
-          1
-        ],
-        [
-          "MOD-USSR-KONNO-ART",
-          2
-        ],
-        [
-          "MOD-USSR-ZENIT-1936",
-          1
-        ],
-        [
-          "MOD-USSR-SAPER",
-          1
-        ],
-        [
-          "MOD-USSR-TYL-LEGK",
-          1
-        ]
-      ]
-    }
-  ]
+  "presets": []
 }

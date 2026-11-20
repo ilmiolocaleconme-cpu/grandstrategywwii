@@ -67,13 +67,14 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
   const [province, setProvince] = useState(raise?.provinces?.[0]?.id ?? '');
   const [count, setCount] = useState(1);
 
-  const ctx = { modules, rules, nation, date, researched, firepowerOf };
+  const ctx = { modules, rules, nation, date, researched, firepowerOf, techName };
   const groups = useMemo(() => moduleGroups(modules, list, { nation, date, researched, techName }), [modules, list, nation, date, researched, techName]);
   const sum = useMemo(() => designSummary(list, ctx), [list, modules, rules, nation, date, researched, firepowerOf]); // eslint-disable-line react-hooks/exhaustive-deps
   const base = listOf(src);
   const design = src.kind === 'design' ? designs.find((d) => d.id === src.id) : null;
   const preset = src.kind === 'preset' ? presets.find((p) => p.id === src.id) : null;
   const changed = !same(list, base);
+  const shownCat = preset && !changed && preset.category ? preset.category : sum.category; // categoria dichiarata dei template storici (20/11/2026)
   const title = design && !changed ? design.name : preset && !changed ? preset.name : (TITLES[nation] ?? DEFAULT_TITLE)[sum.category];
   const target = designs.find((d) => d.id === targetId) ?? designs[0] ?? null;
   const ids = [...checked].filter((id) => divisions.some((d) => d.id === id && d.designId !== target?.id));
@@ -120,15 +121,15 @@ export default function DivisionEditor({ modules, rules, nation, nationName, dat
             <>
               <section className="de-hero">
                 <div className="de-hero-head">
-                  <span className="de-emblem"><Icon name={sum.category} size={30} /></span>
+                  <span className="de-emblem"><Icon name={shownCat} size={30} /></span>
                   <div className="de-hero-text">
                     <input className="de-title-input" value={name} maxLength={rules.nameMax} onChange={(e) => setName(e.target.value)} placeholder={title} aria-label="Nome del modello" />
-                    <p>{`Divisione ${CATEGORY_LABEL[sum.category] ?? ''}`}{design ? ` · modello salvato${design.used ? `, usato da ${design.used} divisioni` : ''}` : preset ? ' · modello di partenza' : ' · nuovo'}{changed && src.kind !== 'new' ? ' · modificato' : ''}</p>
+                    <p>{`Divisione ${CATEGORY_LABEL[shownCat] ?? ''}`}{design ? ` · modello salvato${design.used ? `, usato da ${design.used} divisioni` : ''}` : preset ? ' · modello di partenza' : ' · nuovo'}{changed && src.kind !== 'new' ? ' · modificato' : ''}</p>
                   </div>
                   {design ? <button type="button" className="de-chip go" onClick={() => openRaise(design.id)}><Icon name="plus" size={18} /> Forma</button> : null}
                   {design ? <button type="button" className="de-chip" onClick={() => openReorg(design.id)}><Icon name="swap" size={18} /> Riorganizza</button> : null}
                 </div>
-                <HeroArt category={sum.category} nation={nation} />
+                <HeroArt category={shownCat} nation={nation} />
               </section>
               <section className="de-box">
                 <h3>Composizione <span className="de-muted">· {sum.battalions} battaglioni</span></h3>

@@ -633,11 +633,33 @@
       "illustration": "ambulanza",
       "nation": "DEU",
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-WERFER",
+      "name_de": "Werfer-Abteilung (mot.)",
+      "name_it": "Gruppo lanciarazzi motorizzato (Nebelwerfer)",
+      "type": "artillery",
+      "mobility": "motorized",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 300,
+        "INW-DEU-PISTOL-1939": 60,
+        "MG-DEU-MG34-L": 12,
+        "ART-DEU-NBW41": 18,
+        "VEH-DEU-TRUCK": 35
+      },
+      "requiresTech": "TECH-ART-ROCKET",
+      "availableFrom": "1941-01-01",
+      "illustration": "lanciarazzi",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti."
     }
   ],
   "compositions": [
     {
       "templateId": "TPL-DEU-MOT-1937",
+      "name": "Infanterie-Division (mot.) (1937)",
       "file": "divisione_motorizzata_germania_1937.json",
       "category": "motorized",
       "activeFrom": "1937-01-01",
@@ -671,6 +693,7 @@
     },
     {
       "templateId": "TPL-DEU-LEICHTE-1938",
+      "name": "leichte Division (1938)",
       "file": "divisione_meccanizzata_germania_1938.json",
       "category": "mechanized",
       "activeFrom": "1938-01-01",
