@@ -25,6 +25,7 @@ import { terrainDefense, terrainCategoryFactor, riverFactor } from '../rules/ter
 import { firepowerBase, sideHardness, cohesionOf, cohesionLoss, cohesionPower, experiencePower, sideBreaks, recoverCohesion, frontageOf, splitLine, unitSlot, drawSupply, splitCasualties, mobileShare, retreatPrisoners, addCasualties, createCohesion, seasonFactor, COHESION_SCHEMA, CASUALTIES_SCHEMA } from '../rules/battleV2.js';
 import { RETREAT_BELOW } from '../rules/combat.js';
 import { conditionOf, createConditionState, clamp as clampCondition } from '../rules/divisionCondition.js';
+import { recordWins } from './honorsState.js';
 import { createEntrench, entrenchBonus, setDig, tickEntrench, validateEntrench, DEFAULT_ENTRENCH } from '../rules/entrench.js';
 export { provinceController, canEnterWar, isFighter };
 
@@ -358,6 +359,7 @@ function battlePhase(state, ctx, net) {
     const mood = (winners, losers) => { // v2: chi vince prende morale, chi cede lo perde
       if (!cfg2) return;
       for (const u of winners) s = conditionShift(s, ctx, u, { morale: cfg2.condition.moraleWin });
+      s = { ...s, honors: recordWins(s.honors, winners.map((u) => u.id)) }; // vittorie per le promozioni (Guardie, 20/11/2026)
       for (const u of losers) s = conditionShift(s, ctx, u, { morale: -cfg2.condition.moraleRetreat });
     };
     if (dRetreats && !aRetreats) { outcome = retreat(defenders, c, lineA, 'd') ? 'difensori in ritirata' : `difensori circondati${surrounded}`; mood(lineA, defenders); }

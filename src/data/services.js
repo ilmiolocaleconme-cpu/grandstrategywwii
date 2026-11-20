@@ -18,6 +18,11 @@ export function validateServices(doc, { unitsById = null } = {}) {
     if (typeof s.reinforcementPriority !== 'boolean') e.push(`${p}: reinforcementPriority non booleano`);
     if (!ORIGINS.includes(s.origin)) e.push(`${p}: origin ${JSON.stringify(s.origin)}`);
     if (s.availableFrom !== undefined && !DATE_RE.test(s.availableFrom)) e.push(`${p}: availableFrom non valido`);
+    if (s.origin === 'promotion') { // promozione in partita (20/11/2026)
+      const pr = s.promotion;
+      if (!pr || !Number.isInteger(pr.wins) || pr.wins < 1 || typeof pr.from !== 'string' || !pr.names || typeof pr.names !== 'object') e.push(`${p}: promozione senza from, wins o names`);
+      else for (const [k, v] of Object.entries(pr.names)) if (!/^(division|brigade)(:[a-z]+)?$/.test(k) || typeof v !== 'string' || !v.includes('{k}')) e.push(`${p}: nome di promozione ${k} non valido`);
+    }
     if (s.default) { if (defaults.has(s.nation)) e.push(`${p}: secondo servizio di default per ${s.nation}`); defaults.set(s.nation, s.id); if (s.units?.length) e.push(`${p}: il servizio di default non elenca reparti`); }
     for (const u of s.units ?? []) {
       if (owner.has(u)) e.push(`${p}: il reparto ${u} è già di ${owner.get(u)}`);
@@ -27,6 +32,7 @@ export function validateServices(doc, { unitsById = null } = {}) {
       else if (unit && unit.nation !== s.nation) e.push(`${p}: il reparto ${u} è di ${unit.nation}`);
     }
   }
+  for (const s of doc.services ?? []) if (s.promotion?.from && !ids.has(s.promotion.from)) e.push(`servizio ${s.id}: promozione da ${s.promotion.from}, servizio inesistente`);
   return e;
 }
 
@@ -53,8 +59,13 @@ export function withServiceExperience(cfg, doc, units) {
 }
 
 /** { id: true } dei reparti di una nazione con precedenza nei rinforzi per servizio (stessa forma delle richieste del giocatore). */
-export function servicePriority(doc, units, nation) {
+export function servicePriority(doc, units, nation, state = null) {
   const out = {};
-  for (const u of units) if (u.nation === nation && serviceOf(doc, u)?.reinforcementPriority) out[u.id] = true;
+  for (const u of units) {
+    if (u.nation !== nation) continue;
+    const p = state?.honors?.services?.[u.id]; // promosso in partita (src/game/honorsState.js)
+    const svc = (p && (doc?.services ?? []).find((x) => x.id === p.service)) ?? serviceOf(doc, u);
+    if (svc?.reinforcementPriority) out[u.id] = true;
+  }
   return out;
 }

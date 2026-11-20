@@ -28,7 +28,7 @@ export function unitOf(state, id, catalog) {
 
 // Cambi di un'unità decisi in partita (eventi, 18/11/2026): `state.unitChanges` = { schema, byUnit: { id: { patch: { category }, since, event } } }.
 export const UNIT_CHANGES_SCHEMA = 'unit-changes-v1';
-export const CHANGEABLE_FIELDS = Object.freeze(['category']);
+export const CHANGEABLE_FIELDS = Object.freeze(['category', 'name']); // name: promozioni (Guardie, 20/11/2026)
 export function applyUnitChange(state, unitId, patch, { date, event }) {
   const cur = state.unitChanges ?? { schema: UNIT_CHANGES_SCHEMA, byUnit: {} };
   const prev = cur.byUnit[unitId]?.patch ?? {};

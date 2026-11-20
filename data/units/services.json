@@ -59,7 +59,19 @@
         "U00295",
         "U00296"
       ],
-      "note": "Titolo di Guardia dal 18/9/1941 alle unità distinte in battaglia: più esperienza e precedenza nei rinforzi. La promozione in partita è il passo successivo. Valori STIMATI da Claude (20/11/2026), da approvare."
+      "note": "Titolo di Guardia dal 18/9/1941 alle unità distinte in battaglia: più esperienza e precedenza nei rinforzi. In partita: una divisione o brigata dell'Armata Rossa con 3 vittorie (il nemico cede mentre è in linea) dal 18/9/1941 diventa Guardia, con il nome russo e il numero successivo (src/game/honorsState.js). Valori STIMATI da Claude (20/11/2026), da approvare.",
+      "promotion": {
+        "from": "USSR-RKKA",
+        "wins": 3,
+        "names": {
+          "division:infantry": "{k}-ja gvardejskaja strelkovaja divizija",
+          "division:armored": "{k}-ja gvardejskaja tankovaja divizija",
+          "division:cavalry": "{k}-ja gvardejskaja kavalerijskaja divizija",
+          "brigade:armored": "{k}-ja gvardejskaja tankovaja brigada",
+          "division": "{k}-ja gvardejskaja divizija",
+          "brigade": "{k}-ja gvardejskaja brigada"
+        }
+      }
     },
     {
       "id": "JPN-IJA",

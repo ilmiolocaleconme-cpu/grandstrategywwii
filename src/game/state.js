@@ -1,5 +1,6 @@
 import { validateEventsState } from './eventsState.js';
 import { validateDesignsState } from './designsState.js';
+import { validateHonors } from './honorsState.js';
 // Stato di una partita. Contiene solo ciò che serve a riprodurla: niente geometrie né cataloghi
 // (quelli restano nei file di data/ e si ricaricano). Qui nasce l'unica fonte di verità sul
 // controllo dei territori: `control` mappa ogni id di `political_1936.json` al suo controllore.
@@ -103,6 +104,7 @@ export function validateState(state) {
   errors.push(...validateUnitRegistry(state.unitRegistry)); // schema 8: registro delle unità create in partita
   errors.push(...validateUnitChanges(state.unitChanges), ...validateEventsState(state.events), ...validateDesignsState(state.designs)); // + modelli di divisione del giocatore; facoltativi: riorganizzazioni ed eventi eseguiti (18/11/2026)
   errors.push(...validateConditionShape(state)); // opzionale: assente = condizioni iniziali
+  errors.push(...validateHonors(state.honors)); // opzionale: vittorie e promozioni dei reparti (20/11/2026)
   errors.push(...validateInfrastructureShape(state.infrastructure)); // opzionale: assente = tutti i collegamenti al livello di partenza
   errors.push(...validatePortsShape(state.ports)); // opzionale: assente = porti del 1936
   errors.push(...validateWar(state.war), ...validateTheaters(state.theaters), ...validateCombat(state.combat), ...validateEntrench(state.entrench)); // opzionali: guerra, incarichi di teatro, registro battaglie, trinceramento
