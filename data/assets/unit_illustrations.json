@@ -3,7 +3,7 @@
   "status": "PRELIMINARY",
   "source": "Fornite dall'utente il 18/11/2026 (archivio grandstrategywwii_military_assets_png.zip): 24 PNG ritagliati da una tavola generata.",
   "license": "Dell'utente, per questo progetto.",
-  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026): dalla tavola di illustrazioni sovietiche fornita dall'utente il 20/11/2026 (ritagliate da Claude, sfondo bianco tolto, 256 px, 256 colori) per 19 voci (fanteria, fanteria_motorizzata, fanteria_meccanizzata, carro_leggero, carro_medio, carro_pesante, cacciacarri, cacciacarri_variante, artiglieria_trainata, artiglieria_ippotrainata, contraerea, anticarro, paracadutisti, alpini, ricognizione_motocicletta, autoblindo, logistica_camion, trasporto_camion, trasporto_ippotrainato) e due voci nuove (mortaio, mitragliatrice); le altre (cavalleria, genio, semicingolato, carro_munizioni_ippotrainato, ambulanza) restano ricolorate da Claude con la stella rossa, perché la tavola non ha un equivalente (cavalleria, genio, semicingolato, carri ippotrainati, ambulanza).",
+  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026): dalla tavola di illustrazioni sovietiche fornita dall'utente il 20/11/2026 (ritagliate da Claude, sfondo bianco tolto, 256 px, 256 colori) per 19 voci (fanteria, fanteria_motorizzata, fanteria_meccanizzata, carro_leggero, carro_medio, carro_pesante, cacciacarri, cacciacarri_variante, artiglieria_trainata, artiglieria_ippotrainata, contraerea, anticarro, paracadutisti, alpini, ricognizione_motocicletta, autoblindo, logistica_camion, trasporto_camion, trasporto_ippotrainato) e due voci nuove (mortaio, mitragliatrice); le altre (cavalleria, genio, semicingolato, carro_munizioni_ippotrainato, ambulanza) restano ricolorate da Claude con la stella rossa, perché la tavola non ha un equivalente (cavalleria, genio, semicingolato, carri ippotrainati, ambulanza). 20/11/2026, seconda tavola dell'utente (PNG trasparente): cavalleria, genio, semicingolato, carro munizioni ippotrainato e ambulanza sovietici, Nebelwerfer 41 tedesco e Calliope americano (lanciarazzi DEU e USA). Ora nessuna voce sovietica è più ricolorata da Claude, salvo le figure senza equivalente.",
   "folder": "src/assets/units",
   "items": [
     {
@@ -217,10 +217,18 @@
     {
       "id": "lanciarazzi",
       "file": "09_artiglieria_trainata.png",
-      "description": "Lanciarazzi multiplo (per ora l'immagine generica del cannone trainato; sovietica: Katjuša BM-13 dalla tavola dell'utente)",
+      "description": "Lanciarazzi multiplo: Katjuša BM-13 (URSS), Nebelwerfer 41 (Germania), T34 Calliope (USA), dalle tavole dell'utente; per le altre nazioni l'immagine generica del cannone trainato",
       "byNation": {
-        "USSR": "27_lanciarazzi_ussr.png"
+        "USSR": "27_lanciarazzi_ussr.png",
+        "DEU": "27_lanciarazzi_deu.png",
+        "USA": "27_lanciarazzi_usa.png"
       }
+    },
+    {
+      "id": "lanciarazzi_semovente",
+      "file": "27_lanciarazzi_deu.png",
+      "description": "Lanciarazzi semovente (Panzerwerfer 42 su semicingolato Maultier): per ora l'immagine del Nebelwerfer trainato, in attesa dell'illustrazione",
+      "byNation": {}
     }
   ]
 }

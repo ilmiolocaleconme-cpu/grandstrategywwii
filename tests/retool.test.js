@@ -72,10 +72,14 @@ test('IA: una linea ferma (T-26 fuori produzione) passa a un altro carro; dopo u
   assert.equal(again.nations.USSR.facilities[0].recipeId, out.recipeId, `nessun cambio prima di ${RETOOL_COOLDOWN_DAYS} giorni`);
 });
 
-test('illustrazioni: ogni voce ha la variante sovietica e il file esiste', () => {
+test('illustrazioni: varianti per nazione (URSS per i suoi battaglioni, lanciarazzi tedesco e americano) e file esistenti', () => {
   const art = json('assets/unit_illustrations.json');
+  // ogni illustrazione usata da un battaglione sovietico ha la variante URSS; ogni file elencato esiste (20/11/2026: anche DEU e USA per i lanciarazzi)
+  const used = new Set(json('units/modules/modules_ussr.json').modules.map((m) => m.illustration));
   for (const it of art.items) {
-    assert.ok(it.byNation?.USSR, it.id);
-    assert.ok(readFileSync(new URL(`../${art.folder}/${it.byNation.USSR}`, import.meta.url)).length > 1000, it.byNation.USSR);
+    if (used.has(it.id)) assert.ok(it.byNation?.USSR, it.id);
+    for (const file of Object.values(it.byNation ?? {})) assert.ok(readFileSync(new URL(`../${art.folder}/${file}`, import.meta.url)).length > 1000, file);
   }
+  const rk = art.items.find((x) => x.id === 'lanciarazzi');
+  assert.deepEqual(Object.keys(rk.byNation).sort(), ['DEU', 'USA', 'USSR']);
 });

@@ -654,6 +654,30 @@
       "illustration": "lanciarazzi",
       "nation": "DEU",
       "note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-DEU-PZWERFER",
+      "name_de": "Panzerwerfer-Abteilung",
+      "name_it": "Gruppo lanciarazzi semoventi (Panzerwerfer 42 su Maultier)",
+      "type": "artillery",
+      "mobility": "mechanized",
+      "men": 380,
+      "horses": 0,
+      "equipment": {
+        "INW-DEU-RIFLE-1939": 220,
+        "INW-DEU-PISTOL-1939": 80,
+        "MG-DEU-MG34-L": 16,
+        "ART-DEU-PZW42": 16,
+        "VEH-DEU-TRUCK": 20
+      },
+      "requiresTech": [
+        "TECH-ART-ROCKET",
+        "TECH-MECH-HT"
+      ],
+      "availableFrom": "1943-04-01",
+      "illustration": "lanciarazzi_semovente",
+      "nation": "DEU",
+      "note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti."
     }
   ],
   "compositions": [

@@ -683,6 +683,14 @@
       "massTonnes": 1.0,
       "availableFrom": "1944-06-01",
       "requiresTech": "TECH-ART-ROCKET"
+    },
+    "ART-DEU-PZW42": {
+      "massTonnes": 7.1,
+      "availableFrom": "1943-04-01",
+      "requiresTech": [
+        "TECH-ART-ROCKET",
+        "TECH-MECH-HT"
+      ]
     }
   },
   "priceFactor": 1.25

@@ -1008,6 +1008,20 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-DEU-PZW42",
+      "nation": "DEU",
+      "category": "ROCKET_ARTILLERY",
+      "granularity": "model",
+      "caliber_mm": 150,
+      "designation": "15 cm Panzerwerfer 42 auf Sd.Kfz. 4/1 «Maultier» (semicingolato)",
+      "name_it": "Lanciarazzi semovente Panzerwerfer 42",
+      "role": "rocket_artillery",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -1350,6 +1364,11 @@
       "nation": "USA",
       "templateKey": "ART-USA-CALLIOPE",
       "equipment_id": "ART-USA-CALLIOPE"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "ART-DEU-PZW42",
+      "equipment_id": "ART-DEU-PZW42"
     }
   ]
 }
