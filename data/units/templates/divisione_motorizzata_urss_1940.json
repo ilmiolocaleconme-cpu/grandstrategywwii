@@ -14,7 +14,7 @@
     "value": "divisione motorizzata (motorizovannaja divizija) 1940: 2 reggimenti di fucilieri motorizzati, un reggimento carri BT, artiglieria a traino meccanico, esplorante con BA-10",
     "basis": "ipotesi",
     "referenceYear": "1940",
-    "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
     "reliability": "ESTIMATED"
   },
   "modules": [
@@ -55,10 +55,10 @@
       "name_it": "Gruppo anticarro motorizzato (45 mm)"
     },
     {
-      "id": "MOD-USSR-ZENIT",
+      "id": "MOD-USSR-ZENIT-MOT",
       "count": 1,
-      "name": "Zenitnyj divizion",
-      "name_it": "Gruppo contraereo (37 e 76 mm)"
+      "name": "Zenitnyj divizion (mot.)",
+      "name_it": "Gruppo contraereo motorizzato (37 e 76 mm, quadrinate Maxim su autocarro)"
     },
     {
       "id": "MOD-USSR-SAPER-MOT",
@@ -75,10 +75,10 @@
   ],
   "manpower": {
     "war": {
-      "value": 11240,
+      "value": 11270,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -95,10 +95,10 @@
     }
   },
   "horses": {
-    "value": 80,
+    "value": 0,
     "basis": "ipotesi",
     "referenceYear": "1940",
-    "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
     "reliability": "ESTIMATED",
     "effective": {
       "value": null,
@@ -112,7 +112,7 @@
       "value": 8,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -125,7 +125,7 @@
       "value": 4,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -138,7 +138,7 @@
       "value": 42,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -151,7 +151,7 @@
       "value": 24,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -164,7 +164,7 @@
       "value": 8,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -177,7 +177,7 @@
       "value": 4,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -190,7 +190,7 @@
       "value": 54,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -203,7 +203,7 @@
       "value": 36,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -213,10 +213,10 @@
       }
     },
     "INW-USSR-PISTOL-TT33": {
-      "value": 1680,
+      "value": 1690,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -226,10 +226,10 @@
       }
     },
     "INW-USSR-RIFLE-1939": {
-      "value": 6670,
+      "value": 6680,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -242,7 +242,7 @@
       "value": 120,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -252,10 +252,10 @@
       }
     },
     "MG-USSR-HMG-1939": {
-      "value": 84,
+      "value": 88,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -268,7 +268,7 @@
       "value": 183,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -281,7 +281,7 @@
       "value": 216,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -294,7 +294,7 @@
       "value": 10,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -304,10 +304,10 @@
       }
     },
     "VEH-USSR-GAZAA": {
-      "value": 274,
+      "value": 266,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -320,7 +320,7 @@
       "value": 30,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,
@@ -330,10 +330,10 @@
       }
     },
     "VEH-USSR-ZIS5": {
-      "value": 710,
+      "value": 740,
       "basis": "ipotesi",
       "referenceYear": "1940",
-      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-USSR-MOT-STRELK, 4× MOD-USSR-TANK-BT, 2× MOD-USSR-ART-MOT, 1× MOD-USSR-GAUB-MOT, 1× MOD-USSR-RAZVED-MOT, 1× MOD-USSR-PTO-MOT, 1× MOD-USSR-ZENIT-MOT, 1× MOD-USSR-SAPER-MOT, 1× MOD-USSR-TYL-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
       "effective": {
         "value": null,

@@ -243,6 +243,29 @@
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-USSR-ZENIT-MOT",
+      "nation": "USSR",
+      "type": "anti_air",
+      "name_native": "Zenitnyj divizion (mot.)",
+      "name_it": "Gruppo contraereo motorizzato (37 e 76 mm, quadrinate Maxim su autocarro)",
+      "men": 380,
+      "horses": 0,
+      "equipment": {
+        "INW-USSR-RIFLE-1939": 180,
+        "INW-USSR-PISTOL-TT33": 50,
+        "MG-USSR-HMG-1939": 16,
+        "ART-USSR-AA37": 8,
+        "ART-USSR-AA76": 4,
+        "VEH-USSR-ZIS5": 30,
+        "VEH-USSR-GAZAA": 12
+      },
+      "mobility": "motorized",
+      "illustration": "contraerea",
+      "availableFrom": "1939-01-01",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
+    },
+    {
       "id": "MOD-USSR-RAZVED",
       "nation": "USSR",
       "type": "recon",
@@ -1142,7 +1165,7 @@
           1
         ],
         [
-          "MOD-USSR-ZENIT",
+          "MOD-USSR-ZENIT-MOT",
           1
         ],
         [
@@ -1188,7 +1211,7 @@
           1
         ],
         [
-          "MOD-USSR-ZENIT",
+          "MOD-USSR-ZENIT-MOT",
           1
         ],
         [
