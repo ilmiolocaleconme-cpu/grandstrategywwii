@@ -161,6 +161,28 @@
           "soft": 18,
           "hard": 60
         }
+      ],
+      "GRENADE_LAUNCHER": [
+        {
+          "max": 55,
+          "soft": 5,
+          "hard": 0
+        },
+        {
+          "max": 70,
+          "soft": 1,
+          "hard": 12
+        },
+        {
+          "max": 100,
+          "soft": 1,
+          "hard": 16
+        },
+        {
+          "max": 999,
+          "soft": 1,
+          "hard": 10
+        }
       ]
     },
     "tankRoles": {
@@ -542,7 +564,8 @@
     "antiAirRationale": "19/11/2026: la contraerea pesante (8,8 cm) usata anche contro i carri; quella leggera resta come prima. Autoblindo: armi leggere su ruote. Stime di Claude.",
     "ussrRationale": "19/11/2026: modelli sovietici pesati per modello come i panzer (stime di Claude). T-34 e KV come prima per ruolo (medio 55/45/1,0, pesante 80/80/1,35) ma con la corazza inclinata (T-34 1,25) e la corazza spessa (KV 1,6).",
     "atRifleRationale": "20/11/2026: fucili anticarro (calibro fino a 15 mm, PTRD/PTRS sovietici) pesano 1/6 per pezzo: un decimo di un anticarro da 45 mm contro i carri, molto poco contro la fanteria. Stima di Claude.",
-    "rocketRationale": "20/11/2026: lanciarazzi (Katjuša, Nebelwerfer, Calliope) come un obice medio contro la fanteria (salva su un'area), quasi nulli contro i corazzati. Stima di Claude."
+    "rocketRationale": "20/11/2026: lanciarazzi (Katjuša, Nebelwerfer, Calliope) come un obice medio contro la fanteria (salva su un'area), quasi nulli contro i corazzati. Stima di Claude.",
+    "infantryAntiTankRationale": "20/11/2026: armi anticarro della fanteria nella categoria dei lanciagranate, per calibro. Fino a 55 mm: lanciagranate da fucile, peso di categoria invariato (5/0). Bazooka (60 mm) 1/12, Panzerschreck (88 mm) 1/16: rispettivamente circa un terzo e la metà di un anticarro da 37 mm contro i carri, a corto raggio. Panzerfaust (149 mm) 1/10: carica più potente ma un solo colpo e gittata di 30-60 m. Stima di Claude."
   },
   "cohesion": {
     "lossBase": 8,

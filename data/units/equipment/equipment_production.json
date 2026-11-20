@@ -738,6 +738,24 @@
     "VEH-USA-M8": {
       "massTonnes": 7.9,
       "availableFrom": "1943-03-01"
+    },
+    "GL-USA-BAZOOKA": {
+      "massTonnes": 0.007,
+      "availableFrom": "1942-06-01",
+      "requiresTech": "TECH-INF-ATROCKET"
+    },
+    "GL-DEU-PANZERSCHRECK": {
+      "massTonnes": 0.011,
+      "availableFrom": "1943-07-01",
+      "requiresTech": "TECH-INF-ATROCKET"
+    },
+    "GL-DEU-PANZERFAUST": {
+      "massTonnes": 0.006,
+      "availableFrom": "1943-08-01",
+      "requiresTech": "TECH-INF-ATDISP"
+    },
+    "VEH-USA-MOTO": {
+      "massTonnes": 0.25
     }
   },
   "priceFactor": 1.25

@@ -20,7 +20,9 @@ test('dati: catalogo dei fucili valido per le cinque nazioni', () => {
 });
 
 test('le cinque tecnologie della fanteria sono usate tutte dai modelli', () => {
-  const inf = techs.technologies.filter((t) => t.branch === 'infantry' && t.id !== 'TECH-INF-AIRBORNE').map((t) => t.id); // i paracadutisti (19/11/2026) servono ai battaglioni, non alle armi
+  // i paracadutisti (19/11/2026) servono ai battaglioni, non alle armi; gli anticarro della fanteria (20/11/2026: bazooka, Panzerschreck,
+  // Panzerfaust) sbloccano voci del catalogo (requiresTech in equipment_production.json), non modelli di fucile
+  const inf = techs.technologies.filter((t) => t.branch === 'infantry' && !['TECH-INF-AIRBORNE', 'TECH-INF-ATROCKET', 'TECH-INF-ATDISP'].includes(t.id)).map((t) => t.id);
   assert.equal(inf.length, 5);
   const used = smallArmsConsumers(doc);
   for (const id of inf) assert.ok(used.has(id), id);

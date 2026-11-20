@@ -1204,6 +1204,62 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "GL-USA-BAZOOKA",
+      "nation": "USA",
+      "category": "GRENADE_LAUNCHER",
+      "granularity": "model",
+      "caliber_mm": 60,
+      "designation": "Lanciarazzi anticarro M1 / M1A1 «Bazooka» da 2,36 in",
+      "name_it": "Bazooka M1",
+      "role": "infantry_anti_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "GL-DEU-PANZERSCHRECK",
+      "nation": "DEU",
+      "category": "GRENADE_LAUNCHER",
+      "granularity": "model",
+      "caliber_mm": 88,
+      "designation": "Raketenpanzerbüchse 43/54 «Panzerschreck» da 88 mm",
+      "name_it": "Panzerschreck",
+      "role": "infantry_anti_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "GL-DEU-PANZERFAUST",
+      "nation": "DEU",
+      "category": "GRENADE_LAUNCHER",
+      "granularity": "model",
+      "caliber_mm": 149,
+      "designation": "Panzerfaust 30 / 60 (lanciagranate anticarro monouso)",
+      "name_it": "Panzerfaust",
+      "role": "infantry_anti_tank_disposable",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati. Arma monouso: nel gioco è un pezzo durevole della dotazione (come le altre armi); il consumo per lancio non è simulato."
+    },
+    {
+      "equipment_id": "VEH-USA-MOTO",
+      "nation": "USA",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Harley-Davidson WLA",
+      "name_it": "Motocicletta Harley-Davidson WLA",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (20/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -1621,6 +1677,26 @@
       "nation": "USA",
       "templateKey": "VEH-USA-M8",
       "equipment_id": "VEH-USA-M8"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "GL-USA-BAZOOKA",
+      "equipment_id": "GL-USA-BAZOOKA"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "GL-DEU-PANZERSCHRECK",
+      "equipment_id": "GL-DEU-PANZERSCHRECK"
+    },
+    {
+      "nation": "DEU",
+      "templateKey": "GL-DEU-PANZERFAUST",
+      "equipment_id": "GL-DEU-PANZERFAUST"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "VEH-USA-MOTO",
+      "equipment_id": "VEH-USA-MOTO"
     }
   ]
 }

@@ -458,6 +458,34 @@
       ]
     },
     {
+      "id": "TECH-INF-ATROCKET",
+      "branch": "infantry",
+      "name_it": "Lanciarazzi anticarro portatili",
+      "description": "Razzo a carica cava sparato da un tubo spalleggiabile: bazooka americano (1942), Panzerschreck tedesco (1943, sviluppato dai bazooka catturati). Sblocca le armi anticarro della fanteria. Costo e durata: stime di Claude (20/11/2026).",
+      "prerequisites": [],
+      "cost_ecv": 60,
+      "days": 120,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
+      "id": "TECH-INF-ATDISP",
+      "branch": "infantry",
+      "name_it": "Lanciagranate anticarro monouso",
+      "description": "Carica cava lanciata da un tubo usa e getta, economico e semplice da produrre: Panzerfaust tedesco (dal 1943). Costo e durata: stime di Claude (20/11/2026).",
+      "prerequisites": [],
+      "cost_ecv": 50,
+      "days": 90,
+      "unlocks": [
+        {
+          "kind": "equipment"
+        }
+      ]
+    },
+    {
       "id": "TECH-ART-ROCKET",
       "branch": "artillery",
       "name_it": "Artiglieria a razzi",
