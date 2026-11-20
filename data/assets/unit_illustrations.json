@@ -3,7 +3,7 @@
   "status": "PRELIMINARY",
   "source": "Fornite dall'utente il 18/11/2026 (archivio grandstrategywwii_military_assets_png.zip): 24 PNG ritagliati da una tavola generata.",
   "license": "Dell'utente, per questo progetto.",
-  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026, richiesta dell'utente): ricavate da Claude dalle stesse immagini, ricolorate in verde russo (mezzi) e kaki-oliva (uniformi) con la stella rossa al posto della croce; la sagoma degli elmetti e dei carri resta tedesca. Provvisorie, da sostituire con illustrazioni sovietiche vere.",
+  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026): dalla tavola di illustrazioni sovietiche fornita dall'utente il 20/11/2026 (ritagliate da Claude, sfondo bianco tolto, 256 px, 256 colori) per 19 voci (fanteria, fanteria_motorizzata, fanteria_meccanizzata, carro_leggero, carro_medio, carro_pesante, cacciacarri, cacciacarri_variante, artiglieria_trainata, artiglieria_ippotrainata, contraerea, anticarro, paracadutisti, alpini, ricognizione_motocicletta, autoblindo, logistica_camion, trasporto_camion, trasporto_ippotrainato) e due voci nuove (mortaio, mitragliatrice); le altre (cavalleria, genio, semicingolato, carro_munizioni_ippotrainato, ambulanza) restano ricolorate da Claude con la stella rossa, perché la tavola non ha un equivalente (cavalleria, genio, semicingolato, carri ippotrainati, ambulanza).",
   "folder": "src/assets/units",
   "items": [
     {
@@ -196,6 +196,22 @@
       "description": "Autoambulanza",
       "byNation": {
         "USSR": "24_ambulanza_ussr.png"
+      }
+    },
+    {
+      "id": "mortaio",
+      "file": "25_mortaio_ussr.png",
+      "description": "Serventi sovietici al mortaio pesante (solo variante sovietica: per ora nessuna versione per le altre nazioni)",
+      "byNation": {
+        "USSR": "25_mortaio_ussr.png"
+      }
+    },
+    {
+      "id": "mitragliatrice",
+      "file": "26_mitragliatrice_ussr.png",
+      "description": "Mitragliere sovietico con la Maxim su affusto a ruote (solo variante sovietica: per ora nessuna versione per le altre nazioni)",
+      "byNation": {
+        "USSR": "26_mitragliatrice_ussr.png"
       }
     }
   ]

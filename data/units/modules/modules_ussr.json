@@ -110,7 +110,7 @@
         "ART-USSR-AT45-1939": 6
       },
       "mobility": "foot",
-      "illustration": "anticarro",
+      "illustration": "mitragliatrice",
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     },
     {
@@ -130,7 +130,7 @@
         "ART-USSR-MOR120": 4
       },
       "mobility": "foot",
-      "illustration": "anticarro",
+      "illustration": "mitragliatrice",
       "availableFrom": "1939-01-01",
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     },
@@ -589,7 +589,7 @@
         "ART-USSR-MOR107": 12
       },
       "mobility": "foot",
-      "illustration": "artiglieria_ippotrainata",
+      "illustration": "mortaio",
       "availableFrom": "1939-01-01",
       "note": "Stima di Claude dalla memoria (19/11/2026), NON verificata su fonti."
     },
