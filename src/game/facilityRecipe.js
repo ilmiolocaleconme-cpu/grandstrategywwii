@@ -3,12 +3,14 @@
 // Regole: la ricetta deve essere della stessa fabbrica; se è un equipaggiamento il suo gruppo deve essere sbloccato (groupUnlocked); i lotti già chiusi non si perdono,
 // quindi il cambio è rifiutato finché l'impianto ha lotti in consegna; i pezzi in lavorazione (wip) non finiti si perdono, e l'impianto riparte da zero.
 import { groupUnlocked, recipeLockReason } from '../data/equipmentProduction.js';
+import { retooledDays } from '../rules/productionExperience.js';
 
 /**
  * ctx: { catalog: { recipes: Map, factories: Map }, table (equipment_production.json), researched?: Set(id tecnologie della nazione),
  *   controllerOf?(provincia) → nazione che la controlla (ricette con requiresControl; senza, vale il proprietario del 1936) }
  */
-export function setFacilityRecipe(state, nation, facilityId, recipeId, { catalog, table, researched = new Set(), controllerOf = null }) {
+// experience/relatedOf (facoltativi, 21/11/2026): il cambio di ricetta azzera l'esperienza dell'impianto, o ne tiene la metà per un modello della stessa catena
+export function setFacilityRecipe(state, nation, facilityId, recipeId, { catalog, table, researched = new Set(), controllerOf = null, experience = null, relatedOf = null }) {
   const n = state.nations?.[nation];
   if (!n) throw new Error(`nazione sconosciuta: ${nation}`);
   const f = n.facilities.find((x) => x.id === facilityId);
@@ -24,6 +26,7 @@ export function setFacilityRecipe(state, nation, facilityId, recipeId, { catalog
   }
   if (f.recipeId === recipeId) return state;
   if ((f.batches ?? []).length > 0) throw new Error(`${facilityId} ha lotti in consegna: aspettare la consegna prima di cambiare ricetta`);
-  const { wip, runDays, batches, plannedRecipe, ...rest } = f; // la scelta del giocatore annulla il piano storico (src/game/retoolSystem.js, 20/11/2026)
-  return { ...state, nations: { ...state.nations, [nation]: { ...n, facilities: n.facilities.map((x) => (x.id === facilityId ? { ...rest, recipeId } : x)) } } };
+  const { wip, runDays, batches, plannedRecipe, expDays, ...rest } = f; // la scelta del giocatore annulla il piano storico (src/game/retoolSystem.js, 20/11/2026)
+  const exp = experience ? { expDays: retooledDays(f, experience, Boolean(relatedOf?.(nation, catalog.recipes.get(f.recipeId)?.equipmentId, recipe.equipmentId))) } : {};
+  return { ...state, nations: { ...state.nations, [nation]: { ...n, facilities: n.facilities.map((x) => (x.id === facilityId ? { ...rest, recipeId, ...exp } : x)) } } };
 }

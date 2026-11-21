@@ -1,0 +1,10 @@
+{
+  "schema": "production-experience-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-21",
+  "note": "Esperienza delle fabbriche (21/11/2026, richiesta dell'utente: «bonus con il tempo se producono sempre lo stesso prodotto, malus se si convertono; vale per tutte le nazioni e fabbriche; cambiare modello deve diventare una scelta strategica»; scelte 1A-5A). Fattore sui PEZZI/TONNELLATE prodotti a parità di materie consumate (2A): l'apprendimento riduce il materiale per pezzo. Curva a tratti lineari sui giorni di produzione dello stesso prodotto (1A). Cambio verso un modello della stessa catena (data/units/equipment/replacements.json o stesso gruppo di equivalenza): si conserva la metà dei giorni (3A). Fabbriche che non fanno equipaggiamenti (acciaio, carburante, energia esclusa): tetto 1,10 (4A). Gli impianti senza contatore (iniziali del 1936, salvataggi vecchi, nuove costruzioni) valgono initialDays: partono al 100% come prima. Valori di bilanciamento di Claude, non dati storici.",
+  "curve": [[0, 0.6], [365, 1.0], [730, 1.2]],
+  "materialsMax": 1.1,
+  "sameChainKeep": 0.5,
+  "initialDays": 365
+}

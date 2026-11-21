@@ -1,5 +1,6 @@
 // Vista della produzione di equipaggiamenti: quali impianti possono cambiare ricetta, con quali scelte, e a che punto sono i lotti.
 // Funzioni PURE (nessun React). I valori di lotto (giorni di costruzione e consegna) sono valori di gioco DESIGN_DEFAULT, non dati storici.
+import { experienceFactor, expDaysOf, retooledDays } from '../rules/productionExperience.js';
 import { groupUnlocked, recipeUnlocked, recipeLockReasons } from '../data/equipmentProduction.js';
 import { setFacilityRecipe } from '../game/facilityRecipe.js';
 
@@ -40,7 +41,8 @@ export function batchView(facility, recipe) {
  * Ogni riga: { facilityId, factory, current, batches, options: [{ recipeId, label, current, ok, message }], locked: [{ recipeId, label, requires }] }.
  * `ok`/`message` vengono dalla prova a secco di setFacilityRecipe: il motivo è quello vero della regola.
  */
-export function facilityRecipeRows(state, nation, { catalog, table, researched = new Set(), nameOf = (x) => x, techName = (x) => x, placeName = (x) => x, controllerOf = null }) {
+// experience/relatedOf (facoltativi, 21/11/2026): esperienza dell'impianto (fattore e giorni) e fattore dopo il cambio per ogni opzione
+export function facilityRecipeRows(state, nation, { catalog, table, researched = new Set(), nameOf = (x) => x, techName = (x) => x, placeName = (x) => x, controllerOf = null, experience = null, relatedOf = null }) {
   const n = state.nations?.[nation];
   if (!n) return [];
   const rows = [];
@@ -57,12 +59,14 @@ export function facilityRecipeRows(state, nation, { catalog, table, researched =
       if (reasons.length) { locked.push({ recipeId: r.id, label, requires: reasons.map((x) => (x.kind === 'tech' ? `richiede ${(x.missing ?? [x.tech]).map(techName).join(' + ')}` : x.kind === 'control' ? `serve il controllo di ${placeName(r.requiresControl)}` : x.text)).join(' · ') }); continue; }
       let ok = true; let message = '';
       try { setFacilityRecipe(state, nation, f.id, r.id, { catalog, table, researched, controllerOf }); } catch (e) { ok = false; message = e.message; }
-      options.push({ recipeId: r.id, label, current: r.id === f.recipeId, ok, message });
+      const expAfter = experience && r.id !== f.recipeId ? experienceFactor(retooledDays(f, experience, Boolean(relatedOf?.(nation, cur?.equipmentId, r.equipmentId))), experience) : null;
+      options.push({ recipeId: r.id, label, current: r.id === f.recipeId, ok, message, ...(expAfter !== null ? { expAfter } : {}) });
     }
     rows.push({
       facilityId: f.id, factory: catalog.factories.get(f.type)?.name_it ?? f.type, level: f.level ?? 1,
       current: cur ? { recipeId: cur.id, label: cur.equipmentId ? nameOf(cur.equipmentId) : cur.id, isEquipment: Boolean(cur.equipmentId) } : null,
       batches: batchView(f, cur), lostOnChange: Math.floor(f.wip ?? 0), options, locked,
+      ...(experience ? { experience: { factor: experienceFactor(expDaysOf(f, experience), experience, { equipment: Boolean(cur?.equipmentId) }), days: expDaysOf(f, experience) } } : {}),
     });
   }
   return rows;

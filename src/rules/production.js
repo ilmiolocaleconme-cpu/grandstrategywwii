@@ -10,6 +10,7 @@
 import { fullCapacityFlows } from '../data/recipes.js';
 import { levelMult } from '../data/factoryLevels.js';
 import { addDays } from '../game/calendar.js';
+import { experienceFactor, expDaysOf } from './productionExperience.js';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
@@ -17,6 +18,8 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
  * facilities: [{ id, type (factory_id, es. 'FCT-STEEL'), recipeId, damage (0..1), priority (default 100), active (default true) }]
  * stock: { risorsa: tonnellate }; hydroMw: potenza idroelettrica disponibile (MW)
  * catalog: { recipes: Map(id → ricetta), factories: Map(factory_id → fabbrica), levels?: factory_levels.json (livelli delle fabbriche: campo `level` dell'impianto, 1-3, assente = 1) }
+ *   experience?: production_experience.json (21/11/2026): la produzione si moltiplica per il fattore d'esperienza dell'impianto (giorni sulla stessa
+ *   ricetta, `expDays`) a parità di consumo; il contatore cresce di un giorno quando l'impianto produce (progress.expDays).
  * Ritorna { stock, powerMw: { supply, demand, ratio }, facilities: [{ id, efficiency, bottleneck, inputRatios, energyRatio, produced, consumed, state }], balance }
  */
 export function produceDay({ facilities, stock, hydroMw = 0, date = null }, catalog) {
@@ -91,14 +94,16 @@ export function produceDay({ facilities, stock, hydroMw = 0, date = null }, cata
       if (got > 0) { add(consumed, res, got); fConsumed[res] = got; }
       (optional ??= {})[res] = { need, got };
     }
-    let out = r3(flows.outputPerDay * eff * recipe.output.perUnit);
+    const exp = catalog.experience ? experienceFactor(expDaysOf(f, catalog.experience), catalog.experience, { equipment: Boolean(recipe.equipmentId) }) : 1;
+    let out = r3(flows.outputPerDay * eff * recipe.output.perUnit * exp);
     let progress;
     if (recipe.releaseEveryDays) { // pezzi a LOTTI (Fase 4): il lavoro si accumula, ogni releaseEveryDays si chiude un lotto di pezzi interi, consegnato dopo buildDays − releaseEveryDays giorni
       ({ delivered: out, progress } = batchStep(f, recipe, out, date));
     }
+    if (catalog.experience) progress = { ...(progress ?? {}), expDays: Math.min(catalog.experience.curve.at(-1)[0], expDaysOf(f, catalog.experience) + (eff > 0 ? 1 : 0)) }; // oltre l'ultimo punto della curva non serve contare
     next[recipe.output.product] = r3((next[recipe.output.product] ?? 0) + out);
     add(produced, recipe.output.product, out);
-    report.push({ id: f.id, kind: 'factory', efficiency: r3(eff), bottleneck: base < throttle ? limitedBy : null, inputRatios, energyRatio: r3(energyRatio), produced: { [recipe.output.product]: out }, consumed: fConsumed, state: stateOf(eff, damage, throttle), ...(progress ? { progress } : {}), ...(optional ? { optional } : {}) });
+    report.push({ id: f.id, kind: 'factory', efficiency: r3(eff), bottleneck: base < throttle ? limitedBy : null, inputRatios, energyRatio: r3(energyRatio), produced: { [recipe.output.product]: out }, consumed: fConsumed, state: stateOf(eff, damage, throttle), ...(catalog.experience ? { experience: exp } : {}), ...(progress ? { progress } : {}), ...(optional ? { optional } : {}) });
   }
   return { stock: next, powerMw: { supply, demand, ratio: r3(energyRatio) }, facilities: report, balance: { initial, produced, consumed, final: next } };
 }

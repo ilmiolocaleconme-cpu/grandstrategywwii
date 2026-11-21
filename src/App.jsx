@@ -126,6 +126,7 @@ import recipesFile from '../data/industry/recipes.json';
 import equipmentProductionTable from '../data/units/equipment/equipment_production.json';
 import equipmentUpgradeMap from '../data/units/equipment/upgrade_map.json';
 import equipmentReplacements from '../data/units/equipment/replacements.json';
+import productionExperienceFile from '../data/industry/production_experience.json';
 import mobilizationLaws from '../data/units/mobilization_laws.json';
 import { mergeEquipmentCatalogs, buildPredecessors } from './data/equipmentCatalog.js';
 import { buildEquipmentRecipes, withEquipmentPrices } from './data/equipmentProduction.js';
@@ -340,6 +341,10 @@ const CATEGORY_OF = buildCategoryOf(EQUIPMENT_CATALOG); // voce di divisione →
 const fillOf = (state, unitId, nation) => equipmentFill(state.forces?.divisions?.[unitId]?.items, (k) => CATEGORY_OF(nation, k), combatEquipmentCfg);
 const EQUIPMENT_SOURCES = buildEquivalence({ catalog: EQUIPMENT_CATALOG, upgradeMap: equipmentUpgradeMap, generic: { TANK: 'tanks' }, categoryOf: CATEGORY_OF }); // pezzi prodotti → voci dei template delle divisioni
 const EQUIPMENT_PREDECESSORS = buildPredecessors(EQUIPMENT_CATALOG, equipmentReplacements); // modelli precedenti che coprono il posto del nuovo (data/units/equipment/replacements.json, 21/11/2026)
+// esperienza delle fabbriche (21/11/2026): due modelli sono «della stessa catena» se uno precede l'altro (replacements.json) o se si riforniscono a vicenda
+// (stesso gruppo di equivalenza, es. i Panzer della voce TNK-DEU-TANK): la riconversione tiene la metà dei giorni d'esperienza
+const EQUIPMENT_RELATED = (nation, a, b) => Boolean(a && b) && (EQUIPMENT_PREDECESSORS(nation, `equipment.${b}`).includes(`equipment.${a}`)
+  || EQUIPMENT_PREDECESSORS(nation, `equipment.${a}`).includes(`equipment.${b}`) || EQUIPMENT_SOURCES(nation, `equipment.${b}`).includes(`equipment.${a}`));
 const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProductionTable);
 const EQUIPMENT_RECIPE_BY_EQ = new Map(EQUIPMENT_RECIPES.map((r) => [r.equipmentId, r])); // arma → ricetta (modernizzazione: armi nuove producibili)
 const EQUIPMENT_NAMES = new Map(EQUIPMENT_CATALOG.entries.map((e) => [e.equipment_id, e.name_it ?? e.designation ?? e.equipment_id]));
@@ -348,7 +353,7 @@ const economyData = withEquipmentPrices(economyFile, EQUIPMENT_RECIPES, equipmen
 const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding, research: technologiesFile.initialResearch ?? null };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
-const GAME_CATALOG = { recipeName: (id) => EQUIPMENT_NAMES.get(String(id).replace(/^REC-/, "")) ?? null, levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
+const GAME_CATALOG = { experience: productionExperienceFile, recipeName: (id) => EQUIPMENT_NAMES.get(String(id).replace(/^REC-/, "")) ?? null, levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Strade e ferrovie in partita (data/infrastructure.js): collegamenti tra province madri, livello di partenza e massimo; i miglioramenti sono ordini di costruzione 'infra'.
 const GAME_PORTS = { levels: portLevelsFile, coastal: coastalCitiesFile.cities, base: portsBaseFile };
 const GAME_INFRA = { config: infraConfig, index: createInfraIndex(linkEdgesFile) };
@@ -471,7 +476,7 @@ const GAME_SYSTEMS = [
   (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, fallbackOf: EQUIPMENT_PREDECESSORS, priorityOf: (nation) => servicePriority(servicesFile, unitsList(state, unitsFile.units), nation, state), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, originsOf: (n) => barracksOrigins(s, barracksFile, n, placeControllerOf), sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
-  createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES,
+  createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES, experience: productionExperienceFile, relatedOf: EQUIPMENT_RELATED,
     divisionsOf: (s, nation) => { const ids = new Set(unitsList(s, unitsFile.units).filter((u) => u.nation === nation).map((u) => u.id)); return Object.entries(s.forces?.divisions ?? {}).filter(([id]) => ids.has(id)).map(([, d]) => d); } }), // linee riservate ai modelli futuri; IA: riconversione mensile (20/11/2026)
   createHistoricalTechSystem(historicalTechFile), // nazioni dell'IA: tecnologie alle date storiche (19/11/2026); il giocatore le ricerca
   GAME_SECURITY.securityDay,
@@ -657,7 +662,7 @@ export default function App() {
   // produzione di equipaggiamenti: la regola è setFacilityRecipe (pura, lancia un Error col motivo); qui si applica il risultato
   const changeRecipe = (facilityId, recipeId) => {
     try {
-      setGame(setFacilityRecipe(game, game.player, facilityId, recipeId, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), controllerOf: controlFn(game) }));
+      setGame(setFacilityRecipe(game, game.player, facilityId, recipeId, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), controllerOf: controlFn(game), experience: productionExperienceFile, relatedOf: EQUIPMENT_RELATED }));
       return { ok: true, text: 'Ricetta cambiata: la produzione riparte da zero.' };
     } catch (e) { return { ok: false, text: e.message }; }
   };
@@ -770,7 +775,7 @@ export default function App() {
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
   const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game, shipyardsFile), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri storici 1936 (bozza) e costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
-  const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName, placeName: provinceName, controllerOf: controlFn(game) }) : []), [game, techName, provinceName]);
+  const facilityRows = useMemo(() => (game ? facilityRecipeRows(game, game.player, { catalog: GAME_CATALOG, table: equipmentProductionTable, researched: techsOf(game.nations[game.player]), nameOf: (id) => EQUIPMENT_NAMES.get(id) ?? id, techName, placeName: provinceName, controllerOf: controlFn(game), experience: productionExperienceFile, relatedOf: EQUIPMENT_RELATED }) : []), [game, techName, provinceName]);
   const nationUpgrades = useMemo(() => (game ? upgradeOptions(game, game.player, BUILD_CTX) : null), [game]);
   const focus = useMemo(() => (game && provinces ? nationBounds(provinces.features, game.player) : null), [game?.player, provinces]); // eslint-disable-line react-hooks/exhaustive-deps
   const estimatedHqs = useMemo(() => {

@@ -142,6 +142,7 @@ export function FacilityList({ rows, onChange }) {
               <div>
                 <strong>{r.factory}</strong>{r.level > 1 ? ` L${r.level}` : ''}
                 <div className="small">{r.current ? r.current.label : 'Nessuna ricetta'}</div>
+                {r.experience ? <div className="muted small">Esperienza: {Math.round(r.experience.factor * 100)}% della produzione ({r.experience.days} giorni sullo stesso modello)</div> : null}
                 {r.batches ? (
                   <>
                     <div className="ap-bar" role="img" aria-label={`Prossimo lotto tra ${r.batches.daysToBatch} giorni`}><span style={{ width: `${Math.round(r.batches.progress * 100)}%` }} /></div>
@@ -151,7 +152,9 @@ export function FacilityList({ rows, onChange }) {
                 <label className="small">Produce{' '}
                   <select value={r.current?.recipeId ?? ''} aria-label={`Ricetta di ${r.factory}`} onChange={(e) => {
                     const id = e.target.value; if (!id || id === r.current?.recipeId) return;
-                    if (r.lostOnChange > 0) setPending({ facilityId: r.facilityId, recipeId: id, lost: r.lostOnChange }); else apply(r.facilityId, id);
+                    const expAfter = r.options.find((o) => o.recipeId === id)?.expAfter;
+                    // 21/11/2026: anche la perdita d'esperienza va confermata (cambiare modello è una scelta strategica)
+                    if (r.lostOnChange > 0 || (r.experience && expAfter !== undefined && expAfter < r.experience.factor)) setPending({ facilityId: r.facilityId, recipeId: id, lost: r.lostOnChange, expFrom: r.experience?.factor, expAfter }); else apply(r.facilityId, id);
                   }}>
                     {r.current ? null : <option value="">Scegli…</option>}
                     {r.options.map((o) => <option key={o.recipeId} value={o.recipeId} disabled={!o.ok && !o.current}>{o.label}</option>)}
@@ -160,7 +163,7 @@ export function FacilityList({ rows, onChange }) {
                 </label>
                 {blocked ? <div className="muted small">{blocked.message}</div> : null}
                 {confirm ? (
-                  <div className="warn small" role="alert">Cambiare ricetta azzera {confirm.lost} pezzi in lavorazione.{' '}
+                  <div className="warn small" role="alert">Cambiare ricetta{confirm.lost > 0 ? ` azzera ${confirm.lost} pezzi in lavorazione` : ''}{confirm.expAfter !== undefined && confirm.expFrom !== undefined ? `${confirm.lost > 0 ? ' e' : ''} porta l'esperienza da ${Math.round(confirm.expFrom * 100)}% a ${Math.round(confirm.expAfter * 100)}%` : ''}.{' '}
                     <button type="button" className="nation-btn" onClick={() => apply(confirm.facilityId, confirm.recipeId)}>Conferma</button>{' '}
                     <button type="button" className="nation-btn" onClick={() => setPending(null)}>Annulla</button>
                   </div>

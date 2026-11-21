@@ -53,6 +53,7 @@ import { officersBuilt } from './build-officers.js';
 import { validateTemplate } from '../src/data/templates.js';
 import { validateCadreTemplates } from '../src/data/cadres.js';
 import { validateEquipmentCatalog, mergeEquipmentCatalogs, validateReplacements } from '../src/data/equipmentCatalog.js';
+import { validateExperience } from '../src/rules/productionExperience.js';
 import { validateUpgradeMap } from '../src/rules/templateUpgrade.js';
 import { validateMobilizationLaws } from '../src/game/mobilizationState.js';
 import { validateShipyards } from '../src/data/shipyards.js';
@@ -283,6 +284,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       const catalogDocs = [];
       for (const f of (await readdir(new URL('../data/units/equipment/', import.meta.url))).filter((n) => /^catalog.*\.json$/.test(n)).sort()) catalogDocs.push(JSON.parse(await text(`units/equipment/${f}`)));
       errors.push(...validateEquipmentCatalog(mergeEquipmentCatalogs(catalogDocs), { templates: divisionTemplates }));
+      // esperienza delle fabbriche (21/11/2026)
+      errors.push(...validateExperience(JSON.parse(await text('industry/production_experience.json'))));
       // catene dei modelli (21/11/2026, logica delle dotazioni): predecessori che coprono il posto del modello nuovo
       errors.push(...validateReplacements(JSON.parse(await text('units/equipment/replacements.json')), { catalog: mergeEquipmentCatalogs(catalogDocs), production: JSON.parse(await text('units/equipment/equipment_production.json')) }));
       // battaglioni (moduli) delle divisioni, 18/11/2026: armi nel catalogo, tecnologie esistenti, template generati identici al file

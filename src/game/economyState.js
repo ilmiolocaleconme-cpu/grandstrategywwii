@@ -116,6 +116,7 @@ export function validateNations(nations, { player } = {}) {
       if (typeof f.type !== 'string' || typeof f.recipeId !== 'string') errors.push(`stato: ${f.id}, tipo o ricetta mancanti`);
       if (f.wip !== undefined && !(num(f.wip) && f.wip >= 0)) errors.push(`stato: ${f.id}, pezzi in lavorazione non validi`);
       if (f.runDays !== undefined && (!Number.isInteger(f.runDays) || f.runDays < 0)) errors.push(`stato: ${f.id}, giorni di lotto non validi`);
+      if (f.expDays !== undefined && (!Number.isInteger(f.expDays) || f.expDays < 0)) errors.push(`stato: ${f.id}, giorni d'esperienza non validi`); // esperienza delle fabbriche (21/11/2026)
       if (f.plannedRecipe !== undefined && (typeof f.plannedRecipe?.recipeId !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(f.plannedRecipe?.from ?? ''))) errors.push(`stato: ${f.id}, piano di riconversione non valido`);
       if (f.retooledOn !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(f.retooledOn)) errors.push(`stato: ${f.id}, data di riconversione non valida`);
       if (f.batches !== undefined && (!Array.isArray(f.batches) || f.batches.some((b) => !Number.isInteger(b?.qty) || b.qty < 1 || !/^\d{4}-\d{2}-\d{2}$/.test(b?.readyOn ?? '')))) errors.push(`stato: ${f.id}, lotti non validi`);

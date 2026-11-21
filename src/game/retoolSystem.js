@@ -8,18 +8,23 @@
 //     (organico previsto − effettivo delle divisioni, meno la scorta). Al massimo una riconversione ogni RETOOL_COOLDOWN_DAYS per impianto.
 // Alla riconversione i lotti già chiusi si consegnano subito (non si perdono e non cambiano prodotto); i pezzi in lavorazione si perdono, come per il giocatore.
 import { recipeUnlocked } from '../data/equipmentProduction.js';
+import { retooledDays } from '../rules/productionExperience.js';
 
 export const RETOOL_COOLDOWN_DAYS = 90;
 const DAY = 86400000;
 const daysBetween = (a, b) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / DAY);
 const r3 = (x) => Math.round(x * 1000) / 1000;
 
-/** Impianto riconvertito: lotti chiusi consegnati subito in `stocks`, lavorazione azzerata, data della riconversione. Ritorna { facility, stocks }. */
-export function retoolFacility(f, recipeId, date, stocks, product) {
-  const { wip, runDays, batches, plannedRecipe, ...rest } = f;
+/**
+ * Impianto riconvertito: lotti chiusi consegnati subito in `stocks`, lavorazione azzerata, data della riconversione. Ritorna { facility, stocks }.
+ * experience (facoltativo, 21/11/2026): { cfg (production_experience.json), related (stesso modello della catena?) } → l'esperienza riparte da 0 o dalla metà.
+ */
+export function retoolFacility(f, recipeId, date, stocks, product, experience = null) {
+  const { wip, runDays, batches, plannedRecipe, expDays, ...rest } = f;
   const closed = (batches ?? []).reduce((t, b) => t + b.qty, 0);
   const next = closed > 0 && product ? { ...stocks, [product]: r3((stocks[product] ?? 0) + closed) } : stocks;
-  return { facility: { ...rest, recipeId, retooledOn: date }, stocks: next };
+  const exp = experience ? { expDays: retooledDays(f, experience.cfg, experience.related) } : {};
+  return { facility: { ...rest, recipeId, retooledOn: date, ...exp }, stocks: next };
 }
 
 /**
@@ -46,7 +51,7 @@ export function equipmentNeeds({ divisions, stocks, sourcesOf }) {
  * controllerOf, need (Map da equipmentNeeds), horizonDays (default 90) }. Ritorna { facilities, stocks, changes: [{ id, from, to, reason }] }.
  */
 export function aiRetoolNation(nation, nationId, ctx) {
-  const { recipes, factories, table, researched, date, controllerOf = null, need, horizonDays = 90 } = ctx;
+  const { recipes, factories, table, researched, date, controllerOf = null, need, horizonDays = 90, experience = null, relatedOf = null } = ctx;
   const usable = (r) => r?.equipmentId && r.equipmentId.split('-')[1] === nationId && recipeUnlocked(table, r, researched, date, controllerOf);
   const perDay = (r) => ((factories?.get(r.factory)?.base_capacity_per_day ?? 0) * (r.capacityShare ?? 1)) / r.massTonnes;
   const left = new Map(need);
@@ -60,7 +65,10 @@ export function aiRetoolNation(nation, nationId, ctx) {
     const stopped = !usable(cur);
     const idle = !stopped && (need.get(cur.output.product) ?? 0) <= 0;
     if (!stopped && !idle) return f;
-    const options = [...recipes.values()].filter((r) => r.factory === cur.factory && r.id !== cur.id && usable(r) && (left.get(r.output.product) ?? 0) > 0);
+    // 21/11/2026 (esperienza delle fabbriche, scelta 5A): una linea che lavora ma senza fabbisogno si riconverte solo se il nuovo fabbisogno tiene
+    // occupata la linea per tutto l'orizzonte (horizonDays); altrimenti conviene tenere l'esperienza e fare scorta. Una linea ferma si riconverte comunque.
+    const worth = (r) => (left.get(r.output.product) ?? 0) > (stopped || !experience ? 0 : perDay(r) * horizonDays);
+    const options = [...recipes.values()].filter((r) => r.factory === cur.factory && r.id !== cur.id && usable(r) && worth(r));
     options.sort((a, b) => (left.get(b.output.product) * b.massTonnes) - (left.get(a.output.product) * a.massTonnes) || (a.id < b.id ? -1 : 1));
     let to = options[0];
     // fermo e senza fabbisogno: il modello più recente della stessa categoria (il successore), per non lasciare la linea inattiva
@@ -69,7 +77,7 @@ export function aiRetoolNation(nation, nationId, ctx) {
       .sort((a, b) => Number(b.role === cur.role) - Number(a.role === cur.role) || (b.availableFrom ?? '').localeCompare(a.availableFrom ?? '') || (a.id < b.id ? -1 : 1))[0];
     if (!to) return f;
     left.set(to.output.product, (left.get(to.output.product) ?? 0) - perDay(to) * horizonDays);
-    const res = retoolFacility(f, to.id, date, stocks, cur.output.product);
+    const res = retoolFacility(f, to.id, date, stocks, cur.output.product, experience ? { cfg: experience, related: Boolean(relatedOf?.(nationId, cur.equipmentId, to.equipmentId)) } : null);
     stocks = res.stocks;
     changes.push({ id: f.id, from: cur.id, to: to.id, reason: stopped ? 'fermo' : 'senza fabbisogno' });
     return res.facility;
@@ -82,7 +90,7 @@ export function aiRetoolNation(nation, nationId, ctx) {
  * divisionsOf(state, nationId) → istanze di divisione, sourcesOf(nationId, item) → prodotti }.
  */
 export function createRetoolSystem(ctx) {
-  const { recipes, factories, table, techsOf, controllerOf = null, divisionsOf, sourcesOf } = ctx;
+  const { recipes, factories, table, techsOf, controllerOf = null, divisionsOf, sourcesOf, experience = null, relatedOf = null } = ctx; // esperienza (21/11/2026)
   return function retoolDay(state) {
     if (!state.nations || !state.date) return state;
     const monthly = state.date.endsWith('-01');
@@ -99,7 +107,8 @@ export function createRetoolSystem(ctx) {
           if (!f.plannedRecipe || f.plannedRecipe.from > state.date) return f;
           const to = recipes.get(f.plannedRecipe.recipeId);
           if (!to || !recipeUnlocked(table, to, researched, state.date, where)) return f; // aspetta tecnologia o controllo
-          const res = retoolFacility(f, to.id, state.date, stocks, recipes.get(f.recipeId)?.output?.product);
+          const from = recipes.get(f.recipeId);
+          const res = retoolFacility(f, to.id, state.date, stocks, from?.output?.product, experience ? { cfg: experience, related: Boolean(relatedOf?.(id, from?.equipmentId, to.equipmentId)) } : null);
           stocks = res.stocks;
           return res.facility;
         });
@@ -108,7 +117,7 @@ export function createRetoolSystem(ctx) {
       // 2) IA, il primo del mese
       if (monthly && id !== state.player && divisionsOf) {
         const need = equipmentNeeds({ divisions: divisionsOf(state, id), stocks: n.stocks, sourcesOf: sourcesOf ? (item) => sourcesOf(id, item) : null });
-        const r = aiRetoolNation(n, id, { recipes, factories, table, researched, date: state.date, controllerOf: where, need });
+        const r = aiRetoolNation(n, id, { recipes, factories, table, researched, date: state.date, controllerOf: where, need, experience, relatedOf });
         if (r.changes.length) { n = { ...n, facilities: r.facilities, stocks: r.stocks }; changed = true; }
       }
       if (n !== nations[id]) nations = { ...nations, [id]: n };
