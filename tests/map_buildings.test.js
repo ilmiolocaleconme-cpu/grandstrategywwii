@@ -35,7 +35,7 @@ test('ogni tipo di fabbrica del catalogo ha una categoria sulla mappa, e ogni ca
   for (const k of Object.values(FACTORY_KIND)) if (k !== null) assert.ok(kinds.has(k), k);
 });
 
-test('all\'avvio: centrali idroelettriche e caserme (Germania, URSS); gli impianti iniziali senza provincia NON compaiono', () => {
+test('stato senza le posizioni del file (applyFacilitySites): centrali idroelettriche e caserme, nessun impianto iniziale', () => {
   const s = fresh();
   const b = buildingsByProvince(s, ctx(s));
   const all = Object.values(b).flat();

@@ -82,7 +82,7 @@ import { isActiveAt } from './data/units.js';
 import { theaterMarks, describeAssignment } from './ui/theaterView.js';
 import { createAiWarSystem } from './game/aiWarSystem.js';
 import { createTheaterSystem, theaterAlerts, playerForceAttack, playerAssign, playerCancelAssignment, provinceController, isFighter, moveIntent, playerToggleEntrench, entrenchOf } from './game/theaterState.js';
-import { enemiesOf } from './rules/war.js';
+import { enemiesOf, atWar } from './rules/war.js';
 import { activeAssignments } from './rules/theater.js';
 import { positionOf, marchSpeed, DEFAULT_MARCH } from './rules/movement.js';
 import depotsFile from '../data/units/depots.json';
@@ -109,6 +109,10 @@ import barracksFile from '../data/military/barracks.json'; // caserme: Germania 
 import { barracksEnabled } from './data/barracks.js';
 import { barracksRows, barracksOrigins, pickBarracks, barracksBuildOption, barracksOf } from './game/barracksState.js';
 import { buildingsByProvince } from './rules/mapBuildings.js';
+import { applyFacilitySites, createFacilityCaptureSystem } from './rules/facilityPlacement.js';
+import facilitySitesFile from '../data/industry/initial_facility_sites.json';
+import facilityPlacementFile from '../data/industry/facility_placement.json';
+import { alliesOf } from './rules/diplomacy.js';
 import { withServiceExperience, servicePriority } from './data/services.js';
 import { createPromotionSystem, serviceOfUnit } from './game/honorsState.js'; // promozioni (Guardie sovietiche, 20/11/2026)
 import commandTemplates from '../data/units/command_templates.json';
@@ -466,6 +470,7 @@ const GAME_SYSTEMS = [
   (state) => createCommandDistanceSystem({ net: gameNet(state), orbat: state.orbat ?? createOrbatState(), unitsById: unitsView(state, UNITS_BY_ID), initial: INITIAL_POSITIONS, cfg: conditionConfig })(state), // distanza dal comando: prontezza persa e recuperata (src/rules/commandDistance.js)
   createAiWarSystem(THEATER_CTX), // IA di guerra: difesa e attacco delle nazioni non tue (solo se in guerra)
   createTheaterSystem(THEATER_CTX), // guerra, incarichi di teatro, battaglie e conquista
+  createFacilityCaptureSystem({ controllerOf: placeControllerOf, damage: facilityPlacementFile.captureDamage, isEnemy: (s, a, b) => atWar(s.war, a, b) }), // impianti conquistati: passano al nemico danneggiati (21/11/2026)
   createCasualtySystem({ params: hospitalCare }),
   createPromotionSystem({ doc: servicesFile, unitsOf: (state) => unitsList(state, unitsFile.units), conditionCfg: conditionConfig }), // Guardie: 3 vittorie dal 18/9/1941 (20/11/2026) // feriti di battaglia negli ospedali: guariti al pool, morti ai caduti (battaglia v2)
   GAME_DIPLOMACY.diplomacyDay, GAME_AI_DIPLOMACY.aiDiplomacyDay, // rapporti (guerra, commercio) e contratti vietati: prima del commercio
@@ -776,7 +781,7 @@ export default function App() {
     return game && id ? provincePortRows(game, id, { ports: GAME_PORTS, build: GAME_BUILD, nationId: game.player, techName }) : null;
   }, [game, selectedItem, techName]);
   const harbours = useMemo(() => (game ? portSummary(game, game.player, { ports: GAME_PORTS, entityOf: entityOfProvince }) : null), [game]);
-  const buildingList = useMemo(() => (game && showBuildings ? buildingsByProvince(game, { player: game.player, hydro: hydroPlants, barracksDoc: barracksFile, barracksOf }) : null), [game?.nations, game?.barracks, game?.date, game?.player, showBuildings]); // eslint-disable-line react-hooks/exhaustive-deps
+  const buildingList = useMemo(() => (game && showBuildings ? buildingsByProvince(game, { player: game.player, visible: new Set([game.player, ...alliesOf(game.diplomacy, game.player)]), controllerOf: placeControllerOf, hydro: hydroPlants, barracksDoc: barracksFile, barracksOf }) : null), [game?.nations, game?.barracks, game?.date, game?.player, game?.diplomacy, game?.provinces, showBuildings]); // eslint-disable-line react-hooks/exhaustive-deps
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
   const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game, shipyardsFile), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri storici 1936 (bozza) e costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
@@ -993,12 +998,12 @@ export default function App() {
     if (!provinces) return;
     const r = newGame({ nation, political, ownersWithProvinces: provinces.features.map((f) => f.properties.owner), start: START_ECONOMY });
     if (!r.ok) { setNotice({ kind: 'error', text: `Partita non creata: ${r.reason}` }); return; }
-    setGame(withForces(r.state)); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(withForces(applyFacilitySites(r.state, facilitySitesFile))); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const loadGame = (slot) => {
     const r = store?.read(slot);
     if (!r || !r.ok) { setNotice({ kind: 'error', text: r ? describeSaveError(r) : 'Salvataggi non disponibili in questo browser.' }); return; }
-    setGame(withForces(initEconomy(r.state, { political, start: START_ECONOMY }))); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
+    setGame(withForces(applyFacilitySites(initEconomy(r.state, { political, start: START_ECONOMY }), facilitySitesFile))); setClock(initialClock()); setNotice(null); setTab('map'); setMapReady(false); setCoverGiveUp(false);
   };
   const saveManual = () => { if (saveTo('manual', 'manuale')) setNotice({ kind: 'info', text: 'Partita salvata.' }); };
   const exitGame = () => { saveTo('auto', 'automatico'); setRunning(false); setGame(null); setTab('game'); };
