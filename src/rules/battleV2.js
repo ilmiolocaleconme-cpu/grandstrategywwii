@@ -339,3 +339,12 @@ export function validateBattleV2(cfg, { weaponCategories = null, catalogIds = nu
   if (!(cfg.season?.winter?.attacker > 0 && cfg.season.winter.attacker <= 1) || !(cfg.season?.mud?.attackerMobile > 0 && cfg.season.mud.attackerMobile <= 1)) e.push('battaglia v2: moltiplicatori di stagione fuori da 0..1');
   return e;
 }
+
+/**
+ * Anno della composizione dei carri NON registrati come modello (fleetMix) di una divisione (21/11/2026, decisione dell'utente): l'anno d'inizio
+ * della partita, non quello di formazione o dell'ultimo cambio di template. Così i carri iniziali restano quelli del 1936 e una divisione migliora
+ * solo con la produzione e la modernizzazione (pezzi registrati in `models`).
+ */
+export function fleetYearOf(state, division) {
+  return Number(String(state?.startDate ?? division?.since ?? '').slice(0, 4)) || 0;
+}

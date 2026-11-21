@@ -56,3 +56,20 @@ test('fabbrica dei carri USA: M2A2, poi M2A4 dal 5/1939', () => {
   assert.equal(f.recipeId, 'REC-TNK-USA-M2A2');
   assert.deepEqual(f.plannedRecipe, { recipeId: 'REC-TNK-USA-M2A4', from: '1939-05-01' });
 });
+
+test('carri non registrati: valgono come quelli d\'inizio partita, anche dopo un cambio di template (21/11/2026)', async () => {
+  const { fleetYearOf } = await import('../src/rules/battleV2.js');
+  assert.equal(fleetYearOf({ startDate: '1936-01-01' }, { since: '1943-09-15' }), 1936);
+  assert.equal(fleetYearOf({}, { since: '1940-07-15' }), 1940, 'senza data d\'inizio (vecchi test): quella della divisione');
+});
+
+test('l\'IA non riconverte una linea verso una voce di classe con modelli', async () => {
+  const { aiRetoolNation } = await import('../src/game/retoolSystem.js');
+  const mk = (id, eq, mass) => ({ id, factory: 'FCT-TANKS', massTonnes: mass, capacityShare: 1, equipmentId: eq, group: 'g', role: 'medium_tank', output: { product: `equipment.${eq}`, perUnit: 1 } });
+  const recipes = new Map([['OLD', mk('OLD', 'TNK-USA-M2-MEDIUM', 17)], ['CLS', mk('CLS', 'TNK-USA-MEDIUM-TANK-1940', 99)], ['M4', mk('M4', 'TNK-USA-M4-75', 30)]]);
+  const need = new Map([['equipment.TNK-USA-MEDIUM-TANK-1940', 5000], ['equipment.TNK-USA-M4-75', 5000]]);
+  const ctx = { recipes, factories: new Map([['FCT-TANKS', { base_capacity_per_day: 45 }]]), table: { groups: { g: { requires: null } } }, researched: new Set(), date: '1943-01-01', need,
+    classIds: new Set(['TNK-USA-MEDIUM-TANK-1940']) };
+  const r = aiRetoolNation({ facilities: [{ id: 'F', type: 'FCT-TANKS', recipeId: 'OLD' }], stocks: {} }, 'USA', ctx);
+  assert.equal(r.changes[0]?.to, 'M4', 'il modello vero, anche se la voce di classe «pesa» di più');
+});

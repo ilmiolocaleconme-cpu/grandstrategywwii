@@ -94,7 +94,7 @@ import terrainCombatFile from '../data/units/terrain_combat.json';
 import battleV2File from '../data/units/battle_v2.json';
 import ammoConsumptionFile from '../data/military/ammo_consumption.json';
 import fuelConsumptionFile from '../data/military/fuel_consumption.json';
-import { validateBattleV2, rawFirepower, casualtyDrain } from './rules/battleV2.js';
+import { validateBattleV2, rawFirepower, casualtyDrain, fleetYearOf } from './rules/battleV2.js';
 import { ownerFromPlaceId, groupUnlocked, recipeLockReasons } from './data/equipmentProduction.js';
 import { createCasualtySystem } from './game/casualtyState.js';
 import { DIVISION_AMMO_CATEGORY } from './rules/militaryReserve.js';
@@ -344,6 +344,8 @@ const EQUIPMENT_SOURCES = buildEquivalence({ catalog: EQUIPMENT_CATALOG, upgrade
 const EQUIPMENT_PREDECESSORS = buildPredecessors(EQUIPMENT_CATALOG, equipmentReplacements); // modelli precedenti che coprono il posto del nuovo (data/units/equipment/replacements.json, 21/11/2026)
 // esperienza delle fabbriche (21/11/2026): due modelli sono «della stessa catena» se uno precede l'altro (replacements.json) o se si riforniscono a vicenda
 // (stesso gruppo di equivalenza, es. i Panzer della voce TNK-DEU-TANK): la riconversione tiene la metà dei giorni d'esperienza
+// voci di classe con modelli (sameAs): l'IA non le produce (21/11/2026)
+const EQUIPMENT_CLASSES_WITH_MODELS = new Set(EQUIPMENT_CATALOG.entries.filter((e) => e.sameAs).map((e) => e.sameAs));
 const EQUIPMENT_RELATED = (nation, a, b) => Boolean(a && b) && (EQUIPMENT_PREDECESSORS(nation, `equipment.${b}`).includes(`equipment.${a}`)
   || EQUIPMENT_PREDECESSORS(nation, `equipment.${a}`).includes(`equipment.${b}`) || EQUIPMENT_SOURCES(nation, `equipment.${b}`).includes(`equipment.${a}`));
 const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProductionTable);
@@ -414,7 +416,7 @@ const FUEL_OF_CATEGORY = { motorized: 'infantry_motorized', mechanized: 'infantr
 const fuelTonnes = (id) => fuelConsumptionFile.categories.find((c) => c.id === id)?.operational ?? 0;
 const BATTLE_V2_CTX = BATTLE_V2_ERRORS.length ? {} : {
   battleCfg: battleV2File,
-  rawFirepower: (state, u) => { const d = state.forces?.divisions?.[u.id]; return rawFirepower(d?.items, (k) => WEAPON_OF(u.nation, k), battleV2File, d?.items?.['manpower.war']?.effective ?? 0, { year: Number(String(d?.since ?? state.startDate ?? '').slice(0, 4)) || 0, resolve: (id) => WEAPON_OF(u.nation, `equipment.${id}`) }); },
+  rawFirepower: (state, u) => { const d = state.forces?.divisions?.[u.id]; return rawFirepower(d?.items, (k) => WEAPON_OF(u.nation, k), battleV2File, d?.items?.['manpower.war']?.effective ?? 0, { year: fleetYearOf(state, d), resolve: (id) => WEAPON_OF(u.nation, `equipment.${id}`) }); }, // 21/11/2026 (decisione dell'utente): i carri non registrati come modello sono quelli d'inizio partita (fleetMix dell'anno d'inizio), non dell'anno di formazione o del cambio di template; i carri migliorano solo con la produzione e la modernizzazione (pezzi registrati in `models`)
   conditionCfg: conditionConfig, // morale ed esperienza: letti da state.conditions e mossi dalla battaglia
   hasCommander: (state, id) => chainOf(state.orbat ?? createOrbatState(), id).some((c) => Boolean(state.commanders?.assignments?.[c])),
   ammoNeed: (u, phase) => dailyAmmo(ammoConsumptionFile, DIVISION_AMMO_CATEGORY[u.category], phase) ?? 0,
@@ -477,7 +479,7 @@ const GAME_SYSTEMS = [
   (state) => (MOVE_NET.net ? createReinforcementSystem({ units: unitsList(state, unitsFile.units), sourcesOf: EQUIPMENT_SOURCES, fallbackOf: EQUIPMENT_PREDECESSORS, priorityOf: (nation) => servicePriority(servicesFile, unitsList(state, unitsFile.units), nation, state), poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)), routeOf: (s, nation, unitId) => depotRoute({ net: gameNet(s), depots: depotsFile, positionOf: (u) => positionOf(s.movement, INITIAL_POSITIONS, u), canEnter: (n) => (m) => provinceController(s, gameNet(s), m) === n, originsOf: (n) => barracksOrigins(s, barracksFile, n, placeControllerOf), sea: GAME_SEA.sea ? { context: GAME_SEA.sea.at(s), motherOf: GAME_SEA.motherOf } : null }, nation, unitId) })(state) : state),
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
-  createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES, experience: productionExperienceFile, relatedOf: EQUIPMENT_RELATED,
+  createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES, experience: productionExperienceFile, relatedOf: EQUIPMENT_RELATED, classIds: EQUIPMENT_CLASSES_WITH_MODELS,
     divisionsOf: (s, nation) => { const ids = new Set(unitsList(s, unitsFile.units).filter((u) => u.nation === nation).map((u) => u.id)); return Object.entries(s.forces?.divisions ?? {}).filter(([id]) => ids.has(id)).map(([, d]) => d); } }), // linee riservate ai modelli futuri; IA: riconversione mensile (20/11/2026)
   createHistoricalTechSystem(historicalTechFile), // nazioni dell'IA: tecnologie alle date storiche (19/11/2026); il giocatore le ricerca
   GAME_SECURITY.securityDay,
