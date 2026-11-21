@@ -1,0 +1,1264 @@
+{
+  "schema": "battalion-modules-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-21",
+  "note": "Battaglioni statunitensi (21/11/2026, schema unico «come Germania e URSS»). Nomi inglesi con traduzione italiana. Organici STIMATI da Claude dalla memoria, NON verificati; la divisione triangolare 1940 e la corazzata 1940 sono tarate sui numeri del vecchio CSV (FM 101-10, T/O 70). Le versioni 1942-43 (supersedes) portano Garand, carabina, bazooka, 57 mm, GMC e jeep con la modernizzazione graduale; nei battaglioni 1940 il posto del Garand lo copre l'M1903 finché i Garand non arrivano.",
+  "modules": [
+    {
+      "id": "MOD-USA-INF-1936",
+      "nation": "USA",
+      "type": "infantry",
+      "name_native": "Infantry Battalion (1936)",
+      "name_it": "Battaglione di fanteria (1936)",
+      "men": 900,
+      "horses": 40,
+      "equipment": {
+        "INW-USA-RIFLE-1940": 680,
+        "INW-USA-PISTOL-M1911": 60,
+        "MG-USA-BAR-1940": 27,
+        "MG-USA-HMG-1940": 12,
+        "ART-USA-MORTAR81-1940": 2,
+        "VEH-USA-TRUCK15": 6
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-REGT-1936",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Regimental Headquarters, Service and Howitzer Companies (1936)",
+      "name_it": "Comando e compagnie reggimentali (1936)",
+      "men": 600,
+      "horses": 120,
+      "equipment": {
+        "INW-USA-RIFLE-1940": 400,
+        "INW-USA-PISTOL-M1911": 120,
+        "MG-USA-HMG-1940": 8,
+        "ART-USA-MORTAR81-1940": 6,
+        "VEH-USA-TRUCK15": 30
+      },
+      "mobility": "foot",
+      "illustration": "mortaio",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA75-1936",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Field Artillery Battalion, 75 mm (1936)",
+      "name_it": "Gruppo d'artiglieria da 75 mm (1936)",
+      "men": 560,
+      "horses": 450,
+      "equipment": {
+        "ART-USA-GUN75-1940": 12,
+        "INW-USA-RIFLE-1940": 300,
+        "INW-USA-PISTOL-M1911": 120,
+        "VEH-USA-TRUCK15": 15
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA155",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Field Artillery Battalion, 155 mm Howitzer",
+      "name_it": "Gruppo d'artiglieria da 155 mm",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-HOW155-1940": 12,
+        "INW-USA-RIFLE-1940": 300,
+        "INW-USA-PISTOL-M1911": 150,
+        "VEH-USA-TRUCK15": 40
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA155-1942",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Field Artillery Battalion, 155 mm Howitzer (1942)",
+      "name_it": "Gruppo d'artiglieria da 155 mm (1942)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-HOW155-1940": 12,
+        "INW-USA-RIFLE-1940": 300,
+        "INW-USA-PISTOL-M1911": 150,
+        "VEH-USA-GMC-CCKW": 30,
+        "VEH-USA-JEEP": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1942-06-01",
+      "supersedes": "MOD-USA-FA155",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ENG-1936",
+      "nation": "USA",
+      "type": "engineer",
+      "name_native": "Engineer Regiment (1936)",
+      "name_it": "Reggimento del genio (1936)",
+      "men": 1200,
+      "horses": 150,
+      "equipment": {
+        "INW-USA-RIFLE-1940": 1000,
+        "INW-USA-PISTOL-M1911": 80,
+        "VEH-USA-TRUCK15": 40
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-SVC-1936",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Division Headquarters, Quartermaster, Medical and Signal Troops (1936)",
+      "name_it": "Comando e servizi divisionali (1936)",
+      "men": 3200,
+      "horses": 700,
+      "equipment": {
+        "INW-USA-RIFLE-1940": 1500,
+        "INW-USA-PISTOL-M1911": 900,
+        "MG-USA-HMG-1940": 8,
+        "VEH-USA-TRUCK15": 350
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-INF-1940",
+      "nation": "USA",
+      "type": "infantry",
+      "name_native": "Infantry Battalion (1940)",
+      "name_it": "Battaglione di fanteria (1940)",
+      "men": 870,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 540,
+        "INW-USA-PISTOL-M1911": 50,
+        "MG-USA-BAR-1940": 27,
+        "MG-USA-HMG-1940": 14,
+        "MG-USA-M2-1940": 2,
+        "ART-USA-MOR60": 9,
+        "ART-USA-MORTAR81-1940": 4,
+        "VEH-USA-TRUCK15": 12
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-INF-1943",
+      "nation": "USA",
+      "type": "infantry",
+      "name_native": "Infantry Battalion (1943)",
+      "name_it": "Battaglione di fanteria (1943)",
+      "men": 870,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 500,
+        "INW-USA-CARBINE-M1": 80,
+        "INW-USA-PISTOL-M1911": 20,
+        "MG-USA-BAR-1940": 27,
+        "MG-USA-HMG-1940": 14,
+        "MG-USA-M2-1940": 3,
+        "ART-USA-MOR60": 9,
+        "ART-USA-MORTAR81-1940": 6,
+        "ART-USA-AT57": 3,
+        "GL-USA-BAZOOKA": 29,
+        "VEH-USA-GMC-CCKW": 6,
+        "VEH-USA-JEEP": 18
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1943-03-01",
+      "supersedes": "MOD-USA-INF-1940",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-REGT-1940",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Regimental Headquarters, Service and Antitank Companies (1940)",
+      "name_it": "Comando, servizi e anticarro di reggimento (1940)",
+      "men": 740,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 150,
+        "INW-USA-PISTOL-M1911": 150,
+        "MG-USA-HMG-1940": 4,
+        "MG-USA-M2-1940": 6,
+        "ART-USA-AT37-1940": 12,
+        "VEH-USA-TRUCK15": 60
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-REGT-1943",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Regimental Headquarters, Service, Cannon and Antitank Companies (1943)",
+      "name_it": "Comando, servizi, cannoni e anticarro di reggimento (1943)",
+      "men": 740,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 150,
+        "INW-USA-CARBINE-M1": 100,
+        "INW-USA-PISTOL-M1911": 50,
+        "MG-USA-HMG-1940": 4,
+        "MG-USA-M2-1940": 8,
+        "ART-USA-AT57": 12,
+        "ART-USA-HOW75-PACK": 6,
+        "GL-USA-BAZOOKA": 12,
+        "VEH-USA-GMC-CCKW": 40,
+        "VEH-USA-JEEP": 30
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-03-01",
+      "supersedes": "MOD-USA-REGT-1940",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA105",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Field Artillery Battalion, 105 mm Howitzer",
+      "name_it": "Gruppo d'artiglieria da 105 mm",
+      "men": 510,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-HOW105-1940": 12,
+        "INW-USA-GARAND": 150,
+        "INW-USA-PISTOL-M1911": 120,
+        "MG-USA-HMG-1940": 4,
+        "MG-USA-M2-1940": 4,
+        "VEH-USA-TRUCK15": 40
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA105-1942",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Field Artillery Battalion, 105 mm Howitzer (1942)",
+      "name_it": "Gruppo d'artiglieria da 105 mm (1942)",
+      "men": 510,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-HOW105-1940": 12,
+        "INW-USA-GARAND": 100,
+        "INW-USA-CARBINE-M1": 100,
+        "INW-USA-PISTOL-M1911": 50,
+        "MG-USA-HMG-1940": 4,
+        "MG-USA-M2-1940": 6,
+        "GL-USA-BAZOOKA": 9,
+        "VEH-USA-GMC-CCKW": 30,
+        "VEH-USA-JEEP": 15
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1942-06-01",
+      "supersedes": "MOD-USA-FA105",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-AT-1940",
+      "nation": "USA",
+      "type": "anti_tank",
+      "name_native": "Antitank Battalion (Provisional)",
+      "name_it": "Battaglione anticarro (provvisorio)",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-AT37-1940": 24,
+        "INW-USA-GARAND": 200,
+        "INW-USA-PISTOL-M1911": 80,
+        "VEH-USA-TRUCK15": 35
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-06-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ENG-1940",
+      "nation": "USA",
+      "type": "engineer",
+      "name_native": "Engineer Combat Battalion",
+      "name_it": "Battaglione genio pionieri",
+      "men": 650,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 500,
+        "INW-USA-PISTOL-M1911": 60,
+        "MG-USA-BAR-1940": 9,
+        "MG-USA-HMG-1940": 4,
+        "VEH-USA-TRUCK15": 30
+      },
+      "mobility": "motorized",
+      "illustration": "genio",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ENG-1942",
+      "nation": "USA",
+      "type": "engineer",
+      "name_native": "Engineer Combat Battalion (1942)",
+      "name_it": "Battaglione genio pionieri (1942)",
+      "men": 650,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 500,
+        "INW-USA-PISTOL-M1911": 40,
+        "MG-USA-BAR-1940": 9,
+        "MG-USA-HMG-1940": 4,
+        "GL-USA-BAZOOKA": 12,
+        "VEH-USA-GMC-CCKW": 25,
+        "VEH-USA-JEEP": 10
+      },
+      "mobility": "motorized",
+      "illustration": "genio",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1942-06-01",
+      "supersedes": "MOD-USA-ENG-1940",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-RECON-1940",
+      "nation": "USA",
+      "type": "recon",
+      "name_native": "Cavalry Reconnaissance Troop",
+      "name_it": "Squadrone esplorante di cavalleria",
+      "men": 150,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 50,
+        "INW-USA-SMG-THOMPSON": 40,
+        "INW-USA-PISTOL-M1911": 50,
+        "MG-USA-BAR-1940": 6,
+        "MG-USA-HMG-1940": 6,
+        "MG-USA-M2-1940": 4,
+        "VEH-USA-M3-SCOUT": 13,
+        "VEH-USA-MOTO": 10,
+        "VEH-USA-TRUCK15": 4
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-RECON-1943",
+      "nation": "USA",
+      "type": "recon",
+      "name_native": "Cavalry Reconnaissance Troop, Mechanized (1943)",
+      "name_it": "Squadrone esplorante meccanizzato (1943)",
+      "men": 150,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 30,
+        "INW-USA-CARBINE-M1": 60,
+        "INW-USA-SMG-THOMPSON": 20,
+        "INW-USA-PISTOL-M1911": 20,
+        "MG-USA-HMG-1940": 6,
+        "MG-USA-M2-1940": 8,
+        "ART-USA-MOR60": 3,
+        "GL-USA-BAZOOKA": 6,
+        "VEH-USA-M8": 13,
+        "VEH-USA-JEEP": 24
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-03-01",
+      "supersedes": "MOD-USA-RECON-1940",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-SVC-1940",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Division Special Troops and Services (1940)",
+      "name_it": "Truppe e servizi divisionali (1940)",
+      "men": 1865,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 300,
+        "INW-USA-PISTOL-M1911": 900,
+        "MG-USA-HMG-1940": 6,
+        "MG-USA-M2-1940": 8,
+        "VEH-USA-TRUCK15": 280,
+        "VEH-USA-MOTO": 20
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-SVC-1942",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Division Special Troops and Services (1942)",
+      "name_it": "Truppe e servizi divisionali (1942)",
+      "men": 1865,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 200,
+        "INW-USA-CARBINE-M1": 400,
+        "INW-USA-PISTOL-M1911": 500,
+        "MG-USA-HMG-1940": 6,
+        "MG-USA-M2-1940": 12,
+        "VEH-USA-GMC-CCKW": 220,
+        "VEH-USA-JEEP": 60,
+        "VEH-USA-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1942-06-01",
+      "divisional": true,
+      "supersedes": "MOD-USA-SVC-1940",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-TANK-LT",
+      "nation": "USA",
+      "type": "tank",
+      "name_native": "Light Tank Battalion",
+      "name_it": "Battaglione carri leggeri",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "TNK-USA-LIGHT-TANK-1940": 54,
+        "INW-USA-PISTOL-M1911": 300,
+        "INW-USA-SMG-THOMPSON": 30,
+        "VEH-USA-TRUCK15": 20
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-TANK-MED",
+      "nation": "USA",
+      "type": "tank",
+      "name_native": "Medium Tank Battalion",
+      "name_it": "Battaglione carri medi",
+      "men": 470,
+      "horses": 0,
+      "equipment": {
+        "TNK-USA-MEDIUM-TANK-1940": 54,
+        "INW-USA-PISTOL-M1911": 320,
+        "INW-USA-SMG-THOMPSON": 30,
+        "VEH-USA-TRUCK15": 20
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ARMD-INF-1940",
+      "nation": "USA",
+      "type": "motorized_infantry",
+      "name_native": "Armored Infantry Battalion (1940)",
+      "name_it": "Battaglione di fanteria corazzata (1940)",
+      "men": 1150,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 750,
+        "INW-USA-PISTOL-M1911": 120,
+        "MG-USA-BAR-1940": 27,
+        "MG-USA-HMG-1940": 18,
+        "MG-USA-M2-1940": 6,
+        "ART-USA-MOR60": 9,
+        "ART-USA-MORTAR81-1940": 6,
+        "ART-USA-AT37-ARM-1940": 12,
+        "VEH-USA-TRUCK15": 90
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ARMD-INF-1941",
+      "nation": "USA",
+      "type": "motorized_infantry",
+      "name_native": "Armored Infantry Battalion (1941, half-tracks)",
+      "name_it": "Battaglione di fanteria corazzata su semicingolati (1941)",
+      "men": 1150,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 750,
+        "INW-USA-PISTOL-M1911": 120,
+        "MG-USA-BAR-1940": 27,
+        "MG-USA-HMG-1940": 18,
+        "MG-USA-M2-1940": 12,
+        "ART-USA-MOR60": 9,
+        "ART-USA-MORTAR81-1940": 6,
+        "ART-USA-AT37-ARM-1940": 12,
+        "VEH-USA-M3-HT": 75,
+        "VEH-USA-TRUCK15": 20
+      },
+      "mobility": "mechanized",
+      "illustration": "semicingolato",
+      "requiresTech": [
+        "TECH-MOT-INF",
+        "TECH-MECH-HT"
+      ],
+      "availableFrom": "1941-06-01",
+      "supersedes": "MOD-USA-ARMD-INF-1940",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA-ARM",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Armored Field Artillery Battalion (1940)",
+      "name_it": "Gruppo d'artiglieria corazzata (1940)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-HOW105-ARM-1940": 12,
+        "INW-USA-GARAND": 250,
+        "INW-USA-PISTOL-M1911": 200,
+        "MG-USA-M2-1940": 8,
+        "VEH-USA-TRUCK15": 50
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-AT-ARM",
+      "nation": "USA",
+      "type": "anti_tank",
+      "name_native": "Antitank Battalion (Armored Division)",
+      "name_it": "Battaglione anticarro della divisione corazzata",
+      "men": 500,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-AT37-ARM-1940": 36,
+        "INW-USA-GARAND": 250,
+        "INW-USA-PISTOL-M1911": 100,
+        "VEH-USA-TRUCK15": 45
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-RECON-ARM",
+      "nation": "USA",
+      "type": "recon",
+      "name_native": "Armored Reconnaissance Battalion",
+      "name_it": "Battaglione esplorante corazzato",
+      "men": 650,
+      "horses": 0,
+      "equipment": {
+        "TNK-USA-LIGHT-TANK-1940": 3,
+        "VEH-USA-M3-SCOUT": 40,
+        "VEH-USA-MOTO": 20,
+        "INW-USA-GARAND": 300,
+        "INW-USA-PISTOL-M1911": 150,
+        "INW-USA-SMG-THOMPSON": 50,
+        "MG-USA-BAR-1940": 9,
+        "MG-USA-HMG-1940": 12,
+        "MG-USA-M2-1940": 12,
+        "VEH-USA-TRUCK15": 20
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ENG-ARM",
+      "nation": "USA",
+      "type": "engineer",
+      "name_native": "Armored Engineer Battalion",
+      "name_it": "Battaglione genio corazzato",
+      "men": 700,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 550,
+        "INW-USA-PISTOL-M1911": 80,
+        "ART-USA-AT37-ARM-1940": 8,
+        "VEH-USA-TRUCK15": 60
+      },
+      "mobility": "motorized",
+      "illustration": "genio",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-SVC-ARM",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Armored Division Trains and Special Troops (1940)",
+      "name_it": "Servizi e truppe divisionali corazzate (1940)",
+      "men": 4157,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 1500,
+        "INW-USA-PISTOL-M1911": 2000,
+        "MG-USA-M2-1940": 30,
+        "VEH-USA-TRUCK15": 600
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-TANK-1943",
+      "nation": "USA",
+      "type": "tank",
+      "name_native": "Tank Battalion (1943)",
+      "name_it": "Battaglione carri (1943)",
+      "men": 730,
+      "horses": 0,
+      "equipment": {
+        "TNK-USA-MEDIUM-TANK-1940": 53,
+        "TNK-USA-LIGHT-TANK-1940": 17,
+        "INW-USA-PISTOL-M1911": 400,
+        "INW-USA-SMG-THOMPSON": 80,
+        "INW-USA-CARBINE-M1": 100,
+        "VEH-USA-M3-HT": 6,
+        "VEH-USA-JEEP": 10,
+        "VEH-USA-GMC-CCKW": 30
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "availableFrom": "1943-09-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ARMD-INF-1943",
+      "nation": "USA",
+      "type": "mechanized_infantry",
+      "name_native": "Armored Infantry Battalion (1943)",
+      "name_it": "Battaglione di fanteria corazzata (1943)",
+      "men": 1000,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 650,
+        "INW-USA-CARBINE-M1": 150,
+        "INW-USA-PISTOL-M1911": 30,
+        "INW-USA-SMG-THOMPSON": 20,
+        "MG-USA-BAR-1940": 27,
+        "MG-USA-HMG-1940": 15,
+        "MG-USA-M2-1940": 10,
+        "ART-USA-MOR60": 9,
+        "ART-USA-MORTAR81-1940": 3,
+        "ART-USA-AT57": 9,
+        "GL-USA-BAZOOKA": 40,
+        "VEH-USA-M3-HT": 70,
+        "VEH-USA-JEEP": 15
+      },
+      "mobility": "mechanized",
+      "illustration": "fanteria_meccanizzata",
+      "requiresTech": [
+        "TECH-MOT-INF",
+        "TECH-MECH-HT"
+      ],
+      "availableFrom": "1943-09-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA-ARM-1943",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Armored Field Artillery Battalion (1943)",
+      "name_it": "Gruppo d'artiglieria corazzata (1943)",
+      "men": 530,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-HOW105-ARM-1940": 18,
+        "INW-USA-GARAND": 150,
+        "INW-USA-CARBINE-M1": 200,
+        "INW-USA-PISTOL-M1911": 50,
+        "MG-USA-M2-1940": 20,
+        "VEH-USA-M3-HT": 20,
+        "VEH-USA-JEEP": 10,
+        "VEH-USA-GMC-CCKW": 30
+      },
+      "mobility": "mechanized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": [
+        "TECH-MOT-INF",
+        "TECH-MECH-HT"
+      ],
+      "availableFrom": "1943-09-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-CAV-RECON-1943",
+      "nation": "USA",
+      "type": "recon",
+      "name_native": "Cavalry Reconnaissance Squadron, Mechanized",
+      "name_it": "Gruppo squadroni esplorante meccanizzato",
+      "men": 900,
+      "horses": 0,
+      "equipment": {
+        "VEH-USA-M8": 40,
+        "TNK-USA-LIGHT-TANK-1940": 17,
+        "VEH-USA-M3-HT": 10,
+        "VEH-USA-JEEP": 60,
+        "INW-USA-GARAND": 300,
+        "INW-USA-CARBINE-M1": 400,
+        "INW-USA-PISTOL-M1911": 100,
+        "MG-USA-M2-1940": 30,
+        "MG-USA-HMG-1940": 20,
+        "ART-USA-MOR60": 10,
+        "GL-USA-BAZOOKA": 20,
+        "VEH-USA-GMC-CCKW": 20
+      },
+      "mobility": "mechanized",
+      "illustration": "autoblindo",
+      "requiresTech": [
+        "TECH-MOT-INF",
+        "TECH-MECH-HT"
+      ],
+      "availableFrom": "1943-09-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-SVC-ARM-1943",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Armored Division Trains, Combat Commands and Special Troops (1943)",
+      "name_it": "Servizi, comandi di combattimento e truppe divisionali (1943)",
+      "men": 2557,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 600,
+        "INW-USA-CARBINE-M1": 900,
+        "INW-USA-PISTOL-M1911": 600,
+        "MG-USA-M2-1940": 40,
+        "VEH-USA-GMC-CCKW": 350,
+        "VEH-USA-JEEP": 100,
+        "VEH-USA-M3-HT": 20
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-09-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-PARA-INF",
+      "nation": "USA",
+      "type": "airborne_infantry",
+      "name_native": "Parachute Infantry Battalion",
+      "name_it": "Battaglione di fanteria paracadutista",
+      "men": 530,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 300,
+        "INW-USA-CARBINE-M1": 150,
+        "INW-USA-SMG-THOMPSON": 30,
+        "INW-USA-PISTOL-M1911": 50,
+        "MG-USA-HMG-1940": 12,
+        "ART-USA-MOR60": 9,
+        "ART-USA-MORTAR81-1940": 4,
+        "GL-USA-BAZOOKA": 15
+      },
+      "mobility": "foot",
+      "illustration": "paracadutisti",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-GLIDER-INF",
+      "nation": "USA",
+      "type": "airborne_infantry",
+      "name_native": "Glider Infantry Battalion",
+      "name_it": "Battaglione di fanteria aviotrasportata con alianti",
+      "men": 820,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 600,
+        "INW-USA-CARBINE-M1": 50,
+        "INW-USA-PISTOL-M1911": 40,
+        "MG-USA-BAR-1940": 18,
+        "MG-USA-HMG-1940": 8,
+        "ART-USA-MOR60": 6,
+        "ART-USA-MORTAR81-1940": 4,
+        "ART-USA-AT37-1940": 4,
+        "GL-USA-BAZOOKA": 10,
+        "VEH-USA-JEEP": 10
+      },
+      "mobility": "foot",
+      "illustration": "paracadutisti",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA-ABN",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Airborne Field Artillery Battalion (75 mm Pack)",
+      "name_it": "Gruppo d'artiglieria aviotrasportata (75 mm someggiato)",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-HOW75-PACK": 12,
+        "INW-USA-CARBINE-M1": 300,
+        "INW-USA-PISTOL-M1911": 60,
+        "MG-USA-M2-1940": 4,
+        "VEH-USA-JEEP": 30
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-AA-ABN",
+      "nation": "USA",
+      "type": "anti_air",
+      "name_native": "Airborne Antiaircraft and Antitank Battalion",
+      "name_it": "Battaglione contraereo e anticarro aviotrasportato",
+      "men": 500,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-AT37-1940": 24,
+        "MG-USA-M2-1940": 36,
+        "INW-USA-CARBINE-M1": 300,
+        "INW-USA-PISTOL-M1911": 50,
+        "VEH-USA-JEEP": 30
+      },
+      "mobility": "foot",
+      "illustration": "contraerea",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ENG-ABN",
+      "nation": "USA",
+      "type": "engineer",
+      "name_native": "Airborne Engineer Battalion",
+      "name_it": "Battaglione genio aviotrasportato",
+      "men": 420,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-GARAND": 250,
+        "INW-USA-CARBINE-M1": 100,
+        "INW-USA-PISTOL-M1911": 30,
+        "GL-USA-BAZOOKA": 6,
+        "VEH-USA-JEEP": 10
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-SVC-ABN",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Airborne Division Special Troops and Services",
+      "name_it": "Truppe e servizi della divisione aviotrasportata",
+      "men": 1365,
+      "horses": 0,
+      "equipment": {
+        "INW-USA-CARBINE-M1": 700,
+        "INW-USA-PISTOL-M1911": 400,
+        "VEH-USA-JEEP": 120
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_camion",
+      "availableFrom": "1942-08-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-MTN-INF",
+      "nation": "USA",
+      "type": "mountain_infantry",
+      "name_native": "Mountain Infantry Battalion",
+      "name_it": "Battaglione di fanteria da montagna",
+      "men": 900,
+      "horses": 150,
+      "equipment": {
+        "INW-USA-GARAND": 600,
+        "INW-USA-CARBINE-M1": 60,
+        "INW-USA-PISTOL-M1911": 40,
+        "MG-USA-BAR-1940": 27,
+        "MG-USA-HMG-1940": 14,
+        "ART-USA-MOR60": 9,
+        "ART-USA-MORTAR81-1940": 6,
+        "GL-USA-BAZOOKA": 20
+      },
+      "mobility": "foot",
+      "illustration": "alpini",
+      "availableFrom": "1943-07-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-REGT-MTN",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Mountain Regimental Headquarters, Service and Antitank Companies",
+      "name_it": "Comando, servizi e anticarro di reggimento da montagna",
+      "men": 650,
+      "horses": 300,
+      "equipment": {
+        "INW-USA-GARAND": 200,
+        "INW-USA-PISTOL-M1911": 150,
+        "MG-USA-HMG-1940": 4,
+        "ART-USA-AT37-1940": 12
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "availableFrom": "1943-07-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-FA-PACK",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Pack Field Artillery Battalion (75 mm)",
+      "name_it": "Gruppo d'artiglieria someggiata da 75 mm",
+      "men": 600,
+      "horses": 650,
+      "equipment": {
+        "ART-USA-HOW75-PACK": 12,
+        "INW-USA-CARBINE-M1": 300,
+        "INW-USA-PISTOL-M1911": 80,
+        "MG-USA-M2-1940": 4
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "availableFrom": "1943-07-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-ENG-MTN",
+      "nation": "USA",
+      "type": "engineer",
+      "name_native": "Mountain Engineer Battalion",
+      "name_it": "Battaglione genio da montagna",
+      "men": 600,
+      "horses": 100,
+      "equipment": {
+        "INW-USA-GARAND": 500,
+        "INW-USA-PISTOL-M1911": 40
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "availableFrom": "1943-07-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-SVC-MTN",
+      "nation": "USA",
+      "type": "support",
+      "name_native": "Mountain Division Special Troops and Services",
+      "name_it": "Truppe e servizi della divisione da montagna",
+      "men": 1651,
+      "horses": 3000,
+      "equipment": {
+        "INW-USA-GARAND": 400,
+        "INW-USA-CARBINE-M1": 300,
+        "INW-USA-PISTOL-M1911": 500,
+        "VEH-USA-JEEP": 50,
+        "VEH-USA-GMC-CCKW": 30
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "availableFrom": "1943-07-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-CALLIOPE",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Rocket Launcher Platoon, T34 Calliope",
+      "name_it": "Plotone lanciarazzi T34 Calliope (su carro medio)",
+      "men": 200,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-CALLIOPE": 18,
+        "TNK-USA-MEDIUM-TANK-1940": 18,
+        "INW-USA-PISTOL-M1911": 150,
+        "VEH-USA-JEEP": 5
+      },
+      "mobility": "armored",
+      "illustration": "lanciarazzi_semovente",
+      "requiresTech": [
+        "TECH-ART-ROCKET"
+      ],
+      "availableFrom": "1944-06-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    }
+  ],
+  "compositions": [
+    {
+      "templateId": "TPL-USA-INF-1936",
+      "name": "Infantry Division (Square, 1936)",
+      "file": "divisione_fanteria_usa_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione quaternaria (square division) 1936: 2 brigate su 2 reggimenti di 3 battaglioni, brigata d'artiglieria (4 gruppi da 75 mm ippotrainati, 2 da 155 mm), reggimento del genio e servizi",
+      "modules": [
+        [
+          "MOD-USA-INF-1936",
+          12
+        ],
+        [
+          "MOD-USA-REGT-1936",
+          4
+        ],
+        [
+          "MOD-USA-FA75-1936",
+          4
+        ],
+        [
+          "MOD-USA-FA155",
+          2
+        ],
+        [
+          "MOD-USA-ENG-1936",
+          1
+        ],
+        [
+          "MOD-USA-SVC-1936",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USA-INF-1940",
+      "name": "Infantry Division (1940)",
+      "file": "divisione_fanteria_usa_1940.json",
+      "category": "infantry",
+      "activeFrom": "1940-06-01",
+      "formation": "divisione triangolare 1940 (T/O 70): 3 reggimenti di 3 battaglioni, 3 gruppi da 105 e 1 da 155 mm motorizzati, battaglione anticarro, genio, esplorante e servizi; tarata sui numeri del vecchio CSV (FM 101-10)",
+      "modules": [
+        [
+          "MOD-USA-INF-1940",
+          9
+        ],
+        [
+          "MOD-USA-REGT-1940",
+          3
+        ],
+        [
+          "MOD-USA-FA105",
+          3
+        ],
+        [
+          "MOD-USA-FA155",
+          1
+        ],
+        [
+          "MOD-USA-AT-1940",
+          1
+        ],
+        [
+          "MOD-USA-ENG-1940",
+          1
+        ],
+        [
+          "MOD-USA-RECON-1940",
+          1
+        ],
+        [
+          "MOD-USA-SVC-1940",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USA-ARM-1940",
+      "name": "Armored Division (1940)",
+      "file": "divisione_corazzata_usa_1940.json",
+      "category": "armored",
+      "activeFrom": "1940-07-15",
+      "formation": "divisione corazzata «pesante» 1940-42: brigata corazzata (5 battaglioni carri leggeri, 2 medi), reggimento di fanteria corazzata, 2 gruppi da 105, anticarro, esplorante, genio e servizi; tarata sul vecchio CSV (273 leggeri, 108 medi)",
+      "modules": [
+        [
+          "MOD-USA-TANK-LT",
+          5
+        ],
+        [
+          "MOD-USA-TANK-MED",
+          2
+        ],
+        [
+          "MOD-USA-ARMD-INF-1940",
+          2
+        ],
+        [
+          "MOD-USA-FA-ARM",
+          2
+        ],
+        [
+          "MOD-USA-AT-ARM",
+          1
+        ],
+        [
+          "MOD-USA-RECON-ARM",
+          1
+        ],
+        [
+          "MOD-USA-ENG-ARM",
+          1
+        ],
+        [
+          "MOD-USA-SVC-ARM",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USA-ARM-1943",
+      "name": "Armored Division (1943)",
+      "file": "divisione_corazzata_usa_1943.json",
+      "category": "armored",
+      "activeFrom": "1943-09-15",
+      "formation": "divisione corazzata «leggera» 1943: 3 battaglioni carri, 3 di fanteria corazzata, 3 gruppi d'artiglieria corazzata, gruppo esplorante meccanizzato, genio, comandi di combattimento e servizi",
+      "modules": [
+        [
+          "MOD-USA-TANK-1943",
+          3
+        ],
+        [
+          "MOD-USA-ARMD-INF-1943",
+          3
+        ],
+        [
+          "MOD-USA-FA-ARM-1943",
+          3
+        ],
+        [
+          "MOD-USA-CAV-RECON-1943",
+          1
+        ],
+        [
+          "MOD-USA-ENG-ARM",
+          1
+        ],
+        [
+          "MOD-USA-SVC-ARM-1943",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USA-ABN-1942",
+      "name": "Airborne Division (1942)",
+      "file": "divisione_aviotrasportata_usa_1942.json",
+      "category": "airborne",
+      "activeFrom": "1942-08-15",
+      "formation": "divisione aviotrasportata 1942: un reggimento paracadutisti (3 battaglioni), 2 reggimenti su alianti (2 battaglioni), 3 gruppi da 75 mm someggiati, contraerea e anticarro, genio e servizi",
+      "modules": [
+        [
+          "MOD-USA-PARA-INF",
+          3
+        ],
+        [
+          "MOD-USA-GLIDER-INF",
+          4
+        ],
+        [
+          "MOD-USA-FA-ABN",
+          3
+        ],
+        [
+          "MOD-USA-AA-ABN",
+          1
+        ],
+        [
+          "MOD-USA-ENG-ABN",
+          1
+        ],
+        [
+          "MOD-USA-SVC-ABN",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-USA-MTN-1943",
+      "name": "Mountain Division (1943)",
+      "file": "divisione_montagna_usa_1943.json",
+      "category": "mountain",
+      "activeFrom": "1943-07-15",
+      "formation": "divisione da montagna 1943 (10th Mountain): 3 reggimenti di 3 battaglioni, 3 gruppi da 75 mm someggiati, genio e servizi con salmerie",
+      "modules": [
+        [
+          "MOD-USA-MTN-INF",
+          9
+        ],
+        [
+          "MOD-USA-REGT-MTN",
+          3
+        ],
+        [
+          "MOD-USA-FA-PACK",
+          3
+        ],
+        [
+          "MOD-USA-ENG-MTN",
+          1
+        ],
+        [
+          "MOD-USA-SVC-MTN",
+          1
+        ]
+      ]
+    }
+  ],
+  "presets": []
+}

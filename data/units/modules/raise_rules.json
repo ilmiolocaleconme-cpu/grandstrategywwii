@@ -32,7 +32,20 @@
       "mountain": "{n}-ja gornostrelkovaja divizija",
       "cavalry": "{n}-ja kavalerijskaja divizija",
       "airborne": "{n}-ja vozdushno-desantnaja divizija"
+    },
+    "USA": {
+      "infantry": "{n} Infantry Division",
+      "motorized": "{n} Motorized Division",
+      "mechanized": "{n} Armored Division",
+      "armored": "{n} Armored Division",
+      "mountain": "{n} Mountain Division",
+      "cavalry": "{n} Cavalry Division",
+      "airborne": "{n} Airborne Division"
     }
   },
-  "defaultName": "{n}ª Divisione"
+  "defaultName": "{n}ª Divisione",
+  "ordinals": {
+    "USA": "en"
+  },
+  "ordinalsNote": "21/11/2026: per le nazioni elencate {n} diventa l'ordinale inglese (1st, 2nd, 3rd, 4th, 11th, 21st…), come nei nomi storici delle divisioni USA."
 }

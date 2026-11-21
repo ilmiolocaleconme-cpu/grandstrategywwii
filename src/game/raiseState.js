@@ -37,18 +37,25 @@ export function validateRaiseRules(r) {
 }
 
 /** Nome della divisione nuova: schema della nazione per categoria, col primo numero non usato da altre unità della nazione con quel nome. */
+// ordinale inglese (21/11/2026, nomi delle divisioni USA): 1st, 2nd, 3rd, 4th, 11th, 12th, 13th, 21st, 22nd…
+export function englishOrdinal(n) {
+  const t = n % 100;
+  return `${n}${t >= 11 && t <= 13 ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' })[n % 10] ?? 'th'}`;
+}
+
 export function divisionName(rules, nation, category, units) {
   const pattern = rules.names?.[nation]?.[category] ?? rules.defaultName;
   const [pre, post] = pattern.split('{n}');
+  const english = rules.ordinals?.[nation] === 'en';
   const used = new Set();
   for (const u of units) {
     if (u.nation !== nation || typeof u.name !== 'string' || !u.name.startsWith(pre) && pre !== '') continue;
     const rest = u.name.slice(pre.length);
-    const m = rest.match(/^(\d+)/);
-    if (m && rest.slice(m[1].length) === post) used.add(Number(m[1]));
+    const m = rest.match(english ? /^(\d+)(?:st|nd|rd|th)/ : /^(\d+)/);
+    if (m && rest.slice(m[0].length) === post) used.add(Number(m[1]));
   }
   let n = 1; while (used.has(n)) n += 1;
-  return pattern.replace('{n}', String(n));
+  return pattern.replace('{n}', english ? englishOrdinal(n) : String(n));
 }
 
 /**

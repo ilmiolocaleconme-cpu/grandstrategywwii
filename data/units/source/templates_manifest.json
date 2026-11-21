@@ -67,7 +67,9 @@
       "output": "divisione_fanteria_usa_1940.json",
       "granularityOverrides": {
         "USA-RIFLE-1940": "class"
-      }
+      },
+      "templateOutput": false,
+      "templateOutputNote": "21/11/2026, schema unico (decisione dell'utente «come Germania e URSS»): il template viene dai battaglioni (data/units/modules/modules_usa.json); il CSV resta fonte del catalogo e della taratura."
     },
     {
       "id": "FRA-ARM-1940",
@@ -95,7 +97,9 @@
       "template": "usa_arm_template_1940.csv",
       "lines": "usa_arm_equipment_1940.csv",
       "catalog": "land_equipment_catalog_usa_arm_1940.csv",
-      "output": "divisione_corazzata_usa_1940.json"
+      "output": "divisione_corazzata_usa_1940.json",
+      "templateOutput": false,
+      "templateOutputNote": "21/11/2026, schema unico (decisione dell'utente «come Germania e URSS»): il template viene dai battaglioni (data/units/modules/modules_usa.json); il CSV resta fonte del catalogo e della taratura."
     },
     {
       "id": "JPN-ARM-1942",

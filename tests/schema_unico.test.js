@@ -10,7 +10,7 @@ const all = readdirSync(dir).filter((f) => /^(divisione|brigata)_.*\.json$/.test
 
 const DA_CONVERTIRE = new Set([
   'TPL-GBR-INF-1936', 'TPL-GBR-ARM-1939',
-  'TPL-USA-INF-1940', 'TPL-USA-ARM-1940',
+  // USA dai battaglioni dal 21/11/2026 (data/units/modules/modules_usa.json)
   'TPL-FRA-INF-1936', 'TPL-FRA-INF-1939', 'TPL-FRA-ARM-1940',
   'TPL-ITA-INF-1940', 'TPL-ITA-ARM-1940',
   'TPL-JPN-INF-1939', 'TPL-JPN-ARM-1942',

@@ -1,125 +1,313 @@
 {
-  "schema": "unit-template-v2",
+  "schema": "unit-template-v1",
   "id": "TPL-USA-INF-1940",
   "status": "RECONSTRUCTED_TEMPLATE",
-  "note": "Generato da CSV (source/usa_inf_template_1940.csv, source/usa_inf_equipment_1940.csv, source/land_equipment_catalog_usa_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (USA infantry division, serie Triangolare); Divisione di fanteria triangolare (T/O 70) è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
   "appliesTo": {
     "nation": "USA",
     "category": "infantry",
     "echelon": "division",
-    "validFrom": "1940-11-01"
+    "activeFrom": "1940-06-01"
   },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione triangolare 1940 (T/O 70): 3 reggimenti di 3 battaglioni, 3 gruppi da 105 e 1 da 155 mm motorizzati, battaglione anticarro, genio, esplorante e servizi; tarata sui numeri del vecchio CSV (FM 101-10).",
   "formation": {
-    "value": "triangular"
+    "value": "divisione triangolare 1940 (T/O 70): 3 reggimenti di 3 battaglioni, 3 gruppi da 105 e 1 da 155 mm motorizzati, battaglione anticarro, genio, esplorante e servizi; tarata sui numeri del vecchio CSV (FM 101-10)",
+    "basis": "ipotesi",
+    "referenceYear": "1940",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "regimentsInfantry": {
-    "value": 3
-  },
+  "modules": [
+    {
+      "id": "MOD-USA-INF-1940",
+      "count": 9,
+      "name": "Infantry Battalion (1940)",
+      "name_it": "Battaglione di fanteria (1940)"
+    },
+    {
+      "id": "MOD-USA-REGT-1940",
+      "count": 3,
+      "name": "Regimental Headquarters, Service and Antitank Companies (1940)",
+      "name_it": "Comando, servizi e anticarro di reggimento (1940)"
+    },
+    {
+      "id": "MOD-USA-FA105",
+      "count": 3,
+      "name": "Field Artillery Battalion, 105 mm Howitzer",
+      "name_it": "Gruppo d'artiglieria da 105 mm"
+    },
+    {
+      "id": "MOD-USA-FA155",
+      "count": 1,
+      "name": "Field Artillery Battalion, 155 mm Howitzer",
+      "name_it": "Gruppo d'artiglieria da 155 mm"
+    },
+    {
+      "id": "MOD-USA-AT-1940",
+      "count": 1,
+      "name": "Antitank Battalion (Provisional)",
+      "name_it": "Battaglione anticarro (provvisorio)"
+    },
+    {
+      "id": "MOD-USA-ENG-1940",
+      "count": 1,
+      "name": "Engineer Combat Battalion",
+      "name_it": "Battaglione genio pionieri"
+    },
+    {
+      "id": "MOD-USA-RECON-1940",
+      "count": 1,
+      "name": "Cavalry Reconnaissance Troop",
+      "name_it": "Squadrone esplorante di cavalleria"
+    },
+    {
+      "id": "MOD-USA-SVC-1940",
+      "count": 1,
+      "name": "Division Special Troops and Services (1940)",
+      "name_it": "Truppe e servizi divisionali (1940)"
+    }
+  ],
   "manpower": {
     "war": {
       "value": 15245,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
     }
   },
   "horses": {
     "value": 0,
+    "basis": "ipotesi",
+    "referenceYear": "1940",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
     "effective": {
-      "value": null
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
     }
   },
   "equipment": {
-    "INW-USA-RIFLE-1940": {
-      "value": 6942,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria",
-      "note": "6.942 fucili cal. .30 (T/O 70). Il modello principale è l'M1903 Springfield; l'M1 Garand non è ancora universale: la scheda non dà la ripartizione, non dedurla. Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
-      "effective": {
-        "value": null
-      }
-    },
-    "MG-USA-BAR-1940": {
-      "value": null,
-      "reliability": "MISSING_DATA",
-      "note": "Nessuna quantità nelle righe di organico. Presente nell'organico; totale non ricavabile in modo affidabile dalla scansione. Classificato come «mitragliatrice leggera» per il ruolo di arma automatica di squadra (scelta di classificazione del progetto)."
-    },
-    "MG-USA-HMG-1940": {
-      "value": null,
-      "reliability": "MISSING_DATA",
-      "note": "Nessuna quantità nelle righe di organico. Nelle compagnie armi pesanti e nei reparti di supporto; totale non indicato."
-    },
-    "MG-USA-M2-1940": {
-      "value": null,
-      "reliability": "MISSING_DATA",
-      "note": "Nessuna quantità nelle righe di organico. Soprattutto in comando, artiglieria e supporto; totale non indicato."
-    },
-    "ART-USA-MORTAR81-1940": {
-      "value": 36,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria",
-      "note": "36 mortai M1 da 81 mm. Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
-      "effective": {
-        "value": null
-      }
-    },
     "ART-USA-AT37-1940": {
       "value": 60,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria",
-      "note": "60 cannoni in totale: 36 nelle compagnie anticarro reggimentali (12 per reggimento) + 24 nelle batterie comando dei 4 battaglioni di artiglieria (6 ciascuno). Se si contano solo quelli della fanteria: 36. Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-USA-HOW105-1940": {
       "value": 36,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria",
-      "note": "3 battaglioni leggeri da 12 obici ciascuno = 36. Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-USA-HOW155-1940": {
       "value": 12,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria",
-      "note": "12 obici da 155 mm nel battaglione medio (T/O 6-95, 1 ottobre 1940). Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
-    "ART-USA-GUN75-1940": {
-      "value": 8,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria",
-      "note": "8 cannoni da 75 mm nel battaglione medio (T/O 6-95). Fonte: FM 101-10 (War Department, 15 giugno 1941), Infantry Division (Triangular), T/O 70 del 1 novembre 1940, pp. 17-19; riepilogo fornito dall'utente il 11/11/2026.",
+    "ART-USA-MOR60": {
+      "value": 81,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-USA-MORTAR81-1940": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USA-GARAND": {
+      "value": 6810,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USA-PISTOL-M1911": {
+      "value": 2500,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USA-RIFLE-1940": {
+      "value": 300,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-USA-SMG-THOMPSON": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USA-BAR-1940": {
+      "value": 258,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USA-HMG-1940": {
+      "value": 166,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-USA-M2-1940": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USA-M3-SCOUT": {
+      "value": 13,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USA-MOTO": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-USA-TRUCK15": {
+      "value": 797,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-USA-INF-1940, 3× MOD-USA-REGT-1940, 3× MOD-USA-FA105, 1× MOD-USA-FA155, 1× MOD-USA-AT-1940, 1× MOD-USA-ENG-1940, 1× MOD-USA-RECON-1940, 1× MOD-USA-SVC-1940). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     }
   },
-  "metadata": {
-    "sourceTemplateId": "TPL-USA-INF-TRI-1940",
-    "series": "Triangolare",
-    "referenceDivision": "Divisione di fanteria triangolare (T/O 70)",
-    "referenceDate": "1940-11",
-    "sourceQuality": "SECONDARY_SINGLE_SOURCE",
-    "sourceNote": "Divisione GENERICA T/O 70 del 1 novembre 1940: 3 reggimenti di fanteria da 3.340 uomini, 9 battaglioni, 27 compagnie fucilieri, artiglieria divisionale su 4 battaglioni; 14.811 uomini di organico più 423 sanitari e cappellani aggregati = 15.245 (usato come organico massimo). Cavalli: 0 nella divisione standard. La partita parte nel 1936: la divisione «quadrata» (4 reggimenti in 2 brigate) è storicamente più coerente ma NON documentata nel progetto; questo template vale dal novembre 1940 e non cambia lo stato iniziale 1936. I mezzi di trasporto (circa 1.200) sono una stima della scheda, non un totale T/O verificato: NON inseriti. Totali di BAR, mitragliatrici .30 e .50 non ricavabili in modo affidabile dalla scansione: lasciati vuoti. Fonte secondaria unica, non verificata sul documento originale.",
-    "sourceFiles": [
-      {
-        "file": "source/usa_inf_template_1940.csv",
-        "sha256": "5f7f1d4e85f603695c0736bcfea95e6fac42f4f5680830a14d22d131382e188e"
-      },
-      {
-        "file": "source/usa_inf_equipment_1940.csv",
-        "sha256": "b604e49881f900711d5c45b1ca9ef827a7fcf39d52cf2b00d15148e8d7cbcdbc"
-      },
-      {
-        "file": "source/land_equipment_catalog_usa_1940.csv",
-        "sha256": "ad516df30c8f256b5c6181ee036a5e238646c5300c97465c734fc9f967fce1c1"
-      }
-    ]
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
   }
 }
