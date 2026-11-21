@@ -59,3 +59,5 @@ test('IA 5A: una linea senza fabbisogno resta se il nuovo fabbisogno non la tien
   assert.equal(aiRetoolNation(nation, 'USA', ctx(new Map([['equipment.W-USA-B', 2000]]))).changes.length, 1);
   assert.equal(aiRetoolNation(nation, 'USA', ctx(new Map([['equipment.W-USA-B', 500]]), null)).changes.length, 1, 'senza esperienza: la regola di prima');
 });
+
+// fabbrica appena costruita: expDays 0 → 60% (scelta dell'utente del 21/11/2026), verificato in tests/construction_game.test.js

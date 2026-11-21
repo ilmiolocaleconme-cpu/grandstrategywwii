@@ -61,6 +61,7 @@ test('ordine di una fabbrica: paga cassa e acciaio, occupa i lavoratori, 45 gior
   assert.equal(s.nations.ITA.construction.length, 0);
   const built = s.nations.ITA.facilities.filter((f) => f.provinceId === prov);
   assert.equal(built.length, 1); assert.equal(built[0].type, 'FCT-STEEL'); assert.equal(built[0].damage, 0);
+  assert.equal(built[0].expDays, 0, 'esperienza (21/11/2026): una fabbrica nuova parte al 60%, come una linea appena convertita');
   const w = workersState(s.nations.ITA, { factoriesById: cat.byId, share });
   assert.equal(w.building, 0); assert.equal(w.employed, workersState(s0.nations.ITA, { factoriesById: cat.byId, share }).employed + 500);
   assert.deepEqual(validateState(s), []);

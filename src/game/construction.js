@@ -201,7 +201,9 @@ export function createConstruction({ catalog, economy, sites, hydro, political, 
           if (i >= 0) facilities[i] = { ...facilities[i], level: c.level };
         } else if (c.kind === 'factory') {
           const priority = facilities.reduce((m, f) => Math.max(m, f.priority ?? 0), 0) + 1;
-          facilities.push({ id: `${id}:${c.provinceId}:${c.factoryId}:${c.recipeId}:d${state.day}:${facilities.length}`, type: c.factoryId, recipeId: c.recipeId, territory: c.territory, provinceId: c.provinceId, damage: 0, priority, active: true });
+          facilities.push({ id: `${id}:${c.provinceId}:${c.factoryId}:${c.recipeId}:d${state.day}:${facilities.length}`, type: c.factoryId, recipeId: c.recipeId, territory: c.territory, provinceId: c.provinceId, damage: 0, priority, active: true, expDays: 0 });
+          // expDays 0 (21/11/2026, scelta dell'utente: «60% per ogni fabbrica nuova»): una fabbrica appena costruita parte come una linea appena convertita
+          // (data/industry/production_experience.json). Le centrali non hanno esperienza (src/rules/production.js la applica solo alle fabbriche).
         } else {
           const i = mines.findIndex((m) => m.provinceId === c.provinceId && m.resource === c.resource);
           const mine = { id: `${c.provinceId}:${c.resource}`, provinceId: c.provinceId, territory: c.territory, resource: c.resource, level: c.level };
