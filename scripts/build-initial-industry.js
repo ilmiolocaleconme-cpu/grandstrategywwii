@@ -25,7 +25,9 @@ const FACT = { veh: ['FCT-VEHICLES', 'REC-VEH-DEU-TRUCK'], steel: ['FCT-STEEL', 
 // senza, la medicina finisce al giorno 150 e gli allevamenti si fermano; serve anche agli ospedali.
 // Veicoli (decisione dell'utente del 18/11/2026, «tutte e tre»): la Germania parte con 3 fabbriche di veicoli (Opel, Daimler-Benz, Büssing), ricetta autocarri da 3 t.
 // URSS (decisione dell'utente del 19/11/2026): 2 fabbriche di veicoli, ZIS (Mosca, ZIS-5 da 3 t) e GAZ (Gor'kij, GAZ-AA da 1,5 t; in EXTRA).
-const VEHICLES = { DEU: 3, USSR: 1 };
+// USA (decisione dell'utente del 21/11/2026, «gli USA iniziano neutrali e in isolamento, solo dopo la produzione di massa»): 2 fabbriche di veicoli,
+// autocarri da 1,5 t; la seconda (in EXTRA) passa al GMC da 2,5 t dal 1/1/1941. Jeep, scout car, M8 e semicingolati: riconversione dell'IA o del giocatore.
+const VEHICLES = { DEU: 3, USSR: 1, USA: 1 };
 const HORSES = ['DEU', 'FRA', 'GBR', 'ITA', 'JPN', 'POL', 'USA', 'USSR'];
 const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 2, tank: 1 }, FRA: { wpn: 1, art: 1, tank: 1 }, GBR: { wpn: 1, art: 1, tank: 1 }, ITA: { wpn: 1, art: 1, tank: 1 }, USSR: { wpn: 1, art: 1, tank: 1 }, JPN: { wpn: 1, art: 1, tank: 1 }, USA: { wpn: 1, art: 1, tank: 1 } };
 // Armi leggere e artiglieria (richiesta dell'utente del 10/11/2026): un impianto di ciascun tipo per le nazioni che hanno voci nel catalogo equipaggiamenti (USSR e JPN da fonti web del 10/11/2026, provvisorie)
@@ -33,7 +35,7 @@ const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 2, tank: 1 }, FRA: 
 // il giocatore la cambia dall'impianto. USA dal T/O 70 del 1940 (scheda fornita dall'utente, 11/11/2026).
 const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-LEFH18', tank: 'REC-TNK-DEU-PZ-I' }, FRA: { wpn: 'REC-INW-FRA-RIFLE-1939', art: 'REC-ART-FRA-ART75M1897', tank: 'REC-TNK-FRA-H39-1940' }, GBR: { wpn: 'REC-INW-GBR-RIFLE', art: 'REC-ART-GBR-FIELD', tank: 'REC-TNK-GBR-LIGHT-TANK-1939' }, ITA: { wpn: 'REC-INW-ITA-RIFLE-1940', art: 'REC-ART-ITA-GUN75-1940', tank: 'REC-TNK-ITA-L3-ARM-1940' },
   USSR: { wpn: 'REC-INW-USSR-RIFLE-1939', art: 'REC-ART-USSR-GUN76-1939', tank: 'REC-TNK-USSR-T26-1940', veh: 'REC-VEH-USSR-ZIS5' }, JPN: { wpn: 'REC-INW-JPN-RIFLE-1939', art: 'REC-ART-JPN-GUN75-DIV-1939', tank: 'REC-TNK-JPN-TYPE95-1942' },
-  USA: { wpn: 'REC-INW-USA-RIFLE-1940', art: 'REC-ART-USA-GUN75-1940', tank: 'REC-TNK-USA-LIGHT-TANK-1940' } };
+  USA: { wpn: 'REC-INW-USA-RIFLE-1940', art: 'REC-ART-USA-GUN75-1940', tank: 'REC-TNK-USA-LIGHT-TANK-1940', veh: 'REC-VEH-USA-TRUCK15' } };
 // Fabbriche di munizioni per nazione (decisione dell'utente del 04/11/2026, «per equilibrare il gioco»): copertura della domanda di
 // attacco continuo di tutte le divisioni del catalogo (348 divisioni, data/military/ammo_consumption.json) con almeno il 100 %.
 // 100 t/giorno per fabbrica. Le nazioni senza divisioni nel catalogo non ne ricevono. Il vecchio calcolo (un quinto delle acciaierie) è
@@ -52,6 +54,20 @@ const EXTRA = { USSR: [['wpn', 'REC-INW-USSR-PISTOL-TT33'], ['wpn', 'REC-MG-USSR
   ['art', 'REC-ART-USSR-HOW152-1939'], ['art', 'REC-ART-USSR-MOR82', { recipeId: 'REC-ART-USSR-MOR50', from: '1938-01-01' }],
   ['art', 'REC-ART-USSR-MOR82', { recipeId: 'REC-ART-USSR-MOR120', from: '1939-01-01' }], ['art', 'REC-ART-USSR-AA76', { recipeId: 'REC-ART-USSR-AA37', from: '1939-01-01' }],
   ['art', 'REC-ART-USSR-AT45-1939', { recipeId: 'REC-ART-USSR-PTRD', from: '1941-09-01' }]], DEU: [['wpn', 'REC-INW-DEU-PISTOL-1939'], ['wpn', 'REC-MG-DEU-MG34-L'], ['wpn', 'REC-MG-DEU-MG34-S'], ['art', 'REC-ART-DEU-SFH18'], ['art', 'REC-ART-DEU-GRW34'], ['art', 'REC-ART-DEU-GRW36'], ['art', 'REC-ART-DEU-PAK36'], ['art', 'REC-ART-DEU-LEIG18']] };
+// USA (21/11/2026, passo 3 dello schema unico; scelte dell'utente 1B, 2A, 3A): una linea per ogni arma dei battaglioni del 1936
+// (data/units/modules/modules_usa.json) e linee RISERVATE ai modelli futuri, che producono il modello del 1936 della stessa famiglia e si
+// riconvertono alla data (plannedRecipe): carabina M1 (10/1941), bazooka (6/1942), anticarro da 37 e mortaio da 60 (1/1940), obice M1 da 155 (1/1942,
+// la linea produce prima il vecchio M1918). Le linee di base (fucile e 75 mm) passano al Garand (1/1937) e al 105 (1/1940): BASE_PLAN qui sotto.
+// Stime di Claude, non dati storici per impianto.
+EXTRA.USA = [['wpn', 'REC-INW-USA-RIFLE-1940', { recipeId: 'REC-INW-USA-CARBINE-M1', from: '1941-10-01' }], ['wpn', 'REC-INW-USA-PISTOL-M1911'],
+  ['wpn', 'REC-INW-USA-SMG-THOMPSON'], ['wpn', 'REC-MG-USA-BAR-1940'], ['wpn', 'REC-MG-USA-HMG-1940'], ['wpn', 'REC-MG-USA-M2-1940'],
+  ['wpn', 'REC-MG-USA-HMG-1940', { recipeId: 'REC-GL-USA-BAZOOKA', from: '1942-06-01' }], ['art', 'REC-ART-USA-MORTAR81-1940'],
+  ['art', 'REC-ART-USA-GUN75-1940', { recipeId: 'REC-ART-USA-AT37-1940', from: '1940-01-01' }],
+  ['art', 'REC-ART-USA-MORTAR81-1940', { recipeId: 'REC-ART-USA-MOR60', from: '1940-01-01' }],
+  ['art', 'REC-ART-USA-HOW155-M1918', { recipeId: 'REC-ART-USA-HOW155-1940', from: '1942-01-01' }],
+  ['veh', 'REC-VEH-USA-TRUCK15', { recipeId: 'REC-VEH-USA-GMC-CCKW', from: '1941-01-01' }]];
+// Piano storico delle linee di base (la prima linea di ogni fabbrica d'armi della nazione).
+const BASE_PLAN = { USA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-USA-GARAND', from: '1937-01-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-USA-HOW105-1940', from: '1940-01-01' } } };
 const MUN = { USA: 6, GBR: 3, DEU: 6, USSR: 6, ITA: 3, FRA: 4, JPN: 5, BEL: 0, CAN: 0, CZE: 0, POL: 0, SWE: 0 };
 
 const candidates = new Set(Object.keys(A));
@@ -82,6 +98,7 @@ for (const n of [...candidates].sort()) {
   const order = ['steel', 'alu', 'ref', 'syn', 'rub', 'chem', 'mach', 'comp', 'eng', 'mun', 'wpn', 'tank', 'veh', 'art', 'feed', 'stud', 'pharma', 'therm'];
   const facilities = order.filter((f) => k[f] > 0).map((f) => ({ factory: FACT[f][0], recipeId: EQUIP[n]?.[f] ?? FACT[f][1], count: k[f] }));
   for (const [f, recipeId, plan] of extra) facilities.splice(facilities.findLastIndex((x) => x.factory === FACT[f][0]) + 1, 0, { factory: FACT[f][0], recipeId, count: 1, ...(plan ? { plannedRecipe: plan } : {}) });
+  for (const [factory, plan] of Object.entries(BASE_PLAN[n] ?? {})) { const f = facilities.find((x) => x.factory === factory && !x.plannedRecipe); if (f) f.plannedRecipe = plan; }
   nations[n] = { tier, owner: entities.get(n).owner, facilities };
 }
 const doc = {

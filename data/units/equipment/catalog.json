@@ -1316,6 +1316,20 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Modello del file data/units/models/fucili_1930_1945.json portato nel catalogo (schema unico dei fucili, scelta 3B dell'utente)."
+    },
+    {
+      "equipment_id": "ART-USA-HOW155-M1918",
+      "nation": "USA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "caliber_mm": 155,
+      "designation": "Obice da 155 mm M1918 (Schneider)",
+      "name_it": "Obice da 155 mm M1918",
+      "role": "medium_howitzer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Obice di origine francese in servizio nel 1936; predecessore dell'M1 (scelta 3A dell'utente)."
     }
   ],
   "aliases": [
@@ -1773,6 +1787,11 @@
       "nation": "USA",
       "templateKey": "INW-USA-CARBINE-M1",
       "equipment_id": "INW-USA-CARBINE-M1"
+    },
+    {
+      "nation": "USA",
+      "templateKey": "ART-USA-HOW155-M1918",
+      "equipment_id": "ART-USA-HOW155-M1918"
     }
   ]
 }

@@ -903,7 +903,54 @@
         {
           "factory": "FCT-WEAPONS",
           "recipeId": "REC-INW-USA-RIFLE-1940",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-USA-GARAND",
+            "from": "1937-01-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-USA-RIFLE-1940",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-USA-CARBINE-M1",
+            "from": "1941-10-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-USA-PISTOL-M1911",
           "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-USA-SMG-THOMPSON",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-USA-BAR-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-USA-HMG-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-USA-M2-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-USA-HMG-1940",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-GL-USA-BAZOOKA",
+            "from": "1942-06-01"
+          }
         },
         {
           "factory": "FCT-TANKS",
@@ -911,9 +958,59 @@
           "count": 1
         },
         {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-USA-TRUCK15",
+          "count": 1
+        },
+        {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-USA-TRUCK15",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-VEH-USA-GMC-CCKW",
+            "from": "1941-01-01"
+          }
+        },
+        {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-USA-GUN75-1940",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-USA-HOW105-1940",
+            "from": "1940-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USA-MORTAR81-1940",
           "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USA-GUN75-1940",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-USA-AT37-1940",
+            "from": "1940-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USA-MORTAR81-1940",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-USA-MOR60",
+            "from": "1940-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-USA-HOW155-M1918",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-USA-HOW155-1940",
+            "from": "1942-01-01"
+          }
         },
         {
           "factory": "FCT-FEED",
@@ -933,7 +1030,7 @@
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 1
+          "count": 2
         }
       ]
     },

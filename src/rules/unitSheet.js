@@ -73,6 +73,7 @@ export const EQUIPMENT_GROUP = Object.freeze({
   'INW-USA-PISTOL-M1911': 'individuali', 'INW-USA-SMG-THOMPSON': 'individuali', 'INW-USA-SMG-M3': 'individuali', 'ART-USA-MOR60': 'mortai', 'ART-USA-HOW75-PACK': 'artiglieria', 'ART-USA-AT57': 'anticarro', 'ART-USA-AA40': 'contraerea', 'VEH-USA-TRUCK15': 'veicoli', 'VEH-USA-GMC-CCKW': 'veicoli', 'VEH-USA-JEEP': 'veicoli', 'VEH-USA-M3-SCOUT': 'veicoli', 'VEH-USA-M3-HT': 'veicoli', 'VEH-USA-M8': 'veicoli', // catalogo USA (20/11/2026)
   'GL-USA-BAZOOKA': 'anticarro', 'GL-DEU-PANZERSCHRECK': 'anticarro', 'GL-DEU-PANZERFAUST': 'anticarro', 'VEH-USA-MOTO': 'veicoli', // anticarro della fanteria e moto USA (20/11/2026)
   'INW-DEU-G43': 'individuali', 'INW-USSR-SVT40': 'individuali', 'INW-USA-GARAND': 'individuali', 'INW-USA-CARBINE-M1': 'individuali', // fucili nello schema unico (21/11/2026)
+  'ART-USA-HOW155-M1918': 'artiglieria', // obice M1918 (21/11/2026)
   'TD-DEU-STUG-III': 'corazzati', 'TD-DEU-STUG-III-G': 'corazzati', 'TD-DEU-PZJG-I': 'corazzati', 'TD-DEU-MARDER-III': 'corazzati', 'TD-DEU-JPZ-IV': 'corazzati', 'TD-DEU-HETZER': 'corazzati', 'TD-DEU-JAGDPANTHER': 'corazzati', // cacciacarri
   fucili: 'individuali', pistole: 'individuali', 'INW-DEU-RIFLE-1939': 'individuali', 'INW-DEU-PISTOL-1939': 'individuali',
   'INW-FRA-RIFLE-1939': 'individuali', 'INW-FRA-PISTOL-1939': 'individuali', 'INW-ITA-RIFLE-1940': 'individuali', 'INW-ITA-PISTOL-1940': 'individuali',

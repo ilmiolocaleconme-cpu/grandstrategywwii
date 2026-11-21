@@ -60,9 +60,22 @@ test('armi leggere e artiglieria (10/11/2026): una fabbrica di ciascun tipo per 
     const c = facilityCounts(file, n);
     // 19/11/2026: la Germania ha un impianto per ogni arma delle divisioni (4 di armi leggere, 7 di artiglieria); l'URSS (stesso giorno, battaglioni
     // sovietici) 4 di armi leggere (fucile, TT-33, DT, Maxim) e 11 di artiglieria (76, mortaio da 82, 76 reggimentale, AT 45, obici da 122 e 152, contraerea da 76; dal 20/11/2026 anche 4 linee riservate
-    // ai mortai da 50 e 120, alla contraerea da 37 e ai fucili anticarro, src/game/retoolSystem.js); le altre ancora uno
-    const [w, a] = n === 'DEU' ? [4, 7] : n === 'USSR' ? [4, 11] : [1, 1];
+    // ai mortai da 50 e 120, alla contraerea da 37 e ai fucili anticarro, src/game/retoolSystem.js); gli USA (21/11/2026, battaglioni americani,
+    // scelte dell'utente 1B-2A-3A) 8 di armi leggere (2 fucili, poi Garand e carabina; pistola; Thompson; BAR; .30; .50; .30 poi bazooka) e 5 di
+    // artiglieria (75 poi 105; mortaio da 81; 75 poi 37 anticarro; 81 poi 60; M1918 poi M1 da 155); le altre ancora uno
+    const [w, a] = n === 'DEU' ? [4, 7] : n === 'USSR' ? [4, 11] : n === 'USA' ? [8, 5] : [1, 1];
     assert.equal(c['FCT-WEAPONS'], w, n); assert.equal(c['FCT-ARTILLERY'], a, n);
     for (const f of file.nations[n].facilities.filter((x) => x.factory === 'FCT-WEAPONS' || x.factory === 'FCT-ARTILLERY')) assert.ok(f.recipeId.split('-').includes(n), `${n}: ${f.recipeId}`);
   }
+});
+
+test('USA (21/11/2026, scelte dell\'utente 1B-2A-3A): 2 fabbriche di veicoli e linee riservate con piano storico', () => {
+  const fs = file.nations.USA.facilities;
+  const plan = (recipeId, to) => fs.find((f) => f.recipeId === recipeId && f.plannedRecipe?.recipeId === to)?.plannedRecipe.from;
+  assert.equal(fs.filter((f) => f.factory === 'FCT-VEHICLES').reduce((s, f) => s + (f.count ?? 1), 0), 2);
+  assert.equal(plan('REC-INW-USA-RIFLE-1940', 'REC-INW-USA-GARAND'), '1937-01-01', 'Springfield passa al Garand');
+  assert.equal(plan('REC-INW-USA-RIFLE-1940', 'REC-INW-USA-CARBINE-M1'), '1941-10-01');
+  assert.equal(plan('REC-ART-USA-GUN75-1940', 'REC-ART-USA-HOW105-1940'), '1940-01-01');
+  assert.equal(plan('REC-ART-USA-HOW155-M1918', 'REC-ART-USA-HOW155-1940'), '1942-01-01', 'il vecchio M1918 fino all\'M1');
+  assert.equal(plan('REC-VEH-USA-TRUCK15', 'REC-VEH-USA-GMC-CCKW'), '1941-01-01');
 });

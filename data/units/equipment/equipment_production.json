@@ -776,6 +776,10 @@
       "massTonnes": 0.0025,
       "availableFrom": "1941-10-01",
       "requiresTech": "TECH-INF-SELECT"
+    },
+    "ART-USA-HOW155-M1918": {
+      "massTonnes": 3.7,
+      "availableTo": "1943-12-31"
     }
   },
   "priceFactor": 1.25

@@ -11,7 +11,7 @@ const Msg = ({ msg }) => (msg ? <p className={msg.ok ? 'muted' : 'warn'} role="s
  * Albero tecnologico (14/11/2026, richiesta dell'utente: colonne con i collegamenti fra le tecnologie, una fascia per ramo con l'avanzamento).
  * rows: research.listFor(...); branches: [{ id, name_it }]; active: ricerca in corso { techId, daysLeft, totalDays } o null.
  * onStart(techId) → { ok, text }. unlocksFor(techId) (facoltativo) → nomi dei modelli sbloccati; rifles → fucili producibili oggi;
- * rifleInfo → { quality, bonus }; techBonusOf(techId) → bonus in battaglia della fanteria.
+ * rifleInfo → { bonus } (dottrina delle tecnologie; la qualità media dei fucili è stata tolta il 21/11/2026); techBonusOf(techId) → bonus in battaglia della fanteria.
  */
 export function ResearchPanel({ rows, onStart, branches = [], active = null, unlocksFor = null, rifles = null, rifleInfo = null, techBonusOf = null }) {
   const [msg, setMsg] = useState(null);
@@ -42,7 +42,8 @@ export function ResearchPanel({ rows, onStart, branches = [], active = null, unl
     <section aria-label="Ricerca">
       <h2>Ricerca</h2>
       <Msg msg={msg} />
-      {rifleInfo ? <p className="muted small">Qualità media dei fucili: {fmt(rifleInfo.quality)} · bonus della fanteria in battaglia (qualità + tecnologie): +{pct(rifleInfo.bonus)}</p> : null}
+      {/* 21/11/2026: la qualità media nazionale dei fucili non esiste più (fucili nello schema unico: ogni modello vale per pezzo in battaglia) */}
+      {rifleInfo ? <p className="muted small">Bonus di dottrina della fanteria in battaglia (tecnologie): +{pct(rifleInfo.bonus)}</p> : null}
       {rifles ? <p className="muted small">Fucili producibili oggi: {rifles.length ? rifles.join(', ') : 'nessun modello nel catalogo'}</p> : null}
       <div className="tech-tree" role="group" aria-label="Albero tecnologico">
         <div className="tech-canvas" style={{ width: tree.width, height: tree.height }}>
