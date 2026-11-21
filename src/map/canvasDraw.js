@@ -10,6 +10,7 @@ import { drawTransport } from './transportView.js';
 import { affineOf, lodLevelForScale, regionToUnits } from './canvasView.js';
 import { drawProvinceResources } from './resourceIcons.js';
 import { drawPorts } from './portIcons.js';
+import { drawProvinceBuildings } from './buildingIcons.js';
 import { drawProvinceUnits } from './unitIcons.js';
 import { RESOURCE_NEUTRAL } from '../data/provinceResources.js';
 
@@ -465,7 +466,7 @@ export function renderBase(ctx, p) {
 
 /** Sovrapposizione: contorno della provincia selezionata e nomi, con la vista corrente (si ridisegna a ogni fotogramma del gesto). */
 export function drawOverlay(ctx, p) {
-  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, commandLinks, unitHits, provincePorts, portYards, portHits, seas, selectedSeaId, marks } = p;
+  const { model, lod, view, vb, lay, dpr, selectedId, labels, copies, layer, provinceResources, provinceUnits, commandLinks, unitHits, provincePorts, portYards, portHits, seas, selectedSeaId, marks, provinceBuildings } = p;
   const a = affineOf(view, vb, lay);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -526,6 +527,11 @@ export function drawOverlay(ctx, p) {
   if (provinceUnits) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawProvinceUnits(ctx, { items: model.items, byProvince: provinceUnits, a, dpr, copies, boxes: cityBoxes, model, hits: unitHits, farIds: commandLinks?.farIds, threads: commandLinks?.threads });
+  }
+  // opzione Edifici: impianti, miniere, caserme, ospedali, centrali e lavori in corso, sotto il punto della provincia (dopo le unità, che hanno la precedenza)
+  if (provinceBuildings) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawProvinceBuildings(ctx, { items: model.items, byProvince: provinceBuildings, a, dpr, copies, boxes: cityBoxes, model });
   }
   // livello Porti: distintivo con l'àncora sul porto (punto della città portuale) e nome, prima dei nomi delle città
   if (portHits) portHits.length = 0;

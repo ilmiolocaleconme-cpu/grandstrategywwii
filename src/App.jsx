@@ -107,7 +107,8 @@ import conditionConfigFile from '../data/units/condition_config.json';
 import servicesFile from '../data/units/services.json'; // servizi dei reparti: Waffen-SS, Guardie… (20/11/2026)
 import barracksFile from '../data/military/barracks.json'; // caserme: Germania e URSS (20/11/2026)
 import { barracksEnabled } from './data/barracks.js';
-import { barracksRows, barracksOrigins, pickBarracks, barracksBuildOption } from './game/barracksState.js';
+import { barracksRows, barracksOrigins, pickBarracks, barracksBuildOption, barracksOf } from './game/barracksState.js';
+import { buildingsByProvince } from './rules/mapBuildings.js';
 import { withServiceExperience, servicePriority } from './data/services.js';
 import { createPromotionSystem, serviceOfUnit } from './game/honorsState.js'; // promozioni (Guardie sovietiche, 20/11/2026)
 import commandTemplates from '../data/units/command_templates.json';
@@ -523,6 +524,7 @@ export default function App() {
   const linksRaw = useLinks(USE_CANVAS);
   const [showTransport, setShowTransport] = useState(false);
   const [showYards, setShowYards] = useState(false); // cantieri navali sulla mappa: opzione propria, accendibile anche senza i porti
+  const [showBuildings, setShowBuildings] = useState(true); // edifici e lavori in corso sulla mappa (21/11/2026): accesi all'avvio
   const [showPorts, setShowPorts] = useState(false); // porti e cantieri sulla mappa: opzione indipendente dal livello, come le strade
   // collegamenti con i gradini della PARTITA (livello di partenza o migliorato): la mappa e le regole usano lo stesso dato. Se le province non corrispondono al grafo non si applica nulla.
   const links = useMemo(() => {
@@ -772,6 +774,7 @@ export default function App() {
     return game && id ? provincePortRows(game, id, { ports: GAME_PORTS, build: GAME_BUILD, nationId: game.player, techName }) : null;
   }, [game, selectedItem, techName]);
   const harbours = useMemo(() => (game ? portSummary(game, game.player, { ports: GAME_PORTS, entityOf: entityOfProvince }) : null), [game]);
+  const buildingList = useMemo(() => (game && showBuildings ? buildingsByProvince(game, { player: game.player, hydro: hydroPlants, barracksDoc: barracksFile, barracksOf }) : null), [game?.nations, game?.barracks, game?.date, game?.player, showBuildings]); // eslint-disable-line react-hooks/exhaustive-deps
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
   const portYardList = useMemo(() => shipyardPins(GAME_PORTS, game, shipyardsFile), [game?.nations, game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- cantieri storici 1936 (bozza) e costruiti, accanto al porto
   const network = useMemo(() => (game ? infraSummary(game, game.player, { infra: GAME_INFRA, entityOf: entityOfProvince }) : null), [game]);
@@ -1147,7 +1150,7 @@ export default function App() {
             }} />
           </div>
         ) : null}
-        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={orderIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} chain={radialChain} onInfo={() => setInfoSheet(true)} onAttach={() => { if (radialChain.enabled) setInfoSheet({ unitId: radialChain.unitId, attach: true }); }} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} showPorts={showPorts} onTogglePorts={() => setShowPorts((v) => !v)} provincePorts={showPorts ? portPinList : null} showYards={showYards} onToggleYards={() => setShowYards((v) => !v)} portYards={showYards ? portYardList : null} onSelectPort={selectPort} />
+        <MapScreen land={land} radial={armyGroup ? <UnitRadial n={orderIds.length} canAct={radialOwn && moveNet !== null} moving={moveMode} digging={radialDigging} canDig={radialFighters.length > 0} chain={radialChain} onInfo={() => setInfoSheet(true)} onAttach={() => { if (radialChain.enabled) setInfoSheet({ unitId: radialChain.unitId, attach: true }); }} onMove={radialMove} onEntrench={radialDig} /> : null} selectedUnits={armySel} focus={focus} dataReady={dataReady} readyKey={readyKey} onReady={() => setMapReady(true)} provinces={provincesWithCities} rivers={rivers} riversGeo={riversGeo} lakes={lakes} nationNames={NATION_NAMES} nationControl={control} selectedId={provinceId} onSelect={selectProvince} layer={layer} onLayerChange={changeLayer} showRivers={showRivers} onToggleRivers={() => setShowRivers((v) => !v)} seas={seaFile} showSeas={showSeas} onToggleSeas={() => setShowSeas((v) => !v)} selectedSeaId={seaId} onSelectSea={selectSea} labelData={labelData} transport={transport} showTransport={showTransport} onToggleTransport={() => setShowTransport((v) => !v)} toolsHost={toolsHost} provinceResources={provinceResources} provinceUnits={provinceUnits} commandLinks={mapLinks} onSelectUnits={selectUnits} marks={theaterMarkSet} showPorts={showPorts} onTogglePorts={() => setShowPorts((v) => !v)} provincePorts={showPorts ? portPinList : null} showYards={showYards} onToggleYards={() => setShowYards((v) => !v)} showBuildings={showBuildings} onToggleBuildings={() => setShowBuildings((v) => !v)} provinceBuildings={buildingList} portYards={showYards ? portYardList : null} onSelectPort={selectPort} />
         {orderTo && !command ? (
           <div className="order-bar" role="status">
             <span>{orderTo.note ?? `Tocca sulla mappa la destinazione per ${orderTo.ids.length} ${orderTo.ids.length === 1 ? 'divisione' : 'divisioni'}: territorio tuo = marcia, nemico (in guerra) = attacco.`}</span>
