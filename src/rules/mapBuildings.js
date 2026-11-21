@@ -2,12 +2,15 @@
 // e ogni costruzione in corso). Funzioni PURE: dallo stato di partita all'elenco per provincia, senza disegno.
 //
 // Si mostra SOLO ciò che ha una provincia nei dati o nello stato (regola del repo: mai inventare dati):
-// - impianti costruiti in partita (facility.provinceId), miniere, ospedali, caserme (stato o file iniziale), centrali idroelettriche
+// - impianti (facility.provinceId: costruiti in partita e, dal 21/11/2026, quelli iniziali), miniere, ospedali, caserme (stato o file iniziale), centrali idroelettriche
 //   (hydro_plants.json, con provinceId e validFrom);
 // - costruzioni in corso (nation.construction: provinceId, daysLeft, totalDays), con la quota fatta.
-// NON si mostrano: gli impianti iniziali (initial_industry.json non ha province: MISSING_DATA, 421 impianti al 1/1/1936),
+// NON si mostrano: gli impianti senza posto (initial_facility_sites.json, `unplaced`: microstati senza province),
 // i porti e i cantieri navali (hanno già i loro segnalini, opzioni «Porti» e «Cantieri navali»), i collegamenti (livello strade).
 // Le costruzioni in corso si vedono solo per la nazione del giocatore: quelle altrui sono informazione d'intelligence.
+// Visibilità (decisione dell'utente 21/11/2026): gli edifici si vedono solo per il giocatore e i suoi alleati (ctx.visible);
+// quelli delle altre nazioni restano nascosti (in futuro: con le spie). Dal 21/11/2026 anche gli impianti iniziali hanno una provincia
+// (data/industry/initial_facility_sites.json, regola dichiarata: src/rules/facilityPlacement.js).
 
 /** Categorie di edificio, nell'ordine di importanza sulla mappa. name: testo della legenda. */
 export const BUILDING_KINDS = Object.freeze([
@@ -62,7 +65,8 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
  * Edifici per provincia: { [provinceId]: [ { kind, n, job?: { frac, daysLeft, totalDays, level? } } ] }, prima i lavori in corso,
  * poi gli edifici per importanza (BUILDING_KINDS). n = quanti edifici di quella categoria (per caserme e miniere: somma dei livelli).
  * Le chiavi sono province o sponde come nei dati: la scelta del segnaposto sulla mappa è del disegno (resolveBuildingAnchors).
- * ctx: { player?, hydro? (hydro_plants.json), barracksDoc? (data/military/barracks.json), barracksOf?(state, doc, nation) }.
+ * ctx: { player?, visible? (Set delle nazioni di cui si vedono gli edifici; assente = tutte), controllerOf?(state, provinceId) (per le centrali
+ *        idroelettriche, che non appartengono a una nazione nello stato), hydro? (hydro_plants.json), barracksDoc?, barracksOf?(state, doc, nation) }.
  */
 export function buildingsByProvince(state, ctx = {}) {
   const out = {};
@@ -76,10 +80,11 @@ export function buildingsByProvince(state, ctx = {}) {
   const jobs = new Map(); // provinceId → lavori in corso
   for (const id of Object.keys(state.nations).sort()) {
     const n = state.nations[id];
-    for (const f of n.facilities ?? []) if (f.provinceId) add(f.provinceId, factoryKind(f.type));
-    for (const m of n.mines ?? []) add(m.provinceId, 'mine', m.level ?? 1);
-    for (const h of n.hospitals ?? []) add(h.provinceId, 'hospital');
-    if (ctx.barracksOf && ctx.barracksDoc && (ctx.barracksDoc.nations ?? []).includes(id)) {
+    const seen = !ctx.visible || ctx.visible.has(id);
+    if (seen) for (const f of n.facilities ?? []) if (f.provinceId) add(f.provinceId, factoryKind(f.type));
+    if (seen) for (const m of n.mines ?? []) add(m.provinceId, 'mine', m.level ?? 1);
+    if (seen) for (const h of n.hospitals ?? []) add(h.provinceId, 'hospital');
+    if (seen && ctx.barracksOf && ctx.barracksDoc && (ctx.barracksDoc.nations ?? []).includes(id)) {
       for (const b of ctx.barracksOf(state, ctx.barracksDoc, id)) add(b.provinceId, 'barracks', b.level ?? 1);
     }
     if (ctx.player && id !== ctx.player) continue;
@@ -94,7 +99,11 @@ export function buildingsByProvince(state, ctx = {}) {
     }
   }
   const date = state.date ?? null;
-  for (const p of ctx.hydro?.plants ?? []) if (p.provinceId && (!date || !p.validFrom || p.validFrom <= date)) add(p.provinceId, 'hydro');
+  for (const p of ctx.hydro?.plants ?? []) {
+    if (!p.provinceId || (date && p.validFrom && p.validFrom > date)) continue;
+    if (ctx.visible && ctx.controllerOf && !ctx.visible.has(ctx.controllerOf(state, p.provinceId))) continue;
+    add(p.provinceId, 'hydro');
+  }
   for (const pid of new Set([...jobs.keys(), ...built.keys()])) {
     const list = [...(jobs.get(pid) ?? [])].sort((a, b) => (b.job.frac - a.job.frac) || (RANK.get(a.kind) - RANK.get(b.kind)));
     const m = built.get(pid);

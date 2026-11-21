@@ -1,0 +1,16 @@
+{
+  "schema": "facility-placement-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Regola di collocazione degli impianti iniziali (decisioni dell'utente del 21/11/2026), uguale per tutte le nazioni. NON è un dato storico: ogni impianto collocato con la regola ha basis 'rule'. Le fonti storiche si aggiungono in `sources` (basis 'source') e prevalgono sulla regola. Dopo ogni modifica: npm run build:facility-sites.",
+  "captureDamage": 0.5,
+  "rules": {
+    "default": { "by": "population", "why": "industria manifatturiera vicino alla manodopera" },
+    "FCT-STEEL": { "by": { "coal": 1, "iron_ore": 0.25 }, "minScore": 0.5, "fallback": "port", "why": "altoforni soprattutto sul carbone da coke (Ruhr, Pennsylvania, Donbass), meno sul minerale (Lorena, Magnitogorsk): peso 1 al carbone e 0,25 al ferro; se la nazione non ne ha abbastanza (meno di 0,5 punti nella provincia migliore), nel porto principale: carbone e minerale importati (Genova, Bagnoli)" },
+    "FCT-POWER": { "by": ["coal"], "minScore": 0.5, "fallback": "population", "why": "centrali termoelettriche sui bacini carboniferi" },
+    "FCT-SYNFUEL": { "by": ["coal"], "minScore": 0.5, "fallback": "population", "why": "benzina sintetica dal carbone" },
+    "FCT-REFINERY": { "by": ["oil"], "minScore": 0.5, "fallback": "port", "why": "raffinerie sui giacimenti; senza petrolio nel porto principale (greggio importato)" },
+    "FCT-ALUMINIUM": { "by": ["aluminium"], "fallback": "population", "basis": "data", "why": "centri di fonderia di resource_points.json (sezione products)" },
+    "FCT-RUBBER": { "by": ["rubber"], "fallback": "population", "why": "gomma naturale dove si coltiva, altrimenti vicino alla manodopera" }
+  },
+  "sources": []
+}

@@ -3,8 +3,9 @@
 // Si paga TUTTO all'ordine (cassa e acciaio); i lavoratori sono occupati finché dura la costruzione e poi passano all'impianto finito.
 // Miglioramento di una fabbrica (ordine kind 'upgrade', 29/10/2026): fabbrica → complesso industriale → grande complesso industriale (catalog.levels = factory_levels.json).
 // Non occupa slot; paga tutto all'ordine; l'impianto continua a produrre al livello vecchio finché i lavori non finiscono, poi passa al nuovo (campo `level`).
+// Impianti iniziali (21/11/2026): hanno una provincia (data/industry/initial_facility_sites.json, regola dichiarata) e occupano gli spazi come gli altri.
 // NON ancora: tecnologie richieste (MISSING_DATA: non esistono tecnologie iniziali, `requires` è sempre null), annullamento e rimborso, slot delle città,
-// slot occupati dagli impianti iniziali (non hanno provincia: MISSING_DATA), consumo di energia del pompaggio del petrolio per le miniere.
+// consumo di energia del pompaggio del petrolio per le miniere.
 import { canStartBuild } from '../rules/construction.js';
 import { workersState } from '../rules/workers.js';
 import { SLOT_CAPACITY } from '../rules/slots.js';
