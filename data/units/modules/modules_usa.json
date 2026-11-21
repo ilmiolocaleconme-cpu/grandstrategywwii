@@ -565,6 +565,34 @@
       "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-USA-FA-ARM-1942",
+      "nation": "USA",
+      "type": "artillery",
+      "name_native": "Armored Field Artillery Battalion (1942, M7 Priest)",
+      "name_it": "Gruppo d'artiglieria corazzata semovente (1942, M7 Priest)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "ART-USA-M7-PRIEST": 18,
+        "INW-USA-GARAND": 150,
+        "INW-USA-CARBINE-M1": 150,
+        "INW-USA-PISTOL-M1911": 80,
+        "MG-USA-M2-1940": 18,
+        "VEH-USA-M3-HT": 12,
+        "VEH-USA-GMC-CCKW": 30,
+        "VEH-USA-JEEP": 10
+      },
+      "mobility": "mechanized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": [
+        "TECH-MOT-INF",
+        "TECH-MECH-HT"
+      ],
+      "availableFrom": "1942-06-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti.",
+      "supersedes": "MOD-USA-FA-ARM"
+    },
+    {
       "id": "MOD-USA-AT-ARM",
       "nation": "USA",
       "type": "anti_tank",
@@ -710,12 +738,12 @@
       "id": "MOD-USA-FA-ARM-1943",
       "nation": "USA",
       "type": "artillery",
-      "name_native": "Armored Field Artillery Battalion (1943)",
-      "name_it": "Gruppo d'artiglieria corazzata (1943)",
+      "name_native": "Armored Field Artillery Battalion (1943, M7 Priest)",
+      "name_it": "Gruppo d'artiglieria corazzata semovente (1943, M7 Priest)",
       "men": 530,
       "horses": 0,
       "equipment": {
-        "ART-USA-HOW105-ARM-1940": 18,
+        "ART-USA-M7-PRIEST": 18,
         "INW-USA-GARAND": 150,
         "INW-USA-CARBINE-M1": 200,
         "INW-USA-PISTOL-M1911": 50,
@@ -1040,6 +1068,84 @@
       ],
       "availableFrom": "1944-06-01",
       "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-USA-TD-M10",
+      "nation": "USA",
+      "type": "anti_tank",
+      "name_native": "Tank Destroyer Battalion (Self-Propelled, M10)",
+      "name_it": "Battaglione cacciacarri semoventi (M10)",
+      "men": 670,
+      "horses": 0,
+      "equipment": {
+        "TD-USA-M10": 36,
+        "VEH-USA-M8": 6,
+        "INW-USA-CARBINE-M1": 450,
+        "INW-USA-PISTOL-M1911": 100,
+        "MG-USA-M2-1940": 20,
+        "GL-USA-BAZOOKA": 20,
+        "VEH-USA-JEEP": 25,
+        "VEH-USA-GMC-CCKW": 30
+      },
+      "mobility": "armored",
+      "illustration": "cacciacarri",
+      "requiresTech": [
+        "TECH-ARM-TD"
+      ],
+      "availableFrom": "1942-09-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Battaglione autonomo (non organico delle divisioni): per l'editor."
+    },
+    {
+      "id": "MOD-USA-TD-M18",
+      "nation": "USA",
+      "type": "anti_tank",
+      "name_native": "Tank Destroyer Battalion (Self-Propelled, M18)",
+      "name_it": "Battaglione cacciacarri semoventi (M18)",
+      "men": 670,
+      "horses": 0,
+      "equipment": {
+        "TD-USA-M18": 36,
+        "VEH-USA-M8": 6,
+        "INW-USA-CARBINE-M1": 450,
+        "INW-USA-PISTOL-M1911": 100,
+        "MG-USA-M2-1940": 20,
+        "GL-USA-BAZOOKA": 20,
+        "VEH-USA-JEEP": 25,
+        "VEH-USA-GMC-CCKW": 30
+      },
+      "mobility": "armored",
+      "illustration": "cacciacarri",
+      "requiresTech": [
+        "TECH-ARM-TD"
+      ],
+      "availableFrom": "1943-07-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Battaglione autonomo (non organico delle divisioni): per l'editor."
+    },
+    {
+      "id": "MOD-USA-TD-M36",
+      "nation": "USA",
+      "type": "anti_tank",
+      "name_native": "Tank Destroyer Battalion (Self-Propelled, M36)",
+      "name_it": "Battaglione cacciacarri semoventi (M36)",
+      "men": 670,
+      "horses": 0,
+      "equipment": {
+        "TD-USA-M36": 36,
+        "VEH-USA-M8": 6,
+        "INW-USA-CARBINE-M1": 450,
+        "INW-USA-PISTOL-M1911": 100,
+        "MG-USA-M2-1940": 20,
+        "GL-USA-BAZOOKA": 20,
+        "VEH-USA-JEEP": 25,
+        "VEH-USA-GMC-CCKW": 30
+      },
+      "mobility": "armored",
+      "illustration": "cacciacarri",
+      "requiresTech": [
+        "TECH-ARM-TD"
+      ],
+      "availableFrom": "1944-06-01",
+      "note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti. Battaglione autonomo (non organico delle divisioni): per l'editor."
     }
   ],
   "compositions": [

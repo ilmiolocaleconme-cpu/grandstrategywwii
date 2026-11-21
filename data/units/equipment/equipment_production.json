@@ -780,6 +780,79 @@
     "ART-USA-HOW155-M1918": {
       "massTonnes": 3.7,
       "availableTo": "1943-12-31"
+    },
+    "TNK-USA-M2A2": {
+      "massTonnes": 9.5,
+      "availableTo": "1938-12-31"
+    },
+    "TNK-USA-M2A4": {
+      "massTonnes": 11.6,
+      "availableFrom": "1939-05-01",
+      "availableTo": "1941-03-31",
+      "requiresTech": "TECH-ARM-GUN-3750"
+    },
+    "TNK-USA-M3-STUART": {
+      "massTonnes": 12.9,
+      "availableFrom": "1941-03-01",
+      "availableTo": "1942-10-31",
+      "requiresTech": "TECH-ARM-GUN-3750"
+    },
+    "TNK-USA-M5-STUART": {
+      "massTonnes": 15.0,
+      "availableFrom": "1942-11-01",
+      "availableTo": "1944-12-31",
+      "requiresTech": "TECH-ARM-GUN-3750"
+    },
+    "TNK-USA-M24": {
+      "massTonnes": 18.4,
+      "availableFrom": "1944-04-01",
+      "requiresTech": "TECH-ARM-GUN-75S"
+    },
+    "TNK-USA-M2-MEDIUM": {
+      "massTonnes": 17.2,
+      "availableFrom": "1939-08-01",
+      "availableTo": "1940-08-31",
+      "requiresTech": "TECH-ARM-GUN-3750"
+    },
+    "TNK-USA-M3-LEE": {
+      "massTonnes": 27.2,
+      "availableFrom": "1941-06-01",
+      "availableTo": "1942-12-31",
+      "requiresTech": "TECH-ARM-GUN-75S"
+    },
+    "TNK-USA-M4-75": {
+      "massTonnes": 30.3,
+      "availableFrom": "1942-02-01",
+      "requiresTech": "TECH-ARM-GUN-75S"
+    },
+    "TNK-USA-M4-76": {
+      "massTonnes": 32.0,
+      "availableFrom": "1944-01-01",
+      "requiresTech": "TECH-ARM-GUN-75L"
+    },
+    "TNK-USA-M26": {
+      "massTonnes": 41.9,
+      "availableFrom": "1945-01-01",
+      "requiresTech": "TECH-ARM-HEAVY"
+    },
+    "TD-USA-M10": {
+      "massTonnes": 29.6,
+      "availableFrom": "1942-09-01",
+      "requiresTech": "TECH-ARM-TD"
+    },
+    "TD-USA-M18": {
+      "massTonnes": 17.7,
+      "availableFrom": "1943-07-01",
+      "requiresTech": "TECH-ARM-TD"
+    },
+    "TD-USA-M36": {
+      "massTonnes": 28.6,
+      "availableFrom": "1944-04-01",
+      "requiresTech": "TECH-ARM-TD"
+    },
+    "ART-USA-M7-PRIEST": {
+      "massTonnes": 22.9,
+      "availableFrom": "1942-04-01"
     }
   },
   "priceFactor": 1.25

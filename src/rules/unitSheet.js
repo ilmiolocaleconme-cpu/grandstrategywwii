@@ -74,6 +74,7 @@ export const EQUIPMENT_GROUP = Object.freeze({
   'GL-USA-BAZOOKA': 'anticarro', 'GL-DEU-PANZERSCHRECK': 'anticarro', 'GL-DEU-PANZERFAUST': 'anticarro', 'VEH-USA-MOTO': 'veicoli', // anticarro della fanteria e moto USA (20/11/2026)
   'INW-DEU-G43': 'individuali', 'INW-USSR-SVT40': 'individuali', 'INW-USA-GARAND': 'individuali', 'INW-USA-CARBINE-M1': 'individuali', // fucili nello schema unico (21/11/2026)
   'ART-USA-HOW155-M1918': 'artiglieria', // obice M1918 (21/11/2026)
+  'TNK-USA-M2A2': 'corazzati', 'TNK-USA-M2A4': 'corazzati', 'TNK-USA-M3-STUART': 'corazzati', 'TNK-USA-M5-STUART': 'corazzati', 'TNK-USA-M24': 'corazzati', 'TNK-USA-M2-MEDIUM': 'corazzati', 'TNK-USA-M3-LEE': 'corazzati', 'TNK-USA-M4-75': 'corazzati', 'TNK-USA-M4-76': 'corazzati', 'TNK-USA-M26': 'corazzati', 'TD-USA-M10': 'corazzati', 'TD-USA-M18': 'corazzati', 'TD-USA-M36': 'corazzati', 'ART-USA-M7-PRIEST': 'artiglieria', // carri USA per modello (21/11/2026)
   'TD-DEU-STUG-III': 'corazzati', 'TD-DEU-STUG-III-G': 'corazzati', 'TD-DEU-PZJG-I': 'corazzati', 'TD-DEU-MARDER-III': 'corazzati', 'TD-DEU-JPZ-IV': 'corazzati', 'TD-DEU-HETZER': 'corazzati', 'TD-DEU-JAGDPANTHER': 'corazzati', // cacciacarri
   fucili: 'individuali', pistole: 'individuali', 'INW-DEU-RIFLE-1939': 'individuali', 'INW-DEU-PISTOL-1939': 'individuali',
   'INW-FRA-RIFLE-1939': 'individuali', 'INW-FRA-PISTOL-1939': 'individuali', 'INW-ITA-RIFLE-1940': 'individuali', 'INW-ITA-PISTOL-1940': 'individuali',

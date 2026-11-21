@@ -954,8 +954,12 @@
         },
         {
           "factory": "FCT-TANKS",
-          "recipeId": "REC-TNK-USA-LIGHT-TANK-1940",
-          "count": 1
+          "recipeId": "REC-TNK-USA-M2A2",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TNK-USA-M2A4",
+            "from": "1939-05-01"
+          }
         },
         {
           "factory": "FCT-VEHICLES",

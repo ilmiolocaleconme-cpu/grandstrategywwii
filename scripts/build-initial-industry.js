@@ -35,7 +35,7 @@ const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 2, tank: 1 }, FRA: 
 // il giocatore la cambia dall'impianto. USA dal T/O 70 del 1940 (scheda fornita dall'utente, 11/11/2026).
 const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-LEFH18', tank: 'REC-TNK-DEU-PZ-I' }, FRA: { wpn: 'REC-INW-FRA-RIFLE-1939', art: 'REC-ART-FRA-ART75M1897', tank: 'REC-TNK-FRA-H39-1940' }, GBR: { wpn: 'REC-INW-GBR-RIFLE', art: 'REC-ART-GBR-FIELD', tank: 'REC-TNK-GBR-LIGHT-TANK-1939' }, ITA: { wpn: 'REC-INW-ITA-RIFLE-1940', art: 'REC-ART-ITA-GUN75-1940', tank: 'REC-TNK-ITA-L3-ARM-1940' },
   USSR: { wpn: 'REC-INW-USSR-RIFLE-1939', art: 'REC-ART-USSR-GUN76-1939', tank: 'REC-TNK-USSR-T26-1940', veh: 'REC-VEH-USSR-ZIS5' }, JPN: { wpn: 'REC-INW-JPN-RIFLE-1939', art: 'REC-ART-JPN-GUN75-DIV-1939', tank: 'REC-TNK-JPN-TYPE95-1942' },
-  USA: { wpn: 'REC-INW-USA-RIFLE-1940', art: 'REC-ART-USA-GUN75-1940', tank: 'REC-TNK-USA-LIGHT-TANK-1940', veh: 'REC-VEH-USA-TRUCK15' } };
+  USA: { wpn: 'REC-INW-USA-RIFLE-1940', art: 'REC-ART-USA-GUN75-1940', tank: 'REC-TNK-USA-M2A2', veh: 'REC-VEH-USA-TRUCK15' } }; // USA carro: M2A2 (passo 4, 21/11/2026; prima la voce di classe)
 // Fabbriche di munizioni per nazione (decisione dell'utente del 04/11/2026, «per equilibrare il gioco»): copertura della domanda di
 // attacco continuo di tutte le divisioni del catalogo (348 divisioni, data/military/ammo_consumption.json) con almeno il 100 %.
 // 100 t/giorno per fabbrica. Le nazioni senza divisioni nel catalogo non ne ricevono. Il vecchio calcolo (un quinto delle acciaierie) è
@@ -67,7 +67,7 @@ EXTRA.USA = [['wpn', 'REC-INW-USA-RIFLE-1940', { recipeId: 'REC-INW-USA-CARBINE-
   ['art', 'REC-ART-USA-HOW155-M1918', { recipeId: 'REC-ART-USA-HOW155-1940', from: '1942-01-01' }],
   ['veh', 'REC-VEH-USA-TRUCK15', { recipeId: 'REC-VEH-USA-GMC-CCKW', from: '1941-01-01' }]];
 // Piano storico delle linee di base (la prima linea di ogni fabbrica d'armi della nazione).
-const BASE_PLAN = { USA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-USA-GARAND', from: '1937-01-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-USA-HOW105-1940', from: '1940-01-01' } } };
+const BASE_PLAN = { USA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-USA-GARAND', from: '1937-01-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-USA-HOW105-1940', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-USA-M2A4', from: '1939-05-01' } } }; // carri: M2A2 → M2A4 (5/1939)
 const MUN = { USA: 6, GBR: 3, DEU: 6, USSR: 6, ITA: 3, FRA: 4, JPN: 5, BEL: 0, CAN: 0, CZE: 0, POL: 0, SWE: 0 };
 
 const candidates = new Set(Object.keys(A));

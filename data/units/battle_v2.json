@@ -382,6 +382,71 @@
         "soft": 95,
         "hard": 90,
         "armor": 1.5
+      },
+      "TNK-USA-M2A2": {
+        "soft": 18,
+        "hard": 3,
+        "armor": 0.45
+      },
+      "TNK-USA-M2A4": {
+        "soft": 25,
+        "hard": 20,
+        "armor": 0.55
+      },
+      "TNK-USA-M3-STUART": {
+        "soft": 28,
+        "hard": 24,
+        "armor": 0.6
+      },
+      "TNK-USA-M5-STUART": {
+        "soft": 30,
+        "hard": 25,
+        "armor": 0.65
+      },
+      "TNK-USA-M24": {
+        "soft": 45,
+        "hard": 35,
+        "armor": 0.7
+      },
+      "TNK-USA-M2-MEDIUM": {
+        "soft": 30,
+        "hard": 22,
+        "armor": 0.7
+      },
+      "TNK-USA-M3-LEE": {
+        "soft": 55,
+        "hard": 40,
+        "armor": 0.9
+      },
+      "TNK-USA-M4-75": {
+        "soft": 60,
+        "hard": 45,
+        "armor": 1.0
+      },
+      "TNK-USA-M4-76": {
+        "soft": 60,
+        "hard": 65,
+        "armor": 1.05
+      },
+      "TNK-USA-M26": {
+        "soft": 75,
+        "hard": 85,
+        "armor": 1.35
+      },
+      "TD-USA-M10": {
+        "soft": 35,
+        "hard": 65,
+        "armor": 0.8
+      },
+      "TD-USA-M18": {
+        "soft": 35,
+        "hard": 65,
+        "armor": 0.6
+      },
+      "TD-USA-M36": {
+        "soft": 40,
+        "hard": 85,
+        "armor": 0.85
       }
     },
     "fleetMix": {
@@ -535,6 +600,79 @@
             "TNK-USSR-T34-1940": 0.6
           }
         }
+      ],
+      "TNK-USA-LIGHT-TANK-1940": [
+        {
+          "from": 1936,
+          "mix": {
+            "TNK-USA-M2A2": 1
+          }
+        },
+        {
+          "from": 1940,
+          "mix": {
+            "TNK-USA-M2A2": 0.5,
+            "TNK-USA-M2A4": 0.5
+          }
+        },
+        {
+          "from": 1942,
+          "mix": {
+            "TNK-USA-M2A4": 0.2,
+            "TNK-USA-M3-STUART": 0.8
+          }
+        },
+        {
+          "from": 1943,
+          "mix": {
+            "TNK-USA-M3-STUART": 0.4,
+            "TNK-USA-M5-STUART": 0.6
+          }
+        },
+        {
+          "from": 1945,
+          "mix": {
+            "TNK-USA-M5-STUART": 0.6,
+            "TNK-USA-M24": 0.4
+          }
+        }
+      ],
+      "TNK-USA-MEDIUM-TANK-1940": [
+        {
+          "from": 1939,
+          "mix": {
+            "TNK-USA-M2-MEDIUM": 1
+          }
+        },
+        {
+          "from": 1942,
+          "mix": {
+            "TNK-USA-M2-MEDIUM": 0.2,
+            "TNK-USA-M3-LEE": 0.8
+          }
+        },
+        {
+          "from": 1943,
+          "mix": {
+            "TNK-USA-M3-LEE": 0.3,
+            "TNK-USA-M4-75": 0.7
+          }
+        },
+        {
+          "from": 1944,
+          "mix": {
+            "TNK-USA-M4-75": 0.85,
+            "TNK-USA-M4-76": 0.15
+          }
+        },
+        {
+          "from": 1945,
+          "mix": {
+            "TNK-USA-M4-75": 0.55,
+            "TNK-USA-M4-76": 0.4,
+            "TNK-USA-M26": 0.05
+          }
+        }
       ]
     },
     "panzerRationale": "Panzer tedeschi (17/11/2026). Le divisioni tedesche tengono la voce generica «carri armati»: ora i carri che arrivano dalla produzione vi restano registrati per modello (campo `models` della voce) e ogni modello ha il suo peso (`tankModels`: Panzer I 18/2 con corazza 0,4 … Tiger II 90/120 con 1,9). I carri mai tracciati (la dotazione con cui la divisione nasce) si dividono secondo `fleetMix`, la composizione approssimata del parco tedesco nell'anno di nascita della divisione (1936: solo Panzer I; settembre 1939: circa 45% Panzer I, 40% Panzer II, 5% Panzer III, 10% Panzer IV). Pesi e quote sono IPOTESI di Claude a memoria, non verificate su fonti: i carri cechi (Pz 35(t), Pz 38(t)) non sono nel catalogo e non compaiono. La Cecoslovacchia non ha template corazzati: le sue versioni (LT vz. 35 e 38) entreranno con un template ceco. Versioni separate (18/11/2026): Pz III 37/50 mm corto 40/45 corazza 0,95 e Ausf. J–L col 50 mm L/60 42/60 1,05; Pz IV a canna corta 60/25 0,9 (prima 65/45, media delle versioni) e Ausf. F2–H col 75 mm lungo 65/70 1,1.",
@@ -576,7 +714,8 @@
         "hard": 0
       }
     },
-    "rifleRoleRationale": "21/11/2026 (fucili nello schema unico, scelta 1A dell'utente): il semiautomatico vale 0,75 contro 0,5 del fucile a ripetizione, tarato perché una divisione di fanteria tutta a semiautomatici guadagni circa l'8% di potenza come col vecchio bonus nazionale (calcolo sui template 1939/40: fattore 1,46 Germania, 1,44 URSS, 1,56 USA → 1,5). Carabina M1 0,6: cartuccia più debole del Garand, più efficace di una pistola. Stime di Claude."
+    "rifleRoleRationale": "21/11/2026 (fucili nello schema unico, scelta 1A dell'utente): il semiautomatico vale 0,75 contro 0,5 del fucile a ripetizione, tarato perché una divisione di fanteria tutta a semiautomatici guadagni circa l'8% di potenza come col vecchio bonus nazionale (calcolo sui template 1939/40: fattore 1,46 Germania, 1,44 URSS, 1,56 USA → 1,5). Carabina M1 0,6: cartuccia più debole del Garand, più efficace di una pistola. Stime di Claude.",
+    "usaTankRationale": "21/11/2026 (passo 4 USA, scelte dell'utente A): pesi dei carri americani per modello, da confrontare con i Panzer (Pz IV 60/25/0,9, Pz III 40/45/0,95). fleetMix: composizione per anno dei pezzi INIZIALI delle due voci di classe; i pezzi prodotti si registrano col proprio modello. Stime di Claude."
   },
   "cohesion": {
     "lossBase": 8,

@@ -33,8 +33,8 @@
     {
       "id": "MOD-USA-FA-ARM-1943",
       "count": 3,
-      "name": "Armored Field Artillery Battalion (1943)",
-      "name_it": "Gruppo d'artiglieria corazzata (1943)"
+      "name": "Armored Field Artillery Battalion (1943, M7 Priest)",
+      "name_it": "Gruppo d'artiglieria corazzata semovente (1943, M7 Priest)"
     },
     {
       "id": "MOD-USA-CAV-RECON-1943",
@@ -116,7 +116,7 @@
         "source": null
       }
     },
-    "ART-USA-HOW105-ARM-1940": {
+    "ART-USA-M7-PRIEST": {
       "value": 54,
       "basis": "ipotesi",
       "referenceYear": "1943",

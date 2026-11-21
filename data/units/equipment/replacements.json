@@ -71,6 +71,21 @@
       "id": "ART-USA-HOW155-1940",
       "replaces": "ART-USA-HOW155-M1918",
       "basis": "ipotesi"
+    },
+    {
+      "id": "TD-USA-M18",
+      "replaces": "TD-USA-M10",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "TD-USA-M36",
+      "replaces": "TD-USA-M10",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "ART-USA-M7-PRIEST",
+      "replaces": "ART-USA-HOW105-ARM-1940",
+      "basis": "ipotesi"
     }
   ]
 }
