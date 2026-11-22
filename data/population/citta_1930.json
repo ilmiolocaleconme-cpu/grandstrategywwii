@@ -1,0 +1,358 @@
+{
+ "schema": "citta-1930-v1",
+ "note": "Popolazione delle città principali nei censimenti 1930-1939 (decisione dell'utente del 22/11/2026): serve SOLO alla regola che colloca gli impianti iniziali senza fonte (data/industry/facility_placement.json, criterio 'cities1930'). Non si mostra nel gioco. Le nazioni senza voci usano la popolazione provinciale (es. Italia, dove è un censimento). Glasgow: fonte secondaria. Washington è nella provincia del Maryland (la mappa non ha il Distretto di Columbia).",
+ "cities": [
+  {
+   "nation": "USA",
+   "name": "New York",
+   "provinceId": "P_USA_NEW_YORK",
+   "population": 6930446,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Chicago",
+   "provinceId": "P_USA_ILLINOIS",
+   "population": 3376438,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Filadelfia",
+   "provinceId": "P_USA_PENNSYLVANIA",
+   "population": 1950961,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Detroit",
+   "provinceId": "P_USA_MICHIGAN",
+   "population": 1568662,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Los Angeles",
+   "provinceId": "P_USA_CALIFORNIA",
+   "population": 1238048,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Cleveland",
+   "provinceId": "P_USA_OHIO",
+   "population": 900429,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Saint Louis",
+   "provinceId": "P_USA_MISSOURI",
+   "population": 821960,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Baltimora",
+   "provinceId": "P_USA_MARYLAND",
+   "population": 804874,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Boston",
+   "provinceId": "P_USA_MASSACHUSETTS",
+   "population": 781188,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Pittsburgh",
+   "provinceId": "P_USA_PENNSYLVANIA",
+   "population": 669817,
+   "year": 1930,
+   "ref": "https://www.census.gov/programs-surveys/decennial-census/decade/decennial-facts.1930.html"
+  },
+  {
+   "nation": "USA",
+   "name": "San Francisco",
+   "provinceId": "P_USA_CALIFORNIA",
+   "population": 625974,
+   "year": 1930,
+   "ref": "https://content.time.com/time/magazine/article/0,9171,739914,00.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Buffalo",
+   "provinceId": "P_USA_NEW_YORK",
+   "population": 572913,
+   "year": 1930,
+   "ref": "https://content.time.com/time/magazine/article/0,9171,739914,00.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Milwaukee",
+   "provinceId": "P_USA_WISCONSIN",
+   "population": 568962,
+   "year": 1930,
+   "ref": "https://content.time.com/time/magazine/article/0,9171,739914,00.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Washington",
+   "provinceId": "P_USA_MARYLAND",
+   "population": 485716,
+   "year": 1930,
+   "ref": "https://content.time.com/time/magazine/article/0,9171,739914,00.html"
+  },
+  {
+   "nation": "USA",
+   "name": "Minneapolis",
+   "provinceId": "P_USA_MINNESOTA",
+   "population": 464674,
+   "year": 1930,
+   "ref": "https://content.time.com/time/magazine/article/0,9171,739914,00.html"
+  },
+  {
+   "nation": "FRA",
+   "name": "Parigi",
+   "provinceId": "P_FRA_SEINE",
+   "population": 2829746,
+   "year": 1936,
+   "ref": "https://en.wikipedia.org/wiki/Paris_in_the_interwar_period"
+  },
+  {
+   "nation": "FRA",
+   "name": "Marsiglia",
+   "provinceId": "P_FRA_BOUCHES_DU_RHONE",
+   "population": 914232,
+   "year": 1936,
+   "ref": "https://www.pss-archi.eu/forum/viewtopic.php?id=28949"
+  },
+  {
+   "nation": "FRA",
+   "name": "Lione",
+   "provinceId": "P_FRA_RHONE",
+   "population": 580562,
+   "year": 1931,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0634.pdf"
+  },
+  {
+   "nation": "FRA",
+   "name": "Bordeaux",
+   "provinceId": "P_FRA_GIRONDE",
+   "population": 263267,
+   "year": 1931,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0634.pdf"
+  },
+  {
+   "nation": "FRA",
+   "name": "Nizza",
+   "provinceId": "P_FRA_ALPES_MARITIMES",
+   "population": 220156,
+   "year": 1931,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0634.pdf"
+  },
+  {
+   "nation": "FRA",
+   "name": "Lilla",
+   "provinceId": "P_FRA_NORD",
+   "population": 202201,
+   "year": 1931,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0634.pdf"
+  },
+  {
+   "nation": "FRA",
+   "name": "Tolosa",
+   "provinceId": "P_FRA_HAUTE_GARONNE",
+   "population": 195175,
+   "year": 1931,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0634.pdf"
+  },
+  {
+   "nation": "FRA",
+   "name": "Saint-Étienne",
+   "provinceId": "P_FRA_LOIRE",
+   "population": 191168,
+   "year": 1931,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0634.pdf"
+  },
+  {
+   "nation": "GBR",
+   "name": "Londra",
+   "provinceId": "P_GBR_LONDRA",
+   "population": 4521685,
+   "year": 1931,
+   "ref": "https://visionofbritain.org.uk/census/table/EW1931GEN_M22"
+  },
+  {
+   "nation": "GBR",
+   "name": "Birmingham",
+   "provinceId": "P_GBR_WARWICKSHIRE",
+   "population": 1004300,
+   "year": 1931,
+   "ref": "https://visionofbritain.org.uk/census/table/EW1931GEN_M22"
+  },
+  {
+   "nation": "GBR",
+   "name": "Liverpool",
+   "provinceId": "P_GBR_LANCASHIRE",
+   "population": 855688,
+   "year": 1931,
+   "ref": "https://visionofbritain.org.uk/census/table/EW1931GEN_M33"
+  },
+  {
+   "nation": "GBR",
+   "name": "Manchester",
+   "provinceId": "P_GBR_LANCASHIRE",
+   "population": 766378,
+   "year": 1931,
+   "ref": "https://visionofbritain.org.uk/census/table/EW1931GEN_M33"
+  },
+  {
+   "nation": "GBR",
+   "name": "Sheffield",
+   "provinceId": "P_GBR_YORKSHIRE",
+   "population": 512600,
+   "year": 1931,
+   "ref": "https://test.visionofbritain.org.uk/census/table/EW1931GEN_M22"
+  },
+  {
+   "nation": "GBR",
+   "name": "Leeds",
+   "provinceId": "P_GBR_YORKSHIRE",
+   "population": 482809,
+   "year": 1931,
+   "ref": "https://visionofbritain.org/census/table/EW1931GEN_M33"
+  },
+  {
+   "nation": "GBR",
+   "name": "Bristol",
+   "provinceId": "P_GBR_GLOUCESTERSHIRE",
+   "population": 399400,
+   "year": 1931,
+   "ref": "https://test.visionofbritain.org.uk/census/table/EW1931GEN_M22"
+  },
+  {
+   "nation": "GBR",
+   "name": "Glasgow",
+   "provinceId": "P_GBR_GLASGOW",
+   "population": 1088083,
+   "year": 1931,
+   "ref": "https://www.jetpunk.com/user-quizzes/1339597/largest-cities-in-the-united-kingdom-1911-1931"
+  },
+  {
+   "nation": "JPN",
+   "name": "Tokyo",
+   "provinceId": "P_JPN_TOKYO",
+   "population": 5875000,
+   "year": 1935,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0635.pdf"
+  },
+  {
+   "nation": "JPN",
+   "name": "Osaka",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
+   "population": 2990000,
+   "year": 1935,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0635.pdf"
+  },
+  {
+   "nation": "JPN",
+   "name": "Nagoya",
+   "provinceId": "P_JPN_AICHI_PREFECTURE",
+   "population": 1083000,
+   "year": 1935,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1937/pdf/514401303_0685.pdf"
+  },
+  {
+   "nation": "JPN",
+   "name": "Kyoto",
+   "provinceId": "P_JPN_KYOTO_PREFECTURE",
+   "population": 1081000,
+   "year": 1935,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1937/pdf/514401303_0685.pdf"
+  },
+  {
+   "nation": "JPN",
+   "name": "Kōbe",
+   "provinceId": "P_JPN_HYOGO_PREFECTURE",
+   "population": 912000,
+   "year": 1935,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0635.pdf"
+  },
+  {
+   "nation": "JPN",
+   "name": "Yokohama",
+   "provinceId": "P_JPN_KANAGAWA_PREFECTURE",
+   "population": 704000,
+   "year": 1935,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0635.pdf"
+  },
+  {
+   "nation": "JPN",
+   "name": "Hiroshima",
+   "provinceId": "P_JPN_HIROSHIMA_PREFECTURE",
+   "population": 310000,
+   "year": 1935,
+   "ref": "https://digi.bib.uni-mannheim.de/fileadmin/statjahrb/514401303_1936/pdf/514401303_0635.pdf"
+  },
+  {
+   "nation": "USSR",
+   "name": "Mosca",
+   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "population": 4137018,
+   "year": 1939,
+   "ref": "https://history.state.gov/historicaldocuments/frus1933-39/d587"
+  },
+  {
+   "nation": "USSR",
+   "name": "Leningrado",
+   "provinceId": "P_USSR_LENINGRAD",
+   "population": 3191304,
+   "year": 1939,
+   "ref": "https://history.state.gov/historicaldocuments/frus1933-39/d587"
+  },
+  {
+   "nation": "USSR",
+   "name": "Kiev",
+   "provinceId": "P_USSR_KIEV",
+   "population": 846293,
+   "year": 1939,
+   "ref": "https://history.state.gov/historicaldocuments/frus1933-39/d587"
+  },
+  {
+   "nation": "USSR",
+   "name": "Charkiv",
+   "provinceId": "P_USSR_KHARKIV",
+   "population": 833432,
+   "year": 1939,
+   "ref": "https://history.state.gov/historicaldocuments/frus1933-39/d587"
+  },
+  {
+   "nation": "USSR",
+   "name": "Baku",
+   "provinceId": "P_USSR_ABSHERON",
+   "population": 809347,
+   "year": 1939,
+   "ref": "https://history.state.gov/historicaldocuments/frus1933-39/d587"
+  },
+  {
+   "nation": "USSR",
+   "name": "Gorkij",
+   "provinceId": "P_USSR_NIZHEGOROD",
+   "population": 644116,
+   "year": 1939,
+   "ref": "https://history.state.gov/historicaldocuments/frus1933-39/d587"
+  }
+ ]
+}

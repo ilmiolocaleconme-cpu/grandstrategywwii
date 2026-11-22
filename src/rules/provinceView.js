@@ -84,8 +84,7 @@ export function buildProvinceView(input) {
   const logi = logisticsStatus(linkStats, st);
   const logiInfo = LOGISTICS_STATUS[logi];
   const bombed = st.damage >= 0.3 || st.bombing > 0;
-  const popApprox = population?.quality === 'DESIGN_DEFAULT'; // stima di design: il valore si mostra con «~»
-  const popText = has(population?.population) ? `${popApprox ? '~' : ''}${fmt(population.population)}` : ND;
+  const popText = has(population?.population) ? fmt(population.population) : ND; // 22/11/2026: niente segni di stima nel gioco (decisione dell'utente)
 
   // ---- stato sintetico dell'intestazione ----
   let status = { id: 'stable', label: 'Stabile', tone: 'good' };
@@ -157,7 +156,7 @@ export function buildProvinceView(input) {
         { label: 'Strade', value: linkStats ? String(linkStats.road) : ND },
       ],
       modifiers: modifiers([st.infrastructureDamage > 0, `Infrastrutture danneggiate ${pct(st.infrastructureDamage)}`], [st.isolated, 'Segnata come isolata']),
-      details: [{ label: 'Origine dei dati', value: 'tratti di data/links.json (rete moderna, ipotesi)' }],
+      details: [],
     },
     economy: {
       id: 'economy', level: 'B', title: 'Economia',
@@ -182,21 +181,18 @@ export function buildProvinceView(input) {
         { label: 'Installazioni', value: military?.installations ? String(military.installations.length) : ND },
       ],
       modifiers: modifiers([st.bombing > 0, `Bombardamenti ${pct(st.bombing)}`]),
-      details: [{ label: 'Ponti e guadi', value: 'stato in data/crossings.json (nessun dato qui: una sola fonte)' }],
+      details: [],
     },
     population: {
       id: 'population', level: 'C', title: 'Popolazione',
-      status: has(population?.population) ? (popApprox ? { label: 'Stima di design', tone: 'na' } : { label: 'Dato presente', tone: 'ok' }) : { label: 'Dato mancante', tone: 'na' },
+      status: has(population?.population) ? { label: 'Dato presente', tone: 'ok' } : { label: 'Dato mancante', tone: 'na' },
       main: { label: 'Abitanti', value: popText },
       metrics: [
         { label: 'Forza lavoro', value: has(population?.workforce) ? fmt(population.workforce) : ND },
         { label: 'Crescita annua', value: has(population?.growthPerYear) ? pct(population.growthPerYear) : ND },
       ],
       modifiers: modifiers([st.workforceShortage, 'Carenza di manodopera']),
-      details: [
-        ...(population?.quality ? [{ label: 'Qualità del dato', value: population.quality }] : []),
-        ...(popApprox ? [{ label: 'Nota', value: 'Totale nazionale 1936 distribuito sulle province per territorio abitabile e luoghi abitati: il valore della singola provincia può essere molto lontano dal vero.' }] : []),
-      ],
+      details: [],
     },
     occupation: {
       id: 'occupation', level: 'C', title: 'Occupazione',
@@ -227,10 +223,11 @@ export function buildProvinceView(input) {
   };
 
   // ---- ordine delle schede in base alla situazione (dinamico, senza toccare i dati) ----
-  let order = ['overview', 'military', 'logistics', 'economy', 'infrastructure', 'population', 'occupation', 'data'];
-  if (logi === 'isolated') order = ['overview', 'logistics', 'military', 'infrastructure', 'economy', 'population', 'occupation', 'data'];
-  if (bombed) order = ['overview', 'military', 'infrastructure', 'economy', 'logistics', 'population', 'occupation', 'data'];
-  if (st.occupation !== 'none' && !alert) order = ['overview', 'occupation', 'military', 'logistics', 'economy', 'infrastructure', 'population', 'data'];
+  // la scheda «Dati e fonti» (cards.data) non si mostra nel gioco (22/11/2026, decisione dell'utente): fonti e qualità restano nei dati
+  let order = ['overview', 'military', 'logistics', 'economy', 'infrastructure', 'population', 'occupation'];
+  if (logi === 'isolated') order = ['overview', 'logistics', 'military', 'infrastructure', 'economy', 'population', 'occupation'];
+  if (bombed) order = ['overview', 'military', 'infrastructure', 'economy', 'logistics', 'population', 'occupation'];
+  if (st.occupation !== 'none' && !alert) order = ['overview', 'occupation', 'military', 'logistics', 'economy', 'infrastructure', 'population'];
 
   const attention = new Set(alert?.id === 'damage' ? ['military', 'infrastructure'] : alert?.id === 'isolated' ? ['logistics'] : []);
   const ordered = order.map((id) => ({ ...cards[id], open: cards[id].open === true || attention.has(id) }));

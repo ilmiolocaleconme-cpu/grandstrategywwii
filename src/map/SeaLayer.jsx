@@ -53,7 +53,6 @@ export function SeaPanel({ zone, byId, onClose, onSelect }) {
           <li key={id}><button type="button" className="linklike" onClick={() => onSelect(id)}>{byId.get(id)?.name ?? id}</button> <span className="muted small">~{km} km di contatto</span></li>
         ))}
       </ul>
-      <p className="muted small">Qualità: ipotesi. Le zone sono una divisione di gioco (flotte, rotte, commercio), non storica; i confini seguono la distanza via mare dai punti scelti.</p>
     </aside>
   );
 }

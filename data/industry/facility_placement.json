@@ -5,8 +5,9 @@
   "captureDamage": 0.5,
   "rules": {
     "default": {
-      "by": "population",
-      "why": "industria manifatturiera vicino alla manodopera"
+      "by": "cities1930",
+      "fallback": "population",
+      "why": "industria manifatturiera nelle città principali, pesate con gli abitanti dei censimenti 1930-39 (data/population/citta_1930.json; decisione dell'utente del 22/11/2026). Senza voci per la nazione: popolazione provinciale (Italia: censimento 1936)."
     },
     "FCT-STEEL": {
       "by": {
@@ -22,7 +23,7 @@
         "coal"
       ],
       "minScore": 0.5,
-      "fallback": "population",
+      "fallback": "cities1930",
       "why": "centrali termoelettriche sui bacini carboniferi"
     },
     "FCT-SYNFUEL": {
@@ -30,7 +31,7 @@
         "coal"
       ],
       "minScore": 0.5,
-      "fallback": "population",
+      "fallback": "cities1930",
       "why": "benzina sintetica dal carbone"
     },
     "FCT-REFINERY": {
@@ -45,7 +46,7 @@
       "by": [
         "aluminium"
       ],
-      "fallback": "population",
+      "fallback": "cities1930",
       "basis": "data",
       "why": "centri di fonderia di resource_points.json (sezione products)"
     },
@@ -53,7 +54,7 @@
       "by": [
         "rubber"
       ],
-      "fallback": "population",
+      "fallback": "cities1930",
       "why": "gomma naturale dove si coltiva, altrimenti vicino alla manodopera"
     }
   },

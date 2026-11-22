@@ -127,3 +127,14 @@ test('mappa: edifici solo del giocatore e degli alleati', () => {
   const b = buildingsByProvince(s, { player: 'ITA', visible: new Set(['ITA']) });
   assert.ok(Object.keys(b).every((p) => p.startsWith('P_ITA_') || p.startsWith('P_LBY') || p.startsWith('P_ERI') || p.startsWith('P_SOM') || p.startsWith('P_ETH') || p.startsWith('P_ALB') || p.startsWith('P_DOD')), Object.keys(b).filter((p) => !p.startsWith('P_ITA_')).join(','));
 });
+
+test('regola delle città 1930: le industrie si spartiscono le città principali (Giappone, Francia, URSS), l\'Italia resta sulla popolazione', () => {
+  const where = (nat) => Object.entries(file.sites).filter(([id, s]) => id.startsWith(`${nat}:`) && s.rule === 'cities1930').map(([, s]) => s.provinceId);
+  const jpn = where('JPN');
+  assert.ok(jpn.includes('P_JPN_OSAKA_PREFECTURE') && jpn.filter((p) => p === 'P_JPN_TOKYO').length < jpn.length, 'non tutto a Tokyo');
+  assert.ok(where('FRA').some((p) => p.startsWith('P_FRA_SEINE')), 'Parigi ha le sue fabbriche');
+  assert.ok(!where('USSR').some((p) => /SAKHA|KRASNOYARSK|IRKUTSK|KHABAROVSK/.test(p)), 'niente fabbriche in Siberia per la popolazione');
+  assert.equal(where('ITA').length, 0);
+  const doc = j('population/citta_1930.json');
+  for (const c of doc.cities) assert.ok(elementIds.has(c.provinceId) || collection.features.some((f) => f.properties.parentProvince === c.provinceId), c.name);
+});

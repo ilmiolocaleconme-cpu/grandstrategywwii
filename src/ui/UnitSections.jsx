@@ -50,8 +50,8 @@ function Composizione({ info }) {
   if (!c) return NA;
   return (
     <div>
-      {c.undefinedCount > 0 ? <p className="us-warn small">Template incompleto: {c.undefinedCount} {c.undefinedCount === 1 ? 'voce non definita' : 'voci non definite'} (non mostrate, non stimate).</p> : null}
-      <ul className="ui-comp">{c.rows.map((r) => <li key={r.key}>{r.label}: <b>{String(r.value)}</b>{r.basis ? <small> ({r.basis})</small> : null}</li>)}</ul>
+      {c.undefinedCount > 0 ? <p className="us-warn small">Template incompleto: {c.undefinedCount} {c.undefinedCount === 1 ? 'voce non definita' : 'voci non definite'}.</p> : null}
+      <ul className="ui-comp">{c.rows.map((r) => <li key={r.key}>{r.label}: <b>{String(r.value)}</b></li>)}</ul>
       {c.support.length ? <p className="small muted">Supporti organici: {c.support.join(' · ')}</p> : null}
       {c.status ? <p className="small muted">Template {c.templateId}: {c.status.toLowerCase().replace(/_/g, ' ')}</p> : null}
     </div>
@@ -71,7 +71,7 @@ function Equipaggiamento({ info }) {
             <tbody>
               {g.rows.map((r) => (
                 <tr key={r.item}>
-                  <td><code>{r.item}</code>{r.source === 'ratio' ? <small className="muted"> stimato</small> : null}</td><td>{r.planned}</td><td>{r.effective}</td>
+                  <td><code>{r.item}</code></td><td>{r.planned}</td><td>{r.effective}</td>
                   <td className={r.difference < 0 ? 'us-neg' : ''}>{r.difference > 0 ? `+${r.difference}` : r.difference}</td>
                 </tr>
               ))}
@@ -79,7 +79,7 @@ function Equipaggiamento({ info }) {
           </table>
         </section>
       ))}
-      <p className="small muted">«stimato»: effettivo iniziale calcolato dal previsto con una frazione d'esempio, non un dato storico. Le voci in «Non classificati» mantengono il codice originale: la loro categoria non è ancora definita.</p>
+      <p className="small muted">Le voci in «Non classificati» mantengono il codice originale: la loro categoria non è ancora definita.</p>
     </div>
   );
 }
@@ -140,11 +140,11 @@ function Operazioni({ info, canSetPolicy, onPolicy, onReinforce, onMoveHq, onFor
         <Row label="Nuovo comando">
           <button type="button" onClick={() => onFormCommand('corps')}>Forma un corpo</button>
           <button type="button" onClick={() => onFormCommand('army')}>Forma un'armata</button>
-          <small className="muted"> corpo: 300 uomini dal pool, 20 giorni · armata: 600 uomini, 45 giorni (ipotesi di bilanciamento)</small>
+          <small className="muted"> corpo: 300 uomini dal pool, 20 giorni · armata: 600 uomini, 45 giorni</small>
         </Row>
       ) : null}
       {onMoveHq && info.commandLevel ? <Row label="Comando"><button type="button" onClick={() => onMoveHq(info.id)}>Muovi il comando</button><small className="muted"> (le divisioni restano dove sono)</small></Row> : null}
-      <Row label="Posizione">{m.provinceName ?? (m.estimate ? <span>{m.estimate.provinceName} <small className="muted">— posizione stimata: {m.estimate.inProvince} di {m.estimate.basedOn} divisioni sottostanti sono lì</small></span> : 'posizione non nota')}</Row>
+      <Row label="Posizione">{m.provinceName ?? (m.estimate ? m.estimate.provinceName : 'posizione non nota')}</Row>
       <Row label="Ordine">{m.order ? `verso ${m.order.toName}: prossima tappa ${m.order.nextName}, ${m.order.daysLeft} g. alla tappa, ${m.order.totalDays} g. in tutto` : 'nessuno (ferma)'}</Row>
       {info.strength && onReinforce ? (
         <Row label="Rinforzi">

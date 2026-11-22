@@ -122,7 +122,7 @@ test('logistica: isolata, sotto sforzo, ottima, normale, non caricata', () => {
 test('vista: provincia normale, ordine delle schede, nessun dato inventato', () => {
   const v = view();
   assert.equal(v.alert, null);
-  assert.deepEqual(ids(v), ['overview', 'military', 'logistics', 'economy', 'infrastructure', 'population', 'occupation', 'data']);
+  assert.deepEqual(ids(v), ['overview', 'military', 'logistics', 'economy', 'infrastructure', 'population', 'occupation'], 'la scheda «Dati e fonti» non si mostra (22/11/2026)');
   assert.equal(v.header.status.label, 'Stabile');
   assert.equal(v.header.controllerName, 'Aaa');
   const byId = Object.fromEntries(v.header.indicators.map((i) => [i.id, i.value]));
@@ -230,13 +230,12 @@ test('popolazione reale: il file su disco è quello che genera lo script, i tota
   assert.ok(Object.values(doc.byProvince).every((e) => Number.isInteger(e.population) && e.population >= 0));
 });
 
-test('vista: popolazione di design mostrata con «~», dato dell\'utente senza', () => {
+test('vista: nessun segno di stima o di fonte nel gioco (decisione dell\'utente 22/11/2026)', () => {
   const approx = view({ population: { population: 1234567, quality: 'DESIGN_DEFAULT' } });
-  assert.match(approx.header.indicators.find((i) => i.id === 'population').value, /^~/);
+  assert.doesNotMatch(approx.header.indicators.find((i) => i.id === 'population').value, /~/);
   const card = approx.cards.find((c) => c.id === 'population');
-  assert.equal(card.status.label, 'Stima di design');
-  assert.ok(card.details.some((d) => d.label === 'Nota'));
-  const exact = view({ population: { population: 1234567, quality: 'USER_ESTIMATE' } });
-  assert.doesNotMatch(exact.header.indicators.find((i) => i.id === 'population').value, /~/);
-  assert.equal(exact.cards.find((c) => c.id === 'population').status.label, 'Dato presente');
+  assert.equal(card.status.label, 'Dato presente');
+  assert.deepEqual(card.details, []);
+  const text = JSON.stringify(approx.cards);
+  assert.doesNotMatch(text, /stima|ipotesi|fonte|DESIGN_DEFAULT|data\//i);
 });

@@ -459,3 +459,13 @@ Richiesta dell'utente: ogni fabbrica, caserma, ospedale, miniera e centrale rapp
   - **Fonti storiche, URSS (22/11/2026):** 31 impianti su 49 con fonte: acciaio per quota (sud 68% della ghisa → Donbass 3, Dnipropetrovsk 2, Zaporizhzhya 1, Luhansk 1; Magnitogorsk, Nizhny Tagil, Kuznetsk), raffinerie Baku 2 e Grozny 1 (77% e 12% della capacità), gomma SK-1 Yaroslavl, chimica Berezniki e Lisichansk, T-26 fabbrica 174 Leningrado, ZIS Mosca e GAZ Gorky, Izhevsk, Tula e Kovrov per le armi, fabbriche 92, 9, 172, 8 e Kirov per l'artiglieria. Con la regola restano munizioni, mortai, motori, componenti, macchinari, mangimi, cavalli, farmaci, centrale a carbone, un impianto chimico.
   - **Problema noto:** la regola «popolazione» manda impianti in Siberia e Jacuzia (munizioni a Yakutia, Krasnoyarsk, Irkutsk), perché province_population.json distribuisce la popolazione anche per superficie (scelta di design). Da decidere con l'utente.
   - Non fatto: miniere e ospedali non cambiano proprietario alla conquista; fonti storiche delle altre nazioni.
+
+## Nel gioco niente stime né fonti visibili — 22/11/2026
+Decisione dell'utente: «Non voglio che si vedono queste informazioni nel gioco» (stime, fonti, qualità dei dati). Fonti e qualità restano nei file di dati e nei documenti, non nell'interfaccia.
+- Tolti: scheda «Dati e fonti» del pannello provincia (resta in `provinceView` come `cards.data`, fuori dall'ordine), «~» e «Stima di design» sulla popolazione, «Origine dei dati» e «Ponti e guadi» con i file, «stimato»/«stimata»/«(ipotesi…)» nelle schede delle unità e dei comandi, la base dei valori delle composizioni, la nota «Qualità: ipotesi» delle zone di mare.
+- Test: `province_panel.test.js` (nessun testo di stima o fonte nelle schede).
+
+## Regola delle città 1930 per gli impianti senza fonte — 22/11/2026
+- `data/population/citta_1930.json`: 44 città principali di USA, Francia, Regno Unito, Giappone e URSS con gli abitanti dei censimenti 1930-39 e il riferimento (non mostrato nel gioco).
+- Criterio `cities1930` (regola di default di facility_placement.json): punteggio della provincia = abitanti delle sue città principali; ogni impianto già messo nella provincia conta (le industrie si spartiscono le città, la capitale non prende un impianto di ogni tipo). Senza voci per la nazione: popolazione provinciale come prima (Italia e Germania invariate).
+- Risultato: niente più fabbriche in Jacuzia o Siberia; Giappone Tokyo 10 / Osaka 5 / Nagoya, Kyoto, Kobe; Francia Parigi 11, Lione e Marsiglia 2; URSS Mosca e Leningrado 6, Kiev e Kharkiv 2.

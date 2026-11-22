@@ -18,6 +18,8 @@ export function facilitySitesFile({ features, j, factoryClassOf }) {
   const cfg = j('industry/facility_placement.json');
   const points = j('resources/resource_points.json');
   const population = j('population/province_population.json').byProvince;
+  const cities1930 = new Map(); // madre → abitanti delle città principali 1930-39 (criterio 'cities1930')
+  for (const c of j('population/citta_1930.json').cities) cities1930.set(c.provinceId, (cities1930.get(c.provinceId) ?? 0) + c.population);
   const ports = j('ports/ports_1936.json').ports;
   const cities = j('citta_grandi.json').features.map((f) => f.properties);
   const access = new Map((j('city_links.json').links ?? []).filter((l) => l.type === 'access').map((l) => [l.a, l.b]));
@@ -48,7 +50,7 @@ export function facilitySitesFile({ features, j, factoryClassOf }) {
     const pts = {};
     for (const [r, v] of Object.entries(points.byProvince[m.id] ?? {})) pts[r] = v.base ?? 0;
     for (const [r, v] of Object.entries(points.byProvinceProducts?.[m.id] ?? {})) pts[r] = v.base ?? 0;
-    (byTerritory.get(m.entity) ?? byTerritory.set(m.entity, []).get(m.entity)).push({ id: m.id, bank, population: population[m.id]?.population ?? 0, points: pts, port: portLevel.get(m.id) ?? 0 });
+    (byTerritory.get(m.entity) ?? byTerritory.set(m.entity, []).get(m.entity)).push({ id: m.id, bank, cities1930: cities1930.get(m.id) ?? 0, population: population[m.id]?.population ?? 0, points: pts, port: portLevel.get(m.id) ?? 0 });
   }
   const facilities = [];
   for (const id of Object.keys(nations).sort()) for (const f of nations[id].facilities) facilities.push({ id: f.id, type: f.type, recipeId: f.recipeId, territory: f.territory });

@@ -14,11 +14,12 @@
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
 /**
- * Punteggio di una provincia madre per un criterio. by: 'population' | 'port' | elenco di risorse o prodotti (somma dei punti base).
+ * Punteggio di una provincia madre per un criterio. by: 'cities1930' | 'population' | 'port' | elenco di risorse o prodotti (somma dei punti base) | { risorsa: peso }.
  * m: { population, points: { risorsa: base }, port (livello del porto principale, 0 se nessuno) }.
  */
 export function scoreOf(m, by) {
   if (by === 'population') return m.population ?? 0;
+  if (by === 'cities1930') return m.cities1930 ?? 0; // abitanti delle città principali nei censimenti 1930-39 (data/population/citta_1930.json)
   if (by === 'port') return (m.port ?? 0) > 0 ? m.port * 1e9 + (m.population ?? 0) : 0;
   if (Array.isArray(by)) return r3(by.reduce((t, r) => t + (m.points?.[r] ?? 0), 0));
   if (by && typeof by === 'object') return r3(Object.entries(by).reduce((t, [r, w]) => t + w * (m.points?.[r] ?? 0), 0)); // pesi per risorsa
@@ -42,12 +43,14 @@ export function placeFacilities(facilities, ctx) {
   const unplaced = [];
   const used = new Map(); // posto → spazi occupati
   const sameType = new Map(); // `${tipo}|${madre}` → impianti di quel tipo già lì
+  const anyType = new Map(); // madre → impianti di qualsiasi tipo già lì (criterio delle città 1930)
   const left = new Map(sources.map((s, i) => [i, s.count ?? 1]));
   const free = (place, type) => !usesSlot(type) || (used.get(place) ?? 0) < capacity;
   const put = (f, mother, place, basis, rule) => {
     sites[f.id] = { provinceId: place, basis, rule };
     if (usesSlot(f.type)) used.set(place, (used.get(place) ?? 0) + 1);
     const k = `${f.type}|${mother}`; sameType.set(k, (sameType.get(k) ?? 0) + 1);
+    anyType.set(mother, (anyType.get(mother) ?? 0) + 1);
   };
   for (const f of facilities) {
     // 1) fonte storica per territorio e tipo
@@ -66,7 +69,9 @@ export function placeFacilities(facilities, ctx) {
     let best = null; let bestKey = null;
     for (const m of mothers) {
       if (!free(m.bank, f.type)) continue;
-      const n = sameType.get(`${f.type}|${m.id}`) ?? 0;
+      // città 1930: si conta ogni impianto già messo (le industrie si spartiscono le città in proporzione, la capitale non prende un
+      // impianto di ogni tipo); risorse e popolazione: solo quelli dello stesso tipo, come prima (Italia invariata)
+      const n = by === 'cities1930' ? anyType.get(m.id) ?? 0 : sameType.get(`${f.type}|${m.id}`) ?? 0;
       const key = [scoreOf(m, by) / (1 + n), -n];
       if (!best || key[0] > bestKey[0] || (key[0] === bestKey[0] && (key[1] > bestKey[1] || (key[1] === bestKey[1] && m.id < best.id)))) { best = m; bestKey = key; }
     }

@@ -41,7 +41,7 @@ export function Info({ info, canSetPolicy, onPolicy, onReinforce }) {
             <dt>Composizione</dt>
             <dd>
               <ul className="ui-comp">
-                {info.composition.rows.map((r) => <li key={r.key}>{r.label}: <b>{String(r.value)}</b>{r.basis ? <small> ({r.basis})</small> : null}</li>)}
+                {info.composition.rows.map((r) => <li key={r.key}>{r.label}: <b>{String(r.value)}</b></li>)}
               </ul>
               {info.composition.support.length ? <p className="small muted">Supporti organici: {info.composition.support.join(' · ')}</p> : null}
               {info.composition.status ? <p className="small muted">Template {info.composition.templateId}: {info.composition.status.toLowerCase().replace(/_/g, ' ')}</p> : null}

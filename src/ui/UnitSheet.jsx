@@ -29,7 +29,7 @@ export default function UnitSheet({ infos, canSetPolicy, onPolicy, onReinforce, 
         <div className="ap-title">
           <h2>{info.name}</h2>
           <p className="muted small">{info.nation} · {CAT[info.category] ?? info.category} · {info.affiliation}{info.service && !info.service.default ? ` · ${info.service.name}` : ''}</p>
-          <p className="small">{commanderLine} · {info.movement.provinceName ?? (info.movement.estimate ? `${info.movement.estimate.provinceName} (stimata)` : 'posizione non nota')}</p>
+          <p className="small">{commanderLine} · {info.movement.provinceName ?? (info.movement.estimate ? info.movement.estimate.provinceName : 'posizione non nota')}</p>
         </div>
         <button type="button" className="close" aria-label="Chiudi" onClick={onClose}>×</button>
       </header>
