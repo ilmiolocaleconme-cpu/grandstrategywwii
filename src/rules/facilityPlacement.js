@@ -27,11 +27,12 @@ export function scoreOf(m, by) {
 
 /**
  * Collocazione di un elenco di impianti iniziali.
- * facilities: [{ id, type, territory }] (nell'ordine in cui il gioco li crea).
+ * facilities: [{ id, type, recipeId, territory }] (nell'ordine in cui il gioco li crea).
  * ctx:
  *  - mothersOf(territory) → [{ id, population, points, port, bank }] (bank = posto della mappa scelto per la madre: se stessa o la sponda);
  *  - rules: { default: { by, fallback? }, [tipo]: { by, fallback?, basis? } } (facility_placement.json);
- *  - sources: [{ territory, factory, provinceId, count, source }] (posizioni storiche, prima di tutto);
+ *  - sources: [{ territory, factory, recipe?, provinceId (posto della mappa), count, source }] (posizioni storiche, prima di tutto;
+ *    recipe facoltativa: solo gli impianti con quella ricetta);
  *  - usesSlot(tipo) → boolean (classe 'industry'); capacity (spazi per posto, 14).
  * Risultato: { sites: { [idImpianto]: { provinceId, basis, rule } }, unplaced: [{ id, reason }] }.
  */
@@ -50,7 +51,7 @@ export function placeFacilities(facilities, ctx) {
   };
   for (const f of facilities) {
     // 1) fonte storica per territorio e tipo
-    const si = sources.findIndex((s, i) => left.get(i) > 0 && s.territory === f.territory && s.factory === f.type && free(s.provinceId, f.type));
+    const si = sources.findIndex((s, i) => left.get(i) > 0 && s.territory === f.territory && s.factory === f.type && (!s.recipe || s.recipe === f.recipeId) && free(s.provinceId, f.type));
     if (si >= 0) { left.set(si, left.get(si) - 1); put(f, sources[si].provinceId, sources[si].provinceId, 'source', sources[si].source ?? 'fonte'); continue; }
     const mothers = mothersOf(f.territory);
     if (!mothers.length) { unplaced.push({ id: f.id, reason: 'no_provinces' }); continue; }
@@ -75,16 +76,27 @@ export function placeFacilities(facilities, ctx) {
   return { sites, unplaced };
 }
 
-/** Applica le posizioni del file agli impianti senza provincia (partita nuova e salvataggi di prima). Restituisce lo stato (stesso oggetto se nulla cambia). */
+/**
+ * Applica le posizioni del file (partita nuova e salvataggi di prima). Tocca solo:
+ * - gli impianti senza provincia;
+ * - quelli già collocati dal file (campo `site`) e mai conquistati, quando il file li sposta (es. una fonte storica sostituisce la regola).
+ * Restituisce lo stato (stesso oggetto se nulla cambia).
+ */
 export function applyFacilitySites(state, sitesFile) {
   const sites = sitesFile?.sites;
   if (!state?.nations || !sites) return state;
+  const stale = (f) => {
+    const s = sites[f.id];
+    if (!s) return false;
+    if (!f.provinceId) return true;
+    return Boolean(f.site) && !f.capturedFrom && (f.provinceId !== s.provinceId || f.site !== s.basis);
+  };
   let changed = false;
   const nations = {};
   for (const [id, n] of Object.entries(state.nations)) {
-    if (!(n.facilities ?? []).some((f) => !f.provinceId && sites[f.id])) { nations[id] = n; continue; }
+    if (!(n.facilities ?? []).some(stale)) { nations[id] = n; continue; }
     changed = true;
-    nations[id] = { ...n, facilities: n.facilities.map((f) => (!f.provinceId && sites[f.id] ? { ...f, provinceId: sites[f.id].provinceId, site: sites[f.id].basis } : f)) };
+    nations[id] = { ...n, facilities: n.facilities.map((f) => (stale(f) ? { ...f, provinceId: sites[f.id].provinceId, site: sites[f.id].basis } : f)) };
   }
   return changed ? { ...state, nations } : state;
 }

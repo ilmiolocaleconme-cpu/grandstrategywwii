@@ -51,9 +51,16 @@ export function facilitySitesFile({ features, j, factoryClassOf }) {
     (byTerritory.get(m.entity) ?? byTerritory.set(m.entity, []).get(m.entity)).push({ id: m.id, bank, population: population[m.id]?.population ?? 0, points: pts, port: portLevel.get(m.id) ?? 0 });
   }
   const facilities = [];
-  for (const id of Object.keys(nations).sort()) for (const f of nations[id].facilities) facilities.push({ id: f.id, type: f.type, territory: f.territory });
+  for (const id of Object.keys(nations).sort()) for (const f of nations[id].facilities) facilities.push({ id: f.id, type: f.type, recipeId: f.recipeId, territory: f.territory });
+  // fonti storiche: provincia madre → posto della mappa con la stessa regola della sponda; madre sconosciuta = errore nei dati
+  const bankOf = new Map(); for (const list of byTerritory.values()) for (const m of list) bankOf.set(m.id, m.bank);
+  const sources = (cfg.sources ?? []).map((s) => {
+    const bank = bankOf.get(s.provinceId) ?? (features.some((f) => f.properties.id === s.provinceId) ? s.provinceId : null);
+    if (!bank) throw new Error(`facility_placement: fonte con provincia sconosciuta ${s.provinceId}`);
+    return { ...s, provinceId: bank };
+  });
   const usesSlot = (type) => factoryClassOf(type) === 'industry'; // come construction.js: solo la classe 'industry' occupa spazi
-  const r = placeFacilities(facilities, { mothersOf: (t) => byTerritory.get(t) ?? [], rules: cfg.rules, sources: cfg.sources, usesSlot, capacity: SLOT_CAPACITY.province });
+  const r = placeFacilities(facilities, { mothersOf: (t) => byTerritory.get(t) ?? [], rules: cfg.rules, sources, usesSlot, capacity: SLOT_CAPACITY.province });
   const counts = { rule: 0, data: 0, source: 0 };
   for (const s of Object.values(r.sites)) counts[s.basis] = (counts[s.basis] ?? 0) + 1;
   return {

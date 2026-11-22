@@ -48,12 +48,24 @@ test('gli impianti di classe industria non superano i 14 spazi di un posto', () 
   }
 });
 
-test('la regola: acciaio tedesco nella Ruhr, italiano in un porto (poco carbone), alluminio dai centri di fonderia', () => {
+test('la regola: acciaio italiano in un porto (poco carbone), alluminio dai centri di fonderia', () => {
   const of = (owner, type) => Object.entries(file.sites).filter(([id]) => id.startsWith(`${owner}:`) && id.split(':')[2] === type).map(([, s]) => s);
-  const deu = of('DEU', 'FCT-STEEL');
-  assert.ok(deu.length > 0 && deu.every((s) => /DUESSELDORF|ESSEN|WESTFALEN|SAAR/.test(s.provinceId)), JSON.stringify(deu));
   assert.ok(of('ITA', 'FCT-STEEL').every((s) => s.rule === 'port'));
   assert.ok(of('DEU', 'FCT-ALUMINIUM').every((s) => s.basis === 'data'));
+});
+
+test('fonti storiche della Germania (22/11/2026): ogni fonte usata per intero, con riferimento; acciaio per quota (Ruhr 8 su 12)', () => {
+  const cfg = j('industry/facility_placement.json');
+  const used = Object.values(file.sites).filter((s) => s.basis === 'source').length;
+  assert.equal(used, cfg.sources.reduce((t, s) => t + s.count, 0), 'ogni fonte trova i suoi impianti');
+  for (const s of cfg.sources) assert.ok(s.source && /^https?:\/\//.test(s.ref), `${s.factory} ${s.provinceId}: fonte o riferimento mancante`);
+  const steel = Object.entries(file.sites).filter(([id]) => id.startsWith('DEU:DEU:FCT-STEEL')).map(([, s]) => s);
+  assert.equal(steel.length, 12);
+  assert.equal(steel.filter((s) => /DUESSELDORF|ESSEN|WESTFALEN_SUED/.test(s.provinceId)).length, 8);
+  const tank = Object.entries(file.sites).find(([id]) => id.startsWith('DEU:DEU:FCT-TANKS'))[1];
+  assert.deepEqual([tank.provinceId, tank.basis], ['P_DEU_KURHESSEN', 'source']);
+  const mg = Object.entries(file.sites).filter(([id]) => id.includes(':REC-MG-DEU-MG34-')).map(([, s]) => s.provinceId).sort();
+  assert.deepEqual(mg, ['P_DEU_BERLIN', 'P_DEU_THUERINGEN'], 'la ricetta sceglie la fonte giusta');
 });
 
 test('distribuzione: punteggio / (1 + già messi), spazi pieni → il posto seguente, fonti storiche prima di tutto', () => {
@@ -78,7 +90,12 @@ test('applyFacilitySites: solo gli impianti senza provincia, ripetibile (salvata
   assert.equal(applyFacilitySites(a, file), a, 'seconda volta: nessun cambio');
   const f = a.nations.DEU.facilities.find((x) => x.type === 'FCT-STEEL');
   assert.equal(f.provinceId, file.sites[f.id].provinceId);
-  assert.equal(f.site, 'rule');
+  assert.equal(f.site, 'source');
+  // salvataggio con la posizione di regola di prima: la fonte storica la sostituisce; un impianto conquistato non si tocca
+  const old = { ...a, nations: { ...a.nations, DEU: { ...a.nations.DEU, facilities: a.nations.DEU.facilities.map((x) => (x.id === f.id ? { ...x, provinceId: 'P_DEU_BERLIN', site: 'rule' } : x)) } } };
+  assert.equal(applyFacilitySites(old, file).nations.DEU.facilities.find((x) => x.id === f.id).provinceId, file.sites[f.id].provinceId);
+  const taken = { ...old, nations: { ...old.nations, DEU: { ...old.nations.DEU, facilities: old.nations.DEU.facilities.map((x) => (x.id === f.id ? { ...x, capturedFrom: 'FRA' } : x)) } } };
+  assert.equal(applyFacilitySites(taken, file).nations.DEU.facilities.find((x) => x.id === f.id).provinceId, 'P_DEU_BERLIN');
 });
 
 test('conquista: l\'impianto passa al nemico in guerra con il 50% di danno; all\'alleato no; ripreso torna danneggiato', () => {

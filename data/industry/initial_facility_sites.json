@@ -3,9 +3,9 @@
  "quality": "DESIGN_DEFAULT",
  "note": "Generato da scripts/build-facility-sites.js (npm run build:facility-sites): non modificare a mano. Posizione di ogni impianto iniziale: basis 'rule' = regola di facility_placement.json (stima, NON storica), 'data' = dati del repository (centri di fonderia), 'source' = fonte storica. Le chiavi sono gli id degli impianti creati da buildNations.",
  "counts": {
-  "rule": 404,
+  "rule": 357,
   "data": 12,
-  "source": 0
+  "source": 47
  },
  "sites": {
   "AFG:AFG:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
@@ -190,63 +190,63 @@
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_DEU_DUESSELDORF_SP2",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "basis": "source",
+   "rule": "August Thyssen-Hütte e Phoenix, Duisburg"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:2": {
-   "provinceId": "P_DEU_ESSEN_SP2",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_DUESSELDORF_SP2",
+   "basis": "source",
+   "rule": "August Thyssen-Hütte e Phoenix, Duisburg"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:3": {
-   "provinceId": "P_DEU_WESTFALEN_SUED",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_DUESSELDORF_SP2",
+   "basis": "source",
+   "rule": "August Thyssen-Hütte e Phoenix, Duisburg"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:4": {
-   "provinceId": "P_DEU_SAARPFALZ",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_ESSEN_SP2",
+   "basis": "source",
+   "rule": "Krupp (Essen, Rheinhausen) e Gutehoffnungshütte (Oberhausen)"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:5": {
-   "provinceId": "P_DEU_DUESSELDORF_SP2",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_ESSEN_SP2",
+   "basis": "source",
+   "rule": "Krupp (Essen, Rheinhausen) e Gutehoffnungshütte (Oberhausen)"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:6": {
-   "provinceId": "P_DEU_ESSEN_SP2",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_WESTFALEN_SUED",
+   "basis": "source",
+   "rule": "Hoesch e Dortmund-Hörder Union, Bochumer Verein"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:7": {
    "provinceId": "P_DEU_WESTFALEN_SUED",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "basis": "source",
+   "rule": "Hoesch e Dortmund-Hörder Union, Bochumer Verein"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:8": {
-   "provinceId": "P_DEU_DUESSELDORF_SP2",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_WESTFALEN_SUED",
+   "basis": "source",
+   "rule": "Hoesch e Dortmund-Hörder Union, Bochumer Verein"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:9": {
-   "provinceId": "P_DEU_ESSEN_SP2",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_SAARPFALZ",
+   "basis": "source",
+   "rule": "Röchling (Völklingen), Neunkircher Eisenwerk, Dillinger Hütte"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:10": {
-   "provinceId": "P_DEU_WESTFALEN_SUED",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_SAARPFALZ",
+   "basis": "source",
+   "rule": "Röchling (Völklingen), Neunkircher Eisenwerk, Dillinger Hütte"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:11": {
-   "provinceId": "P_DEU_SAARPFALZ",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_OBERSCHLESIEN_SP1",
+   "basis": "source",
+   "rule": "Vereinigte Oberschlesische Hüttenwerke, Gleiwitz"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:12": {
-   "provinceId": "P_DEU_DUESSELDORF_SP2",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG_SP3",
+   "basis": "source",
+   "rule": "Ilseder Hütte, Peine"
   },
   "DEU:DEU:FCT-ALUMINIUM:REC-ALU-001:1": {
    "provinceId": "P_DEU_BADEN",
@@ -259,44 +259,44 @@
    "rule": "aluminium"
   },
   "DEU:DEU:FCT-SYNFUEL:REC-FUEL-COAL-001:1": {
-   "provinceId": "P_DEU_DUESSELDORF_SP2",
-   "basis": "rule",
-   "rule": "coal"
+   "provinceId": "P_DEU_HALLE_MERSEBURG_SP2",
+   "basis": "source",
+   "rule": "Leuna (IG Farben), dal 1927, il maggiore"
   },
   "DEU:DEU:FCT-SYNFUEL:REC-FUEL-COAL-001:2": {
-   "provinceId": "P_DEU_ESSEN_SP2",
-   "basis": "rule",
-   "rule": "coal"
+   "provinceId": "P_DEU_SACHSEN_SP2",
+   "basis": "source",
+   "rule": "Brabag Böhlen, avviato nel 1936"
   },
   "DEU:DEU:FCT-RUBBER:REC-RUBBER-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG_SP3",
+   "basis": "source",
+   "rule": "Continental, Hannover (gomma e pneumatici)"
   },
   "DEU:DEU:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_SAARPFALZ",
+   "basis": "source",
+   "rule": "IG Farben Ludwigshafen-Oppau (BASF)"
   },
   "DEU:DEU:FCT-CHEMICAL:REC-CHEM-001:2": {
-   "provinceId": "P_DEU_WESER_EMS_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_DUESSELDORF_SP2",
+   "basis": "source",
+   "rule": "IG Farben Leverkusen (Bayer)"
   },
   "DEU:DEU:FCT-CHEMICAL:REC-CHEM-001:3": {
-   "provinceId": "P_DEU_OSTPREUSSEN",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_HESSEN_NASSAU_SP1",
+   "basis": "source",
+   "rule": "IG Farben Höchst, Francoforte"
   },
   "DEU:DEU:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_SACHSEN_SP2",
+   "basis": "source",
+   "rule": "Macchine utensili di Chemnitz"
   },
   "DEU:DEU:FCT-MACHINERY:REC-MACHINERY-001:2": {
-   "provinceId": "P_DEU_WESER_EMS_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_BERLIN",
+   "basis": "source",
+   "rule": "Macchine utensili di Berlino (Loewe, Borsig)"
   },
   "DEU:DEU:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
    "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
@@ -309,109 +309,109 @@
    "rule": "population"
   },
   "DEU:DEU:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_MAGDEBURG_ANHALT_SP2",
+   "basis": "source",
+   "rule": "Polte, Magdeburgo"
   },
   "DEU:DEU:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
-   "provinceId": "P_DEU_WESER_EMS_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_MAGDEBURG_ANHALT_SP2",
+   "basis": "source",
+   "rule": "Polte, Magdeburgo"
   },
   "DEU:DEU:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
-   "provinceId": "P_DEU_OSTPREUSSEN",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_BADEN",
+   "basis": "source",
+   "rule": "DWM e Dynamit AG, Karlsruhe-Durlach"
   },
   "DEU:DEU:FCT-MUNITIONS:REC-MUNITIONS-001:4": {
-   "provinceId": "P_DEU_SACHSEN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_FRANKEN",
+   "basis": "source",
+   "rule": "RWS, Norimberga"
   },
   "DEU:DEU:FCT-MUNITIONS:REC-MUNITIONS-001:5": {
-   "provinceId": "P_DEU_BERLIN",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_HALLE_MERSEBURG_SP2",
+   "basis": "source",
+   "rule": "WASAG, Reinsdorf (esplosivi)"
   },
   "DEU:DEU:FCT-MUNITIONS:REC-MUNITIONS-001:6": {
-   "provinceId": "P_DEU_NIEDERSCHLESIEN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_SACHSEN_SP2",
+   "basis": "source",
+   "rule": "Hasag, Lipsia"
   },
   "DEU:DEU:FCT-WEAPONS:REC-INW-DEU-RIFLE:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_WUERTTEMBERG_HOHENZOLLERN_SP1",
+   "basis": "source",
+   "rule": "Mauser, Oberndorf (Karabiner 98k)"
   },
   "DEU:DEU:FCT-WEAPONS:REC-INW-DEU-PISTOL-1939:1": {
-   "provinceId": "P_DEU_WESER_EMS_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_THUERINGEN",
+   "basis": "source",
+   "rule": "Walther, Zella-Mehlis (pistola P38)"
   },
   "DEU:DEU:FCT-WEAPONS:REC-MG-DEU-MG34-L:1": {
-   "provinceId": "P_DEU_OSTPREUSSEN",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_BERLIN",
+   "basis": "source",
+   "rule": "Mauser-Werke Berlin-Borsigwalde (MG 34)"
   },
   "DEU:DEU:FCT-WEAPONS:REC-MG-DEU-MG34-S:1": {
-   "provinceId": "P_DEU_SACHSEN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_THUERINGEN",
+   "basis": "source",
+   "rule": "Berlin-Suhler Waffenwerke (Simson), Suhl (MG 34)"
   },
   "DEU:DEU:FCT-TANKS:REC-TNK-DEU-PZ-I:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_KURHESSEN",
+   "basis": "source",
+   "rule": "Henschel, Kassel (maggior produttore del Panzer I Ausf. B)"
   },
   "DEU:DEU:FCT-VEHICLES:REC-VEH-DEU-TRUCK:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_KURMARK_SP3",
+   "basis": "source",
+   "rule": "Opelwerk Brandenburg, aperto il 7/1/1936"
   },
   "DEU:DEU:FCT-VEHICLES:REC-VEH-DEU-TRUCK:2": {
-   "provinceId": "P_DEU_WESER_EMS_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_HESSEN_NASSAU_SP1",
+   "basis": "source",
+   "rule": "Opel, Rüsselsheim"
   },
   "DEU:DEU:FCT-VEHICLES:REC-VEH-DEU-TRUCK:3": {
-   "provinceId": "P_DEU_OSTPREUSSEN",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_BADEN",
+   "basis": "source",
+   "rule": "Daimler-Benz, Gaggenau"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-LEFH18:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_DUESSELDORF_SP2",
+   "basis": "source",
+   "rule": "Rheinmetall-Borsig, Düsseldorf (leFH 18)"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-LEFH18:2": {
-   "provinceId": "P_DEU_WESER_EMS_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_ESSEN_SP2",
+   "basis": "source",
+   "rule": "Krupp, Essen (leFH 18)"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-SFH18:1": {
-   "provinceId": "P_DEU_OSTPREUSSEN",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_ESSEN_SP2",
+   "basis": "source",
+   "rule": "Krupp, Essen (sFH 18)"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-GRW34:1": {
-   "provinceId": "P_DEU_SACHSEN_SP2",
+   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
    "basis": "rule",
    "rule": "population"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-GRW36:1": {
-   "provinceId": "P_DEU_BERLIN",
+   "provinceId": "P_DEU_WESER_EMS_SP2",
    "basis": "rule",
    "rule": "population"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-PAK36:1": {
-   "provinceId": "P_DEU_NIEDERSCHLESIEN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_DUESSELDORF_SP2",
+   "basis": "source",
+   "rule": "Rheinmetall-Borsig (PaK 36)"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-LEIG18:1": {
-   "provinceId": "P_DEU_HESSEN_NASSAU_SP1",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_DUESSELDORF_SP2",
+   "basis": "source",
+   "rule": "Rheinmetall-Borsig (leIG 18)"
   },
   "DEU:DEU:FCT-FEED:REC-FEED-001:1": {
    "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
@@ -419,44 +419,44 @@
    "rule": "population"
   },
   "DEU:DEU:FCT-STUD:REC-HORSES-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_OSTPREUSSEN",
+   "basis": "source",
+   "rule": "Hauptgestüt Trakehnen"
   },
   "DEU:DEU:FCT-PHARMA:REC-PHARMA-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_DEU_DUESSELDORF_SP2",
+   "basis": "source",
+   "rule": "Bayer, Leverkusen ed Elberfeld"
   },
   "DEU:DEU:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_DEU_DUESSELDORF_SP2",
-   "basis": "rule",
-   "rule": "coal"
+   "provinceId": "P_DEU_HALLE_MERSEBURG_SP2",
+   "basis": "source",
+   "rule": "Golpa-Zschornewitz (lignite, AEG)"
   },
   "DEU:DEU:FCT-POWER:REC-ELECTRIC-COAL-001:2": {
-   "provinceId": "P_DEU_ESSEN_SP2",
-   "basis": "rule",
-   "rule": "coal"
+   "provinceId": "P_DEU_KOELN_AACHEN_SP2",
+   "basis": "source",
+   "rule": "Goldenberg-Werk, Knapsack (lignite, RWE)"
   },
   "DEU:DEU:FCT-POWER:REC-ELECTRIC-COAL-001:3": {
-   "provinceId": "P_DEU_WESTFALEN_SUED",
-   "basis": "rule",
-   "rule": "coal"
+   "provinceId": "P_DEU_BERLIN",
+   "basis": "source",
+   "rule": "Kraftwerk Klingenberg, Berlino"
   },
   "DEU:DEU:FCT-POWER:REC-ELECTRIC-COAL-001:4": {
-   "provinceId": "P_DEU_SAARPFALZ",
-   "basis": "rule",
-   "rule": "coal"
+   "provinceId": "P_DEU_KURMARK_SP3",
+   "basis": "source",
+   "rule": "Kraftwerk Trattendorf (lignite della Lusazia)"
   },
   "DEU:DEU:FCT-POWER:REC-ELECTRIC-COAL-001:5": {
-   "provinceId": "P_DEU_DUESSELDORF_SP2",
-   "basis": "rule",
-   "rule": "coal"
+   "provinceId": "P_DEU_SACHSEN_SP2",
+   "basis": "source",
+   "rule": "Kraftwerk Böhlen (lignite)"
   },
   "DEU:DEU:FCT-POWER:REC-ELECTRIC-COAL-001:6": {
-   "provinceId": "P_DEU_ESSEN_SP2",
-   "basis": "rule",
-   "rule": "coal"
+   "provinceId": "P_DEU_WESTFALEN_SUED",
+   "basis": "source",
+   "rule": "Centrali a carbone della Ruhr (RWE, VEW)"
   },
   "DNK:DNK:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_DNK_HOVEDSTADEN_SP1",

@@ -4,13 +4,404 @@
   "note": "Regola di collocazione degli impianti iniziali (decisioni dell'utente del 21/11/2026), uguale per tutte le nazioni. NON è un dato storico: ogni impianto collocato con la regola ha basis 'rule'. Le fonti storiche si aggiungono in `sources` (basis 'source') e prevalgono sulla regola. Dopo ogni modifica: npm run build:facility-sites.",
   "captureDamage": 0.5,
   "rules": {
-    "default": { "by": "population", "why": "industria manifatturiera vicino alla manodopera" },
-    "FCT-STEEL": { "by": { "coal": 1, "iron_ore": 0.25 }, "minScore": 0.5, "fallback": "port", "why": "altoforni soprattutto sul carbone da coke (Ruhr, Pennsylvania, Donbass), meno sul minerale (Lorena, Magnitogorsk): peso 1 al carbone e 0,25 al ferro; se la nazione non ne ha abbastanza (meno di 0,5 punti nella provincia migliore), nel porto principale: carbone e minerale importati (Genova, Bagnoli)" },
-    "FCT-POWER": { "by": ["coal"], "minScore": 0.5, "fallback": "population", "why": "centrali termoelettriche sui bacini carboniferi" },
-    "FCT-SYNFUEL": { "by": ["coal"], "minScore": 0.5, "fallback": "population", "why": "benzina sintetica dal carbone" },
-    "FCT-REFINERY": { "by": ["oil"], "minScore": 0.5, "fallback": "port", "why": "raffinerie sui giacimenti; senza petrolio nel porto principale (greggio importato)" },
-    "FCT-ALUMINIUM": { "by": ["aluminium"], "fallback": "population", "basis": "data", "why": "centri di fonderia di resource_points.json (sezione products)" },
-    "FCT-RUBBER": { "by": ["rubber"], "fallback": "population", "why": "gomma naturale dove si coltiva, altrimenti vicino alla manodopera" }
+    "default": {
+      "by": "population",
+      "why": "industria manifatturiera vicino alla manodopera"
+    },
+    "FCT-STEEL": {
+      "by": {
+        "coal": 1,
+        "iron_ore": 0.25
+      },
+      "minScore": 0.5,
+      "fallback": "port",
+      "why": "altoforni soprattutto sul carbone da coke (Ruhr, Pennsylvania, Donbass), meno sul minerale (Lorena, Magnitogorsk): peso 1 al carbone e 0,25 al ferro; se la nazione non ne ha abbastanza (meno di 0,5 punti nella provincia migliore), nel porto principale: carbone e minerale importati (Genova, Bagnoli)"
+    },
+    "FCT-POWER": {
+      "by": [
+        "coal"
+      ],
+      "minScore": 0.5,
+      "fallback": "population",
+      "why": "centrali termoelettriche sui bacini carboniferi"
+    },
+    "FCT-SYNFUEL": {
+      "by": [
+        "coal"
+      ],
+      "minScore": 0.5,
+      "fallback": "population",
+      "why": "benzina sintetica dal carbone"
+    },
+    "FCT-REFINERY": {
+      "by": [
+        "oil"
+      ],
+      "minScore": 0.5,
+      "fallback": "port",
+      "why": "raffinerie sui giacimenti; senza petrolio nel porto principale (greggio importato)"
+    },
+    "FCT-ALUMINIUM": {
+      "by": [
+        "aluminium"
+      ],
+      "fallback": "population",
+      "basis": "data",
+      "why": "centri di fonderia di resource_points.json (sezione products)"
+    },
+    "FCT-RUBBER": {
+      "by": [
+        "rubber"
+      ],
+      "fallback": "population",
+      "why": "gomma naturale dove si coltiva, altrimenti vicino alla manodopera"
+    }
   },
-  "sources": []
+  "sources": [
+    {
+      "territory": "DEU",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_DEU_DUESSELDORF",
+      "count": 3,
+      "source": "August Thyssen-Hütte e Phoenix, Duisburg",
+      "ref": "https://search.library.wisc.edu/digital/ABZGHCTAHGCYHK8P/text/ADNNLP66HLEHS68M",
+      "note": "Divisione per quota regionale [Probabile]: Renania-Vestfalia circa 70% dell'acciaio tedesco a metà anni '30, Saar circa 12% (proporzioni simili nel 1963: Nordreno-Vestfalia 68% e Saar 14% della ghisa, Minerals Yearbook); il resto Alta Slesia e Peine-Ilsede. 12 impianti: Ruhr 8, Saar 2, Alta Slesia 1, Peine-Ilsede 1."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_DEU_ESSEN",
+      "count": 2,
+      "source": "Krupp (Essen, Rheinhausen) e Gutehoffnungshütte (Oberhausen)",
+      "ref": "https://en.wikipedia.org/wiki/Krupp",
+      "note": "Divisione per quota regionale [Probabile]: Renania-Vestfalia circa 70% dell'acciaio tedesco a metà anni '30, Saar circa 12% (proporzioni simili nel 1963: Nordreno-Vestfalia 68% e Saar 14% della ghisa, Minerals Yearbook); il resto Alta Slesia e Peine-Ilsede. 12 impianti: Ruhr 8, Saar 2, Alta Slesia 1, Peine-Ilsede 1."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_DEU_WESTFALEN_SUED",
+      "count": 3,
+      "source": "Hoesch e Dortmund-Hörder Union, Bochumer Verein",
+      "ref": "https://en.wikipedia.org/wiki/Hoesch_AG",
+      "note": "Divisione per quota regionale [Probabile]: Renania-Vestfalia circa 70% dell'acciaio tedesco a metà anni '30, Saar circa 12% (proporzioni simili nel 1963: Nordreno-Vestfalia 68% e Saar 14% della ghisa, Minerals Yearbook); il resto Alta Slesia e Peine-Ilsede. 12 impianti: Ruhr 8, Saar 2, Alta Slesia 1, Peine-Ilsede 1."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_DEU_SAARPFALZ",
+      "count": 2,
+      "source": "Röchling (Völklingen), Neunkircher Eisenwerk, Dillinger Hütte",
+      "ref": "https://en.wikipedia.org/wiki/Völklinger_Hütte",
+      "note": "Divisione per quota regionale [Probabile]: Renania-Vestfalia circa 70% dell'acciaio tedesco a metà anni '30, Saar circa 12% (proporzioni simili nel 1963: Nordreno-Vestfalia 68% e Saar 14% della ghisa, Minerals Yearbook); il resto Alta Slesia e Peine-Ilsede. 12 impianti: Ruhr 8, Saar 2, Alta Slesia 1, Peine-Ilsede 1."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_DEU_OBERSCHLESIEN",
+      "count": 1,
+      "source": "Vereinigte Oberschlesische Hüttenwerke, Gleiwitz",
+      "ref": "https://en.wikipedia.org/wiki/Upper_Silesian_Industrial_Region",
+      "note": "Divisione per quota regionale [Probabile]: Renania-Vestfalia circa 70% dell'acciaio tedesco a metà anni '30, Saar circa 12% (proporzioni simili nel 1963: Nordreno-Vestfalia 68% e Saar 14% della ghisa, Minerals Yearbook); il resto Alta Slesia e Peine-Ilsede. 12 impianti: Ruhr 8, Saar 2, Alta Slesia 1, Peine-Ilsede 1."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+      "count": 1,
+      "source": "Ilseder Hütte, Peine",
+      "ref": "https://en.wikipedia.org/wiki/Ilseder_Hütte",
+      "note": "Divisione per quota regionale [Probabile]: Renania-Vestfalia circa 70% dell'acciaio tedesco a metà anni '30, Saar circa 12% (proporzioni simili nel 1963: Nordreno-Vestfalia 68% e Saar 14% della ghisa, Minerals Yearbook); il resto Alta Slesia e Peine-Ilsede. 12 impianti: Ruhr 8, Saar 2, Alta Slesia 1, Peine-Ilsede 1."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-POWER",
+      "provinceId": "P_DEU_HALLE_MERSEBURG",
+      "count": 1,
+      "source": "Golpa-Zschornewitz (lignite, AEG)",
+      "ref": "https://www.vde.com/de/geschichte/karte/sachsen-anhalt/kraftwerk-zschornewitz",
+      "note": "Le maggiori centrali termiche pubbliche del 1936, una per impianto del gioco [Probabile]."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-POWER",
+      "provinceId": "P_DEU_KOELN_AACHEN",
+      "count": 1,
+      "source": "Goldenberg-Werk, Knapsack (lignite, RWE)",
+      "ref": "https://digi.bib.uni-mannheim.de/~jkamlah/Handbuch_dt_AG_old/Auflage_25-45/1006345701_193300381/pdf/1006345701_0526.pdf",
+      "note": "Le maggiori centrali termiche pubbliche del 1936, una per impianto del gioco [Probabile]."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-POWER",
+      "provinceId": "P_DEU_BERLIN",
+      "count": 1,
+      "source": "Kraftwerk Klingenberg, Berlino",
+      "ref": "https://en.wikipedia.org/wiki/Klingenberg_Power_Station",
+      "note": "Le maggiori centrali termiche pubbliche del 1936, una per impianto del gioco [Probabile]."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-POWER",
+      "provinceId": "P_DEU_KURMARK",
+      "count": 1,
+      "source": "Kraftwerk Trattendorf (lignite della Lusazia)",
+      "ref": "https://digi.bib.uni-mannheim.de/~jkamlah/Handbuch_dt_AG_old/Auflage_25-45/1006345701_193000351/pdf/1006345701_0825.pdf",
+      "note": "Le maggiori centrali termiche pubbliche del 1936, una per impianto del gioco [Probabile]."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-POWER",
+      "provinceId": "P_DEU_SACHSEN",
+      "count": 1,
+      "source": "Kraftwerk Böhlen (lignite)",
+      "ref": "https://en.wikipedia.org/wiki/Böhlen",
+      "note": "Le maggiori centrali termiche pubbliche del 1936, una per impianto del gioco [Probabile]."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-POWER",
+      "provinceId": "P_DEU_WESTFALEN_SUED",
+      "count": 1,
+      "source": "Centrali a carbone della Ruhr (RWE, VEW)",
+      "ref": "https://en.wikipedia.org/wiki/Ruhr",
+      "note": "Le maggiori centrali termiche pubbliche del 1936, una per impianto del gioco [Probabile]."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-SYNFUEL",
+      "provinceId": "P_DEU_HALLE_MERSEBURG",
+      "count": 1,
+      "source": "Leuna (IG Farben), dal 1927, il maggiore",
+      "ref": "https://en.wikipedia.org/wiki/Leuna_works"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-SYNFUEL",
+      "provinceId": "P_DEU_SACHSEN",
+      "count": 1,
+      "source": "Brabag Böhlen, avviato nel 1936",
+      "ref": "https://www.osti.gov/biblio/6330418",
+      "note": "Nel 1937 producevano Böhlen, Leuna, Magdeburgo, Zeitz e Scholven (Wikipedia, Synthetic fuel)."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-CHEMICAL",
+      "provinceId": "P_DEU_SAARPFALZ",
+      "count": 1,
+      "source": "IG Farben Ludwigshafen-Oppau (BASF)",
+      "ref": "https://en.wikipedia.org/wiki/BASF"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-CHEMICAL",
+      "provinceId": "P_DEU_DUESSELDORF",
+      "count": 1,
+      "source": "IG Farben Leverkusen (Bayer)",
+      "ref": "https://en.wikipedia.org/wiki/Leverkusen"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-CHEMICAL",
+      "provinceId": "P_DEU_HESSEN_NASSAU",
+      "count": 1,
+      "source": "IG Farben Höchst, Francoforte",
+      "ref": "https://en.wikipedia.org/wiki/Hoechst_AG"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-PHARMA",
+      "provinceId": "P_DEU_DUESSELDORF",
+      "count": 1,
+      "source": "Bayer, Leverkusen ed Elberfeld",
+      "ref": "https://en.wikipedia.org/wiki/Bayer"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-RUBBER",
+      "provinceId": "P_DEU_SUEDHANNOVER_BRAUNSCHWEIG",
+      "count": 1,
+      "source": "Continental, Hannover (gomma e pneumatici)",
+      "ref": "https://en.wikipedia.org/wiki/Continental_AG"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-TANKS",
+      "provinceId": "P_DEU_KURHESSEN",
+      "count": 1,
+      "source": "Henschel, Kassel (maggior produttore del Panzer I Ausf. B)",
+      "ref": "https://www.ww2-weapons.com/panzer-i/"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-VEHICLES",
+      "provinceId": "P_DEU_KURMARK",
+      "count": 1,
+      "source": "Opelwerk Brandenburg, aperto il 7/1/1936",
+      "ref": "https://en.wikipedia.org/wiki/Opelwerk_Brandenburg",
+      "note": "Opel era il maggior produttore tedesco di autocarri (circa metà dei nuovi): 2 impianti su 3."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-VEHICLES",
+      "provinceId": "P_DEU_HESSEN_NASSAU",
+      "count": 1,
+      "source": "Opel, Rüsselsheim",
+      "ref": "https://en.wikipedia.org/wiki/Opel_Blitz"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-VEHICLES",
+      "provinceId": "P_DEU_BADEN",
+      "count": 1,
+      "source": "Daimler-Benz, Gaggenau",
+      "ref": "https://en.wikipedia.org/wiki/Mercedes-Benz_Gaggenau_plant"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-WEAPONS",
+      "recipe": "REC-INW-DEU-RIFLE",
+      "provinceId": "P_DEU_WUERTTEMBERG_HOHENZOLLERN",
+      "count": 1,
+      "source": "Mauser, Oberndorf (Karabiner 98k)",
+      "ref": "https://en.wikipedia.org/wiki/Karabiner_98k"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-WEAPONS",
+      "recipe": "REC-INW-DEU-PISTOL-1939",
+      "provinceId": "P_DEU_THUERINGEN",
+      "count": 1,
+      "source": "Walther, Zella-Mehlis (pistola P38)",
+      "ref": "https://en.wikipedia.org/wiki/Walther_P38"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-WEAPONS",
+      "recipe": "REC-MG-DEU-MG34-L",
+      "provinceId": "P_DEU_BERLIN",
+      "count": 1,
+      "source": "Mauser-Werke Berlin-Borsigwalde (MG 34)",
+      "ref": "https://www.ssaa.org.au/?p=6982"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-WEAPONS",
+      "recipe": "REC-MG-DEU-MG34-S",
+      "provinceId": "P_DEU_THUERINGEN",
+      "count": 1,
+      "source": "Berlin-Suhler Waffenwerke (Simson), Suhl (MG 34)",
+      "ref": "https://www.ssaa.org.au/?p=6982"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-DEU-LEFH18",
+      "provinceId": "P_DEU_DUESSELDORF",
+      "count": 1,
+      "source": "Rheinmetall-Borsig, Düsseldorf (leFH 18)",
+      "ref": "https://en.wikipedia.org/wiki/10.5_cm_leFH_18"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-DEU-LEFH18",
+      "provinceId": "P_DEU_ESSEN",
+      "count": 1,
+      "source": "Krupp, Essen (leFH 18)",
+      "ref": "https://en.wikipedia.org/wiki/10.5_cm_leFH_18"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-DEU-SFH18",
+      "provinceId": "P_DEU_ESSEN",
+      "count": 1,
+      "source": "Krupp, Essen (sFH 18)",
+      "ref": "https://en.wikipedia.org/wiki/15_cm_sFH_18"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-DEU-PAK36",
+      "provinceId": "P_DEU_DUESSELDORF",
+      "count": 1,
+      "source": "Rheinmetall-Borsig (PaK 36)",
+      "ref": "https://en.wikipedia.org/wiki/3.7_cm_Pak_36"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-DEU-LEIG18",
+      "provinceId": "P_DEU_DUESSELDORF",
+      "count": 1,
+      "source": "Rheinmetall-Borsig (leIG 18)",
+      "ref": "https://en.wikipedia.org/wiki/7.5_cm_leichtes_Infanteriegeschütz_18"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-MUNITIONS",
+      "provinceId": "P_DEU_MAGDEBURG_ANHALT",
+      "count": 2,
+      "source": "Polte, Magdeburgo",
+      "ref": "https://en.wikipedia.org/wiki/Polte_ammunition_factory",
+      "note": "Polte era il maggior produttore di munizioni del Reich: 2 impianti su 6."
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-MUNITIONS",
+      "provinceId": "P_DEU_BADEN",
+      "count": 1,
+      "source": "DWM e Dynamit AG, Karlsruhe-Durlach",
+      "ref": "https://stephentaylorhistorian.com/2020/06/19/german-ww2-7-92mm-headstamps-how-to-id-them-manufacturer-list/"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-MUNITIONS",
+      "provinceId": "P_DEU_FRANKEN",
+      "count": 1,
+      "source": "RWS, Norimberga",
+      "ref": "https://en.wikipedia.org/wiki/RWS_GmbH"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-MUNITIONS",
+      "provinceId": "P_DEU_HALLE_MERSEBURG",
+      "count": 1,
+      "source": "WASAG, Reinsdorf (esplosivi)",
+      "ref": "https://smallarmsreview.com/?p=31057"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-MUNITIONS",
+      "provinceId": "P_DEU_SACHSEN",
+      "count": 1,
+      "source": "Hasag, Lipsia",
+      "ref": "https://en.wikipedia.org/wiki/HASAG"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-MACHINERY",
+      "provinceId": "P_DEU_SACHSEN",
+      "count": 1,
+      "source": "Macchine utensili di Chemnitz",
+      "ref": "https://en.wikipedia.org/wiki/Chemnitz"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-MACHINERY",
+      "provinceId": "P_DEU_BERLIN",
+      "count": 1,
+      "source": "Macchine utensili di Berlino (Loewe, Borsig)",
+      "ref": "https://en.wikipedia.org/wiki/Ludwig_Loewe_&_Company"
+    },
+    {
+      "territory": "DEU",
+      "factory": "FCT-STUD",
+      "provinceId": "P_DEU_OSTPREUSSEN",
+      "count": 1,
+      "source": "Hauptgestüt Trakehnen",
+      "ref": "https://en.wikipedia.org/wiki/Trakehner"
+    }
+  ],
+  "sourcesNote": "Fonti storiche (decisioni dell'utente del 22/11/2026: 1A divisione per quota della produzione quando il gioco ha meno impianti della realtà; statistiche dell'epoca e rapporti alleati come fonti principali, Wikipedia come conferma; i tipi senza dati chiari restano con la regola). Germania fatta il 22/11/2026: restano con la regola componenti, motori, mangimi, mortai GrW 34 e GrW 36 (produttore non verificato) e alluminio (dati del repository)."
 }
