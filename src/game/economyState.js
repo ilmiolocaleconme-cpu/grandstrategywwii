@@ -8,6 +8,7 @@ import { cashFor } from '../data/initialCash.js';
 import { validateResearch } from './research.js';
 import { validateSecurityShape } from './securityState.js';
 import { populationOf } from '../data/nationPopulation.js';
+import { addInitialEquipment } from '../data/initialEquipment.js';
 
 export const DIFFICULTIES = ['facile', 'media', 'reale'];
 export const DEFAULT_DIFFICULTY = 'media';
@@ -27,7 +28,7 @@ const emptyNation = () => ({ balance: 0, population: 0, stocks: {}, facilities: 
  * - `horses` (horse_breeding.json, facoltativo): cavalli iniziali del pool (scorta `horses`, capi) per entità politica, se la tabella ne ha; oggi è vuota (MISSING_DATA);
  * - la difficoltà moltiplica scorte e cassa per `stockMul` (facile 1,5 · media 1 · reale 0,7), come definito in economy.json.
  */
-export function buildNations({ political, nationIds, industry, stocks, cash = null, economy = null, population = null, horses = null, research = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
+export function buildNations({ political, nationIds, industry, stocks, equipment = null, cash = null, economy = null, population = null, horses = null, research = null, difficulty: difficultyId = DEFAULT_DIFFICULTY }) {
   const stockMul = economy ? difficulty(economy, difficultyId).stockMul : 1;
   const ownerOf = new Map(political.map((e) => [e.id, e.owner ?? e.id]));
   // `nations` contiene le nazioni scegliibili e ogni altra entità che possiede industria (es. Iran, non giocabile)
@@ -75,6 +76,8 @@ export function buildNations({ political, nationIds, industry, stocks, cash = nu
     if (!nations[id]) continue;
     for (const [res, t] of Object.entries(minor.startStock ?? {})) nations[id].stocks[res] = (nations[id].stocks[res] ?? 0) + t;
   }
+  // riserva iniziale di armi (22/11/2026, decisione dell'utente): armi per N divisioni di fanteria standard (data/industry/initial_equipment.json); scala con la difficoltà
+  if (equipment) addInitialEquipment(nations, equipment);
   for (const n of Object.values(nations)) for (const res of Object.keys(n.stocks)) n.stocks[res] = Math.ceil(n.stocks[res] * stockMul - 1e-9);
   if (population) for (const [id, n] of Object.entries(nations)) n.population = populationOf(population, id); // MISSING_DATA = 0
   if (cash) for (const [id, n] of Object.entries(nations)) {

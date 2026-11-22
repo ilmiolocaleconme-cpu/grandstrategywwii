@@ -1,0 +1,27 @@
+{
+  "schema": "initial-equipment-rules-v1",
+  "status": "USER_DECISION",
+  "asOf": "2026-11-22",
+  "note": "Riserva iniziale di armi in magazzino (decisione dell'utente del 22/11/2026): le grandi nazioni hanno armi per 14 divisioni, le medie per 7, le piccole per 4; per le piccolissime Claude bilancia «più o meno storicamente». La riserva copre la dotazione della divisione di FANTERIA standard della nazione al 1936 (fucili, mitragliatrici, mortai, artiglieria, anticarro, autocarri): niente carri né aerei. Si genera con `npm run build:initial-equipment` in initial_equipment.json, solo per le nazioni che hanno già la fanteria a battaglioni (schema unico); le altre la ricevono quando vengono convertite. Fasce delle singole nazioni: stima di Claude dalla memoria (dimensione dell'esercito di pace 1936), non un dato storico.",
+  "reliability": "ESTIMATED",
+  "tiers": {
+    "large": { "divisions": 14, "label": "grande" },
+    "medium": { "divisions": 7, "label": "media" },
+    "small": { "divisions": 4, "label": "piccola" },
+    "minor": { "divisions": 2, "label": "piccolissima (esercito di 1–3 divisioni nel 1936)" },
+    "token": { "divisions": 1, "label": "forza minima (guardie nazionali, gendarmerie)" },
+    "none": { "divisions": 0, "label": "senza esercito di campo" }
+  },
+  "nations": {
+    "DEU": "large", "USSR": "large", "USA": "large", "GBR": "large", "FRA": "large", "ITA": "large", "JPN": "large",
+    "CHN": "medium", "POL": "medium", "ESP": "medium", "CZE": "medium", "ROM": "medium", "YUG": "medium", "TUR": "medium", "BEL": "medium",
+    "NLD": "medium", "CHE": "medium", "SWE": "medium", "GRC": "medium", "HUN": "medium", "MAN": "medium", "BRA": "medium", "ARG": "medium",
+    "AUT": "small", "BGR": "small", "FIN": "small", "NOR": "small", "DNK": "small", "PRT": "small", "CAN": "small", "AUS": "small",
+    "ZAF": "small", "NZL": "small", "MEX": "small", "CHL": "small", "PER": "small", "COL": "small", "VEN": "small", "BOL": "small",
+    "PRY": "small", "SIA": "small", "EGY": "small", "ETH": "small", "MNG": "small",
+    "EST": "minor", "LVA": "minor", "LTU": "minor", "ALB": "minor", "IRL": "minor", "URY": "minor", "ECU": "minor", "CUB": "minor",
+    "AFG": "minor", "SAU": "minor", "YEM": "minor", "MENG": "minor",
+    "CRI": "token", "DOM": "token", "SLV": "token", "GTM": "token", "HTI": "token", "HND": "token", "NIC": "token", "PAN": "token", "LBR": "token",
+    "AND": "none", "LIE": "none", "MCO": "none", "SMR": "none", "VAT": "none", "ISL": "none", "LUX": "none"
+  }
+}

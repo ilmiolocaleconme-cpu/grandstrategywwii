@@ -19,6 +19,7 @@ import { withTerrain } from './data/terrain.js';
 import { buildCanvasModel } from './map/canvasModel.js';
 import initialIndustry from '../data/industry/initial_industry.json';
 import initialStocks from '../data/industry/initial_stocks.json';
+import initialEquipment from '../data/industry/initial_equipment.json'; // riserva iniziale di armi (22/11/2026)
 import initialCash from '../data/industry/initial_cash.json';
 import economyFile from '../data/economy/economy.json';
 import populationData from '../data/population/population.json';
@@ -357,7 +358,7 @@ const EQUIPMENT_RECIPE_BY_EQ = new Map(EQUIPMENT_RECIPES.map((r) => [r.equipment
 const EQUIPMENT_NAMES = new Map(EQUIPMENT_CATALOG.entries.map((e) => [e.equipment_id, e.name_it ?? e.designation ?? e.equipment_id]));
 // Prezzi dei pezzi (opzione D): priceFactor × costo dei materiali; ogni equipaggiamento diventa commerciabile
 const economyData = withEquipmentPrices(economyFile, EQUIPMENT_RECIPES, equipmentProductionTable.priceFactor);
-const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding, research: technologiesFile.initialResearch ?? null };
+const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIndustry, stocks: initialStocks, equipment: initialEquipment, cash: initialCash, economy: economyData, population: populationData, horses: horseBreeding, research: technologiesFile.initialResearch ?? null };
 
 // Ciclo economico giornaliero (estrazione → produzione → entrata): game/economySystem.js. Dati nel bundle, funziona offline.
 const GAME_CATALOG = { experience: productionExperienceFile, recipeName: (id) => EQUIPMENT_NAMES.get(String(id).replace(/^REC-/, "")) ?? null, levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
