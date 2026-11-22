@@ -5,8 +5,9 @@
   "captureDamage": 0.5,
   "rules": {
     "default": {
-      "by": "population",
-      "why": "industria manifatturiera vicino alla manodopera"
+      "by": "urban",
+      "fallback": "population",
+      "why": "industria manifatturiera nelle città grandi: superficie delle zone urbane della provincia (citta_grandi.json). Decisione dell'utente del 22/11/2026: sostituisce la popolazione provinciale, che è distribuita anche per superficie e mandava impianti in Jacuzia; la popolazione resta come ripiego per i territori senza città grandi."
     },
     "FCT-STEEL": {
       "by": {
@@ -22,7 +23,7 @@
         "coal"
       ],
       "minScore": 0.5,
-      "fallback": "population",
+      "fallback": "urban",
       "why": "centrali termoelettriche sui bacini carboniferi"
     },
     "FCT-SYNFUEL": {
@@ -30,7 +31,7 @@
         "coal"
       ],
       "minScore": 0.5,
-      "fallback": "population",
+      "fallback": "urban",
       "why": "benzina sintetica dal carbone"
     },
     "FCT-REFINERY": {
@@ -45,7 +46,7 @@
       "by": [
         "aluminium"
       ],
-      "fallback": "population",
+      "fallback": "urban",
       "basis": "data",
       "why": "centri di fonderia di resource_points.json (sezione products)"
     },
@@ -53,7 +54,7 @@
       "by": [
         "rubber"
       ],
-      "fallback": "population",
+      "fallback": "urban",
       "why": "gomma naturale dove si coltiva, altrimenti vicino alla manodopera"
     }
   },

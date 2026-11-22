@@ -15,10 +15,11 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
 
 /**
  * Punteggio di una provincia madre per un criterio. by: 'population' | 'port' | elenco di risorse o prodotti (somma dei punti base).
- * m: { population, points: { risorsa: base }, port (livello del porto principale, 0 se nessuno) }.
+ * m: { urban (km² di zone urbane grandi), population, points: { risorsa: base }, port (livello del porto principale, 0 se nessuno) }.
  */
 export function scoreOf(m, by) {
   if (by === 'population') return m.population ?? 0;
+  if (by === 'urban') return r3(m.urban ?? 0); // superficie delle zone urbane grandi della provincia (km²)
   if (by === 'port') return (m.port ?? 0) > 0 ? m.port * 1e9 + (m.population ?? 0) : 0;
   if (Array.isArray(by)) return r3(by.reduce((t, r) => t + (m.points?.[r] ?? 0), 0));
   if (by && typeof by === 'object') return r3(Object.entries(by).reduce((t, [r, w]) => t + w * (m.points?.[r] ?? 0), 0)); // pesi per risorsa

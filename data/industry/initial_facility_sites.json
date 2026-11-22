@@ -9,24 +9,24 @@
  },
  "sites": {
   "AFG:AFG:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_AFG_BADAKHSHAN",
+   "provinceId": "P_AFG_KANDAHAR",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ALB:ALB:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_ALB_BERAT",
+   "provinceId": "P_ALB_TIRANE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ARG:ARG:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_ARG_BUENOS_AIRES",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "AUS:AUS:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_AUS_NEW_SOUTH_WALES",
+   "provinceId": "P_AUS_VICTORIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "AUT:AUT:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_AUT_STYRIA",
@@ -36,7 +36,7 @@
   "AUT:AUT:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_AUT_LOWER_AUSTRIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "BEL:BEL:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_BEL_HAINAUT_SP2",
@@ -51,22 +51,22 @@
   "BEL:BEL:FCT-CHEMICAL:REC-CHEM-001:1": {
    "provinceId": "P_BEL_BRABANT",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "BEL:BEL:FCT-MACHINERY:REC-MACHINERY-001:1": {
    "provinceId": "P_BEL_BRABANT",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "BEL:BEL:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
    "provinceId": "P_BEL_BRABANT",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "BEL:BEL:FCT-ENGINE:REC-ENGINES-001:1": {
    "provinceId": "P_BEL_BRABANT",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "BEL:BEL:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_BEL_HAINAUT_SP2",
@@ -76,17 +76,17 @@
   "BGR:BGR:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_BGR_SOFIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "BOL:BOL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_BOL_BENI",
+   "provinceId": "P_BOL_LA_PAZ",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "BRA:BRA:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_BRA_SAO_PAULO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CAN:CAN:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_CAN_BRITISH_COLUMBIA",
@@ -96,27 +96,27 @@
   "CAN:CAN:FCT-CHEMICAL:REC-CHEM-001:1": {
    "provinceId": "P_CAN_ONTARIO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CAN:CAN:FCT-MACHINERY:REC-MACHINERY-001:1": {
    "provinceId": "P_CAN_ONTARIO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CAN:CAN:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
    "provinceId": "P_CAN_ONTARIO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CAN:CAN:FCT-ENGINE:REC-ENGINES-001:1": {
    "provinceId": "P_CAN_ONTARIO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CHE:CHE:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_CHE_BERN",
+   "provinceId": "P_CHE_ZURICH",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CHL:CHL:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_CHL_COQUIMBO",
@@ -124,69 +124,69 @@
    "rule": "coal+0.25×iron_ore"
   },
   "CHL:CHL:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_CHL_ANTOFAGASTA",
+   "provinceId": "P_CHL_SANTIAGO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CHN:CHN:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_CHN_XINJIANG",
+   "provinceId": "P_CHN_GUANGDONG",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "COL:COL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_COL_AMAZONAS",
+   "provinceId": "P_COL_BOGOTA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CRI:CRI:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_CRI_ALAJUELA",
+   "provinceId": "P_CRI_SAN_JOSE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CUB:CUB:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_CUB_ARTEMISA",
+   "provinceId": "P_CUB_HAVANA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CZE:CZE:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CZE:CZE:FCT-CHEMICAL:REC-CHEM-001:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CZE:CZE:FCT-MACHINERY:REC-MACHINERY-001:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CZE:CZE:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CZE:CZE:FCT-ENGINE:REC-ENGINES-001:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CZE:CZE:FCT-TANKS:REC-TANK-CZE-LT35:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CZE:CZE:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "CZE:CZE:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "DEU:DEU:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_DEU_DUESSELDORF_SP2",
@@ -299,14 +299,14 @@
    "rule": "Macchine utensili di Berlino (Loewe, Borsig)"
   },
   "DEU:DEU:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
+   "provinceId": "P_DEU_HESSEN_NASSAU_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "DEU:DEU:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
+   "provinceId": "P_DEU_HESSEN_NASSAU_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "DEU:DEU:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
    "provinceId": "P_DEU_MAGDEBURG_ANHALT_SP2",
@@ -394,14 +394,14 @@
    "rule": "Krupp, Essen (sFH 18)"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-GRW34:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
+   "provinceId": "P_DEU_HESSEN_NASSAU_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-GRW36:1": {
-   "provinceId": "P_DEU_WESER_EMS_SP2",
+   "provinceId": "P_DEU_KOELN_AACHEN_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "DEU:DEU:FCT-ARTILLERY:REC-ART-DEU-PAK36:1": {
    "provinceId": "P_DEU_DUESSELDORF_SP2",
@@ -414,9 +414,9 @@
    "rule": "Rheinmetall-Borsig (leIG 18)"
   },
   "DEU:DEU:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_DEU_MUENCHEN_OBERBAYERN_SP2",
+   "provinceId": "P_DEU_HESSEN_NASSAU_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "DEU:DEU:FCT-STUD:REC-HORSES-001:1": {
    "provinceId": "P_DEU_OSTPREUSSEN",
@@ -459,24 +459,24 @@
    "rule": "Centrali a carbone della Ruhr (RWE, VEW)"
   },
   "DNK:DNK:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_DNK_HOVEDSTADEN_SP1",
+   "provinceId": "P_DNK_MIDTJYLLAND",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "DOM:DOM:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_DOM_AZUA",
+   "provinceId": "P_DOM_SANTO_DOMINGO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ECU:ECU:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_ECU_AZUAY",
+   "provinceId": "P_ECU_PICHINCHA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "EGY:EGY:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_EGY_AL_QAHIRAH",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ESP:ESP:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_ESP_BARCELONA",
@@ -484,24 +484,24 @@
    "rule": "port"
   },
   "ESP:ESP:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_ESP_BARCELONA",
+   "provinceId": "P_ESP_MADRID",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "EST:EST:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_EST_HARJU",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ETH:ETH:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_ETH_ADDIS_ABABA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FIN:FIN:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_FIN_UUSIMAA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FRA:FRA:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_FRA_MEURTHE_ET_MOSELLE",
@@ -549,84 +549,84 @@
    "rule": "port"
   },
   "FRA:FRA:FCT-RUBBER:REC-RUBBER-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "FRA:FRA:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "FRA:FRA:FCT-CHEMICAL:REC-CHEM-001:2": {
-   "provinceId": "P_FRA_HAUTE_GARONNE",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "FRA:FRA:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "FRA:FRA:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "FRA:FRA:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "FRA:FRA:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "FRA:FRA:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
-   "provinceId": "P_FRA_HAUTE_GARONNE",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "FRA:FRA:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
    "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
+  },
+  "FRA:FRA:FCT-CHEMICAL:REC-CHEM-001:1": {
+   "provinceId": "P_FRA_RHONE_SP1",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "FRA:FRA:FCT-CHEMICAL:REC-CHEM-001:2": {
+   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "FRA:FRA:FCT-MACHINERY:REC-MACHINERY-001:1": {
+   "provinceId": "P_FRA_RHONE_SP1",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "FRA:FRA:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
+   "provinceId": "P_FRA_RHONE_SP1",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "FRA:FRA:FCT-ENGINE:REC-ENGINES-001:1": {
+   "provinceId": "P_FRA_RHONE_SP1",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "FRA:FRA:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
+   "provinceId": "P_FRA_RHONE_SP1",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "FRA:FRA:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
+   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "FRA:FRA:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
+   "provinceId": "P_FRA_SEINE_SP1",
+   "basis": "rule",
+   "rule": "urban"
   },
   "FRA:FRA:FCT-MUNITIONS:REC-MUNITIONS-001:4": {
-   "provinceId": "P_FRA_SEINE_MARITIME_SP1",
+   "provinceId": "P_FRA_HERAULT",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FRA:FRA:FCT-WEAPONS:REC-INW-FRA-RIFLE-1939:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FRA:FRA:FCT-TANKS:REC-TNK-FRA-H39-1940:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-ART75M1897:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FRA:FRA:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FRA:FRA:FCT-STUD:REC-HORSES-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FRA:FRA:FCT-PHARMA:REC-PHARMA-001:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "FRA:FRA:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_FRA_MEURTHE_ET_MOSELLE",
@@ -646,12 +646,12 @@
   "GBR:CEY:FCT-RUBBER:REC-RUBBER-001:1": {
    "provinceId": "P_CEY_BASNAHIRA_PALATA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:CEY:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_CEY_BASNAHIRA_PALATA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_GBR_YORKSHIRE_SP2",
@@ -704,79 +704,79 @@
    "rule": "port"
   },
   "GBR:GBR:FCT-RUBBER:REC-RUBBER-001:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-CHEMICAL:REC-CHEM-001:2": {
-   "provinceId": "P_GBR_YORKSHIRE_SP2",
+   "provinceId": "P_GBR_LANCASHIRE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_GBR_LONDRA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "GBR:GBR:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_GBR_LONDRA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "GBR:GBR:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_GBR_LONDRA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "GBR:GBR:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
-   "provinceId": "P_GBR_LONDRA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "GBR:GBR:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
    "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
+  },
+  "GBR:GBR:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "GBR:GBR:FCT-ENGINE:REC-ENGINES-001:1": {
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "GBR:GBR:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "GBR:GBR:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
+   "provinceId": "P_GBR_LANCASHIRE",
+   "basis": "rule",
+   "rule": "urban"
   },
   "GBR:GBR:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-WEAPONS:REC-INW-GBR-RIFLE:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-TANKS:REC-TNK-GBR-LIGHT-TANK-1939:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-FIELD:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-STUD:REC-HORSES-001:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-PHARMA:REC-PHARMA-001:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GBR:GBR:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_GBR_CARMARTHENSHIRE",
@@ -824,49 +824,49 @@
    "rule": "rubber"
   },
   "GBR:MAL:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_MAL_ISOLA_DI_NATALE",
+   "provinceId": "P_MAL_SELANGOR",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GRC:GRC:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_GRC_KENTRIKI_MAKEDONIA_SP1",
+   "provinceId": "P_GRC_ATTIKI_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "GTM:GTM:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_GTM_ALTA_VERAPAZ",
+   "provinceId": "P_GTM_GUATEMALA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "HND:HND:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_HND_ATLANTIDA",
+   "provinceId": "P_HND_FRANCISCO_MORAZAN",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "HTI:HTI:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_HTI_ARTIBONITE",
+   "provinceId": "P_HTI_OUEST",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "HUN:HUN:FCT-ALUMINIUM:REC-ALU-001:1": {
-   "provinceId": "P_HUN_HAJDU_BIHAR",
+   "provinceId": "P_HUN_BORSOD_ABAUJ_ZEMPLEN",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "HUN:HUN:FCT-ALUMINIUM:REC-ALU-001:2": {
-   "provinceId": "P_HUN_BACS_KISKUN",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "HUN:HUN:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_HUN_HAJDU_BIHAR",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
+  },
+  "HUN:HUN:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
+   "provinceId": "P_HUN_BORSOD_ABAUJ_ZEMPLEN",
+   "basis": "rule",
+   "rule": "urban"
   },
   "IRL:IRL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_IRL_CONNACHT",
+   "provinceId": "P_IRL_DUBLINO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "IRN:IRN:FCT-REFINERY:REC-FUEL-OIL-001:1": {
    "provinceId": "P_IRN_KHUZESTAN",
@@ -874,14 +874,14 @@
    "rule": "oil"
   },
   "IRN:IRN:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_IRN_ALBORZ",
+   "provinceId": "P_IRN_TEHRAN",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ISL:ISL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_ISL_ISLANDA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_ITA_NAPOLI",
@@ -894,74 +894,74 @@
    "rule": "aluminium"
   },
   "ITA:ITA:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-CHEMICAL:REC-CHEM-001:2": {
-   "provinceId": "P_ITA_NAPOLI",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
-   "provinceId": "P_ITA_NAPOLI",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
-   "provinceId": "P_ITA_TORINO_SP1",
+   "provinceId": "P_ITA_NAPOLI",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-WEAPONS:REC-INW-ITA-RIFLE-1940:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-TANKS:REC-TNK-ITA-L3-ARM-1940:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-ARTILLERY:REC-ART-ITA-GUN75-1940:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-STUD:REC-HORSES-001:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ITA:ITA:FCT-PHARMA:REC-PHARMA-001:1": {
-   "provinceId": "P_ITA_MILANO_SP1",
+   "provinceId": "P_ITA_COMO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_JPN_HOKKAIDO",
@@ -994,94 +994,94 @@
    "rule": "port"
   },
   "JPN:JPN:FCT-RUBBER:REC-RUBBER-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-CHEMICAL:REC-CHEM-001:2": {
-   "provinceId": "P_JPN_TOKYO",
+   "provinceId": "P_JPN_AICHI_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-CHEMICAL:REC-CHEM-001:3": {
-   "provinceId": "P_JPN_KANAGAWA_PREFECTURE",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "JPN:JPN:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "JPN:JPN:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "JPN:JPN:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
-   "provinceId": "P_JPN_TOKYO",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
-   "provinceId": "P_JPN_KANAGAWA_PREFECTURE",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:4": {
    "provinceId": "P_JPN_FUKUOKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
+  },
+  "JPN:JPN:FCT-MACHINERY:REC-MACHINERY-001:1": {
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "JPN:JPN:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "JPN:JPN:FCT-ENGINE:REC-ENGINES-001:1": {
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
+   "provinceId": "P_JPN_AICHI_PREFECTURE",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
+   "provinceId": "P_JPN_FUKUOKA_PREFECTURE",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:4": {
+   "provinceId": "P_JPN_TOKYO",
+   "basis": "rule",
+   "rule": "urban"
   },
   "JPN:JPN:FCT-MUNITIONS:REC-MUNITIONS-001:5": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-WEAPONS:REC-INW-JPN-RIFLE-1939:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-TANKS:REC-TNK-JPN-TYPE95-1942:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-ARTILLERY:REC-ART-JPN-GUN75-DIV-1939:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-STUD:REC-HORSES-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-PHARMA:REC-PHARMA-001:1": {
-   "provinceId": "P_JPN_HOKKAIDO",
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "JPN:JPN:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_JPN_FUKUOKA_PREFECTURE",
@@ -1099,24 +1099,24 @@
    "rule": "coal"
   },
   "LBR:LBR:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_LBR_BOMI",
+   "provinceId": "P_LBR_MONTSERRADO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "LIE:LIE:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_LIE_LIECHTENSTEIN",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "LTU:LTU:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_LTU_ALYTUS",
+   "provinceId": "P_LTU_KAUNAS",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "LUX:LUX:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_LUX_DIEKIRCH",
+   "provinceId": "P_LUX_LUXEMBOURG",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "LVA:LVA:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_LVA_KURZEME_SP1",
@@ -1124,9 +1124,9 @@
    "rule": "population"
   },
   "MAN:MAN:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_MAN_HEILONGJIANG",
+   "provinceId": "P_MAN_LIAONING",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "MEX:MEX:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_MEX_BAJA_CALIFORNIA",
@@ -1139,49 +1139,49 @@
    "rule": "oil"
   },
   "MEX:MEX:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_MEX_MEXICO",
+   "provinceId": "P_MEX_NUEVO_LEON",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "MNG:MNG:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_MNG_ARKHANGAI",
+   "provinceId": "P_MNG_ULAANBAATAR",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NIC:NIC:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_NIC_BOACO",
+   "provinceId": "P_NIC_MANAGUA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NLD:NLD:FCT-ALUMINIUM:REC-ALU-001:1": {
    "provinceId": "P_NLD_ZUID_HOLLAND",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NLD:NLD:FCT-RUBBER:REC-RUBBER-001:1": {
    "provinceId": "P_NLD_ZUID_HOLLAND",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NLD:NLD:FCT-RUBBER:REC-RUBBER-001:2": {
    "provinceId": "P_NLD_NOORD_HOLLAND",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NLD:NLD:FCT-RUBBER:REC-RUBBER-001:3": {
-   "provinceId": "P_NLD_NOORD_BRABANT_SP4",
+   "provinceId": "P_NLD_ZUID_HOLLAND",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NLD:NLD:FCT-RUBBER:REC-RUBBER-001:4": {
-   "provinceId": "P_NLD_GELDERLAND_SP1",
+   "provinceId": "P_NLD_ZUID_HOLLAND",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NLD:NLD:FCT-RUBBER:REC-RUBBER-001:5": {
-   "provinceId": "P_NLD_UTRECHT",
+   "provinceId": "P_NLD_NOORD_HOLLAND",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NLD:NLD:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_NLD_LIMBURG_SP2",
@@ -1189,34 +1189,34 @@
    "rule": "coal"
   },
   "NLD:SUR:FCT-ALUMINIUM:REC-ALU-001:1": {
-   "provinceId": "P_SUR_BROKOPONDO",
+   "provinceId": "P_SUR_COMMEWIJNE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NLD:SUR:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_SUR_BROKOPONDO",
+   "provinceId": "P_SUR_COMMEWIJNE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NOR:NOR:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_NOR_OSLO",
+   "provinceId": "P_NOR_HORDALAND_SP4",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "NZL:NZL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_NZL_CHATHAM_ISLANDS",
+   "provinceId": "P_NZL_NORTH_ISLAND",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "PAN:PAN:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_PAN_CHIRIQUI",
+   "provinceId": "P_PAN_PANAMA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "PER:PER:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_PER_AMAZONAS",
+   "provinceId": "P_PER_LIMA_PE_LIM",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "POL:POL:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_POL_KIELCE_VOIVODESHIP",
@@ -1224,39 +1224,39 @@
    "rule": "coal+0.25×iron_ore"
   },
   "POL:POL:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "provinceId": "P_POL_ODZ_VOIVODESHIP",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "POL:POL:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "provinceId": "P_POL_ODZ_VOIVODESHIP",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "POL:POL:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "provinceId": "P_POL_ODZ_VOIVODESHIP",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "POL:POL:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "provinceId": "P_POL_ODZ_VOIVODESHIP",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "POL:POL:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "provinceId": "P_POL_ODZ_VOIVODESHIP",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "POL:POL:FCT-STUD:REC-HORSES-001:1": {
-   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "provinceId": "P_POL_ODZ_VOIVODESHIP",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "POL:POL:FCT-PHARMA:REC-PHARMA-001:1": {
-   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "provinceId": "P_POL_ODZ_VOIVODESHIP",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "POL:POL:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_POL_KIELCE_VOIVODESHIP",
@@ -1264,14 +1264,14 @@
    "rule": "coal"
   },
   "PRT:PRT:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_PRT_LISBOA",
+   "provinceId": "P_PRT_PORTO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "PRY:PRY:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_PRY_ALTO_PARAGUAY",
+   "provinceId": "P_PRY_CENTRAL",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ROM:ROM:FCT-REFINERY:REC-FUEL-OIL-001:1": {
    "provinceId": "P_ROM_BUZAU_SP2",
@@ -1281,22 +1281,22 @@
   "ROM:ROM:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_ROM_BASARABIA_SP2",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "SAU:SAU:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_SAU_AL_BAHA",
+   "provinceId": "P_SAU_MAKKAH",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "SIA:SIA:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_SIA_CENTRAL",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "SLV:SLV:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_SLV_AHUACHAPAN",
+   "provinceId": "P_SLV_SAN_SALVADOR",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "SWE:SWE:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_SWE_NORRBOTTEN_SP2",
@@ -1304,39 +1304,39 @@
    "rule": "coal+0.25×iron_ore"
   },
   "SWE:SWE:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_SWE_STOCKHOLM",
+   "provinceId": "P_SWE_SKANE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "SWE:SWE:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_SWE_STOCKHOLM",
+   "provinceId": "P_SWE_SKANE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "SWE:SWE:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_SWE_STOCKHOLM",
+   "provinceId": "P_SWE_SKANE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "SWE:SWE:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_SWE_STOCKHOLM",
+   "provinceId": "P_SWE_SKANE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "SWE:SWE:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_SWE_STOCKHOLM",
+   "provinceId": "P_SWE_SKANE",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "TUR:TUR:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
    "provinceId": "P_TUR_ISTANBUL_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "URY:URY:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_URY_ARTIGAS",
+   "provinceId": "P_URY_MONTEVIDEO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_USA_ILLINOIS",
@@ -1599,199 +1599,199 @@
    "rule": "oil"
   },
   "USA:USA:FCT-RUBBER:REC-RUBBER-001:1": {
-   "provinceId": "P_USA_TEXAS",
+   "provinceId": "P_USA_CALIFORNIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_USA_TEXAS",
+   "provinceId": "P_USA_CALIFORNIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-CHEMICAL:REC-CHEM-001:2": {
-   "provinceId": "P_USA_CALIFORNIA",
+   "provinceId": "P_USA_TEXAS",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-CHEMICAL:REC-CHEM-001:3": {
-   "provinceId": "P_USA_ALASKA",
+   "provinceId": "P_USA_FLORIDA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_USA_TEXAS",
+   "provinceId": "P_USA_CALIFORNIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-MACHINERY:REC-MACHINERY-001:2": {
-   "provinceId": "P_USA_CALIFORNIA",
+   "provinceId": "P_USA_TEXAS",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-MACHINERY:REC-MACHINERY-001:3": {
-   "provinceId": "P_USA_ALASKA",
+   "provinceId": "P_USA_FLORIDA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-MACHINERY:REC-MACHINERY-001:4": {
-   "provinceId": "P_USA_ILLINOIS",
+   "provinceId": "P_USA_CALIFORNIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_USA_TEXAS",
+   "provinceId": "P_USA_CALIFORNIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-COMPONENTS:REC-COMPONENTS-001:2": {
-   "provinceId": "P_USA_CALIFORNIA",
+   "provinceId": "P_USA_TEXAS",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-COMPONENTS:REC-COMPONENTS-001:3": {
-   "provinceId": "P_USA_ALASKA",
+   "provinceId": "P_USA_FLORIDA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_USA_TEXAS",
+   "provinceId": "P_USA_CALIFORNIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-ENGINE:REC-ENGINES-001:2": {
-   "provinceId": "P_USA_CALIFORNIA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-ENGINE:REC-ENGINES-001:3": {
-   "provinceId": "P_USA_ALASKA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
    "provinceId": "P_USA_TEXAS",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
-  "USA:USA:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
+  "USA:USA:FCT-ENGINE:REC-ENGINES-001:3": {
+   "provinceId": "P_USA_FLORIDA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
    "provinceId": "P_USA_CALIFORNIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
+  },
+  "USA:USA:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
+   "provinceId": "P_USA_TEXAS",
+   "basis": "rule",
+   "rule": "urban"
   },
   "USA:USA:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
-   "provinceId": "P_USA_ALASKA",
+   "provinceId": "P_USA_FLORIDA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-MUNITIONS:REC-MUNITIONS-001:4": {
-   "provinceId": "P_USA_ILLINOIS",
+   "provinceId": "P_USA_OHIO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-MUNITIONS:REC-MUNITIONS-001:5": {
    "provinceId": "P_USA_TEXAS",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-MUNITIONS:REC-MUNITIONS-001:6": {
-   "provinceId": "P_USA_COLORADO",
+   "provinceId": "P_USA_FLORIDA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-WEAPONS:REC-INW-USA-RIFLE-1940>REC-INW-USA-GARAND:1": {
    "provinceId": "P_USA_TEXAS",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-WEAPONS:REC-INW-USA-RIFLE-1940>REC-INW-USA-CARBINE-M1:1": {
-   "provinceId": "P_USA_CALIFORNIA",
+   "provinceId": "P_USA_FLORIDA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-WEAPONS:REC-INW-USA-PISTOL-M1911:1": {
-   "provinceId": "P_USA_ALASKA",
+   "provinceId": "P_USA_OHIO",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-WEAPONS:REC-INW-USA-SMG-THOMPSON:1": {
-   "provinceId": "P_USA_ILLINOIS",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-WEAPONS:REC-MG-USA-BAR-1940:1": {
-   "provinceId": "P_USA_COLORADO",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-WEAPONS:REC-MG-USA-HMG-1940:1": {
-   "provinceId": "P_USA_FLORIDA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-WEAPONS:REC-MG-USA-M2-1940:1": {
-   "provinceId": "P_USA_ARIZONA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-WEAPONS:REC-MG-USA-HMG-1940>REC-GL-USA-BAZOOKA:1": {
-   "provinceId": "P_USA_PENNSYLVANIA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-TANKS:REC-TNK-USA-M2A2>REC-TNK-USA-M2A4:1": {
-   "provinceId": "P_USA_CALIFORNIA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-VEHICLES:REC-VEH-USA-TRUCK15:1": {
-   "provinceId": "P_USA_ALASKA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-VEHICLES:REC-VEH-USA-TRUCK15>REC-VEH-USA-GMC-CCKW:1": {
-   "provinceId": "P_USA_ILLINOIS",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-ARTILLERY:REC-ART-USA-GUN75-1940>REC-ART-USA-HOW105-1940:1": {
-   "provinceId": "P_USA_ALASKA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-ARTILLERY:REC-ART-USA-MORTAR81-1940:1": {
-   "provinceId": "P_USA_ILLINOIS",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-ARTILLERY:REC-ART-USA-GUN75-1940>REC-ART-USA-AT37-1940:1": {
-   "provinceId": "P_USA_COLORADO",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-ARTILLERY:REC-ART-USA-MORTAR81-1940>REC-ART-USA-MOR60:1": {
-   "provinceId": "P_USA_FLORIDA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-ARTILLERY:REC-ART-USA-HOW155-M1918>REC-ART-USA-HOW155-1940:1": {
-   "provinceId": "P_USA_ARIZONA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_USA_ALASKA",
-   "basis": "rule",
-   "rule": "population"
-  },
-  "USA:USA:FCT-STUD:REC-HORSES-001:1": {
    "provinceId": "P_USA_TEXAS",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
+  },
+  "USA:USA:FCT-WEAPONS:REC-MG-USA-BAR-1940:1": {
+   "provinceId": "P_USA_FLORIDA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-WEAPONS:REC-MG-USA-HMG-1940:1": {
+   "provinceId": "P_USA_NEW_YORK",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-WEAPONS:REC-MG-USA-M2-1940:1": {
+   "provinceId": "P_USA_PENNSYLVANIA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-WEAPONS:REC-MG-USA-HMG-1940>REC-GL-USA-BAZOOKA:1": {
+   "provinceId": "P_USA_ARIZONA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-TANKS:REC-TNK-USA-M2A2>REC-TNK-USA-M2A4:1": {
+   "provinceId": "P_USA_FLORIDA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-VEHICLES:REC-VEH-USA-TRUCK15:1": {
+   "provinceId": "P_USA_FLORIDA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-VEHICLES:REC-VEH-USA-TRUCK15>REC-VEH-USA-GMC-CCKW:1": {
+   "provinceId": "P_USA_OHIO",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-ARTILLERY:REC-ART-USA-GUN75-1940>REC-ART-USA-HOW105-1940:1": {
+   "provinceId": "P_USA_FLORIDA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-ARTILLERY:REC-ART-USA-MORTAR81-1940:1": {
+   "provinceId": "P_USA_OHIO",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-ARTILLERY:REC-ART-USA-GUN75-1940>REC-ART-USA-AT37-1940:1": {
+   "provinceId": "P_USA_FLORIDA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-ARTILLERY:REC-ART-USA-MORTAR81-1940>REC-ART-USA-MOR60:1": {
+   "provinceId": "P_USA_NEW_YORK",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-ARTILLERY:REC-ART-USA-HOW155-M1918>REC-ART-USA-HOW155-1940:1": {
+   "provinceId": "P_USA_PENNSYLVANIA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-FEED:REC-FEED-001:1": {
+   "provinceId": "P_USA_FLORIDA",
+   "basis": "rule",
+   "rule": "urban"
+  },
+  "USA:USA:FCT-STUD:REC-HORSES-001:1": {
+   "provinceId": "P_USA_CALIFORNIA",
+   "basis": "rule",
+   "rule": "urban"
   },
   "USA:USA:FCT-PHARMA:REC-PHARMA-001:1": {
-   "provinceId": "P_USA_ALASKA",
+   "provinceId": "P_USA_FLORIDA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USA:USA:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_USA_ILLINOIS",
@@ -1889,54 +1889,54 @@
    "rule": "Chimica del Donbass (Lisichansk)"
   },
   "USSR:USSR:FCT-CHEMICAL:REC-CHEM-001:3": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-MACHINERY:REC-MACHINERY-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-COMPONENTS:REC-COMPONENTS-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-ENGINE:REC-ENGINES-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-MUNITIONS:REC-MUNITIONS-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-MUNITIONS:REC-MUNITIONS-001:2": {
-   "provinceId": "P_USSR_KRASNOYARSK_SP57",
+   "provinceId": "P_USSR_MOSKOVSKAYA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-MUNITIONS:REC-MUNITIONS-001:3": {
-   "provinceId": "P_USSR_SAKHA_YAKUTIA_SP26",
+   "provinceId": "P_USSR_FERGHANA_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-MUNITIONS:REC-MUNITIONS-001:4": {
-   "provinceId": "P_USSR_IRKUTSK",
+   "provinceId": "P_USSR_TASHKENT_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-MUNITIONS:REC-MUNITIONS-001:5": {
-   "provinceId": "P_USSR_KHABAROVSK_SP7",
+   "provinceId": "P_USSR_DNIPROPETROVSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-MUNITIONS:REC-MUNITIONS-001:6": {
-   "provinceId": "P_USSR_QARAGHANDY",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-WEAPONS:REC-INW-USSR-RIFLE-1939:1": {
    "provinceId": "P_USSR_UDMURT",
@@ -1979,9 +1979,9 @@
    "rule": "Fabbrica n. 92, Gorky (cannone divisionale da 76)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-MOR82:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-GUN76-REGT:1": {
    "provinceId": "P_USSR_LENINGRAD",
@@ -2009,14 +2009,14 @@
    "rule": "Fabbrica n. 172 Motovilikha (obice M-10)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-MOR82>REC-ART-USSR-MOR50:1": {
-   "provinceId": "P_USSR_KRASNOYARSK_SP57",
+   "provinceId": "P_USSR_FERGHANA_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-MOR82>REC-ART-USSR-MOR120:1": {
-   "provinceId": "P_USSR_SAKHA_YAKUTIA_SP26",
+   "provinceId": "P_USSR_TASHKENT_SP1",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-AA76>REC-ART-USSR-AA37:1": {
    "provinceId": "P_USSR_MOSKOVSKAYA",
@@ -2029,19 +2029,19 @@
    "rule": "Fabbrica n. 8 Kalinin, Podlipki (cannone anticarro da 45)"
   },
   "USSR:USSR:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-STUD:REC-HORSES-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-PHARMA:REC-PHARMA-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "provinceId": "P_USSR_DONETSK",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "USSR:USSR:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_USSR_DONETSK",
@@ -2064,29 +2064,29 @@
    "rule": "oil"
   },
   "VEN:VEN:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_VEN_AMAZONAS",
+   "provinceId": "P_VEN_ZULIA",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "YEM:YEM:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_YEM_ABYAN",
+   "provinceId": "P_YEM_ADAN",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "YUG:YUG:FCT-ALUMINIUM:REC-ALU-001:1": {
-   "provinceId": "P_YUG_BANJA_LUKA",
+   "provinceId": "P_YUG_ZAGREB",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "YUG:YUG:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
-   "provinceId": "P_YUG_BANJA_LUKA",
+   "provinceId": "P_YUG_ZAGREB",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   },
   "ZAF:ZAF:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
-   "provinceId": "P_ZAF_WESTERN_CAPE",
+   "provinceId": "P_ZAF_GAUTENG",
    "basis": "rule",
-   "rule": "population"
+   "rule": "urban"
   }
  },
  "unplaced": [

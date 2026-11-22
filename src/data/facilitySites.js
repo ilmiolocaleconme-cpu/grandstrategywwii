@@ -35,6 +35,8 @@ export function facilitySitesFile({ features, j, factoryClassOf }) {
     mothers.set(m, { id: m, entity: ent });
   }
   const bigCity = new Map(); // madre → zona urbana più grande
+  const urban = new Map(); // madre → km² di zone urbane grandi (citta_grandi.json, poligoni Natural Earth): peso della regola 'urban'
+  for (const c of cities) urban.set(c.parentProvince, (urban.get(c.parentProvince) ?? 0) + (c.areaKm2 ?? 0));
   for (const c of cities) { const b = bigCity.get(c.parentProvince); if (!b || (c.areaKm2 ?? 0) > (b.areaKm2 ?? 0) || ((c.areaKm2 ?? 0) === (b.areaKm2 ?? 0) && c.id < b.id)) bigCity.set(c.parentProvince, c); }
   const portLevel = new Map();
   for (const p of Object.values(ports)) portLevel.set(p.parentProvince, Math.max(portLevel.get(p.parentProvince) ?? 0, p.level ?? 0));
@@ -48,7 +50,7 @@ export function facilitySitesFile({ features, j, factoryClassOf }) {
     const pts = {};
     for (const [r, v] of Object.entries(points.byProvince[m.id] ?? {})) pts[r] = v.base ?? 0;
     for (const [r, v] of Object.entries(points.byProvinceProducts?.[m.id] ?? {})) pts[r] = v.base ?? 0;
-    (byTerritory.get(m.entity) ?? byTerritory.set(m.entity, []).get(m.entity)).push({ id: m.id, bank, population: population[m.id]?.population ?? 0, points: pts, port: portLevel.get(m.id) ?? 0 });
+    (byTerritory.get(m.entity) ?? byTerritory.set(m.entity, []).get(m.entity)).push({ id: m.id, bank, urban: urban.get(m.id) ?? 0, population: population[m.id]?.population ?? 0, points: pts, port: portLevel.get(m.id) ?? 0 });
   }
   const facilities = [];
   for (const id of Object.keys(nations).sort()) for (const f of nations[id].facilities) facilities.push({ id: f.id, type: f.type, recipeId: f.recipeId, territory: f.territory });
