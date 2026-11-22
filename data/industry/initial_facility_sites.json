@@ -3,9 +3,9 @@
  "quality": "DESIGN_DEFAULT",
  "note": "Generato da scripts/build-facility-sites.js (npm run build:facility-sites): non modificare a mano. Posizione di ogni impianto iniziale: basis 'rule' = regola di facility_placement.json (stima, NON storica), 'data' = dati del repository (centri di fonderia), 'source' = fonte storica. Le chiavi sono gli id degli impianti creati da buildNations.",
  "counts": {
-  "rule": 357,
+  "rule": 326,
   "data": 12,
-  "source": 47
+  "source": 78
  },
  "sites": {
   "AFG:AFG:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
@@ -1805,53 +1805,53 @@
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:1": {
    "provinceId": "P_USSR_DONETSK",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "basis": "source",
+   "rule": "Donbass: Stalino, Makiivka, Mariupol"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:2": {
-   "provinceId": "P_USSR_LUHANSK",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_USSR_DONETSK",
+   "basis": "source",
+   "rule": "Donbass: Stalino, Makiivka, Mariupol"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:3": {
    "provinceId": "P_USSR_DONETSK",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "basis": "source",
+   "rule": "Donbass: Stalino, Makiivka, Mariupol"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:4": {
-   "provinceId": "P_USSR_LUHANSK",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_USSR_DNIPROPETROVSK",
+   "basis": "source",
+   "rule": "Dnipropetrovsk, Dniprodzerzhynsk, Kryvyi Rih"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:5": {
-   "provinceId": "P_USSR_KEMEROVO",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_USSR_DNIPROPETROVSK",
+   "basis": "source",
+   "rule": "Dnipropetrovsk, Dniprodzerzhynsk, Kryvyi Rih"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:6": {
-   "provinceId": "P_USSR_CHELYABINSK_SP1",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_USSR_ZAPORIZHZHYA",
+   "basis": "source",
+   "rule": "Zaporizhstal"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:7": {
-   "provinceId": "P_USSR_DNIPROPETROVSK",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_USSR_LUHANSK",
+   "basis": "source",
+   "rule": "Voroshilovsk (Alchevsk)"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:8": {
-   "provinceId": "P_USSR_DONETSK",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_USSR_CHELYABINSK_SP1",
+   "basis": "source",
+   "rule": "Magnitogorsk"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:9": {
-   "provinceId": "P_USSR_LUHANSK",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_USSR_SVERDLOVSK",
+   "basis": "source",
+   "rule": "Nizhny Tagil e acciaierie degli Urali centrali"
   },
   "USSR:USSR:FCT-STEEL:REC-STEEL-001:10": {
-   "provinceId": "P_USSR_DONETSK",
-   "basis": "rule",
-   "rule": "coal+0.25×iron_ore"
+   "provinceId": "P_USSR_KEMEROVO",
+   "basis": "source",
+   "rule": "Kuznetsk (Stalinsk)"
   },
   "USSR:USSR:FCT-ALUMINIUM:REC-ALU-001:1": {
    "provinceId": "P_USSR_LENINGRAD",
@@ -1860,36 +1860,36 @@
   },
   "USSR:USSR:FCT-REFINERY:REC-FUEL-OIL-001:1": {
    "provinceId": "P_USSR_ABSHERON",
-   "basis": "rule",
-   "rule": "oil"
+   "basis": "source",
+   "rule": "Raffinerie di Baku"
   },
   "USSR:USSR:FCT-REFINERY:REC-FUEL-OIL-001:2": {
-   "provinceId": "P_USSR_BASHKORTOSTAN",
-   "basis": "rule",
-   "rule": "oil"
+   "provinceId": "P_USSR_ABSHERON",
+   "basis": "source",
+   "rule": "Raffinerie di Baku"
   },
   "USSR:USSR:FCT-REFINERY:REC-FUEL-OIL-001:3": {
    "provinceId": "P_USSR_CHECHNYA_SP2",
-   "basis": "rule",
-   "rule": "oil"
+   "basis": "source",
+   "rule": "Raffinerie di Grozny"
   },
   "USSR:USSR:FCT-RUBBER:REC-RUBBER-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_YAROSLAVL",
+   "basis": "source",
+   "rule": "SK-1 Yaroslavl, prima grande fabbrica di gomma sintetica (1932)"
   },
   "USSR:USSR:FCT-CHEMICAL:REC-CHEM-001:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_PERM",
+   "basis": "source",
+   "rule": "Combinato chimico di Berezniki"
   },
   "USSR:USSR:FCT-CHEMICAL:REC-CHEM-001:2": {
-   "provinceId": "P_USSR_KRASNOYARSK_SP57",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_LUHANSK",
+   "basis": "source",
+   "rule": "Chimica del Donbass (Lisichansk)"
   },
   "USSR:USSR:FCT-CHEMICAL:REC-CHEM-001:3": {
-   "provinceId": "P_USSR_SAKHA_YAKUTIA_SP26",
+   "provinceId": "P_USSR_MOSKOVSKAYA",
    "basis": "rule",
    "rule": "population"
   },
@@ -1939,94 +1939,94 @@
    "rule": "population"
   },
   "USSR:USSR:FCT-WEAPONS:REC-INW-USSR-RIFLE-1939:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_UDMURT",
+   "basis": "source",
+   "rule": "Izhevsk (fucile Mosin)"
   },
   "USSR:USSR:FCT-WEAPONS:REC-INW-USSR-PISTOL-TT33:1": {
-   "provinceId": "P_USSR_KRASNOYARSK_SP57",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_TULA",
+   "basis": "source",
+   "rule": "Fabbrica d'armi di Tula (TT-33)"
   },
   "USSR:USSR:FCT-WEAPONS:REC-MG-USSR-LMG-1939:1": {
-   "provinceId": "P_USSR_SAKHA_YAKUTIA_SP26",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_VLADIMIR",
+   "basis": "source",
+   "rule": "Kovrov (mitragliatrice DP)"
   },
   "USSR:USSR:FCT-WEAPONS:REC-MG-USSR-HMG-1939:1": {
-   "provinceId": "P_USSR_IRKUTSK",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_TULA",
+   "basis": "source",
+   "rule": "Fabbrica d'armi di Tula (Maxim)"
   },
   "USSR:USSR:FCT-TANKS:REC-TNK-USSR-T26-1940:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_LENINGRAD",
+   "basis": "source",
+   "rule": "Fabbrica n. 174 Voroshilov, Leningrado (T-26)"
   },
   "USSR:USSR:FCT-VEHICLES:REC-VEH-USSR-ZIS5:1": {
    "provinceId": "P_USSR_MOSKOVSKAYA",
-   "basis": "rule",
-   "rule": "population"
+   "basis": "source",
+   "rule": "ZIS, Mosca (ZIS-5)"
   },
   "USSR:USSR:FCT-VEHICLES:REC-VEH-USSR-GAZAA:1": {
-   "provinceId": "P_USSR_KRASNOYARSK_SP57",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_NIZHEGOROD",
+   "basis": "source",
+   "rule": "GAZ, Gorky (GAZ-AA)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-GUN76-1939:1": {
-   "provinceId": "P_USSR_MOSKOVSKAYA",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_NIZHEGOROD",
+   "basis": "source",
+   "rule": "Fabbrica n. 92, Gorky (cannone divisionale da 76)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-MOR82:1": {
-   "provinceId": "P_USSR_KRASNOYARSK_SP57",
+   "provinceId": "P_USSR_MOSKOVSKAYA",
    "basis": "rule",
    "rule": "population"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-GUN76-REGT:1": {
-   "provinceId": "P_USSR_SAKHA_YAKUTIA_SP26",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_LENINGRAD",
+   "basis": "source",
+   "rule": "Stabilimento Kirov (ex Putilov), Leningrado (cannone reggimentale da 76)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-AT45-1939:1": {
-   "provinceId": "P_USSR_IRKUTSK",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "basis": "source",
+   "rule": "Fabbrica n. 8 Kalinin, Podlipki (cannone anticarro da 45)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-HOW122-1939:1": {
-   "provinceId": "P_USSR_KHABAROVSK_SP7",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_SVERDLOVSK",
+   "basis": "source",
+   "rule": "Fabbrica n. 9, Sverdlovsk (obice M-30)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-AA76:1": {
-   "provinceId": "P_USSR_QARAGHANDY",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "basis": "source",
+   "rule": "Fabbrica n. 8 Kalinin, Podlipki (contraerea da 76)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-HOW152-1939:1": {
-   "provinceId": "P_USSR_LENINGRAD",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_PERM",
+   "basis": "source",
+   "rule": "Fabbrica n. 172 Motovilikha (obice M-10)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-MOR82>REC-ART-USSR-MOR50:1": {
-   "provinceId": "P_USSR_SVERDLOVSK",
+   "provinceId": "P_USSR_KRASNOYARSK_SP57",
    "basis": "rule",
    "rule": "population"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-MOR82>REC-ART-USSR-MOR120:1": {
-   "provinceId": "P_USSR_ALMATY",
+   "provinceId": "P_USSR_SAKHA_YAKUTIA_SP26",
    "basis": "rule",
    "rule": "population"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-AA76>REC-ART-USSR-AA37:1": {
-   "provinceId": "P_USSR_NOVOSIBIRSK_SP1",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "basis": "source",
+   "rule": "Fabbrica n. 8 Kalinin, Podlipki (contraerea da 76)"
   },
   "USSR:USSR:FCT-ARTILLERY:REC-ART-USSR-AT45-1939>REC-ART-USSR-PTRD:1": {
-   "provinceId": "P_USSR_ROSTOV_SP2",
-   "basis": "rule",
-   "rule": "population"
+   "provinceId": "P_USSR_MOSKOVSKAYA",
+   "basis": "source",
+   "rule": "Fabbrica n. 8 Kalinin, Podlipki (cannone anticarro da 45)"
   },
   "USSR:USSR:FCT-FEED:REC-FEED-001:1": {
    "provinceId": "P_USSR_MOSKOVSKAYA",

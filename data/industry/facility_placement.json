@@ -401,7 +401,232 @@
       "count": 1,
       "source": "Hauptgestüt Trakehnen",
       "ref": "https://en.wikipedia.org/wiki/Trakehner"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_USSR_DONETSK",
+      "count": 3,
+      "source": "Donbass: Stalino, Makiivka, Mariupol",
+      "ref": "https://www.cia.gov/readingroom/node/1939432",
+      "note": "Divisione per quota (decisione 1A): le regioni meridionali (Ucraina) facevano circa il 68% della ghisa sovietica prima della guerra (CIA, Advance in Soviet metallurgy); 10 impianti: sud 7, Urali 2, Kuzbass 1. La ripartizione interna all'Ucraina è [Probabile]."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_USSR_DNIPROPETROVSK",
+      "count": 2,
+      "source": "Dnipropetrovsk, Dniprodzerzhynsk, Kryvyi Rih",
+      "ref": "https://www.cia.gov/readingroom/node/1939432",
+      "note": "Divisione per quota (decisione 1A): le regioni meridionali (Ucraina) facevano circa il 68% della ghisa sovietica prima della guerra (CIA, Advance in Soviet metallurgy); 10 impianti: sud 7, Urali 2, Kuzbass 1. La ripartizione interna all'Ucraina è [Probabile]."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_USSR_ZAPORIZHZHYA",
+      "count": 1,
+      "source": "Zaporizhstal",
+      "ref": "https://www.cia.gov/readingroom/node/1939432",
+      "note": "Divisione per quota (decisione 1A): le regioni meridionali (Ucraina) facevano circa il 68% della ghisa sovietica prima della guerra (CIA, Advance in Soviet metallurgy); 10 impianti: sud 7, Urali 2, Kuzbass 1. La ripartizione interna all'Ucraina è [Probabile]."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_USSR_LUHANSK",
+      "count": 1,
+      "source": "Voroshilovsk (Alchevsk)",
+      "ref": "https://www.cia.gov/readingroom/node/1939432",
+      "note": "Divisione per quota (decisione 1A): le regioni meridionali (Ucraina) facevano circa il 68% della ghisa sovietica prima della guerra (CIA, Advance in Soviet metallurgy); 10 impianti: sud 7, Urali 2, Kuzbass 1. La ripartizione interna all'Ucraina è [Probabile]."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_USSR_CHELYABINSK",
+      "count": 1,
+      "source": "Magnitogorsk",
+      "ref": "https://en.wikipedia.org/wiki/Siberian_natural_resources",
+      "note": "Divisione per quota (decisione 1A): le regioni meridionali (Ucraina) facevano circa il 68% della ghisa sovietica prima della guerra (CIA, Advance in Soviet metallurgy); 10 impianti: sud 7, Urali 2, Kuzbass 1. La ripartizione interna all'Ucraina è [Probabile]."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_USSR_SVERDLOVSK",
+      "count": 1,
+      "source": "Nizhny Tagil e acciaierie degli Urali centrali",
+      "ref": "https://open.library.ubc.ca/media/download/jsonld/831/1.0104895/0.json",
+      "note": "Divisione per quota (decisione 1A): le regioni meridionali (Ucraina) facevano circa il 68% della ghisa sovietica prima della guerra (CIA, Advance in Soviet metallurgy); 10 impianti: sud 7, Urali 2, Kuzbass 1. La ripartizione interna all'Ucraina è [Probabile]."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-STEEL",
+      "provinceId": "P_USSR_KEMEROVO",
+      "count": 1,
+      "source": "Kuznetsk (Stalinsk)",
+      "ref": "https://en.wikipedia.org/wiki/Siberian_natural_resources",
+      "note": "Divisione per quota (decisione 1A): le regioni meridionali (Ucraina) facevano circa il 68% della ghisa sovietica prima della guerra (CIA, Advance in Soviet metallurgy); 10 impianti: sud 7, Urali 2, Kuzbass 1. La ripartizione interna all'Ucraina è [Probabile]."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-REFINERY",
+      "provinceId": "P_USSR_ABSHERON",
+      "count": 2,
+      "source": "Raffinerie di Baku",
+      "ref": "https://www.cia.gov/readingroom/node/1918903",
+      "note": "Circa il 77% della capacità di raffinazione sovietica era a Baku, il 12% a Grozny (CIA, Petroleum in the USSR): 2 impianti su 3 a Baku."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-REFINERY",
+      "provinceId": "P_USSR_CHECHNYA",
+      "count": 1,
+      "source": "Raffinerie di Grozny",
+      "ref": "https://www.cia.gov/readingroom/node/1918903",
+      "note": "Circa il 77% della capacità di raffinazione sovietica era a Baku, il 12% a Grozny (CIA, Petroleum in the USSR): 2 impianti su 3 a Baku."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-RUBBER",
+      "provinceId": "P_USSR_YAROSLAVL",
+      "count": 1,
+      "source": "SK-1 Yaroslavl, prima grande fabbrica di gomma sintetica (1932)",
+      "ref": "https://cambridge.org/core/services/aop-cambridge-core/content/view/7E837783EEA58885E5D0E4DC86BAE5C1/S0037677900112100a.pdf/innovation-in-the-ussr-the-case-of-synthetic-rubber.pdf"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-CHEMICAL",
+      "provinceId": "P_USSR_PERM",
+      "count": 1,
+      "source": "Combinato chimico di Berezniki",
+      "ref": "https://cia.gov/readingroom/print/1953303"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-CHEMICAL",
+      "provinceId": "P_USSR_LUHANSK",
+      "count": 1,
+      "source": "Chimica del Donbass (Lisichansk)",
+      "ref": "https://cia.gov/readingroom/print/1953303",
+      "note": "Il terzo impianto chimico resta con la regola (fonte non trovata)."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-TANKS",
+      "provinceId": "P_USSR_LENINGRAD",
+      "count": 1,
+      "source": "Fabbrica n. 174 Voroshilov, Leningrado (T-26)",
+      "ref": "https://en.wikipedia.org/wiki/T-26"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-VEHICLES",
+      "recipe": "REC-VEH-USSR-ZIS5",
+      "provinceId": "P_USSR_MOSKOVSKAYA",
+      "count": 1,
+      "source": "ZIS, Mosca (ZIS-5)",
+      "ref": "https://en.wikipedia.org/wiki/ZIS-5"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-VEHICLES",
+      "recipe": "REC-VEH-USSR-GAZAA",
+      "provinceId": "P_USSR_NIZHEGOROD",
+      "count": 1,
+      "source": "GAZ, Gorky (GAZ-AA)",
+      "ref": "https://en.wikipedia.org/wiki/GAZ-AA"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-WEAPONS",
+      "recipe": "REC-INW-USSR-RIFLE-1939",
+      "provinceId": "P_USSR_UDMURT",
+      "count": 1,
+      "source": "Izhevsk (fucile Mosin)",
+      "ref": "https://media.wfyi.org/fireandice/history/weaponry_soviet_sa.htm"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-WEAPONS",
+      "recipe": "REC-INW-USSR-PISTOL-TT33",
+      "provinceId": "P_USSR_TULA",
+      "count": 1,
+      "source": "Fabbrica d'armi di Tula (TT-33)",
+      "ref": "https://historyrise.com/article/the-manufacturing-innovations-that-improved-tt-33-production-during-wwii/"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-WEAPONS",
+      "recipe": "REC-MG-USSR-LMG-1939",
+      "provinceId": "P_USSR_VLADIMIR",
+      "count": 1,
+      "source": "Kovrov (mitragliatrice DP)",
+      "ref": "https://en.wikipedia.org/wiki/Degtyaryov_machine_gun"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-WEAPONS",
+      "recipe": "REC-MG-USSR-HMG-1939",
+      "provinceId": "P_USSR_TULA",
+      "count": 1,
+      "source": "Fabbrica d'armi di Tula (Maxim)",
+      "ref": "https://en.wikipedia.org/wiki/Tula_Arms_Plant"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-USSR-GUN76-1939",
+      "provinceId": "P_USSR_NIZHEGOROD",
+      "count": 1,
+      "source": "Fabbrica n. 92, Gorky (cannone divisionale da 76)",
+      "ref": "https://en.wikipedia.org/wiki/76_mm_divisional_gun_M1939_(USV)"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-USSR-HOW122-1939",
+      "provinceId": "P_USSR_SVERDLOVSK",
+      "count": 1,
+      "source": "Fabbrica n. 9, Sverdlovsk (obice M-30)",
+      "ref": "https://en.wikipedia.org/wiki/122_mm_howitzer_M1938_(M-30)"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-USSR-HOW152-1939",
+      "provinceId": "P_USSR_PERM",
+      "count": 1,
+      "source": "Fabbrica n. 172 Motovilikha (obice M-10)",
+      "ref": "https://en.wikipedia.org/wiki/152_mm_howitzer_M1938_(M-10)"
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-USSR-AT45-1939",
+      "provinceId": "P_USSR_MOSKOVSKAYA",
+      "count": 2,
+      "source": "Fabbrica n. 8 Kalinin, Podlipki (cannone anticarro da 45)",
+      "ref": "https://en.wikipedia.org/wiki/Designations_of_Soviet_artillery",
+      "note": "Due linee: una attiva e una riservata al piano storico."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-USSR-AA76",
+      "provinceId": "P_USSR_MOSKOVSKAYA",
+      "count": 2,
+      "source": "Fabbrica n. 8 Kalinin, Podlipki (contraerea da 76)",
+      "ref": "https://en.wikipedia.org/wiki/Designations_of_Soviet_artillery",
+      "note": "Due linee: una attiva e una riservata al piano storico."
+    },
+    {
+      "territory": "USSR",
+      "factory": "FCT-ARTILLERY",
+      "recipe": "REC-ART-USSR-GUN76-REGT",
+      "provinceId": "P_USSR_LENINGRAD",
+      "count": 1,
+      "source": "Stabilimento Kirov (ex Putilov), Leningrado (cannone reggimentale da 76)",
+      "ref": "https://en.wikipedia.org/wiki/76_mm_regimental_gun_M1927",
+      "note": "[Probabile]: produttore non confermato da una seconda fonte."
     }
   ],
-  "sourcesNote": "Fonti storiche (decisioni dell'utente del 22/11/2026: 1A divisione per quota della produzione quando il gioco ha meno impianti della realtà; statistiche dell'epoca e rapporti alleati come fonti principali, Wikipedia come conferma; i tipi senza dati chiari restano con la regola). Germania fatta il 22/11/2026: restano con la regola componenti, motori, mangimi, mortai GrW 34 e GrW 36 (produttore non verificato) e alluminio (dati del repository)."
+  "sourcesNote": "Fonti storiche (decisioni dell'utente del 22/11/2026: 1A divisione per quota della produzione quando il gioco ha meno impianti della realtà; statistiche dell'epoca e rapporti alleati come fonti principali, Wikipedia come conferma; i tipi senza dati chiari restano con la regola). Germania fatta il 22/11/2026: restano con la regola componenti, motori, mangimi, mortai GrW 34 e GrW 36 (produttore non verificato) e alluminio (dati del repository). URSS fatta il 22/11/2026: restano con la regola munizioni, mortai da 82, motori, componenti, macchinari, mangimi, cavalli, farmaci, centrale a carbone e un impianto chimico (fonti non trovate); alluminio dai dati."
 }
