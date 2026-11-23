@@ -65,7 +65,10 @@ test('versioni separate: Pz III e Pz IV col cannone lungo sono voci nuove, più 
   assert.ok(w('TNK-DEU-PZ-IV-G').hard > w('TNK-DEU-PZ-IV').hard * 2.5, 'il 75 lungo quasi triplica il fuoco anticarro');
   assert.ok(w('TNK-DEU-PZ-III-J').hard > w('TNK-DEU-PZ-III').hard);
   for (const id of ['TNK-DEU-PZ-III-J', 'TNK-DEU-PZ-IV-G']) assert.equal(eqCatalog.entries.find((e) => e.equipment_id === id).sameAs, 'TNK-DEU-TANK');
-  assert.equal(rec('TNK-DEU-PZ-IV').availableTo, undefined, 'la versione corta resta producibile: si sostituisce per scelta');
+  // 23/11/2026 (decisione dell'utente 4B): i modelli con un successore nel catalogo hanno una data di fine produzione; la versione corta finisce
+  // quando arriva quella lunga (prima restava producibile e si sostituiva solo per scelta)
+  assert.equal(rec('TNK-DEU-PZ-IV').availableTo, '1942-02-28');
+  assert.ok(rec('TNK-DEU-PZ-IV-G').availableFrom <= '1942-03-01');
 });
 
 test('bonus in battaglia: radio, ottiche e infrarossi solo per le divisioni corazzate', () => {

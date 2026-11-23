@@ -1,7 +1,7 @@
 {
   "schema": "equipment-production-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, veicoli, ecc.) NON sono producibili con questa tabella (MISSING_DATA). CARRI (12/11/2026): categoria TANK nella fabbrica FCT-TANKS, come le ricette REC-TANK-* cecoslovacche (acciaio 1,2, componenti 0,10 e motori 0,08 t per t di peso: `inputsPerTonne` della categoria); pesi per modello in `overrides` = valori approssimati da Claude, da verificare. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data. TEMPI (decisione dell'utente 03/11/2026: la quantità per peso va bene, ma i pezzi non escono tutti in un giorno): ogni categoria ha buildDays (giorni per costruire un lotto) e releaseEveryDays (ogni quanti giorni si chiude e si consegna un lotto): es. armi leggere 14 giorni, consegna settimanale. I giorni sono scelti da Claude (DESIGN_DEFAULT), non storici. I lotti NON riducono il volume: ritardano soltanto la consegna; per cambiare il volume si cambia il peso. CAPACITÀ (richiesta dell'utente 03/11/2026: troppo ferro al giorno per i fucili): `capacityShare` = quota della capacità della fabbrica usata dalla categoria; riduce in proporzione pezzi al giorno e acciaio/componenti consumati al giorno. Fucili 0,04: una fabbrica di armi leggere (100 t/giorno) usa 4,8 t di acciaio al giorno e fa 800 fucili al giorno (circa 290.000 l'anno). Calibrato sull'ordine di grandezza di un testo fornito dall'utente il 03/11/2026 (Mauser Oberndorf ~270.000 fucili/anno nel 1936): cifra NON verificata da Claude con fonti proprie, ricerca web senza numeri utili. DESIGN_DEFAULT da tarare. BILANCIAMENTO (richiesta dell'utente 03/11/2026: l'acciaio serve a carri, infrastrutture, navi e costruzioni; le armi non devono pesarci): quote scelte per avere per fabbrica circa: fucili 800/giorno (4,8 t acciaio), mitragliatrici 100 (3,6 t), lanciagranate 167 (0,6 t), mortai 15 (1,1 t), cannoni controcarro 5 (2,9 t), cannoni da campagna 3 (5 t), obici 2 (5,9 t). Con 12 acciaierie da 100 t/giorno la Germania produce 1200 t/giorno: una fabbrica per ciascuna delle 7 categorie consuma 24 t, circa il 2%. Tutti DESIGN_DEFAULT, nessun dato storico verificato. PREZZI (decisione dell'utente 03/11/2026, opzione D): il prezzo di un pezzo è priceFactor × costo dei materiali ai prezzi di economy.json, la stessa regola dei carri e dell'artiglieria esistenti (rapporto 1,22-1,32). Calcolato a runtime, non scritto in economy.json. Ogni equipaggiamento è quindi commerciabile. ARTIGLIERIA PER MODELLO (13/11/2026, approvato dall'utente «S»): peso in batteria di ogni pezzo in `overrides` (ricordi di Claude [Probabile], non verificati con fonti). La quota di capacità della categoria resta quella di prima, quindi l'acciaio consumato al giorno da una fabbrica NON cambia: cambia solo il numero di pezzi (es. leFH 18 2 t ≈ 2,5 al giorno, sFH 18 5,5 t ≈ 0,9). Mortai leggeri (50/45/60 mm) con quota ridotta per restare intorno ai 20 pezzi al giorno. DATE DI PRODUZIONE (13/11/2026, scelta dell'utente «A»): `availableFrom` in `overrides` = primo giorno dell'anno di inizio produzione; prima di quella data il modello non si può scegliere per un impianto (stessa regola per tutte le nazioni; src/data/equipmentProduction.js recipeUnlocked). Anni dai ricordi di Claude [Probabile], per i Panzer dalla tabella dell'utente. Senza availableFrom = disponibile dal 1936. Voci che coprono una famiglia: H39 = Hotchkiss H35/H39 (1936), carro leggero USA = serie M2 (1935). Carri tedeschi per modello (Pz I…Tiger II) aggiunti al catalogo il 13/11/2026; il carro generico TNK-DEU-TANK resta per i salvataggi di prima. 17/11/2026: carri cechi in versione tedesca (Pz 35(t), Pz 38(t)) con fine produzione (availableTo) e controllo della Boemia (requiresControl); date e pesi stimati da Claude. 18/11/2026: i carri tedeschi richiedono anche una tecnologia del ramo Corazzati (`requiresTech`): la data resta come minimo storico. Pz IV dall'1/10/1937 (prima nessuna data: era producibile nel 1936), Tiger dall'1/8/1942. 18/11/2026: veicoli (autocarri e semicingolati) alla fabbrica di veicoli FCT-VEHICLES; pesi, tempi e materiali stimati da Claude. 18/11/2026: cacciacarri e cannoni d'assalto tedeschi alla fabbrica di carri; `requiresTech` può essere un elenco (servono tutte). Marder III e Hetzer su scafo ceco: richiedono la Boemia. 19/11/2026: contraerea, autoblindo e motociclette producibili (categorie ANTI_AIRCRAFT_GUN, ARMORED_CAR, SPECIAL_VEHICLE). 19/11/2026: carri e semoventi sovietici legati al ramo Corazzati (T-34: corazza inclinata; KV e IS: carro pesante; SU: cacciacarri). 19/11/2026 (scelta dell'utente): AT 45 e obice da 122 sovietici senza data d'inizio: voci generiche che coprono anche il 45 mm 19-K (dal 1932) e il 122 mod. 1910/30, già in produzione nel 1936. 20/11/2026: anche l'obice sovietico da 152 senza data d'inizio (voce generica, il mod. 1909/30 era in produzione nel 1936). Fucili anticarro PTRD/PTRS (categoria anticarro, quota ridotta: circa 80 al giorno per impianto), mortaio da 107 e cannone da montagna da 76 sovietici: stime di Claude. 20/11/2026: artiglieria a razzi (categoria ROCKET_ARTILLERY, fabbrica d'artiglieria): Katjuša BM-13 (peso con l'autocarro), Nebelwerfer 41, Calliope T34 (solo il lanciatore: il carro M4 è a parte). Richiedono TECH-ART-ROCKET. Stime di Claude.",
+  "note": "Tabella di produzione degli equipaggiamenti PER CATEGORIA (decisione dell'utente 03/11/2026: un solo schema per tutte le nazioni). Pesi del pezzo e quote di ingressi sono VALORI DI BILANCIAMENTO scelti da Claude (DESIGN_DEFAULT), NON dati storici e NON approvati: servono solo a dare a ogni equipaggiamento del catalogo una ricetta coerente con quelle esistenti (acciaio 1,2 t e componenti 0,10 t per tonnellata di peso). Un peso storico di un modello si inserisce in `overrides` (per equipment_id) senza toccare il resto. Categorie assenti (contraerea, veicoli, ecc.) NON sono producibili con questa tabella (MISSING_DATA). CARRI (12/11/2026): categoria TANK nella fabbrica FCT-TANKS, come le ricette REC-TANK-* cecoslovacche (acciaio 1,2, componenti 0,10 e motori 0,08 t per t di peso: `inputsPerTonne` della categoria); pesi per modello in `overrides` = valori approssimati da Claude, da verificare. Le varianti datate (DATED_VARIANT) non producono finché non c'è una regola con data. TEMPI (decisione dell'utente 03/11/2026: la quantità per peso va bene, ma i pezzi non escono tutti in un giorno): ogni categoria ha buildDays (giorni per costruire un lotto) e releaseEveryDays (ogni quanti giorni si chiude e si consegna un lotto): es. armi leggere 14 giorni, consegna settimanale. I giorni sono scelti da Claude (DESIGN_DEFAULT), non storici. I lotti NON riducono il volume: ritardano soltanto la consegna; per cambiare il volume si cambia il peso. CAPACITÀ (richiesta dell'utente 03/11/2026: troppo ferro al giorno per i fucili): `capacityShare` = quota della capacità della fabbrica usata dalla categoria; riduce in proporzione pezzi al giorno e acciaio/componenti consumati al giorno. Fucili 0,04: una fabbrica di armi leggere (100 t/giorno) usa 4,8 t di acciaio al giorno e fa 800 fucili al giorno (circa 290.000 l'anno). Calibrato sull'ordine di grandezza di un testo fornito dall'utente il 03/11/2026 (Mauser Oberndorf ~270.000 fucili/anno nel 1936): cifra NON verificata da Claude con fonti proprie, ricerca web senza numeri utili. DESIGN_DEFAULT da tarare. BILANCIAMENTO (richiesta dell'utente 03/11/2026: l'acciaio serve a carri, infrastrutture, navi e costruzioni; le armi non devono pesarci): quote scelte per avere per fabbrica circa: fucili 800/giorno (4,8 t acciaio), mitragliatrici 100 (3,6 t), lanciagranate 167 (0,6 t), mortai 15 (1,1 t), cannoni controcarro 5 (2,9 t), cannoni da campagna 3 (5 t), obici 2 (5,9 t). Con 12 acciaierie da 100 t/giorno la Germania produce 1200 t/giorno: una fabbrica per ciascuna delle 7 categorie consuma 24 t, circa il 2%. Tutti DESIGN_DEFAULT, nessun dato storico verificato. PREZZI (decisione dell'utente 03/11/2026, opzione D): il prezzo di un pezzo è priceFactor × costo dei materiali ai prezzi di economy.json, la stessa regola dei carri e dell'artiglieria esistenti (rapporto 1,22-1,32). Calcolato a runtime, non scritto in economy.json. Ogni equipaggiamento è quindi commerciabile. ARTIGLIERIA PER MODELLO (13/11/2026, approvato dall'utente «S»): peso in batteria di ogni pezzo in `overrides` (ricordi di Claude [Probabile], non verificati con fonti). La quota di capacità della categoria resta quella di prima, quindi l'acciaio consumato al giorno da una fabbrica NON cambia: cambia solo il numero di pezzi (es. leFH 18 2 t ≈ 2,5 al giorno, sFH 18 5,5 t ≈ 0,9). Mortai leggeri (50/45/60 mm) con quota ridotta per restare intorno ai 20 pezzi al giorno. DATE DI PRODUZIONE (13/11/2026, scelta dell'utente «A»): `availableFrom` in `overrides` = primo giorno dell'anno di inizio produzione; prima di quella data il modello non si può scegliere per un impianto (stessa regola per tutte le nazioni; src/data/equipmentProduction.js recipeUnlocked). Anni dai ricordi di Claude [Probabile], per i Panzer dalla tabella dell'utente. Senza availableFrom = disponibile dal 1936. Voci che coprono una famiglia: H39 = Hotchkiss H35/H39 (1936), carro leggero USA = serie M2 (1935). Carri tedeschi per modello (Pz I…Tiger II) aggiunti al catalogo il 13/11/2026; il carro generico TNK-DEU-TANK resta per i salvataggi di prima. 17/11/2026: carri cechi in versione tedesca (Pz 35(t), Pz 38(t)) con fine produzione (availableTo) e controllo della Boemia (requiresControl); date e pesi stimati da Claude. 18/11/2026: i carri tedeschi richiedono anche una tecnologia del ramo Corazzati (`requiresTech`): la data resta come minimo storico. Pz IV dall'1/10/1937 (prima nessuna data: era producibile nel 1936), Tiger dall'1/8/1942. 18/11/2026: veicoli (autocarri e semicingolati) alla fabbrica di veicoli FCT-VEHICLES; pesi, tempi e materiali stimati da Claude. 18/11/2026: cacciacarri e cannoni d'assalto tedeschi alla fabbrica di carri; `requiresTech` può essere un elenco (servono tutte). Marder III e Hetzer su scafo ceco: richiedono la Boemia. 19/11/2026: contraerea, autoblindo e motociclette producibili (categorie ANTI_AIRCRAFT_GUN, ARMORED_CAR, SPECIAL_VEHICLE). 19/11/2026: carri e semoventi sovietici legati al ramo Corazzati (T-34: corazza inclinata; KV e IS: carro pesante; SU: cacciacarri). 19/11/2026 (scelta dell'utente): AT 45 e obice da 122 sovietici senza data d'inizio: voci generiche che coprono anche il 45 mm 19-K (dal 1932) e il 122 mod. 1910/30, già in produzione nel 1936. 20/11/2026: anche l'obice sovietico da 152 senza data d'inizio (voce generica, il mod. 1909/30 era in produzione nel 1936). Fucili anticarro PTRD/PTRS (categoria anticarro, quota ridotta: circa 80 al giorno per impianto), mortaio da 107 e cannone da montagna da 76 sovietici: stime di Claude. 20/11/2026: artiglieria a razzi (categoria ROCKET_ARTILLERY, fabbrica d'artiglieria): Katjuša BM-13 (peso con l'autocarro), Nebelwerfer 41, Calliope T34 (solo il lanciatore: il carro M4 è a parte). Richiedono TECH-ART-ROCKET. Stime di Claude. Fine produzione (availableTo, 23/11/2026) aggiunta solo ai modelli con un successore nel catalogo: Pz I, Pz II, Pz III, Pz III J, Pz IV, Tiger I, StuG III, 37 mm M3, M10, M3 Scout Car — date di fine stimate da Claude dalla memoria.",
   "inputsPerTonne": {
     "steel": 1.2,
     "components": 0.1
@@ -380,7 +380,8 @@
     },
     "ART-USA-AT37-1940": {
       "massTonnes": 0.41,
-      "availableFrom": "1940-01-01"
+      "availableFrom": "1940-01-01",
+      "availableTo": "1943-12-31"
     },
     "ART-USA-HOW105-1940": {
       "massTonnes": 2.26,
@@ -422,20 +423,24 @@
       "availableFrom": "1938-01-01"
     },
     "TNK-DEU-PZ-I": {
-      "massTonnes": 5.4
+      "massTonnes": 5.4,
+      "availableTo": "1938-06-30"
     },
     "TNK-DEU-PZ-II": {
-      "massTonnes": 8.9
+      "massTonnes": 8.9,
+      "availableTo": "1942-12-31"
     },
     "TNK-DEU-PZ-III": {
       "massTonnes": 19.5,
       "availableFrom": "1937-01-01",
-      "requiresTech": "TECH-ARM-GUN-3750"
+      "requiresTech": "TECH-ARM-GUN-3750",
+      "availableTo": "1941-11-30"
     },
     "TNK-DEU-PZ-IV": {
       "massTonnes": 20,
       "availableFrom": "1937-10-01",
-      "requiresTech": "TECH-ARM-GUN-75S"
+      "requiresTech": "TECH-ARM-GUN-75S",
+      "availableTo": "1942-02-28"
     },
     "TNK-DEU-PZ-V": {
       "massTonnes": 44.8,
@@ -445,7 +450,8 @@
     "TNK-DEU-PZ-VI": {
       "massTonnes": 57,
       "availableFrom": "1942-08-01",
-      "requiresTech": "TECH-ARM-HEAVY"
+      "requiresTech": "TECH-ARM-HEAVY",
+      "availableTo": "1944-08-31"
     },
     "TNK-DEU-PZ-VIB": {
       "massTonnes": 69.8,
@@ -468,7 +474,8 @@
     "TNK-DEU-PZ-III-J": {
       "massTonnes": 21.5,
       "availableFrom": "1941-12-01",
-      "requiresTech": "TECH-ARM-GUN-50L"
+      "requiresTech": "TECH-ARM-GUN-50L",
+      "availableTo": "1943-08-31"
     },
     "TNK-DEU-PZ-IV-G": {
       "massTonnes": 23.5,
@@ -483,7 +490,8 @@
     "TD-DEU-STUG-III": {
       "massTonnes": 20.7,
       "availableFrom": "1940-02-01",
-      "requiresTech": "TECH-ARM-ASSAULT"
+      "requiresTech": "TECH-ARM-ASSAULT",
+      "availableTo": "1942-02-28"
     },
     "TD-DEU-STUG-III-G": {
       "massTonnes": 23.9,
@@ -728,7 +736,8 @@
     },
     "VEH-USA-M3-SCOUT": {
       "massTonnes": 5.6,
-      "availableFrom": "1939-01-01"
+      "availableFrom": "1939-01-01",
+      "availableTo": "1943-12-31"
     },
     "VEH-USA-M3-HT": {
       "massTonnes": 9.1,
@@ -838,7 +847,8 @@
     "TD-USA-M10": {
       "massTonnes": 29.6,
       "availableFrom": "1942-09-01",
-      "requiresTech": "TECH-ARM-TD"
+      "requiresTech": "TECH-ARM-TD",
+      "availableTo": "1943-12-31"
     },
     "TD-USA-M18": {
       "massTonnes": 17.7,

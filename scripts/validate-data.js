@@ -305,6 +305,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
         { const { validateServices } = await import('../src/data/services.js'); const us = JSON.parse(await text('units/units.json')).units; errors.push(...validateServices(JSON.parse(await text('units/services.json')), { unitsById: new Map(us.map((u) => [u.id, u])) })); } // servizi dei reparti (20/11/2026)
         { const { validateBarracksData } = await import('../src/data/barracks.js'); const known = new Set(catalog.provinces.features.flatMap((f) => [f.properties.id, f.properties.parentProvince].filter(Boolean))); errors.push(...validateBarracksData(JSON.parse(await text('military/barracks.json')), { provinceExists: (id) => known.has(id) })); } // caserme (20/11/2026)
         errors.push(...validateHistoricalTechDates(JSON.parse(await text('research/historical_tech_dates.json')), JSON.parse(await text('research/technologies.json')))); // tecnologie dell'IA alle date storiche (19/11/2026)
+        { // dottrine (23/11/2026) e riserva iniziale di armi (22/11/2026)
+          const { validateDoctrines } = await import('../src/data/doctrines.js'); const { EQUIPMENT_GROUP_LABEL } = await import('../src/rules/unitSheet.js');
+          const { validateInitialEquipmentRules } = await import('../src/data/initialEquipment.js');
+          const nIds = JSON.parse(await text('nations.json')).map((n) => n.id);
+          errors.push(...validateDoctrines(JSON.parse(await text('ai/doctrines.json')), { groups: Object.keys(EQUIPMENT_GROUP_LABEL), branches: JSON.parse(await text('research/technologies.json')).branches.map((b) => b.id), nationIds: nIds }).map((e) => `dottrine: ${e}`));
+          errors.push(...validateInitialEquipmentRules(JSON.parse(await text('industry/initial_equipment_rules.json')), nIds).map((e) => `riserva iniziale: ${e}`));
+        }
         { // illustrazioni delle unità (18/11/2026): ogni file elencato esiste, ogni battaglione punta a un'illustrazione nota
           const art = JSON.parse(await text('assets/unit_illustrations.json'));
           const ids = new Set();

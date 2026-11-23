@@ -83,3 +83,16 @@ test('illustrazioni: varianti per nazione (URSS per i suoi battaglioni, lanciara
   const rk = art.items.find((x) => x.id === 'lanciarazzi');
   assert.deepEqual(Object.keys(rk.byNation).sort(), ['DEU', 'USA', 'USSR']);
 });
+
+test('Germania (23/11/2026): il Pz I esce di produzione a metà 1938, il Pz II a fine 1942; l\'IA riconverte la linea ferma a un carro disponibile', () => {
+  const plan = json('industry/initial_industry.json').nations.DEU.facilities.find((x) => x.factory === 'FCT-TANKS');
+  assert.deepEqual([plan.recipeId, plan.plannedRecipe], ['REC-TNK-DEU-PZ-I', { recipeId: 'REC-TNK-DEU-PZ-II', from: '1937-01-01' }]);
+  const researched = new Set(['TECH-ARM-GUN-3750', 'TECH-ARM-GUN-75S', 'TECH-ARM-GUN-50L', 'TECH-ARM-GUN-75L']);
+  const run = (recipeId, date, need) => aiRetoolNation({ stocks: {}, facilities: [{ ...fac('T1', recipeId), territory: 'DEU' }] }, 'DEU', { recipes, factories, table, researched, date, need: new Map(need) });
+  assert.equal(run('REC-TNK-DEU-PZ-II', '1942-12-31', [['TNK-DEU-PZ-II', 50]]).changes.length, 0, 'il Pz II lavora fino al 31/12/1942');
+  const out = run('REC-TNK-DEU-PZ-II', '1943-01-01', [['TNK-DEU-PZ-IV-G', 200]]);
+  assert.deepEqual(out.changes.map((c) => [c.from, c.to, c.reason]), [['REC-TNK-DEU-PZ-II', 'REC-TNK-DEU-PZ-IV-G', 'fermo']]);
+  const pz1 = run('REC-TNK-DEU-PZ-I', '1938-07-01', []);
+  assert.equal(pz1.changes[0]?.reason, 'fermo', 'Pz I fermo dopo il 30/6/1938');
+  assert.notEqual(pz1.changes[0]?.to, 'REC-TNK-DEU-PZ-I');
+});

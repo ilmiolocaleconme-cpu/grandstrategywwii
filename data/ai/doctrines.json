@@ -1,0 +1,35 @@
+{
+  "schema": "doctrines-v1",
+  "status": "USER_DECISION",
+  "asOf": "2026-11-23",
+  "reliability": "ESTIMATED",
+  "note": "Dottrine come modelli da scegliere (decisione dell'utente del 22/11/2026, scelta 3A): ogni nazione ha una dottrina per settore, che dà un profilo leggero (al massimo +15% per voce) alle scelte dell'IA di produzione (`roles` = gruppi di equipaggiamento di src/rules/unitSheet.js) e di ricerca (`research` = rami di data/research/technologies.json). Non cambia i valori in battaglia. Settori ampliabili (marina, aviazione…); la dottrina della nazione potrà essere cambiata in partita (stato facoltativo nation.doctrines). Dottrine e assegnazioni alle nazioni: stima di Claude dalla memoria.",
+  "maxWeight": 0.15,
+  "sectors": {
+    "land_armor": { "label": "Corazzati" },
+    "land_infantry": { "label": "Fanteria" },
+    "artillery": { "label": "Artiglieria" }
+  },
+  "doctrines": [
+    { "id": "DOC-ARM-MOBILE", "sector": "land_armor", "name_it": "Guerra di movimento", "description": "Carri concentrati in divisioni corazzate per sfondare e manovrare in profondità.", "roles": { "corazzati": 0.15, "veicoli": 0.1 }, "research": { "armor": 0.15, "mobility": 0.1 } },
+    { "id": "DOC-ARM-DEEP", "sector": "land_armor", "name_it": "Battaglia in profondità", "description": "Masse di carri e artiglieria per colpire tutta la profondità dello schieramento nemico.", "roles": { "corazzati": 0.15, "artiglieria": 0.05 }, "research": { "armor": 0.1, "mobility": 0.1 } },
+    { "id": "DOC-ARM-SUPPORT", "sector": "land_armor", "name_it": "Carri d'appoggio alla fanteria", "description": "Carri distribuiti alla fanteria; difesa anticarro curata.", "roles": { "corazzati": 0.05, "anticarro": 0.1 }, "research": { "armor": 0.05, "infantry": 0.05 } },
+    { "id": "DOC-INF-FIREPOWER", "sector": "land_infantry", "name_it": "Potenza di fuoco della squadra", "description": "La squadra ruota attorno alla mitragliatrice; mortai numerosi.", "roles": { "mitragliatrici": 0.15, "mortai": 0.1 }, "research": { "infantry": 0.15 } },
+    { "id": "DOC-INF-MASS", "sector": "land_infantry", "name_it": "Massa e riserve", "description": "Molte divisioni semplici, armamento individuale e riserve addestrate.", "roles": { "individuali": 0.15, "mortai": 0.05 }, "research": { "infantry": 0.1, "logistics": 0.05 } },
+    { "id": "DOC-INF-MOTOR", "sector": "land_infantry", "name_it": "Fanteria motorizzata", "description": "Fanteria su autocarri, mobilità e rifornimenti prima del numero.", "roles": { "veicoli": 0.15, "individuali": 0.05 }, "research": { "mobility": 0.15, "logistics": 0.05 } },
+    { "id": "DOC-INF-SPIRIT", "sector": "land_infantry", "name_it": "Spirito offensivo", "description": "Fanteria leggera da assalto, mortai e armi individuali.", "roles": { "individuali": 0.1, "mortai": 0.1 }, "research": { "infantry": 0.1 } },
+    { "id": "DOC-ART-CONCENTRATION", "sector": "artillery", "name_it": "Concentrazione del fuoco", "description": "Artiglieria divisionale e di corpo d'armata a fuoco concentrato.", "roles": { "artiglieria": 0.15 }, "research": { "artillery": 0.15, "ammunition": 0.1 } },
+    { "id": "DOC-ART-ACCOMPANY", "sector": "artillery", "name_it": "Artiglieria d'accompagnamento", "description": "Pezzi leggeri e cannoni di fanteria vicini alla prima linea.", "roles": { "artiglieria": 0.1, "mortai": 0.05 }, "research": { "artillery": 0.1 } },
+    { "id": "DOC-ART-METHODICAL", "sector": "artillery", "name_it": "Battaglia metodica", "description": "Fuoco pianificato, munizioni abbondanti, difesa contraerea.", "roles": { "artiglieria": 0.15, "contraerea": 0.05 }, "research": { "artillery": 0.1, "ammunition": 0.1 } }
+  ],
+  "fallback": { "land_armor": "DOC-ARM-SUPPORT", "land_infantry": "DOC-INF-MASS", "artillery": "DOC-ART-ACCOMPANY" },
+  "defaults": {
+    "DEU": { "land_armor": "DOC-ARM-MOBILE", "land_infantry": "DOC-INF-FIREPOWER", "artillery": "DOC-ART-ACCOMPANY" },
+    "USSR": { "land_armor": "DOC-ARM-DEEP", "land_infantry": "DOC-INF-MASS", "artillery": "DOC-ART-CONCENTRATION" },
+    "USA": { "land_armor": "DOC-ARM-SUPPORT", "land_infantry": "DOC-INF-MOTOR", "artillery": "DOC-ART-CONCENTRATION" },
+    "GBR": { "land_armor": "DOC-ARM-SUPPORT", "land_infantry": "DOC-INF-MOTOR", "artillery": "DOC-ART-CONCENTRATION" },
+    "FRA": { "land_armor": "DOC-ARM-SUPPORT", "land_infantry": "DOC-INF-MASS", "artillery": "DOC-ART-METHODICAL" },
+    "ITA": { "land_armor": "DOC-ARM-SUPPORT", "land_infantry": "DOC-INF-MASS", "artillery": "DOC-ART-ACCOMPANY" },
+    "JPN": { "land_armor": "DOC-ARM-SUPPORT", "land_infantry": "DOC-INF-SPIRIT", "artillery": "DOC-ART-ACCOMPANY" }
+  }
+}

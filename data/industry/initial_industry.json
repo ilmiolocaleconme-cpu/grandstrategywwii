@@ -238,7 +238,11 @@
         {
           "factory": "FCT-TANKS",
           "recipeId": "REC-TNK-DEU-PZ-I",
-          "count": 1
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TNK-DEU-PZ-II",
+            "from": "1937-01-01"
+          }
         },
         {
           "factory": "FCT-VEHICLES",

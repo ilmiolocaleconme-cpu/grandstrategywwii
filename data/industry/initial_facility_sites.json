@@ -358,7 +358,7 @@
    "basis": "source",
    "rule": "Berlin-Suhler Waffenwerke (Simson), Suhl (MG 34)"
   },
-  "DEU:DEU:FCT-TANKS:REC-TNK-DEU-PZ-I:1": {
+  "DEU:DEU:FCT-TANKS:REC-TNK-DEU-PZ-I>REC-TNK-DEU-PZ-II:1": {
    "provinceId": "P_DEU_KURHESSEN",
    "basis": "source",
    "rule": "Henschel, Kassel (maggior produttore del Panzer I Ausf. B)"

@@ -67,7 +67,7 @@ EXTRA.USA = [['wpn', 'REC-INW-USA-RIFLE-1940', { recipeId: 'REC-INW-USA-CARBINE-
   ['art', 'REC-ART-USA-HOW155-M1918', { recipeId: 'REC-ART-USA-HOW155-1940', from: '1942-01-01' }],
   ['veh', 'REC-VEH-USA-TRUCK15', { recipeId: 'REC-VEH-USA-GMC-CCKW', from: '1941-01-01' }]];
 // Piano storico delle linee di base (la prima linea di ogni fabbrica d'armi della nazione).
-const BASE_PLAN = { USA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-USA-GARAND', from: '1937-01-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-USA-HOW105-1940', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-USA-M2A4', from: '1939-05-01' } } }; // carri: M2A2 → M2A4 (5/1939)
+const BASE_PLAN = { DEU: { 'FCT-TANKS': { recipeId: 'REC-TNK-DEU-PZ-II', from: '1937-01-01' } }, USA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-USA-GARAND', from: '1937-01-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-USA-HOW105-1940', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-USA-M2A4', from: '1939-05-01' } } }; // carri: M2A2 → M2A4 (5/1939); Germania Pz I → Pz II (1/1937, 23/11/2026, stima)
 const MUN = { USA: 6, GBR: 3, DEU: 6, USSR: 6, ITA: 3, FRA: 4, JPN: 5, BEL: 0, CAN: 0, CZE: 0, POL: 0, SWE: 0 };
 
 const candidates = new Set(Object.keys(A));
