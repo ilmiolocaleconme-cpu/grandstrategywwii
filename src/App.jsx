@@ -98,7 +98,7 @@ import { crewQualityBonus } from './rules/crewQuality.js';
 import ammoConsumptionFile from '../data/military/ammo_consumption.json';
 import fuelConsumptionFile from '../data/military/fuel_consumption.json';
 import { validateBattleV2, rawFirepower, casualtyDrain, fleetYearOf } from './rules/battleV2.js';
-import { ownerFromPlaceId, groupUnlocked, recipeLockReasons } from './data/equipmentProduction.js';
+import { ownerFromPlaceId, groupUnlocked, recipeLockReasons, recipeUnlocked } from './data/equipmentProduction.js';
 import { createCasualtySystem } from './game/casualtyState.js';
 import { DIVISION_AMMO_CATEGORY } from './rules/militaryReserve.js';
 import { dailyAmmo } from './data/ammo.js';
@@ -173,10 +173,11 @@ import { securitySummary, sabotageRows, describeOrderFailure } from './ui/securi
 import { createResearch, techsOf } from './game/research.js';
 import historicalTechFile from '../data/research/historical_tech_dates.json';
 import { createHistoricalTechSystem } from './game/historicalTech.js';
-import { createRetoolSystem } from './game/retoolSystem.js'; // riconversione degli impianti: piani storici e IA (20/11/2026)
+import { createRetoolSystem, equipmentNeeds } from './game/retoolSystem.js'; // riconversione degli impianti: piani storici e IA (20/11/2026)
 import doctrinesFile from '../data/ai/doctrines.json';
-import { doctrinesOf } from './data/doctrines.js';
-import { modelScore, classIdsWithModels } from './rules/aiProduction.js'; // IA passo 2: modelli per valore/t × dottrina (23/11/2026)
+import { doctrinesOf, doctrineFactor } from './data/doctrines.js';
+import { techScore, techUnlockGain } from './rules/aiResearch.js';
+import { modelScore, classIdsWithModels, productSlots } from './rules/aiProduction.js'; // IA passo 2: modelli per valore/t × dottrina (23/11/2026)
 import { setFacilityRecipe } from './game/facilityRecipe.js';
 import { facilityRecipeRows } from './ui/recipeView.js';
 import { createInfraIndex, infraNet, applyLinkLevels } from './data/infrastructure.js';
@@ -388,7 +389,31 @@ const GAME_SECURITY = createSecurity({ security: securityFile, economy: economyD
 // Diplomazia minima (30/10/2026): parametri DESIGN_DEFAULT, situazione 1936 hypothesis. Rapporti, alleanze, accessi, costi di guerra, consenso al commercio.
 const GAME_DIPLOMACY = createDiplomacyGame({ config: diplomacyConfig, start: diplomacyStart, political });
 const GAME_AI_DIPLOMACY = createAiDiplomacy({ diplomacy: GAME_DIPLOMACY }); // IA diplomatica: alleanze e rapporti (accessi, commercio e guerra: mancanti)
-const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf });
+// IA passo 3 (23/11/2026): ricerca per punteggio (src/rules/aiResearch.js); le date storiche restano il minimo garantito
+const aiDivisionsOf = (s, nation) => { const ids = new Set(unitsList(s, unitsFile.units).filter((u) => u.nation === nation).map((u) => u.id)); return Object.entries(s.forces?.divisions ?? {}).filter(([id]) => ids.has(id)).map(([, d]) => d); };
+function aiResearchScorer(s, id, involved) {
+  const n = s.nations?.[id];
+  if (!n) return null;
+  const researched = techsOf(n);
+  const active = doctrinesOf(doctrinesFile, id, n);
+  const divs = aiDivisionsOf(s, id);
+  const sourcesOf = (item) => EQUIPMENT_SOURCES(id, item);
+  const slots = productSlots(divs, sourcesOf);
+  const need = equipmentNeeds({ divisions: divs, stocks: n.stocks, sourcesOf });
+  const mine = unitsList(s, unitsFile.units).filter((u) => u.nation === id && u.category !== 'command');
+  const rivals = GAME_DIPLOMACY.hostilesOf(s, id).filter((t) => s.nations[t]);
+  const unlocked = (r, res, date) => recipeUnlocked(equipmentProductionTable, r, res, date, null) && !EQUIPMENT_CLASSES_WITH_MODELS.has(r.equipmentId);
+  const scoreOf = (r) => modelScore(WEAPON_OF(id, `equipment.${r.equipmentId}`), r.massTonnes, battleV2File, active);
+  const gains = new Map();
+  const unlockGain = (t) => { if (!gains.has(t)) gains.set(t, techUnlockGain(t, { recipes: GAME_CATALOG.recipes.values(), unlocked, researched, date: s.date, slots, need, scoreOf })); return gains.get(t); };
+  return (tech) => techScore(tech, {
+    involved, unlockGain, doctrine: (b) => doctrineFactor(active, { branch: b }),
+    rivalsHave: (t) => rivals.some((r) => techsOf(s.nations[r]).has(t)),
+    categoryShare: (cats) => (mine.length ? mine.filter((u) => cats.includes(u.category)).length / mine.length : 0),
+    successorsOf: (t) => technologiesFile.technologies.filter((x) => x.prerequisites.includes(t) && !researched.has(x.id)),
+  });
+}
+const GAME_AI = createAiSecurity({ research: GAME_RESEARCH, security: GAME_SECURITY, hostilesOf: GAME_DIPLOMACY.hostilesOf, researchScorer: aiResearchScorer });
 // IA del commercio (13/11/2026): compra ciò che sta per finire (game/aiTrade.js); percorsi e diplomazia come per il giocatore
 const GAME_AI_TRADE = createAiTrade({ ctxOf: (s) => ({ economy: economyData, resources, net: gameNet(s), sea: GAME_SEA.sea ? GAME_SEA.sea.at(s) : null, consent: GAME_DIPLOMACY.tradeConsent }) });
 // Forze (game/forcesState.js): istanze di divisione create alla partita nuova e al caricamento di un salvataggio che ancora non le ha. Germania e Regno Unito (fanteria) hanno template (29/10/2026); la fanteria britannica parte come quadro al 30%.

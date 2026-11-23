@@ -4,10 +4,12 @@
 // MANCANTE: l'IA non migliora ancora le fabbriche, non commercia, non muove unità e non usa la diplomazia.
 import { roll01 } from '../rules/security.js';
 import { securityOf } from './securityState.js';
+import { pickResearch } from '../rules/aiResearch.js';
 
 export const AI_DEFAULTS = Object.freeze({ period: 10, reserveEcv: 150, policePerPlace: 2 });
 
-export function createAiSecurity({ research, security, hostilesOf, options = {} }) {
+// 23/11/2026 (IA passo 3): `researchScorer(state, nazione, involved)` → (tecnologia) → punteggio (src/rules/aiResearch.js); senza, la regola di prima.
+export function createAiSecurity({ research, security, hostilesOf, researchScorer = null, options = {} }) {
   const o = { ...AI_DEFAULTS, ...options };
 
   function actFor(state, id) {
@@ -21,7 +23,8 @@ export function createAiSecurity({ research, security, hostilesOf, options = {} 
     if (!my().research?.active) {
       const list = research.listFor(s, id).filter((x) => x.status === 'available' && x.cost.ecv <= spendable());
       const rank = (x) => (involved ? (x.tech.branch === 'security' ? 0 : 1) : ({ industry: 0, security: 2 }[x.tech.branch] ?? 1)); // senza rivali: prima l'industria (13/11/2026: TECH-AMMO-AP veniva prima per ordine alfabetico)
-      const pick = [...list].sort((a, b) => rank(a) - rank(b) || (a.tech.id < b.tech.id ? -1 : 1))[0];
+      const scorer = researchScorer?.(s, id, involved);
+      const pick = scorer ? pickResearch(list, scorer) : [...list].sort((a, b) => rank(a) - rank(b) || (a.tech.id < b.tech.id ? -1 : 1))[0];
       if (pick) s = research.start(s, id, pick.tech.id).state;
     }
     if (!involved) return s;
