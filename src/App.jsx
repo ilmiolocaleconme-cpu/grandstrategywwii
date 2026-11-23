@@ -93,6 +93,8 @@ import { buildEquivalence } from './data/equipmentEquivalence.js';
 import combatEquipmentCfg from '../data/units/combat_equipment.json';
 import terrainCombatFile from '../data/units/terrain_combat.json';
 import battleV2File from '../data/units/battle_v2.json';
+import crewQualityFile from '../data/units/crew_quality.json'; // qualità degli equipaggi per nazione e periodo (23/11/2026)
+import { crewQualityBonus } from './rules/crewQuality.js';
 import ammoConsumptionFile from '../data/military/ammo_consumption.json';
 import fuelConsumptionFile from '../data/military/fuel_consumption.json';
 import { validateBattleV2, rawFirepower, casualtyDrain, fleetYearOf } from './rules/battleV2.js';
@@ -172,6 +174,9 @@ import { createResearch, techsOf } from './game/research.js';
 import historicalTechFile from '../data/research/historical_tech_dates.json';
 import { createHistoricalTechSystem } from './game/historicalTech.js';
 import { createRetoolSystem } from './game/retoolSystem.js'; // riconversione degli impianti: piani storici e IA (20/11/2026)
+import doctrinesFile from '../data/ai/doctrines.json';
+import { doctrinesOf } from './data/doctrines.js';
+import { modelScore, classIdsWithModels } from './rules/aiProduction.js'; // IA passo 2: modelli per valore/t × dottrina (23/11/2026)
 import { setFacilityRecipe } from './game/facilityRecipe.js';
 import { facilityRecipeRows } from './ui/recipeView.js';
 import { createInfraIndex, infraNet, applyLinkLevels } from './data/infrastructure.js';
@@ -350,7 +355,7 @@ const EQUIPMENT_PREDECESSORS = buildPredecessors(EQUIPMENT_CATALOG, equipmentRep
 // esperienza delle fabbriche (21/11/2026): due modelli sono «della stessa catena» se uno precede l'altro (replacements.json) o se si riforniscono a vicenda
 // (stesso gruppo di equivalenza, es. i Panzer della voce TNK-DEU-TANK): la riconversione tiene la metà dei giorni d'esperienza
 // voci di classe con modelli (sameAs): l'IA non le produce (21/11/2026)
-const EQUIPMENT_CLASSES_WITH_MODELS = new Set(EQUIPMENT_CATALOG.entries.filter((e) => e.sameAs).map((e) => e.sameAs));
+const EQUIPMENT_CLASSES_WITH_MODELS = classIdsWithModels(EQUIPMENT_CATALOG, battleV2File); // 23/11/2026: T-26, T-34 e KV sovietici sono anche modelli veri
 const EQUIPMENT_RELATED = (nation, a, b) => Boolean(a && b) && (EQUIPMENT_PREDECESSORS(nation, `equipment.${b}`).includes(`equipment.${a}`)
   || EQUIPMENT_PREDECESSORS(nation, `equipment.${a}`).includes(`equipment.${b}`) || EQUIPMENT_SOURCES(nation, `equipment.${b}`).includes(`equipment.${a}`));
 const EQUIPMENT_RECIPES = buildEquipmentRecipes(EQUIPMENT_CATALOG, equipmentProductionTable);
@@ -459,7 +464,7 @@ const divisionHasEngineers = (state, u) => { const d = state.designs?.byId?.[sta
 // riorganizzazione sui modelli dell'editor: voci rimaste fuori tornano in magazzino solo se sono equipaggiamenti del catalogo o cavalli
 const designCtx = (state, id) => ({ modules: ALL_MODULES, unit: unitOf(state, id, UNITS_BY_ID), upgradeMap: equipmentUpgradeMap, isStockItem: (p) => p === 'horses' || (p.startsWith('equipment.') && EQUIPMENT_NAMES.has(p.slice('equipment.'.length))) });
 const marchSpeedOfUnit = (state, u) => vehicleMarchSpeed(state.forces?.divisions?.[u.id]?.items, DEFAULT_MARCH, marchSpeed(u.category));
-const THEATER_CTX = { ...BATTLE_V2_CTX, marchSpeedOf: marchSpeedOfUnit, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, hasEngineers: divisionHasEngineers, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
+const THEATER_CTX = { ...BATTLE_V2_CTX, marchSpeedOf: marchSpeedOfUnit, terrainCfg: TERRAIN_COMBAT_ERRORS.length ? undefined : terrainCombatFile, terrainOf: (mother) => GAME_GROUND.terrain?.province?.[mother] ?? null, riverBetween: (a, b) => GAME_GROUND.rivers?.between(a, b) ?? null, hasEngineers: divisionHasEngineers, apRounds, equipmentFactor: (state, u) => fillOf(state, u.id, u.nation).factor, onEquipmentLost, rifleBonus: (state, u) => rifleTotalBonus(state, u.nation, u.category), crewFactor: (state, u) => 1 + crewQualityBonus(crewQualityFile, u.nation, state.date, u.category) /* qualità degli equipaggi (23/11/2026): fattore, anche negativo */, getNet: gameNet, unitsById: UNITS_BY_ID, deploymentDoc: deploymentFile, initial: INITIAL_POSITIONS, entrenchCfg: ENTRENCH_ERRORS.length ? undefined : { maxBonus: entrenchFile.maxBonus, rampDays: entrenchFile.rampDays, curve: entrenchFile.curve } };
 const GAME_SYSTEMS = [
   createEventsSystem({ events: eventsFile }), // eventi storici (18/11/2026): prima dell'attivazione, così una riorganizzazione cambia subito il template
   createForcesActivationSystem({ ...FORCES_CTX, poolOf: (s, n) => availableManpower(s, n, hospitalManpower(s, n)) }), // «stesse regole» (19/11/2026): le divisioni formate dopo l'inizio prendono dal bacino e dal magazzino; // dal 1/9/1939 (Francia) e 1/6/1940 (Italia) le divisioni di fanteria ricevono la dotazione del loro template
@@ -486,6 +491,7 @@ const GAME_SYSTEMS = [
   createTradeSystem({ resources, getNet: gameNet, getSea: (state) => (GAME_SEA.sea ? GAME_SEA.sea.at(state) : null) }), // commercio v1: contratti via terra e via mare con i porti reali (consegne e partenze); nessuna interfaccia ancora
   GAME_RESEARCH.researchDay,
   createRetoolSystem({ recipes: GAME_CATALOG.recipes, factories: GAME_CATALOG.factories, table: equipmentProductionTable, techsOf, controllerOf: controlFn, sourcesOf: EQUIPMENT_SOURCES, experience: productionExperienceFile, relatedOf: EQUIPMENT_RELATED, classIds: EQUIPMENT_CLASSES_WITH_MODELS,
+    scoreOf: (nation, n, r) => modelScore(WEAPON_OF(nation, `equipment.${r.equipmentId}`), r.massTonnes, battleV2File, doctrinesOf(doctrinesFile, nation, n)), // IA passo 2 (23/11/2026)
     divisionsOf: (s, nation) => { const ids = new Set(unitsList(s, unitsFile.units).filter((u) => u.nation === nation).map((u) => u.id)); return Object.entries(s.forces?.divisions ?? {}).filter(([id]) => ids.has(id)).map(([, d]) => d); } }), // linee riservate ai modelli futuri; IA: riconversione mensile (20/11/2026)
   createHistoricalTechSystem(historicalTechFile), // nazioni dell'IA: tecnologie alle date storiche (19/11/2026); il giocatore le ricerca
   GAME_SECURITY.securityDay,

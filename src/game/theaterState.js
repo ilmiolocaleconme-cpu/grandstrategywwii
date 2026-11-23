@@ -222,7 +222,7 @@ function prepareV2(state, ctx, net, p, attackers, defenders, g) {
     const sup = supply.get(u.nation) ?? { ammo: 1, fuel: 1 };
     const cond = conditionRead(s, ctx, u);
     const raw = raws.get(u.id);
-    let mult = (u.mult ?? 1) * cohesionPower(u.cohesion, cfg) * experiencePower(cond?.experience, cfg) * (attacking ? seasonFactor(s.date, centre, u.category, cfg) : 1);
+    let mult = (u.mult ?? 1) * (ctx.crewFactor?.(s, u) ?? 1) * cohesionPower(u.cohesion, cfg) * experiencePower(cond?.experience, cfg) * (attacking ? seasonFactor(s.date, centre, u.category, cfg) : 1);
     const out = { ...u, cond };
     if (raw?.recognized) {
       out.base = firepowerBase(raw, enemyH, { effective: u.effective, planned: u.planned, category: u.category, ammo: sup.ammo, fuel: sup.fuel, prep: attacking && prep && sup.ammo >= cfg.phases.prepMinAmmo }, cfg);

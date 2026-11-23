@@ -310,6 +310,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
           const { validateInitialEquipmentRules } = await import('../src/data/initialEquipment.js');
           const nIds = JSON.parse(await text('nations.json')).map((n) => n.id);
           errors.push(...validateDoctrines(JSON.parse(await text('ai/doctrines.json')), { groups: Object.keys(EQUIPMENT_GROUP_LABEL), branches: JSON.parse(await text('research/technologies.json')).branches.map((b) => b.id), nationIds: nIds }).map((e) => `dottrine: ${e}`));
+          const { validateCrewQuality } = await import('../src/rules/crewQuality.js');
+          errors.push(...validateCrewQuality(JSON.parse(await text('units/crew_quality.json')), nIds)); // qualità degli equipaggi (23/11/2026)
           errors.push(...validateInitialEquipmentRules(JSON.parse(await text('industry/initial_equipment_rules.json')), nIds).map((e) => `riserva iniziale: ${e}`));
         }
         { // illustrazioni delle unità (18/11/2026): ogni file elencato esiste, ogni battaglione punta a un'illustrazione nota

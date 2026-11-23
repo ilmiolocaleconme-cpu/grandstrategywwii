@@ -1,0 +1,45 @@
+{
+  "schema": "crew-quality-v1",
+  "status": "USER_DECISION",
+  "asOf": "2026-11-23",
+  "reliability": "ESTIMATED",
+  "note": "Qualità degli equipaggi e dei comandi per nazione e periodo (decisione dell'utente del 23/11/2026, scelta A): addestramento, radio a bordo, coordinamento tra le armi, iniziativa dei comandanti. È un bonus di potenza in battaglia che si somma agli altri (tecnologie dei fucili, trinceramento), in attacco e in difesa. Il valore della nazione vale per le divisioni corazzate e meccanizzate; le altre ricevono la quota `byCategory` (default 0,5). L'esperienza sul campo (±10%) resta a parte e cresce combattendo. Nazioni assenti: 0. Valori e date: stima di Claude dalla memoria, ipotesi di bilanciamento — es. la Wehrmacht 1939-42 perdeva molti meno carri di quanti ne distruggesse; l'Armata Rossa dopo le purghe del 1937-38 e nel 1941 aveva comandi e addestramento deboli, poi migliorati.",
+  "maxAbs": 0.2,
+  "byCategory": { "armored": 1, "mechanized": 1, "motorized": 0.75 },
+  "defaultShare": 0.5,
+  "nations": {
+    "DEU": [
+      { "from": "1936-01-01", "value": 0.1 },
+      { "from": "1939-01-01", "value": 0.15 },
+      { "from": "1943-01-01", "value": 0.1 },
+      { "from": "1944-07-01", "value": 0.05 }
+    ],
+    "USSR": [
+      { "from": "1936-01-01", "value": 0 },
+      { "from": "1937-06-01", "value": -0.1 },
+      { "from": "1942-07-01", "value": -0.05 },
+      { "from": "1943-07-01", "value": 0 },
+      { "from": "1944-06-01", "value": 0.05 }
+    ],
+    "USA": [
+      { "from": "1936-01-01", "value": -0.05 },
+      { "from": "1942-01-01", "value": -0.1 },
+      { "from": "1943-07-01", "value": 0 },
+      { "from": "1944-06-01", "value": 0.05 }
+    ],
+    "GBR": [
+      { "from": "1936-01-01", "value": 0 },
+      { "from": "1940-06-01", "value": -0.05 },
+      { "from": "1942-11-01", "value": 0 }
+    ],
+    "ITA": [
+      { "from": "1936-01-01", "value": -0.05 },
+      { "from": "1940-06-01", "value": -0.1 }
+    ],
+    "JPN": [
+      { "from": "1936-01-01", "value": 0 },
+      { "from": "1937-07-01", "value": 0.05 },
+      { "from": "1943-01-01", "value": 0 }
+    ]
+  }
+}

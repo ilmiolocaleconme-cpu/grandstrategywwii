@@ -41,7 +41,7 @@ const extrasOf = (state, unit, ctx) => ({ rifle: ctx?.rifleBonus?.(state, unit) 
 function v2Of(state, unit, m, ctx) {
   const cfg = ctx?.battleCfg;
   if (!cfg) return null;
-  const mult = cohesionPower(cohesionOf(state.cohesion, unit.id), cfg) * experiencePower((ctx.conditionCfg ? conditionOf(state.conditions ?? createConditionState(), unit.id, ctx.conditionCfg, unit.nation) : ctx.conditionOf?.(state, unit))?.experience, cfg);
+  const mult = (ctx.crewFactor?.(state, unit) ?? 1) * cohesionPower(cohesionOf(state.cohesion, unit.id), cfg) * experiencePower((ctx.conditionCfg ? conditionOf(state.conditions ?? createConditionState(), unit.id, ctx.conditionCfg, unit.nation) : ctx.conditionOf?.(state, unit))?.experience, cfg);
   const raw = ctx.rawFirepower?.(state, unit);
   return { mult, base: raw?.recognized ? firepowerBase(raw, 0, { effective: m.effective, planned: m.planned, category: unit.category }, cfg) : undefined };
 }

@@ -6,9 +6,12 @@
 //  2) IA (nazioni non del giocatore), il primo di ogni mese: un impianto fermo (modello fuori produzione o senza il controllo della fabbrica storica)
 //     o che produce un pezzo di cui le divisioni non hanno bisogno passa al modello producibile della stessa fabbrica con il fabbisogno più grande
 //     (organico previsto − effettivo delle divisioni, meno la scorta). Al massimo una riconversione ogni RETOOL_COOLDOWN_DAYS per impianto.
+//  3) IA, passo 2 (23/11/2026, scoreOf): una linea che lavora passa a un modello dello stesso posto con valore per tonnellata × dottrina più alto
+//     almeno del 20%; tra i modelli dello stesso fabbisogno si sceglie quello col punteggio migliore (src/rules/aiProduction.js).
 // Alla riconversione i lotti già chiusi si consegnano subito (non si perdono e non cambiano prodotto); i pezzi in lavorazione si perdono, come per il giocatore.
 import { recipeUnlocked } from '../data/equipmentProduction.js';
 import { retooledDays } from '../rules/productionExperience.js';
+import { betterModel, productSlots, sameSlot } from '../rules/aiProduction.js';
 
 export const RETOOL_COOLDOWN_DAYS = 90;
 const DAY = 86400000;
@@ -51,7 +54,10 @@ export function equipmentNeeds({ divisions, stocks, sourcesOf }) {
  * controllerOf, need (Map da equipmentNeeds), horizonDays (default 90) }. Ritorna { facilities, stocks, changes: [{ id, from, to, reason }] }.
  */
 export function aiRetoolNation(nation, nationId, ctx) {
-  const { recipes, factories, table, researched, date, controllerOf = null, need, horizonDays = 90, experience = null, relatedOf = null, classIds = null } = ctx;
+  const { recipes, factories, table, researched, date, controllerOf = null, need, horizonDays = 90, experience = null, relatedOf = null, classIds = null, scoreOf = null, slots = null } = ctx;
+  // 23/11/2026 (IA passo 2): scoreOf(ricetta) → valore per tonnellata × dottrina (src/rules/aiProduction.js); slots: posti delle divisioni per prodotto
+  const choose = Boolean(scoreOf && slots);
+  const scoreR = (r) => scoreOf?.(r) ?? null;
   const usable = (r) => r?.equipmentId && r.equipmentId.split('-')[1] === nationId && recipeUnlocked(table, r, researched, date, controllerOf);
   // 21/11/2026: l'IA non sceglie una voce di classe con modelli (es. TNK-DEU-TANK, TNK-USA-MEDIUM-TANK-1940): i suoi pezzi non registrati valgono come i
   // carri d'inizio partita, quindi produce sempre un modello vero (i carri migliorano solo con la produzione e la modernizzazione)
@@ -67,13 +73,29 @@ export function aiRetoolNation(nation, nationId, ctx) {
     if (f.retooledOn && daysBetween(f.retooledOn, date) < RETOOL_COOLDOWN_DAYS) return f;
     const stopped = !usable(cur);
     const idle = !stopped && (need.get(cur.output.product) ?? 0) <= 0;
-    if (!stopped && !idle) return f;
+    if (!stopped && !idle) {
+      // linea che lavora per un posto delle divisioni: passa a un modello dello stesso posto con punteggio ≥ +20% (decisione 2A)
+      if (!choose) return f;
+      const better = betterModel(cur, [...recipes.values()].filter((r) => r.factory === cur.factory && r.id !== cur.id && pickable(r) && sameSlot(slots, cur.output.product, r.output.product)), scoreR);
+      if (!better) return f;
+      left.set(cur.output.product, (left.get(cur.output.product) ?? 0) + perDay(cur) * horizonDays);
+      left.set(better.output.product, (left.get(better.output.product) ?? 0) - perDay(better) * horizonDays);
+      const res = retoolFacility(f, better.id, date, stocks, cur.output.product, experience ? { cfg: experience, related: Boolean(relatedOf?.(nationId, cur.equipmentId, better.equipmentId)) } : null);
+      stocks = res.stocks;
+      changes.push({ id: f.id, from: cur.id, to: better.id, reason: 'migliore' });
+      return res.facility;
+    }
     // 21/11/2026 (esperienza delle fabbriche, scelta 5A): una linea che lavora ma senza fabbisogno si riconverte solo se il nuovo fabbisogno tiene
     // occupata la linea per tutto l'orizzonte (horizonDays); altrimenti conviene tenere l'esperienza e fare scorta. Una linea ferma si riconverte comunque.
     const worth = (r) => (left.get(r.output.product) ?? 0) > (stopped || !experience ? 0 : perDay(r) * horizonDays);
     const options = [...recipes.values()].filter((r) => r.factory === cur.factory && r.id !== cur.id && pickable(r) && worth(r));
     options.sort((a, b) => (left.get(b.output.product) * b.massTonnes) - (left.get(a.output.product) * a.massTonnes) || (a.id < b.id ? -1 : 1));
     let to = options[0];
+    // tra i modelli dello stesso posto (stesso fabbisogno) quello con il punteggio migliore (23/11/2026)
+    if (to && choose) {
+      const top = to; const peers = options.filter((r) => r === top || sameSlot(slots, top.output.product, r.output.product));
+      to = peers.reduce((best, r) => ((scoreR(r) ?? -1) > (scoreR(best) ?? -1) ? r : best), top);
+    }
     // fermo e senza fabbisogno: il modello più recente della stessa categoria (il successore), per non lasciare la linea inattiva
     // (prima lo stesso ruolo, es. carro leggero → carro leggero; altrimenti lo stesso gruppo, es. T-26 → T-34 nell'estate 1941)
     if (!to && stopped) to = [...recipes.values()].filter((r) => r.factory === cur.factory && r.id !== cur.id && pickable(r) && r.group === cur.group)
@@ -93,7 +115,7 @@ export function aiRetoolNation(nation, nationId, ctx) {
  * divisionsOf(state, nationId) → istanze di divisione, sourcesOf(nationId, item) → prodotti }.
  */
 export function createRetoolSystem(ctx) {
-  const { recipes, factories, table, techsOf, controllerOf = null, divisionsOf, sourcesOf, experience = null, relatedOf = null, classIds = null } = ctx; // esperienza e voci di classe (21/11/2026)
+  const { recipes, factories, table, techsOf, controllerOf = null, divisionsOf, sourcesOf, experience = null, relatedOf = null, classIds = null, scoreOf = null } = ctx; // scoreOf(nazione, statoNazione, ricetta): IA passo 2 (23/11/2026) // esperienza e voci di classe (21/11/2026)
   return function retoolDay(state) {
     if (!state.nations || !state.date) return state;
     const monthly = state.date.endsWith('-01');
@@ -119,8 +141,10 @@ export function createRetoolSystem(ctx) {
       }
       // 2) IA, il primo del mese
       if (monthly && id !== state.player && divisionsOf) {
-        const need = equipmentNeeds({ divisions: divisionsOf(state, id), stocks: n.stocks, sourcesOf: sourcesOf ? (item) => sourcesOf(id, item) : null });
-        const r = aiRetoolNation(n, id, { recipes, factories, table, researched, date: state.date, controllerOf: where, need, experience, relatedOf, classIds });
+        const divs = divisionsOf(state, id);
+        const need = equipmentNeeds({ divisions: divs, stocks: n.stocks, sourcesOf: sourcesOf ? (item) => sourcesOf(id, item) : null });
+        const r = aiRetoolNation(n, id, { recipes, factories, table, researched, date: state.date, controllerOf: where, need, experience, relatedOf, classIds,
+          ...(scoreOf ? { scoreOf: (rec) => scoreOf(id, n, rec), slots: productSlots(divs, sourcesOf ? (item) => sourcesOf(id, item) : null) } : {}) });
         if (r.changes.length) { n = { ...n, facilities: r.facilities, stocks: r.stocks }; changed = true; }
       }
       if (n !== nations[id]) nations = { ...nations, [id]: n };
