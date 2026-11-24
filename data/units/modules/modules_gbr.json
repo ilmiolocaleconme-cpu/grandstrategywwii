@@ -782,6 +782,26 @@
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-GBR-ARMY-TANK-REGT",
+      "nation": "GBR",
+      "type": "infantry_tank",
+      "name_native": "Army Tank Regiment",
+      "name_it": "Reggimento carri d'appoggio (Army Tank Regiment)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "TNK-GBR-INFANTRY-TANK": 58,
+        "INW-GBR-RIFLE": 300,
+        "INW-GBR-PISTOL-WEBLEY": 150,
+        "VEH-GBR-TRUCK15": 35,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "availableFrom": "1937-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
       "id": "MOD-GBR-INF-1944",
       "nation": "GBR",
       "type": "infantry",
@@ -1280,6 +1300,49 @@
         ]
       ],
       "variant": "marine"
+    },
+    {
+      "templateId": "TPL-GBR-MIXED-1942",
+      "name": "Mixed Division (1942)",
+      "file": "divisione_mista_gran_bretagna_1942.json",
+      "category": "infantry",
+      "activeFrom": "1942-06-01",
+      "formation": "Mixed Division 1942-43: 2 brigate di fanteria (6 battaglioni) e una brigata carri d'appoggio (3 Army Tank Regiment: Matilda II, Valentine, Churchill), 3 reggimenti da 25 libbre, anticarro da 6 libbre, contraerea leggera, reggimento esplorante, genio, servizi. Resta divisione di fanteria",
+      "modules": [
+        [
+          "MOD-GBR-INF-1938",
+          6
+        ],
+        [
+          "MOD-GBR-ARMY-TANK-REGT",
+          3
+        ],
+        [
+          "MOD-GBR-FIELD-25PDR",
+          3
+        ],
+        [
+          "MOD-GBR-AT-6PDR",
+          1
+        ],
+        [
+          "MOD-GBR-LAA-1940",
+          1
+        ],
+        [
+          "MOD-GBR-RECON-1941",
+          1
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC",
+          1
+        ]
+      ],
+      "variant": "mixed"
     }
   ],
   "presets": []

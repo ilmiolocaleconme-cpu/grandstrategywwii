@@ -889,7 +889,20 @@
     "VEH-GBR-CARRIER": {"massTonnes": 3.75, "availableFrom": "1936-06-01"},
     "VEH-GBR-MOTO": {"massTonnes": 0.17},
     "VEH-GBR-MORRIS-AC": {"massTonnes": 4.2, "availableFrom": "1936-01-01", "availableTo": "1941-12-31"},
-    "VEH-GBR-DAIMLER-AC": {"massTonnes": 7.5, "availableFrom": "1941-04-01"}
+    "VEH-GBR-DAIMLER-AC": {"massTonnes": 7.5, "availableFrom": "1941-04-01"},
+    "TNK-GBR-INFANTRY-TANK": {"massTonnes": 25.0, "availableFrom": "1937-06-01"},
+    "TNK-GBR-MK6": {"massTonnes": 5.2, "availableTo": "1940-12-31"},
+    "TNK-GBR-TETRARCH": {"massTonnes": 7.6, "availableFrom": "1941-01-01", "availableTo": "1942-12-31"},
+    "TNK-GBR-A9": {"massTonnes": 12.2, "availableFrom": "1937-06-01", "availableTo": "1939-12-31"},
+    "TNK-GBR-A10": {"massTonnes": 13.8, "availableFrom": "1938-06-01", "availableTo": "1940-06-30"},
+    "TNK-GBR-A13": {"massTonnes": 14.2, "availableFrom": "1938-06-01", "availableTo": "1940-12-31"},
+    "TNK-GBR-CRUSADER": {"massTonnes": 19.0, "availableFrom": "1940-06-01", "availableTo": "1943-06-30"},
+    "TNK-GBR-CROMWELL": {"massTonnes": 27.6, "availableFrom": "1943-01-01", "requiresTech": "TECH-ARM-GUN-75S"},
+    "TNK-GBR-COMET": {"massTonnes": 32.7, "availableFrom": "1944-10-01", "requiresTech": "TECH-ARM-GUN-75L"},
+    "TNK-GBR-MATILDA1": {"massTonnes": 11.0, "availableFrom": "1937-06-01", "availableTo": "1940-08-31"},
+    "TNK-GBR-MATILDA2": {"massTonnes": 26.9, "availableFrom": "1939-06-01", "availableTo": "1943-08-31"},
+    "TNK-GBR-VALENTINE": {"massTonnes": 16.0, "availableFrom": "1940-06-01", "availableTo": "1944-04-30"},
+    "TNK-GBR-CHURCHILL": {"massTonnes": 39.0, "availableFrom": "1941-06-01"}
   },
   "priceFactor": 1.25
 }

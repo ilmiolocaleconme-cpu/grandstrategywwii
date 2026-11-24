@@ -3,7 +3,7 @@
  "quality": "DESIGN_DEFAULT",
  "note": "Generato da scripts/build-facility-sites.js (npm run build:facility-sites): non modificare a mano. Posizione di ogni impianto iniziale: basis 'rule' = regola di facility_placement.json (stima, NON storica), 'data' = dati del repository (centri di fonderia), 'source' = fonte storica. Le chiavi sono gli id degli impianti creati da buildNations.",
  "counts": {
-  "rule": 338,
+  "rule": 339,
   "data": 12,
   "source": 78
  },
@@ -768,13 +768,18 @@
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GBR:GBR:FCT-TANKS:REC-TNK-GBR-LIGHT-TANK-1939:1": {
+  "GBR:GBR:FCT-TANKS:REC-TNK-GBR-MK6>REC-TNK-GBR-A13:1": {
    "provinceId": "P_GBR_LONDRA",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GBR:GBR:FCT-VEHICLES:REC-VEH-GBR-TRUCK15:1": {
+  "GBR:GBR:FCT-TANKS:REC-TNK-GBR-MK6>REC-TNK-GBR-MATILDA1:1": {
    "provinceId": "P_GBR_WARWICKSHIRE",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "GBR:GBR:FCT-VEHICLES:REC-VEH-GBR-TRUCK15:1": {
+   "provinceId": "P_GBR_LONDRA",
    "basis": "rule",
    "rule": "cities1930"
   },
@@ -784,47 +789,47 @@
    "rule": "cities1930"
   },
   "GBR:GBR:FCT-VEHICLES:REC-VEH-GBR-TRUCK15>REC-VEH-GBR-CARRIER:1": {
-   "provinceId": "P_GBR_LONDRA",
+   "provinceId": "P_GBR_LANCASHIRE",
    "basis": "rule",
    "rule": "cities1930"
   },
   "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-18PDR>REC-ART-GBR-25PDR-ARM-1939:1": {
-   "provinceId": "P_GBR_LANCASHIRE",
-   "basis": "rule",
-   "rule": "cities1930"
-  },
-  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-MOR3IN:1": {
    "provinceId": "P_GBR_GLOUCESTERSHIRE",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-MOR3IN>REC-ART-GBR-MOR2IN:1": {
+  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-MOR3IN:1": {
    "provinceId": "P_GBR_LONDRA",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-MOR3IN>REC-ART-GBR-BOYS:1": {
+  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-MOR3IN>REC-ART-GBR-MOR2IN:1": {
    "provinceId": "P_GBR_GLASGOW",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-18PDR>REC-ART-GBR-2PDR-ARM-1939:1": {
+  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-MOR3IN>REC-ART-GBR-BOYS:1": {
    "provinceId": "P_GBR_LONDRA",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-HOW45>REC-ART-GBR-HOW55:1": {
+  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-18PDR>REC-ART-GBR-2PDR-ARM-1939:1": {
    "provinceId": "P_GBR_WARWICKSHIRE",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GBR:GBR:FCT-FEED:REC-FEED-001:1": {
+  "GBR:GBR:FCT-ARTILLERY:REC-ART-GBR-HOW45>REC-ART-GBR-HOW55:1": {
    "provinceId": "P_GBR_YORKSHIRE_SP2",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GBR:GBR:FCT-STUD:REC-HORSES-001:1": {
+  "GBR:GBR:FCT-FEED:REC-FEED-001:1": {
    "provinceId": "P_GBR_LANCASHIRE",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "GBR:GBR:FCT-STUD:REC-HORSES-001:1": {
+   "provinceId": "P_GBR_LONDRA",
    "basis": "rule",
    "rule": "cities1930"
   },

@@ -1886,6 +1886,200 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-GBR-INFANTRY-TANK",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "class",
+      "caliber_mm": null,
+      "designation": "Infantry tanks (Matilda, Valentine, Churchill)",
+      "name_it": "Carri da fanteria (Regno Unito)",
+      "role": "infantry_support_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TNK-GBR-MK6",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 12.7,
+      "designation": "Light Tank Mk VI",
+      "name_it": "Carro leggero Mk VI",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-LIGHT-TANK-1939"
+    },
+    {
+      "equipment_id": "TNK-GBR-TETRARCH",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 40,
+      "designation": "Light Tank Mk VII Tetrarch",
+      "name_it": "Carro leggero Tetrarch",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-LIGHT-TANK-1939"
+    },
+    {
+      "equipment_id": "TNK-GBR-A9",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 40,
+      "designation": "Cruiser Mk I (A9)",
+      "name_it": "Carro cruiser A9",
+      "role": "cruiser_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-CRUISER-1939"
+    },
+    {
+      "equipment_id": "TNK-GBR-A10",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 40,
+      "designation": "Cruiser Mk II (A10)",
+      "name_it": "Carro cruiser A10",
+      "role": "cruiser_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-CRUISER-1939"
+    },
+    {
+      "equipment_id": "TNK-GBR-A13",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 40,
+      "designation": "Cruiser Mk III/IV (A13)",
+      "name_it": "Carro cruiser A13",
+      "role": "cruiser_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-CRUISER-1939"
+    },
+    {
+      "equipment_id": "TNK-GBR-CRUSADER",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 57,
+      "designation": "Cruiser Mk VI Crusader",
+      "name_it": "Carro cruiser Crusader",
+      "role": "cruiser_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-CRUISER-1939"
+    },
+    {
+      "equipment_id": "TNK-GBR-CROMWELL",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Cruiser Mk VIII Cromwell",
+      "name_it": "Carro cruiser Cromwell",
+      "role": "cruiser_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-CRUISER-1939"
+    },
+    {
+      "equipment_id": "TNK-GBR-COMET",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 77,
+      "designation": "Cruiser Comet I (A34)",
+      "name_it": "Carro cruiser Comet",
+      "role": "cruiser_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-CRUISER-1939"
+    },
+    {
+      "equipment_id": "TNK-GBR-MATILDA1",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 7.7,
+      "designation": "Infantry Tank Mk I Matilda (A11)",
+      "name_it": "Carro da fanteria Matilda I",
+      "role": "infantry_support_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-INFANTRY-TANK"
+    },
+    {
+      "equipment_id": "TNK-GBR-MATILDA2",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 40,
+      "designation": "Infantry Tank Mk II Matilda II (A12)",
+      "name_it": "Carro da fanteria Matilda II",
+      "role": "infantry_support_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-INFANTRY-TANK"
+    },
+    {
+      "equipment_id": "TNK-GBR-VALENTINE",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 40,
+      "designation": "Infantry Tank Mk III Valentine",
+      "name_it": "Carro da fanteria Valentine",
+      "role": "infantry_support_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-INFANTRY-TANK"
+    },
+    {
+      "equipment_id": "TNK-GBR-CHURCHILL",
+      "nation": "GBR",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Infantry Tank Mk IV Churchill (A22)",
+      "name_it": "Carro da fanteria Churchill",
+      "role": "infantry_support_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-GBR-INFANTRY-TANK"
     }
   ],
   "aliases": [
@@ -2498,6 +2692,71 @@
       "nation": "GBR",
       "templateKey": "INW-GBR-RIFLE",
       "equipment_id": "INW-GBR-RIFLE"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-INFANTRY-TANK",
+      "equipment_id": "TNK-GBR-INFANTRY-TANK"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-MK6",
+      "equipment_id": "TNK-GBR-MK6"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-TETRARCH",
+      "equipment_id": "TNK-GBR-TETRARCH"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-A9",
+      "equipment_id": "TNK-GBR-A9"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-A10",
+      "equipment_id": "TNK-GBR-A10"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-A13",
+      "equipment_id": "TNK-GBR-A13"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-CRUSADER",
+      "equipment_id": "TNK-GBR-CRUSADER"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-CROMWELL",
+      "equipment_id": "TNK-GBR-CROMWELL"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-COMET",
+      "equipment_id": "TNK-GBR-COMET"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-MATILDA1",
+      "equipment_id": "TNK-GBR-MATILDA1"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-MATILDA2",
+      "equipment_id": "TNK-GBR-MATILDA2"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-VALENTINE",
+      "equipment_id": "TNK-GBR-VALENTINE"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "TNK-GBR-CHURCHILL",
+      "equipment_id": "TNK-GBR-CHURCHILL"
     }
   ]
 }

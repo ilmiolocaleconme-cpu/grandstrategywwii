@@ -12,7 +12,7 @@ const sum = (id) => sumComposition(DOC.modules, comp(id).modules);
 
 test('modules_gbr.json è valido, 8 modelli di divisione, i template generati coincidono con i file', () => {
   assert.deepEqual(validateModules(DOC), []);
-  assert.deepEqual(DOC.compositions.map((c) => c.templateId), ['TPL-GBR-INF-1936', 'TPL-GBR-INF-1939', 'TPL-GBR-INF-1944', 'TPL-GBR-MOB-1937', 'TPL-GBR-ARM-1939', 'TPL-GBR-ARM-1942', 'TPL-GBR-ARM-1944', 'TPL-GBR-ABN-1942', 'TPL-GBR-INDINF-1939', 'TPL-GBR-RMDIV-1940']);
+  assert.deepEqual(DOC.compositions.map((c) => c.templateId), ['TPL-GBR-INF-1936', 'TPL-GBR-INF-1939', 'TPL-GBR-INF-1944', 'TPL-GBR-MOB-1937', 'TPL-GBR-ARM-1939', 'TPL-GBR-ARM-1942', 'TPL-GBR-ARM-1944', 'TPL-GBR-ABN-1942', 'TPL-GBR-INDINF-1939', 'TPL-GBR-RMDIV-1940', 'TPL-GBR-MIXED-1942']);
   for (const c of DOC.compositions) assert.deepEqual(read(`units/templates/${c.file}`), JSON.parse(JSON.stringify(templateFromComposition(DOC, c))), c.file);
   for (const m of DOC.modules) for (const k of Object.keys(m.equipment)) assert.ok(!/USA/.test(k), `${m.id}: niente Lend-Lease (scelta 1A)`);
 });

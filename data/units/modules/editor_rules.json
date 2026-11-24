@@ -15,7 +15,8 @@
     "tank",
     "mountain_infantry",
     "cavalry",
-    "airborne_infantry"
+    "airborne_infantry",
+    "infantry_tank"
   ],
   "maxPerType": {
     "infantry": 12,
@@ -30,12 +31,14 @@
     "anti_air": 2,
     "mountain_infantry": 12,
     "cavalry": 9,
-    "airborne_infantry": 12
+    "airborne_infantry": 12,
+    "infantry_tank": 3
   },
   "maxPerTypeByNation": {
     "GBR": {
       "tank": 6
     }
   },
-  "maxPerTypeByNationNote": "24/11/2026: eccezioni per nazione ai massimi per tipo. Regno Unito: 6 reggimenti di carri (Mobile Division 1937 e divisione corazzata 1939-40: 2 brigate su 3 reggimenti). Stima di Claude dalla memoria."
+  "maxPerTypeByNationNote": "24/11/2026: eccezioni per nazione ai massimi per tipo. Regno Unito: 6 reggimenti di carri (Mobile Division 1937 e divisione corazzata 1939-40: 2 brigate su 3 reggimenti). Stima di Claude dalla memoria.",
+  "infantryTankNote": "24/11/2026 (scelta A dell'utente): «carri d'appoggio alla fanteria» (infantry_tank), tipo comune a tutte le nazioni; al massimo 3 per divisione (Mixed Division britannica 1942: una brigata carri su 3 reggimenti). Combattono come carri ma la divisione resta di fanteria."
 }

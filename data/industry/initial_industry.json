@@ -482,8 +482,21 @@
         },
         {
           "factory": "FCT-TANKS",
-          "recipeId": "REC-TNK-GBR-LIGHT-TANK-1939",
-          "count": 1
+          "recipeId": "REC-TNK-GBR-MK6",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TNK-GBR-A13",
+            "from": "1938-06-01"
+          }
+        },
+        {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-GBR-MK6",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TNK-GBR-MATILDA1",
+            "from": "1937-06-01"
+          }
         },
         {
           "factory": "FCT-VEHICLES",

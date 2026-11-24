@@ -63,8 +63,9 @@ test('la Cecoslovacchia parte con una fabbrica di carri e una di artiglieria; le
   assert.equal(ind.nations.CZE.facilities.find((x) => x.factory === 'FCT-TANKS').recipeId, 'REC-TANK-CZE-LT35');
   // dal 12/11/2026 (decisione dell'utente): una fabbrica di carri anche per DEU, FRA, GBR, ITA, JPN, USA, col carro del proprio catalogo; la URSS col T-26 (stesso giorno)
   // USA dal 21/11/2026 (carri per modello, passo 4): M2A2 invece della voce di classe, poi M2A4 dal 5/1939 (tests/tanks_usa.test.js)
-  for (const [n, r] of [['DEU', 'REC-TNK-DEU-PZ-I'], ['FRA', 'REC-TNK-FRA-H39-1940'], ['GBR', 'REC-TNK-GBR-LIGHT-TANK-1939'], ['ITA', 'REC-TNK-ITA-L3-ARM-1940'], ['JPN', 'REC-TNK-JPN-TYPE95-1942'], ['USA', 'REC-TNK-USA-M2A2'], ['USSR', 'REC-TNK-USSR-T26-1940']]) {
-    assert.equal(facilityCounts(ind, n)['FCT-TANKS'], 1, n);
+  // Regno Unito dal 24/11/2026 (carri per modello, passo 4): Mk VI invece della voce di classe, e 2 fabbriche (cruiser e carri da fanteria; tests/tanks_gbr.test.js)
+  for (const [n, r] of [['DEU', 'REC-TNK-DEU-PZ-I'], ['FRA', 'REC-TNK-FRA-H39-1940'], ['GBR', 'REC-TNK-GBR-MK6'], ['ITA', 'REC-TNK-ITA-L3-ARM-1940'], ['JPN', 'REC-TNK-JPN-TYPE95-1942'], ['USA', 'REC-TNK-USA-M2A2'], ['USSR', 'REC-TNK-USSR-T26-1940']]) {
+    assert.equal(facilityCounts(ind, n)['FCT-TANKS'], n === 'GBR' ? 2 : 1, n);
     assert.equal(ind.nations[n].facilities.find((x) => x.factory === 'FCT-TANKS').recipeId, r, n);
   }
   const models = json('units/models/carri_cecoslovacchi_1935_1938.json').models;

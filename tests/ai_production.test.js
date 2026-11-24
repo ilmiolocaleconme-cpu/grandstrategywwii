@@ -105,3 +105,11 @@ test('stampa delle simulazioni (per il rapporto)', () => {
   console.log('USSR', simulate('USSR', 'REC-TNK-USSR-T26-1940', ['equipment.TNK-USSR-T26-1940', 'equipment.TNK-USSR-T34-1940'], 1944).join(' | '));
   console.log('USA', simulate('USA', 'REC-TNK-USA-M2A4', ['equipment.TNK-USA-LIGHT-TANK-1940', 'equipment.TNK-USA-MEDIUM-TANK-1940'], 1944).join(' | '));
 });
+
+test('Regno Unito (24/11/2026): la linea dei cruiser passa al Crusader e al Cromwell; quella dei carri da fanteria dal Matilda al Valentine e al Churchill', () => {
+  const cr = simulate('GBR', 'REC-TNK-GBR-A13', 'equipment.TNK-GBR-CRUISER-1939', 1945);
+  const inf = simulate('GBR', 'REC-TNK-GBR-MATILDA1', 'equipment.TNK-GBR-INFANTRY-TANK', 1945);
+  console.log('GBR cruiser', cr.join(' | ')); console.log('GBR fanteria', inf.join(' | '));
+  assert.ok(cr.some((l) => /CRUSADER/.test(l)) && cr.some((l) => /CROMWELL/.test(l)), cr.join(' | '));
+  assert.ok(inf.some((l) => /VALENTINE|MATILDA2/.test(l)) && inf.some((l) => /CHURCHILL/.test(l)), inf.join(' | '));
+});

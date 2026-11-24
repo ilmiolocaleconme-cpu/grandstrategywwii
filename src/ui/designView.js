@@ -3,7 +3,7 @@ import { moduleAvailable, designCategory, designProblems, sumComposition } from 
 
 export const TYPE_LABEL = Object.freeze({
   infantry: 'Fanteria', motorized_infantry: 'Fanteria motorizzata', mechanized_infantry: 'Fanteria meccanizzata', mountain_infantry: 'Truppe da montagna',
-  airborne_infantry: 'Paracadutisti', cavalry: 'Cavalleria', tank: 'Carri', anti_tank: 'Anticarro e cacciacarri', artillery: 'Artiglieria', artillery_motorized: 'Artiglieria motorizzata e lanciarazzi',
+  airborne_infantry: 'Paracadutisti', cavalry: 'Cavalleria', tank: 'Carri', infantry_tank: 'Carri d\'appoggio alla fanteria', anti_tank: 'Anticarro e cacciacarri', artillery: 'Artiglieria', artillery_motorized: 'Artiglieria motorizzata e lanciarazzi',
   anti_air: 'Contraerea', recon: 'Esplorazione', engineer: 'Genio', support: 'Supporto e servizi',
 });
 export const CATEGORY_LABEL = Object.freeze({ infantry: 'fanteria', motorized: 'motorizzata', mechanized: 'meccanizzata', armored: 'corazzata', mountain: 'da montagna', cavalry: 'di cavalleria', airborne: 'paracadutisti' });

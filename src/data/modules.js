@@ -3,7 +3,7 @@
 // Una composizione = { templateId, file, category, activeFrom, formation, modules: [[idModulo, quanti], ...] }: il template della divisione è la
 // SOMMA dei suoi moduli, nello stesso formato degli altri template (data/units/templates), così forze, rinforzi e battaglia non cambiano.
 export const MODULES_SCHEMA = 'battalion-modules-v1';
-export const MODULE_TYPES = Object.freeze(['infantry', 'motorized_infantry', 'mechanized_infantry', 'mountain_infantry', 'airborne_infantry', 'cavalry', 'artillery', 'anti_tank', 'anti_air', 'tank', 'recon', 'engineer', 'support']); // 19/11/2026: + montagna, paracadutisti, cavalleria, contraerea, esplorazione, genio
+export const MODULE_TYPES = Object.freeze(['infantry', 'motorized_infantry', 'mechanized_infantry', 'mountain_infantry', 'airborne_infantry', 'cavalry', 'artillery', 'anti_tank', 'anti_air', 'tank', 'infantry_tank', 'recon', 'engineer', 'support']); // infantry_tank (24/11/2026): carri d'appoggio alla fanteria, comune a tutte le nazioni: combattono come carri ma NON rendono corazzata la divisione // 19/11/2026: + montagna, paracadutisti, cavalleria, contraerea, esplorazione, genio
 export const MOBILITY = Object.freeze(['foot', 'motorized', 'mechanized', 'armored']);
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -178,7 +178,7 @@ export function moduleAvailable(m, { nation, date, researched }) {
  * Variante di un modello (24/11/2026): quella dei battaglioni di combattimento se almeno metà di essi la porta (es. divisione indiana:
  * 6 battaglioni indiani e 3 britannici), altrimenti null.
  */
-export function designVariant(list, modules, combatTypes = ['infantry', 'motorized_infantry', 'mechanized_infantry', 'tank', 'mountain_infantry', 'cavalry', 'airborne_infantry']) {
+export function designVariant(list, modules, combatTypes = ['infantry', 'motorized_infantry', 'mechanized_infantry', 'tank', 'infantry_tank', 'mountain_infantry', 'cavalry', 'airborne_infantry']) {
   const byId = new Map(modules.map((m) => [m.id, m]));
   const count = new Map(); let combat = 0;
   for (const [id, n] of list) { const m = byId.get(id); if (!m || !combatTypes.includes(m.type)) continue; combat += n; if (m.variant) count.set(m.variant, (count.get(m.variant) ?? 0) + n); }
