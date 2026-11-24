@@ -704,6 +704,13 @@
     "atRifleRationale": "20/11/2026: fucili anticarro (calibro fino a 15 mm, PTRD/PTRS sovietici) pesano 1/6 per pezzo: un decimo di un anticarro da 45 mm contro i carri, molto poco contro la fanteria. Stima di Claude.",
     "rocketRationale": "20/11/2026: lanciarazzi (Katjuša, Nebelwerfer, Calliope) come un obice medio contro la fanteria (salva su un'area), quasi nulli contro i corazzati. Stima di Claude.",
     "infantryAntiTankRationale": "20/11/2026: armi anticarro della fanteria nella categoria dei lanciagranate, per calibro. Fino a 55 mm: lanciagranate da fucile, peso di categoria invariato (5/0). Bazooka (60 mm) 1/12, Panzerschreck (88 mm) 1/16: rispettivamente circa un terzo e la metà di un anticarro da 37 mm contro i carri, a corto raggio. Panzerfaust (149 mm) 1/10: carica più potente ma un solo colpo e gittata di 30-60 m. Stima di Claude.",
+    "gunModels": {
+      "ART-GBR-18PDR": { "soft": 110, "hard": 15 },
+      "ART-GBR-25PDR-ARM-1939": { "soft": 160, "hard": 25 },
+      "ART-GBR-HOW45": { "soft": 170, "hard": 8 },
+      "ART-GBR-17PDR": { "soft": 12, "hard": 180 }
+    },
+    "gunModelRationale": "Peso per modello di artiglieria e anticarro (24/11/2026, scelta B dell'utente), prima del ruolo e del calibro: per armi della stessa fascia di calibro che in realtà differivano molto. 18 libbre (gittata ~9 km) sotto la fascia, 25 libbre (cannone-obice, ~12 km, cadenza alta, tiro controcarro) sopra; obice da 4,5 pollici sotto la fascia ≤125 mm; 17 libbre ~130 mm di perforazione contro ~70 del 6 libbre. Stima di Claude dalla memoria, ipotesi di bilanciamento.",
     "byRole": {
       "semi_automatic_rifle": {
         "soft": 0.75,

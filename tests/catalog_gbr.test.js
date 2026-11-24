@@ -48,3 +48,20 @@ test('catene di sostituzione britanniche (il vecchio copre il posto del nuovo ne
   assert.equal(chains.get('ART-GBR-6PDR'), 'ART-GBR-2PDR-ARM-1939');
   assert.equal(chains.get('GL-GBR-PIAT'), undefined, 'PIAT e Boys sono di categorie diverse: nessuna catena');
 });
+
+test('pesi per modello di artiglieria e anticarro (scelta B): il 25 libbre vale più del 18 libbre anche per tonnellata (+20% e oltre)', async () => {
+  const { weaponWeight, validateBattleV2 } = await import('../src/rules/battleV2.js');
+  const { valuePerTonne } = await import('../src/rules/aiProduction.js');
+  const { buildWeaponOf } = await import('../src/rules/equipmentFill.js');
+  const cfg = json('units/battle_v2.json');
+  const W = buildWeaponOf(catalog);
+  const w = (id) => weaponWeight(W('GBR', `equipment.${id}`), cfg);
+  assert.deepEqual([w('ART-GBR-25PDR-ARM-1939').soft, w('ART-GBR-25PDR-ARM-1939').hard], [160, 25]);
+  assert.equal(w('ART-GBR-17PDR').hard, 180);
+  assert.equal(w('ART-GBR-6PDR').hard, 70, 'senza peso proprio vale la fascia di calibro');
+  const vpt = (id) => valuePerTonne(W('GBR', `equipment.${id}`), recipes.get(id).massTonnes, cfg);
+  assert.ok(vpt('ART-GBR-25PDR-ARM-1939') / vpt('ART-GBR-18PDR') >= 1.2);
+  const bad = structuredClone(cfg); bad.firepower.gunModels['ART-XXX'] = { soft: -1, hard: 0 };
+  const errs = validateBattleV2(bad, { catalogIds: new Set(catalog.entries.map((e) => e.equipment_id)) });
+  assert.ok(errs.some((e) => /arma ART-XXX non valido/.test(e)) && errs.some((e) => /arma ART-XXX inesistente/.test(e)), errs.join('; '));
+});

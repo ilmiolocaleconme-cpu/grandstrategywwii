@@ -27,6 +27,8 @@ export function weaponWeight(weapon, cfg) {
     const r = cfg.firepower.tankRoles?.[w.role];
     return r ? { soft: r.soft, hard: r.hard, class: base.class, armor: r.armor } : { ...base, armor: 1 };
   }
+  const gun = w.id ? cfg.firepower.gunModels?.[w.id] : null; // peso proprio del modello per artiglieria e anticarro (24/11/2026), prima del ruolo e del calibro
+  if (gun) return { soft: gun.soft, hard: gun.hard, class: base.class, armor: 1 };
   const byRole = w.role ? cfg.firepower.byRole?.[w.role] : null; // peso per ruolo, prima del calibro (21/11/2026: fucile semiautomatico, carabina)
   if (byRole) return { soft: byRole.soft, hard: byRole.hard, class: base.class, armor: 1 };
   const band = typeof w.caliber === 'number' ? (cfg.firepower.byCaliber?.[w.category] ?? []).find((x) => w.caliber <= x.max) : null;
@@ -299,6 +301,7 @@ export function validateBattleV2(cfg, { weaponCategories = null, catalogIds = nu
     for (const b of bands ?? []) { if (!(b.max > prev) || !(b.soft >= 0) || !(b.hard >= 0)) e.push(`battaglia v2: fascia di calibro di ${c} non valida`); prev = b.max; }
   }
   for (const [id, v] of Object.entries(cfg.firepower?.tankModels ?? {})) if (!(v.soft >= 0) || !(v.hard >= 0) || !(v.armor > 0 && v.armor <= 2)) e.push(`battaglia v2: modello di carro ${id} non valido`);
+  for (const [id, v] of Object.entries(cfg.firepower?.gunModels ?? {})) if (!(v.soft >= 0) || !(v.hard >= 0)) e.push(`battaglia v2: modello di arma ${id} non valido`);
   for (const [id, rows] of Object.entries(cfg.firepower?.fleetMix ?? {})) {
     let prev = -Infinity;
     for (const row of rows ?? []) {
@@ -311,6 +314,7 @@ export function validateBattleV2(cfg, { weaponCategories = null, catalogIds = nu
     if (catalogIds && !catalogIds.has(id)) e.push(`battaglia v2: fleetMix di ${id} inesistente nel catalogo`);
   }
   if (catalogIds) for (const id of Object.keys(cfg.firepower?.tankModels ?? {})) if (!catalogIds.has(id)) e.push(`battaglia v2: modello di carro ${id} inesistente nel catalogo`);
+  if (catalogIds) for (const id of Object.keys(cfg.firepower?.gunModels ?? {})) if (!catalogIds.has(id)) e.push(`battaglia v2: modello di arma ${id} inesistente nel catalogo`);
   for (const [r, v] of Object.entries(cfg.firepower?.tankRoles ?? {})) if (!(v.soft >= 0) || !(v.hard >= 0) || !(v.armor > 0 && v.armor <= 2)) e.push(`battaglia v2: tipo di carro ${r} non valido`);
   const cd = cfg.condition ?? {};
   if (!(cd.experiencePerDay >= 0) || !(cd.experienceCap > 0 && cd.experienceCap <= 100)) e.push('battaglia v2: esperienza sul campo non valida');
