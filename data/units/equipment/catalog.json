@@ -2080,6 +2080,300 @@
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
       "sameAs": "TNK-GBR-INFANTRY-TANK"
+    },
+    {
+      "equipment_id": "INW-ITA-CARCANO-9138",
+      "nation": "ITA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.35,
+      "designation": "Fucile Mod. 91/38",
+      "name_it": "Fucile Carcano 91/38",
+      "role": "individual_infantry_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-ITA-PISTOL-BERETTA34",
+      "nation": "ITA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 9,
+      "designation": "Pistola Beretta Mod. 1934",
+      "name_it": "Pistola Beretta 34",
+      "role": "officer_and_specialist_sidearm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-ITA-SMG-MAB38",
+      "nation": "ITA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 9,
+      "designation": "Moschetto automatico Beretta Mod. 38",
+      "name_it": "Mitra Beretta MAB 38",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-ITA-BREDA30",
+      "nation": "ITA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 6.5,
+      "designation": "Fucile mitragliatore Breda Mod. 30",
+      "name_it": "Fucile mitragliatore Breda 30",
+      "role": "squad_automatic_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-ITA-FIAT1435",
+      "nation": "ITA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 8,
+      "designation": "Mitragliatrice Fiat-Revelli Mod. 14/35",
+      "name_it": "Mitragliatrice Fiat 14/35",
+      "role": "sustained_fire_support",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-ITA-BREDA37",
+      "nation": "ITA",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 8,
+      "designation": "Mitragliatrice Breda Mod. 37",
+      "name_it": "Mitragliatrice Breda 37",
+      "role": "sustained_fire_support",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-GUN65-17",
+      "nation": "ITA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 65,
+      "designation": "Cannone da 65/17 Mod. 13",
+      "name_it": "Cannone di fanteria 65/17",
+      "role": "regimental_infantry_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-HOW75-18",
+      "nation": "ITA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Obice da 75/18 Mod. 34",
+      "name_it": "Obice 75/18",
+      "role": "divisional_pack_artillery",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-GUN105-28",
+      "nation": "ITA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 105,
+      "designation": "Cannone da 105/28",
+      "name_it": "Cannone 105/28",
+      "role": "divisional_heavy_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-HOW149-13",
+      "nation": "ITA",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "caliber_mm": 149,
+      "designation": "Obice da 149/13",
+      "name_it": "Obice 149/13",
+      "role": "medium_howitzer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-AA20-BREDA",
+      "nation": "ITA",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 20,
+      "designation": "Cannone-mitragliera Breda 20/65 Mod. 35",
+      "name_it": "Mitragliera contraerea Breda 20/65",
+      "role": "light_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-AA75-46",
+      "nation": "ITA",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Cannone da 75/46 C.A. Mod. 34",
+      "name_it": "Contraerea 75/46",
+      "role": "heavy_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-ITA-AA90-53",
+      "nation": "ITA",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 90,
+      "designation": "Cannone da 90/53 Mod. 39",
+      "name_it": "Contraerea 90/53 (anche controcarro)",
+      "role": "heavy_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-ITA-SPA-DOV35",
+      "nation": "ITA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "SPA Dovunque 35",
+      "name_it": "Autocarro SPA Dovunque 35",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-ITA-FIAT626",
+      "nation": "ITA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Fiat 626 NL",
+      "name_it": "Autocarro Fiat 626",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-ITA-LANCIA3RO",
+      "nation": "ITA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Lancia 3Ro",
+      "name_it": "Autocarro pesante Lancia 3Ro",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-ITA-TL37",
+      "nation": "ITA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Trattore leggero Fiat-SPA TL37",
+      "name_it": "Trattore d'artiglieria TL37",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-ITA-MOTO-GT17",
+      "nation": "ITA",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Moto Guzzi GT17",
+      "name_it": "Motocicletta Guzzi GT17",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-ITA-MOTO-ALCE",
+      "nation": "ITA",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Moto Guzzi Alce",
+      "name_it": "Motocicletta Guzzi Alce",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-ITA-AB40",
+      "nation": "ITA",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Autoblinda AB 40",
+      "name_it": "Autoblindo AB 40",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-ITA-AB41",
+      "nation": "ITA",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Autoblinda AB 41",
+      "name_it": "Autoblindo AB 41",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -2757,6 +3051,111 @@
       "nation": "GBR",
       "templateKey": "TNK-GBR-CHURCHILL",
       "equipment_id": "TNK-GBR-CHURCHILL"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "INW-ITA-CARCANO-9138",
+      "equipment_id": "INW-ITA-CARCANO-9138"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "INW-ITA-PISTOL-BERETTA34",
+      "equipment_id": "INW-ITA-PISTOL-BERETTA34"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "INW-ITA-SMG-MAB38",
+      "equipment_id": "INW-ITA-SMG-MAB38"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "MG-ITA-BREDA30",
+      "equipment_id": "MG-ITA-BREDA30"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "MG-ITA-FIAT1435",
+      "equipment_id": "MG-ITA-FIAT1435"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "MG-ITA-BREDA37",
+      "equipment_id": "MG-ITA-BREDA37"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-GUN65-17",
+      "equipment_id": "ART-ITA-GUN65-17"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-HOW75-18",
+      "equipment_id": "ART-ITA-HOW75-18"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-GUN105-28",
+      "equipment_id": "ART-ITA-GUN105-28"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-HOW149-13",
+      "equipment_id": "ART-ITA-HOW149-13"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-AA20-BREDA",
+      "equipment_id": "ART-ITA-AA20-BREDA"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-AA75-46",
+      "equipment_id": "ART-ITA-AA75-46"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "ART-ITA-AA90-53",
+      "equipment_id": "ART-ITA-AA90-53"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "VEH-ITA-SPA-DOV35",
+      "equipment_id": "VEH-ITA-SPA-DOV35"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "VEH-ITA-FIAT626",
+      "equipment_id": "VEH-ITA-FIAT626"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "VEH-ITA-LANCIA3RO",
+      "equipment_id": "VEH-ITA-LANCIA3RO"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "VEH-ITA-TL37",
+      "equipment_id": "VEH-ITA-TL37"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "VEH-ITA-MOTO-GT17",
+      "equipment_id": "VEH-ITA-MOTO-GT17"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "VEH-ITA-MOTO-ALCE",
+      "equipment_id": "VEH-ITA-MOTO-ALCE"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "VEH-ITA-AB40",
+      "equipment_id": "VEH-ITA-AB40"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "VEH-ITA-AB41",
+      "equipment_id": "VEH-ITA-AB41"
     }
   ]
 }

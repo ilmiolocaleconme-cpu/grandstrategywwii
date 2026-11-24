@@ -121,6 +121,26 @@
       "id": "VEH-GBR-DAIMLER-AC",
       "replaces": "VEH-GBR-MORRIS-AC",
       "basis": "ipotesi"
+    },
+    {
+      "id": "INW-ITA-CARCANO-9138",
+      "replaces": "INW-ITA-RIFLE-1940",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "MG-ITA-BREDA37",
+      "replaces": "MG-ITA-FIAT1435",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "VEH-ITA-MOTO-ALCE",
+      "replaces": "VEH-ITA-MOTO-GT17",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "VEH-ITA-AB41",
+      "replaces": "VEH-ITA-AB40",
+      "basis": "ipotesi"
     }
   ]
 }
