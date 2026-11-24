@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-24",
-  "note": "Battaglioni italiani (24/11/2026, schema unico, scelte dell'utente: Camicie Nere come battaglione e divisione, truppe coloniali come variante, elenco completo di divisioni). Organici STIMATI da Claude dalla memoria, NON verificati. Fanteria ternaria nel 1936, binaria dalla riforma Pariani (1938-39); l'id TPL-ITA-INF-1940 è conservato per la binaria. Carri: le due voci generiche (L 3 e M 13/40) fino al passo 4. Solo armi italiane.",
+  "note": "Battaglioni italiani (24/11/2026, schema unico, scelte dell'utente: Camicie Nere come battaglione e divisione, truppe coloniali come variante, elenco completo di divisioni). Organici STIMATI da Claude dalla memoria, NON verificati. Fanteria ternaria nel 1936, binaria dalla riforma Pariani (1938-39); l'id TPL-ITA-INF-1940 è conservato per la binaria. Carri (passo 4, 24/11/2026): le due voci di classe L 3 e M con la composizione per anno dei modelli (battle_v2 fleetMix), semoventi da 75/18 per modello, battaglione L 3 d'appoggio alla fanteria (tipo comune infantry_tank). Solo armi italiane.",
   "modules": [
     {
       "id": "MOD-ITA-FUC-1936",
@@ -623,6 +623,45 @@
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-ITA-CARRI-APP",
+      "nation": "ITA",
+      "type": "infantry_tank",
+      "name_native": "Battaglione carri L 3 d'appoggio alla fanteria",
+      "name_it": "Battaglione carri L 3 d'appoggio alla fanteria",
+      "men": 300,
+      "horses": 0,
+      "equipment": {
+        "TNK-ITA-L3-ARM-1940": 46,
+        "INW-ITA-RIFLE-1940": 180,
+        "INW-ITA-PISTOL-BERETTA34": 90,
+        "VEH-ITA-SPA-DOV35": 10,
+        "VEH-ITA-MOTO-GT17": 6
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-SEM-7518",
+      "nation": "ITA",
+      "type": "anti_tank",
+      "name_native": "Gruppo semoventi da 75/18",
+      "name_it": "Gruppo semoventi da 75/18",
+      "men": 300,
+      "horses": 0,
+      "equipment": {
+        "TD-ITA-SEM-75-18": 12,
+        "INW-ITA-CARCANO-9138": 150,
+        "INW-ITA-PISTOL-BERETTA34": 80,
+        "VEH-ITA-SPA-DOV35": 10,
+        "VEH-ITA-MOTO-ALCE": 6
+      },
+      "mobility": "armored",
+      "illustration": "cacciacarri",
+      "availableFrom": "1941-03-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
       "id": "MOD-ITA-AB",
       "nation": "ITA",
       "type": "recon",
@@ -1102,6 +1141,52 @@
         [
           "MOD-ITA-ART100-MOT",
           1
+        ],
+        [
+          "MOD-ITA-AA20",
+          1
+        ],
+        [
+          "MOD-ITA-AT47",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-ARM-1942",
+      "name": "Divisione corazzata (1942)",
+      "file": "divisione_corazzata_italia_1942.json",
+      "category": "armored",
+      "activeFrom": "1942-01-01",
+      "formation": "divisione corazzata 1942 (Ariete, Littorio): reggimento carristi su 3 battaglioni M, gruppo autoblindo, reggimento bersaglieri motorizzato, reggimento d'artiglieria motorizzato con 2 gruppi da 75/27 e 2 gruppi di semoventi da 75/18, contraerea, controcarro, genio, servizi motorizzati",
+      "modules": [
+        [
+          "MOD-ITA-CARRI-M",
+          3
+        ],
+        [
+          "MOD-ITA-AB",
+          1
+        ],
+        [
+          "MOD-ITA-BERS-MOT",
+          3
+        ],
+        [
+          "MOD-ITA-ART75-MOT",
+          2
+        ],
+        [
+          "MOD-ITA-SEM-7518",
+          2
         ],
         [
           "MOD-ITA-AA20",

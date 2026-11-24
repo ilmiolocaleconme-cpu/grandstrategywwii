@@ -1,0 +1,332 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-ITA-ARM-1942",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "ITA",
+    "category": "armored",
+    "echelon": "division",
+    "activeFrom": "1942-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione corazzata 1942 (Ariete, Littorio): reggimento carristi su 3 battaglioni M, gruppo autoblindo, reggimento bersaglieri motorizzato, reggimento d'artiglieria motorizzato con 2 gruppi da 75/27 e 2 gruppi di semoventi da 75/18, contraerea, controcarro, genio, servizi motorizzati.",
+  "formation": {
+    "value": "divisione corazzata 1942 (Ariete, Littorio): reggimento carristi su 3 battaglioni M, gruppo autoblindo, reggimento bersaglieri motorizzato, reggimento d'artiglieria motorizzato con 2 gruppi da 75/27 e 2 gruppi di semoventi da 75/18, contraerea, controcarro, genio, servizi motorizzati",
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-ITA-CARRI-M",
+      "count": 3,
+      "name": "Battaglione carri M 13/40",
+      "name_it": "Battaglione carri M 13/40"
+    },
+    {
+      "id": "MOD-ITA-AB",
+      "count": 1,
+      "name": "Gruppo autoblindo AB 40/41",
+      "name_it": "Gruppo autoblindo AB 40/41"
+    },
+    {
+      "id": "MOD-ITA-BERS-MOT",
+      "count": 3,
+      "name": "Battaglione bersaglieri motorizzato",
+      "name_it": "Battaglione bersaglieri motorizzato"
+    },
+    {
+      "id": "MOD-ITA-ART75-MOT",
+      "count": 2,
+      "name": "Gruppo da 75/27 motorizzato",
+      "name_it": "Gruppo da 75/27 motorizzato"
+    },
+    {
+      "id": "MOD-ITA-SEM-7518",
+      "count": 2,
+      "name": "Gruppo semoventi da 75/18",
+      "name_it": "Gruppo semoventi da 75/18"
+    },
+    {
+      "id": "MOD-ITA-AA20",
+      "count": 1,
+      "name": "Batteria contraerea da 20 mm",
+      "name_it": "Batteria contraerea da 20 mm"
+    },
+    {
+      "id": "MOD-ITA-AT47",
+      "count": 1,
+      "name": "Compagnia controcarro da 47/32 divisionale",
+      "name_it": "Compagnia controcarro da 47/32 divisionale"
+    },
+    {
+      "id": "MOD-ITA-GENIO",
+      "count": 1,
+      "name": "Battaglione misto del genio (artieri e collegamenti)",
+      "name_it": "Battaglione misto del genio (artieri e collegamenti)"
+    },
+    {
+      "id": "MOD-ITA-SVC-MOT",
+      "count": 1,
+      "name": "Comando e servizi divisionali motorizzati",
+      "name_it": "Comando e servizi divisionali motorizzati"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 8240,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 80,
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-ITA-AA20-BREDA": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-AT47-1940": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-BRIXIA45-1940": {
+      "value": 54,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-GUN75-27-ARM-1940": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-CARCANO-9138": {
+      "value": 4300,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-PISTOL-BERETTA34": {
+      "value": 1005,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-RIFLE-1940": {
+      "value": 1220,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-BREDA30": {
+      "value": 81,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TD-ITA-SEM-75-18": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-ITA-M13-1940": {
+      "value": 147,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-AB40": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-FIAT626": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-LANCIA3RO": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-MOTO-ALCE": {
+      "value": 142,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-SPA-DOV35": {
+      "value": 270,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-TL37": {
+      "value": 28,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-ITA-CARRI-M, 1× MOD-ITA-AB, 3× MOD-ITA-BERS-MOT, 2× MOD-ITA-ART75-MOT, 2× MOD-ITA-SEM-7518, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

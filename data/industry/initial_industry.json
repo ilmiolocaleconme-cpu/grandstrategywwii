@@ -711,8 +711,37 @@
         },
         {
           "factory": "FCT-TANKS",
-          "recipeId": "REC-TNK-ITA-L3-ARM-1940",
-          "count": 1
+          "recipeId": "REC-TNK-ITA-L3-35",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TNK-ITA-M11-39",
+            "from": "1939-01-01",
+            "then": {
+              "recipeId": "REC-TNK-ITA-M13-40",
+              "from": "1940-06-01",
+              "then": {
+                "recipeId": "REC-TNK-ITA-M14-41",
+                "from": "1941-08-01",
+                "then": {
+                  "recipeId": "REC-TNK-ITA-M15-42",
+                  "from": "1943-01-01"
+                }
+              }
+            }
+          }
+        },
+        {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-ITA-L3-35",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TD-ITA-SEM-75-18",
+            "from": "1941-03-01",
+            "then": {
+              "recipeId": "REC-TD-ITA-SEM-75-34",
+              "from": "1943-03-01"
+            }
+          }
         },
         {
           "factory": "FCT-VEHICLES",

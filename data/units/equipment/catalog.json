@@ -2374,6 +2374,182 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-ITA-L3-33",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 6.5,
+      "designation": "Carro veloce CV 33 (L 3/33)",
+      "name_it": "Carro veloce L 3/33",
+      "role": "tankette",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-ITA-L3-ARM-1940"
+    },
+    {
+      "equipment_id": "TNK-ITA-L3-35",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 8,
+      "designation": "Carro veloce CV 35 (L 3/35)",
+      "name_it": "Carro veloce L 3/35",
+      "role": "tankette",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-ITA-L3-ARM-1940"
+    },
+    {
+      "equipment_id": "TNK-ITA-L6-40",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 20,
+      "designation": "Carro armato L 6/40",
+      "name_it": "Carro leggero L 6/40",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-ITA-L3-ARM-1940"
+    },
+    {
+      "equipment_id": "TNK-ITA-M11-39",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 37,
+      "designation": "Carro armato M 11/39",
+      "name_it": "Carro medio M 11/39",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-ITA-M13-1940"
+    },
+    {
+      "equipment_id": "TNK-ITA-M13-40",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 47,
+      "designation": "Carro armato M 13/40",
+      "name_it": "Carro medio M 13/40",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-ITA-M13-1940"
+    },
+    {
+      "equipment_id": "TNK-ITA-M14-41",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 47,
+      "designation": "Carro armato M 14/41",
+      "name_it": "Carro medio M 14/41",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-ITA-M13-1940"
+    },
+    {
+      "equipment_id": "TNK-ITA-M15-42",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 47,
+      "designation": "Carro armato M 15/42",
+      "name_it": "Carro medio M 15/42",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-ITA-M13-1940"
+    },
+    {
+      "equipment_id": "TNK-ITA-P40",
+      "nation": "ITA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Carro armato P 26/40",
+      "name_it": "Carro pesante P 40",
+      "role": "heavy_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-ITA-M13-1940"
+    },
+    {
+      "equipment_id": "TD-ITA-SEM-47-32",
+      "nation": "ITA",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": 47,
+      "designation": "Semovente L 40 da 47/32",
+      "name_it": "Semovente da 47/32",
+      "role": "tank_destroyer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-ITA-SEM-75-18",
+      "nation": "ITA",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Semovente M 40/M 41 da 75/18",
+      "name_it": "Semovente da 75/18",
+      "role": "assault_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-ITA-SEM-75-34",
+      "nation": "ITA",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Semovente M 42 da 75/34",
+      "name_it": "Semovente da 75/34",
+      "role": "assault_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TD-ITA-SEM-105-25",
+      "nation": "ITA",
+      "category": "TANK_DESTROYER",
+      "granularity": "model",
+      "caliber_mm": 105,
+      "designation": "Semovente M 43 da 105/25",
+      "name_it": "Semovente da 105/25",
+      "role": "assault_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
     }
   ],
   "aliases": [
@@ -3156,6 +3332,66 @@
       "nation": "ITA",
       "templateKey": "VEH-ITA-AB41",
       "equipment_id": "VEH-ITA-AB41"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-L3-33",
+      "equipment_id": "TNK-ITA-L3-33"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-L3-35",
+      "equipment_id": "TNK-ITA-L3-35"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-L6-40",
+      "equipment_id": "TNK-ITA-L6-40"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-M11-39",
+      "equipment_id": "TNK-ITA-M11-39"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-M13-40",
+      "equipment_id": "TNK-ITA-M13-40"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-M14-41",
+      "equipment_id": "TNK-ITA-M14-41"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-M15-42",
+      "equipment_id": "TNK-ITA-M15-42"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TNK-ITA-P40",
+      "equipment_id": "TNK-ITA-P40"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TD-ITA-SEM-47-32",
+      "equipment_id": "TD-ITA-SEM-47-32"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TD-ITA-SEM-75-18",
+      "equipment_id": "TD-ITA-SEM-75-18"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TD-ITA-SEM-75-34",
+      "equipment_id": "TD-ITA-SEM-75-34"
+    },
+    {
+      "nation": "ITA",
+      "templateKey": "TD-ITA-SEM-105-25",
+      "equipment_id": "TD-ITA-SEM-105-25"
     }
   ]
 }

@@ -923,7 +923,19 @@
     "VEH-ITA-MOTO-GT17": {"massTonnes": 0.2, "availableTo": "1939-12-31"},
     "VEH-ITA-MOTO-ALCE": {"massTonnes": 0.24, "availableFrom": "1939-06-01"},
     "VEH-ITA-AB40": {"massTonnes": 6.5, "availableFrom": "1940-03-01", "availableTo": "1941-03-31"},
-    "VEH-ITA-AB41": {"massTonnes": 7.5, "availableFrom": "1941-03-01"}
+    "VEH-ITA-AB41": {"massTonnes": 7.5, "availableFrom": "1941-03-01"},
+    "TNK-ITA-L3-33": {"massTonnes": 3.2, "availableTo": "1935-12-31"},
+    "TNK-ITA-L3-35": {"massTonnes": 3.2, "availableTo": "1940-06-30"},
+    "TNK-ITA-L6-40": {"massTonnes": 6.8, "availableFrom": "1941-01-01", "availableTo": "1942-12-31"},
+    "TNK-ITA-M11-39": {"massTonnes": 11.0, "availableFrom": "1939-01-01", "availableTo": "1940-06-30"},
+    "TNK-ITA-M13-40": {"massTonnes": 14.0, "availableFrom": "1940-06-01", "availableTo": "1941-12-31"},
+    "TNK-ITA-M14-41": {"massTonnes": 14.5, "availableFrom": "1941-08-01", "availableTo": "1943-03-31"},
+    "TNK-ITA-M15-42": {"massTonnes": 15.5, "availableFrom": "1943-01-01"},
+    "TNK-ITA-P40": {"massTonnes": 26.0, "availableFrom": "1943-06-01", "requiresTech": "TECH-ARM-GUN-75S"},
+    "TD-ITA-SEM-47-32": {"massTonnes": 6.5, "availableFrom": "1942-01-01"},
+    "TD-ITA-SEM-75-18": {"massTonnes": 15.0, "availableFrom": "1941-03-01", "availableTo": "1943-06-30"},
+    "TD-ITA-SEM-75-34": {"massTonnes": 15.5, "availableFrom": "1943-03-01"},
+    "TD-ITA-SEM-105-25": {"massTonnes": 15.8, "availableFrom": "1943-06-01", "requiresTech": "TECH-ARM-ASSAULT"}
   },
   "priceFactor": 1.25
 }

@@ -12,9 +12,9 @@ const DOC = read('units/modules/modules_ita.json');
 const comp = (id) => DOC.compositions.find((c) => c.templateId === id);
 const sum = (id) => sumComposition(DOC.modules, comp(id).modules);
 const IDS = ['TPL-ITA-INF-1936', 'TPL-ITA-INF-1940', 'TPL-ITA-INF-1943', 'TPL-ITA-AUTOTRASP-1939', 'TPL-ITA-MOT-1939', 'TPL-ITA-CEL-1938', 'TPL-ITA-ALP-1936',
-  'TPL-ITA-ARM-1939', 'TPL-ITA-ARM-1940', 'TPL-ITA-PAR-1942', 'TPL-ITA-CCNN-1936', 'TPL-ITA-LIB-1940'];
+  'TPL-ITA-ARM-1939', 'TPL-ITA-ARM-1940', 'TPL-ITA-ARM-1942', 'TPL-ITA-PAR-1942', 'TPL-ITA-CCNN-1936', 'TPL-ITA-LIB-1940'];
 
-test('modules_ita.json è valido, 12 modelli di divisione, i template generati coincidono con i file, solo armi italiane', () => {
+test('modules_ita.json è valido, 13 modelli di divisione, i template generati coincidono con i file, solo armi italiane', () => {
   assert.deepEqual(validateModules(DOC), []);
   assert.deepEqual(DOC.compositions.map((c) => c.templateId), IDS);
   for (const c of DOC.compositions) assert.deepEqual(read(`units/templates/${c.file}`), JSON.parse(JSON.stringify(templateFromComposition(DOC, c))), c.file);
