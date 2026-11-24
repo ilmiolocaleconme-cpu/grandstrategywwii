@@ -3,7 +3,7 @@
  "quality": "DESIGN_DEFAULT",
  "note": "Generato da scripts/build-facility-sites.js (npm run build:facility-sites): non modificare a mano. Posizione di ogni impianto iniziale: basis 'rule' = regola di facility_placement.json (stima, NON storica), 'data' = dati del repository (centri di fonderia), 'source' = fonte storica. Le chiavi sono gli id degli impianti creati da buildNations.",
  "counts": {
-  "rule": 339,
+  "rule": 350,
   "data": 12,
   "source": 78
  },
@@ -998,8 +998,28 @@
    "basis": "rule",
    "rule": "population"
   },
-  "ITA:ITA:FCT-WEAPONS:REC-INW-ITA-RIFLE-1940:1": {
+  "ITA:ITA:FCT-WEAPONS:REC-INW-ITA-RIFLE-1940>REC-INW-ITA-CARCANO-9138:1": {
    "provinceId": "P_ITA_MILANO_SP1",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-WEAPONS:REC-INW-ITA-PISTOL-BERETTA34:1": {
+   "provinceId": "P_ITA_NAPOLI",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-WEAPONS:REC-INW-ITA-PISTOL-BERETTA34>REC-INW-ITA-SMG-MAB38:1": {
+   "provinceId": "P_ITA_TORINO_SP1",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-WEAPONS:REC-MG-ITA-BREDA30:1": {
+   "provinceId": "P_ITA_BARI_SP2",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-WEAPONS:REC-MG-ITA-FIAT1435>REC-MG-ITA-BREDA37:1": {
+   "provinceId": "P_ITA_BOLOGNA_SP1",
    "basis": "rule",
    "rule": "population"
   },
@@ -1008,8 +1028,43 @@
    "basis": "rule",
    "rule": "population"
   },
-  "ITA:ITA:FCT-ARTILLERY:REC-ART-ITA-GUN75-1940:1": {
+  "ITA:ITA:FCT-VEHICLES:REC-VEH-ITA-SPA-DOV35:1": {
    "provinceId": "P_ITA_MILANO_SP1",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-VEHICLES:REC-VEH-ITA-MOTO-GT17>REC-VEH-ITA-MOTO-ALCE:1": {
+   "provinceId": "P_ITA_NAPOLI",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-ARTILLERY:REC-ART-ITA-GUN75-27-ARM-1940:1": {
+   "provinceId": "P_ITA_MILANO_SP1",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-ARTILLERY:REC-ART-ITA-BRIXIA45-1940:1": {
+   "provinceId": "P_ITA_NAPOLI",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-ARTILLERY:REC-ART-ITA-GUN65-17>REC-ART-ITA-AT47-1940:1": {
+   "provinceId": "P_ITA_TORINO_SP1",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-ARTILLERY:REC-ART-ITA-HOW100-1940:1": {
+   "provinceId": "P_ITA_BARI_SP2",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-ARTILLERY:REC-ART-ITA-GUN75-27-ARM-1940>REC-ART-ITA-HOW75-18:1": {
+   "provinceId": "P_ITA_BOLOGNA_SP1",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ITA:ITA:FCT-ARTILLERY:REC-ART-ITA-AA20-BREDA:1": {
+   "provinceId": "P_ITA_PALERMO",
    "basis": "rule",
    "rule": "population"
   },

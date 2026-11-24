@@ -675,7 +675,39 @@
         {
           "factory": "FCT-WEAPONS",
           "recipeId": "REC-INW-ITA-RIFLE-1940",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-ITA-CARCANO-9138",
+            "from": "1938-01-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-ITA-PISTOL-BERETTA34",
           "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-ITA-PISTOL-BERETTA34",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-ITA-SMG-MAB38",
+            "from": "1938-06-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-ITA-BREDA30",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-ITA-FIAT1435",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-MG-ITA-BREDA37",
+            "from": "1937-06-01"
+          }
         },
         {
           "factory": "FCT-TANKS",
@@ -683,8 +715,55 @@
           "count": 1
         },
         {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-ITA-SPA-DOV35",
+          "count": 1
+        },
+        {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-ITA-MOTO-GT17",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-VEH-ITA-MOTO-ALCE",
+            "from": "1939-06-01"
+          }
+        },
+        {
           "factory": "FCT-ARTILLERY",
-          "recipeId": "REC-ART-ITA-GUN75-1940",
+          "recipeId": "REC-ART-ITA-GUN75-27-ARM-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-ITA-BRIXIA45-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-ITA-GUN65-17",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-ITA-AT47-1940",
+            "from": "1938-10-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-ITA-HOW100-1940",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-ITA-GUN75-27-ARM-1940",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-ITA-HOW75-18",
+            "from": "1937-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-ITA-AA20-BREDA",
           "count": 1
         },
         {

@@ -27,13 +27,13 @@ const FACT = { veh: ['FCT-VEHICLES', 'REC-VEH-DEU-TRUCK'], steel: ['FCT-STEEL', 
 // URSS (decisione dell'utente del 19/11/2026): 2 fabbriche di veicoli, ZIS (Mosca, ZIS-5 da 3 t) e GAZ (Gor'kij, GAZ-AA da 1,5 t; in EXTRA).
 // USA (decisione dell'utente del 21/11/2026, «gli USA iniziano neutrali e in isolamento, solo dopo la produzione di massa»): 2 fabbriche di veicoli,
 // autocarri da 1,5 t; la seconda (in EXTRA) passa al GMC da 2,5 t dal 1/1/1941. Jeep, scout car, M8 e semicingolati: riconversione dell'IA o del giocatore.
-const VEHICLES = { DEU: 3, USSR: 1, USA: 1, GBR: 1 }; // GBR dal 24/11/2026 (passo 3 del Regno Unito)
+const VEHICLES = { DEU: 3, USSR: 1, USA: 1, GBR: 1, ITA: 1 }; // GBR e ITA dal 24/11/2026 (passo 3)
 const HORSES = ['DEU', 'FRA', 'GBR', 'ITA', 'JPN', 'POL', 'USA', 'USSR'];
 const ARMS = { CZE: { tank: 1, art: 1 }, DEU: { wpn: 1, art: 2, tank: 1 }, FRA: { wpn: 1, art: 1, tank: 1 }, GBR: { wpn: 1, art: 1, tank: 1 }, ITA: { wpn: 1, art: 1, tank: 1 }, USSR: { wpn: 1, art: 1, tank: 1 }, JPN: { wpn: 1, art: 1, tank: 1 }, USA: { wpn: 1, art: 1, tank: 1 } };
 // Armi leggere e artiglieria (richiesta dell'utente del 10/11/2026): un impianto di ciascun tipo per le nazioni che hanno voci nel catalogo equipaggiamenti (USSR e JPN da fonti web del 10/11/2026, provvisorie)
 // (data/units/equipment/catalog*.json). Ricetta di default = prodotto REC-<equipment_id> generato da equipment_production.json: valore di gioco, non storico;
 // il giocatore la cambia dall'impianto. USA dal T/O 70 del 1940 (scheda fornita dall'utente, 11/11/2026).
-const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-LEFH18', tank: 'REC-TNK-DEU-PZ-I' }, FRA: { wpn: 'REC-INW-FRA-RIFLE-1939', art: 'REC-ART-FRA-ART75M1897', tank: 'REC-TNK-FRA-H39-1940' }, GBR: { wpn: 'REC-INW-GBR-RIFLE', art: 'REC-ART-GBR-18PDR', tank: 'REC-TNK-GBR-MK6', veh: 'REC-VEH-GBR-TRUCK15' }, ITA: { wpn: 'REC-INW-ITA-RIFLE-1940', art: 'REC-ART-ITA-GUN75-1940', tank: 'REC-TNK-ITA-L3-ARM-1940' },
+const EQUIP = { DEU: { wpn: 'REC-INW-DEU-RIFLE', art: 'REC-ART-DEU-LEFH18', tank: 'REC-TNK-DEU-PZ-I' }, FRA: { wpn: 'REC-INW-FRA-RIFLE-1939', art: 'REC-ART-FRA-ART75M1897', tank: 'REC-TNK-FRA-H39-1940' }, GBR: { wpn: 'REC-INW-GBR-RIFLE', art: 'REC-ART-GBR-18PDR', tank: 'REC-TNK-GBR-MK6', veh: 'REC-VEH-GBR-TRUCK15' }, ITA: { wpn: 'REC-INW-ITA-RIFLE-1940', art: 'REC-ART-ITA-GUN75-27-ARM-1940', tank: 'REC-TNK-ITA-L3-ARM-1940', veh: 'REC-VEH-ITA-SPA-DOV35' },
   USSR: { wpn: 'REC-INW-USSR-RIFLE-1939', art: 'REC-ART-USSR-GUN76-1939', tank: 'REC-TNK-USSR-T26-1940', veh: 'REC-VEH-USSR-ZIS5' }, JPN: { wpn: 'REC-INW-JPN-RIFLE-1939', art: 'REC-ART-JPN-GUN75-DIV-1939', tank: 'REC-TNK-JPN-TYPE95-1942' },
   USA: { wpn: 'REC-INW-USA-RIFLE-1940', art: 'REC-ART-USA-GUN75-1940', tank: 'REC-TNK-USA-M2A2', veh: 'REC-VEH-USA-TRUCK15' } }; // USA carro: M2A2 (passo 4, 21/11/2026; prima la voce di classe)
 // Fabbriche di munizioni per nazione (decisione dell'utente del 04/11/2026, «per equilibrare il gioco»): copertura della domanda di
@@ -77,8 +77,16 @@ EXTRA.GBR = [['wpn', 'REC-INW-GBR-PISTOL-WEBLEY'], ['wpn', 'REC-MG-GBR-LEWIS', {
   ['art', 'REC-ART-GBR-HOW45', { recipeId: 'REC-ART-GBR-HOW55', from: '1941-05-01' }],
   ['veh', 'REC-VEH-GBR-TRUCK3T'], ['veh', 'REC-VEH-GBR-TRUCK15', { recipeId: 'REC-VEH-GBR-CARRIER', from: '1936-06-01' }],
   ['tank', 'REC-TNK-GBR-MK6', { recipeId: 'REC-TNK-GBR-MATILDA1', from: '1937-06-01', then: { recipeId: 'REC-TNK-GBR-MATILDA2', from: '1939-06-01', then: { recipeId: 'REC-TNK-GBR-VALENTINE', from: '1940-06-01', then: { recipeId: 'REC-TNK-GBR-CHURCHILL', from: '1941-06-01' } } } }]];
+// Italia (24/11/2026, passo 3, scelta dell'utente: una linea per arma): armi dei battaglioni del 1936 (data/units/modules/modules_ita.json) e linee che si
+// riconvertono alle date storiche: Fiat 14/35 → Breda 37 (6/1937), 65/17 → 47/32 (10/1938), seconda linea del 75/27 → obice 75/18 (1/1937),
+// pistola → MAB 38 (6/1938), GT17 → Alce (6/1939); contraerea Breda 20/65. Linea di base del fucile → Carcano 91/38 (1/1938). Stime di Claude.
+EXTRA.ITA = [['wpn', 'REC-INW-ITA-PISTOL-BERETTA34'], ['wpn', 'REC-INW-ITA-PISTOL-BERETTA34', { recipeId: 'REC-INW-ITA-SMG-MAB38', from: '1938-06-01' }], ['wpn', 'REC-MG-ITA-BREDA30'],
+  ['wpn', 'REC-MG-ITA-FIAT1435', { recipeId: 'REC-MG-ITA-BREDA37', from: '1937-06-01' }],
+  ['art', 'REC-ART-ITA-BRIXIA45-1940'], ['art', 'REC-ART-ITA-GUN65-17', { recipeId: 'REC-ART-ITA-AT47-1940', from: '1938-10-01' }], ['art', 'REC-ART-ITA-HOW100-1940'],
+  ['art', 'REC-ART-ITA-GUN75-27-ARM-1940', { recipeId: 'REC-ART-ITA-HOW75-18', from: '1937-01-01' }], ['art', 'REC-ART-ITA-AA20-BREDA'],
+  ['veh', 'REC-VEH-ITA-MOTO-GT17', { recipeId: 'REC-VEH-ITA-MOTO-ALCE', from: '1939-06-01' }]];
 // carri da fanteria (passo 4, 24/11/2026; piano in catena scelto dall'utente alle 12:55): Mk VI → Matilda I (6/1937) → Matilda II (6/1939) → Valentine (6/1940) → Churchill (6/1941)
-const BASE_PLAN = { DEU: { 'FCT-TANKS': { recipeId: 'REC-TNK-DEU-PZ-II', from: '1937-01-01' } }, GBR: { 'FCT-WEAPONS': { recipeId: 'REC-INW-GBR-NO4', from: '1941-07-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-GBR-25PDR-ARM-1939', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-GBR-A13', from: '1938-06-01' } }, USA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-USA-GARAND', from: '1937-01-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-USA-HOW105-1940', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-USA-M2A4', from: '1939-05-01' } } }; // carri: M2A2 → M2A4 (5/1939); Germania Pz I → Pz II (1/1937, 23/11/2026, stima)
+const BASE_PLAN = { DEU: { 'FCT-TANKS': { recipeId: 'REC-TNK-DEU-PZ-II', from: '1937-01-01' } }, ITA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-ITA-CARCANO-9138', from: '1938-01-01' } }, GBR: { 'FCT-WEAPONS': { recipeId: 'REC-INW-GBR-NO4', from: '1941-07-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-GBR-25PDR-ARM-1939', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-GBR-A13', from: '1938-06-01' } }, USA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-USA-GARAND', from: '1937-01-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-USA-HOW105-1940', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-USA-M2A4', from: '1939-05-01' } } }; // carri: M2A2 → M2A4 (5/1939); Germania Pz I → Pz II (1/1937, 23/11/2026, stima)
 const MUN = { USA: 6, GBR: 3, DEU: 6, USSR: 6, ITA: 3, FRA: 4, JPN: 5, BEL: 0, CAN: 0, CZE: 0, POL: 0, SWE: 0 };
 
 const candidates = new Set(Object.keys(A));

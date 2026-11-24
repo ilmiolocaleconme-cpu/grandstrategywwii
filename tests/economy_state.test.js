@@ -118,7 +118,8 @@ test('riserva minima di acciaio (29/10/2026): ogni nazione parte con almeno 500 
   // dal 04/11/2026 l'Italia ha 3 fabbriche di munizioni (60 t di acciaio al giorno ciascuna): il deficit cresce, e con lui lo stock di 150 giorni
   // dal 10/11/2026 anche una fabbrica di armi leggere e una di artiglieria (+1.476 t di acciaio di stock)
   // dal 12/11/2026 anche una fabbrica di carri (+2.026 t di acciaio di stock)
-  assert.equal(nations.ITA.stocks.steel, 42502, 'Italia: stock calcolato con munizioni, armi leggere, artiglieria e carri');
+  // dal 24/11/2026 (Italia passo 3) una linea per ogni arma dei battaglioni del 1936 e un'officina di veicoli (+9.926 t)
+  assert.equal(nations.ITA.stocks.steel, 52428, 'Italia: stock calcolato con munizioni, armi leggere, artiglieria, carri e veicoli');
   // dal 04/11/2026 il Belgio non ha fabbriche di munizioni: la riserva minima di 500 t (nessun deficit di acciaio)
   assert.equal(nations.BEL.stocks.steel, 500);
   // dal 04/11/2026 la Francia ha 4 fabbriche di munizioni (240 t di acciaio al giorno): deficit, stock di 150 giorni = 3000 t
