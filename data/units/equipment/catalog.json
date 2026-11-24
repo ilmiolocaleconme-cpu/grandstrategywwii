@@ -1536,6 +1536,356 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (21/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "INW-GBR-NO4",
+      "nation": "GBR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.7,
+      "designation": "Rifle No. 4 Mk I cal. .303",
+      "name_it": "Fucile Lee-Enfield No. 4",
+      "role": "individual_infantry_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-GBR-PISTOL-WEBLEY",
+      "nation": "GBR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 9.65,
+      "designation": "Webley / Enfield No. 2 cal. .38",
+      "name_it": "Rivoltella Webley/Enfield",
+      "role": "officer_and_specialist_sidearm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-GBR-SMG-LANCHESTER",
+      "nation": "GBR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 9,
+      "designation": "Lanchester Mk I 9 mm",
+      "name_it": "Pistola mitragliatrice Lanchester",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-GBR-SMG-STEN",
+      "nation": "GBR",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 9,
+      "designation": "Sten Mk II / Mk V 9 mm",
+      "name_it": "Pistola mitragliatrice Sten",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-GBR-LEWIS",
+      "nation": "GBR",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 7.7,
+      "designation": "Lewis Mk I cal. .303",
+      "name_it": "Fucile mitragliatore Lewis",
+      "role": "squad_automatic_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-GBR-BREN",
+      "nation": "GBR",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 7.7,
+      "designation": "Bren Mk I / Mk II cal. .303",
+      "name_it": "Fucile mitragliatore Bren",
+      "role": "squad_automatic_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-GBR-VICKERS",
+      "nation": "GBR",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 7.7,
+      "designation": "Vickers Mk I cal. .303 (con treppiede)",
+      "name_it": "Mitragliatrice pesante Vickers",
+      "role": "sustained_fire_support",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-BOYS",
+      "nation": "GBR",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "caliber_mm": 13.9,
+      "designation": "Boys Mk I cal. .55",
+      "name_it": "Fucile anticarro Boys",
+      "role": "anti_tank_rifle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "GL-GBR-PIAT",
+      "nation": "GBR",
+      "category": "GRENADE_LAUNCHER",
+      "granularity": "model",
+      "caliber_mm": 89,
+      "designation": "PIAT (Projector, Infantry, Anti Tank)",
+      "name_it": "Lanciabombe anticarro PIAT",
+      "role": "infantry_anti_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-MOR2IN",
+      "nation": "GBR",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 51,
+      "designation": "Ordnance ML 2 inch",
+      "name_it": "Mortaio da 2 pollici",
+      "role": "close_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-MOR3IN",
+      "nation": "GBR",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 81,
+      "designation": "Ordnance ML 3 inch",
+      "name_it": "Mortaio da 3 pollici",
+      "role": "battalion_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-MOR42IN",
+      "nation": "GBR",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 107,
+      "designation": "Ordnance ML 4.2 inch",
+      "name_it": "Mortaio da 4,2 pollici",
+      "role": "regimental_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-18PDR",
+      "nation": "GBR",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 84,
+      "designation": "Ordnance QF 18 pounder Mk IV",
+      "name_it": "Cannone da 18 libbre",
+      "role": "divisional_field_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-HOW45",
+      "nation": "GBR",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "caliber_mm": 114,
+      "designation": "Ordnance QF 4.5 inch howitzer",
+      "name_it": "Obice da 4,5 pollici",
+      "role": "light_howitzer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-HOW55",
+      "nation": "GBR",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "caliber_mm": 140,
+      "designation": "Ordnance BL 5.5 inch Mk III",
+      "name_it": "Cannone medio da 5,5 pollici",
+      "role": "medium_howitzer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-6PDR",
+      "nation": "GBR",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "caliber_mm": 57,
+      "designation": "Ordnance QF 6 pounder 7 cwt",
+      "name_it": "Cannone anticarro da 6 libbre",
+      "role": "anti_tank_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-17PDR",
+      "nation": "GBR",
+      "category": "ANTI_TANK_GUN",
+      "granularity": "model",
+      "caliber_mm": 76.2,
+      "designation": "Ordnance QF 17 pounder",
+      "name_it": "Cannone anticarro da 17 libbre",
+      "role": "heavy_anti_tank_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-BOFORS",
+      "nation": "GBR",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 40,
+      "designation": "Bofors 40 mm L/60",
+      "name_it": "Contraerea Bofors da 40 mm",
+      "role": "light_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-GBR-AA37IN",
+      "nation": "GBR",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 94,
+      "designation": "Ordnance QF 3.7 inch AA",
+      "name_it": "Contraerea da 3,7 pollici",
+      "role": "heavy_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-GBR-TRUCK15",
+      "nation": "GBR",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Bedford MW / Morris 15 cwt",
+      "name_it": "Autocarro da 15 cwt",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-GBR-TRUCK3T",
+      "nation": "GBR",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Bedford OY / Austin K5 3 t",
+      "name_it": "Autocarro da 3 tonnellate",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-GBR-CARRIER",
+      "nation": "GBR",
+      "category": "HALF_TRACK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Universal Carrier (Bren Carrier)",
+      "name_it": "Universal Carrier",
+      "role": "armored_personnel_carrier",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-GBR-MOTO",
+      "nation": "GBR",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "BSA M20 / Norton 16H",
+      "name_it": "Motocicletta",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-GBR-MORRIS-AC",
+      "nation": "GBR",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Morris CS9 / Lanchester",
+      "name_it": "Autoblindo Morris",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-GBR-DAIMLER-AC",
+      "nation": "GBR",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Daimler Armoured Car Mk I",
+      "name_it": "Autoblindo Daimler",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -2018,6 +2368,131 @@
       "nation": "USA",
       "templateKey": "ART-USA-M7-PRIEST",
       "equipment_id": "ART-USA-M7-PRIEST"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "INW-GBR-NO4",
+      "equipment_id": "INW-GBR-NO4"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "INW-GBR-PISTOL-WEBLEY",
+      "equipment_id": "INW-GBR-PISTOL-WEBLEY"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "INW-GBR-SMG-LANCHESTER",
+      "equipment_id": "INW-GBR-SMG-LANCHESTER"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "INW-GBR-SMG-STEN",
+      "equipment_id": "INW-GBR-SMG-STEN"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "MG-GBR-LEWIS",
+      "equipment_id": "MG-GBR-LEWIS"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "MG-GBR-BREN",
+      "equipment_id": "MG-GBR-BREN"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "MG-GBR-VICKERS",
+      "equipment_id": "MG-GBR-VICKERS"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-BOYS",
+      "equipment_id": "ART-GBR-BOYS"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "GL-GBR-PIAT",
+      "equipment_id": "GL-GBR-PIAT"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-MOR2IN",
+      "equipment_id": "ART-GBR-MOR2IN"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-MOR3IN",
+      "equipment_id": "ART-GBR-MOR3IN"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-MOR42IN",
+      "equipment_id": "ART-GBR-MOR42IN"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-18PDR",
+      "equipment_id": "ART-GBR-18PDR"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-HOW45",
+      "equipment_id": "ART-GBR-HOW45"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-HOW55",
+      "equipment_id": "ART-GBR-HOW55"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-6PDR",
+      "equipment_id": "ART-GBR-6PDR"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-17PDR",
+      "equipment_id": "ART-GBR-17PDR"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-BOFORS",
+      "equipment_id": "ART-GBR-BOFORS"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "ART-GBR-AA37IN",
+      "equipment_id": "ART-GBR-AA37IN"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "VEH-GBR-TRUCK15",
+      "equipment_id": "VEH-GBR-TRUCK15"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "VEH-GBR-TRUCK3T",
+      "equipment_id": "VEH-GBR-TRUCK3T"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "VEH-GBR-CARRIER",
+      "equipment_id": "VEH-GBR-CARRIER"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "VEH-GBR-MOTO",
+      "equipment_id": "VEH-GBR-MOTO"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "VEH-GBR-MORRIS-AC",
+      "equipment_id": "VEH-GBR-MORRIS-AC"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "VEH-GBR-DAIMLER-AC",
+      "equipment_id": "VEH-GBR-DAIMLER-AC"
     }
   ]
 }

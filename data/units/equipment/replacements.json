@@ -86,6 +86,41 @@
       "id": "ART-USA-M7-PRIEST",
       "replaces": "ART-USA-HOW105-ARM-1940",
       "basis": "ipotesi"
+    },
+    {
+      "id": "INW-GBR-NO4",
+      "replaces": "INW-GBR-RIFLE",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "MG-GBR-BREN",
+      "replaces": "MG-GBR-LEWIS",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "INW-GBR-SMG-STEN",
+      "replaces": "INW-GBR-SMG-LANCHESTER",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "ART-GBR-25PDR-ARM-1939",
+      "replaces": "ART-GBR-18PDR",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "ART-GBR-6PDR",
+      "replaces": "ART-GBR-2PDR-ARM-1939",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "ART-GBR-17PDR",
+      "replaces": "ART-GBR-6PDR",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "VEH-GBR-DAIMLER-AC",
+      "replaces": "VEH-GBR-MORRIS-AC",
+      "basis": "ipotesi"
     }
   ]
 }

@@ -332,7 +332,8 @@
     },
     "ART-GBR-2PDR-ARM-1939": {
       "massTonnes": 0.81,
-      "availableFrom": "1937-01-01"
+      "availableFrom": "1937-01-01",
+      "availableTo": "1942-12-31"
     },
     "ART-ITA-MORTAR81-1940": {
       "massTonnes": 0.059
@@ -863,7 +864,32 @@
     "ART-USA-M7-PRIEST": {
       "massTonnes": 22.9,
       "availableFrom": "1942-04-01"
-    }
+    },
+    "INW-GBR-NO4": {"massTonnes": 0.0041, "availableFrom": "1941-07-01"},
+    "INW-GBR-PISTOL-WEBLEY": {"massTonnes": 0.0008},
+    "INW-GBR-SMG-LANCHESTER": {"massTonnes": 0.0044, "availableFrom": "1941-01-01", "availableTo": "1943-06-30"},
+    "INW-GBR-SMG-STEN": {"massTonnes": 0.0032, "availableFrom": "1941-06-01", "requiresTech": "TECH-INF-EMERG"},
+    "MG-GBR-LEWIS": {"massTonnes": 0.013, "availableTo": "1938-12-31"},
+    "MG-GBR-BREN": {"massTonnes": 0.01, "availableFrom": "1937-09-01"},
+    "MG-GBR-VICKERS": {"massTonnes": 0.04},
+    "ART-GBR-BOYS": {"massTonnes": 0.016, "availableFrom": "1937-11-01", "availableTo": "1943-06-30"},
+    "GL-GBR-PIAT": {"massTonnes": 0.015, "availableFrom": "1943-01-01"},
+    "ART-GBR-MOR2IN": {"massTonnes": 0.0048, "availableFrom": "1938-01-01"},
+    "ART-GBR-MOR3IN": {"massTonnes": 0.057},
+    "ART-GBR-MOR42IN": {"massTonnes": 0.25, "availableFrom": "1942-01-01"},
+    "ART-GBR-18PDR": {"massTonnes": 1.4, "availableTo": "1940-06-30"},
+    "ART-GBR-HOW45": {"massTonnes": 1.37, "availableTo": "1940-06-30"},
+    "ART-GBR-HOW55": {"massTonnes": 6.2, "availableFrom": "1941-05-01"},
+    "ART-GBR-6PDR": {"massTonnes": 1.14, "availableFrom": "1941-11-01"},
+    "ART-GBR-17PDR": {"massTonnes": 3.0, "availableFrom": "1943-01-01", "requiresTech": "TECH-ARM-GUN-75L"},
+    "ART-GBR-BOFORS": {"massTonnes": 2.0, "availableFrom": "1938-01-01"},
+    "ART-GBR-AA37IN": {"massTonnes": 9.3, "availableFrom": "1938-01-01"},
+    "VEH-GBR-TRUCK15": {"massTonnes": 2.1},
+    "VEH-GBR-TRUCK3T": {"massTonnes": 4.0},
+    "VEH-GBR-CARRIER": {"massTonnes": 3.75, "availableFrom": "1936-06-01"},
+    "VEH-GBR-MOTO": {"massTonnes": 0.17},
+    "VEH-GBR-MORRIS-AC": {"massTonnes": 4.2, "availableFrom": "1936-01-01", "availableTo": "1941-12-31"},
+    "VEH-GBR-DAIMLER-AC": {"massTonnes": 7.5, "availableFrom": "1941-04-01"}
   },
   "priceFactor": 1.25
 }
