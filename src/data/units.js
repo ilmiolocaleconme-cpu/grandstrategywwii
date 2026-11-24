@@ -7,7 +7,7 @@ import { parseCsvRows } from './csv.js';
 export const UNITS_SCHEMA = 'units-v1';
 export const UNIT_CATEGORIES = ['infantry', 'mountain', 'cavalry', 'motorized', 'mechanized', 'armored', 'airborne', 'command'];
 export const UNIT_ECHELONS = ['division', 'brigade', 'command'];
-export const UNIT_VARIANTS = ['colonial', 'rifle', 'guards', 'ss', 'light'];
+export const UNIT_VARIANTS = ['colonial', 'rifle', 'guards', 'ss', 'light', 'indian', 'marine']; // indian: divisioni indiane del Regno Unito; marine: fanteria di marina di ogni nazione (24/11/2026)
 export const REVIEW_STATUSES = ['ok', 'corrected', 'date_doubt', 'duplicate', 'excluded', 'faction_doubt', 'placeholder'];
 /** Stati di revisione che tengono l'unità INATTIVA finché non viene verificata. */
 export const INACTIVE_REVIEW_STATUSES = ['date_doubt', 'duplicate', 'excluded', 'faction_doubt', 'placeholder'];

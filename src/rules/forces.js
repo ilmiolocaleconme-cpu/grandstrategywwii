@@ -22,7 +22,8 @@ export const CATEGORY_FALLBACK = Object.freeze({ mountain: 'infantry', airborne:
 const hasEquipmentNumbers = (t) => Object.values(t.equipment ?? {}).some((v) => Number.isFinite(v?.value ?? v));
 
 function templateForCategory(unit, category, templates, date) {
-  const matches = templates.filter((t) => t.appliesTo && t.appliesTo.nation === unit.nation && t.appliesTo.category === category && t.appliesTo.echelon === unit.echelon);
+  // un template di una variante (24/11/2026: divisioni indiane) vale solo per le unità di quella variante; i template senza variante per tutte
+  const matches = templates.filter((t) => t.appliesTo && t.appliesTo.nation === unit.nation && t.appliesTo.category === category && t.appliesTo.echelon === unit.echelon && (!t.appliesTo.variant || t.appliesTo.variant === unit.variant));
   if (date == null) return matches[0] ?? null; // senza data: primo template corrispondente (comportamento invariato)
   // con data: tra le versioni valide quella con inizio più recente (Fase 2, 03/11/2026)
   const valid = matches.filter((t) => isTemplateValidAt(t, date));

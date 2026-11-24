@@ -20,7 +20,7 @@ export function validateInitialEquipmentRules(rules, nationIds) {
  */
 export function standardInfantryTemplate(templates, nation, date) {
   const ok = templates.filter((t) => t.appliesTo?.nation === nation && t.appliesTo?.category === 'infantry' && (t.appliesTo?.echelon ?? 'division') === 'division'
-    && Array.isArray(t.modules) && t.appliesTo?.activeFrom && t.appliesTo.activeFrom <= date);
+    && Array.isArray(t.modules) && !t.appliesTo?.variant && t.appliesTo?.activeFrom && t.appliesTo.activeFrom <= date); // niente varianti (divisioni indiane)
   ok.sort((a, b) => (a.appliesTo.activeFrom < b.appliesTo.activeFrom ? 1 : a.appliesTo.activeFrom > b.appliesTo.activeFrom ? -1 : (a.id < b.id ? -1 : 1)));
   return ok[0] ?? null;
 }

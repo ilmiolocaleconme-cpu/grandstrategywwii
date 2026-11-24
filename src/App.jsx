@@ -472,6 +472,7 @@ const homeProvinces = (state, nation, nameOf) => {
   if (barracksEnabled(barracksFile, nation)) return barracksRows(state, barracksFile, nation, placeControllerOf).map((b) => ({ id: b.provinceId, disabled: b.free === 0,
     name: `${b.name} · ${nameOf(b.provinceId)} · ${b.levelName}${!b.controlled ? ' · persa' : b.free === 0 ? ` · occupata fino al ${b.busy[0].until.split('-').reverse().join('/')}` : ''}` })).sort((a, b) => (a.disabled - b.disabled) || ((b.id === depotsFile.nations?.[nation]?.province) - (a.id === depotsFile.nations?.[nation]?.province)) || a.name.localeCompare(b.name, 'it')); // prima la caserma della capitale
   const ids = []; const dep = depotsFile.nations?.[nation]?.province; if (dep) ids.push(dep);
+  for (const w of Object.values(raiseRulesFile.variants ?? {})) if (w.nation === nation && !ids.includes(w.depot)) ids.push(w.depot); // deposito delle divisioni indiane (24/11/2026)
   for (const u of unitsFile.units) if (u.nation === nation) { const p = INITIAL_POSITIONS.get(u.id); if (p && !ids.includes(p)) ids.push(p); }
   const mine = ids.filter((p) => placeControllerOf(state, p) === nation);
   return mine.map((id, i) => ({ id, name: `${nameOf(id)}${i === 0 && id === dep ? ' (deposito)' : ''}` })).sort((a, b) => (a.id === dep ? -1 : b.id === dep ? 1 : a.name.localeCompare(b.name, 'it')));

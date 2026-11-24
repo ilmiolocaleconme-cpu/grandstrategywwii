@@ -1,0 +1,276 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-GBR-INDINF-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "GBR",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1939-09-01",
+    "variant": "indian"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fanteria indiana 1939-42: 3 brigate su 1 battaglione britannico e 2 indiani, 3 reggimenti d'artiglieria campale britannici, anticarro, genio Sappers and Miners, servizi con salmerie. Si forma solo in India.",
+  "formation": {
+    "value": "divisione di fanteria indiana 1939-42: 3 brigate su 1 battaglione britannico e 2 indiani, 3 reggimenti d'artiglieria campale britannici, anticarro, genio Sappers and Miners, servizi con salmerie. Si forma solo in India",
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-GBR-INF-1938",
+      "count": 3,
+      "name": "Infantry Battalion (1938)",
+      "name_it": "Battaglione di fanteria (1938)"
+    },
+    {
+      "id": "MOD-GBR-IND-INF-1939",
+      "count": 6,
+      "name": "Indian Infantry Battalion (1939)",
+      "name_it": "Battaglione di fanteria indiana (1939)"
+    },
+    {
+      "id": "MOD-GBR-FIELD-1938",
+      "count": 3,
+      "name": "Field Regiment, Royal Artillery (mechanised, 1938)",
+      "name_it": "Reggimento d'artiglieria campale (motorizzato, 1938)"
+    },
+    {
+      "id": "MOD-GBR-AT-1938",
+      "count": 1,
+      "name": "Anti-Tank Regiment, Royal Artillery (2-pounder)",
+      "name_it": "Reggimento anticarro (2 libbre)"
+    },
+    {
+      "id": "MOD-GBR-IND-ENG",
+      "count": 1,
+      "name": "Indian Divisional Engineers (Sappers and Miners)",
+      "name_it": "Genio divisionale indiano (Sappers and Miners)"
+    },
+    {
+      "id": "MOD-GBR-IND-SVC",
+      "count": 1,
+      "name": "Indian Divisional Headquarters, Signals and Services",
+      "name_it": "Comandi, trasmissioni e servizi della divisione indiana"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 13218,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 600,
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-GBR-18PDR": {
+      "value": 48,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-2PDR-ARM-1939": {
+      "value": 48,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-BOYS": {
+      "value": 186,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-HOW45": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-MOR2IN": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-MOR3IN": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-GBR-PISTOL-WEBLEY": {
+      "value": 860,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-GBR-RIFLE": {
+      "value": 9420,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-GBR-BREN": {
+      "value": 390,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-CARRIER": {
+      "value": 66,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-MOTO": {
+      "value": 120,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-TRUCK15": {
+      "value": 276,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-TRUCK3T": {
+      "value": 330,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (3× MOD-GBR-INF-1938, 6× MOD-GBR-IND-INF-1939, 3× MOD-GBR-FIELD-1938, 1× MOD-GBR-AT-1938, 1× MOD-GBR-IND-ENG, 1× MOD-GBR-IND-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

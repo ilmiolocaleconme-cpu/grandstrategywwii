@@ -32,6 +32,7 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
     else if (m.requiresTech !== undefined && techIds) for (const t of [m.requiresTech].flat()) if (!techIds.has(t)) e.push(`${p}: tecnologia ${t} inesistente`);
     if (m.availableFrom !== undefined && !DATE_RE.test(m.availableFrom)) e.push(`${p}: availableFrom non valido`);
     if (m.divisional !== undefined && m.divisional !== true) e.push(`${p}: divisional ammesso solo come true`);
+    if (m.variant !== undefined && !/^[a-z]+$/.test(m.variant)) e.push(`${p}: variant non valida`); // battaglioni di una variante (24/11/2026: indiani)
     if (typeof m.name_native !== 'string' || !m.name_native.trim()) e.push(`${p}: name_native (nome nella lingua della nazione) mancante`); // schema unico (20/11/2026)
     if (m.name_de !== undefined || m.name_ru !== undefined) e.push(`${p}: usare name_native, non name_de o name_ru`);
     if (m.mobility === 'motorized' && !Object.keys(m.equipment ?? {}).some((k) => k.startsWith('VEH-'))) e.push(`${p}: motorizzato senza veicoli`);
@@ -80,6 +81,7 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
     }
     if (c.initialFillRatio !== undefined && !(c.initialFillRatio?.value > 0 && c.initialFillRatio.value <= 1 && String(c.initialFillRatio.source ?? '').trim())) e.push(`${p}: initialFillRatio non valido (valore in (0, 1] e fonte)`); // quadro iniziale (24/11/2026)
     if (c.startsAsCadre !== undefined && c.startsAsCadre !== true) e.push(`${p}: startsAsCadre ammesso solo come true`);
+    if (c.variant !== undefined && !/^[a-z]+$/.test(c.variant)) e.push(`${p}: variant non valida`);
   }
   return e;
 }
@@ -107,7 +109,7 @@ export function templateFromComposition(doc, comp) {
   const plain = (value) => ({ value, basis: 'ipotesi', referenceYear: comp.activeFrom.slice(0, 4), source: src, reliability: 'ESTIMATED' });
   return {
     schema: 'unit-template-v1', id: comp.templateId, status: 'RECONSTRUCTED_TEMPLATE',
-    appliesTo: { nation, category: comp.category, echelon: comp.echelon ?? 'division', activeFrom: comp.activeFrom }, // brigate composte da battaglioni (19/11/2026)
+    appliesTo: { nation, category: comp.category, echelon: comp.echelon ?? 'division', activeFrom: comp.activeFrom, ...(comp.variant ? { variant: comp.variant } : {}) }, // brigate composte da battaglioni (19/11/2026); variante (24/11/2026)
     orgLevel: 'war',
     note: `Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. ${comp.formation}.`,
     formation: plain(comp.formation),
@@ -172,6 +174,18 @@ export function moduleAvailable(m, { nation, date, researched }) {
  * di fanteria paracadutisti, da montagna o di cavalleria → paracadutisti, montagna, cavalleria (19/11/2026); tutta motorizzata → motorizzata;
  * altrimenti fanteria. La categoria decide il terreno in battaglia (data/units/terrain_combat.json).
  */
+/**
+ * Variante di un modello (24/11/2026): quella dei battaglioni di combattimento se almeno metà di essi la porta (es. divisione indiana:
+ * 6 battaglioni indiani e 3 britannici), altrimenti null.
+ */
+export function designVariant(list, modules, combatTypes = ['infantry', 'motorized_infantry', 'mechanized_infantry', 'tank', 'mountain_infantry', 'cavalry', 'airborne_infantry']) {
+  const byId = new Map(modules.map((m) => [m.id, m]));
+  const count = new Map(); let combat = 0;
+  for (const [id, n] of list) { const m = byId.get(id); if (!m || !combatTypes.includes(m.type)) continue; combat += n; if (m.variant) count.set(m.variant, (count.get(m.variant) ?? 0) + n); }
+  const best = [...count.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0];
+  return best && best[1] * 2 >= combat ? best[0] : null;
+}
+
 export function designCategory(list, modules) {
   const byId = new Map(modules.map((m) => [m.id, m]));
   const ms = list.map(([id]) => byId.get(id)).filter(Boolean);

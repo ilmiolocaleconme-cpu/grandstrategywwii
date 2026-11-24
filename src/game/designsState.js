@@ -3,7 +3,7 @@
 // al nuovo modello, la dotazione che c'è si porta (anche con la mappa delle voci vecchie, data/units/equipment/upgrade_map.json), quello che manca
 // lo portano i rinforzi dalle scorte e dalla produzione; quello che avanza torna alla scorta nazionale. Niente pezzi gratis, niente perso in silenzio.
 // Stato (OPZIONALE, assente = nessun modello): state.designs = { schema, byId: { 'DSG-DEU-001': { id, nation, name, category, modules: [[id, n]], createdOn } } }.
-import { designProblems, designCategory, designTemplate, sumComposition, DESIGN_CATEGORIES } from '../data/modules.js';
+import { designProblems, designCategory, designVariant, designTemplate, sumComposition, DESIGN_CATEGORIES } from '../data/modules.js';
 import { upgradeDivision } from '../rules/templateUpgrade.js';
 import { applyUnitChange } from '../rules/unitRegistry.js';
 
@@ -34,7 +34,8 @@ export function createDesign(state, { nation, name, modules: list }, ctx) {
   const seq = Math.max(0, ...Object.keys(state.designs?.byId ?? {}).filter((k) => k.startsWith(`DSG-${nation}-`)).map((k) => Number(k.slice(-3)))) + 1;
   if (seq > 999) throw new Error('troppi modelli');
   const id = `DSG-${nation}-${String(seq).padStart(3, '0')}`;
-  const design = { id, nation, name: clean, category: designCategory(compact, ctx.modules), modules: compact, createdOn: state.date };
+  const variant = designVariant(compact, ctx.modules); // 24/11/2026: es. divisione indiana
+  const design = { id, nation, name: clean, category: designCategory(compact, ctx.modules), ...(variant ? { variant } : {}), modules: compact, createdOn: state.date };
   const cur = state.designs ?? { schema: DESIGNS_SCHEMA, byId: {} };
   return { state: { ...state, designs: { ...cur, byId: { ...cur.byId, [id]: design } } }, id };
 }
@@ -101,6 +102,7 @@ export function validateDesignsState(d) {
     if (typeof x?.name !== 'string' || !x.name) e.push(`modelli di divisione: ${id} senza nome`);
     if (id.split('-')[1] !== x?.nation) e.push(`modelli di divisione: ${id} nazione incoerente`);
     if (!DESIGN_CATEGORIES.includes(x?.category)) e.push(`modelli di divisione: ${id} categoria non valida`);
+    if (x?.variant !== undefined && !/^[a-z]+$/.test(x.variant)) e.push(`modelli di divisione: ${id} variante non valida`);
     if (!Array.isArray(x?.modules) || !x.modules.length || !x.modules.every((m) => Array.isArray(m) && typeof m[0] === 'string' && Number.isInteger(m[1]) && m[1] > 0)) e.push(`modelli di divisione: ${id} battaglioni non validi`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(x?.createdOn ?? '')) e.push(`modelli di divisione: ${id} senza data`);
   }

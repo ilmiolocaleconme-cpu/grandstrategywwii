@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-24",
-  "note": "Battaglioni britannici (24/11/2026, schema unico «come Germania, URSS e USA», scelta A dell'utente: 8 modelli di divisione). Nomi inglesi con traduzione italiana. Organici STIMATI da Claude dalla memoria, NON verificati. Le versioni (supersedes) portano Bren→Sten/PIAT, 25 libbre, 6 e 17 libbre, Daimler con la modernizzazione graduale. Niente armi americane (Lend-Lease escluso, scelta 1A). I carri restano le due voci del 1939 fino al passo 4. La fanteria 1936 parte come quadro al 30% (esempio dell'utente del 29/10/2026).",
+  "note": "Battaglioni britannici (24/11/2026, schema unico «come Germania, URSS e USA», scelta A dell'utente: 8 modelli di divisione). Nomi inglesi con traduzione italiana. Organici STIMATI da Claude dalla memoria, NON verificati. Le versioni (supersedes) portano Bren→Sten/PIAT, 25 libbre, 6 e 17 libbre, Daimler con la modernizzazione graduale. Niente armi americane (Lend-Lease escluso, scelta 1A). I carri restano le due voci del 1939 fino al passo 4. La fanteria 1936 parte come quadro al 30% (esempio dell'utente del 29/10/2026). Divisione indiana (variante «indian», scelta dell'utente del 24/11/2026): battaglioni indiani propri, si forma solo in India. Royal Marine Division (variante «marine», comune a tutte le nazioni per la fanteria di marina) e Commando come battaglione per l'editor, senza sbarco.",
   "modules": [
     {
       "id": "MOD-GBR-INF-1936",
@@ -644,6 +644,144 @@
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-GBR-IND-INF-1939",
+      "nation": "GBR",
+      "type": "infantry",
+      "name_native": "Indian Infantry Battalion (1939)",
+      "name_it": "Battaglione di fanteria indiana (1939)",
+      "men": 800,
+      "horses": 40,
+      "equipment": {
+        "INW-GBR-RIFLE": 620,
+        "INW-GBR-PISTOL-WEBLEY": 30,
+        "MG-GBR-BREN": 40,
+        "ART-GBR-BOYS": 20,
+        "ART-GBR-MOR2IN": 12,
+        "ART-GBR-MOR3IN": 2,
+        "VEH-GBR-CARRIER": 6,
+        "VEH-GBR-TRUCK15": 12
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1939-06-01",
+      "variant": "indian",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-IND-INF-1943",
+      "nation": "GBR",
+      "type": "infantry",
+      "name_native": "Indian Infantry Battalion (1943)",
+      "name_it": "Battaglione di fanteria indiana (1943)",
+      "men": 830,
+      "horses": 40,
+      "equipment": {
+        "INW-GBR-NO4": 560,
+        "INW-GBR-SMG-STEN": 50,
+        "INW-GBR-PISTOL-WEBLEY": 30,
+        "MG-GBR-BREN": 50,
+        "GL-GBR-PIAT": 18,
+        "ART-GBR-MOR2IN": 16,
+        "ART-GBR-MOR3IN": 6,
+        "VEH-GBR-CARRIER": 10,
+        "VEH-GBR-TRUCK15": 16
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1943-06-01",
+      "supersedes": "MOD-GBR-IND-INF-1939",
+      "variant": "indian",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-IND-ENG",
+      "nation": "GBR",
+      "type": "engineer",
+      "name_native": "Indian Divisional Engineers (Sappers and Miners)",
+      "name_it": "Genio divisionale indiano (Sappers and Miners)",
+      "men": 1000,
+      "horses": 60,
+      "equipment": {
+        "INW-GBR-RIFLE": 800,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-TRUCK3T": 30,
+        "VEH-GBR-TRUCK15": 12
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "availableFrom": "1939-06-01",
+      "variant": "indian",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-IND-SVC",
+      "nation": "GBR",
+      "type": "support",
+      "name_native": "Indian Divisional Headquarters, Signals and Services",
+      "name_it": "Comandi, trasmissioni e servizi della divisione indiana",
+      "men": 2700,
+      "horses": 300,
+      "equipment": {
+        "INW-GBR-RIFLE": 1900,
+        "INW-GBR-PISTOL-WEBLEY": 200,
+        "VEH-GBR-TRUCK3T": 180,
+        "VEH-GBR-TRUCK15": 90,
+        "VEH-GBR-MOTO": 50
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "availableFrom": "1939-06-01",
+      "divisional": true,
+      "variant": "indian",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-RM-BN",
+      "nation": "GBR",
+      "type": "infantry",
+      "name_native": "Royal Marine Battalion (1940)",
+      "name_it": "Battaglione dei Royal Marines (1940)",
+      "men": 850,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-RIFLE": 650,
+        "INW-GBR-PISTOL-WEBLEY": 40,
+        "MG-GBR-BREN": 50,
+        "ART-GBR-BOYS": 22,
+        "ART-GBR-MOR2IN": 12,
+        "ART-GBR-MOR3IN": 4,
+        "VEH-GBR-CARRIER": 10,
+        "VEH-GBR-TRUCK15": 14,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1940-08-01",
+      "variant": "marine",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-COMMANDO",
+      "nation": "GBR",
+      "type": "infantry",
+      "name_native": "Commando (1942)",
+      "name_it": "Commando (1942)",
+      "men": 460,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-NO4": 320,
+        "INW-GBR-SMG-STEN": 100,
+        "INW-GBR-PISTOL-WEBLEY": 20,
+        "MG-GBR-BREN": 24,
+        "ART-GBR-MOR2IN": 6,
+        "ART-GBR-MOR3IN": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1942-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
       "id": "MOD-GBR-INF-1944",
       "nation": "GBR",
       "type": "infantry",
@@ -1076,6 +1214,72 @@
           1
         ]
       ]
+    },
+    {
+      "templateId": "TPL-GBR-INDINF-1939",
+      "name": "Indian Infantry Division (1939)",
+      "file": "divisione_fanteria_indiana_gran_bretagna_1939.json",
+      "category": "infantry",
+      "activeFrom": "1939-09-01",
+      "formation": "divisione di fanteria indiana 1939-42: 3 brigate su 1 battaglione britannico e 2 indiani, 3 reggimenti d'artiglieria campale britannici, anticarro, genio Sappers and Miners, servizi con salmerie. Si forma solo in India",
+      "modules": [
+        [
+          "MOD-GBR-INF-1938",
+          3
+        ],
+        [
+          "MOD-GBR-IND-INF-1939",
+          6
+        ],
+        [
+          "MOD-GBR-FIELD-1938",
+          3
+        ],
+        [
+          "MOD-GBR-AT-1938",
+          1
+        ],
+        [
+          "MOD-GBR-IND-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-IND-SVC",
+          1
+        ]
+      ],
+      "variant": "indian"
+    },
+    {
+      "templateId": "TPL-GBR-RMDIV-1940",
+      "name": "Royal Marine Division (1940)",
+      "file": "divisione_royal_marines_gran_bretagna_1940.json",
+      "category": "infantry",
+      "activeFrom": "1940-09-01",
+      "formation": "Royal Marine Division 1940-43: 3 brigate su 3 battaglioni dei Royal Marines, 2 reggimenti da 25 libbre, anticarro, genio, servizi. Senza mezzi da sbarco: lo sbarco non esiste ancora nel gioco",
+      "modules": [
+        [
+          "MOD-GBR-RM-BN",
+          9
+        ],
+        [
+          "MOD-GBR-FIELD-25PDR",
+          2
+        ],
+        [
+          "MOD-GBR-AT-1938",
+          1
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC",
+          1
+        ]
+      ],
+      "variant": "marine"
     }
   ],
   "presets": []

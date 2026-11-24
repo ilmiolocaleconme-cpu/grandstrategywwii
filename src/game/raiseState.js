@@ -33,6 +33,7 @@ export function validateRaiseRules(r) {
   if (!(r.minManpowerShare > 0 && r.minManpowerShare <= 1)) e.push('formazione: minManpowerShare fra 0 e 1');
   for (const [n, names] of Object.entries(r.names ?? {})) for (const c of CATS) if (typeof names?.[c] !== 'string' || !names[c].includes('{n}')) e.push(`formazione: nome ${n}/${c} senza {n}`);
   if (typeof r.defaultName !== 'string' || !r.defaultName.includes('{n}')) e.push('formazione: defaultName senza {n}');
+  for (const [v, w] of Object.entries(r.variants ?? {})) if (!/^[A-Z]{2,5}$/.test(w?.territory ?? '') || !/^P_[A-Z]+_/.test(w?.depot ?? '') || w.depot.split('_')[1] !== w.territory) e.push(`formazione: variante ${v} senza territorio o deposito validi`);
   return e;
 }
 
@@ -43,8 +44,8 @@ export function englishOrdinal(n) {
   return `${n}${t >= 11 && t <= 13 ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' })[n % 10] ?? 'th'}`;
 }
 
-export function divisionName(rules, nation, category, units) {
-  const pattern = rules.names?.[nation]?.[category] ?? rules.defaultName;
+export function divisionName(rules, nation, category, units, variant = null) {
+  const pattern = (variant ? rules.names?.[nation]?.[`${category}:${variant}`] : null) ?? rules.names?.[nation]?.[category] ?? rules.defaultName; // variante (24/11/2026): «4th Indian Infantry Division»
   const [pre, post] = pattern.split('{n}');
   const english = rules.ordinals?.[nation] === 'en';
   const used = new Set();
@@ -73,6 +74,9 @@ export function raisePreview(state, { nation, designId, province = null }, { mod
   const horses = t.horses?.value ?? 0;
   let ok = pool >= minMen;
   let reason = ok ? null : `servono almeno ${minMen} uomini liberi nel bacino (ne hai ${Math.floor(pool)})`;
+  // divisioni di una variante (24/11/2026): si formano solo nel loro territorio (le indiane in India, raise_rules.variants)
+  const where = design.variant ? rules.variants?.[design.variant] : null;
+  if (ok && where && province && String(province).split('_')[1] !== where.territory) { ok = false; reason = `questa divisione si forma solo in ${where.name_it ?? where.territory}`; }
   let trainingDays = rules.trainingDays[design.category];
   let barracksInfo = null;
   const bk = barracksCtx({ barracks }, nation);
@@ -103,10 +107,10 @@ export function raiseDivision(state, { nation, designId, province }, ctx) {
   const items = {};
   for (const [path, it] of Object.entries(initialEffective(template, 1))) items[path] = { planned: it.planned, effective: 0, source: 'ratio' };
   items['manpower.war'] = { ...items['manpower.war'], effective: Math.min(items['manpower.war'].planned, Math.floor(ctx.pool)) };
-  const name = divisionName(ctx.rules, nation, design.category, ctx.units);
+  const name = divisionName(ctx.rules, nation, design.category, ctx.units, design.variant ?? null);
   const until = addDays(state.date, pre.trainingDays); // con la caserma: giorni ridotti dal suo livello
   const reg = registerUnit(state.unitRegistry ?? createUnitRegistry(), {
-    nation, branch: null, echelon: 'division', category: design.category, variant: null, name, startYear: Number(state.date.slice(0, 4)), endYear: null,
+    nation, branch: null, echelon: 'division', category: design.category, variant: design.variant ?? null, name, startYear: Number(state.date.slice(0, 4)), endYear: null,
     origin: 'player', formedOn: state.date, design: designId,
   });
   const division = { templateId: designId, since: state.date, items, training: pre.barracks?.id ? { until, barracksId: pre.barracks.id } : { until } };
