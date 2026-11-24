@@ -1,0 +1,198 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-ITA-ALP-1936",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "ITA",
+    "category": "mountain",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione alpina: 2 reggimenti alpini (6 battaglioni), reggimento d'artiglieria alpina someggiata (2 gruppi da 75/13), genio, servizi e salmerie.",
+  "formation": {
+    "value": "divisione alpina: 2 reggimenti alpini (6 battaglioni), reggimento d'artiglieria alpina someggiata (2 gruppi da 75/13), genio, servizi e salmerie",
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-ITA-ALP",
+      "count": 6,
+      "name": "Battaglione alpini",
+      "name_it": "Battaglione alpini"
+    },
+    {
+      "id": "MOD-ITA-ART-ALP",
+      "count": 2,
+      "name": "Gruppo artiglieria alpina da 75/13 someggiato",
+      "name_it": "Gruppo artiglieria alpina da 75/13 someggiato"
+    },
+    {
+      "id": "MOD-ITA-GENIO",
+      "count": 1,
+      "name": "Battaglione misto del genio (artieri e collegamenti)",
+      "name_it": "Battaglione misto del genio (artieri e collegamenti)"
+    },
+    {
+      "id": "MOD-ITA-SVC-ALP",
+      "count": 1,
+      "name": "Comando e servizi della divisione alpina (salmerie)",
+      "name_it": "Comando e servizi della divisione alpina (salmerie)"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 12000,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 4280,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-ITA-BRIXIA45-1940": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-HOW75-1940": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-PISTOL-BERETTA34": {
+      "value": 490,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-RIFLE-1940": {
+      "value": 9100,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-BREDA30": {
+      "value": 162,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-FIAT1435": {
+      "value": 72,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-MOTO-GT17": {
+      "value": 20,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-SPA-DOV35": {
+      "value": 10,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-ALP, 2× MOD-ITA-ART-ALP, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-ALP). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

@@ -1,0 +1,333 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-ITA-AUTOTRASP-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "ITA",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1939-06-01",
+    "variant": "transportable"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione autotrasportabile (tipo A.S., Africa Settentrionale): come la binaria ma con artiglieria trainata da trattori e servizi su autocarri; la fanteria marcia a piedi o su autocarri del corpo d'armata.",
+  "formation": {
+    "value": "divisione autotrasportabile (tipo A.S., Africa Settentrionale): come la binaria ma con artiglieria trainata da trattori e servizi su autocarri; la fanteria marcia a piedi o su autocarri del corpo d'armata",
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-ITA-FUC-AS",
+      "count": 6,
+      "name": "Battaglione fucilieri autotrasportabile (A.S.)",
+      "name_it": "Battaglione fucilieri autotrasportabile (A.S.)"
+    },
+    {
+      "id": "MOD-ITA-REGT-1939",
+      "count": 2,
+      "name": "Compagnie reggimentali (mitraglieri, mortai da 81, cannoni da 47/32; 1939)",
+      "name_it": "Compagnie reggimentali (mitraglieri, mortai da 81, cannoni da 47/32; 1939)"
+    },
+    {
+      "id": "MOD-ITA-MITR-1939",
+      "count": 1,
+      "name": "Battaglione mitraglieri divisionale (1939)",
+      "name_it": "Battaglione mitraglieri divisionale (1939)"
+    },
+    {
+      "id": "MOD-ITA-ART75-MOT",
+      "count": 2,
+      "name": "Gruppo da 75/27 motorizzato",
+      "name_it": "Gruppo da 75/27 motorizzato"
+    },
+    {
+      "id": "MOD-ITA-ART100-MOT",
+      "count": 1,
+      "name": "Gruppo obici da 100/17 motorizzato",
+      "name_it": "Gruppo obici da 100/17 motorizzato"
+    },
+    {
+      "id": "MOD-ITA-AA20",
+      "count": 1,
+      "name": "Batteria contraerea da 20 mm",
+      "name_it": "Batteria contraerea da 20 mm"
+    },
+    {
+      "id": "MOD-ITA-AT47",
+      "count": 1,
+      "name": "Compagnia controcarro da 47/32 divisionale",
+      "name_it": "Compagnia controcarro da 47/32 divisionale"
+    },
+    {
+      "id": "MOD-ITA-GENIO",
+      "count": 1,
+      "name": "Battaglione misto del genio (artieri e collegamenti)",
+      "name_it": "Battaglione misto del genio (artieri e collegamenti)"
+    },
+    {
+      "id": "MOD-ITA-SVC-MOT",
+      "count": 1,
+      "name": "Comando e servizi divisionali motorizzati",
+      "name_it": "Comando e servizi divisionali motorizzati"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 10790,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 300,
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-ITA-AA20-BREDA": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-AT47-1940": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-BRIXIA45-1940": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-GUN75-27-ARM-1940": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-HOW100-1940": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-MORTAR81-1940": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-CARCANO-9138": {
+      "value": 6530,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-PISTOL-BERETTA34": {
+      "value": 655,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-RIFLE-1940": {
+      "value": 1490,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-BREDA30": {
+      "value": 162,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-BREDA37": {
+      "value": 84,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-FIAT626": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-LANCIA3RO": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-MOTO-ALCE": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-SPA-DOV35": {
+      "value": 126,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-TL37": {
+      "value": 42,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-AS, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-MOT, 1× MOD-ITA-ART100-MOT, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

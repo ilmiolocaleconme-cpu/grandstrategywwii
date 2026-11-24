@@ -42,6 +42,23 @@
         "VEH-GBR-TRUCK3T": 3192
       }
     },
+    "ITA": {
+      "tier": "large",
+      "divisions": 14,
+      "templateId": "TPL-ITA-INF-1936",
+      "equipment": {
+        "ART-ITA-BRIXIA45-1940": 1134,
+        "ART-ITA-GUN65-17": 168,
+        "ART-ITA-GUN75-27-ARM-1940": 504,
+        "ART-ITA-HOW100-1940": 168,
+        "INW-ITA-PISTOL-BERETTA34": 10500,
+        "INW-ITA-RIFLE-1940": 148960,
+        "MG-ITA-BREDA30": 3402,
+        "MG-ITA-FIAT1435": 1008,
+        "VEH-ITA-MOTO-GT17": 420,
+        "VEH-ITA-SPA-DOV35": 700
+      }
+    },
     "USA": {
       "tier": "large",
       "divisions": 14,
@@ -109,7 +126,6 @@
     "HTI",
     "HUN",
     "IRL",
-    "ITA",
     "JPN",
     "LBR",
     "LTU",

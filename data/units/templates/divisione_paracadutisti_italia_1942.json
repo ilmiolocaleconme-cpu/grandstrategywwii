@@ -1,0 +1,198 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-ITA-PAR-1942",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "ITA",
+    "category": "airborne",
+    "echelon": "division",
+    "activeFrom": "1942-03-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione paracadutisti (Folgore): 2 reggimenti su 3 battaglioni, gruppo d'artiglieria da 47/32, battaglione guastatori, servizi.",
+  "formation": {
+    "value": "divisione paracadutisti (Folgore): 2 reggimenti su 3 battaglioni, gruppo d'artiglieria da 47/32, battaglione guastatori, servizi",
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-ITA-PARA",
+      "count": 6,
+      "name": "Battaglione paracadutisti",
+      "name_it": "Battaglione paracadutisti"
+    },
+    {
+      "id": "MOD-ITA-PARA-AT",
+      "count": 1,
+      "name": "Gruppo artiglieria paracadutisti da 47/32",
+      "name_it": "Gruppo artiglieria paracadutisti da 47/32"
+    },
+    {
+      "id": "MOD-ITA-PARA-GUAST",
+      "count": 1,
+      "name": "Battaglione guastatori paracadutisti",
+      "name_it": "Battaglione guastatori paracadutisti"
+    },
+    {
+      "id": "MOD-ITA-PARA-SVC",
+      "count": 1,
+      "name": "Comando e servizi della divisione paracadutisti",
+      "name_it": "Comando e servizi della divisione paracadutisti"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 5050,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 0,
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-ITA-AT47-1940": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-BRIXIA45-1940": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-CARCANO-9138": {
+      "value": 3450,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-PISTOL-BERETTA34": {
+      "value": 510,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-SMG-MAB38": {
+      "value": 780,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-BREDA30": {
+      "value": 162,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-MOTO-ALCE": {
+      "value": 20,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-SPA-DOV35": {
+      "value": 20,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-PARA, 1× MOD-ITA-PARA-AT, 1× MOD-ITA-PARA-GUAST, 1× MOD-ITA-PARA-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

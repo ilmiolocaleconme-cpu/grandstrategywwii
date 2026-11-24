@@ -52,6 +52,18 @@
       "airborne": "{n} Airborne Division",
       "infantry:indian": "{n} Indian Infantry Division",
       "infantry:marine": "{n} Royal Marine Division"
+    },
+    "ITA": {
+      "infantry": "{n}ª Divisione fanteria",
+      "motorized": "{n}ª Divisione motorizzata",
+      "mechanized": "{n}ª Divisione corazzata",
+      "armored": "{n}ª Divisione corazzata",
+      "mountain": "{n}ª Divisione alpina",
+      "cavalry": "{n}ª Divisione celere",
+      "airborne": "{n}ª Divisione paracadutisti",
+      "infantry:colonial": "{n}ª Divisione libica",
+      "infantry:blackshirt": "{n}ª Divisione Camicie Nere",
+      "infantry:transportable": "{n}ª Divisione fanteria autotrasportabile"
     }
   },
   "defaultName": "{n}ª Divisione",
@@ -66,7 +78,17 @@
       "territory": "IND",
       "depot": "P_IND_DELHI",
       "name_it": "India"
+    },
+    "ITA:colonial": {
+      "nation": "ITA",
+      "territories": [
+        "LBA",
+        "ERI",
+        "ETH"
+      ],
+      "depot": "P_LBA_TRIPOLI",
+      "name_it": "Libia, Eritrea o Etiopia"
     }
   },
-  "variantsNote": "24/11/2026 (scelta A dell'utente): divisioni indiane del Regno Unito, con battaglioni indiani propri; si formano solo nelle province dell'India (deposito: Delhi, stima di Claude) e prendono il nome «{n} Indian Infantry Division». Fanteria di marina (variante «marine», 24/11/2026): solo il nome («{n} Royal Marine Division»), nessun limite di luogo."
+  "variantsNote": "24/11/2026 (scelta A dell'utente): divisioni indiane del Regno Unito, con battaglioni indiani propri; si formano solo nelle province dell'India (deposito: Delhi, stima di Claude) e prendono il nome «{n} Indian Infantry Division». Fanteria di marina (variante «marine», 24/11/2026): solo il nome («{n} Royal Marine Division»), nessun limite di luogo. 24/11/2026 (scelte dell'utente per l'Italia): truppe coloniali italiane (variante «colonial», chiave «ITA:colonial» perché la stessa variante esiste anche per la Francia) si formano solo in Libia, Eritrea o Etiopia (deposito: Tripoli, stima di Claude), nome «{n}ª Divisione libica»; Camicie Nere (variante «blackshirt»): solo il nome, nessun limite di luogo. Una variante può avere più territori («territories»)."
 }

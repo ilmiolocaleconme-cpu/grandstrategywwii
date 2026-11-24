@@ -1,0 +1,236 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-ITA-INF-1936",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "ITA",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fanteria ternaria 1936: 3 reggimenti su 3 battaglioni con compagnie reggimentali (Fiat 14/35, cannoni da 65/17), reggimento d'artiglieria ippotrainato (3 gruppi da 75/27, 1 da 100/17), genio, servizi e salmerie.",
+  "formation": {
+    "value": "divisione di fanteria ternaria 1936: 3 reggimenti su 3 battaglioni con compagnie reggimentali (Fiat 14/35, cannoni da 65/17), reggimento d'artiglieria ippotrainato (3 gruppi da 75/27, 1 da 100/17), genio, servizi e salmerie",
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-ITA-FUC-1936",
+      "count": 9,
+      "name": "Battaglione fucilieri (1936)",
+      "name_it": "Battaglione fucilieri (1936)"
+    },
+    {
+      "id": "MOD-ITA-REGT-1936",
+      "count": 3,
+      "name": "Compagnie reggimentali (mitraglieri, cannoni da 65/17, comando; 1936)",
+      "name_it": "Compagnie reggimentali (mitraglieri, cannoni da 65/17, comando; 1936)"
+    },
+    {
+      "id": "MOD-ITA-ART75-IPPO",
+      "count": 3,
+      "name": "Gruppo da 75/27 ippotrainato",
+      "name_it": "Gruppo da 75/27 ippotrainato"
+    },
+    {
+      "id": "MOD-ITA-ART100-IPPO",
+      "count": 1,
+      "name": "Gruppo obici da 100/17 ippotrainato",
+      "name_it": "Gruppo obici da 100/17 ippotrainato"
+    },
+    {
+      "id": "MOD-ITA-GENIO",
+      "count": 1,
+      "name": "Battaglione misto del genio (artieri e collegamenti)",
+      "name_it": "Battaglione misto del genio (artieri e collegamenti)"
+    },
+    {
+      "id": "MOD-ITA-SVC-1936",
+      "count": 1,
+      "name": "Comando, servizi e salmerie divisionali (1936)",
+      "name_it": "Comando, servizi e salmerie divisionali (1936)"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 14060,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 3360,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-ITA-BRIXIA45-1940": {
+      "value": 81,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-GUN65-17": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-GUN75-27-ARM-1940": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-HOW100-1940": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-PISTOL-BERETTA34": {
+      "value": 750,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-RIFLE-1940": {
+      "value": 10640,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-BREDA30": {
+      "value": 243,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-FIAT1435": {
+      "value": 72,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-MOTO-GT17": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-SPA-DOV35": {
+      "value": 50,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-ITA-FUC-1936, 3× MOD-ITA-REGT-1936, 3× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

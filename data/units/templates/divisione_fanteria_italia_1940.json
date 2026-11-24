@@ -1,136 +1,299 @@
 {
-  "schema": "unit-template-v2",
+  "schema": "unit-template-v1",
   "id": "TPL-ITA-INF-1940",
   "status": "RECONSTRUCTED_TEMPLATE",
-  "note": "Generato da CSV (source/ita_inf_template_1940.csv, source/ita_inf_equipment_1940.csv, source/land_equipment_catalog_ita_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (ITA infantry division, serie BIN); Divisione di fanteria binaria tipo 1938 (generica, senza numero) è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
   "appliesTo": {
     "nation": "ITA",
     "category": "infantry",
     "echelon": "division",
-    "validFrom": "1940-06-01"
+    "activeFrom": "1939-01-01"
   },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fanteria binaria (riforma Pariani, 1938-39): 2 reggimenti su 3 battaglioni (Carcano 91/38, Breda 30, Brixia), compagnie reggimentali (Breda 37, mortai da 81, 47/32), legione Camicie Nere su 2 battaglioni, battaglione mitraglieri, reggimento d'artiglieria (2 gruppi da 75/27, 1 da 100/17, batteria da 20 mm), compagnia controcarro, genio, servizi. Id del 1940 conservato per compatibilità.",
   "formation": {
-    "value": "binary"
+    "value": "divisione di fanteria binaria (riforma Pariani, 1938-39): 2 reggimenti su 3 battaglioni (Carcano 91/38, Breda 30, Brixia), compagnie reggimentali (Breda 37, mortai da 81, 47/32), legione Camicie Nere su 2 battaglioni, battaglione mitraglieri, reggimento d'artiglieria (2 gruppi da 75/27, 1 da 100/17, batteria da 20 mm), compagnia controcarro, genio, servizi. Id del 1940 conservato per compatibilità",
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "regimentsInfantry": {
-    "value": 2
-  },
+  "modules": [
+    {
+      "id": "MOD-ITA-FUC-1939",
+      "count": 6,
+      "name": "Battaglione fucilieri (1939)",
+      "name_it": "Battaglione fucilieri (1939)"
+    },
+    {
+      "id": "MOD-ITA-CCNN",
+      "count": 2,
+      "name": "Battaglione Camicie Nere (MVSN)",
+      "name_it": "Battaglione Camicie Nere (MVSN)"
+    },
+    {
+      "id": "MOD-ITA-REGT-1939",
+      "count": 2,
+      "name": "Compagnie reggimentali (mitraglieri, mortai da 81, cannoni da 47/32; 1939)",
+      "name_it": "Compagnie reggimentali (mitraglieri, mortai da 81, cannoni da 47/32; 1939)"
+    },
+    {
+      "id": "MOD-ITA-MITR-1939",
+      "count": 1,
+      "name": "Battaglione mitraglieri divisionale (1939)",
+      "name_it": "Battaglione mitraglieri divisionale (1939)"
+    },
+    {
+      "id": "MOD-ITA-ART75-IPPO",
+      "count": 2,
+      "name": "Gruppo da 75/27 ippotrainato",
+      "name_it": "Gruppo da 75/27 ippotrainato"
+    },
+    {
+      "id": "MOD-ITA-ART100-IPPO",
+      "count": 1,
+      "name": "Gruppo obici da 100/17 ippotrainato",
+      "name_it": "Gruppo obici da 100/17 ippotrainato"
+    },
+    {
+      "id": "MOD-ITA-AA20",
+      "count": 1,
+      "name": "Batteria contraerea da 20 mm",
+      "name_it": "Batteria contraerea da 20 mm"
+    },
+    {
+      "id": "MOD-ITA-AT47",
+      "count": 1,
+      "name": "Compagnia controcarro da 47/32 divisionale",
+      "name_it": "Compagnia controcarro da 47/32 divisionale"
+    },
+    {
+      "id": "MOD-ITA-GENIO",
+      "count": 1,
+      "name": "Battaglione misto del genio (artieri e collegamenti)",
+      "name_it": "Battaglione misto del genio (artieri e collegamenti)"
+    },
+    {
+      "id": "MOD-ITA-SVC-1939",
+      "count": 1,
+      "name": "Comando, servizi e salmerie divisionali (1939)",
+      "name_it": "Comando, servizi e salmerie divisionali (1939)"
+    }
+  ],
   "manpower": {
     "war": {
-      "value": 12979,
+      "value": 12270,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
     }
   },
   "horses": {
-    "value": null,
-    "reliability": "MISSING_DATA"
+    "value": 2700,
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
   },
   "equipment": {
-    "INW-ITA-RIFLE-1940": {
-      "value": null,
-      "reliability": "MISSING_DATA",
-      "note": "Nessuna quantità nelle righe di organico. Numero di fucili non ricostruito; nessuna fonte trovata; non dedurre un fucile per ogni uomo."
-    },
-    "INW-ITA-PISTOL-1940": {
-      "value": null,
-      "reliability": "MISSING_DATA",
-      "note": "Nessuna quantità nelle righe di organico. Quantita non ricostruita; nessuna fonte trovata."
-    },
-    "MG-ITA-HMG-1940": {
-      "value": 48,
-      "reliability": "PROVISIONAL",
-      "unit": "Reggimenti di fanteria (2)",
-      "note": "24 per reggimento x 2 (Wikipedia, per progetto). Fonti discordanti: militaryhistoryvisualized.com/tag/1940/ (tabella comparativa, fonte non citata) dà 80 divisionali; ww2-weapons.com/italian-army-1940/ dà 60. Modello non indicato dalle fonti.",
+    "ART-ITA-AA20-BREDA": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
-      }
-    },
-    "MG-ITA-LMG-1940": {
-      "value": 216,
-      "reliability": "PROVISIONAL",
-      "unit": "Reggimenti di fanteria (2)",
-      "note": "108 per reggimento x 2 (Wikipedia, per progetto). Fonti discordanti: militaryhistoryvisualized.com/tag/1940/ (tabella comparativa, fonte non citata) dà 270 divisionali. Modello non indicato dalle fonti.",
-      "effective": {
-        "value": null
-      }
-    },
-    "ART-ITA-MORTAR81-1940": {
-      "value": 30,
-      "reliability": "STANDARD_TOE",
-      "unit": "Reggimenti di fanteria (2) + battaglione mortai divisionale",
-      "note": "6 per reggimento x 2 + 18 nel battaglione mortai divisionale = 30. Concordano Wikipedia (Royal Italian Army during WWII) e militaryhistoryvisualized.com/tag/1940/ (tabella comparativa, fonte non citata).",
-      "effective": {
-        "value": null
-      }
-    },
-    "ART-ITA-BRIXIA45-1940": {
-      "value": 108,
-      "reliability": "PROVISIONAL",
-      "unit": "Reggimenti di fanteria (2)",
-      "note": "54 per reggimento x 2 (Wikipedia, per progetto, Brixia Mod. 35). Fonti discordanti: militaryhistoryvisualized.com/tag/1940/ (tabella comparativa, fonte non citata) dà 126; ww2-weapons.com/italian-army-1940/ dà 144 (probabilmente con legione CC.NN.).",
-      "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-ITA-AT47-1940": {
-      "value": 8,
-      "reliability": "PROVISIONAL",
-      "unit": "Compagnia cannoni anticarro divisionale",
-      "note": "8 pezzi da 47 mm anticarro nella compagnia cannoni (Wikipedia; stesso valore in militaryhistoryvisualized.com/tag/1940/ (tabella comparativa, fonte non citata)). ww2-weapons.com/italian-army-1940/ dà invece 24: da verificare con organico primario.",
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
-    "ART-ITA-GUN75-1940": {
-      "value": 12,
-      "reliability": "STANDARD_TOE",
-      "unit": "Reggimento di artiglieria divisionale",
-      "note": "12 cannoni da 75 mm (gruppo ippotrainato). en.wikipedia.org/wiki/Royal_Italian_Army_during_World_War_II (struttura per progetto, cit. Mollo 1981). Totale pezzi da 75 (cannoni + obici) = 24, coerente con militaryhistoryvisualized.com/tag/1940/ (tabella comparativa, fonte non citata) e ww2-weapons.com/italian-army-1940/.",
+    "ART-ITA-BRIXIA45-1940": {
+      "value": 126,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
-    "ART-ITA-HOW75-1940": {
-      "value": 12,
-      "reliability": "STANDARD_TOE",
-      "unit": "Reggimento di artiglieria divisionale",
-      "note": "12 obici da 75 mm someggiati (gruppo someggiato). en.wikipedia.org/wiki/Royal_Italian_Army_during_World_War_II (struttura per progetto, cit. Mollo 1981).",
+    "ART-ITA-GUN75-27-ARM-1940": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-ITA-HOW100-1940": {
       "value": 12,
-      "reliability": "STANDARD_TOE",
-      "unit": "Reggimento di artiglieria divisionale",
-      "note": "12 obici da 100 mm (gruppo ippotrainato). en.wikipedia.org/wiki/Royal_Italian_Army_during_World_War_II (struttura per progetto, cit. Mollo 1981); 12 anche in ww2-weapons.com/italian-army-1940/ e militaryhistoryvisualized.com/tag/1940/ (tabella comparativa, fonte non citata).",
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-ITA-MORTAR81-1940": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-CARCANO-9138": {
+      "value": 6530,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-PISTOL-BERETTA34": {
+      "value": 695,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-ITA-RIFLE-1940": {
+      "value": 2690,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-BREDA30": {
+      "value": 198,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-ITA-BREDA37": {
+      "value": 84,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-MOTO-GT17": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-ITA-SPA-DOV35": {
+      "value": 66,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-ITA-FUC-1939, 2× MOD-ITA-CCNN, 2× MOD-ITA-REGT-1939, 1× MOD-ITA-MITR-1939, 2× MOD-ITA-ART75-IPPO, 1× MOD-ITA-ART100-IPPO, 1× MOD-ITA-AA20, 1× MOD-ITA-AT47, 1× MOD-ITA-GENIO, 1× MOD-ITA-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     }
   },
-  "metadata": {
-    "sourceTemplateId": "TPL-ITA-INF-BIN-1940",
-    "series": "BIN",
-    "referenceDivision": "Divisione di fanteria binaria tipo 1938 (generica, senza numero)",
-    "referenceDate": "1940-06",
-    "sourceQuality": "MIXED_SECONDARY_SOURCES",
-    "sourceNote": "Divisione di riferimento GENERICA (nessuna divisione numerata): 2 reggimenti di fanteria + 1 reggimento di artiglieria divisionale + battaglione mortai da 81 + compagnia anticarro; esclusa la legione CC.NN. (assegnata a molte divisioni dal 1 marzo 1940, che le riportava a forma ternaria). Organico massimo 12979 = 449 ufficiali + 614 sottufficiali + 11916 truppa (forza teorica, militaryhistoryvisualized.com/tag/1940/, fonte originale non citata). Organico iniziale e cavalli NON trovati: lasciati vuoti. A giugno 1940 la maggior parte delle divisioni era incompleta (Wikipedia). Fonti secondarie discordanti sulle armi: vedere le singole righe.",
-    "sourceFiles": [
-      {
-        "file": "source/ita_inf_template_1940.csv",
-        "sha256": "07afa2da6b1cc1e586aa71858ffd1089a43baa50b79ba0f77d9661921e06de5a"
-      },
-      {
-        "file": "source/ita_inf_equipment_1940.csv",
-        "sha256": "8a9d6465271d2ea489a691779fb9e55411a869322ae97e58137290598bf466c6"
-      },
-      {
-        "file": "source/land_equipment_catalog_ita_1940.csv",
-        "sha256": "9d30c5401a432dbcc6be31c00d3bf58bd80bfc0abf054d1aa4ad54246497864c"
-      }
-    ]
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
   }
 }

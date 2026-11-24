@@ -53,15 +53,15 @@ test('dal 1/9/1939 le divisioni NUOVE di fanteria francese e tedesca usano il te
   assert.deepEqual(d2.forces, c.forces, 'idempotente');
 });
 
-test('1/6/1940: fanteria italiana con il template ITA 1940 (organico iniziale ignoto → rapporto); cavalli assenti senza inventarli', () => {
+test('1/6/1940: fanteria italiana con il template ITA 1940 (dal 24/11/2026 somma di battaglioni: binaria, 12.270 uomini, cavalli e muli dei battaglioni)', () => {
   const sys = createForcesActivationSystem(ctx);
   const s = advanceDays({ ...start(), date: '1940-05-30' }, 3, [sys]);
   const ita = of(s, 'ITA');
   assert.ok(ita.length > 0);
   for (const [, d] of ita) {
     assert.equal(d.templateId, 'TPL-ITA-INF-1940');
-    assert.deepEqual(d.items['manpower.war'], { planned: 12979, effective: Math.round(12979 * ratio), source: 'ratio' });
-    assert.equal(d.items.horses, undefined);
+    assert.deepEqual(d.items['manpower.war'], { planned: 12270, effective: Math.round(12270 * ratio), source: 'ratio' });
+    assert.equal(d.items.horses?.planned, 2700, 'cavalli e muli dai battaglioni (24/11/2026)');
   }
 });
 

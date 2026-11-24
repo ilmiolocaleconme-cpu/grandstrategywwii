@@ -27,7 +27,9 @@ function templateForCategory(unit, category, templates, date) {
   if (date == null) return matches[0] ?? null; // senza data: primo template corrispondente (comportamento invariato)
   // con data: tra le versioni valide quella con inizio più recente (Fase 2, 03/11/2026)
   const valid = matches.filter((t) => isTemplateValidAt(t, date));
-  valid.sort((a, b) => (templateWindow(b).from ?? '').localeCompare(templateWindow(a).from ?? ''));
+  // un'unità di una variante usa per prima cosa i template della sua variante (24/11/2026: divisione Camicie Nere e fanteria ternaria dello stesso giorno)
+  const own = (t) => (unit.variant && t.appliesTo.variant === unit.variant ? 0 : 1);
+  valid.sort((a, b) => own(a) - own(b) || (templateWindow(b).from ?? '').localeCompare(templateWindow(a).from ?? ''));
   if (valid[0]) return valid[0];
   const later = matches.filter((t) => (templateWindow(t).from ?? '') > date).sort((a, b) => (templateWindow(a).from ?? '').localeCompare(templateWindow(b).from ?? '') || (a.id < b.id ? -1 : 1));
   return later[0] ?? null;

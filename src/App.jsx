@@ -32,7 +32,7 @@ import { initForcesState, nationManpowerPool, createForcesActivationSystem } fro
 import { completeTemplates } from './rules/forces.js'; // armi del template successivo per i template senza numeri (Francia 1936)
 import { createMobilizationSystem } from './game/mobilizationState.js';
 import { vehicleMarchSpeed, designCategory, sumComposition } from './data/modules.js';
-const MODULE_DOCS = [modulesDeuFile, modulesUssrFile, modulesUsaFile, modulesGbrFile]; // battaglioni per nazione (Germania; URSS dal 19/11/2026; USA dal 21/11/2026; Regno Unito dal 24/11/2026)
+const MODULE_DOCS = [modulesDeuFile, modulesUssrFile, modulesUsaFile, modulesGbrFile, modulesItaFile]; // battaglioni per nazione (Germania; URSS dal 19/11/2026; USA dal 21/11/2026; Regno Unito e Italia dal 24/11/2026)
 const templateLabel = (id) => { const t = FORCES_CTX.templates.find((x) => x.id === id); const f = t?.formation?.value; return f ? `modello ${String(f).split(':')[0].split(' (')[0]}${t.appliesTo?.activeFrom ? ` ${t.appliesTo.activeFrom.slice(0, 4)}` : ''}` : id; }; // nome leggibile del template storico
 const ALL_MODULES = MODULE_DOCS.flatMap((d) => d.modules);
 const MODULE_PRESETS = MODULE_DOCS.flatMap((d) => [...(d.presets ?? []).map((p) => ({ ...p, nation: p.id.split('-')[1] })), ...(d.compositions ?? []).map((c) => ({ id: c.templateId, nation: c.templateId.split('-')[1], name: c.name ?? `${c.formation.split(':')[0].split(' (')[0]} (${c.activeFrom.slice(0, 4)})`, category: c.category, modules: c.modules }))]) // 20/11/2026: nome nella lingua della nazione e categoria dichiarata dei template storici
@@ -69,6 +69,7 @@ import modulesDeuFile from '../data/units/modules/modules_deu.json';
 import modulesUssrFile from '../data/units/modules/modules_ussr.json';
 import modulesUsaFile from '../data/units/modules/modules_usa.json';
 import modulesGbrFile from '../data/units/modules/modules_gbr.json';
+import modulesItaFile from '../data/units/modules/modules_ita.json';
 import editorRulesFile from '../data/units/modules/editor_rules.json';
 import raiseRulesFile from '../data/units/modules/raise_rules.json'; // formazione di divisioni nuove (19/11/2026)
 import { raiseDivision, raisePreview } from './game/raiseState.js';

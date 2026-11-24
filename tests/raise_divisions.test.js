@@ -31,7 +31,10 @@ test('regole valide; nomi tedeschi col primo numero libero', () => {
   assert.deepEqual(validateRaiseRules(rules), []);
   assert.equal(divisionName(rules, 'DEU', 'infantry', units), '3. Infanterie-Division');
   assert.equal(divisionName(rules, 'DEU', 'armored', units), '1. Panzer-Division');
-  assert.equal(divisionName(rules, 'ITA', 'infantry', []), '1ª Divisione');
+  assert.equal(divisionName(rules, 'FRA', 'infantry', []), '1ª Divisione', 'nazione senza schema di nomi');
+  assert.equal(divisionName(rules, 'ITA', 'infantry', []), '1ª Divisione fanteria');
+  assert.equal(divisionName(rules, 'ITA', 'infantry', [{ nation: 'ITA', name: "1ª Divisione fanteria 'Superga'" }]), '2ª Divisione fanteria', 'il numero di una divisione col nome proprio è occupato (24/11/2026)');
+  assert.equal(divisionName(rules, 'ITA', 'infantry', [], 'colonial'), '1ª Divisione libica');
   assert.ok(validateRaiseRules({ ...rules, trainingDays: { infantry: 90 } }).length > 0);
 });
 

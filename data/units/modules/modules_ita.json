@@ -1,0 +1,1210 @@
+{
+  "schema": "battalion-modules-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-24",
+  "note": "Battaglioni italiani (24/11/2026, schema unico, scelte dell'utente: Camicie Nere come battaglione e divisione, truppe coloniali come variante, elenco completo di divisioni). Organici STIMATI da Claude dalla memoria, NON verificati. Fanteria ternaria nel 1936, binaria dalla riforma Pariani (1938-39); l'id TPL-ITA-INF-1940 è conservato per la binaria. Carri: le due voci generiche (L 3 e M 13/40) fino al passo 4. Solo armi italiane.",
+  "modules": [
+    {
+      "id": "MOD-ITA-FUC-1936",
+      "nation": "ITA",
+      "type": "infantry",
+      "name_native": "Battaglione fucilieri (1936)",
+      "name_it": "Battaglione fucilieri (1936)",
+      "men": 850,
+      "horses": 20,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 700,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "MG-ITA-BREDA30": 27,
+        "ART-ITA-BRIXIA45-1940": 9
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-FUC-1939",
+      "nation": "ITA",
+      "type": "infantry",
+      "name_native": "Battaglione fucilieri (1939)",
+      "name_it": "Battaglione fucilieri (1939)",
+      "men": 800,
+      "horses": 20,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 650,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "MG-ITA-BREDA30": 27,
+        "ART-ITA-BRIXIA45-1940": 18
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1938-10-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-FUC-AS",
+      "nation": "ITA",
+      "type": "infantry",
+      "name_native": "Battaglione fucilieri autotrasportabile (A.S.)",
+      "name_it": "Battaglione fucilieri autotrasportabile (A.S.)",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 650,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "MG-ITA-BREDA30": 27,
+        "ART-ITA-BRIXIA45-1940": 18
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1939-06-01",
+      "variant": "transportable",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-FUC-1943",
+      "nation": "ITA",
+      "type": "infantry",
+      "name_native": "Battaglione fucilieri (1943)",
+      "name_it": "Battaglione fucilieri (1943)",
+      "men": 820,
+      "horses": 20,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 600,
+        "INW-ITA-SMG-MAB38": 40,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "MG-ITA-BREDA30": 30,
+        "ART-ITA-BRIXIA45-1940": 18
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1942-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-CCNN",
+      "nation": "ITA",
+      "type": "infantry",
+      "name_native": "Battaglione Camicie Nere (MVSN)",
+      "name_it": "Battaglione Camicie Nere (MVSN)",
+      "men": 650,
+      "horses": 10,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 550,
+        "INW-ITA-PISTOL-BERETTA34": 20,
+        "MG-ITA-BREDA30": 18,
+        "ART-ITA-BRIXIA45-1940": 9
+      },
+      "mobility": "foot",
+      "illustration": "camicie_nere",
+      "variant": "blackshirt",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-REGT-1936",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Compagnie reggimentali (mitraglieri, cannoni da 65/17, comando; 1936)",
+      "name_it": "Compagnie reggimentali (mitraglieri, cannoni da 65/17, comando; 1936)",
+      "men": 450,
+      "horses": 60,
+      "equipment": {
+        "MG-ITA-FIAT1435": 24,
+        "ART-ITA-GUN65-17": 4,
+        "INW-ITA-RIFLE-1940": 350,
+        "INW-ITA-PISTOL-BERETTA34": 30
+      },
+      "mobility": "foot",
+      "illustration": "mitragliatrice",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-REGT-1939",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Compagnie reggimentali (mitraglieri, mortai da 81, cannoni da 47/32; 1939)",
+      "name_it": "Compagnie reggimentali (mitraglieri, mortai da 81, cannoni da 47/32; 1939)",
+      "men": 500,
+      "horses": 80,
+      "equipment": {
+        "MG-ITA-BREDA37": 24,
+        "ART-ITA-MORTAR81-1940": 6,
+        "ART-ITA-AT47-1940": 8,
+        "INW-ITA-CARCANO-9138": 380,
+        "INW-ITA-PISTOL-BERETTA34": 30
+      },
+      "mobility": "foot",
+      "illustration": "mitragliatrice",
+      "availableFrom": "1938-10-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-MITR-1939",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Battaglione mitraglieri divisionale (1939)",
+      "name_it": "Battaglione mitraglieri divisionale (1939)",
+      "men": 600,
+      "horses": 60,
+      "equipment": {
+        "MG-ITA-BREDA37": 36,
+        "INW-ITA-CARCANO-9138": 450,
+        "INW-ITA-PISTOL-BERETTA34": 40
+      },
+      "mobility": "foot",
+      "illustration": "mitragliatrice",
+      "availableFrom": "1938-10-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ART75-IPPO",
+      "nation": "ITA",
+      "type": "artillery",
+      "name_native": "Gruppo da 75/27 ippotrainato",
+      "name_it": "Gruppo da 75/27 ippotrainato",
+      "men": 520,
+      "horses": 380,
+      "equipment": {
+        "ART-ITA-GUN75-27-ARM-1940": 12,
+        "INW-ITA-RIFLE-1940": 300,
+        "INW-ITA-PISTOL-BERETTA34": 40
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ART100-IPPO",
+      "nation": "ITA",
+      "type": "artillery",
+      "name_native": "Gruppo obici da 100/17 ippotrainato",
+      "name_it": "Gruppo obici da 100/17 ippotrainato",
+      "men": 500,
+      "horses": 400,
+      "equipment": {
+        "ART-ITA-HOW100-1940": 12,
+        "INW-ITA-RIFLE-1940": 290,
+        "INW-ITA-PISTOL-BERETTA34": 40
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_trainata",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ART75-18",
+      "nation": "ITA",
+      "type": "artillery",
+      "name_native": "Gruppo obici da 75/18",
+      "name_it": "Gruppo obici da 75/18",
+      "men": 480,
+      "horses": 350,
+      "equipment": {
+        "ART-ITA-HOW75-18": 12,
+        "INW-ITA-CARCANO-9138": 280,
+        "INW-ITA-PISTOL-BERETTA34": 40
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ART75-MOT",
+      "nation": "ITA",
+      "type": "artillery",
+      "name_native": "Gruppo da 75/27 motorizzato",
+      "name_it": "Gruppo da 75/27 motorizzato",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "ART-ITA-GUN75-27-ARM-1940": 12,
+        "INW-ITA-RIFLE-1940": 260,
+        "INW-ITA-PISTOL-BERETTA34": 40,
+        "VEH-ITA-TL37": 14,
+        "VEH-ITA-SPA-DOV35": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ART100-MOT",
+      "nation": "ITA",
+      "type": "artillery",
+      "name_native": "Gruppo obici da 100/17 motorizzato",
+      "name_it": "Gruppo obici da 100/17 motorizzato",
+      "men": 460,
+      "horses": 0,
+      "equipment": {
+        "ART-ITA-HOW100-1940": 12,
+        "INW-ITA-RIFLE-1940": 270,
+        "INW-ITA-PISTOL-BERETTA34": 40,
+        "VEH-ITA-TL37": 14,
+        "VEH-ITA-SPA-DOV35": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ART149",
+      "nation": "ITA",
+      "type": "artillery",
+      "name_native": "Gruppo obici da 149/13 (artiglieria di corpo d'armata)",
+      "name_it": "Gruppo obici da 149/13 (artiglieria di corpo d'armata)",
+      "men": 520,
+      "horses": 0,
+      "equipment": {
+        "ART-ITA-HOW149-13": 8,
+        "INW-ITA-RIFLE-1940": 300,
+        "INW-ITA-PISTOL-BERETTA34": 40,
+        "VEH-ITA-TL37": 12,
+        "VEH-ITA-SPA-DOV35": 12
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_pesante",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ART105",
+      "nation": "ITA",
+      "type": "artillery",
+      "name_native": "Gruppo cannoni da 105/28 (artiglieria di corpo d'armata)",
+      "name_it": "Gruppo cannoni da 105/28 (artiglieria di corpo d'armata)",
+      "men": 520,
+      "horses": 0,
+      "equipment": {
+        "ART-ITA-GUN105-28": 8,
+        "INW-ITA-RIFLE-1940": 300,
+        "INW-ITA-PISTOL-BERETTA34": 40,
+        "VEH-ITA-TL37": 12,
+        "VEH-ITA-SPA-DOV35": 12
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_pesante",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-AT47",
+      "nation": "ITA",
+      "type": "anti_tank",
+      "name_native": "Compagnia controcarro da 47/32 divisionale",
+      "name_it": "Compagnia controcarro da 47/32 divisionale",
+      "men": 180,
+      "horses": 20,
+      "equipment": {
+        "ART-ITA-AT47-1940": 8,
+        "INW-ITA-CARCANO-9138": 120,
+        "INW-ITA-PISTOL-BERETTA34": 15
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "availableFrom": "1938-10-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-AA20",
+      "nation": "ITA",
+      "type": "anti_air",
+      "name_native": "Batteria contraerea da 20 mm",
+      "name_it": "Batteria contraerea da 20 mm",
+      "men": 150,
+      "horses": 0,
+      "equipment": {
+        "ART-ITA-AA20-BREDA": 8,
+        "INW-ITA-RIFLE-1940": 100,
+        "INW-ITA-PISTOL-BERETTA34": 10,
+        "VEH-ITA-SPA-DOV35": 6
+      },
+      "mobility": "motorized",
+      "illustration": "contraerea",
+      "availableFrom": "1936-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-AA75",
+      "nation": "ITA",
+      "type": "anti_air",
+      "name_native": "Gruppo contraereo da 75/46",
+      "name_it": "Gruppo contraereo da 75/46",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "ART-ITA-AA75-46": 8,
+        "INW-ITA-RIFLE-1940": 250,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "VEH-ITA-SPA-DOV35": 12,
+        "VEH-ITA-LANCIA3RO": 6
+      },
+      "mobility": "motorized",
+      "illustration": "contraerea",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-AA90",
+      "nation": "ITA",
+      "type": "anti_air",
+      "name_native": "Gruppo da 90/53 (contraereo e controcarro)",
+      "name_it": "Gruppo da 90/53 (contraereo e controcarro)",
+      "men": 420,
+      "horses": 0,
+      "equipment": {
+        "ART-ITA-AA90-53": 8,
+        "INW-ITA-CARCANO-9138": 250,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "VEH-ITA-LANCIA3RO": 12
+      },
+      "mobility": "motorized",
+      "illustration": "contraerea",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1941-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-GENIO",
+      "nation": "ITA",
+      "type": "engineer",
+      "name_native": "Battaglione misto del genio (artieri e collegamenti)",
+      "name_it": "Battaglione misto del genio (artieri e collegamenti)",
+      "men": 700,
+      "horses": 60,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 600,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "VEH-ITA-SPA-DOV35": 10
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-SVC-1936",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Comando, servizi e salmerie divisionali (1936)",
+      "name_it": "Comando, servizi e salmerie divisionali (1936)",
+      "men": 2300,
+      "horses": 1400,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 1500,
+        "INW-ITA-PISTOL-BERETTA34": 200,
+        "VEH-ITA-SPA-DOV35": 40,
+        "VEH-ITA-MOTO-GT17": 30
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-SVC-1939",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Comando, servizi e salmerie divisionali (1939)",
+      "name_it": "Comando, servizi e salmerie divisionali (1939)",
+      "men": 2000,
+      "horses": 1100,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 1300,
+        "INW-ITA-PISTOL-BERETTA34": 200,
+        "VEH-ITA-SPA-DOV35": 50,
+        "VEH-ITA-MOTO-GT17": 30
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "availableFrom": "1938-10-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-SVC-MOT",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Comando e servizi divisionali motorizzati",
+      "name_it": "Comando e servizi divisionali motorizzati",
+      "men": 2000,
+      "horses": 0,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 1300,
+        "INW-ITA-PISTOL-BERETTA34": 200,
+        "VEH-ITA-SPA-DOV35": 80,
+        "VEH-ITA-LANCIA3RO": 60,
+        "VEH-ITA-FIAT626": 40,
+        "VEH-ITA-MOTO-ALCE": 40
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-06-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ALP",
+      "nation": "ITA",
+      "type": "mountain_infantry",
+      "name_native": "Battaglione alpini",
+      "name_it": "Battaglione alpini",
+      "men": 1100,
+      "horses": 120,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 900,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "MG-ITA-BREDA30": 27,
+        "ART-ITA-BRIXIA45-1940": 18,
+        "MG-ITA-FIAT1435": 12
+      },
+      "mobility": "foot",
+      "illustration": "alpini",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-ART-ALP",
+      "nation": "ITA",
+      "type": "artillery",
+      "name_native": "Gruppo artiglieria alpina da 75/13 someggiato",
+      "name_it": "Gruppo artiglieria alpina da 75/13 someggiato",
+      "men": 600,
+      "horses": 500,
+      "equipment": {
+        "ART-ITA-HOW75-1940": 12,
+        "INW-ITA-RIFLE-1940": 350,
+        "INW-ITA-PISTOL-BERETTA34": 40
+      },
+      "mobility": "foot",
+      "illustration": "salmerie",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-SVC-ALP",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Comando e servizi della divisione alpina (salmerie)",
+      "name_it": "Comando e servizi della divisione alpina (salmerie)",
+      "men": 3500,
+      "horses": 2500,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 2400,
+        "INW-ITA-PISTOL-BERETTA34": 200,
+        "VEH-ITA-MOTO-GT17": 20
+      },
+      "mobility": "foot",
+      "illustration": "salmerie",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-CAV",
+      "nation": "ITA",
+      "type": "cavalry",
+      "name_native": "Reggimento di cavalleria (divisione celere)",
+      "name_it": "Reggimento di cavalleria (divisione celere)",
+      "men": 800,
+      "horses": 850,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 650,
+        "INW-ITA-PISTOL-BERETTA34": 40,
+        "MG-ITA-BREDA30": 16,
+        "MG-ITA-FIAT1435": 8
+      },
+      "mobility": "foot",
+      "illustration": "cavalleria",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-BERS",
+      "nation": "ITA",
+      "type": "infantry",
+      "name_native": "Battaglione bersaglieri ciclisti",
+      "name_it": "Battaglione bersaglieri ciclisti",
+      "men": 700,
+      "horses": 0,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 580,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "MG-ITA-BREDA30": 27,
+        "ART-ITA-BRIXIA45-1940": 9,
+        "VEH-ITA-MOTO-GT17": 20
+      },
+      "mobility": "foot",
+      "illustration": "bersaglieri",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-BERS-MOT",
+      "nation": "ITA",
+      "type": "motorized_infantry",
+      "name_native": "Battaglione bersaglieri motorizzato",
+      "name_it": "Battaglione bersaglieri motorizzato",
+      "men": 750,
+      "horses": 0,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 600,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "MG-ITA-BREDA30": 27,
+        "ART-ITA-BRIXIA45-1940": 18,
+        "VEH-ITA-SPA-DOV35": 30,
+        "VEH-ITA-MOTO-ALCE": 20
+      },
+      "mobility": "motorized",
+      "illustration": "bersaglieri",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-FANT-MOT",
+      "nation": "ITA",
+      "type": "motorized_infantry",
+      "name_native": "Battaglione fanteria motorizzato",
+      "name_it": "Battaglione fanteria motorizzato",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 650,
+        "INW-ITA-PISTOL-BERETTA34": 30,
+        "MG-ITA-BREDA30": 27,
+        "ART-ITA-BRIXIA45-1940": 18,
+        "VEH-ITA-SPA-DOV35": 35
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-CARRI-L3",
+      "nation": "ITA",
+      "type": "tank",
+      "name_native": "Battaglione carri L 3",
+      "name_it": "Battaglione carri L 3",
+      "men": 300,
+      "horses": 0,
+      "equipment": {
+        "TNK-ITA-L3-ARM-1940": 46,
+        "INW-ITA-RIFLE-1940": 180,
+        "INW-ITA-PISTOL-BERETTA34": 90,
+        "VEH-ITA-SPA-DOV35": 10,
+        "VEH-ITA-MOTO-GT17": 6
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-CARRI-M",
+      "nation": "ITA",
+      "type": "tank",
+      "name_native": "Battaglione carri M 13/40",
+      "name_it": "Battaglione carri M 13/40",
+      "men": 380,
+      "horses": 0,
+      "equipment": {
+        "TNK-ITA-M13-1940": 49,
+        "INW-ITA-CARCANO-9138": 200,
+        "INW-ITA-PISTOL-BERETTA34": 120,
+        "VEH-ITA-SPA-DOV35": 12,
+        "VEH-ITA-MOTO-ALCE": 6
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-AB",
+      "nation": "ITA",
+      "type": "recon",
+      "name_native": "Gruppo autoblindo AB 40/41",
+      "name_it": "Gruppo autoblindo AB 40/41",
+      "men": 320,
+      "horses": 0,
+      "equipment": {
+        "VEH-ITA-AB40": 24,
+        "INW-ITA-CARCANO-9138": 180,
+        "INW-ITA-PISTOL-BERETTA34": 60,
+        "VEH-ITA-SPA-DOV35": 8,
+        "VEH-ITA-MOTO-ALCE": 12
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "availableFrom": "1940-03-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-PARA",
+      "nation": "ITA",
+      "type": "airborne_infantry",
+      "name_native": "Battaglione paracadutisti",
+      "name_it": "Battaglione paracadutisti",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 400,
+        "INW-ITA-SMG-MAB38": 120,
+        "INW-ITA-PISTOL-BERETTA34": 60,
+        "MG-ITA-BREDA30": 27,
+        "ART-ITA-BRIXIA45-1940": 18
+      },
+      "mobility": "foot",
+      "illustration": "paracadutisti",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1941-09-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-PARA-AT",
+      "nation": "ITA",
+      "type": "anti_tank",
+      "name_native": "Gruppo artiglieria paracadutisti da 47/32",
+      "name_it": "Gruppo artiglieria paracadutisti da 47/32",
+      "men": 250,
+      "horses": 0,
+      "equipment": {
+        "ART-ITA-AT47-1940": 12,
+        "INW-ITA-CARCANO-9138": 150,
+        "INW-ITA-PISTOL-BERETTA34": 30
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1941-09-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-PARA-GUAST",
+      "nation": "ITA",
+      "type": "engineer",
+      "name_native": "Battaglione guastatori paracadutisti",
+      "name_it": "Battaglione guastatori paracadutisti",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 300,
+        "INW-ITA-SMG-MAB38": 60,
+        "INW-ITA-PISTOL-BERETTA34": 20
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1941-09-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-PARA-SVC",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Comando e servizi della divisione paracadutisti",
+      "name_it": "Comando e servizi della divisione paracadutisti",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "INW-ITA-CARCANO-9138": 600,
+        "INW-ITA-PISTOL-BERETTA34": 100,
+        "VEH-ITA-SPA-DOV35": 20,
+        "VEH-ITA-MOTO-ALCE": 20
+      },
+      "mobility": "foot",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1941-09-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-COL-INF",
+      "nation": "ITA",
+      "type": "infantry",
+      "name_native": "Battaglione libico / ascari",
+      "name_it": "Battaglione libico / ascari",
+      "men": 700,
+      "horses": 30,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 600,
+        "INW-ITA-PISTOL-BERETTA34": 20,
+        "MG-ITA-BREDA30": 18,
+        "MG-ITA-FIAT1435": 4
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "variant": "colonial",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-ITA-COL-SVC",
+      "nation": "ITA",
+      "type": "support",
+      "name_native": "Comando e servizi della divisione libica (cammelli e autocarri)",
+      "name_it": "Comando e servizi della divisione libica (cammelli e autocarri)",
+      "men": 1800,
+      "horses": 600,
+      "equipment": {
+        "INW-ITA-RIFLE-1940": 1200,
+        "INW-ITA-PISTOL-BERETTA34": 120,
+        "VEH-ITA-SPA-DOV35": 40
+      },
+      "mobility": "foot",
+      "illustration": "salmerie",
+      "divisional": true,
+      "variant": "colonial",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    }
+  ],
+  "compositions": [
+    {
+      "templateId": "TPL-ITA-INF-1936",
+      "name": "Divisione di fanteria ternaria (1936)",
+      "file": "divisione_fanteria_italia_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione di fanteria ternaria 1936: 3 reggimenti su 3 battaglioni con compagnie reggimentali (Fiat 14/35, cannoni da 65/17), reggimento d'artiglieria ippotrainato (3 gruppi da 75/27, 1 da 100/17), genio, servizi e salmerie",
+      "modules": [
+        [
+          "MOD-ITA-FUC-1936",
+          9
+        ],
+        [
+          "MOD-ITA-REGT-1936",
+          3
+        ],
+        [
+          "MOD-ITA-ART75-IPPO",
+          3
+        ],
+        [
+          "MOD-ITA-ART100-IPPO",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-1936",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-INF-1940",
+      "name": "Divisione di fanteria binaria (1939)",
+      "file": "divisione_fanteria_italia_1940.json",
+      "category": "infantry",
+      "activeFrom": "1939-01-01",
+      "formation": "divisione di fanteria binaria (riforma Pariani, 1938-39): 2 reggimenti su 3 battaglioni (Carcano 91/38, Breda 30, Brixia), compagnie reggimentali (Breda 37, mortai da 81, 47/32), legione Camicie Nere su 2 battaglioni, battaglione mitraglieri, reggimento d'artiglieria (2 gruppi da 75/27, 1 da 100/17, batteria da 20 mm), compagnia controcarro, genio, servizi. Id del 1940 conservato per compatibilità",
+      "modules": [
+        [
+          "MOD-ITA-FUC-1939",
+          6
+        ],
+        [
+          "MOD-ITA-CCNN",
+          2
+        ],
+        [
+          "MOD-ITA-REGT-1939",
+          2
+        ],
+        [
+          "MOD-ITA-MITR-1939",
+          1
+        ],
+        [
+          "MOD-ITA-ART75-IPPO",
+          2
+        ],
+        [
+          "MOD-ITA-ART100-IPPO",
+          1
+        ],
+        [
+          "MOD-ITA-AA20",
+          1
+        ],
+        [
+          "MOD-ITA-AT47",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-1939",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-INF-1943",
+      "name": "Divisione di fanteria (1943)",
+      "file": "divisione_fanteria_italia_1943.json",
+      "category": "infantry",
+      "activeFrom": "1943-01-01",
+      "formation": "divisione di fanteria 1942-43: 2 reggimenti su 3 battaglioni (MAB 38), compagnie reggimentali, battaglione mitraglieri, reggimento d'artiglieria (2 gruppi da 75/18, 1 da 100/17, batteria da 20 mm), compagnia controcarro, genio, servizi",
+      "modules": [
+        [
+          "MOD-ITA-FUC-1943",
+          6
+        ],
+        [
+          "MOD-ITA-REGT-1939",
+          2
+        ],
+        [
+          "MOD-ITA-MITR-1939",
+          1
+        ],
+        [
+          "MOD-ITA-ART75-18",
+          2
+        ],
+        [
+          "MOD-ITA-ART100-IPPO",
+          1
+        ],
+        [
+          "MOD-ITA-AA20",
+          1
+        ],
+        [
+          "MOD-ITA-AT47",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-1939",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-AUTOTRASP-1939",
+      "name": "Divisione di fanteria autotrasportabile (1939)",
+      "file": "divisione_autotrasportabile_italia_1939.json",
+      "category": "infantry",
+      "activeFrom": "1939-06-01",
+      "formation": "divisione autotrasportabile (tipo A.S., Africa Settentrionale): come la binaria ma con artiglieria trainata da trattori e servizi su autocarri; la fanteria marcia a piedi o su autocarri del corpo d'armata",
+      "modules": [
+        [
+          "MOD-ITA-FUC-AS",
+          6
+        ],
+        [
+          "MOD-ITA-REGT-1939",
+          2
+        ],
+        [
+          "MOD-ITA-MITR-1939",
+          1
+        ],
+        [
+          "MOD-ITA-ART75-MOT",
+          2
+        ],
+        [
+          "MOD-ITA-ART100-MOT",
+          1
+        ],
+        [
+          "MOD-ITA-AA20",
+          1
+        ],
+        [
+          "MOD-ITA-AT47",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-MOT",
+          1
+        ]
+      ],
+      "variant": "transportable"
+    },
+    {
+      "templateId": "TPL-ITA-MOT-1939",
+      "name": "Divisione motorizzata (1939)",
+      "file": "divisione_motorizzata_italia_1939.json",
+      "category": "motorized",
+      "activeFrom": "1939-06-01",
+      "formation": "divisione motorizzata (Trento, Trieste): 2 reggimenti di fanteria motorizzati (6 battaglioni), reggimento bersaglieri motorizzato (3 battaglioni), reggimento d'artiglieria motorizzato (2 gruppi da 75/27, 1 da 100/17), contraerea, controcarro, genio, servizi motorizzati",
+      "modules": [
+        [
+          "MOD-ITA-FANT-MOT",
+          6
+        ],
+        [
+          "MOD-ITA-BERS-MOT",
+          3
+        ],
+        [
+          "MOD-ITA-ART75-MOT",
+          2
+        ],
+        [
+          "MOD-ITA-ART100-MOT",
+          1
+        ],
+        [
+          "MOD-ITA-AA20",
+          1
+        ],
+        [
+          "MOD-ITA-AT47",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-CEL-1938",
+      "name": "Divisione celere (1938)",
+      "file": "divisione_celere_italia_1938.json",
+      "category": "cavalry",
+      "activeFrom": "1938-01-01",
+      "formation": "divisione celere: 2 reggimenti di cavalleria, reggimento bersaglieri ciclisti (3 battaglioni), gruppo carri L 3, reggimento d'artiglieria a cavallo (2 gruppi da 75/27), genio, servizi",
+      "modules": [
+        [
+          "MOD-ITA-CAV",
+          2
+        ],
+        [
+          "MOD-ITA-BERS",
+          3
+        ],
+        [
+          "MOD-ITA-CARRI-L3",
+          1
+        ],
+        [
+          "MOD-ITA-ART75-IPPO",
+          2
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-1936",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-ALP-1936",
+      "name": "Divisione alpina (1936)",
+      "file": "divisione_alpina_italia_1936.json",
+      "category": "mountain",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione alpina: 2 reggimenti alpini (6 battaglioni), reggimento d'artiglieria alpina someggiata (2 gruppi da 75/13), genio, servizi e salmerie",
+      "modules": [
+        [
+          "MOD-ITA-ALP",
+          6
+        ],
+        [
+          "MOD-ITA-ART-ALP",
+          2
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-ALP",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-ARM-1939",
+      "name": "Divisione corazzata (1939)",
+      "file": "divisione_corazzata_italia_1939.json",
+      "category": "armored",
+      "activeFrom": "1939-02-01",
+      "formation": "divisione corazzata 1939 (Ariete, Centauro): reggimento carristi su 3 battaglioni L 3, reggimento bersaglieri motorizzato (3 battaglioni), reggimento d'artiglieria motorizzato (2 gruppi da 75/27), controcarro, genio, servizi motorizzati",
+      "modules": [
+        [
+          "MOD-ITA-CARRI-L3",
+          3
+        ],
+        [
+          "MOD-ITA-BERS-MOT",
+          3
+        ],
+        [
+          "MOD-ITA-ART75-MOT",
+          2
+        ],
+        [
+          "MOD-ITA-AT47",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-ARM-1940",
+      "name": "Divisione corazzata (1940)",
+      "file": "divisione_corazzata_italia_1940.json",
+      "category": "armored",
+      "activeFrom": "1940-06-01",
+      "formation": "divisione corazzata 1940-42: reggimento carristi su 3 battaglioni M 13/40 e uno L 3, reggimento bersaglieri motorizzato, reggimento d'artiglieria motorizzato (2 gruppi da 75/27, 1 da 100/17), contraerea da 20 mm, controcarro, genio, servizi motorizzati",
+      "modules": [
+        [
+          "MOD-ITA-CARRI-M",
+          3
+        ],
+        [
+          "MOD-ITA-CARRI-L3",
+          1
+        ],
+        [
+          "MOD-ITA-BERS-MOT",
+          3
+        ],
+        [
+          "MOD-ITA-ART75-MOT",
+          2
+        ],
+        [
+          "MOD-ITA-ART100-MOT",
+          1
+        ],
+        [
+          "MOD-ITA-AA20",
+          1
+        ],
+        [
+          "MOD-ITA-AT47",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-PAR-1942",
+      "name": "Divisione paracadutisti (1942)",
+      "file": "divisione_paracadutisti_italia_1942.json",
+      "category": "airborne",
+      "activeFrom": "1942-03-01",
+      "formation": "divisione paracadutisti (Folgore): 2 reggimenti su 3 battaglioni, gruppo d'artiglieria da 47/32, battaglione guastatori, servizi",
+      "modules": [
+        [
+          "MOD-ITA-PARA",
+          6
+        ],
+        [
+          "MOD-ITA-PARA-AT",
+          1
+        ],
+        [
+          "MOD-ITA-PARA-GUAST",
+          1
+        ],
+        [
+          "MOD-ITA-PARA-SVC",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-ITA-CCNN-1936",
+      "name": "Divisione Camicie Nere (1936)",
+      "file": "divisione_ccnn_italia_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione Camicie Nere (MVSN, guerra d'Etiopia e di Spagna): 3 legioni su 3 battaglioni, gruppo da 75/27, genio, servizi e salmerie",
+      "modules": [
+        [
+          "MOD-ITA-CCNN",
+          9
+        ],
+        [
+          "MOD-ITA-ART75-IPPO",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-SVC-1936",
+          1
+        ]
+      ],
+      "variant": "blackshirt"
+    },
+    {
+      "templateId": "TPL-ITA-LIB-1940",
+      "name": "Divisione libica (1940)",
+      "file": "divisione_libica_italia_1940.json",
+      "category": "infantry",
+      "activeFrom": "1940-03-01",
+      "formation": "divisione libica: 2 reggimenti libici su 3 battaglioni, 2 gruppi da 75/27, compagnia controcarro, genio, servizi con cammelli e autocarri. Si forma solo nelle colonie (Libia, Eritrea, Etiopia)",
+      "modules": [
+        [
+          "MOD-ITA-COL-INF",
+          6
+        ],
+        [
+          "MOD-ITA-ART75-IPPO",
+          2
+        ],
+        [
+          "MOD-ITA-AT47",
+          1
+        ],
+        [
+          "MOD-ITA-GENIO",
+          1
+        ],
+        [
+          "MOD-ITA-COL-SVC",
+          1
+        ]
+      ],
+      "variant": "colonial"
+    }
+  ],
+  "presets": []
+}

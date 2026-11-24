@@ -23,6 +23,9 @@ const barracksCtx = (ctx, nation) => (ctx.barracks && barracksEnabled(ctx.barrac
 export const RAISE_RULES_SCHEMA = 'division-raise-rules-v1';
 const CATS = ['infantry', 'motorized', 'mechanized', 'armored', 'mountain', 'cavalry', 'airborne'];
 const r3 = (v) => Math.round(v * 1000) / 1000;
+const variantTerritories = (w) => (Array.isArray(w?.territories) ? w.territories : w?.territory ? [w.territory] : []);
+/** Regola di luogo di una variante: prima quella della nazione («ITA:colonial»), poi quella comune («indian»). */
+export const variantRule = (rules, nation, variant) => (variant ? rules?.variants?.[`${nation}:${variant}`] ?? rules?.variants?.[variant] ?? null : null);
 const isStock = (path) => path === 'horses' || path.startsWith('equipment.');
 
 /** Errori delle regole (lista vuota = valide). */
@@ -33,7 +36,11 @@ export function validateRaiseRules(r) {
   if (!(r.minManpowerShare > 0 && r.minManpowerShare <= 1)) e.push('formazione: minManpowerShare fra 0 e 1');
   for (const [n, names] of Object.entries(r.names ?? {})) for (const c of CATS) if (typeof names?.[c] !== 'string' || !names[c].includes('{n}')) e.push(`formazione: nome ${n}/${c} senza {n}`);
   if (typeof r.defaultName !== 'string' || !r.defaultName.includes('{n}')) e.push('formazione: defaultName senza {n}');
-  for (const [v, w] of Object.entries(r.variants ?? {})) if (!/^[A-Z]{2,5}$/.test(w?.territory ?? '') || !/^P_[A-Z]+_/.test(w?.depot ?? '') || w.depot.split('_')[1] !== w.territory) e.push(`formazione: variante ${v} senza territorio o deposito validi`);
+  for (const [v, w] of Object.entries(r.variants ?? {})) { // più territori ammessi (24/11/2026: coloniali italiani in Libia, Eritrea, Etiopia)
+    const terr = variantTerritories(w);
+    if (!terr.length || !terr.every((x) => /^[A-Z]{2,5}$/.test(x)) || !/^P_[A-Z]+_/.test(w?.depot ?? '') || !terr.includes(w.depot.split('_')[1])) e.push(`formazione: variante ${v} senza territorio o deposito validi`);
+    if (v.includes(':') && v.split(':')[0] !== w?.nation) e.push(`formazione: variante ${v} con nazione diversa dalla chiave`);
+  }
   return e;
 }
 
@@ -53,7 +60,7 @@ export function divisionName(rules, nation, category, units, variant = null) {
     if (u.nation !== nation || typeof u.name !== 'string' || !u.name.startsWith(pre) && pre !== '') continue;
     const rest = u.name.slice(pre.length);
     const m = rest.match(english ? /^(\d+)(?:st|nd|rd|th)/ : /^(\d+)/);
-    if (m && rest.slice(m[0].length) === post) used.add(Number(m[1]));
+    if (m && (rest.slice(m[0].length) === post || rest.slice(m[0].length).startsWith(`${post} `))) used.add(Number(m[1])); // anche col nome proprio: «10ª Divisione fanteria 'Piave'» (24/11/2026)
   }
   let n = 1; while (used.has(n)) n += 1;
   return pattern.replace('{n}', english ? englishOrdinal(n) : String(n));
@@ -75,8 +82,8 @@ export function raisePreview(state, { nation, designId, province = null }, { mod
   let ok = pool >= minMen;
   let reason = ok ? null : `servono almeno ${minMen} uomini liberi nel bacino (ne hai ${Math.floor(pool)})`;
   // divisioni di una variante (24/11/2026): si formano solo nel loro territorio (le indiane in India, raise_rules.variants)
-  const where = design.variant ? rules.variants?.[design.variant] : null;
-  if (ok && where && province && String(province).split('_')[1] !== where.territory) { ok = false; reason = `questa divisione si forma solo in ${where.name_it ?? where.territory}`; }
+  const where = variantRule(rules, nation, design.variant);
+  if (ok && where && province && !variantTerritories(where).includes(String(province).split('_')[1])) { ok = false; reason = `questa divisione si forma solo in ${where.name_it ?? variantTerritories(where).join(', ')}`; }
   let trainingDays = rules.trainingDays[design.category];
   let barracksInfo = null;
   const bk = barracksCtx({ barracks }, nation);
