@@ -91,7 +91,7 @@
         "VEH-GBR-MOTO": 20
       },
       "mobility": "motorized",
-      "illustration": "mortaio",
+      "illustration": "mitragliatrice",
       "requiresTech": "TECH-MOT-INF",
       "availableFrom": "1938-01-01",
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
@@ -114,7 +114,7 @@
         "VEH-GBR-MOTO": 20
       },
       "mobility": "motorized",
-      "illustration": "mortaio",
+      "illustration": "mitragliatrice",
       "requiresTech": "TECH-MOT-INF",
       "availableFrom": "1943-06-01",
       "supersedes": "MOD-GBR-MG-1938",
@@ -200,7 +200,7 @@
         "VEH-GBR-MOTO": 8
       },
       "mobility": "motorized",
-      "illustration": "artiglieria_trainata",
+      "illustration": "artiglieria_pesante",
       "requiresTech": "TECH-MOT-INF",
       "availableFrom": "1941-05-01",
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
@@ -535,7 +535,7 @@
         "VEH-GBR-MOTO": 12
       },
       "mobility": "armored",
-      "illustration": "carro_medio",
+      "illustration": "carro_medio_1944",
       "availableFrom": "1944-01-01",
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
     },
@@ -662,7 +662,7 @@
         "VEH-GBR-TRUCK15": 12
       },
       "mobility": "foot",
-      "illustration": "fanteria",
+      "illustration": "fanteria_indiana",
       "availableFrom": "1939-06-01",
       "variant": "indian",
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
@@ -687,7 +687,7 @@
         "VEH-GBR-TRUCK15": 16
       },
       "mobility": "foot",
-      "illustration": "fanteria",
+      "illustration": "fanteria_indiana",
       "availableFrom": "1943-06-01",
       "supersedes": "MOD-GBR-IND-INF-1939",
       "variant": "indian",
@@ -777,7 +777,7 @@
         "ART-GBR-MOR3IN": 2
       },
       "mobility": "foot",
-      "illustration": "fanteria",
+      "illustration": "commando",
       "availableFrom": "1942-01-01",
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
     },
@@ -797,7 +797,7 @@
         "VEH-GBR-MOTO": 10
       },
       "mobility": "armored",
-      "illustration": "carro_medio",
+      "illustration": "carro_fanteria",
       "availableFrom": "1937-06-01",
       "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
     },

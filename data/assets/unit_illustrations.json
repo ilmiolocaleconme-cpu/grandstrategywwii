@@ -3,7 +3,7 @@
   "status": "PRELIMINARY",
   "source": "Fornite dall'utente il 18/11/2026 (archivio grandstrategywwii_military_assets_png.zip): 24 PNG ritagliati da una tavola generata.",
   "license": "Dell'utente, per questo progetto.",
-  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026): dalla tavola di illustrazioni sovietiche fornita dall'utente il 20/11/2026 (ritagliate da Claude, sfondo bianco tolto, 256 px, 256 colori) per 19 voci (fanteria, fanteria_motorizzata, fanteria_meccanizzata, carro_leggero, carro_medio, carro_pesante, cacciacarri, cacciacarri_variante, artiglieria_trainata, artiglieria_ippotrainata, contraerea, anticarro, paracadutisti, alpini, ricognizione_motocicletta, autoblindo, logistica_camion, trasporto_camion, trasporto_ippotrainato) e due voci nuove (mortaio, mitragliatrice); le altre (cavalleria, genio, semicingolato, carro_munizioni_ippotrainato, ambulanza) restano ricolorate da Claude con la stella rossa, perché la tavola non ha un equivalente (cavalleria, genio, semicingolato, carri ippotrainati, ambulanza). 20/11/2026, seconda tavola dell'utente (PNG trasparente): cavalleria, genio, semicingolato, carro munizioni ippotrainato e ambulanza sovietici, Nebelwerfer 41 tedesco e Calliope americano (lanciarazzi DEU e USA). Ora nessuna voce sovietica è più ricolorata da Claude, salvo le figure senza equivalente. 24/11/2026: varianti tedesche (DEU) e americane (USA) dalle tavole dell'utente (de_sprite_atlas_preview.png e 26046.png), ritagliate da Claude (sfondo tolto, 256 px, 256 colori). Fanteria motorizzata e meccanizzata DEU/USA: composizioni di Claude (fante davanti, autocarro o semicingolato dietro), su richiesta dell'utente. I carri della tavola tedesca sono tutti del tipo Tiger: usati solo per carro_pesante; carro_leggero e carro_medio tedeschi restano sull'immagine generica. Voci nuove: ufficiale, anticarro_fanteria, autocisterna, auto_comando, artiglieria_semovente. Aerei e navi delle tavole non usati qui (esclusi). 24/11/2026 (sera): varianti italiane (ITA) dalla tavola italiana dell'utente (PNG con sfondo semitrasparente; ritaglio di Claude sul canale alfa, 256 px, 256 colori); fanteria motorizzata e meccanizzata italiane composte da Claude (fante davanti, autocarro SPA o semicingolato dietro). Voci nuove solo italiane per ora: bersaglieri, camicie_nere, carabinieri, salmerie, autocarro_munizioni. I nomi dei modelli scritti sulla tavola (L3/35, M13/40, P40, Semovente 75/18 e 105/25, 47/32, 90/53, 75/27, 100/17, AB 41) sono quelli dell'illustrazione, non verificati da Claude. Bandiera, aerei e navi della tavola non usati.",
+  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026): dalla tavola di illustrazioni sovietiche fornita dall'utente il 20/11/2026 (ritagliate da Claude, sfondo bianco tolto, 256 px, 256 colori) per 19 voci (fanteria, fanteria_motorizzata, fanteria_meccanizzata, carro_leggero, carro_medio, carro_pesante, cacciacarri, cacciacarri_variante, artiglieria_trainata, artiglieria_ippotrainata, contraerea, anticarro, paracadutisti, alpini, ricognizione_motocicletta, autoblindo, logistica_camion, trasporto_camion, trasporto_ippotrainato) e due voci nuove (mortaio, mitragliatrice); le altre (cavalleria, genio, semicingolato, carro_munizioni_ippotrainato, ambulanza) restano ricolorate da Claude con la stella rossa, perché la tavola non ha un equivalente (cavalleria, genio, semicingolato, carri ippotrainati, ambulanza). 20/11/2026, seconda tavola dell'utente (PNG trasparente): cavalleria, genio, semicingolato, carro munizioni ippotrainato e ambulanza sovietici, Nebelwerfer 41 tedesco e Calliope americano (lanciarazzi DEU e USA). Ora nessuna voce sovietica è più ricolorata da Claude, salvo le figure senza equivalente. 24/11/2026: varianti tedesche (DEU) e americane (USA) dalle tavole dell'utente (de_sprite_atlas_preview.png e 26046.png), ritagliate da Claude (sfondo tolto, 256 px, 256 colori). Fanteria motorizzata e meccanizzata DEU/USA: composizioni di Claude (fante davanti, autocarro o semicingolato dietro), su richiesta dell'utente. I carri della tavola tedesca sono tutti del tipo Tiger: usati solo per carro_pesante; carro_leggero e carro_medio tedeschi restano sull'immagine generica. Voci nuove: ufficiale, anticarro_fanteria, autocisterna, auto_comando, artiglieria_semovente. Aerei e navi delle tavole non usati qui (esclusi). 24/11/2026 (sera): varianti italiane (ITA) dalla tavola italiana dell'utente (PNG con sfondo semitrasparente; ritaglio di Claude sul canale alfa, 256 px, 256 colori); fanteria motorizzata e meccanizzata italiane composte da Claude (fante davanti, autocarro SPA o semicingolato dietro). Voci nuove solo italiane per ora: bersaglieri, camicie_nere, carabinieri, salmerie, autocarro_munizioni. I nomi dei modelli scritti sulla tavola (L3/35, M13/40, P40, Semovente 75/18 e 105/25, 47/32, 90/53, 75/27, 100/17, AB 41) sono quelli dell'illustrazione, non verificati da Claude. Bandiera, aerei e navi della tavola non usati. 24/11/2026 (sera): varianti britanniche (GBR) dalla tavola britannica dell'utente (JPEG 1024 px: figure piccole, circa 100 px, non ingrandite; sfondo bianco tolto da Claude). Fanteria motorizzata (Bedford) e meccanizzata (Universal Carrier) britanniche composte da Claude con fante davanti. Fanteria australiana e neozelandese (AUS, NZL): figura Anzac. Voci nuove: commando, fanteria_indiana, carro_fanteria (Matilda II), carro_medio_1944 (Cromwell), artiglieria_pesante (7.2-inch), trattore_artiglieria, portacingoli, sanita. Carro leggero britannico: nessuna figura adatta (manca un Vickers), resta generico. Nomi dei modelli: quelli scritti sulla tavola, non verificati. Bandiera, aerei e navi non usati.",
   "folder": "src/assets/units",
   "items": [
     {
@@ -14,7 +14,10 @@
         "USSR": "01_fanteria_ussr.png",
         "DEU": "01_fanteria_deu.png",
         "USA": "01_fanteria_usa.png",
-        "ITA": "01_fanteria_ita.png"
+        "ITA": "01_fanteria_ita.png",
+        "GBR": "01_fanteria_gbr.png",
+        "AUS": "01_fanteria_anzac.png",
+        "NZL": "01_fanteria_anzac.png"
       }
     },
     {
@@ -25,7 +28,8 @@
         "USSR": "02_fanteria_motorizzata_ussr.png",
         "DEU": "02_fanteria_motorizzata_deu.png",
         "USA": "02_fanteria_motorizzata_usa.png",
-        "ITA": "02_fanteria_motorizzata_ita.png"
+        "ITA": "02_fanteria_motorizzata_ita.png",
+        "GBR": "02_fanteria_motorizzata_gbr.png"
       }
     },
     {
@@ -36,7 +40,8 @@
         "USSR": "03_fanteria_meccanizzata_ussr.png",
         "DEU": "03_fanteria_meccanizzata_deu.png",
         "USA": "03_fanteria_meccanizzata_usa.png",
-        "ITA": "03_fanteria_meccanizzata_ita.png"
+        "ITA": "03_fanteria_meccanizzata_ita.png",
+        "GBR": "03_fanteria_meccanizzata_gbr.png"
       }
     },
     {
@@ -56,7 +61,8 @@
       "byNation": {
         "USSR": "05_carro_medio_ussr.png",
         "USA": "05_carro_medio_usa.png",
-        "ITA": "05_carro_medio_ita.png"
+        "ITA": "05_carro_medio_ita.png",
+        "GBR": "05_carro_medio_gbr.png"
       }
     },
     {
@@ -66,7 +72,8 @@
       "byNation": {
         "USSR": "06_carro_pesante_ussr.png",
         "DEU": "06_carro_pesante_deu.png",
-        "ITA": "06_carro_pesante_ita.png"
+        "ITA": "06_carro_pesante_ita.png",
+        "GBR": "06_carro_pesante_gbr.png"
       }
     },
     {
@@ -98,7 +105,8 @@
         "USSR": "09_artiglieria_trainata_ussr.png",
         "DEU": "09_artiglieria_trainata_deu.png",
         "USA": "09_artiglieria_trainata_usa.png",
-        "ITA": "09_artiglieria_trainata_ita.png"
+        "ITA": "09_artiglieria_trainata_ita.png",
+        "GBR": "09_artiglieria_trainata_gbr.png"
       }
     },
     {
@@ -119,7 +127,8 @@
       "byNation": {
         "USSR": "11_contraerea_ussr.png",
         "DEU": "11_contraerea_deu.png",
-        "ITA": "11_contraerea_ita.png"
+        "ITA": "11_contraerea_ita.png",
+        "GBR": "11_contraerea_gbr.png"
       }
     },
     {
@@ -129,7 +138,8 @@
       "byNation": {
         "USSR": "12_anticarro_ussr.png",
         "DEU": "12_anticarro_deu.png",
-        "ITA": "12_anticarro_ita.png"
+        "ITA": "12_anticarro_ita.png",
+        "GBR": "12_anticarro_gbr.png"
       }
     },
     {
@@ -147,7 +157,8 @@
       "byNation": {
         "USSR": "14_paracadutisti_ussr.png",
         "DEU": "14_paracadutisti_deu.png",
-        "ITA": "14_paracadutisti_ita.png"
+        "ITA": "14_paracadutisti_ita.png",
+        "GBR": "14_paracadutisti_gbr.png"
       }
     },
     {
@@ -166,7 +177,8 @@
       "description": "Geniere che posa una mina",
       "byNation": {
         "USSR": "16_genio_ussr.png",
-        "ITA": "16_genio_ita.png"
+        "ITA": "16_genio_ita.png",
+        "GBR": "16_genio_gbr.png"
       }
     },
     {
@@ -177,7 +189,8 @@
         "USSR": "17_ricognizione_motocicletta_ussr.png",
         "DEU": "17_ricognizione_motocicletta_deu.png",
         "USA": "17_ricognizione_motocicletta_usa.png",
-        "ITA": "17_ricognizione_motocicletta_ita.png"
+        "ITA": "17_ricognizione_motocicletta_ita.png",
+        "GBR": "17_ricognizione_motocicletta_gbr.png"
       }
     },
     {
@@ -188,7 +201,8 @@
         "USSR": "18_autoblindo_ussr.png",
         "DEU": "18_autoblindo_deu.png",
         "USA": "18_autoblindo_usa.png",
-        "ITA": "18_autoblindo_ita.png"
+        "ITA": "18_autoblindo_ita.png",
+        "GBR": "18_autoblindo_gbr.png"
       }
     },
     {
@@ -199,7 +213,8 @@
         "USSR": "19_logistica_camion_ussr.png",
         "DEU": "19_logistica_camion_deu.png",
         "USA": "19_logistica_camion_usa.png",
-        "ITA": "19_logistica_camion_ita.png"
+        "ITA": "19_logistica_camion_ita.png",
+        "GBR": "19_logistica_camion_gbr.png"
       }
     },
     {
@@ -210,7 +225,8 @@
         "USSR": "20_trasporto_camion_ussr.png",
         "DEU": "20_trasporto_camion_deu.png",
         "USA": "20_trasporto_camion_usa.png",
-        "ITA": "20_trasporto_camion_ita.png"
+        "ITA": "20_trasporto_camion_ita.png",
+        "GBR": "20_trasporto_camion_gbr.png"
       }
     },
     {
@@ -250,7 +266,8 @@
       "byNation": {
         "USSR": "24_ambulanza_ussr.png",
         "USA": "24_ambulanza_usa.png",
-        "ITA": "24_ambulanza_ita.png"
+        "ITA": "24_ambulanza_ita.png",
+        "GBR": "24_ambulanza_gbr.png"
       }
     },
     {
@@ -261,7 +278,8 @@
         "USSR": "25_mortaio_ussr.png",
         "DEU": "25_mortaio_deu.png",
         "USA": "25_mortaio_usa.png",
-        "ITA": "25_mortaio_ita.png"
+        "ITA": "25_mortaio_ita.png",
+        "GBR": "25_mortaio_gbr.png"
       }
     },
     {
@@ -272,7 +290,8 @@
         "USSR": "26_mitragliatrice_ussr.png",
         "DEU": "26_mitragliatrice_deu.png",
         "USA": "26_mitragliatrice_usa.png",
-        "ITA": "26_mitragliatrice_ita.png"
+        "ITA": "26_mitragliatrice_ita.png",
+        "GBR": "26_mitragliatrice_gbr.png"
       }
     },
     {
@@ -298,7 +317,8 @@
       "byNation": {
         "DEU": "29_ufficiale_deu.png",
         "USA": "29_ufficiale_usa.png",
-        "ITA": "29_ufficiale_ita.png"
+        "ITA": "29_ufficiale_ita.png",
+        "GBR": "29_ufficiale_gbr.png"
       }
     },
     {
@@ -316,7 +336,8 @@
       "description": "Autocisterna per carburante",
       "byNation": {
         "DEU": "31_autocisterna_deu.png",
-        "ITA": "31_autocisterna_ita.png"
+        "ITA": "31_autocisterna_ita.png",
+        "GBR": "31_autocisterna_gbr.png"
       }
     },
     {
@@ -326,7 +347,8 @@
       "byNation": {
         "DEU": "32_auto_comando_deu.png",
         "USA": "32_auto_comando_usa.png",
-        "ITA": "32_auto_comando_ita.png"
+        "ITA": "32_auto_comando_ita.png",
+        "GBR": "32_auto_comando_gbr.png"
       }
     },
     {
@@ -359,7 +381,8 @@
       "file": "36_carabinieri.png",
       "description": "Carabinieri / polizia militare",
       "byNation": {
-        "ITA": "36_carabinieri_ita.png"
+        "ITA": "36_carabinieri_ita.png",
+        "GBR": "36_carabinieri_gbr.png"
       }
     },
     {
@@ -375,7 +398,72 @@
       "file": "38_autocarro_munizioni.png",
       "description": "Autocarro munizioni",
       "byNation": {
-        "ITA": "38_autocarro_munizioni_ita.png"
+        "ITA": "38_autocarro_munizioni_ita.png",
+        "GBR": "38_autocarro_munizioni_gbr.png"
+      }
+    },
+    {
+      "id": "commando",
+      "file": "39_commando.png",
+      "description": "Commando / reparti speciali",
+      "byNation": {
+        "GBR": "39_commando_gbr.png"
+      }
+    },
+    {
+      "id": "fanteria_indiana",
+      "file": "40_fanteria_indiana.png",
+      "description": "Fanteria indiana",
+      "byNation": {
+        "GBR": "40_fanteria_indiana_gbr.png"
+      }
+    },
+    {
+      "id": "carro_fanteria",
+      "file": "41_carro_fanteria.png",
+      "description": "Carro d'appoggio alla fanteria",
+      "byNation": {
+        "GBR": "41_carro_fanteria_gbr.png"
+      }
+    },
+    {
+      "id": "carro_medio_1944",
+      "file": "42_carro_medio_1944.png",
+      "description": "Carro medio o incrociatore tardo (1943-45)",
+      "byNation": {
+        "GBR": "42_carro_medio_1944_gbr.png"
+      }
+    },
+    {
+      "id": "artiglieria_pesante",
+      "file": "43_artiglieria_pesante.png",
+      "description": "Artiglieria media o pesante trainata",
+      "byNation": {
+        "GBR": "43_artiglieria_pesante_gbr.png"
+      }
+    },
+    {
+      "id": "trattore_artiglieria",
+      "file": "44_trattore_artiglieria.png",
+      "description": "Trattore d'artiglieria",
+      "byNation": {
+        "GBR": "44_trattore_artiglieria_gbr.png"
+      }
+    },
+    {
+      "id": "portacingoli",
+      "file": "45_portacingoli.png",
+      "description": "Portacingoli (Universal Carrier)",
+      "byNation": {
+        "GBR": "45_portacingoli_gbr.png"
+      }
+    },
+    {
+      "id": "sanita",
+      "file": "46_sanita.png",
+      "description": "Sanità: barellieri e infermiere",
+      "byNation": {
+        "GBR": "46_sanita_gbr.png"
       }
     }
   ]
