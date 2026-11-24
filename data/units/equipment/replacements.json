@@ -141,6 +141,21 @@
       "id": "VEH-ITA-AB41",
       "replaces": "VEH-ITA-AB40",
       "basis": "ipotesi"
+    },
+    {
+      "id": "INW-FRA-MAS36",
+      "replaces": "INW-FRA-RIFLE-1939",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "VEH-FRA-MOTO-AX2",
+      "replaces": "VEH-FRA-MOTO-RG",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "VEH-FRA-PANHARD178",
+      "replaces": "VEH-FRA-AMD-WL",
+      "basis": "ipotesi"
     }
   ]
 }

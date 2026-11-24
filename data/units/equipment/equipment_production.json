@@ -935,7 +935,25 @@
     "TD-ITA-SEM-47-32": {"massTonnes": 6.5, "availableFrom": "1942-01-01"},
     "TD-ITA-SEM-75-18": {"massTonnes": 15.0, "availableFrom": "1941-03-01", "availableTo": "1943-06-30"},
     "TD-ITA-SEM-75-34": {"massTonnes": 15.5, "availableFrom": "1943-03-01"},
-    "TD-ITA-SEM-105-25": {"massTonnes": 15.8, "availableFrom": "1943-06-01", "requiresTech": "TECH-ARM-ASSAULT"}
+    "TD-ITA-SEM-105-25": {"massTonnes": 15.8, "availableFrom": "1943-06-01", "requiresTech": "TECH-ARM-ASSAULT"},
+    "INW-FRA-MAS36": {"massTonnes": 0.0037, "availableFrom": "1937-01-01"},
+    "INW-FRA-PISTOL-MAS35": {"massTonnes": 0.00073, "availableFrom": "1937-06-01"},
+    "INW-FRA-SMG-MAS38": {"massTonnes": 0.0029, "availableFrom": "1939-01-01"},
+    "ART-FRA-MOR50": {"massTonnes": 0.0036, "availableFrom": "1937-06-01"},
+    "ART-FRA-GUN105L": {"massTonnes": 3.5, "availableFrom": "1937-01-01"},
+    "ART-FRA-GUN155GPF": {"massTonnes": 13.0, "availableTo": "1939-12-31"},
+    "ART-FRA-GUN75-MONT": {"massTonnes": 0.66},
+    "ART-FRA-AA25": {"massTonnes": 1.15, "availableFrom": "1939-01-01"},
+    "ART-FRA-AA75": {"massTonnes": 6.0},
+    "VEH-FRA-RENAULT-UE": {"massTonnes": 2.6},
+    "VEH-FRA-LORRAINE37L": {"massTonnes": 5.2, "availableFrom": "1939-01-01"},
+    "VEH-FRA-CITROEN23": {"massTonnes": 2.0},
+    "VEH-FRA-RENAULT-3T": {"massTonnes": 4.0},
+    "VEH-FRA-LAFFLY-S20": {"massTonnes": 4.3, "availableFrom": "1937-01-01"},
+    "VEH-FRA-MOTO-RG": {"massTonnes": 0.25, "availableTo": "1938-06-30"},
+    "VEH-FRA-MOTO-AX2": {"massTonnes": 0.32, "availableFrom": "1938-01-01"},
+    "VEH-FRA-AMD-WL": {"massTonnes": 6.5, "availableTo": "1937-06-30"},
+    "VEH-FRA-PANHARD178": {"massTonnes": 8.5, "availableFrom": "1937-01-01"}
   },
   "priceFactor": 1.25
 }

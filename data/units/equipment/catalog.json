@@ -2550,6 +2550,258 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "INW-FRA-MAS36",
+      "nation": "FRA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.5,
+      "designation": "Fusil MAS Mle 1936",
+      "name_it": "Fucile MAS 36",
+      "role": "individual_infantry_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-FRA-PISTOL-MAS35",
+      "nation": "FRA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.65,
+      "designation": "Pistolet Mle 1935A/S",
+      "name_it": "Pistola Mle 1935",
+      "role": "officer_and_specialist_sidearm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-FRA-SMG-MAS38",
+      "nation": "FRA",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.65,
+      "designation": "Pistolet-mitrailleur MAS 38",
+      "name_it": "Mitra MAS 38",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-FRA-MOR50",
+      "nation": "FRA",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 50,
+      "designation": "Mortier de 50 mm Mle 1937",
+      "name_it": "Mortaio da 50 mm Mle 37",
+      "role": "close_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-FRA-GUN105L",
+      "nation": "FRA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 105,
+      "designation": "Canon de 105 L Mle 1936 Schneider",
+      "name_it": "Cannone da 105 L Mle 1936",
+      "role": "divisional_heavy_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-FRA-GUN155GPF",
+      "nation": "FRA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 155,
+      "designation": "Canon de 155 GPF Mle 1917",
+      "name_it": "Cannone da 155 GPF",
+      "role": "divisional_heavy_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-FRA-GUN75-MONT",
+      "nation": "FRA",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Canon de 75 mm de montagne Mle 1928",
+      "name_it": "Cannone da montagna da 75 Mle 1928",
+      "role": "mountain_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-FRA-AA25",
+      "nation": "FRA",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 25,
+      "designation": "Canon de 25 mm CA Mle 1939 Hotchkiss",
+      "name_it": "Contraerea Hotchkiss da 25 mm",
+      "role": "light_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-FRA-AA75",
+      "nation": "FRA",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Canon de 75 mm CA Mle 1932",
+      "name_it": "Contraerea da 75 mm Mle 1932",
+      "role": "heavy_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-RENAULT-UE",
+      "nation": "FRA",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Chenillette Renault UE",
+      "name_it": "Portamunizioni cingolato Renault UE",
+      "role": "light_utility",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-LORRAINE37L",
+      "nation": "FRA",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Tracteur de ravitaillement Lorraine 37L",
+      "name_it": "Trattore cingolato Lorraine 37L",
+      "role": "light_utility",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-CITROEN23",
+      "nation": "FRA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Citroën Type 23",
+      "name_it": "Autocarro leggero Citroën 23",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-RENAULT-3T",
+      "nation": "FRA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Camion Renault 3,5 t (AGC/AGR)",
+      "name_it": "Autocarro Renault da 3,5 t",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-LAFFLY-S20",
+      "nation": "FRA",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Laffly S20 TL",
+      "name_it": "Trattore d'artiglieria Laffly S20",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-MOTO-RG",
+      "nation": "FRA",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Motocyclette René-Gillet",
+      "name_it": "Motocicletta René-Gillet",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-MOTO-AX2",
+      "nation": "FRA",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Gnome et Rhône AX2",
+      "name_it": "Motocicletta Gnome-Rhône AX2",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-AMD-WL",
+      "nation": "FRA",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Automitrailleuse White-Laffly AMD 50",
+      "name_it": "Autoblindo White-Laffly",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-FRA-PANHARD178",
+      "nation": "FRA",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Panhard 178 (AMD 35)",
+      "name_it": "Autoblindo Panhard 178",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -3392,6 +3644,96 @@
       "nation": "ITA",
       "templateKey": "TD-ITA-SEM-105-25",
       "equipment_id": "TD-ITA-SEM-105-25"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "INW-FRA-MAS36",
+      "equipment_id": "INW-FRA-MAS36"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "INW-FRA-PISTOL-MAS35",
+      "equipment_id": "INW-FRA-PISTOL-MAS35"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "INW-FRA-SMG-MAS38",
+      "equipment_id": "INW-FRA-SMG-MAS38"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-MOR50",
+      "equipment_id": "ART-FRA-MOR50"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-GUN105L",
+      "equipment_id": "ART-FRA-GUN105L"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-GUN155GPF",
+      "equipment_id": "ART-FRA-GUN155GPF"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-GUN75-MONT",
+      "equipment_id": "ART-FRA-GUN75-MONT"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-AA25",
+      "equipment_id": "ART-FRA-AA25"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "ART-FRA-AA75",
+      "equipment_id": "ART-FRA-AA75"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-RENAULT-UE",
+      "equipment_id": "VEH-FRA-RENAULT-UE"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-LORRAINE37L",
+      "equipment_id": "VEH-FRA-LORRAINE37L"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-CITROEN23",
+      "equipment_id": "VEH-FRA-CITROEN23"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-RENAULT-3T",
+      "equipment_id": "VEH-FRA-RENAULT-3T"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-LAFFLY-S20",
+      "equipment_id": "VEH-FRA-LAFFLY-S20"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-MOTO-RG",
+      "equipment_id": "VEH-FRA-MOTO-RG"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-MOTO-AX2",
+      "equipment_id": "VEH-FRA-MOTO-AX2"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-AMD-WL",
+      "equipment_id": "VEH-FRA-AMD-WL"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "VEH-FRA-PANHARD178",
+      "equipment_id": "VEH-FRA-PANHARD178"
     }
   ]
 }
