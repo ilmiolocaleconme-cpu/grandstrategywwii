@@ -583,7 +583,7 @@
         "VEH-USA-JEEP": 10
       },
       "mobility": "mechanized",
-      "illustration": "artiglieria_trainata",
+      "illustration": "artiglieria_semovente",
       "requiresTech": [
         "TECH-MOT-INF",
         "TECH-MECH-HT"
@@ -753,7 +753,7 @@
         "VEH-USA-GMC-CCKW": 30
       },
       "mobility": "mechanized",
-      "illustration": "artiglieria_trainata",
+      "illustration": "artiglieria_semovente",
       "requiresTech": [
         "TECH-MOT-INF",
         "TECH-MECH-HT"

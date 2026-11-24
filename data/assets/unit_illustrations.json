@@ -3,7 +3,7 @@
   "status": "PRELIMINARY",
   "source": "Fornite dall'utente il 18/11/2026 (archivio grandstrategywwii_military_assets_png.zip): 24 PNG ritagliati da una tavola generata.",
   "license": "Dell'utente, per questo progetto.",
-  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026): dalla tavola di illustrazioni sovietiche fornita dall'utente il 20/11/2026 (ritagliate da Claude, sfondo bianco tolto, 256 px, 256 colori) per 19 voci (fanteria, fanteria_motorizzata, fanteria_meccanizzata, carro_leggero, carro_medio, carro_pesante, cacciacarri, cacciacarri_variante, artiglieria_trainata, artiglieria_ippotrainata, contraerea, anticarro, paracadutisti, alpini, ricognizione_motocicletta, autoblindo, logistica_camion, trasporto_camion, trasporto_ippotrainato) e due voci nuove (mortaio, mitragliatrice); le altre (cavalleria, genio, semicingolato, carro_munizioni_ippotrainato, ambulanza) restano ricolorate da Claude con la stella rossa, perché la tavola non ha un equivalente (cavalleria, genio, semicingolato, carri ippotrainati, ambulanza). 20/11/2026, seconda tavola dell'utente (PNG trasparente): cavalleria, genio, semicingolato, carro munizioni ippotrainato e ambulanza sovietici, Nebelwerfer 41 tedesco e Calliope americano (lanciarazzi DEU e USA). Ora nessuna voce sovietica è più ricolorata da Claude, salvo le figure senza equivalente.",
+  "note": "Illustrazioni generiche di stile WWII, NON identificazioni storiche verificate di modelli o nazioni (molte hanno insegne tedesche): da sostituire con versioni per nazione prima della pubblicazione. Elaborazione di Claude: tolti i frammenti delle immagini vicine, ritagliate, ridotte a 256 px e a 256 colori. Varianti sovietiche (byNation.USSR, 20/11/2026): dalla tavola di illustrazioni sovietiche fornita dall'utente il 20/11/2026 (ritagliate da Claude, sfondo bianco tolto, 256 px, 256 colori) per 19 voci (fanteria, fanteria_motorizzata, fanteria_meccanizzata, carro_leggero, carro_medio, carro_pesante, cacciacarri, cacciacarri_variante, artiglieria_trainata, artiglieria_ippotrainata, contraerea, anticarro, paracadutisti, alpini, ricognizione_motocicletta, autoblindo, logistica_camion, trasporto_camion, trasporto_ippotrainato) e due voci nuove (mortaio, mitragliatrice); le altre (cavalleria, genio, semicingolato, carro_munizioni_ippotrainato, ambulanza) restano ricolorate da Claude con la stella rossa, perché la tavola non ha un equivalente (cavalleria, genio, semicingolato, carri ippotrainati, ambulanza). 20/11/2026, seconda tavola dell'utente (PNG trasparente): cavalleria, genio, semicingolato, carro munizioni ippotrainato e ambulanza sovietici, Nebelwerfer 41 tedesco e Calliope americano (lanciarazzi DEU e USA). Ora nessuna voce sovietica è più ricolorata da Claude, salvo le figure senza equivalente. 24/11/2026: varianti tedesche (DEU) e americane (USA) dalle tavole dell'utente (de_sprite_atlas_preview.png e 26046.png), ritagliate da Claude (sfondo tolto, 256 px, 256 colori). Fanteria motorizzata e meccanizzata DEU/USA: composizioni di Claude (fante davanti, autocarro o semicingolato dietro), su richiesta dell'utente. I carri della tavola tedesca sono tutti del tipo Tiger: usati solo per carro_pesante; carro_leggero e carro_medio tedeschi restano sull'immagine generica. Voci nuove: ufficiale, anticarro_fanteria, autocisterna, auto_comando, artiglieria_semovente. Aerei e navi delle tavole non usati qui (esclusi). 24/11/2026 (sera): varianti italiane (ITA) dalla tavola italiana dell'utente (PNG con sfondo semitrasparente; ritaglio di Claude sul canale alfa, 256 px, 256 colori); fanteria motorizzata e meccanizzata italiane composte da Claude (fante davanti, autocarro SPA o semicingolato dietro). Voci nuove solo italiane per ora: bersaglieri, camicie_nere, carabinieri, salmerie, autocarro_munizioni. I nomi dei modelli scritti sulla tavola (L3/35, M13/40, P40, Semovente 75/18 e 105/25, 47/32, 90/53, 75/27, 100/17, AB 41) sono quelli dell'illustrazione, non verificati da Claude. Bandiera, aerei e navi della tavola non usati.",
   "folder": "src/assets/units",
   "items": [
     {
@@ -11,7 +11,10 @@
       "file": "01_fanteria.png",
       "description": "Fante in marcia d'assalto con fucile",
       "byNation": {
-        "USSR": "01_fanteria_ussr.png"
+        "USSR": "01_fanteria_ussr.png",
+        "DEU": "01_fanteria_deu.png",
+        "USA": "01_fanteria_usa.png",
+        "ITA": "01_fanteria_ita.png"
       }
     },
     {
@@ -19,7 +22,10 @@
       "file": "02_fanteria_motorizzata.png",
       "description": "Fante con pistola mitragliatrice",
       "byNation": {
-        "USSR": "02_fanteria_motorizzata_ussr.png"
+        "USSR": "02_fanteria_motorizzata_ussr.png",
+        "DEU": "02_fanteria_motorizzata_deu.png",
+        "USA": "02_fanteria_motorizzata_usa.png",
+        "ITA": "02_fanteria_motorizzata_ita.png"
       }
     },
     {
@@ -27,7 +33,10 @@
       "file": "03_fanteria_meccanizzata.png",
       "description": "Fante davanti a un veicolo cingolato",
       "byNation": {
-        "USSR": "03_fanteria_meccanizzata_ussr.png"
+        "USSR": "03_fanteria_meccanizzata_ussr.png",
+        "DEU": "03_fanteria_meccanizzata_deu.png",
+        "USA": "03_fanteria_meccanizzata_usa.png",
+        "ITA": "03_fanteria_meccanizzata_ita.png"
       }
     },
     {
@@ -35,7 +44,9 @@
       "file": "04_carro_leggero.png",
       "description": "Carro armato leggero",
       "byNation": {
-        "USSR": "04_carro_leggero_ussr.png"
+        "USSR": "04_carro_leggero_ussr.png",
+        "USA": "04_carro_leggero_usa.png",
+        "ITA": "04_carro_leggero_ita.png"
       }
     },
     {
@@ -43,7 +54,9 @@
       "file": "05_carro_medio.png",
       "description": "Carro armato medio con mimetica",
       "byNation": {
-        "USSR": "05_carro_medio_ussr.png"
+        "USSR": "05_carro_medio_ussr.png",
+        "USA": "05_carro_medio_usa.png",
+        "ITA": "05_carro_medio_ita.png"
       }
     },
     {
@@ -51,7 +64,9 @@
       "file": "06_carro_pesante.png",
       "description": "Carro armato pesante con mimetica",
       "byNation": {
-        "USSR": "06_carro_pesante_ussr.png"
+        "USSR": "06_carro_pesante_ussr.png",
+        "DEU": "06_carro_pesante_deu.png",
+        "ITA": "06_carro_pesante_ita.png"
       }
     },
     {
@@ -59,7 +74,10 @@
       "file": "07_cacciacarri.png",
       "description": "Cacciacarri in casamatta",
       "byNation": {
-        "USSR": "07_cacciacarri_ussr.png"
+        "USSR": "07_cacciacarri_ussr.png",
+        "DEU": "07_cacciacarri_deu.png",
+        "USA": "07_cacciacarri_usa.png",
+        "ITA": "07_cacciacarri_ita.png"
       }
     },
     {
@@ -67,7 +85,9 @@
       "file": "08_cacciacarri_variante.png",
       "description": "Cacciacarri in casamatta (variante)",
       "byNation": {
-        "USSR": "08_cacciacarri_variante_ussr.png"
+        "USSR": "08_cacciacarri_variante_ussr.png",
+        "DEU": "08_cacciacarri_variante_deu.png",
+        "USA": "08_cacciacarri_variante_usa.png"
       }
     },
     {
@@ -75,7 +95,10 @@
       "file": "09_artiglieria_trainata.png",
       "description": "Pezzo d'artiglieria da campagna",
       "byNation": {
-        "USSR": "09_artiglieria_trainata_ussr.png"
+        "USSR": "09_artiglieria_trainata_ussr.png",
+        "DEU": "09_artiglieria_trainata_deu.png",
+        "USA": "09_artiglieria_trainata_usa.png",
+        "ITA": "09_artiglieria_trainata_ita.png"
       }
     },
     {
@@ -83,7 +106,10 @@
       "file": "10_artiglieria_ippotrainata.png",
       "description": "Pezzo d'artiglieria trainato da cavalli",
       "byNation": {
-        "USSR": "10_artiglieria_ippotrainata_ussr.png"
+        "USSR": "10_artiglieria_ippotrainata_ussr.png",
+        "DEU": "10_artiglieria_ippotrainata_deu.png",
+        "USA": "10_artiglieria_ippotrainata_usa.png",
+        "ITA": "10_artiglieria_ippotrainata_ita.png"
       }
     },
     {
@@ -91,7 +117,9 @@
       "file": "11_contraerea.png",
       "description": "Cannone contraereo binato su carrello",
       "byNation": {
-        "USSR": "11_contraerea_ussr.png"
+        "USSR": "11_contraerea_ussr.png",
+        "DEU": "11_contraerea_deu.png",
+        "ITA": "11_contraerea_ita.png"
       }
     },
     {
@@ -99,7 +127,9 @@
       "file": "12_anticarro.png",
       "description": "Cannone anticarro con serventi",
       "byNation": {
-        "USSR": "12_anticarro_ussr.png"
+        "USSR": "12_anticarro_ussr.png",
+        "DEU": "12_anticarro_deu.png",
+        "ITA": "12_anticarro_ita.png"
       }
     },
     {
@@ -115,7 +145,9 @@
       "file": "14_paracadutisti.png",
       "description": "Paracadutista",
       "byNation": {
-        "USSR": "14_paracadutisti_ussr.png"
+        "USSR": "14_paracadutisti_ussr.png",
+        "DEU": "14_paracadutisti_deu.png",
+        "ITA": "14_paracadutisti_ita.png"
       }
     },
     {
@@ -123,7 +155,9 @@
       "file": "15_alpini.png",
       "description": "Truppa da montagna sugli sci",
       "byNation": {
-        "USSR": "15_alpini_ussr.png"
+        "USSR": "15_alpini_ussr.png",
+        "DEU": "15_alpini_deu.png",
+        "ITA": "15_alpini_ita.png"
       }
     },
     {
@@ -131,7 +165,8 @@
       "file": "16_genio.png",
       "description": "Geniere che posa una mina",
       "byNation": {
-        "USSR": "16_genio_ussr.png"
+        "USSR": "16_genio_ussr.png",
+        "ITA": "16_genio_ita.png"
       }
     },
     {
@@ -139,7 +174,10 @@
       "file": "17_ricognizione_motocicletta.png",
       "description": "Esploratore in motocicletta",
       "byNation": {
-        "USSR": "17_ricognizione_motocicletta_ussr.png"
+        "USSR": "17_ricognizione_motocicletta_ussr.png",
+        "DEU": "17_ricognizione_motocicletta_deu.png",
+        "USA": "17_ricognizione_motocicletta_usa.png",
+        "ITA": "17_ricognizione_motocicletta_ita.png"
       }
     },
     {
@@ -147,7 +185,10 @@
       "file": "18_autoblindo.png",
       "description": "Autoblindo",
       "byNation": {
-        "USSR": "18_autoblindo_ussr.png"
+        "USSR": "18_autoblindo_ussr.png",
+        "DEU": "18_autoblindo_deu.png",
+        "USA": "18_autoblindo_usa.png",
+        "ITA": "18_autoblindo_ita.png"
       }
     },
     {
@@ -155,7 +196,10 @@
       "file": "19_logistica_camion.png",
       "description": "Autocarro logistico a tre assi",
       "byNation": {
-        "USSR": "19_logistica_camion_ussr.png"
+        "USSR": "19_logistica_camion_ussr.png",
+        "DEU": "19_logistica_camion_deu.png",
+        "USA": "19_logistica_camion_usa.png",
+        "ITA": "19_logistica_camion_ita.png"
       }
     },
     {
@@ -163,7 +207,10 @@
       "file": "20_trasporto_camion.png",
       "description": "Autocarro da trasporto",
       "byNation": {
-        "USSR": "20_trasporto_camion_ussr.png"
+        "USSR": "20_trasporto_camion_ussr.png",
+        "DEU": "20_trasporto_camion_deu.png",
+        "USA": "20_trasporto_camion_usa.png",
+        "ITA": "20_trasporto_camion_ita.png"
       }
     },
     {
@@ -171,7 +218,10 @@
       "file": "21_semicingolato.png",
       "description": "Semicingolato",
       "byNation": {
-        "USSR": "21_semicingolato_ussr.png"
+        "USSR": "21_semicingolato_ussr.png",
+        "DEU": "21_semicingolato_deu.png",
+        "USA": "21_semicingolato_usa.png",
+        "ITA": "21_semicingolato_ita.png"
       }
     },
     {
@@ -179,7 +229,10 @@
       "file": "22_trasporto_ippotrainato.png",
       "description": "Carro da trasporto trainato da cavalli",
       "byNation": {
-        "USSR": "22_trasporto_ippotrainato_ussr.png"
+        "USSR": "22_trasporto_ippotrainato_ussr.png",
+        "DEU": "22_trasporto_ippotrainato_deu.png",
+        "USA": "22_trasporto_ippotrainato_usa.png",
+        "ITA": "22_trasporto_ippotrainato_ita.png"
       }
     },
     {
@@ -195,7 +248,9 @@
       "file": "24_ambulanza.png",
       "description": "Autoambulanza",
       "byNation": {
-        "USSR": "24_ambulanza_ussr.png"
+        "USSR": "24_ambulanza_ussr.png",
+        "USA": "24_ambulanza_usa.png",
+        "ITA": "24_ambulanza_ita.png"
       }
     },
     {
@@ -203,7 +258,10 @@
       "file": "25_mortaio_ussr.png",
       "description": "Serventi sovietici al mortaio pesante (solo variante sovietica: per ora nessuna versione per le altre nazioni)",
       "byNation": {
-        "USSR": "25_mortaio_ussr.png"
+        "USSR": "25_mortaio_ussr.png",
+        "DEU": "25_mortaio_deu.png",
+        "USA": "25_mortaio_usa.png",
+        "ITA": "25_mortaio_ita.png"
       }
     },
     {
@@ -211,7 +269,10 @@
       "file": "26_mitragliatrice_ussr.png",
       "description": "Mitragliere sovietico con la Maxim su affusto a ruote (solo variante sovietica: per ora nessuna versione per le altre nazioni)",
       "byNation": {
-        "USSR": "26_mitragliatrice_ussr.png"
+        "USSR": "26_mitragliatrice_ussr.png",
+        "DEU": "26_mitragliatrice_deu.png",
+        "USA": "26_mitragliatrice_usa.png",
+        "ITA": "26_mitragliatrice_ita.png"
       }
     },
     {
@@ -229,6 +290,93 @@
       "file": "27_lanciarazzi_deu.png",
       "description": "Lanciarazzi semovente (Panzerwerfer 42 su semicingolato Maultier): per ora l'immagine del Nebelwerfer trainato, in attesa dell'illustrazione",
       "byNation": {}
+    },
+    {
+      "id": "ufficiale",
+      "file": "29_ufficiale.png",
+      "description": "Ufficiale (comando di reparto)",
+      "byNation": {
+        "DEU": "29_ufficiale_deu.png",
+        "USA": "29_ufficiale_usa.png",
+        "ITA": "29_ufficiale_ita.png"
+      }
+    },
+    {
+      "id": "anticarro_fanteria",
+      "file": "30_anticarro_fanteria.png",
+      "description": "Arma anticarro della fanteria (fucile anticarro, bazooka)",
+      "byNation": {
+        "DEU": "30_anticarro_fanteria_deu.png",
+        "USA": "30_anticarro_fanteria_usa.png"
+      }
+    },
+    {
+      "id": "autocisterna",
+      "file": "31_autocisterna.png",
+      "description": "Autocisterna per carburante",
+      "byNation": {
+        "DEU": "31_autocisterna_deu.png",
+        "ITA": "31_autocisterna_ita.png"
+      }
+    },
+    {
+      "id": "auto_comando",
+      "file": "32_auto_comando.png",
+      "description": "Vettura da comando o da collegamento",
+      "byNation": {
+        "DEU": "32_auto_comando_deu.png",
+        "USA": "32_auto_comando_usa.png",
+        "ITA": "32_auto_comando_ita.png"
+      }
+    },
+    {
+      "id": "artiglieria_semovente",
+      "file": "33_artiglieria_semovente.png",
+      "description": "Artiglieria semovente",
+      "byNation": {
+        "USA": "33_artiglieria_semovente_usa.png",
+        "ITA": "33_artiglieria_semovente_ita.png"
+      }
+    },
+    {
+      "id": "bersaglieri",
+      "file": "34_bersaglieri.png",
+      "description": "Bersaglieri (fanteria leggera celere)",
+      "byNation": {
+        "ITA": "34_bersaglieri_ita.png"
+      }
+    },
+    {
+      "id": "camicie_nere",
+      "file": "35_camicie_nere.png",
+      "description": "Milizia (Camicie Nere, MVSN)",
+      "byNation": {
+        "ITA": "35_camicie_nere_ita.png"
+      }
+    },
+    {
+      "id": "carabinieri",
+      "file": "36_carabinieri.png",
+      "description": "Carabinieri / polizia militare",
+      "byNation": {
+        "ITA": "36_carabinieri_ita.png"
+      }
+    },
+    {
+      "id": "salmerie",
+      "file": "37_salmerie.png",
+      "description": "Salmerie: muli da soma",
+      "byNation": {
+        "ITA": "37_salmerie_ita.png"
+      }
+    },
+    {
+      "id": "autocarro_munizioni",
+      "file": "38_autocarro_munizioni.png",
+      "description": "Autocarro munizioni",
+      "byNation": {
+        "ITA": "38_autocarro_munizioni_ita.png"
+      }
     }
   ]
 }
