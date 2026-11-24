@@ -455,6 +455,29 @@
         {
           "factory": "FCT-WEAPONS",
           "recipeId": "REC-INW-GBR-RIFLE",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-GBR-NO4",
+            "from": "1941-07-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-GBR-PISTOL-WEBLEY",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-GBR-LEWIS",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-MG-GBR-BREN",
+            "from": "1937-09-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-GBR-VICKERS",
           "count": 1
         },
         {
@@ -463,9 +486,73 @@
           "count": 1
         },
         {
-          "factory": "FCT-ARTILLERY",
-          "recipeId": "REC-ART-GBR-FIELD",
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-GBR-TRUCK15",
           "count": 1
+        },
+        {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-GBR-TRUCK3T",
+          "count": 1
+        },
+        {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-GBR-TRUCK15",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-VEH-GBR-CARRIER",
+            "from": "1936-06-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-GBR-18PDR",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-GBR-25PDR-ARM-1939",
+            "from": "1940-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-GBR-MOR3IN",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-GBR-MOR3IN",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-GBR-MOR2IN",
+            "from": "1938-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-GBR-MOR3IN",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-GBR-BOYS",
+            "from": "1937-11-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-GBR-18PDR",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-GBR-2PDR-ARM-1939",
+            "from": "1937-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-GBR-HOW45",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-GBR-HOW55",
+            "from": "1941-05-01"
+          }
         },
         {
           "factory": "FCT-FEED",
@@ -485,7 +572,7 @@
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 3
+          "count": 4
         }
       ]
     },
