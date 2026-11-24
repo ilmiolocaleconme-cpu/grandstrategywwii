@@ -1,0 +1,256 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-GBR-MOB-1937",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "GBR",
+    "category": "armored",
+    "echelon": "division",
+    "activeFrom": "1937-11-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. Mobile Division 1937: 2 brigate di cavalleria meccanizzata con carri leggeri (6 reggimenti), gruppo di supporto con 2 battaglioni motorizzati e artiglieria, genio, trasmissioni, servizi.",
+  "formation": {
+    "value": "Mobile Division 1937: 2 brigate di cavalleria meccanizzata con carri leggeri (6 reggimenti), gruppo di supporto con 2 battaglioni motorizzati e artiglieria, genio, trasmissioni, servizi",
+    "basis": "ipotesi",
+    "referenceYear": "1937",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-GBR-LT-REGT",
+      "count": 6,
+      "name": "Light Tank Regiment (1937)",
+      "name_it": "Reggimento di carri leggeri (1937)"
+    },
+    {
+      "id": "MOD-GBR-MOT-INF",
+      "count": 2,
+      "name": "Motor Battalion (1938)",
+      "name_it": "Battaglione motorizzato (1938)"
+    },
+    {
+      "id": "MOD-GBR-FIELD-1938",
+      "count": 1,
+      "name": "Field Regiment, Royal Artillery (mechanised, 1938)",
+      "name_it": "Reggimento d'artiglieria campale (motorizzato, 1938)"
+    },
+    {
+      "id": "MOD-GBR-ENG",
+      "count": 1,
+      "name": "Divisional Engineers, Royal Engineers (3 Field Companies and a Field Park Company)",
+      "name_it": "Genio divisionale (3 compagnie e un parco)"
+    },
+    {
+      "id": "MOD-GBR-SVC",
+      "count": 1,
+      "name": "Divisional and Brigade Headquarters, Signals and Services (motorised, 1937)",
+      "name_it": "Comandi, trasmissioni e servizi divisionali (motorizzati, 1937)"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 9050,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 0,
+    "basis": "ipotesi",
+    "referenceYear": "1937",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-GBR-18PDR": {
+      "value": 16,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-BOYS": {
+      "value": 44,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-HOW45": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-MOR3IN": {
+      "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-GBR-PISTOL-WEBLEY": {
+      "value": 1250,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-GBR-RIFLE": {
+      "value": 5600,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-GBR-BREN": {
+      "value": 120,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-GBR-LIGHT-TANK-1939": {
+      "value": 276,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-CARRIER": {
+      "value": 88,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-MOTO": {
+      "value": 210,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-TRUCK15": {
+      "value": 466,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-TRUCK3T": {
+      "value": 338,
+      "basis": "ipotesi",
+      "referenceYear": "1937",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-LT-REGT, 2× MOD-GBR-MOT-INF, 1× MOD-GBR-FIELD-1938, 1× MOD-GBR-ENG, 1× MOD-GBR-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

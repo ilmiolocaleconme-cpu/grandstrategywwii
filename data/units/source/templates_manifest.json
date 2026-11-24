@@ -83,7 +83,7 @@
       "template": "gbr_arm_template_1939.csv",
       "lines": "gbr_arm_equipment_1939.csv",
       "catalog": "land_equipment_catalog_gbr_arm_1939.csv",
-      "output": "divisione_corazzata_gran_bretagna_1939.json"
+      "output": "divisione_corazzata_gran_bretagna_1939.json", "templateOutput": false, "templateOutputNote": "24/11/2026, schema unico (decisione dell'utente «come Germania e URSS»): il template TPL-GBR-ARM-1939 (stesso id) viene dai battaglioni di data/units/modules/modules_gbr.json; il CSV genera solo il catalogo."
     },
     {
       "id": "ITA-ARM-1940",

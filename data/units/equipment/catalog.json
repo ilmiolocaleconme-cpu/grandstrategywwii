@@ -2493,6 +2493,11 @@
       "nation": "GBR",
       "templateKey": "VEH-GBR-DAIMLER-AC",
       "equipment_id": "VEH-GBR-DAIMLER-AC"
+    },
+    {
+      "nation": "GBR",
+      "templateKey": "INW-GBR-RIFLE",
+      "equipment_id": "INW-GBR-RIFLE"
     }
   ]
 }

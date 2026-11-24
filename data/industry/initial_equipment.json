@@ -25,6 +25,23 @@
         "VEH-DEU-TRUCK": 3500
       }
     },
+    "GBR": {
+      "tier": "large",
+      "divisions": 14,
+      "templateId": "TPL-GBR-INF-1936",
+      "equipment": {
+        "ART-GBR-18PDR": 504,
+        "ART-GBR-HOW45": 168,
+        "ART-GBR-MOR3IN": 336,
+        "INW-GBR-PISTOL-WEBLEY": 12180,
+        "INW-GBR-RIFLE": 159320,
+        "MG-GBR-LEWIS": 5376,
+        "MG-GBR-VICKERS": 1344,
+        "VEH-GBR-MOTO": 1092,
+        "VEH-GBR-TRUCK15": 3500,
+        "VEH-GBR-TRUCK3T": 3192
+      }
+    },
     "USA": {
       "tier": "large",
       "divisions": 14,
@@ -86,7 +103,6 @@
     "ETH",
     "FIN",
     "FRA",
-    "GBR",
     "GRC",
     "GTM",
     "HND",

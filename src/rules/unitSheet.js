@@ -79,7 +79,7 @@ export const EQUIPMENT_GROUP = Object.freeze({
   'TD-DEU-STUG-III': 'corazzati', 'TD-DEU-STUG-III-G': 'corazzati', 'TD-DEU-PZJG-I': 'corazzati', 'TD-DEU-MARDER-III': 'corazzati', 'TD-DEU-JPZ-IV': 'corazzati', 'TD-DEU-HETZER': 'corazzati', 'TD-DEU-JAGDPANTHER': 'corazzati', // cacciacarri
   fucili: 'individuali', pistole: 'individuali', 'INW-DEU-RIFLE-1939': 'individuali', 'INW-DEU-PISTOL-1939': 'individuali',
   'INW-FRA-RIFLE-1939': 'individuali', 'INW-FRA-PISTOL-1939': 'individuali', 'INW-ITA-RIFLE-1940': 'individuali', 'INW-ITA-PISTOL-1940': 'individuali',
-  'INW-USSR-RIFLE-1939': 'individuali', 'INW-JPN-RIFLE-1939': 'individuali', 'INW-USA-RIFLE-1940': 'individuali',
+  'INW-USSR-RIFLE-1939': 'individuali', 'INW-JPN-RIFLE-1939': 'individuali', 'INW-USA-RIFLE-1940': 'individuali', 'INW-GBR-RIFLE': 'individuali',
   mitragliatrici: 'mitragliatrici', mitragliatriciLeggere: 'mitragliatrici', mitragliatriciPesanti: 'mitragliatrici',
   'MG-DEU-MG34-L': 'mitragliatrici', 'MG-DEU-MG34-S': 'mitragliatrici', 'MG-FRA-FM2429': 'mitragliatrici', 'MG-FRA-HOTCHKISS1914': 'mitragliatrici',
   'MG-ITA-HMG-1940': 'mitragliatrici', 'MG-ITA-LMG-1940': 'mitragliatrici',

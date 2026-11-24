@@ -1,0 +1,204 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-GBR-ABN-1942",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "GBR",
+    "category": "airborne",
+    "echelon": "division",
+    "activeFrom": "1942-11-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione aviotrasportata 1942-44: 2 brigate paracadutisti (6 battaglioni) e una brigata su alianti (3 battaglioni), anticarro da 6 libbre, genio paracadutista, servizi. Niente obici someggiati da 75 mm: erano americani (Lend-Lease, escluso dalla scelta 1A).",
+  "formation": {
+    "value": "divisione aviotrasportata 1942-44: 2 brigate paracadutisti (6 battaglioni) e una brigata su alianti (3 battaglioni), anticarro da 6 libbre, genio paracadutista, servizi. Niente obici someggiati da 75 mm: erano americani (Lend-Lease, escluso dalla scelta 1A)",
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-GBR-PARA",
+      "count": 6,
+      "name": "Parachute Battalion (1942)",
+      "name_it": "Battaglione paracadutisti (1942)"
+    },
+    {
+      "id": "MOD-GBR-AIRLANDING",
+      "count": 3,
+      "name": "Airlanding Battalion (1942)",
+      "name_it": "Battaglione aviotrasportato su alianti (1942)"
+    },
+    {
+      "id": "MOD-GBR-AT-ABN",
+      "count": 1,
+      "name": "Airlanding Anti-Tank Battery (6-pounder)",
+      "name_it": "Batteria anticarro aviotrasportata (6 libbre)"
+    },
+    {
+      "id": "MOD-GBR-ENG-ABN",
+      "count": 2,
+      "name": "Parachute Squadron, Royal Engineers",
+      "name_it": "Squadrone del genio paracadutista"
+    },
+    {
+      "id": "MOD-GBR-SVC-ABN",
+      "count": 1,
+      "name": "Airborne Divisional Services",
+      "name_it": "Servizi della divisione aviotrasportata"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 8428,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 0,
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-GBR-6PDR": {
+      "value": 16,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-MOR2IN": {
+      "value": 90,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-GBR-MOR3IN": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-GBR-NO4": {
+      "value": 5800,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-GBR-PISTOL-WEBLEY": {
+      "value": 540,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-GBR-SMG-STEN": {
+      "value": 1360,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-GBR-BREN": {
+      "value": 330,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-GBR-MOTO": {
+      "value": 126,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (6× MOD-GBR-PARA, 3× MOD-GBR-AIRLANDING, 1× MOD-GBR-AT-ABN, 2× MOD-GBR-ENG-ABN, 1× MOD-GBR-SVC-ABN). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

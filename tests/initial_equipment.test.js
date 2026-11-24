@@ -31,7 +31,8 @@ test('Germania: 14 dotazioni della fanteria 1936, niente carri', () => {
   assert.equal(deu.equipment['ART-DEU-GRW36'], 14 * 81);
   assert.ok(Object.keys(deu.equipment).every((k) => !/^TNK-/.test(k)), 'nessun carro');
   assert.ok(file.nations.USSR && file.nations.USA, 'anche URSS e USA (schema unico)');
-  assert.ok(file.pending.includes('GBR'), 'il Regno Unito aspetta la fanteria a battaglioni');
+  assert.ok(file.pending.includes('FRA'), 'la Francia aspetta la fanteria a battaglioni');
+  assert.equal(file.nations.GBR?.templateId, 'TPL-GBR-INF-1936', 'Regno Unito dai battaglioni dal 24/11/2026');
   assert.ok(!file.pending.includes('LUX') && !file.nations.LUX, 'fascia 0: niente riserva e non in attesa');
 });
 

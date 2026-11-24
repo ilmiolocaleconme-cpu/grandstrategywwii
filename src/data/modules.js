@@ -78,6 +78,8 @@ export function validateModules(doc, { catalogIds = null, techIds = null } = {})
       else if (m.availableFrom && m.availableFrom > c.activeFrom) e.push(`${p}: il modulo ${id} esiste solo dal ${m.availableFrom}`);
       if (!(Number.isInteger(n) && n > 0)) e.push(`${p}: quantità di ${id} non valida`);
     }
+    if (c.initialFillRatio !== undefined && !(c.initialFillRatio?.value > 0 && c.initialFillRatio.value <= 1 && String(c.initialFillRatio.source ?? '').trim())) e.push(`${p}: initialFillRatio non valido (valore in (0, 1] e fonte)`); // quadro iniziale (24/11/2026)
+    if (c.startsAsCadre !== undefined && c.startsAsCadre !== true) e.push(`${p}: startsAsCadre ammesso solo come true`);
   }
   return e;
 }
@@ -115,6 +117,9 @@ export function templateFromComposition(doc, comp) {
     equipment: Object.fromEntries(Object.entries(sum.equipment).map(([k, v]) => [k, leaf(v)])),
     effectiveSupply: { value: null, basis: 'da_definire', note: 'Dotazione effettiva per data: non definita.' },
     costs: { resources: null, manpower: null, buildDays: null, upkeep: null, note: 'Da definire con l\'editor a moduli.' },
+    // quadro iniziale (24/11/2026): la composizione può dire che la divisione parte come quadro con una propria frazione (fanteria britannica 1936)
+    ...(comp.initialFillRatio ? { initialFillRatio: comp.initialFillRatio } : {}),
+    ...(comp.startsAsCadre === true ? { startsAsCadre: true } : {}),
   };
 }
 
@@ -146,6 +151,10 @@ export function validateEditorRules(r) {
   for (const [t, n] of Object.entries(r.maxPerType ?? {})) {
     if (!MODULE_TYPES.includes(t)) e.push(`editor: tipo ${t} sconosciuto`);
     if (!(Number.isInteger(n) && n > 0)) e.push(`editor: massimo di ${t} non valido`);
+  }
+  for (const [nat, lim] of Object.entries(r.maxPerTypeByNation ?? {})) for (const [t, n] of Object.entries(lim ?? {})) {
+    if (!MODULE_TYPES.includes(t)) e.push(`editor: ${nat}: tipo ${t} sconosciuto`);
+    if (!(Number.isInteger(n) && n > 0)) e.push(`editor: ${nat}: massimo di ${t} non valido`);
   }
   if (!Array.isArray(r.combatTypes) || !r.combatTypes.every((t) => MODULE_TYPES.includes(t))) e.push('editor: combatTypes non valido');
   return e;
@@ -204,7 +213,10 @@ export function designProblems(list, { modules, rules, nation, date, researched,
   }
   if (total > rules.maxModules) out.push(`troppi battaglioni: ${total} (massimo ${rules.maxModules})`);
   if (men > rules.maxMen) out.push(`troppi uomini: ${men} (massimo ${rules.maxMen})`);
-  for (const [t, n] of Object.entries(perType)) if (rules.maxPerType?.[t] && n > rules.maxPerType[t]) out.push(`troppi battaglioni di tipo ${t}: ${n} (massimo ${rules.maxPerType[t]})`);
+  for (const [t, n] of Object.entries(perType)) { // eccezioni per nazione (24/11/2026: Regno Unito, 6 reggimenti di carri)
+    const max = rules.maxPerTypeByNation?.[nation]?.[t] ?? rules.maxPerType?.[t];
+    if (max && n > max) out.push(`troppi battaglioni di tipo ${t}: ${n} (massimo ${max})`);
+  }
   if (combat < rules.minCombat) out.push(`servono almeno ${rules.minCombat} battaglioni di combattimento`);
   if (divisional !== rules.divisional) out.push(`serve ${rules.divisional === 1 ? 'un reparto' : `${rules.divisional} reparti`} di servizi divisionali (ne hai ${divisional})`);
   return out;

@@ -1,0 +1,1082 @@
+{
+  "schema": "battalion-modules-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-24",
+  "note": "Battaglioni britannici (24/11/2026, schema unico «come Germania, URSS e USA», scelta A dell'utente: 8 modelli di divisione). Nomi inglesi con traduzione italiana. Organici STIMATI da Claude dalla memoria, NON verificati. Le versioni (supersedes) portano Bren→Sten/PIAT, 25 libbre, 6 e 17 libbre, Daimler con la modernizzazione graduale. Niente armi americane (Lend-Lease escluso, scelta 1A). I carri restano le due voci del 1939 fino al passo 4. La fanteria 1936 parte come quadro al 30% (esempio dell'utente del 29/10/2026).",
+  "modules": [
+    {
+      "id": "MOD-GBR-INF-1936",
+      "nation": "GBR",
+      "type": "infantry",
+      "name_native": "Infantry Battalion (1936)",
+      "name_it": "Battaglione di fanteria (1936)",
+      "men": 780,
+      "horses": 30,
+      "equipment": {
+        "INW-GBR-RIFLE": 640,
+        "INW-GBR-PISTOL-WEBLEY": 30,
+        "MG-GBR-LEWIS": 32,
+        "MG-GBR-VICKERS": 8,
+        "ART-GBR-MOR3IN": 2,
+        "VEH-GBR-TRUCK15": 12
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-INF-1938",
+      "nation": "GBR",
+      "type": "infantry",
+      "name_native": "Infantry Battalion (1938)",
+      "name_it": "Battaglione di fanteria (1938)",
+      "men": 786,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-RIFLE": 600,
+        "INW-GBR-PISTOL-WEBLEY": 40,
+        "MG-GBR-BREN": 50,
+        "ART-GBR-BOYS": 22,
+        "ART-GBR-MOR2IN": 12,
+        "ART-GBR-MOR3IN": 2,
+        "VEH-GBR-CARRIER": 10,
+        "VEH-GBR-TRUCK15": 14,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-INF-1943",
+      "nation": "GBR",
+      "type": "infantry",
+      "name_native": "Infantry Battalion (1943)",
+      "name_it": "Battaglione di fanteria (1943)",
+      "men": 845,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-NO4": 560,
+        "INW-GBR-SMG-STEN": 60,
+        "INW-GBR-PISTOL-WEBLEY": 40,
+        "MG-GBR-BREN": 57,
+        "GL-GBR-PIAT": 23,
+        "ART-GBR-MOR2IN": 16,
+        "ART-GBR-MOR3IN": 6,
+        "VEH-GBR-CARRIER": 13,
+        "VEH-GBR-TRUCK15": 20,
+        "VEH-GBR-MOTO": 14
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1943-01-01",
+      "supersedes": "MOD-GBR-INF-1938",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-MG-1938",
+      "nation": "GBR",
+      "type": "support",
+      "name_native": "Machine Gun Battalion (1938)",
+      "name_it": "Battaglione mitraglieri (1938)",
+      "men": 750,
+      "horses": 0,
+      "equipment": {
+        "MG-GBR-VICKERS": 48,
+        "INW-GBR-RIFLE": 500,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-CARRIER": 40,
+        "VEH-GBR-TRUCK15": 40,
+        "VEH-GBR-MOTO": 20
+      },
+      "mobility": "motorized",
+      "illustration": "mortaio",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-MG-1944",
+      "nation": "GBR",
+      "type": "support",
+      "name_native": "Support Battalion, Machine Guns and 4.2-inch Mortars (1944)",
+      "name_it": "Battaglione di supporto, mitragliatrici e mortai da 4,2 pollici (1944)",
+      "men": 760,
+      "horses": 0,
+      "equipment": {
+        "MG-GBR-VICKERS": 36,
+        "ART-GBR-MOR42IN": 16,
+        "INW-GBR-NO4": 500,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-CARRIER": 40,
+        "VEH-GBR-TRUCK15": 50,
+        "VEH-GBR-MOTO": 20
+      },
+      "mobility": "motorized",
+      "illustration": "mortaio",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-06-01",
+      "supersedes": "MOD-GBR-MG-1938",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-FIELD-1936",
+      "nation": "GBR",
+      "type": "artillery",
+      "name_native": "Field Brigade, Royal Artillery (1936)",
+      "name_it": "Brigata d'artiglieria campale (1936)",
+      "men": 650,
+      "horses": 300,
+      "equipment": {
+        "ART-GBR-18PDR": 12,
+        "ART-GBR-HOW45": 4,
+        "INW-GBR-RIFLE": 300,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-TRUCK3T": 20,
+        "VEH-GBR-MOTO": 6
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-FIELD-1938",
+      "nation": "GBR",
+      "type": "artillery",
+      "name_native": "Field Regiment, Royal Artillery (mechanised, 1938)",
+      "name_it": "Reggimento d'artiglieria campale (motorizzato, 1938)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-18PDR": 16,
+        "ART-GBR-HOW45": 8,
+        "INW-GBR-RIFLE": 300,
+        "INW-GBR-PISTOL-WEBLEY": 80,
+        "VEH-GBR-TRUCK3T": 40,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-FIELD-1940",
+      "nation": "GBR",
+      "type": "artillery",
+      "name_native": "Field Regiment, Royal Artillery (25-pounder)",
+      "name_it": "Reggimento d'artiglieria campale (25 libbre)",
+      "men": 650,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-25PDR-ARM-1939": 24,
+        "INW-GBR-RIFLE": 350,
+        "INW-GBR-PISTOL-WEBLEY": 80,
+        "VEH-GBR-TRUCK3T": 45,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "supersedes": "MOD-GBR-FIELD-1938",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-MED-1941",
+      "nation": "GBR",
+      "type": "artillery",
+      "name_native": "Medium Regiment, Royal Artillery (5.5-inch)",
+      "name_it": "Reggimento d'artiglieria media (5,5 pollici)",
+      "men": 560,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-HOW55": 16,
+        "INW-GBR-RIFLE": 300,
+        "INW-GBR-PISTOL-WEBLEY": 70,
+        "VEH-GBR-TRUCK3T": 40,
+        "VEH-GBR-MOTO": 8
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1941-05-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-AT-1938",
+      "nation": "GBR",
+      "type": "anti_tank",
+      "name_native": "Anti-Tank Regiment, Royal Artillery (2-pounder)",
+      "name_it": "Reggimento anticarro (2 libbre)",
+      "men": 560,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-2PDR-ARM-1939": 48,
+        "INW-GBR-RIFLE": 300,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-TRUCK15": 60,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-AT-1942",
+      "nation": "GBR",
+      "type": "anti_tank",
+      "name_native": "Anti-Tank Regiment, Royal Artillery (6-pounder)",
+      "name_it": "Reggimento anticarro (6 libbre)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-6PDR": 48,
+        "INW-GBR-RIFLE": 320,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-TRUCK15": 70,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1942-01-01",
+      "supersedes": "MOD-GBR-AT-1938",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-AT-1943",
+      "nation": "GBR",
+      "type": "anti_tank",
+      "name_native": "Anti-Tank Regiment, Royal Artillery (6- and 17-pounder)",
+      "name_it": "Reggimento anticarro (6 e 17 libbre)",
+      "men": 620,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-6PDR": 32,
+        "ART-GBR-17PDR": 16,
+        "INW-GBR-NO4": 320,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-TRUCK15": 50,
+        "VEH-GBR-TRUCK3T": 16,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-06-01",
+      "supersedes": "MOD-GBR-AT-1942",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-LAA-1940",
+      "nation": "GBR",
+      "type": "anti_air",
+      "name_native": "Light Anti-Aircraft Regiment, Royal Artillery (Bofors)",
+      "name_it": "Reggimento contraereo leggero (Bofors)",
+      "men": 700,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-BOFORS": 54,
+        "INW-GBR-RIFLE": 400,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-TRUCK3T": 70,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "contraerea",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-ENG",
+      "nation": "GBR",
+      "type": "engineer",
+      "name_native": "Divisional Engineers, Royal Engineers (3 Field Companies and a Field Park Company)",
+      "name_it": "Genio divisionale (3 compagnie e un parco)",
+      "men": 1000,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-RIFLE": 800,
+        "INW-GBR-PISTOL-WEBLEY": 80,
+        "VEH-GBR-TRUCK3T": 48,
+        "VEH-GBR-TRUCK15": 16
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-SVC-1936",
+      "nation": "GBR",
+      "type": "support",
+      "name_native": "Divisional and Brigade Headquarters, Signals and Services (1936)",
+      "name_it": "Comandi, trasmissioni e servizi divisionali (1936)",
+      "men": 2850,
+      "horses": 400,
+      "equipment": {
+        "INW-GBR-RIFLE": 2000,
+        "INW-GBR-PISTOL-WEBLEY": 250,
+        "VEH-GBR-TRUCK3T": 120,
+        "VEH-GBR-TRUCK15": 90,
+        "VEH-GBR-MOTO": 60
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-SVC",
+      "nation": "GBR",
+      "type": "support",
+      "name_native": "Divisional and Brigade Headquarters, Signals and Services (motorised, 1937)",
+      "name_it": "Comandi, trasmissioni e servizi divisionali (motorizzati, 1937)",
+      "men": 2650,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-RIFLE": 1800,
+        "INW-GBR-PISTOL-WEBLEY": 250,
+        "VEH-GBR-TRUCK3T": 250,
+        "VEH-GBR-TRUCK15": 130,
+        "VEH-GBR-MOTO": 80
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-06-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-DIVCAV-1938",
+      "nation": "GBR",
+      "type": "recon",
+      "name_native": "Divisional Cavalry Regiment (1938)",
+      "name_it": "Reggimento di cavalleria divisionale (1938)",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "TNK-GBR-LIGHT-TANK-1939": 28,
+        "VEH-GBR-CARRIER": 44,
+        "INW-GBR-RIFLE": 250,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "MG-GBR-BREN": 44,
+        "VEH-GBR-TRUCK15": 30,
+        "VEH-GBR-MOTO": 20
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-RECON-1941",
+      "nation": "GBR",
+      "type": "recon",
+      "name_native": "Reconnaissance Regiment (1941)",
+      "name_it": "Reggimento esplorante (1941)",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "VEH-GBR-MORRIS-AC": 28,
+        "VEH-GBR-CARRIER": 63,
+        "INW-GBR-RIFLE": 500,
+        "INW-GBR-PISTOL-WEBLEY": 80,
+        "MG-GBR-BREN": 60,
+        "ART-GBR-BOYS": 20,
+        "VEH-GBR-TRUCK15": 60,
+        "VEH-GBR-MOTO": 50
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1941-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-RECON-1943",
+      "nation": "GBR",
+      "type": "recon",
+      "name_native": "Reconnaissance Regiment (1943)",
+      "name_it": "Reggimento esplorante (1943)",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "VEH-GBR-DAIMLER-AC": 28,
+        "VEH-GBR-CARRIER": 63,
+        "INW-GBR-NO4": 450,
+        "INW-GBR-SMG-STEN": 60,
+        "INW-GBR-PISTOL-WEBLEY": 80,
+        "MG-GBR-BREN": 60,
+        "GL-GBR-PIAT": 20,
+        "VEH-GBR-TRUCK15": 60,
+        "VEH-GBR-MOTO": 50
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-01-01",
+      "supersedes": "MOD-GBR-RECON-1941",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-MOT-INF",
+      "nation": "GBR",
+      "type": "motorized_infantry",
+      "name_native": "Motor Battalion (1938)",
+      "name_it": "Battaglione motorizzato (1938)",
+      "men": 750,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-RIFLE": 450,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "MG-GBR-BREN": 60,
+        "ART-GBR-BOYS": 22,
+        "ART-GBR-MOR3IN": 4,
+        "VEH-GBR-CARRIER": 44,
+        "VEH-GBR-TRUCK15": 70,
+        "VEH-GBR-MOTO": 30
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-LORRIED-INF",
+      "nation": "GBR",
+      "type": "motorized_infantry",
+      "name_native": "Lorried Infantry Battalion (1942)",
+      "name_it": "Battaglione di fanteria su autocarri (1942)",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-NO4": 560,
+        "INW-GBR-SMG-STEN": 50,
+        "INW-GBR-PISTOL-WEBLEY": 40,
+        "MG-GBR-BREN": 50,
+        "ART-GBR-BOYS": 22,
+        "ART-GBR-MOR2IN": 12,
+        "ART-GBR-MOR3IN": 6,
+        "VEH-GBR-CARRIER": 13,
+        "VEH-GBR-TRUCK3T": 30,
+        "VEH-GBR-TRUCK15": 20,
+        "VEH-GBR-MOTO": 14
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1942-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-LT-REGT",
+      "nation": "GBR",
+      "type": "tank",
+      "name_native": "Light Tank Regiment (1937)",
+      "name_it": "Reggimento di carri leggeri (1937)",
+      "men": 550,
+      "horses": 0,
+      "equipment": {
+        "TNK-GBR-LIGHT-TANK-1939": 46,
+        "INW-GBR-RIFLE": 300,
+        "INW-GBR-PISTOL-WEBLEY": 120,
+        "VEH-GBR-TRUCK15": 30,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-ARMD-REGT",
+      "nation": "GBR",
+      "type": "tank",
+      "name_native": "Armoured Regiment (Cruiser, 1939)",
+      "name_it": "Reggimento corazzato (carri cruiser, 1939)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "TNK-GBR-CRUISER-1939": 52,
+        "TNK-GBR-LIGHT-TANK-1939": 6,
+        "INW-GBR-RIFLE": 300,
+        "INW-GBR-PISTOL-WEBLEY": 150,
+        "VEH-GBR-TRUCK15": 35,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "availableFrom": "1939-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-ARMD-REGT-1944",
+      "nation": "GBR",
+      "type": "tank",
+      "name_native": "Armoured Regiment (1944)",
+      "name_it": "Reggimento corazzato (1944)",
+      "men": 700,
+      "horses": 0,
+      "equipment": {
+        "TNK-GBR-CRUISER-1939": 61,
+        "INW-GBR-NO4": 300,
+        "INW-GBR-SMG-STEN": 60,
+        "INW-GBR-PISTOL-WEBLEY": 150,
+        "VEH-GBR-TRUCK15": 40,
+        "VEH-GBR-MOTO": 12
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "availableFrom": "1944-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-PARA",
+      "nation": "GBR",
+      "type": "airborne_infantry",
+      "name_native": "Parachute Battalion (1942)",
+      "name_it": "Battaglione paracadutisti (1942)",
+      "men": 613,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-NO4": 400,
+        "INW-GBR-SMG-STEN": 140,
+        "INW-GBR-PISTOL-WEBLEY": 40,
+        "MG-GBR-BREN": 30,
+        "ART-GBR-MOR2IN": 9,
+        "ART-GBR-MOR3IN": 4
+      },
+      "mobility": "foot",
+      "illustration": "paracadutisti",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-AIRLANDING",
+      "nation": "GBR",
+      "type": "airborne_infantry",
+      "name_native": "Airlanding Battalion (1942)",
+      "name_it": "Battaglione aviotrasportato su alianti (1942)",
+      "men": 850,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-NO4": 600,
+        "INW-GBR-SMG-STEN": 100,
+        "INW-GBR-PISTOL-WEBLEY": 40,
+        "MG-GBR-BREN": 50,
+        "ART-GBR-MOR2IN": 12,
+        "ART-GBR-MOR3IN": 4,
+        "VEH-GBR-MOTO": 20
+      },
+      "mobility": "foot",
+      "illustration": "paracadutisti",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-AT-ABN",
+      "nation": "GBR",
+      "type": "anti_tank",
+      "name_native": "Airlanding Anti-Tank Battery (6-pounder)",
+      "name_it": "Batteria anticarro aviotrasportata (6 libbre)",
+      "men": 300,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-6PDR": 16,
+        "INW-GBR-NO4": 200,
+        "INW-GBR-PISTOL-WEBLEY": 40,
+        "VEH-GBR-MOTO": 16
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-ENG-ABN",
+      "nation": "GBR",
+      "type": "engineer",
+      "name_native": "Parachute Squadron, Royal Engineers",
+      "name_it": "Squadrone del genio paracadutista",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-NO4": 350,
+        "INW-GBR-SMG-STEN": 60,
+        "INW-GBR-PISTOL-WEBLEY": 20
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-08-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-SVC-ABN",
+      "nation": "GBR",
+      "type": "support",
+      "name_native": "Airborne Divisional Services",
+      "name_it": "Servizi della divisione aviotrasportata",
+      "men": 1000,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-NO4": 700,
+        "INW-GBR-SMG-STEN": 100,
+        "INW-GBR-PISTOL-WEBLEY": 100,
+        "VEH-GBR-MOTO": 50
+      },
+      "mobility": "foot",
+      "illustration": "logistica_camion",
+      "availableFrom": "1942-08-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-INF-1944",
+      "nation": "GBR",
+      "type": "infantry",
+      "name_native": "Infantry Battalion (1944)",
+      "name_it": "Battaglione di fanteria (1944)",
+      "men": 845,
+      "horses": 0,
+      "equipment": {
+        "INW-GBR-NO4": 560,
+        "INW-GBR-SMG-STEN": 60,
+        "INW-GBR-PISTOL-WEBLEY": 40,
+        "MG-GBR-BREN": 57,
+        "GL-GBR-PIAT": 23,
+        "ART-GBR-MOR2IN": 16,
+        "ART-GBR-MOR3IN": 6,
+        "VEH-GBR-CARRIER": 13,
+        "VEH-GBR-TRUCK15": 20,
+        "VEH-GBR-MOTO": 14
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1943-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-SUPPORT-1944",
+      "nation": "GBR",
+      "type": "support",
+      "name_native": "Support Battalion (1944)",
+      "name_it": "Battaglione di supporto (1944)",
+      "men": 760,
+      "horses": 0,
+      "equipment": {
+        "MG-GBR-VICKERS": 36,
+        "ART-GBR-MOR42IN": 16,
+        "INW-GBR-NO4": 500,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-CARRIER": 40,
+        "VEH-GBR-TRUCK15": 50,
+        "VEH-GBR-MOTO": 20
+      },
+      "mobility": "motorized",
+      "illustration": "mortaio",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-FIELD-25PDR",
+      "nation": "GBR",
+      "type": "artillery",
+      "name_native": "Field Regiment, Royal Artillery (25-pounder, new)",
+      "name_it": "Reggimento d'artiglieria campale (25 libbre, di nuova formazione)",
+      "men": 650,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-25PDR-ARM-1939": 24,
+        "INW-GBR-RIFLE": 350,
+        "INW-GBR-PISTOL-WEBLEY": 80,
+        "VEH-GBR-TRUCK3T": 45,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-AT-6PDR",
+      "nation": "GBR",
+      "type": "anti_tank",
+      "name_native": "Anti-Tank Regiment (6-pounder, new)",
+      "name_it": "Reggimento anticarro (6 libbre, di nuova formazione)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-6PDR": 48,
+        "INW-GBR-RIFLE": 320,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-TRUCK15": 70,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1942-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-AT-1944",
+      "nation": "GBR",
+      "type": "anti_tank",
+      "name_native": "Anti-Tank Regiment (6- and 17-pounder, new)",
+      "name_it": "Reggimento anticarro (6 e 17 libbre, di nuova formazione)",
+      "men": 620,
+      "horses": 0,
+      "equipment": {
+        "ART-GBR-6PDR": 32,
+        "ART-GBR-17PDR": 16,
+        "INW-GBR-NO4": 320,
+        "INW-GBR-PISTOL-WEBLEY": 60,
+        "VEH-GBR-TRUCK15": 50,
+        "VEH-GBR-TRUCK3T": 16,
+        "VEH-GBR-MOTO": 10
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-06-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-GBR-RECON-1944",
+      "nation": "GBR",
+      "type": "recon",
+      "name_native": "Reconnaissance Regiment (1944)",
+      "name_it": "Reggimento esplorante (1944)",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "VEH-GBR-DAIMLER-AC": 28,
+        "VEH-GBR-CARRIER": 63,
+        "INW-GBR-NO4": 450,
+        "INW-GBR-SMG-STEN": 60,
+        "INW-GBR-PISTOL-WEBLEY": 80,
+        "MG-GBR-BREN": 60,
+        "GL-GBR-PIAT": 20,
+        "VEH-GBR-TRUCK15": 60,
+        "VEH-GBR-MOTO": 50
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1943-01-01",
+      "note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti."
+    }
+  ],
+  "compositions": [
+    {
+      "templateId": "TPL-GBR-INF-1936",
+      "name": "Infantry Division (1936)",
+      "file": "divisione_fanteria_gran_bretagna_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione di fanteria 1936: 3 brigate su 4 battaglioni (Lewis, Vickers), 3 brigate d'artiglieria campale (18 libbre e obici da 4,5 pollici, in parte ippotrainate), genio, servizi",
+      "modules": [
+        [
+          "MOD-GBR-INF-1936",
+          12
+        ],
+        [
+          "MOD-GBR-FIELD-1936",
+          3
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC-1936",
+          1
+        ]
+      ],
+      "initialFillRatio": {
+        "value": 0.3,
+        "basis": "USER_EXAMPLE",
+        "source": "Esempio dell'utente del 29/10/2026: la divisione britannica parte come quadro al 30% del previsto e con la mobilitazione sale al 100% se ci sono le risorse. Non è un dato storico."
+      },
+      "startsAsCadre": true
+    },
+    {
+      "templateId": "TPL-GBR-INF-1939",
+      "name": "Infantry Division (1939)",
+      "file": "divisione_fanteria_gran_bretagna_1939.json",
+      "category": "infantry",
+      "activeFrom": "1938-10-01",
+      "formation": "divisione di fanteria 1938-39: 3 brigate su 3 battaglioni (Bren, Boys, Universal Carrier), 3 reggimenti d'artiglieria campale motorizzati (25 libbre dal 1940 con la modernizzazione), reggimento anticarro da 2 libbre, cavalleria divisionale, genio, trasmissioni, servizi",
+      "modules": [
+        [
+          "MOD-GBR-INF-1938",
+          9
+        ],
+        [
+          "MOD-GBR-FIELD-1938",
+          3
+        ],
+        [
+          "MOD-GBR-AT-1938",
+          1
+        ],
+        [
+          "MOD-GBR-DIVCAV-1938",
+          1
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-GBR-INF-1944",
+      "name": "Infantry Division (1944)",
+      "file": "divisione_fanteria_gran_bretagna_1944.json",
+      "category": "infantry",
+      "activeFrom": "1944-01-01",
+      "formation": "divisione di fanteria 1944: 3 brigate su 3 battaglioni (Sten, PIAT), 3 reggimenti da 25 libbre, reggimento anticarro da 6 e 17 libbre, contraerea leggera Bofors, reggimento esplorante, battaglione mitragliatrici e mortai da 4,2 pollici, genio, trasmissioni, servizi",
+      "modules": [
+        [
+          "MOD-GBR-INF-1944",
+          9
+        ],
+        [
+          "MOD-GBR-FIELD-25PDR",
+          3
+        ],
+        [
+          "MOD-GBR-AT-1944",
+          1
+        ],
+        [
+          "MOD-GBR-LAA-1940",
+          1
+        ],
+        [
+          "MOD-GBR-RECON-1944",
+          1
+        ],
+        [
+          "MOD-GBR-SUPPORT-1944",
+          1
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-GBR-MOB-1937",
+      "name": "Mobile Division (1937)",
+      "file": "divisione_mobile_gran_bretagna_1937.json",
+      "category": "armored",
+      "activeFrom": "1937-11-01",
+      "formation": "Mobile Division 1937: 2 brigate di cavalleria meccanizzata con carri leggeri (6 reggimenti), gruppo di supporto con 2 battaglioni motorizzati e artiglieria, genio, trasmissioni, servizi",
+      "modules": [
+        [
+          "MOD-GBR-LT-REGT",
+          6
+        ],
+        [
+          "MOD-GBR-MOT-INF",
+          2
+        ],
+        [
+          "MOD-GBR-FIELD-1938",
+          1
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-GBR-ARM-1939",
+      "name": "Armoured Division (1939)",
+      "file": "divisione_corazzata_gran_bretagna_1939.json",
+      "category": "armored",
+      "activeFrom": "1939-09-01",
+      "formation": "divisione corazzata 1939-40: brigata corazzata leggera e brigata corazzata pesante (3 + 3 reggimenti), gruppo di supporto con 2 battaglioni motorizzati, artiglieria e anticarro da 2 libbre, genio, trasmissioni, servizi",
+      "modules": [
+        [
+          "MOD-GBR-LT-REGT",
+          3
+        ],
+        [
+          "MOD-GBR-ARMD-REGT",
+          3
+        ],
+        [
+          "MOD-GBR-MOT-INF",
+          2
+        ],
+        [
+          "MOD-GBR-FIELD-1938",
+          1
+        ],
+        [
+          "MOD-GBR-AT-1938",
+          1
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-GBR-ARM-1942",
+      "name": "Armoured Division (1942)",
+      "file": "divisione_corazzata_gran_bretagna_1942.json",
+      "category": "armored",
+      "activeFrom": "1942-05-01",
+      "formation": "divisione corazzata 1942: una brigata corazzata (3 reggimenti e un battaglione motorizzato) e una brigata di fanteria su autocarri, 2 reggimenti da 25 libbre, anticarro da 6 libbre, contraerea leggera, reggimento esplorante, genio, trasmissioni, servizi",
+      "modules": [
+        [
+          "MOD-GBR-ARMD-REGT",
+          3
+        ],
+        [
+          "MOD-GBR-MOT-INF",
+          1
+        ],
+        [
+          "MOD-GBR-LORRIED-INF",
+          3
+        ],
+        [
+          "MOD-GBR-FIELD-25PDR",
+          2
+        ],
+        [
+          "MOD-GBR-AT-6PDR",
+          1
+        ],
+        [
+          "MOD-GBR-LAA-1940",
+          1
+        ],
+        [
+          "MOD-GBR-RECON-1941",
+          1
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-GBR-ARM-1944",
+      "name": "Armoured Division (1944)",
+      "file": "divisione_corazzata_gran_bretagna_1944.json",
+      "category": "armored",
+      "activeFrom": "1944-01-01",
+      "formation": "divisione corazzata 1944: brigata corazzata (3 reggimenti e un battaglione motorizzato), reggimento corazzato esplorante, brigata di fanteria, 2 reggimenti da 25 libbre, anticarro da 6 e 17 libbre, contraerea leggera, genio, trasmissioni, servizi",
+      "modules": [
+        [
+          "MOD-GBR-ARMD-REGT-1944",
+          4
+        ],
+        [
+          "MOD-GBR-MOT-INF",
+          1
+        ],
+        [
+          "MOD-GBR-INF-1944",
+          3
+        ],
+        [
+          "MOD-GBR-FIELD-25PDR",
+          2
+        ],
+        [
+          "MOD-GBR-AT-1944",
+          1
+        ],
+        [
+          "MOD-GBR-LAA-1940",
+          1
+        ],
+        [
+          "MOD-GBR-ENG",
+          1
+        ],
+        [
+          "MOD-GBR-SVC",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-GBR-ABN-1942",
+      "name": "Airborne Division (1942)",
+      "file": "divisione_aviotrasportata_gran_bretagna_1942.json",
+      "category": "airborne",
+      "activeFrom": "1942-11-01",
+      "formation": "divisione aviotrasportata 1942-44: 2 brigate paracadutisti (6 battaglioni) e una brigata su alianti (3 battaglioni), anticarro da 6 libbre, genio paracadutista, servizi. Niente obici someggiati da 75 mm: erano americani (Lend-Lease, escluso dalla scelta 1A)",
+      "modules": [
+        [
+          "MOD-GBR-PARA",
+          6
+        ],
+        [
+          "MOD-GBR-AIRLANDING",
+          3
+        ],
+        [
+          "MOD-GBR-AT-ABN",
+          1
+        ],
+        [
+          "MOD-GBR-ENG-ABN",
+          2
+        ],
+        [
+          "MOD-GBR-SVC-ABN",
+          1
+        ]
+      ]
+    }
+  ],
+  "presets": []
+}

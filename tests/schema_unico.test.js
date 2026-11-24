@@ -9,7 +9,7 @@ const dir = new URL('../data/units/templates/', import.meta.url);
 const all = readdirSync(dir).filter((f) => /^(divisione|brigata)_.*\.json$/.test(f)).map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8'))).filter((t) => t.appliesTo);
 
 const DA_CONVERTIRE = new Set([
-  'TPL-GBR-INF-1936', 'TPL-GBR-ARM-1939',
+  // Regno Unito dai battaglioni dal 24/11/2026 (data/units/modules/modules_gbr.json)
   // USA dai battaglioni dal 21/11/2026 (data/units/modules/modules_usa.json)
   'TPL-FRA-INF-1936', 'TPL-FRA-INF-1939', 'TPL-FRA-ARM-1940',
   'TPL-ITA-INF-1940', 'TPL-ITA-ARM-1940',

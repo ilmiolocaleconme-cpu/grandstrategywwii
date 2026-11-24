@@ -31,5 +31,11 @@
     "mountain_infantry": 12,
     "cavalry": 9,
     "airborne_infantry": 12
-  }
+  },
+  "maxPerTypeByNation": {
+    "GBR": {
+      "tank": 6
+    }
+  },
+  "maxPerTypeByNationNote": "24/11/2026: eccezioni per nazione ai massimi per tipo. Regno Unito: 6 reggimenti di carri (Mobile Division 1937 e divisione corazzata 1939-40: 2 brigate su 3 reggimenti). Stima di Claude dalla memoria."
 }

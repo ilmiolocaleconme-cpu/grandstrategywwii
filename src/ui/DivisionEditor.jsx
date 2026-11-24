@@ -35,6 +35,7 @@ const fmt = (n) => Number(n).toLocaleString('it-IT');
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const TITLES = { // titolo di una composizione nuova, nella lingua della nazione (URSS dal 20/11/2026, USA dal 21/11/2026)
   USA: { infantry: 'Infantry Division', motorized: 'Motorized Division', mechanized: 'Armored Division', armored: 'Armored Division', mountain: 'Mountain Division', cavalry: 'Cavalry Division', airborne: 'Airborne Division' },
+  GBR: { infantry: 'Infantry Division', motorized: 'Motor Division', mechanized: 'Armoured Division', armored: 'Armoured Division', mountain: 'Mountain Division', cavalry: 'Cavalry Division', airborne: 'Airborne Division' }, // 24/11/2026
   DEU: { infantry: 'Infanterie-Division', motorized: 'Infanterie-Division (mot.)', mechanized: 'leichte Division', armored: 'Panzer-Division', mountain: 'Gebirgs-Division', cavalry: 'Kavallerie-Division', airborne: 'Fallschirmjäger-Division' },
   USSR: { infantry: 'Strelkovaja divizija', motorized: 'Motorizovannaja divizija', mechanized: 'Mechanizirovannaja divizija', armored: 'Tankovaja divizija', mountain: 'Gornostrelkovaja divizija', cavalry: 'Kavalerijskaja divizija', airborne: 'Vozdushno-desantnaja divizija' },
 };
