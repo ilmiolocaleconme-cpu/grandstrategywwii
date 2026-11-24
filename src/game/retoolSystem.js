@@ -1,7 +1,8 @@
 // Riconversione degli impianti d'equipaggiamento (20/11/2026, richiesta dell'utente: «inserisci ciò che manca»). Funzioni PURE.
 // Prima nessuna regola cambiava la ricetta di un impianto tranne il giocatore: l'IA non produceva mai i modelli nati dopo il 1936 e le sue linee
 // si fermavano per sempre quando un modello usciva di produzione (es. T-26 dal 1/7/1941). Due regole:
-//  1) PIANO STORICO (tutte le nazioni): un impianto iniziale con `plannedRecipe: { recipeId, from }` passa alla ricetta del piano alla data,
+//  1) PIANO STORICO (tutte le nazioni): un impianto iniziale con `plannedRecipe: { recipeId, from, then? }` passa alla ricetta del piano alla data
+//     (24/11/2026: `then` = passo successivo del piano, es. Matilda I → Matilda II → Valentine → Churchill),
 //     appena il modello è producibile (data, tecnologia, controllo). Il giocatore lo annulla cambiando la ricetta a mano (setFacilityRecipe).
 //  2) IA (nazioni non del giocatore), il primo di ogni mese: un impianto fermo (modello fuori produzione o senza il controllo della fabbrica storica)
 //     o che produce un pezzo di cui le divisioni non hanno bisogno passa al modello producibile della stessa fabbrica con il fabbisogno più grande
@@ -135,7 +136,7 @@ export function createRetoolSystem(ctx) {
           const from = recipes.get(f.recipeId);
           const res = retoolFacility(f, to.id, state.date, stocks, from?.output?.product, experience ? { cfg: experience, related: Boolean(relatedOf?.(id, from?.equipmentId, to.equipmentId)) } : null);
           stocks = res.stocks;
-          return res.facility;
+          return f.plannedRecipe.then ? { ...res.facility, plannedRecipe: f.plannedRecipe.then } : res.facility; // piani in catena (24/11/2026): il passo successivo
         });
         n = { ...n, facilities, stocks }; changed = true;
       }

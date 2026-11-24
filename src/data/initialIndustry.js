@@ -16,11 +16,12 @@ export function validateInitialIndustry(file, { factoriesById, recipes, entityId
     const seen = new Set();
     for (const f of n.facilities ?? []) {
       const key = `${f.factory}/${f.recipeId}${f.plannedRecipe ? `>${f.plannedRecipe.recipeId}` : ''}`; // linee riservate a un modello futuro (20/11/2026)
-      if (f.plannedRecipe !== undefined) {
-        const pr = recipeById.get(f.plannedRecipe?.recipeId);
-        if (!pr) errors.push(`industria iniziale: ${id}, piano verso la ricetta inesistente ${f.plannedRecipe?.recipeId}`);
+      for (let p = f.plannedRecipe, last = ''; p !== undefined; p = p.then) { // piani in catena (24/11/2026): date crescenti
+        const pr = recipeById.get(p?.recipeId);
+        if (!pr) errors.push(`industria iniziale: ${id}, piano verso la ricetta inesistente ${p?.recipeId}`);
         else if (pr.factory !== f.factory) errors.push(`industria iniziale: ${id}, il piano ${pr.id} non è di ${f.factory}`);
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(f.plannedRecipe?.from ?? '')) errors.push(`industria iniziale: ${id}, data del piano non valida per ${key}`);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(p?.from ?? '') || p.from <= last) { errors.push(`industria iniziale: ${id}, data del piano non valida per ${key}`); break; }
+        last = p.from;
       }
       if (seen.has(key)) errors.push(`industria iniziale: ${id} con ${key} duplicato`);
       seen.add(key);

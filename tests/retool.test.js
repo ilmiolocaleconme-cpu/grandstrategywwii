@@ -96,3 +96,20 @@ test('Germania (23/11/2026): il Pz I esce di produzione a metà 1938, il Pz II a
   assert.equal(pz1.changes[0]?.reason, 'fermo', 'Pz I fermo dopo il 30/6/1938');
   assert.notEqual(pz1.changes[0]?.to, 'REC-TNK-DEU-PZ-I');
 });
+
+test('piani in catena (24/11/2026): la linea britannica dei carri da fanteria segue Matilda I → Matilda II → Valentine → Churchill alle date', () => {
+  const plan = json('industry/initial_industry.json').nations.GBR.facilities.find((x) => x.plannedRecipe?.recipeId === 'REC-TNK-GBR-MATILDA1').plannedRecipe;
+  const chain = []; for (let p = plan; p; p = p.then) chain.push([p.recipeId, p.from]);
+  assert.deepEqual(chain, [['REC-TNK-GBR-MATILDA1', '1937-06-01'], ['REC-TNK-GBR-MATILDA2', '1939-06-01'], ['REC-TNK-GBR-VALENTINE', '1940-06-01'], ['REC-TNK-GBR-CHURCHILL', '1941-06-01']]);
+  let s = { date: '1937-06-01', player: 'GBR', nations: { GBR: { stocks: {}, research: { done: ['TECH-ARM-GUN-3750'] }, facilities: [{ ...fac('T1', 'REC-TNK-GBR-MK6', { plannedRecipe: plan }), territory: 'GBR' }] } } };
+  const seen = [];
+  for (const date of ['1937-06-01', '1938-01-01', '1939-06-01', '1940-06-01', '1941-06-01', '1942-01-01']) {
+    s = system()({ ...s, date });
+    const f = s.nations.GBR.facilities[0];
+    seen.push([date, f.recipeId, f.plannedRecipe?.recipeId ?? null]);
+  }
+  assert.deepEqual(seen, [
+    ['1937-06-01', 'REC-TNK-GBR-MATILDA1', 'REC-TNK-GBR-MATILDA2'], ['1938-01-01', 'REC-TNK-GBR-MATILDA1', 'REC-TNK-GBR-MATILDA2'],
+    ['1939-06-01', 'REC-TNK-GBR-MATILDA2', 'REC-TNK-GBR-VALENTINE'], ['1940-06-01', 'REC-TNK-GBR-VALENTINE', 'REC-TNK-GBR-CHURCHILL'],
+    ['1941-06-01', 'REC-TNK-GBR-CHURCHILL', null], ['1942-01-01', 'REC-TNK-GBR-CHURCHILL', null]]);
+});

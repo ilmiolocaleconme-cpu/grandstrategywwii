@@ -495,7 +495,19 @@
           "count": 1,
           "plannedRecipe": {
             "recipeId": "REC-TNK-GBR-MATILDA1",
-            "from": "1937-06-01"
+            "from": "1937-06-01",
+            "then": {
+              "recipeId": "REC-TNK-GBR-MATILDA2",
+              "from": "1939-06-01",
+              "then": {
+                "recipeId": "REC-TNK-GBR-VALENTINE",
+                "from": "1940-06-01",
+                "then": {
+                  "recipeId": "REC-TNK-GBR-CHURCHILL",
+                  "from": "1941-06-01"
+                }
+              }
+            }
           }
         },
         {

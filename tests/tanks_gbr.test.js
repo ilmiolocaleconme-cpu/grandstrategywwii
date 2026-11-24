@@ -57,5 +57,5 @@ test('tipo comune «carri d\'appoggio»: la Mixed Division resta di fanteria e r
 
 test('fabbriche: carri Mk VI → A13 (6/1938), linea dei carri da fanteria Mk VI → Matilda I (6/1937)', () => {
   const tanks = read('industry/initial_industry.json').nations.GBR.facilities.filter((f) => f.factory === 'FCT-TANKS').map((f) => [f.recipeId, f.plannedRecipe?.recipeId, f.plannedRecipe?.from]);
-  assert.deepEqual(tanks, [['REC-TNK-GBR-MK6', 'REC-TNK-GBR-A13', '1938-06-01'], ['REC-TNK-GBR-MK6', 'REC-TNK-GBR-MATILDA1', '1937-06-01']]);
+  assert.deepEqual(tanks, [['REC-TNK-GBR-MK6', 'REC-TNK-GBR-A13', '1938-06-01'], ['REC-TNK-GBR-MK6', 'REC-TNK-GBR-MATILDA1', '1937-06-01']], 'la linea dei carri da fanteria prosegue in catena fino al Churchill (tests/retool.test.js)');
 });

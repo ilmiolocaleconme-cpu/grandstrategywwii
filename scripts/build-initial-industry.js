@@ -76,7 +76,8 @@ EXTRA.GBR = [['wpn', 'REC-INW-GBR-PISTOL-WEBLEY'], ['wpn', 'REC-MG-GBR-LEWIS', {
   ['art', 'REC-ART-GBR-MOR3IN', { recipeId: 'REC-ART-GBR-BOYS', from: '1937-11-01' }], ['art', 'REC-ART-GBR-18PDR', { recipeId: 'REC-ART-GBR-2PDR-ARM-1939', from: '1937-01-01' }],
   ['art', 'REC-ART-GBR-HOW45', { recipeId: 'REC-ART-GBR-HOW55', from: '1941-05-01' }],
   ['veh', 'REC-VEH-GBR-TRUCK3T'], ['veh', 'REC-VEH-GBR-TRUCK15', { recipeId: 'REC-VEH-GBR-CARRIER', from: '1936-06-01' }],
-  ['tank', 'REC-TNK-GBR-MK6', { recipeId: 'REC-TNK-GBR-MATILDA1', from: '1937-06-01' }]]; // carri da fanteria (passo 4, 24/11/2026): Mk VI poi Matilda I
+  ['tank', 'REC-TNK-GBR-MK6', { recipeId: 'REC-TNK-GBR-MATILDA1', from: '1937-06-01', then: { recipeId: 'REC-TNK-GBR-MATILDA2', from: '1939-06-01', then: { recipeId: 'REC-TNK-GBR-VALENTINE', from: '1940-06-01', then: { recipeId: 'REC-TNK-GBR-CHURCHILL', from: '1941-06-01' } } } }]];
+// carri da fanteria (passo 4, 24/11/2026; piano in catena scelto dall'utente alle 12:55): Mk VI → Matilda I (6/1937) → Matilda II (6/1939) → Valentine (6/1940) → Churchill (6/1941)
 const BASE_PLAN = { DEU: { 'FCT-TANKS': { recipeId: 'REC-TNK-DEU-PZ-II', from: '1937-01-01' } }, GBR: { 'FCT-WEAPONS': { recipeId: 'REC-INW-GBR-NO4', from: '1941-07-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-GBR-25PDR-ARM-1939', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-GBR-A13', from: '1938-06-01' } }, USA: { 'FCT-WEAPONS': { recipeId: 'REC-INW-USA-GARAND', from: '1937-01-01' }, 'FCT-ARTILLERY': { recipeId: 'REC-ART-USA-HOW105-1940', from: '1940-01-01' }, 'FCT-TANKS': { recipeId: 'REC-TNK-USA-M2A4', from: '1939-05-01' } } }; // carri: M2A2 → M2A4 (5/1939); Germania Pz I → Pz II (1/1937, 23/11/2026, stima)
 const MUN = { USA: 6, GBR: 3, DEU: 6, USSR: 6, ITA: 3, FRA: 4, JPN: 5, BEL: 0, CAN: 0, CZE: 0, POL: 0, SWE: 0 };
 
