@@ -1029,6 +1029,23 @@
           "count": 1
         },
         {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-JPN-T89",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TNK-JPN-TYPE97-1942",
+            "from": "1938-01-01",
+            "then": {
+              "recipeId": "REC-TNK-JPN-SHINHOTO",
+              "from": "1942-01-01",
+              "then": {
+                "recipeId": "REC-TNK-JPN-CHIHE",
+                "from": "1943-01-01"
+              }
+            }
+          }
+        },
+        {
           "factory": "FCT-VEHICLES",
           "recipeId": "REC-VEH-JPN-ISUZU-T94",
           "count": 1

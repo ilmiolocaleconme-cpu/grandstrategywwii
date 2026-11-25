@@ -103,7 +103,9 @@ EXTRA.JPN = [['wpn', 'REC-INW-JPN-PISTOL-T14'], ['wpn', 'REC-INW-JPN-PISTOL-T14'
   ['wpn', 'REC-MG-JPN-T11', { recipeId: 'REC-MG-JPN-T96', from: '1936-06-01', then: { recipeId: 'REC-MG-JPN-T99', from: '1940-01-01' } }], ['wpn', 'REC-MG-JPN-T92'], ['wpn', 'REC-GL-JPN-T89'],
   ['art', 'REC-ART-JPN-GUN70-T92'], ['art', 'REC-ART-JPN-GUN70-T92', { recipeId: 'REC-ART-JPN-MOR81-T97', from: '1937-06-01' }], ['art', 'REC-ART-JPN-GUN75-REG-1939'],
   ['art', 'REC-ART-JPN-AT37-1939'], ['art', 'REC-ART-JPN-AT37-1939', { recipeId: 'REC-ART-JPN-AA20-T98', from: '1938-06-01' }],
-  ['veh', 'REC-VEH-JPN-MOTO-RIKUO', { recipeId: 'REC-VEH-JPN-MOTO-T97', from: '1937-06-01' }]];
+  ['veh', 'REC-VEH-JPN-MOTO-RIKUO', { recipeId: 'REC-VEH-JPN-MOTO-T97', from: '1937-06-01' }],
+  ['tank', 'REC-TNK-JPN-T89', { recipeId: 'REC-TNK-JPN-TYPE97-1942', from: '1938-01-01', then: { recipeId: 'REC-TNK-JPN-SHINHOTO', from: '1942-01-01', then: { recipeId: 'REC-TNK-JPN-CHIHE', from: '1943-01-01' } } }]];
+// carri giapponesi (passo 4, 25/11/2026, scelta dell'utente: catena): linea di base Tipo 95 Ha-Go; seconda linea Tipo 89 → Chi-Ha (1/1938) → Shinhoto (1/1942) → Chi-He (1/1943).
 // carri italiani (passo 4, 24/11/2026, scelta dell'utente: catena completa): linea di base L 3/35 → M 11/39 (1/1939) → M 13/40 (6/1940) → M 14/41 (8/1941)
 // → M 15/42 (1/1943); seconda linea L 3/35 → semovente 75/18 (3/1941) → 75/34 (3/1943). Stime di Claude.
 // carri da fanteria (passo 4, 24/11/2026; piano in catena scelto dall'utente alle 12:55): Mk VI → Matilda I (6/1937) → Matilda II (6/1939) → Valentine (6/1940) → Churchill (6/1941)

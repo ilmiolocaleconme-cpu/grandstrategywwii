@@ -37,7 +37,7 @@ test('organici: quadrata 1936 più grande della triangolare; triangolare e coraz
   assert.deepEqual(['ART-JPN-GUN75-T38', 'ART-JPN-GUN75-REG-1939', 'ART-JPN-AT37-1939', 'MG-JPN-T92'].map((k) => tri.equipment[k]), [36, 12, 22, 112]);
   assert.ok(Math.abs(tri.equipment['MG-JPN-T96'] + tri.equipment['MG-JPN-T11'] - 382) <= 5, 'circa 382 fucili mitragliatori');
   assert.equal(arm.men, 10000);
-  assert.deepEqual(['TNK-JPN-TYPE97-1942', 'TNK-JPN-TYPE95-1942', 'ART-JPN-GUN75-ARM-1942', 'ART-JPN-AT47-ARM-1942'].map((k) => arm.equipment[k]), [148, 80, 24, 18]);
+  assert.deepEqual(['TNK-JPN-MEDIUM-TANK', 'TNK-JPN-LIGHT-TANK', 'ART-JPN-GUN75-ARM-1942', 'ART-JPN-AT47-ARM-1942'].map((k) => arm.equipment[k]), [148, 80, 24, 18], 'dal passo 4 voci di classe');
 });
 
 test('varianti e scelta per data: Guardia e presidio col loro modello; quadrata 1936 → triangolare 1939', () => {

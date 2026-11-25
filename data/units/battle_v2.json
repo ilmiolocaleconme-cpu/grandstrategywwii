@@ -612,6 +612,46 @@
         "soft": 70,
         "hard": 45,
         "armor": 1.4
+      },
+      "TNK-JPN-T89": {
+        "soft": 28,
+        "hard": 8,
+        "armor": 0.5
+      },
+      "TNK-JPN-T94TK": {
+        "soft": 10,
+        "hard": 1,
+        "armor": 0.2
+      },
+      "TNK-JPN-T97TK": {
+        "soft": 14,
+        "hard": 6,
+        "armor": 0.25
+      },
+      "TNK-JPN-SHINHOTO": {
+        "soft": 30,
+        "hard": 25,
+        "armor": 0.6
+      },
+      "TNK-JPN-CHIHE": {
+        "soft": 32,
+        "hard": 27,
+        "armor": 0.8
+      },
+      "TNK-JPN-CHINU": {
+        "soft": 50,
+        "hard": 40,
+        "armor": 0.85
+      },
+      "TNK-JPN-TYPE95-1942": {
+        "soft": 22,
+        "hard": 10,
+        "armor": 0.35
+      },
+      "TNK-JPN-TYPE97-1942": {
+        "soft": 30,
+        "hard": 10,
+        "armor": 0.55
       }
     },
     "fleetMix": {
@@ -1083,6 +1123,84 @@
             "TNK-FRA-D2": 0.15
           }
         }
+      ],
+      "TNK-JPN-LIGHT-TANK": [
+        {
+          "from": 1936,
+          "mix": {
+            "TNK-JPN-T94TK": 0.6,
+            "TNK-JPN-TYPE95-1942": 0.4
+          }
+        },
+        {
+          "from": 1938,
+          "mix": {
+            "TNK-JPN-T94TK": 0.4,
+            "TNK-JPN-T97TK": 0.2,
+            "TNK-JPN-TYPE95-1942": 0.4
+          }
+        },
+        {
+          "from": 1940,
+          "mix": {
+            "TNK-JPN-T94TK": 0.2,
+            "TNK-JPN-T97TK": 0.3,
+            "TNK-JPN-TYPE95-1942": 0.5
+          }
+        },
+        {
+          "from": 1942,
+          "mix": {
+            "TNK-JPN-T97TK": 0.3,
+            "TNK-JPN-TYPE95-1942": 0.7
+          }
+        }
+      ],
+      "TNK-JPN-MEDIUM-TANK": [
+        {
+          "from": 1936,
+          "mix": {
+            "TNK-JPN-T89": 1
+          }
+        },
+        {
+          "from": 1938,
+          "mix": {
+            "TNK-JPN-T89": 0.6,
+            "TNK-JPN-TYPE97-1942": 0.4
+          }
+        },
+        {
+          "from": 1940,
+          "mix": {
+            "TNK-JPN-T89": 0.3,
+            "TNK-JPN-TYPE97-1942": 0.7
+          }
+        },
+        {
+          "from": 1942,
+          "mix": {
+            "TNK-JPN-T89": 0.1,
+            "TNK-JPN-TYPE97-1942": 0.7,
+            "TNK-JPN-SHINHOTO": 0.2
+          }
+        },
+        {
+          "from": 1943,
+          "mix": {
+            "TNK-JPN-TYPE97-1942": 0.5,
+            "TNK-JPN-SHINHOTO": 0.4,
+            "TNK-JPN-CHIHE": 0.1
+          }
+        },
+        {
+          "from": 1944,
+          "mix": {
+            "TNK-JPN-TYPE97-1942": 0.3,
+            "TNK-JPN-SHINHOTO": 0.5,
+            "TNK-JPN-CHIHE": 0.2
+          }
+        }
       ]
     },
     "panzerRationale": "Panzer tedeschi (17/11/2026). Le divisioni tedesche tengono la voce generica «carri armati»: ora i carri che arrivano dalla produzione vi restano registrati per modello (campo `models` della voce) e ogni modello ha il suo peso (`tankModels`: Panzer I 18/2 con corazza 0,4 … Tiger II 90/120 con 1,9). I carri mai tracciati (la dotazione con cui la divisione nasce) si dividono secondo `fleetMix`, la composizione approssimata del parco tedesco nell'anno di nascita della divisione (1936: solo Panzer I; settembre 1939: circa 45% Panzer I, 40% Panzer II, 5% Panzer III, 10% Panzer IV). Pesi e quote sono IPOTESI di Claude a memoria, non verificate su fonti: i carri cechi (Pz 35(t), Pz 38(t)) non sono nel catalogo e non compaiono. La Cecoslovacchia non ha template corazzati: le sue versioni (LT vz. 35 e 38) entreranno con un template ceco. Versioni separate (18/11/2026): Pz III 37/50 mm corto 40/45 corazza 0,95 e Ausf. J–L col 50 mm L/60 42/60 1,05; Pz IV a canna corta 60/25 0,9 (prima 65/45, media delle versioni) e Ausf. F2–H col 75 mm lungo 65/70 1,1.",
@@ -1147,7 +1265,8 @@
     "usaTankRationale": "21/11/2026 (passo 4 USA, scelte dell'utente A): pesi dei carri americani per modello, da confrontare con i Panzer (Pz IV 60/25/0,9, Pz III 40/45/0,95). fleetMix: composizione per anno dei pezzi INIZIALI delle due voci di classe; i pezzi prodotti si registrano col proprio modello. Stime di Claude.",
     "gbrTankRationale": "Carri britannici per modello (24/11/2026, passo 4, scelta A dell'utente): pesi per modello (fuoco contro fanteria, contro carri, corazza) e composizione per anno dei carri iniziali delle tre voci di classe (leggeri, cruiser, carri da fanteria). Mk VI e Matilda I solo mitragliatrici; A9/A10/A13 e Matilda II/Valentine con il 2 libbre; Crusader col 2 e poi il 6 libbre; Cromwell e Churchill col 75 mm; Comet col 77 mm HV. I carri da fanteria hanno corazza alta e poca velocità. Stime di Claude dalla memoria, ipotesi di bilanciamento.",
     "itaTankRationale": "Carri italiani per modello (24/11/2026, Italia passo 4, scelta dell'utente: elenco completo). Pesi per modello (fuoco contro fanteria, contro carri, corazza) e composizione per anno delle due voci di classe (carri veloci L 3, carri medi M). L 3 solo mitragliatrici; L 6/40 col 20 mm; M 11/39 col 37 in casamatta; M 13, M 14 col 47/32, M 15 col 47/40; P 40 col 75/34. Semoventi: 47/32 (anticarro leggero), 75/18 e 75/34 (cannoni d'assalto, carica cava), 105/25. Corazze sottili e chiodate: armor 0,25-0,8 contro 0,6-1,3 dei britannici. Stime di Claude, NON verificate.",
-    "fraTankRationale": "Carri francesi per modello (25/11/2026, Francia passo 4, scelta dell'utente: elenco completo). Corazze spesse e fuse (R 35, H 35, H 39 0,8-0,85; SOMUA 1,0; B1 bis 1,4) ma cannoni corti da 37 SA 18 sui leggeri (poco contro i carri; H 39 in parte col 37 SA 38); SOMUA e D 2 col 47 SA 35; B1 e B1 bis col 75 in casamatta e il 47 in torretta. Due voci di classe (leggeri, medi di cavalleria) con la composizione per anno. Stime di Claude, NON verificate."
+    "fraTankRationale": "Carri francesi per modello (25/11/2026, Francia passo 4, scelta dell'utente: elenco completo). Corazze spesse e fuse (R 35, H 35, H 39 0,8-0,85; SOMUA 1,0; B1 bis 1,4) ma cannoni corti da 37 SA 18 sui leggeri (poco contro i carri; H 39 in parte col 37 SA 38); SOMUA e D 2 col 47 SA 35; B1 e B1 bis col 75 in casamatta e il 47 in torretta. Due voci di classe (leggeri, medi di cavalleria) con la composizione per anno. Stime di Claude, NON verificate.",
+    "jpnTankRationale": "Carri giapponesi per modello (25/11/2026, Giappone passo 4, scelta dell'utente: elenco completo). Corazze sottili (tankette 0,2-0,25, Ha-Go 0,35, Chi-Ha 0,55, Chi-He 0,8); Tipo 89 e Chi-Ha col 57 corto (buono contro fanteria, poco contro carri), Shinhoto e Chi-He col 47 ad alta velocità, Chi-Nu col 75. Due voci di classe (leggeri e tankette, medi) con la composizione per anno. Stime di Claude, NON verificate."
   },
   "cohesion": {
     "lossBase": 8,

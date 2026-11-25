@@ -186,6 +186,21 @@
       "id": "VEH-JPN-MOTO-T97",
       "replaces": "VEH-JPN-MOTO-RIKUO",
       "basis": "ipotesi"
+    },
+    {
+      "id": "TNK-JPN-T97TK",
+      "replaces": "TNK-JPN-T94TK",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "TNK-JPN-SHINHOTO",
+      "replaces": "TNK-JPN-TYPE97-1942",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "TNK-JPN-TYPE97-1942",
+      "replaces": "TNK-JPN-T89",
+      "basis": "ipotesi"
     }
   ]
 }

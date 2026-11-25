@@ -9,9 +9,9 @@
     "activeFrom": "1942-06-01"
   },
   "orgLevel": "war",
-  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 Tipo 97, 80 Tipo 95, 24 pezzi da 75, 18 da 47).",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 carri medi e 80 leggeri, come i 148 Tipo 97 e 80 Tipo 95 del CSV; 24 pezzi da 75, 18 da 47).",
   "formation": {
-    "value": "divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 Tipo 97, 80 Tipo 95, 24 pezzi da 75, 18 da 47)",
+    "value": "divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 carri medi e 80 leggeri, come i 148 Tipo 97 e 80 Tipo 95 del CSV; 24 pezzi da 75, 18 da 47)",
     "basis": "ipotesi",
     "referenceYear": "1942",
     "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
@@ -21,8 +21,8 @@
     {
       "id": "MOD-JPN-TANK-REGT",
       "count": 4,
-      "name": "Tank regiment (Type 97, Type 95)",
-      "name_it": "Reggimento carri (Tipo 97 e Tipo 95)"
+      "name": "Tank regiment (medium and light tanks)",
+      "name_it": "Reggimento carri (medi Tipo 89/97/Shinhoto/Chi-He e leggeri Tipo 95)"
     },
     {
       "id": "MOD-JPN-MOB-INF",
@@ -207,7 +207,7 @@
         "source": null
       }
     },
-    "TNK-JPN-TYPE95-1942": {
+    "TNK-JPN-LIGHT-TANK": {
       "value": 80,
       "basis": "ipotesi",
       "referenceYear": "1942",
@@ -220,7 +220,7 @@
         "source": null
       }
     },
-    "TNK-JPN-TYPE97-1942": {
+    "TNK-JPN-MEDIUM-TANK": {
       "value": 148,
       "basis": "ipotesi",
       "referenceYear": "1942",

@@ -3270,6 +3270,124 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-JPN-LIGHT-TANK",
+      "nation": "JPN",
+      "category": "TANK",
+      "granularity": "class",
+      "caliber_mm": null,
+      "designation": "Carri leggeri e tankette (Tipo 94, Tipo 97 Te-Ke, Tipo 95 Ha-Go)",
+      "name_it": "Carri leggeri (Giappone)",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TNK-JPN-MEDIUM-TANK",
+      "nation": "JPN",
+      "category": "TANK",
+      "granularity": "class",
+      "caliber_mm": null,
+      "designation": "Carri medi (Tipo 89, Tipo 97 Chi-Ha, Shinhoto, Tipo 1 Chi-He)",
+      "name_it": "Carri medi (Giappone)",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TNK-JPN-T89",
+      "nation": "JPN",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 57,
+      "designation": "Carro medio Tipo 89 I-Go",
+      "name_it": "Carro medio Tipo 89 I-Go",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-JPN-MEDIUM-TANK"
+    },
+    {
+      "equipment_id": "TNK-JPN-T94TK",
+      "nation": "JPN",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 6.5,
+      "designation": "Tankette Tipo 94 TK",
+      "name_it": "Tankette Tipo 94 TK",
+      "role": "tankette",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-JPN-LIGHT-TANK"
+    },
+    {
+      "equipment_id": "TNK-JPN-T97TK",
+      "nation": "JPN",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 37,
+      "designation": "Tankette Tipo 97 Te-Ke",
+      "name_it": "Tankette Tipo 97 Te-Ke",
+      "role": "tankette",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-JPN-LIGHT-TANK"
+    },
+    {
+      "equipment_id": "TNK-JPN-SHINHOTO",
+      "nation": "JPN",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 47,
+      "designation": "Carro medio Tipo 97 Shinhoto Chi-Ha",
+      "name_it": "Carro medio Tipo 97 Shinhoto Chi-Ha",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-JPN-MEDIUM-TANK"
+    },
+    {
+      "equipment_id": "TNK-JPN-CHIHE",
+      "nation": "JPN",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 47,
+      "designation": "Carro medio Tipo 1 Chi-He",
+      "name_it": "Carro medio Tipo 1 Chi-He",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-JPN-MEDIUM-TANK"
+    },
+    {
+      "equipment_id": "TNK-JPN-CHINU",
+      "nation": "JPN",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Carro medio Tipo 3 Chi-Nu",
+      "name_it": "Carro medio Tipo 3 Chi-Nu",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-JPN-MEDIUM-TANK"
     }
   ],
   "aliases": [
@@ -4367,6 +4485,46 @@
       "nation": "JPN",
       "templateKey": "VEH-JPN-AC-T93",
       "equipment_id": "VEH-JPN-AC-T93"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "TNK-JPN-LIGHT-TANK",
+      "equipment_id": "TNK-JPN-LIGHT-TANK"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "TNK-JPN-MEDIUM-TANK",
+      "equipment_id": "TNK-JPN-MEDIUM-TANK"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "TNK-JPN-T89",
+      "equipment_id": "TNK-JPN-T89"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "TNK-JPN-T94TK",
+      "equipment_id": "TNK-JPN-T94TK"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "TNK-JPN-T97TK",
+      "equipment_id": "TNK-JPN-T97TK"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "TNK-JPN-SHINHOTO",
+      "equipment_id": "TNK-JPN-SHINHOTO"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "TNK-JPN-CHIHE",
+      "equipment_id": "TNK-JPN-CHIHE"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "TNK-JPN-CHINU",
+      "equipment_id": "TNK-JPN-CHINU"
     }
   ]
 }

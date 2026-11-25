@@ -215,10 +215,12 @@
     },
     "TNK-JPN-TYPE97-1942": {
       "massTonnes": 15,
-      "availableFrom": "1938-01-01"
+      "availableFrom": "1938-01-01",
+      "availableTo": "1942-03-31"
     },
     "TNK-JPN-TYPE95-1942": {
-      "massTonnes": 7.4
+      "massTonnes": 7.4,
+      "availableTo": "1943-12-31"
     },
     "TNK-USSR-KV-1940": {
       "massTonnes": 45,
@@ -987,7 +989,15 @@
     "VEH-JPN-TRACTOR-T92": {"massTonnes": 5.0},
     "VEH-JPN-MOTO-RIKUO": {"massTonnes": 0.4, "availableTo": "1937-12-31"},
     "VEH-JPN-MOTO-T97": {"massTonnes": 0.45, "availableFrom": "1937-06-01"},
-    "VEH-JPN-AC-T93": {"massTonnes": 7.5}
+    "VEH-JPN-AC-T93": {"massTonnes": 7.5},
+    "TNK-JPN-LIGHT-TANK": {"massTonnes": 7.0, "availableFrom": "1936-01-01"},
+    "TNK-JPN-MEDIUM-TANK": {"massTonnes": 15.0, "availableFrom": "1936-01-01"},
+    "TNK-JPN-T89": {"massTonnes": 13.0, "availableTo": "1939-12-31"},
+    "TNK-JPN-T94TK": {"massTonnes": 3.4, "availableTo": "1937-12-31"},
+    "TNK-JPN-T97TK": {"massTonnes": 4.7, "availableFrom": "1938-01-01", "availableTo": "1942-12-31"},
+    "TNK-JPN-SHINHOTO": {"massTonnes": 15.8, "availableFrom": "1942-01-01"},
+    "TNK-JPN-CHIHE": {"massTonnes": 17.2, "availableFrom": "1943-01-01"},
+    "TNK-JPN-CHINU": {"massTonnes": 18.8, "availableFrom": "1944-06-01", "requiresTech": "TECH-ARM-GUN-75S"}
   },
   "priceFactor": 1.25
 }

@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-25",
-  "note": "Battaglioni giapponesi (25/11/2026, schema unico, scelte dell'utente: elenco completo, Guardia con modello proprio, battaglione SNLF solo nell'editor, brigate rimandate). Organici STIMATI da Claude, NON verificati; la triangolare e la corazzata allineate alle cifre provvisorie del CSV. Id TPL-JPN-INF-1939 e TPL-JPN-ARM-1942 conservati. Carri: Tipo 97 e Tipo 95 fino al passo 4. Solo armi giapponesi.",
+  "note": "Battaglioni giapponesi (25/11/2026, schema unico, scelte dell'utente: elenco completo, Guardia con modello proprio, battaglione SNLF solo nell'editor, brigate rimandate). Organici STIMATI da Claude, NON verificati; la triangolare e la corazzata allineate alle cifre provvisorie del CSV. Id TPL-JPN-INF-1939 e TPL-JPN-ARM-1942 conservati. Carri (passo 4, 25/11/2026): voci di classe dei medi (Tipo 89, Chi-Ha, Shinhoto, Chi-He, Chi-Nu) e dei leggeri (Tipo 94, Te-Ke, Ha-Go) con la composizione per anno. Solo armi giapponesi.",
   "modules": [
     {
       "id": "MOD-JPN-INF-1936",
@@ -372,13 +372,13 @@
       "id": "MOD-JPN-TANK-REGT",
       "nation": "JPN",
       "type": "tank",
-      "name_native": "Tank regiment (Type 97, Type 95)",
-      "name_it": "Reggimento carri (Tipo 97 e Tipo 95)",
+      "name_native": "Tank regiment (medium and light tanks)",
+      "name_it": "Reggimento carri (medi Tipo 89/97/Shinhoto/Chi-He e leggeri Tipo 95)",
       "men": 800,
       "horses": 0,
       "equipment": {
-        "TNK-JPN-TYPE97-1942": 37,
-        "TNK-JPN-TYPE95-1942": 20,
+        "TNK-JPN-MEDIUM-TANK": 37,
+        "TNK-JPN-LIGHT-TANK": 20,
         "INW-JPN-RIFLE-1939": 400,
         "INW-JPN-PISTOL-T14": 300,
         "VEH-JPN-ISUZU-T94": 30,
@@ -398,7 +398,7 @@
       "men": 600,
       "horses": 0,
       "equipment": {
-        "TNK-JPN-TYPE95-1942": 40,
+        "TNK-JPN-LIGHT-TANK": 40,
         "INW-JPN-RIFLE-1939": 300,
         "INW-JPN-PISTOL-T14": 200,
         "VEH-JPN-ISUZU-T94": 20
@@ -683,7 +683,7 @@
       "file": "divisione_corazzata_giappone_1942.json",
       "category": "armored",
       "activeFrom": "1942-06-01",
-      "formation": "divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 Tipo 97, 80 Tipo 95, 24 pezzi da 75, 18 da 47)",
+      "formation": "divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 carri medi e 80 leggeri, come i 148 Tipo 97 e 80 Tipo 95 del CSV; 24 pezzi da 75, 18 da 47)",
       "modules": [
         [
           "MOD-JPN-TANK-REGT",
