@@ -31,7 +31,7 @@ export function buildIndexes({ cities, provinces }) {
   }
   const zoneByKey = new Map(); // stessa chiave → zona di città (per sapere su quale sponda sta)
   for (const c of cities) {
-    const key = `${c.owner}|${stripSide(norm(c.name))}`;
+    const key = `${c.owner}|${stripSide(norm(c.name.replace(/ – .*$/, '')))}`; // settori: «Mosca – Cremlino» → mosca
     if (!cityByKey.has(key)) { cityByKey.set(key, c.parentProvince); zoneByKey.set(key, c.id); }
   }
   return { cityByKey, provByKey, motherIds, zoneByKey };

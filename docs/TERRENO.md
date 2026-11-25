@@ -28,6 +28,10 @@ Soglie in `CONFIG` dello script, tarate su ~60 luoghi noti (Alpi, Po, Polonia, M
 - Le province di molti paesi sono confini attuali, non del 1936 (vedi `REGOLE_INSERIMENTO_DATI.md`).
 - La Lombardia risulta «montagna» col 41 % di Alpi e il 49 % di pianura: il singolo tipo per provincia è una semplificazione; usare `frazioni`.
 
+## Urali: rilievi tracciati a mano (25/11/2026)
+La stima da raster non vede gli Urali (catena stretta, sui confini, coperta di taiga: montagna 1-2 % in Sverdlovsk, Perm', Baschiria, Čeljabinsk). `scripts/terrain/rilievi-manuali.js` aggiunge a `data/terrain.json` i `rilievi` (5 poligoni a mano, **ipotesi**: Urali polari e subpolari, settentrionali e meridionali = montagna; Urali medi e Mugodžary = collina) e corregge le frazioni delle province attraversate: la parte dentro il rilievo diventa del suo tipo, il resto scala; tipo principale e secondario con le regole dello script. La stima originale resta in `frazioniStima`, le province toccate hanno `ritocco`. Risultato: Baschiria pianura + montagna 30 %, Čeljabinsk + montagna 20 %, Sverdlovsk collina 17 %. **Va rilanciato dopo ogni `npm run build:terrain`**, poi `npm run build:population` (la popolazione dipende dal terreno).
+Sul livello Terreno i rilievi si disegnano come fascia tratteggiata sopra le province (`drawRelief` in `src/map/canvasDraw.js`): la tinta per provincia da sola non li mostrerebbe. Non provato su un telefono.
+
 ## Mappa
 Livello **Terreno** (pulsanti dei livelli, legenda e scheda provincia con «stima da raster»). Il file (~200 kB) si scarica solo quando si apre il livello, per non far ricostruire il modello della mappa all'avvio.
 

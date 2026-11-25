@@ -63,9 +63,9 @@ test('province_industry: coerente con il catalogo slot (3085 posti: province e s
   const prov = rows.filter((r) => r.unit_kind === 'province');
   const parts = rows.filter((r) => r.unit_kind === 'city_part');
   assert.equal(prov.length, 3085); // 12/11/2026: 2599 province, ma le 306 divise da un fiume valgono 792 sponde da 14 slot ciascuna (2599 - 306 + 792)
-  assert.equal(parts.length, 2103); // 13/11/2026: + 12 città extra dei cantieri; 25/11/2026: + Camden, + Copenaghen
+  assert.equal(parts.length, 2103); // 13/11/2026: + 12 città extra dei cantieri; 25/11/2026: + Camden, + Copenaghen; + 43 settori, - 43 zone di città nate dopo il 1945
   assert.ok(prov.every((r) => Number(r.potential_slots) === SLOT_CAPACITY.province && r.basis === BASIS_PROVISIONAL_UNIFORM && r.status === 'PROVISIONAL'));
-  assert.equal(prov.reduce((s, r) => s + Number(r.potential_slots), 0) + parts.reduce((s, r) => s + Number(r.potential_slots), 0), 57616 + (792 - 306) * 14 + 130 + 14); // Copenaghen (25/11/2026): +14; Camden (25/11/2026): +10; sponde (12/11/2026): +486 posti × 14; 12 città extra dei cantieri: +120 slot (12 x 10); prima: (+322 slot: 23 province di isole x 14) 43576 (prima delle città del mondo: 22324 + 1418 province del resto del mondo x 14 slot (uniformi e provvisorie, come tutte)) + 1357 parti di città del resto del mondo (13718 slot)
+  assert.equal(prov.reduce((s, r) => s + Number(r.potential_slots), 0) + parts.reduce((s, r) => s + Number(r.potential_slots), 0), 57616 + (792 - 306) * 14 + 130 + 14 - 430); // 25/11/2026: - 430 slot (43 zone di città nate dopo il 1945 x 10); Copenaghen (25/11/2026): +14; Camden (25/11/2026): +10; sponde (12/11/2026): +486 posti × 14; 12 città extra dei cantieri: +120 slot (12 x 10)
   // le 3 province-città (Budapest, Riga, Bucarest) non hanno slot di provincia: nessuna riga "province" per le loro madri
   for (const [id, n] of Object.entries(slotCat.provinces)) assert.equal(rows.some((r) => r.unit_kind === 'province' && r.unit_id === id), n > 0, id);
 });

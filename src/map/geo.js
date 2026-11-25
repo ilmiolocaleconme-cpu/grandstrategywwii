@@ -309,6 +309,10 @@ export function provinceFill(props, layer, control) {
 // Fiumi e laghi: percorsi pronti per l'SVG. I fiumi sono ordinati dal più piccolo al più grande,
 // così i grandi restano sopra. Stessi dati (data/rivers_geo.json) usati dalle regole.
 export const RIVER_WIDTH_PX = { large: 2.4, medium: 1.5, small: 0.9 };
+// Anno dei dati della mappa: i bacini artificiali riempiti dopo (data/lakes.json `annoRiempimento`, scripts/revisione-urss-1936.js)
+// non si disegnano e al loro posto si disegna il fiume. Statico: la mappa non cambia con la data della partita.
+export const ANNO_MAPPA = 1936;
+export const esisteNel1936 = (f) => !(f.properties.annoRiempimento > ANNO_MAPPA);
 
 // Livelli dei fiumi per classe: più si ingrandisce, più classi si vedono. A vista d'insieme solo i principali, da zoom 1,8
 // anche i secondari, da zoom 3,5 anche i terziari (tributary). Il fiume selezionato resta sempre visibile.
@@ -339,7 +343,7 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
       return {
         key: `${f.properties.riverId}#${f.properties.segment}`,
         riverId: f.properties.riverId,
-        inLake: Boolean(f.properties.inLake),
+        inLake: Boolean(f.properties.inLake) && !f.properties.bacinoDopo1936, // nel 1936 il bacino non c'era: si disegna il fiume
         d: lineToPath(f.geometry.coordinates),
         low: LOD_TOLERANCES.map((t) => lineToPath(f.geometry.coordinates, t)),
         width: RIVER_WIDTH_PX[river?.widthClass] ?? RIVER_WIDTH_PX.small,
@@ -347,7 +351,7 @@ export function buildWaterModel(rivers, riversGeo, lakes) {
       };
     })
     .sort((a, b) => b.rank - a.rank || a.width - b.width);
-  const lakeItems = lakes.features.map((f) => ({
+  const lakeItems = lakes.features.filter(esisteNel1936).map((f) => ({
     id: f.properties.id,
     name: f.properties.name,
     props: f.properties,

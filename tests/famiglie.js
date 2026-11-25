@@ -17,7 +17,7 @@ export function vistaProvince(collection) {
     }
     const slot = famiglie.get(madre);
     const { sponda_fiume: _s, parentProvince: _p, sponda: _l, ...props } = f.properties;
-    slot.properties ??= { ...props, id: madre, name: props.name.replace(/ \(sponda [A-Z]\)$/, ''), nameLocal: props.name.replace(/ \(sponda [A-Z]\)$/, '') };
+    slot.properties ??= { ...props, id: madre, name: props.name.replace(/ \(sponda [^)]+\)$/, ''), nameLocal: props.name.replace(/ \(sponda [^)]+\)$/, '') };
     slot.coordinates.push(...(f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates));
   }
   return {

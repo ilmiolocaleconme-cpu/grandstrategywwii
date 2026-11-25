@@ -45,8 +45,15 @@ test('dati reali: una provincia o una sponda = 14 (tranne le 3 province-città),
   assert.deepEqual(zero, ['P_HUN_BUDAPEST', 'P_LVA_RIGA', 'P_ROM_BUCURESTI']);
   assert.ok(Object.values(cat.provinces).every((v) => v === 0 || v === 14));
   assert.equal(Object.keys(cat.cityParts).length, zones.length);
-  assert.ok(Object.values(cat.cityParts).every((v) => v === 10 || v === 14));
-  assert.equal(cat.totals.cityPartSlots, 10 * zones.length + 4 * cat.capitalParts.length);
+  // settori (Mosca, Leningrado, Stalingrado): si dividono gli slot della parte del fiume da cui vengono, stesso totale
+  const settori = zones.filter((z) => z.properties.partiFiume);
+  const altre = zones.filter((z) => !z.properties.partiFiume);
+  assert.ok(altre.every((z) => [10, 14].includes(cat.cityParts[z.properties.id])));
+  const perParte = new Map();
+  for (const z of settori) perParte.set(z.properties.partiFiume, (perParte.get(z.properties.partiFiume) ?? 0) + cat.cityParts[z.properties.id]);
+  assert.deepEqual(Object.fromEntries(perParte), { P_USSR_MOSCA_CITTA_P1: 14, P_USSR_MOSCA_CITTA_P2: 14, P_USSR_LENINGRADO_CITTA: 10, P_USSR_STALINGRADO_CITTA_P1: 10, P_USSR_STALINGRADO_CITTA_P2: 10 });
+  const capAltre = altre.filter((z) => cat.capitalParts.includes(z.properties.id)).length;
+  assert.equal(cat.totals.cityPartSlots, 10 * altre.length + 4 * capAltre + 58);
   assert.equal(cat.totals.slots, cat.totals.provinceSlots + cat.totals.cityPartSlots);
   // le parti di Budapest (capitale, divisa dal Danubio) hanno 14 slot ciascuna
   const bud = Object.entries(cat.cityParts).filter(([id]) => id.includes('BUDAPEST'));
