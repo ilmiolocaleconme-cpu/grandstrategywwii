@@ -2934,6 +2934,342 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "INW-JPN-ARISAKA-T99",
+      "nation": "JPN",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 7.7,
+      "designation": "Fucile Arisaka Tipo 99",
+      "name_it": "Fucile Arisaka Tipo 99",
+      "role": "individual_infantry_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-JPN-PISTOL-T14",
+      "nation": "JPN",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 8,
+      "designation": "Pistola Nambu Tipo 14",
+      "name_it": "Pistola Nambu Tipo 14",
+      "role": "officer_and_specialist_sidearm",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "INW-JPN-SMG-T100",
+      "nation": "JPN",
+      "category": "INDIVIDUAL_WEAPON",
+      "granularity": "model",
+      "caliber_mm": 8,
+      "designation": "Pistola mitragliatrice Tipo 100",
+      "name_it": "Mitra Tipo 100",
+      "role": "submachine_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-JPN-T11",
+      "nation": "JPN",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 6.5,
+      "designation": "Fucile mitragliatore Tipo 11",
+      "name_it": "Fucile mitragliatore Tipo 11",
+      "role": "squad_automatic_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-JPN-T96",
+      "nation": "JPN",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 6.5,
+      "designation": "Fucile mitragliatore Tipo 96",
+      "name_it": "Fucile mitragliatore Tipo 96",
+      "role": "squad_automatic_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-JPN-T99",
+      "nation": "JPN",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 7.7,
+      "designation": "Fucile mitragliatore Tipo 99",
+      "name_it": "Fucile mitragliatore Tipo 99",
+      "role": "squad_automatic_weapon",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "MG-JPN-T92",
+      "nation": "JPN",
+      "category": "MACHINE_GUN",
+      "granularity": "model",
+      "caliber_mm": 7.7,
+      "designation": "Mitragliatrice pesante Tipo 92",
+      "name_it": "Mitragliatrice pesante Tipo 92",
+      "role": "sustained_fire_support",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "GL-JPN-T89",
+      "nation": "JPN",
+      "category": "GRENADE_LAUNCHER",
+      "granularity": "model",
+      "caliber_mm": 50,
+      "designation": "Lanciagranate Tipo 89",
+      "name_it": "Lanciagranate Tipo 89 («mortaio da ginocchio»)",
+      "role": "infantry_indirect_grenade_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-MOR81-T97",
+      "nation": "JPN",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 81,
+      "designation": "Mortaio da 81 mm Tipo 97",
+      "name_it": "Mortaio da 81 Tipo 97",
+      "role": "close_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-MOR90-T94",
+      "nation": "JPN",
+      "category": "MORTAR",
+      "granularity": "model",
+      "caliber_mm": 90,
+      "designation": "Mortaio da 90 mm Tipo 94",
+      "name_it": "Mortaio da 90 Tipo 94",
+      "role": "close_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-GUN70-T92",
+      "nation": "JPN",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "caliber_mm": 70,
+      "designation": "Obice di battaglione Tipo 92 da 70 mm",
+      "name_it": "Obice di battaglione Tipo 92",
+      "role": "regimental_infantry_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-GUN75-MT-T94",
+      "nation": "JPN",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Cannone da montagna Tipo 94 da 75 mm",
+      "name_it": "Cannone da montagna Tipo 94",
+      "role": "mountain_gun",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-GUN75-T38",
+      "nation": "JPN",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Cannone da campagna Tipo 38 migliorato da 75 mm",
+      "name_it": "Cannone da campagna Tipo 38",
+      "role": "divisional_light_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-GUN75-T90",
+      "nation": "JPN",
+      "category": "FIELD_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Cannone da campagna Tipo 90 da 75 mm",
+      "name_it": "Cannone da campagna Tipo 90",
+      "role": "divisional_light_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-HOW105-T91",
+      "nation": "JPN",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "caliber_mm": 105,
+      "designation": "Obice Tipo 91 da 105 mm",
+      "name_it": "Obice Tipo 91 da 105",
+      "role": "divisional_heavy_indirect_fire",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-HOW150-T96",
+      "nation": "JPN",
+      "category": "HOWITZER",
+      "granularity": "model",
+      "caliber_mm": 150,
+      "designation": "Obice Tipo 96 da 150 mm",
+      "name_it": "Obice Tipo 96 da 150",
+      "role": "medium_howitzer",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-AA20-T98",
+      "nation": "JPN",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 20,
+      "designation": "Cannone contraereo Tipo 98 da 20 mm",
+      "name_it": "Contraerea Tipo 98 da 20 mm",
+      "role": "light_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "ART-JPN-AA75-T88",
+      "nation": "JPN",
+      "category": "ANTI_AIRCRAFT_GUN",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Cannone contraereo Tipo 88 da 75 mm",
+      "name_it": "Contraerea Tipo 88 da 75 mm",
+      "role": "heavy_anti_aircraft",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-JPN-ISUZU-T94",
+      "nation": "JPN",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Autocarro Isuzu Tipo 94",
+      "name_it": "Autocarro Isuzu Tipo 94",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-JPN-NISSAN-180",
+      "nation": "JPN",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Autocarro Nissan 180",
+      "name_it": "Autocarro Nissan 180",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-JPN-TRACTOR-T92",
+      "nation": "JPN",
+      "category": "TRUCK",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Trattore d'artiglieria Tipo 92 da 5 t",
+      "name_it": "Trattore d'artiglieria Tipo 92",
+      "role": "truck",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-JPN-MOTO-RIKUO",
+      "nation": "JPN",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Motocicletta Rikuo",
+      "name_it": "Motocicletta Rikuo",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-JPN-MOTO-T97",
+      "nation": "JPN",
+      "category": "SPECIAL_VEHICLE",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Motocicletta Tipo 97 con carrozzino",
+      "name_it": "Motocicletta Tipo 97",
+      "role": "motorcycle",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "VEH-JPN-AC-T93",
+      "nation": "JPN",
+      "category": "ARMORED_CAR",
+      "granularity": "model",
+      "caliber_mm": null,
+      "designation": "Autoblindo Sumida Tipo 93",
+      "name_it": "Autoblindo Sumida Tipo 93",
+      "role": "armored_car",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti: da sostituire con dati documentati."
     }
   ],
   "aliases": [
@@ -3911,6 +4247,126 @@
       "nation": "FRA",
       "templateKey": "TNK-FRA-B1",
       "equipment_id": "TNK-FRA-B1"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "INW-JPN-ARISAKA-T99",
+      "equipment_id": "INW-JPN-ARISAKA-T99"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "INW-JPN-PISTOL-T14",
+      "equipment_id": "INW-JPN-PISTOL-T14"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "INW-JPN-SMG-T100",
+      "equipment_id": "INW-JPN-SMG-T100"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "MG-JPN-T11",
+      "equipment_id": "MG-JPN-T11"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "MG-JPN-T96",
+      "equipment_id": "MG-JPN-T96"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "MG-JPN-T99",
+      "equipment_id": "MG-JPN-T99"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "MG-JPN-T92",
+      "equipment_id": "MG-JPN-T92"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "GL-JPN-T89",
+      "equipment_id": "GL-JPN-T89"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-MOR81-T97",
+      "equipment_id": "ART-JPN-MOR81-T97"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-MOR90-T94",
+      "equipment_id": "ART-JPN-MOR90-T94"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-GUN70-T92",
+      "equipment_id": "ART-JPN-GUN70-T92"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-GUN75-MT-T94",
+      "equipment_id": "ART-JPN-GUN75-MT-T94"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-GUN75-T38",
+      "equipment_id": "ART-JPN-GUN75-T38"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-GUN75-T90",
+      "equipment_id": "ART-JPN-GUN75-T90"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-HOW105-T91",
+      "equipment_id": "ART-JPN-HOW105-T91"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-HOW150-T96",
+      "equipment_id": "ART-JPN-HOW150-T96"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-AA20-T98",
+      "equipment_id": "ART-JPN-AA20-T98"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "ART-JPN-AA75-T88",
+      "equipment_id": "ART-JPN-AA75-T88"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "VEH-JPN-ISUZU-T94",
+      "equipment_id": "VEH-JPN-ISUZU-T94"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "VEH-JPN-NISSAN-180",
+      "equipment_id": "VEH-JPN-NISSAN-180"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "VEH-JPN-TRACTOR-T92",
+      "equipment_id": "VEH-JPN-TRACTOR-T92"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "VEH-JPN-MOTO-RIKUO",
+      "equipment_id": "VEH-JPN-MOTO-RIKUO"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "VEH-JPN-MOTO-T97",
+      "equipment_id": "VEH-JPN-MOTO-T97"
+    },
+    {
+      "nation": "JPN",
+      "templateKey": "VEH-JPN-AC-T93",
+      "equipment_id": "VEH-JPN-AC-T93"
     }
   ]
 }

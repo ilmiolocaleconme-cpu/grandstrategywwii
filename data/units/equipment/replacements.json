@@ -161,6 +161,31 @@
       "id": "TNK-FRA-B1BIS-1940",
       "replaces": "TNK-FRA-B1",
       "basis": "ipotesi"
+    },
+    {
+      "id": "INW-JPN-ARISAKA-T99",
+      "replaces": "INW-JPN-RIFLE-1939",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "MG-JPN-T96",
+      "replaces": "MG-JPN-T11",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "MG-JPN-T99",
+      "replaces": "MG-JPN-T96",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "ART-JPN-GUN75-T90",
+      "replaces": "ART-JPN-GUN75-T38",
+      "basis": "ipotesi"
+    },
+    {
+      "id": "VEH-JPN-MOTO-T97",
+      "replaces": "VEH-JPN-MOTO-RIKUO",
+      "basis": "ipotesi"
     }
   ]
 }
