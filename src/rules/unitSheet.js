@@ -4,6 +4,7 @@
 // - sheetSections: sezioni della scheda, ciascuna con stato 'dato' o 'non_disponibile' (mostrate sempre, fase 2 decisione B).
 import { atWar } from './war.js';
 import { areAllied } from './diplomacy.js';
+import { minorEquipmentGroups } from '../data/minorNations.js';
 
 /** Amico (giocatore o alleato), nemico (in guerra con il giocatore), neutrale (altrimenti). Senza giocatore: neutrale. */
 export function affiliationOf(state, nation) {
@@ -65,6 +66,7 @@ export const EQUIPMENT_GROUP_LABEL = Object.freeze({
   non_classificati: 'Non classificati',
 });
 export const EQUIPMENT_GROUP = Object.freeze({
+  ...minorEquipmentGroups(), // nazioni minori (25/11/2026): tabella esplicita per arma comune, src/data/minorNations.js
   'VEH-DEU-TRUCK': 'veicoli', 'VEH-DEU-SDKFZ251': 'veicoli', 'TNK-DEU-TANK': 'corazzati', // divisioni a battaglioni (18/11/2026)
   'VEH-DEU-KRAD': 'veicoli', 'VEH-DEU-SDKFZ222': 'veicoli', 'ART-DEU-FLAK88': 'artiglieria', 'ART-DEU-GEBG36': 'artiglieria', // battaglioni del 19/11/2026
   'INW-USSR-PISTOL-TT33': 'individuali', 'INW-USSR-SMG-PPD': 'individuali', 'INW-USSR-SMG-PPSH41': 'individuali', 'ART-USSR-MOR50': 'mortai', 'ART-USSR-MOR82': 'mortai', 'ART-USSR-MOR120': 'mortai', // battaglioni sovietici (19/11/2026)

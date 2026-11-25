@@ -1,0 +1,248 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-BOL-INF-1936",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "BOL",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fanteria della base comune delle nazioni minori: 3 reggimenti di 3 battaglioni, compagnie reggimentali, gruppo esplorante, 3 gruppi da 75 e uno di obici da 105, compagnia anticarro, genio, servizi.",
+  "formation": {
+    "value": "divisione di fanteria della base comune delle nazioni minori: 3 reggimenti di 3 battaglioni, compagnie reggimentali, gruppo esplorante, 3 gruppi da 75 e uno di obici da 105, compagnia anticarro, genio, servizi",
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-BOL-INF",
+      "count": 9,
+      "name": "Infantry battalion",
+      "name_it": "Battaglione di fanteria"
+    },
+    {
+      "id": "MOD-BOL-REGT",
+      "count": 3,
+      "name": "Regimental headquarters and support companies",
+      "name_it": "Comando e compagnie reggimentali"
+    },
+    {
+      "id": "MOD-BOL-RECON",
+      "count": 1,
+      "name": "Divisional reconnaissance group",
+      "name_it": "Gruppo esplorante divisionale"
+    },
+    {
+      "id": "MOD-BOL-ART75",
+      "count": 3,
+      "name": "Field artillery battalion (75 mm, horse-drawn)",
+      "name_it": "Gruppo da 75 ippotrainato"
+    },
+    {
+      "id": "MOD-BOL-ART105",
+      "count": 1,
+      "name": "Howitzer battalion (105 mm)",
+      "name_it": "Gruppo obici da 105"
+    },
+    {
+      "id": "MOD-BOL-AT",
+      "count": 1,
+      "name": "Divisional anti-tank company (37 mm)",
+      "name_it": "Compagnia anticarro divisionale (37 mm)"
+    },
+    {
+      "id": "MOD-BOL-ENG",
+      "count": 1,
+      "name": "Engineer battalion",
+      "name_it": "Battaglione del genio"
+    },
+    {
+      "id": "MOD-BOL-SVC",
+      "count": 1,
+      "name": "Division headquarters, transport and medical services",
+      "name_it": "Comando, trasporti e sanità divisionali"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 14400,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 3880,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-BOL-AT37": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-BOL-GUN75": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-BOL-HOW105": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-BOL-MOR81": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-BOL-PISTOL": {
+      "value": 735,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-BOL-RIFLE": {
+      "value": 9330,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-BOL-HMG": {
+      "value": 76,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-BOL-LMG": {
+      "value": 278,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-BOL-MOTO": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-BOL-TRUCK": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-BOL-INF, 3× MOD-BOL-REGT, 1× MOD-BOL-RECON, 3× MOD-BOL-ART75, 1× MOD-BOL-ART105, 1× MOD-BOL-AT, 1× MOD-BOL-ENG, 1× MOD-BOL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

@@ -4,6 +4,295 @@
   "reliability": "ESTIMATED",
   "note": "File generato da scripts/build-initial-equipment.js (data/industry/initial_equipment_rules.json + template di fanteria a battaglioni): non modificare a mano. Pezzi in magazzino a inizio partita, chiave = id del catalogo (stock equipment.<id>).",
   "nations": {
+    "AFG": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-AFG-INF-1936",
+      "equipment": {
+        "ART-AFG-AT37": 24,
+        "ART-AFG-GUN75": 72,
+        "ART-AFG-HOW105": 24,
+        "ART-AFG-MOR81": 60,
+        "INW-AFG-PISTOL": 1470,
+        "INW-AFG-RIFLE": 18660,
+        "MG-AFG-HMG": 152,
+        "MG-AFG-LMG": 556,
+        "VEH-AFG-MOTO": 60,
+        "VEH-AFG-TRUCK": 120
+      }
+    },
+    "ALB": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-ALB-INF-1936",
+      "equipment": {
+        "ART-ALB-AT37": 24,
+        "ART-ALB-GUN75": 72,
+        "ART-ALB-HOW105": 24,
+        "ART-ALB-MOR81": 60,
+        "INW-ALB-PISTOL": 1470,
+        "INW-ALB-RIFLE": 18660,
+        "MG-ALB-HMG": 152,
+        "MG-ALB-LMG": 556,
+        "VEH-ALB-MOTO": 60,
+        "VEH-ALB-TRUCK": 120
+      }
+    },
+    "ARG": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-ARG-INF-1936",
+      "equipment": {
+        "ART-ARG-AT37": 84,
+        "ART-ARG-GUN75": 252,
+        "ART-ARG-HOW105": 84,
+        "ART-ARG-MOR81": 210,
+        "INW-ARG-PISTOL": 5145,
+        "INW-ARG-RIFLE": 65310,
+        "MG-ARG-HMG": 532,
+        "MG-ARG-LMG": 1946,
+        "VEH-ARG-MOTO": 210,
+        "VEH-ARG-TRUCK": 420
+      }
+    },
+    "AUS": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-AUS-INF-1936",
+      "equipment": {
+        "ART-AUS-AT37": 48,
+        "ART-AUS-GUN75": 144,
+        "ART-AUS-HOW105": 48,
+        "ART-AUS-MOR81": 120,
+        "INW-AUS-PISTOL": 2940,
+        "INW-AUS-RIFLE": 37320,
+        "MG-AUS-HMG": 304,
+        "MG-AUS-LMG": 1112,
+        "VEH-AUS-MOTO": 120,
+        "VEH-AUS-TRUCK": 240
+      }
+    },
+    "AUT": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-AUT-INF-1936",
+      "equipment": {
+        "ART-AUT-AT37": 48,
+        "ART-AUT-GUN75": 144,
+        "ART-AUT-HOW105": 48,
+        "ART-AUT-MOR81": 120,
+        "INW-AUT-PISTOL": 2940,
+        "INW-AUT-RIFLE": 37320,
+        "MG-AUT-HMG": 304,
+        "MG-AUT-LMG": 1112,
+        "VEH-AUT-MOTO": 120,
+        "VEH-AUT-TRUCK": 240
+      }
+    },
+    "BEL": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-BEL-INF-1936",
+      "equipment": {
+        "ART-BEL-AT37": 84,
+        "ART-BEL-GUN75": 252,
+        "ART-BEL-HOW105": 84,
+        "ART-BEL-MOR81": 210,
+        "INW-BEL-PISTOL": 5145,
+        "INW-BEL-RIFLE": 65310,
+        "MG-BEL-HMG": 532,
+        "MG-BEL-LMG": 1946,
+        "VEH-BEL-MOTO": 210,
+        "VEH-BEL-TRUCK": 420
+      }
+    },
+    "BGR": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-BGR-INF-1936",
+      "equipment": {
+        "ART-BGR-AT37": 48,
+        "ART-BGR-GUN75": 144,
+        "ART-BGR-HOW105": 48,
+        "ART-BGR-MOR81": 120,
+        "INW-BGR-PISTOL": 2940,
+        "INW-BGR-RIFLE": 37320,
+        "MG-BGR-HMG": 304,
+        "MG-BGR-LMG": 1112,
+        "VEH-BGR-MOTO": 120,
+        "VEH-BGR-TRUCK": 240
+      }
+    },
+    "BOL": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-BOL-INF-1936",
+      "equipment": {
+        "ART-BOL-AT37": 48,
+        "ART-BOL-GUN75": 144,
+        "ART-BOL-HOW105": 48,
+        "ART-BOL-MOR81": 120,
+        "INW-BOL-PISTOL": 2940,
+        "INW-BOL-RIFLE": 37320,
+        "MG-BOL-HMG": 304,
+        "MG-BOL-LMG": 1112,
+        "VEH-BOL-MOTO": 120,
+        "VEH-BOL-TRUCK": 240
+      }
+    },
+    "BRA": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-BRA-INF-1936",
+      "equipment": {
+        "ART-BRA-AT37": 84,
+        "ART-BRA-GUN75": 252,
+        "ART-BRA-HOW105": 84,
+        "ART-BRA-MOR81": 210,
+        "INW-BRA-PISTOL": 5145,
+        "INW-BRA-RIFLE": 65310,
+        "MG-BRA-HMG": 532,
+        "MG-BRA-LMG": 1946,
+        "VEH-BRA-MOTO": 210,
+        "VEH-BRA-TRUCK": 420
+      }
+    },
+    "CAN": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-CAN-INF-1936",
+      "equipment": {
+        "ART-CAN-AT37": 48,
+        "ART-CAN-GUN75": 144,
+        "ART-CAN-HOW105": 48,
+        "ART-CAN-MOR81": 120,
+        "INW-CAN-PISTOL": 2940,
+        "INW-CAN-RIFLE": 37320,
+        "MG-CAN-HMG": 304,
+        "MG-CAN-LMG": 1112,
+        "VEH-CAN-MOTO": 120,
+        "VEH-CAN-TRUCK": 240
+      }
+    },
+    "CHE": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-CHE-INF-1936",
+      "equipment": {
+        "ART-CHE-AT37": 84,
+        "ART-CHE-GUN75": 252,
+        "ART-CHE-HOW105": 84,
+        "ART-CHE-MOR81": 210,
+        "INW-CHE-PISTOL": 5145,
+        "INW-CHE-RIFLE": 65310,
+        "MG-CHE-HMG": 532,
+        "MG-CHE-LMG": 1946,
+        "VEH-CHE-MOTO": 210,
+        "VEH-CHE-TRUCK": 420
+      }
+    },
+    "CHL": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-CHL-INF-1936",
+      "equipment": {
+        "ART-CHL-AT37": 48,
+        "ART-CHL-GUN75": 144,
+        "ART-CHL-HOW105": 48,
+        "ART-CHL-MOR81": 120,
+        "INW-CHL-PISTOL": 2940,
+        "INW-CHL-RIFLE": 37320,
+        "MG-CHL-HMG": 304,
+        "MG-CHL-LMG": 1112,
+        "VEH-CHL-MOTO": 120,
+        "VEH-CHL-TRUCK": 240
+      }
+    },
+    "CHN": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-CHN-INF-1936",
+      "equipment": {
+        "ART-CHN-AT37": 84,
+        "ART-CHN-GUN75": 252,
+        "ART-CHN-HOW105": 84,
+        "ART-CHN-MOR81": 210,
+        "INW-CHN-PISTOL": 5145,
+        "INW-CHN-RIFLE": 65310,
+        "MG-CHN-HMG": 532,
+        "MG-CHN-LMG": 1946,
+        "VEH-CHN-MOTO": 210,
+        "VEH-CHN-TRUCK": 420
+      }
+    },
+    "COL": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-COL-INF-1936",
+      "equipment": {
+        "ART-COL-AT37": 48,
+        "ART-COL-GUN75": 144,
+        "ART-COL-HOW105": 48,
+        "ART-COL-MOR81": 120,
+        "INW-COL-PISTOL": 2940,
+        "INW-COL-RIFLE": 37320,
+        "MG-COL-HMG": 304,
+        "MG-COL-LMG": 1112,
+        "VEH-COL-MOTO": 120,
+        "VEH-COL-TRUCK": 240
+      }
+    },
+    "CRI": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-CRI-INF-1936",
+      "equipment": {
+        "ART-CRI-AT37": 12,
+        "ART-CRI-GUN75": 36,
+        "ART-CRI-HOW105": 12,
+        "ART-CRI-MOR81": 30,
+        "INW-CRI-PISTOL": 735,
+        "INW-CRI-RIFLE": 9330,
+        "MG-CRI-HMG": 76,
+        "MG-CRI-LMG": 278,
+        "VEH-CRI-MOTO": 30,
+        "VEH-CRI-TRUCK": 60
+      }
+    },
+    "CUB": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-CUB-INF-1936",
+      "equipment": {
+        "ART-CUB-AT37": 24,
+        "ART-CUB-GUN75": 72,
+        "ART-CUB-HOW105": 24,
+        "ART-CUB-MOR81": 60,
+        "INW-CUB-PISTOL": 1470,
+        "INW-CUB-RIFLE": 18660,
+        "MG-CUB-HMG": 152,
+        "MG-CUB-LMG": 556,
+        "VEH-CUB-MOTO": 60,
+        "VEH-CUB-TRUCK": 120
+      }
+    },
+    "CZE": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-CZE-INF-1936",
+      "equipment": {
+        "ART-CZE-AT37": 84,
+        "ART-CZE-GUN75": 252,
+        "ART-CZE-HOW105": 84,
+        "ART-CZE-MOR81": 210,
+        "INW-CZE-PISTOL": 5145,
+        "INW-CZE-RIFLE": 65310,
+        "MG-CZE-HMG": 532,
+        "MG-CZE-LMG": 1946,
+        "VEH-CZE-MOTO": 210,
+        "VEH-CZE-TRUCK": 420
+      }
+    },
     "DEU": {
       "tier": "large",
       "divisions": 14,
@@ -23,6 +312,142 @@
         "MG-DEU-MG34-S": 1680,
         "VEH-DEU-SDKFZ222": 42,
         "VEH-DEU-TRUCK": 3500
+      }
+    },
+    "DNK": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-DNK-INF-1936",
+      "equipment": {
+        "ART-DNK-AT37": 48,
+        "ART-DNK-GUN75": 144,
+        "ART-DNK-HOW105": 48,
+        "ART-DNK-MOR81": 120,
+        "INW-DNK-PISTOL": 2940,
+        "INW-DNK-RIFLE": 37320,
+        "MG-DNK-HMG": 304,
+        "MG-DNK-LMG": 1112,
+        "VEH-DNK-MOTO": 120,
+        "VEH-DNK-TRUCK": 240
+      }
+    },
+    "DOM": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-DOM-INF-1936",
+      "equipment": {
+        "ART-DOM-AT37": 12,
+        "ART-DOM-GUN75": 36,
+        "ART-DOM-HOW105": 12,
+        "ART-DOM-MOR81": 30,
+        "INW-DOM-PISTOL": 735,
+        "INW-DOM-RIFLE": 9330,
+        "MG-DOM-HMG": 76,
+        "MG-DOM-LMG": 278,
+        "VEH-DOM-MOTO": 30,
+        "VEH-DOM-TRUCK": 60
+      }
+    },
+    "ECU": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-ECU-INF-1936",
+      "equipment": {
+        "ART-ECU-AT37": 24,
+        "ART-ECU-GUN75": 72,
+        "ART-ECU-HOW105": 24,
+        "ART-ECU-MOR81": 60,
+        "INW-ECU-PISTOL": 1470,
+        "INW-ECU-RIFLE": 18660,
+        "MG-ECU-HMG": 152,
+        "MG-ECU-LMG": 556,
+        "VEH-ECU-MOTO": 60,
+        "VEH-ECU-TRUCK": 120
+      }
+    },
+    "EGY": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-EGY-INF-1936",
+      "equipment": {
+        "ART-EGY-AT37": 48,
+        "ART-EGY-GUN75": 144,
+        "ART-EGY-HOW105": 48,
+        "ART-EGY-MOR81": 120,
+        "INW-EGY-PISTOL": 2940,
+        "INW-EGY-RIFLE": 37320,
+        "MG-EGY-HMG": 304,
+        "MG-EGY-LMG": 1112,
+        "VEH-EGY-MOTO": 120,
+        "VEH-EGY-TRUCK": 240
+      }
+    },
+    "ESP": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-ESP-INF-1936",
+      "equipment": {
+        "ART-ESP-AT37": 84,
+        "ART-ESP-GUN75": 252,
+        "ART-ESP-HOW105": 84,
+        "ART-ESP-MOR81": 210,
+        "INW-ESP-PISTOL": 5145,
+        "INW-ESP-RIFLE": 65310,
+        "MG-ESP-HMG": 532,
+        "MG-ESP-LMG": 1946,
+        "VEH-ESP-MOTO": 210,
+        "VEH-ESP-TRUCK": 420
+      }
+    },
+    "EST": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-EST-INF-1936",
+      "equipment": {
+        "ART-EST-AT37": 24,
+        "ART-EST-GUN75": 72,
+        "ART-EST-HOW105": 24,
+        "ART-EST-MOR81": 60,
+        "INW-EST-PISTOL": 1470,
+        "INW-EST-RIFLE": 18660,
+        "MG-EST-HMG": 152,
+        "MG-EST-LMG": 556,
+        "VEH-EST-MOTO": 60,
+        "VEH-EST-TRUCK": 120
+      }
+    },
+    "ETH": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-ETH-INF-1936",
+      "equipment": {
+        "ART-ETH-AT37": 48,
+        "ART-ETH-GUN75": 144,
+        "ART-ETH-HOW105": 48,
+        "ART-ETH-MOR81": 120,
+        "INW-ETH-PISTOL": 2940,
+        "INW-ETH-RIFLE": 37320,
+        "MG-ETH-HMG": 304,
+        "MG-ETH-LMG": 1112,
+        "VEH-ETH-MOTO": 120,
+        "VEH-ETH-TRUCK": 240
+      }
+    },
+    "FIN": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-FIN-INF-1936",
+      "equipment": {
+        "ART-FIN-AT37": 48,
+        "ART-FIN-GUN75": 144,
+        "ART-FIN-HOW105": 48,
+        "ART-FIN-MOR81": 120,
+        "INW-FIN-PISTOL": 2940,
+        "INW-FIN-RIFLE": 37320,
+        "MG-FIN-HMG": 304,
+        "MG-FIN-LMG": 1112,
+        "VEH-FIN-MOTO": 120,
+        "VEH-FIN-TRUCK": 240
       }
     },
     "FRA": {
@@ -62,6 +487,108 @@
         "VEH-GBR-TRUCK3T": 3192
       }
     },
+    "GRC": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-GRC-INF-1936",
+      "equipment": {
+        "ART-GRC-AT37": 84,
+        "ART-GRC-GUN75": 252,
+        "ART-GRC-HOW105": 84,
+        "ART-GRC-MOR81": 210,
+        "INW-GRC-PISTOL": 5145,
+        "INW-GRC-RIFLE": 65310,
+        "MG-GRC-HMG": 532,
+        "MG-GRC-LMG": 1946,
+        "VEH-GRC-MOTO": 210,
+        "VEH-GRC-TRUCK": 420
+      }
+    },
+    "GTM": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-GTM-INF-1936",
+      "equipment": {
+        "ART-GTM-AT37": 12,
+        "ART-GTM-GUN75": 36,
+        "ART-GTM-HOW105": 12,
+        "ART-GTM-MOR81": 30,
+        "INW-GTM-PISTOL": 735,
+        "INW-GTM-RIFLE": 9330,
+        "MG-GTM-HMG": 76,
+        "MG-GTM-LMG": 278,
+        "VEH-GTM-MOTO": 30,
+        "VEH-GTM-TRUCK": 60
+      }
+    },
+    "HND": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-HND-INF-1936",
+      "equipment": {
+        "ART-HND-AT37": 12,
+        "ART-HND-GUN75": 36,
+        "ART-HND-HOW105": 12,
+        "ART-HND-MOR81": 30,
+        "INW-HND-PISTOL": 735,
+        "INW-HND-RIFLE": 9330,
+        "MG-HND-HMG": 76,
+        "MG-HND-LMG": 278,
+        "VEH-HND-MOTO": 30,
+        "VEH-HND-TRUCK": 60
+      }
+    },
+    "HTI": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-HTI-INF-1936",
+      "equipment": {
+        "ART-HTI-AT37": 12,
+        "ART-HTI-GUN75": 36,
+        "ART-HTI-HOW105": 12,
+        "ART-HTI-MOR81": 30,
+        "INW-HTI-PISTOL": 735,
+        "INW-HTI-RIFLE": 9330,
+        "MG-HTI-HMG": 76,
+        "MG-HTI-LMG": 278,
+        "VEH-HTI-MOTO": 30,
+        "VEH-HTI-TRUCK": 60
+      }
+    },
+    "HUN": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-HUN-INF-1936",
+      "equipment": {
+        "ART-HUN-AT37": 84,
+        "ART-HUN-GUN75": 252,
+        "ART-HUN-HOW105": 84,
+        "ART-HUN-MOR81": 210,
+        "INW-HUN-PISTOL": 5145,
+        "INW-HUN-RIFLE": 65310,
+        "MG-HUN-HMG": 532,
+        "MG-HUN-LMG": 1946,
+        "VEH-HUN-MOTO": 210,
+        "VEH-HUN-TRUCK": 420
+      }
+    },
+    "IRL": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-IRL-INF-1936",
+      "equipment": {
+        "ART-IRL-AT37": 24,
+        "ART-IRL-GUN75": 72,
+        "ART-IRL-HOW105": 24,
+        "ART-IRL-MOR81": 60,
+        "INW-IRL-PISTOL": 1470,
+        "INW-IRL-RIFLE": 18660,
+        "MG-IRL-HMG": 152,
+        "MG-IRL-LMG": 556,
+        "VEH-IRL-MOTO": 60,
+        "VEH-IRL-TRUCK": 120
+      }
+    },
     "ITA": {
       "tier": "large",
       "divisions": 14,
@@ -96,6 +623,397 @@
         "VEH-JPN-ISUZU-T94": 560
       }
     },
+    "LBR": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-LBR-INF-1936",
+      "equipment": {
+        "ART-LBR-AT37": 12,
+        "ART-LBR-GUN75": 36,
+        "ART-LBR-HOW105": 12,
+        "ART-LBR-MOR81": 30,
+        "INW-LBR-PISTOL": 735,
+        "INW-LBR-RIFLE": 9330,
+        "MG-LBR-HMG": 76,
+        "MG-LBR-LMG": 278,
+        "VEH-LBR-MOTO": 30,
+        "VEH-LBR-TRUCK": 60
+      }
+    },
+    "LTU": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-LTU-INF-1936",
+      "equipment": {
+        "ART-LTU-AT37": 24,
+        "ART-LTU-GUN75": 72,
+        "ART-LTU-HOW105": 24,
+        "ART-LTU-MOR81": 60,
+        "INW-LTU-PISTOL": 1470,
+        "INW-LTU-RIFLE": 18660,
+        "MG-LTU-HMG": 152,
+        "MG-LTU-LMG": 556,
+        "VEH-LTU-MOTO": 60,
+        "VEH-LTU-TRUCK": 120
+      }
+    },
+    "LVA": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-LVA-INF-1936",
+      "equipment": {
+        "ART-LVA-AT37": 24,
+        "ART-LVA-GUN75": 72,
+        "ART-LVA-HOW105": 24,
+        "ART-LVA-MOR81": 60,
+        "INW-LVA-PISTOL": 1470,
+        "INW-LVA-RIFLE": 18660,
+        "MG-LVA-HMG": 152,
+        "MG-LVA-LMG": 556,
+        "VEH-LVA-MOTO": 60,
+        "VEH-LVA-TRUCK": 120
+      }
+    },
+    "MAN": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-MAN-INF-1936",
+      "equipment": {
+        "ART-MAN-AT37": 84,
+        "ART-MAN-GUN75": 252,
+        "ART-MAN-HOW105": 84,
+        "ART-MAN-MOR81": 210,
+        "INW-MAN-PISTOL": 5145,
+        "INW-MAN-RIFLE": 65310,
+        "MG-MAN-HMG": 532,
+        "MG-MAN-LMG": 1946,
+        "VEH-MAN-MOTO": 210,
+        "VEH-MAN-TRUCK": 420
+      }
+    },
+    "MENG": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-MENG-INF-1936",
+      "equipment": {
+        "ART-MENG-AT37": 24,
+        "ART-MENG-GUN75": 72,
+        "ART-MENG-HOW105": 24,
+        "ART-MENG-MOR81": 60,
+        "INW-MENG-PISTOL": 1470,
+        "INW-MENG-RIFLE": 18660,
+        "MG-MENG-HMG": 152,
+        "MG-MENG-LMG": 556,
+        "VEH-MENG-MOTO": 60,
+        "VEH-MENG-TRUCK": 120
+      }
+    },
+    "MEX": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-MEX-INF-1936",
+      "equipment": {
+        "ART-MEX-AT37": 48,
+        "ART-MEX-GUN75": 144,
+        "ART-MEX-HOW105": 48,
+        "ART-MEX-MOR81": 120,
+        "INW-MEX-PISTOL": 2940,
+        "INW-MEX-RIFLE": 37320,
+        "MG-MEX-HMG": 304,
+        "MG-MEX-LMG": 1112,
+        "VEH-MEX-MOTO": 120,
+        "VEH-MEX-TRUCK": 240
+      }
+    },
+    "MNG": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-MNG-INF-1936",
+      "equipment": {
+        "ART-MNG-AT37": 48,
+        "ART-MNG-GUN75": 144,
+        "ART-MNG-HOW105": 48,
+        "ART-MNG-MOR81": 120,
+        "INW-MNG-PISTOL": 2940,
+        "INW-MNG-RIFLE": 37320,
+        "MG-MNG-HMG": 304,
+        "MG-MNG-LMG": 1112,
+        "VEH-MNG-MOTO": 120,
+        "VEH-MNG-TRUCK": 240
+      }
+    },
+    "NIC": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-NIC-INF-1936",
+      "equipment": {
+        "ART-NIC-AT37": 12,
+        "ART-NIC-GUN75": 36,
+        "ART-NIC-HOW105": 12,
+        "ART-NIC-MOR81": 30,
+        "INW-NIC-PISTOL": 735,
+        "INW-NIC-RIFLE": 9330,
+        "MG-NIC-HMG": 76,
+        "MG-NIC-LMG": 278,
+        "VEH-NIC-MOTO": 30,
+        "VEH-NIC-TRUCK": 60
+      }
+    },
+    "NLD": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-NLD-INF-1936",
+      "equipment": {
+        "ART-NLD-AT37": 84,
+        "ART-NLD-GUN75": 252,
+        "ART-NLD-HOW105": 84,
+        "ART-NLD-MOR81": 210,
+        "INW-NLD-PISTOL": 5145,
+        "INW-NLD-RIFLE": 65310,
+        "MG-NLD-HMG": 532,
+        "MG-NLD-LMG": 1946,
+        "VEH-NLD-MOTO": 210,
+        "VEH-NLD-TRUCK": 420
+      }
+    },
+    "NOR": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-NOR-INF-1936",
+      "equipment": {
+        "ART-NOR-AT37": 48,
+        "ART-NOR-GUN75": 144,
+        "ART-NOR-HOW105": 48,
+        "ART-NOR-MOR81": 120,
+        "INW-NOR-PISTOL": 2940,
+        "INW-NOR-RIFLE": 37320,
+        "MG-NOR-HMG": 304,
+        "MG-NOR-LMG": 1112,
+        "VEH-NOR-MOTO": 120,
+        "VEH-NOR-TRUCK": 240
+      }
+    },
+    "NZL": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-NZL-INF-1936",
+      "equipment": {
+        "ART-NZL-AT37": 48,
+        "ART-NZL-GUN75": 144,
+        "ART-NZL-HOW105": 48,
+        "ART-NZL-MOR81": 120,
+        "INW-NZL-PISTOL": 2940,
+        "INW-NZL-RIFLE": 37320,
+        "MG-NZL-HMG": 304,
+        "MG-NZL-LMG": 1112,
+        "VEH-NZL-MOTO": 120,
+        "VEH-NZL-TRUCK": 240
+      }
+    },
+    "PAN": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-PAN-INF-1936",
+      "equipment": {
+        "ART-PAN-AT37": 12,
+        "ART-PAN-GUN75": 36,
+        "ART-PAN-HOW105": 12,
+        "ART-PAN-MOR81": 30,
+        "INW-PAN-PISTOL": 735,
+        "INW-PAN-RIFLE": 9330,
+        "MG-PAN-HMG": 76,
+        "MG-PAN-LMG": 278,
+        "VEH-PAN-MOTO": 30,
+        "VEH-PAN-TRUCK": 60
+      }
+    },
+    "PER": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-PER-INF-1936",
+      "equipment": {
+        "ART-PER-AT37": 48,
+        "ART-PER-GUN75": 144,
+        "ART-PER-HOW105": 48,
+        "ART-PER-MOR81": 120,
+        "INW-PER-PISTOL": 2940,
+        "INW-PER-RIFLE": 37320,
+        "MG-PER-HMG": 304,
+        "MG-PER-LMG": 1112,
+        "VEH-PER-MOTO": 120,
+        "VEH-PER-TRUCK": 240
+      }
+    },
+    "POL": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-POL-INF-1936",
+      "equipment": {
+        "ART-POL-AT37": 84,
+        "ART-POL-GUN75": 252,
+        "ART-POL-HOW105": 84,
+        "ART-POL-MOR81": 210,
+        "INW-POL-PISTOL": 5145,
+        "INW-POL-RIFLE": 65310,
+        "MG-POL-HMG": 532,
+        "MG-POL-LMG": 1946,
+        "VEH-POL-MOTO": 210,
+        "VEH-POL-TRUCK": 420
+      }
+    },
+    "PRT": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-PRT-INF-1936",
+      "equipment": {
+        "ART-PRT-AT37": 48,
+        "ART-PRT-GUN75": 144,
+        "ART-PRT-HOW105": 48,
+        "ART-PRT-MOR81": 120,
+        "INW-PRT-PISTOL": 2940,
+        "INW-PRT-RIFLE": 37320,
+        "MG-PRT-HMG": 304,
+        "MG-PRT-LMG": 1112,
+        "VEH-PRT-MOTO": 120,
+        "VEH-PRT-TRUCK": 240
+      }
+    },
+    "PRY": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-PRY-INF-1936",
+      "equipment": {
+        "ART-PRY-AT37": 48,
+        "ART-PRY-GUN75": 144,
+        "ART-PRY-HOW105": 48,
+        "ART-PRY-MOR81": 120,
+        "INW-PRY-PISTOL": 2940,
+        "INW-PRY-RIFLE": 37320,
+        "MG-PRY-HMG": 304,
+        "MG-PRY-LMG": 1112,
+        "VEH-PRY-MOTO": 120,
+        "VEH-PRY-TRUCK": 240
+      }
+    },
+    "ROM": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-ROM-INF-1936",
+      "equipment": {
+        "ART-ROM-AT37": 84,
+        "ART-ROM-GUN75": 252,
+        "ART-ROM-HOW105": 84,
+        "ART-ROM-MOR81": 210,
+        "INW-ROM-PISTOL": 5145,
+        "INW-ROM-RIFLE": 65310,
+        "MG-ROM-HMG": 532,
+        "MG-ROM-LMG": 1946,
+        "VEH-ROM-MOTO": 210,
+        "VEH-ROM-TRUCK": 420
+      }
+    },
+    "SAU": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-SAU-INF-1936",
+      "equipment": {
+        "ART-SAU-AT37": 24,
+        "ART-SAU-GUN75": 72,
+        "ART-SAU-HOW105": 24,
+        "ART-SAU-MOR81": 60,
+        "INW-SAU-PISTOL": 1470,
+        "INW-SAU-RIFLE": 18660,
+        "MG-SAU-HMG": 152,
+        "MG-SAU-LMG": 556,
+        "VEH-SAU-MOTO": 60,
+        "VEH-SAU-TRUCK": 120
+      }
+    },
+    "SIA": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-SIA-INF-1936",
+      "equipment": {
+        "ART-SIA-AT37": 48,
+        "ART-SIA-GUN75": 144,
+        "ART-SIA-HOW105": 48,
+        "ART-SIA-MOR81": 120,
+        "INW-SIA-PISTOL": 2940,
+        "INW-SIA-RIFLE": 37320,
+        "MG-SIA-HMG": 304,
+        "MG-SIA-LMG": 1112,
+        "VEH-SIA-MOTO": 120,
+        "VEH-SIA-TRUCK": 240
+      }
+    },
+    "SLV": {
+      "tier": "token",
+      "divisions": 1,
+      "templateId": "TPL-SLV-INF-1936",
+      "equipment": {
+        "ART-SLV-AT37": 12,
+        "ART-SLV-GUN75": 36,
+        "ART-SLV-HOW105": 12,
+        "ART-SLV-MOR81": 30,
+        "INW-SLV-PISTOL": 735,
+        "INW-SLV-RIFLE": 9330,
+        "MG-SLV-HMG": 76,
+        "MG-SLV-LMG": 278,
+        "VEH-SLV-MOTO": 30,
+        "VEH-SLV-TRUCK": 60
+      }
+    },
+    "SWE": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-SWE-INF-1936",
+      "equipment": {
+        "ART-SWE-AT37": 84,
+        "ART-SWE-GUN75": 252,
+        "ART-SWE-HOW105": 84,
+        "ART-SWE-MOR81": 210,
+        "INW-SWE-PISTOL": 5145,
+        "INW-SWE-RIFLE": 65310,
+        "MG-SWE-HMG": 532,
+        "MG-SWE-LMG": 1946,
+        "VEH-SWE-MOTO": 210,
+        "VEH-SWE-TRUCK": 420
+      }
+    },
+    "TUR": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-TUR-INF-1936",
+      "equipment": {
+        "ART-TUR-AT37": 84,
+        "ART-TUR-GUN75": 252,
+        "ART-TUR-HOW105": 84,
+        "ART-TUR-MOR81": 210,
+        "INW-TUR-PISTOL": 5145,
+        "INW-TUR-RIFLE": 65310,
+        "MG-TUR-HMG": 532,
+        "MG-TUR-LMG": 1946,
+        "VEH-TUR-MOTO": 210,
+        "VEH-TUR-TRUCK": 420
+      }
+    },
+    "URY": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-URY-INF-1936",
+      "equipment": {
+        "ART-URY-AT37": 24,
+        "ART-URY-GUN75": 72,
+        "ART-URY-HOW105": 24,
+        "ART-URY-MOR81": 60,
+        "INW-URY-PISTOL": 1470,
+        "INW-URY-RIFLE": 18660,
+        "MG-URY-HMG": 152,
+        "MG-URY-LMG": 556,
+        "VEH-URY-MOTO": 60,
+        "VEH-URY-TRUCK": 120
+      }
+    },
     "USA": {
       "tier": "large",
       "divisions": 14,
@@ -128,66 +1046,75 @@
         "VEH-USSR-GAZAA": 1960,
         "VEH-USSR-ZIS5": 420
       }
+    },
+    "VEN": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-VEN-INF-1936",
+      "equipment": {
+        "ART-VEN-AT37": 48,
+        "ART-VEN-GUN75": 144,
+        "ART-VEN-HOW105": 48,
+        "ART-VEN-MOR81": 120,
+        "INW-VEN-PISTOL": 2940,
+        "INW-VEN-RIFLE": 37320,
+        "MG-VEN-HMG": 304,
+        "MG-VEN-LMG": 1112,
+        "VEH-VEN-MOTO": 120,
+        "VEH-VEN-TRUCK": 240
+      }
+    },
+    "YEM": {
+      "tier": "minor",
+      "divisions": 2,
+      "templateId": "TPL-YEM-INF-1936",
+      "equipment": {
+        "ART-YEM-AT37": 24,
+        "ART-YEM-GUN75": 72,
+        "ART-YEM-HOW105": 24,
+        "ART-YEM-MOR81": 60,
+        "INW-YEM-PISTOL": 1470,
+        "INW-YEM-RIFLE": 18660,
+        "MG-YEM-HMG": 152,
+        "MG-YEM-LMG": 556,
+        "VEH-YEM-MOTO": 60,
+        "VEH-YEM-TRUCK": 120
+      }
+    },
+    "YUG": {
+      "tier": "medium",
+      "divisions": 7,
+      "templateId": "TPL-YUG-INF-1936",
+      "equipment": {
+        "ART-YUG-AT37": 84,
+        "ART-YUG-GUN75": 252,
+        "ART-YUG-HOW105": 84,
+        "ART-YUG-MOR81": 210,
+        "INW-YUG-PISTOL": 5145,
+        "INW-YUG-RIFLE": 65310,
+        "MG-YUG-HMG": 532,
+        "MG-YUG-LMG": 1946,
+        "VEH-YUG-MOTO": 210,
+        "VEH-YUG-TRUCK": 420
+      }
+    },
+    "ZAF": {
+      "tier": "small",
+      "divisions": 4,
+      "templateId": "TPL-ZAF-INF-1936",
+      "equipment": {
+        "ART-ZAF-AT37": 48,
+        "ART-ZAF-GUN75": 144,
+        "ART-ZAF-HOW105": 48,
+        "ART-ZAF-MOR81": 120,
+        "INW-ZAF-PISTOL": 2940,
+        "INW-ZAF-RIFLE": 37320,
+        "MG-ZAF-HMG": 304,
+        "MG-ZAF-LMG": 1112,
+        "VEH-ZAF-MOTO": 120,
+        "VEH-ZAF-TRUCK": 240
+      }
     }
   },
-  "pending": [
-    "AFG",
-    "ALB",
-    "ARG",
-    "AUS",
-    "AUT",
-    "BEL",
-    "BGR",
-    "BOL",
-    "BRA",
-    "CAN",
-    "CHE",
-    "CHL",
-    "CHN",
-    "COL",
-    "CRI",
-    "CUB",
-    "CZE",
-    "DNK",
-    "DOM",
-    "ECU",
-    "EGY",
-    "ESP",
-    "EST",
-    "ETH",
-    "FIN",
-    "GRC",
-    "GTM",
-    "HND",
-    "HTI",
-    "HUN",
-    "IRL",
-    "LBR",
-    "LTU",
-    "LVA",
-    "MAN",
-    "MENG",
-    "MEX",
-    "MNG",
-    "NIC",
-    "NLD",
-    "NOR",
-    "NZL",
-    "PAN",
-    "PER",
-    "POL",
-    "PRT",
-    "PRY",
-    "ROM",
-    "SAU",
-    "SIA",
-    "SLV",
-    "SWE",
-    "TUR",
-    "URY",
-    "VEN",
-    "YEM",
-    "YUG",
-    "ZAF"
-  ]
+  "pending": []
 }
