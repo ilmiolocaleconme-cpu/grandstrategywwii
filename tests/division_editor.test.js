@@ -46,7 +46,9 @@ test('limiti storici: servizi, combattimento, massimi, data e tecnologia', () =>
   assert.ok(p([...PZ, ['MOD-DEU-SUPPORT', 1]]).some((x) => /servizi/.test(x)), 'un solo reparto di servizi');
   assert.ok(p([['MOD-DEU-ART', 3], ['MOD-DEU-SUPPORT', 1]]).some((x) => /combattimento/.test(x)));
   assert.ok(p([['MOD-DEU-TANK', 5], ['MOD-DEU-SUPPORT-MOT', 1]]).some((x) => /tank/.test(x)));
-  assert.ok(p([['MOD-DEU-INF', 12], ['MOD-DEU-ART', 6], ['MOD-DEU-REGT-HVY', 4], ['MOD-DEU-SUPPORT', 1]]).some((x) => /troppi uomini/.test(x)));
+  // dal 25/11/2026 il massimo è 25.000 uomini (decisione dell'utente): la divisione gonfiata del test resta sotto, quindi si prova col limite abbassato
+  const big = [['MOD-DEU-INF', 12], ['MOD-DEU-ART', 6], ['MOD-DEU-REGT-HVY', 4], ['MOD-DEU-SUPPORT', 1]];
+  assert.ok(designProblems(big, { ...ctx, rules: { ...ctx.rules, maxMen: 18000 }, nation: 'DEU', date: '1940-06-01', researched }).some((x) => /troppi uomini/.test(x)));
   // 20/11/2026: il motivo è preciso («ricerca …», «disponibile dal …») invece di «non disponibile (data o tecnologia)»
   assert.ok(p([...PZ, ['MOD-DEU-STUG', 1]], '1940-06-01').some((x) => /ricerca «TECH-ARM-ASSAULT»/.test(x)), 'StuG senza tecnologia');
   assert.deepEqual(p([...PZ, ['MOD-DEU-STUG', 1]], '1940-06-01', new Set([...researched, 'TECH-ARM-ASSAULT'])), []);

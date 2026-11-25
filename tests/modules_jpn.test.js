@@ -25,13 +25,9 @@ test('modules_jpn.json è valido, 6 modelli di divisione, i template generati co
 test("ogni modello di divisione rispetta i limiti dell'editor alla sua data (con le tecnologie ricercate)", () => {
   const rules = read('units/modules/editor_rules.json');
   const researched = new Set(read('research/technologies.json').technologies.map((t) => t.id));
-  // la quadrata 1936, la triangolare (20.000, cifra del CSV) e la Guardia superano il massimo di uomini dell'editor (18.000), come la quadrata americana del 1936: modelli storici,
-  // nell'editor compaiono «da sistemare» (decisione sul limite da prendere con l'utente)
-  for (const c of DOC.compositions) {
-    const probs = designProblems(c.modules, { modules: DOC.modules, rules, nation: 'JPN', date: c.activeFrom, researched });
-    assert.deepEqual(probs.filter((p) => !/^troppi uomini/.test(p)), [], c.templateId);
-    if (probs.length) assert.ok(['TPL-JPN-INF-1936', 'TPL-JPN-INF-1939', 'TPL-JPN-GUARD-1936'].includes(c.templateId), c.templateId);
-  }
+  // dal 25/11/2026 (scelta dell'utente) il massimo di uomini dell'editor è 25.000: anche la quadrata (24.960) e la Guardia ci stanno
+  for (const c of DOC.compositions) assert.deepEqual(designProblems(c.modules, { modules: DOC.modules, rules, nation: 'JPN', date: c.activeFrom, researched }), [], c.templateId);
+  assert.equal(rules.maxMen, 25000);
 });
 
 test('organici: quadrata 1936 più grande della triangolare; triangolare e corazzata allineate alle cifre del CSV', () => {
