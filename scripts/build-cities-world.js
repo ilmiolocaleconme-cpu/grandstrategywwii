@@ -120,7 +120,10 @@ for (const c of cand) {
   names[id] = { ne: c.p.ne_id, distKm: 0, basis: 'nome', world: true, names: keep };
 }
 
-base.features = [...kept, ...features];
+// città che il 1° gennaio 1936 non esistevano (data/sources/citta_escluse_1936.json, 25/11/2026): mai nel catalogo
+const escluse = new Set((await readJson(dataUrl('sources/citta_escluse_1936.json'))).citta.map((c) => c.cittaId));
+base.features = [...kept, ...features].filter((f) => !escluse.has(f.properties.cittaId ?? f.id));
+for (const id of escluse) delete names[id];
 subset.cities = { ...subset.cities, ...names };
 await writeFile(dataUrl('sources/citta_base.json'), `${JSON.stringify(base)}\n`);
 await writeFile(dataUrl('sources/ne_places_citta.json'), `${JSON.stringify(subset)}\n`);

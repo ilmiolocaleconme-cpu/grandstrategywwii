@@ -1,0 +1,201 @@
+{
+ "schema": "citta-escluse-v1",
+ "nota": "Città del catalogo Natural Earth che il 1° gennaio 1936 non esistevano come città (o abbinate al luogo sbagliato): tolte da scripts/rimuovi-citta-inesistenti.js e saltate dai generatori. Anni da conoscenza storica, da verificare.",
+ "citta": [
+  {
+   "cittaId": "P_USSR_ANGARSK_CITTA",
+   "anno": 1948,
+   "motivo": "fondata nel 1948 (città dal 1951)"
+  },
+  {
+   "cittaId": "P_USSR_ANGREN_CITTA",
+   "anno": 1946,
+   "motivo": "città dal 1946, nata con le miniere di carbone del dopoguerra"
+  },
+  {
+   "cittaId": "P_USSR_BRATSK_CITTA",
+   "anno": 1955,
+   "motivo": "nel 1936 villaggio; la città nasce con la diga (1955)"
+  },
+  {
+   "cittaId": "P_USSR_NIZNEKAMSK_CITTA",
+   "anno": 1961,
+   "motivo": "fondata nel 1961"
+  },
+  {
+   "cittaId": "P_USSR_NIZNEVARTOVSK_CITTA",
+   "anno": 1972,
+   "motivo": "città dal 1972 (petrolio di Samotlor)"
+  },
+  {
+   "cittaId": "P_USSR_SURGUT_CITTA",
+   "anno": 1965,
+   "motivo": "nel 1936 villaggio; città dal 1965"
+  },
+  {
+   "cittaId": "P_USSR_VOLZSKIJ_CITTA",
+   "anno": 1954,
+   "motivo": "fondata nel 1954 con la centrale del Volga"
+  },
+  {
+   "cittaId": "P_USSR_SUMQAYT_CITTA",
+   "anno": 1949,
+   "motivo": "fondata nel 1949"
+  },
+  {
+   "cittaId": "P_USSR_NOGINSK_CITTA",
+   "anno": null,
+   "motivo": "abbinamento sbagliato: villaggio di Noginsk in Evenkia (Krasnojarsk), non la Noginsk vicino a Mosca"
+  },
+  {
+   "cittaId": "P_BRA_BRASILIA_CITTA",
+   "anno": 1960,
+   "motivo": "capitale inaugurata nel 1960"
+  },
+  {
+   "cittaId": "P_BRA_IPATINGA_CITTA",
+   "anno": 1964,
+   "motivo": "città dal 1964 (acciaieria Usiminas)"
+  },
+  {
+   "cittaId": "P_BRA_VOLTA_REDONDA_CITTA",
+   "anno": 1954,
+   "motivo": "nel 1936 distretto rurale; acciaieria dal 1941, comune dal 1954"
+  },
+  {
+   "cittaId": "P_BRA_MARINGA_CITTA",
+   "anno": 1947,
+   "motivo": "fondata nel 1947"
+  },
+  {
+   "cittaId": "P_BUR_NAYPYIDAW_CITTA",
+   "anno": 2005,
+   "motivo": "capitale costruita nel 2005"
+  },
+  {
+   "cittaId": "P_CHN_SHIHEZI_CITTA",
+   "anno": 1950,
+   "motivo": "fondata nel 1950"
+  },
+  {
+   "cittaId": "P_CHN_PANZHIHUA_CITTA",
+   "anno": 1965,
+   "motivo": "fondata nel 1965"
+  },
+  {
+   "cittaId": "P_CHN_LIUPANSHUI_CITTA",
+   "anno": 1978,
+   "motivo": "città dal 1978 (bacino carbonifero degli anni 60)"
+  },
+  {
+   "cittaId": "P_MAN_DAQING_CITTA",
+   "anno": 1959,
+   "motivo": "fondata dopo la scoperta del petrolio (1959)"
+  },
+  {
+   "cittaId": "P_MAN_YICHUN_CITTA",
+   "anno": 1952,
+   "motivo": "città forestale fondata nel 1952"
+  },
+  {
+   "cittaId": "P_MAN_QITAIHE_CITTA",
+   "anno": 1970,
+   "motivo": "città dal 1970"
+  },
+  {
+   "cittaId": "P_IND_AMARAVATI_CITTA",
+   "anno": 2015,
+   "motivo": "capitale dell'Andhra Pradesh progettata nel 2015"
+  },
+  {
+   "cittaId": "P_IND_CHANDIGARH_CITTA",
+   "anno": 1952,
+   "motivo": "costruita dal 1952"
+  },
+  {
+   "cittaId": "P_IND_ISLAMABAD_CITTA",
+   "anno": 1961,
+   "motivo": "costruita dal 1961"
+  },
+  {
+   "cittaId": "P_IND_BHILAI_NAGAR_CITTA",
+   "anno": 1955,
+   "motivo": "nata con l'acciaieria (1955)"
+  },
+  {
+   "cittaId": "P_IND_RAURKELA_CITTA",
+   "anno": 1954,
+   "motivo": "nata con l'acciaieria (1954)"
+  },
+  {
+   "cittaId": "P_MEX_CIUDAD_NEZAHUALCOYOTL_CITTA",
+   "anno": 1963,
+   "motivo": "comune dal 1963"
+  },
+  {
+   "cittaId": "P_MEX_CANCUN_CITTA",
+   "anno": 1970,
+   "motivo": "fondata nel 1970"
+  },
+  {
+   "cittaId": "P_MRT_NOUAKCHOTT_CITTA",
+   "anno": 1958,
+   "motivo": "fondata nel 1958 come capitale"
+  },
+  {
+   "cittaId": "P_NGA_ABUJA_CITTA",
+   "anno": 1976,
+   "motivo": "capitale decisa nel 1976"
+  },
+  {
+   "cittaId": "P_BOT_GABORONE_CITTA",
+   "anno": 1964,
+   "motivo": "costruita dal 1964; nel 1936 la capitale era Mafeking, fuori dal territorio"
+  },
+  {
+   "cittaId": "P_VEN_CIUDAD_GUAYANA_CITTA",
+   "anno": 1961,
+   "motivo": "fondata nel 1961"
+  },
+  {
+   "cittaId": "P_PRY_CIUDAD_DEL_ESTE_CITTA",
+   "anno": 1957,
+   "motivo": "fondata nel 1957"
+  },
+  {
+   "cittaId": "P_ZAF_WELKOM_CITTA",
+   "anno": 1947,
+   "motivo": "fondata nel 1947"
+  },
+  {
+   "cittaId": "P_ZIM_CHITUNGWIZA_CITTA",
+   "anno": 1978,
+   "motivo": "città dal 1978"
+  },
+  {
+   "cittaId": "P_MAL_SHAH_ALAM_CITTA",
+   "anno": 1963,
+   "motivo": "fondata nel 1963"
+  },
+  {
+   "cittaId": "P_PHL_QUEZON_CITY_CITTA",
+   "anno": 1939,
+   "motivo": "fondata nel 1939"
+  },
+  {
+   "cittaId": "P_KOR_SEONGNAM_CITTA",
+   "anno": 1973,
+   "motivo": "città dal 1973"
+  },
+  {
+   "cittaId": "P_KOR_ANSAN_CITTA",
+   "anno": 1986,
+   "motivo": "città dal 1986"
+  },
+  {
+   "cittaId": "P_USA_IRVINE_CITTA",
+   "anno": 1971,
+   "motivo": "città dal 1971 (nel 1936 un ranch)"
+  }
+ ]
+}

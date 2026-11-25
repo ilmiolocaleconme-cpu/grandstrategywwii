@@ -1256,13 +1256,6 @@
    "parentProvince": "P_MOZ_SOFALA",
    "basis": "minimum"
   },
-  "P_MRT_NOUAKCHOTT_CITTA": {
-   "name": "Nouakchott",
-   "owner": "MRT",
-   "level": 1,
-   "parentProvince": "P_MRT_NOUAKCHOTT",
-   "basis": "minimum"
-  },
   "P_NGA_LAGOS_CITTA": {
    "name": "Lagos",
    "owner": "NGA",
@@ -1312,8 +1305,8 @@
    "parentProvince": "P_PER_LIMA_PE_LIM",
    "basis": "minimum"
   },
-  "P_PHL_QUEZON_CITY_CITTA": {
-   "name": "Quezon City",
+  "P_PHL_PASAY_CITTA": {
+   "name": "Pasay",
    "owner": "PHL",
    "level": 1,
    "parentProvince": "P_PHL_NATIONAL_CAPITAL_REGION",
