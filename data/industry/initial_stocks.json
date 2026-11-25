@@ -56,12 +56,13 @@
       "coal": 21000
     },
     "FRA": {
+      "coal": 6240,
       "oil": 16500,
       "rubber": 16200,
       "sulphur": 15150,
       "copper": 19800,
       "tin": 1200,
-      "steel": 6503,
+      "steel": 18292,
       "chemicals": 2250,
       "munitions": 6030,
       "feed": 1350

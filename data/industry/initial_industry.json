@@ -369,6 +369,43 @@
         {
           "factory": "FCT-WEAPONS",
           "recipeId": "REC-INW-FRA-RIFLE-1939",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-FRA-MAS36",
+            "from": "1937-01-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-FRA-PISTOL-1939",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-FRA-PISTOL-MAS35",
+            "from": "1937-06-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-FRA-PISTOL-1939",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-FRA-SMG-MAS38",
+            "from": "1939-01-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-FRA-FM2429",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-FRA-HOTCHKISS1914",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-GL-FRA-VB1916",
           "count": 1
         },
         {
@@ -377,9 +414,70 @@
           "count": 1
         },
         {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-FRA-CITROEN23",
+          "count": 1
+        },
+        {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-FRA-RENAULT-3T",
+          "count": 1
+        },
+        {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-FRA-MOTO-RG",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-VEH-FRA-MOTO-AX2",
+            "from": "1938-01-01"
+          }
+        },
+        {
           "factory": "FCT-ARTILLERY",
           "recipeId": "REC-ART-FRA-ART75M1897",
           "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-FRA-HOW155C",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-FRA-HOW155C",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-FRA-GUN105L",
+            "from": "1937-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-FRA-MORTAR60",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-FRA-MORTAR81",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-FRA-AT25",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-FRA-AT47-ARM-1940",
+            "from": "1938-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-FRA-AT25",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-FRA-AA25",
+            "from": "1939-01-01"
+          }
         },
         {
           "factory": "FCT-FEED",
@@ -399,7 +497,7 @@
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 3
+          "count": 4
         }
       ]
     },
