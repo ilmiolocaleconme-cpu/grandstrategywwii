@@ -66,7 +66,7 @@ test('armi leggere e artiglieria (10/11/2026): una fabbrica di ciascun tipo per 
     // 4 di armi leggere (fucile poi No. 4; Webley; Lewis poi Bren; Vickers) e 6 di artiglieria (18 poi 25 libbre; mortaio da 3; 3 poi 2 pollici;
     // 3 pollici poi Boys; 18 libbre poi 2 libbre anticarro; obice da 4,5 poi 5,5); l'Italia (24/11/2026, passo 3) 5 di armi leggere (fucile poi 91/38; Beretta 34;
     // Beretta poi MAB 38; Breda 30; Fiat 14/35 poi Breda 37) e 6 di artiglieria (75/27; Brixia; 65/17 poi 47/32; 100/17; 75/27 poi 75/18; Breda 20/65); le altre ancora uno
-    const [w, a] = n === 'DEU' ? [4, 7] : n === 'USSR' ? [4, 11] : n === 'USA' ? [8, 5] : n === 'GBR' ? [4, 6] : n === 'ITA' ? [5, 6] : n === 'FRA' ? [6, 7] : [1, 1]; // Francia dal 25/11/2026 (passo 3): 6 linee di armi leggere e 7 di artiglieria
+    const [w, a] = n === 'DEU' ? [4, 7] : n === 'USSR' ? [4, 11] : n === 'USA' ? [8, 5] : n === 'GBR' ? [4, 6] : n === 'ITA' ? [5, 6] : n === 'FRA' ? [6, 7] : n === 'JPN' ? [6, 6] : [1, 1]; // Giappone dal 25/11/2026 (passo 3): 6 + 6 // Francia dal 25/11/2026 (passo 3): 6 linee di armi leggere e 7 di artiglieria
     assert.equal(c['FCT-WEAPONS'], w, n); assert.equal(c['FCT-ARTILLERY'], a, n);
     for (const f of file.nations[n].facilities.filter((x) => x.factory === 'FCT-WEAPONS' || x.factory === 'FCT-ARTILLERY')) assert.ok(f.recipeId.split('-').includes(n), `${n}: ${f.recipeId}`);
   }

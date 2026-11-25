@@ -3,7 +3,7 @@
  "quality": "DESIGN_DEFAULT",
  "note": "Generato da scripts/build-facility-sites.js (npm run build:facility-sites): non modificare a mano. Posizione di ogni impianto iniziale: basis 'rule' = regola di facility_placement.json (stima, NON storica), 'data' = dati del repository (centri di fonderia), 'source' = fonte storica. Le chiavi sono gli id degli impianti creati da buildNations.",
  "counts": {
-  "rule": 369,
+  "rule": 382,
   "data": 12,
   "source": 78
  },
@@ -1268,33 +1268,93 @@
    "basis": "rule",
    "rule": "cities1930"
   },
-  "JPN:JPN:FCT-WEAPONS:REC-INW-JPN-RIFLE-1939:1": {
+  "JPN:JPN:FCT-WEAPONS:REC-INW-JPN-RIFLE-1939>REC-INW-JPN-ARISAKA-T99:1": {
+   "provinceId": "P_JPN_TOKYO",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-WEAPONS:REC-INW-JPN-PISTOL-T14:1": {
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-WEAPONS:REC-INW-JPN-PISTOL-T14>REC-INW-JPN-SMG-T100:1": {
+   "provinceId": "P_JPN_TOKYO",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-WEAPONS:REC-MG-JPN-T11>REC-MG-JPN-T96:1": {
+   "provinceId": "P_JPN_TOKYO",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-WEAPONS:REC-MG-JPN-T92:1": {
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-WEAPONS:REC-GL-JPN-T89:1": {
    "provinceId": "P_JPN_TOKYO",
    "basis": "rule",
    "rule": "cities1930"
   },
   "JPN:JPN:FCT-TANKS:REC-TNK-JPN-TYPE95-1942:1": {
+   "provinceId": "P_JPN_AICHI_PREFECTURE",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-VEHICLES:REC-VEH-JPN-ISUZU-T94:1": {
+   "provinceId": "P_JPN_KYOTO_PREFECTURE",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-VEHICLES:REC-VEH-JPN-MOTO-RIKUO>REC-VEH-JPN-MOTO-T97:1": {
+   "provinceId": "P_JPN_TOKYO",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-ARTILLERY:REC-ART-JPN-GUN75-T38>REC-ART-JPN-GUN75-T90:1": {
    "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "JPN:JPN:FCT-ARTILLERY:REC-ART-JPN-GUN75-DIV-1939:1": {
+  "JPN:JPN:FCT-ARTILLERY:REC-ART-JPN-GUN70-T92:1": {
+   "provinceId": "P_JPN_TOKYO",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-ARTILLERY:REC-ART-JPN-GUN70-T92>REC-ART-JPN-MOR81-T97:1": {
+   "provinceId": "P_JPN_HYOGO_PREFECTURE",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-ARTILLERY:REC-ART-JPN-GUN75-REG-1939:1": {
+   "provinceId": "P_JPN_TOKYO",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-ARTILLERY:REC-ART-JPN-AT37-1939:1": {
+   "provinceId": "P_JPN_OSAKA_PREFECTURE",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-ARTILLERY:REC-ART-JPN-AT37-1939>REC-ART-JPN-AA20-T98:1": {
    "provinceId": "P_JPN_TOKYO",
    "basis": "rule",
    "rule": "cities1930"
   },
   "JPN:JPN:FCT-FEED:REC-FEED-001:1": {
-   "provinceId": "P_JPN_TOKYO",
-   "basis": "rule",
-   "rule": "cities1930"
-  },
-  "JPN:JPN:FCT-STUD:REC-HORSES-001:1": {
    "provinceId": "P_JPN_OSAKA_PREFECTURE",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "JPN:JPN:FCT-PHARMA:REC-PHARMA-001:1": {
+  "JPN:JPN:FCT-STUD:REC-HORSES-001:1": {
    "provinceId": "P_JPN_TOKYO",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "JPN:JPN:FCT-PHARMA:REC-PHARMA-001:1": {
+   "provinceId": "P_JPN_AICHI_PREFECTURE",
    "basis": "rule",
    "rule": "cities1930"
   },
@@ -1310,6 +1370,11 @@
   },
   "JPN:JPN:FCT-POWER:REC-ELECTRIC-COAL-001:3": {
    "provinceId": "P_JPN_NAGASAKI_PREFECTURE",
+   "basis": "rule",
+   "rule": "coal"
+  },
+  "JPN:JPN:FCT-POWER:REC-ELECTRIC-COAL-001:4": {
+   "provinceId": "P_JPN_SAGA_PREFECTURE",
    "basis": "rule",
    "rule": "coal"
   },

@@ -980,6 +980,47 @@
         {
           "factory": "FCT-WEAPONS",
           "recipeId": "REC-INW-JPN-RIFLE-1939",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-JPN-ARISAKA-T99",
+            "from": "1940-01-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-JPN-PISTOL-T14",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-JPN-PISTOL-T14",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-INW-JPN-SMG-T100",
+            "from": "1942-01-01"
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-JPN-T11",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-MG-JPN-T96",
+            "from": "1936-06-01",
+            "then": {
+              "recipeId": "REC-MG-JPN-T99",
+              "from": "1940-01-01"
+            }
+          }
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-MG-JPN-T92",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-GL-JPN-T89",
           "count": 1
         },
         {
@@ -988,9 +1029,60 @@
           "count": 1
         },
         {
-          "factory": "FCT-ARTILLERY",
-          "recipeId": "REC-ART-JPN-GUN75-DIV-1939",
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-JPN-ISUZU-T94",
           "count": 1
+        },
+        {
+          "factory": "FCT-VEHICLES",
+          "recipeId": "REC-VEH-JPN-MOTO-RIKUO",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-VEH-JPN-MOTO-T97",
+            "from": "1937-06-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-JPN-GUN75-T38",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-JPN-GUN75-T90",
+            "from": "1937-01-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-JPN-GUN70-T92",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-JPN-GUN70-T92",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-JPN-MOR81-T97",
+            "from": "1937-06-01"
+          }
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-JPN-GUN75-REG-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-JPN-AT37-1939",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-JPN-AT37-1939",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-ART-JPN-AA20-T98",
+            "from": "1938-06-01"
+          }
         },
         {
           "factory": "FCT-FEED",
@@ -1010,7 +1102,7 @@
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 3
+          "count": 4
         }
       ]
     },

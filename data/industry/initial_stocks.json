@@ -98,7 +98,7 @@
     },
     "JPN": {
       "iron_ore": 88920,
-      "coal": 7380,
+      "coal": 16380,
       "oil": 12045,
       "bauxite": 42000,
       "rubber": 16200,
@@ -106,7 +106,7 @@
       "copper": 19320,
       "wheat": 14400,
       "tin": 1500,
-      "steel": 15501,
+      "steel": 25713,
       "munitions": 3600,
       "feed": 1350
     },
