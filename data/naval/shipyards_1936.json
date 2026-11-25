@@ -2,7 +2,7 @@
   "schema": "shipyards-v1",
   "status": "BOZZA_DA_CONFERMARE",
   "asOf": "1936-01-01",
-  "note": "BOZZA dei principali cantieri navali (militari e privati) attivi nel 1936, uno per città costiera del catalogo (data/ports/coastal_cities.json). Fonte: conoscenza storica generale, NESSUNA fonte verificata per voce: ogni voce è `basis: ipotesi` da confermare. È un elenco di PRESENZA per la mappa, non una capacità produttiva: oggi il cantiere non ha ricetta né produce navi. 12 città (La Spezia, Monfalcone, Wilhelmshaven, Brest, Lorient, Saint-Nazaire, Cherbourg, Barrow-in-Furness, Chatham, Yokosuka, Kure, Sasebo) sono state aggiunte al catalogo il 12/11/2026 (data/sources/citta_extra.json) con centro approssimato e area del disco stimata. Approssimazioni: per alcuni cantieri la città del catalogo non coincide con la località esatta (Clydebank, Wallsend, Newport News, Quincy, Mare Island, Bremerton, Sestri Ponente): la provincia è quella giusta, il punto no. Mancano cantieri minori o le cui città non sono nel catalogo. Livello di scalo (`slipway`, 1-4, data/naval/slipway_levels.json) scelto dall'utente il 25/11/2026 sulla proposta di Claude: 4 ai cantieri che costruirono corazzate oltre 38.000 t, 3 a quelli delle corazzate dei trattati e delle portaerei, 1 alle nazioni minori, 2 agli altri.",
+  "note": "BOZZA dei principali cantieri navali (militari e privati) attivi nel 1936, uno per città costiera del catalogo (data/ports/coastal_cities.json). Fonte: conoscenza storica generale, NESSUNA fonte verificata per voce: ogni voce è `basis: ipotesi` da confermare. È un elenco di PRESENZA per la mappa, non una capacità produttiva: oggi il cantiere non ha ricetta né produce navi. 12 città (La Spezia, Monfalcone, Wilhelmshaven, Brest, Lorient, Saint-Nazaire, Cherbourg, Barrow-in-Furness, Chatham, Yokosuka, Kure, Sasebo) sono state aggiunte al catalogo il 12/11/2026 (data/sources/citta_extra.json) con centro approssimato e area del disco stimata. Approssimazioni: per alcuni cantieri la città del catalogo non coincide con la località esatta (Clydebank, Wallsend, Newport News, Quincy, Mare Island, Bremerton, Sestri Ponente): la provincia è quella giusta, il punto no. Mancano cantieri minori o le cui città non sono nel catalogo. Livello di scalo (`slipway`, 1-4, data/naval/slipway_levels.json) scelto dall'utente il 25/11/2026 sulla proposta di Claude: 4 ai cantieri che costruirono corazzate oltre 38.000 t, 3 a quelli delle corazzate dei trattati e delle portaerei, 1 alle nazioni minori, 2 agli altri; Kōbe e Barrow portati a 3 dall'utente il 25/11/2026 (portaerei da 23.000-26.000 t).",
   "shipyards": [
     {
       "id": "YARD-DEU_KIEL",
@@ -182,7 +182,7 @@
       "operator": "Kawasaki e Mitsubishi a Kōbe",
       "kind": "private",
       "basis": "ipotesi",
-      "slipway": 2
+      "slipway": 3
     },
     {
       "id": "YARD-USA_FILADELFIA",
@@ -422,7 +422,7 @@
       "operator": "Vickers-Armstrongs a Barrow",
       "kind": "private",
       "basis": "ipotesi",
-      "slipway": 2
+      "slipway": 3
     },
     {
       "id": "YARD-GBR_CHATHAM",

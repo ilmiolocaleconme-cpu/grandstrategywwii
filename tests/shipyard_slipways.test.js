@@ -41,7 +41,7 @@ test('dati: soglie crescenti, ultimo livello senza limite, livello 1 gratuito; o
 test('livelli iniziali scelti il 25/11/2026: corazzate grandi a livello 4, trattati a 3, nazioni minori a 1', () => {
   const lv = (id) => doc.shipyards.find((y) => y.id === id).slipway;
   for (const id of ['YARD-ITA_GENOVA', 'YARD-ITA_TRIESTE', 'YARD-JPN_KURE', 'YARD-JPN_NAGASAKI', 'YARD-DEU_AMBURGO', 'YARD-DEU_WILHELMSHAVEN', 'YARD-USA_NEW_YORK', 'YARD-USSR_LENINGRADO']) assert.equal(lv(id), 4, id);
-  for (const id of ['YARD-DEU_KIEL', 'YARD-FRA_BREST', 'YARD-FRA_SAINT_NAZAIRE', 'YARD-GBR_GLASGOW']) assert.equal(lv(id), 3, id);
+  for (const id of ['YARD-DEU_KIEL', 'YARD-FRA_BREST', 'YARD-FRA_SAINT_NAZAIRE', 'YARD-GBR_GLASGOW', 'YARD-JPN_KOBE', 'YARD-GBR_BARROW_IN_FURNESS']) assert.equal(lv(id), 3, id);
   for (const id of ['YARD-ITA_TARANTO', 'YARD-FRA_TOLONE']) assert.equal(lv(id), 2, id);
   for (const id of ['YARD-POL_GDYNIA', 'YARD-SWE_MALMO']) assert.equal(lv(id), 1, id);
   // tonnellaggio: Yamato (64.000 t) solo al 4, King George V (36.700 t) dal 3, incrociatore da 10.000 t dal 2, cacciatorpediniere dal 1
