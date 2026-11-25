@@ -1,0 +1,268 @@
+{
+ "schema": "settori-citta-v1",
+ "fonte": "Fronte 1936 (ilmiolocaleconme-cpu/fronte1936, data/citta_1934.json): nomi dei settori e loro disposizione; centri convertiti in lon/lat dalla proiezione di Miller di quel gioco",
+ "metodo": "ogni zona urbana di data/citta_grandi.json (parte del fiume) è divisa fra i centri dei settori che le cadono dentro (celle di Voronoi in km); ipotesi, non quartieri storici misurati",
+ "citta": [
+  {
+   "cittaId": "P_USSR_MOSCA_CITTA",
+   "nome": "Mosca",
+   "principale": "Cremlino e Kitaj-gorod",
+   "settori": [
+    [
+     "Cremlino e Kitaj-gorod",
+     37.6169,
+     55.7609
+    ],
+    [
+     "Krasnaja Presnja",
+     37.5273,
+     55.7696
+    ],
+    [
+     "Leningradskij e Chodynka",
+     37.4941,
+     55.8179
+    ],
+    [
+     "Ostankino",
+     37.6112,
+     55.8458
+    ],
+    [
+     "Sokol'niki",
+     37.71,
+     55.8274
+    ],
+    [
+     "Baumanskij",
+     37.7198,
+     55.7569
+    ],
+    [
+     "Stalinskij e Izmajlovo",
+     37.8164,
+     55.7909
+    ],
+    [
+     "Proletarskij (ZiS)",
+     37.6818,
+     55.6744
+    ],
+    [
+     "Zamoskvoreč'e",
+     37.6199,
+     55.7125
+    ],
+    [
+     "Oktjabr'skij e colli dei Passeri",
+     37.5289,
+     55.6857
+    ],
+    [
+     "Frunzenskij e Chamovniki",
+     37.5505,
+     55.7291
+    ]
+   ]
+  },
+  {
+   "cittaId": "P_USSR_LENINGRADO_CITTA",
+   "nome": "Leningrado",
+   "principale": "Centro (Ammiragliato e Smol'nyj)",
+   "settori": [
+    [
+     "Centro (Ammiragliato e Smol'nyj)",
+     30.33,
+     59.935
+    ],
+    [
+     "Vasil'evskij",
+     30.255,
+     59.94
+    ],
+    [
+     "Petrogradskaja",
+     30.3,
+     59.965
+    ],
+    [
+     "Vyborgskaja",
+     30.345,
+     59.99
+    ],
+    [
+     "Krasnogvardejskij (Ochta)",
+     30.42,
+     59.955
+    ],
+    [
+     "Nevskij",
+     30.45,
+     59.88
+    ],
+    [
+     "Moskovskij",
+     30.32,
+     59.86
+    ],
+    [
+     "Kirovskij (Putilov)",
+     30.255,
+     59.875
+    ]
+   ],
+   "nota": "nomi da Fronte 1936; centri dei quartieri da conoscenza geografica (approssimati), perché la disposizione di Fronte 1936 è più larga della città"
+  },
+  {
+   "cittaId": "P_USSR_STALINGRADO_CITTA",
+   "nome": "Stalingrado",
+   "principale": "Piazza dei Caduti",
+   "nota": "disposizione di Fronte 1936 (in fila lungo il Volga) riportata sulla zona urbana della riva destra: posizione lungo il fiume fra 48,61 e 48,81 N, distanza dalla riva in proporzione",
+   "settori": [
+    [
+     "Rynok",
+     44.5669,
+     48.8072
+    ],
+    [
+     "Spartanovka",
+     44.5357,
+     48.812
+    ],
+    [
+     "Fabbrica di trattori",
+     44.5888,
+     48.7924
+    ],
+    [
+     "Villaggio della fabbrica di trattori",
+     44.5689,
+     48.7977
+    ],
+    [
+     "Mokraja Mečetka",
+     44.538,
+     48.8037
+    ],
+    [
+     "Fabbrica Barricate",
+     44.5691,
+     48.7758
+    ],
+    [
+     "Villaggio Barricate",
+     44.5546,
+     48.7814
+    ],
+    [
+     "Villaggio Silikat",
+     44.5382,
+     48.7877
+    ],
+    [
+     "Fabbrica Ottobre Rosso",
+     44.5542,
+     48.7599
+    ],
+    [
+     "Villaggio Ottobre Rosso",
+     44.5444,
+     48.7652
+    ],
+    [
+     "Periferia di Gorodišče",
+     44.5288,
+     48.7711
+    ],
+    [
+     "Lazur' e burrone Banny",
+     44.5444,
+     48.7432
+    ],
+    [
+     "Mamaev Kurgan (quota 102)",
+     44.5313,
+     48.7472
+    ],
+    [
+     "Razgulaevka",
+     44.5087,
+     48.7523
+    ],
+    [
+     "Approdo centrale",
+     44.5132,
+     48.724
+    ],
+    [
+     "Piazza dei Caduti",
+     44.5002,
+     48.7259
+    ],
+    [
+     "Stazione centrale",
+     44.4828,
+     48.7284
+    ],
+    [
+     "Foce della Tsaritsa",
+     44.486,
+     48.704
+    ],
+    [
+     "Burrone della Tsaritsa",
+     44.4688,
+     48.7027
+    ],
+    [
+     "Aeroporto",
+     44.4458,
+     48.701
+    ],
+    [
+     "Elevatore del grano",
+     44.4642,
+     48.6848
+    ],
+    [
+     "Stazione Stalingrad II",
+     44.4461,
+     48.6825
+    ],
+    [
+     "Dar Gora",
+     44.4233,
+     48.6796
+    ],
+    [
+     "Kuporosnoe",
+     44.4459,
+     48.6637
+    ],
+    [
+     "Sadovaja",
+     44.4232,
+     48.6596
+    ],
+    [
+     "Elšanka",
+     44.4363,
+     48.641
+    ],
+    [
+     "Minina",
+     44.4152,
+     48.6357
+    ],
+    [
+     "Beketovka",
+     44.441,
+     48.612
+    ]
+   ],
+   "riva": {
+    "P_USSR_STALINGRADO_CITTA_P2": "Krasnaja Sloboda (riva sinistra)"
+   }
+  }
+ ]
+}

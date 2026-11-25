@@ -14,7 +14,7 @@ export function markCapitals(cities, nations) {
   const capitali = new Map(nations.map((n) => [n.id, n.capital]));
   // gruppo: la città (cittaId), oppure la provincia madre per le città già nei dati divise in sponde
   const gruppoDi = (f) => f.properties.cittaId ?? f.properties.parentProvince ?? f.id.replace(/_SP\d+$/, '');
-  const base = (f) => f.properties.name.replace(/ \(città\)/, '').replace(/ (sud|nord|est|ovest)( \d+)?$/, '').replace(/ \(sponda [^)]+\)$/, '');
+  const base = (f) => f.properties.name.replace(/ – .*$/, '').replace(/ \(città\)/, '').replace(/ (sud|nord|est|ovest)( \d+)?$/, '').replace(/ \(sponda [^)]+\)$/, '');
   const nordDi = new Map();
   for (const f of cities) {
     const g = gruppoDi(f);
@@ -33,12 +33,15 @@ export function markCapitals(cities, nations) {
 export const CAPITAL_NAME_ZOOM = 2.5;
 export const CITY_NAME_ZOOM = 5;
 export const PART_NAME_ZOOM = 60;
+// settori delle grandi città (Mosca, Leningrado, Stalingrado): il principale porta il nome della città, gli altri il loro nome da vicino
+export const SECTOR_NAME_ZOOM = 25;
 const PARTE_SECONDARIA = / (sud|nord|est|ovest)( \d+)?$/;
 
 /** Città da etichettare al livello di zoom `k`. */
 export function cityNamesAt(items, k) {
   return items.filter((it) => {
     if (it.props.kind !== 'citta') return false;
+    if (it.props.settore && !it.props.principale) return k >= SECTOR_NAME_ZOOM;
     if (PARTE_SECONDARIA.test(it.props.name)) return k >= PART_NAME_ZOOM;
     return it.props.capitale ? k >= CAPITAL_NAME_ZOOM : k >= CITY_NAME_ZOOM;
   });

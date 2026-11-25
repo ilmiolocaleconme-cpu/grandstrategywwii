@@ -9,8 +9,9 @@ export function buildPorts({ list, cities }) {
   for (const c of cities) {
     if (!c.costiera || c.kind !== 'citta') continue;
     const id = c.cittaId ?? c.id;
-    if (!cityIndex[id]) cityIndex[id] = { name: String(c.name).replace(/ (nord|sud|est|ovest)$/, ''), owner: c.owner, parentProvince: c.parentProvince };
-    const key = `${c.owner}|${c.name}`;
+    const nome = String(c.name).replace(/ – .*$/, ''); // settori delle grandi città: «Leningrado – Vasil'evskij» → Leningrado
+    if (!cityIndex[id]) cityIndex[id] = { name: nome.replace(/ (nord|sud|est|ovest)$/, ''), owner: c.owner, parentProvince: c.parentProvince };
+    const key = `${c.owner}|${nome}`;
     if (!byKey.has(key)) byKey.set(key, { cittaId: id, parentProvince: c.parentProvince });
   }
   const area = new Map(); // cittaId → superficie (somma delle parti), per la regola minima

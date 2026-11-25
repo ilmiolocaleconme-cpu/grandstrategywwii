@@ -38,11 +38,23 @@ export function buildSlotCatalog({ provinces, zones, nations }) {
     byMother[m] = SLOT_CAPACITY.province * banks.length;
   }
   const cityParts = {}; const capitalParts = [];
+  // città divise in settori (scripts/build-city-sectors.js): i settori si dividono gli slot delle parti del fiume da cui vengono
+  // (stesso totale di prima), a quote uguali col resto ai primi settori
+  const settoriDi = new Map();
+  for (const f of marked) {
+    if (!f.properties.partiFiume) continue;
+    const k = f.properties.partiFiume;
+    (settoriDi.get(k) ?? settoriDi.set(k, []).get(k)).push(f.properties.id);
+  }
   for (const f of marked) {
     const id = f.properties.id;
     const cap = f.properties.capitale === true;
     if (cap) capitalParts.push(id);
-    cityParts[id] = cap ? SLOT_CAPACITY.capitalPart : SLOT_CAPACITY.cityPart;
+    const n = cap ? SLOT_CAPACITY.capitalPart : SLOT_CAPACITY.cityPart;
+    const gruppo = settoriDi.get(f.properties.partiFiume);
+    if (!gruppo) { cityParts[id] = n; continue; }
+    const i = gruppo.indexOf(id);
+    cityParts[id] = Math.floor(n / gruppo.length) + (i < n % gruppo.length ? 1 : 0);
   }
   const sum = (o) => Object.values(o).reduce((s, v) => s + v, 0);
   return {
