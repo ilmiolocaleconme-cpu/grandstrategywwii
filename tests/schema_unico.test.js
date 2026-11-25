@@ -13,7 +13,7 @@ const DA_CONVERTIRE = new Set([
   // USA dai battaglioni dal 21/11/2026 (data/units/modules/modules_usa.json)
   // Francia dai battaglioni dal 25/11/2026 (data/units/modules/modules_fra.json)
   // Italia dai battaglioni dal 24/11/2026 (data/units/modules/modules_ita.json)
-  'TPL-JPN-INF-1939', 'TPL-JPN-ARM-1942',
+  // Giappone dai battaglioni dal 25/11/2026 (data/units/modules/modules_jpn.json)
 ]);
 
 test('schema unico: ogni template è composto da battaglioni, salvo quelli ancora da convertire (lista che può solo accorciarsi)', () => {

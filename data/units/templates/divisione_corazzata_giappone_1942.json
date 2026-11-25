@@ -1,92 +1,301 @@
 {
-  "schema": "unit-template-v2",
+  "schema": "unit-template-v1",
   "id": "TPL-JPN-ARM-1942",
   "status": "RECONSTRUCTED_TEMPLATE",
-  "note": "Generato da CSV (source/jpn_arm_template_1942.csv, source/jpn_arm_equipment_1942.csv, source/land_equipment_catalog_jpn_arm_1942.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (JPN armored division, serie Divisione carri); Divisione carri giapponese (Sensha Shidan) 1942, generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
   "appliesTo": {
     "nation": "JPN",
     "category": "armored",
     "echelon": "division",
-    "validFrom": "1942-06-01"
+    "activeFrom": "1942-06-01"
   },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 Tipo 97, 80 Tipo 95, 24 pezzi da 75, 18 da 47).",
   "formation": {
-    "value": "armored"
+    "value": "divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 Tipo 97, 80 Tipo 95, 24 pezzi da 75, 18 da 47)",
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "regimentsInfantry": {
-    "value": 1
-  },
+  "modules": [
+    {
+      "id": "MOD-JPN-TANK-REGT",
+      "count": 4,
+      "name": "Tank regiment (Type 97, Type 95)",
+      "name_it": "Reggimento carri (Tipo 97 e Tipo 95)"
+    },
+    {
+      "id": "MOD-JPN-MOB-INF",
+      "count": 3,
+      "name": "Mobile infantry battalion",
+      "name_it": "Battaglione di fanteria mobile (motorizzata)"
+    },
+    {
+      "id": "MOD-JPN-MOB-ART",
+      "count": 2,
+      "name": "Mobile artillery battalion",
+      "name_it": "Gruppo di artiglieria mobile (75 mm)"
+    },
+    {
+      "id": "MOD-JPN-MOB-AT",
+      "count": 1,
+      "name": "Mobile anti-tank battalion (47 mm)",
+      "name_it": "Battaglione controcarro mobile (47 mm)"
+    },
+    {
+      "id": "MOD-JPN-ENG",
+      "count": 1,
+      "name": "Engineer regiment",
+      "name_it": "Reggimento del genio"
+    },
+    {
+      "id": "MOD-JPN-SVC-MOB",
+      "count": 1,
+      "name": "Tank division headquarters and services",
+      "name_it": "Comando e servizi della divisione corazzata"
+    }
+  ],
   "manpower": {
     "war": {
       "value": 10000,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
     }
   },
   "horses": {
-    "value": 0,
+    "value": 60,
+    "basis": "ipotesi",
+    "referenceYear": "1942",
+    "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
     "effective": {
-      "value": null
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
     }
   },
   "equipment": {
-    "TNK-JPN-TYPE97-1942": {
-      "value": 150,
+    "ART-JPN-AT47-ARM-1942": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione corazzata",
-      "note": "150 (Carro medio Tipo 97 Chi-Ha). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
-      }
-    },
-    "TNK-JPN-TYPE95-1942": {
-      "value": 80,
-      "reliability": "ESTIMATED",
-      "unit": "Divisione corazzata",
-      "note": "80 (Carro leggero Tipo 95 Ha-Go). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
-      "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-JPN-GUN75-ARM-1942": {
       "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione corazzata",
-      "note": "24 (Cannone da 75 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
-    "ART-JPN-AT47-ARM-1942": {
-      "value": 18,
+    "GL-JPN-T89": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione corazzata",
-      "note": "18 (Cannone controcarro da 47 mm Tipo 1). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-ARISAKA-T99": {
+      "value": 1950,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-PISTOL-T14": {
+      "value": 1730,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-RIFLE-1939": {
+      "value": 4400,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T11": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T92": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T99": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-JPN-TYPE95-1942": {
+      "value": 80,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-JPN-TYPE97-1942": {
+      "value": 148,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-JPN-ISUZU-T94": {
+      "value": 430,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-JPN-MOTO-T97": {
+      "value": 80,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-JPN-NISSAN-180": {
+      "value": 80,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-JPN-TRACTOR-T92": {
+      "value": 28,
+      "basis": "ipotesi",
+      "referenceYear": "1942",
+      "source": "Somma dei battaglioni di data/units/modules (4× MOD-JPN-TANK-REGT, 3× MOD-JPN-MOB-INF, 2× MOD-JPN-MOB-ART, 1× MOD-JPN-MOB-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-MOB). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     }
   },
-  "metadata": {
-    "sourceTemplateId": "TPL-JPN-TNK-1942",
-    "series": "Divisione carri",
-    "referenceDivision": "Divisione carri giapponese (Sensha Shidan) 1942, generica",
-    "referenceDate": "1942-06",
-    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
-    "sourceNote": "Due brigate carri (4 reggimenti), un reggimento di fanteria meccanizzata, artiglieria. Quantità stimate. Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
-    "sourceFiles": [
-      {
-        "file": "source/jpn_arm_template_1942.csv",
-        "sha256": "68d306764199872ff648b934051e1dd665e598a55e1504b64fc9cb9a10fcad44"
-      },
-      {
-        "file": "source/jpn_arm_equipment_1942.csv",
-        "sha256": "cff816ff5e9d119ecf91f62f3249c67589d7311daa7141657262c4dcce9e63aa"
-      },
-      {
-        "file": "source/land_equipment_catalog_jpn_arm_1942.csv",
-        "sha256": "66a60f220cbefc229551da643bc0574e548f60c31e8489c1128003b24e033e40"
-      }
-    ]
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
   }
 }

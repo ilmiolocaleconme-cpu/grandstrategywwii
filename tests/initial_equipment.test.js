@@ -32,7 +32,8 @@ test('Germania: 14 dotazioni della fanteria 1936, niente carri', () => {
   assert.ok(Object.keys(deu.equipment).every((k) => !/^TNK-/.test(k)), 'nessun carro');
   assert.ok(file.nations.USSR && file.nations.USA, 'anche URSS e USA (schema unico)');
   assert.equal(file.nations.FRA?.templateId, 'TPL-FRA-INF-1936', 'Francia dai battaglioni dal 25/11/2026');
-  assert.ok(file.pending.includes('JPN'), 'il Giappone aspetta la fanteria a battaglioni');
+  assert.equal(file.nations.JPN?.templateId, 'TPL-JPN-INF-1936', 'Giappone dai battaglioni dal 25/11/2026');
+  assert.ok(file.pending.includes('POL'), 'la Polonia aspetta la fanteria a battaglioni');
   assert.equal(file.nations.GBR?.templateId, 'TPL-GBR-INF-1936', 'Regno Unito dai battaglioni dal 24/11/2026');
   assert.ok(!file.pending.includes('LUX') && !file.nations.LUX, 'fascia 0: niente riserva e non in attesa');
 });
@@ -55,6 +56,6 @@ test('a inizio partita la riserva è nelle scorte (equipment.<id>) e scala con l
   assert.equal(without.DEU.stocks['equipment.INW-DEU-RIFLE-1939'] ?? 0, 0);
   assert.equal(withEq.DEU.stocks['equipment.INW-DEU-RIFLE-1939'], 14 * 11870);
   assert.equal(withEq.USSR.stocks['equipment.INW-USSR-RIFLE-1939'], file.nations.USSR.equipment['INW-USSR-RIFLE-1939']);
-  assert.deepEqual(withEq.JPN.stocks, without.JPN.stocks, 'chi non ha la fanteria a battaglioni non cambia');
+  assert.deepEqual(withEq.POL.stocks, without.POL.stocks, 'chi non ha la fanteria a battaglioni non cambia');
   assert.deepEqual(addInitialEquipment({}, file), {}, 'nazioni assenti ignorate');
 });

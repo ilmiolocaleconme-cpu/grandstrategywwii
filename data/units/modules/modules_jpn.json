@@ -1,0 +1,738 @@
+{
+  "schema": "battalion-modules-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-25",
+  "note": "Battaglioni giapponesi (25/11/2026, schema unico, scelte dell'utente: elenco completo, Guardia con modello proprio, battaglione SNLF solo nell'editor, brigate rimandate). Organici STIMATI da Claude, NON verificati; la triangolare e la corazzata allineate alle cifre provvisorie del CSV. Id TPL-JPN-INF-1939 e TPL-JPN-ARM-1942 conservati. Carri: Tipo 97 e Tipo 95 fino al passo 4. Solo armi giapponesi.",
+  "modules": [
+    {
+      "id": "MOD-JPN-INF-1936",
+      "nation": "JPN",
+      "type": "infantry",
+      "name_native": "Infantry battalion (1936)",
+      "name_it": "Battaglione di fanteria (1936)",
+      "men": 1100,
+      "horses": 40,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 700,
+        "INW-JPN-PISTOL-T14": 30,
+        "MG-JPN-T11": 36,
+        "GL-JPN-T89": 36,
+        "MG-JPN-T92": 12,
+        "ART-JPN-GUN70-T92": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-INF-1939",
+      "nation": "JPN",
+      "type": "infantry",
+      "name_native": "Infantry battalion (1939)",
+      "name_it": "Battaglione di fanteria (1939)",
+      "men": 1100,
+      "horses": 40,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 700,
+        "INW-JPN-PISTOL-T14": 30,
+        "MG-JPN-T96": 36,
+        "GL-JPN-T89": 36,
+        "MG-JPN-T92": 12,
+        "ART-JPN-GUN70-T92": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-INF-1941",
+      "nation": "JPN",
+      "type": "infantry",
+      "name_native": "Infantry battalion (1941)",
+      "name_it": "Battaglione di fanteria (1941)",
+      "men": 1100,
+      "horses": 40,
+      "equipment": {
+        "INW-JPN-ARISAKA-T99": 700,
+        "INW-JPN-PISTOL-T14": 30,
+        "MG-JPN-T99": 36,
+        "GL-JPN-T89": 36,
+        "MG-JPN-T92": 12,
+        "ART-JPN-GUN70-T92": 2,
+        "ART-JPN-MOR81-T97": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1940-06-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-GUARD",
+      "nation": "JPN",
+      "type": "infantry",
+      "name_native": "Imperial Guards battalion",
+      "name_it": "Battaglione della Guardia imperiale",
+      "men": 1100,
+      "horses": 40,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 650,
+        "INW-JPN-PISTOL-T14": 40,
+        "MG-JPN-T11": 45,
+        "GL-JPN-T89": 45,
+        "MG-JPN-T92": 12,
+        "ART-JPN-GUN70-T92": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "variant": "guards",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-SEC",
+      "nation": "JPN",
+      "type": "infantry",
+      "name_native": "Independent garrison battalion",
+      "name_it": "Battaglione di presidio",
+      "men": 900,
+      "horses": 30,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 750,
+        "INW-JPN-PISTOL-T14": 20,
+        "MG-JPN-T11": 24,
+        "GL-JPN-T89": 24,
+        "MG-JPN-T92": 4
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "variant": "garrison",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-SNLF",
+      "nation": "JPN",
+      "type": "infantry",
+      "name_native": "Special Naval Landing Force battalion (Rikusentai)",
+      "name_it": "Battaglione da sbarco della Marina (SNLF)",
+      "men": 1000,
+      "horses": 0,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 800,
+        "INW-JPN-PISTOL-T14": 40,
+        "MG-JPN-T96": 36,
+        "GL-JPN-T89": 36,
+        "MG-JPN-T92": 12,
+        "ART-JPN-GUN70-T92": 2,
+        "ART-JPN-AT37-1939": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "variant": "marine",
+      "availableFrom": "1936-06-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-REGT",
+      "nation": "JPN",
+      "type": "support",
+      "name_native": "Regimental gun and anti-tank companies",
+      "name_it": "Compagnie reggimentali (cannoni Tipo 41, anticarro da 37, comando)",
+      "men": 450,
+      "horses": 120,
+      "equipment": {
+        "ART-JPN-GUN75-REG-1939": 4,
+        "ART-JPN-AT37-1939": 6,
+        "MG-JPN-T11": 12,
+        "INW-JPN-RIFLE-1939": 300,
+        "INW-JPN-PISTOL-T14": 20
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_trainata",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-RECON",
+      "nation": "JPN",
+      "type": "recon",
+      "name_native": "Divisional cavalry (reconnaissance) regiment",
+      "name_it": "Reggimento di cavalleria divisionale (ricognizione)",
+      "men": 450,
+      "horses": 400,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 380,
+        "INW-JPN-PISTOL-T14": 20,
+        "MG-JPN-T11": 6,
+        "MG-JPN-T92": 4
+      },
+      "mobility": "foot",
+      "illustration": "cavalleria",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-ART75",
+      "nation": "JPN",
+      "type": "artillery",
+      "name_native": "Field artillery battalion (Type 38, horse-drawn)",
+      "name_it": "Gruppo da 75 Tipo 38 ippotrainato",
+      "men": 600,
+      "horses": 500,
+      "equipment": {
+        "ART-JPN-GUN75-T38": 12,
+        "INW-JPN-RIFLE-1939": 350,
+        "INW-JPN-PISTOL-T14": 40
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-ART-MT",
+      "nation": "JPN",
+      "type": "artillery",
+      "name_native": "Mountain artillery battalion (Type 94)",
+      "name_it": "Gruppo da montagna Tipo 94",
+      "men": 600,
+      "horses": 450,
+      "equipment": {
+        "ART-JPN-GUN75-MT-T94": 12,
+        "INW-JPN-RIFLE-1939": 350,
+        "INW-JPN-PISTOL-T14": 40
+      },
+      "mobility": "foot",
+      "illustration": "salmerie",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-ART105",
+      "nation": "JPN",
+      "type": "artillery",
+      "name_native": "Howitzer battalion (Type 91, 105 mm)",
+      "name_it": "Gruppo obici Tipo 91 da 105",
+      "men": 600,
+      "horses": 500,
+      "equipment": {
+        "ART-JPN-HOW105-T91": 12,
+        "INW-JPN-RIFLE-1939": 350,
+        "INW-JPN-PISTOL-T14": 40
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_trainata",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-ART150",
+      "nation": "JPN",
+      "type": "artillery",
+      "name_native": "Medium artillery battalion (Type 96, 150 mm)",
+      "name_it": "Gruppo obici Tipo 96 da 150 (artiglieria d'armata)",
+      "men": 550,
+      "horses": 0,
+      "equipment": {
+        "ART-JPN-HOW150-T96": 8,
+        "INW-JPN-RIFLE-1939": 320,
+        "INW-JPN-PISTOL-T14": 40,
+        "VEH-JPN-TRACTOR-T92": 12,
+        "VEH-JPN-ISUZU-T94": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_pesante",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-06-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-AT",
+      "nation": "JPN",
+      "type": "anti_tank",
+      "name_native": "Divisional anti-tank company (37 mm)",
+      "name_it": "Compagnia controcarro divisionale (37 mm)",
+      "men": 160,
+      "horses": 60,
+      "equipment": {
+        "ART-JPN-AT37-1939": 4,
+        "INW-JPN-RIFLE-1939": 120,
+        "INW-JPN-PISTOL-T14": 10
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-AA20",
+      "nation": "JPN",
+      "type": "anti_air",
+      "name_native": "Field anti-aircraft company (Type 98, 20 mm)",
+      "name_it": "Compagnia contraerea Tipo 98 (20 mm)",
+      "men": 150,
+      "horses": 40,
+      "equipment": {
+        "ART-JPN-AA20-T98": 8,
+        "INW-JPN-RIFLE-1939": 100,
+        "INW-JPN-PISTOL-T14": 10
+      },
+      "mobility": "foot",
+      "illustration": "contraerea",
+      "availableFrom": "1938-06-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-AA75",
+      "nation": "JPN",
+      "type": "anti_air",
+      "name_native": "Field anti-aircraft battalion (Type 88, 75 mm)",
+      "name_it": "Gruppo contraereo Tipo 88 (75 mm)",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "ART-JPN-AA75-T88": 8,
+        "INW-JPN-RIFLE-1939": 250,
+        "INW-JPN-PISTOL-T14": 30,
+        "VEH-JPN-ISUZU-T94": 16
+      },
+      "mobility": "motorized",
+      "illustration": "contraerea",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-ENG",
+      "nation": "JPN",
+      "type": "engineer",
+      "name_native": "Engineer regiment",
+      "name_it": "Reggimento del genio",
+      "men": 600,
+      "horses": 60,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 400,
+        "INW-JPN-PISTOL-T14": 20,
+        "MG-JPN-T11": 18
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-SVC-1936",
+      "nation": "JPN",
+      "type": "support",
+      "name_native": "Division headquarters, transport and medical (1936)",
+      "name_it": "Comando, trasporti e sanità divisionali (1936)",
+      "men": 7400,
+      "horses": 3600,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 1100,
+        "INW-JPN-PISTOL-T14": 300,
+        "VEH-JPN-ISUZU-T94": 40
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-SVC-1939",
+      "nation": "JPN",
+      "type": "support",
+      "name_native": "Division headquarters, transport and medical (1939)",
+      "name_it": "Comando, trasporti e sanità divisionali (1939)",
+      "men": 5740,
+      "horses": 2500,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 1050,
+        "INW-JPN-PISTOL-T14": 280,
+        "VEH-JPN-ISUZU-T94": 60,
+        "VEH-JPN-MOTO-T97": 20
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "availableFrom": "1937-06-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-SVC-SEC",
+      "nation": "JPN",
+      "type": "support",
+      "name_native": "Garrison division headquarters and services",
+      "name_it": "Comando e servizi della divisione di presidio",
+      "men": 1500,
+      "horses": 600,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 800,
+        "INW-JPN-PISTOL-T14": 100,
+        "VEH-JPN-ISUZU-T94": 30
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "variant": "garrison",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-TANK-REGT",
+      "nation": "JPN",
+      "type": "tank",
+      "name_native": "Tank regiment (Type 97, Type 95)",
+      "name_it": "Reggimento carri (Tipo 97 e Tipo 95)",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "TNK-JPN-TYPE97-1942": 37,
+        "TNK-JPN-TYPE95-1942": 20,
+        "INW-JPN-RIFLE-1939": 400,
+        "INW-JPN-PISTOL-T14": 300,
+        "VEH-JPN-ISUZU-T94": 30,
+        "VEH-JPN-MOTO-T97": 10
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "availableFrom": "1938-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-TANK-APP",
+      "nation": "JPN",
+      "type": "infantry_tank",
+      "name_native": "Independent tank regiment (infantry support)",
+      "name_it": "Reggimento carri indipendente (appoggio alla fanteria)",
+      "men": 600,
+      "horses": 0,
+      "equipment": {
+        "TNK-JPN-TYPE95-1942": 40,
+        "INW-JPN-RIFLE-1939": 300,
+        "INW-JPN-PISTOL-T14": 200,
+        "VEH-JPN-ISUZU-T94": 20
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-MOB-INF",
+      "nation": "JPN",
+      "type": "motorized_infantry",
+      "name_native": "Mobile infantry battalion",
+      "name_it": "Battaglione di fanteria mobile (motorizzata)",
+      "men": 900,
+      "horses": 0,
+      "equipment": {
+        "INW-JPN-ARISAKA-T99": 650,
+        "INW-JPN-PISTOL-T14": 30,
+        "MG-JPN-T99": 36,
+        "GL-JPN-T89": 36,
+        "MG-JPN-T92": 12,
+        "VEH-JPN-ISUZU-T94": 40
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-06-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-MOB-ART",
+      "nation": "JPN",
+      "type": "artillery",
+      "name_native": "Mobile artillery battalion",
+      "name_it": "Gruppo di artiglieria mobile (75 mm)",
+      "men": 500,
+      "horses": 0,
+      "equipment": {
+        "ART-JPN-GUN75-ARM-1942": 12,
+        "INW-JPN-RIFLE-1939": 300,
+        "INW-JPN-PISTOL-T14": 40,
+        "VEH-JPN-TRACTOR-T92": 14,
+        "VEH-JPN-ISUZU-T94": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1940-06-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-MOB-AT",
+      "nation": "JPN",
+      "type": "anti_tank",
+      "name_native": "Mobile anti-tank battalion (47 mm)",
+      "name_it": "Battaglione controcarro mobile (47 mm)",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "ART-JPN-AT47-ARM-1942": 18,
+        "INW-JPN-RIFLE-1939": 300,
+        "INW-JPN-PISTOL-T14": 40,
+        "VEH-JPN-ISUZU-T94": 20
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1942-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-SVC-MOB",
+      "nation": "JPN",
+      "type": "support",
+      "name_native": "Tank division headquarters and services",
+      "name_it": "Comando e servizi della divisione corazzata",
+      "men": 2050,
+      "horses": 0,
+      "equipment": {
+        "INW-JPN-RIFLE-1939": 1500,
+        "INW-JPN-PISTOL-T14": 300,
+        "VEH-JPN-ISUZU-T94": 150,
+        "VEH-JPN-NISSAN-180": 80,
+        "VEH-JPN-MOTO-T97": 40
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1941-01-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-PARA",
+      "nation": "JPN",
+      "type": "airborne_infantry",
+      "name_native": "Raiding (parachute) battalion",
+      "name_it": "Battaglione paracadutisti (Teishin)",
+      "men": 700,
+      "horses": 0,
+      "equipment": {
+        "INW-JPN-ARISAKA-T99": 500,
+        "INW-JPN-SMG-T100": 40,
+        "INW-JPN-PISTOL-T14": 60,
+        "MG-JPN-T99": 18,
+        "GL-JPN-T89": 18
+      },
+      "mobility": "foot",
+      "illustration": "paracadutisti",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-JPN-PARA-SVC",
+      "nation": "JPN",
+      "type": "support",
+      "name_native": "Raiding division headquarters and services",
+      "name_it": "Comando e servizi della divisione paracadutisti",
+      "men": 1000,
+      "horses": 0,
+      "equipment": {
+        "INW-JPN-ARISAKA-T99": 600,
+        "INW-JPN-PISTOL-T14": 120,
+        "VEH-JPN-ISUZU-T94": 30
+      },
+      "mobility": "foot",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-INF-AIRBORNE",
+      "availableFrom": "1942-01-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    }
+  ],
+  "compositions": [
+    {
+      "templateId": "TPL-JPN-INF-1936",
+      "name": "Divisione di fanteria quadrata (1936)",
+      "file": "divisione_fanteria_giappone_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione quadrata: 2 brigate su 2 reggimenti di 3 battaglioni (Tipo 11, lanciagranate Tipo 89, Tipo 92, cannoni da 70), compagnie reggimentali, reggimento di cavalleria, reggimento d'artiglieria (3 gruppi da 75 Tipo 38), compagnia controcarro, genio, trasporti e sanità",
+      "modules": [
+        [
+          "MOD-JPN-INF-1936",
+          12
+        ],
+        [
+          "MOD-JPN-REGT",
+          3
+        ],
+        [
+          "MOD-JPN-RECON",
+          1
+        ],
+        [
+          "MOD-JPN-ART75",
+          3
+        ],
+        [
+          "MOD-JPN-AT",
+          1
+        ],
+        [
+          "MOD-JPN-ENG",
+          1
+        ],
+        [
+          "MOD-JPN-SVC-1936",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-JPN-INF-1939",
+      "name": "Divisione di fanteria triangolare (1939)",
+      "file": "divisione_fanteria_giappone_1939.json",
+      "category": "infantry",
+      "activeFrom": "1939-09-01",
+      "formation": "divisione triangolare: 3 reggimenti di 3 battaglioni (Tipo 96), compagnie reggimentali, cavalleria divisionale, reggimento d'artiglieria (3 gruppi da 75), compagnia controcarro, genio, servizi. Totali allineati alle cifre provvisorie del CSV (20.000 uomini, 36 pezzi da 75, 12 cannoni reggimentali, 22 anticarro da 37, circa 380 fucili mitragliatori e 112 mitragliatrici pesanti)",
+      "modules": [
+        [
+          "MOD-JPN-INF-1939",
+          9
+        ],
+        [
+          "MOD-JPN-REGT",
+          3
+        ],
+        [
+          "MOD-JPN-RECON",
+          1
+        ],
+        [
+          "MOD-JPN-ART75",
+          3
+        ],
+        [
+          "MOD-JPN-AT",
+          1
+        ],
+        [
+          "MOD-JPN-ENG",
+          1
+        ],
+        [
+          "MOD-JPN-SVC-1939",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-JPN-SEC-1939",
+      "name": "Divisione di presidio (1939)",
+      "file": "divisione_presidio_giappone_1939.json",
+      "category": "infantry",
+      "activeFrom": "1939-01-01",
+      "formation": "divisione di presidio (tipo B, sicurezza nei territori occupati): 8 battaglioni indipendenti in 2 brigate, un gruppo da montagna, genio, servizi ridotti",
+      "modules": [
+        [
+          "MOD-JPN-SEC",
+          8
+        ],
+        [
+          "MOD-JPN-ART-MT",
+          1
+        ],
+        [
+          "MOD-JPN-ENG",
+          1
+        ],
+        [
+          "MOD-JPN-SVC-SEC",
+          1
+        ]
+      ],
+      "variant": "garrison"
+    },
+    {
+      "templateId": "TPL-JPN-GUARD-1936",
+      "name": "Divisione della Guardia imperiale (1936)",
+      "file": "divisione_guardia_giappone_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione della Guardia imperiale: 3 reggimenti di 3 battaglioni con più armi automatiche, compagnie reggimentali, cavalleria, 3 gruppi da 75, controcarro, genio, servizi. Si forma solo in Giappone (deposito Tokyo)",
+      "modules": [
+        [
+          "MOD-JPN-GUARD",
+          9
+        ],
+        [
+          "MOD-JPN-REGT",
+          3
+        ],
+        [
+          "MOD-JPN-RECON",
+          1
+        ],
+        [
+          "MOD-JPN-ART75",
+          3
+        ],
+        [
+          "MOD-JPN-AT",
+          1
+        ],
+        [
+          "MOD-JPN-ENG",
+          1
+        ],
+        [
+          "MOD-JPN-SVC-1936",
+          1
+        ]
+      ],
+      "variant": "guards"
+    },
+    {
+      "templateId": "TPL-JPN-ARM-1942",
+      "name": "Divisione corazzata (1942)",
+      "file": "divisione_corazzata_giappone_1942.json",
+      "category": "armored",
+      "activeFrom": "1942-06-01",
+      "formation": "divisione corazzata: 4 reggimenti carri (Tipo 97 e Tipo 95), reggimento di fanteria mobile (3 battaglioni), artiglieria mobile da 75 (2 gruppi), battaglione controcarro mobile da 47, genio, servizi. Totali allineati alle cifre del CSV (148 Tipo 97, 80 Tipo 95, 24 pezzi da 75, 18 da 47)",
+      "modules": [
+        [
+          "MOD-JPN-TANK-REGT",
+          4
+        ],
+        [
+          "MOD-JPN-MOB-INF",
+          3
+        ],
+        [
+          "MOD-JPN-MOB-ART",
+          2
+        ],
+        [
+          "MOD-JPN-MOB-AT",
+          1
+        ],
+        [
+          "MOD-JPN-ENG",
+          1
+        ],
+        [
+          "MOD-JPN-SVC-MOB",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-JPN-PAR-1944",
+      "name": "Divisione paracadutisti (Teishin, 1944)",
+      "file": "divisione_paracadutisti_giappone_1944.json",
+      "category": "airborne",
+      "activeFrom": "1944-11-01",
+      "formation": "divisione paracadutisti d'assalto (Teishin): 4 battaglioni paracadutisti, genio, servizi",
+      "modules": [
+        [
+          "MOD-JPN-PARA",
+          4
+        ],
+        [
+          "MOD-JPN-ENG",
+          1
+        ],
+        [
+          "MOD-JPN-PARA-SVC",
+          1
+        ]
+      ]
+    }
+  ],
+  "presets": []
+}

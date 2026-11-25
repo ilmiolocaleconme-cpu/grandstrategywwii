@@ -1,108 +1,268 @@
 {
-  "schema": "unit-template-v2",
+  "schema": "unit-template-v1",
   "id": "TPL-JPN-INF-1939",
   "status": "RECONSTRUCTED_TEMPLATE",
-  "note": "Generato da CSV (source/jpn_inf_template_1939.csv, source/jpn_inf_equipment_1939.csv, source/land_equipment_catalog_jpn_1939.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (JPN infantry division, serie Tipo B); Divisione di fanteria giapponese tipo B (generica) è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
   "appliesTo": {
     "nation": "JPN",
     "category": "infantry",
     "echelon": "division",
-    "validFrom": "1939-09-01"
+    "activeFrom": "1939-09-01"
   },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione triangolare: 3 reggimenti di 3 battaglioni (Tipo 96), compagnie reggimentali, cavalleria divisionale, reggimento d'artiglieria (3 gruppi da 75), compagnia controcarro, genio, servizi. Totali allineati alle cifre provvisorie del CSV (20.000 uomini, 36 pezzi da 75, 12 cannoni reggimentali, 22 anticarro da 37, circa 380 fucili mitragliatori e 112 mitragliatrici pesanti).",
   "formation": {
-    "value": "triangular"
+    "value": "divisione triangolare: 3 reggimenti di 3 battaglioni (Tipo 96), compagnie reggimentali, cavalleria divisionale, reggimento d'artiglieria (3 gruppi da 75), compagnia controcarro, genio, servizi. Totali allineati alle cifre provvisorie del CSV (20.000 uomini, 36 pezzi da 75, 12 cannoni reggimentali, 22 anticarro da 37, circa 380 fucili mitragliatori e 112 mitragliatrici pesanti)",
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "regimentsInfantry": {
-    "value": 3
-  },
+  "modules": [
+    {
+      "id": "MOD-JPN-INF-1939",
+      "count": 9,
+      "name": "Infantry battalion (1939)",
+      "name_it": "Battaglione di fanteria (1939)"
+    },
+    {
+      "id": "MOD-JPN-REGT",
+      "count": 3,
+      "name": "Regimental gun and anti-tank companies",
+      "name_it": "Compagnie reggimentali (cannoni Tipo 41, anticarro da 37, comando)"
+    },
+    {
+      "id": "MOD-JPN-RECON",
+      "count": 1,
+      "name": "Divisional cavalry (reconnaissance) regiment",
+      "name_it": "Reggimento di cavalleria divisionale (ricognizione)"
+    },
+    {
+      "id": "MOD-JPN-ART75",
+      "count": 3,
+      "name": "Field artillery battalion (Type 38, horse-drawn)",
+      "name_it": "Gruppo da 75 Tipo 38 ippotrainato"
+    },
+    {
+      "id": "MOD-JPN-AT",
+      "count": 1,
+      "name": "Divisional anti-tank company (37 mm)",
+      "name_it": "Compagnia controcarro divisionale (37 mm)"
+    },
+    {
+      "id": "MOD-JPN-ENG",
+      "count": 1,
+      "name": "Engineer regiment",
+      "name_it": "Reggimento del genio"
+    },
+    {
+      "id": "MOD-JPN-SVC-1939",
+      "count": 1,
+      "name": "Division headquarters, transport and medical (1939)",
+      "name_it": "Comando, trasporti e sanità divisionali (1939)"
+    }
+  ],
   "manpower": {
     "war": {
       "value": 20000,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
     }
   },
   "horses": {
-    "value": null,
-    "reliability": "MISSING_DATA"
+    "value": 5240,
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
   },
   "equipment": {
-    "INW-JPN-RIFLE-1939": {
-      "value": 9000,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria tipo B",
-      "note": "9.000 fucili per la divisione tipo B (tabella); modello non indicato dalla fonte. Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
-      "effective": {
-        "value": null
-      }
-    },
-    "MG-JPN-HMG-1939": {
-      "value": 112,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria tipo B",
-      "note": "112 mitragliatrici pesanti (tabella); modello non indicato. Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
-      "effective": {
-        "value": null
-      }
-    },
-    "MG-JPN-LMG-1939": {
-      "value": 382,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria tipo B",
-      "note": "382 mitragliatrici leggere (tabella); modello non indicato. Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
-      "effective": {
-        "value": null
-      }
-    },
     "ART-JPN-AT37-1939": {
       "value": 22,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria tipo B",
-      "note": "22 cannoni anticarro da 37 mm (tabella). Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-JPN-GUN70-T92": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-JPN-GUN75-REG-1939": {
       "value": 12,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria tipo B",
-      "note": "12 cannoni reggimentali da 75 mm (4 per compagnia cannoni di reggimento, Type 41). Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
-    "ART-JPN-GUN75-DIV-1939": {
+    "ART-JPN-GUN75-T38": {
       "value": 36,
-      "reliability": "PROVISIONAL",
-      "unit": "Divisione di fanteria tipo B",
-      "note": "36 cannoni da 75 mm campali o da montagna (reggimento di artiglieria); il modello esatto dipende dal reggimento (Type 94 da montagna nella variante da montagna). Fonte: https://en.wikipedia.org/wiki/Organization_of_the_Imperial_Japanese_Army (divisione standard «Type B», consultata il 10/11/2026).",
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "GL-JPN-T89": {
+      "value": 324,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-PISTOL-T14": {
+      "value": 780,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-RIFLE-1939": {
+      "value": 10200,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T11": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T92": {
+      "value": 112,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T96": {
+      "value": 324,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-JPN-ISUZU-T94": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-JPN-MOTO-T97": {
+      "value": 20,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-INF-1939, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1939). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     }
   },
-  "metadata": {
-    "sourceTemplateId": "TPL-JPN-INF-B-1939",
-    "series": "Tipo B",
-    "referenceDivision": "Divisione di fanteria giapponese tipo B (generica)",
-    "referenceDate": "1939-09",
-    "sourceQuality": "SECONDARY_SINGLE_SOURCE",
-    "sourceNote": "Divisione di riferimento GENERICA «Type B» dell'articolo Wikipedia: 3 reggimenti di fanteria (brigata di fanteria da 11.600 uomini), reggimento di artiglieria da campagna o da montagna; totale 20.000 uomini e 7.500 cavalli (la lista dà 19.770; si usa il totale della tabella). L'articolo descrive la struttura «all'inizio della seconda guerra mondiale» senza mese: si usa settembre 1939. Cavalli e organico iniziale NON copiati nel template: lasciati vuoti. Modello del fucile NON indicato dalla fonte. Fonte unica e secondaria.",
-    "sourceFiles": [
-      {
-        "file": "source/jpn_inf_template_1939.csv",
-        "sha256": "52d904280547e78081315907c066239276036321885736a29e065f73eeaedae8"
-      },
-      {
-        "file": "source/jpn_inf_equipment_1939.csv",
-        "sha256": "1fb8d34063c93d56d9b7000f86ed50a07657fd993758079a3cc4783c6cdb7276"
-      },
-      {
-        "file": "source/land_equipment_catalog_jpn_1939.csv",
-        "sha256": "7e422500c7d3773bdb50f336b3bddda1c8e9bc9285deadc643a169226a07acf2"
-      }
-    ]
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
   }
 }

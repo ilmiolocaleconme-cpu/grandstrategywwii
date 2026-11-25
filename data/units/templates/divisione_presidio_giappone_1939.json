@@ -1,0 +1,186 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-JPN-SEC-1939",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "JPN",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1939-01-01",
+    "variant": "garrison"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di presidio (tipo B, sicurezza nei territori occupati): 8 battaglioni indipendenti in 2 brigate, un gruppo da montagna, genio, servizi ridotti.",
+  "formation": {
+    "value": "divisione di presidio (tipo B, sicurezza nei territori occupati): 8 battaglioni indipendenti in 2 brigate, un gruppo da montagna, genio, servizi ridotti",
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-JPN-SEC",
+      "count": 8,
+      "name": "Independent garrison battalion",
+      "name_it": "Battaglione di presidio"
+    },
+    {
+      "id": "MOD-JPN-ART-MT",
+      "count": 1,
+      "name": "Mountain artillery battalion (Type 94)",
+      "name_it": "Gruppo da montagna Tipo 94"
+    },
+    {
+      "id": "MOD-JPN-ENG",
+      "count": 1,
+      "name": "Engineer regiment",
+      "name_it": "Reggimento del genio"
+    },
+    {
+      "id": "MOD-JPN-SVC-SEC",
+      "count": 1,
+      "name": "Garrison division headquarters and services",
+      "name_it": "Comando e servizi della divisione di presidio"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 9900,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 1350,
+    "basis": "ipotesi",
+    "referenceYear": "1939",
+    "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-JPN-GUN75-MT-T94": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "GL-JPN-T89": {
+      "value": 192,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-PISTOL-T14": {
+      "value": 320,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-RIFLE-1939": {
+      "value": 7550,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T11": {
+      "value": 210,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T92": {
+      "value": 32,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-JPN-ISUZU-T94": {
+      "value": 30,
+      "basis": "ipotesi",
+      "referenceYear": "1939",
+      "source": "Somma dei battaglioni di data/units/modules (8× MOD-JPN-SEC, 1× MOD-JPN-ART-MT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-SEC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

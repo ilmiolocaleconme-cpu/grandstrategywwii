@@ -79,6 +79,23 @@
         "VEH-ITA-SPA-DOV35": 700
       }
     },
+    "JPN": {
+      "tier": "large",
+      "divisions": 14,
+      "templateId": "TPL-JPN-INF-1936",
+      "equipment": {
+        "ART-JPN-AT37-1939": 308,
+        "ART-JPN-GUN70-T92": 336,
+        "ART-JPN-GUN75-REG-1939": 168,
+        "ART-JPN-GUN75-T38": 504,
+        "GL-JPN-T89": 6048,
+        "INW-JPN-PISTOL-T14": 12460,
+        "INW-JPN-RIFLE-1939": 172900,
+        "MG-JPN-T11": 6888,
+        "MG-JPN-T92": 2072,
+        "VEH-JPN-ISUZU-T94": 560
+      }
+    },
     "USA": {
       "tier": "large",
       "divisions": 14,
@@ -145,7 +162,6 @@
     "HTI",
     "HUN",
     "IRL",
-    "JPN",
     "LBR",
     "LTU",
     "LVA",

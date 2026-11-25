@@ -54,7 +54,7 @@
       "template": "jpn_inf_template_1939.csv",
       "lines": "jpn_inf_equipment_1939.csv",
       "catalog": "land_equipment_catalog_jpn_1939.csv",
-      "output": "divisione_fanteria_giappone_1939.json",
+      "output": "divisione_fanteria_giappone_1939.json", "templateOutput": false, "templateOutputNote": "25/11/2026, schema unico: il template TPL-JPN-INF-1939 (stesso id) viene dai battaglioni di data/units/modules/modules_jpn.json; il CSV genera solo il catalogo.",
       "granularityOverrides": {
         "JPN-RIFLE-1939": "class"
       }
@@ -106,7 +106,7 @@
       "template": "jpn_arm_template_1942.csv",
       "lines": "jpn_arm_equipment_1942.csv",
       "catalog": "land_equipment_catalog_jpn_arm_1942.csv",
-      "output": "divisione_corazzata_giappone_1942.json"
+      "output": "divisione_corazzata_giappone_1942.json", "templateOutput": false, "templateOutputNote": "25/11/2026, schema unico: il template TPL-JPN-ARM-1942 (stesso id) viene dai battaglioni di data/units/modules/modules_jpn.json; il CSV genera solo il catalogo."
     },
     {
       "id": "USSR-ARM-1940",

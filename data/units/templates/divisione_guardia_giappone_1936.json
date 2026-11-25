@@ -1,0 +1,243 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-JPN-GUARD-1936",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "JPN",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01",
+    "variant": "guards"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione della Guardia imperiale: 3 reggimenti di 3 battaglioni con più armi automatiche, compagnie reggimentali, cavalleria, 3 gruppi da 75, controcarro, genio, servizi. Si forma solo in Giappone (deposito Tokyo).",
+  "formation": {
+    "value": "divisione della Guardia imperiale: 3 reggimenti di 3 battaglioni con più armi automatiche, compagnie reggimentali, cavalleria, 3 gruppi da 75, controcarro, genio, servizi. Si forma solo in Giappone (deposito Tokyo)",
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-JPN-GUARD",
+      "count": 9,
+      "name": "Imperial Guards battalion",
+      "name_it": "Battaglione della Guardia imperiale"
+    },
+    {
+      "id": "MOD-JPN-REGT",
+      "count": 3,
+      "name": "Regimental gun and anti-tank companies",
+      "name_it": "Compagnie reggimentali (cannoni Tipo 41, anticarro da 37, comando)"
+    },
+    {
+      "id": "MOD-JPN-RECON",
+      "count": 1,
+      "name": "Divisional cavalry (reconnaissance) regiment",
+      "name_it": "Reggimento di cavalleria divisionale (ricognizione)"
+    },
+    {
+      "id": "MOD-JPN-ART75",
+      "count": 3,
+      "name": "Field artillery battalion (Type 38, horse-drawn)",
+      "name_it": "Gruppo da 75 Tipo 38 ippotrainato"
+    },
+    {
+      "id": "MOD-JPN-AT",
+      "count": 1,
+      "name": "Divisional anti-tank company (37 mm)",
+      "name_it": "Compagnia controcarro divisionale (37 mm)"
+    },
+    {
+      "id": "MOD-JPN-ENG",
+      "count": 1,
+      "name": "Engineer regiment",
+      "name_it": "Reggimento del genio"
+    },
+    {
+      "id": "MOD-JPN-SVC-1936",
+      "count": 1,
+      "name": "Division headquarters, transport and medical (1936)",
+      "name_it": "Comando, trasporti e sanità divisionali (1936)"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 21660,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 6340,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-JPN-AT37-1939": {
+      "value": 22,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-JPN-GUN70-T92": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-JPN-GUN75-REG-1939": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-JPN-GUN75-T38": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "GL-JPN-T89": {
+      "value": 405,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-PISTOL-T14": {
+      "value": 890,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-JPN-RIFLE-1939": {
+      "value": 9800,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T11": {
+      "value": 465,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-JPN-T92": {
+      "value": 112,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-JPN-ISUZU-T94": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-JPN-GUARD, 3× MOD-JPN-REGT, 1× MOD-JPN-RECON, 3× MOD-JPN-ART75, 1× MOD-JPN-AT, 1× MOD-JPN-ENG, 1× MOD-JPN-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}
