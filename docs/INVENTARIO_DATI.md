@@ -17,8 +17,8 @@ Conta ciò che è nei file di `data/`; non dice se i dati sono storicamente corr
 | Zone marittime | `data/sea_zones.json` | 202 |
 | Adiacenze terrestri | `data/adjacency.json` | 7423 |
 | Collegamenti tra province | `data/links.json` | non contati qui (vedi `npm run validate:data`) |
-| Nodi urbani | `data/city_links.json` | 2099 |
-| Collegamenti urbani | `data/city_links.json` | 2667 |
+| Nodi urbani | `data/city_links.json` | 2102 |
+| Collegamenti urbani | `data/city_links.json` | 2671 |
 | Terreno (province madri con voce propria) | `data/terrain.json` | 2601 |
 | Regioni | `data/regions.json` | 39 |
 | Unità (catalogo da CSV) | `data/units/units.json` | 512 |

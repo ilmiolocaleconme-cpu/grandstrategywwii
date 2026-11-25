@@ -17,9 +17,11 @@ const extraBase = base.filter((f) => String(f.properties.source).includes('Citt�
 const extraIds = new Set(extraBase.map((f) => f.id));
 const worldZones = zones.filter((f) => worldIds.has(f.properties.cittaId));
 
-test('mondo: 1123 città nuove in 107 nazioni (30 tolte perché nate dopo il 1936: Mauritania e Bechuanaland restano senza città), id unici, provincia madre esistente', () => {
-  assert.equal(worldBase.length, 1123); // 25/11/2026: - 30 città che nel 1936 non esistevano (data/sources/citta_escluse_1936.json)
-  const escluse = JSON.parse(readFileSync(new URL('../data/sources/citta_escluse_1936.json', import.meta.url), 'utf8')).citta.map((c) => c.cittaId);
+test('mondo: 1125 città nuove in 107 nazioni (28 tolte perché nate dopo il 1945: Mauritania e Bechuanaland restano senza città), id unici, provincia madre esistente', () => {
+  assert.equal(worldBase.length, 1125); // 25/11/2026: - 28 città nate dopo il 1945 (data/sources/citta_escluse_1936.json; Quezon City e Volta Redonda, 1939 e 1941, restano)
+  const doc = JSON.parse(readFileSync(new URL('../data/sources/citta_escluse_1936.json', import.meta.url), 'utf8'));
+  const escluse = doc.citta.filter((c) => c.anno === null || c.anno > 1945).map((c) => c.cittaId);
+  for (const id of doc.citta.filter((c) => c.anno !== null && c.anno <= 1945).map((c) => c.cittaId)) assert.ok(base.some((f) => f.id === id), `${id}: nata fra il 1936 e il 1945, deve restare`);
   assert.ok(escluse.every((id) => !base.some((f) => f.id === id) && !zones.some((f) => f.properties.cittaId === id)));
   assert.equal(new Set(worldBase.map((f) => f.id)).size, worldBase.length);
   assert.equal(new Set(worldBase.map((f) => f.properties.owner)).size, 107);

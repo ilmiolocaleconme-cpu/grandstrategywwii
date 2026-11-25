@@ -121,7 +121,8 @@ for (const c of cand) {
 }
 
 // città che il 1° gennaio 1936 non esistevano (data/sources/citta_escluse_1936.json, 25/11/2026): mai nel catalogo
-const escluse = new Set((await readJson(dataUrl('sources/citta_escluse_1936.json'))).citta.map((c) => c.cittaId));
+const escluseDoc = await readJson(dataUrl('sources/citta_escluse_1936.json'));
+const escluse = new Set(escluseDoc.citta.filter((c) => c.anno === null || c.anno > (escluseDoc.annoMassimo ?? 1945)).map((c) => c.cittaId)); // nate fra il 1936 e il 1945: restano
 base.features = [...kept, ...features].filter((f) => !escluse.has(f.properties.cittaId ?? f.id));
 for (const id of escluse) delete names[id];
 subset.cities = { ...subset.cities, ...names };

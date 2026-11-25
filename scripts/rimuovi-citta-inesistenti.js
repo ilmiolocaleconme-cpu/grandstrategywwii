@@ -1,4 +1,4 @@
-// Toglie dal catalogo le città che il 1° gennaio 1936 non esistevano (25/11/2026, richiesta dell'utente): elenco e motivi in
+// Toglie dal catalogo le città che il 1° gennaio 1936 non esistevano e nascono dopo il 1945 (25/11/2026, richiesta dell'utente): elenco e motivi in
 // data/sources/citta_escluse_1936.json. Tocca i dischi di partenza (sources/citta_base.json) e le zone (citta_grandi.json);
 // build-cities-world.js e add-extra-cities.js le saltano. Poi rigenerare i derivati:
 //   node scripts/rimuovi-citta-inesistenti.js
@@ -9,8 +9,14 @@ import { fileURLToPath } from 'node:url';
 const dataUrl = (n) => new URL(`../data/${n}`, import.meta.url);
 const readJson = async (n) => JSON.parse(await readFile(dataUrl(n), 'utf8'));
 
+/** Città da togliere: nate dopo `annoMassimo` (1945) o abbinate male (anno null). Quelle nate fra il 1936 e il 1945 restano. */
+export function daTogliere(doc) {
+  const max = doc.annoMassimo ?? 1945;
+  return new Set(doc.citta.filter((c) => c.anno === null || c.anno > max).map((c) => c.cittaId));
+}
+
 export async function escluse() {
-  return new Set((await readJson('sources/citta_escluse_1936.json')).citta.map((c) => c.cittaId));
+  return daTogliere(await readJson('sources/citta_escluse_1936.json'));
 }
 
 export async function main() {

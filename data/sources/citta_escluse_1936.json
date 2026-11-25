@@ -1,6 +1,6 @@
 {
  "schema": "citta-escluse-v1",
- "nota": "Città del catalogo Natural Earth che il 1° gennaio 1936 non esistevano come città (o abbinate al luogo sbagliato): tolte da scripts/rimuovi-citta-inesistenti.js e saltate dai generatori. Anni da conoscenza storica, da verificare.",
+ "nota": "Città del catalogo Natural Earth fondate dopo il 1° gennaio 1936 (o abbinate al luogo sbagliato, anno null). Regola (decisione dell'utente 25/11/2026): si tolgono solo quelle nate dopo il 1945 o abbinate male; quelle nate fra il 1936 e il 1945 restano (Quezon City 1939, Volta Redonda 1941). Anni da conoscenza storica, da verificare.",
  "citta": [
   {
    "cittaId": "P_USSR_ANGARSK_CITTA",
@@ -59,8 +59,8 @@
   },
   {
    "cittaId": "P_BRA_VOLTA_REDONDA_CITTA",
-   "anno": 1954,
-   "motivo": "nel 1936 distretto rurale; acciaieria dal 1941, comune dal 1954"
+   "anno": 1941,
+   "motivo": "città costruita con l'acciaieria CSN dal 1941 (comune dal 1954)"
   },
   {
    "cittaId": "P_BRA_MARINGA_CITTA",
@@ -197,5 +197,6 @@
    "anno": 1971,
    "motivo": "città dal 1971 (nel 1936 un ranch)"
   }
- ]
+ ],
+ "annoMassimo": 1945
 }

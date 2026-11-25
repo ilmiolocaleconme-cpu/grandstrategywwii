@@ -1305,8 +1305,8 @@
    "parentProvince": "P_PER_LIMA_PE_LIM",
    "basis": "minimum"
   },
-  "P_PHL_PASAY_CITTA": {
-   "name": "Pasay",
+  "P_PHL_QUEZON_CITY_CITTA": {
+   "name": "Quezon City",
    "owner": "PHL",
    "level": 1,
    "parentProvince": "P_PHL_NATIONAL_CAPITAL_REGION",
