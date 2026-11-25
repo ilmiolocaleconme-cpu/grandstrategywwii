@@ -2802,6 +2802,138 @@
       "models": [],
       "reliability": "ESTIMATED",
       "source_note": "Stima di Claude dalla memoria (24/11/2026), NON verificata su fonti: da sostituire con dati documentati."
+    },
+    {
+      "equipment_id": "TNK-FRA-LIGHT-TANK",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "class",
+      "caliber_mm": null,
+      "designation": "Chars légers (R 35, H 35, H 39, FCM 36, AMR)",
+      "name_it": "Carri leggeri (Francia)",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TNK-FRA-MEDIUM-TANK",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "class",
+      "caliber_mm": null,
+      "designation": "Chars de cavalerie (SOMUA S35, D 2)",
+      "name_it": "Carri medi di cavalleria (Francia)",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "equipment_id": "TNK-FRA-R35",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 37,
+      "designation": "Char léger Renault R 35",
+      "name_it": "Carro leggero Renault R 35",
+      "role": "infantry_support_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-FRA-LIGHT-TANK"
+    },
+    {
+      "equipment_id": "TNK-FRA-H35",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 37,
+      "designation": "Char léger Hotchkiss H 35",
+      "name_it": "Carro leggero Hotchkiss H 35",
+      "role": "light_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-FRA-LIGHT-TANK"
+    },
+    {
+      "equipment_id": "TNK-FRA-FCM36",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 37,
+      "designation": "Char léger FCM 36",
+      "name_it": "Carro leggero FCM 36",
+      "role": "infantry_support_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-FRA-LIGHT-TANK"
+    },
+    {
+      "equipment_id": "TNK-FRA-AMR35",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 13.2,
+      "designation": "Automitrailleuse de reconnaissance Renault AMR 35",
+      "name_it": "Carro da ricognizione AMR 35",
+      "role": "reconnaissance_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-FRA-LIGHT-TANK"
+    },
+    {
+      "equipment_id": "TNK-FRA-SOMUA-S35",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 47,
+      "designation": "Char SOMUA S 35",
+      "name_it": "Carro medio SOMUA S35",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-FRA-MEDIUM-TANK"
+    },
+    {
+      "equipment_id": "TNK-FRA-D2",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 47,
+      "designation": "Char D 2",
+      "name_it": "Carro medio D 2",
+      "role": "medium_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti.",
+      "sameAs": "TNK-FRA-MEDIUM-TANK"
+    },
+    {
+      "equipment_id": "TNK-FRA-B1",
+      "nation": "FRA",
+      "category": "TANK",
+      "granularity": "model",
+      "caliber_mm": 75,
+      "designation": "Char B1",
+      "name_it": "Carro pesante B1",
+      "role": "breakthrough_tank",
+      "durable": true,
+      "models": [],
+      "reliability": "ESTIMATED",
+      "source_note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
     }
   ],
   "aliases": [
@@ -3734,6 +3866,51 @@
       "nation": "FRA",
       "templateKey": "VEH-FRA-PANHARD178",
       "equipment_id": "VEH-FRA-PANHARD178"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-LIGHT-TANK",
+      "equipment_id": "TNK-FRA-LIGHT-TANK"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-MEDIUM-TANK",
+      "equipment_id": "TNK-FRA-MEDIUM-TANK"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-R35",
+      "equipment_id": "TNK-FRA-R35"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-H35",
+      "equipment_id": "TNK-FRA-H35"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-FCM36",
+      "equipment_id": "TNK-FRA-FCM36"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-AMR35",
+      "equipment_id": "TNK-FRA-AMR35"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-SOMUA-S35",
+      "equipment_id": "TNK-FRA-SOMUA-S35"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-D2",
+      "equipment_id": "TNK-FRA-D2"
+    },
+    {
+      "nation": "FRA",
+      "templateKey": "TNK-FRA-B1",
+      "equipment_id": "TNK-FRA-B1"
     }
   ]
 }

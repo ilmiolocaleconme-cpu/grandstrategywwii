@@ -156,6 +156,11 @@
       "id": "VEH-FRA-PANHARD178",
       "replaces": "VEH-FRA-AMD-WL",
       "basis": "ipotesi"
+    },
+    {
+      "id": "TNK-FRA-B1BIS-1940",
+      "replaces": "TNK-FRA-B1",
+      "basis": "ipotesi"
     }
   ]
 }

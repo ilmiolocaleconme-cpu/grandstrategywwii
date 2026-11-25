@@ -9,9 +9,9 @@
     "activeFrom": "1936-01-01"
   },
   "orgLevel": "war",
-  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri: voce H 35/H 39 fino al passo 4 (SOMUA).",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri (passo 4): voci di classe SOMUA/D 2 e R 35/H 35/H 39 con la composizione per anno.",
   "formation": {
-    "value": "divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri: voce H 35/H 39 fino al passo 4 (SOMUA)",
+    "value": "divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri (passo 4): voci di classe SOMUA/D 2 e R 35/H 35/H 39 con la composizione per anno",
     "basis": "ipotesi",
     "referenceYear": "1936",
     "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
@@ -21,8 +21,8 @@
     {
       "id": "MOD-FRA-CHARS-DLM",
       "count": 2,
-      "name": "Régiment de chars (cuirassiers/dragons) de DLM",
-      "name_it": "Reggimento carri della divisione leggera meccanica"
+      "name": "Régiment de chars (cuirassiers/dragons) de DLM (SOMUA S35, H 35)",
+      "name_it": "Reggimento carri della divisione leggera meccanica (SOMUA S35 e H 35)"
     },
     {
       "id": "MOD-FRA-AMD-1936",
@@ -206,8 +206,21 @@
         "source": null
       }
     },
-    "TNK-FRA-H39-1940": {
-      "value": 160,
+    "TNK-FRA-LIGHT-TANK": {
+      "value": 80,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-FRA-MEDIUM-TANK": {
+      "value": 80,
       "basis": "ipotesi",
       "referenceYear": "1936",
       "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",

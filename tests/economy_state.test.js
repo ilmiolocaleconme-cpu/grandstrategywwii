@@ -127,7 +127,8 @@ test('riserva minima di acciaio (29/10/2026): ogni nazione parte con almeno 500 
   // dal 10/11/2026 anche armi leggere e artiglieria (+1.476 t): 4.476 t
   // dal 12/11/2026 anche la fabbrica di carri (+2.027 t): 6.503 t
   // dal 25/11/2026 (Francia passo 3) una linea per ogni arma della fanteria 1936 e un'officina di veicoli (+11.789 t)
-  assert.equal(nations.FRA.stocks.steel, 18292, 'Francia: deficit di acciaio da munizioni, armi leggere, artiglieria, carri e veicoli');
+  // dal 25/11/2026 (Francia passo 4) due linee di carri in più (SOMUA, B1; +4.050 t)
+  assert.equal(nations.FRA.stocks.steel, 22342, 'Francia: deficit di acciaio da munizioni, armi leggere, artiglieria, carri e veicoli');
   assert.equal(nations.BRA.stocks.steel, 500 + 760, 'Brasile (fascia C): riserva 500 t + scorta dell\'artiglieria minima 760 t');
 });
 

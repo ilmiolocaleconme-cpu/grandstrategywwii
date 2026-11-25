@@ -567,6 +567,51 @@
         "soft": 70,
         "hard": 45,
         "armor": 0.95
+      },
+      "TNK-FRA-R35": {
+        "soft": 30,
+        "hard": 10,
+        "armor": 0.85
+      },
+      "TNK-FRA-H35": {
+        "soft": 30,
+        "hard": 10,
+        "armor": 0.8
+      },
+      "TNK-FRA-FCM36": {
+        "soft": 30,
+        "hard": 10,
+        "armor": 0.9
+      },
+      "TNK-FRA-AMR35": {
+        "soft": 14,
+        "hard": 3,
+        "armor": 0.35
+      },
+      "TNK-FRA-SOMUA-S35": {
+        "soft": 45,
+        "hard": 40,
+        "armor": 1.0
+      },
+      "TNK-FRA-D2": {
+        "soft": 40,
+        "hard": 35,
+        "armor": 0.95
+      },
+      "TNK-FRA-B1": {
+        "soft": 65,
+        "hard": 40,
+        "armor": 1.3
+      },
+      "TNK-FRA-H39-1940": {
+        "soft": 32,
+        "hard": 18,
+        "armor": 0.85
+      },
+      "TNK-FRA-B1BIS-1940": {
+        "soft": 70,
+        "hard": 45,
+        "armor": 1.4
       }
     },
     "fleetMix": {
@@ -978,6 +1023,66 @@
             "TNK-ITA-P40": 0.2
           }
         }
+      ],
+      "TNK-FRA-LIGHT-TANK": [
+        {
+          "from": 1936,
+          "mix": {
+            "TNK-FRA-R35": 0.5,
+            "TNK-FRA-H35": 0.3,
+            "TNK-FRA-AMR35": 0.2
+          }
+        },
+        {
+          "from": 1938,
+          "mix": {
+            "TNK-FRA-R35": 0.55,
+            "TNK-FRA-H35": 0.25,
+            "TNK-FRA-FCM36": 0.1,
+            "TNK-FRA-AMR35": 0.1
+          }
+        },
+        {
+          "from": 1939,
+          "mix": {
+            "TNK-FRA-R35": 0.5,
+            "TNK-FRA-H35": 0.2,
+            "TNK-FRA-H39-1940": 0.2,
+            "TNK-FRA-FCM36": 0.1
+          }
+        },
+        {
+          "from": 1940,
+          "mix": {
+            "TNK-FRA-R35": 0.45,
+            "TNK-FRA-H35": 0.15,
+            "TNK-FRA-H39-1940": 0.35,
+            "TNK-FRA-FCM36": 0.05
+          }
+        }
+      ],
+      "TNK-FRA-MEDIUM-TANK": [
+        {
+          "from": 1936,
+          "mix": {
+            "TNK-FRA-SOMUA-S35": 0.6,
+            "TNK-FRA-D2": 0.4
+          }
+        },
+        {
+          "from": 1938,
+          "mix": {
+            "TNK-FRA-SOMUA-S35": 0.8,
+            "TNK-FRA-D2": 0.2
+          }
+        },
+        {
+          "from": 1940,
+          "mix": {
+            "TNK-FRA-SOMUA-S35": 0.85,
+            "TNK-FRA-D2": 0.15
+          }
+        }
       ]
     },
     "panzerRationale": "Panzer tedeschi (17/11/2026). Le divisioni tedesche tengono la voce generica «carri armati»: ora i carri che arrivano dalla produzione vi restano registrati per modello (campo `models` della voce) e ogni modello ha il suo peso (`tankModels`: Panzer I 18/2 con corazza 0,4 … Tiger II 90/120 con 1,9). I carri mai tracciati (la dotazione con cui la divisione nasce) si dividono secondo `fleetMix`, la composizione approssimata del parco tedesco nell'anno di nascita della divisione (1936: solo Panzer I; settembre 1939: circa 45% Panzer I, 40% Panzer II, 5% Panzer III, 10% Panzer IV). Pesi e quote sono IPOTESI di Claude a memoria, non verificate su fonti: i carri cechi (Pz 35(t), Pz 38(t)) non sono nel catalogo e non compaiono. La Cecoslovacchia non ha template corazzati: le sue versioni (LT vz. 35 e 38) entreranno con un template ceco. Versioni separate (18/11/2026): Pz III 37/50 mm corto 40/45 corazza 0,95 e Ausf. J–L col 50 mm L/60 42/60 1,05; Pz IV a canna corta 60/25 0,9 (prima 65/45, media delle versioni) e Ausf. F2–H col 75 mm lungo 65/70 1,1.",
@@ -1041,7 +1146,8 @@
     "rifleRoleRationale": "21/11/2026 (fucili nello schema unico, scelta 1A dell'utente): il semiautomatico vale 0,75 contro 0,5 del fucile a ripetizione, tarato perché una divisione di fanteria tutta a semiautomatici guadagni circa l'8% di potenza come col vecchio bonus nazionale (calcolo sui template 1939/40: fattore 1,46 Germania, 1,44 URSS, 1,56 USA → 1,5). Carabina M1 0,6: cartuccia più debole del Garand, più efficace di una pistola. Stime di Claude.",
     "usaTankRationale": "21/11/2026 (passo 4 USA, scelte dell'utente A): pesi dei carri americani per modello, da confrontare con i Panzer (Pz IV 60/25/0,9, Pz III 40/45/0,95). fleetMix: composizione per anno dei pezzi INIZIALI delle due voci di classe; i pezzi prodotti si registrano col proprio modello. Stime di Claude.",
     "gbrTankRationale": "Carri britannici per modello (24/11/2026, passo 4, scelta A dell'utente): pesi per modello (fuoco contro fanteria, contro carri, corazza) e composizione per anno dei carri iniziali delle tre voci di classe (leggeri, cruiser, carri da fanteria). Mk VI e Matilda I solo mitragliatrici; A9/A10/A13 e Matilda II/Valentine con il 2 libbre; Crusader col 2 e poi il 6 libbre; Cromwell e Churchill col 75 mm; Comet col 77 mm HV. I carri da fanteria hanno corazza alta e poca velocità. Stime di Claude dalla memoria, ipotesi di bilanciamento.",
-    "itaTankRationale": "Carri italiani per modello (24/11/2026, Italia passo 4, scelta dell'utente: elenco completo). Pesi per modello (fuoco contro fanteria, contro carri, corazza) e composizione per anno delle due voci di classe (carri veloci L 3, carri medi M). L 3 solo mitragliatrici; L 6/40 col 20 mm; M 11/39 col 37 in casamatta; M 13, M 14 col 47/32, M 15 col 47/40; P 40 col 75/34. Semoventi: 47/32 (anticarro leggero), 75/18 e 75/34 (cannoni d'assalto, carica cava), 105/25. Corazze sottili e chiodate: armor 0,25-0,8 contro 0,6-1,3 dei britannici. Stime di Claude, NON verificate."
+    "itaTankRationale": "Carri italiani per modello (24/11/2026, Italia passo 4, scelta dell'utente: elenco completo). Pesi per modello (fuoco contro fanteria, contro carri, corazza) e composizione per anno delle due voci di classe (carri veloci L 3, carri medi M). L 3 solo mitragliatrici; L 6/40 col 20 mm; M 11/39 col 37 in casamatta; M 13, M 14 col 47/32, M 15 col 47/40; P 40 col 75/34. Semoventi: 47/32 (anticarro leggero), 75/18 e 75/34 (cannoni d'assalto, carica cava), 105/25. Corazze sottili e chiodate: armor 0,25-0,8 contro 0,6-1,3 dei britannici. Stime di Claude, NON verificate.",
+    "fraTankRationale": "Carri francesi per modello (25/11/2026, Francia passo 4, scelta dell'utente: elenco completo). Corazze spesse e fuse (R 35, H 35, H 39 0,8-0,85; SOMUA 1,0; B1 bis 1,4) ma cannoni corti da 37 SA 18 sui leggeri (poco contro i carri; H 39 in parte col 37 SA 38); SOMUA e D 2 col 47 SA 35; B1 e B1 bis col 75 in casamatta e il 47 in torretta. Due voci di classe (leggeri, medi di cavalleria) con la composizione per anno. Stime di Claude, NON verificate."
   },
   "cohesion": {
     "lossBase": 8,

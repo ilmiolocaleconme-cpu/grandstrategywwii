@@ -2,7 +2,7 @@
   "schema": "battalion-modules-v1",
   "status": "DESIGN_DEFAULT",
   "asOf": "2026-11-25",
-  "note": "Battaglioni francesi (25/11/2026, schema unico, scelte dell'utente: truppe coloniali come variante, elenco completo di divisioni, divisioni di fortezza rimandate). Organici STIMATI da Claude dalla memoria, NON verificati. Gli id TPL-FRA-INF-1936, TPL-FRA-INF-1939 e TPL-FRA-ARM-1940 sono conservati. Carri: le voci H 39 e B1 bis fino al passo 4 (SOMUA, R 35, H 35, D 2, FCM). Solo armi francesi.",
+  "note": "Battaglioni francesi (25/11/2026, schema unico, scelte dell'utente: truppe coloniali come variante, elenco completo di divisioni, divisioni di fortezza rimandate). Organici STIMATI da Claude dalla memoria, NON verificati. Gli id TPL-FRA-INF-1936, TPL-FRA-INF-1939 e TPL-FRA-ARM-1940 sono conservati. Carri (passo 4, 25/11/2026): voci di classe dei leggeri (R 35, H 35, H 39, FCM 36, AMR 35) e dei medi di cavalleria (SOMUA S35, D 2) con la composizione per anno; B1 e B1 bis per modello. Solo armi francesi.",
   "modules": [
     {
       "id": "MOD-FRA-INF-1936",
@@ -462,12 +462,12 @@
       "id": "MOD-FRA-CHARS-LEGERS",
       "nation": "FRA",
       "type": "tank",
-      "name_native": "Bataillon de chars légers (H 35/H 39)",
-      "name_it": "Battaglione carri leggeri (H 35/H 39)",
+      "name_native": "Bataillon de chars légers (R 35, H 35, H 39)",
+      "name_it": "Battaglione carri leggeri (R 35, H 35, H 39)",
       "men": 380,
       "horses": 0,
       "equipment": {
-        "TNK-FRA-H39-1940": 45,
+        "TNK-FRA-LIGHT-TANK": 45,
         "INW-FRA-RIFLE-1939": 200,
         "INW-FRA-PISTOL-1939": 120,
         "VEH-FRA-RENAULT-UE": 6,
@@ -481,12 +481,13 @@
       "id": "MOD-FRA-CHARS-DLM",
       "nation": "FRA",
       "type": "tank",
-      "name_native": "Régiment de chars (cuirassiers/dragons) de DLM",
-      "name_it": "Reggimento carri della divisione leggera meccanica",
+      "name_native": "Régiment de chars (cuirassiers/dragons) de DLM (SOMUA S35, H 35)",
+      "name_it": "Reggimento carri della divisione leggera meccanica (SOMUA S35 e H 35)",
       "men": 450,
       "horses": 0,
       "equipment": {
-        "TNK-FRA-H39-1940": 80,
+        "TNK-FRA-MEDIUM-TANK": 40,
+        "TNK-FRA-LIGHT-TANK": 40,
         "INW-FRA-RIFLE-1939": 220,
         "INW-FRA-PISTOL-1939": 170,
         "VEH-FRA-RENAULT-UE": 6,
@@ -517,15 +518,33 @@
       "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
     },
     {
+      "id": "MOD-FRA-CHARS-B1-1936",
+      "nation": "FRA",
+      "type": "tank",
+      "name_native": "Bataillon de chars B1",
+      "name_it": "Battaglione carri B1",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "TNK-FRA-B1": 34,
+        "INW-FRA-RIFLE-1939": 200,
+        "INW-FRA-PISTOL-1939": 140,
+        "VEH-FRA-RENAULT-3T": 10
+      },
+      "mobility": "armored",
+      "illustration": "carro_pesante",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
       "id": "MOD-FRA-BCC",
       "nation": "FRA",
       "type": "infantry_tank",
       "name_native": "Bataillon de chars de combat (BCC)",
-      "name_it": "Battaglione carri d'appoggio alla fanteria (BCC)",
+      "name_it": "Battaglione carri d'appoggio alla fanteria (BCC: R 35, H 35, FCM 36)",
       "men": 380,
       "horses": 0,
       "equipment": {
-        "TNK-FRA-H39-1940": 45,
+        "TNK-FRA-LIGHT-TANK": 45,
         "INW-FRA-RIFLE-1939": 200,
         "INW-FRA-PISTOL-1939": 120,
         "VEH-FRA-RENAULT-UE": 6,
@@ -762,7 +781,7 @@
       "file": "divisione_meccanizzata_francia_1936.json",
       "category": "mechanized",
       "activeFrom": "1936-01-01",
-      "formation": "divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri: voce H 35/H 39 fino al passo 4 (SOMUA)",
+      "formation": "divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri (passo 4): voci di classe SOMUA/D 2 e R 35/H 35/H 39 con la composizione per anno",
       "modules": [
         [
           "MOD-FRA-CHARS-DLM",
@@ -804,7 +823,7 @@
       "file": "divisione_corazzata_francia_1940.json",
       "category": "armored",
       "activeFrom": "1940-01-01",
-      "formation": "divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni H 39, battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati",
+      "formation": "divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni di carri leggeri (H 39), battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati",
       "modules": [
         [
           "MOD-FRA-CHARS-B1",

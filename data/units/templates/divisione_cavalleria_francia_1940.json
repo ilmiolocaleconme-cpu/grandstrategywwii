@@ -39,8 +39,8 @@
     {
       "id": "MOD-FRA-CHARS-LEGERS",
       "count": 1,
-      "name": "Bataillon de chars légers (H 35/H 39)",
-      "name_it": "Battaglione carri leggeri (H 35/H 39)"
+      "name": "Bataillon de chars légers (R 35, H 35, H 39)",
+      "name_it": "Battaglione carri leggeri (R 35, H 35, H 39)"
     },
     {
       "id": "MOD-FRA-ART75-MOT",
@@ -206,7 +206,7 @@
         "source": null
       }
     },
-    "TNK-FRA-H39-1940": {
+    "TNK-FRA-LIGHT-TANK": {
       "value": 45,
       "basis": "ipotesi",
       "referenceYear": "1940",

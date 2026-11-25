@@ -3,7 +3,7 @@
  "quality": "DESIGN_DEFAULT",
  "note": "Generato da scripts/build-facility-sites.js (npm run build:facility-sites): non modificare a mano. Posizione di ogni impianto iniziale: basis 'rule' = regola di facility_placement.json (stima, NON storica), 'data' = dati del repository (centri di fonderia), 'source' = fonte storica. Le chiavi sono gli id degli impianti creati da buildNations.",
  "counts": {
-  "rule": 366,
+  "rule": 369,
   "data": 12,
   "source": 78
  },
@@ -628,63 +628,73 @@
    "basis": "rule",
    "rule": "cities1930"
   },
-  "FRA:FRA:FCT-TANKS:REC-TNK-FRA-H39-1940:1": {
+  "FRA:FRA:FCT-TANKS:REC-TNK-FRA-R35>REC-TNK-FRA-H39-1940:1": {
    "provinceId": "P_FRA_SEINE_SP1",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "FRA:FRA:FCT-VEHICLES:REC-VEH-FRA-CITROEN23:1": {
+  "FRA:FRA:FCT-TANKS:REC-TNK-FRA-SOMUA-S35:1": {
    "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "FRA:FRA:FCT-VEHICLES:REC-VEH-FRA-RENAULT-3T:1": {
+  "FRA:FRA:FCT-TANKS:REC-TNK-FRA-B1>REC-TNK-FRA-B1BIS-1940:1": {
    "provinceId": "P_FRA_ALPES_MARITIMES",
    "basis": "rule",
    "rule": "cities1930"
   },
+  "FRA:FRA:FCT-VEHICLES:REC-VEH-FRA-CITROEN23:1": {
+   "provinceId": "P_FRA_SEINE_SP1",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "FRA:FRA:FCT-VEHICLES:REC-VEH-FRA-RENAULT-3T:1": {
+   "provinceId": "P_FRA_SEINE_SP1",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
   "FRA:FRA:FCT-VEHICLES:REC-VEH-FRA-MOTO-RG>REC-VEH-FRA-MOTO-AX2:1": {
-   "provinceId": "P_FRA_SEINE_SP1",
-   "basis": "rule",
-   "rule": "cities1930"
-  },
-  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-ART75M1897:1": {
-   "provinceId": "P_FRA_SEINE_SP1",
-   "basis": "rule",
-   "rule": "cities1930"
-  },
-  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-HOW155C:1": {
    "provinceId": "P_FRA_HAUTE_GARONNE",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-HOW155C>REC-ART-FRA-GUN105L:1": {
+  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-ART75M1897:1": {
    "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-MORTAR60:1": {
+  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-HOW155C:1": {
    "provinceId": "P_FRA_LOIRE_SP2",
    "basis": "rule",
    "rule": "cities1930"
   },
+  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-HOW155C>REC-ART-FRA-GUN105L:1": {
+   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-MORTAR60:1": {
+   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
   "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-MORTAR81:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
-   "basis": "rule",
-   "rule": "cities1930"
-  },
-  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-AT25>REC-ART-FRA-AT47-ARM-1940:1": {
-   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
-   "basis": "rule",
-   "rule": "cities1930"
-  },
-  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-AT25>REC-ART-FRA-AA25:1": {
    "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "FRA:FRA:FCT-FEED:REC-FEED-001:1": {
+  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-AT25>REC-ART-FRA-AT47-ARM-1940:1": {
    "provinceId": "P_FRA_GIRONDE_SP2",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "FRA:FRA:FCT-ARTILLERY:REC-ART-FRA-AT25>REC-ART-FRA-AA25:1": {
+   "provinceId": "P_FRA_BOUCHES_DU_RHONE_SP1",
+   "basis": "rule",
+   "rule": "cities1930"
+  },
+  "FRA:FRA:FCT-FEED:REC-FEED-001:1": {
+   "provinceId": "P_FRA_RHONE_SP1",
    "basis": "rule",
    "rule": "cities1930"
   },
@@ -715,6 +725,11 @@
   },
   "FRA:FRA:FCT-POWER:REC-ELECTRIC-COAL-001:4": {
    "provinceId": "P_FRA_PAS_DE_CALAIS",
+   "basis": "rule",
+   "rule": "coal"
+  },
+  "FRA:FRA:FCT-POWER:REC-ELECTRIC-COAL-001:5": {
+   "provinceId": "P_FRA_MEURTHE_ET_MOSELLE",
    "basis": "rule",
    "rule": "coal"
   },

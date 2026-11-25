@@ -189,7 +189,8 @@
       "availableFrom": "1937-01-01"
     },
     "TNK-FRA-H39-1940": {
-      "massTonnes": 12
+      "massTonnes": 12,
+      "availableFrom": "1939-01-01"
     },
     "TNK-GBR-LIGHT-TANK-1939": {
       "massTonnes": 5.2
@@ -953,7 +954,16 @@
     "VEH-FRA-MOTO-RG": {"massTonnes": 0.25, "availableTo": "1938-06-30"},
     "VEH-FRA-MOTO-AX2": {"massTonnes": 0.32, "availableFrom": "1938-01-01"},
     "VEH-FRA-AMD-WL": {"massTonnes": 6.5, "availableTo": "1937-06-30"},
-    "VEH-FRA-PANHARD178": {"massTonnes": 8.5, "availableFrom": "1937-01-01"}
+    "VEH-FRA-PANHARD178": {"massTonnes": 8.5, "availableFrom": "1937-01-01"},
+    "TNK-FRA-LIGHT-TANK": {"massTonnes": 11.0, "availableFrom": "1936-01-01"},
+    "TNK-FRA-MEDIUM-TANK": {"massTonnes": 19.5, "availableFrom": "1936-01-01"},
+    "TNK-FRA-R35": {"massTonnes": 10.6, "availableTo": "1940-06-30"},
+    "TNK-FRA-H35": {"massTonnes": 11.4, "availableFrom": "1936-06-01", "availableTo": "1939-06-30"},
+    "TNK-FRA-FCM36": {"massTonnes": 12.4, "availableFrom": "1938-01-01", "availableTo": "1939-12-31"},
+    "TNK-FRA-AMR35": {"massTonnes": 6.5, "availableTo": "1939-12-31"},
+    "TNK-FRA-SOMUA-S35": {"massTonnes": 19.5, "availableTo": "1940-06-30"},
+    "TNK-FRA-D2": {"massTonnes": 19.7, "availableFrom": "1936-06-01", "availableTo": "1937-12-31"},
+    "TNK-FRA-B1": {"massTonnes": 28.0, "availableTo": "1937-06-30"}
   },
   "priceFactor": 1.25
 }

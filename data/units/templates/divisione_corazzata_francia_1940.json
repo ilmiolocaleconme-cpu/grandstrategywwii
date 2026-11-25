@@ -9,9 +9,9 @@
     "activeFrom": "1940-01-01"
   },
   "orgLevel": "war",
-  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni H 39, battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati.",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni di carri leggeri (H 39), battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati.",
   "formation": {
-    "value": "divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni H 39, battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati",
+    "value": "divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni di carri leggeri (H 39), battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati",
     "basis": "ipotesi",
     "referenceYear": "1940",
     "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
@@ -27,8 +27,8 @@
     {
       "id": "MOD-FRA-CHARS-LEGERS",
       "count": 2,
-      "name": "Bataillon de chars légers (H 35/H 39)",
-      "name_it": "Battaglione carri leggeri (H 35/H 39)"
+      "name": "Bataillon de chars légers (R 35, H 35, H 39)",
+      "name_it": "Battaglione carri leggeri (R 35, H 35, H 39)"
     },
     {
       "id": "MOD-FRA-INF-MOT",
@@ -252,7 +252,7 @@
         "source": null
       }
     },
-    "TNK-FRA-H39-1940": {
+    "TNK-FRA-LIGHT-TANK": {
       "value": 90,
       "basis": "ipotesi",
       "referenceYear": "1940",

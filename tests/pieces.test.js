@@ -64,9 +64,10 @@ test('la Cecoslovacchia parte con una fabbrica di carri e una di artiglieria; le
   // dal 12/11/2026 (decisione dell'utente): una fabbrica di carri anche per DEU, FRA, GBR, ITA, JPN, USA, col carro del proprio catalogo; la URSS col T-26 (stesso giorno)
   // USA dal 21/11/2026 (carri per modello, passo 4): M2A2 invece della voce di classe, poi M2A4 dal 5/1939 (tests/tanks_usa.test.js)
   // Regno Unito dal 24/11/2026 (carri per modello, passo 4): Mk VI invece della voce di classe, e 2 fabbriche (cruiser e carri da fanteria; tests/tanks_gbr.test.js)
+  // Francia dal 25/11/2026 (carri per modello, passo 4): R 35 invece dell'H 39, e 3 fabbriche (leggeri, SOMUA, B1; tests/tanks_fra.test.js)
   // Italia dal 24/11/2026 (carri per modello, passo 4): L 3/35 invece della voce di classe, e 2 fabbriche (carri in catena fino all'M 15/42 e semoventi; tests/tanks_ita.test.js)
-  for (const [n, r] of [['DEU', 'REC-TNK-DEU-PZ-I'], ['FRA', 'REC-TNK-FRA-H39-1940'], ['GBR', 'REC-TNK-GBR-MK6'], ['ITA', 'REC-TNK-ITA-L3-35'], ['JPN', 'REC-TNK-JPN-TYPE95-1942'], ['USA', 'REC-TNK-USA-M2A2'], ['USSR', 'REC-TNK-USSR-T26-1940']]) {
-    assert.equal(facilityCounts(ind, n)['FCT-TANKS'], n === 'GBR' || n === 'ITA' ? 2 : 1, n);
+  for (const [n, r] of [['DEU', 'REC-TNK-DEU-PZ-I'], ['FRA', 'REC-TNK-FRA-R35'], ['GBR', 'REC-TNK-GBR-MK6'], ['ITA', 'REC-TNK-ITA-L3-35'], ['JPN', 'REC-TNK-JPN-TYPE95-1942'], ['USA', 'REC-TNK-USA-M2A2'], ['USSR', 'REC-TNK-USSR-T26-1940']]) {
+    assert.equal(facilityCounts(ind, n)['FCT-TANKS'], n === 'FRA' ? 3 : n === 'GBR' || n === 'ITA' ? 2 : 1, n);
     assert.equal(ind.nations[n].facilities.find((x) => x.factory === 'FCT-TANKS').recipeId, r, n);
   }
   const models = json('units/models/carri_cecoslovacchi_1935_1938.json').models;

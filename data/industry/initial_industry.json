@@ -410,8 +410,26 @@
         },
         {
           "factory": "FCT-TANKS",
-          "recipeId": "REC-TNK-FRA-H39-1940",
+          "recipeId": "REC-TNK-FRA-R35",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TNK-FRA-H39-1940",
+            "from": "1939-01-01"
+          }
+        },
+        {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-FRA-SOMUA-S35",
           "count": 1
+        },
+        {
+          "factory": "FCT-TANKS",
+          "recipeId": "REC-TNK-FRA-B1",
+          "count": 1,
+          "plannedRecipe": {
+            "recipeId": "REC-TNK-FRA-B1BIS-1940",
+            "from": "1937-06-01"
+          }
         },
         {
           "factory": "FCT-VEHICLES",
@@ -497,7 +515,7 @@
         {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
-          "count": 4
+          "count": 5
         }
       ]
     },
