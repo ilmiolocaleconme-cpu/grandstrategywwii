@@ -64,14 +64,25 @@
       "infantry:colonial": "{n}ª Divisione libica",
       "infantry:blackshirt": "{n}ª Divisione Camicie Nere",
       "infantry:transportable": "{n}ª Divisione fanteria autotrasportabile"
+    },
+    "FRA": {
+      "infantry": "{n} Division d'Infanterie",
+      "motorized": "{n} Division d'Infanterie Motorisée",
+      "mechanized": "{n} Division Légère Mécanique",
+      "armored": "{n} Division Cuirassée",
+      "mountain": "{n} Division d'Infanterie Alpine",
+      "cavalry": "{n} Division Légère de Cavalerie",
+      "airborne": "{n} Division Aéroportée",
+      "infantry:colonial": "{n} Division d'Infanterie Coloniale"
     }
   },
   "defaultName": "{n}ª Divisione",
   "ordinals": {
     "USA": "en",
-    "GBR": "en"
+    "GBR": "en",
+    "FRA": "fr"
   },
-  "ordinalsNote": "21/11/2026: per le nazioni elencate {n} diventa l'ordinale inglese (1st, 2nd, 3rd, 4th, 11th, 21st…), come nei nomi storici delle divisioni USA. 24/11/2026: anche il Regno Unito (1st Infantry Division, 7th Armoured Division).",
+  "ordinalsNote": "21/11/2026: per le nazioni elencate {n} diventa l'ordinale inglese (1st, 2nd, 3rd, 4th, 11th, 21st…), come nei nomi storici delle divisioni USA. 24/11/2026: anche il Regno Unito (1st Infantry Division, 7th Armoured Division). 25/11/2026: Francia con l'ordinale francese (1re, 2e, 3e…), come «1re Division Cuirassée»; il confronto coi nomi esistenti ignora maiuscole e minuscole («3e Division d'infanterie»).",
   "variants": {
     "indian": {
       "nation": "GBR",
@@ -88,7 +99,18 @@
       ],
       "depot": "P_LBA_TRIPOLI",
       "name_it": "Libia, Eritrea o Etiopia"
+    },
+    "FRA:colonial": {
+      "nation": "FRA",
+      "territories": [
+        "ALG",
+        "MAR",
+        "TUN",
+        "SEN"
+      ],
+      "depot": "P_ALG_ALGER",
+      "name_it": "Algeria, Marocco, Tunisia o Senegal"
     }
   },
-  "variantsNote": "24/11/2026 (scelta A dell'utente): divisioni indiane del Regno Unito, con battaglioni indiani propri; si formano solo nelle province dell'India (deposito: Delhi, stima di Claude) e prendono il nome «{n} Indian Infantry Division». Fanteria di marina (variante «marine», 24/11/2026): solo il nome («{n} Royal Marine Division»), nessun limite di luogo. 24/11/2026 (scelte dell'utente per l'Italia): truppe coloniali italiane (variante «colonial», chiave «ITA:colonial» perché la stessa variante esiste anche per la Francia) si formano solo in Libia, Eritrea o Etiopia (deposito: Tripoli, stima di Claude), nome «{n}ª Divisione libica»; Camicie Nere (variante «blackshirt»): solo il nome, nessun limite di luogo. Una variante può avere più territori («territories»)."
+  "variantsNote": "24/11/2026 (scelta A dell'utente): divisioni indiane del Regno Unito, con battaglioni indiani propri; si formano solo nelle province dell'India (deposito: Delhi, stima di Claude) e prendono il nome «{n} Indian Infantry Division». Fanteria di marina (variante «marine», 24/11/2026): solo il nome («{n} Royal Marine Division»), nessun limite di luogo. 24/11/2026 (scelte dell'utente per l'Italia): truppe coloniali italiane (variante «colonial», chiave «ITA:colonial» perché la stessa variante esiste anche per la Francia) si formano solo in Libia, Eritrea o Etiopia (deposito: Tripoli, stima di Claude), nome «{n}ª Divisione libica»; Camicie Nere (variante «blackshirt»): solo il nome, nessun limite di luogo. Una variante può avere più territori («territories»). 25/11/2026 (scelta dell'utente per la Francia): divisioni coloniali e nordafricane francesi (variante «colonial», chiave «FRA:colonial») solo in Algeria, Marocco, Tunisia, Senegal; deposito Algeri (stima di Claude)."
 }

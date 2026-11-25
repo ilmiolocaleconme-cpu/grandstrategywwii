@@ -61,39 +61,35 @@ test('Francia 1939 reale: i file su disco coincidono con quelli ricostruiti dai 
   for (const [name, doc] of Object.entries(built.catalogs)) assert.deepEqual(disk(`equipment/${name}`), doc, name);
 });
 
-test('Francia 1939: i dati della specifica §12, con attendibilità per voce; il 47 mm del 1940 resta fuori dal template', async () => {
+// 25/11/2026 (schema unico, Francia passo 2): il CSV francese 1939 genera solo il catalogo; il template (stesso id) è la somma dei battaglioni
+// di data/units/modules/modules_fra.json, con i totali allineati alle cifre della specifica §12 (uomini, cavalli, armi di reparto).
+test('Francia 1939: dai battaglioni, con le cifre della specifica §12; il 47 mm del 1940 resta fuori dal template', async () => {
   const { templates, catalogs } = await templatesBuilt();
-  const t = templates['divisione_fanteria_francia_1939.json'];
+  assert.equal(templates['divisione_fanteria_francia_1939.json'], undefined, 'il CSV non genera più il template francese');
+  const t = JSON.parse(readFileSync(new URL('../data/units/templates/divisione_fanteria_francia_1939.json', import.meta.url), 'utf8'));
   assert.deepEqual(validateTemplate(t), []);
   assert.equal(t.id, 'TPL-FRA-INF-1939');
-  assert.deepEqual([t.manpower.war.value, t.manpower.war.effective.value, t.horses.value, t.regimentsInfantry.value], [16400, 15500, 4900, 3]);
-  const q = (id) => [t.equipment[id].value, t.equipment[id].reliability];
-  assert.deepEqual(q('MG-FRA-FM2429'), [336, 'STANDARD_TOE']);
-  assert.deepEqual(q('MG-FRA-HOTCHKISS1914'), [144, 'STANDARD_TOE']);
-  assert.deepEqual(q('GL-FRA-VB1916'), [432, 'STANDARD_TOE']);
-  assert.deepEqual(q('ART-FRA-MORTAR60'), [27, 'STANDARD_TOE']);
-  assert.deepEqual(q('ART-FRA-MORTAR81'), [24, 'STANDARD_TOE']);
-  assert.deepEqual(q('ART-FRA-AT25'), [15, 'PROVISIONAL']);
-  assert.deepEqual(q('ART-FRA-ART75M1897'), [36, 'STANDARD_TOE']);
-  assert.deepEqual(q('ART-FRA-HOW155C'), [24, 'STANDARD_TOE']);
-  assert.deepEqual(q('INW-FRA-RIFLE-1939'), [null, 'MISSING_DATA'], 'fucili e pistole non si deducono dagli uomini');
+  assert.ok(Array.isArray(t.modules) && t.modules.length > 0);
+  assert.deepEqual([t.manpower.war.value, t.horses.value], [16400, 4900]);
+  const q = (id) => t.equipment[id].value;
+  assert.deepEqual(['MG-FRA-FM2429', 'MG-FRA-HOTCHKISS1914', 'GL-FRA-VB1916', 'ART-FRA-MORTAR60', 'ART-FRA-MORTAR81', 'ART-FRA-AT25', 'ART-FRA-ART75M1897', 'ART-FRA-HOW155C'].map(q), [336, 144, 432, 27, 24, 15, 36, 24]);
   assert.equal(t.equipment['ART-FRA-AT47M1937'], undefined);
+  assert.equal(t.equipment['ART-FRA-AT47-ARM-1940'], undefined);
   const cat = catalogs['catalog_fra.json'];
   assert.equal(cat.entries.find((e) => e.equipment_id === 'ART-FRA-AT47M1937').reliability, 'DATED_VARIANT');
   assert.equal(cat.entries.find((e) => e.equipment_id === 'INW-FRA-RIFLE-1939').granularity, 'class');
 });
 
-test('Francia 1939 nel motore: scelta per data, organico iniziale reale e quantità previste per ogni voce', async () => {
-  const { templates } = await templatesBuilt();
-  const t = templates['divisione_fanteria_francia_1939.json'];
+test('Francia 1939 nel motore: scelta per data e quantità previste per ogni voce', async () => {
+  const t = JSON.parse(readFileSync(new URL('../data/units/templates/divisione_fanteria_francia_1939.json', import.meta.url), 'utf8'));
   const unit = { id: 'F1', nation: 'FRA', category: 'infantry', echelon: 'division' };
   assert.equal(templateFor(unit, [t], '1936-01-01').id, 'TPL-FRA-INF-1939', 'prima del settembre 1939, se è l\'unico, si usa per approssimazione (regola del 12/11/2026)');
   assert.equal(templateFor(unit, [t], '1939-09-01').id, 'TPL-FRA-INF-1939');
   const items = initialEffective(t, 0.9);
-  assert.deepEqual(items['manpower.war'], { planned: 16400, effective: 15500, source: 'template' });
+  assert.equal(items['manpower.war'].planned, 16400);
   assert.deepEqual(items.horses, { planned: 4900, effective: Math.round(4900 * 0.9), source: 'ratio' });
   assert.deepEqual(items['equipment.MG-FRA-FM2429'], { planned: 336, effective: Math.round(336 * 0.9), source: 'ratio' });
-  assert.equal(items['equipment.INW-FRA-RIFLE-1939'], undefined, 'senza quantità nessuna istanza inventata');
+  assert.equal(items['equipment.INW-FRA-RIFLE-1939'].planned, 10810, 'fucili ora stimati dai battaglioni');
 });
 
 test('cataloghi di nazioni diverse si fondono con id e alias senza collisioni', async () => {

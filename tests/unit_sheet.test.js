@@ -22,7 +22,7 @@ test('composizione: dalla scheda del template, senza valori nulli; basi e suppor
   assert.equal(by['MOD-DEU-SUPPORT'].value, 1);
   assert.ok(c.rows.every((r) => r.value !== null && r.value !== undefined));
   const f = unitsFile.find((x) => x.nation === 'FRA' && x.category === 'infantry' && x.echelon === 'division');
-  assert.ok(compositionOf(f, [tplDeu, tplFra]).rows.some((r) => r.key === 'reggimentiFanteria' && r.value === 3));
+  assert.ok(compositionOf(f, [tplDeu, tplFra]).rows.some((r) => r.key === 'MOD-FRA-INF-1936' && r.value === 9), 'dal 25/11/2026 anche la Francia a battaglioni');
   assert.equal(compositionOf(unitsFile.find((x) => x.nation === 'ITA' && x.echelon === 'division') ?? { nation: 'ITA', category: 'infantry', echelon: 'division' }, [tplDeu, tplFra]), null, 'senza template: nessuna composizione inventata');
 });
 

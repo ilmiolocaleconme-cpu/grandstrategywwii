@@ -69,11 +69,15 @@ test('potenza di fuoco: contro i corazzati conta l’anticarro, contro la fanter
 });
 
 test('buchi dei dati: fucili o mitragliatrici senza quantità si colmano; un template senza nessuna quantità resta alla regola di prima', () => {
+  // 25/11/2026: i template francesi sono a battaglioni e non hanno più voci senza quantità: il buco si ricrea togliendo le quantità dei fucili
+  // (come era il template francese 1939 del CSV) e di tutte le voci (come era il 1936).
   const fra = tplRaw('divisione_fanteria_francia_1939');
-  assert.deepEqual(fra.raw.filled, ['INDIVIDUAL_WEAPON']);
-  assert.ok(baseOf(fra) > 0.8 * fra.men && baseOf(fra) < 1.2 * fra.men);
-  const fra36 = tplRaw('divisione_fanteria_francia_1936');
-  assert.equal(fra36.raw.recognized, false);
+  const holes = (keep) => Object.fromEntries(Object.entries(fra.items).map(([k, v]) => [k, keep(k) ? v : { planned: null, effective: null }]));
+  const noRifles = rawFirepower(holes((k) => !/INW-FRA-(RIFLE|MAS36|PISTOL)/.test(k)), (k) => WEAPON_OF('FRA', k), cfg, fra.men);
+  assert.deepEqual(noRifles.filled, ['INDIVIDUAL_WEAPON']);
+  const b = baseOf({ ...fra, raw: noRifles });
+  assert.ok(b > 0.8 * fra.men && b < 1.2 * fra.men);
+  assert.equal(rawFirepower(holes(() => false), (k) => WEAPON_OF('FRA', k), cfg, fra.men).recognized, false);
   for (const f of readdirSync(new URL('../data/units/templates/', import.meta.url)).filter((x) => x.startsWith('divisione_') && !x.includes('riferimenti'))) {
     const t = tplRaw(f.replace('.json', ''));
     if (!t.raw.recognized || !(t.men > 0)) continue;

@@ -55,7 +55,7 @@ test('formazione: nomi italiani; le divisioni coloniali solo in Libia, Eritrea o
   assert.equal(divisionName(rules, 'ITA', 'infantry', [], 'blackshirt'), '1ª Divisione Camicie Nere');
   assert.equal(divisionName(rules, 'ITA', 'mountain', [{ nation: 'ITA', name: "1ª Divisione alpina 'Taurinense'" }]), '2ª Divisione alpina');
   assert.equal(variantRule(rules, 'ITA', 'colonial').depot, 'P_LBA_TRIPOLI');
-  assert.equal(variantRule(rules, 'FRA', 'colonial'), null, 'la regola coloniale italiana non vale per la Francia');
+  assert.equal(variantRule(rules, 'GBR', 'colonial'), null, 'la regola coloniale italiana non vale per le altre nazioni');
   const lib = comp('TPL-ITA-LIB-1940');
   const state = { date: '1940-06-01', designs: { byId: { 'DSG-ITA-001': { id: 'DSG-ITA-001', nation: 'ITA', name: 'X', category: 'infantry', variant: 'colonial', modules: lib.modules, createdOn: '1940-06-01' } } }, nations: { ITA: { stocks: {} } } };
   const ctx = { modules: DOC.modules, rules, pool: 1e6 };

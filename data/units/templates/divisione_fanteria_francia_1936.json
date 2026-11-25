@@ -1,8 +1,7 @@
 {
   "schema": "unit-template-v1",
   "id": "TPL-FRA-INF-1936",
-  "status": "BOZZA_DA_CONFERMARE",
-  "note": "Template provvisorio della fanteria francese al 1/1/1936, scelta A dell'utente (30/10/2026): serve a far combattere le 16 divisioni di fanteria francesi presenti nel dispiegamento, che altrimenti non avevano dotazione. Il PREVISTO è l'organico di guerra 1939-40 (IPOTESI, fonte web debole), non l'organico di pace 1936, che non è stato trovato. La divisione parte con la stessa percentuale iniziale delle altre (readiness.json). Copre solo la categoria 'infantry' (non motorizzate, alpine, coloniali di altra categoria né le divisioni leggere meccaniche). Sostituire con i dati dell'utente appena disponibili. Cavalli, armi, veicoli e radio: da definire (null).",
+  "status": "RECONSTRUCTED_TEMPLATE",
   "appliesTo": {
     "nation": "FRA",
     "category": "infantry",
@@ -10,40 +9,76 @@
     "activeFrom": "1936-01-01"
   },
   "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione di fanteria 1936: 3 reggimenti su 3 battaglioni (FM 24/29, Hotchkiss, VB), compagnie reggimentali (mortai da 81, cannoni da 25), gruppo di ricognizione, 3 gruppi da 75 e 2 da 155 C ippotrainati, compagnia controcarro da 25, genio, servizi.",
   "formation": {
-    "value": "triangolare: 3 reggimenti di fanteria da 3 battaglioni",
+    "value": "divisione di fanteria 1936: 3 reggimenti su 3 battaglioni (FM 24/29, Hotchkiss, VB), compagnie reggimentali (mortai da 81, cannoni da 25), gruppo di ricognizione, 3 gruppi da 75 e 2 da 155 C ippotrainati, compagnia controcarro da 25, genio, servizi",
     "basis": "ipotesi",
-    "referenceYear": "1939-1940",
-    "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936."
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "mobility": {
-    "value": null,
-    "basis": "da_definire",
-    "referenceYear": null,
-    "source": null
-  },
-  "structure": {
-    "reggimentiFanteria": {
-      "value": 3,
-      "basis": "ipotesi",
-      "referenceYear": "1939-1940",
-      "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936."
+  "modules": [
+    {
+      "id": "MOD-FRA-INF-1936",
+      "count": 9,
+      "name": "Bataillon d'infanterie (1936)",
+      "name_it": "Battaglione di fanteria (1936)"
     },
-    "battaglioniPerReggimento": {
-      "value": 3,
-      "basis": "ipotesi",
-      "referenceYear": "1939-1940",
-      "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936."
+    {
+      "id": "MOD-FRA-REGT",
+      "count": 3,
+      "name": "Compagnies régimentaires (CRE, mortiers, canons de 25)",
+      "name_it": "Compagnie reggimentali (mortai da 81, cannoni da 25)"
+    },
+    {
+      "id": "MOD-FRA-GRDI",
+      "count": 1,
+      "name": "Groupe de reconnaissance de division d'infanterie (GRDI)",
+      "name_it": "Gruppo di ricognizione divisionale (GRDI)"
+    },
+    {
+      "id": "MOD-FRA-ART75",
+      "count": 3,
+      "name": "Groupe de 75 hippomobile",
+      "name_it": "Gruppo da 75 ippotrainato"
+    },
+    {
+      "id": "MOD-FRA-ART155C",
+      "count": 2,
+      "name": "Groupe de 155 C hippomobile",
+      "name_it": "Gruppo da 155 C ippotrainato"
+    },
+    {
+      "id": "MOD-FRA-AT25",
+      "count": 1,
+      "name": "Compagnie divisionnaire antichar (25 mm)",
+      "name_it": "Compagnia controcarro divisionale (25 mm)"
+    },
+    {
+      "id": "MOD-FRA-GENIE",
+      "count": 1,
+      "name": "Bataillon du génie (sapeurs-mineurs, transmissions)",
+      "name_it": "Battaglione del genio (zappatori, trasmissioni)"
+    },
+    {
+      "id": "MOD-FRA-SVC-1936",
+      "count": 1,
+      "name": "Services et trains de la division (1936)",
+      "name_it": "Servizi e salmerie divisionali (1936)"
     }
-  },
+  ],
   "manpower": {
     "war": {
-      "value": 17500,
+      "value": 16610,
       "basis": "ipotesi",
-      "referenceYear": "1939-1940",
-      "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936.",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "peace": {
@@ -54,91 +89,205 @@
     }
   },
   "horses": {
-    "value": null,
-    "basis": "da_definire",
-    "referenceYear": null,
-    "source": null
+    "value": 5070,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
   },
   "equipment": {
-    "fucili": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
-    },
-    "mitragliatrici": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
-    },
-    "mortai": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
-    },
-    "controcarro": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
-    },
-    "artiglieriaCampale": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
-    },
-    "antiaerei": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
-    },
-    "veicoli": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
-    },
-    "radio": {
-      "value": null,
-      "basis": "da_definire",
-      "referenceYear": null,
-      "source": null
-    }
-  },
-  "referenceFigures": {
-    "uominiTotali1939_40": {
-      "value": 17500,
+    "ART-FRA-ART75M1897": {
+      "value": 36,
       "basis": "ipotesi",
-      "referenceYear": "1939-1940",
-      "source": "Ricerca web del 30/10/2026, https://littlewars.se/french1940/oob_di.html (sito amatoriale, fonte debole): Division d'Infanterie francese 1939-1940, 3 reggimenti da 3 battaglioni, circa 17.500 uomini (500 ufficiali e 17.000 truppa). Non è un organico di pace 1936."
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-AT25": {
+      "value": 27,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-HOW155C": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-MORTAR60": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-MORTAR81": {
+      "value": 6,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "GL-FRA-VB1916": {
+      "value": 432,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-PISTOL-1939": {
+      "value": 815,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-RIFLE-1939": {
+      "value": 12500,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-FRA-FM2429": {
+      "value": 336,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-FRA-HOTCHKISS1914": {
+      "value": 144,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-CITROEN23": {
+      "value": 70,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-MOTO-RG": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-RENAULT-3T": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-INF-1936, 3× MOD-FRA-REGT, 1× MOD-FRA-GRDI, 3× MOD-FRA-ART75, 2× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-1936). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
     }
-  },
-  "organicSupport": {
-    "value": null,
-    "basis": "da_definire",
-    "referenceYear": null,
-    "source": null
   },
   "effectiveSupply": {
     "value": null,
     "basis": "da_definire",
-    "note": "Dotazione effettiva per data: da definire."
+    "note": "Dotazione effettiva per data: non definita."
   },
   "costs": {
     "resources": null,
     "manpower": null,
     "buildDays": null,
     "upkeep": null,
-    "note": "Da definire con l'utente quando si passa a caserme e produzione."
+    "note": "Da definire con l'editor a moduli."
   },
-  "startsAsCadre": true,
   "initialFillRatio": {
     "value": 0.3,
     "basis": "USER_EXAMPLE",
-    "source": "Esempio dell'utente del 29/10/2026 (quadro al 30% del previsto), esteso qui alla fanteria francese in via provvisoria. Non è un dato storico."
-  }
+    "source": "Esempio dell'utente del 29/10/2026 (quadro al 30% del previsto), esteso alla fanteria francese in via provvisoria. Non è un dato storico."
+  },
+  "startsAsCadre": true
 }

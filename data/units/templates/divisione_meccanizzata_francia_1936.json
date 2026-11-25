@@ -1,0 +1,326 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-FRA-DLM-1936",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "FRA",
+    "category": "mechanized",
+    "echelon": "division",
+    "activeFrom": "1936-01-01"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri: voce H 35/H 39 fino al passo 4 (SOMUA).",
+  "formation": {
+    "value": "divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri: voce H 35/H 39 fino al passo 4 (SOMUA)",
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-FRA-CHARS-DLM",
+      "count": 2,
+      "name": "Régiment de chars (cuirassiers/dragons) de DLM",
+      "name_it": "Reggimento carri della divisione leggera meccanica"
+    },
+    {
+      "id": "MOD-FRA-AMD-1936",
+      "count": 2,
+      "name": "Escadrons d'automitrailleuses (White-Laffly)",
+      "name_it": "Squadroni autoblindo (White-Laffly)"
+    },
+    {
+      "id": "MOD-FRA-DRAGONS",
+      "count": 3,
+      "name": "Bataillon de dragons portés",
+      "name_it": "Battaglione di dragoni portati (fanteria motorizzata della cavalleria)"
+    },
+    {
+      "id": "MOD-FRA-ART75-MOT",
+      "count": 2,
+      "name": "Groupe de 75 tracté",
+      "name_it": "Gruppo da 75 trainato da trattori"
+    },
+    {
+      "id": "MOD-FRA-ART105-MOT",
+      "count": 1,
+      "name": "Groupe de 105 C tracté",
+      "name_it": "Gruppo da 105 C trainato da trattori"
+    },
+    {
+      "id": "MOD-FRA-AT25",
+      "count": 1,
+      "name": "Compagnie divisionnaire antichar (25 mm)",
+      "name_it": "Compagnia controcarro divisionale (25 mm)"
+    },
+    {
+      "id": "MOD-FRA-GENIE",
+      "count": 1,
+      "name": "Bataillon du génie (sapeurs-mineurs, transmissions)",
+      "name_it": "Battaglione del genio (zappatori, trasmissioni)"
+    },
+    {
+      "id": "MOD-FRA-SVC-MOT",
+      "count": 1,
+      "name": "Services motorisés de la division",
+      "name_it": "Servizi divisionali motorizzati"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 8500,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 140,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-FRA-ART75M1897": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-AT25": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-HOW105-ARM-1940": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-MORTAR60": {
+      "value": 6,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-PISTOL-1939": {
+      "value": 915,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-RIFLE-1939": {
+      "value": 5540,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-FRA-FM2429": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-FRA-HOTCHKISS1914": {
+      "value": 48,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-FRA-H39-1940": {
+      "value": 160,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-AMD-WL": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-CITROEN23": {
+      "value": 154,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-LAFFLY-S20": {
+      "value": 82,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-MOTO-AX2": {
+      "value": 150,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-MOTO-RG": {
+      "value": 40,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-RENAULT-3T": {
+      "value": 298,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-RENAULT-UE": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-DLM, 2× MOD-FRA-AMD-1936, 3× MOD-FRA-DRAGONS, 2× MOD-FRA-ART75-MOT, 1× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

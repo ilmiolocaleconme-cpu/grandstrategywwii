@@ -116,16 +116,19 @@ test('dati reali Germania: dal 1936 al 1939 la dotazione passa con le stesse chi
   assert.deepEqual(Object.keys(after.items).filter((k) => k.startsWith('equipment.')).sort(), templates.find((t) => t.id === 'TPL-DEU-INF-1939') && Object.keys(templates.find((t) => t.id === 'TPL-DEU-INF-1939').equipment).map((k) => `equipment.${k}`).sort());
 });
 
-test('Francia (quadri al 30%): il template 1936 non ha quantità di equipaggiamento, quindi le voci del 1939 partono da 0; gli uomini si portano; restano quadri', () => {
+// 25/11/2026 (Francia passo 2): i template francesi 1936 e 1939 sono somme di battaglioni; il quadro del 1936 ha già le sue armi (al 30%),
+// che passano al 1939 voce per voce senza superare il previsto; le voci nuove del 1939 (MAS 36, pistola Mle 1935) partono da 0.
+test('Francia (quadri al 30%): dal 1936 al 1939 le armi passano voce per voce, le nuove partono da 0; gli uomini si portano; restano quadri', () => {
   const sys = createForcesActivationSystem(ctx);
   const s0 = { ...start(), date: '1939-08-31' };
-  const [id, old] = of(s0, 'FRA')[0];
-  assert.deepEqual(Object.keys(old.items), ['manpower.war']);
+  const [id, old] = of(s0, 'FRA').find(([, d]) => d.templateId === 'TPL-FRA-INF-1936');
   const after = advanceDays(s0, 1, [sys]).forces.divisions[id];
   assert.equal(after.templateId, 'TPL-FRA-INF-1939');
   assert.equal(after.items['manpower.war'].effective, Math.min(old.items['manpower.war'].effective, 16400));
-  for (const [k, it] of Object.entries(after.items)) if (k.startsWith('equipment.') || k === 'horses') assert.equal(it.effective, 0, k);
-  assert.equal(after.upgrade.dropped, undefined);
+  const k = 'equipment.MG-FRA-FM2429';
+  assert.equal(after.items[k].effective, Math.min(old.items[k].effective, after.items[k].planned));
+  assert.equal(after.items['equipment.INW-FRA-MAS36'].effective, 0, 'il MAS 36 non c\'era');
+  for (const [key, it] of Object.entries(after.items)) assert.ok(it.effective <= it.planned, key);
   assert.equal(after.cadre, true, 'resta un quadro: nessun rinforzo finché non è mobilitato');
   assert.equal(after.items['manpower.war'].effective, old.items['manpower.war'].effective, 'l\'effettivo non cresce da solo');
 });

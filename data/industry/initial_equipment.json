@@ -25,6 +25,26 @@
         "VEH-DEU-TRUCK": 3500
       }
     },
+    "FRA": {
+      "tier": "large",
+      "divisions": 14,
+      "templateId": "TPL-FRA-INF-1936",
+      "equipment": {
+        "ART-FRA-ART75M1897": 504,
+        "ART-FRA-AT25": 378,
+        "ART-FRA-HOW155C": 336,
+        "ART-FRA-MORTAR60": 252,
+        "ART-FRA-MORTAR81": 84,
+        "GL-FRA-VB1916": 6048,
+        "INW-FRA-PISTOL-1939": 11410,
+        "INW-FRA-RIFLE-1939": 175000,
+        "MG-FRA-FM2429": 4704,
+        "MG-FRA-HOTCHKISS1914": 2016,
+        "VEH-FRA-CITROEN23": 980,
+        "VEH-FRA-MOTO-RG": 560,
+        "VEH-FRA-RENAULT-3T": 560
+      }
+    },
     "GBR": {
       "tier": "large",
       "divisions": 14,
@@ -119,7 +139,6 @@
     "EST",
     "ETH",
     "FIN",
-    "FRA",
     "GRC",
     "GTM",
     "HND",

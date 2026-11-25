@@ -51,19 +51,28 @@ export function englishOrdinal(n) {
   return `${n}${t >= 11 && t <= 13 ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' })[n % 10] ?? 'th'}`;
 }
 
+// ordinali per nazione (rules.ordinals): inglese (1st, 2nd…), francese dal 25/11/2026 (1re, 2e…), altrimenti il numero
+const ORDINALS = {
+  en: { re: /^(\d+)(?:st|nd|rd|th)/, fmt: (n) => englishOrdinal(n) },
+  fr: { re: /^(\d+)(?:re|er|e)/, fmt: (n) => (n === 1 ? '1re' : `${n}e`) },
+  none: { re: /^(\d+)/, fmt: (n) => String(n) },
+};
+
 export function divisionName(rules, nation, category, units, variant = null) {
   const pattern = (variant ? rules.names?.[nation]?.[`${category}:${variant}`] : null) ?? rules.names?.[nation]?.[category] ?? rules.defaultName; // variante (24/11/2026): «4th Indian Infantry Division»
   const [pre, post] = pattern.split('{n}');
-  const english = rules.ordinals?.[nation] === 'en';
+  const ord = ORDINALS[rules.ordinals?.[nation]] ?? ORDINALS.none;
+  const low = (s) => s.toLowerCase();
   const used = new Set();
   for (const u of units) {
-    if (u.nation !== nation || typeof u.name !== 'string' || !u.name.startsWith(pre) && pre !== '') continue;
+    if (u.nation !== nation || typeof u.name !== 'string' || !low(u.name).startsWith(low(pre)) && pre !== '') continue;
     const rest = u.name.slice(pre.length);
-    const m = rest.match(english ? /^(\d+)(?:st|nd|rd|th)/ : /^(\d+)/);
-    if (m && (rest.slice(m[0].length) === post || rest.slice(m[0].length).startsWith(`${post} `))) used.add(Number(m[1])); // anche col nome proprio: «10ª Divisione fanteria 'Piave'» (24/11/2026)
+    const m = rest.match(ord.re);
+    const after = low(rest.slice(m?.[0].length ?? 0));
+    if (m && (after === low(post) || after.startsWith(`${low(post)} `))) used.add(Number(m[1])); // anche col nome proprio: «10ª Divisione fanteria 'Piave'» (24/11/2026); maiuscole ignorate (25/11/2026)
   }
   let n = 1; while (used.has(n)) n += 1;
-  return pattern.replace('{n}', english ? englishOrdinal(n) : String(n));
+  return pattern.replace('{n}', ord.fmt(n));
 }
 
 /**

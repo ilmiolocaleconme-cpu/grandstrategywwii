@@ -83,7 +83,7 @@ test('effetto reale: prima i quadri francesi non ricevono nulla, dopo la mobilit
   const t = plan(w).transfers;
   assert.ok(t.some((x) => x.item === 'manpower.war'), 'uomini dal pool');
   const mg = t.find((x) => x.item === 'equipment.MG-FRA-FM2429');
-  assert.equal(mg.qty, 336, 'dotazione 1939 per intero (da 0)');
+  assert.equal(mg.qty, 336 - (w.forces.divisions[id].items['equipment.MG-FRA-FM2429']?.effective ?? 0), 'dotazione 1939 fino al previsto (dal 25/11/2026 il quadro ha già il 30% delle armi)');
 });
 
 test('un salvataggio con stato mobilitazione valido passa la validazione dello stato; uno con data non valida no', () => {

@@ -1,92 +1,359 @@
 {
-  "schema": "unit-template-v2",
+  "schema": "unit-template-v1",
   "id": "TPL-FRA-ARM-1940",
   "status": "RECONSTRUCTED_TEMPLATE",
-  "note": "Generato da CSV (source/fra_arm_template_1940.csv, source/fra_arm_equipment_1940.csv, source/land_equipment_catalog_fra_arm_1940.csv) con scripts/build-templates.js: non modificare a mano, rigenerare con npm run build:templates. Template PER CATEGORIA (FRA armored division, serie Division cuirassée); Division cuirassée (DCr) 1940, generica è il caso di riferimento. Il giorno della data di inizio è il primo del mese (la fonte dà solo il mese). organico massimo → manpower.war.value, iniziale stimato → manpower.war.effective.value.",
   "appliesTo": {
     "nation": "FRA",
     "category": "armored",
     "echelon": "division",
-    "validFrom": "1940-01-01"
+    "activeFrom": "1940-01-01"
   },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni H 39, battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati.",
   "formation": {
-    "value": "armored"
+    "value": "divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni H 39, battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati",
+    "basis": "ipotesi",
+    "referenceYear": "1940",
+    "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
   },
-  "regimentsInfantry": {
-    "value": 0
-  },
+  "modules": [
+    {
+      "id": "MOD-FRA-CHARS-B1",
+      "count": 2,
+      "name": "Bataillon de chars B1 bis",
+      "name_it": "Battaglione carri B1 bis"
+    },
+    {
+      "id": "MOD-FRA-CHARS-LEGERS",
+      "count": 2,
+      "name": "Bataillon de chars légers (H 35/H 39)",
+      "name_it": "Battaglione carri leggeri (H 35/H 39)"
+    },
+    {
+      "id": "MOD-FRA-INF-MOT",
+      "count": 1,
+      "name": "Bataillon d'infanterie motorisée (DIM)",
+      "name_it": "Battaglione di fanteria motorizzata"
+    },
+    {
+      "id": "MOD-FRA-ART105-MOT",
+      "count": 2,
+      "name": "Groupe de 105 C tracté",
+      "name_it": "Gruppo da 105 C trainato da trattori"
+    },
+    {
+      "id": "MOD-FRA-AT47",
+      "count": 1,
+      "name": "Batterie divisionnaire antichar (47 mm)",
+      "name_it": "Batteria controcarro divisionale (47 mm)"
+    },
+    {
+      "id": "MOD-FRA-GENIE",
+      "count": 1,
+      "name": "Bataillon du génie (sapeurs-mineurs, transmissions)",
+      "name_it": "Battaglione del genio (zappatori, trasmissioni)"
+    },
+    {
+      "id": "MOD-FRA-SVC-MOT",
+      "count": 1,
+      "name": "Services motorisés de la division",
+      "name_it": "Servizi divisionali motorizzati"
+    }
+  ],
   "manpower": {
     "war": {
-      "value": 6500,
+      "value": 6510,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
     }
   },
   "horses": {
-    "value": 0,
+    "value": 80,
+    "basis": "ipotesi",
+    "referenceYear": "1940",
+    "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
     "effective": {
-      "value": null
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
     }
   },
   "equipment": {
-    "TNK-FRA-B1BIS-1940": {
-      "value": 68,
+    "ART-FRA-AT25": {
+      "value": 2,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione corazzata",
-      "note": "68 (Carro pesante Char B1 bis). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
-      }
-    },
-    "TNK-FRA-H39-1940": {
-      "value": 90,
-      "reliability": "ESTIMATED",
-      "unit": "Divisione corazzata",
-      "note": "90 (Carro leggero Hotchkiss H39). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
-      "effective": {
-        "value": null
-      }
-    },
-    "ART-FRA-HOW105-ARM-1940": {
-      "value": 24,
-      "reliability": "ESTIMATED",
-      "unit": "Divisione corazzata",
-      "note": "24 (Obice da 105 mm (gruppi divisionali della DCr)). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
-      "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     },
     "ART-FRA-AT47-ARM-1940": {
       "value": 8,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
       "reliability": "ESTIMATED",
-      "unit": "Divisione corazzata",
-      "note": "8 (Cannone controcarro da 47 mm). Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
       "effective": {
-        "value": null
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-HOW105-ARM-1940": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-MORTAR60": {
+      "value": 2,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-MORTAR81": {
+      "value": 2,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "GL-FRA-VB1916": {
+      "value": 48,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-MAS36": {
+      "value": 100,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-PISTOL-1939": {
+      "value": 875,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-RIFLE-1939": {
+      "value": 4090,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-FRA-FM2429": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-FRA-HOTCHKISS1914": {
+      "value": 16,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-FRA-B1BIS-1940": {
+      "value": 68,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "TNK-FRA-H39-1940": {
+      "value": 90,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-CITROEN23": {
+      "value": 150,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-LAFFLY-S20": {
+      "value": 76,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-LORRAINE37L": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-MOTO-AX2": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-RENAULT-3T": {
+      "value": 216,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-RENAULT-UE": {
+      "value": 18,
+      "basis": "ipotesi",
+      "referenceYear": "1940",
+      "source": "Somma dei battaglioni di data/units/modules (2× MOD-FRA-CHARS-B1, 2× MOD-FRA-CHARS-LEGERS, 1× MOD-FRA-INF-MOT, 2× MOD-FRA-ART105-MOT, 1× MOD-FRA-AT47, 1× MOD-FRA-GENIE, 1× MOD-FRA-SVC-MOT). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
       }
     }
   },
-  "metadata": {
-    "sourceTemplateId": "TPL-FRA-DCR-1940",
-    "series": "Division cuirassée",
-    "referenceDivision": "Division cuirassée (DCr) 1940, generica",
-    "referenceDate": "1940-01",
-    "sourceQuality": "ESTIMATED_BY_ASSISTANT",
-    "sourceNote": "Divisione corazzata da rottura (DCr): 2 battaglioni di carri pesanti B1 bis e 2 di carri leggeri H39, un battaglione di cacciatori portati, 2 gruppi di artiglieria da 105. Organico e quantità stimati. Stima di Claude dalla memoria (12/11/2026), NON verificata su fonti: da sostituire con dati documentati.",
-    "sourceFiles": [
-      {
-        "file": "source/fra_arm_template_1940.csv",
-        "sha256": "106fc684065b50bb4f4c44eb52452f73cc3c9b29c43c02ccd007958abc439d19"
-      },
-      {
-        "file": "source/fra_arm_equipment_1940.csv",
-        "sha256": "3540a065b01bea3d66d650940a7d51a99d0fb3c01ed1df028969af0db40a2b14"
-      },
-      {
-        "file": "source/land_equipment_catalog_fra_arm_1940.csv",
-        "sha256": "15bf4be4f098b7c7df508520199957103a46368881d14b7a59baa05c7c5d2688"
-      }
-    ]
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
   }
 }

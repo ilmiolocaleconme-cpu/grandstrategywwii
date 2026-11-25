@@ -1,0 +1,986 @@
+{
+  "schema": "battalion-modules-v1",
+  "status": "DESIGN_DEFAULT",
+  "asOf": "2026-11-25",
+  "note": "Battaglioni francesi (25/11/2026, schema unico, scelte dell'utente: truppe coloniali come variante, elenco completo di divisioni, divisioni di fortezza rimandate). Organici STIMATI da Claude dalla memoria, NON verificati. Gli id TPL-FRA-INF-1936, TPL-FRA-INF-1939 e TPL-FRA-ARM-1940 sono conservati. Carri: le voci H 39 e B1 bis fino al passo 4 (SOMUA, R 35, H 35, D 2, FCM). Solo armi francesi.",
+  "modules": [
+    {
+      "id": "MOD-FRA-INF-1936",
+      "nation": "FRA",
+      "type": "infantry",
+      "name_native": "Bataillon d'infanterie (1936)",
+      "name_it": "Battaglione di fanteria (1936)",
+      "men": 860,
+      "horses": 30,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 700,
+        "INW-FRA-PISTOL-1939": 30,
+        "MG-FRA-FM2429": 36,
+        "MG-FRA-HOTCHKISS1914": 16,
+        "GL-FRA-VB1916": 48,
+        "ART-FRA-MORTAR60": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-INF-1939",
+      "nation": "FRA",
+      "type": "infantry",
+      "name_native": "Bataillon d'infanterie (1939)",
+      "name_it": "Battaglione di fanteria (1939)",
+      "men": 840,
+      "horses": 40,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 550,
+        "INW-FRA-MAS36": 100,
+        "INW-FRA-PISTOL-MAS35": 30,
+        "MG-FRA-FM2429": 36,
+        "MG-FRA-HOTCHKISS1914": 16,
+        "GL-FRA-VB1916": 48,
+        "ART-FRA-MORTAR60": 3,
+        "ART-FRA-MORTAR81": 2
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "availableFrom": "1939-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-REGT",
+      "nation": "FRA",
+      "type": "support",
+      "name_native": "Compagnies régimentaires (CRE, mortiers, canons de 25)",
+      "name_it": "Compagnie reggimentali (mortai da 81, cannoni da 25)",
+      "men": 350,
+      "horses": 120,
+      "equipment": {
+        "ART-FRA-MORTAR81": 2,
+        "ART-FRA-AT25": 4,
+        "INW-FRA-RIFLE-1939": 280,
+        "INW-FRA-PISTOL-1939": 20
+      },
+      "mobility": "foot",
+      "illustration": "mortaio",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-GRDI",
+      "nation": "FRA",
+      "type": "recon",
+      "name_native": "Groupe de reconnaissance de division d'infanterie (GRDI)",
+      "name_it": "Gruppo di ricognizione divisionale (GRDI)",
+      "men": 900,
+      "horses": 400,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 700,
+        "INW-FRA-PISTOL-1939": 40,
+        "MG-FRA-FM2429": 12,
+        "ART-FRA-AT25": 3,
+        "VEH-FRA-MOTO-RG": 40
+      },
+      "mobility": "foot",
+      "illustration": "ricognizione_motocicletta",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-ART75",
+      "nation": "FRA",
+      "type": "artillery",
+      "name_native": "Groupe de 75 hippomobile",
+      "name_it": "Gruppo da 75 ippotrainato",
+      "men": 500,
+      "horses": 400,
+      "equipment": {
+        "ART-FRA-ART75M1897": 12,
+        "INW-FRA-RIFLE-1939": 300,
+        "INW-FRA-PISTOL-1939": 40
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_ippotrainata",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-ART155C",
+      "nation": "FRA",
+      "type": "artillery",
+      "name_native": "Groupe de 155 C hippomobile",
+      "name_it": "Gruppo da 155 C ippotrainato",
+      "men": 520,
+      "horses": 450,
+      "equipment": {
+        "ART-FRA-HOW155C": 12,
+        "INW-FRA-RIFLE-1939": 310,
+        "INW-FRA-PISTOL-1939": 40
+      },
+      "mobility": "foot",
+      "illustration": "artiglieria_trainata",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-ART75-MOT",
+      "nation": "FRA",
+      "type": "artillery",
+      "name_native": "Groupe de 75 tracté",
+      "name_it": "Gruppo da 75 trainato da trattori",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "ART-FRA-ART75M1897": 12,
+        "INW-FRA-RIFLE-1939": 260,
+        "INW-FRA-PISTOL-1939": 40,
+        "VEH-FRA-LAFFLY-S20": 14,
+        "VEH-FRA-RENAULT-3T": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-ART155-MOT",
+      "nation": "FRA",
+      "type": "artillery",
+      "name_native": "Groupe de 155 C tracté",
+      "name_it": "Gruppo da 155 C trainato da trattori",
+      "men": 480,
+      "horses": 0,
+      "equipment": {
+        "ART-FRA-HOW155C": 12,
+        "INW-FRA-RIFLE-1939": 280,
+        "INW-FRA-PISTOL-1939": 40,
+        "VEH-FRA-LAFFLY-S20": 14,
+        "VEH-FRA-RENAULT-3T": 10
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-ART105-MOT",
+      "nation": "FRA",
+      "type": "artillery",
+      "name_native": "Groupe de 105 C tracté",
+      "name_it": "Gruppo da 105 C trainato da trattori",
+      "men": 420,
+      "horses": 0,
+      "equipment": {
+        "ART-FRA-HOW105-ARM-1940": 12,
+        "INW-FRA-RIFLE-1939": 240,
+        "INW-FRA-PISTOL-1939": 40,
+        "VEH-FRA-LAFFLY-S20": 14,
+        "VEH-FRA-RENAULT-3T": 8
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_trainata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-ART-LOURDE",
+      "nation": "FRA",
+      "type": "artillery",
+      "name_native": "Groupe de 105 L / 155 GPF (artillerie de corps)",
+      "name_it": "Gruppo da 105 L o 155 GPF (artiglieria di corpo d'armata)",
+      "men": 520,
+      "horses": 0,
+      "equipment": {
+        "ART-FRA-GUN105L": 8,
+        "ART-FRA-GUN155GPF": 4,
+        "INW-FRA-RIFLE-1939": 300,
+        "INW-FRA-PISTOL-1939": 40,
+        "VEH-FRA-LAFFLY-S20": 16,
+        "VEH-FRA-RENAULT-3T": 12
+      },
+      "mobility": "motorized",
+      "illustration": "artiglieria_pesante",
+      "requiresTech": "TECH-MOT-INF",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-AT25",
+      "nation": "FRA",
+      "type": "anti_tank",
+      "name_native": "Compagnie divisionnaire antichar (25 mm)",
+      "name_it": "Compagnia controcarro divisionale (25 mm)",
+      "men": 180,
+      "horses": 60,
+      "equipment": {
+        "ART-FRA-AT25": 12,
+        "INW-FRA-RIFLE-1939": 140,
+        "INW-FRA-PISTOL-1939": 15
+      },
+      "mobility": "foot",
+      "illustration": "anticarro",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-AT47",
+      "nation": "FRA",
+      "type": "anti_tank",
+      "name_native": "Batterie divisionnaire antichar (47 mm)",
+      "name_it": "Batteria controcarro divisionale (47 mm)",
+      "men": 160,
+      "horses": 0,
+      "equipment": {
+        "ART-FRA-AT47-ARM-1940": 8,
+        "INW-FRA-RIFLE-1939": 110,
+        "INW-FRA-PISTOL-1939": 15,
+        "VEH-FRA-LAFFLY-S20": 8
+      },
+      "mobility": "motorized",
+      "illustration": "anticarro",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-AA25",
+      "nation": "FRA",
+      "type": "anti_air",
+      "name_native": "Batterie de DCA (25 mm)",
+      "name_it": "Batteria contraerea (25 mm)",
+      "men": 140,
+      "horses": 0,
+      "equipment": {
+        "ART-FRA-AA25": 6,
+        "INW-FRA-RIFLE-1939": 100,
+        "INW-FRA-PISTOL-1939": 10,
+        "VEH-FRA-CITROEN23": 6
+      },
+      "mobility": "motorized",
+      "illustration": "contraerea",
+      "availableFrom": "1939-06-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-AA75",
+      "nation": "FRA",
+      "type": "anti_air",
+      "name_native": "Groupe de DCA de 75",
+      "name_it": "Gruppo contraereo da 75",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "ART-FRA-AA75": 8,
+        "INW-FRA-RIFLE-1939": 250,
+        "INW-FRA-PISTOL-1939": 30,
+        "VEH-FRA-RENAULT-3T": 12
+      },
+      "mobility": "motorized",
+      "illustration": "contraerea",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-GENIE",
+      "nation": "FRA",
+      "type": "engineer",
+      "name_native": "Bataillon du génie (sapeurs-mineurs, transmissions)",
+      "name_it": "Battaglione del genio (zappatori, trasmissioni)",
+      "men": 700,
+      "horses": 80,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 600,
+        "INW-FRA-PISTOL-1939": 30,
+        "VEH-FRA-CITROEN23": 10
+      },
+      "mobility": "foot",
+      "illustration": "genio",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-SVC-1936",
+      "nation": "FRA",
+      "type": "support",
+      "name_native": "Services et trains de la division (1936)",
+      "name_it": "Servizi e salmerie divisionali (1936)",
+      "men": 3500,
+      "horses": 1800,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 2400,
+        "INW-FRA-PISTOL-1939": 200,
+        "VEH-FRA-CITROEN23": 60,
+        "VEH-FRA-RENAULT-3T": 40
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-SVC-1939",
+      "nation": "FRA",
+      "type": "support",
+      "name_native": "Services et trains de la division (1939)",
+      "name_it": "Servizi e salmerie divisionali (1939)",
+      "men": 3650,
+      "horses": 1600,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 2200,
+        "INW-FRA-PISTOL-MAS35": 200,
+        "VEH-FRA-CITROEN23": 80,
+        "VEH-FRA-RENAULT-3T": 60,
+        "VEH-FRA-MOTO-AX2": 30
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "availableFrom": "1939-01-01",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-SVC-MOT",
+      "nation": "FRA",
+      "type": "support",
+      "name_native": "Services motorisés de la division",
+      "name_it": "Servizi divisionali motorizzati",
+      "men": 2400,
+      "horses": 0,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 1500,
+        "INW-FRA-PISTOL-1939": 200,
+        "VEH-FRA-CITROEN23": 120,
+        "VEH-FRA-RENAULT-3T": 150,
+        "VEH-FRA-LAFFLY-S20": 40,
+        "VEH-FRA-MOTO-AX2": 60
+      },
+      "mobility": "motorized",
+      "illustration": "logistica_camion",
+      "requiresTech": "TECH-MOT-INF",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-INF-MOT",
+      "nation": "FRA",
+      "type": "motorized_infantry",
+      "name_native": "Bataillon d'infanterie motorisée (DIM)",
+      "name_it": "Battaglione di fanteria motorizzata",
+      "men": 850,
+      "horses": 0,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 600,
+        "INW-FRA-MAS36": 100,
+        "INW-FRA-PISTOL-1939": 30,
+        "MG-FRA-FM2429": 36,
+        "MG-FRA-HOTCHKISS1914": 16,
+        "GL-FRA-VB1916": 48,
+        "ART-FRA-MORTAR60": 2,
+        "ART-FRA-MORTAR81": 2,
+        "ART-FRA-AT25": 2,
+        "VEH-FRA-RENAULT-3T": 30,
+        "VEH-FRA-RENAULT-UE": 6
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-CAV",
+      "nation": "FRA",
+      "type": "cavalry",
+      "name_native": "Régiment de cavalerie à cheval",
+      "name_it": "Reggimento di cavalleria a cavallo",
+      "men": 750,
+      "horses": 800,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 600,
+        "INW-FRA-PISTOL-1939": 30,
+        "MG-FRA-FM2429": 24,
+        "MG-FRA-HOTCHKISS1914": 8,
+        "ART-FRA-AT25": 2
+      },
+      "mobility": "foot",
+      "illustration": "cavalleria",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-DRAGONS",
+      "nation": "FRA",
+      "type": "motorized_infantry",
+      "name_native": "Bataillon de dragons portés",
+      "name_it": "Battaglione di dragoni portati (fanteria motorizzata della cavalleria)",
+      "men": 800,
+      "horses": 0,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 600,
+        "INW-FRA-PISTOL-1939": 30,
+        "MG-FRA-FM2429": 36,
+        "MG-FRA-HOTCHKISS1914": 16,
+        "ART-FRA-MORTAR60": 2,
+        "ART-FRA-AT25": 4,
+        "VEH-FRA-RENAULT-3T": 40,
+        "VEH-FRA-MOTO-AX2": 30
+      },
+      "mobility": "motorized",
+      "illustration": "fanteria_motorizzata",
+      "requiresTech": "TECH-MOT-INF",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-AMD-1936",
+      "nation": "FRA",
+      "type": "recon",
+      "name_native": "Escadrons d'automitrailleuses (White-Laffly)",
+      "name_it": "Squadroni autoblindo (White-Laffly)",
+      "men": 300,
+      "horses": 0,
+      "equipment": {
+        "VEH-FRA-AMD-WL": 20,
+        "INW-FRA-RIFLE-1939": 150,
+        "INW-FRA-PISTOL-1939": 60,
+        "VEH-FRA-MOTO-RG": 20
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-AMD",
+      "nation": "FRA",
+      "type": "recon",
+      "name_native": "Escadrons d'automitrailleuses de découverte (Panhard 178)",
+      "name_it": "Squadroni autoblindo da scoperta (Panhard 178)",
+      "men": 300,
+      "horses": 0,
+      "equipment": {
+        "VEH-FRA-PANHARD178": 20,
+        "INW-FRA-RIFLE-1939": 150,
+        "INW-FRA-PISTOL-1939": 60,
+        "VEH-FRA-MOTO-AX2": 20
+      },
+      "mobility": "motorized",
+      "illustration": "autoblindo",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-CHARS-LEGERS",
+      "nation": "FRA",
+      "type": "tank",
+      "name_native": "Bataillon de chars légers (H 35/H 39)",
+      "name_it": "Battaglione carri leggeri (H 35/H 39)",
+      "men": 380,
+      "horses": 0,
+      "equipment": {
+        "TNK-FRA-H39-1940": 45,
+        "INW-FRA-RIFLE-1939": 200,
+        "INW-FRA-PISTOL-1939": 120,
+        "VEH-FRA-RENAULT-UE": 6,
+        "VEH-FRA-CITROEN23": 10
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-CHARS-DLM",
+      "nation": "FRA",
+      "type": "tank",
+      "name_native": "Régiment de chars (cuirassiers/dragons) de DLM",
+      "name_it": "Reggimento carri della divisione leggera meccanica",
+      "men": 450,
+      "horses": 0,
+      "equipment": {
+        "TNK-FRA-H39-1940": 80,
+        "INW-FRA-RIFLE-1939": 220,
+        "INW-FRA-PISTOL-1939": 170,
+        "VEH-FRA-RENAULT-UE": 6,
+        "VEH-FRA-CITROEN23": 12
+      },
+      "mobility": "armored",
+      "illustration": "carro_medio",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-CHARS-B1",
+      "nation": "FRA",
+      "type": "tank",
+      "name_native": "Bataillon de chars B1 bis",
+      "name_it": "Battaglione carri B1 bis",
+      "men": 400,
+      "horses": 0,
+      "equipment": {
+        "TNK-FRA-B1BIS-1940": 34,
+        "INW-FRA-RIFLE-1939": 200,
+        "INW-FRA-PISTOL-1939": 140,
+        "VEH-FRA-LORRAINE37L": 6,
+        "VEH-FRA-RENAULT-3T": 10
+      },
+      "mobility": "armored",
+      "illustration": "carro_pesante",
+      "availableFrom": "1937-01-01",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-BCC",
+      "nation": "FRA",
+      "type": "infantry_tank",
+      "name_native": "Bataillon de chars de combat (BCC)",
+      "name_it": "Battaglione carri d'appoggio alla fanteria (BCC)",
+      "men": 380,
+      "horses": 0,
+      "equipment": {
+        "TNK-FRA-H39-1940": 45,
+        "INW-FRA-RIFLE-1939": 200,
+        "INW-FRA-PISTOL-1939": 120,
+        "VEH-FRA-RENAULT-UE": 6,
+        "VEH-FRA-CITROEN23": 10
+      },
+      "mobility": "armored",
+      "illustration": "carro_leggero",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-BCA",
+      "nation": "FRA",
+      "type": "mountain_infantry",
+      "name_native": "Bataillon de chasseurs alpins",
+      "name_it": "Battaglione cacciatori alpini",
+      "men": 1000,
+      "horses": 150,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 820,
+        "INW-FRA-PISTOL-1939": 30,
+        "MG-FRA-FM2429": 36,
+        "MG-FRA-HOTCHKISS1914": 16,
+        "ART-FRA-MORTAR60": 2,
+        "ART-FRA-MORTAR81": 2
+      },
+      "mobility": "foot",
+      "illustration": "alpini",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-ART-MONT",
+      "nation": "FRA",
+      "type": "artillery",
+      "name_native": "Groupe d'artillerie de montagne (75 Mle 1928)",
+      "name_it": "Gruppo di artiglieria da montagna (75 Mle 1928)",
+      "men": 550,
+      "horses": 450,
+      "equipment": {
+        "ART-FRA-GUN75-MONT": 12,
+        "INW-FRA-RIFLE-1939": 320,
+        "INW-FRA-PISTOL-1939": 40
+      },
+      "mobility": "foot",
+      "illustration": "salmerie",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-SVC-MONT",
+      "nation": "FRA",
+      "type": "support",
+      "name_native": "Services et trains de la division alpine",
+      "name_it": "Servizi e salmerie della divisione alpina",
+      "men": 2800,
+      "horses": 2000,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 1900,
+        "INW-FRA-PISTOL-1939": 180,
+        "VEH-FRA-CITROEN23": 30
+      },
+      "mobility": "foot",
+      "illustration": "salmerie",
+      "divisional": true,
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-COL-INF",
+      "nation": "FRA",
+      "type": "infantry",
+      "name_native": "Bataillon de tirailleurs (nord-africains, sénégalais) ou colonial",
+      "name_it": "Battaglione di tiratori nordafricani, senegalesi o coloniali",
+      "men": 850,
+      "horses": 30,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 720,
+        "INW-FRA-PISTOL-1939": 20,
+        "MG-FRA-FM2429": 36,
+        "MG-FRA-HOTCHKISS1914": 12,
+        "GL-FRA-VB1916": 36,
+        "ART-FRA-MORTAR60": 1
+      },
+      "mobility": "foot",
+      "illustration": "fanteria",
+      "variant": "colonial",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    },
+    {
+      "id": "MOD-FRA-COL-SVC",
+      "nation": "FRA",
+      "type": "support",
+      "name_native": "Services de la division coloniale ou nord-africaine",
+      "name_it": "Servizi della divisione coloniale o nordafricana",
+      "men": 2800,
+      "horses": 1400,
+      "equipment": {
+        "INW-FRA-RIFLE-1939": 1900,
+        "INW-FRA-PISTOL-1939": 150,
+        "VEH-FRA-CITROEN23": 50
+      },
+      "mobility": "foot",
+      "illustration": "trasporto_ippotrainato",
+      "divisional": true,
+      "variant": "colonial",
+      "note": "Stima di Claude dalla memoria (25/11/2026), NON verificata su fonti."
+    }
+  ],
+  "compositions": [
+    {
+      "templateId": "TPL-FRA-INF-1936",
+      "name": "Division d'infanterie (1936)",
+      "file": "divisione_fanteria_francia_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione di fanteria 1936: 3 reggimenti su 3 battaglioni (FM 24/29, Hotchkiss, VB), compagnie reggimentali (mortai da 81, cannoni da 25), gruppo di ricognizione, 3 gruppi da 75 e 2 da 155 C ippotrainati, compagnia controcarro da 25, genio, servizi",
+      "modules": [
+        [
+          "MOD-FRA-INF-1936",
+          9
+        ],
+        [
+          "MOD-FRA-REGT",
+          3
+        ],
+        [
+          "MOD-FRA-GRDI",
+          1
+        ],
+        [
+          "MOD-FRA-ART75",
+          3
+        ],
+        [
+          "MOD-FRA-ART155C",
+          2
+        ],
+        [
+          "MOD-FRA-AT25",
+          1
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-SVC-1936",
+          1
+        ]
+      ],
+      "initialFillRatio": {
+        "value": 0.3,
+        "basis": "USER_EXAMPLE",
+        "source": "Esempio dell'utente del 29/10/2026 (quadro al 30% del previsto), esteso alla fanteria francese in via provvisoria. Non è un dato storico."
+      },
+      "startsAsCadre": true
+    },
+    {
+      "templateId": "TPL-FRA-INF-1939",
+      "name": "Division d'infanterie (1939)",
+      "file": "divisione_fanteria_francia_1939.json",
+      "category": "infantry",
+      "activeFrom": "1939-09-01",
+      "formation": "divisione di fanteria 1939-40: 3 reggimenti su 3 battaglioni (primi MAS 36, mortai da 60 e 81, cannoni da 25), compagnie reggimentali, GRDI, 3 gruppi da 75 e 2 da 155 C, genio, servizi. Totali allineati alle cifre della specifica §12 del CSV (16.400 uomini, 4.900 cavalli, 336 FM, 144 Hotchkiss, 432 VB, 27 mortai da 60, 24 da 81, 15 cannoni da 25, 36 da 75, 24 da 155 C); il 47 mm divisionale del 1940 resta fuori, come nella specifica",
+      "modules": [
+        [
+          "MOD-FRA-INF-1939",
+          9
+        ],
+        [
+          "MOD-FRA-REGT",
+          3
+        ],
+        [
+          "MOD-FRA-GRDI",
+          1
+        ],
+        [
+          "MOD-FRA-ART75",
+          3
+        ],
+        [
+          "MOD-FRA-ART155C",
+          2
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-SVC-1939",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-FRA-MOT-1936",
+      "name": "Division d'infanterie motorisée (1936)",
+      "file": "divisione_motorizzata_francia_1936.json",
+      "category": "motorized",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione di fanteria motorizzata (DIM): 9 battaglioni su autocarri, autoblindo, artiglieria trainata (3 gruppi da 75, 2 da 155 C), controcarro, genio, servizi motorizzati",
+      "modules": [
+        [
+          "MOD-FRA-INF-MOT",
+          9
+        ],
+        [
+          "MOD-FRA-AMD-1936",
+          1
+        ],
+        [
+          "MOD-FRA-ART75-MOT",
+          3
+        ],
+        [
+          "MOD-FRA-ART155-MOT",
+          2
+        ],
+        [
+          "MOD-FRA-AT25",
+          1
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-SVC-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-FRA-DLM-1936",
+      "name": "Division légère mécanique (1936)",
+      "file": "divisione_meccanizzata_francia_1936.json",
+      "category": "mechanized",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione leggera meccanica (DLM): 2 reggimenti carri, reggimento autoblindo da scoperta, 3 battaglioni di dragoni portati, artiglieria trainata (2 gruppi da 75, 1 da 105), controcarro, genio, servizi motorizzati. Carri: voce H 35/H 39 fino al passo 4 (SOMUA)",
+      "modules": [
+        [
+          "MOD-FRA-CHARS-DLM",
+          2
+        ],
+        [
+          "MOD-FRA-AMD-1936",
+          2
+        ],
+        [
+          "MOD-FRA-DRAGONS",
+          3
+        ],
+        [
+          "MOD-FRA-ART75-MOT",
+          2
+        ],
+        [
+          "MOD-FRA-ART105-MOT",
+          1
+        ],
+        [
+          "MOD-FRA-AT25",
+          1
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-SVC-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-FRA-ARM-1940",
+      "name": "Division cuirassée (1940)",
+      "file": "divisione_corazzata_francia_1940.json",
+      "category": "armored",
+      "activeFrom": "1940-01-01",
+      "formation": "divisione corazzata (DCr): 2 battaglioni B1 bis, 2 battaglioni H 39, battaglione di cacciatori portati, 2 gruppi da 105, batteria controcarro da 47, genio, servizi motorizzati",
+      "modules": [
+        [
+          "MOD-FRA-CHARS-B1",
+          2
+        ],
+        [
+          "MOD-FRA-CHARS-LEGERS",
+          2
+        ],
+        [
+          "MOD-FRA-INF-MOT",
+          1
+        ],
+        [
+          "MOD-FRA-ART105-MOT",
+          2
+        ],
+        [
+          "MOD-FRA-AT47",
+          1
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-SVC-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-FRA-CAV-1936",
+      "name": "Division de cavalerie (1936)",
+      "file": "divisione_cavalleria_francia_1936.json",
+      "category": "cavalry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione di cavalleria 1936: 4 reggimenti a cavallo, battaglione di dragoni portati, autoblindo, 2 gruppi da 75 ippotrainati, genio, servizi",
+      "modules": [
+        [
+          "MOD-FRA-CAV",
+          4
+        ],
+        [
+          "MOD-FRA-DRAGONS",
+          1
+        ],
+        [
+          "MOD-FRA-AMD-1936",
+          1
+        ],
+        [
+          "MOD-FRA-ART75",
+          2
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-SVC-1936",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-FRA-DLC-1940",
+      "name": "Division légère de cavalerie (1940)",
+      "file": "divisione_cavalleria_francia_1940.json",
+      "category": "cavalry",
+      "activeFrom": "1940-02-01",
+      "formation": "divisione leggera di cavalleria (DLC): brigata a cavallo (2 reggimenti), brigata leggera motorizzata (2 battaglioni di dragoni portati, autoblindo Panhard, carri H 35), 2 gruppi da 75 trainati, controcarro, genio, servizi motorizzati",
+      "modules": [
+        [
+          "MOD-FRA-CAV",
+          2
+        ],
+        [
+          "MOD-FRA-DRAGONS",
+          2
+        ],
+        [
+          "MOD-FRA-AMD",
+          1
+        ],
+        [
+          "MOD-FRA-CHARS-LEGERS",
+          1
+        ],
+        [
+          "MOD-FRA-ART75-MOT",
+          2
+        ],
+        [
+          "MOD-FRA-AT47",
+          1
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-SVC-MOT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-FRA-ALP-1936",
+      "name": "Division d'infanterie alpine (1936)",
+      "file": "divisione_alpina_francia_1936.json",
+      "category": "mountain",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione alpina: 9 battaglioni di cacciatori alpini, 3 gruppi da montagna da 75 someggiati, 1 gruppo da 155 C, genio, servizi e salmerie",
+      "modules": [
+        [
+          "MOD-FRA-BCA",
+          9
+        ],
+        [
+          "MOD-FRA-ART-MONT",
+          3
+        ],
+        [
+          "MOD-FRA-ART155C",
+          1
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-SVC-MONT",
+          1
+        ]
+      ]
+    },
+    {
+      "templateId": "TPL-FRA-COL-1936",
+      "name": "Division d'infanterie coloniale ou nord-africaine (1936)",
+      "file": "divisione_coloniale_francia_1936.json",
+      "category": "infantry",
+      "activeFrom": "1936-01-01",
+      "formation": "divisione coloniale o nordafricana (DIC, DINA, divisioni marocchine): 3 reggimenti su 3 battaglioni di tiratori o coloniali, compagnie reggimentali, 3 gruppi da 75 e 1 da 155 C, controcarro, genio, servizi. Nuove divisioni solo in Algeria, Marocco, Tunisia, Senegal",
+      "modules": [
+        [
+          "MOD-FRA-COL-INF",
+          9
+        ],
+        [
+          "MOD-FRA-REGT",
+          3
+        ],
+        [
+          "MOD-FRA-ART75",
+          3
+        ],
+        [
+          "MOD-FRA-ART155C",
+          1
+        ],
+        [
+          "MOD-FRA-AT25",
+          1
+        ],
+        [
+          "MOD-FRA-GENIE",
+          1
+        ],
+        [
+          "MOD-FRA-COL-SVC",
+          1
+        ]
+      ],
+      "variant": "colonial"
+    }
+  ],
+  "presets": []
+}

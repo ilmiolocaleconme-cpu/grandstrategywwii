@@ -1,0 +1,256 @@
+{
+  "schema": "unit-template-v1",
+  "id": "TPL-FRA-COL-1936",
+  "status": "RECONSTRUCTED_TEMPLATE",
+  "appliesTo": {
+    "nation": "FRA",
+    "category": "infantry",
+    "echelon": "division",
+    "activeFrom": "1936-01-01",
+    "variant": "colonial"
+  },
+  "orgLevel": "war",
+  "note": "Template generato dai battaglioni (scripts/build-module-templates.js, 18/11/2026): non modificare a mano, cambiare data/units/modules/. divisione coloniale o nordafricana (DIC, DINA, divisioni marocchine): 3 reggimenti su 3 battaglioni di tiratori o coloniali, compagnie reggimentali, 3 gruppi da 75 e 1 da 155 C, controcarro, genio, servizi. Nuove divisioni solo in Algeria, Marocco, Tunisia, Senegal.",
+  "formation": {
+    "value": "divisione coloniale o nordafricana (DIC, DINA, divisioni marocchine): 3 reggimenti su 3 battaglioni di tiratori o coloniali, compagnie reggimentali, 3 gruppi da 75 e 1 da 155 C, controcarro, genio, servizi. Nuove divisioni solo in Algeria, Marocco, Tunisia, Senegal",
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED"
+  },
+  "modules": [
+    {
+      "id": "MOD-FRA-COL-INF",
+      "count": 9,
+      "name": "Bataillon de tirailleurs (nord-africains, sénégalais) ou colonial",
+      "name_it": "Battaglione di tiratori nordafricani, senegalesi o coloniali"
+    },
+    {
+      "id": "MOD-FRA-REGT",
+      "count": 3,
+      "name": "Compagnies régimentaires (CRE, mortiers, canons de 25)",
+      "name_it": "Compagnie reggimentali (mortai da 81, cannoni da 25)"
+    },
+    {
+      "id": "MOD-FRA-ART75",
+      "count": 3,
+      "name": "Groupe de 75 hippomobile",
+      "name_it": "Gruppo da 75 ippotrainato"
+    },
+    {
+      "id": "MOD-FRA-ART155C",
+      "count": 1,
+      "name": "Groupe de 155 C hippomobile",
+      "name_it": "Gruppo da 155 C ippotrainato"
+    },
+    {
+      "id": "MOD-FRA-AT25",
+      "count": 1,
+      "name": "Compagnie divisionnaire antichar (25 mm)",
+      "name_it": "Compagnia controcarro divisionale (25 mm)"
+    },
+    {
+      "id": "MOD-FRA-GENIE",
+      "count": 1,
+      "name": "Bataillon du génie (sapeurs-mineurs, transmissions)",
+      "name_it": "Battaglione del genio (zappatori, trasmissioni)"
+    },
+    {
+      "id": "MOD-FRA-COL-SVC",
+      "count": 1,
+      "name": "Services de la division coloniale ou nord-africaine",
+      "name_it": "Servizi della divisione coloniale o nordafricana"
+    }
+  ],
+  "manpower": {
+    "war": {
+      "value": 14400,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "peace": {
+      "value": null,
+      "basis": "da_definire",
+      "referenceYear": null,
+      "source": null
+    }
+  },
+  "horses": {
+    "value": 3820,
+    "basis": "ipotesi",
+    "referenceYear": "1936",
+    "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+    "reliability": "ESTIMATED",
+    "effective": {
+      "value": null,
+      "asOf": null,
+      "basis": "da_definire",
+      "source": null
+    }
+  },
+  "equipment": {
+    "ART-FRA-ART75M1897": {
+      "value": 36,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-AT25": {
+      "value": 24,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-HOW155C": {
+      "value": 12,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-MORTAR60": {
+      "value": 9,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "ART-FRA-MORTAR81": {
+      "value": 6,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "GL-FRA-VB1916": {
+      "value": 324,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-PISTOL-1939": {
+      "value": 595,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "INW-FRA-RIFLE-1939": {
+      "value": 11170,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-FRA-FM2429": {
+      "value": 324,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "MG-FRA-HOTCHKISS1914": {
+      "value": 108,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    },
+    "VEH-FRA-CITROEN23": {
+      "value": 60,
+      "basis": "ipotesi",
+      "referenceYear": "1936",
+      "source": "Somma dei battaglioni di data/units/modules (9× MOD-FRA-COL-INF, 3× MOD-FRA-REGT, 3× MOD-FRA-ART75, 1× MOD-FRA-ART155C, 1× MOD-FRA-AT25, 1× MOD-FRA-GENIE, 1× MOD-FRA-COL-SVC). Organici stimati da Claude, NON verificati.",
+      "reliability": "ESTIMATED",
+      "effective": {
+        "value": null,
+        "asOf": null,
+        "basis": "da_definire",
+        "source": null
+      }
+    }
+  },
+  "effectiveSupply": {
+    "value": null,
+    "basis": "da_definire",
+    "note": "Dotazione effettiva per data: non definita."
+  },
+  "costs": {
+    "resources": null,
+    "manpower": null,
+    "buildDays": null,
+    "upkeep": null,
+    "note": "Da definire con l'editor a moduli."
+  }
+}

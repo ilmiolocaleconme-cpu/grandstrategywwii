@@ -77,7 +77,8 @@ test('stesse regole per tutte le nazioni: al 1/1/1936 ogni divisione attiva dell
   const names = ['divisione_fanteria_germania_1936', 'divisione_corazzata_germania_1936', 'divisione_fanteria_gran_bretagna_1936', 'divisione_fanteria_francia_1936', 'divisione_fanteria_germania_1939', 'divisione_fanteria_francia_1939', 'divisione_fanteria_italia_1940', 'divisione_fanteria_giappone_1939', 'divisione_fanteria_usa_1940', 'divisione_fucilieri_urss_1939', 'divisione_corazzata_francia_1940', 'divisione_corazzata_gran_bretagna_1939', 'divisione_corazzata_italia_1940', 'divisione_corazzata_usa_1940', 'divisione_corazzata_giappone_1942'];
   const templates = completeTemplates(names.map((n) => json(`units/templates/${n}.json`)));
   const fra = templates.find((t) => t.id === 'TPL-FRA-INF-1936');
-  assert.equal(fra.equipmentFrom, 'TPL-FRA-INF-1939', 'Francia 1936: armi dal 1939');
+  assert.equal(fra.equipmentFrom, undefined, 'Francia 1936: dal 25/11/2026 ha le sue armi (battaglioni), non le prende dal 1939');
+  assert.ok(fra.equipment['MG-FRA-FM2429'].value > 0);
   assert.equal(fra.startsAsCadre, true, 'resta un quadro');
   assert.equal(fra.initialFillRatio.value, 0.3);
   const units = json('units/units.json').units;

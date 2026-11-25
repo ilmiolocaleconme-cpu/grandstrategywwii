@@ -7,7 +7,7 @@
       "template": "fr_2di_template_1939.csv",
       "lines": "fr_2di_equipment_1939.csv",
       "catalog": "land_equipment_catalog_fr_1939.csv",
-      "output": "divisione_fanteria_francia_1939.json",
+      "output": "divisione_fanteria_francia_1939.json", "templateOutput": false, "templateOutputNote": "25/11/2026, schema unico: il template TPL-FRA-INF-1939 (stesso id) viene dai battaglioni di data/units/modules/modules_fra.json; il CSV genera solo il catalogo.",
       "granularityOverrides": {
         "FRA-RIFLE-1939": "class",
         "FRA-PISTOL-1939": "class"
@@ -76,7 +76,7 @@
       "template": "fra_arm_template_1940.csv",
       "lines": "fra_arm_equipment_1940.csv",
       "catalog": "land_equipment_catalog_fra_arm_1940.csv",
-      "output": "divisione_corazzata_francia_1940.json"
+      "output": "divisione_corazzata_francia_1940.json", "templateOutput": false, "templateOutputNote": "25/11/2026, schema unico: il template TPL-FRA-ARM-1940 (stesso id) viene dai battaglioni di data/units/modules/modules_fra.json; il CSV genera solo il catalogo."
     },
     {
       "id": "GBR-ARM-1939",
