@@ -18,7 +18,7 @@ const byId = new Map(doc.units.map((u) => [u.id, u]));
 test('units.json: valido e allineato al CSV e alle revisioni (nessun file stantio)', async () => {
   assert.deepEqual(validateUnits(doc, { nationIds }), []);
   assert.deepEqual(doc, JSON.parse(JSON.stringify(await unitsBuilt())), 'rigenerare con npm run build:units');
-  assert.equal(doc.units.length, 364 + 20 + 33 + 49 + 46, '364 CSV + Francia 20 + Germania 33 + URSS 49 + 46 segnaposto fucilieri');
+  assert.equal(doc.units.length, 364 + 20 + 33 + 49 + 46 + 230, '364 CSV + Francia 20 + Germania 33 + URSS 49 + 46 segnaposto fucilieri + 230 divisioni iniziali delle nazioni minori (25/11/2026)');
   const src = Object.fromEntries(doc.sources1936.map((x) => [x.nation, x]));
   assert.deepEqual(Object.keys(src).sort(), ['DEU', 'FRA', 'USSR']);
   assert.equal(src.FRA.repairedRows, 32, 'virgola in più delle righe terrestri del file francese');

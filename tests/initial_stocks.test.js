@@ -34,9 +34,9 @@ test('valori chiave: Germania importa ferro e bauxite, Giappone petrolio, USA fe
   assert.equal(file.stocks.DEU.bauxite, 84000);
   assert.equal(file.stocks.JPN.oil, 12045);
   assert.equal(file.stocks.USA.iron_ore, 250875);
-  assert.equal(file.stocks.NLD, undefined);
+  assert.deepEqual(Object.keys(file.stocks.NLD).sort(), ['components', 'steel'], 'Paesi Bassi: dal 25/11/2026 linee di fucili e cannoni da 75 (acciaio e componenti; la riserva di munizioni ha il suo test)');
   assert.equal(file.stocks.USSR.iron_ore, undefined);
-  for (const id of industry.tierC) assert.equal(file.stocks[id], undefined, `${id}: la fascia C non ha industria né stock`);
+  for (const id of industry.tierC) assert.equal(file.stocks[id], undefined, `${id}: la fascia C non ha industria né stock (la riserva di munizioni delle divisioni iniziali ha il suo test)`);
 });
 
 test('gli stock bastano davvero: giorni = stock / deficit giornaliero, non meno di 150', () => {

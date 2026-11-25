@@ -56,7 +56,7 @@ test('istanze al 1/1/1936: Germania 30 fanterie + 3 Panzer con dotazione 0,915; 
   // 17/11/2026: organico della corazzata STIMATO da Claude (reliability ESTIMATED nel template), altrimenti la divisione non combatteva
   assert.deepEqual(pz[0][1].items['manpower.war'], { planned: 12970, effective: Math.round(12970 * ratio), source: 'ratio' });
   assert.deepEqual(pz[0][1].items['equipment.TNK-DEU-TANK'], { planned: 320, effective: Math.round(320 * ratio), source: 'ratio' });
-  assert.equal(r.withoutTemplate.length, 67, 'altre nazioni e tipi senza template non hanno istanza');
+  assert.equal(r.withoutTemplate.length, 67 + 230, 'altre nazioni e tipi senza template non hanno istanza (+230 divisioni iniziali delle nazioni minori dal 25/11/2026)');
   assert.ok(r.withoutTemplate.every((id) => !r.state.forces.divisions[id]));
   assert.equal(r.state.forces.initialized, true);
   assert.deepEqual(validateState(r.state), []);

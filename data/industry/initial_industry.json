@@ -15,6 +15,16 @@
           "count": 1
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-AUT-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-AUT-GUN75",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 1
@@ -48,6 +58,16 @@
         {
           "factory": "FCT-ENGINE",
           "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-BEL-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-BEL-GUN75",
           "count": 1
         },
         {
@@ -85,6 +105,16 @@
           "factory": "FCT-ENGINE",
           "recipeId": "REC-ENGINES-001",
           "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-CAN-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-CAN-GUN75",
+          "count": 1
         }
       ]
     },
@@ -111,6 +141,16 @@
         {
           "factory": "FCT-STEEL",
           "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-CHL-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-CHL-GUN75",
           "count": 1
         },
         {
@@ -150,13 +190,18 @@
           "count": 1
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-CZE-RIFLE",
+          "count": 1
+        },
+        {
           "factory": "FCT-TANKS",
           "recipeId": "REC-TANK-CZE-LT35",
           "count": 1
         },
         {
           "factory": "FCT-ARTILLERY",
-          "recipeId": "REC-ARTILLERY-001",
+          "recipeId": "REC-ART-CZE-GUN75",
           "count": 1
         },
         {
@@ -308,6 +353,16 @@
         {
           "factory": "FCT-STEEL",
           "recipeId": "REC-STEEL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-ESP-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-ESP-GUN75",
           "count": 1
         },
         {
@@ -725,6 +780,16 @@
           "factory": "FCT-ALUMINIUM",
           "recipeId": "REC-ALU-001",
           "count": 2
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-HUN-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-HUN-GUN75",
+          "count": 1
         },
         {
           "factory": "FCT-POWER",
@@ -1154,6 +1219,16 @@
           "count": 1
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-MEX-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-MEX-GUN75",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 1
@@ -1173,6 +1248,16 @@
           "factory": "FCT-RUBBER",
           "recipeId": "REC-RUBBER-001",
           "count": 5
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-NLD-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-NLD-GUN75",
+          "count": 1
         },
         {
           "factory": "FCT-POWER",
@@ -1211,6 +1296,16 @@
           "count": 1
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-POL-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-POL-GUN75",
+          "count": 1
+        },
+        {
           "factory": "FCT-FEED",
           "recipeId": "REC-FEED-001",
           "count": 1
@@ -1239,6 +1334,16 @@
         {
           "factory": "FCT-REFINERY",
           "recipeId": "REC-FUEL-OIL-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-ROM-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-ROM-GUN75",
           "count": 1
         },
         {
@@ -1291,6 +1396,16 @@
         {
           "factory": "FCT-ENGINE",
           "recipeId": "REC-ENGINES-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-SWE-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-SWE-GUN75",
           "count": 1
         },
         {
@@ -1674,6 +1789,16 @@
           "count": 3
         },
         {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-VEN-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-VEN-GUN75",
+          "count": 1
+        },
+        {
           "factory": "FCT-POWER",
           "recipeId": "REC-ELECTRIC-COAL-001",
           "count": 1
@@ -1687,6 +1812,16 @@
         {
           "factory": "FCT-ALUMINIUM",
           "recipeId": "REC-ALU-001",
+          "count": 1
+        },
+        {
+          "factory": "FCT-WEAPONS",
+          "recipeId": "REC-INW-YUG-RIFLE",
+          "count": 1
+        },
+        {
+          "factory": "FCT-ARTILLERY",
+          "recipeId": "REC-ART-YUG-GUN75",
           "count": 1
         },
         {
@@ -1759,6 +1894,52 @@
     "startStock": {
       "steel": 760,
       "components": 65
+    },
+    "recipeByNation": {
+      "ALB": "REC-ART-ALB-GUN75",
+      "ARG": "REC-ART-ARG-GUN75",
+      "AFG": "REC-ART-AFG-GUN75",
+      "AUS": "REC-ART-AUS-GUN75",
+      "BOL": "REC-ART-BOL-GUN75",
+      "BRA": "REC-ART-BRA-GUN75",
+      "BGR": "REC-ART-BGR-GUN75",
+      "CHN": "REC-ART-CHN-GUN75",
+      "COL": "REC-ART-COL-GUN75",
+      "CRI": "REC-ART-CRI-GUN75",
+      "CUB": "REC-ART-CUB-GUN75",
+      "DNK": "REC-ART-DNK-GUN75",
+      "DOM": "REC-ART-DOM-GUN75",
+      "ECU": "REC-ART-ECU-GUN75",
+      "EGY": "REC-ART-EGY-GUN75",
+      "SLV": "REC-ART-SLV-GUN75",
+      "EST": "REC-ART-EST-GUN75",
+      "ETH": "REC-ART-ETH-GUN75",
+      "FIN": "REC-ART-FIN-GUN75",
+      "GRC": "REC-ART-GRC-GUN75",
+      "GTM": "REC-ART-GTM-GUN75",
+      "HTI": "REC-ART-HTI-GUN75",
+      "HND": "REC-ART-HND-GUN75",
+      "IRL": "REC-ART-IRL-GUN75",
+      "LVA": "REC-ART-LVA-GUN75",
+      "LTU": "REC-ART-LTU-GUN75",
+      "MNG": "REC-ART-MNG-GUN75",
+      "NZL": "REC-ART-NZL-GUN75",
+      "NIC": "REC-ART-NIC-GUN75",
+      "NOR": "REC-ART-NOR-GUN75",
+      "PAN": "REC-ART-PAN-GUN75",
+      "PRY": "REC-ART-PRY-GUN75",
+      "PER": "REC-ART-PER-GUN75",
+      "PRT": "REC-ART-PRT-GUN75",
+      "SAU": "REC-ART-SAU-GUN75",
+      "SIA": "REC-ART-SIA-GUN75",
+      "ZAF": "REC-ART-ZAF-GUN75",
+      "CHE": "REC-ART-CHE-GUN75",
+      "TUR": "REC-ART-TUR-GUN75",
+      "URY": "REC-ART-URY-GUN75",
+      "YEM": "REC-ART-YEM-GUN75",
+      "LBR": "REC-ART-LBR-GUN75",
+      "MAN": "REC-ART-MAN-GUN75",
+      "MENG": "REC-ART-MENG-GUN75"
     },
     "quality": "DESIGN_DEFAULT",
     "rationale": "Regola dell'utente del 29/10/2026: i paesi minori (fascia C) hanno un solo template di artiglieria e un minimo di produzione; scorta iniziale scelta dall'utente (opzione «scorta», poi aumentata). Numeri PROPOSTI da Claude, non approvati: una fabbrica limitata al 5% della capacità (circa 1,2 pezzi al giorno con il pezzo di riferimento da 3 t) e una scorta iniziale di 760 t di acciaio e 65 t di componenti, IN AGGIUNTA alla riserva minima di 500 t delle costruzioni: bastano per circa 180 giorni (consumo 4,2 t e 0,35 t al giorno), poi la nazione deve fare commercio (richiesta dell'utente 29/10/2026; il commercio non esiste ancora nel codice). Il pezzo di riferimento è un segnaposto (REC-ARTILLERY-001, MISSING_DATA)."

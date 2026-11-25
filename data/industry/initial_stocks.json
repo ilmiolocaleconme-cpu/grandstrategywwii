@@ -12,33 +12,40 @@
   "floorNote": "Riserva minima uguale per tutte le nazioni (decisione del 29/10/2026): 200 ECV di cassa minima × 2.5 t di acciaio per ECV = 500 t. Si applica come massimo (chi ha già più acciaio non cambia) e scala con la difficoltà come gli altri stock. Stima di progetto, non un dato storico.",
   "stocks": {
     "AUT": {
-      "coal": 21000
+      "coal": 21000,
+      "components": 123,
+      "munitions": 960
     },
     "BEL": {
       "iron_ore": 48000,
       "sulphur": 6000,
       "aluminium": 5100,
-      "processed_rubber": 1200
+      "processed_rubber": 1200,
+      "munitions": 1680
     },
     "CAN": {
       "iron_ore": 24000,
       "sulphur": 6000,
-      "steel": 12000,
+      "steel": 13476,
       "aluminium": 5100,
-      "processed_rubber": 1200
+      "processed_rubber": 1200,
+      "munitions": 960
     },
     "CEY": {
       "coal": 9000
     },
     "CHL": {
-      "coal": 21000
+      "coal": 21000,
+      "components": 123,
+      "munitions": 960
     },
     "CZE": {
       "coal": 21000,
       "sulphur": 6000,
-      "steel": 14781,
+      "steel": 15501,
       "aluminium": 5100,
-      "processed_rubber": 1200
+      "processed_rubber": 1200,
+      "munitions": 1680
     },
     "DEU": {
       "iron_ore": 227010,
@@ -53,7 +60,9 @@
       "feed": 1350
     },
     "ESP": {
-      "coal": 21000
+      "coal": 21000,
+      "components": 123,
+      "munitions": 1680
     },
     "FRA": {
       "coal": 15240,
@@ -80,7 +89,10 @@
       "feed": 405
     },
     "HUN": {
-      "coal": 9000
+      "coal": 9000,
+      "steel": 1476,
+      "components": 123,
+      "munitions": 1680
     },
     "IRN": {
       "coal": 9000
@@ -114,19 +126,30 @@
       "coal": 9000
     },
     "MEX": {
-      "coal": 4560
+      "coal": 4560,
+      "components": 123,
+      "munitions": 960
+    },
+    "NLD": {
+      "steel": 1476,
+      "components": 123,
+      "munitions": 1680
     },
     "POL": {
       "iron_ore": 12060,
       "sulphur": 6150,
       "wheat": 11760,
-      "steel": 12000,
+      "steel": 13476,
       "aluminium": 5100,
       "processed_rubber": 1200,
+      "munitions": 1680,
       "feed": 810
     },
     "ROM": {
-      "coal": 9000
+      "coal": 9000,
+      "steel": 1476,
+      "components": 123,
+      "munitions": 1680
     },
     "SUR": {
       "coal": 9000
@@ -134,9 +157,10 @@
     "SWE": {
       "coal": 21000,
       "sulphur": 6000,
-      "steel": 12000,
+      "steel": 13476,
       "aluminium": 5100,
-      "processed_rubber": 1200
+      "processed_rubber": 1200,
+      "munitions": 1680
     },
     "USA": {
       "iron_ore": 250875,
@@ -156,10 +180,145 @@
       "feed": 1350
     },
     "VEN": {
-      "coal": 9000
+      "coal": 9000,
+      "steel": 1476,
+      "components": 123,
+      "munitions": 960
     },
     "YUG": {
-      "coal": 9000
+      "coal": 9000,
+      "steel": 1476,
+      "components": 123,
+      "munitions": 1680
+    },
+    "AFG": {
+      "munitions": 480
+    },
+    "ALB": {
+      "munitions": 480
+    },
+    "ARG": {
+      "munitions": 1680
+    },
+    "AUS": {
+      "munitions": 960
+    },
+    "BGR": {
+      "munitions": 960
+    },
+    "BOL": {
+      "munitions": 960
+    },
+    "BRA": {
+      "munitions": 1680
+    },
+    "CHE": {
+      "munitions": 1680
+    },
+    "CHN": {
+      "munitions": 2400
+    },
+    "COL": {
+      "munitions": 960
+    },
+    "CRI": {
+      "munitions": 240
+    },
+    "CUB": {
+      "munitions": 480
+    },
+    "DNK": {
+      "munitions": 960
+    },
+    "DOM": {
+      "munitions": 240
+    },
+    "ECU": {
+      "munitions": 480
+    },
+    "EGY": {
+      "munitions": 960
+    },
+    "EST": {
+      "munitions": 480
+    },
+    "ETH": {
+      "munitions": 960
+    },
+    "FIN": {
+      "munitions": 960
+    },
+    "GRC": {
+      "munitions": 1680
+    },
+    "GTM": {
+      "munitions": 240
+    },
+    "HND": {
+      "munitions": 240
+    },
+    "HTI": {
+      "munitions": 240
+    },
+    "IRL": {
+      "munitions": 480
+    },
+    "LBR": {
+      "munitions": 240
+    },
+    "LTU": {
+      "munitions": 480
+    },
+    "LVA": {
+      "munitions": 480
+    },
+    "MAN": {
+      "munitions": 1680
+    },
+    "MNG": {
+      "munitions": 960
+    },
+    "NIC": {
+      "munitions": 240
+    },
+    "NOR": {
+      "munitions": 960
+    },
+    "NZL": {
+      "munitions": 960
+    },
+    "PAN": {
+      "munitions": 240
+    },
+    "PER": {
+      "munitions": 960
+    },
+    "PRT": {
+      "munitions": 960
+    },
+    "PRY": {
+      "munitions": 960
+    },
+    "SAU": {
+      "munitions": 480
+    },
+    "SIA": {
+      "munitions": 960
+    },
+    "SLV": {
+      "munitions": 240
+    },
+    "TUR": {
+      "munitions": 1680
+    },
+    "URY": {
+      "munitions": 480
+    },
+    "YEM": {
+      "munitions": 480
+    },
+    "ZAF": {
+      "munitions": 960
     }
   }
 }

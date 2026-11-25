@@ -3,6 +3,294 @@
  "quality": "DESIGN_DEFAULT",
  "note": "DESIGN_DEFAULT: stima della guarnigione al 1/1/1936 dalle divisioni e brigate schierate (data/units/deployment_1936.json, che è a sua volta una derivazione). Provincia: livello = numero di unità, massimo 3. Entità politica (gli impianti iniziali sono legati all'entità): 1 da 1 unità, 2 da 6 unità, massimo 2 per non rendere intoccabili le grandi potenze. I comandi non contano.",
  "byProvince": {
+  "P_AFG_KABUL": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_AFG_KANDAHAR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ALB_SHKODER": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ALB_TIRANE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ARG_BUENOS_AIRES": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ARG_ENTRE_RIOS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ARG_FORMOSA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ARG_MISIONES": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ARG_NEUQUEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ARG_SALTA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ARG_SANTA_CRUZ": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_AUS_AUSTRALIAN_CAPITAL_TERRITORY": {
+   "units": 4,
+   "garrison": 3
+  },
+  "P_AUT_LOWER_AUSTRIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_AUT_TIROL": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_AUT_UPPER_AUSTRIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BEL_ANTWERP": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BEL_BRABANT": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BEL_HAINAUT": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BEL_LIEGE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BEL_LIMBURG": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BEL_LUXEMBOURG": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BEL_WEST_FLANDERS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BGR_KARDZHALI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BGR_RUSE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BGR_SOFIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BGR_VIDIN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BOL_CHUQUISACA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BOL_LA_PAZ": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BOL_POTOSI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BOL_SANTA_CRUZ": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BRA_ACRE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BRA_AMAZONAS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BRA_MATO_GROSSO_DO_SUL": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BRA_PARA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BRA_RIO_DE_JANEIRO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BRA_RONDONIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_BRA_RORAIMA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CAN_BRITISH_COLUMBIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CAN_ONTARIO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CAN_QUEBEC": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CAN_YUKON": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHE_BERN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHE_GENEVE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHE_GRAUBUNDEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHE_SANKT_GALLEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHE_SCHAFFHAUSEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHE_TICINO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHE_VAUD": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHL_ARICA_Y_PARINACOTA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHL_AYSEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHL_SANTIAGO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHL_TARAPACA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_GANSU": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_GUANGDONG": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_GUANGXI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_HEBEI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_INNER_MONGOLIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_JIANGSU": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_QINGHAI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_SICHUAN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_XINJIANG": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CHN_YUNNAN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_COL_AMAZONAS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_COL_BOGOTA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_COL_VAUPES": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_COL_VICHADA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CRI_SAN_JOSE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CUB_HAVANA": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_CZE_BOHEMIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_CZE_MORAVIAN_SILESIAN_COUNTRY": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_CZE_SLOVAKIA": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_CZE_SUBCARPATHIAN_RUS": {
+   "units": 2,
+   "garrison": 2
+  },
   "P_DEU_BERLIN": {
    "units": 3,
    "garrison": 3
@@ -50,6 +338,110 @@
   "P_DEU_WUERTTEMBERG_HOHENZOLLERN": {
    "units": 2,
    "garrison": 2
+  },
+  "P_DNK_HOVEDSTADEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_DNK_SYDDANMARK": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_DOM_SANTO_DOMINGO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ECU_LOJA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ECU_PICHINCHA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_EGY_AL_QAHIRAH": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_EGY_AL_WADI_AT_JADID": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_EGY_MATRUH": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_EGY_SHAMAL_SINA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ESP_BADAJOZ": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ESP_CACERES": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ESP_CADIZ": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ESP_GERONA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ESP_HUESCA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ESP_MADRID": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ESP_ORENSE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_EST_HARJU": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_EST_VIRU": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ETH_ADDIS_ABABA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ETH_BENISHANGUL_GUMUZ": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ETH_SOMALI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ETH_TIGRAY": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FIN_KAINUU": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FIN_LAPLAND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FIN_NORTH_KARELIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_FIN_UUSIMAA": {
+   "units": 1,
+   "garrison": 1
   },
   "P_FRA_BOUCHES_DU_RHONE": {
    "units": 1,
@@ -119,6 +511,74 @@
    "units": 2,
    "garrison": 2
   },
+  "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_GRC_ATTIKI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_GRC_DYTIKI_MAKEDONIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_GRC_IPEIROS": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_GRC_KENTRIKI_MAKEDONIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_GTM_GUATEMALA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HND_FRANCISCO_MORAZAN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HTI_OUEST": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HUN_BACS_KISKUN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HUN_BARANYA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HUN_BEKES": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HUN_BORSOD_ABAUJ_ZEMPLEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HUN_BUDAPEST": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HUN_GYOR_MOSON_SOPRON": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_HUN_SZABOLCS_SZATMAR_BEREG": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_IRL_DUBLINO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_IRL_ULSTER": {
+   "units": 1,
+   "garrison": 1
+  },
   "P_ITA_ASTI": {
    "units": 1,
    "garrison": 1
@@ -134,12 +594,488 @@
   "P_ITA_UDINE": {
    "units": 1,
    "garrison": 1
+  },
+  "P_LBR_MONTSERRADO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_LTU_ALYTUS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_LTU_KAUNAS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_LVA_RIGA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_LVA_ZEMGALE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MAN_HEILONGJIANG": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_MAN_JILIN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MAN_LIAONING": {
+   "units": 3,
+   "garrison": 3
+  },
+  "P_MEX_CHIAPAS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MEX_CHIHUAHUA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MEX_MEXICO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MEX_QUINTANA_ROO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MNG_DORNOD": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MNG_KHOVSGOL": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MNG_OMNOGOVI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_MNG_ULAANBAATAR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NIC_MANAGUA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NLD_GELDERLAND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NLD_LIMBURG": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_NLD_NOORD_BRABANT": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NLD_NOORD_HOLLAND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NLD_OVERIJSSEL": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NLD_ZEELAND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NOR_FINNMARK": {
+   "units": 2,
+   "garrison": 2
+  },
+  "P_NOR_NORDLAND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NOR_OSLO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_NZL_NORTH_ISLAND": {
+   "units": 4,
+   "garrison": 3
+  },
+  "P_PAN_PANAMA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PER_LIMA_PE_LIM": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PER_LORETO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PER_PIURA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PER_PUNO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_POL_BIAYSTOK_VOIVODESHIP": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_POL_KRAKOW_VOIVODESHIP": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_POL_POMERANIAN_VOIVODESHIP": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_POL_POZNAN_VOIVODESHIP": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_POL_STANISAWOW_VOIVODESHIP": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_POL_WARSAW_VOIVODESHIP": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_POL_WILNO_VOIVODESHIP": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PRT_BRAGANCA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PRT_CASTELO_BRANCO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PRT_LISBOA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PRT_PORTALEGRE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PRY_ALTO_PARAGUAY": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PRY_AMAMBAY": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PRY_NEEMBUCU": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_PRY_PRESIDENTE_HAYES": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ROM_BASARABIA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ROM_BIHOR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ROM_BUCOVINA_DE_NORD": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ROM_BUCURESTI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ROM_CADRILATER": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ROM_MARAMURES": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ROM_TIMIS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SAU_EASTERN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SAU_RIYADH": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SIA_CENTRAL": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SIA_NORTHEASTERN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SIA_SOUTHERN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SIA_WESTERN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SLV_SAN_SALVADOR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SWE_DALARNA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SWE_JAMTLAND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SWE_NORRBOTTEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SWE_STOCKHOLM": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SWE_VARMLAND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SWE_VASTERBOTTEN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_SWE_VASTRA_GOTALAND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_TUR_ANKARA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_TUR_ARDAHAN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_TUR_EDIRNE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_TUR_HAKKARI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_TUR_KIRKLARELI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_TUR_SANLIURFA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_TUR_VAN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_URY_ARTIGAS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_URY_MONTEVIDEO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_VEN_AMAZONAS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_VEN_BOLIVAR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_VEN_DELTA_AMACURO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_VEN_MIRANDA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YEM_HADHRAMAUT": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YEM_SANAA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YUG_CETINJE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YUG_LJUBLJANA": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YUG_MARIBOR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YUG_NIS": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YUG_OSIJEK": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YUG_SMEDEREVO": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_YUG_ZAJECAR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ZAF_FREE_STATE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ZAF_GAUTENG": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ZAF_NORTHERN_CAPE": {
+   "units": 1,
+   "garrison": 1
+  },
+  "P_ZAF_NORTH_WEST": {
+   "units": 1,
+   "garrison": 1
   }
  },
  "byEntity": {
+  "AFG": {
+   "units": 2,
+   "garrison": 1
+  },
+  "ALB": {
+   "units": 2,
+   "garrison": 1
+  },
+  "ARG": {
+   "units": 7,
+   "garrison": 2
+  },
+  "AUS": {
+   "units": 4,
+   "garrison": 1
+  },
+  "AUT": {
+   "units": 4,
+   "garrison": 1
+  },
+  "BEL": {
+   "units": 7,
+   "garrison": 2
+  },
+  "BGR": {
+   "units": 4,
+   "garrison": 1
+  },
+  "BOL": {
+   "units": 4,
+   "garrison": 1
+  },
+  "BRA": {
+   "units": 7,
+   "garrison": 2
+  },
+  "CAN": {
+   "units": 4,
+   "garrison": 1
+  },
+  "CHE": {
+   "units": 7,
+   "garrison": 2
+  },
+  "CHL": {
+   "units": 4,
+   "garrison": 1
+  },
+  "CHN": {
+   "units": 10,
+   "garrison": 2
+  },
+  "COL": {
+   "units": 4,
+   "garrison": 1
+  },
+  "CRI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "CUB": {
+   "units": 2,
+   "garrison": 1
+  },
+  "CZE": {
+   "units": 7,
+   "garrison": 2
+  },
   "DEU": {
    "units": 32,
    "garrison": 2
+  },
+  "DNK": {
+   "units": 4,
+   "garrison": 1
+  },
+  "DOM": {
+   "units": 1,
+   "garrison": 1
+  },
+  "ECU": {
+   "units": 2,
+   "garrison": 1
+  },
+  "EGY": {
+   "units": 4,
+   "garrison": 1
+  },
+  "ESP": {
+   "units": 7,
+   "garrison": 2
+  },
+  "EST": {
+   "units": 2,
+   "garrison": 1
+  },
+  "ETH": {
+   "units": 4,
+   "garrison": 1
+  },
+  "FIN": {
+   "units": 4,
+   "garrison": 1
   },
   "FRA": {
    "units": 17,
@@ -149,7 +1085,135 @@
    "units": 2,
    "garrison": 1
   },
+  "GRC": {
+   "units": 7,
+   "garrison": 2
+  },
+  "GTM": {
+   "units": 1,
+   "garrison": 1
+  },
+  "HND": {
+   "units": 1,
+   "garrison": 1
+  },
+  "HTI": {
+   "units": 1,
+   "garrison": 1
+  },
+  "HUN": {
+   "units": 7,
+   "garrison": 2
+  },
+  "IRL": {
+   "units": 2,
+   "garrison": 1
+  },
   "ITA": {
+   "units": 4,
+   "garrison": 1
+  },
+  "LBR": {
+   "units": 1,
+   "garrison": 1
+  },
+  "LTU": {
+   "units": 2,
+   "garrison": 1
+  },
+  "LVA": {
+   "units": 2,
+   "garrison": 1
+  },
+  "MAN": {
+   "units": 7,
+   "garrison": 2
+  },
+  "MEX": {
+   "units": 4,
+   "garrison": 1
+  },
+  "MNG": {
+   "units": 4,
+   "garrison": 1
+  },
+  "NIC": {
+   "units": 1,
+   "garrison": 1
+  },
+  "NLD": {
+   "units": 7,
+   "garrison": 2
+  },
+  "NOR": {
+   "units": 4,
+   "garrison": 1
+  },
+  "NZL": {
+   "units": 4,
+   "garrison": 1
+  },
+  "PAN": {
+   "units": 1,
+   "garrison": 1
+  },
+  "PER": {
+   "units": 4,
+   "garrison": 1
+  },
+  "POL": {
+   "units": 7,
+   "garrison": 2
+  },
+  "PRT": {
+   "units": 4,
+   "garrison": 1
+  },
+  "PRY": {
+   "units": 4,
+   "garrison": 1
+  },
+  "ROM": {
+   "units": 7,
+   "garrison": 2
+  },
+  "SAU": {
+   "units": 2,
+   "garrison": 1
+  },
+  "SIA": {
+   "units": 4,
+   "garrison": 1
+  },
+  "SLV": {
+   "units": 1,
+   "garrison": 1
+  },
+  "SWE": {
+   "units": 7,
+   "garrison": 2
+  },
+  "TUR": {
+   "units": 7,
+   "garrison": 2
+  },
+  "URY": {
+   "units": 2,
+   "garrison": 1
+  },
+  "VEN": {
+   "units": 4,
+   "garrison": 1
+  },
+  "YEM": {
+   "units": 2,
+   "garrison": 1
+  },
+  "YUG": {
+   "units": 7,
+   "garrison": 2
+  },
+  "ZAF": {
    "units": 4,
    "garrison": 1
   }

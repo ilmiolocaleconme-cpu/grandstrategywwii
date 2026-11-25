@@ -4,6 +4,494 @@
  "note": "Unità → provincia madre al 1/1/1936, DERIVATA dalla stazione in testo libero del file dell'utente, dalle città del catalogo, dal corpo d'armata e da poche eccezioni dichiarate (OVERRIDES in src/data/deployment.js). Non è una dislocazione storica verificata. Le unità senza luogo noto sono in unplaced e non compaiono sulla mappa.",
  "entries": [
   {
+   "unit": "S36-AFG-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_AFG_KABUL",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-AFG-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_AFG_KANDAHAR",
+   "how": "confine con IND (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ALB-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_ALB_TIRANE",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ALB-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_ALB_SHKODER",
+   "bank": "P_ALB_SHKODER_SP1",
+   "how": "confine con YUG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ARG-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_ARG_BUENOS_AIRES",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ARG-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_ARG_SANTA_CRUZ",
+   "how": "confine con CHL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ARG-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_ARG_FORMOSA",
+   "how": "confine con PRY (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ARG-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_ARG_MISIONES",
+   "how": "confine con BRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ARG-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_ARG_SALTA",
+   "how": "confine con BOL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ARG-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_ARG_ENTRE_RIOS",
+   "how": "confine con URY (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ARG-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_ARG_NEUQUEN",
+   "how": "confine con CHL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-AUS-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_AUS_AUSTRALIAN_CAPITAL_TERRITORY",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-AUS-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_AUS_AUSTRALIAN_CAPITAL_TERRITORY",
+   "how": "capitale: nessuna provincia di confine terrestre (divisione iniziale delle nazioni minori)"
+  },
+  {
+   "unit": "S36-AUS-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_AUS_AUSTRALIAN_CAPITAL_TERRITORY",
+   "how": "capitale: nessuna provincia di confine terrestre (divisione iniziale delle nazioni minori)"
+  },
+  {
+   "unit": "S36-AUS-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_AUS_AUSTRALIAN_CAPITAL_TERRITORY",
+   "how": "capitale: nessuna provincia di confine terrestre (divisione iniziale delle nazioni minori)"
+  },
+  {
+   "unit": "S36-AUT-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_AUT_LOWER_AUSTRIA",
+   "bank": "P_AUT_LOWER_AUSTRIA_SP1",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-AUT-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_AUT_TIROL",
+   "bank": "P_AUT_TIROL_SP1",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-AUT-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_AUT_UPPER_AUSTRIA",
+   "bank": "P_AUT_UPPER_AUSTRIA_SP1",
+   "how": "confine con CZE (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-AUT-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_AUT_TIROL",
+   "bank": "P_AUT_TIROL_SP2",
+   "how": "confine con ITA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BEL-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_BEL_BRABANT",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BEL-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_BEL_HAINAUT",
+   "bank": "P_BEL_HAINAUT_SP2",
+   "how": "confine con FRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BEL-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_BEL_ANTWERP",
+   "how": "confine con NLD (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BEL-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_BEL_LIEGE",
+   "bank": "P_BEL_LIEGE_SP2",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BEL-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_BEL_LUXEMBOURG",
+   "how": "confine con LUX (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BEL-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_BEL_WEST_FLANDERS",
+   "how": "confine con FRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BEL-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_BEL_LIMBURG",
+   "how": "confine con NLD (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BGR-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_BGR_SOFIA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BGR-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_BGR_RUSE",
+   "how": "confine con ROM (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BGR-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_BGR_VIDIN",
+   "how": "confine con YUG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BGR-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_BGR_KARDZHALI",
+   "how": "confine con GRC (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BOL-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_BOL_CHUQUISACA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BOL-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_BOL_SANTA_CRUZ",
+   "how": "confine con BRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BOL-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_BOL_LA_PAZ",
+   "how": "confine con PER (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BOL-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_BOL_POTOSI",
+   "how": "confine con CHL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BRA-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_BRA_RIO_DE_JANEIRO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BRA-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_BRA_RONDONIA",
+   "how": "confine con BOL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BRA-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_BRA_ACRE",
+   "how": "confine con PER (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BRA-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_BRA_RORAIMA",
+   "how": "confine con VEN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BRA-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_BRA_AMAZONAS",
+   "how": "confine con COL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BRA-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_BRA_MATO_GROSSO_DO_SUL",
+   "how": "confine con PRY (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-BRA-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_BRA_PARA",
+   "how": "confine con BGU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CAN-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_CAN_ONTARIO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CAN-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_CAN_BRITISH_COLUMBIA",
+   "how": "confine con USA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CAN-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_CAN_QUEBEC",
+   "how": "confine con NFL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CAN-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_CAN_YUKON",
+   "how": "confine con USA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHE-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_CHE_BERN",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHE-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_CHE_GRAUBUNDEN",
+   "how": "confine con ITA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHE-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_CHE_VAUD",
+   "how": "confine con FRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHE-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_CHE_SCHAFFHAUSEN",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHE-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_CHE_SANKT_GALLEN",
+   "how": "confine con AUT (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHE-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_CHE_TICINO",
+   "how": "confine con ITA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHE-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_CHE_GENEVE",
+   "how": "confine con FRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHL-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_CHL_SANTIAGO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHL-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_CHL_AYSEN",
+   "how": "confine con ARG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHL-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_CHL_TARAPACA",
+   "how": "confine con BOL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHL-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_CHL_ARICA_Y_PARINACOTA",
+   "how": "confine con PER (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_CHN_JIANGSU",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_CHN_INNER_MONGOLIA",
+   "how": "confine con MNG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_CHN_QINGHAI",
+   "how": "confine con TIB (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_CHN_XINJIANG",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_CHN_HEBEI",
+   "how": "confine con MAN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_CHN_YUNNAN",
+   "how": "confine con BUR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_CHN_GUANGXI",
+   "how": "confine con INDO (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-008",
+   "name": "8ª Divisione di fanteria",
+   "province": "P_CHN_GUANGDONG",
+   "how": "confine con HKG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-009",
+   "name": "9ª Divisione di fanteria",
+   "province": "P_CHN_GANSU",
+   "how": "confine con MNG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CHN-010",
+   "name": "10ª Divisione di fanteria",
+   "province": "P_CHN_SICHUAN",
+   "how": "confine con TIB (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-COL-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_COL_BOGOTA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-COL-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_COL_VICHADA",
+   "how": "confine con VEN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-COL-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_COL_VAUPES",
+   "how": "confine con BRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-COL-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_COL_AMAZONAS",
+   "how": "confine con PER (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CRI-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_CRI_SAN_JOSE",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CUB-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_CUB_HAVANA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CUB-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_CUB_HAVANA",
+   "how": "capitale: nessuna provincia di confine terrestre (divisione iniziale delle nazioni minori)"
+  },
+  {
+   "unit": "S36-CZE-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_CZE_BOHEMIA",
+   "bank": "P_CZE_BOHEMIA_SP1",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CZE-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_CZE_MORAVIAN_SILESIAN_COUNTRY",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CZE-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_CZE_SLOVAKIA",
+   "how": "confine con POL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CZE-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_CZE_SUBCARPATHIAN_RUS",
+   "how": "confine con HUN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CZE-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_CZE_MORAVIAN_SILESIAN_COUNTRY",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CZE-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_CZE_SLOVAKIA",
+   "how": "confine con POL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-CZE-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_CZE_SUBCARPATHIAN_RUS",
+   "how": "confine con HUN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
    "unit": "S36-DEU-001",
    "name": "Wehrkreis I",
    "province": "P_DEU_OSTPREUSSEN",
@@ -209,6 +697,181 @@
    "how": "nel luogo del corpo d'armata XII. Armeekorps (assegnazione dalla nota del corpo, indicativa)"
   },
   {
+   "unit": "S36-DNK-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_DNK_HOVEDSTADEN",
+   "bank": "P_DNK_HOVEDSTADEN_SP1",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-DNK-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_DNK_SYDDANMARK",
+   "bank": "P_DNK_SYDDANMARK_SP2",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-DNK-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_DNK_SYDDANMARK",
+   "bank": "P_DNK_SYDDANMARK_SP2",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-DNK-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_DNK_SYDDANMARK",
+   "bank": "P_DNK_SYDDANMARK_SP2",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-DOM-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_DOM_SANTO_DOMINGO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ECU-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_ECU_PICHINCHA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ECU-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_ECU_LOJA",
+   "how": "confine con PER (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-EGY-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_EGY_AL_QAHIRAH",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-EGY-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_EGY_AL_WADI_AT_JADID",
+   "how": "confine con SUD (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-EGY-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_EGY_MATRUH",
+   "how": "confine con LBA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-EGY-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_EGY_SHAMAL_SINA",
+   "how": "confine con PAL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ESP-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_ESP_MADRID",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ESP-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_ESP_ORENSE",
+   "bank": "P_ESP_ORENSE_SP2",
+   "how": "confine con PRT (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ESP-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_ESP_GERONA",
+   "how": "confine con FRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ESP-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_ESP_CADIZ",
+   "how": "confine con GIB (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ESP-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_ESP_BADAJOZ",
+   "how": "confine con PRT (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ESP-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_ESP_HUESCA",
+   "how": "confine con FRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ESP-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_ESP_CACERES",
+   "how": "confine con PRT (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-EST-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_EST_HARJU",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-EST-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_EST_VIRU",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ETH-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_ETH_ADDIS_ABABA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ETH-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_ETH_BENISHANGUL_GUMUZ",
+   "how": "confine con SUD (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ETH-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_ETH_TIGRAY",
+   "how": "confine con ERI (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ETH-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_ETH_SOMALI",
+   "how": "confine con SOM (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-FIN-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_FIN_UUSIMAA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-FIN-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_FIN_KAINUU",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-FIN-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_FIN_LAPLAND",
+   "bank": "P_FIN_LAPLAND_SP1",
+   "how": "confine con NOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-FIN-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_FIN_NORTH_KARELIA",
+   "bank": "P_FIN_NORTH_KARELIA_SP1",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
    "unit": "S36-FRA-001",
    "name": "3e Division d'infanterie",
    "province": "P_FRA_SEINE_MARITIME",
@@ -304,6 +967,659 @@
    "how": "stazione \"Meurthe-et-Moselle / Nancy\": città nancy del catalogo"
   },
   {
+   "unit": "S36-GRC-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_GRC_ATTIKI",
+   "bank": "P_GRC_ATTIKI_SP1",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-GRC-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI",
+   "bank": "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI_SP1",
+   "how": "confine con BGR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-GRC-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_GRC_IPEIROS",
+   "bank": "P_GRC_IPEIROS_SP2",
+   "how": "confine con ALB (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-GRC-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_GRC_KENTRIKI_MAKEDONIA",
+   "bank": "P_GRC_KENTRIKI_MAKEDONIA_SP1",
+   "how": "confine con YUG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-GRC-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI",
+   "bank": "P_GRC_ANATOLIKI_MAKEDONIA_KAI_THRAKI_SP2",
+   "how": "confine con BGR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-GRC-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_GRC_DYTIKI_MAKEDONIA",
+   "how": "confine con ALB (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-GRC-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_GRC_IPEIROS",
+   "bank": "P_GRC_IPEIROS_SP1",
+   "how": "confine con ALB (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-GTM-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_GTM_GUATEMALA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HND-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_HND_FRANCISCO_MORAZAN",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HTI-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_HTI_OUEST",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HUN-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_HUN_BUDAPEST",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HUN-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_HUN_BORSOD_ABAUJ_ZEMPLEN",
+   "how": "confine con CZE (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HUN-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_HUN_BARANYA",
+   "how": "confine con YUG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HUN-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_HUN_BEKES",
+   "how": "confine con ROM (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HUN-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_HUN_GYOR_MOSON_SOPRON",
+   "how": "confine con AUT (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HUN-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_HUN_SZABOLCS_SZATMAR_BEREG",
+   "how": "confine con CZE (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-HUN-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_HUN_BACS_KISKUN",
+   "how": "confine con YUG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-IRL-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_IRL_DUBLINO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-IRL-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_IRL_ULSTER",
+   "bank": "P_IRL_ULSTER_SP2",
+   "how": "confine con GBR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-LBR-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_LBR_MONTSERRADO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-LTU-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_LTU_KAUNAS",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-LTU-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_LTU_ALYTUS",
+   "how": "confine con POL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-LVA-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_LVA_RIGA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-LVA-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_LVA_ZEMGALE",
+   "bank": "P_LVA_ZEMGALE_SP2",
+   "how": "confine con LTU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MAN-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_MAN_JILIN",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MAN-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_MAN_HEILONGJIANG",
+   "how": "confine con CHN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MAN-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_MAN_LIAONING",
+   "how": "confine con KOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MAN-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_MAN_HEILONGJIANG",
+   "how": "confine con CHN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MAN-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_MAN_LIAONING",
+   "how": "confine con KOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MAN-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_MAN_HEILONGJIANG",
+   "how": "confine con CHN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MAN-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_MAN_LIAONING",
+   "how": "confine con KOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MEX-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_MEX_MEXICO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MEX-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_MEX_CHIHUAHUA",
+   "how": "confine con USA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MEX-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_MEX_CHIAPAS",
+   "how": "confine con GTM (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MEX-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_MEX_QUINTANA_ROO",
+   "how": "confine con BLZ (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MNG-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_MNG_ULAANBAATAR",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MNG-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_MNG_DORNOD",
+   "how": "confine con CHN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MNG-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_MNG_KHOVSGOL",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-MNG-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_MNG_OMNOGOVI",
+   "how": "confine con CHN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NIC-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_NIC_MANAGUA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NLD-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_NLD_NOORD_HOLLAND",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NLD-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_NLD_LIMBURG",
+   "bank": "P_NLD_LIMBURG_SP2",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NLD-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_NLD_NOORD_BRABANT",
+   "bank": "P_NLD_NOORD_BRABANT_SP4",
+   "how": "confine con BEL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NLD-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_NLD_GELDERLAND",
+   "bank": "P_NLD_GELDERLAND_SP1",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NLD-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_NLD_ZEELAND",
+   "bank": "P_NLD_ZEELAND_SP3",
+   "how": "confine con BEL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NLD-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_NLD_OVERIJSSEL",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NLD-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_NLD_LIMBURG",
+   "bank": "P_NLD_LIMBURG_SP1",
+   "how": "confine con BEL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NOR-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_NOR_OSLO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NOR-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_NOR_NORDLAND",
+   "bank": "P_NOR_NORDLAND_SP19",
+   "how": "confine con SWE (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NOR-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_NOR_FINNMARK",
+   "bank": "P_NOR_FINNMARK_SP9",
+   "how": "confine con FIN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NOR-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_NOR_FINNMARK",
+   "bank": "P_NOR_FINNMARK_SP11",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NZL-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_NZL_NORTH_ISLAND",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-NZL-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_NZL_NORTH_ISLAND",
+   "how": "capitale: nessuna provincia di confine terrestre (divisione iniziale delle nazioni minori)"
+  },
+  {
+   "unit": "S36-NZL-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_NZL_NORTH_ISLAND",
+   "how": "capitale: nessuna provincia di confine terrestre (divisione iniziale delle nazioni minori)"
+  },
+  {
+   "unit": "S36-NZL-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_NZL_NORTH_ISLAND",
+   "how": "capitale: nessuna provincia di confine terrestre (divisione iniziale delle nazioni minori)"
+  },
+  {
+   "unit": "S36-PAN-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_PAN_PANAMA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PER-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_PER_LIMA_PE_LIM",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PER-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_PER_LORETO",
+   "how": "confine con BRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PER-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_PER_PIURA",
+   "how": "confine con ECU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PER-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_PER_PUNO",
+   "how": "confine con BOL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-POL-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_POL_WARSAW_VOIVODESHIP",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-POL-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_POL_POZNAN_VOIVODESHIP",
+   "how": "confine con DEU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-POL-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_POL_WILNO_VOIVODESHIP",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-POL-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_POL_KRAKOW_VOIVODESHIP",
+   "bank": "P_POL_KRAKOW_VOIVODESHIP_SP2",
+   "how": "confine con CZE (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-POL-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_POL_BIAYSTOK_VOIVODESHIP",
+   "how": "confine con LTU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-POL-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_POL_STANISAWOW_VOIVODESHIP",
+   "bank": "P_POL_STANISAWOW_VOIVODESHIP_SP4",
+   "how": "confine con ROM (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-POL-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_POL_POMERANIAN_VOIVODESHIP",
+   "bank": "P_POL_POMERANIAN_VOIVODESHIP_SP1",
+   "how": "confine con DANZIG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PRT-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_PRT_LISBOA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PRT-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_PRT_BRAGANCA",
+   "how": "confine con ESP (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PRT-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_PRT_PORTALEGRE",
+   "how": "confine con ESP (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PRT-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_PRT_CASTELO_BRANCO",
+   "how": "confine con ESP (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PRY-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_PRY_PRESIDENTE_HAYES",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PRY-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_PRY_NEEMBUCU",
+   "how": "confine con ARG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PRY-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_PRY_AMAMBAY",
+   "how": "confine con BRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-PRY-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_PRY_ALTO_PARAGUAY",
+   "how": "confine con BOL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ROM-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_ROM_BUCURESTI",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ROM-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_ROM_BASARABIA",
+   "bank": "P_ROM_BASARABIA_SP2",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ROM-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_ROM_CADRILATER",
+   "how": "confine con BGR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ROM-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_ROM_TIMIS",
+   "how": "confine con YUG (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ROM-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_ROM_BIHOR",
+   "how": "confine con HUN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ROM-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_ROM_MARAMURES",
+   "how": "confine con CZE (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ROM-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_ROM_BUCOVINA_DE_NORD",
+   "how": "confine con POL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SAU-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_SAU_RIYADH",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SAU-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_SAU_EASTERN",
+   "how": "confine con YEM (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SIA-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_SIA_CENTRAL",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SIA-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_SIA_NORTHEASTERN",
+   "how": "confine con INDO (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SIA-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_SIA_WESTERN",
+   "how": "confine con BUR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SIA-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_SIA_SOUTHERN",
+   "how": "confine con MAL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SLV-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_SLV_SAN_SALVADOR",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SWE-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_SWE_STOCKHOLM",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SWE-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_SWE_NORRBOTTEN",
+   "bank": "P_SWE_NORRBOTTEN_SP2",
+   "how": "confine con NOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SWE-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_SWE_JAMTLAND",
+   "how": "confine con NOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SWE-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_SWE_VARMLAND",
+   "how": "confine con NOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SWE-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_SWE_VASTERBOTTEN",
+   "bank": "P_SWE_VASTERBOTTEN_SP1",
+   "how": "confine con NOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SWE-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_SWE_DALARNA",
+   "how": "confine con NOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-SWE-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_SWE_VASTRA_GOTALAND",
+   "bank": "P_SWE_VASTRA_GOTALAND_SP1",
+   "how": "confine con NOR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-TUR-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_TUR_ANKARA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-TUR-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_TUR_SANLIURFA",
+   "how": "confine con SYR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-TUR-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_TUR_ARDAHAN",
+   "how": "confine con USSR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-TUR-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_TUR_VAN",
+   "how": "confine con IRN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-TUR-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_TUR_HAKKARI",
+   "how": "confine con IRQ (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-TUR-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_TUR_KIRKLARELI",
+   "how": "confine con BGR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-TUR-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_TUR_EDIRNE",
+   "how": "confine con GRC (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-URY-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_URY_MONTEVIDEO",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-URY-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_URY_ARTIGAS",
+   "how": "confine con BRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
    "unit": "S36-USSR-001",
    "name": "Distretto militare di Leningrado",
    "province": "P_USSR_LENINGRAD",
@@ -321,6 +1637,109 @@
    "name": "Distretto militare di Mosca",
    "province": "P_USSR_MOSKOVSKAYA",
    "how": "stazione \"Mosca\": città mosca del catalogo"
+  },
+  {
+   "unit": "S36-VEN-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_VEN_MIRANDA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-VEN-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_VEN_AMAZONAS",
+   "how": "confine con COL (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-VEN-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_VEN_BOLIVAR",
+   "how": "confine con BRA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-VEN-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_VEN_DELTA_AMACURO",
+   "how": "confine con BGU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YEM-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_YEM_SANAA",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YEM-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_YEM_HADHRAMAUT",
+   "how": "confine con SAU (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YUG-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_YUG_SMEDEREVO",
+   "bank": "P_YUG_SMEDEREVO_SP1",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YUG-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_YUG_OSIJEK",
+   "how": "confine con HUN (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YUG-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_YUG_NIS",
+   "how": "confine con BGR (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YUG-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_YUG_ZAJECAR",
+   "how": "confine con ROM (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YUG-005",
+   "name": "5ª Divisione di fanteria",
+   "province": "P_YUG_CETINJE",
+   "how": "confine con ALB (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YUG-006",
+   "name": "6ª Divisione di fanteria",
+   "province": "P_YUG_MARIBOR",
+   "how": "confine con AUT (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-YUG-007",
+   "name": "7ª Divisione di fanteria",
+   "province": "P_YUG_LJUBLJANA",
+   "how": "confine con ITA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ZAF-001",
+   "name": "1ª Divisione di fanteria",
+   "province": "P_ZAF_GAUTENG",
+   "how": "deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ZAF-002",
+   "name": "2ª Divisione di fanteria",
+   "province": "P_ZAF_NORTH_WEST",
+   "how": "confine con BOT (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ZAF-003",
+   "name": "3ª Divisione di fanteria",
+   "province": "P_ZAF_NORTHERN_CAPE",
+   "how": "confine con SWA (divisione iniziale delle nazioni minori, 25/11/2026)"
+  },
+  {
+   "unit": "S36-ZAF-004",
+   "name": "4ª Divisione di fanteria",
+   "province": "P_ZAF_FREE_STATE",
+   "how": "confine con LES (divisione iniziale delle nazioni minori, 25/11/2026)"
   },
   {
    "unit": "U00020",

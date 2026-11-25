@@ -63,7 +63,7 @@ export function corpsDivisions(note) {
  * fonte (sedi di guarnigione), oppure quella del corpo d'armata; altrimenti la sponda principale (la più grande per area).
  * banks: bankIndex delle province (src/data/moveNet.js); cityLinks: data/city_links.json. Senza banks non si scrive nessuna sponda.
  */
-export function buildDeployment({ units, cities, provinces, garrisons = [], banks = null, cityLinks = null }) {
+export function buildDeployment({ units, cities, provinces, garrisons = [], banks = null, cityLinks = null, placements = null }) {
   const idx = buildIndexes({ cities, provinces });
   const entries = new Map();
   const unplaced = [];
@@ -103,6 +103,8 @@ export function buildDeployment({ units, cities, provinces, garrisons = [], bank
     if (!u || entries.has(u.id) || !motherOf.has(g.province)) continue;
     place(u, { province: motherOf.get(g.province), bank: g.province, how: `sede di guarnigione "${g.seat}" (${g.reliability}): ${g.source}` });
   }
+  // posizioni già calcolate (divisioni iniziali delle nazioni minori, 25/11/2026: src/data/minorNations.js)
+  for (const u of units) { const p = placements?.get(u.id); if (p && !entries.has(u.id)) place(u, { province: p.province, bank: p.bank, how: p.how }); }
   for (const u of units) {
     if (entries.has(u.id)) continue;
     if (u.station) unplaced.push({ unit: u.id, name: u.name, reason: `stazione "${u.station}" non riconducibile a una provincia` });

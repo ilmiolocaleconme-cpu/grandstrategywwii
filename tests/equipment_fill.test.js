@@ -84,7 +84,7 @@ test('stesse regole per tutte le nazioni: al 1/1/1936 ogni divisione attiva dell
   const units = json('units/units.json').units;
   const { state } = initForcesState({ schema: 7, date: '1936-01-01', forces: { schema: 'forces-v1', initialized: false, divisions: {} } }, { units, templates, ratio: json('units/readiness.json').initialFillRatio.value });
   const nations = new Set();
-  for (const u of units.filter((x) => x.echelon === 'division' && isActiveAt(x, '1936-01-01'))) {
+  for (const u of units.filter((x) => x.echelon === 'division' && !x.minorBase && isActiveAt(x, '1936-01-01'))) { // le nazioni minori hanno il loro test (minor_nations.test.js)
     const d = state.forces.divisions[u.id];
     assert.ok(d, `${u.id} (${u.nation} ${u.category}) senza istanza`);
     assert.ok(u.category === 'infantry' || u.category === 'armored' || CATEGORY_FALLBACK[u.category]);

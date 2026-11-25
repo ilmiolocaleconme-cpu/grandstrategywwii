@@ -90,3 +90,32 @@ test('riserva iniziale: le nazioni minori la ricevono secondo le fasce dalla fan
   assert.equal(eq.nations.ALB.divisions, 2);
   assert.equal(eq.nations.CZE.equipment['ART-CZE-GUN75'], 7 * 36);
 });
+
+test('divisioni iniziali (passo 2): numero secondo la fascia, Cina 10, niente Mengjiang, tutte collocate sulla mappa con un template', async () => {
+  const { initForcesState } = await import('../src/game/forcesState.js');
+  const { MINOR_INFANTRY_1936 } = await import('../src/data/minorNations.js');
+  const units = json('units/units.json').units.filter((u) => u.minorBase);
+  const count = (n) => units.filter((u) => u.nation === n).length;
+  assert.equal(units.length, 230);
+  assert.equal(count('CHN'), 10, 'scelta dell\'utente');
+  assert.equal(count('POL'), 7); assert.equal(count('ALB'), 2); assert.equal(count('CRI'), 1); assert.equal(count('MENG'), 0);
+  assert.ok(MINOR_INFANTRY_1936.length > 0);
+  const dep = new Map(json('units/deployment_1936.json').entries.map((e) => [e.unit, e]));
+  for (const u of units) assert.ok(dep.get(u.id)?.province.startsWith(`P_${u.nation}_`), `${u.id}: posizione`);
+  assert.equal(dep.get('S36-POL-001').province, 'P_POL_WARSAW_VOIVODESHIP', 'la prima nella capitale');
+  assert.match(dep.get('S36-POL-002').how, /confine con DEU/);
+  assert.match(dep.get('S36-CUB-002').how, /nessuna provincia di confine/, 'isola: tutte nella capitale');
+  const templates = doc.compositions.map((c) => json(`units/templates/${c.file}`));
+  const { state } = initForcesState({ schema: 7, date: '1936-01-01', forces: { schema: 'forces-v1', initialized: false, divisions: {} } }, { units, templates, ratio: json('units/readiness.json').initialFillRatio.value });
+  for (const u of units) assert.ok(state.forces.divisions[u.id], `${u.id} senza istanza`);
+});
+
+test('industria minima (passo 2): fucili e cannone da 75 dove c\'è industria, il cannone nella linea limitata della fascia C', () => {
+  const ii = json('industry/initial_industry.json');
+  const rec = (n) => ii.nations[n].facilities.map((f) => f.recipeId);
+  assert.ok(rec('POL').includes('REC-INW-POL-RIFLE') && rec('POL').includes('REC-ART-POL-GUN75'));
+  assert.ok(rec('CZE').includes('REC-ART-CZE-GUN75') && rec('CZE').includes('REC-TANK-CZE-LT35'), 'la Cecoslovacchia tiene i suoi carri');
+  assert.equal(ii.nations.ARG, undefined, 'senza industria resta in fascia C');
+  assert.equal(ii.minorArtillery.recipeByNation.ARG, 'REC-ART-ARG-GUN75');
+  assert.equal(ii.minorArtillery.recipeByNation.LUX, undefined, 'le nazioni senza esercito restano sulla ricetta generica');
+});

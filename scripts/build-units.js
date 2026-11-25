@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { parseCsv } from '../src/data/csv.js';
 import { buildUnits, mergeOob1936, makeDivisionPlaceholders, parseOob1936Csv, UNITS_SCHEMA } from '../src/data/units.js';
+import { minorInitialDivisionUnits } from '../src/data/minorNations.js';
 
 const dir = new URL('../data/units/', import.meta.url);
 export const SOURCE_FILE = 'source/unita_cronologia_1935_1945.csv';
@@ -54,6 +55,8 @@ export async function unitsBuilt() {
     nation: 'USSR', idPrefix: 'S36-USSR-F', namePrefix: 'Divisione fucilieri 1936 (segnaposto)', category: 'infantry', variant: 'rifle', corps: rifleCorps, perCorps: 2, startYear: 1936,
     reason: 'Segnaposto: il file utente cita 23 corpi fucilieri con 2-3 divisioni ciascuno ma non elenca le divisioni; 2 per corpo = limite basso. Numeri, nomi e distretti reali da inserire.',
   })];
+  // nazioni minori (25/11/2026, scelta dell'utente): divisioni iniziali di fanteria secondo la fascia (src/data/minorNations.js)
+  units = [...units, ...minorInitialDivisionUnits(JSON.parse(await readFile(new URL('../industry/initial_equipment_rules.json', dir), 'utf8')))];
   for (const id of Object.keys(reviews)) if (!units.some((u) => u.id === id)) throw new Error(`revisione ${id}: unità inesistente nel CSV`);
   return {
     schema: UNITS_SCHEMA,

@@ -40,7 +40,8 @@ export function validateInitialStocks(file, { resourceIds, industry }) {
     if (!Number.isInteger(q) || q <= 0) errors.push(`stock iniziali: riserva minima non valida per ${r}`);
   }
   for (const [id, s] of Object.entries(file.stocks ?? {})) {
-    if (!industry.nations?.[id]) errors.push(`stock iniziali: ${id} non ha industria iniziale`);
+    // senza industria è ammessa solo la riserva di munizioni delle divisioni attive (nazioni minori, 25/11/2026)
+    if (!industry.nations?.[id] && Object.keys(s).some((r) => r !== 'munitions')) errors.push(`stock iniziali: ${id} non ha industria iniziale`);
     for (const [r, v] of Object.entries(s)) {
       if (!resourceIds.has(r)) errors.push(`stock iniziali: ${id} con risorsa inesistente ${r}`);
       if (r === 'electricity' || r === 'hydro') errors.push(`stock iniziali: ${id} con ${r}, che è un flusso e non uno stock`);

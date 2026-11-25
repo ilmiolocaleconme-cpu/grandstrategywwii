@@ -54,7 +54,8 @@ export function buildNations({ political, nationIds, industry, stocks, equipment
     if (!nations[id]) continue;
     for (let k = 1; k <= minor.count; k += 1) {
       const list = nations[id].facilities;
-      list.push({ id: `${id}:${id}:${minor.factory}:${minor.recipeId}:${k}`, type: minor.factory, recipeId: minor.recipeId, territory: id, damage: 0, throttle: minor.throttle, priority: list.length + 1, active: true });
+      const recipeId = minor.recipeByNation?.[id] ?? minor.recipeId; // nazioni minori: il loro cannone da 75 (25/11/2026)
+      list.push({ id: `${id}:${id}:${minor.factory}:${recipeId}:${k}`, type: minor.factory, recipeId, territory: id, damage: 0, throttle: minor.throttle, priority: list.length + 1, active: true });
     }
   }
   for (const territory of Object.keys(stocks.stocks).sort()) {

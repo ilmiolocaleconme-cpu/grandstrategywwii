@@ -3,27 +3,27 @@
  "quality": "DESIGN_DEFAULT",
  "note": "Generato da scripts/build-facility-sites.js (npm run build:facility-sites): non modificare a mano. Posizione di ogni impianto iniziale: basis 'rule' = regola di facility_placement.json (stima, NON storica), 'data' = dati del repository (centri di fonderia), 'source' = fonte storica. Le chiavi sono gli id degli impianti creati da buildNations.",
  "counts": {
-  "rule": 383,
+  "rule": 410,
   "data": 12,
   "source": 78
  },
  "sites": {
-  "AFG:AFG:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "AFG:AFG:FCT-ARTILLERY:REC-ART-AFG-GUN75:1": {
    "provinceId": "P_AFG_BADAKHSHAN",
    "basis": "rule",
    "rule": "population"
   },
-  "ALB:ALB:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "ALB:ALB:FCT-ARTILLERY:REC-ART-ALB-GUN75:1": {
    "provinceId": "P_ALB_BERAT",
    "basis": "rule",
    "rule": "population"
   },
-  "ARG:ARG:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "ARG:ARG:FCT-ARTILLERY:REC-ART-ARG-GUN75:1": {
    "provinceId": "P_ARG_BUENOS_AIRES",
    "basis": "rule",
    "rule": "population"
   },
-  "AUS:AUS:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "AUS:AUS:FCT-ARTILLERY:REC-ART-AUS-GUN75:1": {
    "provinceId": "P_AUS_NEW_SOUTH_WALES",
    "basis": "rule",
    "rule": "population"
@@ -32,6 +32,16 @@
    "provinceId": "P_AUT_STYRIA",
    "basis": "rule",
    "rule": "coal+0.25×iron_ore"
+  },
+  "AUT:AUT:FCT-WEAPONS:REC-INW-AUT-RIFLE:1": {
+   "provinceId": "P_AUT_LOWER_AUSTRIA_SP2",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "AUT:AUT:FCT-ARTILLERY:REC-ART-AUT-GUN75:1": {
+   "provinceId": "P_AUT_LOWER_AUSTRIA_SP2",
+   "basis": "rule",
+   "rule": "population"
   },
   "AUT:AUT:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_AUT_BURGENLAND",
@@ -68,22 +78,32 @@
    "basis": "rule",
    "rule": "population"
   },
+  "BEL:BEL:FCT-WEAPONS:REC-INW-BEL-RIFLE:1": {
+   "provinceId": "P_BEL_BRABANT",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "BEL:BEL:FCT-ARTILLERY:REC-ART-BEL-GUN75:1": {
+   "provinceId": "P_BEL_BRABANT",
+   "basis": "rule",
+   "rule": "population"
+  },
   "BEL:BEL:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_BEL_HAINAUT_SP2",
    "basis": "rule",
    "rule": "coal"
   },
-  "BGR:BGR:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "BGR:BGR:FCT-ARTILLERY:REC-ART-BGR-GUN75:1": {
    "provinceId": "P_BGR_SOFIA",
    "basis": "rule",
    "rule": "population"
   },
-  "BOL:BOL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "BOL:BOL:FCT-ARTILLERY:REC-ART-BOL-GUN75:1": {
    "provinceId": "P_BOL_BENI",
    "basis": "rule",
    "rule": "population"
   },
-  "BRA:BRA:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "BRA:BRA:FCT-ARTILLERY:REC-ART-BRA-GUN75:1": {
    "provinceId": "P_BRA_SAO_PAULO",
    "basis": "rule",
    "rule": "population"
@@ -113,7 +133,17 @@
    "basis": "rule",
    "rule": "population"
   },
-  "CHE:CHE:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "CAN:CAN:FCT-WEAPONS:REC-INW-CAN-RIFLE:1": {
+   "provinceId": "P_CAN_ONTARIO",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "CAN:CAN:FCT-ARTILLERY:REC-ART-CAN-GUN75:1": {
+   "provinceId": "P_CAN_ONTARIO",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "CHE:CHE:FCT-ARTILLERY:REC-ART-CHE-GUN75:1": {
    "provinceId": "P_CHE_BERN",
    "basis": "rule",
    "rule": "population"
@@ -123,27 +153,37 @@
    "basis": "rule",
    "rule": "coal+0.25×iron_ore"
   },
-  "CHL:CHL:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
+  "CHL:CHL:FCT-WEAPONS:REC-INW-CHL-RIFLE:1": {
    "provinceId": "P_CHL_ANTOFAGASTA",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "CHL:CHL:FCT-ARTILLERY:REC-ART-CHL-GUN75:1": {
+   "provinceId": "P_CHL_ANTOFAGASTA",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "CHL:CHL:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
+   "provinceId": "P_CHL_ARAUCANIA",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "CHN:CHN:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "CHN:CHN:FCT-ARTILLERY:REC-ART-CHN-GUN75:1": {
    "provinceId": "P_CHN_XINJIANG",
    "basis": "rule",
    "rule": "population"
   },
-  "COL:COL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "COL:COL:FCT-ARTILLERY:REC-ART-COL-GUN75:1": {
    "provinceId": "P_COL_AMAZONAS",
    "basis": "rule",
    "rule": "population"
   },
-  "CRI:CRI:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "CRI:CRI:FCT-ARTILLERY:REC-ART-CRI-GUN75:1": {
    "provinceId": "P_CRI_ALAJUELA",
    "basis": "rule",
    "rule": "population"
   },
-  "CUB:CUB:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "CUB:CUB:FCT-ARTILLERY:REC-ART-CUB-GUN75:1": {
    "provinceId": "P_CUB_ARTEMISA",
    "basis": "rule",
    "rule": "population"
@@ -173,12 +213,17 @@
    "basis": "rule",
    "rule": "population"
   },
+  "CZE:CZE:FCT-WEAPONS:REC-INW-CZE-RIFLE:1": {
+   "provinceId": "P_CZE_BOHEMIA_SP2",
+   "basis": "rule",
+   "rule": "population"
+  },
   "CZE:CZE:FCT-TANKS:REC-TANK-CZE-LT35:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
    "rule": "population"
   },
-  "CZE:CZE:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "CZE:CZE:FCT-ARTILLERY:REC-ART-CZE-GUN75:1": {
    "provinceId": "P_CZE_BOHEMIA_SP2",
    "basis": "rule",
    "rule": "population"
@@ -458,22 +503,22 @@
    "basis": "source",
    "rule": "Centrali a carbone della Ruhr (RWE, VEW)"
   },
-  "DNK:DNK:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "DNK:DNK:FCT-ARTILLERY:REC-ART-DNK-GUN75:1": {
    "provinceId": "P_DNK_HOVEDSTADEN_SP1",
    "basis": "rule",
    "rule": "population"
   },
-  "DOM:DOM:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "DOM:DOM:FCT-ARTILLERY:REC-ART-DOM-GUN75:1": {
    "provinceId": "P_DOM_AZUA",
    "basis": "rule",
    "rule": "population"
   },
-  "ECU:ECU:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "ECU:ECU:FCT-ARTILLERY:REC-ART-ECU-GUN75:1": {
    "provinceId": "P_ECU_AZUAY",
    "basis": "rule",
    "rule": "population"
   },
-  "EGY:EGY:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "EGY:EGY:FCT-ARTILLERY:REC-ART-EGY-GUN75:1": {
    "provinceId": "P_EGY_AL_QAHIRAH",
    "basis": "rule",
    "rule": "population"
@@ -483,22 +528,32 @@
    "basis": "rule",
    "rule": "port"
   },
+  "ESP:ESP:FCT-WEAPONS:REC-INW-ESP-RIFLE:1": {
+   "provinceId": "P_ESP_BARCELONA",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ESP:ESP:FCT-ARTILLERY:REC-ART-ESP-GUN75:1": {
+   "provinceId": "P_ESP_BARCELONA",
+   "basis": "rule",
+   "rule": "population"
+  },
   "ESP:ESP:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_ESP_ALAVA",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "EST:EST:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "EST:EST:FCT-ARTILLERY:REC-ART-EST-GUN75:1": {
    "provinceId": "P_EST_HARJU",
    "basis": "rule",
    "rule": "population"
   },
-  "ETH:ETH:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "ETH:ETH:FCT-ARTILLERY:REC-ART-ETH-GUN75:1": {
    "provinceId": "P_ETH_ADDIS_ABABA",
    "basis": "rule",
    "rule": "population"
   },
-  "FIN:FIN:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "FIN:FIN:FCT-ARTILLERY:REC-ART-FIN-GUN75:1": {
    "provinceId": "P_FIN_UUSIMAA",
    "basis": "rule",
    "rule": "population"
@@ -983,22 +1038,22 @@
    "basis": "rule",
    "rule": "cities1930"
   },
-  "GRC:GRC:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "GRC:GRC:FCT-ARTILLERY:REC-ART-GRC-GUN75:1": {
    "provinceId": "P_GRC_KENTRIKI_MAKEDONIA_SP1",
    "basis": "rule",
    "rule": "population"
   },
-  "GTM:GTM:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "GTM:GTM:FCT-ARTILLERY:REC-ART-GTM-GUN75:1": {
    "provinceId": "P_GTM_ALTA_VERAPAZ",
    "basis": "rule",
    "rule": "population"
   },
-  "HND:HND:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "HND:HND:FCT-ARTILLERY:REC-ART-HND-GUN75:1": {
    "provinceId": "P_HND_ATLANTIDA",
    "basis": "rule",
    "rule": "population"
   },
-  "HTI:HTI:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "HTI:HTI:FCT-ARTILLERY:REC-ART-HTI-GUN75:1": {
    "provinceId": "P_HTI_ARTIBONITE",
    "basis": "rule",
    "rule": "population"
@@ -1013,12 +1068,22 @@
    "basis": "rule",
    "rule": "cities1930"
   },
+  "HUN:HUN:FCT-WEAPONS:REC-INW-HUN-RIFLE:1": {
+   "provinceId": "P_HUN_HAJDU_BIHAR",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "HUN:HUN:FCT-ARTILLERY:REC-ART-HUN-GUN75:1": {
+   "provinceId": "P_HUN_HAJDU_BIHAR",
+   "basis": "rule",
+   "rule": "population"
+  },
   "HUN:HUN:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_HUN_BEKES",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "IRL:IRL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "IRL:IRL:FCT-ARTILLERY:REC-ART-IRL-GUN75:1": {
    "provinceId": "P_IRL_CONNACHT",
    "basis": "rule",
    "rule": "population"
@@ -1383,7 +1448,7 @@
    "basis": "rule",
    "rule": "coal"
   },
-  "LBR:LBR:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "LBR:LBR:FCT-ARTILLERY:REC-ART-LBR-GUN75:1": {
    "provinceId": "P_LBR_BOMI",
    "basis": "rule",
    "rule": "population"
@@ -1393,7 +1458,7 @@
    "basis": "rule",
    "rule": "population"
   },
-  "LTU:LTU:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "LTU:LTU:FCT-ARTILLERY:REC-ART-LTU-GUN75:1": {
    "provinceId": "P_LTU_ALYTUS",
    "basis": "rule",
    "rule": "population"
@@ -1403,12 +1468,12 @@
    "basis": "rule",
    "rule": "population"
   },
-  "LVA:LVA:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "LVA:LVA:FCT-ARTILLERY:REC-ART-LVA-GUN75:1": {
    "provinceId": "P_LVA_KURZEME_SP1",
    "basis": "rule",
    "rule": "population"
   },
-  "MAN:MAN:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "MAN:MAN:FCT-ARTILLERY:REC-ART-MAN-GUN75:1": {
    "provinceId": "P_MAN_HEILONGJIANG",
    "basis": "rule",
    "rule": "population"
@@ -1423,17 +1488,27 @@
    "basis": "rule",
    "rule": "oil"
   },
+  "MEX:MEX:FCT-WEAPONS:REC-INW-MEX-RIFLE:1": {
+   "provinceId": "P_MEX_MEXICO",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "MEX:MEX:FCT-ARTILLERY:REC-ART-MEX-GUN75:1": {
+   "provinceId": "P_MEX_MEXICO",
+   "basis": "rule",
+   "rule": "population"
+  },
   "MEX:MEX:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_MEX_AGUASCALIENTES",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "MNG:MNG:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "MNG:MNG:FCT-ARTILLERY:REC-ART-MNG-GUN75:1": {
    "provinceId": "P_MNG_ARKHANGAI",
    "basis": "rule",
    "rule": "population"
   },
-  "NIC:NIC:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "NIC:NIC:FCT-ARTILLERY:REC-ART-NIC-GUN75:1": {
    "provinceId": "P_NIC_BOACO",
    "basis": "rule",
    "rule": "population"
@@ -1468,6 +1543,16 @@
    "basis": "rule",
    "rule": "cities1930"
   },
+  "NLD:NLD:FCT-WEAPONS:REC-INW-NLD-RIFLE:1": {
+   "provinceId": "P_NLD_ZUID_HOLLAND",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "NLD:NLD:FCT-ARTILLERY:REC-ART-NLD-GUN75:1": {
+   "provinceId": "P_NLD_ZUID_HOLLAND",
+   "basis": "rule",
+   "rule": "population"
+  },
   "NLD:NLD:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_NLD_LIMBURG_SP2",
    "basis": "rule",
@@ -1483,22 +1568,22 @@
    "basis": "rule",
    "rule": "cities1930"
   },
-  "NOR:NOR:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "NOR:NOR:FCT-ARTILLERY:REC-ART-NOR-GUN75:1": {
    "provinceId": "P_NOR_OSLO",
    "basis": "rule",
    "rule": "population"
   },
-  "NZL:NZL:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "NZL:NZL:FCT-ARTILLERY:REC-ART-NZL-GUN75:1": {
    "provinceId": "P_NZL_CHATHAM_ISLANDS",
    "basis": "rule",
    "rule": "population"
   },
-  "PAN:PAN:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "PAN:PAN:FCT-ARTILLERY:REC-ART-PAN-GUN75:1": {
    "provinceId": "P_PAN_CHIRIQUI",
    "basis": "rule",
    "rule": "population"
   },
-  "PER:PER:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "PER:PER:FCT-ARTILLERY:REC-ART-PER-GUN75:1": {
    "provinceId": "P_PER_AMAZONAS",
    "basis": "rule",
    "rule": "population"
@@ -1528,6 +1613,16 @@
    "basis": "rule",
    "rule": "population"
   },
+  "POL:POL:FCT-WEAPONS:REC-INW-POL-RIFLE:1": {
+   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "POL:POL:FCT-ARTILLERY:REC-ART-POL-GUN75:1": {
+   "provinceId": "P_POL_WARSAW_VOIVODESHIP",
+   "basis": "rule",
+   "rule": "population"
+  },
   "POL:POL:FCT-FEED:REC-FEED-001:1": {
    "provinceId": "P_POL_WARSAW_VOIVODESHIP",
    "basis": "rule",
@@ -1548,12 +1643,12 @@
    "basis": "rule",
    "rule": "coal"
   },
-  "PRT:PRT:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "PRT:PRT:FCT-ARTILLERY:REC-ART-PRT-GUN75:1": {
    "provinceId": "P_PRT_LISBOA",
    "basis": "rule",
    "rule": "population"
   },
-  "PRY:PRY:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "PRY:PRY:FCT-ARTILLERY:REC-ART-PRY-GUN75:1": {
    "provinceId": "P_PRY_ALTO_PARAGUAY",
    "basis": "rule",
    "rule": "population"
@@ -1563,22 +1658,32 @@
    "basis": "rule",
    "rule": "oil"
   },
+  "ROM:ROM:FCT-WEAPONS:REC-INW-ROM-RIFLE:1": {
+   "provinceId": "P_ROM_BASARABIA_SP2",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "ROM:ROM:FCT-ARTILLERY:REC-ART-ROM-GUN75:1": {
+   "provinceId": "P_ROM_BASARABIA_SP2",
+   "basis": "rule",
+   "rule": "population"
+  },
   "ROM:ROM:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_ROM_ALBA",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "SAU:SAU:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "SAU:SAU:FCT-ARTILLERY:REC-ART-SAU-GUN75:1": {
    "provinceId": "P_SAU_AL_BAHA",
    "basis": "rule",
    "rule": "population"
   },
-  "SIA:SIA:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "SIA:SIA:FCT-ARTILLERY:REC-ART-SIA-GUN75:1": {
    "provinceId": "P_SIA_CENTRAL",
    "basis": "rule",
    "rule": "population"
   },
-  "SLV:SLV:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "SLV:SLV:FCT-ARTILLERY:REC-ART-SLV-GUN75:1": {
    "provinceId": "P_SLV_AHUACHAPAN",
    "basis": "rule",
    "rule": "population"
@@ -1608,17 +1713,27 @@
    "basis": "rule",
    "rule": "population"
   },
+  "SWE:SWE:FCT-WEAPONS:REC-INW-SWE-RIFLE:1": {
+   "provinceId": "P_SWE_STOCKHOLM",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "SWE:SWE:FCT-ARTILLERY:REC-ART-SWE-GUN75:1": {
+   "provinceId": "P_SWE_STOCKHOLM",
+   "basis": "rule",
+   "rule": "population"
+  },
   "SWE:SWE:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_SWE_BLEKINGE",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "TUR:TUR:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "TUR:TUR:FCT-ARTILLERY:REC-ART-TUR-GUN75:1": {
    "provinceId": "P_TUR_ISTANBUL_SP1",
    "basis": "rule",
    "rule": "population"
   },
-  "URY:URY:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "URY:URY:FCT-ARTILLERY:REC-ART-URY-GUN75:1": {
    "provinceId": "P_URY_ARTIGAS",
    "basis": "rule",
    "rule": "population"
@@ -2348,12 +2463,22 @@
    "basis": "rule",
    "rule": "oil"
   },
-  "VEN:VEN:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
+  "VEN:VEN:FCT-WEAPONS:REC-INW-VEN-RIFLE:1": {
    "provinceId": "P_VEN_AMAZONAS",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "VEN:VEN:FCT-ARTILLERY:REC-ART-VEN-GUN75:1": {
+   "provinceId": "P_VEN_AMAZONAS",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "VEN:VEN:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
+   "provinceId": "P_VEN_ANZOATEGUI",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "YEM:YEM:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "YEM:YEM:FCT-ARTILLERY:REC-ART-YEM-GUN75:1": {
    "provinceId": "P_YEM_ABYAN",
    "basis": "rule",
    "rule": "population"
@@ -2363,12 +2488,22 @@
    "basis": "rule",
    "rule": "cities1930"
   },
+  "YUG:YUG:FCT-WEAPONS:REC-INW-YUG-RIFLE:1": {
+   "provinceId": "P_YUG_BANJA_LUKA",
+   "basis": "rule",
+   "rule": "population"
+  },
+  "YUG:YUG:FCT-ARTILLERY:REC-ART-YUG-GUN75:1": {
+   "provinceId": "P_YUG_BANJA_LUKA",
+   "basis": "rule",
+   "rule": "population"
+  },
   "YUG:YUG:FCT-POWER:REC-ELECTRIC-COAL-001:1": {
    "provinceId": "P_YUG_BEOGRAD_SP1",
    "basis": "rule",
    "rule": "cities1930"
   },
-  "ZAF:ZAF:FCT-ARTILLERY:REC-ARTILLERY-001:1": {
+  "ZAF:ZAF:FCT-ARTILLERY:REC-ART-ZAF-GUN75:1": {
    "provinceId": "P_ZAF_WESTERN_CAPE",
    "basis": "rule",
    "rule": "population"
@@ -2384,7 +2519,7 @@
    "reason": "no_provinces"
   },
   {
-   "id": "MENG:MENG:FCT-ARTILLERY:REC-ARTILLERY-001:1",
+   "id": "MENG:MENG:FCT-ARTILLERY:REC-ART-MENG-GUN75:1",
    "reason": "no_provinces"
   },
   {

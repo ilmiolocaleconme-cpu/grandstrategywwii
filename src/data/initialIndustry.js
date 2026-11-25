@@ -46,6 +46,12 @@ export function validateInitialIndustry(file, { factoriesById, recipes, entityId
     if (!(m.throttle > 0 && m.throttle <= 1)) errors.push('industria iniziale: minorArtillery con limitazione non valida (0-1)');
     for (const [res, q] of Object.entries(m.startStock ?? {})) if (!(q > 0)) errors.push(`industria iniziale: minorArtillery con scorta non valida per ${res}`);
     if (m.quality !== 'DESIGN_DEFAULT') errors.push('industria iniziale: minorArtillery deve essere DESIGN_DEFAULT');
+    for (const [id, rid] of Object.entries(m.recipeByNation ?? {})) { // 25/11/2026: ricetta per nazione (nazioni minori)
+      const rr = recipeById.get(rid);
+      if (!(file.tierC ?? []).includes(id)) errors.push(`industria iniziale: minorArtillery.recipeByNation, ${id} non è in fascia C`);
+      if (!rr) errors.push(`industria iniziale: minorArtillery.recipeByNation, ${id} usa la ricetta inesistente ${rid}`);
+      else if (rr.factory !== m.factory) errors.push(`industria iniziale: minorArtillery.recipeByNation, la ricetta ${rid} non è di ${m.factory}`);
+    }
   }
   const nationSet = new Set(nationIds);
   for (const id of file.tierC ?? []) {

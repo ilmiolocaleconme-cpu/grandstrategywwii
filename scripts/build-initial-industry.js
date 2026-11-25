@@ -3,6 +3,7 @@
 // Uso: npm run build:industry   (richiede data/resources/*.json già generati)
 import fs from 'node:fs';
 import { resourceExtraction, totalByPrefix } from '../src/data/extraction.js';
+import { MINOR_NATIONS, minorGunRecipe, minorRifleRecipe } from '../src/data/minorNations.js';
 
 const j = (p) => JSON.parse(fs.readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'));
 const ctx = { production: j('data/resources/production_1936.json'), factors: j('data/resources/extraction_factors.json'), scaleFile: j('data/resources/extraction_scale.json'), pointsByProvince: j('data/resources/resource_points.json').byProvince, extra: j('data/resources/resource_locations_extra.json') };
@@ -134,11 +135,14 @@ for (const n of [...candidates].sort()) {
   if (VEHICLES[n]) k.veh = VEHICLES[n]; // fabbriche di veicoli (decisione dell'utente del 18/11/2026)
   if (HORSES.includes(n)) { k.feed = 1; k.stud = 1; k.pharma = 1; }
   const extra = EXTRA[n] ?? [];
+  // nazioni minori che hanno GIÀ industria (fasce A e B), 25/11/2026, scelta dell'utente «cannone da 75 + fucili»: una linea di fucili d'ordinanza e una
+  // del cannone da 75 della base comune; chi non ha impianti resta in fascia C (linea d'artiglieria limitata, minorArtillery)
+  if (MINOR_NATIONS.includes(n) && (Object.values(k).some(Boolean) || extra.length)) { k.wpn = k.wpn || 1; k.art = k.art || 1; }
   const demand = Object.entries(k).reduce((s, [f, c]) => s + (c || 0) * MW[f], 0) + extra.reduce((s, [f]) => s + MW[f], 0);
   k.therm = demand > (hy[n] ?? 0) ? Math.ceil((demand - (hy[n] ?? 0)) / 120) : 0;
   if (!Object.values(k).some(Boolean)) continue;
   const order = ['steel', 'alu', 'ref', 'syn', 'rub', 'chem', 'mach', 'comp', 'eng', 'mun', 'wpn', 'tank', 'veh', 'art', 'feed', 'stud', 'pharma', 'therm'];
-  const facilities = order.filter((f) => k[f] > 0).map((f) => ({ factory: FACT[f][0], recipeId: EQUIP[n]?.[f] ?? FACT[f][1], count: k[f] }));
+  const facilities = order.filter((f) => k[f] > 0).map((f) => ({ factory: FACT[f][0], recipeId: EQUIP[n]?.[f] ?? (MINOR_NATIONS.includes(n) && f === 'art' ? minorGunRecipe(n) : MINOR_NATIONS.includes(n) && f === 'wpn' ? minorRifleRecipe(n) : FACT[f][1]), count: k[f] }));
   for (const [f, recipeId, plan] of extra) facilities.splice(facilities.findLastIndex((x) => x.factory === FACT[f][0]) + 1, 0, { factory: FACT[f][0], recipeId, count: 1, ...(plan ? { plannedRecipe: plan } : {}) });
   for (const [factory, plan] of Object.entries(BASE_PLAN[n] ?? {})) { const f = facilities.find((x) => x.factory === factory && !x.plannedRecipe); if (f) f.plannedRecipe = plan; }
   nations[n] = { tier, owner: entities.get(n).owner, facilities };
@@ -153,6 +157,7 @@ const doc = {
   tierC: nationIds.filter((id) => !nations[id]),
   minorArtillery: {
     appliesTo: 'tierC', factory: 'FCT-ARTILLERY', recipeId: 'REC-ARTILLERY-001', count: 1, throttle: 0.05, startStock: { steel: 760, components: 65 },
+    recipeByNation: Object.fromEntries(nationIds.filter((id) => !nations[id] && MINOR_NATIONS.includes(id)).map((id) => [id, minorGunRecipe(id)])), // 25/11/2026: il cannone da 75 della base comune delle nazioni minori; le altre (Andorra, Vaticano…) restano sulla ricetta generica
     quality: 'DESIGN_DEFAULT',
     rationale: "Regola dell'utente del 29/10/2026: i paesi minori (fascia C) hanno un solo template di artiglieria e un minimo di produzione; scorta iniziale scelta dall'utente (opzione «scorta», poi aumentata). Numeri PROPOSTI da Claude, non approvati: una fabbrica limitata al 5% della capacità (circa 1,2 pezzi al giorno con il pezzo di riferimento da 3 t) e una scorta iniziale di 760 t di acciaio e 65 t di componenti, IN AGGIUNTA alla riserva minima di 500 t delle costruzioni: bastano per circa 180 giorni (consumo 4,2 t e 0,35 t al giorno), poi la nazione deve fare commercio (richiesta dell'utente 29/10/2026; il commercio non esiste ancora nel codice). Il pezzo di riferimento è un segnaposto (REC-ARTILLERY-001, MISSING_DATA).",
   },

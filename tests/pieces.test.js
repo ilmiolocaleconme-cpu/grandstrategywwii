@@ -86,7 +86,10 @@ test('fascia C: una fabbrica di artiglieria limitata al 5% con 760 t di acciaio 
   const nationIds = json('nations.json').map((n) => n.id);
   const political = json('political_1936.json');
   const n = buildNations({ political, nationIds, industry, stocks: json('industry/initial_stocks.json') });
-  const c = industry.tierC[0];
+  const c = 'AND'; // Andorra: ricetta generica; le nazioni minori hanno il loro cannone da 75 dal 25/11/2026
+  assert.equal(industry.minorArtillery.recipeByNation.ALB, 'REC-ART-ALB-GUN75');
+  assert.equal(n.ALB.facilities[0].recipeId, 'REC-ART-ALB-GUN75');
+  assert.equal(industry.minorArtillery.recipeByNation.AND, undefined);
   assert.equal(n[c].facilities.length, 1);
   assert.equal(n[c].facilities[0].type, 'FCT-ARTILLERY');
   assert.equal(n[c].facilities[0].throttle, 0.05);

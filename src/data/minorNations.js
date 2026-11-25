@@ -123,3 +123,77 @@ export function buildMinorModules(names, nations = MINOR_NATIONS) {
     modules, compositions, presets,
   };
 }
+
+// ---- Passo 2 (25/11/2026): divisioni iniziali sulla mappa e industria minima ----
+
+/** Divisioni iniziali: quante dice la fascia della riserva (initial_equipment_rules.json), con le eccezioni scelte dall'utente. */
+export const MINOR_INITIAL_DIVISIONS_OVERRIDE = Object.freeze({ CHN: 10 }); // scelta dell'utente del 25/11/2026
+/** Senza divisioni iniziali: il Mengjiang nasce con l'evento (nessuna provincia nel 1936). */
+export const MINOR_NO_INITIAL_DIVISIONS = Object.freeze(['MENG']);
+export const MINOR_UNIT_NOTE = 'Divisione iniziale generata (scripts/build-units.js, src/data/minorNations.js, 25/11/2026): numero secondo la fascia della nazione (scelta dell\'utente), nome generico, NON un ordine di battaglia storico.';
+
+/** Unità (formato di units.json) delle divisioni iniziali di fanteria delle nazioni minori: id S36-<NAZIONE>-001… */
+export function minorInitialDivisionUnits(rules, nations = MINOR_NATIONS) {
+  const out = [];
+  for (const n of nations) {
+    if (MINOR_NO_INITIAL_DIVISIONS.includes(n)) continue;
+    const count = MINOR_INITIAL_DIVISIONS_OVERRIDE[n] ?? rules.tiers[rules.nations[n]]?.divisions ?? 0;
+    for (let i = 1; i <= count; i += 1) {
+      out.push({ id: `S36-${n}-${String(i).padStart(3, '0')}`, nation: n, branch: 'esercito', echelon: 'division', category: 'infantry', variant: null, name: `${i}ª Divisione di fanteria`,
+        rawType: 'stima', startYear: 1936, sourceStartYear: 1936, startPrecision: 'year', dating: 'year', endYear: null, source: MINOR_UNIT_NOTE, verification: 'DA_VERIFICARE', minorBase: true, review: null });
+    }
+  }
+  return out;
+}
+
+/**
+ * Dove stanno le divisioni iniziali (scelta dell'utente: «capitale e nei confini»): la prima nel deposito della capitale, le altre nelle
+ * province di confine, a rotazione fra i vicini (prima quello col confine più lungo) e, per ogni vicino, dalla provincia col confine più lungo.
+ * Senza confini di terra (isole) restano tutte nella capitale. tiles: proprietà delle province-tassello (id, owner, parentProvince);
+ * adjacency: { neighbors(id), borderKm(a, b) }; depots: depots.json. Ritorna Map unità → { province (madre), bank (tassello), how }.
+ */
+export function minorDeployment(units, { tiles, adjacency, depots }) {
+  const byId = new Map(tiles.map((t) => [t.id, t]));
+  const mother = (t) => t.parentProvince ?? t.id;
+  const out = new Map();
+  const byNation = new Map();
+  for (const u of units) if (u.minorBase) byNation.set(u.nation, [...(byNation.get(u.nation) ?? []), u]);
+  for (const [n, list] of byNation) {
+    const capital = depots.nations?.[n]?.province;
+    if (!capital) continue;
+    const capTile = tiles.find((t) => t.owner === n && mother(t) === capital);
+    // confine per vicino: { nation → Map(tassello → km) }
+    const border = new Map();
+    for (const t of tiles.filter((x) => x.owner === n)) {
+      for (const o of adjacency.neighbors(t.id)) {
+        const other = byId.get(o);
+        if (!other || other.owner === n || !other.owner) continue;
+        const m = border.get(other.owner) ?? new Map();
+        m.set(t.id, (m.get(t.id) ?? 0) + adjacency.borderKm(t.id, o));
+        border.set(other.owner, m);
+      }
+    }
+    const total = (m) => [...m.values()].reduce((a, b) => a + b, 0);
+    const queues = [...border.entries()].sort(([a, ma], [b, mb]) => (total(mb) - total(ma)) || (a < b ? -1 : 1))
+      .map(([nb, m]) => ({ nb, tiles: [...m.entries()].sort(([a, ka], [b, kb]) => (kb - ka) || (a < b ? -1 : 1)).map(([id]) => id) }));
+    const used = new Set();
+    const slots = [];
+    for (let round = 0; slots.length < list.length - 1 && queues.some((q) => q.tiles.length > round); round += 1) {
+      for (const q of queues) {
+        if (slots.length >= list.length - 1) break;
+        const id = q.tiles.slice(round).find((x) => !used.has(x) && mother(byId.get(x)) !== capital);
+        if (id) { used.add(id); slots.push({ tile: id, nb: q.nb }); }
+      }
+    }
+    list.forEach((u, i) => {
+      const s = i === 0 ? null : slots[(i - 1) % Math.max(slots.length, 1)];
+      if (!s) out.set(u.id, { province: capital, bank: capTile?.id ?? null, how: i === 0 ? 'deposito della capitale (divisione iniziale delle nazioni minori, 25/11/2026)' : 'capitale: nessuna provincia di confine terrestre (divisione iniziale delle nazioni minori)' });
+      else out.set(u.id, { province: mother(byId.get(s.tile)), bank: s.tile, how: `confine con ${s.nb} (divisione iniziale delle nazioni minori, 25/11/2026)` });
+    });
+  }
+  return out;
+}
+
+/** Industria minima (scelta dell'utente del 25/11/2026): ricette del cannone da 75 e del fucile d'ordinanza delle nazioni minori. */
+export const minorGunRecipe = (n) => `REC-ART-${n}-GUN75`;
+export const minorRifleRecipe = (n) => `REC-INW-${n}-RIFLE`;
