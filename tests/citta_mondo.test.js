@@ -61,10 +61,10 @@ test('mondo: le capitali di Natural Earth con almeno 50 000 abitanti hanno una c
   assert.ok(worldBase.some((f) => /capitale/.test(f.properties.source)));
 });
 
-test('città extra per i cantieri navali (data/sources/citta_extra.json, scripts/add-extra-cities.js): 13 zone ad area stimata (Camden dal 25/11/2026), costiere, provincia esistente, dichiarate approssimate', () => {
+test('città extra per i cantieri navali (data/sources/citta_extra.json, scripts/add-extra-cities.js): 14 zone ad area stimata (Camden e Copenaghen dal 25/11/2026), costiere, provincia esistente, dichiarate approssimate', () => {
   const extra = read('sources/citta_extra.json');
-  assert.equal(extra.cities.length, 13);
-  assert.equal(extraBase.length, 13);
+  assert.equal(extra.cities.length, 14);
+  assert.equal(extraBase.length, 14);
   const coastal = read('ports/coastal_cities.json').cities;
   for (const f of extraBase) {
     const z = zones.find((x) => x.properties.cittaId === f.id);
@@ -76,5 +76,5 @@ test('città extra per i cantieri navali (data/sources/citta_extra.json, scripts
     assert.ok(isLatin(z.properties.nameLocal), f.id);
     assert.ok(coastal[f.id], `${f.id}: deve essere una città costiera (ha cantiere navale)`);
   }
-  assert.equal(new Set(extraBase.map((f) => f.id)).size, 13);
+  assert.equal(new Set(extraBase.map((f) => f.id)).size, 14);
 });

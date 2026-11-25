@@ -1,7 +1,7 @@
 {
   "schema": "depots-v1",
   "quality": "DESIGN_DEFAULT",
-  "note": "Deposito di partenza dei rinforzi per nazione (decisione dell'utente 03/11/2026: rinforzi automatici). Per ora SOLO la provincia della capitale (fatto noto, id provincia madre del catalogo); le nazioni assenti non hanno deposito e le loro divisioni non ricevono rinforzi finché non se ne aggiunge uno (MISSING_DATA, nessun deposito inventato). Un deposito reale per fabbrica o porto sostituirà questo elenco. Nazioni minori (25/11/2026): deposito nella provincia madre della capitale, trovata dal nome della capitale (nations.json) fra le città (citta_grandi.json); Panama scelta a mano (città «Panama»); senza deposito la Danimarca (Copenaghen non è fra le città del catalogo: niente deposito inventato) e il Mengjiang (nessuna provincia nel 1936).",
+  "note": "Deposito di partenza dei rinforzi per nazione (decisione dell'utente 03/11/2026: rinforzi automatici). Per ora SOLO la provincia della capitale (fatto noto, id provincia madre del catalogo); le nazioni assenti non hanno deposito e le loro divisioni non ricevono rinforzi finché non se ne aggiunge uno (MISSING_DATA, nessun deposito inventato). Un deposito reale per fabbrica o porto sostituirà questo elenco. Nazioni minori (25/11/2026): deposito nella provincia madre della capitale, trovata dal nome della capitale (nations.json) fra le città (citta_grandi.json); Panama scelta a mano (città «Panama»); Danimarca dal 25/11/2026 (Copenaghen aggiunta alle città, scelta dell'utente); senza deposito il Mengjiang (nessuna provincia nel 1936).",
   "nations": {
     "DEU": { "province": "P_DEU_BERLIN", "basis": "capital" },
     "FRA": { "province": "P_FRA_SEINE", "basis": "capital" },
@@ -26,6 +26,7 @@
     "COL": { "province": "P_COL_BOGOTA", "basis": "capital" },
     "CRI": { "province": "P_CRI_SAN_JOSE", "basis": "capital" },
     "CUB": { "province": "P_CUB_HAVANA", "basis": "capital" },
+    "DNK": { "province": "P_DNK_HOVEDSTADEN", "basis": "capital" },
     "CZE": { "province": "P_CZE_BOHEMIA", "basis": "capital" },
     "DOM": { "province": "P_DOM_SANTO_DOMINGO", "basis": "capital" },
     "ECU": { "province": "P_ECU_PICHINCHA", "basis": "capital" },

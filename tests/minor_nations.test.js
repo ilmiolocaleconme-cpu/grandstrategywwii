@@ -73,10 +73,11 @@ test('scheda dell\'unità: ogni arma comune ha il suo gruppo', () => {
   assert.equal(nationSlug('Perù'), 'peru');
 });
 
-test('depositi delle nazioni minori: capitale nel catalogo delle città, senza Danimarca e Mengjiang', () => {
+test('depositi delle nazioni minori: capitale nel catalogo delle città, senza il Mengjiang', () => {
   const depots = json('units/depots.json').nations;
   const missing = MINOR_NATIONS.filter((n) => !depots[n]);
-  assert.deepEqual(missing, ['DNK', 'MENG']);
+  assert.deepEqual(missing, ['MENG']);
+  assert.equal(depots.DNK.province, 'P_DNK_HOVEDSTADEN', 'Copenaghen aggiunta alle città (25/11/2026)');
   assert.equal(depots.BEL.province, 'P_BEL_BRABANT');
   assert.equal(depots.PAN.province, 'P_PAN_PANAMA');
 });
