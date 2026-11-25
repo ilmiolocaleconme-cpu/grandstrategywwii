@@ -91,7 +91,7 @@ export function buildMoveNet(collection, adjacencyFile, { cities = [], cityLinks
     if (node !== m) {
       parent.set(node, m);
       if (!owner.has(m)) owner.set(m, p.owner);
-      if (!name.has(m)) name.set(m, String(p.name ?? m).replace(/ \(sponda [a-z]\)$/i, ''));
+      if (!name.has(m)) name.set(m, String(p.name ?? m).replace(/ \(sponda [^)]+\)$/, ''));
     }
   }
   const nb = new Map([...new Set(nodeOf.values())].map((m) => [m, new Set()]));

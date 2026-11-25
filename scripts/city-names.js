@@ -39,11 +39,12 @@ const LINGUA_URSS = {
 // quindi sempre da verificare; traslitterati in alfabeto latino. cittaId -> [nome 1936, lingua].
 export const NOMI_STORICI = {
   P_USSR_LENINGRADO_CITTA: ['Leningrad', 'ru'], P_USSR_STALINGRADO_CITTA: ['Stalingrad', 'ru'], P_USSR_NIZNIJ_NOVGOROD_CITTA: ['Gorkiy', 'ru'],
-  P_USSR_SAMARA_CITTA: ['Kuybyshev', 'ru'], P_USSR_EKATERINBURG_CITTA: ['Sverdlovsk', 'ru'], P_USSR_ORENBURG_CITTA: ['Chkalov', 'ru'],
-  P_USSR_PERM_CITTA: ['Molotov', 'ru'], P_USSR_TVER_CITTA: ['Kalinin', 'ru'], P_USSR_NOVOKUZNECK_CITTA: ['Stalinsk', 'ru'],
+  P_USSR_SAMARA_CITTA: ['Kuybyshev', 'ru'], P_USSR_EKATERINBURG_CITTA: ['Sverdlovsk', 'ru'], P_USSR_TVER_CITTA: ['Kalinin', 'ru'], P_USSR_NOVOKUZNECK_CITTA: ['Stalinsk', 'ru'],
   P_USSR_STAVROPOL_CITTA: ['Voroshilovsk', 'ru'], P_USSR_VLADIKAVKAZ_CITTA: ['Ordzhonikidze', 'ru'], P_USSR_ALMATY_CITTA: ['Alma-Ata', 'kk'],
   P_USSR_BISKEK_CITTA: ['Frunze', 'ky'], P_USSR_DUSANBE_CITTA: ['Stalinabad', 'ru'], P_USSR_DNIPRO_CITTA: ['Dnipropetrovsk', 'uk'],
-  P_USSR_DONEC_K_CITTA: ['Stalino', 'uk'], P_USSR_LUHANS_K_CITTA: ['Voroshylovhrad', 'uk'], P_USSR_KROPYVNYC_KYJ_CITTA: ['Kirovohrad', 'uk'],
+  P_USSR_DONEC_K_CITTA: ['Stalino', 'uk'], P_USSR_LUHANS_K_CITTA: ['Voroshylovhrad', 'uk'], P_USSR_KROPYVNYC_KYJ_CITTA: ['Kirove', 'uk'],
+  // 25/11/2026: Perm' (Molotov solo dal 1940) e Orenburg (Čkalov dal 1938) col nome di NE; Kirovohrad è del 1939
+  P_USSR_GANCA_CITTA: ['Kirovabad', 'az'], P_USSR_TARAZ_CITTA: ['Äulie-Ata', 'kk'], P_USSR_KARSHI_CITTA: ['Bek-Budi', 'uz'], P_USSR_NAVOIY_CITTA: ['Karmana', 'uz'],
 };
 
 const norm = (s) => String(s ?? '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();

@@ -325,7 +325,7 @@ export async function main(argv) {
     const zones = buildZones(pieces);
     stats.zonesTotal += zones.length;
     if (zones.length > parts.length) stats.split += 1;
-    const baseName = parts[0].properties.name.replace(/ \((sponda [A-Z])\)$/, '').replace(/ (sud|nord|est|ovest)( \d+)?$/, '');
+    const baseName = parts[0].properties.name.replace(/ \((sponda [^)]+)\)$/, '').replace(/ (sud|nord|est|ovest)( \d+)?$/, '');
     const named = nameZones(zones, baseName);
     named.forEach((z, i) => {
       const coords = z.polys.map((poly) => poly.map((ring) => dedupe(ring.map(([x, y]) => [round6(x), round6(y)]))));

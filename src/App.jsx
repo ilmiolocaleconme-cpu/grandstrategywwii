@@ -702,7 +702,7 @@ export default function App() {
   const mapItems = useMemo(() => (provincesWithCities && mapWanted ? (USE_CANVAS ? buildCanvasModel(provincesWithCities) : buildMapModel(provinces)).items : []), [provincesWithCities, provinces, mapWanted]);
   // nome leggibile di una provincia (anche madre) per code e liste; se manca, l'id
   // nomi di province, sponde e zone di città (una marcia verso una città mostrava l'id grezzo, es. P_DEU_COLONIA_CITTA_P1)
-  const provinceName = useMemo(() => { const m = new Map(); for (const f of [...(provinces?.features ?? []), ...(cities ?? [])]) { const pr = f.properties; if (pr?.name) { m.set(f.id ?? pr.id, pr.name); if (pr.parentProvince && !m.has(pr.parentProvince)) m.set(pr.parentProvince, String(pr.name).replace(/ \(sponda [a-z]\)$/i, '')); } } return (id) => m.get(id) ?? id; }, [provinces, cities]);
+  const provinceName = useMemo(() => { const m = new Map(); for (const f of [...(provinces?.features ?? []), ...(cities ?? [])]) { const pr = f.properties; if (pr?.name) { m.set(f.id ?? pr.id, pr.name); if (pr.parentProvince && !m.has(pr.parentProvince)) m.set(pr.parentProvince, String(pr.name).replace(/ \(sponda [^)]+\)$/, '')); } } return (id) => m.get(id) ?? id; }, [provinces, cities]);
   const selectedItem = mapItems.find((i) => i.id === provinceId) ?? null;
   // ordini di costruzione del giocatore: le regole sono in GAME_BUILD, qui si applica solo il risultato e si riferisce l'esito
   const placeOrder = (order) => {

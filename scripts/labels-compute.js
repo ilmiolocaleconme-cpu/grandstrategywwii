@@ -32,8 +32,8 @@ export function labelFeatures(collection) {
     if (f.properties.kind === 'citta') return { ...f, properties: { ...f.properties, name: '', nameLocal: '' } };
     if (!f.properties.sponda_fiume) return f;
     if (piuGrande.get(f.properties.parentProvince)?.id !== f.properties.id) return { ...f, properties: { ...f.properties, name: '', nameLocal: '' } };
-    const nome = f.properties.name.replace(/ \(sponda [A-Z]\)$/, '');
-    return { ...f, properties: { ...f.properties, name: nome, nameLocal: nome } };
+    const via = (s) => (s == null ? s : s.replace(/ \(sponda [^)]+\)$/, ''));
+    return { ...f, properties: { ...f.properties, name: via(f.properties.name), nameLocal: via(f.properties.nameLocal) } };
   });
   return { ...collection, features };
 }

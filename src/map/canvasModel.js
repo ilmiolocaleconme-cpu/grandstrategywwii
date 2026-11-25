@@ -4,7 +4,7 @@
 // (data/provinces, rivers_geo, lakes): niente copie. L'interfaccia degli elementi (id, props, areaKm2, bbox, feature)
 // è quella usata da pickLabels e dal pannello, quindi i nomi e il pannello restano gli stessi.
 
-import { WORLD_W, polygonsOf, featureAreaKm2, boundsOf } from './geo.js';
+import { WORLD_W, polygonsOf, featureAreaKm2, boundsOf, esisteNel1936 } from './geo.js';
 
 const COS0 = WORLD_W / 360;
 const SEAM_X = Math.fround(180 * COS0); // ascissa (float32) del meridiano +-180
@@ -460,14 +460,14 @@ export function buildCanvasWater(rivers, riversGeo, lakes, widthOf = () => 1, ra
     return {
       key: `${f.properties.riverId}#${f.properties.segment}`,
       riverId: f.properties.riverId,
-      inLake: Boolean(f.properties.inLake),
+      inLake: Boolean(f.properties.inLake) && !f.properties.bacinoDopo1936, // nel 1936 il bacino non c'era: si disegna il fiume
       coords: a,
       bbox: { x: x0, y: y0, w: x1 - x0, h: y1 - y0 },
       width: widthOf(river),
       rank: rankOf(river),
     };
   }).sort((a, b) => b.rank - a.rank);
-  const lakeItems = lakes.features.map((f) => ({
+  const lakeItems = lakes.features.filter(esisteNel1936).map((f) => ({
     id: f.properties.id,
     name: f.properties.name,
     props: f.properties,

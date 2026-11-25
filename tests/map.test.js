@@ -115,7 +115,14 @@ test('fiumi e laghi: percorsi SVG aperti per le linee, ordine dal più piccolo a
   const lakes = JSON.parse(readFileSync(new URL('../data/lakes.json', import.meta.url), 'utf8'));
   const w = buildWaterModel(rivers, geo, lakes);
   assert.equal(w.lines.length, geo.features.length);
-  assert.equal(w.lakes.length, lakes.features.length);
+  // i bacini riempiti dopo il 1936 non si disegnano (scripts/revisione-urss-1936.js); al loro posto si disegna il fiume
+  const tardi = lakes.features.filter((f) => f.properties.annoRiempimento > 1936).map((f) => f.properties.id);
+  assert.ok(tardi.includes('L_KUYBYSHEV') && tardi.includes('L_SARATOV') && !tardi.includes('L_BAIKAL'));
+  assert.equal(w.lakes.length, lakes.features.length - tardi.length);
+  assert.ok(w.lakes.every((l) => !tardi.includes(l.id)));
+  const exLago = geo.features.filter((f) => f.properties.bacinoDopo1936).map((f) => `${f.properties.riverId}#${f.properties.segment}`);
+  assert.ok(exLago.length > 30);
+  assert.ok(w.lines.filter((l) => exLago.includes(l.key)).every((l) => !l.inLake), `il Volga si vede dove oggi c'è un bacino`);
   for (let i = 1; i < w.lines.length; i++) assert.ok(w.lines[i - 1].rank >= w.lines[i].rank);
   assert.ok(w.lines.every((l) => !l.d.includes('NaN') && l.width > 0));
   assert.equal(w.lines.at(-1).width, RIVER_WIDTH_PX.large);
