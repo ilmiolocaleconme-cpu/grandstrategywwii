@@ -2,7 +2,7 @@
   "schema": "shipyards-v1",
   "status": "BOZZA_DA_CONFERMARE",
   "asOf": "1936-01-01",
-  "note": "BOZZA dei principali cantieri navali (militari e privati) attivi nel 1936, uno per città costiera del catalogo (data/ports/coastal_cities.json). Fonte: conoscenza storica generale, NESSUNA fonte verificata per voce: ogni voce è `basis: ipotesi` da confermare. È un elenco di PRESENZA per la mappa, non una capacità produttiva: oggi il cantiere non ha ricetta né produce navi. 12 città (La Spezia, Monfalcone, Wilhelmshaven, Brest, Lorient, Saint-Nazaire, Cherbourg, Barrow-in-Furness, Chatham, Yokosuka, Kure, Sasebo) sono state aggiunte al catalogo il 12/11/2026 (data/sources/citta_extra.json) con centro approssimato e area del disco stimata. Approssimazioni: per alcuni cantieri la città del catalogo non coincide con la località esatta (Clydebank, Wallsend, Newport News, Quincy, Mare Island, Bremerton, Sestri Ponente): la provincia è quella giusta, il punto no. Mancano cantieri minori o le cui città non sono nel catalogo.",
+  "note": "BOZZA dei principali cantieri navali (militari e privati) attivi nel 1936, uno per città costiera del catalogo (data/ports/coastal_cities.json). Fonte: conoscenza storica generale, NESSUNA fonte verificata per voce: ogni voce è `basis: ipotesi` da confermare. È un elenco di PRESENZA per la mappa, non una capacità produttiva: oggi il cantiere non ha ricetta né produce navi. 12 città (La Spezia, Monfalcone, Wilhelmshaven, Brest, Lorient, Saint-Nazaire, Cherbourg, Barrow-in-Furness, Chatham, Yokosuka, Kure, Sasebo) sono state aggiunte al catalogo il 12/11/2026 (data/sources/citta_extra.json) con centro approssimato e area del disco stimata. Approssimazioni: per alcuni cantieri la città del catalogo non coincide con la località esatta (Clydebank, Wallsend, Newport News, Quincy, Mare Island, Bremerton, Sestri Ponente): la provincia è quella giusta, il punto no. Mancano cantieri minori o le cui città non sono nel catalogo. Livello di scalo (`slipway`, 1-4, data/naval/slipway_levels.json) scelto dall'utente il 25/11/2026 sulla proposta di Claude: 4 ai cantieri che costruirono corazzate oltre 38.000 t, 3 a quelli delle corazzate dei trattati e delle portaerei, 1 alle nazioni minori, 2 agli altri.",
   "shipyards": [
     {
       "id": "YARD-DEU_KIEL",
@@ -11,7 +11,8 @@
       "name": "Kiel",
       "operator": "Germaniawerft, Howaldtswerke e Marinewerft Kiel",
       "kind": "mixed",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-DEU_AMBURGO",
@@ -20,7 +21,8 @@
       "name": "Amburgo",
       "operator": "Blohm & Voss",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-DEU_BREMA",
@@ -29,7 +31,8 @@
       "name": "Brema",
       "operator": "Deschimag AG Weser",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-DEU_STETTINO",
@@ -38,7 +41,8 @@
       "name": "Stettino",
       "operator": "Stettiner Oderwerke e cantieri Vulcan",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-GBR_GLASGOW",
@@ -47,7 +51,8 @@
       "name": "Glasgow",
       "operator": "Cantieri del Clyde (Fairfield a Govan)",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-GBR_BELFAST",
@@ -56,7 +61,8 @@
       "name": "Belfast",
       "operator": "Harland & Wolff",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-GBR_NEWCASTLE_UPON_TYNE",
@@ -65,7 +71,8 @@
       "name": "Newcastle upon Tyne",
       "operator": "Cantieri del Tyne (Armstrong Whitworth, Vickers-Armstrongs)",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-GBR_PORTSMOUTH",
@@ -74,7 +81,8 @@
       "name": "Portsmouth",
       "operator": "Portsmouth Royal Dockyard",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-GBR_PLYMOUTH",
@@ -83,7 +91,8 @@
       "name": "Plymouth",
       "operator": "Devonport Royal Dockyard",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-FRA_TOLONE",
@@ -92,7 +101,8 @@
       "name": "Tolone",
       "operator": "Arsenal de Toulon",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-FRA_NANTES",
@@ -101,7 +111,8 @@
       "name": "Nantes",
       "operator": "Ateliers et Chantiers de la Loire / Dubigeon",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-ITA_GENOVA",
@@ -110,7 +121,8 @@
       "name": "Genova",
       "operator": "Ansaldo (Sampierdarena e Sestri Ponente)",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-ITA_TRIESTE",
@@ -119,7 +131,8 @@
       "name": "Trieste",
       "operator": "Cantieri Riuniti dell'Adriatico",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-ITA_TARANTO",
@@ -128,7 +141,8 @@
       "name": "Taranto",
       "operator": "Arsenale della Regia Marina di Taranto",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-ITA_NAPOLI",
@@ -137,7 +151,8 @@
       "name": "Napoli",
       "operator": "Cantieri e arsenale di Napoli",
       "kind": "mixed",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-ITA_VENEZIA",
@@ -146,7 +161,8 @@
       "name": "Venezia",
       "operator": "Arsenale di Venezia",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-JPN_NAGASAKI",
@@ -155,7 +171,8 @@
       "name": "Nagasaki",
       "operator": "Mitsubishi Nagasaki",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-JPN_KOBE",
@@ -164,7 +181,8 @@
       "name": "Kōbe",
       "operator": "Kawasaki e Mitsubishi a Kōbe",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-USA_FILADELFIA",
@@ -173,7 +191,8 @@
       "name": "Filadelfia",
       "operator": "Philadelphia Navy Yard e Cramp",
       "kind": "mixed",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-USA_NORFOLK",
@@ -182,7 +201,8 @@
       "name": "Norfolk",
       "operator": "Norfolk Navy Yard e Newport News (stato della Virginia)",
       "kind": "mixed",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-USA_BOSTON",
@@ -191,7 +211,8 @@
       "name": "Boston",
       "operator": "Boston Navy Yard e Fore River (stato del Massachusetts)",
       "kind": "mixed",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-USA_NEW_YORK",
@@ -200,7 +221,8 @@
       "name": "New York",
       "operator": "Brooklyn Navy Yard",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-USA_SAN_FRANCISCO",
@@ -209,7 +231,8 @@
       "name": "San Francisco",
       "operator": "Mare Island e Bethlehem (stato della California)",
       "kind": "mixed",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-USA_SEATTLE",
@@ -218,7 +241,8 @@
       "name": "Seattle",
       "operator": "Puget Sound Navy Yard (stato di Washington)",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-USSR_LENINGRADO",
@@ -227,7 +251,8 @@
       "name": "Leningrado",
       "operator": "Cantieri Baltico e Ammiragliato",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-USSR_MYKOLAIV",
@@ -236,7 +261,8 @@
       "name": "Nikolaev",
       "operator": "Cantieri di Nikolaev (Marti e 61 Kommunara)",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-USSR_SEBASTOPOLI",
@@ -245,7 +271,8 @@
       "name": "Sebastopoli",
       "operator": "Cantiere navale di Sebastopoli",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-USSR_VLADIVOSTOK",
@@ -254,7 +281,8 @@
       "name": "Vladivostok",
       "operator": "Dalzavod",
       "kind": "mixed",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-POL_GDYNIA",
@@ -263,7 +291,8 @@
       "name": "Gdynia",
       "operator": "Cantiere di Gdynia",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 1
     },
     {
       "id": "YARD-SWE_GOTEBORG",
@@ -272,7 +301,8 @@
       "name": "Göteborg",
       "operator": "Götaverken ed Eriksberg",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 1
     },
     {
       "id": "YARD-SWE_MALMO",
@@ -281,7 +311,8 @@
       "name": "Malmö",
       "operator": "Kockums",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 1
     },
     {
       "id": "YARD-NLD_ROTTERDAM",
@@ -290,7 +321,8 @@
       "name": "Rotterdam",
       "operator": "Wilton-Fijenoord e RDM",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 1
     },
     {
       "id": "YARD-NLD_AMSTERDAM",
@@ -299,7 +331,8 @@
       "name": "Amsterdam",
       "operator": "Nederlandsche Scheepsbouw Maatschappij",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 1
     },
     {
       "id": "YARD-BEL_ANVERSA",
@@ -308,7 +341,8 @@
       "name": "Anversa",
       "operator": "Cockerill (Hoboken)",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 1
     },
     {
       "id": "YARD-ITA_LA_SPEZIA",
@@ -317,7 +351,8 @@
       "name": "La Spezia",
       "operator": "Arsenale militare marittimo di La Spezia e cantiere del Muggiano",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-ITA_MONFALCONE",
@@ -326,7 +361,8 @@
       "name": "Monfalcone",
       "operator": "Cantieri Riuniti dell'Adriatico (Monfalcone)",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-DEU_WILHELMSHAVEN",
@@ -335,7 +371,8 @@
       "name": "Wilhelmshaven",
       "operator": "Kriegsmarinewerft Wilhelmshaven",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-FRA_BREST",
@@ -344,7 +381,8 @@
       "name": "Brest",
       "operator": "Arsenal de Brest",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-FRA_LORIENT",
@@ -353,7 +391,8 @@
       "name": "Lorient",
       "operator": "Arsenal de Lorient",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-FRA_SAINT_NAZAIRE",
@@ -362,7 +401,8 @@
       "name": "Saint-Nazaire",
       "operator": "Chantiers de Penhoët",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 3
     },
     {
       "id": "YARD-FRA_CHERBOURG",
@@ -371,7 +411,8 @@
       "name": "Cherbourg",
       "operator": "Arsenal de Cherbourg",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-GBR_BARROW_IN_FURNESS",
@@ -380,7 +421,8 @@
       "name": "Barrow-in-Furness",
       "operator": "Vickers-Armstrongs a Barrow",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-GBR_CHATHAM",
@@ -389,7 +431,8 @@
       "name": "Chatham",
       "operator": "Chatham Royal Dockyard",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-JPN_YOKOSUKA",
@@ -398,7 +441,8 @@
       "name": "Yokosuka",
       "operator": "Arsenale navale di Yokosuka",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-JPN_KURE",
@@ -407,7 +451,8 @@
       "name": "Kure",
       "operator": "Arsenale navale di Kure",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 4
     },
     {
       "id": "YARD-JPN_SASEBO",
@@ -416,7 +461,8 @@
       "name": "Sasebo",
       "operator": "Arsenale navale di Sasebo",
       "kind": "navy",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 2
     },
     {
       "id": "YARD-DANZIG_DANZICA",
@@ -425,7 +471,8 @@
       "name": "Danzica",
       "operator": "Danziger Werft e Schichau",
       "kind": "private",
-      "basis": "ipotesi"
+      "basis": "ipotesi",
+      "slipway": 1
     }
   ]
 }

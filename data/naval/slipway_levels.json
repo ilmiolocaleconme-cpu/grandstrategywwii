@@ -1,0 +1,11 @@
+{
+  "schema": "slipway-levels-v1",
+  "quality": "DESIGN_DEFAULT",
+  "note": "Livelli di scalo dei cantieri navali (scelta dell'utente del 25/11/2026: ogni cantiere costruisce qualsiasi tipologia di nave fino al tonnellaggio del suo livello; il livello si potenzia come i porti). `maxTons` = dislocamento standard massimo in tonnellate (null = nessun limite): soglie proposte da Claude e approvate dall'utente. `ecv`, `days`, `workers` = costo per RAGGIUNGERE il livello dal precedente: VALORI DI BILANCIAMENTO di Claude, non storici; il livello 1 si ottiene con il cantiere stesso (costo 0). L'acciaio è ecv × economy.construction.steelPerEcv e la difficoltà scala costo e tempo, come per i porti. La produzione delle navi non esiste ancora: oggi il livello è un dato del cantiere e si può potenziare, ma non limita ancora nessuna costruzione.",
+  "levels": [
+    { "level": 1, "id": "small", "name_it": "Scalo piccolo", "maxTons": 3000, "ecv": 0, "days": 0, "workers": 0 },
+    { "level": 2, "id": "medium", "name_it": "Scalo medio", "maxTons": 15000, "ecv": 120, "days": 120, "workers": 400 },
+    { "level": 3, "id": "large", "name_it": "Scalo grande", "maxTons": 38000, "ecv": 260, "days": 240, "workers": 800 },
+    { "level": 4, "id": "capital", "name_it": "Scalo per grandi corazzate", "maxTons": null, "ecv": 450, "days": 365, "workers": 1200 }
+  ]
+}

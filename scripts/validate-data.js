@@ -56,7 +56,7 @@ import { validateEquipmentCatalog, mergeEquipmentCatalogs, validateReplacements 
 import { validateExperience } from '../src/rules/productionExperience.js';
 import { validateUpgradeMap } from '../src/rules/templateUpgrade.js';
 import { validateMobilizationLaws } from '../src/game/mobilizationState.js';
-import { validateShipyards } from '../src/data/shipyards.js';
+import { validateShipyards, validateSlipwayLevels } from '../src/data/shipyards.js';
 import { validateEquipmentProduction, buildEquipmentRecipes, withEquipmentRecipes } from '../src/data/equipmentProduction.js';
 import { templatesBuilt } from './build-templates.js';
 import { validateDeployment } from '../src/data/deployment.js';
@@ -272,7 +272,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     for (const f of ['carri_tedeschi_1934_1945.json', 'carri_cecoslovacchi_1935_1938.json']) errors.push(...validateTankModels(JSON.parse(await text(`units/models/${f}`))));
     errors.push(...validateReadiness(JSON.parse(await text('units/readiness.json'))));
     errors.push(...validateMobilizationLaws(JSON.parse(await text('units/mobilization_laws.json')), { nationIds: catalog.nations.map((n) => n.id), provinceIds: new Set(catalog.provinces.features.map((f) => f.properties.parentProvince ?? f.properties.id)) }));
-    errors.push(...validateShipyards(JSON.parse(await text('naval/shipyards_1936.json')), { coastal: JSON.parse(await text('ports/coastal_cities.json')).cities }));
+    {
+      const slipways = JSON.parse(await text('naval/slipway_levels.json'));
+      errors.push(...validateSlipwayLevels(slipways));
+      errors.push(...validateShipyards(JSON.parse(await text('naval/shipyards_1936.json')), { coastal: JSON.parse(await text('ports/coastal_cities.json')).cities, slipways }));
+    }
     // Template di divisione (previsto/effettivo, basi e fonti)
     for (const f of (await readdir(new URL('../data/units/templates/', import.meta.url))).filter((n) => /^(divisione|brigata)_.*\.json$/.test(n)).sort()) {
       errors.push(...validateTemplate(JSON.parse(await text(`units/templates/${f}`))).map((e) => `template ${f}: ${e}`));

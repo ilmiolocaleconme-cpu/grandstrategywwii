@@ -84,12 +84,37 @@ export function PortList({ rows, onOrder, focusId = null, readOnly = false }) {
   );
 }
 
+/** Cantieri navali della provincia (provinceSlipwayRows, 25/11/2026): scalo attuale, tonnellaggio massimo, potenziamento. onOrder(order) → { ok, text }. */
+export function YardList({ rows, onOrder, readOnly = false }) {
+  const [msg, setMsg] = useState(null);
+  if (!rows || rows.length === 0) return null;
+  return (
+    <section aria-label="Cantieri navali">
+      <h3>Cantieri navali</h3>
+      <Msg2 msg={msg} />
+      <ul className="build-list">
+        {rows.map((r) => (
+          <li key={r.cittaId} className="build-row">
+            <div>
+              <strong>{r.name}</strong>{r.operator ? <> · {r.operator}</> : null}
+              <div className="small">{r.levelText}{readOnly ? '' : r.atMax ? ' (massimo)' : ` → ${r.nextText}`}</div>
+              {!readOnly && !r.atMax && r.cost ? <div className="muted small">{`${fmt(r.cost.ecv)} ECV · ${fmt(r.cost.steel)} t acciaio · ${fmt(r.cost.workers)} lavoratori · ${r.cost.days} giorni`}</div> : null}
+              {!readOnly && !r.atMax && !r.ok ? <div className="warn small">{r.message}</div> : null}
+            </div>
+            {!readOnly && !r.atMax ? <button type="button" className="nation-btn" disabled={!r.ok} onClick={() => setMsg(onOrder(r.order))}>Potenzia</button> : null}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 /** Elenco di ciò che si può costruire in una provincia (opzioni da provinceBuildOptions). onOrder(order) → testo di esito. `upgrades`: miglioramenti degli impianti costruiti qui (upgradeOptions). */
-export function ProvinceBuild({ options, onOrder, upgrades = null, links = null, ports = null, focusPortId = null }) {
+export function ProvinceBuild({ options, onOrder, upgrades = null, links = null, ports = null, focusPortId = null, yards = null }) {
   const [msg, setMsg] = useState(null);
   if (!options) return null;
-  if (options.reason === 'not_controlled') return <><section aria-label="Costruzioni"><h3>Costruzioni</h3><p className="muted small">Puoi costruire solo nelle province che controlli.</p></section><PortList rows={ports} readOnly focusId={focusPortId} /></>;
-  if (options.mines.length === 0 && options.factories.length === 0 && !(options.hospitals?.length > 0) && !(options.barracks?.length > 0) && !(ports && ports.length > 0)) return null;
+  if (options.reason === 'not_controlled') return <><section aria-label="Costruzioni"><h3>Costruzioni</h3><p className="muted small">Puoi costruire solo nelle province che controlli.</p></section><PortList rows={ports} readOnly focusId={focusPortId} /><YardList rows={yards} readOnly /></>;
+  if (options.mines.length === 0 && options.factories.length === 0 && !(options.hospitals?.length > 0) && !(options.barracks?.length > 0) && !(ports && ports.length > 0) && !(yards && yards.length > 0)) return null;
   const row = (o) => (
     <li key={JSON.stringify(o.order)} className="build-row">
       <div>
@@ -118,6 +143,7 @@ export function ProvinceBuild({ options, onOrder, upgrades = null, links = null,
       <UpgradeList upgrades={upgrades} onOrder={onOrder} title="Miglioramenti qui" />
       <LinkList data={links} onOrder={onOrder} />
       <PortList rows={ports} onOrder={onOrder} focusId={focusPortId} />
+      <YardList rows={yards} onOrder={onOrder} />
       <details open><summary>Fabbriche ({options.factories.length})</summary><ul className="build-list">{options.factories.map(row)}</ul></details>
     </section>
   );

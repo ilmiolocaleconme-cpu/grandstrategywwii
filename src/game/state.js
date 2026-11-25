@@ -20,6 +20,7 @@ import { createTradeState, validateTradeShape } from './tradeState.js';
 import { validateMovementShape } from './movementState.js';
 import { validateInfrastructureShape } from './infrastructureState.js';
 import { validatePortsShape } from './portsState.js';
+import { validateShipyardsShape } from './shipyardsState.js';
 import { validateConditionShape } from './conditionState.js';
 import { validateCommandersShape } from './commandersState.js';
 import { validateDiplomacy } from '../rules/diplomacy.js';
@@ -109,6 +110,7 @@ export function validateState(state) {
   errors.push(...validateBarracksState(state.barracks)); // opzionale: assente = caserme iniziali del file (20/11/2026)
   errors.push(...validateInfrastructureShape(state.infrastructure)); // opzionale: assente = tutti i collegamenti al livello di partenza
   errors.push(...validatePortsShape(state.ports)); // opzionale: assente = porti del 1936
+  errors.push(...validateShipyardsShape(state.shipyards)); // opzionale: assente = scali del 1936 (25/11/2026)
   errors.push(...validateWar(state.war), ...validateTheaters(state.theaters), ...validateCombat(state.combat), ...validateEntrench(state.entrench)); // opzionali: guerra, incarichi di teatro, registro battaglie, trinceramento
   errors.push(...validateBattleExtras(state)); // opzionali: coesione delle divisioni e registro delle perdite (battaglia v2)
   errors.push(...validateDiplomacy(state.diplomacy)); // opzionale: assente = nessun rapporto

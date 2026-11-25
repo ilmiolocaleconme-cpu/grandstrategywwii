@@ -161,6 +161,9 @@ import coastalCitiesFile from '../data/ports/coastal_cities.json';
 import { provincePortRows, portSummary } from './ui/portView.js';
 import { portPins, shipyardPins } from './map/portIcons.js';
 import shipyardsFile from '../data/naval/shipyards_1936.json';
+import slipwayLevelsFile from '../data/naval/slipway_levels.json';
+import { historicYardsByCity } from './game/shipyardsState.js';
+import { provinceSlipwayRows } from './ui/shipyardView.js';
 import linkEdgesFile from '../data/infrastructure/link_edges.json';
 import extractionBaseline from '../data/resources/extraction_baseline.json';
 import hydroPlants from '../data/resources/hydro_plants.json';
@@ -374,6 +377,8 @@ const START_ECONOMY = { nationIds: nations.map((n) => n.id), industry: initialIn
 const GAME_CATALOG = { experience: productionExperienceFile, recipeName: (id) => EQUIPMENT_NAMES.get(String(id).replace(/^REC-/, "")) ?? null, levels: factoryLevelsFile, technologies: technologiesFile, recipes: new Map([...recipesFile.recipes, ...EQUIPMENT_RECIPES].map((r) => [r.id, r])), factories: loadIndustryCatalog({ factoriesCsv, structuresCsv, categoriesCsv, extraFactoriesCsv, extraStructuresCsv }).byId };
 // Strade e ferrovie in partita (data/infrastructure.js): collegamenti tra province madri, livello di partenza e massimo; i miglioramenti sono ordini di costruzione 'infra'.
 const GAME_PORTS = { levels: portLevelsFile, coastal: coastalCitiesFile.cities, base: portsBaseFile };
+// scali dei cantieri navali (25/11/2026): un cantiere costruito in una sponda o in una parte di città conta per la sua provincia madre
+const GAME_YARDS = { levels: slipwayLevelsFile, coastal: coastalCitiesFile.cities, historic: historicYardsByCity(shipyardsFile), motherOf: (id) => GAME_BUILD_MOTHER(id) };
 const GAME_INFRA = { config: infraConfig, index: createInfraIndex(linkEdgesFile) };
 const ENTITY_IDS = political.map((e) => e.id);
 const entityOfProvince = (id) => entityOfProvinceId(id, ENTITY_IDS);
@@ -383,7 +388,7 @@ const gameNet = (state) => (MOVE_NET.net ? infraNet(MOVE_NET.net, GAME_INFRA.ind
 // battaglia v2 (16/11/2026): morti, dispersi, prigionieri e feriti ancora in ospedale escono dal pool reclutabile (state.casualties)
 const hospitalManpower = (state, nationId) => nationManpowerPool(state, nationId, { units: unitsList(state, unitsFile.units), /* con le divisioni formate in partita (19/11/2026) */ population: state.nations[nationId].population, baseShare: populationData.recruitment.baseShare }).available - casualtyDrain(state.casualties, nationId);
 function GAME_BUILD_MOTHER(id) { const n = MOVE_NET.net; if (!n) return id; return n.isCity(id) ? (n.parentOf(id) ?? id) : (n.provinceOf(id) ?? id); }
-export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, isSplit: (id) => (MOVE_NET.net ? MOVE_NET.net.canon(id) !== id : false), catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS,
+export const GAME_BUILD = createConstruction({ isCity: (id) => MOVE_NET.net?.isCity(id) === true, isSplit: (id) => (MOVE_NET.net ? MOVE_NET.net.canon(id) !== id : false), catalog: GAME_CATALOG, economy: economyData, sites: mineSites, hydro: hydroPlants, political, workersShare: populationData.workersShare.value, infra: GAME_INFRA, hospitals: { params: hospitalCare, manpowerAvailable: hospitalManpower }, ports: GAME_PORTS, shipyards: GAME_YARDS,
   // caserme (20/11/2026): nella provincia madre (una sponda o una città cliccata portano alla loro provincia madre)
   barracks: { params: barracksFile, motherOf: (id) => GAME_BUILD_MOTHER(id), provinceName: (id) => MOVE_NET.net?.name(id) ?? id } });
 // Ricerca (game/research.js), sicurezza e sabotaggio (game/security.js) e IA (game/aiSecurity.js). I nemici dell'IA vengono dalla diplomazia (guerra o rapporto <= soglia), giocatore compreso.
@@ -817,6 +822,10 @@ export default function App() {
     const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
     return game && id ? provincePortRows(game, id, { ports: GAME_PORTS, build: GAME_BUILD, nationId: game.player, techName }) : null;
   }, [game, selectedItem, techName]);
+  const provinceYards = useMemo(() => {
+    const id = selectedItem?.props?.parentProvince ?? selectedItem?.props?.id;
+    return game && id ? provinceSlipwayRows(game, id, { yards: GAME_YARDS, build: GAME_BUILD, nationId: game.player }) : null;
+  }, [game, selectedItem]);
   const harbours = useMemo(() => (game ? portSummary(game, game.player, { ports: GAME_PORTS, entityOf: entityOfProvince }) : null), [game]);
   const buildingList = useMemo(() => (game && showBuildings ? buildingsByProvince(game, { player: game.player, visible: new Set([game.player, ...alliesOf(game.diplomacy, game.player)]), controllerOf: placeControllerOf, hydro: hydroPlants, barracksDoc: barracksFile, barracksOf }) : null), [game?.nations, game?.barracks, game?.date, game?.player, game?.diplomacy, game?.provinces, showBuildings]); // eslint-disable-line react-hooks/exhaustive-deps
   const portPinList = useMemo(() => portPins(GAME_PORTS, game), [game?.ports]); // eslint-disable-line react-hooks/exhaustive-deps -- livello Porti: i porti con livello ≥ 1 per provincia (senza partita: quelli del 1936)
@@ -1151,7 +1160,7 @@ export default function App() {
             <button type="button" className="nation-btn" onClick={() => { setNotice(null); setTab('map'); }}>Torna alla mappa</button>{' '}
             <button type="button" className="nation-btn" onClick={saveManual} disabled={store === null}>Salva</button>{' '}
             <button type="button" className="nation-btn" onClick={exitGame}>Esci dalla partita</button>
-            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
+            <EconomyPanel summary={economySummary(game, game.player, { build: GAME_BUILD, catalog: GAME_CATALOG, workersShare: populationData.workersShare.value, resourceLabel: BUILD_CTX.resourceLabel, provinceName, infra: infraConfig, hospitalKinds: hospitalCare.kinds, portLevels: portLevelsFile, slipwayLevels: slipwayLevelsFile, equipmentName: (id) => EQUIPMENT_NAMES.get(id) ?? null })} upgrades={nationUpgrades} onOrder={placeOrder} network={network} harbours={harbours} facilityRows={facilityRows} onRecipe={changeRecipe} />
             <DiplomacyPanel levy={puppetLevyView} onLevy={setPuppetLevy} partners={tradePartners} rows={dipRows} detail={(id) => pairView(game, game.player, id, diplomacyConfig, nationNameOf)} cfg={diplomacyConfig} actions={dipActions} proposals={dipProposals} onAccept={acceptProposal} onReject={rejectProposal} />
             <TradePanel goods={tradeGoodList} partners={tradePartners} rows={tradeList} myPorts={myPortList} portChoices={portChoices} portLabel={provinceName} onPreview={previewTradeOrder} onOpen={openTrade} onCancel={cancelTrade} />
             <ResearchPanel rows={researchRows} onStart={startResearch} branches={technologiesFile.branches} active={game.nations?.[game.player]?.research?.active ?? null} unlocksFor={(id) => [...modelsUnlockedBy(smallArmsFile, id, game.player).map((m) => m.designation), ...Object.entries(equipmentProductionTable.overrides ?? {}).filter(([eq, o]) => [o.requiresTech ?? []].flat().includes(id) && eq.split('-')[1] === game.player).map(([eq]) => EQUIPMENT_NAMES.get(eq) ?? eq)]} rifles={producibleModels(smallArmsFile, game.player, Number(String(game.date).slice(0, 4)), techsOf(game.nations?.[game.player])).map((m) => m.designation)} rifleInfo={{ bonus: rifleTotalBonus(game, game.player, 'infantry') }} techBonusOf={(id) => (smallArmsFile.rifleQuality.techBonus?.[id] ?? 0) + (battleBonusOf(TECH_INDEX.get(id))?.value ?? 0)} />
@@ -1269,7 +1278,7 @@ export default function App() {
           seaId && seaById.get(seaId) ? (
             <SeaPanel zone={seaById.get(seaId)} byId={seaById} onClose={() => setInfoOpen(false)} onSelect={selectSea} />
           ) : (
-            <ProvincePanel sum={provinceTotal} hqs={selectedItem ? (estimatedHqs.get(selectedItem.props.id) ?? estimatedHqs.get(selectedItem.props.parentProvince ?? selectedItem.props.id) ?? null) : null} onOpenHq={(id) => { setHqId(id); setInfoOpen(false); }} item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} ports={provincePorts} focusPortId={selectedItem.id} /> : null} />
+            <ProvincePanel sum={provinceTotal} hqs={selectedItem ? (estimatedHqs.get(selectedItem.props.id) ?? estimatedHqs.get(selectedItem.props.parentProvince ?? selectedItem.props.id) ?? null) : null} onOpenHq={(id) => { setHqId(id); setInfoOpen(false); }} item={selectedItem} nationNames={NATION_NAMES} nationControl={control} provinceResources={provinceResources} provinceData={provinceData} linkStats={linkStats} hydro={provinceData?.hydro ?? null} game={game} onClose={() => setInfoOpen(false)} build={buildOptions ? <ProvinceBuild key={selectedItem.id} options={buildOptions} onOrder={placeOrder} upgrades={provinceUpgrades} links={provinceLinks} ports={provincePorts} focusPortId={selectedItem.id} yards={provinceYards} /> : null} />
           )
         ) : (
           <button type="button" className="info-btn" aria-label="Mostra i dati della selezione" onClick={() => setInfoOpen(true)}>i</button>
