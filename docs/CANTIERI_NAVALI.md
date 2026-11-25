@@ -21,7 +21,7 @@ L'acciaio è ECV × `economy.construction.steelPerEcv`; la difficoltà scala cos
 
 Livelli iniziali del 1936 (`slipway` in `data/naval/shipyards_1936.json`):
 - **4**: Genova, Trieste, Kure, Nagasaki, Yokosuka, Amburgo, Wilhelmshaven, New York, Filadelfia, Norfolk, Leningrado, Nikolaev.
-- **3**: Kiel, Brest, Saint-Nazaire, Glasgow, Newcastle, Belfast, Boston, Portsmouth, Plymouth, Kōbe, Barrow-in-Furness.
+- **3**: Kiel, Brest, Saint-Nazaire, Glasgow, Newcastle, Belfast, Boston, Portsmouth, Plymouth, Kōbe, Barrow-in-Furness, Liverpool (Cammell Laird), Camden (New York Shipbuilding).
 - **1**: nazioni minori (Gdynia, Malmö, Göteborg, Rotterdam, Amsterdam, Anversa, Danzica).
 - **2**: tutti gli altri.
 
