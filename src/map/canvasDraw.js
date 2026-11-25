@@ -13,6 +13,7 @@ import { drawPorts } from './portIcons.js';
 import { drawProvinceBuildings } from './buildingIcons.js';
 import { drawProvinceUnits } from './unitIcons.js';
 import { RESOURCE_NEUTRAL } from '../data/provinceResources.js';
+import { TERRAIN_COLORS } from '../data/terrain.js';
 
 const COS0 = WORLD_W / 360;
 const SEAM_X = Math.fround(180 * COS0);
@@ -286,6 +287,36 @@ function featherFill(ctx, path, color) {
   ctx.restore();
 }
 
+// Rilievi tracciati a mano (Urali) sul livello Terreno: fascia del colore del tipo, tratteggio obliquo più scuro e bordo.
+// La tinta per provincia non può mostrarli: la catena è stretta e corre sui confini.
+function drawRelief(ctx, relief, sx) {
+  for (const r of relief) {
+    const path = r.path ?? (r.path = (() => { const p = new Path2D(); r.pts.forEach(([x, y], i) => (i ? p.lineTo(x, y) : p.moveTo(x, y))); p.closePath(); return p; })());
+    const scuro = r.tipo === 'montagna' ? '#4a3426' : '#7d6436';
+    ctx.save();
+    ctx.globalAlpha = 0.85;
+    ctx.fillStyle = TERRAIN_COLORS[r.tipo] ?? TERRAIN_COLORS.montagna;
+    ctx.fill(path);
+    ctx.clip(path);
+    ctx.globalAlpha = 0.55;
+    ctx.strokeStyle = scuro;
+    ctx.lineWidth = 1.2 / sx;
+    const passo = 7 / sx; // tratteggio ogni 7 pixel
+    const xs = r.pts.map((p) => p[0]);
+    const ys = r.pts.map((p) => p[1]);
+    const x0 = Math.min(...xs); const x1 = Math.max(...xs); const y0 = Math.min(...ys); const y1 = Math.max(...ys);
+    if ((x1 - x0) / passo < 4000) {
+      const h = new Path2D();
+      for (let x = x0 - (y1 - y0); x < x1; x += passo) { h.moveTo(x, y1); h.lineTo(x + (y1 - y0), y0); }
+      ctx.stroke(h);
+    }
+    ctx.restore();
+    ctx.lineWidth = 0.8 / sx;
+    ctx.strokeStyle = scuro;
+    ctx.stroke(path);
+  }
+}
+
 // Percorso di un lago (in cache sull'elemento): i laghi si disegnano uno per uno, così quelli fuori dalla regione si saltano.
 function lakePath(lake) {
   return lake.path ?? (lake.path = featurePath(lake.feature));
@@ -340,7 +371,7 @@ const LAKE_CHUNK = 60; // laghi per passo
  * laghi e fiumi, che sono il grosso del costo): a gesto fermo si ridisegna sempre la scena completa.
  */
 export function* renderBaseSteps(ctx, p) {
-  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, transport, resourceFills, land } = p;
+  const { model, lod, borders, water, view, vb, lay, dpr, region, layer, nationControl, showRivers, copies, trace, seas, selectedSeaId, light, transport, resourceFills, land, relief } = p;
   // piastrella: trasformazione e riquadro di ritaglio già calcolati dal chiamante (sx = pixel CSS per unità a quel livello, tx/ty = origine
   // in pixel CSS rispetto alla tela, cull = riquadro in unità di mappa); view.k serve solo alle soglie di fiumi e simili
   const a = p.tile ? { sx: p.tile.sx, tx: p.tile.tx, ty: p.tile.ty } : affineOf(view, vb, lay);
@@ -411,6 +442,7 @@ export function* renderBaseSteps(ctx, p) {
       yield 'stroke';
     }
     trace?.('stroke', ctx);
+    if (relief) { drawRelief(ctx, relief, a.sx); yield 'relief'; }
     if (borders) {
       for (const chunk of borderChunks(borders, level)) {
         if (!hits(chunk.bbox)) continue;

@@ -39,6 +39,7 @@ CONFIG = {
 CLASSI = ['pianura', 'collina', 'montagna', 'foresta', 'palude', 'deserto', 'tundra']
 
 # Zone paludose NON presenti nei dati NE: poligoni a mano, approssimati (ipotesi), da sostituire con fonti migliori.
+# Dopo questo script: node scripts/terrain/rilievi-manuali.js (Urali tracciati a mano, 25/11/2026).
 PALUDI_MANUALI = [
     {'nome': 'Paludi del Pripet (Polesie)', 'ring': [[24.0, 51.4], [26.5, 51.2], [29.0, 51.5], [31.0, 51.8],
                                                       [30.5, 52.6], [28.0, 52.8], [25.5, 52.5], [24.0, 52.2]]},

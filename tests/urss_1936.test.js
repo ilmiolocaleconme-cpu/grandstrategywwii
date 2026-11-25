@@ -47,3 +47,21 @@ test('città dell\'URSS: nomi del 1936', () => {
   for (const [id, n] of Object.entries(cases)) if (names.has(id)) assert.equal(names.get(id), n, id);
   for (const n of names.values()) assert.doesNotMatch(n, /^(Perovsk|Molotov|Čkalov|Elisavetpol|Verchneudinsk|Krasnokokšajsk)/);
 });
+
+test('Urali: rilievi tracciati a mano nel terreno, frazioni corrette e stima da raster conservata', async () => {
+  const { RILIEVI_MANUALI, etichetta } = await import('../scripts/terrain/rilievi-manuali.js');
+  const t = read('terrain.json');
+  assert.deepEqual(t.rilievi.map((r) => r.id), RILIEVI_MANUALI.map((r) => r.id));
+  const inside = (x, y, r) => { let c = false; for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const [xi, yi] = r[i]; const [xj, yj] = r[j]; if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c; } return c; };
+  const dove = (x, y) => t.rilievi.find((r) => inside(x, y, r.ring))?.tipo ?? null;
+  assert.equal(dove(60.12, 65.03), 'montagna', 'Narodnaja');
+  assert.equal(dove(58.1, 54.25), 'montagna', 'Jamantau');
+  assert.equal(dove(59.5, 58.0), 'collina', 'Urali medi');
+  for (const [n, x, y] of [['Perm', 56.25, 58.0], ['Ufa', 55.96, 54.73], ['Čeljabinsk', 61.4, 55.15], ['Vorkuta', 64.0, 67.5], ['Salechard', 66.6, 66.53]]) assert.equal(dove(x, y), null, n);
+  for (const id of ['P_USSR_BASHKORTOSTAN', 'P_USSR_CHELYABINSK', 'P_USSR_SVERDLOVSK']) {
+    const p = t.province[id];
+    assert.ok(p.frazioniStima && p.ritocco, id);
+    assert.ok((p.frazioni.montagna ?? 0) + (p.frazioni.collina ?? 0) > (p.frazioniStima.montagna ?? 0) + (p.frazioniStima.collina ?? 0) + 0.1, id);
+    assert.deepEqual({ terreno: p.terreno, secondario: p.secondario }, etichetta(p.frazioni));
+  }
+});
