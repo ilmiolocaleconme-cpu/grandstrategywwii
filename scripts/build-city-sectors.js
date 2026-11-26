@@ -1,4 +1,7 @@
-// Settori delle grandi città (25/11/2026, richiesta dell'utente: come in Fronte 1936). Divide le zone urbane di Mosca,
+// Settori delle grandi città (25/11/2026, richiesta dell'utente: come in Fronte 1936). TOLTI il 26/11/2026 (`--annulla`):
+// con le divisioni le città a quartieri erano ingiocabili e le postazioni non si potevano toccare. Non rieseguire senza
+// prima risolvere selezione e movimento nelle zone piccole.
+// Divide le zone urbane di Mosca,
 // Leningrado e Stalingrado di data/citta_grandi.json in settori con nome, ognuno una zona vera (nodo di movimento,
 // combattimento per zona). Dati dei settori: data/sources/settori_citta.json (nomi e centri da Fronte 1936).
 //
@@ -98,7 +101,24 @@ export function areaKm2(g) {
   return a;
 }
 
+/** Rimette le zone di prima (parti del fiume) al posto dei settori. */
+export async function annulla() {
+  const parti = (await readJson('sources/settori_citta_parti.json')).features;
+  const ids = new Set(parti.map((f) => f.properties.cittaId));
+  const file = await readJson('citta_grandi.json');
+  const out = [];
+  let fatto = false;
+  for (const f of file.features) {
+    if (!ids.has(f.properties.cittaId)) { out.push(f); continue; }
+    if (!fatto) { out.push(...parti); fatto = true; }
+  }
+  file.features = out;
+  await writeFile(dataUrl('citta_grandi.json'), `${JSON.stringify(file)}\n`);
+  console.log(`settori tolti: ${parti.length} zone di prima rimesse`);
+}
+
 export async function main() {
+  if (process.argv.includes('--annulla')) return annulla();
   const src = await readJson('sources/settori_citta.json');
   const file = await readJson('citta_grandi.json');
   const ids = new Set(src.citta.map((c) => c.cittaId));
